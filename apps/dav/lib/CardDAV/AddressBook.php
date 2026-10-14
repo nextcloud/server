@@ -8,6 +8,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\DAV\Sharing\SharingPrivilegeSetTrait;
 use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\Server;
@@ -26,6 +27,8 @@ use Sabre\DAV\PropPatch;
  * @property CardDavBackend $carddavBackend
  */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
+	use SharingPrivilegeSetTrait;
+
 	/**
 	 * AddressBook constructor.
 	 *
@@ -93,6 +96,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 				'protected' => true,
 			],[
 				'privilege' => '{DAV:}write',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}write-acl',
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			],

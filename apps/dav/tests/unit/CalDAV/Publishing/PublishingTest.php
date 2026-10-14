@@ -9,8 +9,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
-use OCP\IConfig;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
@@ -23,21 +21,14 @@ class PublishingTest extends TestCase {
 	private PublishPlugin $plugin;
 	private Server $server;
 	private Calendar&MockObject $book;
-	private IConfig&MockObject $config;
 	private IURLGenerator&MockObject $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->config->expects($this->any())->method('getSystemValue')
-			->with($this->equalTo('secret'))
-			->willReturn('mysecret');
-
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		/** @var IRequest $request */
-		$this->plugin = new PublishPlugin($this->config, $this->urlGenerator);
+		$this->plugin = new PublishPlugin($this->urlGenerator);
 
 		$root = new SimpleCollection('calendars');
 		$this->server = new Server($root);
