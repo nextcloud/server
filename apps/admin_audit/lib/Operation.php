@@ -179,4 +179,8 @@ enum Operation: string {
 	case AppConfigValueDeleted = 'config.app_value.deleted';
 	case UserAccountUpdated = 'users.user.account_updated';
 	case UserWelcomeEmailSent = 'users.user.welcome_email_sent';
+
+	// OAuth2
+	case OAuth2ClientCreated = 'oauth2.client.created';
+	case OAuth2ClientDeleted = 'oauth2.client.deleted';
 }
