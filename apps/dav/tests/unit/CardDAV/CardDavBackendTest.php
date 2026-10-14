@@ -607,6 +607,38 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals($uri0, $changes['added'][0]);
 	}
 
+	public function testGetChangesForAddressBookTruncatesDeltaSync(): void {
+		$this->config->method('getSystemValueInt')
+			->with('carddav_sync_request_truncation', 2500)
+			->willReturn(2);
+
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$syncToken = $this->backend->getChangesForAddressBook($bookId, '', 1)['syncToken'];
+
+		$uris = [];
+		foreach ([$this->vcardTest0, $this->vcardTest1, $this->vcardTest2] as $vcard) {
+			$uri = $this->getUniqueID('card');
+			$this->backend->createCard($bookId, $uri, $vcard);
+			$uris[] = $uri;
+		}
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, $syncToken, 1);
+		$this->assertSame([$uris[0], $uris[1]], $changes['added']);
+		$this->assertTrue($changes['result_truncated']);
+
+		// Follow the truncated pages until the end
+		$added = $changes['added'];
+		for ($i = 0; $i < 5 && ($changes['result_truncated'] ?? false); $i++) {
+			$changes = $this->backend->getChangesForAddressBook($bookId, $changes['syncToken'], 1);
+			$added = array_merge($added, $changes['added']);
+		}
+		$this->assertFalse($changes['result_truncated'] ?? false);
+		$this->assertEqualsCanonicalizing($uris, array_unique($added));
+
+		$currentToken = $this->backend->getAddressBookById($bookId)['{http://sabredav.org/ns}sync-token'];
+		$this->assertEquals($currentToken, $changes['syncToken']);
+	}
+
 	public function testSharing(): void {
 		$this->userManager->expects($this->any())
 			->method('userExists')
@@ -1025,12 +1057,12 @@ class CardDavBackendTest extends TestCase {
 		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
-		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 1);
-		$this->assertEmpty($changes['added']);
-		$this->assertEmpty($changes['modified']);
-		$this->assertEmpty($changes['deleted']);
+		// The changes since the sync token are gone, so it must be rejected instead of returning an incomplete delta
+		$this->assertNull($this->backend->getChangesForAddressBook($addressBookId, $syncToken, 1));
 
-		// Test that objects remain
+		// Start over with an initial sync
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, '', 1);
+		$syncToken = $changes['syncToken'];
 
 		// Currently changes are empty
 		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
@@ -1044,6 +1076,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals(1, count($changes['added']));
 		$this->assertEmpty($changes['modified']);
 		$this->assertEmpty($changes['deleted']);
+		$syncTokenAfterAdd = $changes['syncToken'];
 
 		// Update card
 		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
@@ -1057,8 +1090,11 @@ class CardDavBackendTest extends TestCase {
 		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
+		// The add is gone, so a delta from before it must be rejected
+		$this->assertNull($this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100));
+
 		// Only update should remain
-		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 100);
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncTokenAfterAdd, 100);
 		$this->assertEmpty($changes['added']);
 		$this->assertEquals(1, count($changes['modified']));
 		$this->assertEmpty($changes['deleted']);

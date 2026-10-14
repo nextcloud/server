@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Service;
 
+use GuzzleHttp\Exception\BadResponseException;
+use OCA\DAV\Exception\InvalidSyncTokenException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -70,6 +72,7 @@ abstract class ASyncService {
 
 	/**
 	 * @return array{response: array<string, array<array-key, mixed>>, token: ?string, truncated: bool}
+	 * @throws InvalidSyncTokenException If the remote server rejected the sync token
 	 */
 	protected function requestSyncReport(
 		string $absoluteUrl,
@@ -93,16 +96,33 @@ abstract class ASyncService {
 			),
 		];
 
-		$response = $client->request(
-			'REPORT',
-			$absoluteUrl,
-			$options,
-		);
+		try {
+			$response = $client->request(
+				'REPORT',
+				$absoluteUrl,
+				$options,
+			);
+		} catch (BadResponseException $e) {
+			if ($syncToken !== null && $this->isInvalidSyncTokenResponse($e)) {
+				throw new InvalidSyncTokenException("Sync token $syncToken was rejected by $absoluteUrl", $e->getCode(), $e);
+			}
+			throw $e;
+		}
 
 		$body = $response->getBody();
 		assert(is_string($body));
 
 		return $this->parseMultiStatus($body, $absoluteUrl);
+	}
+
+	/**
+	 * RFC 6578 3.2: An expired or unknown sync token is answered with
+	 * 403 Forbidden and the DAV:valid-sync-token precondition.
+	 */
+	private function isInvalidSyncTokenResponse(BadResponseException $e): bool {
+		$response = $e->getResponse();
+		return $response->getStatusCode() === 403
+			&& str_contains((string)$response->getBody(), 'valid-sync-token');
 	}
 
 	protected function download(
