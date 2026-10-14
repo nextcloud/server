@@ -21,8 +21,10 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -34,6 +36,7 @@ class ConfigAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private ConnectionFactory $connectionFactory,
 		private IL10N $l,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -58,6 +61,12 @@ class ConfigAPIController extends OCSController {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('An issue occurred when creating the new config.');
 		}
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'LDAP configuration "%s" was created',
+			['configId' => $configPrefix],
+			false,
+			'user_ldap.config.created',
+		));
 		return new DataResponse(['configID' => $configPrefix]);
 	}
 
@@ -86,6 +95,13 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when deleting the config.');
 		}
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'LDAP configuration "%s" was deleted',
+			['configId' => $configID],
+			false,
+			'user_ldap.config.deleted',
+		));
+
 		return new DataResponse();
 	}
 
@@ -113,6 +129,7 @@ class ConfigAPIController extends OCSController {
 
 			$configuration = new Configuration($configID);
 			$configKeys = $configuration->getConfigTranslationArray();
+			$previousValues = $configuration->getConfiguration();
 
 			foreach ($configKeys as $i => $key) {
 				if (isset($configData[$key])) {
@@ -122,6 +139,21 @@ class ConfigAPIController extends OCSController {
 
 			$configuration->saveConfiguration();
 			$this->connectionFactory->get($configID)->clearCache();
+
+			$newValues = $configuration->getConfiguration();
+			$changedKeys = array_keys(array_filter(
+				$newValues,
+				static fn ($value, string $key): bool => !array_key_exists($key, $previousValues) || $previousValues[$key] !== $value,
+				ARRAY_FILTER_USE_BOTH,
+			));
+			if ($changedKeys !== []) {
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'LDAP configuration "%s" was updated, changed keys: %s',
+					['configId' => $configID, 'changedKeys' => implode(', ', $changedKeys)],
+					false,
+					'user_ldap.config.updated',
+				));
+			}
 		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
@@ -231,6 +263,15 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
+		if ($showPassword) {
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Bind password of LDAP configuration "%s" was revealed',
+				['configId' => $configID],
+				false,
+				'user_ldap.config.password_revealed',
+			));
+		}
+
 		return new DataResponse($data);
 	}
 
@@ -322,6 +363,12 @@ class ConfigAPIController extends OCSController {
 			$originalConfig = new Configuration($configID);
 			$newConfig->setConfiguration($originalConfig->getConfiguration());
 			$newConfig->saveConfiguration();
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'LDAP configuration "%s" was copied to "%s"',
+				['configId' => $configID, 'newConfigId' => $configPrefix],
+				false,
+				'user_ldap.config.copied',
+			));
 			return new DataResponse(['configID' => $configPrefix]);
 		} catch (OCSException $e) {
 			throw $e;

@@ -24,6 +24,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
@@ -152,6 +153,12 @@ class WizardController extends OCSController {
 			if (!$result) {
 				throw new OCSException($this->l->t('Failed to clear the mappings.'));
 			}
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'LDAP %s mappings were cleared',
+				['subject' => $subject],
+				false,
+				'user_ldap.mapping.cleared',
+			));
 			return new DataResponse();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
