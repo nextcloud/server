@@ -183,4 +183,7 @@ enum Operation: string {
 	// OAuth2
 	case OAuth2ClientCreated = 'oauth2.client.created';
 	case OAuth2ClientDeleted = 'oauth2.client.deleted';
+
+	// Two-factor backup codes
+	case TwoFactorBackupCodesGenerated = 'twofactor_backupcodes.codes.generated';
 }
