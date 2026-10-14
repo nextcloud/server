@@ -1184,6 +1184,87 @@ EOD;
 		$this->assertEquals($calData2, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION)['calendardata']);
 	}
 
+	public function testDeletedSubscriptionObjectIsNotListedAsOwnedCalendarTrashOnIdCollision(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+
+		$calendarId = $this->createTestCalendar();
+		$subscriptionId = $this->createTestSubscription();
+		$this->setSubscriptionId($subscriptionId, $calendarId);
+
+		$objectId = $this->createDeletedSubscriptionObject($calendarId);
+
+		self::assertSame([], $this->backend->getDeletedCalendarObjectsByPrincipal(self::UNIT_TEST_USER));
+		self::assertNull($this->backend->getDeletedCalendarObjectByIdForPrincipal($objectId, self::UNIT_TEST_USER));
+	}
+
+	public function testDeletedSubscriptionObjectIsNotListedAsSharedCalendarTrashOnIdCollision(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+
+		$calendarId = $this->backend->createCalendar(self::UNIT_TEST_USER1, 'Shared calendar', []);
+		$subscriptionId = $this->createTestSubscription();
+		$this->setSubscriptionId($subscriptionId, $calendarId);
+
+		$objectId = $this->createDeletedSubscriptionObject($calendarId);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('dav_shares')->values([
+			'principaluri' => $qb->createNamedParameter(self::UNIT_TEST_USER),
+			'type' => $qb->createNamedParameter('calendar'),
+			'access' => $qb->createNamedParameter(\OCA\DAV\CalDAV\Sharing\Backend::ACCESS_READ),
+			'resourceid' => $qb->createNamedParameter($calendarId),
+			'publicuri' => $qb->createNamedParameter(null),
+		])->executeStatement();
+
+		self::assertSame([], $this->backend->getDeletedCalendarObjectsByPrincipal(self::UNIT_TEST_USER));
+		self::assertNull($this->backend->getDeletedCalendarObjectByIdForPrincipal($objectId, self::UNIT_TEST_USER));
+	}
+
+	private function setSubscriptionId(int $subscriptionId, int $calendarId): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('calendarsubscriptions')
+			->set('id', $qb->createNamedParameter($calendarId))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($subscriptionId)))
+			->executeStatement();
+	}
+
+	private function createDeletedSubscriptionObject(int $subscriptionId): int {
+		$uri = static::getUniqueID('subscription-event') . '.ics';
+		$calendarData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+UID:deleted-subscription-event-{$uri}
+DTSTAMP:20240101T000000Z
+DTSTART:20240101T100000Z
+DTEND:20240101T110000Z
+SUMMARY:Subscription event
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject(
+			$subscriptionId,
+			$uri,
+			$calendarData,
+			CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION,
+		);
+		$object = $this->backend->getCalendarObject(
+			$subscriptionId,
+			$uri,
+			CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION,
+		);
+		self::assertNotNull($object);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('calendarobjects')
+			->set('deleted_at', $qb->createNamedParameter(time()))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter((int)$object['id'])))
+			->executeStatement();
+
+		return (int)$object['id'];
+	}
+
 	public function testPurgeAllCachedEventsForSubscription(): void {
 		$subscriptionId = $this->createTestSubscription();
 		$uri = static::getUniqueID('calobj');
