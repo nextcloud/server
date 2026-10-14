@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace NCU\Sharing;
 
 use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\TShareRecipientTypeDisplayNameAddressBook;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\IUserManager;
 use RuntimeException;
@@ -20,6 +21,8 @@ use RuntimeException;
  */
 #[Consumable(since: '35.0.0')]
 final readonly class ShareUser {
+	use TShareRecipientTypeDisplayNameAddressBook;
+
 	/**
 	 * @experimental 35.0.0
 	 */
@@ -46,14 +49,18 @@ final readonly class ShareUser {
 	 * @experimental 35.0.0
 	 */
 	public function format(IUserManager $userManager): array {
-		if ($this->instance !== null) {
-			// TODO: Support federation
-			throw new RuntimeException('Currently only local users are supported.');
+		if ($this->instance === null) {
+			$displayName = $userManager->getDisplayName($this->userId);
+		} else {
+			$displayName = $this->getRecipientDisplayNameFromAddressBook($this->userId . '@' . $this->instance, 'CLOUD');
 		}
 
-		$displayName = $userManager->getDisplayName($this->userId);
-		if ($displayName === null) {
-			throw new RuntimeException('No display name for user ' . $this->userId);
+		$displayName ??= $this->userId;
+
+		$id = $this->userId;
+		if ($this->instance !== null) {
+			// The instance could contain https:// or http://
+			$id .= '@' . urlencode($this->instance);
 		}
 
 		return [
@@ -61,8 +68,8 @@ final readonly class ShareUser {
 			'instance' => $this->instance,
 			'display_name' => $displayName,
 			'icon' => (new ShareIconURL(
-				$userManager->getAvatarUrlLight($this->userId, 64),
-				$userManager->getAvatarUrlDark($this->userId, 64),
+				$userManager->getAvatarUrlLight($id, 64),
+				$userManager->getAvatarUrlDark($id, 64),
 			))->format(),
 		];
 	}
