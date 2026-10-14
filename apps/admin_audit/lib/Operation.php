@@ -214,4 +214,7 @@ enum Operation: string {
 	// Update notification
 	case UpdaterTokenCreated = 'updatenotification.updater_token.created';
 	case UpdateChannelUpdated = 'updatenotification.channel.updated';
+
+	// App store
+	case AppUninstalled = 'apps.app.uninstalled';
 }
