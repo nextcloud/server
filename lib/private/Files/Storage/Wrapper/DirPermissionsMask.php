@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheDirPermissionsMask;
-use OC\Files\Utils\PartialFileHelper;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 
@@ -100,7 +99,7 @@ class DirPermissionsMask extends PermissionsMask {
 
 	#[\Override]
 	public function rename($source, $target): bool {
-		if (!(PartialFileHelper::isPartialFilePath($source) || $this->isUpdatable($source) || $this->isDeletable($source))) {
+		if (!($this->isPartialFileMove($source, $target) || $this->isUpdatable($source) || $this->isDeletable($source))) {
 			return false;
 		}
 
@@ -149,10 +148,10 @@ class DirPermissionsMask extends PermissionsMask {
 	#[\Override]
 	public function touch($path, $mtime = null): bool {
 		if ($this->checkPath($path)) {
-			return parent::touch($path);
+			return parent::touch($path, $mtime);
 		}
 
-		return $this->storage->touch($path);
+		return $this->storage->touch($path, $mtime);
 	}
 
 	#[\Override]
