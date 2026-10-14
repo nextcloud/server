@@ -12,6 +12,7 @@ use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IURLGenerator;
+use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -76,9 +77,16 @@ class CloudFederationFactory implements ICloudFederationFactory {
 
 		$webDavUri = '';
 		if ($useExchangeToken) {
-			$webDavUri = $this->urlGenerator->getAbsoluteURL(
-				$this->ocmDiscoveryService->getLocalOCMProvider(false)->extractProtocolEntry('file', 'webdav'),
-			);
+			try {
+				$webDavUri = $this->urlGenerator->getAbsoluteURL(
+					$this->ocmDiscoveryService->getLocalOCMProvider(false)->extractProtocolEntry('file', 'webdav'),
+				);
+			} catch (OCMArgumentException $e) {
+				$this->logger->warning('No local OCM webdav entry, using legacy share method', [
+					'exception' => $e->getMessage(),
+				]);
+				$useExchangeToken = false;
+			}
 		}
 
 		return new CloudFederationShare(
