@@ -15,9 +15,11 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 
 class PassphraseService {
@@ -33,6 +35,7 @@ class PassphraseService {
 		private LoggerInterface $logger,
 		private IUserManager $userManager,
 		private IUserSession $userSession,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -133,6 +136,12 @@ class PassphraseService {
 				}
 
 				$this->keyManager->setPrivateKey($userId, $this->crypt->generateHeader() . $encryptedKey);
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'Encryption keys of user "%s" were regenerated',
+					['userId' => $userId],
+					false,
+					'encryption.user_keys.regenerated',
+				));
 
 				if ($recoveryPassword !== '') {
 					// if recovery key is set we can re-encrypt the key files
@@ -147,7 +156,7 @@ class PassphraseService {
 	/**
 	 * Init mount points for given user
 	 */
-	private function initMountPoints(IUser $user): void {
+	protected function initMountPoints(IUser $user): void {
 		Filesystem::initMountPoints($user);
 	}
 }
