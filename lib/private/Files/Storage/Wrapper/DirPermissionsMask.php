@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheDirPermissionsMask;
+use OC\Files\Utils\PartialFileHelper;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 
@@ -88,15 +89,7 @@ class DirPermissionsMask extends PermissionsMask {
 	}
 
 	public function rename($source, $target): bool {
-		$isPartialUploadFile = dirname($source) === dirname($target)
-			&& strpos($source, '.ocTransferId') > 0;
-
-		if (
-			!($isPartialUploadFile
-				|| $this->isUpdatable($source)
-				|| $this->isDeletable($source)
-			)
-		) {
+		if (!(PartialFileHelper::isPartialFilePath($source) || $this->isUpdatable($source) || $this->isDeletable($source))) {
 			return false;
 		}
 
