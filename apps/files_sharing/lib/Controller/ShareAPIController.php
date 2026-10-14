@@ -114,6 +114,23 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Source name for a received share root, when the mount name differs from it.
+	 */
+	private function originalDisplayName(Node $node): ?string {
+		if ($node->getInternalPath() !== '') {
+			return null;
+		}
+
+		$storage = $node->getStorage();
+		if (!$storage->instanceOfStorage(SharedStorage::class)) {
+			return null;
+		}
+
+		/** @var SharedStorage $storage */
+		return $storage->getOriginalDisplayName();
+	}
+
+	/**
 	 * Convert an IShare to an array for OCS output
 	 *
 	 * @param IShare $share
@@ -209,6 +226,7 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+		$result['original_displayname'] = $isOwnShare ? null : $this->originalDisplayName($node);
 
 		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)) {
 			$result['is_trusted_server'] = false;
