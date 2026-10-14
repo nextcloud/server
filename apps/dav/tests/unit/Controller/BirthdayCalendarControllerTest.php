@@ -13,11 +13,13 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Controller\BirthdayCalendarController;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -28,6 +30,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 	private IJobList&MockObject $jobList;
 	private IUserManager&MockObject $userManager;
 	private CalDavBackend&MockObject $caldav;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private BirthdayCalendarController $controller;
 
 	protected function setUp(): void {
@@ -39,10 +42,11 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->caldav = $this->createMock(CalDavBackend::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new BirthdayCalendarController('dav',
 			$this->request, $this->db, $this->config, $this->jobList,
-			$this->userManager, $this->caldav);
+			$this->userManager, $this->caldav, $this->eventDispatcher);
 	}
 
 	public function testEnable(): void {
@@ -77,6 +81,8 @@ class BirthdayCalendarControllerTest extends TestCase {
 				$this->assertEquals($expected, func_get_args());
 			});
 
+		$this->expectAuditEvent('dav.birthday_calendar.enabled', 'Birthday calendars were enabled');
+
 		$response = $this->controller->enable();
 		$this->assertInstanceOf(JSONResponse::class, $response);
 	}
@@ -91,7 +97,17 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$this->caldav->expects($this->once())
 			->method('deleteAllBirthdayCalendars');
 
+		$this->expectAuditEvent('dav.birthday_calendar.disabled', 'Birthday calendars were disabled');
+
 		$response = $this->controller->disable();
 		$this->assertInstanceOf(JSONResponse::class, $response);
+	}
+
+	private function expectAuditEvent(string $operation, string $message): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === $operation
+				&& $event->getLogMessage() === $message
+				&& $event->getParameters() === []));
 	}
 }

@@ -19,6 +19,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -26,6 +27,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception;
@@ -456,8 +458,103 @@ class PrincipalTest extends TestCase {
 
 				return true;
 			}));
+		$auditEvents = $this->captureAuditEvents();
 
 		$this->connector->setGroupMemberSet('principals/users/foo/calendar-proxy-write', ['principals/users/bar']);
+
+		$this->assertDelegationAuditEvents([
+			['dav.calendar_delegation.granted', 'granted', 'write'],
+		], $auditEvents);
+	}
+
+	/**
+	 * @return \ArrayObject<int, CriticalActionPerformedEvent>
+	 */
+	private function captureAuditEvents(): \ArrayObject {
+		$auditEvents = new \ArrayObject();
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use ($auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+		$this->overwriteService(IEventDispatcher::class, $eventDispatcher);
+		return $auditEvents;
+	}
+
+	/**
+	 * @param list<array{0: string, 1: string, 2: string}> $expected operation, action and access per entry
+	 * @param \ArrayObject<int, CriticalActionPerformedEvent> $auditEvents
+	 */
+	private function assertDelegationAuditEvents(array $expected, \ArrayObject $auditEvents): void {
+		$this->assertCount(count($expected), $auditEvents);
+		foreach (array_values($expected) as $i => [$operation, $action, $access]) {
+			$this->assertSame($operation, $auditEvents[$i]->getOperation());
+			$this->assertSame('Calendar delegation of "%s" to "%s" with %s access was ' . $action, $auditEvents[$i]->getLogMessage());
+			$this->assertSame([
+				'owner' => 'principals/users/foo',
+				'delegate' => 'principals/users/bar',
+				'access' => $access,
+			], $auditEvents[$i]->getParameters());
+		}
+	}
+
+	private function mockFooAndBarUsers(): void {
+		$fooUser = $this->createMock(User::class);
+		$fooUser->method('getUID')->willReturn('foo');
+		$barUser = $this->createMock(User::class);
+		$barUser->method('getUID')->willReturn('bar');
+		$this->userManager->method('get')->willReturnMap([
+			['foo', $fooUser],
+			['bar', $barUser],
+		]);
+	}
+
+	private function createProxy(int $permissions): Proxy {
+		$proxy = new Proxy();
+		$proxy->setId(7);
+		$proxy->setOwnerId('principals/users/foo');
+		$proxy->setProxyId('principals/users/bar');
+		$proxy->setPermissions($permissions);
+		return $proxy;
+	}
+
+	public function testSetGroupMembershipProxyUpgradesReadToWrite(): void {
+		$this->mockFooAndBarUsers();
+		$this->proxyMapper->method('getProxiesOf')->willReturn([$this->createProxy(ProxyMapper::PERMISSION_READ)]);
+		$this->proxyMapper->expects($this->once())->method('update');
+		$auditEvents = $this->captureAuditEvents();
+
+		$this->connector->setGroupMemberSet('principals/users/foo/calendar-proxy-write', ['principals/users/bar']);
+
+		$this->assertDelegationAuditEvents([
+			['dav.calendar_delegation.granted', 'granted', 'write'],
+		], $auditEvents);
+	}
+
+	public function testSetGroupMembershipProxyWithoutChangeDoesNotLog(): void {
+		$this->mockFooAndBarUsers();
+		$this->proxyMapper->method('getProxiesOf')->willReturn([$this->createProxy(ProxyMapper::PERMISSION_READ | ProxyMapper::PERMISSION_WRITE)]);
+		$auditEvents = $this->captureAuditEvents();
+
+		$this->connector->setGroupMemberSet('principals/users/foo/calendar-proxy-read', ['principals/users/bar']);
+
+		$this->assertCount(0, $auditEvents);
+	}
+
+	public function testSetGroupMembershipProxyRevokesRemovedDelegate(): void {
+		$this->mockFooAndBarUsers();
+		$proxy = $this->createProxy(ProxyMapper::PERMISSION_READ);
+		$this->proxyMapper->method('getProxiesOf')->willReturn([$proxy]);
+		$this->proxyMapper->expects($this->once())->method('delete')->with($proxy);
+		$auditEvents = $this->captureAuditEvents();
+
+		$this->connector->setGroupMemberSet('principals/users/foo/calendar-proxy-read', []);
+
+		$this->assertDelegationAuditEvents([
+			['dav.calendar_delegation.revoked', 'revoked', 'read'],
+		], $auditEvents);
 	}
 
 	public function testUpdatePrincipal(): void {
