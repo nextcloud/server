@@ -15,9 +15,11 @@ use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\Versions;
 use OCA\AdminAudit\AuditLogger;
 use OCA\AdminAudit\IAuditLogger;
+use OCA\AdminAudit\Listener\AddressBookEventListener;
 use OCA\AdminAudit\Listener\AppManagementEventListener;
 use OCA\AdminAudit\Listener\AuthEventListener;
 use OCA\AdminAudit\Listener\CacheEventListener;
+use OCA\AdminAudit\Listener\CalendarEventListener;
 use OCA\AdminAudit\Listener\ConsoleEventListener;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCA\AdminAudit\Listener\FederationEventListener;
@@ -27,6 +29,16 @@ use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCA\AdminAudit\Listener\TagEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCA\DAV\Events\AddressBookCreatedEvent;
+use OCA\DAV\Events\AddressBookDeletedEvent;
+use OCA\DAV\Events\AddressBookShareUpdatedEvent;
+use OCA\DAV\Events\CalendarCreatedEvent;
+use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarMovedToTrashEvent;
+use OCA\DAV\Events\CalendarPublishedEvent;
+use OCA\DAV\Events\CalendarRestoredEvent;
+use OCA\DAV\Events\CalendarShareUpdatedEvent;
+use OCA\DAV\Events\CalendarUnpublishedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -161,6 +173,18 @@ class Application extends App implements IBootstrap {
 
 		// Federation
 		$context->registerEventListener(TrustedServerRemovedEvent::class, FederationEventListener::class);
+
+		// DAV events
+		$context->registerEventListener(CalendarCreatedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarMovedToTrashEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarRestoredEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarPublishedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarUnpublishedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(AddressBookCreatedEvent::class, AddressBookEventListener::class);
+		$context->registerEventListener(AddressBookDeletedEvent::class, AddressBookEventListener::class);
+		$context->registerEventListener(AddressBookShareUpdatedEvent::class, AddressBookEventListener::class);
 	}
 
 	#[\Override]

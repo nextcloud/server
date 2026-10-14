@@ -139,4 +139,22 @@ enum Operation: string {
 	case FederationTrustedServerAdded = 'federation.trusted_server.added';
 	case FederationTrustedServerRemoved = 'federation.trusted_server.removed';
 	case FederationSharedSecretExchanged = 'federation.shared_secret.exchanged';
+
+	// DAV
+	case CalendarCreated = 'dav.calendar.created';
+	case CalendarTrashed = 'dav.calendar.trashed';
+	case CalendarDeleted = 'dav.calendar.deleted';
+	case CalendarRestored = 'dav.calendar.restored';
+	case CalendarPublished = 'dav.calendar.published';
+	case CalendarUnpublished = 'dav.calendar.unpublished';
+	case CalendarShareUpdated = 'dav.calendar_share.updated';
+	case CalendarExported = 'dav.calendar.exported';
+	case AddressBookCreated = 'dav.addressbook.created';
+	case AddressBookDeleted = 'dav.addressbook.deleted';
+	case AddressBookShareUpdated = 'dav.addressbook_share.updated';
+	case FederatedCalendarAccepted = 'dav.federated_calendar.accepted';
+	case FederatedCalendarDeclined = 'dav.federated_calendar.declined';
+	case DirectLinkCreated = 'dav.direct_link.created';
+	case BirthdayCalendarEnabled = 'dav.birthday_calendar.enabled';
+	case BirthdayCalendarDisabled = 'dav.birthday_calendar.disabled';
 }
