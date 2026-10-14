@@ -82,4 +82,11 @@ enum Operation: string {
 	case SubAdminRemoved = 'groups.subadmin.removed';
 	case TwoFactorProviderEnabled = 'auth.twofactor_provider.enabled';
 	case TwoFactorProviderDisabled = 'auth.twofactor_provider.disabled';
+
+	// System tags
+	case SystemTagUpdated = 'systemtags.tag.updated';
+	case SystemTagDeleted = 'systemtags.tag.deleted';
+	case SystemTagGroupsUpdated = 'systemtags.tag_groups.updated';
+	case SystemTagAssigned = 'systemtags.tag.assigned';
+	case SystemTagUnassigned = 'systemtags.tag.unassigned';
 }
