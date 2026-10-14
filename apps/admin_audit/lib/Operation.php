@@ -157,4 +157,20 @@ enum Operation: string {
 	case DirectLinkCreated = 'dav.direct_link.created';
 	case BirthdayCalendarEnabled = 'dav.birthday_calendar.enabled';
 	case BirthdayCalendarDisabled = 'dav.birthday_calendar.disabled';
+
+	// Settings
+	case AiSettingsUpdated = 'settings.ai.updated';
+	case AppPasswordCreated = 'auth.app_password.created';
+	case AppPasswordDeleted = 'auth.app_password.deleted';
+	case AppPasswordScopeChanged = 'auth.app_password.scope_changed';
+	case RemoteWipeRequested = 'auth.remote_wipe.requested';
+	case TwoFactorEnforcementUpdated = 'auth.twofactor_enforcement.updated';
+	case MailSettingsUpdated = 'settings.mail.updated';
+	case MailCredentialsUpdated = 'settings.mail_credentials.updated';
+	case AdminDelegationUpdated = 'settings.delegation.updated';
+	case PresetApplied = 'settings.preset.applied';
+	case DeclarativeSettingUpdated = 'settings.declarative_value.updated';
+	case LogFileDownloaded = 'settings.log.downloaded';
+	case WebAuthnDeviceAdded = 'auth.webauthn_device.added';
+	case WebAuthnDeviceRemoved = 'auth.webauthn_device.removed';
 }
