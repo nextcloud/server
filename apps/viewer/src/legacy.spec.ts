@@ -43,6 +43,7 @@ vi.mock('@nextcloud/files/dav', async (orig) => {
 })
 
 const { installLegacyViewerApi } = await import('./legacy.ts')
+const { Permission } = await import('@nextcloud/files')
 
 /** The global the shim installs */
 function viewer(): LegacyViewerApi {
@@ -133,6 +134,26 @@ describe('OCA.Viewer compatibility layer', () => {
 		const [, target] = viewerOpen.mock.calls[0]
 		expect(target.root).toBe('/photos/emma')
 		expect(target.basename).toBe('x.jpg')
+	})
+
+	it('reads the permissions dav answers as a string', async () => {
+		// Shaped like what the photos app hands over
+		await viewer().open({
+			fileInfo: {
+				fileid: 42,
+				basename: 'x.jpg',
+				filename: '/Photos/x.jpg',
+				source: 'https://cloud.example/remote.php/dav/files/emma/Photos/x.jpg',
+				mime: 'image/jpeg',
+				mtime: Date.parse('2019-10-24T08:13:01Z'),
+				etag: 'abc',
+				hasPreview: true,
+				permissions: 'CKWNVGDR',
+			},
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.permissions).toBe(Permission.ALL)
 	})
 
 	it('passes the handler on to openWith', async () => {

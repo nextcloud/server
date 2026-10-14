@@ -113,6 +113,7 @@ async function ocsEntryToNode(ocsEntry: any, unmounted = false): Promise<Folder 
 				// Also check the sharingStatusAction.ts code
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
+				'original-displayname': ocsEntry?.original_displayname || undefined,
 				'share-types': ocsEntry?.share_type,
 				'share-attributes': ocsEntry?.attributes || '[]',
 				sharees,

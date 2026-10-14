@@ -381,6 +381,7 @@ interface IRegistrationContext {
 	 * @param string[] $methods
 	 * @return void
 	 * @since 25.0.0
+	 * @deprecated 36.0.0 use \SensitiveParameter attribute instead
 	 */
 	public function registerSensitiveMethods(string $class, array $methods): void;
 

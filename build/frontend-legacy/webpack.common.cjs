@@ -76,14 +76,6 @@ const config = {
 	module: {
 		rules: [
 			{
-				test: /davclient/,
-				loader: 'exports-loader',
-				options: {
-					type: 'commonjs',
-					exports: 'dav',
-				},
-			},
-			{
 				test: /\.css$/,
 				oneOf: [
 					{
@@ -162,10 +154,6 @@ const config = {
 			{
 				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
 				type: 'asset/inline',
-			},
-			{
-				test: /\.handlebars/,
-				loader: 'handlebars-loader',
 			},
 			{
 				resourceQuery: /raw/,
@@ -252,8 +240,6 @@ const config = {
 	},
 	resolve: {
 		alias: {
-			// make sure to use the handlebar runtime when importing
-			handlebars: 'handlebars/runtime',
 			// allow to import from root (cross reference already migrated apps)
 			'~*': path.resolve(__dirname, '../../*'),
 		},
