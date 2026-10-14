@@ -37,6 +37,8 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -47,8 +49,11 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
@@ -128,6 +133,13 @@ class Application extends App implements IBootstrap {
 
 		// System tag event
 		$context->registerEventListener(TagCreatedEvent::class, TagEventListener::class);
+
+		// Users, groups and two-factor providers
+		$context->registerEventListener(GroupChangedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminAddedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminRemovedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, SecurityEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, SecurityEventListener::class);
 	}
 
 	#[\Override]
