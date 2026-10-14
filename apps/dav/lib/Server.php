@@ -9,6 +9,7 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
+use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -46,6 +47,7 @@ use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
+use OCA\DAV\Connector\Sabre\NodeAttributesPlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
 use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
@@ -83,6 +85,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
+use OCP\Files\NodeAttributes\NodeAttributeContext;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -90,7 +93,6 @@ use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
@@ -305,7 +307,6 @@ class Server {
 						$this->server->tree,
 						$config,
 						$this->request,
-						\OCP\Server::get(IPreview::class),
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
 						\OCP\Server::get(IAccountManager::class),
@@ -336,6 +337,10 @@ class Server {
 						$this->server->tree, \OCP\Server::get(ITagManager::class), \OCP\Server::get(IEventDispatcher::class), \OCP\Server::get(IUserSession::class)
 					)
 				);
+				$this->server->addPlugin(new NodeAttributesPlugin(
+					\OCP\Server::get(NodeAttributeRegistry::class),
+					static fn (): ?NodeAttributeContext => ($sessionUser = $userSession->getUser()) !== null ? NodeAttributeContext::forUser($sessionUser) : null,
+				));
 
 				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
 				$this->server->addPlugin(new SharesPlugin(

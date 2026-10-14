@@ -23,7 +23,6 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +44,6 @@ class FilesPluginTest extends TestCase {
 	private Server&MockObject $server;
 	private IConfig&MockObject $config;
 	private IRequest&MockObject $request;
-	private IPreview&MockObject $previewManager;
 	private IUserSession&MockObject $userSession;
 	private IFilenameValidator&MockObject $filenameValidator;
 	private IAccountManager&MockObject $accountManager;
@@ -60,7 +58,6 @@ class FilesPluginTest extends TestCase {
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
 		$this->request = $this->createMock(IRequest::class);
-		$this->previewManager = $this->createMock(IPreview::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
@@ -69,7 +66,6 @@ class FilesPluginTest extends TestCase {
 			$this->tree,
 			$this->config,
 			$this->request,
-			$this->previewManager,
 			$this->userSession,
 			$this->filenameValidator,
 			$this->accountManager,
@@ -318,7 +314,6 @@ class FilesPluginTest extends TestCase {
 			$this->tree,
 			$this->config,
 			$request,
-			$this->previewManager,
 			$this->userSession,
 			$this->filenameValidator,
 			$this->accountManager,
@@ -690,29 +685,5 @@ class FilesPluginTest extends TestCase {
 			});
 
 		$this->plugin->httpGet($request, $response);
-	}
-
-	public function testHasPreview(): void {
-		/** @var Directory&MockObject $node */
-		$node = $this->createTestNode(Directory::class);
-
-		$propFind = new PropFind(
-			'/dummyPath',
-			[
-				FilesPlugin::HAS_PREVIEW_PROPERTYNAME
-			],
-			0
-		);
-
-		$this->previewManager->expects($this->once())
-			->method('isAvailable')
-			->willReturn(false);
-
-		$this->plugin->handleGetProperties(
-			$propFind,
-			$node
-		);
-
-		$this->assertEquals('false', $propFind->get(FilesPlugin::HAS_PREVIEW_PROPERTYNAME));
 	}
 }
