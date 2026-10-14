@@ -85,14 +85,6 @@ class OC_User {
 	}
 
 	/**
-	 * remove all used backends
-	 * @deprecated 32.0.0 Use IUserManager::clearBackends instead
-	 */
-	public static function clearBackends() {
-		Server::get(IUserManager::class)->clearBackends();
-	}
-
-	/**
 	 * setup the configured backends in config.php
 	 * @suppress PhanDeprecatedFunction
 	 * @internal Should not be used by applications
@@ -103,7 +95,7 @@ class OC_User {
 		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
-			self::clearBackends();
+			Server::get(IUserManager::class)->clearBackends();
 		}
 		foreach ($backends as $i => $config) {
 			if (!is_array($config)) {
