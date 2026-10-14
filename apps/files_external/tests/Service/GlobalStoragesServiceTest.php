@@ -12,6 +12,7 @@ namespace OCA\Files_External\Tests\Service;
 use OC\Files\Filesystem;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GlobalStoragesServiceTest extends StoragesServiceTestCase {
@@ -594,6 +595,63 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 				$call[1],
 				$call[2]
 			);
+		}
+	}
+
+	public function testAuditEvents(): void {
+		$auditEvents = [];
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+
+		$storage = $this->makeTestStorageData();
+		$storage->setApplicableUsers(['user1', 'user2']);
+		$storage->setApplicableGroups(['group1']);
+		$storage = $this->service->addStorage($storage);
+		$id = $storage->getId();
+
+		$storage->setApplicableUsers(['user3']);
+		$storage->setApplicableGroups([]);
+		$this->service->updateStorage($storage);
+
+		$this->service->removeStorage($id);
+
+		$this->assertCount(3, $auditEvents);
+
+		$this->assertSame('files_external.storage.created', $auditEvents[0]->getOperation());
+		$this->assertSame('External storage "%s" was created with mount point "%s", backend "%s", authentication mechanism "%s", applicable users "%s", applicable groups "%s" and scope "%s"', $auditEvents[0]->getLogMessage());
+		$this->assertSame([
+			'storageId' => $id,
+			'mountPoint' => '/mountpoint',
+			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanism' => 'identifier:\Auth\Mechanism',
+			'applicableUsers' => 'user1, user2',
+			'applicableGroups' => 'group1',
+			'scope' => 'admin',
+		], $auditEvents[0]->getParameters());
+
+		$this->assertSame('files_external.storage.updated', $auditEvents[1]->getOperation());
+		$this->assertSame('External storage "%s" was updated with mount point "%s", applicable users "%s" and applicable groups "%s"', $auditEvents[1]->getLogMessage());
+		$this->assertSame([
+			'storageId' => $id,
+			'mountPoint' => '/mountpoint',
+			'applicableUsers' => 'user3',
+			'applicableGroups' => '',
+		], $auditEvents[1]->getParameters());
+
+		$this->assertSame('files_external.storage.deleted', $auditEvents[2]->getOperation());
+		$this->assertSame('External storage "%s" with mount point "%s" and scope "%s" was deleted', $auditEvents[2]->getLogMessage());
+		$this->assertSame([
+			'storageId' => $id,
+			'mountPoint' => '/mountpoint',
+			'scope' => 'admin',
+		], $auditEvents[2]->getParameters());
+
+		foreach ($auditEvents as $event) {
+			$this->assertStringNotContainsString('testPassword', json_encode($event->getParameters()));
 		}
 	}
 }
