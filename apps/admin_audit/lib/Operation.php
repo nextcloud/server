@@ -105,4 +105,12 @@ enum Operation: string {
 	case RemoteShareAccepted = 'files_sharing.remote_share.accepted';
 	case RemoteShareDeclined = 'files_sharing.remote_share.declined';
 	case RemoteShareRemoved = 'files_sharing.remote_share.removed';
+
+	// Federated file sharing
+	case FederatedShareReceived = 'federatedfilesharing.share.received';
+	case FederatedShareAccepted = 'federatedfilesharing.share.accepted';
+	case FederatedShareDeclined = 'federatedfilesharing.share.declined';
+	case FederatedShareUnshared = 'federatedfilesharing.share.unshared';
+	case FederatedShareRevoked = 'federatedfilesharing.share.revoked';
+	case FederatedSharePermissionsUpdated = 'federatedfilesharing.share.permissions_updated';
 }

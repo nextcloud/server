@@ -12,6 +12,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
@@ -20,6 +22,7 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -68,7 +71,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider = $this->createMock(ICloudFederationProvider::class);
 		$this->cloudFederationShare = $this->createMock(ICloudFederationShare::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->eventDispatcher->expects($this->any())->method('dispatchTyped');
 
 		$this->logger = $this->createMock(LoggerInterface::class);
 
@@ -110,7 +112,41 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider->expects($this->once())->method('shareReceived')
 			->with($this->cloudFederationShare);
 
+		$this->expectAuditEvent(
+			'federatedfilesharing.share.received',
+			'A new federated share with "%s" was shared by "%s" (resource owner is: "%s") and shared with "%s"',
+			[
+				'name' => 'name',
+				'sharedBy' => $this->user1CloudId,
+				'owner' => $this->ownerCloudId,
+				'shareWith' => $this->user2,
+				'remoteId' => '1',
+			],
+		);
+
 		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, '1', $this->user1CloudId, $this->ownerCloudId);
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+	}
+
+	public function testCreateShareByOwner(): void {
+		$this->cloudFederationFactory->method('getCloudFederationShare')->willReturn($this->cloudFederationShare);
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->with('file')
+			->willReturn($this->cloudFederationProvider);
+
+		$this->expectAuditEvent(
+			'federatedfilesharing.share.received',
+			'A new federated share with "%s" was created by "%s" and shared with "%s"',
+			[
+				'name' => 'name',
+				'owner' => $this->ownerCloudId,
+				'shareWith' => $this->user2,
+				'remoteId' => '1',
+			],
+		);
+
+		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->owner, $this->user2, '1', $this->ownerCloudId, $this->ownerCloudId);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
@@ -131,6 +167,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider->expects($this->once())
 			->method('notificationReceived')
 			->with('SHARE_DECLINED', $id, $notification);
+
+		$this->expectAuditEvent('federatedfilesharing.share.declined', 'Federated share with id "%s" was declined', ['shareId' => $id]);
 
 		$result = $this->requestHandler->declineShare($id, 'token');
 
@@ -154,8 +192,71 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			->method('notificationReceived')
 			->with('SHARE_ACCEPTED', $id, $notification);
 
+		$this->expectAuditEvent('federatedfilesharing.share.accepted', 'Federated share with id "%s" was accepted', ['shareId' => $id]);
+
 		$result = $this->requestHandler->acceptShare($id, 'token');
 
 		$this->assertInstanceOf(DataResponse::class, $result);
+	}
+
+	public function testUnshare(): void {
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->with('file')
+			->willReturn($this->cloudFederationProvider);
+		$this->cloudFederationProvider->expects($this->once())
+			->method('notificationReceived')
+			->with('SHARE_UNSHARED', '42', ['sharedSecret' => 'token']);
+
+		$this->expectAuditEvent('federatedfilesharing.share.unshared', 'Federated share with id "%s" was unshared', ['shareId' => '42']);
+
+		$this->assertInstanceOf(DataResponse::class, $this->requestHandler->unshare('42', 'token'));
+	}
+
+	public function testRevoke(): void {
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->with('file')
+			->willReturn($this->cloudFederationProvider);
+		$this->cloudFederationProvider->expects($this->once())
+			->method('notificationReceived')
+			->with('RESHARE_UNDO', '42', ['sharedSecret' => 'token']);
+
+		$this->expectAuditEvent('federatedfilesharing.share.revoked', 'Federated share with id "%s" was revoked', ['shareId' => '42']);
+
+		$this->assertInstanceOf(DataResponse::class, $this->requestHandler->revoke('42', 'token'));
+	}
+
+	public function testRevokeFailureDoesNotLog(): void {
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->willThrowException(new \Exception());
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
+
+		$this->expectException(OCSBadRequestException::class);
+		$this->requestHandler->revoke('42', 'token');
+	}
+
+	public function testUpdatePermissions(): void {
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->with('file')
+			->willReturn($this->cloudFederationProvider);
+		$this->cloudFederationProvider->expects($this->once())
+			->method('notificationReceived')
+			->with('RESHARE_CHANGE_PERMISSION', '42', ['sharedSecret' => 'token', 'permission' => ['share', 'read']]);
+
+		$this->expectAuditEvent(
+			'federatedfilesharing.share.permissions_updated',
+			'Federated share with id "%s" has updated permissions "%s"',
+			['shareId' => '42', 'permissions' => 'share, read'],
+		);
+
+		$this->assertInstanceOf(DataResponse::class, $this->requestHandler->updatePermissions('42', 'token', Constants::PERMISSION_READ | Constants::PERMISSION_SHARE));
+	}
+
+	private function expectAuditEvent(string $operation, string $message, array $parameters): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === $operation
+				&& $event->getLogMessage() === $message
+				&& $event->getParameters() === $parameters));
 	}
 }
