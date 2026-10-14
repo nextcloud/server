@@ -37,17 +37,17 @@ export function getFilenameValidity(name: string, escape = false, isFolder = fal
 				return t('files', '"{char}" is not allowed inside a filename.', { char: error.segment }, { escape })
 			case InvalidFilenameErrorReason.ReservedName:
 				if (isFolder) {
-					return t('files', '"{segment}" is a reserved name and not allowed for folder names.', { segment: error.segment }, { escape: false })
+					return t('files', '"{segment}" is a reserved name and not allowed for folder names.', { segment: error.segment }, { escape })
 				}
-				return t('files', '"{segment}" is a reserved name and not allowed for filenames.', { segment: error.segment }, { escape: false })
+				return t('files', '"{segment}" is a reserved name and not allowed for filenames.', { segment: error.segment }, { escape })
 			case InvalidFilenameErrorReason.Extension:
 				if (!isFolder && error.segment.match(/\.[a-z]/i)) {
-					return t('files', '"{extension}" is not an allowed filetype.', { extension: error.segment }, { escape: false })
+					return t('files', '"{extension}" is not an allowed filetype.', { extension: error.segment }, { escape })
 				}
 				if (isFolder) {
-					return t('files', 'Folder names must not end with "{extension}".', { extension: error.segment }, { escape: false })
+					return t('files', 'Folder names must not end with "{extension}".', { extension: error.segment }, { escape })
 				}
-				return t('files', 'Filenames must not end with "{extension}".', { extension: error.segment }, { escape: false })
+				return t('files', 'Filenames must not end with "{extension}".', { extension: error.segment }, { escape })
 			default:
 				if (isFolder) {
 					return t('files', 'Invalid folder name.')
