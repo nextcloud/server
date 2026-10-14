@@ -205,4 +205,9 @@ enum Operation: string {
 	case WebhookUpdated = 'webhook_listeners.webhook.updated';
 	case WebhookDeleted = 'webhook_listeners.webhook.deleted';
 	case WebhooksDeletedByApp = 'webhook_listeners.webhook.deleted_by_app';
+
+	// Theming
+	case ThemingSettingUpdated = 'theming.setting.updated';
+	case ThemingImageUploaded = 'theming.image.uploaded';
+	case ThemingSettingReset = 'theming.setting.reset';
 }
