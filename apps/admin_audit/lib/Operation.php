@@ -89,4 +89,10 @@ enum Operation: string {
 	case SystemTagGroupsUpdated = 'systemtags.tag_groups.updated';
 	case SystemTagAssigned = 'systemtags.tag.assigned';
 	case SystemTagUnassigned = 'systemtags.tag.unassigned';
+
+	// Files
+	case OwnershipTransferRequested = 'files.ownership_transfer.requested';
+	case OwnershipTransferAccepted = 'files.ownership_transfer.accepted';
+	case OwnershipTransferRejected = 'files.ownership_transfer.rejected';
+	case OwnershipTransferred = 'files.ownership.transferred';
 }
