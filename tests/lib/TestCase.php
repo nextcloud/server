@@ -174,6 +174,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 		$this->overwriteService(IBus::class, $this->commandBus);
 
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$urlGeneratorReflection = new \ReflectionClass($urlGenerator);
+		$baseUrlProp = $urlGeneratorReflection->getProperty('baseUrl');
+		$baseUrlProp->setValue($urlGenerator, 'http://localhost');
+
 		// detect database access
 		self::$wasDatabaseAllowed = true;
 		if (!$this->IsDatabaseAccessAllowed()) {
