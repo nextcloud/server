@@ -51,6 +51,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -64,6 +65,16 @@ use Psr\Log\LoggerInterface;
  */
 class UsersController extends AUserDataOCSController {
 	use PaginationTrait;
+
+	/** Account fields whose changes are already audited through UserChangedEvent or PasswordUpdatedEvent */
+	private const FIELDS_AUDITED_BY_CORE = [
+		self::USER_FIELD_PASSWORD,
+		self::USER_FIELD_DISPLAYNAME,
+		self::USER_FIELD_QUOTA,
+		self::USER_FIELD_MANAGER,
+		IAccountManager::PROPERTY_DISPLAYNAME,
+		IAccountManager::PROPERTY_EMAIL,
+	];
 
 	private IL10N $l10n;
 
@@ -908,6 +919,7 @@ class UsersController extends AUserDataOCSController {
 			default:
 				throw new OCSException('', 103);
 		}
+		$this->auditAccountUpdate($currentLoggedInUser, $targetUser, $collectionName);
 		return new DataResponse();
 	}
 
@@ -1152,6 +1164,14 @@ class UsersController extends AUserDataOCSController {
 					$subAdminManager->createSubAdmin($targetUser, $group);
 				}
 			}
+		}
+
+		$auditedFields = array_keys(array_filter([
+			'language' => $language,
+			'subadminGroups' => $subadminGroups,
+		], fn ($value): bool => $value !== null));
+		if ($auditedFields !== []) {
+			$this->auditAccountUpdate($currentLoggedInUser, $targetUser, implode(', ', $auditedFields));
 		}
 
 		/** @var Provisioning_APIUserDetails $data */
@@ -1510,7 +1530,26 @@ class UsersController extends AUserDataOCSController {
 			default:
 				throw new OCSException('', 113);
 		}
+		if (!in_array($key, self::FIELDS_AUDITED_BY_CORE, true)) {
+			$this->auditAccountUpdate($currentLoggedInUser, $targetUser, $key);
+		}
 		return new DataResponse();
+	}
+
+	/**
+	 * Audit a change of another user's account. Changes to the own account
+	 * are not audited, and the new value is never logged.
+	 */
+	private function auditAccountUpdate(IUser $currentUser, IUser $targetUser, string $field): void {
+		if ($currentUser->getUID() === $targetUser->getUID()) {
+			return;
+		}
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Account of user "%s" was changed: %s',
+			['userId' => $targetUser->getUID(), 'field' => $field],
+			false,
+			'users.user.account_updated',
+		));
 	}
 
 	/**
@@ -1548,7 +1587,14 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$this->remoteWipe->markAllTokensForWipe($targetUser);
+		if ($this->remoteWipe->markAllTokensForWipe($targetUser)) {
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Remote wipe was requested for all devices of user "%s"',
+				['userId' => $targetUser->getUID()],
+				false,
+				'auth.remote_wipe.requested',
+			));
+		}
 
 		return new DataResponse();
 	}
@@ -2064,6 +2110,13 @@ class UsersController extends AUserDataOCSController {
 			);
 			throw new OCSException($this->l10n->t('Sending email failed'), 102);
 		}
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Welcome email was sent to user "%s"',
+			['userId' => $targetUser->getUID()],
+			false,
+			'users.user.welcome_email_sent',
+		));
 
 		return new DataResponse();
 	}
