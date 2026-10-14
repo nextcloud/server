@@ -30,6 +30,7 @@
 // Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\Principal\Collection as PrincipalCollection;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
@@ -71,7 +72,7 @@ $cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUs
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new PrincipalCollection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
