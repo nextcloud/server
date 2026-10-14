@@ -134,6 +134,10 @@ final class SharingLegacySync implements IEventListener {
 		return $legacyShare->getShareType() === IShare::TYPE_LINK || $legacyShare->getShareType() === IShare::TYPE_EMAIL;
 	}
 
+	private function isRemoteLegacyShare(IShare $legacyShare): bool {
+		return $legacyShare->getShareType() === IShare::TYPE_REMOTE || $legacyShare->getShareType() === IShare::TYPE_REMOTE_GROUP;
+	}
+
 	// TODO: Test
 	public function mapLegacyShares(?IUser $user, ?int $limit = null): void {
 		// TODO: Make it work with all providers (deck, talk, mail, external etc.)
@@ -223,7 +227,7 @@ final class SharingLegacySync implements IEventListener {
 					$this->wrapSync($id, function () use ($id, $legacyProvider, $legacyId, $legacyShare): void {
 						$secrets = [];
 						$value = null;
-						if ($this->isPublicLegacyShare($legacyShare)) {
+						if ($this->isPublicLegacyShare($legacyShare) || $this->isRemoteLegacyShare($legacyShare)) {
 							$token = $legacyShare->getToken();
 							if ($token === '') {
 								throw new RuntimeException('Token must not be an empty string.');
@@ -384,9 +388,9 @@ final class SharingLegacySync implements IEventListener {
 			$nodeId = $legacyShare->getNodeId();
 			$sources[$nodeId] ??= new ShareSource(NodeShareSourceType::class, (string)$nodeId);
 
-			$sharedBy = $legacyShare->getSharedBy();
-			if ($sharedBy === '') {
-				throw new RuntimeException('Shared by must not be an empty string.');
+			$shareOwner = $this->splitLegacySharedByOrOwner($legacyShare, $legacyShare->getSharedBy());
+			if ($shareOwner['value'] === '') {
+				throw new RuntimeException('sharedBy value must not be an empty string.');
 			}
 
 			if ($legacyShare->getAttributes()?->getAttribute('fileRequest', 'enabled') === true) {
@@ -411,9 +415,8 @@ final class SharingLegacySync implements IEventListener {
 					// TODO: Make sure mapping secret is updated if token changes (for all mappings of the same recipient).
 					$legacyMapping->recipientSecrets[0],
 					new ShareUser(
-						$sharedBy,
-						// TODO: Incoming remote shares aren't handled by this
-						null,
+						$shareOwner['value'],
+						$shareOwner['instance'],
 					),
 				);
 
@@ -427,9 +430,8 @@ final class SharingLegacySync implements IEventListener {
 						// TODO: Make sure mapping secret is updated if token changes (for all mappings of the same recipient).
 						$legacyMapping->recipientSecrets[$index + 1],
 						new ShareUser(
-							$sharedBy,
-							// TODO: Incoming remote shares aren't handled by this
-							null,
+							$shareOwner['value'],
+							$shareOwner['instance'],
 						),
 					);
 				}
@@ -450,9 +452,8 @@ final class SharingLegacySync implements IEventListener {
 					// TODO: Make sure mapping secret is updated if token changes (for all mappings of the same recipient).
 					$legacyMapping->recipientSecrets[0],
 					new ShareUser(
-						$sharedBy,
-						// TODO: Incoming remote shares aren't handled by this
-						null,
+						$shareOwner['value'],
+						$shareOwner['instance'],
 					),
 				);
 			}
@@ -462,11 +463,14 @@ final class SharingLegacySync implements IEventListener {
 			throw new RuntimeException("All legacy shares sharing a share id don't have the same owner");
 		}
 
+		$shareOwner = $this->splitLegacySharedByOrOwner($legacyShares[0], $legacyShares[0]->getShareOwner());
+		if ($shareOwner['value'] === '') {
+			throw new RuntimeException('shareOwner value must not be an empty string.');
+		}
 		/** @psalm-suppress ArgumentTypeCoercion */
 		$owner = new ShareUser(
-			$legacyShares[0]->getShareOwner(),
-			// Incoming remote shares aren't handled by this
-			null,
+			$shareOwner['value'],
+			$shareOwner['instance'],
 		);
 
 		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getExpirationDate())) {
@@ -660,7 +664,7 @@ final class SharingLegacySync implements IEventListener {
 
 				$attributes->setAttribute('shareWith', 'emails', array_map(static fn (ShareRecipient $recipient): string => $recipient->value, $emailRecipients));
 
-				$legacyShare->setSharedBy($tokenRecipient->initiator->userId);
+				$legacyShare->setSharedBy($this->shareUserToLegacyIdentifier($tokenRecipient->initiator));
 
 				// Make sure the token recipient is always the first one, so we can correctly assign back the secrets later.
 				$orderedRecipients = array_merge([$tokenRecipient], $emailRecipients);
@@ -697,26 +701,22 @@ final class SharingLegacySync implements IEventListener {
 					$legacyShare->setShareType($legacyShareType);
 
 					/** @psalm-suppress ArgumentTypeCoercion Psalm gets confused with the properties keys */
-					if (($legacySharedWith = $this->recipientToLegacySharedWith($recipient, $share->properties)) !== null) {
-						$legacyShare->setSharedWith($legacySharedWith);
-					}
-
-					if ($recipient->instance !== null) {
-						throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
+					if (($legacySharedBy = $this->shareRecipientToLegacyIdentifier($recipient, $share->properties)) !== null) {
+						$legacyShare->setSharedWith($legacySharedBy);
 					}
 
 					if ($recipient->initiator === null) {
-						throw new RuntimeException('Share recipient cannot be null at this point.');
+						throw new RuntimeException('Share recipient initiator cannot be null at this point.');
 					}
 
-					$legacyShare->setSharedBy($recipient->initiator->userId);
+					$legacyShare->setSharedBy($this->shareUserToLegacyIdentifier($recipient->initiator));
 
 					$recipientSecret = $recipient->secret;
 					if ($recipientSecret === null) {
 						throw new RuntimeException('secret must be set.');
 					}
 
-					$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) ? $recipientSecret : '');
+					$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) || $this->isRemoteLegacyShare($legacyShare) ? $recipientSecret : '');
 
 					$legacyShare->setStatus(
 						$this->userStatusToLegacyUserStatus(
@@ -827,11 +827,7 @@ final class SharingLegacySync implements IEventListener {
 			$attributes->setAttribute('fileRequest', 'enabled', true);
 		}
 
-		if ($share->owner->instance !== null) {
-			throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
-		}
-
-		$legacyShare->setShareOwner($share->owner->userId);
+		$legacyShare->setShareOwner($this->shareUserToLegacyIdentifier($share->owner));
 
 		$legacyShare->setNote(($share->properties[NoteSharePropertyType::class] ?? null)?->value ?? '');
 
@@ -1000,13 +996,14 @@ final class SharingLegacySync implements IEventListener {
 	/**
 	 * @param array<class-string<ISharePropertyType>, ShareProperty> $shareProperties
 	 */
-	private function recipientToLegacySharedWith(ShareRecipient $recipient, array $shareProperties): ?string {
+	private function shareRecipientToLegacyIdentifier(ShareRecipient $recipient, array $shareProperties): ?string {
 		if (($shareProperties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true') {
 			return '';
 		}
 
 		if ($recipient->instance !== null) {
-			return $this->cloudIdManager->getCloudId($recipient->value, $recipient->instance)->getId();
+			$cloudId = $this->cloudIdManager->getCloudId($recipient->value, $recipient->instance);
+			return $cloudId->getUser() . '@' . $cloudId->getRemote();
 		}
 
 		if ($recipient->class === TokenShareRecipientType::class) {
@@ -1014,6 +1011,15 @@ final class SharingLegacySync implements IEventListener {
 		}
 
 		return $recipient->value;
+	}
+
+	private function shareUserToLegacyIdentifier(ShareUser $user): string {
+		if ($user->instance !== null) {
+			$cloudId = $this->cloudIdManager->getCloudId($user->userId, $user->instance);
+			return $cloudId->getUser() . '@' . $cloudId->getRemote();
+		}
+
+		return $user->userId;
 	}
 
 	/**
@@ -1107,6 +1113,36 @@ final class SharingLegacySync implements IEventListener {
 		return [
 			// This can be an empty string, in case it is a file request
 			'value' => $legacyShare->getSharedWith(),
+			'instance' => null,
+		];
+	}
+
+	/**
+	 * @return array{value: string, instance: non-empty-string|null}
+	 */
+	private function splitLegacySharedByOrOwner(IShare $legacyShare, string $sharedByOrOwner): array {
+		// The type of the legacy share is only for the sharedWith, but we also can't have an email here, so we just have to check if it is a Cloud ID.
+		if ($this->cloudIdManager->isValidCloudId($sharedByOrOwner)) {
+			$cloudId = $this->cloudIdManager->resolveCloudId($sharedByOrOwner);
+
+			$user = $cloudId->getUser();
+			if ($user === '') {
+				throw new RuntimeException('User must not be an empty string.');
+			}
+
+			$remote = $cloudId->getRemote();
+			if ($remote === '') {
+				throw new RuntimeException('Remote must not be an empty string.');
+			}
+
+			return [
+				'value' => $user,
+				'instance' => $remote,
+			];
+		}
+
+		return [
+			'value' => $sharedByOrOwner,
 			'instance' => null,
 		];
 	}

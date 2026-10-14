@@ -71,7 +71,6 @@ use Test\TestCase;
 use Test\Traits\GroupTrait;
 use Test\Traits\UserTrait;
 
-// TODO: Test federated users and groups (including share owner and shared by)
 #[Group('DB')]
 final class SharingLegacySyncTest extends TestCase {
 	use UserTrait;
@@ -1943,5 +1942,167 @@ final class SharingLegacySyncTest extends TestCase {
 		];
 
 		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses, true);
+	}
+
+	public function testRemoteSharedWith(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser($this->owner->getUID(), null);
+		$secret = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[new ShareRecipient(UserShareRecipientType::class, 'remote', 'https://example.com', $secret, $owner)],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, true),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, false),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocFederatedSharing')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_REMOTE)
+				->setSharedWith('remote@https://example.com')
+				->setSharedBy($this->owner->getUID())
+				->setShareOwner($this->owner->getUID())
+				->setPermissions(Constants::PERMISSION_READ)
+				->setStatus(IShare::STATUS_PENDING)
+				->setTarget('')
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret),
+		];
+
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses);
+	}
+
+	public function testRemoteSharedBy(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser($this->owner->getUID(), null);
+		$secret = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[new ShareRecipient(UserShareRecipientType::class, 'remote', 'https://example.com', $secret, new ShareUser('initiator', 'https://example.org'))],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, true),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, false),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocFederatedSharing')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_REMOTE)
+				->setSharedWith('remote@https://example.com')
+				->setSharedBy('initiator@https://example.org')
+				->setShareOwner($this->owner->getUID())
+				->setPermissions(Constants::PERMISSION_READ)
+				->setStatus(IShare::STATUS_PENDING)
+				->setTarget('')
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret),
+		];
+
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses);
+	}
+
+	public function testRemoteShareOwner(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser('owner', 'https://example.net');
+		$secret = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[new ShareRecipient(UserShareRecipientType::class, 'remote', 'https://example.com', $secret, new ShareUser('initiator', 'https://example.org'))],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, true),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, false),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocFederatedSharing')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_REMOTE)
+				->setSharedWith('remote@https://example.com')
+				->setSharedBy('initiator@https://example.org')
+				->setShareOwner('owner@https://example.net')
+				->setPermissions(Constants::PERMISSION_READ)
+				->setStatus(IShare::STATUS_PENDING)
+				->setTarget('')
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret),
+		];
+
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses);
 	}
 }

@@ -610,7 +610,7 @@ class Manager implements IManager {
 			$share->setNode($oldShare->getNode());
 
 			// Reset the target if it is null for the new share
-			if ($share->getTarget() === '') {
+			if ($share->getTarget() === null) {
 				$share->setTarget($target);
 			}
 		} catch (AlreadySharedException $e) {
