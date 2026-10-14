@@ -9,7 +9,7 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CachePermissionsMask;
-use OC\Files\Storage\Storage;
+use OC\Files\Utils\PartialFileHelper;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IScanner;
@@ -70,13 +70,13 @@ class PermissionsMask extends Wrapper {
 
 	#[\Override]
 	public function rename(string $source, string $target): bool {
-		//This is a rename of the transfer file to the original file
-		$sourceDir = dirname($source);
-		$targetDir = dirname($target);
-		if (($sourceDir === $targetDir || $sourceDir === dirname($targetDir)) && strpos($source, '.ocTransferId') > 0) {
-			return $this->checkMask(Constants::PERMISSION_CREATE) && parent::rename($source, $target);
+		$required = Constants::PERMISSION_UPDATE;
+		if (PartialFileHelper::isPartialFilePath($source) && !$this->file_exists($target)) {
+			// This is a rename of a partial file to the final file
+			$required = Constants::PERMISSION_CREATE;
 		}
-		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::rename($source, $target);
+
+		return $this->checkMask($required) && parent::rename($source, $target);
 	}
 
 	#[\Override]

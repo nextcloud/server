@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
 use OCP\Files\Cache\IScanner;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
@@ -45,6 +46,60 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->mkdir('foo'));
 		$this->assertFalse($storage->file_exists('foo'));
+	}
+
+	public static function dataRenamePartFile(): array {
+		$partialFileName = 'x.ocTransferId123.part';
+		return [
+			'renaming partial file in same directory' => [
+				'sourcePath' => $partialFileName,
+				'targetPath' => 'x',
+				'shouldSucceed' => true,
+			],
+			'renaming partial file for file uploaded in parent (part_file_in_storage=false) ' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => true,
+			],
+			'renaming partial file for file uploaded in ancestor (part_file_in_storage=false) ' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/B/C/Share/x',
+				'shouldSucceed' => true,
+			],
+			'renaming non-partial file in parent' => [
+				'sourcePath' => '/A/foo.ocTransferId123',
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => false,
+			],
+			'renaming partial file into existing file' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => false,
+				'targetExisting' => true,
+			]
+		];
+	}
+	#[DataProvider(methodName: 'dataRenamePartFile')]
+	public function testRenamePartFile(string $sourcePath, string $targetPath, bool $shouldSucceed, bool $targetExisting = false): void {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
+		$directories = array_unique([ ...explode('/', dirname($sourcePath)), ...explode('/', dirname($targetPath)) ]);
+		$path = '';
+		foreach ($directories as $part) {
+			if (in_array($part, ['', '.'], true)) {
+				continue;
+			}
+			$path .= $part . '/';
+			$this->assertTrue($storage->mkdir($path));
+		}
+
+		$this->assertNotFalse($this->sourceStorage->file_put_contents($sourcePath, 'bar'));
+		$this->assertTrue($this->sourceStorage->file_exists($sourcePath));
+		if ($targetExisting) {
+			$this->assertNotFalse($this->sourceStorage->file_put_contents($targetPath, 'existing'));
+			$this->assertTrue($this->sourceStorage->file_exists($targetPath));
+		}
+
+		$this->assertEquals($shouldSucceed, $storage->rename($sourcePath, $targetPath), 'Renaming should ' . ($shouldSucceed ? '' : 'not ') . 'succeed');
 	}
 
 	public function testRmdirNoDelete(): void {
