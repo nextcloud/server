@@ -14,10 +14,12 @@ use OCA\UpdateNotification\Controller\AdminController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,6 +35,8 @@ class AdminControllerTest extends TestCase {
 	protected IL10N&MockObject $l10n;
 	protected IAppConfig&MockObject $appConfig;
 	protected LoggerInterface&MockObject $logger;
+	protected ServerVersion&MockObject $serverVersion;
+	protected IEventDispatcher&MockObject $eventDispatcher;
 
 	protected AdminController $adminController;
 
@@ -47,6 +51,8 @@ class AdminControllerTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -58,7 +64,8 @@ class AdminControllerTest extends TestCase {
 			$this->timeFactory,
 			$this->l10n,
 			$this->logger,
-			$this->createMock(ServerVersion::class),
+			$this->serverVersion,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -84,6 +91,13 @@ class AdminControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setValueInt')
 			->with('core', 'updater.secret.created', 12345);
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'updatenotification.updater_token.created'
+				&& $event->getLogMessage() === 'Web updater token was created'
+				&& $event->getParameters() === []));
 
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
@@ -110,7 +124,30 @@ class AdminControllerTest extends TestCase {
 		$this->appConfig
 			->expects($this->never())
 			->method('setValueInt');
+		$this->eventDispatcher
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$this->adminController->createCredentials();
+	}
+
+	public function testSetChannel(): void {
+		$this->serverVersion
+			->expects($this->once())
+			->method('setChannel')
+			->with('beta');
+		$this->appConfig
+			->expects($this->once())
+			->method('setValueInt')
+			->with('core', 'lastupdatedat', 0);
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'updatenotification.channel.updated'
+				&& $event->getLogMessage() === 'Update channel was changed to "%s"'
+				&& $event->getParameters() === ['channel' => 'beta']));
+
+		$this->adminController->setChannel('beta');
 	}
 }

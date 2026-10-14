@@ -210,4 +210,8 @@ enum Operation: string {
 	case ThemingSettingUpdated = 'theming.setting.updated';
 	case ThemingImageUploaded = 'theming.image.uploaded';
 	case ThemingSettingReset = 'theming.setting.reset';
+
+	// Update notification
+	case UpdaterTokenCreated = 'updatenotification.updater_token.created';
+	case UpdateChannelUpdated = 'updatenotification.channel.updated';
 }
