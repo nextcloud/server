@@ -173,4 +173,10 @@ enum Operation: string {
 	case LogFileDownloaded = 'settings.log.downloaded';
 	case WebAuthnDeviceAdded = 'auth.webauthn_device.added';
 	case WebAuthnDeviceRemoved = 'auth.webauthn_device.removed';
+
+	// Provisioning API
+	case AppConfigValueUpdated = 'config.app_value.updated';
+	case AppConfigValueDeleted = 'config.app_value.deleted';
+	case UserAccountUpdated = 'users.user.account_updated';
+	case UserWelcomeEmailSent = 'users.user.welcome_email_sent';
 }
