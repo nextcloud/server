@@ -5,7 +5,7 @@
 import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { getDavNameSpaces, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { join } from 'path'
 import { useFilesStore } from '../store/files.ts'
 import { pinia } from '../store/index.ts'
@@ -90,4 +90,24 @@ async function getLocalSearch(path: string, query: string, signal?: AbortSignal)
 		folder,
 		contents,
 	}
+}
+
+/**
+ * List the file ids and etags of the direct children of a folder,
+ * a much lighter request than a full listing for large folders.
+ *
+ * @param path - The folder path
+ * @param options - Options
+ * @param options.signal - Abort signal to cancel the request
+ */
+export async function getChildrenEtags(path: string, options?: { signal: AbortSignal }): Promise<Map<number, string>> {
+	const contentsResponse = await client.getDirectoryContents(join(getRootPath(), path), {
+		details: true,
+		data: `<?xml version="1.0"?><d:propfind ${getDavNameSpaces()}><d:prop><oc:fileid /><d:getetag /></d:prop></d:propfind>`,
+		signal: options?.signal,
+	}) as ResponseDataDetailed<FileStat[]>
+
+	return new Map(contentsResponse.data
+		.filter((result) => result.props?.fileid !== undefined)
+		.map((result) => [Number(result.props!.fileid), String(result.etag ?? '')]))
 }

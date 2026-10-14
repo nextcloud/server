@@ -190,6 +190,7 @@ import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useLiveFolderRefresh } from '../composables/useLiveFolderRefresh.ts'
 import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActiveStore } from '../store/active.ts'
@@ -247,6 +248,7 @@ export default defineComponent({
 		const viewConfigStore = useViewConfigStore()
 
 		const { isNarrow } = useFileListWidth()
+		useLiveFolderRefresh()
 		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
