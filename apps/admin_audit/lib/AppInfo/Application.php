@@ -62,6 +62,10 @@ use OCP\Share;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
+use OCP\SystemTag\TagAssignedEvent;
+use OCP\SystemTag\TagUnassignedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -140,6 +144,12 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(SubAdminRemovedEvent::class, GroupManagementEventListener::class);
 		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, SecurityEventListener::class);
 		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, SecurityEventListener::class);
+
+		// System tags
+		$context->registerEventListener(TagUpdatedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagDeletedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagAssignedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagUnassignedEvent::class, TagEventListener::class);
 	}
 
 	#[\Override]
