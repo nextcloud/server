@@ -13,13 +13,16 @@ use OCA\AdminAudit\Actions\Action;
 use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 
 /**
- * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|GroupCreatedEvent|GroupDeletedEvent>
+ * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|GroupCreatedEvent|GroupDeletedEvent|GroupChangedEvent|SubAdminAddedEvent|SubAdminRemovedEvent>
  */
 class GroupManagementEventListener extends Action implements IEventListener {
 	#[\Override]
@@ -32,6 +35,12 @@ class GroupManagementEventListener extends Action implements IEventListener {
 			$this->groupCreated($event);
 		} elseif ($event instanceof GroupDeletedEvent) {
 			$this->groupDeleted($event);
+		} elseif ($event instanceof GroupChangedEvent) {
+			$this->groupChanged($event);
+		} elseif ($event instanceof SubAdminAddedEvent) {
+			$this->subAdminAdded($event);
+		} elseif ($event instanceof SubAdminRemovedEvent) {
+			$this->subAdminRemoved($event);
 		}
 	}
 
@@ -77,6 +86,45 @@ class GroupManagementEventListener extends Action implements IEventListener {
 			],
 			[
 				'group'
+			]
+		);
+	}
+
+	private function groupChanged(GroupChangedEvent $event): void {
+		if ($event->getFeature() !== 'displayName') {
+			return;
+		}
+
+		$this->log(Operation::GroupDisplayNameChanged, 'Display name of group "%s" was changed',
+			[
+				'group' => $event->getGroup()->getGID()
+			],
+			[
+				'group'
+			]
+		);
+	}
+
+	private function subAdminAdded(SubAdminAddedEvent $event): void {
+		$this->log(Operation::SubAdminAdded, 'User "%s" was added as subadmin of group "%s"',
+			[
+				'user' => $event->getUser()->getUID(),
+				'group' => $event->getGroup()->getGID()
+			],
+			[
+				'user', 'group'
+			]
+		);
+	}
+
+	private function subAdminRemoved(SubAdminRemovedEvent $event): void {
+		$this->log(Operation::SubAdminRemoved, 'User "%s" was removed as subadmin of group "%s"',
+			[
+				'user' => $event->getUser()->getUID(),
+				'group' => $event->getGroup()->getGID()
+			],
+			[
+				'user', 'group'
 			]
 		);
 	}

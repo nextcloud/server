@@ -72,4 +72,14 @@ enum Operation: string {
 	case AppUpdated = 'apps.app.updated';
 	case ConsoleCommandExecuted = 'console.command.executed';
 	case SystemTagCreated = 'systemtags.tag.created';
+
+	// Users, groups and two-factor providers
+	case UserDisplayNameChanged = 'users.user.display_name_changed';
+	case UserQuotaChanged = 'users.user.quota_changed';
+	case UserManagersChanged = 'users.user.managers_changed';
+	case GroupDisplayNameChanged = 'groups.group.display_name_changed';
+	case SubAdminAdded = 'groups.subadmin.added';
+	case SubAdminRemoved = 'groups.subadmin.removed';
+	case TwoFactorProviderEnabled = 'auth.twofactor_provider.enabled';
+	case TwoFactorProviderDisabled = 'auth.twofactor_provider.disabled';
 }
