@@ -11,6 +11,7 @@ namespace Test\Federation;
 
 use OC\Federation\CloudFederationFactory;
 use OC\OCM\Model\OCMProvider;
+use OCP\Constants;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
@@ -58,8 +59,24 @@ class CloudFederationFactoryTest extends TestCase {
 		);
 	}
 
-	public function testExchangeTokenUsesLocalWebDavUri(): void {
-		$this->remoteProvider->setCapabilities(['exchange-token']);
+	public static function protocolObjectProvider(): array {
+		return [
+			'default permissions' => [['protocol-object'], null, ['read']],
+			'no permissions' => [['protocol-object'], 0, []],
+			'read' => [['protocol-object'], Constants::PERMISSION_READ, ['read']],
+			'share' => [['protocol-object'], Constants::PERMISSION_SHARE, ['share']],
+			'create' => [['protocol-object'], Constants::PERMISSION_CREATE, ['write']],
+			'update' => [['protocol-object'], Constants::PERMISSION_UPDATE, ['write']],
+			'create and update' => [['protocol-object'], Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE, ['write']],
+			'delete only' => [['protocol-object'], Constants::PERMISSION_DELETE, []],
+			'all permissions' => [['protocol-object'], Constants::PERMISSION_ALL, ['share', 'read', 'write']],
+			'with token exchange' => [['protocol-object', 'exchange-token'], Constants::PERMISSION_READ, ['read']],
+		];
+	}
+
+	#[DataProvider('protocolObjectProvider')]
+	public function testProtocolObjectUsesLocalWebDavUri(array $capabilities, ?int $permissions, array $expectedPermissions): void {
+		$this->remoteProvider->setCapabilities($capabilities);
 		$localProvider = new OCMProvider();
 		$resource = $localProvider->createNewResourceType();
 		$resource->setName('file')->setProtocols(['webdav' => '/public.php/webdav/']);
@@ -74,14 +91,14 @@ class CloudFederationFactoryTest extends TestCase {
 			->willReturn('https://local.example/nextcloud/public.php/webdav/');
 		$this->logger->expects($this->never())->method('warning');
 
-		$share = $this->createShare();
+		$share = $this->createShare($permissions);
 
 		$this->assertSame([
 			'name' => 'webdav',
 			'webdav' => [
 				'uri' => 'https://local.example/nextcloud/public.php/webdav/',
 				'sharedSecret' => 'share-secret',
-				'permissions' => ['{http://open-cloud-mesh.org/ns}share-permissions'],
+				'permissions' => $expectedPermissions,
 			],
 		], $share->getProtocol());
 		$this->assertSame('share-secret', $share->getShareSecret());
@@ -96,7 +113,7 @@ class CloudFederationFactoryTest extends TestCase {
 
 	#[DataProvider('missingLocalWebDavProvider')]
 	public function testMissingLocalWebDavUsesLegacyShare(bool $hasFileResource, string $exceptionMessage): void {
-		$this->remoteProvider->setCapabilities(['exchange-token']);
+		$this->remoteProvider->setCapabilities(['protocol-object']);
 		$localProvider = new OCMProvider();
 		if ($hasFileResource) {
 			$resource = $localProvider->createNewResourceType();
@@ -117,17 +134,26 @@ class CloudFederationFactoryTest extends TestCase {
 		$this->assertLegacyShare($this->createShare());
 	}
 
-	public function testLegacyShareDoesNotQueryLocalDiscovery(): void {
-		$this->remoteProvider->setCapabilities(['shares']);
+	public static function legacyCapabilitiesProvider(): array {
+		return [
+			'no capabilities' => [[]],
+			'shares only' => [['shares']],
+			'token exchange only' => [['exchange-token']],
+		];
+	}
+
+	#[DataProvider('legacyCapabilitiesProvider')]
+	public function testLegacyShareDoesNotQueryLocalDiscovery(array $capabilities): void {
+		$this->remoteProvider->setCapabilities($capabilities);
 		$this->discoveryService->expects($this->never())->method('getLocalOCMProvider');
 		$this->urlGenerator->expects($this->never())->method('getAbsoluteURL');
 		$this->logger->expects($this->never())->method('warning');
 
-		$this->assertLegacyShare($this->createShare());
+		$this->assertLegacyShare($this->createShare(Constants::PERMISSION_ALL));
 	}
 
-	private function createShare(): ICloudFederationShare {
-		return $this->factory->getCloudFederationShare(
+	private function createShare(?int $permissions = null): ICloudFederationShare {
+		$arguments = [
 			'recipient@remote.example',
 			'document.odt',
 			'',
@@ -139,7 +165,11 @@ class CloudFederationFactoryTest extends TestCase {
 			'share-secret',
 			'user',
 			'file',
-		);
+		];
+		if ($permissions !== null) {
+			$arguments[] = $permissions;
+		}
+		return $this->factory->getCloudFederationShare(...$arguments);
 	}
 
 	private function assertLegacyShare(ICloudFederationShare $share): void {
