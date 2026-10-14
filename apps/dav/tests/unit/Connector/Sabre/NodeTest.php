@@ -11,12 +11,9 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Node\Folder;
 use OC\Files\View;
-use OC\Share20\ShareAttributes;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\Files_Sharing\SharedMount;
-use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
@@ -24,7 +21,6 @@ use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class NodeTest
@@ -185,70 +181,6 @@ class NodeTest extends \Test\TestCase {
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals($expected, $node->getSharePermissions($user));
-	}
-
-	public function testShareAttributes(): void {
-		$storage = $this->getMockBuilder(SharedStorage::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['getShare'])
-			->getMock();
-
-		$shareManager = $this->createMock(IManager::class);
-		$share = $this->createMock(IShare::class);
-
-		$storage->expects($this->once())
-			->method('getShare')
-			->willReturn($share);
-
-		$attributes = new ShareAttributes();
-		$attributes->setAttribute('permissions', 'download', false);
-
-		$share->expects($this->once())->method('getAttributes')->willReturn($attributes);
-
-		/** @var Folder&MockObject $info */
-		$info = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
-			->getMock();
-
-		$info->method('getStorage')->willReturn($storage);
-		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
-
-		/** @var View&MockObject $view */
-		$view = $this->createMock(View::class);
-		$view
-			->method('getRelativePath')
-			->with(null)
-			->willReturn('');
-
-		$node = new File($view, $info);
-		$this->invokePrivate($node, 'shareManager', [$shareManager]);
-		$this->assertEquals($attributes->toArray(), $node->getShareAttributes());
-	}
-
-	public function testShareAttributesNonShare(): void {
-		$storage = $this->createMock(IStorage::class);
-		$shareManager = $this->createMock(IManager::class);
-
-		/** @var Folder&MockObject */
-		$info = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
-			->getMock();
-
-		$info->method('getStorage')->willReturn($storage);
-		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
-
-		/** @var View&MockObject */
-		$view = $this->createMock(View::class);
-		$view
-			->method('getRelativePath')
-			->with(null)
-			->willReturn('');
-
-		$node = new File($view, $info);
-		$this->invokePrivate($node, 'shareManager', [$shareManager]);
-		$this->assertEquals([], $node->getShareAttributes());
 	}
 
 	public static function sanitizeMtimeProvider(): array {

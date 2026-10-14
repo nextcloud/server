@@ -30,6 +30,7 @@ use OCA\DAV\CardDAV\Search\ContactAccountScopedSearchProvider;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
@@ -51,6 +52,8 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Files\NodeAttributes\FavoriteProvider;
 use OCA\DAV\Files\NodeAttributes\HasPreviewProvider;
+use OCA\DAV\Files\NodeAttributes\ShareAttributesProvider;
+use OCA\DAV\Files\NodeAttributes\SharesProvider;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -134,6 +137,8 @@ class Application extends App implements IBootstrap {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
 		$context->registerNodeAttributeProvider(HasPreviewProvider::class, [FilesPlugin::HAS_PREVIEW_PROPERTYNAME]);
 		$context->registerNodeAttributeProvider(FavoriteProvider::class, [TagsPlugin::FAVORITE_PROPERTYNAME]);
+		$context->registerNodeAttributeProvider(SharesProvider::class, [SharesPlugin::SHARETYPES_PROPERTYNAME, SharesPlugin::SHAREES_PROPERTYNAME]);
+		$context->registerNodeAttributeProvider(ShareAttributesProvider::class, [FilesPlugin::SHARE_ATTRIBUTES_PROPERTYNAME]);
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
 				$c->get(ICalendarManager::class),
