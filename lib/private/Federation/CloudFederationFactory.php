@@ -7,6 +7,7 @@
 
 namespace OC\Federation;
 
+use OCP\Constants;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
@@ -39,13 +40,14 @@ class CloudFederationFactory implements ICloudFederationFactory {
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
+	 * @param int $permissions Nextcloud permission bitmask
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
 	#[\Override]
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType) {
-		$useExchangeToken = false;
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType, int $permissions = Constants::PERMISSION_READ) {
+		$useProtocolObject = false;
 		$remoteDomain = null;
 
 		try {
@@ -55,12 +57,12 @@ class CloudFederationFactory implements ICloudFederationFactory {
 			try {
 				$remoteProvider = $this->ocmDiscoveryService->discover($remoteDomain);
 				$capabilities = $remoteProvider->getCapabilities();
-				$useExchangeToken = $capabilities->hasExchangeToken();
+				$useProtocolObject = $capabilities->has('protocol-object');
 
 				$this->logger->debug('OCM provider capabilities discovered', [
 					'remote' => $remoteDomain,
 					'capabilities' => $capabilities->toArray(),
-					'useExchangeToken' => $useExchangeToken,
+					'useProtocolObject' => $useProtocolObject,
 				]);
 			} catch (OCMProviderException $e) {
 				$this->logger->warning('Failed to discover OCM provider, using legacy share method', [
@@ -76,7 +78,7 @@ class CloudFederationFactory implements ICloudFederationFactory {
 		}
 
 		$webDavUri = '';
-		if ($useExchangeToken) {
+		if ($useProtocolObject) {
 			try {
 				$webDavUri = $this->urlGenerator->getAbsoluteURL(
 					$this->ocmDiscoveryService->getLocalOCMProvider(false)->extractProtocolEntry('file', 'webdav'),
@@ -85,7 +87,7 @@ class CloudFederationFactory implements ICloudFederationFactory {
 				$this->logger->warning('No local OCM webdav entry, using legacy share method', [
 					'exception' => $e->getMessage(),
 				]);
-				$useExchangeToken = false;
+				$useProtocolObject = false;
 			}
 		}
 
@@ -101,8 +103,9 @@ class CloudFederationFactory implements ICloudFederationFactory {
 			$shareType,
 			$resourceType,
 			$sharedSecret,
-			$useExchangeToken,
-			$webDavUri
+			$useProtocolObject,
+			$webDavUri,
+			$permissions
 		);
 	}
 
