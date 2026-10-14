@@ -36,6 +36,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Listener\\CacheEventListener' => __DIR__ . '/..' . '/../lib/Listener/CacheEventListener.php',
         'OCA\\AdminAudit\\Listener\\ConsoleEventListener' => __DIR__ . '/..' . '/../lib/Listener/ConsoleEventListener.php',
         'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => __DIR__ . '/..' . '/../lib/Listener/CriticalActionPerformedEventListener.php',
+        'OCA\\AdminAudit\\Listener\\FederationEventListener' => __DIR__ . '/..' . '/../lib/Listener/FederationEventListener.php',
         'OCA\\AdminAudit\\Listener\\FileEventListener' => __DIR__ . '/..' . '/../lib/Listener/FileEventListener.php',
         'OCA\\AdminAudit\\Listener\\GroupManagementEventListener' => __DIR__ . '/..' . '/../lib/Listener/GroupManagementEventListener.php',
         'OCA\\AdminAudit\\Listener\\SecurityEventListener' => __DIR__ . '/..' . '/../lib/Listener/SecurityEventListener.php',

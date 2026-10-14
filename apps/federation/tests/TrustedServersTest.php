@@ -21,6 +21,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -95,6 +96,11 @@ class TrustedServersTest extends TestCase {
 		$this->jobList->expects($this->once())->method('add')
 			->with(RequestSharedSecret::class,
 				['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'federation.trusted_server.added'
+				&& $event->getParameters() === ['url' => 'https://url', 'serverId' => 1]
+				&& $event->getLogMessage() === 'Trusted server "%s" was added with ID "%s"'));
 
 		$this->assertSame(
 			1,
@@ -105,6 +111,11 @@ class TrustedServersTest extends TestCase {
 	public function testAddSharedSecret(): void {
 		$this->dbHandler->expects($this->once())->method('addSharedSecret')
 			->with('url', 'secret');
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'federation.shared_secret.exchanged'
+				&& $event->getParameters() === ['url' => 'url']
+				&& $event->getLogMessage() === 'Shared secret with trusted server "%s" was exchanged'));
 		$this->trustedServers->addSharedSecret('url', 'secret');
 	}
 

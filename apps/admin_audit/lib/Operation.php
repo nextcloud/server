@@ -134,4 +134,9 @@ enum Operation: string {
 	case EncryptionUserKeysRegenerated = 'encryption.user_keys.regenerated';
 	case EncryptionPrivateKeyPasswordChanged = 'encryption.private_key.password_changed';
 	case EncryptionHomeStorageUpdated = 'encryption.home_storage.updated';
+
+	// Federation
+	case FederationTrustedServerAdded = 'federation.trusted_server.added';
+	case FederationTrustedServerRemoved = 'federation.trusted_server.removed';
+	case FederationSharedSecretExchanged = 'federation.shared_secret.exchanged';
 }

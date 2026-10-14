@@ -20,6 +20,7 @@ use OCA\AdminAudit\Listener\AuthEventListener;
 use OCA\AdminAudit\Listener\CacheEventListener;
 use OCA\AdminAudit\Listener\ConsoleEventListener;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
+use OCA\AdminAudit\Listener\FederationEventListener;
 use OCA\AdminAudit\Listener\FileEventListener;
 use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
@@ -41,6 +42,7 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -156,6 +158,9 @@ class Application extends App implements IBootstrap {
 		// Files sharing recipient events
 		$context->registerEventListener(ShareAcceptedEvent::class, SharingEventListener::class);
 		$context->registerEventListener(ShareDeletedFromSelfEvent::class, SharingEventListener::class);
+
+		// Federation
+		$context->registerEventListener(TrustedServerRemovedEvent::class, FederationEventListener::class);
 	}
 
 	#[\Override]

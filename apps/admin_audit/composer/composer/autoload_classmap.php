@@ -21,6 +21,7 @@ return array(
     'OCA\\AdminAudit\\Listener\\CacheEventListener' => $baseDir . '/../lib/Listener/CacheEventListener.php',
     'OCA\\AdminAudit\\Listener\\ConsoleEventListener' => $baseDir . '/../lib/Listener/ConsoleEventListener.php',
     'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => $baseDir . '/../lib/Listener/CriticalActionPerformedEventListener.php',
+    'OCA\\AdminAudit\\Listener\\FederationEventListener' => $baseDir . '/../lib/Listener/FederationEventListener.php',
     'OCA\\AdminAudit\\Listener\\FileEventListener' => $baseDir . '/../lib/Listener/FileEventListener.php',
     'OCA\\AdminAudit\\Listener\\GroupManagementEventListener' => $baseDir . '/../lib/Listener/GroupManagementEventListener.php',
     'OCA\\AdminAudit\\Listener\\SecurityEventListener' => $baseDir . '/../lib/Listener/SecurityEventListener.php',
