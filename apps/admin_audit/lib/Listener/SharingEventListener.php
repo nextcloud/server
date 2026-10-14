@@ -13,12 +13,14 @@ use OCA\AdminAudit\Actions\Action;
 use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 
 /**
- * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent>
+ * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent|ShareAcceptedEvent|ShareDeletedFromSelfEvent>
  */
 class SharingEventListener extends Action implements IEventListener {
 	#[\Override]
@@ -27,7 +29,31 @@ class SharingEventListener extends Action implements IEventListener {
 			$this->shareCreated($event);
 		} elseif ($event instanceof ShareDeletedEvent) {
 			$this->shareDeleted($event);
+		} elseif ($event instanceof ShareAcceptedEvent) {
+			$this->logRecipientAction(Operation::ShareAccepted, 'accepted', $event->getShare());
+		} elseif ($event instanceof ShareDeletedFromSelfEvent) {
+			$this->logRecipientAction(Operation::ShareLeft, 'left', $event->getShare());
 		}
+	}
+
+	private function logRecipientAction(Operation $operation, string $action, IShare $share): void {
+		$this->log(
+			$operation,
+			'The share of the %s with ID "%s" for "%s" was ' . $action . ' (Share ID: %s)',
+			[
+				'itemType' => $share->getNodeType(),
+				'itemSource' => $share->getNodeId(),
+				'shareWith' => $share->getSharedWith(),
+				'id' => $share->getId(),
+				'shareType' => $share->getShareType(),
+			],
+			[
+				'itemType',
+				'itemSource',
+				'shareWith',
+				'id',
+			]
+		);
 	}
 
 	private function shareCreated(ShareCreatedEvent $event): void {

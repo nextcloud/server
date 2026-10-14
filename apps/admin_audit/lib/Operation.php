@@ -89,4 +89,10 @@ enum Operation: string {
 	case SystemTagGroupsUpdated = 'systemtags.tag_groups.updated';
 	case SystemTagAssigned = 'systemtags.tag.assigned';
 	case SystemTagUnassigned = 'systemtags.tag.unassigned';
+
+	// Shares
+	case ShareAccepted = 'sharing.share.accepted';
+	case ShareLeft = 'sharing.share.left';
+	case ShareAttributesUpdated = 'sharing.share.attributes_updated';
+	case ShareTokenUpdated = 'sharing.share.token_updated';
 }

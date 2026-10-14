@@ -19,6 +19,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -38,6 +39,7 @@ use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
@@ -606,6 +608,91 @@ class ManagerTest extends TestCase {
 
 		// second time must fail as the mount point is gone
 		$this->assertFalse($this->manager->removeShare($this->user, $this->user->getUID() . '/files/' . $shareData->getName()));
+	}
+
+	/**
+	 * @return \ArrayObject<int, CriticalActionPerformedEvent>
+	 */
+	private function collectAuditEvents(): \ArrayObject {
+		$auditEvents = new \ArrayObject();
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use ($auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents->append($event);
+				}
+			});
+		return $auditEvents;
+	}
+
+	private function assertRemoteShareAuditEvent(CriticalActionPerformedEvent $event, string $operation, string $message, array $parameters): void {
+		$this->assertSame($operation, $event->getOperation());
+		$this->assertSame($message, $event->getLogMessage());
+		$this->assertSame($parameters, $event->getParameters());
+	}
+
+	public function testAcceptAndDeclineGroupShareLogCriticalActions(): void {
+		$auditEvents = $this->collectAuditEvents();
+		[, $groupShare] = $this->createTestGroupShare();
+		$expectedParameters = [
+			'name' => '/SharedFolder',
+			'id' => $groupShare->getId(),
+			'owner' => 'foobar',
+			'remote' => 'http://localhost',
+			'user' => $this->user->getUID(),
+			'remoteId' => '2342',
+		];
+
+		$this->assertTrue($this->manager->acceptShare($groupShare, $this->user));
+		$this->assertTrue($this->manager->declineShare($groupShare, $this->user));
+
+		$this->assertCount(2, $auditEvents);
+		$this->assertRemoteShareAuditEvent(
+			$auditEvents[0],
+			'files_sharing.remote_share.accepted',
+			'The federated share "%s" with ID "%s" from "%s" on "%s" was accepted for user "%s"',
+			$expectedParameters,
+		);
+		$this->assertRemoteShareAuditEvent(
+			$auditEvents[1],
+			'files_sharing.remote_share.declined',
+			'The federated share "%s" with ID "%s" from "%s" on "%s" was declined for user "%s"',
+			$expectedParameters,
+		);
+	}
+
+	public function testAcceptUserShareOfOtherUserDoesNotLog(): void {
+		$auditEvents = $this->collectAuditEvents();
+		$share = $this->createTestUserShare('other-user');
+
+		$this->assertFalse($this->manager->acceptShare($share, $this->user));
+		$this->assertFalse($this->manager->declineShare($share, $this->user));
+
+		$this->assertCount(0, $auditEvents);
+	}
+
+	public function testRemoveShareLogsCriticalAction(): void {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare, $this->user));
+		$this->setupMounts();
+		$auditEvents = $this->collectAuditEvents();
+		$subShare = $this->externalShareMapper->getShares($this->user, null)[0];
+
+		$this->assertTrue($this->manager->removeShare($this->user, $this->user->getUID() . '/files/' . $shareData->getName()));
+
+		$this->assertCount(1, $auditEvents);
+		$this->assertRemoteShareAuditEvent(
+			$auditEvents[0],
+			'files_sharing.remote_share.removed',
+			'The federated share mounted at "%s" with ID "%s" from "%s" on "%s" was removed for user "%s"',
+			[
+				'mountPoint' => '/SharedFolder',
+				'id' => $subShare->getId(),
+				'owner' => 'foobar',
+				'remote' => 'http://localhost',
+				'user' => $this->user->getUID(),
+				'remoteId' => '2342',
+			],
+		);
 	}
 
 	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare(): void {

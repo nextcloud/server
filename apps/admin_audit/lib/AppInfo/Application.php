@@ -59,8 +59,10 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
 use OCP\SystemTag\Events\TagDeletedEvent;
 use OCP\SystemTag\Events\TagUpdatedEvent;
@@ -150,6 +152,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(TagDeletedEvent::class, TagEventListener::class);
 		$context->registerEventListener(TagAssignedEvent::class, TagEventListener::class);
 		$context->registerEventListener(TagUnassignedEvent::class, TagEventListener::class);
+
+		// Files sharing recipient events
+		$context->registerEventListener(ShareAcceptedEvent::class, SharingEventListener::class);
+		$context->registerEventListener(ShareDeletedFromSelfEvent::class, SharingEventListener::class);
 	}
 
 	#[\Override]
