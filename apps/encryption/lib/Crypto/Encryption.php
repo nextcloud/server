@@ -262,7 +262,11 @@ class Encryption implements IEncryptionModule {
 	 * @return string encrypted data
 	 */
 	#[\Override]
-	public function encrypt($data, $position = 0) {
+	public function encrypt(
+		#[\SensitiveParameter]
+		$data,
+		$position = 0,
+	): string {
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
 		if ($this->writeCache) {
@@ -321,7 +325,11 @@ class Encryption implements IEncryptionModule {
 	 * @throws DecryptionFailedException
 	 */
 	#[\Override]
-	public function decrypt($data, $position = 0) {
+	public function decrypt(
+		#[\SensitiveParameter]
+		$data,
+		$position = 0,
+	): string {
 		if (empty($this->fileKey)) {
 			$msg = 'Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
 			$hint = $this->l->t('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');

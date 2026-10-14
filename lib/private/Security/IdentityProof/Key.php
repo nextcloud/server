@@ -11,7 +11,9 @@ namespace OC\Security\IdentityProof;
 
 class Key {
 	public function __construct(
+		#[\SensitiveParameter]
 		private string $publicKey,
+		#[\SensitiveParameter]
 		private string $privateKey,
 	) {
 	}

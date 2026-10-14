@@ -317,7 +317,11 @@ class Setup {
 	/**
 	 * @return array<string|array> errors
 	 */
-	public function install(array $options, ?IOutput $output = null): array {
+	public function install(
+		#[\SensitiveParameter]
+		array $options,
+		?IOutput $output = null,
+	): array {
 		$l = $this->l10n;
 
 		$error = [];
