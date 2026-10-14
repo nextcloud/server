@@ -19,6 +19,7 @@ use OCP\Server;
  * @method ?string getUserId()
  * @method string getHttpMethod()
  * @method string getUri()
+ * @method string getEvent()
  * @method ?array getHeaders()
  * @method ?string getAuthData()
  * @method void setAuthData(?string $data)
