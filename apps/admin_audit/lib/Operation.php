@@ -194,4 +194,9 @@ enum Operation: string {
 	case LdapConfigDeleted = 'user_ldap.config.deleted';
 	case LdapConfigPasswordRevealed = 'user_ldap.config.password_revealed';
 	case LdapMappingCleared = 'user_ldap.mapping.cleared';
+
+	// Workflow engine
+	case WorkflowRuleCreated = 'workflowengine.rule.created';
+	case WorkflowRuleUpdated = 'workflowengine.rule.updated';
+	case WorkflowRuleDeleted = 'workflowengine.rule.deleted';
 }
