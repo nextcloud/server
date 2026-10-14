@@ -15,9 +15,6 @@ use OCP\EventDispatcher\Event;
  * Nothing dispatches it any more: the viewer is on every page already, see
  * \OC\Template\LoadViewerListener.
  *
- * apps/viewer is not an app, only where the legacy viewer API waits to be
- * removed: the server autoloads this class, see composer.json.
- *
  * @since 17.0.0
  * @deprecated 36.0.0 Dispatching it does nothing. Register your handler with the `@nextcloud/viewer` package and load it with `\OCP\Util::addInitScript()` instead. It will be removed in Nextcloud 39.
  */
