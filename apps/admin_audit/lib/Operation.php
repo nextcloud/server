@@ -199,4 +199,10 @@ enum Operation: string {
 	case WorkflowRuleCreated = 'workflowengine.rule.created';
 	case WorkflowRuleUpdated = 'workflowengine.rule.updated';
 	case WorkflowRuleDeleted = 'workflowengine.rule.deleted';
+
+	// Webhook listeners
+	case WebhookCreated = 'webhook_listeners.webhook.created';
+	case WebhookUpdated = 'webhook_listeners.webhook.updated';
+	case WebhookDeleted = 'webhook_listeners.webhook.deleted';
+	case WebhooksDeletedByApp = 'webhook_listeners.webhook.deleted_by_app';
 }
