@@ -54,7 +54,7 @@ import type { IColumn, INode, IView } from '@nextcloud/files'
 import { formatFileSize } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useFileListLayout } from '../composables/useFileListLayout.ts'
 import { useActiveStore } from '../store/active.ts'
 
 const props = defineProps<{
@@ -78,17 +78,11 @@ const props = defineProps<{
 }>()
 
 const activeStore = useActiveStore()
-const { isNarrow } = useFileListWidth()
+const layout = useFileListLayout()
 
 const currentFolder = computed(() => activeStore.activeFolder)
 
-const columns = computed(() => {
-	// Hide columns if the list is too small
-	if (isNarrow.value) {
-		return []
-	}
-	return props.currentView?.columns || []
-})
+const columns = computed(() => layout.value.columns)
 
 const totalSize = computed(() => {
 	// If we have the size already, let's use it
