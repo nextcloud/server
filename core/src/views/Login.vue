@@ -84,7 +84,7 @@
 		</template>
 		<template v-else>
 			<transition name="fade" mode="out-in">
-				<NcNoteCard type="info" :title="t('core', 'Login form is disabled.')">
+				<NcNoteCard type="info" :heading="t('core', 'Login form is disabled.')">
 					{{ t('core', 'The Nextcloud login form is disabled. Use another login option if available or contact your administration.') }}
 				</NcNoteCard>
 			</transition>

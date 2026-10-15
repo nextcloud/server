@@ -131,8 +131,7 @@
 									:user="filter.user"
 									:size="24"
 									disableMenu
-									hideStatus
-									:hideFavorite="false" />
+									hideStatus />
 								<IconCalendarBlankOutline v-else-if="filter.type === 'date'" />
 								<img v-else :src="filter.icon" alt="">
 							</template>
