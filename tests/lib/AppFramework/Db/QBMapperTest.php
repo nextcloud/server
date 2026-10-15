@@ -230,7 +230,7 @@ class QBMapperTest extends \Test\TestCase {
 				'string_prop' => 'string',
 				'integer_prop' => 456,
 				'boolean_prop' => false,
-			])
+			], [])
 			->willReturn(1);
 
 		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
@@ -243,7 +243,7 @@ class QBMapperTest extends \Test\TestCase {
 
 		$this->db->expects($this->once())
 			->method('insertIgnoreConflict')
-			->with('table', ['id' => 123, 'string_prop' => 'string'])
+			->with('table', ['id' => 123, 'string_prop' => 'string'], [])
 			->willReturn(0);
 
 		$this->assertSame(0, $this->mapper->insertIgnoreConflict($entity));
@@ -257,7 +257,7 @@ class QBMapperTest extends \Test\TestCase {
 
 		$this->db->expects($this->once())
 			->method('insertIgnoreConflict')
-			->with('table', ['string_prop' => 'string'])
+			->with('table', ['string_prop' => 'string'], [])
 			->willReturn(1);
 
 		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
@@ -274,11 +274,27 @@ class QBMapperTest extends \Test\TestCase {
 
 		$this->db->expects($this->once())
 			->method('insertIgnoreConflict')
-			->with('table', ['id' => '123'])
+			->with('table', ['id' => '123'], [])
 			->willReturn(1);
 
 		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
 		$this->assertSame('123', $entity->getId());
+	}
+
+	public function testInsertIgnoreConflictWithShardKeyHint(): void {
+		$entity = new QBTestEntity();
+		$entity->setIntProp(123);
+		$entity->setStringProp('string');
+
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', [
+				'int_prop' => 123,
+				'string_prop' => 'string',
+			], ['column' => 'storage', 'value' => 42])
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity, ['column' => 'storage', 'value' => 42]));
 	}
 
 	public function testGetParameterTypeForProperty(): void {

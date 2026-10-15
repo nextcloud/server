@@ -159,11 +159,12 @@ abstract class QBMapper {
 	 *
 	 * @param Entity $entity the entity that should be created
 	 * @psalm-param T $entity the entity that should be created
+	 * @param array{column: string, value: mixed, overwrite?: bool}|array{} $hintShardKey An array representing the shard key to hint
 	 * @return int number of inserted rows (0 if a conflicting row already exists)
 	 * @throws Exception
 	 * @since 36.0.0
 	 */
-	public function insertIgnoreConflict(Entity $entity): int {
+	public function insertIgnoreConflict(Entity $entity, array $hintShardKey = []): int {
 		if ($entity instanceof SnowflakeAwareEntity) {
 			/** @psalm-suppress DocblockTypeContradiction */
 			$entity->generateId();
@@ -186,7 +187,7 @@ abstract class QBMapper {
 			$values[$column] = $entity->$getter();
 		}
 
-		return $this->db->insertIgnoreConflict($this->tableName, $values);
+		return $this->db->insertIgnoreConflict($this->tableName, $values, $hintShardKey);
 	}
 
 	/**
