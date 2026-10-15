@@ -8,6 +8,7 @@
 	frankenphp {
 		max_threads auto
 		max_requests 100
+		php_ini memory_limit 512M
 
 		worker {
 			num 2
@@ -19,7 +20,7 @@
 			watch core/**/*.php
 			watch 3rdparty/**/*.php
 			watch *.php
-			
+
 			match /index.php/*
 			max_consecutive_failures -1
 		}
@@ -55,7 +56,6 @@
 
 {$SERVER_NAME:localhost} {
 	php_server {
-		
 	}
 
 	log {
