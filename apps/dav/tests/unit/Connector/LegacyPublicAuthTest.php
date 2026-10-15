@@ -178,7 +178,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -203,7 +203,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -228,7 +228,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 

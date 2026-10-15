@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Περιορισμός της χρήσης της εφαρμογής {app} στα μέλη των ακόλουθων ομάδων.",
     "Reset limitation" : "Επαναφορά περιορισμού",
     "Save" : "Αποθήκευση",
-    "Failed to update app {appName}" : "Αποτυχία ενημέρωσης της εφαρμογής {appName}",
     "Update all apps" : "Ενημέρωση όλων των εφαρμογών",
     "Are you sure you want to update all apps?" : "Είστε βέβαιοι ότι θέλετε να ενημερώσετε όλες τις εφαρμογές;",
     "Update done" : "Η ενημέρωση ολοκληρώθηκε",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Δεν ήταν δυνατή η φόρτωση των κατηγοριών εφαρμογών. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
     "Could not load apps list. Please try again later." : "Δεν ήταν δυνατή η φόρτωση της λίστας εφαρμογών. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
     "Could not update the app. Please try again later." : "Δεν ήταν δυνατή η ενημέρωση της εφαρμογής. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
-    "An error occurred during the request. Unable to proceed." : "Προέκυψε σφάλμα κατά την αίτηση. Δεν είναι δυνατή η συνέχεια."
+    "An error occurred during the request. Unable to proceed." : "Προέκυψε σφάλμα κατά την αίτηση. Δεν είναι δυνατή η συνέχεια.",
+    "Failed to update app {appName}" : "Αποτυχία ενημέρωσης της εφαρμογής {appName}"
 },
 "nplurals=2; plural=(n != 1);");

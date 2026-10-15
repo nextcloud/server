@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Obmedziť používanie aplikácie {app} na členov nasledujúcich skupín.",
     "Reset limitation" : "Zrušiť obmedzenie",
     "Save" : "Uložiť",
-    "Failed to update app {appName}" : "Nepodarilo sa aktualizovať aplikáciu {appName}",
     "Update all apps" : "Aktualizovať všetky aplikácie",
     "Are you sure you want to update all apps?" : "Naozaj chcete aktualizovať všetky aplikácie?",
     "Update done" : "Aktualizácia dokončená",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Nepodarilo sa načítať kategórie aplikácií. Skúste to znova neskôr.",
     "Could not load apps list. Please try again later." : "Nepodarilo sa načítať zoznam aplikácií. Skúste to znova neskôr.",
     "Could not update the app. Please try again later." : "Nepodarilo sa aktualizovať aplikáciu. Skúste to znova neskôr.",
-    "An error occurred during the request. Unable to proceed." : "Počas vybavovania požiadavky nastala chyba.  Nie je možné pokračovať."
+    "An error occurred during the request. Unable to proceed." : "Počas vybavovania požiadavky nastala chyba.  Nie je možné pokračovať.",
+    "Failed to update app {appName}" : "Nepodarilo sa aktualizovať aplikáciu {appName}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

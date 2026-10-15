@@ -55,7 +55,7 @@ jobs:
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: |
-            'fix(security): Update code signing revocation list'
+            fix(security): Update code signing revocation list
 
             [skip ci]
           committer: GitHub <noreply@github.com>

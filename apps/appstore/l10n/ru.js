@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Ограничить использование {app} участниками следующих групп.",
     "Reset limitation" : "Сбросить ограничение",
     "Save" : "Сохранить",
-    "Failed to update app {appName}" : "Не удалось обновить приложение {appName}",
     "Update all apps" : "Обновить все приложения",
     "Are you sure you want to update all apps?" : "Вы уверены, что хотите обновить все приложения?",
     "Update done" : "Обновление выполнено",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Не удалось загрузить категории приложений. Повторите попытку позже.",
     "Could not load apps list. Please try again later." : "Не удалось загрузить список приложений. Повторите попытку позже.",
     "Could not update the app. Please try again later." : "Не удалось обновить приложение. Повторите попытку позже.",
-    "An error occurred during the request. Unable to proceed." : "Во время запроса произошла ошибка. Продолжение невозможно."
+    "An error occurred during the request. Unable to proceed." : "Во время запроса произошла ошибка. Продолжение невозможно.",
+    "Failed to update app {appName}" : "Не удалось обновить приложение {appName}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

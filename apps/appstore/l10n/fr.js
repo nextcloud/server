@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Restreindre l'utilisation de {app} aux membres des groupes suivants.",
     "Reset limitation" : "Réinitialiser la limite",
     "Save" : "Enregistrer",
-    "Failed to update app {appName}" : "Échec de la mise à jour de l'application {appName}",
     "Update all apps" : "Mettre à jour toutes les applications",
     "Are you sure you want to update all apps?" : "Êtes-vous sûr de vouloir mettre à jour toutes les applications ?",
     "Update done" : "Mise à jour terminée",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Impossible de charger les catégories d'applications. Veuillez réessayer plus tard.",
     "Could not load apps list. Please try again later." : "Impossible de charger la liste des applications. Veuillez réessayer plus tard.",
     "Could not update the app. Please try again later." : "Impossible de mettre à jour l'application. Veuillez réessayer plus tard.",
-    "An error occurred during the request. Unable to proceed." : "Une erreur est survenue pendant la demande. Impossible de poursuivre."
+    "An error occurred during the request. Unable to proceed." : "Une erreur est survenue pendant la demande. Impossible de poursuivre.",
+    "Failed to update app {appName}" : "Échec de la mise à jour de l'application {appName}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

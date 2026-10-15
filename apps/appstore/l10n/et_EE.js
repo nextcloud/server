@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Piira „{app}“ rakenduse kasutamist järgmiste gruppidega.",
     "Reset limitation" : "Lähtesta piirang",
     "Save" : "Salvesta",
-    "Failed to update app {appName}" : "„{appName}“ rakenduse uuendamine ei õnnestunud",
     "Update all apps" : "Uuenda kõik rakendused",
     "Are you sure you want to update all apps?" : "Kas oled kindel, et soovid kõik rakendused uuendada?",
     "Update done" : "Uuendus on tehtud",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Rakenduste kategooriate laadimine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Could not load apps list. Please try again later." : "Rakenduste loendi laadimine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Could not update the app. Please try again later." : "Rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
-    "An error occurred during the request. Unable to proceed." : "Päringu ajal tekkis viga. Jätkamine pole võimalik."
+    "An error occurred during the request. Unable to proceed." : "Päringu ajal tekkis viga. Jätkamine pole võimalik.",
+    "Failed to update app {appName}" : "„{appName}“ rakenduse uuendamine ei õnnestunud"
 },
 "nplurals=2; plural=(n != 1);");
