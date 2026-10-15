@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "استفاده از {app} را به اعضای گروه‌های زیر محدود کنید.",
     "Reset limitation" : "بازنشانی محدودیت",
     "Save" : "ذخیره",
-    "Failed to update app {appName}" : "به‌روزرسانی کاره {appName} ناموفق بود",
     "Update all apps" : "به‌روزرسانی همهٔ کاره‌ها",
     "Are you sure you want to update all apps?" : "آیا مطمئن هستید که می‌خواهید همهٔ کاره‌ها را به‌روزرسانی کنید؟",
     "Update done" : "به‌روزرسانی انجام شد",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "بارگذاری دسته‌بندی‌های برنامه ممکن نیست. لطفاً بعداً دوباره تلاش کنید.",
     "Could not load apps list. Please try again later." : "بارگذاری لیست برنامه‌ها ممکن نیست. لطفاً بعداً دوباره تلاش کنید.",
     "Could not update the app. Please try again later." : "امکان به‌روزرسانی برنامه وجود نداشت. لطفاً بعداً دوباره تلاش کنید.",
-    "An error occurred during the request. Unable to proceed." : "در طول درخواست خطایی رخ داد. امکان ادامه وجود ندارد."
+    "An error occurred during the request. Unable to proceed." : "در طول درخواست خطایی رخ داد. امکان ادامه وجود ندارد.",
+    "Failed to update app {appName}" : "به‌روزرسانی کاره {appName} ناموفق بود"
 },
 "nplurals=2; plural=(n > 1);");

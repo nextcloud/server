@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "Begræns brugen af {app} til medlemmer af følgende grupper.",
     "Reset limitation" : "Nulstil begrænsning",
     "Save" : "Gem",
-    "Failed to update app {appName}" : "Appen {appName} kunne ikke opdateres",
     "Update all apps" : "Opdater alle apps",
     "Are you sure you want to update all apps?" : "Er du sikker på, at du vil opdatere alle apps?",
     "Update done" : "Opdateret",
@@ -156,6 +155,7 @@
     "Could not load app categories. Please try again later." : "Appkategorierne kunne ikke indlæses. Prøv igen senere.",
     "Could not load apps list. Please try again later." : "Listen over apps kunne ikke indlæses. Prøv igen senere.",
     "Could not update the app. Please try again later." : "Appen kunne ikke opdateres. Prøv igen senere.",
-    "An error occurred during the request. Unable to proceed." : "Der opstod en fejl under anmodningen. Kan ikke fortsætte."
+    "An error occurred during the request. Unable to proceed." : "Der opstod en fejl under anmodningen. Kan ikke fortsætte.",
+    "Failed to update app {appName}" : "Appen {appName} kunne ikke opdateres"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

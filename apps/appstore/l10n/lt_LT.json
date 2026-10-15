@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "Apriboti {app} naudojimąsi toliau nurodytų grupių nariams.",
     "Reset limitation" : "Iš naujo nustatyti apribojimą",
     "Save" : "Išsaugoti",
-    "Failed to update app {appName}" : "Nepavyko atnaujinti programėlės {appName}",
     "Update all apps" : "Atnaujinti visas programėles",
     "Are you sure you want to update all apps?" : "Ar tikrai norite atnaujinti visas programėles?",
     "Update done" : "Atnaujinimas atliktas",
@@ -156,6 +155,7 @@
     "Could not load app categories. Please try again later." : "Nepavyko įkelti programėlių kategorijų. Bandykite dar kartą vėliau.",
     "Could not load apps list. Please try again later." : "Nepavyko įkelti programėlių sąrašo. Bandykite dar kartą vėliau.",
     "Could not update the app. Please try again later." : "Nepavyko atnaujinti programėlės. Bandykite dar kartą vėliau.",
-    "An error occurred during the request. Unable to proceed." : "Užklausos metu įvyko klaida. Nepavyksta tęsti."
+    "An error occurred during the request. Unable to proceed." : "Užklausos metu įvyko klaida. Nepavyksta tęsti.",
+    "Failed to update app {appName}" : "Nepavyko atnaujinti programėlės {appName}"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

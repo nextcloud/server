@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Srian a chur le húsáid {app} do bhaill de na grúpaí seo a leanas.",
     "Reset limitation" : "Athshocraigh an teorainn",
     "Save" : "Sábháil",
-    "Failed to update app {appName}" : "Theip ar an aip {appName} a nuashonrú",
     "Update all apps" : "Nuashonraigh gach aip",
     "Are you sure you want to update all apps?" : "An bhfuil tú cinnte gur mhaith leat na haipeanna go léir a nuashonrú?",
     "Update done" : "Nuashonrú déanta",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Níorbh fhéidir catagóirí aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not load apps list. Please try again later." : "Níorbh fhéidir liosta na n-aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not update the app. Please try again later." : "Níorbh fhéidir an aip a nuashonrú. Déan iarracht arís ar ball.",
-    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh."
+    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh.",
+    "Failed to update app {appName}" : "Theip ar an aip {appName} a nuashonrú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
