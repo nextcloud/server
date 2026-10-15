@@ -318,6 +318,48 @@ trait WebDav {
 	}
 
 	/**
+	 * @When Downloading public zip file for entries :entries using POST
+	 */
+	public function downloadingPublicZipFileUsingPost(string $entries): void {
+		$this->sendPublicZipDownloadPost($entries, []);
+	}
+
+	/**
+	 * @When Downloading public zip file for entries :entries using POST with requesttoken
+	 */
+	public function downloadingPublicZipFileUsingPostWithRequestToken(string $entries): void {
+		$token = $this->lastShareData->data->token;
+		$client = new GClient();
+		$response = $client->get(substr($this->baseUrl, 0, -4) . "index.php/s/$token", [
+			'cookies' => $this->cookieJar,
+		]);
+		$this->extracRequestTokenFromResponse($response);
+
+		$this->sendPublicZipDownloadPost($entries, [
+			'requesttoken' => $this->requestToken,
+		]);
+	}
+
+	private function sendPublicZipDownloadPost(string $entries, array $formParams): void {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('POST', $fullUrl, [
+				'cookies' => $this->cookieJar,
+				'form_params' => [
+					'accept' => 'zip',
+					'files' => '[' . $entries . ']',
+					...$formParams,
+				],
+			]);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Then Downloaded content should start with :start
 	 * @param int $start
 	 * @throws \Exception
