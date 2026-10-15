@@ -54,6 +54,12 @@ class InstallerTest extends TestCase {
 		$installer->removeApp(self::$appid);
 	}
 
+	private static function getAppVersionByPath(string $path): string {
+		$infoFile = $path . '/appinfo/info.xml';
+		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
+		return $appData['version'] ?? '';
+	}
+
 	protected function getInstaller() {
 		return new Installer(
 			$this->appFetcher,
@@ -585,7 +591,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$installer->downloadApp('testapp');
 
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.9', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 
 	public function testDownloadAppWithDowngrade(): void {
@@ -674,7 +680,7 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->method('newClient')
 			->willReturn($client);
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.9', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 
 		$this->appManager
 			->expects($this->once())
@@ -684,6 +690,6 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.8', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.8', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 }
