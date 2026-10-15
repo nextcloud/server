@@ -6,9 +6,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
+use OC\Lockdown\LockdownManager;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Connector\Sabre\TokenScopePlugin;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
@@ -76,6 +78,8 @@ $server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin
 	// use the view for the logged in user
 	return Filesystem::getView();
 });
+// The legacy tree is the user's files root
+$server->addPlugin(new TokenScopePlugin(Server::get(LockdownManager::class), 'files/'));
 
 // allow setup of additional plugins
 $event = new SabrePluginEvent($server);
