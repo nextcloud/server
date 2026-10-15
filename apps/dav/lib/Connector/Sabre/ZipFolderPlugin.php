@@ -65,8 +65,10 @@ class ZipFolderPlugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', $this->handleDownload(...), 100);
+		$this->server->on('method:POST', $this->handleDownload(...), 100);
 		// low priority to give any other afterMethod:* a chance to fire before we cancel everything
 		$this->server->on('afterMethod:GET', $this->afterDownload(...), 999);
+		$this->server->on('afterMethod:POST', $this->afterDownload(...), 999);
 	}
 
 	/**
@@ -97,8 +99,9 @@ class ZipFolderPlugin extends ServerPlugin {
 	/**
 	 * Download a folder as an archive.
 	 * It is possible to filter / limit the files that should be downloaded,
-	 * either by passing (multiple) `X-NC-Files: the-file` headers
-	 * or by setting a `files=JSON_ARRAY_OF_FILES` URL query.
+	 * either by passing (multiple) `X-NC-Files: the-file` headers,
+	 * by setting a `files=JSON_ARRAY_OF_FILES` URL query,
+	 * or by sending a POST request with `files` in the request body.
 	 */
 	public function handleDownload(Request $request, Response $response): ?false {
 		if ($request->getHeader('X-Sabre-Original-Method') === 'HEAD') {
@@ -111,10 +114,16 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$query = $request->getQueryParameters();
+		// POST requests pass the parameters in the request body,
+		// as other plugins do not support query parameters on POST requests
+		$params = $request->getMethod() === 'POST' ? $request->getPostData() : $query;
 
-		// Get accept header - or if set overwrite with accept GET-param
+		// Get accept header - or if set overwrite with accept parameter
 		$accept = $request->getHeaderAsArray('Accept');
-		$acceptParam = $query['accept'] ?? '';
+		$acceptParam = $params['accept'] ?? '';
+		if (!is_string($acceptParam)) {
+			return null;
+		}
 		if ($acceptParam !== '') {
 			$accept = array_map(fn (string $name) => strtolower(trim($name)), explode(',', $acceptParam));
 		}
@@ -126,8 +135,13 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$files = $request->getHeaderAsArray('X-NC-Files');
-		$filesParam = $query['files'] ?? '';
-		// The preferred way would be headers, but this is not possible for simple browser requests ("links")
+		$filesParam = $params['files'] ?? '';
+		if (!is_string($filesParam)) {
+			$this->logger->notice('Invalid files filter parameter for ZipFolderPlugin', ['filter' => $filesParam]);
+			return null;
+		}
+
+		// The preferred way would be POST or headers, but this is not possible for simple browser requests ("links")
 		// so we also need to support GET parameters
 		if ($filesParam !== '') {
 			$files = json_decode($filesParam);

@@ -91,13 +91,14 @@ $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $request, $authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
-		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
+		// If this is *not* a GET request we only allow access to public DAV from AJAX,
+		// from a form with a valid request token (e.g. Zip downloads via POST) or when Server2Server is allowed
 		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''), true);
 		$federatedShareProvider = Server::get(FederatedShareProvider::class);
-		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && $isAjax === false) {
+		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && $isAjax === false && !$request->passesCSRFCheck()) {
 			// this is what is thrown when trying to access a non-existing share
 			throw new NotAuthenticated();
 		}
