@@ -782,6 +782,8 @@ class OC {
 		if (!isset(self::$server)) {
 			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		} else {
+			set_exception_handler(null);
+			set_error_handler(null);
 			self::$server->reset();
 		}
 		self::$server->boot();
@@ -829,7 +831,7 @@ class OC {
 			} else {
 				set_error_handler([$errorHandler, 'onError']);
 			}
-			register_shutdown_function([$errorHandler, 'onShutdown']);
+			self::$server->registerShutdownFunction($errorHandler->onShutdown(...));
 			set_exception_handler($exceptionHandler);
 		}
 
@@ -928,11 +930,8 @@ class OC {
 			$appManager->loadApp('settings');
 		}
 
-		//make sure temporary files are cleaned up
-		$tmpManager = Server::get(\OCP\ITempManager::class);
-		register_shutdown_function([$tmpManager, 'clean']);
 		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
-		register_shutdown_function([$lockProvider, 'releaseAll']);
+		self::$server->registerShutdownFunction($lockProvider->releaseAll(...));
 
 		$host = $request->getInsecureServerHost();
 		/**
@@ -978,11 +977,11 @@ class OC {
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
 		$eventLogger->start('runtime', 'Runtime');
 		$eventLogger->start('request', 'Full request after boot');
-		register_shutdown_function(function () use ($eventLogger) {
+		self::$server->registerShutdownFunction(static function () use ($eventLogger) {
 			$eventLogger->end('request');
 		});
 
-		register_shutdown_function(function () use ($config) {
+		self::$server->registerShutdownFunction(static function () use ($config) {
 			$memoryPeak = memory_get_peak_usage();
 			$debugModeEnabled = $config->getSystemValueBool('debug', false);
 			$memoryLimit = null;

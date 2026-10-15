@@ -306,18 +306,23 @@ use Psr\Log\LoggerInterface;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer {
+	private array $shutdownFunctions = [];
+
 	public function __construct(
 		private string $webRoot,
 		private Config $config,
 	) {
 		parent::__construct();
 		$this->runInitialRegistrations();
+
+		register_shutdown_function($this->shutdown(...));
 	}
 
 	/**
 	 * Empty container and re-run initial registration
 	 */
 	public function reset(): void {
+		$this->shutdown();
 		parent::__construct();
 		$this->runInitialRegistrations();
 	}
@@ -1155,5 +1160,16 @@ class Server extends ServerContainer {
 
 	public function getWebRoot(): string {
 		return $this->webRoot;
+	}
+
+	public function registerShutdownFunction(callable $function): void {
+		$this->shutdownFunctions[] = $function;
+	}
+
+	public function shutdown(): void {
+		foreach ($this->shutdownFunctions as $shutdownFunction) {
+			$shutdownFunction();
+		}
+		$this->shutdownFunctions = [];
 	}
 }
