@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Profile\Controller;
 
+use OCA\Settings\ConfigLexicon;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -17,11 +18,14 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Profile\BeforeTemplateRenderedEvent;
@@ -43,6 +47,8 @@ class ProfilePageController extends Controller {
 		private IUserStatusManager $userStatusManager,
 		private INavigationManager $navigationManager,
 		private IEventDispatcher $eventDispatcher,
+		private IAppConfig $appConfig,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -53,13 +59,27 @@ class ProfilePageController extends Controller {
 	#[BruteForceProtection(action: 'user')]
 	#[UserRateLimit(limit: 30, period: 120)]
 	#[AnonRateLimit(limit: 30, period: 120)]
-	public function index(string $targetUserId): TemplateResponse {
+	public function index(string $targetUserId): TemplateResponse|RedirectResponse {
 		$profileNotFoundTemplate = new TemplateResponse(
 			'profile',
 			'404-profile',
 			[],
 			TemplateResponse::RENDER_AS_GUEST,
 		);
+
+		if (
+			$this->appConfig->getValueBool('settings', ConfigLexicon::PROFILE_PRIVATE)
+			&& !$this->userSession->isLoggedIn()
+		) {
+			return new RedirectResponse(
+				$this->urlGenerator->linkToRoute('core.login.showLoginForm', [
+					'redirect_url' => $this->urlGenerator->linkToRoute(
+						'profile.ProfilePage.index',
+						['targetUserId' => $targetUserId]
+					),
+				])
+			);
+		}
 
 		$targetUser = $this->userManager->get($targetUserId);
 		if ($targetUser === null) {
