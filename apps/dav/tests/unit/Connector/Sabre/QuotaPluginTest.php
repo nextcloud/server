@@ -63,6 +63,101 @@ class QuotaPluginTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
+	public function testBeforeMoveSameStorageSkipsQuota(): void {
+		$sourceStorage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$sourceStorage->method('getId')->willReturn('storage1');
+
+		$sourceFileInfo = $this->createMock(FileInfo::class);
+		$sourceFileInfo->method('getStorage')->willReturn($sourceStorage);
+
+		$sourceNode = $this->createMock(\OCA\DAV\Connector\Sabre\File::class);
+		$sourceNode->method('getFileInfo')->willReturn($sourceFileInfo);
+		$sourceNode->method('getSize')->willReturn(1024 * 1024 * 1024);
+
+		$destStorage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$destStorage->method('getId')->willReturn('storage1');
+
+		$destFileInfo = $this->createMock(FileInfo::class);
+		$destFileInfo->method('getStorage')->willReturn($destStorage);
+
+		$parentNode = $this->createMock(\OCA\DAV\Connector\Sabre\Directory::class);
+		$parentNode->method('getPath')->willReturn('dest_folder');
+
+		$tree = $this->createMock(\Sabre\DAV\Tree::class);
+		$tree->method('getNodeForPath')
+			->willReturnMap([
+				['source_file', $sourceNode],
+				['dest_folder', $parentNode],
+			]);
+		$tree->method('nodeExists')
+			->with('dest_folder/target_file')
+			->willReturn(false);
+
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['free_space', 'getFileInfo'])
+			->disableOriginalConstructor()
+			->getMock();
+		$view->method('free_space')->willReturn(100);
+		$view->method('getFileInfo')->with('dest_folder')->willReturn($destFileInfo);
+
+		$server = new \Sabre\DAV\Server();
+		$server->tree = $tree;
+
+		$plugin = new QuotaPlugin($view);
+		$plugin->initialize($server);
+
+		$result = $plugin->beforeMove('source_file', 'dest_folder/target_file');
+		$this->assertTrue($result);
+	}
+
+	public function testBeforeMoveDifferentStorageExceedsQuota(): void {
+		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
+
+		$sourceStorage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$sourceStorage->method('getId')->willReturn('storage1');
+
+		$sourceFileInfo = $this->createMock(FileInfo::class);
+		$sourceFileInfo->method('getStorage')->willReturn($sourceStorage);
+
+		$sourceNode = $this->createMock(\OCA\DAV\Connector\Sabre\File::class);
+		$sourceNode->method('getFileInfo')->willReturn($sourceFileInfo);
+		$sourceNode->method('getSize')->willReturn(1024 * 1024 * 1024);
+
+		$destStorage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$destStorage->method('getId')->willReturn('storage2');
+
+		$destFileInfo = $this->createMock(FileInfo::class);
+		$destFileInfo->method('getStorage')->willReturn($destStorage);
+
+		$parentNode = $this->createMock(\OCA\DAV\Connector\Sabre\Directory::class);
+		$parentNode->method('getPath')->willReturn('dest_folder');
+
+		$tree = $this->createMock(\Sabre\DAV\Tree::class);
+		$tree->method('getNodeForPath')
+			->willReturnMap([
+				['source_file', $sourceNode],
+				['dest_folder', $parentNode],
+			]);
+		$tree->method('nodeExists')
+			->with('dest_folder/target_file')
+			->willReturn(false);
+
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['free_space', 'getFileInfo'])
+			->disableOriginalConstructor()
+			->getMock();
+		$view->method('free_space')->willReturn(100);
+		$view->method('getFileInfo')->with('dest_folder')->willReturn($destFileInfo);
+
+		$server = new \Sabre\DAV\Server();
+		$server->tree = $tree;
+
+		$plugin = new QuotaPlugin($view);
+		$plugin->initialize($server);
+
+		$plugin->beforeMove('source_file', 'dest_folder/target_file');
+	}
+
 	public static function quotaOkayProvider(): array {
 		return [
 			[1024, []],
