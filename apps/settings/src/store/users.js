@@ -33,7 +33,7 @@ const defaults = {
 const state = {
 	users: [],
 	groups: [
-		...(usersSettings.getSubAdminGroups ?? []),
+		...(usersSettings.subAdminGroups ?? []),
 		...(usersSettings.systemGroups ?? []),
 	],
 	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
@@ -264,7 +264,7 @@ const mutations = {
 	 */
 	resetGroups(state) {
 		state.groups = [
-			...(usersSettings.getSubAdminGroups ?? []),
+			...(usersSettings.subAdminGroups ?? []),
 			...(usersSettings.systemGroups ?? []),
 		]
 	},
