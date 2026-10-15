@@ -71,7 +71,7 @@ jobs:
           - 'guests_features'
 
         php-versions: ['8.3', '8.5']
-        guests-versions: ['main']
+        guests-versions: ['stable-4.10']
         spreed-versions: ['stable35']
         activity-versions: ['stable35']
 
