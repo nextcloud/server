@@ -308,10 +308,21 @@ use Psr\Log\LoggerInterface;
 class Server extends ServerContainer {
 	public function __construct(
 		private string $webRoot,
-		Config $config,
+		private Config $config,
 	) {
 		parent::__construct();
+		$this->runInitialRegistrations();
+	}
 
+	/**
+	 * Empty container and re-run initial registration
+	 */
+	public function reset(): void {
+		parent::__construct();
+		$this->runInitialRegistrations();
+	}
+
+	public function runInitialRegistrations(): void {
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
 		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
@@ -472,7 +483,7 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(IConfig::class, AllConfig::class);
 
-		$this->registerService(SystemConfig::class, static fn ($c) => new SystemConfig($config));
+		$this->registerService(SystemConfig::class, fn ($c) => new SystemConfig($this->config));
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, UserConfig::class);
