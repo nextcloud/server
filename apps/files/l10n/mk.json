@@ -414,7 +414,7 @@
     "Error during upload: {message}" : "Грешка при прикачување: {message}",
     "Error during upload, status code {status}" : "Грешка при прикачување, статус код {status}",
     "Unknown error during upload" : "Непозната грешка при прикачување",
-    "You" : "Вас",
+    "You" : "Ти",
     "Shared multiple times with different people" : "Споделено повеќе пати со различни луѓе",
     "Unable to change the favorite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",

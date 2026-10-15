@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Batasi penggunaan {app} hanya untuk anggota dari grup berikut.",
     "Reset limitation" : "Atur ulang pembatasan",
     "Save" : "Simpan",
-    "Failed to update app {appName}" : "Gagal memperbarui aplikasi {appName}",
     "Update all apps" : "Perbarui semua aplikasi",
     "Are you sure you want to update all apps?" : "Apakah Anda yakin ingin memperbarui semua aplikasi?",
     "Update done" : "Pembaruan selesai",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Kategori aplikasi tidak dapat dimuat. Silakan coba lagi nanti.",
     "Could not load apps list. Please try again later." : "Daftar aplikasi tidak dapat dimuat. Silakan coba lagi nanti.",
     "Could not update the app. Please try again later." : "Aplikasi tidak dapat diperbarui. Silakan coba lagi nanti.",
-    "An error occurred during the request. Unable to proceed." : "Terjadi kesalahan selama permintaan. Tidak dapat melanjutkan."
+    "An error occurred during the request. Unable to proceed." : "Terjadi kesalahan selama permintaan. Tidak dapat melanjutkan.",
+    "Failed to update app {appName}" : "Gagal memperbarui aplikasi {appName}"
 },
 "nplurals=1; plural=0;");

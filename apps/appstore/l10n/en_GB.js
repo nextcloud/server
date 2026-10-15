@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Restrict the usage of {app} to members of the following groups.",
     "Reset limitation" : "Reset limitation",
     "Save" : "Save",
-    "Failed to update app {appName}" : "Failed to update app {appName}",
     "Update all apps" : "Update all apps",
     "Are you sure you want to update all apps?" : "Are you sure you want to update all apps?",
     "Update done" : "Update done",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Could not load app categories. Please try again later.",
     "Could not load apps list. Please try again later." : "Could not load apps list. Please try again later.",
     "Could not update the app. Please try again later." : "Could not update the app. Please try again later.",
-    "An error occurred during the request. Unable to proceed." : "An error occurred during the request. Unable to proceed."
+    "An error occurred during the request. Unable to proceed." : "An error occurred during the request. Unable to proceed.",
+    "Failed to update app {appName}" : "Failed to update app {appName}"
 },
 "nplurals=2; plural=(n != 1);");

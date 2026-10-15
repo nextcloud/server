@@ -74,6 +74,7 @@ OC.L10N.register(
     "Name" : "Nom",
     "Owner" : "Propriétaire",
     "Path" : "Chemin",
+    "Shared externally" : "Partagé à l'extérieur",
     "File type" : "Type de fichier",
     "Size" : "Taille",
     "Modified" : "Modifié",
