@@ -21,6 +21,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Connector\Sabre\TokenScopePlugin;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -92,6 +93,7 @@ $server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), Server::get(IL10nFactory::class)->get('dav')));
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+$server->addPlugin(Server::get(TokenScopePlugin::class));
 $server->addPlugin(new Plugin());
 
 $server->addPlugin(new LegacyDAVACL());
