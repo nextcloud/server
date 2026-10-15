@@ -9,6 +9,15 @@ declare(strict_types=1);
  */
 $CONFIG = [
 	'appstoreenabled' => false,
+	// Argon2 at its minimum cost. The suite creates users constantly and the
+	// default parameters make every password hash take ~100ms.
+	'hashingMemoryCost' => 8,
+	'hashingTimeCost' => 1,
+	'hashingThreads' => 1,
+	// Only used when argon2 is unavailable and bcrypt is the fallback.
+	'hashingCost' => 4,
+	// Smaller keys are faster to generate and the tests do not need 4096 bit.
+	'openssl' => ['private_key_bits' => 2048],
 	'apps_paths' => [
 		[
 			'path' => OC::$SERVERROOT . '/apps',
