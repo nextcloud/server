@@ -121,9 +121,15 @@ class FtpConnection {
 
 	// rawlist parsing logic is based on the ftp implementation from https://github.com/thephpleague/flysystem
 	private function parseRawList(array $rawList, string $directory): array {
+		$filtered = array_values(array_filter($rawList, static function (string $item): bool {
+			$item = trim($item);
+			// BSD ftpd (and some Unix servers) prepend listings with a "total N" header
+			return $item !== '' && !preg_match('/^total\b/i', $item);
+		}));
+
 		return array_map(function ($item) use ($directory) {
 			return $this->parseRawListItem($item, $directory);
-		}, $rawList);
+		}, $filtered);
 	}
 
 	private function parseRawListItem(string $item, string $directory): array {
