@@ -117,6 +117,7 @@ import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import { useFileActions } from '../composables/useFileActions.ts'
+import { useFileListLayout } from '../composables/useFileListLayout.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -162,6 +163,7 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 		const {
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
@@ -182,6 +184,7 @@ export default defineComponent({
 			activeView,
 			currentRouteFileId,
 			isNarrow,
+			layout,
 
 			activeStore,
 			actionsMenuStore,
@@ -215,11 +218,10 @@ export default defineComponent({
 		},
 
 		columns() {
-			// Hide columns if the list is too small
-			if (this.isNarrow || this.compact) {
+			if (this.compact) {
 				return []
 			}
-			return this.activeView?.columns || []
+			return this.layout.columns
 		},
 
 		mime() {
