@@ -53,6 +53,7 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\Connector\Sabre\TokenScopePlugin;
 use OCA\DAV\Connector\Sabre\UserIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -179,6 +180,7 @@ class Server {
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
 		$authPlugin->addBackend($authBackend);
+		$this->server->addPlugin(\OCP\Server::get(TokenScopePlugin::class));
 
 		// debugging
 		if ($debugEnabled) {
