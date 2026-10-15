@@ -21,4 +21,8 @@
 	<dependencies>
 		<nextcloud min-version="33" max-version="33"/>
 	</dependencies>
+
+	<commands>
+		<command>OCA\Testing\Command\SetUnencryptedSize</command>
+	</commands>
 </info>
