@@ -4,8 +4,23 @@
  */
 
 export interface IRichObjectParameter {
-	[index: string]: string
+	/**
+	 * ID of the rich object
+	 */
+	id: string | number
+	/**
+	 * Name of the rich object
+	 */
+	name: string
+	/**
+	 * Type of the rich object
+	 */
 	type: string
+
+	/**
+	 * Additional rich object properties
+	 */
+	[key: string]: unknown
 }
 
 export type IRichObjectParameters = Record<string, IRichObjectParameter>
