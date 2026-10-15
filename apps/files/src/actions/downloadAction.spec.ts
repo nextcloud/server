@@ -143,6 +143,19 @@ describe('Download action execute tests', () => {
 		vi.spyOn(document, 'createElement').mockImplementation(() => link)
 	})
 
+	/**
+	 * Use real DOM elements and capture the submitted download form and its target iframe
+	 */
+	function mockFormSubmit() {
+		vi.mocked(document.createElement).mockRestore()
+		const submit = vi.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {})
+		const form = () => submit.mock.contexts[0] as HTMLFormElement | undefined
+		return {
+			form,
+			iframe: () => document.querySelector<HTMLIFrameElement>(`iframe[name="${form()?.target}"]`),
+		}
+	}
+
 	test('Download single file', async () => {
 		const file = new File({
 			id: 1,
@@ -257,22 +270,7 @@ describe('Download action execute tests', () => {
 			root: '/files/admin',
 		})
 
-		const form = {
-			style: {},
-			appendChild: vi.fn(),
-			submit: vi.fn(),
-			remove: vi.fn(),
-		} as unknown as HTMLFormElement
-		const inputs: HTMLInputElement[] = []
-		vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
-			if (tagName === 'form') {
-				return form
-			}
-			const input = {} as HTMLInputElement
-			inputs.push(input)
-			return input
-		})
-		vi.spyOn(document.body, 'appendChild').mockImplementation((node) => node)
+		const { form, iframe } = mockFormSubmit()
 
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
@@ -284,13 +282,55 @@ describe('Download action execute tests', () => {
 		// Silent action
 		expect(exec).toStrictEqual([null, null])
 		// The file list is sent in the request body to avoid too long URLs
-		expect(form.method).toBe('POST')
-		expect(form.action).toBe('https://cloud.domain.com/remote.php/dav/files/admin/Dir/')
-		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'accept', value: 'zip' }))
-		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'files', value: '["foo.txt","bar.txt"]' }))
-		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'requesttoken' }))
-		expect(form.submit).toHaveBeenCalledTimes(1)
-		expect(form.remove).toHaveBeenCalledTimes(1)
+		expect(form()!.method).toBe('post')
+		expect(form()!.action).toBe('https://cloud.domain.com/remote.php/dav/files/admin/Dir/')
+		expect(form()!.target).toBe(iframe()!.name)
+		const fields = Object.fromEntries(new FormData(form()!))
+		expect(fields).toMatchObject({ accept: 'zip', files: '["foo.txt","bar.txt"]' })
+		expect(fields).toHaveProperty('requesttoken')
+		expect(form()!.isConnected).toBe(false)
+		expect(iframe()!.isConnected).toBe(true)
+		iframe()!.remove()
+	})
+
+	test('Download multiple nodes shows error when the server rejects the archive', async () => {
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Dir/foo.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+			root: '/files/admin',
+		})
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Dir/bar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+			root: '/files/admin',
+		})
+
+		const { iframe } = mockFormSubmit()
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+
+		await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
+		expect(errorSpy).not.toHaveBeenCalled()
+
+		// The error page is loaded in the iframe instead of the current page
+		const frame = iframe()!
+		Object.defineProperty(frame, 'contentWindow', {
+			value: { location: { href: 'https://cloud.domain.com/remote.php/dav/files/admin/Dir/' } },
+		})
+		frame.dispatchEvent(new Event('load'))
+
+		expect(errorSpy).toHaveBeenCalledWith('The requested files could not be downloaded.')
+		expect(frame.isConnected).toBe(false)
 	})
 
 	test('Download fails with error', async () => {

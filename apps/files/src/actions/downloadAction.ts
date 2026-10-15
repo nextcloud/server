@@ -87,6 +87,64 @@ async function triggerDownload(url: string, name?: string) {
 }
 
 /**
+ * Trigger a download by submitting a POST form, so the request parameters
+ * are sent in the body and the browser streams the response to disk.
+ *
+ * The form targets a hidden iframe: an attachment response is downloaded without
+ * navigating it, while an error response loads in the iframe instead of replacing the page.
+ *
+ * @param action The url to send the form to
+ * @param fields The form fields to send
+ */
+function submitDownloadForm(action: string, fields: Record<string, string>) {
+	const iframe = document.createElement('iframe')
+	iframe.name = `download-${Date.now()}-${Math.random().toString(36).slice(2)}`
+	iframe.style.display = 'none'
+	document.body.appendChild(iframe)
+	iframe.addEventListener('load', () => {
+		if (getFrameLocation(iframe) === 'about:blank') {
+			return
+		}
+		showError(t('files', 'The requested files could not be downloaded.'))
+		logger.error('Downloading the requested files failed.', { response: iframe.contentDocument?.body?.textContent })
+		iframe.remove()
+	})
+
+	const form = document.createElement('form')
+	form.method = 'POST'
+	form.action = action
+	form.target = iframe.name
+	form.style.display = 'none'
+	for (const [name, value] of Object.entries(fields)) {
+		const input = document.createElement('input')
+		input.type = 'hidden'
+		input.name = name
+		input.value = value
+		form.appendChild(input)
+	}
+	document.body.appendChild(form)
+	try {
+		form.submit()
+	} finally {
+		form.remove()
+	}
+}
+
+/**
+ * Get the location of the document loaded in the iframe.
+ *
+ * @param iframe The iframe
+ * @return The location, or null if it is not accessible
+ */
+function getFrameLocation(iframe: HTMLIFrameElement): string | null {
+	try {
+		return iframe.contentWindow?.location.href ?? null
+	} catch {
+		return null
+	}
+}
+
+/**
  * Find the longest common path prefix of both input paths
  *
  * @param first The first path
@@ -151,32 +209,13 @@ async function downloadNodes(nodes: INode[]) {
 		// try to see if the resource is still available
 		await axios.head(url.href)
 
-		// Send the file list in the request body to avoid too long URLs.
-		// A native form submission lets the browser stream the archive to disk.
-		const form = document.createElement('form')
-		form.method = 'POST'
 		// Pass the parameters in the body as POST requests with query parameters are not supported by all DAV plugins
 		url.search = ''
-		form.action = url.href
-		form.style.display = 'none'
-		const fields = {
+		submitDownloadForm(url.href, {
 			accept: 'zip',
 			files: JSON.stringify(filenames),
 			requesttoken: getRequestToken() ?? '',
-		}
-		for (const [name, value] of Object.entries(fields)) {
-			const input = document.createElement('input')
-			input.type = 'hidden'
-			input.name = name
-			input.value = value
-			form.appendChild(input)
-		}
-		document.body.appendChild(form)
-		try {
-			form.submit()
-		} finally {
-			form.remove()
-		}
+		})
 		return
 	}
 
