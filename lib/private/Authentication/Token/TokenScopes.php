@@ -8,33 +8,20 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
 
 /**
  * Scopes a token is limited to. A token without a `scopes` key has full access.
+ *
+ * Apps define the scopes for their own data, and each check names the one scope it needs,
+ * so a scope nothing checks grants nothing.
  */
 class TokenScopes {
 	public const KEY = 'scopes';
 
-	public const FILES_READ = 'files:read';
-	public const FILES_WRITE = 'files:write';
-	public const FILES_SHARE = 'files:share';
-	public const CALENDAR_READ = 'calendar:read';
-	public const CALENDAR_WRITE = 'calendar:write';
-	public const CONTACTS_READ = 'contacts:read';
-	public const CONTACTS_WRITE = 'contacts:write';
-
-	/** Every scope a client may set, mapped to the scope it requires */
-	private const VOCABULARY = [
-		// Read-only files need a permissions mask on the mounts, which does not exist yet
-		self::FILES_READ => self::FILES_WRITE,
-		self::FILES_WRITE => self::FILES_READ,
-		self::FILES_SHARE => self::FILES_READ,
-		self::CALENDAR_READ => null,
-		self::CALENDAR_WRITE => self::CALENDAR_READ,
-		self::CONTACTS_READ => null,
-		self::CONTACTS_WRITE => self::CONTACTS_READ,
-	];
+	private const MAX_SCOPES = 100;
+	private const MAX_SCOPE_LENGTH = 64;
 
 	/**
 	 * @return list<string>|null null for full access, an empty list if the stored scopes are malformed
@@ -73,7 +60,7 @@ class TokenScopes {
 
 		$scopes = $this->fromBlob($blob);
 		if ($scopes !== null) {
-			$blob[IToken::SCOPE_FILESYSTEM] = in_array(self::FILES_READ, $scopes, true);
+			$blob[IToken::SCOPE_FILESYSTEM] = in_array(FilesTokenScopes::FILES_READ, $scopes, true);
 		} elseif (array_key_exists(IToken::SCOPE_FILESYSTEM, $requested)) {
 			if (!is_bool($requested[IToken::SCOPE_FILESYSTEM])) {
 				throw new \InvalidArgumentException('filesystem must be a boolean');
@@ -91,14 +78,22 @@ class TokenScopes {
 	 * @throws \InvalidArgumentException
 	 */
 	private function validate(array $scopes): array {
+		if (count($scopes) > self::MAX_SCOPES) {
+			throw new \InvalidArgumentException('Too many scopes');
+		}
 		foreach ($scopes as $scope) {
-			if (!is_string($scope) || !array_key_exists($scope, self::VOCABULARY)) {
-				throw new \InvalidArgumentException('Unknown scope');
+			if (!is_string($scope) || $scope === '' || strlen($scope) > self::MAX_SCOPE_LENGTH) {
+				throw new \InvalidArgumentException('Invalid scope');
 			}
-			$required = self::VOCABULARY[$scope];
-			if ($required !== null && !in_array($required, $scopes, true)) {
-				throw new \InvalidArgumentException($scope . ' requires ' . $required);
-			}
+		}
+		$files = array_intersect($scopes, [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, FilesTokenScopes::FILES_SHARE]);
+		// Files endpoints look nodes up by ID or path, so every files scope reads file data
+		if ($files !== [] && !in_array(FilesTokenScopes::FILES_READ, $files, true)) {
+			throw new \InvalidArgumentException('Files scopes require ' . FilesTokenScopes::FILES_READ);
+		}
+		// Read-only files need a permissions mask on the mounts, which does not exist yet
+		if ($files !== [] && !in_array(FilesTokenScopes::FILES_WRITE, $files, true)) {
+			throw new \InvalidArgumentException(FilesTokenScopes::FILES_READ . ' requires ' . FilesTokenScopes::FILES_WRITE);
 		}
 
 		$scopes = array_unique($scopes);
