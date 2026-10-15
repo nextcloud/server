@@ -5,14 +5,13 @@
 -->
 # Nextcloud Server ☁
 [![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/server)](https://api.reuse.software/info/github.com/nextcloud/server)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
 [![Design](https://contribute.design/api/shield/nextcloud/server)](https://contribute.design/nextcloud/server)
 
 **A safe home for all your data.**
 
-![](https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-files-25-preview.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-25-files.png)
 
 ## Why is this so awesome? 🤩
 
@@ -36,8 +35,8 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 ## Get in touch 💬
 
 * [📋 Forum](https://help.nextcloud.com)
+* [🦋 Bluesky](https://bsky.app/profile/nextcloud.bsky.social)
 * [👥 Facebook](https://www.facebook.com/nextclouders)
-* [🐣 Twitter](https://twitter.com/Nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
 You can also [get support for Nextcloud](https://nextcloud.com/support)!
@@ -63,6 +62,16 @@ Several apps that are included by default in regular releases such as [First run
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
+#### Testing your code
+
+We use multiple test frameworks for specific areas of the code:
+- PHPUnit for PHP unit tests
+- Behat for PHP integration tests
+- Vitest for Javascript / Typescript unit tests
+- Playwright for end-to-end tests
+
+For our end-to-end tests using Playwright you can refer [to our documentation](./tests/playwright/README.md)
+on how to debug errors and to contribute new test cases.
 
 ### Tools we use 🛠
 

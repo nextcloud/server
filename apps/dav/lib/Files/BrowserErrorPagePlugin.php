@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Files;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Template\ITemplateManager;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Server;
@@ -31,6 +33,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('exception', [$this, 'logException'], 1000);
@@ -60,6 +63,9 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		if ($ex instanceof Exception) {
 			$httpCode = $ex->getHTTPCode();
 			$headers = $ex->getHTTPHeaders($this->server);
+		} elseif ($ex instanceof MaxDelayReached) {
+			$httpCode = 429;
+			$headers = [];
 		} else {
 			$httpCode = 500;
 			$headers = [];
@@ -81,7 +87,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		$request = \OCP\Server::get(IRequest::class);
 
 		$templateName = 'exception';
-		if ($httpCode === 403 || $httpCode === 404) {
+		if ($httpCode === 403 || $httpCode === 404 || $httpCode === 429) {
 			$templateName = (string)$httpCode;
 		}
 

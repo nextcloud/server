@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
@@ -53,7 +55,7 @@ class GroupPluginManager {
 	 * @return bool
 	 */
 	public function implementsActions($actions) {
-		return ($actions & $this->respondToActions) == $actions;
+		return ($actions & $this->respondToActions) === $actions;
 	}
 
 	/**

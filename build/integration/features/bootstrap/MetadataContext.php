@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,7 +11,7 @@ use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 use Sabre\DAV\Client as SClient;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 class MetadataContext implements Context {
 	private string $davPath = '/remote.php/dav';

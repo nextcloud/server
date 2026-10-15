@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
@@ -10,18 +13,13 @@ use OCA\DAV\Migration\RegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegenerateBirthdayCalendarsTest extends TestCase {
-
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var RegenerateBirthdayCalendars */
-	private $migration;
+	private IJobList&MockObject $jobList;
+	private IConfig&MockObject $config;
+	private RegenerateBirthdayCalendars $migration;
 
 	protected function setUp(): void {
 		parent::setUp();

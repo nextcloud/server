@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Broadcast;
 
 use OCP\EventDispatcher\ABroadcastedEvent;
@@ -22,6 +23,7 @@ class Test extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('broadcast:test')
@@ -39,33 +41,32 @@ class Test extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$name = $input->getArgument('name');
 		$uid = $input->getArgument('uid');
 
 		$event = new class($name, $uid) extends ABroadcastedEvent {
-			/** @var string */
-			private $name;
-			/** @var string */
-			private $uid;
-
-			public function __construct(string $name,
-				string $uid) {
+			public function __construct(
+				private string $name,
+				private string $uid,
+			) {
 				parent::__construct();
-				$this->name = $name;
-				$this->uid = $uid;
 			}
 
+			#[\Override]
 			public function broadcastAs(): string {
 				return $this->name;
 			}
 
+			#[\Override]
 			public function getUids(): array {
 				return [
 					$this->uid,
 				];
 			}
 
+			#[\Override]
 			public function jsonSerialize(): array {
 				return [
 					'description' => 'this is a test event',

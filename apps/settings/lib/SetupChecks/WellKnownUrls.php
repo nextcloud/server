@@ -31,14 +31,17 @@ class WellKnownUrls implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('.well-known URLs');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->config->getSystemValueBool('check_for_working_wellknown_setup', true)) {
 			return SetupResult::info($this->l10n->t('`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped.'));
@@ -56,7 +59,7 @@ class WellKnownUrls implements ISetupCheck {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, $requestOptions, isRootRequest: true) as $response) {
 				// Check that the response status matches
-				$works = in_array($response->getStatusCode(), $validStatuses);
+				$works = in_array($response->getStatusCode(), $validStatuses, true);
 				// and (if needed) the custom Nextcloud header is set
 				if ($checkCustomHeader) {
 					$works = $works && !empty($response->getHeader('X-NEXTCLOUD-WELL-KNOWN'));

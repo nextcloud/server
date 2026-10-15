@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -83,7 +84,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	) {
 	}
 
-
 	/**
 	 * Set the name/key of the option.
 	 * The string should only contain alphanumerical chars and underscore.
@@ -93,6 +93,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setName(string $name): ISearchOption {
 		$this->name = $name;
 
@@ -104,16 +105,17 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
-
 
 	/**
 	 * Set the title/display name of the option.
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setTitle(string $title): ISearchOption {
 		$this->title = $title;
 
@@ -125,10 +127,10 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getTitle(): string {
 		return $this->title;
 	}
-
 
 	/**
 	 * Set the type of the option.
@@ -136,6 +138,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setType(string $type): ISearchOption {
 		$this->type = $type;
 
@@ -147,10 +150,10 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}
-
 
 	/**
 	 * In case of Type is INPUT, set the size of the input field.
@@ -158,6 +161,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setSize(string $size): ISearchOption {
 		$this->size = $size;
 
@@ -169,6 +173,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getSize(): string {
 		return $this->size;
 	}
@@ -179,6 +184,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setPlaceholder(string $placeholder): ISearchOption {
 		$this->placeholder = $placeholder;
 
@@ -190,6 +196,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getPlaceholder(): string {
 		return $this->placeholder;
 	}
@@ -197,6 +204,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

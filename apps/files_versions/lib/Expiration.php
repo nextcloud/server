@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -166,7 +168,6 @@ class Expiration {
 			$minValue = 'auto';
 			$maxValue = 'auto';
 		}
-
 
 		if ($minValue === 'auto' && $maxValue === 'auto') {
 			// Default: Delete anytime if space needed

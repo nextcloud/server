@@ -16,7 +16,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version23000Date20210930122352 extends SimpleMigrationStep {
-	private const TABLE_NAME = 'profile_config';
+	private const string TABLE_NAME = 'profile_config';
 
 	/**
 	 * @param IOutput $output
@@ -24,6 +24,7 @@ class Version23000Date20210930122352 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Settings;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
@@ -27,6 +29,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -39,7 +42,7 @@ class PersonalTest extends TestCase {
 	private Personal $admin;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,7 +60,6 @@ class PersonalTest extends TestCase {
 			->willReturn($this->themes);
 
 		$this->admin = new Personal(
-			Application::APP_ID,
 			'admin',
 			$this->config,
 			$this->themesService,
@@ -67,31 +69,30 @@ class PersonalTest extends TestCase {
 		);
 	}
 
-
-	public function dataTestGetForm() {
+	public static function dataTestGetForm(): array {
 		return [
 			['', [
-				$this->formatThemeForm('default'),
-				$this->formatThemeForm('light'),
-				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('light-highcontrast'),
-				$this->formatThemeForm('dark-highcontrast'),
-				$this->formatThemeForm('opendyslexic'),
+				'default',
+				'light',
+				'dark',
+				'light-highcontrast',
+				'dark-highcontrast',
+				'opendyslexic',
 			]],
 			['dark', [
-				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('opendyslexic'),
+				'dark',
+				'opendyslexic',
 			]],
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestGetForm
-	 *
-	 * @param string $toEnable
-	 * @param string[] $enabledThemes
-	 */
-	public function testGetForm(string $enforcedTheme, $themesState): void {
+	#[DataProvider(methodName: 'dataTestGetForm')]
+	public function testGetForm(string $enforcedTheme, array $themesState): void {
+		$themesState = array_map(
+			$this->formatThemeForm(...),
+			$themesState
+		);
+
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')

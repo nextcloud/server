@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OC\AppFramework\Http\Request;
@@ -40,37 +41,44 @@ class DefaultTheme implements ITheme {
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'default';
 	}
 
+	#[\Override]
 	public function getType(): int {
 		return ITheme::TYPE_THEME;
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('System default theme');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable the system default');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Using the default system appearance.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '';
 	}
 
+	#[\Override]
 	public function getMeta(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
-		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
 		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
 		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
@@ -78,10 +86,23 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#DB0606';
-		$colorWarning = '#A37200';
-		$colorSuccess = '#2d7b41';
-		$colorInfo = '#0071ad';
+		/*
+		colorX: The background color for e.g. buttons and note-card
+		colorXText: The text color on that background
+		colorXElement: When that color needs to have element contrast like borders
+		*/
+		$colorError = '#FFE7E7';
+		$colorErrorText = '#8A0000';
+		$colorErrorElement = '#c90000';
+		$colorWarning = '#FFEEC5';
+		$colorWarningText = '#664700';
+		$colorWarningElement = '#BF7900';
+		$colorSuccess = '#D8F3DA';
+		$colorSuccessText = '#005416';
+		$colorSuccessElement = '#099f05';
+		$colorInfo = '#D5F1FA';
+		$colorInfoText = '#0066AC';
+		$colorInfoElement = '#0077C7';
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
@@ -125,50 +146,77 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-light' => 'var(--color-main-text)', // deprecated
-			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+			'--color-text-error' => $this->util->darken($colorErrorElement, 2),
+			'--color-text-success' => $this->util->darken($colorSuccessElement, 10),
 
-			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+			// border colors
+			'--color-border' => $this->util->darken($colorMainBackground, 7),
+			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
+			'--color-border-error' => 'var(--color-element-error)',
+			'--color-border-success' => 'var(--color-element-success)',
 
-			// error/warning/success/info feedback colours
+			// special colors for elements (providing corresponding contrast) e.g. icons
+			'--color-element-error' => $colorErrorElement,
+			'--color-element-info' => $colorInfoElement,
+			'--color-element-success' => $colorSuccessElement,
+			'--color-element-warning' => $colorWarningElement,
+
+			// error/warning/success/info feedback colors
 			'--color-error' => $colorError,
-			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
-			'--color-error-text' => $this->util->darken($colorError, 5),
+			'--color-error-hover' => $this->util->darken($colorError, 7),
+			'--color-error-text' => $colorErrorText,
 			'--color-warning' => $colorWarning,
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-			'--color-warning-hover' => $this->util->darken($colorWarning, 5),
-			'--color-warning-text' => $this->util->darken($colorWarning, 7),
+			'--color-warning-hover' => $this->util->darken($colorWarning, 7),
+			'--color-warning-text' => $colorWarningText,
 			'--color-success' => $colorSuccess,
-			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 80),
-			'--color-success-text' => $this->util->darken($colorSuccess, 4),
+			'--color-success-hover' => $this->util->darken($colorSuccess, 7),
+			'--color-success-text' => $colorSuccessText,
 			'--color-info' => $colorInfo,
-			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
-			'--color-info-text' => $this->util->darken($colorInfo, 4),
+			'--color-info-hover' => $this->util->darken($colorInfo, 7),
+			'--color-info-text' => $colorInfoText,
 			'--color-favorite' => '#A37200',
+			'--color-mark' => '#fff0c7',
+			'--color-background-selection' => 'rgb(from var(--color-primary-element) r g b / 0.2)',
+			'--color-text-selection' => 'var(--color-main-text)',
+			// deprecated
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
 			'--color-loading-dark' => '#444444',
 
+			// Scrollbar
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+
+			// Box shadow of elements
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
 
-			'--color-border' => $this->util->darken($colorMainBackground, 7),
-			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
-			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
+			// Assistant colors (marking AI generated content)
+			'--color-background-assistant' => '#F6F5FF', // Background for AI generated content
+			'--color-border-assistant' => 'linear-gradient(125deg, #7398FE 50%, #6104A4 125%)', // Border for AI generated content
+			'--color-element-assistant' => 'linear-gradient(214deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
+			'--color-element-assistant-icon' => 'linear-gradient(214deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
 			'--font-size-small' => '13px',
+			// Default text font weight
+			'--font-weight-default' => '400',
+			// Font weight for interactive elements
+			'--font-weight-element' => '500',
+			// Weight for titles and headings
+			'--font-weight-heading' => '600',
 			// 1.5 * font-size for accessibility
 			'--default-line-height' => '1.5',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
-			'--animation-slow' => '300ms',
+			'--animation-slow' => '200ms',
 
 			// Default variables --------------------------------------------
 			// Border width for input elements such as text fields and selects
@@ -193,9 +241,16 @@ class DefaultTheme implements ITheme {
 
 			'--default-grid-baseline' => '4px',
 
+			// header / navigation bar
+			'--header-height' => '44px',
+			'--header-menu-item-height' => '34px',
+			/* An alpha mask to be applied to all icons on the navigation bar (header menu).
+			 * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
+			 * for better gradient we must at first begin at those 2px (10% of height) as start and stop positions.
+			 */
+			'--header-menu-icon-mask' => 'linear-gradient(var(--color-background-plain-text) 25%, color-mix(in srgb, var(--color-background-plain-text), 55% transparent) 90%) alpha',
+
 			// various structure data
-			'--header-height' => '50px',
-			'--header-menu-item-height' => '44px',
 			'--navigation-width' => '300px',
 			'--sidebar-min-width' => '300px',
 			'--sidebar-max-width' => '500px',
@@ -222,6 +277,7 @@ class DefaultTheme implements ITheme {
 		return $variables;
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		return '';
 	}

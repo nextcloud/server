@@ -5,10 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -24,10 +28,12 @@ class ResetPassword extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		private IAppManager $appManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:resetpassword')
@@ -41,11 +47,18 @@ class ResetPassword extends Base {
 				'password-from-env',
 				null,
 				InputOption::VALUE_NONE,
-				'read password from environment variable OC_PASS'
+				'read password from environment variable NC_PASS/OC_PASS'
+			)
+			->addOption(
+				'no-password',
+				null,
+				InputOption::VALUE_NONE,
+				'Sets the password to blank'
 			)
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 
@@ -56,9 +69,9 @@ class ResetPassword extends Base {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
@@ -76,30 +89,40 @@ class ResetPassword extends Base {
 				}
 			}
 
-			$question = new Question('Enter a new password: ');
-			$question->setHidden(true);
-			$password = $helper->ask($input, $output, $question);
+			if ($input->getOption('no-password')) {
+				$question = new ConfirmationQuestion('Are you sure you want to clear the password for ' . $username . '?');
 
-			if ($password === null) {
-				$output->writeln('<error>Password cannot be empty!</error>');
-				return 1;
-			}
+				if (!$helper->ask($input, $output, $question)) {
+					return 1;
+				}
 
-			$question = new Question('Confirm the new password: ');
-			$question->setHidden(true);
-			$confirm = $helper->ask($input, $output, $question);
+				$password = '';
+			} else {
+				$question = new Question('Enter a new password: ');
+				$question->setHidden(true);
+				$password = $helper->ask($input, $output, $question);
 
-			if ($password !== $confirm) {
-				$output->writeln('<error>Passwords did not match!</error>');
-				return 1;
+				if ($password === null) {
+					$output->writeln('<error>Password cannot be empty!</error>');
+					return 1;
+				}
+
+				$question = new Question('Confirm the new password: ');
+				$question->setHidden(true);
+				$confirm = $helper->ask($input, $output, $question);
+
+				if ($password !== $confirm) {
+					$output->writeln('<error>Passwords did not match!</error>');
+					return 1;
+				}
 			}
 		} else {
 			$output->writeln('<error>Interactive input or --password-from-env is needed for entering a new password!</error>');
 			return 1;
 		}
 
-
 		try {
+			$this->eventDispatcher->dispatchTyped(new BeforePasswordResetEvent($user, $password));
 			$success = $user->setPassword($password);
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
@@ -107,6 +130,7 @@ class ResetPassword extends Base {
 		}
 
 		if ($success) {
+			$this->eventDispatcher->dispatchTyped(new PasswordResetEvent($user, $password));
 			$output->writeln('<info>Successfully reset password for ' . $username . '</info>');
 		} else {
 			$output->writeln('<error>Error while resetting password!</error>');
@@ -120,9 +144,10 @@ class ResetPassword extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'user') {
-			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));
 		}
 		return [];
 	}

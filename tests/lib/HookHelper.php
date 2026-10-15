@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +11,7 @@
 namespace Test;
 
 use OC\Files\Filesystem;
+use OCP\Util;
 
 /**
  * Helper class to register hooks on
@@ -17,38 +21,38 @@ class HookHelper {
 
 	public static function setUpHooks() {
 		self::clear();
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create,
 			'\Test\HookHelper',
 			'createCallback'
 		);
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_update,
 			'\Test\HookHelper',
 			'updateCallback'
 		);
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_write,
 			'\Test\HookHelper',
 			'writeCallback'
 		);
 
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_create,
 			'\Test\HookHelper',
 			'postCreateCallback'
 		);
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_update,
 			'\Test\HookHelper',
 			'postUpdateCallback'
 		);
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_write,
 			'\Test\HookHelper',

@@ -1,11 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Log;
 
 use OC\SystemConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Server;
 
 abstract class LogDetails {
 	public function __construct(
@@ -13,7 +20,7 @@ abstract class LogDetails {
 	) {
 	}
 
-	public function logDetails(string $app, $message, int $level): array {
+	public function logDetails(string $app, string|array $message, int $level): array {
 		// default to ISO8601
 		$format = $this->config->getValue('logdateformat', \DateTimeInterface::ATOM);
 		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
@@ -22,22 +29,16 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
-		if ($time === false) {
-			$time = new \DateTime('now', $timezone);
-		} else {
-			// apply timezone if $time is created from UNIX timestamp
-			$time->setTimezone($timezone);
-		}
-		$request = \OC::$server->getRequest();
+		$time = new \DateTime('now', $timezone);
+		$request = Server::get(IRequest::class);
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();
 		// remove username/passwords from URLs before writing the to the log file
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
-		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
+		$method = $request->getMethod();
 		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ?? '--';
+			$user = Server::get(IUserSession::class)->getUser()?->getUID() ?? '--';
 		} else {
 			$user = '--';
 		}
@@ -46,6 +47,7 @@ abstract class LogDetails {
 			$userAgent = '--';
 		}
 		$version = $this->config->getValue('version', '');
+		$scriptName = $request->getScriptName();
 		$entry = compact(
 			'reqId',
 			'level',
@@ -55,10 +57,19 @@ abstract class LogDetails {
 			'app',
 			'method',
 			'url',
+			'scriptName',
 			'message',
 			'userAgent',
-			'version'
+			'version',
 		);
+		$clientReqId = $request->getHeader('X-Request-Id');
+		if ($clientReqId !== '') {
+			$entry['clientReqId'] = $clientReqId;
+		}
+		if (\OC::$CLI) {
+			/* Only logging the command, not the parameters */
+			$entry['occ_command'] = array_slice($_SERVER['argv'] ?? [], 0, 2);
+		}
 
 		if (is_array($message)) {
 			// Exception messages are extracted and the exception is put into a separate field
@@ -77,7 +88,7 @@ abstract class LogDetails {
 		return $entry;
 	}
 
-	public function logDetailsAsJSON(string $app, $message, int $level): string {
+	public function logDetailsAsJSON(string $app, string|array $message, int $level): string {
 		$entry = $this->logDetails($app, $message, $level);
 		// PHP's json_encode only accept proper UTF-8 strings, loop over all
 		// elements to ensure that they are properly UTF-8 compliant or convert

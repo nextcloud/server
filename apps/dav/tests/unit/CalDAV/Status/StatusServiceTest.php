@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Status;
 
 use OC\Calendar\CalendarQuery;
@@ -25,14 +28,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
-	private ITimeFactory|MockObject $timeFactory;
-	private IManager|MockObject $calendarManager;
-	private IUserManager|MockObject $userManager;
-	private UserStatusService|MockObject $userStatusService;
-	private IAvailabilityCoordinator|MockObject $availabilityCoordinator;
-	private ICacheFactory|MockObject $cacheFactory;
-	private LoggerInterface|MockObject $logger;
-	private ICache|MockObject $cache;
+	private ITimeFactory&MockObject $timeFactory;
+	private IManager&MockObject $calendarManager;
+	private IUserManager&MockObject $userManager;
+	private UserStatusService&MockObject $userStatusService;
+	private IAvailabilityCoordinator&MockObject $availabilityCoordinator;
+	private ICacheFactory&MockObject $cacheFactory;
+	private LoggerInterface&MockObject $logger;
+	private ICache&MockObject $cache;
 	private StatusService $service;
 
 	protected function setUp(): void {
@@ -252,7 +255,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -295,7 +297,6 @@ class StatusServiceTest extends TestCase {
 			->method('debug');
 		$this->userStatusService->expects(self::once())
 			->method('setUserStatus');
-
 
 		$this->service->processCalendarStatus('admin');
 	}
@@ -343,7 +344,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -390,7 +390,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -436,7 +435,6 @@ class StatusServiceTest extends TestCase {
 			->method('revertUserStatus');
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
-
 
 		$this->service->processCalendarStatus('admin');
 	}

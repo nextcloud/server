@@ -3,130 +3,145 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="timeslot">
-		<input v-model="newValue.startTime"
-			type="text"
-			class="timeslot--start"
+	<div :class="$style.timeslot">
+		<input
+			v-model="newValue.startTime"
+			:aria-label="t('workflowengine', 'Start time')"
+			:class="[$style.time, $style.startTime]"
 			placeholder="e.g. 08:00"
-			@input="update">
-		<input v-model="newValue.endTime"
 			type="text"
-			placeholder="e.g. 18:00"
 			@input="update">
-		<p v-if="!valid" class="invalid-hint">
+		<input
+			v-model="newValue.endTime"
+			:aria-label="t('workflowengine', 'End time')"
+			:class="$style.time"
+			placeholder="e.g. 18:00"
+			type="text"
+			@input="update">
+		<p v-if="!valid" :class="$style.invalidHint">
 			{{ t('workflowengine', 'Please enter a valid time span') }}
 		</p>
-		<NcSelect v-show="valid"
+		<NcSelect
+			v-show="valid"
 			v-model="newValue.timezone"
+			:aria-label-combobox="t('workflowengine', 'Timezone')"
+			:class="$style.timezone"
 			:clearable="false"
 			:options="timezones"
-			@input="update" />
+			@update:modelValue="update" />
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { onBeforeMount, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import moment from 'moment-timezone'
-import valueMixin from '../../mixins/valueMixin.js'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
+import { currentTimezone, isKnownTimezone, listTimezones } from '../../helpers/timezones.ts'
 
-const zones = moment.tz.names()
-export default {
-	name: 'RequestTime',
-	components: {
-		NcSelect,
-	},
-	mixins: [
-		valueMixin,
-	],
-	props: {
-		value: {
-			type: String,
-			default: '',
-		},
-	},
-	data() {
-		return {
-			timezones: zones,
-			valid: false,
-			newValue: {
-				startTime: null,
-				endTime: null,
-				timezone: moment.tz.guess(),
-			},
-		}
-	},
-	mounted() {
-		this.validate()
-	},
-	methods: {
-		updateInternalValue(value) {
-			try {
-				const data = JSON.parse(value)
-				if (data.length === 2) {
-					this.newValue = {
-						startTime: data[0].split(' ', 2)[0],
-						endTime: data[1].split(' ', 2)[0],
-						timezone: data[0].split(' ', 2)[1],
-					}
-				}
-			} catch (e) {
-				// ignore invalid values
-			}
-		},
-		validate() {
-			this.valid = this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
-				&& this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
-				&& moment.tz.zone(this.newValue.timezone) !== null
-			if (this.valid) {
-				this.$emit('valid')
-			} else {
-				this.$emit('invalid')
-			}
-			return this.valid
-		},
-		update() {
-			if (this.newValue.timezone === null) {
-				this.newValue.timezone = moment.tz.guess()
-			}
-			if (this.validate()) {
-				const output = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
-				this.$emit('input', output)
-			}
-		},
-	},
+interface TimeSpan {
+	startTime: string | null
+	endTime: string | null
+	timezone: string
 }
+
+const props = withDefaults(defineProps<{ modelValue?: string }>(), { modelValue: '[]' })
+
+const emit = defineEmits<{
+	'update:modelValue': [value: string]
+	valid: []
+	invalid: []
+}>()
+
+const TIME_PATTERN = /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/
+
+const timezones = listTimezones()
+const valid = ref(false)
+
+/**
+ * Split the stored `["HH:MM Zone","HH:MM Zone"]` pair into its parts.
+ *
+ * @param modelValue - The stored value
+ */
+function parseTimeSpan(modelValue: string): TimeSpan {
+	try {
+		const data = JSON.parse(modelValue)
+		if (data.length === 2) {
+			return {
+				startTime: data[0].split(' ', 2)[0],
+				endTime: data[1].split(' ', 2)[0],
+				timezone: data[0].split(' ', 2)[1],
+			}
+		}
+	} catch {
+		// ignore invalid values
+	}
+	return { startTime: null, endTime: null, timezone: currentTimezone() }
+}
+
+const { newValue, emitValue } = useCheckValue<TimeSpan>(
+	() => props.modelValue,
+	(value) => emit('update:modelValue', value),
+	{
+		parse: parseTimeSpan,
+		format: ({ startTime, endTime, timezone }) => `["${startTime} ${timezone}","${endTime} ${timezone}"]`,
+	},
+)
+
+/**
+ * Both ends have to be a time of day and the zone has to be one the browser knows.
+ */
+function validate(): boolean {
+	const { startTime, endTime, timezone } = newValue.value
+	valid.value = Boolean(startTime) && TIME_PATTERN.test(startTime!)
+		&& Boolean(endTime) && TIME_PATTERN.test(endTime!)
+		&& isKnownTimezone(timezone)
+	if (valid.value) {
+		emit('valid')
+	} else {
+		emit('invalid')
+	}
+	return valid.value
+}
+
+function update(): void {
+	if (newValue.value.timezone === null) {
+		newValue.value.timezone = currentTimezone()
+	}
+	if (validate()) {
+		emitValue()
+	}
+}
+
+onBeforeMount(validate)
 </script>
 
-<style scoped lang="scss">
-	.timeslot {
-		display: flex;
-		flex-grow: 1;
-		flex-wrap: wrap;
-		max-width: 180px;
+<style module lang="scss">
+.timeslot {
+	display: flex;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	max-width: 180px;
+}
 
-		.multiselect {
-			width: 100%;
-			margin-bottom: 5px;
-		}
+.timezone {
+	width: 100%;
+	margin-bottom: 5px;
+}
 
-		.multiselect:deep(.multiselect__tags:not(:hover):not(:focus):not(:active)) {
-			border: 1px solid transparent;
-		}
+.time {
+	width: 50%;
+	margin: 0;
+	margin-bottom: 5px;
+	min-height: 48px;
+}
 
-		input[type=text] {
-			width: 50%;
-			margin: 0;
-			margin-bottom: 5px;
-			min-height: 48px;
+.startTime {
+	margin-inline-end: 5px;
+	width: calc(50% - 5px);
+}
 
-			&.timeslot--start {
-				margin-inline-end: 5px;
-				width: calc(50% - 5px);
-			}
-		}
-
-		.invalid-hint {
-			color: var(--color-text-maxcontrast);
-		}
-	}
+.invalidHint {
+	color: var(--color-text-maxcontrast);
+}
 </style>

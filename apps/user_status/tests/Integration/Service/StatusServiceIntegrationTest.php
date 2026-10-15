@@ -18,9 +18,7 @@ use Test\TestCase;
 use function sleep;
 use function time;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StatusServiceIntegrationTest extends TestCase {
 
 	private StatusService $service;
@@ -136,7 +134,7 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		$this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
+			IUserStatus::BUSY,
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
@@ -147,12 +145,12 @@ class StatusServiceIntegrationTest extends TestCase {
 
 		$this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
+			IUserStatus::BUSY,
 			IUserStatus::MESSAGE_CALL,
 			true,
 		);
 		self::assertSame(
-			IUserStatus::AWAY,
+			IUserStatus::BUSY,
 			$this->service->findByUserId('test123')->getStatus(),
 		);
 
@@ -182,7 +180,7 @@ class StatusServiceIntegrationTest extends TestCase {
 
 		$nostatus = $this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
+			IUserStatus::BUSY,
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);

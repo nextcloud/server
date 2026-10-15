@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\DB\Exception;
 
 use Doctrine\DBAL\ConnectionException;
@@ -29,22 +30,23 @@ class DbalExceptionTest extends \Test\TestCase {
 	/** @var TheDriverException */
 	protected $driverException;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->driverException = $this->createMock(TheDriverException::class);
 	}
 
 	/**
-	 * @dataProvider dataDriverException
 	 * @param string $class
 	 * @param int $reason
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDriverException')]
 	public function testDriverException(string $class, int $reason): void {
 		$result = DbalException::wrap(new $class($this->driverException, null));
 		$this->assertSame($reason, $result->getReason());
 	}
 
-	public function dataDriverException(): array {
+	public static function dataDriverException(): array {
 		return [
 			[LockWaitTimeoutException::class, DbalException::REASON_LOCK_WAIT_TIMEOUT],
 			[ForeignKeyConstraintViolationException::class, DbalException::REASON_FOREIGN_KEY_VIOLATION],

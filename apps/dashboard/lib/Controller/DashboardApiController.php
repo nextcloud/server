@@ -17,6 +17,8 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
@@ -27,9 +29,7 @@ use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
-
 use OCP\Dashboard\Model\WidgetOptions;
-use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -43,7 +43,8 @@ class DashboardApiController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IManager $dashboardManager,
-		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 		private ?string $userId,
 		private DashboardService $service,
 	) {
@@ -56,14 +57,14 @@ class DashboardApiController extends OCSController {
 	 */
 	private function getShownWidgets(array $widgetIds): array {
 		if (empty($widgetIds)) {
-			$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-			$widgetIds = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+			$systemDefault = $this->appConfig->getAppValueString('layout', 'recommendations,spreed,mail,calendar');
+			$widgetIds = explode(',', $this->userConfig->getValueString($this->userId, 'dashboard', 'layout', $systemDefault));
 		}
 
 		return array_filter(
 			$this->dashboardManager->getWidgets(),
 			static function (IWidget $widget) use ($widgetIds) {
-				return in_array($widget->getId(), $widgetIds);
+				return in_array($widget->getId(), $widgetIds, true);
 			},
 		);
 	}
@@ -200,7 +201,8 @@ class DashboardApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v3/layout')]
 	public function updateLayout(array $layout): DataResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'layout', implode(',', $layout));
+		$layout = $this->service->sanitizeLayout($layout);
+		$this->userConfig->setValueString($this->userId, 'dashboard', 'layout', implode(',', $layout));
 		return new DataResponse(['layout' => $layout]);
 	}
 
@@ -228,7 +230,7 @@ class DashboardApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v3/statuses')]
 	public function updateStatuses(array $statuses): DataResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', implode(',', $statuses));
+		$this->userConfig->setValueString($this->userId, 'dashboard', 'statuses', implode(',', $statuses));
 		return new DataResponse(['statuses' => $statuses]);
 	}
 }

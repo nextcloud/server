@@ -16,6 +16,7 @@ use OCP\Capabilities\ICapability;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\IContainer;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
@@ -68,7 +69,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $name
 	 * @param callable $factory
-	 * @psalm-param callable(\Psr\Container\ContainerInterface): mixed $factory
+	 * @psalm-param callable(IContainer): mixed $factory
 	 * @param bool $shared If set to true the factory result will be cached otherwise every query will call the factory again
 	 *
 	 * @return void
@@ -79,13 +80,12 @@ interface IRegistrationContext {
 	public function registerService(string $name, callable $factory, bool $shared = true): void;
 
 	/**
-	 * @param string $alias
-	 * @psalm-param string|class-string $alias
-	 * @param string $target
-	 * @psalm-param string|class-string $target
+	 * Shortcut for returning a service from a service under a different key,
+	 * e.g. to tell the container to return a class when queried for an
+	 * interface
 	 *
-	 * @return void
-	 * @see IContainer::registerAlias()
+	 * @psalm-param string|class-string $alias
+	 * @psalm-param string|class-string $target
 	 *
 	 * @since 20.0.0
 	 */
@@ -151,6 +151,22 @@ interface IRegistrationContext {
 	public function registerSearchProvider(string $class): void;
 
 	/**
+	 * Register an account-scoped search provider
+	 *
+	 * Unlike a unified search provider, this searches on behalf of an account passed explicitly
+	 * rather than the calling session, and returns structured metadata rather than display strings.
+	 * `\NCU\Search\IAccountScopedSearchProvider` is currently experimental and may still change.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\NCU\Search\IAccountScopedSearchProvider> $class
+	 *
+	 * @return void
+	 *
+	 * @since 36.0.0
+	 */
+	public function registerAccountScopedSearchProvider(string $class): void;
+
+	/**
 	 * Register an alternative login option
 	 *
 	 * It is allowed to register more than one option per app.
@@ -161,8 +177,20 @@ interface IRegistrationContext {
 	 * @return void
 	 *
 	 * @since 20.0.0
+	 * @deprecated 34.0.0 Use registerAlternativeLoginProvider instead.
 	 */
 	public function registerAlternativeLogin(string $class): void;
+
+	/**
+	 * Register an alternative login options provider
+	 *
+	 * It is allowed to register more than one option per app.
+	 *
+	 * @param class-string<\OCP\Authentication\IAlternativeLoginProvider> $class
+	 *
+	 * @since 34.0.0
+	 */
+	public function registerAlternativeLoginProvider(string $class): void;
 
 	/**
 	 * Register an initialstate provider
@@ -315,9 +343,7 @@ interface IRegistrationContext {
 	/**
 	 * Register a resource backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Resource\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarResourceBackend(string $class): void;
@@ -325,17 +351,13 @@ interface IRegistrationContext {
 	/**
 	 * Register a room backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Room\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarRoomBackend(string $class): void;
 
 	/**
-	 * @param string $class
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Teams\ITeamResourceProvider> $class
 	 * @since 29.0.0
 	 */
 	public function registerTeamResourceProvider(string $class): void;
@@ -359,6 +381,7 @@ interface IRegistrationContext {
 	 * @param string[] $methods
 	 * @return void
 	 * @since 25.0.0
+	 * @deprecated 36.0.0 use \SensitiveParameter attribute instead
 	 */
 	public function registerSensitiveMethods(string $class, array $methods): void;
 
@@ -380,6 +403,15 @@ interface IRegistrationContext {
 	 * @since 28.0.0
 	 */
 	public function registerSetupCheck(string $setupCheckClass): void;
+
+	/**
+	 * Register an implementation of \OCP\SystemReport\ISystemReportSection that
+	 * will contribute a section to the system report
+	 *
+	 * @param class-string<\OCP\SystemReport\ISystemReportSection> $sectionClass
+	 * @since 36.0.0
+	 */
+	public function registerSystemReportSection(string $sectionClass): void;
 
 	/**
 	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that
@@ -436,15 +468,22 @@ interface IRegistrationContext {
 	 */
 	public function registerMailProvider(string $class): void;
 
-
 	/**
 	 * Register an implementation of \OCP\Config\Lexicon\IConfigLexicon that
 	 * will handle the config lexicon
 	 *
 	 * @param string $configLexiconClass
 	 *
-	 * @psalm-param class-string<\NCU\Config\Lexicon\IConfigLexicon> $configLexiconClass
+	 * @psalm-param class-string<\OCP\Config\Lexicon\ILexicon> $configLexiconClass
 	 * @since 31.0.0
 	 */
 	public function registerConfigLexicon(string $configLexiconClass): void;
+
+	/**
+	 * Register an implementation of {@see IGlobalScaleService}.
+	 *
+	 * @param class-string<IGlobalScaleService> $globalScaleServiceClass
+	 * @since 34.0.3
+	 */
+	public function registerGlobalScaleService(string $globalScaleServiceClass): void;
 }

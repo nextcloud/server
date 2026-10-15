@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Lockdown;
 
 use OCP\Authentication\Token\IToken;
@@ -27,7 +29,7 @@ class LockdownManager implements ILockdownManager {
 		$this->sessionCallback = $sessionCallback;
 	}
 
-
+	#[\Override]
 	public function enable() {
 		$this->enabled = true;
 	}
@@ -51,6 +53,7 @@ class LockdownManager implements ILockdownManager {
 		return $this->scope;
 	}
 
+	#[\Override]
 	public function setToken(IToken $token) {
 		$this->scope = $token->getScopeAsArray();
 		$session = $this->getSession();
@@ -58,6 +61,7 @@ class LockdownManager implements ILockdownManager {
 		$this->enable();
 	}
 
+	#[\Override]
 	public function canAccessFilesystem() {
 		$scope = $this->getScopeAsArray();
 		return !$scope || $scope[IToken::SCOPE_FILESYSTEM];

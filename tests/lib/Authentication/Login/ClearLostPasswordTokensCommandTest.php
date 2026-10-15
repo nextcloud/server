@@ -11,20 +11,13 @@ namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\ClearLostPasswordTokensCommand;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
-	/** @var IConfig|MockObject */
-	private $config;
-
+class ClearLostPasswordTokensCommandTest extends ALoginTestCommand {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-
-		$this->cmd = new ClearLostPasswordTokensCommand(
-			$this->config
-		);
+		$this->cmd = $this->createInstanceWithMocks(ClearLostPasswordTokensCommand::class);
 	}
 
 	public function testProcess(): void {
@@ -32,7 +25,7 @@ class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->config->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('deleteUserValue')
 			->with(
 				$this->username,

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import moment from '@nextcloud/moment'
-import { getCurrentUser } from '@nextcloud/auth'
-import { Column, Node } from '@nextcloud/files'
-import { getCanonicalLocale, getLanguage, translate as t } from '@nextcloud/l10n'
-import { dirname } from '@nextcloud/paths'
+import type { Node } from '@nextcloud/files'
 
-import Vue from 'vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { Column } from '@nextcloud/files'
+import { formatRelativeTime, getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
+import { dirname } from '@nextcloud/paths'
+import { createApp } from 'vue'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 export const originalLocation = new Column({
@@ -40,14 +40,13 @@ export const deletedBy = new Column({
 			return span
 		}
 
-		const UserBubble = Vue.extend(NcUserBubble)
-		const propsData = {
+		const el = document.createElement('div')
+		createApp(NcUserBubble, {
 			size: 32,
 			user: userId ?? undefined,
 			displayName: displayName ?? userId,
-		}
-		const userBubble = new UserBubble({ propsData }).$mount().$el
-		return userBubble as HTMLElement
+		}).mount(el)
+		return el
 	},
 	sort(nodeA, nodeB) {
 		const deletedByA = parseDeletedBy(nodeA)
@@ -67,8 +66,11 @@ export const deleted = new Column({
 		const deletionTime = node.attributes?.['trashbin-deletion-time'] || ((node?.mtime?.getTime() ?? 0) / 1000)
 		const span = document.createElement('span')
 		if (deletionTime) {
-			span.title = moment.unix(deletionTime).format('LLL')
-			span.textContent = moment.unix(deletionTime).fromNow()
+			const formatter = Intl.DateTimeFormat([getCanonicalLocale()], { dateStyle: 'long', timeStyle: 'short' })
+			const timestamp = new Date(deletionTime * 1000)
+
+			span.title = formatter.format(timestamp)
+			span.textContent = formatRelativeTime(timestamp, { ignoreSeconds: t('files', 'few seconds ago') })
 			return span
 		}
 
@@ -97,7 +99,7 @@ function parseOriginalLocation(node: Node): string {
 	}
 
 	const dir = dirname(path)
-	if (dir === path) { // Node is in root folder
+	if (dir === '/' || dir === '.') { // Node is in root folder
 		return t('files_trashbin', 'All files')
 	}
 
@@ -113,7 +115,7 @@ function parseDeletedBy(node: Node) {
 	const userId = stringOrNull(node.attributes?.['trashbin-deleted-by-id'])
 	const displayName = stringOrNull(node.attributes?.['trashbin-deleted-by-display-name'])
 
-	let label: string|undefined
+	let label: string | undefined
 	const currentUserId = getCurrentUser()?.uid
 	if (userId === currentUserId) {
 		label = t('files_trashbin', 'You')

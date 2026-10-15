@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Migration;
 
 use OC\Repair;
@@ -35,6 +36,7 @@ class BackgroundRepair extends TimedJob {
 	 * @param array $argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		if (!isset($argument['app']) || !isset($argument['step'])) {
 			// remove the job - we can never execute it

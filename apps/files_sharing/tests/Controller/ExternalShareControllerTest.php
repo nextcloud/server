@@ -1,17 +1,21 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Http\Client\IClientService;
-use OCP\IConfig;
+use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -20,33 +24,30 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package OCA\Files_Sharing\Controllers
  */
 class ExternalShareControllerTest extends \Test\TestCase {
-	/** @var IRequest */
-	private $request;
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
+	private IRequest&MockObject $request;
+	private Manager&MockObject $externalManager;
+	private IJobList&MockObject $jobList;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
-		$this->clientService = $this->createMock(IClientService::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->jobList = $this->createMock(IJobList::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->user->method('getUID')->willReturn('user');
 	}
 
-	/**
-	 * @return ExternalSharesController
-	 */
-	public function getExternalShareController() {
+	public function getExternalShareController(): ExternalSharesController {
+		$session = $this->createMock(IUserSession::class);
+		$session->method('getUser')
+			->willReturn($this->user);
 		return new ExternalSharesController(
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService,
-			$this->config,
+			$this->jobList,
+			$session,
 		);
 	}
 
@@ -60,20 +61,35 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreate(): void {
+		$share = $this->createMock(ExternalShare::class);
+		$this->externalManager
+			->expects($this->once())
+			->method('getShare')
+			->with('4', $this->user)
+			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('acceptShare')
-			->with(4);
+			->with($share, $this->user);
+		$this->jobList
+			->expects($this->once())
+			->method('add');
 
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create(4));
+		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create('4'));
 	}
 
 	public function testDestroy(): void {
+		$share = $this->createMock(ExternalShare::class);
+		$this->externalManager
+			->expects($this->once())
+			->method('getShare')
+			->with('4', $this->user)
+			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('declineShare')
-			->with(4);
+			->with($share, $this->user);
 
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy(4));
+		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy('4'));
 	}
 }

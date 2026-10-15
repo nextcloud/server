@@ -13,6 +13,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
@@ -40,6 +41,7 @@ class GenerateMetadataJob extends TimedJob {
 		$this->setInterval(24 * 60 * 60);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		if ($this->appConfig->getValueBool('core', 'metadataGenerationDone', false)) {
 			return;
@@ -47,7 +49,7 @@ class GenerateMetadataJob extends TimedJob {
 
 		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
 
-		$users = $this->userManager->search('');
+		$users = $this->userManager->searchDisplayName('');
 
 		// we'll only start timer once we have found a valid user to handle
 		// meaning NOW if we have not handled any user from a previous run
@@ -83,7 +85,7 @@ class GenerateMetadataJob extends TimedJob {
 
 	private function scanFolder(Folder $folder): void {
 		// Do not scan share and other moveable mounts.
-		if ($folder->getMountPoint() instanceof \OC\Files\Mount\MoveableMount) {
+		if ($folder->getMountPoint() instanceof IMovableMount) {
 			return;
 		}
 
@@ -97,13 +99,14 @@ class GenerateMetadataJob extends TimedJob {
 			// Files are loaded in memory so very big files can lead to an OOM on the server
 			$nodeSize = $node->getSize();
 			$nodeLimit = $this->config->getSystemValueInt('metadata_max_filesize', self::DEFAULT_MAX_FILESIZE);
-			if ($nodeSize > $nodeLimit * 1000000) {
+			$nodeLimitMib = $nodeLimit * 1024 * 1024;
+			if ($nodeSize > $nodeLimitMib) {
 				$this->logger->debug('Skipping generating metadata for fileid ' . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
 				continue;
 			}
 
 			try {
-				$this->filesMetadataManager->getMetadata($node->getId(), false);
+				$this->filesMetadataManager->getMetadataForNode($node, false);
 			} catch (FilesMetadataNotFoundException) {
 				try {
 					$this->filesMetadataManager->refreshMetadata(

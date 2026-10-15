@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\IConfig;
@@ -13,43 +14,44 @@ use OCP\ISession;
 use Psr\Log\LoggerInterface;
 
 class DateTimeZone implements IDateTimeZone {
-	/** @var IConfig */
-	protected $config;
-
-	/** @var ISession */
-	protected $session;
-
-	/**
-	 * Constructor
-	 *
-	 * @param IConfig $config
-	 * @param ISession $session
-	 */
-	public function __construct(IConfig $config, ISession $session) {
-		$this->config = $config;
-		$this->session = $session;
+	public function __construct(
+		protected readonly IConfig $config,
+		protected readonly ISession $session,
+		protected readonly LoggerInterface $logger,
+	) {
 	}
 
 	/**
-	 * Get the timezone of the current user, based on their session information and config data
-	 *
-	 * @param bool|int $timestamp
-	 * @return \DateTimeZone
+	 * @inheritdoc
 	 */
-	public function getTimeZone($timestamp = false) {
-		$timeZone = $this->config->getUserValue($this->session->get('user_id'), 'core', 'timezone', null);
-		if ($timeZone === null) {
-			if ($this->session->exists('timezone')) {
+	#[\Override]
+	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone {
+		$uid = $userId ?? $this->session->get('user_id');
+		$timezoneName = $this->config->getUserValue($uid, 'core', 'timezone', '');
+		if ($timezoneName === '') {
+			if ($uid === $userId && $this->session->exists('timezone')) {
 				return $this->guessTimeZoneFromOffset($this->session->get('timezone'), $timestamp);
 			}
-			$timeZone = $this->getDefaultTimeZone();
+			return $this->getDefaultTimeZone();
 		}
 
 		try {
-			return new \DateTimeZone($timeZone);
+			return new \DateTimeZone($timezoneName);
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->debug('Failed to created DateTimeZone "' . $timeZone . '"', ['app' => 'datetimezone']);
-			return new \DateTimeZone($this->getDefaultTimeZone());
+			$this->logger->debug('Failed to created DateTimeZone "' . $timezoneName . '"', ['app' => 'datetimezone']);
+			return $this->getDefaultTimeZone();
+		}
+	}
+
+	#[\Override]
+	public function getDefaultTimeZone(): \DateTimeZone {
+		/** @var non-empty-string */
+		$timezone = $this->config->getSystemValueString('default_timezone', 'UTC');
+		try {
+			return new \DateTimeZone($timezone);
+		} catch (\Exception) {
+			// its always UTC see lib/base.php
+			return new \DateTimeZone('UTC');
 		}
 	}
 
@@ -60,10 +62,8 @@ class DateTimeZone implements IDateTimeZone {
 	 * we try to find it manually, before falling back to UTC.
 	 *
 	 * @param mixed $offset
-	 * @param bool|int $timestamp
-	 * @return \DateTimeZone
 	 */
-	protected function guessTimeZoneFromOffset($offset, $timestamp) {
+	protected function guessTimeZoneFromOffset($offset, int|false $timestamp): \DateTimeZone {
 		try {
 			// Note: the timeZone name is the inverse to the offset,
 			// so a positive offset means negative timeZone
@@ -87,26 +87,16 @@ class DateTimeZone implements IDateTimeZone {
 				}
 
 				$dtOffset = $dtz->getOffset($dateTime);
+				// $dtOffset is int|false and $offset is untyped/mixed; loose comparison intentional
+				/** @psalm-suppress UnrecognizedExpression */
 				if ($dtOffset == 3600 * $offset) {
 					return $dtz;
 				}
 			}
 
 			// No timezone found, fallback to UTC
-			\OC::$server->get(LoggerInterface::class)->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
-			return new \DateTimeZone($this->getDefaultTimeZone());
+			$this->logger->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
+			return $this->getDefaultTimeZone();
 		}
-	}
-
-	/**
-	 * Get the default timezone of the server
-	 *
-	 * Falls back to UTC if it is not yet set.
-	 *
-	 * @return string
-	 */
-	protected function getDefaultTimeZone() {
-		$serverTimeZone = date_default_timezone_get();
-		return $serverTimeZone ?: 'UTC';
 	}
 }

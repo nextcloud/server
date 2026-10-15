@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -27,6 +28,7 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -62,6 +64,7 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		if (!$this->connection->tableExists('credentials')) {
 			return;
@@ -77,12 +80,12 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 			->setValue('identifier', $insert->createParameter('identifier'))
 			->setValue('credentials', $insert->createParameter('credentials'));
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
+		$result = $query->executeQuery();
+		while ($row = $result->fetchAssociative()) {
 			$insert->setParameter('user', (string)$row['user'])
 				->setParameter('identifier', (string)$row['identifier'])
 				->setParameter('credentials', (string)$row['credentials']);
-			$insert->execute();
+			$insert->executeStatement();
 		}
 		$result->closeCursor();
 	}

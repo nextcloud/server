@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Backend;
 
 use OCA\Files_External\Lib\Backend\Backend;
@@ -12,7 +15,7 @@ use OCA\Files_External\Lib\StorageConfig;
 class BackendTest extends \Test\TestCase {
 	public function testJsonSerialization(): void {
 		$backend = $this->getMockBuilder(Backend::class)
-			->setMethods(['jsonSerializeDefinition'])
+			->onlyMethods(['jsonSerializeDefinition'])
 			->getMock();
 		$backend->expects($this->once())
 			->method('jsonSerializeDefinition')
@@ -32,19 +35,17 @@ class BackendTest extends \Test\TestCase {
 		$this->assertContains('barauth', array_keys($json['authSchemes']));
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, true],
 			[false, false],
 		];
 	}
 
-	/**
-	 * @dataProvider validateStorageProvider
-	 */
-	public function testValidateStorage($expectedSuccess, $definitionSuccess): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
+	public function testValidateStorage(bool $expectedSuccess, bool $definitionSuccess): void {
 		$backend = $this->getMockBuilder(Backend::class)
-			->setMethods(['validateStorageDefinition'])
+			->onlyMethods(['validateStorageDefinition'])
 			->getMock();
 		$backend->expects($this->atMost(1))
 			->method('validateStorageDefinition')

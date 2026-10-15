@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Auth;
 
 use OCA\Files_External\Lib\FrontendDefinitionTrait;
@@ -39,7 +43,6 @@ class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefiniti
 	public const SCHEME_NULL = 'null';
 	public const SCHEME_BUILTIN = 'builtin';
 	public const SCHEME_PASSWORD = 'password';
-	public const SCHEME_OAUTH1 = 'oauth1';
 	public const SCHEME_OAUTH2 = 'oauth2';
 	public const SCHEME_PUBLICKEY = 'publickey';
 	public const SCHEME_OPENSTACK = 'openstack';
@@ -75,6 +78,7 @@ class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefiniti
 	/**
 	 * Serialize into JSON for client-side JS
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$data = $this->jsonSerializeDefinition();
 		$data += $this->jsonSerializeIdentifier();

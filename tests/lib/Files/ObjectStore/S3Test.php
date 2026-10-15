@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,8 +9,11 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OCP\IConfig;
+use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
@@ -27,32 +31,35 @@ class NonSeekableStream extends Wrapper {
 		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$this->loadContext('nonseek');
 		return true;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		return false;
 	}
 }
 
-/**
- * @group PRIMARY-s3
- */
-class S3Test extends ObjectStoreTest {
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
+class S3Test extends ObjectStoreTestCase {
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
 		$s3->deleteObject('multiparttest');
 	}
 
+	#[\Override]
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
@@ -91,7 +98,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	public function assertNoUpload($objectUrn) {
-		/** @var \OC\Files\ObjectStore\S3 */
+		/** @var S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
@@ -106,6 +113,16 @@ class S3Test extends ObjectStoreTest {
 
 		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
+
+		$warnings = [];
+		set_error_handler(
+			function (int $errno, string $errstr) use (&$warnings): void {
+				if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
+					return;
+				}
+				$warnings[] = $errstr;
+			},
+		);
 
 		$s3->writeObject('emptystream', $emptyStream);
 
@@ -123,32 +140,33 @@ class S3Test extends ObjectStoreTest {
 		self::assertTrue($thrown, 'readObject with range requests are not expected to work on empty objects');
 
 		$s3->deleteObject('emptystream');
+		$this->assertOnlyExpectedWarnings($warnings);
+		restore_error_handler();
 	}
 
 	/** File size to upload in bytes */
-	public function dataFileSizes() {
+	public static function dataFileSizes(): array {
 		return [
 			[1000000], [2000000], [5242879], [5242880], [5242881], [10000000]
 		];
 	}
 
-	/** @dataProvider dataFileSizes */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizes($size): void {
-		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
-			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
-		}
-
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 
 		$sourceStream = fopen('php://memory', 'wb+');
 		$writeChunkSize = 1024;
-		$chunkCount = $size / $writeChunkSize;
-		for ($i = 0; $i < $chunkCount; $i++) {
-			fwrite($sourceStream, str_repeat('A',
-				($i < $chunkCount - 1) ? $writeChunkSize : $size - ($i * $writeChunkSize)
-			));
+		$chunk = str_repeat('A', $writeChunkSize);
+		$remainingSize = $size;
+
+		while ($remainingSize > 0) {
+			$bytesToWrite = min($writeChunkSize, $remainingSize);
+			fwrite($sourceStream, ($bytesToWrite === $writeChunkSize) ? $chunk : str_repeat('A', $bytesToWrite));
+			$remainingSize -= $bytesToWrite;
 		}
+
 		rewind($sourceStream);
 		$s3->writeObject('testfilesizes', $sourceStream);
 
@@ -158,15 +176,17 @@ class S3Test extends ObjectStoreTest {
 		$result = $s3->readObject('testfilesizes');
 
 		// compare first 100 bytes
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
 
 		// compare last 100 bytes
-		fseek($result, $size - 100);
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
+		self::assertSame(0, fseek($result, $size - 100), 'Seek to last 100 bytes succeeds');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
 
 		// end of file reached
-		fseek($result, $size);
-		self::assertTrue(feof($result), 'End of file reached');
+		self::assertSame(0, fseek($result, $size), 'Seek to EOF succeeds');
+		self::assertSame($size, ftell($result), 'Pointer is at the end of file');
+		self::assertSame('', fread($result, 1), 'Reading at end of file returns no bytes');
+		self::assertTrue(feof($result), 'End of file reached after read attempt');
 
 		$this->assertNoUpload('testfilesizes');
 	}

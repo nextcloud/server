@@ -1,16 +1,21 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Bundles;
 
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 
 class BundleFetcher {
+	private IL10N $l10n;
 	public function __construct(
-		private IL10N $l10n,
+		IFactory $factory,
 	) {
+		$this->l10n = $factory->get('lib');
 	}
 
 	/**

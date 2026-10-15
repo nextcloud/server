@@ -4,16 +4,15 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="location"
+	<AccountPropertySection
+		v-bind.sync="location"
 		autocomplete="address-level1"
 		:placeholder="t('settings', 'Your city')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { location } = loadState('settings', 'personalInfoParameters', {})

@@ -12,13 +12,14 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Er trad een fout op bij het genereren van je back-upcodes",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Back-upcodes zijn gegenereerd. {used} van {total} codes zijn gebruikt.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dit zijn je back-upcodes. Bewaar ze en/of druk ze alsjeblieft af, want je ze kunt niet later nog een keer opvragen.",
-    "Save backup codes" : "Bewaren back-upcode",
-    "Print backup codes" : "Afdrukken back-upcode",
+    "List of backup codes" : "Lijst met back-upcodes",
     "Regenerate backup codes" : "Regenereer back-upcode",
+    "Print backup codes" : "Afdrukken back-upcode",
+    "Save backup codes" : "Bewaren back-upcode",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Als je back-upcodes opnieuw genereert, worden oude codes automatisch ongeldig gemaakt.",
     "{name} backup codes" : "{name} back-upcodes",
+    "Unable to open a new tab for printing" : "Kan geen nieuw tabblad openen om af te drukken",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Gebruik een van de back-upcodes die je bewaarde bij het inschakelen van de tweefactorauthenticatie.",
-    "Submit" : "Verwerken",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit zijn je back-upcodes. Bewaar ze en/of druk ze alsjeblieft af, want je ze kunt niet later nog een keer opvragen."
+    "Submit" : "Verwerken"
 },
 "nplurals=2; plural=(n != 1);");

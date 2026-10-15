@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -27,6 +28,7 @@ class CleanupDirectEditingTokens extends TimedJob {
 	 * @param array $argument unused argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->manager->cleanup();
 	}

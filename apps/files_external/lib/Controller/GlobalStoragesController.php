@@ -1,14 +1,19 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -24,18 +29,9 @@ use Psr\Log\LoggerInterface;
 class GlobalStoragesController extends StoragesController {
 	/**
 	 * Creates a new global storages controller.
-	 *
-	 * @param string $AppName application name
-	 * @param IRequest $request request object
-	 * @param IL10N $l10n l10n service
-	 * @param GlobalStoragesService $globalStoragesService storage service
-	 * @param LoggerInterface $logger
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param IConfig $config
 	 */
 	public function __construct(
-		$AppName,
+		string $appName,
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
@@ -43,16 +39,18 @@ class GlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$globalStoragesService,
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService,
 		);
 	}
 
@@ -63,34 +61,23 @@ class GlobalStoragesController extends StoragesController {
 	 * @param string $backend backend identifier
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
-	 * @param array $mountOptions mount-specific options
-	 * @param array $applicableUsers users for which to mount the storage
-	 * @param array $applicableGroups groups for which to mount the storage
-	 * @param int $priority priority
-	 *
-	 * @return DataResponse
+	 * @param ?array $mountOptions mount-specific options
+	 * @param ?array $applicableUsers users for which to mount the storage
+	 * @param ?array $applicableGroups groups for which to mount the storage
+	 * @param ?int $priority priority
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
-		$mountPoint,
-		$backend,
-		$authMechanism,
-		$backendOptions,
-		$mountOptions,
-		$applicableUsers,
-		$applicableGroups,
-		$priority,
-	) {
-		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
-			return new DataResponse(
-				[
-					'message' => $this->l10n->t('Forbidden to manage local mounts')
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
+		array $backendOptions,
+		?array $mountOptions,
+		?array $applicableUsers,
+		?array $applicableGroups,
+		?int $priority,
+	): DataResponse {
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backend,
@@ -128,27 +115,24 @@ class GlobalStoragesController extends StoragesController {
 	 * @param string $backend backend identifier
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
-	 * @param array $mountOptions mount-specific options
-	 * @param array $applicableUsers users for which to mount the storage
-	 * @param array $applicableGroups groups for which to mount the storage
-	 * @param int $priority priority
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
-	 *
-	 * @return DataResponse
+	 * @param ?array $mountOptions mount-specific options
+	 * @param ?array $applicableUsers users for which to mount the storage
+	 * @param ?array $applicableGroups groups for which to mount the storage
+	 * @param ?int $priority priority
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
-		$mountPoint,
-		$backend,
-		$authMechanism,
-		$backendOptions,
-		$mountOptions,
-		$applicableUsers,
-		$applicableGroups,
-		$priority,
-		$testOnly = true,
-	) {
+		int $id,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
+		array $backendOptions,
+		?array $mountOptions,
+		?array $applicableUsers,
+		?array $applicableGroups,
+		?int $priority,
+	): DataResponse {
 		$storage = $this->createStorage(
 			$mountPoint,
 			$backend,
@@ -180,11 +164,32 @@ class GlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
+	}
+
+	// PHP attributes are not inherited, so these methods override the parent
+	// solely to attach #[AuthorizedAdminSetting] and expose them to delegated admins.
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function index() {
+		return parent::index();
+	}
+
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function show(int $id, $testOnly = true) {
+		return parent::show($id, $testOnly);
+	}
+
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id) {
+		return parent::destroy($id);
 	}
 }

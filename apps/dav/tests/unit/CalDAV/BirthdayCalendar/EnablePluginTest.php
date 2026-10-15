@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -11,24 +14,15 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EnablePluginTest extends TestCase {
-
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
-	protected $server;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
-	protected $birthdayService;
-
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	protected $user;
-
-	/** @var EnablePlugin $plugin */
-	protected $plugin;
+	protected \Sabre\DAV\Server&MockObject $server;
+	protected IConfig&MockObject $config;
+	protected BirthdayService&MockObject $birthdayService;
+	protected IUser&MockObject $user;
+	protected EnablePlugin $plugin;
 
 	protected $request;
 
@@ -169,7 +163,6 @@ class EnablePluginTest extends TestCase {
 
 		$this->birthdayService->expects($this->never())
 			->method('syncUser');
-
 
 		$result = $this->plugin->httpPost($this->request, $this->response);
 

@@ -12,12 +12,13 @@ OC.L10N.register(
     "Files" : "Skráaforrit",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Minnst var á þig í \"{file}\", í athugasemd frá notandaaðgangi sem síðan þá hefur verið eytt",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} minntist á þig í athugasemd við \"{file}\"",
+    "Go to file" : "Fara í skrá",
     "Files app plugin to add comments to files" : "Viðbót við skráaforrit til að bæta athugasemdum við skrár",
     "Edit comment" : "Breyta athugasemd",
     "Delete comment" : "Eyða athugasemd",
     "Cancel edit" : "Hætta við breytingar",
     "New comment" : "Ný athugasemd",
-    "Write a comment …" : "Skrifa athugasemd ...",
+    "Write a comment …" : "Skrifaðu athugasemd ...",
     "Post comment" : "Senda inn athugasemd",
     "@ for mentions, : for emoji, / for smart picker" : "@ til að minnast á, : fyrir tjáningartákn, / fyrir snjallveljara",
     "Could not reload comments" : "Gat ekki endurlesið athugasemdir",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Villa átti sér stað við að breyta athugasemdinni",
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
-    "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina"
+    "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
+    "Write a comment …" : "Skrifa athugasemd ..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

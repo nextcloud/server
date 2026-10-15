@@ -3,192 +3,311 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog id="unified-search"
-		ref="unifiedSearchModal"
-		content-classes="unified-search-modal__content"
-		dialog-classes="unified-search-modal"
-		:name="t('core', 'Unified search')"
-		:open="open"
-		size="normal"
-		@update:open="onUpdateOpen">
-		<!-- Modal for picking custom time range -->
-		<CustomDateRangeModal :is-open="showDateRangeModal"
-			class="unified-search__date-range"
-			@set:custom-date-range="setCustomDateRange"
-			@update:is-open="showDateRangeModal = $event" />
+	<Transition name="unified-search-modal" appear>
+		<div
+			v-if="open"
+			class="unified-search-modal-root">
+			<!-- Modal for picking custom time range -->
+			<CustomDateRangeModal
+				v-model:isOpen="showDateRangeModal"
+				class="unified-search__date-range"
+				@setCustomDateRange="setCustomDateRange" />
 
-		<!-- Unified search form -->
-		<div class="unified-search-modal__header">
-			<NcInputField ref="searchInput"
-				data-cy-unified-search-input
-				:value.sync="searchQuery"
-				type="text"
-				:label="t('core', 'Search apps, files, tags, messages') + '...'"
-				@update:value="debouncedFind" />
-			<div class="unified-search-modal__filters" data-cy-unified-search-filters>
-				<NcActions :menu-name="t('core', 'Places')" :open.sync="providerActionMenuIsOpen" data-cy-unified-search-filter="places">
-					<template #icon>
-						<IconListBox :size="20" />
-					</template>
-					<!-- Provider id's may be duplicated since, plugin filters could depend on a provider that is already in the defaults.
-					provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
-					<NcActionButton v-for="provider in providers"
-						:key="`${provider.id}-${provider.name.replace(/\s/g, '')}`"
-						:disabled="provider.disabled"
-						@click="addProviderFilter(provider)">
-						<template #icon>
-							<img :src="provider.icon" class="filter-button__icon" alt="">
-						</template>
-						{{ provider.name }}
-					</NcActionButton>
-				</NcActions>
-				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen" data-cy-unified-search-filter="date">
-					<template #icon>
-						<IconCalendarRange :size="20" />
-					</template>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('today')">
-						{{ t('core', 'Today') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('7days')">
-						{{ t('core', 'Last 7 days') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('30days')">
-						{{ t('core', 'Last 30 days') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('thisyear')">
-						{{ t('core', 'This year') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('lastyear')">
-						{{ t('core', 'Last year') }}
-					</NcActionButton>
-					<NcActionButton :close-after-click="true" @click="applyQuickDateRange('custom')">
-						{{ t('core', 'Custom date range') }}
-					</NcActionButton>
-				</NcActions>
-				<SearchableList :label-text="t('core', 'Search people')"
-					:search-list="userContacts"
-					:empty-content-text="t('core', 'Not found')"
-					data-cy-unified-search-filter="people"
-					@search-term-change="debouncedFilterContacts"
-					@item-selected="applyPersonFilter">
-					<template #trigger>
-						<NcButton>
+			<div id="unified-search-results" ref="panel" class="unified-search-modal__container">
+				<!-- Polite status region: announces searching / done / result count to
+					screen readers (WCAG 4.1.3). Visually hidden, always present while open. -->
+				<div class="hidden-visually" role="status" aria-live="polite">
+					{{ liveMessage }}
+				</div>
+				<!-- Unified search form -->
+				<div
+					v-show="showHeader"
+					class="unified-search-modal__header"
+					:class="{ 'unified-search-modal__header--has-content-below': hasContentBelowHeader }">
+					<div v-if="isSmallMobile" class="unified-search-modal__mobile-input">
+						<NcTextField
+							type="search"
+							:label="t('core', 'Apps, files, messages, and more')"
+							:modelValue="searchQuery"
+							:showTrailingButton="searchQuery.length > 0"
+							:trailingButtonLabel="t('core', 'Clear search')"
+							@update:modelValue="onMobileSearchInput"
+							@trailingButtonClick="searchQuery = ''" />
+						<NcLoadingIcon v-if="isBusy" :size="20" />
+						<NcButton
+							variant="tertiary"
+							:aria-label="t('core', 'Close search')"
+							@click="onUpdateOpen(false)">
 							<template #icon>
-								<IconAccountGroup :size="20" />
+								<NcIconSvgWrapper :path="mdiClose" />
 							</template>
-							{{ t('core', 'People') }}
 						</NcButton>
-					</template>
-				</SearchableList>
-				<NcButton v-if="localSearch" data-cy-unified-search-filter="current-view" @click="searchLocally">
-					{{ t('core', 'Filter in current view') }}
-					<template #icon>
-						<IconFilter :size="20" />
-					</template>
-				</NcButton>
-			</div>
-			<div class="unified-search-modal__filters-applied">
-				<FilterChip v-for="filter in filters"
-					:key="filter.id"
-					:text="filter.name ?? filter.text"
-					:pretext="''"
-					@delete="removeFilter(filter)">
-					<template #icon>
-						<NcAvatar v-if="filter.type === 'person'"
-							:user="filter.user"
-							:size="24"
-							:disable-menu="true"
-							:show-user-status="false"
-							:hide-favorite="false" />
-						<IconCalendarRange v-else-if="filter.type === 'date'" />
-						<img v-else :src="filter.icon" alt="">
-					</template>
-				</FilterChip>
-			</div>
-		</div>
+					</div>
+					<div v-show="showFilterRow" class="unified-search-modal__filters" data-cy-unified-search-filters>
+						<NcActions
+							v-model:open="providerActionMenuIsOpen"
+							wide
+							size="small"
+							:menuName="t('core', 'Type')"
+							:variant="providerFilterActive ? 'primary' : 'secondary'"
+							data-cy-unified-search-filter="places">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiShapeOutline" />
+							</template>
+							<!-- Provider id's may be duplicated since, plugin filters could depend on a provider that is already in the defaults.
+					provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
+							<NcActionButton
+								v-for="provider in providers"
+								:key="`${provider.id}-${provider.name.replace(/\s/g, '')}`"
+								:disabled="provider.disabled"
+								@click="addProviderFilter(provider)">
+								<template #icon>
+									<img :src="provider.icon" class="filter-button__icon" alt="">
+								</template>
+								{{ provider.name }}
+							</NcActionButton>
+						</NcActions>
+						<NcActions
+							v-model:open="dateActionMenuIsOpen"
+							size="small"
+							wide
+							:menuName="t('core', 'Date')"
+							:variant="dateFilterActive ? 'primary' : 'secondary'"
+							data-cy-unified-search-filter="date">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiCalendarBlankOutline" />
+							</template>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('today')">
+								{{ t('core', 'Today') }}
+							</NcActionButton>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('7days')">
+								{{ t('core', 'Last 7 days') }}
+							</NcActionButton>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('30days')">
+								{{ t('core', 'Last 30 days') }}
+							</NcActionButton>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('thisyear')">
+								{{ t('core', 'This year') }}
+							</NcActionButton>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('lastyear')">
+								{{ t('core', 'Last year') }}
+							</NcActionButton>
+							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('custom')">
+								{{ t('core', 'Custom date range') }}
+							</NcActionButton>
+						</NcActions>
+						<SearchableList
+							:labelText="t('core', 'Search people')"
+							:searchList="userContacts"
+							:emptyContentText="t('core', 'Not found')"
+							data-cy-unified-search-filter="people"
+							@searchTermChange="debouncedFilterContacts"
+							@itemSelected="applyPersonFilter">
+							<template #trigger>
+								<NcButton
+									wide
+									size="small"
+									variant="secondary"
+									:pressed="personFilterActive">
+									<template #icon>
+										<NcIconSvgWrapper :path="mdiAccountMultipleOutline" />
+									</template>
+									{{ t('core', 'People') }}
+								</NcButton>
+							</template>
+						</SearchableList>
+					</div>
+					<div v-show="!detailCategory && hasAnyActiveFilter" class="unified-search-modal__filters-applied">
+						<FilterChip
+							v-for="filter in filters"
+							:key="filter.id"
+							:text="filter.name ?? filter.text"
+							pretext=""
+							@delete="removeFilter(filter)">
+							<template #icon>
+								<NcAvatar
+									v-if="filter.type === 'person'"
+									:user="filter.user"
+									:size="24"
+									disableMenu
+									hideStatus />
+								<NcIconSvgWrapper v-else-if="filter.type === 'date'" :path="mdiCalendarBlankOutline" />
+								<img v-else :src="filter.icon" alt="">
+							</template>
+						</FilterChip>
+					</div>
+				</div>
 
-		<div v-if="showEmptyContentInfo" class="unified-search-modal__no-content">
-			<NcEmptyContent :name="emptyContentMessage">
-				<template #icon>
-					<IconMagnify :size="64" />
-				</template>
-			</NcEmptyContent>
-		</div>
+				<div v-if="showEmptyContentInfo" class="unified-search-modal__no-content">
+					<NcEmptyContent :name="emptyContentMessage">
+						<template #icon>
+							<NcIconSvgWrapper :size="64" :path="mdiMagnify" />
+						</template>
+					</NcEmptyContent>
+					<!-- Offered even with zero results, so the user can reach external providers. -->
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
+				</div>
 
-		<div v-else class="unified-search-modal__results">
-			<h3 class="hidden-visually">
-				{{ t('core', 'Results') }}
-			</h3>
-			<div v-for="providerResult in results" :key="providerResult.id" class="result">
-				<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
-					{{ providerResult.name }}
-				</h4>
-				<ul class="result-items" :aria-labelledby="`unified-search-result-${providerResult.id}`">
-					<SearchResult v-for="(result, index) in providerResult.results"
-						:key="index"
-						v-bind="result" />
-				</ul>
-				<div class="result-footer">
-					<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
-						{{ t('core', 'Load more results') }}
-						<template #icon>
-							<IconDotsHorizontal :size="20" />
-						</template>
-					</NcButton>
-					<NcButton v-if="providerResult.inAppSearch" alignment="end-reverse" type="tertiary-no-background">
-						{{ t('core', 'Search in') }} {{ providerResult.name }}
-						<template #icon>
-							<IconArrowRight :size="20" />
-						</template>
-					</NcButton>
+				<div
+					v-else
+					ref="resultsContainer"
+					class="unified-search-modal__results"
+					:class="{ 'unified-search-modal__results--held': heldHeight !== null }"
+					:style="heldHeight !== null ? { minBlockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
+					<h3 class="hidden-visually">
+						{{ t('core', 'Results') }}
+					</h3>
+					<!-- Detail view: back control returns to the aggregate list; focus stays in the input. -->
+					<div v-if="detailCategory && detailGroup" class="unified-search-modal__detail-header">
+						<NcButton
+							class="unified-search-modal__detail-back"
+							variant="tertiary"
+							:aria-label="t('core', 'Back to all results')"
+							@click="closeDetailView">
+							<template #icon>
+								<NcIconSvgWrapper class="unified-search-modal__rtl-icon" :path="mdiArrowLeft" />
+							</template>
+							{{ t('core', 'Back') }}
+						</NcButton>
+						<h4 :id="headingId(detailGroup)" class="unified-search-modal__detail-title">
+							{{ detailGroup.name }}
+						</h4>
+					</div>
+					<!-- One flat loop over renderedGroups so the template and navigableRows stay in lockstep. -->
+					<div v-for="group in renderedGroups" :key="group.id" class="result-group">
+						<div
+							v-if="group.showPartialHeader"
+							class="unified-search-modal__unfiltered-header">
+							<span class="unified-search-modal__unfiltered-label">{{ t('core', 'Partial matches') }}</span>
+						</div>
+						<div class="result" :class="{ 'result--unfiltered': group.unfiltered }">
+							<NcButton
+								v-if="group.overflow"
+								:id="headingId(group)"
+								alignment="start-reverse"
+								variant="tertiary-no-background"
+								class="result-title--more"
+								@click="openDetailView(group)">
+								{{ t('core', 'More from {name}', { name: group.name }) }}
+								<template #icon>
+									<NcIconSvgWrapper class="unified-search-modal__rtl-icon" :path="mdiArrowRight" />
+								</template>
+							</NcButton>
+							<!-- In detail view the name is in the header, so skip the in-list heading (avoids a duplicate id). -->
+							<h4 v-else-if="group.section !== 'detail'" :id="headingId(group)" class="result-title">
+								{{ group.name }}
+							</h4>
+							<ul
+								class="result-items"
+								:role="isSmallMobile ? undefined : 'listbox'"
+								:aria-labelledby="headingId(group)">
+								<SearchResult
+									v-for="(result, index) in group.results"
+									:key="index"
+									v-bind="result"
+									:role="isSmallMobile ? undefined : 'option'"
+									:elementId="rowElementId(group.id, index, group.unfiltered)"
+									:active="activeDescendantId === rowElementId(group.id, index, group.unfiltered)" />
+							</ul>
+							<div class="result-footer">
+								<NcButton
+									v-if="group.section === 'detail' && group.hasMore"
+									variant="tertiary-no-background"
+									@click="loadMoreResultsForProvider(group)">
+									{{ t('core', 'Load more results') }}
+									<template #icon>
+										<NcIconSvgWrapper :path="mdiDotsHorizontal" />
+									</template>
+								</NcButton>
+								<NcButton v-if="group.inAppSearch" alignment="end-reverse" variant="tertiary-no-background">
+									{{ t('core', 'Search in') }} {{ group.name }}
+									<template #icon>
+										<NcIconSvgWrapper :path="mdiArrowRight" />
+									</template>
+								</NcButton>
+							</div>
+						</div>
+					</div>
+					<!-- Last, so results that land are never pushed down. -->
+					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
+					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 			</div>
+			<!-- `modal-mask` is how @nextcloud/vue's useHotKey guard recognises an open modal and
+				suppresses background app shortcuts (else the Files app's arrow-key nav fires behind
+				the scrim). NcModal's `.modal-mask` styles are scoped, so no foreign CSS leaks in. -->
+			<div class="unified-search-modal__scrim modal-mask" @click="onScrimClick" />
 		</div>
-	</NcDialog>
+	</Transition>
 </template>
 
 <script lang="ts">
+import type { FocusTrap } from 'focus-trap'
+import type { CategorySearchParams } from '../../services/UnifiedSearchController.ts'
+
+import { mdiAccountMultipleOutline, mdiArrowLeft, mdiArrowRight, mdiCalendarBlankOutline, mdiClose, mdiDotsHorizontal, mdiMagnify, mdiShapeOutline } from '@mdi/js'
 import { subscribe } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
+import { getCanonicalLocale, n, t } from '@nextcloud/l10n'
+import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { useBrowserLocation } from '@vueuse/core'
-import { defineComponent } from 'vue'
-import { getProviders, search as unifiedSearch, getContacts } from '../../services/UnifiedSearchService.js'
-import { useSearchStore } from '../../store/unified-search-external-filters.js'
-
 import debounce from 'debounce'
-import { unifiedSearchLogger } from '../../logger'
-
-import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconAccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import IconCalendarRange from 'vue-material-design-icons/CalendarRange.vue'
-import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
-import IconFilter from 'vue-material-design-icons/Filter.vue'
-import IconListBox from 'vue-material-design-icons/ListBox.vue'
-import IconMagnify from 'vue-material-design-icons/Magnify.vue'
-import NcActions from '@nextcloud/vue/components/NcActions'
+import { createFocusTrap } from 'focus-trap'
+import { defineComponent, markRaw } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcInputField from '@nextcloud/vue/components/NcInputField'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
-
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import ConnectedServicesBar from './ConnectedServicesBar.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
-import FilterChip from './SearchFilterChip.vue'
 import SearchableList from './SearchableList.vue'
+import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
+import SearchResultSkeleton from './SearchResultSkeleton.vue'
+import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
+import { getContacts, getProviders } from '../../services/UnifiedSearchService.ts'
+import { useSearchStore } from '../../store/unifiedSearch.ts'
+import { unifiedSearchLogger } from '../../utils/logger.ts'
+
+/**
+ * Rows shown per category in the aggregate list. A view-only cap: the controller keeps
+ * the full set, and a category with more shows a "More from" button to the detail view.
+ */
+const RESULTS_PER_CATEGORY = 3
+
+/** Fallback when there is no results box on screen to measure. */
+const DEFAULT_HELD_HEIGHT_PX = 332
+
+const RESIZING_CLASS = 'is-animating-height'
+
+/** The least vertical space one bar takes, gap included, so dividing by it overdraws. */
+const SKELETON_MIN_BAR_AND_GAP_PX = 60
+
+/** Room for the heading and one row. Any less and the fade swallows the row. */
+const SKELETON_MIN_HELD_HEIGHT_PX = 126
+
+/** One selectable result row in the flat keyboard-navigation list. */
+interface NavigableRow {
+	id: string
+	resourceUrl: string | null
+}
 
 export default defineComponent({
 	name: 'UnifiedSearchModal',
 	components: {
-		IconArrowRight,
-		IconAccountGroup,
-		IconCalendarRange,
-		IconDotsHorizontal,
-		IconFilter,
-		IconListBox,
-		IconMagnify,
 
+		ConnectedServicesBar,
 		CustomDateRangeModal,
 		FilterChip,
 		NcActions,
@@ -196,10 +315,12 @@ export default defineComponent({
 		NcAvatar,
 		NcButton,
 		NcEmptyContent,
-		NcDialog,
-		NcInputField,
+		NcIconSvgWrapper,
+		NcLoadingIcon,
+		NcTextField,
 		SearchableList,
 		SearchResult,
+		SearchResultSkeleton,
 	},
 
 	props: {
@@ -220,15 +341,17 @@ export default defineComponent({
 		},
 
 		/**
-		 * If the current page / app supports local search
+		 * Reveal the filter row before the user has typed. Set by the header input's
+		 * funnel button (relayed through the parent view) so filters can be opened on
+		 * a focused-but-empty query.
 		 */
-		localSearch: {
+		filtersRevealed: {
 			type: Boolean,
 			default: false,
 		},
 	},
 
-	emits: ['update:open', 'update:query'],
+	emits: ['update:open', 'update:query', 'update:activeDescendant', 'update:loading'],
 
 	setup() {
 		/**
@@ -236,11 +359,28 @@ export default defineComponent({
 		 */
 		const currentLocation = useBrowserLocation()
 		const searchStore = useSearchStore()
-		return {
-			t,
+		const isSmallMobile = useIsSmallMobile()
 
+		const { searchStates, revealOrder, search, loadMore, reset } = useUnifiedSearch()
+
+		return {
+			mdiAccountMultipleOutline,
+			mdiArrowLeft,
+			mdiArrowRight,
+			mdiCalendarBlankOutline,
+			mdiClose,
+			mdiDotsHorizontal,
+			mdiMagnify,
+			mdiShapeOutline,
+			t,
+			searchStates,
+			revealOrder,
+			search,
+			loadMore,
+			reset,
 			currentLocation,
 			externalFilters: searchStore.externalFilters,
+			isSmallMobile,
 		}
 	},
 
@@ -249,22 +389,40 @@ export default defineComponent({
 			providers: [],
 			providerActionMenuIsOpen: false,
 			dateActionMenuIsOpen: false,
-			providerResultLimit: 5,
-			dateFilter: { id: 'date', type: 'date', text: '', startFrom: null, endAt: null },
+			dateFilter: {
+				id: 'date',
+				type: 'date',
+				text: '',
+				startFrom: null as Date | null,
+				endAt: null as Date | null,
+			},
+
 			personFilter: { id: 'person', type: 'person', name: '' },
-			dateFilterIsApplied: false,
-			personFilterIsApplied: false,
 			filteredProviders: [],
-			searching: false,
 			searchQuery: '',
 			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
-			results: [],
 			contacts: [],
 			showDateRangeModal: false,
-			internalIsVisible: this.open,
 			initialized: false,
+			// True from the query change until the debounced find() runs, so the busy state
+			// covers the debounce gap and we don't flash "No results" before searching starts.
+			pendingSearch: false,
+			searchExternalResources: false,
+			// Set = this one category's full result set (detail view); null = the capped aggregate list.
+			detailCategory: null as string | null,
+			// Index of the selected row in the flat navigableRows list. -1 = nothing
+			// selected (no results yet). Focus stays in the input; this drives the
+			// aria-activedescendant highlight (combobox pattern).
+			activeIndex: -1,
+			minSearchLength: loadState('unified-search', 'min-search-length', 1),
+			reservedHeight: 0,
+			panelFrom: 0,
+			panelResize: null as Animation | null,
+			// Focus trap spanning [header input, popover panel]; markRaw'd so Vue
+			// doesn't make the trap instance reactive.
+			focusTrap: null as FocusTrap | null,
 		}
 	},
 
@@ -273,21 +431,85 @@ export default defineComponent({
 			return this.searchQuery.length === 0
 		},
 
+		// Per-category "active" flags from the applied filters, driving each trigger's
+		// pressed/blue state. The provider bucket is everything that is not date or person.
+		providerFilterActive() {
+			return this.filters.some((filter) => filter.type !== 'date' && filter.type !== 'person')
+		},
+
+		dateFilterActive() {
+			return this.filters.some((filter) => filter.type === 'date')
+		},
+
+		personFilterActive() {
+			return this.filters.some((filter) => filter.type === 'person')
+		},
+
+		hasAnyActiveFilter() {
+			return this.filters.length > 0
+		},
+
+		// Desktop hides the filter row until the funnel reveals it, or a query/active
+		// filter exists. Always shown on mobile, where the modal is the whole search surface.
+		// The detail view ("More from …") drops filters entirely.
+		showFilterRow() {
+			if (this.detailCategory) {
+				return false
+			}
+			return this.isSmallMobile
+				|| this.filtersRevealed
+				|| this.searchQuery.length > 0
+				|| this.hasAnyActiveFilter
+		},
+
+		// The header only takes space when it has something to show: the mobile search
+		// field, or the filter row. Hidden otherwise (desktop detail view, resting empty
+		// query) so its padding can't become a dead strip above the content.
+		showHeader() {
+			return this.isSmallMobile || this.showFilterRow
+		},
+
+		// True while any category is still fetching.
+		searching() {
+			return Object.values(this.searchStates).some((state) => state.status === 'loading')
+		},
+
+		// Drives the search-input spinner: an in-flight category search, or a pending query
+		// before providers finish. Never spins without a searchable query.
+		isBusy() {
+			// A closed modal never reports busy: the header input must not spin for a search
+			// that is not open, and initialisation may still be pending in the background.
+			if (!this.open || this.isEmptySearch || this.isSearchQueryTooShort) {
+				return false
+			}
+			return this.searching || this.pendingSearch || !this.initialized
+		},
+
 		hasNoResults() {
 			return !this.isEmptySearch && this.results.length === 0
 		},
 
+		isSearchQueryTooShort() {
+			return this.searchQuery.length < this.minSearchLength
+		},
+
 		showEmptyContentInfo() {
-			return this.isEmptySearch || this.hasNoResults
+			// Nothing renders while the spinner is up; only real empty states (too-short query,
+			// or settled with no results) show.
+			return this.hasNoResults && !this.isBusy
 		},
 
 		emptyContentMessage() {
-			if (this.searching && this.hasNoResults) {
-				return t('core', 'Searching …')
+			// A query shrinking below the minimum mid-search shows the prompt.
+			if (this.isSearchQueryTooShort) {
+				switch (this.minSearchLength) {
+					case 1:
+						return t('core', 'Start typing to search')
+					default:
+						return n('core', 'Minimum search length is %n character', 'Minimum search length is %n characters', this.minSearchLength)
+				}
 			}
-			if (this.isEmptySearch) {
-				return t('core', 'Start typing to search')
-			}
+
 			return t('core', 'No matching results')
 		},
 
@@ -302,13 +524,206 @@ export default defineComponent({
 		debouncedFilterContacts() {
 			return debounce(this.filterContacts, 300)
 		},
+
+		hasExternalResources() {
+			return this.providers.some((provider) => provider.isExternalProvider)
+		},
+
+		hasContentFilters() {
+			return this.filters.some((filter) => filter.type === 'date' || filter.type === 'person')
+		},
+
+		results() {
+			// An empty or too-short query has no results. The controller keeps its last
+			// result set (the modal never unmounts to dispose it), so this guard stops
+			// stale entries rendering under a freshly emptied search box. isEmptySearch is
+			// covered explicitly since min-search-length can be 0, when too-short is false.
+			if (this.isEmptySearch || this.isSearchQueryTooShort) {
+				return []
+			}
+			const contentFilterTypes = this.filters
+				.filter((filter) => filter.type !== 'provider')
+				.map((filter) => filter.type)
+
+			// Category order and category-level visibility are the controller's, see
+			// getRevealOrder(). Do not re-derive or re-sort them here.
+			return this.revealOrder.map((providerId) => {
+				const state = this.searchStates[providerId]
+				const provider = this.providers.find((p) => p.id === providerId)
+				const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
+				return {
+					...provider,
+					results: state.entries,
+					hasMore: state.hasMore,
+					supportsActiveFilters,
+				}
+			})
+		},
+
+		filteredResults() {
+			const isInFolderAtRoot = (result) => {
+				if (result.id !== 'in-folder') {
+					return false
+				}
+				const path = result.extraParams?.path
+				return !path || path === '/' || path === ''
+			}
+
+			if (!this.hasContentFilters) {
+				return this.results.filter((result) => !isInFolderAtRoot(result))
+			}
+			return this.results.filter((result) => result.supportsActiveFilters === true && !isInFolderAtRoot(result))
+		},
+
+		filteredResultUrls() {
+			const urls = new Set()
+			this.filteredResults.forEach((provider) => {
+				provider.results.forEach((entry) => {
+					if (entry.resourceUrl) {
+						urls.add(entry.resourceUrl)
+					}
+				})
+			})
+			return urls
+		},
+
+		unfilteredResults() {
+			if (!this.hasContentFilters) {
+				return []
+			}
+			return this.results
+				.filter((result) => result.supportsActiveFilters === false)
+				.map((provider) => ({
+					...provider,
+					results: provider.results.filter((entry) => !this.filteredResultUrls.has(entry.resourceUrl)),
+				}))
+				.filter((provider) => provider.results.length > 0)
+		},
+
+		// The category shown in the detail view (uncapped), or null in aggregate. Read from
+		// `results` so it carries live entries + hasMore; null once the category drops out.
+		detailGroup() {
+			if (!this.detailCategory) {
+				return null
+			}
+			return this.results.find((group) => group.id === this.detailCategory) ?? null
+		},
+
+		// The groups on screen, shaped identically for the template and navigableRows so the
+		// two can't drift (a11y invariant). Aggregate: filtered then partial-match groups,
+		// capped to RESULTS_PER_CATEGORY with `overflow` when there's more. Detail: the
+		// opened category alone, uncapped.
+		//
+		// This partition is a second ordering axis, so reveal order holds *within* a section,
+		// not across the two: with content filters active, a filter-compatible category that
+		// lands late still renders above an already-shown partial match.
+		renderedGroups() {
+			if (this.detailCategory) {
+				return this.detailGroup
+					? [this.toRenderedGroup(this.detailGroup, 'detail', false)]
+					: []
+			}
+			return [
+				...this.filteredResults.map((group) => this.toRenderedGroup(group, 'filtered', false)),
+				...this.unfilteredResults.map((group, index) => this.toRenderedGroup(group, 'unfiltered', index === 0)),
+			]
+		},
+
+		// A border box, like getBoundingClientRect hands back; content-box would re-add the padding.
+		heldHeight() {
+			// The detail view is not emptied and refilled; its paging has its own button.
+			if (!this.isBusy || this.detailCategory) {
+				return null
+			}
+			return Math.max(this.reservedHeight || DEFAULT_HELD_HEIGHT_PX, SKELETON_MIN_HELD_HEIGHT_PX)
+		},
+
+		skeletonRows() {
+			return this.heldHeight === null
+				? 0
+				: Math.ceil(this.heldHeight / SKELETON_MIN_BAR_AND_GAP_PX)
+		},
+
+		// The connected-services opt-in. Shows for any searchable query when external providers
+		// exist (including zero results, so the user can opt in when local search found nothing),
+		// never on empty/too-short queries or in detail view. Held until the search settles
+		// (!isBusy) so it doesn't flash while providers load.
+		showConnectedServicesButton() {
+			return this.hasExternalResources
+				&& !this.detailCategory
+				&& !this.isEmptySearch
+				&& !this.isSearchQueryTooShort
+				&& !this.isBusy
+		},
+
+		// The rendered rows flattened into a single list in visual order (filtered
+		// groups first, then the partial-matches groups), each with the DOM id of its
+		// option element. This is the index space the arrow keys walk; it must stay in
+		// lockstep with the template's v-for order so activeDescendantId names the row
+		// the highlight is on.
+		navigableRows(): NavigableRow[] {
+			// No rows are rendered while the empty/searching state shows, and none on
+			// mobile (no combobox there). Keep the index space in lockstep with the DOM
+			// so aria-activedescendant never names a row that isn't on screen.
+			if (this.showEmptyContentInfo || this.isSmallMobile) {
+				return []
+			}
+			const rows: NavigableRow[] = []
+			this.renderedGroups.forEach((group) => {
+				group.results.forEach((entry, index) => {
+					rows.push({ id: this.rowElementId(group.id, index, group.unfiltered), resourceUrl: entry.resourceUrl })
+				})
+			})
+			return rows
+		},
+
+		activeRow() {
+			return this.navigableRows[this.activeIndex] ?? null
+		},
+
+		// The option id the combobox input points aria-activedescendant at, or null
+		// when nothing is selected.
+		activeDescendantId() {
+			return this.activeRow?.id ?? null
+		},
+
+		// Status-message text for the polite live region (WCAG 4.1.3). Announces the
+		// search progress and the settled result count; empty (silent) when closed or
+		// before a searchable query exists.
+		liveMessage() {
+			if (!this.open || this.isEmptySearch || this.isSearchQueryTooShort) {
+				return ''
+			}
+			if (this.searching || !this.initialized) {
+				return t('core', 'Searching …')
+			}
+			if (this.navigableRows.length === 0) {
+				return t('core', 'No matching results')
+			}
+			// In detail view, name the category and keep the count so "Load more" re-announces the grown set.
+			if (this.detailCategory && this.detailGroup) {
+				return n('core', 'Showing %n result from {name}', 'Showing %n results from {name}', this.navigableRows.length, { name: this.detailGroup.name })
+			}
+			return n('core', '%n result', '%n results', this.navigableRows.length)
+		},
+
+		hasVisibleResults() {
+			return this.filteredResults.length > 0 || this.unfilteredResults.length > 0
+		},
+
+		// Placeholders count as content, or the divider flashes in when the first category lands.
+		hasContentBelowHeader() {
+			return !this.detailCategory && (this.hasVisibleResults || this.skeletonRows > 0)
+		},
 	},
 
 	watch: {
 		open() {
 			// Load results when opened with already filled query
 			if (this.open) {
-				this.focusInput()
+				document.addEventListener('keydown', this.onEscapeKey)
+				// Wait for the panel to render before trapping focus across it + the input
+				this.$nextTick(() => this.activateFocusTrap())
 				if (!this.initialized) {
 					Promise.all([getProviders(), getContacts({ searchTerm: '' })])
 						.then(([providers, contacts]) => {
@@ -316,21 +731,113 @@ export default defineComponent({
 							this.contacts = this.mapContacts(contacts)
 							unifiedSearchLogger.debug('Search providers and contacts initialized:', { providers: this.providers, contacts: this.contacts })
 							this.initialized = true
+							// Run any query find() deferred while providers were still loading.
+							if (this.open && this.searchQuery) {
+								this.find(this.searchQuery)
+							}
 						})
 						.catch((error) => {
 							unifiedSearchLogger.error(error)
+							// Mark init done even on failure, so the empty state shows "no results" not a stuck "searching".
+							this.initialized = true
 						})
 				}
 				if (this.searchQuery) {
 					this.find(this.searchQuery)
 				}
+			} else {
+				// The modal never unmounts, so the controller keeps this session's results.
+				// Clear them on close so they can't flash on the next open. Close is the
+				// reliable hook: every close path flips this prop true -> false.
+				this.reset()
+				this.reservedHeight = 0
+				// Drop in-flight search bookkeeping so a preserved query can't keep the header
+				// input spinning, and cancel the pending debounce so it can't dispatch after close.
+				this.pendingSearch = false
+				this.debouncedFind.clear()
+				// Start the next open on the aggregate list, never mid-detail-view.
+				this.detailCategory = null
+				document.removeEventListener('keydown', this.onEscapeKey)
+				this.deactivateFocusTrap()
 			}
 		},
 
 		query: {
 			immediate: true,
 			handler() {
-				this.searchQuery = this.query.trim()
+				this.searchQuery = this.query
+			},
+		},
+
+		searchQuery: {
+			handler() {
+				// A new query reshapes the category set; leave any open detail view.
+				this.detailCategory = null
+				this.$emit('update:query', this.searchQuery)
+				// Only search while open: the query prop keeps flowing from the header even
+				// when closed (e.g. the local search bar on deck), so a hidden modal must
+				// not fire background searches.
+				if (this.open) {
+					this.scheduleSearch()
+				}
+			},
+		},
+
+		searchExternalResources() {
+			// Toggling connected services changes the category set, so return to the aggregate list.
+			this.detailCategory = null
+			if (this.searchQuery) {
+				this.find(this.searchQuery)
+			}
+		},
+
+		// Any filter change reshapes the category set, so drop back to the aggregate list.
+		filters: {
+			deep: true,
+			handler() {
+				this.detailCategory = null
+			},
+		},
+
+		// Safety net: if the open category disappears (e.g. a filter removes it), leave the detail view.
+		detailGroup(group) {
+			if (this.detailCategory && !group) {
+				this.closeDetailView()
+			}
+		},
+
+		// Entering/leaving/switching detail view resets the scroll to the top.
+		detailCategory() {
+			this.$nextTick(() => {
+				if (this.$refs.resultsContainer) {
+					this.$refs.resultsContainer.scrollTop = 0
+				}
+			})
+		},
+
+		// Keep the selection on its row as slower categories settle; auto-select the first row for a fresh set.
+		navigableRows(next, previous) {
+			this.reconcileActiveIndex(next, previous)
+		},
+
+		// Surface the loading state so the header input can show its spinner.
+		isBusy: {
+			immediate: true,
+			handler(busy) {
+				this.$emit('update:loading', busy)
+			},
+		},
+
+		// Surface the active option id so the header input (a sibling) can point its
+		// aria-activedescendant at it while keeping focus.
+		activeDescendantId: {
+			immediate: true,
+			handler(id) {
+				this.$emit('update:activeDescendant', id)
+				// Focus never moves to the row, so the browser won't auto-scroll it into
+				// view (as roving focus did in legacy). Do it ourselves once the highlight
+				// has rendered.
+				this.$nextTick(() => this.scrollActiveIntoView())
 			},
 		},
 	},
@@ -338,9 +845,21 @@ export default defineComponent({
 	mounted() {
 		subscribe('nextcloud:unified-search:add-filter', this.handlePluginFilter)
 	},
+
+	// Includes a resize in flight, so it starts from what is on screen.
+	beforeUpdate() {
+		const panel = this.$refs.panel as HTMLElement | undefined
+		this.panelFrom = panel ? panel.getBoundingClientRect().height : 0
+	},
+
+	updated() {
+		this.animatePanelResize()
+	},
+
 	methods: {
 		/**
 		 * On close the modal is closed and the query is reset
+		 *
 		 * @param open The new open state
 		 */
 		onUpdateOpen(open: boolean) {
@@ -351,118 +870,224 @@ export default defineComponent({
 		},
 
 		/**
-		 * Only close the modal but keep the query for in-app search
+		 * Backdrop click dismisses the search. Tear the trap down WITHOUT returning focus
+		 * so the input stays at rest where the user clicked away, rather than the trap
+		 * snapping focus back to it. The open watcher's own deactivate then no-ops (the
+		 * trap is already gone). Escape and the close button keep the default return-focus.
 		 */
-		searchLocally() {
-			this.$emit('update:query', this.searchQuery)
-			this.$emit('update:open', false)
+		onScrimClick() {
+			this.deactivateFocusTrap(false)
+			this.onUpdateOpen(false)
 		},
-		focusInput() {
-			this.$nextTick(() => {
-				this.$refs.searchInput?.focus()
-			})
+
+		/**
+		 * NcTextField's `update:modelValue` is typed `string | number`; the search
+		 * query is always a string, so normalize here rather than casting in the template.
+		 *
+		 * @param value The new value from the mobile search field
+		 */
+		onMobileSearchInput(value: string | number) {
+			this.searchQuery = String(value)
 		},
-		find(query: string) {
-			if (query.length === 0) {
-				this.results = []
-				this.searching = false
+
+		/**
+		 * Close the search on Escape, unless a sub-overlay is open (it handles its own
+		 * Escape). The Type/Date action menus pause the trap stack without joining it,
+		 * so check their open state directly. Everything else that opens over the modal
+		 * (People popover, date-range dialog, file picker) pushes a trap onto the shared
+		 * stack, so if our trap is not the top one an overlay is up.
+		 *
+		 * @param event The keyboard event
+		 */
+		onEscapeKey(event: KeyboardEvent) {
+			if (event.key !== 'Escape') {
+				return
+			}
+			if (this.providerActionMenuIsOpen || this.dateActionMenuIsOpen || this.showDateRangeModal) {
+				return
+			}
+			const stack = window._nc_focus_trap ?? []
+			if (this.focusTrap && stack.at(-1) !== this.focusTrap) {
+				return
+			}
+			event.preventDefault()
+			this.onUpdateOpen(false)
+		},
+
+		/**
+		 * Trap focus across the header input and the popover panel so Tab cycles
+		 * within them (and wraps) instead of escaping to the rest of the header.
+		 */
+		activateFocusTrap() {
+			if (this.focusTrap || !this.open) {
+				return
+			}
+			const panel = this.$refs.panel as HTMLElement | undefined
+			if (!panel) {
+				return
+			}
+			// focus-trap collects tabbables *inside* each container. The header input is
+			// in a sibling component under the shared .unified-search-menu ancestor, so we
+			// query its wrapper from the DOM at activation (not via a prop, which goes
+			// stale across the mobile/desktop input swap). Input container first for DOM order.
+			const menu = (this.$el as HTMLElement)?.closest?.('.unified-search-menu') ?? null
+			const inputContainer = (menu?.querySelector('.unified-search-input') ?? null) as HTMLElement | null
+			const containers = inputContainer ? [inputContainer, panel] : [panel]
+			this.focusTrap = markRaw(createFocusTrap(containers, {
+				// Prefer the mobile search field (rendered inside the panel) when present;
+				// falls back to the header input, then the panel itself.
+				initialFocus: () => panel.querySelector('input[type="search"]') ?? inputContainer?.querySelector('input') ?? panel,
+				// We own closing via Escape (onEscapeKey) and scrim click
+				escapeDeactivates: false,
+				// Let scrim clicks reach their handler instead of being swallowed
+				allowOutsideClick: true,
+				// Join the @nextcloud/vue shared trap stack. Every Nc overlay (the Type/Date
+				// action menus, the People popover, the date-range dialog, the file picker)
+				// registers here too, so focus-trap pauses/resumes this trap for each of them
+				// automatically (LIFO). This replaces the old manual pause, which could not
+				// track the externally-opened file picker and fought it for focus.
+				trapStack: (window._nc_focus_trap ??= []),
+			}))
+			this.focusTrap.activate()
+		},
+
+		/**
+		 * Tear down the focus trap. By default focus returns to where it was before
+		 * opening (the header input); pass false for backdrop dismissal, where focus
+		 * should stay put instead of snapping back to the input.
+		 *
+		 * @param returnFocus whether to restore focus to the pre-open element
+		 */
+		deactivateFocusTrap(returnFocus: boolean = true) {
+			this.focusTrap?.deactivate({ returnFocus })
+			this.focusTrap = null
+		},
+
+		/** Measuring a held box gives the held height back, so it carries between keystrokes. */
+		captureReservedHeight() {
+			const results = this.$refs.resultsContainer as HTMLElement | undefined
+			this.reservedHeight = results ? results.getBoundingClientRect().height : 0
+		},
+
+		/** Nothing is written to the panel's style, so it follows its content again once done. */
+		animatePanelResize() {
+			const panel = this.$refs.panel as HTMLElement | undefined
+			const from = this.panelFrom
+
+			// Cancel before measuring, or `to` comes back mid-animation. Detach onfinish first, or
+			// it strips the class off the resize that replaces this one.
+			if (this.panelResize) {
+				this.panelResize.onfinish = null
+				this.panelResize.cancel()
+				this.panelResize = null
+			}
+			panel?.classList.remove(RESIZING_CLASS)
+
+			// A closing panel keeps its size through the fade-out; jsdom has no Web Animations.
+			if (!panel || !from || !this.open || typeof panel.animate !== 'function') {
 				return
 			}
 
-			this.searching = true
-			const newResults = []
-			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
-			const searchProvider = (provider, filters) => {
-				const params = {
-					type: provider.searchFrom ?? provider.id,
-					query,
-					cursor: null,
-					extraQueries: provider.extraParams,
-				}
-
-				// This block of filter checks should be dynamic somehow and should be handled in
-				// nextcloud/search lib
-				if (filters.dateFilterIsApplied) {
-					if (provider.filters?.since && provider.filters?.until) {
-						params.since = this.dateFilter.startFrom
-						params.until = this.dateFilter.endAt
-					}
-				}
-
-				if (filters.personFilterIsApplied) {
-					if (provider.filters?.person) {
-						params.person = this.personFilter.user
-					}
-				}
-
-				if (this.providerResultLimit > 5) {
-					params.limit = this.providerResultLimit
-					unifiedSearchLogger.debug('Limiting search to', params.limit)
-				}
-
-				const request = unifiedSearch(params).request
-
-				request().then((response) => {
-					newResults.push({
-						id: provider.id,
-						appId: provider.appId,
-						searchFrom: provider.searchFrom,
-						icon: provider.icon,
-						name: provider.name,
-						inAppSearch: provider.inAppSearch,
-						results: response.data.ocs.data.entries,
-					})
-
-					unifiedSearchLogger.debug('Unified search results:', { results: this.results, newResults })
-
-					this.updateResults(newResults)
-					this.searching = false
-				})
+			// Zeroed by the reduced-motion theme, which the OS preference switches on as well.
+			const duration = parseFloat(getComputedStyle(panel).getPropertyValue('--animation-slow'))
+			if (!duration) {
+				return
 			}
-			providersToSearch.forEach(provider => {
-				const dateFilterIsApplied = this.dateFilterIsApplied
-				const personFilterIsApplied = this.personFilterIsApplied
-				searchProvider(provider, { dateFilterIsApplied, personFilterIsApplied })
+
+			const to = panel.getBoundingClientRect().height
+			if (Math.abs(to - from) < 1) {
+				return
+			}
+
+			panel.classList.add(RESIZING_CLASS)
+			const resize = panel.animate(
+				[{ height: `${from}px` }, { height: `${to}px` }],
+				// The curve the panel slides in with, so a resize reads as the same motion.
+				{ duration, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+			)
+			resize.onfinish = () => panel.classList.remove(RESIZING_CLASS)
+			this.panelResize = markRaw(resize)
+		},
+
+		/**
+		 * Blank the results, then queue the search. Every query and filter change comes through
+		 * here. The results on screen answer the previous question, so holding them until the
+		 * debounce fires only means they shift once the real ones land.
+		 */
+		scheduleSearch() {
+			this.captureReservedHeight()
+			this.reset()
+			// Mark busy synchronously so the debounce window doesn't flash the empty state.
+			this.pendingSearch = true
+			this.debouncedFind(this.searchQuery)
+		},
+
+		find(query: string) {
+			// The debounced search is running now; from here `searching` (or `!initialized`) drives busy.
+			this.pendingSearch = false
+
+			if (this.isSearchQueryTooShort) {
+				return
+			}
+
+			// Providers load asynchronously on open. Searching before they arrive dispatches an
+			// empty list and lands on "no results", so defer; the init handler re-runs once ready.
+			if (!this.initialized) {
+				return
+			}
+
+			// With provider filters, search exactly those (opted in even if external).
+			// Otherwise search all providers except external ones not switched on.
+			const searchable = this.filteredProviders.length > 0
+				? this.filteredProviders
+				: this.providers.filter((provider) => this.searchExternalResources || !provider.isExternalProvider)
+
+			// One param set per category, keyed by provider id, for the controller to
+			// dispatch. It reuses the same params on loadMore, so filters page correctly.
+			const params = {}
+			searchable.forEach((provider) => {
+				params[provider.id] = this.buildCategoryParams(provider)
 			})
 
+			this.search(query, searchable.map((provider) => provider.id), params)
 		},
-		updateResults(newResults) {
-			let updatedResults = [...this.results]
-			// If filters are applied, remove any previous results for providers that are not in current filters
-			if (this.filters.length > 0) {
-				updatedResults = updatedResults.filter(result => {
-					return this.filters.some(filter => filter.id === result.id)
-				})
+
+		/**
+		 * Translate a provider plus the active filters into controller search params.
+		 *
+		 * @param provider the provider to build params for
+		 */
+		buildCategoryParams(provider): CategorySearchParams {
+			const params: CategorySearchParams = {
+				extraQueries: provider.extraParams,
 			}
-			// Process the new results
-			newResults.forEach(newResult => {
-				const existingResultIndex = updatedResults.findIndex(result => result.id === newResult.id)
-				if (existingResultIndex !== -1) {
-					if (newResult.results.length === 0) {
-						// If the new results data has no matches for and existing result, remove the existing result
-						updatedResults.splice(existingResultIndex, 1)
-					} else {
-						// If input triggered a change in existing results, update existing result
-						updatedResults.splice(existingResultIndex, 1, newResult)
-					}
-				} else if (newResult.results.length > 0) {
-					// Push the new result to the array only if its results array is not empty
-					updatedResults.push(newResult)
+
+			// `searchFrom` aliases a provider onto another provider's backend. The
+			// controller dispatches on this `type` override; a plain provider sends none.
+			if (provider.searchFrom) {
+				params.type = provider.searchFrom
+			}
+
+			// Only attach a filter the provider supports. providerIsCompatibleWithFilters resolves
+			// the backing provider (via searchFrom) and checks its capabilities, so it's enough here.
+			this.filters.forEach((filter) => {
+				if (filter.type === 'provider' || !this.providerIsCompatibleWithFilters(provider, [filter.type])) {
+					return
+				}
+				if (filter.type === 'date') {
+					// The controller/API expect ISO strings, not Date objects.
+					params.since = this.dateFilter.startFrom?.toISOString()
+					params.until = this.dateFilter.endAt?.toISOString()
+				} else if (filter.type === 'person') {
+					params.person = this.personFilter.user
 				}
 			})
-			const sortedResults = updatedResults.slice(0)
-			// Order results according to provider preference
-			sortedResults.sort((a, b) => {
-				const aProvider = this.providers.find(provider => provider.id === a.id)
-				const bProvider = this.providers.find(provider => provider.id === b.id)
-				const aOrder = aProvider ? aProvider.order : 0
-				const bOrder = bProvider ? bProvider.order : 0
-				return aOrder - bOrder
-			})
-			this.results = sortedResults
+
+			return params
 		},
+
 		mapContacts(contacts) {
-			return contacts.map(contact => {
+			return contacts.map((contact) => {
 				return {
 					// id: contact.id,
 					// name: '',
@@ -475,15 +1100,16 @@ export default defineComponent({
 				}
 			})
 		},
+
 		filterContacts(query) {
 			getContacts({ searchTerm: query }).then((contacts) => {
 				this.contacts = this.mapContacts(contacts)
 				unifiedSearchLogger.debug(`Contacts filtered by ${query}`, { contacts: this.contacts })
 			})
 		},
+
 		applyPersonFilter(person) {
-			this.personFilterIsApplied = true
-			const existingPersonFilter = this.filters.findIndex(filter => filter.id === person.id)
+			const existingPersonFilter = this.filters.findIndex((filter) => filter.id === person.id)
 			if (existingPersonFilter === -1) {
 				this.personFilter.id = person.id
 				this.personFilter.user = person.user
@@ -495,42 +1121,103 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['person']))
-			})
-
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
-		async loadMoreResultsForProvider(provider) {
-			this.providerResultLimit += 5
-			// If load more result for filter, remove other filters
-			this.filters = this.filters.filter(filter => filter.id === provider.id)
-			this.filteredProviders = this.filteredProviders.filter(filteredProvider => filteredProvider.id === provider.id)
-			// Plugin filters may have extra parameters, so we need to keep them
-			// See method handlePluginFilter for more details
-			if (this.filteredProviders.length > 0 && this.filteredProviders[0].isPluginFilter) {
-				provider = this.filteredProviders[0]
-			}
-			this.addProviderFilter(provider, true)
+
+		loadMoreResultsForProvider(provider) {
+			// The controller pages from its stored cursor and reuses the original
+			// per-category params, so we only need to hand it the provider id.
+			this.loadMore(provider.id)
 		},
-		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
-			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
-			if (!providerFilter.id) return
+
+		// Shape one category for rendering: aggregate caps to RESULTS_PER_CATEGORY and sets
+		// `overflow` (the "More from" button); detail keeps the full set.
+		toRenderedGroup(group, section: 'filtered' | 'unfiltered' | 'detail', showPartialHeader: boolean) {
+			const detail = section === 'detail'
+			return {
+				id: group.id,
+				name: group.name,
+				section,
+				unfiltered: section === 'unfiltered',
+				results: detail ? group.results : group.results.slice(0, RESULTS_PER_CATEGORY),
+				// Count-based per the design: "More from" only when more than the cap was fetched
+				// (PAGE_SIZE 10 fetched, RESULTS_PER_CATEGORY 3 shown). NOT keyed off hasMore: some
+				// providers advertise a cursor past their last page, which would show the button and
+				// then a dead-end detail view.
+				overflow: detail ? false : group.results.length > RESULTS_PER_CATEGORY,
+				hasMore: group.hasMore,
+				inAppSearch: group.inAppSearch ?? false,
+				showPartialHeader,
+			}
+		},
+
+		// DOM id for a group heading; the listbox's aria-labelledby target (plain title or "More from" button).
+		headingId(group): string {
+			return group.unfiltered
+				? `unified-search-result-unfiltered-${group.id}`
+				: `unified-search-result-${group.id}`
+		},
+
+		// Open one category's full result set in the detail view. Focus returns to the input
+		// (the clicked "More from" trigger is about to unmount).
+		openDetailView(group) {
+			this.detailCategory = group.id
+			this.$nextTick(() => this.focusSearchInput())
+		},
+
+		/**
+		 * Leave the detail view for the aggregate list, returning focus to the input.
+		 */
+		closeDetailView() {
+			this.detailCategory = null
+			this.$nextTick(() => this.focusSearchInput())
+		},
+
+		/**
+		 * Move focus back to the search input. Prefers the in-panel mobile field, then the
+		 * header input (mirroring the focus trap's initialFocus). Used when a focused control unmounts.
+		 */
+		focusSearchInput() {
+			const panel = this.$refs.panel as HTMLElement | undefined
+			const mobileInput = panel?.querySelector('input[type="search"]') as HTMLElement | null
+			if (mobileInput) {
+				mobileInput.focus()
+				return
+			}
+			const menu = (this.$el as HTMLElement)?.closest?.('.unified-search-menu') ?? null
+			const headerInput = (menu?.querySelector('.unified-search-input input') ?? null) as HTMLElement | null
+			headerInput?.focus()
+		},
+
+		/**
+		 * Flip the connected-services opt-in; the searchExternalResources watcher re-runs find().
+		 */
+		toggleExternalResources() {
+			this.searchExternalResources = !this.searchExternalResources
+			// The re-search flips isBusy, which unmounts this very button; move focus back to
+			// the input (like the detail-view controls) so keyboard navigation keeps working.
+			this.$nextTick(() => this.focusSearchInput())
+		},
+
+		addProviderFilter(providerFilter) {
+			unifiedSearchLogger.debug('Applying provider filter', { providerFilter })
+			if (!providerFilter.id) {
+				return
+			}
 			if (providerFilter.isPluginFilter) {
 				// There is no way to know what should go into the callback currently
 				// Here we are passing isProviderFilterApplied (boolean) which is a flag sent to the plugin
 				// This is sent to the plugin so that depending on whether the filter is applied or not, the plugin can decide what to do
 				// TODO : In nextcloud/search, this should be a proper interface that the plugin can implement
-				const isProviderFilterApplied = this.filteredProviders.some(provider => provider.id === providerFilter.id)
+				const isProviderFilterApplied = this.filteredProviders.some((provider) => provider.id === providerFilter.id)
 				providerFilter.callback(!isProviderFilterApplied)
 			}
-			this.providerResultLimit = loadMoreResultsForProvider ? this.providerResultLimit : 5
 			this.providerActionMenuIsOpen = false
 			// With the possibility for other apps to add new filters
 			// Resulting in a possible id/provider collision
 			// If a user tries to apply a filter that seems to already exist, we remove the current one and add the new one.
-			const existingFilterIndex = this.filteredProviders.findIndex(existing => existing.id === providerFilter.id)
+			const existingFilterIndex = this.filteredProviders.findIndex((existing) => existing.id === providerFilter.id)
 			if (existingFilterIndex > -1) {
 				this.filteredProviders.splice(existingFilterIndex, 1)
 				this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
@@ -542,8 +1229,9 @@ export default defineComponent({
 			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			unifiedSearchLogger.debug('Search filters (newly added)', { filters: this.filters })
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
+
 		removeFilter(filter) {
 			if (filter.type === 'provider') {
 				for (let i = 0; i < this.filteredProviders.length; i++) {
@@ -554,23 +1242,18 @@ export default defineComponent({
 				}
 				this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 				unifiedSearchLogger.debug('Search filters (recently removed)', { filters: this.filters })
-
 			} else {
+				// Remove non provider filters such as date and person filters
 				for (let i = 0; i < this.filters.length; i++) {
-					// Remove date and person filter
-					if (this.filters[i].id === 'date' || this.filters[i].id === filter.id) {
-						this.dateFilterIsApplied = false
+					if (this.filters[i].id === filter.id) {
 						this.filters.splice(i, 1)
-						if (filter.type === 'person') {
-							this.personFilterIsApplied = false
-						}
-						this.enableAllProviders()
 						break
 					}
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
+
 		syncProviderFilters(firstArray, secondArray) {
 			// Create a copy of the first array to avoid modifying it directly.
 			const synchronizedArray = firstArray.slice()
@@ -578,16 +1261,16 @@ export default defineComponent({
 			synchronizedArray.forEach((item, index) => {
 				const itemId = item.id
 				if (item.type === 'provider') {
-					if (!secondArray.some(secondItem => secondItem.id === itemId)) {
+					if (!secondArray.some((secondItem) => secondItem.id === itemId)) {
 						synchronizedArray.splice(index, 1)
 					}
 				}
 			})
 			// Add items to the synchronizedArray that are in the secondArray but not in the firstArray.
-			secondArray.forEach(secondItem => {
+			secondArray.forEach((secondItem) => {
 				const itemId = secondItem.id
 				if (secondItem.type === 'provider') {
-					if (!synchronizedArray.some(item => item.id === itemId)) {
+					if (!synchronizedArray.some((item) => item.id === itemId)) {
 						synchronizedArray.push(secondItem)
 					}
 				}
@@ -595,19 +1278,18 @@ export default defineComponent({
 
 			return synchronizedArray
 		},
+
 		updateDateFilter() {
-			const currFilterIndex = this.filters.findIndex(filter => filter.id === 'date')
+			const currFilterIndex = this.filters.findIndex((filter) => filter.id === 'date')
 			if (currFilterIndex !== -1) {
 				this.filters[currFilterIndex] = this.dateFilter
 			} else {
 				this.filters.push(this.dateFilter)
 			}
-			this.dateFilterIsApplied = true
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
-			})
-			this.debouncedFind(this.searchQuery)
+
+			this.scheduleSearch()
 		},
+
 		applyQuickDateRange(range) {
 			this.dateActionMenuIsOpen = false
 			const today = new Date()
@@ -615,52 +1297,62 @@ export default defineComponent({
 			let endDate
 
 			switch (range) {
-			case 'today':
+				case 'today':
 				// For 'Today', both start and end are set to today
-				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
-				endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
-				this.dateFilter.text = t('core', 'Today')
-				break
-			case '7days':
+					startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
+					endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
+					this.dateFilter.text = t('core', 'Today')
+					break
+				case '7days':
 				// For 'Last 7 days', start date is 7 days ago, end is today
-				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6, 0, 0, 0, 0)
-				this.dateFilter.text = t('core', 'Last 7 days')
-				break
-			case '30days':
+					startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6, 0, 0, 0, 0)
+					endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
+					this.dateFilter.text = t('core', 'Last 7 days')
+					break
+				case '30days':
 				// For 'Last 30 days', start date is 30 days ago, end is today
-				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29, 0, 0, 0, 0)
-				this.dateFilter.text = t('core', 'Last 30 days')
-				break
-			case 'thisyear':
+					startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29, 0, 0, 0, 0)
+					endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
+					this.dateFilter.text = t('core', 'Last 30 days')
+					break
+				case 'thisyear':
 				// For 'This year', start date is the first day of the year, end is the last day of the year
-				startDate = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0)
-				endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999)
-				this.dateFilter.text = t('core', 'This year')
-				break
-			case 'lastyear':
+					startDate = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0)
+					endDate = new Date(today.getFullYear(), 11, 31, 23, 59, 59, 999)
+					this.dateFilter.text = t('core', 'This year')
+					break
+				case 'lastyear':
 				// For 'Last year', start date is the first day of the previous year, end is the last day of the previous year
-				startDate = new Date(today.getFullYear() - 1, 0, 1, 0, 0, 0, 0)
-				endDate = new Date(today.getFullYear() - 1, 11, 31, 23, 59, 59, 999)
-				this.dateFilter.text = t('core', 'Last year')
-				break
-			case 'custom':
-				this.showDateRangeModal = true
-				return
-			default:
-				return
+					startDate = new Date(today.getFullYear() - 1, 0, 1, 0, 0, 0, 0)
+					endDate = new Date(today.getFullYear() - 1, 11, 31, 23, 59, 59, 999)
+					this.dateFilter.text = t('core', 'Last year')
+					break
+				case 'custom':
+					this.showDateRangeModal = true
+					return
+				default:
+					return
 			}
 			this.dateFilter.startFrom = startDate
 			this.dateFilter.endAt = endDate
 			this.updateDateFilter()
-
 		},
+
 		setCustomDateRange(event) {
 			unifiedSearchLogger.debug('Custom date range', { range: event })
 			this.dateFilter.startFrom = event.startFrom
 			this.dateFilter.endAt = event.endAt
-			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
+			this.dateFilter.text = t(
+				'core',
+				'Between {startDate} and {endDate}',
+				{
+					startDate: this.dateFilter.startFrom!.toLocaleDateString([getCanonicalLocale()]),
+					endDate: this.dateFilter.endAt!.toLocaleDateString([getCanonicalLocale()]),
+				},
+			)
 			this.updateDateFilter()
 		},
+
 		handlePluginFilter(addFilterEvent) {
 			unifiedSearchLogger.debug('Handling plugin filter', { addFilterEvent })
 			for (let i = 0; i < this.filteredProviders.length; i++) {
@@ -669,7 +1361,7 @@ export default defineComponent({
 					provider.name = addFilterEvent.filterUpdateText
 					// Filters attached may only make sense with certain providers,
 					// So, find the provider attached, add apply the extra parameters to those providers only
-					const compatibleProviderIndex = this.providers.findIndex(provider => provider.id === addFilterEvent.id)
+					const compatibleProviderIndex = this.providers.findIndex((provider) => provider.id === addFilterEvent.id)
 					if (compatibleProviderIndex > -1) {
 						provider.extraParams = addFilterEvent.filterParams
 						this.filteredProviders[i] = provider
@@ -677,12 +1369,13 @@ export default defineComponent({
 					break
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
+
 		groupProvidersByApp(filters) {
 			const groupedByProviderApp = {}
 
-			filters.forEach(filter => {
+			filters.forEach((filter) => {
 				const provider = filter.appId ? filter.appId : 'general'
 				if (!groupedByProviderApp[provider]) {
 					groupedByProviderApp[provider] = []
@@ -691,49 +1384,290 @@ export default defineComponent({
 			})
 
 			const flattenedArray = []
-			Object.values(groupedByProviderApp).forEach(group => {
+			Object.values(groupedByProviderApp).forEach((group) => {
 				flattenedArray.push(...group)
 			})
 
 			return flattenedArray
 		},
-		async providerIsCompatibleWithFilters(provider, filterIds) {
-			return filterIds.every(filterId => provider.filters?.[filterId] !== undefined)
+
+		providerIsCompatibleWithFilters(provider, filterIds) {
+			const baseProvider = provider.searchFrom
+				? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
+				: provider
+			return filterIds.every((filterId) => {
+				switch (filterId) {
+					case 'date':
+						return baseProvider.filters?.since !== undefined && baseProvider.filters?.until !== undefined
+					case 'person':
+						return baseProvider.filters?.person !== undefined
+					default:
+						return baseProvider.filters?.[filterId] !== undefined
+				}
+			})
 		},
+
 		async enableAllProviders() {
 			this.providers.forEach(async (_, index) => {
 				this.providers[index].disabled = false
 			})
+		},
+
+		/**
+		 * DOM id for a result row's option element, stable across renders for the same
+		 * provider + position so aria-activedescendant and the highlight agree.
+		 *
+		 * @param providerId the provider (category) id
+		 * @param index the row index within that provider's results
+		 * @param unfiltered whether the row is in the partial-matches section
+		 */
+		rowElementId(providerId: string, index: number | string, unfiltered = false): string {
+			return unfiltered
+				? `unified-search-result-unfiltered-${providerId}-${index}`
+				: `unified-search-result-${providerId}-${index}`
+		},
+
+		/**
+		 * Move the selection through the flat result list. Focus stays in the input;
+		 * only the active index (and thus aria-activedescendant + the highlight) moves.
+		 * Ported from LegacyUnifiedSearch's focusNext/focusPrev arithmetic, minus the
+		 * roving DOM .focus().
+		 *
+		 * @param direction next | prev | first | last
+		 */
+		moveActive(direction: 'next' | 'prev' | 'first' | 'last') {
+			const count = this.navigableRows.length
+			if (count === 0) {
+				return
+			}
+			const current = this.activeIndex
+			switch (direction) {
+				// From no selection, the first move lands on the first row (legacy behaviour).
+				case 'next':
+					this.activeIndex = current < 0 ? 0 : Math.min(current + 1, count - 1)
+					break
+				case 'prev':
+					this.activeIndex = current < 0 ? 0 : Math.max(current - 1, 0)
+					break
+				case 'first':
+					this.activeIndex = 0
+					break
+				case 'last':
+					this.activeIndex = count - 1
+					break
+			}
+		},
+
+		/**
+		 * Open the selected result. Enter reaches here from the input (focus never
+		 * leaves it), so navigate to the row's url programmatically. With nothing
+		 * highlighted yet, fall back to the first result so typing + Enter still opens
+		 * the top hit. A no-op when there is nothing to open (empty / still-searching).
+		 */
+		activateActive() {
+			const row = this.activeRow ?? this.navigableRows[0]
+			if (!row?.resourceUrl) {
+				return
+			}
+			this.openResourceUrl(row.resourceUrl)
+		},
+
+		/**
+		 * Follow a result's url. Rows are plain <a href target="_self"> links, so a
+		 * same-tab location change is equivalent to the user clicking the anchor.
+		 *
+		 * @param url the resource url to open
+		 */
+		openResourceUrl(url: string) {
+			window.location.assign(url)
+		},
+
+		/**
+		 * Scroll the active option into the results viewport if it is off-screen.
+		 * `block: 'nearest'` scrolls the popover's own scroll container by the minimum
+		 * needed, so already-visible rows never jump.
+		 */
+		scrollActiveIntoView() {
+			if (!this.activeDescendantId) {
+				return
+			}
+			const activeRow = document.getElementById(this.activeDescendantId)
+			activeRow?.scrollIntoView?.({ block: 'nearest' })
+		},
+
+		/**
+		 * Keep the selection sensible as results change: preserve the selected row by
+		 * id where it still exists (a slower category settling below must not move it),
+		 * otherwise fall back to the first row; clear it when there is nothing to select.
+		 *
+		 * @param next the new navigable rows
+		 * @param previous the navigable rows before the change
+		 */
+		reconcileActiveIndex(next: NavigableRow[], previous: NavigableRow[] | undefined) {
+			if (next.length === 0) {
+				this.activeIndex = -1
+				return
+			}
+			const selectedId = previous?.[this.activeIndex]?.id
+			if (selectedId !== undefined) {
+				const at = next.findIndex((row) => row.id === selectedId)
+				this.activeIndex = at >= 0 ? at : 0
+			} else {
+				// Nothing to preserve (fresh set, or selection out of range): auto-select the first row.
+				this.activeIndex = 0
+			}
 		},
 	},
 })
 </script>
 
 <style lang="scss" scoped>
-:deep(.unified-search-modal .unified-search-modal__content) {
-	--dialog-height: min(80vh, 800px);
-	box-sizing: border-box;
-	height: var(--dialog-height);
-	max-height: var(--dialog-height);
-	min-height: var(--dialog-height);
 
+// Anchor the popover under the header input (the .unified-search-menu parent is
+// the positioning context) instead of centering it in the viewport. The scrim is
+// fixed separately so it still dims the whole page.
+.unified-search-modal-root {
+	position: absolute;
+	inset-block-start: 100%;
+	inset-inline: 0;
+	// One below the header input (z-index: 51) and above the page. !important wins
+	// the stacking cascade inside the themed #header.
+	z-index: 50 !important;
+	margin-block-start: 6px;
+	display: flex;
+	justify-content: center;
+}
+
+// Backdrop, mirrors NcModal's .modal-mask. Fixed so it covers the whole viewport
+// regardless of the anchored root.
+.unified-search-modal__scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	--backdrop-color: 0, 0, 0;
+	background-color: rgba(var(--backdrop-color), 0.5);
+}
+
+// Dialog panel: NcModal's "normal" chrome, but width-matched to the header input
+// and anchored under it, growing downward and scrolling internally when tall.
+.unified-search-modal__container {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
-	// No padding to prevent scrollbar misplacement
-	padding-inline: 0;
+	// Match the previous unified-search modal (NcModal "normal" size). flex-shrink: 0
+	// stops the flex parent from collapsing it below 600px when the menu is narrower.
+	flex-shrink: 0;
+	width: 600px;
+	max-width: 90vw;
+	// Leave ~10vh below the panel so it does not reach the bottom of the page
+	max-height: calc(90vh - var(--header-height));
+	border-radius: var(--border-radius-container-large, var(--border-radius-rounded));
+	// Clip the header/results to the rounded corners. `clip` rather than `hidden` so this is
+	// not a scroll container: a squeezed panel would otherwise scroll the filter row away.
+	overflow: clip;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+	// The panel slides down into place; the enter/leave classes set the start offset.
+	// Same easeOutQuart curve as the header input so the whole search UI moves in step.
+	transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// Mid-resize the panel is shorter than its content; clip so no scrollbar flashes.
+.unified-search-modal__container.is-animating-height .unified-search-modal__results {
+	overflow: clip;
+}
+
+// Fullscreen on small viewports, mirrors NcModal's responsive breakpoint
+@media only screen and ((max-width: 512px) or (max-height: 400px)) {
+	.unified-search-modal-root {
+		// Fill the viewport below the header bar, leaving it visible and interactive
+		// (matches the previous unified search and the rest of the mobile chrome).
+		position: fixed;
+		inset-block-start: var(--header-height);
+		inset-inline: 0;
+		inset-block-end: 0;
+		margin-block-start: 0;
+	}
+
+	.unified-search-modal__container {
+		width: 100%;
+		max-width: initial;
+		height: 100%;
+		max-height: initial;
+		border-radius: 0;
+	}
+}
+
+// Open/close animation: the backdrop fades while the panel slides down from the top
+.unified-search-modal-enter-active,
+.unified-search-modal-leave-active {
+	transition: opacity 250ms;
+}
+
+.unified-search-modal-enter-from,
+.unified-search-modal-leave-to {
+	opacity: 0;
+}
+
+.unified-search-modal-enter-from .unified-search-modal__container,
+.unified-search-modal-leave-to .unified-search-modal__container {
+	transform: translateY(-6px);
+}
+
+// Respect reduced-motion: keep the backdrop cross-fade (opacity is not motion) but
+// drop the panel slide so nothing moves on open/close.
+@media (prefers-reduced-motion: reduce) {
+	.unified-search-modal__container {
+		transition: none;
+	}
+
+	.unified-search-modal-enter-from .unified-search-modal__container,
+	.unified-search-modal-leave-to .unified-search-modal__container {
+		transform: none;
+	}
 }
 
 .unified-search-modal {
 	&__header {
-		// Add background to prevent leaking scrolled content (because of sticky position)
-		background-color: var(--color-main-background);
-		// Fix padding to have the input centered
-		padding-inline-end: 12px;
-		// Some padding to make elements scrolled under sticky position look nicer
-		padding-block-end: 12px;
-		// Make it sticky with the input margin for the label
-		position: sticky;
-		top: 6px;
+		// Owns all its own spacing: the inline inset, the gap above the first row, and the
+		// gap between stacked rows (mobile input, filters, applied chips). position:
+		// relative only anchors the divider below; the header never scrolls (the results
+		// list scrolls in its own box), so it needs no sticky offset.
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		// The results box absorbs the resize; the filter row keeps its size.
+		flex-shrink: 0;
+		gap: calc(var(--default-grid-baseline) * 2);
+		padding-inline: calc(var(--default-grid-baseline) * 4);
+		// Trim the bottom when the filter row is all there is; results add it back below.
+		padding-block: calc(var(--default-grid-baseline) * 4) 0;
+
+		// With content below, restore the full bottom inset above the divider (which aligns
+		// to the content edge).
+		&--has-content-below {
+			padding-block-end: calc(var(--default-grid-baseline) * 4);
+
+			&::after {
+				content: '';
+				position: absolute;
+				inset-inline: calc(var(--default-grid-baseline) * 4);
+				inset-block-end: 0;
+				border-block-end: 1px solid var(--color-border);
+			}
+		}
+	}
+
+	&__mobile-input {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+
+		:deep(.input-field) {
+			flex: 1 1 auto;
+		}
 	}
 
 	&__filters {
@@ -741,33 +1675,163 @@ export default defineComponent({
 		flex-wrap: wrap;
 		gap: 4px;
 		justify-content: start;
-		padding-top: 4px;
+
+		// The three category triggers split the row into thirds; any extra controls
+		// (local search) keep their size and wrap below.
+		> [data-cy-unified-search-filter="places"],
+		> [data-cy-unified-search-filter="date"],
+		> [data-cy-unified-search-filter="people"] {
+			flex: 1 1 0;
+			min-width: 0;
+
+			:deep(.v-popper) {
+				display: block;
+				width: 100%;
+			}
+
+			// Centre [icon] label; the chevron is pinned to the trailing edge below.
+			:deep(.button-vue__wrapper) {
+				justify-content: center;
+			}
+
+			// NcActions exposes no dropdown chevron, so paint one at the trailing edge.
+			:deep(.button-vue) {
+				position: relative;
+				width: 100%;
+				padding-inline: calc(var(--default-grid-baseline) * 6);
+				border-radius: var(--border-radius-element);
+
+				&::after {
+					content: '';
+					position: absolute;
+					inset-inline-end: calc(var(--default-grid-baseline) * 2);
+					inset-block: 0;
+					margin-block: auto;
+					width: 16px;
+					height: 16px;
+					background-color: currentColor;
+					mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E");
+					mask-repeat: no-repeat;
+					mask-position: center;
+					mask-size: contain;
+				}
+			}
+		}
 	}
 
 	&__filters-applied {
-		padding-top: 4px;
 		display: flex;
 		flex-wrap: wrap;
 	}
 
 	&__no-content {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		margin-top: 0.5em;
-		height: 70%;
+		justify-content: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+		// min-height (not fixed) so the panel grows to keep the button inside, not spilling past the edge.
+		min-height: 200px;
+		// Match the results container's inset so the button lines up, not flush to the edges.
+		padding-inline: calc(var(--default-grid-baseline) * 4);
+		padding-block-end: calc(var(--default-grid-baseline) * 4);
+	}
+
+	// Detail-view chrome: the back control sits above the category's heading + list.
+	&__detail-header {
+		// Three tracks: "Back" at the start, title centred, empty end track to balance it.
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+		// Sticky at the top of the scrolling results. Background hides rows underneath; padding
+		// (not margin) stops bleed-through above.
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		background-color: var(--color-main-background);
+		padding-block: calc(var(--default-grid-baseline) * 3) calc(var(--default-grid-baseline) * 2);
+		border-block-end: 1px solid var(--color-border);
+	}
+
+	&__detail-back {
+		justify-self: start;
+	}
+
+	&__detail-title {
+		font-size: var(--default-font-size);
+		font-weight: var(--font-weight-heading);
+		grid-column: 2;
+		margin: 0;
+		margin-block-start: -3px;
+		// Centre the text the same way the Back button centres its label: stretch to the row
+		// height and flex-centre, instead of a line-height that lands the ink a few px off.
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	// Directional glyphs (back arrow, more-from chevron) point the other way in RTL.
+	// :dir(rtl) tracks the computed direction, unlike an [dir=rtl] attribute selector.
+	&__rtl-icon:dir(rtl) {
+		transform: scaleX(-1);
 	}
 
 	&__results {
-		overflow: hidden scroll;
+		// Take the remaining panel height and scroll internally (container has a max-height)
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow: hidden auto;
+
+		// The reserved height is a floor, not a size. Column layout so the placeholders can
+		// take what the results leave.
+		&--held {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 0;
+
+			> *:not(.search-result-skeleton) {
+				flex: none;
+			}
+		}
 		// Adjust padding to match container but keep the scrollbar on the very end
-		padding-inline: 0 12px;
-		padding-block: 0 12px;
+		padding-inline: calc(var(--default-grid-baseline) * 4);
+		padding-block: 0 calc(var(--default-grid-baseline) * 4);
+
+		.search-result-skeleton {
+			// Matches the gap a category title keeps above itself.
+			margin-block-start: 14px;
+			// The placeholders deliberately overfill, so the bottom fades out over the cut.
+			flex: 1 1 0;
+			min-block-size: 0;
+			overflow: clip;
+			// Capped, so a short box does not spend a third of itself fading.
+			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
+		}
 
 		.result {
 			&-title {
-				color: var(--color-primary-element);
-				font-size: 16px;
-				margin-block: 8px 4px;
+				color: var(--color-text-maxcontrast);
+				font-size: var(--default-font-size);
+				// 14px is not a grid multiple; kept raw rather than mixing units in one shorthand.
+				margin-block: 14px 4px;
+				margin-inline-start: calc(var(--default-grid-baseline) * 2);
+			}
+
+			// The overflow heading is a real button; match the plain title's size and colour,
+			// but leave it NcButton's own --font-weight-element weight.
+			&-title--more {
+				margin-block: calc(var(--default-grid-baseline) * 2) var(--default-grid-baseline);
+
+				:deep(.button-vue__text) {
+					font-size: var(--default-font-size);
+					color: var(--color-main-text);
+				}
+
+				:deep(.button-vue__icon) {
+					color: var(--color-main-text);
+				}
 			}
 
 			&-footer {
@@ -775,8 +1839,32 @@ export default defineComponent({
 				align-items: center;
 				display: flex;
 			}
+
+			&--unfiltered {
+				opacity: 0.7;
+			}
 		}
 
+	}
+
+	&__unfiltered-header {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin-block: 16px 8px;
+		padding-block: 12px 0;
+
+		// Divide the partial matches from the results above, but only when some precede
+		// them: when they lead the list this rule lands just under the header's own
+		// divider, and the two read as one double line.
+		.result-group + .result-group > & {
+			border-block-start: 1px solid var(--color-border);
+		}
+	}
+
+	&__unfiltered-label {
+		font-weight: var(--font-weight-heading);
+		color: var(--color-text-maxcontrast);
 	}
 }
 

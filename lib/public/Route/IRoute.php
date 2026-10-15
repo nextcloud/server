@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Route;
 
 /**
@@ -34,8 +35,9 @@ interface IRoute {
 	 * it is called directly
 	 *
 	 * @param string $file
-	 * @return void
+	 * @return $this
 	 * @since 7.0.0
+	 * @deprecated 32.0.0 Use a proper controller instead
 	 */
 	public function actionInclude($file);
 
@@ -70,6 +72,7 @@ interface IRoute {
 	 * This function is called with $class set to a callable or
 	 * to the class with $function
 	 * @since 7.0.0
+	 * @deprecated 32.0.0 Use a proper controller instead
 	 */
 	public function action($class, $function = null);
 

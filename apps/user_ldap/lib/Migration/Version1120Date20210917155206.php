@@ -38,6 +38,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		// ensure that there is no user or group id longer than 64char in LDAP table
 		$this->handleIDs('ldap_group_mapping', false);
@@ -50,6 +51,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -72,7 +74,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 		$update = $this->getUpdateQuery($table);
 
 		$result = $select->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$newId = hash('sha256', $row['owncloud_name'], false);
 			if ($emitHooks) {
 				$this->emitUnassign($row['owncloud_name'], true);

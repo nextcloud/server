@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
@@ -42,6 +44,7 @@ class Storage extends Wrapper {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		if ($this->trashEnabled) {
 			try {
@@ -49,21 +52,22 @@ class Storage extends Wrapper {
 			} catch (GenericEncryptionException $e) {
 				// in case of a encryption exception we delete the file right away
 				$this->logger->info(
-					"Can't move file " . $path .
-					' to the trash bin, therefore it was deleted right away');
+					"Can't move file " . $path
+					. ' to the trash bin, therefore it was deleted right away');
 
-				return $this->storage->unlink($path);
+				return $this->getWrapperStorage()->unlink($path);
 			}
 		} else {
-			return $this->storage->unlink($path);
+			return $this->getWrapperStorage()->unlink($path);
 		}
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if ($this->trashEnabled) {
 			return $this->doDelete($path, 'rmdir');
 		} else {
-			return $this->storage->rmdir($path);
+			return $this->getWrapperStorage()->rmdir($path);
 		}
 	}
 
@@ -79,9 +83,9 @@ class Storage extends Wrapper {
 		}
 
 		// check if there is a app which want to disable the trash bin for this file
-		$fileId = $this->storage->getCache()->getId($path);
-		$owner = $this->storage->getOwner($path);
-		if ($owner === false || $this->storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+		$fileId = $this->getWrapperStorage()->getCache()->getId($path);
+		$owner = $this->getWrapperStorage()->getOwner($path);
+		if ($owner === false || $this->getWrapperStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 			$nodes = $this->rootFolder->getById($fileId);
 		} else {
 			$nodes = $this->rootFolder->getUserFolder($owner)->getById($fileId);
@@ -141,7 +145,7 @@ class Storage extends Wrapper {
 			}
 		}
 
-		return call_user_func([$this->storage, $method], $path);
+		return call_user_func([$this->getWrapperStorage(), $method], $path);
 	}
 
 	/**
@@ -155,7 +159,7 @@ class Storage extends Wrapper {
 		$rootFolder = Server::get(IRootFolder::class);
 		$request = Server::get(IRequest::class);
 		Filesystem::addStorageWrapper(
-			'oc_trashbin',
+			Storage::class,
 			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder, $request) {
 				return new Storage(
 					['storage' => $storage, 'mountPoint' => $mountPoint],
@@ -174,6 +178,7 @@ class Storage extends Wrapper {
 		return $this->mountPoint;
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$sourceIsTrashbin = $sourceStorage->instanceOfStorage(Storage::class);
 		try {

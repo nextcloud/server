@@ -8,7 +8,6 @@
 
 namespace Test\AppFramework\Controller;
 
-use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -18,7 +17,7 @@ use OCP\IRequest;
 use OCP\IRequestId;
 
 class ChildController extends Controller {
-	public function __construct($appName, $request) {
+	public function __construct(string $appName, IRequest $request) {
 		parent::__construct($appName, $request);
 		$this->registerResponder('tom', function ($respone) {
 			return 'hi';
@@ -33,7 +32,7 @@ class ChildController extends Controller {
 		return $in;
 	}
 
-	public function customDataResponse($in) {
+	public function customDataResponse(mixed $in): DataResponse {
 		$response = new DataResponse($in, 300);
 		$response->addHeader('test', 'something');
 		return $response;
@@ -41,13 +40,10 @@ class ChildController extends Controller {
 };
 
 class ControllerTest extends \Test\TestCase {
-	/**
-	 * @var Controller
-	 */
-	private $controller;
-	private $app;
-	private $request;
+	private Controller $controller;
+	private Request $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -65,19 +61,10 @@ class ControllerTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 
-		$this->app = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['getAppName'])
-			->setConstructorArgs(['test'])
-			->getMock();
-		$this->app->expects($this->any())
-			->method('getAppName')
-			->willReturn('apptemplate_advanced');
-
-		$this->controller = new ChildController($this->app, $request);
+		$this->controller = new ChildController('apptemplate_advanced', $request);
 		$this->overwriteService(IRequest::class, $request);
 		$this->request = $request;
 	}
-
 
 	public function testFormatResonseInvalidFormat(): void {
 		$this->expectException(\DomainException::class);
@@ -85,13 +72,11 @@ class ControllerTest extends \Test\TestCase {
 		$this->controller->buildResponse(null, 'test');
 	}
 
-
 	public function testFormat(): void {
 		$response = $this->controller->buildResponse(['hi'], 'json');
 
 		$this->assertEquals(['hi'], $response->getData());
 	}
-
 
 	public function testFormatDataResponseJSON(): void {
 		$expectedHeaders = [
@@ -112,7 +97,6 @@ class ControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedHeaders, $response->getHeaders());
 	}
 
-
 	public function testCustomFormatter(): void {
 		$response = $this->controller->custom('hi');
 		$response = $this->controller->buildResponse($response, 'json');
@@ -120,13 +104,11 @@ class ControllerTest extends \Test\TestCase {
 		$this->assertEquals([2], $response->getData());
 	}
 
-
 	public function testDefaultResponderToJSON(): void {
 		$responder = $this->controller->getResponderByHTTPHeader('*/*');
 
 		$this->assertEquals('json', $responder);
 	}
-
 
 	public function testResponderAcceptHeaderParsed(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(
@@ -135,7 +117,6 @@ class ControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('tom', $responder);
 	}
-
 
 	public function testResponderAcceptHeaderParsedUpperCase(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(

@@ -1,0 +1,232 @@
+{
+  "nodes": {
+    "crane": {
+      "locked": {
+        "lastModified": 1780099841,
+        "narHash": "sha256-EVZd2RsbpreRUDSi9rBwPY+ZxoyMaiEBbZxxhljbaS4=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "0532eb17955225173906d671fb36306bdeb1e2dc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flakelight": {
+      "inputs": {
+        "nixpkgs": [
+          "haze",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781543995,
+        "narHash": "sha256-wsSyxNWOSMofu4F5xGYGMrB1d8cepvBNhxhm9bGGmXg=",
+        "owner": "nix-community",
+        "repo": "flakelight",
+        "rev": "fd1d557721e07b5a9d319442e4bcb5d286600011",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "flakelight",
+        "type": "github"
+      }
+    },
+    "haze": {
+      "inputs": {
+        "flakelight": "flakelight",
+        "mill-scale": "mill-scale",
+        "nix2container": "nix2container",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "phps": [
+          "phps"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788825298,
+        "narHash": "sha256-fpmF9MvR3iXkjYJerhmEhE0Deyfm6dNTx6JLMsrWsXI=",
+        "ref": "refs/heads/main",
+        "rev": "7121474198b2fcf8d6c8eddec5998d481a6dbb98",
+        "revCount": 465,
+        "type": "git",
+        "url": "https://codeberg.org/icewind/haze"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/icewind/haze"
+      }
+    },
+    "mill-scale": {
+      "inputs": {
+        "crane": "crane",
+        "flakelight": [
+          "haze",
+          "flakelight"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1780231986,
+        "narHash": "sha256-OyafczPtzE0Xa2zl3j/KvV2+ZVYGhYQHt0MOVWtDXlY=",
+        "ref": "refs/heads/main",
+        "rev": "f5cbda29b945df03256bf63c22fa4cd5fa429e67",
+        "revCount": 72,
+        "type": "git",
+        "url": "https://codeberg.org/icewind/mill-scale.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/icewind/mill-scale.git"
+      }
+    },
+    "nix2container": {
+      "inputs": {
+        "nixpkgs": [
+          "haze",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775487831,
+        "narHash": "sha256-2lguQpLPQaxpQCJjXhmEEAfabwsAhkP29Z7fgLzHARA=",
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "rev": "76be9608a7f4d6c985d28b0e7be903ae2547df3e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1780203844,
+        "narHash": "sha256-K5sT4jTpGs15ADhviMKNBH38REpPf5Q6mM1+N6cArVE=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "b51242d7d43689db2f3be91bd05d5b24fbb469c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-26.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "phps": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "utils": [
+          "flake-utils"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780254980,
+        "narHash": "sha256-aIc9/UJdQ47Q/E0jWyAwwP6TwyFJVNaFyeNF6ITeorA=",
+        "owner": "fossar",
+        "repo": "nix-phps",
+        "rev": "c7a2eebe0496a686783ce442829d511da21eb321",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fossar",
+        "repo": "nix-phps",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "haze": "haze",
+        "nixpkgs": "nixpkgs",
+        "phps": "phps"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "haze",
+          "mill-scale",
+          "flakelight",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780197589,
+        "narHash": "sha256-FVCr2Ij/jKf59a4LW481eeOF6rJRreOBrVgW/aUBTrw=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "21632e942d89bf1cce4e5a63d7e58a215a0cbfcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

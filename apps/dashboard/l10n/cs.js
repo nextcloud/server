@@ -16,12 +16,11 @@ OC.L10N.register(
     "Hello, {name}" : "Dobrý den, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„ikona {title}“",
     "Customize" : "Přizpůsobit si",
     "Edit widgets" : "Upravit ovládací prvky",
     "Get more widgets from the App Store" : "Získat další ovládací prvky z katalogu aplikací",
     "Weather service" : "Služba předpovědi počasí",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Vaše soukromí je chráněno tím,  že komunikaci se službou předpovědi počasí zprostředkovává vámi využívaný Nextcloud server. Díky tomu služba, která tyto údaje poskytuje, neobdrží z vašeho počítače žádné osobní údaje.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Vaše soukromí je chráněno tím,  že komunikaci se službou předpovědi počasí zprostředkovává vámi využívaný {productName} server. Díky tomu služba, která tyto údaje poskytuje, neobdrží z vašeho počítače žádné osobní údaje.",
     "Weather data from Met.no" : "Údaje o počasí z Met.no",
     "geocoding with Nominatim" : "z popisu polohy na souřadnice převáděno službou Nominatim",
     "elevation data from OpenTopoData" : "data o nadmořských výškách z OpenTopoData"

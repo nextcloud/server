@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,27 +8,26 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Home;
 use OC\User\User;
+use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 class DummyUser extends User {
-	private $home;
-
-	private $uid;
-
-	/**
-	 * @param string $uid
-	 * @param string $home
-	 */
-	public function __construct($uid, $home) {
-		$this->uid = $uid;
-		$this->home = $home;
+	public function __construct(
+		private readonly string $uid,
+		private readonly string $home,
+	) {
 	}
 
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		return $this->home;
 	}
 
-	public function getUID() {
+	#[\Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 }
@@ -35,10 +35,10 @@ class DummyUser extends User {
 /**
  * Class Home
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HomeTest extends Storage {
 	/**
 	 * @var string tmpDir
@@ -48,21 +48,23 @@ class HomeTest extends Storage {
 	private $userId;
 
 	/**
-	 * @var \OC\User\User $user
+	 * @var User $user
 	 */
 	private $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
-		$this->instance = new \OC\Files\Storage\Home(['user' => $this->user]);
+		$this->instance = new Home(['user' => $this->user]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 

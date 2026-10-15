@@ -1,18 +1,23 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Comments;
 
 use OC\Comments\Comment;
 use OCP\Comments\IComment;
+use OCP\Comments\IllegalIDChangeException;
+use OCP\Comments\MessageTooLongException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
 	public function testSettersValidInput(): void {
 		$comment = new Comment();
@@ -60,9 +65,8 @@ class CommentTest extends TestCase {
 		$this->assertSame($metaData, $comment->getMetaData());
 	}
 
-
 	public function testSetIdIllegalInput(): void {
-		$this->expectException(\OCP\Comments\IllegalIDChangeException::class);
+		$this->expectException(IllegalIDChangeException::class);
 
 		$comment = new Comment();
 
@@ -71,7 +75,7 @@ class CommentTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
 	public function testResetId(): void {
 		$comment = new Comment();
@@ -81,7 +85,7 @@ class CommentTest extends TestCase {
 		$this->assertSame('', $comment->getId());
 	}
 
-	public function simpleSetterProvider() {
+	public static function simpleSetterProvider(): array {
 		return [
 			['Id', true],
 			['TopmostParentId', true],
@@ -93,9 +97,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider simpleSetterProvider
-	 */
+	#[DataProvider(methodName: 'simpleSetterProvider')]
 	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -105,7 +107,7 @@ class CommentTest extends TestCase {
 		$comment->$setter($input);
 	}
 
-	public function roleSetterProvider() {
+	public static function roleSetterProvider(): array {
 		return [
 			['Actor', true, true],
 			['Actor', 'users', true],
@@ -118,9 +120,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider roleSetterProvider
-	 */
+	#[DataProvider(methodName: 'roleSetterProvider')]
 	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -129,16 +129,15 @@ class CommentTest extends TestCase {
 		$comment->$setter($type, $id);
 	}
 
-
 	public function testSetUberlongMessage(): void {
-		$this->expectException(\OCP\Comments\MessageTooLongException::class);
+		$this->expectException(MessageTooLongException::class);
 
 		$comment = new Comment();
 		$msg = str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x');
 		$comment->setMessage($msg);
 	}
 
-	public function mentionsProvider(): array {
+	public static function mentionsProvider(): array {
 		return [
 			[
 				'@alice @bob look look, a cook!',
@@ -158,11 +157,11 @@ class CommentTest extends TestCase {
 				/* author: */ 'alice'
 			],
 			[
-				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
-					' and so is @bar@foo.org@foobar.io I hope that clarifies everything.' .
-					' cc @23452-4333-54353-2342 @yolo!' .
-					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
-					' and won\'t match anything at all',
+				'@foobar and @barfoo you should know, @foo@bar.com is valid'
+					. ' and so is @bar@foo.org@foobar.io I hope that clarifies everything.'
+					. ' cc @23452-4333-54353-2342 @yolo!'
+					. ' however the most important thing to know is that www.croissant.com/@oil is not valid'
+					. ' and won\'t match anything at all',
 				[
 					['type' => 'user', 'id' => 'bar@foo.org@foobar.io'],
 					['type' => 'user', 'id' => '23452-4333-54353-2342'],
@@ -202,23 +201,71 @@ class CommentTest extends TestCase {
 					['type' => 'email', 'id' => 'aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886'],
 				],
 			],
+			[
+				'Mention @alice but not `@bob` inside inline code',
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'Mention @alice but not `Hello @bob there` inside inline code',
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention ` user @alice\nAs it's just 2 ` accents",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'Mention @alice and @bob but not `Hello @bob there` inside inline code',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+			],
+			[
+				"Mention @alice but not in fenced code block\n```\n@bob @charlie\n```\nend",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention @alice but not in tilde code block\n~~~\n@bob\n~~~\nend",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'No mentions at all in `@alice` and `@bob`',
+				[],
+			],
+			[
+				"@alice\n```\n@bob\n```\n@charlie",
+				[['type' => 'user', 'id' => 'charlie'], ['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"@alice\n```\n@bob\n```\n@charlie",
+				[['type' => 'user', 'id' => 'charlie'], ['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+				null,
+				false,
+			],
+			[
+				'Mention @alice and `also @bob as end of text only applies to code blocks',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+			],
+			[
+				"Mention @alice but not in unclosed fenced code block\n```\n@bob\n@charlie",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention @alice but not in unclosed tilde code block\n~~~\n@bob",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'Matrix users @"matrix/@bob:example.org" and @"matrix/@carol.c=1/x+y:[2001:db8::1]:8448" but not @"matrix/@dave" or @"matrix/eve:example.org"',
+				[['type' => 'matrix', 'id' => '@carol.c=1/x+y:[2001:db8::1]:8448'], ['type' => 'matrix', 'id' => '@bob:example.org']],
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider mentionsProvider
-	 *
-	 * @param string $message
-	 * @param array $expectedMentions
-	 * @param ?string $author
-	 */
-	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
+	#[DataProvider(methodName: 'mentionsProvider')]
+	public function testMentions(string $message, array $expectedMentions, ?string $author = null, bool $markdown = true): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
 		if (!is_null($author)) {
 			$comment->setActor('user', $author);
 		}
-		$mentions = $comment->getMentions();
+		$mentions = $comment->getMentions($markdown);
 		$this->assertSame($expectedMentions, $mentions);
 	}
 }

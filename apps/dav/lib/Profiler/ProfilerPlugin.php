@@ -20,6 +20,7 @@ class ProfilerPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/** @return void */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('afterMethod:*', [$this, 'afterMethod']);
 	}

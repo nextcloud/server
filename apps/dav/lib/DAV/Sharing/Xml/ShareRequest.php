@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -12,6 +13,8 @@ use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
 class ShareRequest implements XmlDeserializable {
+	public const ELEMENT_SHARE = '{' . Plugin::NS_OWNCLOUD . '}share';
+
 	/**
 	 * Constructor
 	 *
@@ -24,36 +27,38 @@ class ShareRequest implements XmlDeserializable {
 	) {
 	}
 
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
+		/**
+		 * @var list<array{
+		 *     name: ShareRequestElement::ELEMENT_SET|ShareRequestElement::ELEMENT_REMOVE,
+		 *     value: array{
+		 *         href: string,
+		 *         commonName?: string|null,
+		 *         readOnly?: bool
+		 *     }
+		 * }>|string|null $elements
+		 */
 		$elements = $reader->parseInnerTree([
-			'{' . Plugin::NS_OWNCLOUD . '}set' => 'Sabre\\Xml\\Element\\KeyValue',
-			'{' . Plugin::NS_OWNCLOUD . '}remove' => 'Sabre\\Xml\\Element\\KeyValue',
+			ShareRequestElement::ELEMENT_SET => ShareRequestElement::class,
+			ShareRequestElement::ELEMENT_REMOVE => ShareRequestElement::class,
 		]);
 
 		$set = [];
 		$remove = [];
 
-		foreach ($elements as $elem) {
-			switch ($elem['name']) {
+		if (!is_array($elements)) {
+			return new self($set, $remove);
+		}
 
-				case '{' . Plugin::NS_OWNCLOUD . '}set':
-					$sharee = $elem['value'];
-
-					$sumElem = '{' . Plugin::NS_OWNCLOUD . '}summary';
-					$commonName = '{' . Plugin::NS_OWNCLOUD . '}common-name';
-
-					$set[] = [
-						'href' => $sharee['{DAV:}href'],
-						'commonName' => $sharee[$commonName] ?? null,
-						'summary' => $sharee[$sumElem] ?? null,
-						'readOnly' => !array_key_exists('{' . Plugin::NS_OWNCLOUD . '}read-write', $sharee),
-					];
+		foreach ($elements as $element) {
+			switch ($element['name']) {
+				case ShareRequestElement::ELEMENT_SET:
+					$set[] = $element['value'];
 					break;
-
-				case '{' . Plugin::NS_OWNCLOUD . '}remove':
-					$remove[] = $elem['value']['{DAV:}href'];
+				case ShareRequestElement::ELEMENT_REMOVE:
+					$remove[] = $element['value']['href'];
 					break;
-
 			}
 		}
 

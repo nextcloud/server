@@ -6,25 +6,33 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
+use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCA\DAV\Connector\Sabre\Server;
+use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
+use OCP\Calendar\ICalendarExport;
+use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\ICalendarIsPublic;
+use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
-use Sabre\VObject\Property;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled, ICalendarIsPublic {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -33,10 +41,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	) {
 	}
 
+	private const string DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
+	private const string DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
+
 	/**
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getKey(): string {
 		return (string)$this->calendarInfo['id'];
 	}
@@ -44,14 +56,32 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getUri(): string {
 		return $this->calendarInfo['uri'];
+	}
+
+	/**
+	 * @return string the principal URI of the calendar owner
+	 * @since 32.0.0
+	 */
+	public function getPrincipalUri(): string {
+		return $this->calendarInfo['principaluri'];
+	}
+
+	/**
+	 * The principal URI of the calendar owner, which for a calendar shared with a principal is not
+	 * that principal.
+	 */
+	public function getOwnerPrincipalUri(): string {
+		return $this->calendar->getOwner() ?? $this->getPrincipalUri();
 	}
 
 	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
@@ -60,6 +90,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * Calendar color
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
@@ -87,16 +118,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		return $vtimezone;
 	}
 
-	/**
-	 * @param string $pattern which should match within the $searchProperties
-	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - optional parameters:
-	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param int|null $limit - limit number of search results
-	 * @param int|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
-	 * @since 13.0.0
-	 */
+	#[\Override]
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern,
 			$searchProperties, $options, $limit, $offset);
@@ -106,6 +128,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * @return int build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getPermissions(): int {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
@@ -132,8 +155,17 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	}
 
 	/**
+	 * @since 32.0.0
+	 */
+	#[\Override]
+	public function isEnabled(): bool {
+		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
+	}
+
+	/**
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isWritable(): bool {
 		return $this->calendar->canWrite();
 	}
@@ -141,6 +173,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	/**
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function isDeleted(): bool {
 		return $this->calendar->isDeleted();
 	}
@@ -148,24 +181,29 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	/**
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isShared(): bool {
 		return $this->calendar->isShared();
 	}
 
 	/**
-	 * Create a new calendar event for this calendar
-	 * by way of an ICS string
-	 *
-	 * @param string $name the file name - needs to contain the .ics ending
-	 * @param string $calendarData a string containing a valid VEVENT ics
-	 *
+	 * @since 33.0.1, 32.0.7, 31.0.14.1, 30.0.17.8
+	 */
+	#[\Override]
+	public function getPublicToken(): ?string {
+		return $this->calendar->getPublishStatus() ?: null;
+	}
+
+	/**
 	 * @throws CalendarException
 	 */
-	public function createFromString(string $name, string $calendarData): void {
-		$server = new InvitationResponseServer(false);
-
+	private function createFromStringInServer(
+		string $name,
+		string $calendarData,
+		Server $server,
+	): void {
 		/** @var CustomPrincipalPlugin $plugin */
-		$plugin = $server->getServer()->getPlugin('auth');
+		$plugin = $server->getPlugin('auth');
 		// we're working around the previous implementation
 		// that only allowed the public system principal to be used
 		// so set the custom principal here
@@ -181,14 +219,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 
 		// Force calendar change URI
 		/** @var Schedule\Plugin $schedulingPlugin */
-		$schedulingPlugin = $server->getServer()->getPlugin('caldav-schedule');
+		$schedulingPlugin = $server->getPlugin('caldav-schedule');
 		$schedulingPlugin->setPathOfCalendarObjectChange($fullCalendarFilename);
 
 		$stream = fopen('php://memory', 'rb+');
 		fwrite($stream, $calendarData);
 		rewind($stream);
 		try {
-			$server->getServer()->createFile($fullCalendarFilename, $stream);
+			$server->createFile($fullCalendarFilename, $stream);
 		} catch (Conflict $e) {
 			throw new CalendarException('Could not create new calendar event: ' . $e->getMessage(), 0, $e);
 		} finally {
@@ -196,65 +234,136 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		}
 	}
 
+	#[\Override]
+	public function createFromString(string $name, string $calendarData): void {
+		$server = new EmbeddedCalDavServer(false);
+		$this->createFromStringInServer($name, $calendarData, $server->getServer());
+	}
+
+	#[\Override]
+	public function createFromStringMinimal(string $name, string $calendarData): void {
+		$server = new InvitationResponseServer(false);
+		$this->createFromStringInServer($name, $calendarData, $server->getServer());
+	}
+
 	/**
 	 * @throws CalendarException
 	 */
+	#[\Override]
 	public function handleIMipMessage(string $name, string $calendarData): void {
-		$server = $this->getInvitationResponseServer();
 
-		/** @var CustomPrincipalPlugin $plugin */
-		$plugin = $server->getServer()->getPlugin('auth');
-		// we're working around the previous implementation
-		// that only allowed the public system principal to be used
-		// so set the custom principal here
-		$plugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
-
+		try {
+			/** @var VCalendar $vObject|null */
+			$vObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			throw new CalendarException('iMip message could not be processed because an error occurred while parsing the iMip message', 0, $e);
+		}
+		// validate the iMip message
+		if (!isset($vObject->METHOD)) {
+			throw new CalendarException('iMip message contains no valid method');
+		}
+		if (!isset($vObject->VEVENT)) {
+			throw new CalendarException('iMip message contains no event');
+		}
+		if (!isset($vObject->VEVENT->UID)) {
+			throw new CalendarException('iMip message event dose not contain a UID');
+		}
+		if (!isset($vObject->VEVENT->ORGANIZER)) {
+			throw new CalendarException('iMip message event dose not contain an organizer');
+		}
+		if (!isset($vObject->VEVENT->ATTENDEE)) {
+			throw new CalendarException('iMip message event dose not contain an attendee');
+		}
 		if (empty($this->calendarInfo['uri'])) {
 			throw new CalendarException('Could not write to calendar as URI parameter is missing');
 		}
-		// Force calendar change URI
-		/** @var Schedule\Plugin $schedulingPlugin */
-		$schedulingPlugin = $server->getServer()->getPlugin('caldav-schedule');
-		// Let sabre handle the rest
-		$iTipMessage = new Message();
-		/** @var VCalendar $vObject */
-		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
-		$vEvent = $vObject->{'VEVENT'};
-
-		if ($vObject->{'METHOD'} === null) {
-			throw new CalendarException('No Method provided for scheduling data. Could not process message');
-		}
-
-		if (!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
-			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
-		}
-		$organizer = $vEvent->{'ORGANIZER'}->getValue();
-		$attendee = $vEvent->{'ATTENDEE'}->getValue();
-
-		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
-		if ($iTipMessage->method === 'REQUEST') {
-			$iTipMessage->sender = $organizer;
-			$iTipMessage->recipient = $attendee;
-		} elseif ($iTipMessage->method === 'REPLY') {
-			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
-				$iTipMessage->recipient = $organizer;
-			} else {
-				$iTipMessage->recipient = $attendee;
+		// construct dav server
+		$server = $this->getInvitationResponseServer();
+		/** @var CustomPrincipalPlugin $authPlugin */
+		$authPlugin = $server->getServer()->getPlugin('auth');
+		// we're working around the previous implementation
+		// that only allowed the public system principal to be used
+		// so set the custom principal here
+		$authPlugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
+		// retrieve all users addresses
+		$userProperties = $server->getServer()->getProperties($this->calendar->getPrincipalURI(), [ self::DAV_PROPERTY_USER_ADDRESS, self::DAV_PROPERTY_USER_ADDRESSES ]);
+		$userAddress = 'mailto:' . ($userProperties[self::DAV_PROPERTY_USER_ADDRESS] ?? null);
+		$userAddresses = $userProperties[self::DAV_PROPERTY_USER_ADDRESSES]->getHrefs() ?? [];
+		$userAddresses = array_map('strtolower', array_map('urldecode', $userAddresses));
+		// validate the method, recipient and sender
+		$imipMethod = strtoupper($vObject->METHOD->getValue());
+		if (in_array($imipMethod, ['REPLY', 'REFRESH'], true)) {
+			// extract sender (REPLY and REFRESH method should only have one attendee)
+			$sender = strtolower($vObject->VEVENT->ATTENDEE->getValue());
+			// extract and verify the recipient
+			$recipient = strtolower($vObject->VEVENT->ORGANIZER->getValue());
+			if (!in_array($recipient, $userAddresses, true)) {
+				throw new CalendarException('iMip message dose not contain an organizer that matches the user');
 			}
-			$iTipMessage->sender = $attendee;
-		} elseif ($iTipMessage->method === 'CANCEL') {
-			$iTipMessage->recipient = $attendee;
-			$iTipMessage->sender = $organizer;
+			// if the recipient address is not the same as the user address this means an alias was used
+			// the iTip broker uses the users primary email address during processing
+			if ($userAddress !== $recipient) {
+				$recipient = $userAddress;
+			}
+		} elseif (in_array($imipMethod, ['PUBLISH', 'REQUEST', 'ADD', 'CANCEL'], true)) {
+			// extract sender
+			$sender = strtolower($vObject->VEVENT->ORGANIZER->getValue());
+			// extract and verify the recipient
+			foreach ($vObject->VEVENT->ATTENDEE as $attendee) {
+				$recipient = strtolower($attendee->getValue());
+				if (in_array($recipient, $userAddresses, true)) {
+					break;
+				}
+				$recipient = null;
+			}
+			if ($recipient === null) {
+				throw new CalendarException('iMip message dose not contain an attendee that matches the user');
+			}
+			// if the recipient address is not the same as the user address this means an alias was used
+			// the iTip broker uses the users primary email address during processing
+			if ($userAddress !== $recipient) {
+				$recipient = $userAddress;
+			}
+		} else {
+			throw new CalendarException('iMip message contains a method that is not supported: ' . $imipMethod);
 		}
-		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
-		$iTipMessage->component = 'VEVENT';
-		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int)$vEvent->{'SEQUENCE'}->getValue() : 0;
-		$iTipMessage->message = $vObject;
-		$server->server->emit('schedule', [$iTipMessage]);
+		// generate the iTip message
+		$iTip = new Message();
+		$iTip->method = $imipMethod;
+		$iTip->sender = $sender;
+		$iTip->recipient = $recipient;
+		$iTip->component = 'VEVENT';
+		$iTip->uid = $vObject->VEVENT->UID->getValue();
+		$iTip->sequence = isset($vObject->VEVENT->SEQUENCE) ? (int)$vObject->VEVENT->SEQUENCE->getValue() : 1;
+		$iTip->message = $vObject;
+
+		$server->server->emit('schedule', [$iTip]);
 	}
 
 	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
+	}
+
+	/**
+	 * Export objects
+	 *
+	 * @since 32.0.0
+	 *
+	 * @return Generator<mixed, \Sabre\VObject\Component\VCalendar, mixed, mixed>
+	 */
+	#[\Override]
+	public function export(?CalendarExportOptions $options = null): Generator {
+		foreach (
+			$this->backend->exportCalendar(
+				(int)$this->calendarInfo['id'],
+				$this->backend::CALENDAR_TYPE_CALENDAR,
+				$options
+			) as $event
+		) {
+			$vObject = Reader::read($event['calendardata']);
+			if ($vObject instanceof VCalendar) {
+				yield $vObject;
+			}
+		}
 	}
 }

@@ -4,13 +4,22 @@
 -->
 
 <template>
-	<NcContent app-name="settings">
-		<router-view name="navigation" />
-		<router-view />
-		<router-view name="sidebar" />
+	<NcContent :class="$style.settingsApp" appName="settings">
+		<SettingsNavigation />
+		<SettingsContentWrapper />
 	</NcContent>
 </template>
 
 <script setup lang="ts">
 import NcContent from '@nextcloud/vue/components/NcContent'
+import SettingsContentWrapper from './SettingsContentWrapper.vue'
+import SettingsNavigation from './SettingsNavigation.vue'
 </script>
+
+<style module>
+:global(#content):has(.settingsApp) {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+</style>

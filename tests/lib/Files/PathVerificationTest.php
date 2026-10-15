@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,63 +11,60 @@ namespace Test\Files;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\Files\InvalidPathException;
+use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class PathVerificationTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PathVerificationTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $view;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->view = new View();
 	}
 
-
 	public function testPathVerificationFileNameTooLong(): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Filename is too long');
 
 		$fileName = str_repeat('a', 500);
 		$this->view->verifyPath('', $fileName);
 	}
 
-
-	/**
-	 * @dataProvider providesEmptyFiles
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesEmptyFiles')]
 	public function testPathVerificationEmptyFileName($fileName): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Empty filename is not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesEmptyFiles() {
+	public static function providesEmptyFiles(): array {
 		return [
 			[''],
 			[' '],
 		];
 	}
 
-	/**
-	 * @dataProvider providesDotFiles
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDotFiles')]
 	public function testPathVerificationDotFiles($fileName): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
-		$this->expectExceptionMessage('Dot files are not allowed');
+		$this->expectException(InvalidPathException::class);
+		$this->expectExceptionMessage('Filenames that begin with a dot are not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesDotFiles() {
+	public static function providesDotFiles(): array {
 		return [
 			['.'],
 			['..'],
@@ -79,11 +77,9 @@ class PathVerificationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesAstralPlane
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesAstralPlane')]
 	public function testPathVerificationAstralPlane($fileName): void {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);
@@ -95,7 +91,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesAstralPlane() {
+	public static function providesAstralPlane(): array {
 		return [
 			// this is the monkey emoji - http://en.wikipedia.org/w/index.php?title=%F0%9F%90%B5&redirect=no
 			['🐵'],
@@ -106,9 +102,7 @@ class PathVerificationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesValidPosixPaths
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesValidPosixPaths')]
 	public function testPathVerificationValidPaths($fileName): void {
 		$storage = new Local(['datadir' => '']);
 
@@ -117,7 +111,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function providesValidPosixPaths() {
+	public static function providesValidPosixPaths(): array {
 		return [
 			['simple'],
 			['simple.txt'],

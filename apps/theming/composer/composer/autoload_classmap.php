@@ -10,6 +10,7 @@ return array(
     'OCA\\Theming\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Theming\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Theming\\Command\\UpdateConfig' => $baseDir . '/../lib/Command/UpdateConfig.php',
+    'OCA\\Theming\\ConfigLexicon' => $baseDir . '/../lib/ConfigLexicon.php',
     'OCA\\Theming\\Controller\\IconController' => $baseDir . '/../lib/Controller/IconController.php',
     'OCA\\Theming\\Controller\\ThemingController' => $baseDir . '/../lib/Controller/ThemingController.php',
     'OCA\\Theming\\Controller\\UserThemeController' => $baseDir . '/../lib/Controller/UserThemeController.php',
@@ -39,6 +40,7 @@ return array(
     'OCA\\Theming\\Themes\\DyslexiaFont' => $baseDir . '/../lib/Themes/DyslexiaFont.php',
     'OCA\\Theming\\Themes\\HighContrastTheme' => $baseDir . '/../lib/Themes/HighContrastTheme.php',
     'OCA\\Theming\\Themes\\LightTheme' => $baseDir . '/../lib/Themes/LightTheme.php',
+    'OCA\\Theming\\Themes\\ReducedMotion' => $baseDir . '/../lib/Themes/ReducedMotion.php',
     'OCA\\Theming\\ThemingDefaults' => $baseDir . '/../lib/ThemingDefaults.php',
     'OCA\\Theming\\Util' => $baseDir . '/../lib/Util.php',
 );

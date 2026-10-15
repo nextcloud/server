@@ -8,9 +8,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_External\Tests\Storage;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
+#[\PHPUnit\Framework\Attributes\Group('S3')]
 class VersionedAmazonS3Test extends Amazons3Test {
 	protected function setUp(): void {
 		parent::setUp();
@@ -24,5 +23,13 @@ class VersionedAmazonS3Test extends Amazons3Test {
 		} catch (\Exception $e) {
 			$this->markTestSkipped("s3 backend doesn't seem to support versioning");
 		}
+	}
+
+	public function testCopyOverWriteDirectory(): void {
+		if (isset($this->config['minio'])) {
+			$this->markTestSkipped('MinIO has a bug with batch deletion on versioned storages, see https://github.com/minio/minio/issues/21366');
+		}
+
+		parent::testCopyOverWriteDirectory();
 	}
 }

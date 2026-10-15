@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Notify\Change;
@@ -15,11 +18,12 @@ use PHPUnit\Framework\ExpectationFailedException;
 /**
  * Class SmbTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SmbTest extends \Test\Files\Storage\Storage {
+	use ConfigurableStorageTrait;
 	/**
 	 * @var SMB instance
 	 */
@@ -29,15 +33,12 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$config = include('files_external/tests/config.smb.php');
-		if (!is_array($config) or !$config['run']) {
-			$this->markTestSkipped('Samba backend not configured');
+		$this->loadConfig(__DIR__ . '/../config.smb.php');
+		if (substr($this->config['root'], -1, 1) !== '/') {
+			$this->config['root'] .= '/';
 		}
-		if (substr($config['root'], -1, 1) != '/') {
-			$config['root'] .= '/';
-		}
-		$config['root'] .= $id; //make sure we have an new empty folder to work in
-		$this->instance = new SMB($config);
+		$this->config['root'] .= $id; //make sure we have an new empty folder to work in
+		$this->instance = new SMB($this->config);
 		$this->instance->mkdir('/');
 	}
 
@@ -49,7 +50,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		// doesn't support leading/trailing spaces
 		return [['folder']];
 	}

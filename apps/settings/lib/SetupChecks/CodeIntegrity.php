@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\IntegrityCheck\Checker;
@@ -22,14 +23,17 @@ class CodeIntegrity implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Code integrity');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return SetupResult::info($this->l10n->t('Integrity checker has been disabled. Integrity cannot be verified.'));
@@ -50,13 +54,13 @@ class CodeIntegrity implements ISetupCheck {
 					'link1' => [
 						'type' => 'highlight',
 						'id' => 'getFailedIntegrityCheckFiles',
-						'name' => 'List of invalid files…',
+						'name' => $this->l10n->t('List of invalid files…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.getFailedIntegrityCheckFiles'),
 					],
 					'link2' => [
 						'type' => 'highlight',
 						'id' => 'rescanFailedIntegrityCheck',
-						'name' => 'Rescan…',
+						'name' => $this->l10n->t('Rescan…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.rescanFailedIntegrityCheck'),
 					],
 				],

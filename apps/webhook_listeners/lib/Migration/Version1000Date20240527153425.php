@@ -15,11 +15,10 @@ use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 class Version1000Date20240527153425 extends SimpleMigrationStep {
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

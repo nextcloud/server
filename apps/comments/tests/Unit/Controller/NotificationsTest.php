@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\Controller;
 
 use OCA\Comments\Controller\NotificationsController;
@@ -13,10 +16,9 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -25,66 +27,38 @@ use OCP\Notification\INotification;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
-	/** @var NotificationsController */
-	protected $notificationsController;
+	protected NotificationsController $notificationsController;
 
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	protected $rootFolder;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->commentsManager = $this->createMock(ICommentsManager::class);
-		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->session = $this->createMock(IUserSession::class);
-		$this->notificationManager = $this->createMock(IManager::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-
-		$this->notificationsController = new NotificationsController(
-			'comments',
-			$this->createMock(IRequest::class),
-			$this->commentsManager,
-			$this->rootFolder,
-			$this->urlGenerator,
-			$this->notificationManager,
-			$this->session
+		$this->notificationsController = $this->createInstanceWithMocks(
+			NotificationsController::class,
+			[
+				'appName' => 'comments',
+			]
 		);
 	}
 
 	public function testViewGuestRedirect(): void {
-		$this->commentsManager->expects($this->never())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->never())
 			->method('get');
 
-		$this->rootFolder->expects($this->never())
+		$this->getAutoMock(IRootFolder::class)->expects($this->never())
 			->method('getUserFolder');
 
-		$this->session->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn(null);
 
-		$this->notificationManager->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('createNotification');
-		$this->notificationManager->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('markProcessed');
 
-		$this->urlGenerator->expects($this->exactly(2))
+		$this->getAutoMock(IURLGenerator::class)->expects($this->exactly(2))
 			->method('linkToRoute')
-			->withConsecutive(
-				['comments.Notifications.view', ['id' => '42']],
-				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment']]
-			)
 			->willReturnMap([
 				['comments.Notifications.view', ['id' => '42'], 'link-to-comment'],
 				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment'], 'link-to-login'],
@@ -105,24 +79,24 @@ class NotificationsTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		$this->commentsManager->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
 			->willReturn($comment);
 
 		$file = $this->createMock(Node::class);
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 		$user = $this->createMock(IUser::class);
 
-		$this->rootFolder->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([$file]);
+			->method('getFirstNodeById')
+			->willReturn($file);
 
-		$this->session->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -135,10 +109,10 @@ class NotificationsTest extends TestCase {
 			->method($this->anything())
 			->willReturn($notification);
 
-		$this->notificationManager->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
-		$this->notificationManager->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 
@@ -147,17 +121,17 @@ class NotificationsTest extends TestCase {
 	}
 
 	public function testViewInvalidComment(): void {
-		$this->commentsManager->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
-		$this->rootFolder->expects($this->never())
+		$this->getAutoMock(IRootFolder::class)->expects($this->never())
 			->method('getUserFolder');
 
 		$user = $this->createMock(IUser::class);
 
-		$this->session->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -165,9 +139,9 @@ class NotificationsTest extends TestCase {
 			->method('getUID')
 			->willReturn('user');
 
-		$this->notificationManager->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('createNotification');
-		$this->notificationManager->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('markProcessed');
 
 		$response = $this->notificationsController->view('42');
@@ -183,24 +157,24 @@ class NotificationsTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		$this->commentsManager->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
 			->willReturn($comment);
 
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 
-		$this->rootFolder->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([]);
+			->method('getFirstNodeById')
+			->willReturn(null);
 
 		$user = $this->createMock(IUser::class);
 
-		$this->session->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -213,10 +187,10 @@ class NotificationsTest extends TestCase {
 			->method($this->anything())
 			->willReturn($notification);
 
-		$this->notificationManager->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
-		$this->notificationManager->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 

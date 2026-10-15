@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,69 +8,47 @@
 
 namespace Test\Files\Cache;
 
-class DummyUser extends \OC\User\User {
-	/**
-	 * @var string $home
-	 */
-	private $home;
+use OC\Files\Storage\Home;
+use OC\User\User;
+use OCP\Files\Cache\ICache;
+use OCP\ITempManager;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
+use Test\TestCase;
 
-	/**
-	 * @var string $uid
-	 */
-	private $uid;
-
-	/**
-	 * @param string $uid
-	 * @param string $home
-	 */
-	public function __construct($uid, $home) {
-		$this->home = $home;
-		$this->uid = $uid;
+class DummyUser extends User {
+	public function __construct(
+		private string $uid,
+		private string $home,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		return $this->home;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getUID() {
+	#[\Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 }
 
-/**
- * Class HomeCacheTest
- *
- * @group DB
- *
- * @package Test\Files\Cache
- */
-class HomeCacheTest extends \Test\TestCase {
-	/**
-	 * @var \OC\Files\Storage\Home $storage
-	 */
-	private $storage;
+#[Group('DB')]
+class HomeCacheTest extends TestCase {
+	private Home $storage;
+	private ICache $cache;
+	private User $user;
 
-	/**
-	 * @var \OC\Files\Cache\HomeCache $cache
-	 */
-	private $cache;
-
-	/**
-	 * @var \OC\User\User $user
-	 */
-	private $user;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->user = new DummyUser('foo', \OC::$server->getTempManager()->getTemporaryFolder());
-		$this->storage = new \OC\Files\Storage\Home(['user' => $this->user]);
+		$this->user = new DummyUser('foo', Server::get(ITempManager::class)->getTemporaryFolder());
+		$this->storage = new Home(['user' => $this->user]);
 		$this->cache = $this->storage->getCache();
 	}
 

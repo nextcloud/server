@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security\CSP;
 
 /**
@@ -22,17 +23,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	public function setInlineScriptAllowed(bool $inlineScriptAllowed): void {
 		$this->inlineScriptAllowed = $inlineScriptAllowed;
-	}
-
-	public function isEvalScriptAllowed(): bool {
-		return $this->evalScriptAllowed;
-	}
-
-	/**
-	 * @deprecated 17.0.0 Unsafe eval should not be used anymore.
-	 */
-	public function setEvalScriptAllowed(bool $evalScriptAllowed): void {
-		$this->evalScriptAllowed = $evalScriptAllowed;
 	}
 
 	public function isEvalWasmAllowed(): ?bool {
@@ -115,21 +105,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->allowedFontDomains = $allowedFontDomains;
 	}
 
-	/**
-	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
-	 */
-	public function getAllowedChildSrcDomains(): array {
-		return $this->allowedChildSrcDomains;
-	}
-
-	/**
-	 * @param array $allowedChildSrcDomains
-	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
-	 */
-	public function setAllowedChildSrcDomains($allowedChildSrcDomains): void {
-		$this->allowedChildSrcDomains = $allowedChildSrcDomains;
-	}
-
 	public function getAllowedFrameAncestors(): array {
 		return $this->allowedFrameAncestors;
 	}
@@ -156,7 +131,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	public function setAllowedFormActionDomains(array $allowedFormActionDomains): void {
 		$this->allowedFormActionDomains = $allowedFormActionDomains;
 	}
-
 
 	public function getReportTo(): array {
 		return $this->reportTo;

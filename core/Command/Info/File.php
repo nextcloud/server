@@ -5,15 +5,19 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
-use OC\Files\View;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Files\File as OCPFile;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -28,18 +32,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command {
 	private IL10N $l10n;
-	private View $rootView;
 
 	public function __construct(
 		IFactory $l10nFactory,
 		private FileUtils $fileUtils,
 		private \OC\Encryption\Util $encryptionUtil,
+		private PrimaryObjectStoreConfig $objectStoreConfig,
+		private IRootFolder $rootFolder,
 	) {
 		$this->l10n = $l10nFactory->get('core');
 		parent::__construct();
-		$this->rootView = new View();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('info:file')
@@ -49,6 +54,7 @@ class File extends Command {
 			->addOption('storage-tree', null, InputOption::VALUE_NONE, 'Show storage and cache wrapping tree');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$showChildren = $input->getOption('children');
@@ -66,10 +72,20 @@ class File extends Command {
 		if ($node instanceof OCPFile && $node->isEncrypted()) {
 			$output->writeln('  ' . 'server-side encrypted: yes');
 			$keyPath = $this->encryptionUtil->getFileKeyDir('', $node->getPath());
-			if ($this->rootView->file_exists($keyPath)) {
+			try {
+				$this->rootFolder->get($keyPath);
 				$output->writeln('    encryption key at: ' . $keyPath);
-			} else {
+			} catch (NotFoundException $e) {
 				$output->writeln('    <error>encryption key not found</error> should be located at: ' . $keyPath);
+			}
+			$storage = $node->getStorage();
+			if ($storage->instanceOfStorage(Encryption::class)) {
+				/** @var Encryption $storage */
+				if (!$storage->hasValidHeader($node->getInternalPath())) {
+					$output->writeln('    <error>file doesn\'t have a valid encryption header</error>');
+				}
+			} else {
+				$output->writeln('    <error>file is marked as encrypted, but encryption doesn\'t seem to be setup</error>');
 			}
 		}
 
@@ -79,14 +95,17 @@ class File extends Command {
 
 		$output->writeln('  size: ' . Util::humanFileSize($node->getSize()));
 		$output->writeln('  etag: ' . $node->getEtag());
+		$output->writeln('  permissions: ' . $this->fileUtils->formatPermissions($node->getType(), $node->getPermissions()));
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
 			$childSize = array_sum(array_map(function (Node $node) {
 				return $node->getSize();
 			}, $children));
-			if ($childSize != $node->getSize()) {
+			if ((float)$childSize !== (float)$node->getSize()) {
 				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) . " but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
-				$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');
+				if (!$node->getStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
+					$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');
+				}
 			}
 			if ($showChildren) {
 				$output->writeln('  children: ' . count($children) . ':');
@@ -133,6 +152,25 @@ class File extends Command {
 			$parts = explode(':', $objectStoreId);
 			/** @var string $bucket */
 			$bucket = array_pop($parts);
+			if ($this->objectStoreConfig->hasMultipleObjectStorages()) {
+				$configs = $this->objectStoreConfig->getObjectStoreConfigs();
+				foreach ($configs as $instance => $config) {
+					if (is_array($config)) {
+						if ($config['arguments']['multibucket']) {
+							if (str_starts_with($bucket, $config['arguments']['bucket'])) {
+								$postfix = substr($bucket, strlen($config['arguments']['bucket']));
+								if (is_numeric($postfix)) {
+									$output->writeln('  object store instance: ' . $instance);
+								}
+							}
+						} else {
+							if ($config['arguments']['bucket'] === $bucket) {
+								$output->writeln('  object store instance: ' . $instance);
+							}
+						}
+					}
+				}
+			}
 			$output->writeln('  bucket: ' . $bucket);
 			if ($node instanceof \OC\Files\Node\File) {
 				$output->writeln('  object id: ' . $storage->getURN($node->getId()));
@@ -143,7 +181,7 @@ class File extends Command {
 					}
 					$stat = fstat($fh);
 					fclose($fh);
-					if ($stat['size'] !== $node->getSize()) {
+					if (isset($stat['size']) && $stat['size'] !== $node->getSize()) {
 						$output->writeln('  <error>warning: object had a size of ' . $stat['size'] . ' but cache entry has a size of ' . $node->getSize() . '</error>. This should have been automatically repaired');
 					}
 				} catch (\Exception $e) {
@@ -165,7 +203,7 @@ class File extends Command {
 		if ($input->getOption('storage-tree')) {
 			$storageTmp = $storage;
 			$storageClass = get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
-			while ($storageTmp instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+			while ($storageTmp instanceof Wrapper) {
 				$storageTmp = $storageTmp->getWrapperStorage();
 				$storageClass .= "\n\t" . '> ' . get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
 			}

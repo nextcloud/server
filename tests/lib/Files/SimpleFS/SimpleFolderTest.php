@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,15 +10,15 @@ namespace Test\File\SimpleFS;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\Files\Storage\Temporary;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Server;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SimpleFolderTest extends \Test\TestCase {
 	use MountProviderTrait;
 	use UserTrait;
@@ -33,6 +34,7 @@ class SimpleFolderTest extends \Test\TestCase {
 
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -41,7 +43,7 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->registerMount('simple', $this->storage, '/simple/files');
 		$this->loginAsUser('simple');
 
-		$this->parentFolder = \OC::$server->getUserFolder('simple');
+		$this->parentFolder = Server::get(IRootFolder::class)->getUserFolder('simple');
 
 		$this->folder = $this->parentFolder->newFolder('test');
 		$this->simpleFolder = new SimpleFolder($this->folder);

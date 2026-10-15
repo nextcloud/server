@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 /**
@@ -17,6 +18,10 @@ trait S3ConfigTrait {
 
 	/** Maximum number of concurrent multipart uploads */
 	protected int $concurrency;
+
+	/** Timeout, in seconds, for the connection to S3 server, not for the
+	 *  request. */
+	protected float $connectTimeout;
 
 	protected int $timeout;
 
@@ -34,4 +39,6 @@ trait S3ConfigTrait {
 	private int|float $copySizeLimit;
 
 	private bool $useMultipartCopy = true;
+
+	protected int $retriesMaxAttempts;
 }

@@ -11,11 +11,13 @@ declare(strict_types=1);
 namespace Test\App;
 
 use OC\App\AppManager;
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
-use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -26,6 +28,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\ServerVersion;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -36,21 +39,20 @@ use Test\TestCase;
  * @package Test\App
  */
 class AppManagerTest extends TestCase {
-	/**
-	 * @return AppConfig|MockObject
-	 */
-	protected function getAppConfig() {
+	protected function getAppConfig(): AppConfig&MockObject {
 		$appConfig = [];
 		$config = $this->createMock(AppConfig::class);
 
 		$config->expects($this->any())
 			->method('getValue')
 			->willReturnCallback(function ($app, $key, $default) use (&$appConfig) {
-				return (isset($appConfig[$app]) and isset($appConfig[$app][$key])) ? $appConfig[$app][$key] : $default;
+				return (isset($appConfig[$app]) && isset($appConfig[$app][$key]))
+					? $appConfig[$app][$key]
+					: $default;
 			});
 		$config->expects($this->any())
 			->method('setValue')
-			->willReturnCallback(function ($app, $key, $value) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key, $value) use (&$appConfig): void {
 				if (!isset($appConfig[$app])) {
 					$appConfig[$app] = [];
 				}
@@ -71,41 +73,38 @@ class AppManagerTest extends TestCase {
 					return $values;
 				}
 			});
+		$config->expects($this->any())
+			->method('searchValues')
+			->willReturnCallback(function ($key, $lazy, $type) use (&$appConfig) {
+				$values = [];
+				foreach ($appConfig as $appid => $appData) {
+					if (isset($appData[$key])) {
+						$values[$appid] = $appData[$key];
+					}
+				}
+				return $values;
+			});
 
 		return $config;
 	}
 
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var AppConfig|MockObject */
-	protected $appConfig;
-
-	/** @var ICache|MockObject */
-	protected $cache;
-
-	/** @var ICacheFactory|MockObject */
-	protected $cacheFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	protected $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-
+	protected IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	protected IGroupManager&MockObject $groupManager;
+	protected AppConfig&MockObject $appConfig;
+	protected ICache&MockObject $cache;
+	protected ICacheFactory&MockObject $cacheFactory;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
 	protected IURLGenerator&MockObject $urlGenerator;
-
 	protected ServerVersion&MockObject $serverVersion;
+	protected ConfigManager&MockObject $configManager;
 
-	/** @var IAppManager */
-	protected $manager;
+	protected DependencyAnalyzer $dependencyAnalyzer;
 
+	protected AppManager $manager;
+
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -119,6 +118,8 @@ class AppManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->configManager = $this->createMock(ConfigManager::class);
+		$this->dependencyAnalyzer = new DependencyAnalyzer($this->createMock(Platform::class));
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -141,12 +142,12 @@ class AppManagerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->logger,
 			$this->serverVersion,
+			$this->configManager,
+			$this->dependencyAnalyzer,
 		);
 	}
 
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
+	#[DataProvider('dataGetAppIcon')]
 	public function testGetAppIcon($callback, ?bool $dark, ?string $expected): void {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
@@ -159,15 +160,15 @@ class AppManagerTest extends TestCase {
 		}
 	}
 
-	public function dataGetAppIcon(): array {
-		$nothing = function ($appId) {
-			$this->assertEquals('test', $appId);
+	public static function dataGetAppIcon(): array {
+		$nothing = function ($appId): void {
+			self::assertEquals('test', $appId);
 			throw new \RuntimeException();
 		};
 
 		$createCallback = function ($workingIcons) {
 			return function ($appId, $icon) use ($workingIcons) {
-				$this->assertEquals('test', $appId);
+				self::assertEquals('test', $appId);
 				if (in_array($icon, $workingIcons)) {
 					return '/path/' . $icon;
 				}
@@ -240,28 +241,25 @@ class AppManagerTest extends TestCase {
 			$this->manager->disableApp('files_trashbin');
 		}
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('files_trashbin'));
+
 		$this->manager->enableApp('files_trashbin');
 		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp(): void {
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
+
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testNotEnableIfNotInstalled(): void {
-		try {
-			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
-			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
-		} catch (AppPathNotFoundException $e) {
-			// Exception is expected
-			$this->assertEquals('Could not find path for some_random_name_which_i_hope_is_not_an_app', $e->getMessage());
-		}
+		$this->expectException(AppPathNotFoundException::class);
+		$this->expectExceptionMessage('Could not find path for some_random_name_which_i_hope_is_not_an_app');
+		$this->appConfig->expects(self::never())
+			->method('setValue');
 
-		$this->assertEquals('no', $this->appConfig->getValue(
-			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
-		));
+		$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
 	}
 
 	public function testEnableAppForGroups(): void {
@@ -284,6 +282,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -295,13 +295,15 @@ class AppManagerTest extends TestCase {
 			->with('test')
 			->willReturn('apps/test');
 
-		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
-	public function dataEnableAppForGroupsAllowedTypes() {
+	public static function dataEnableAppForGroupsAllowedTypes(): array {
 		return [
 			[[]],
 			[[
@@ -314,10 +316,9 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsAllowedTypes
-	 *
 	 * @param array $appInfo
 	 */
+	#[DataProvider('dataEnableAppForGroupsAllowedTypes')]
 	public function testEnableAppForGroupsAllowedTypes(array $appInfo): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')
@@ -338,6 +339,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -361,7 +364,7 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
-	public function dataEnableAppForGroupsForbiddenTypes() {
+	public static function dataEnableAppForGroupsForbiddenTypes(): array {
 		return [
 			['filesystem'],
 			['prelogin'],
@@ -372,11 +375,11 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsForbiddenTypes
 	 *
 	 * @param string $type
 	 *
 	 */
+	#[DataProvider('dataEnableAppForGroupsForbiddenTypes')]
 	public function testEnableAppForGroupsForbiddenTypes($type): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('test can\'t be enabled for groups.');
@@ -400,6 +403,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -480,16 +485,16 @@ class AppManagerTest extends TestCase {
 			'writable' => false,
 		];
 
-		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test_test_app';
 		mkdir($fakeTestAppPath);
 
-		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+		$generatedAppPath = $this->manager->getAppPath('test_test_app');
 
 		rmdir($fakeTestAppPath);
 		unlink($fakeAppLink);
 		rmdir($fakeAppPath);
 
-		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+		$this->assertEquals($fakeAppLink . '/test_test_app', $generatedAppPath);
 	}
 
 	public function testGetAppPathFail(): void {
@@ -544,6 +549,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$apps = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -553,6 +559,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',
@@ -575,6 +582,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
 		$enabled = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -584,6 +592,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',
@@ -595,7 +604,7 @@ class AppManagerTest extends TestCase {
 	}
 
 	public function testGetAppsNeedingUpgrade(): void {
-		/** @var AppManager|MockObject $manager */
+		/** @var AppManager&MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
 				$this->userSession,
@@ -605,11 +614,14 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
 
 		$appInfos = [
+			'appstore' => ['id' => 'appstore'],
 			'cloud_federation_api' => ['id' => 'cloud_federation_api'],
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
@@ -623,6 +635,7 @@ class AppManagerTest extends TestCase {
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'settings' => ['id' => 'settings'],
+			'sharing' => ['id' => 'sharing'],
 			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'viewer' => ['id' => 'viewer'],
@@ -665,11 +678,14 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
 
 		$appInfos = [
+			'appstore' => ['id' => 'appstore'],
 			'cloud_federation_api' => ['id' => 'cloud_federation_api'],
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
@@ -681,6 +697,7 @@ class AppManagerTest extends TestCase {
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'settings' => ['id' => 'settings'],
+			'sharing' => ['id' => 'sharing'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
@@ -719,6 +736,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
 		$enabled = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -728,6 +746,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',
@@ -776,9 +795,7 @@ class AppManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isBackendRequiredDataProvider
-	 */
+	#[DataProvider('isBackendRequiredDataProvider')]
 	public function testIsBackendRequired(
 		string $backend,
 		array $appBackends,
@@ -806,6 +823,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -837,6 +856,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -867,6 +888,8 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -888,4 +911,24 @@ class AppManagerTest extends TestCase {
 		);
 	}
 
+	public static function dataCleanAppId(): array {
+		return [
+			['simple', 'simple'],
+			['UPPERCASEa', 'a'],
+			['MixEdCaSe', 'ixdae'],
+			['007startwithdigit', 'startwithdigit'],
+			['0-numb3rs-4ll0w3d-1n-m1ddle-0', 'numb3rs-4ll0w3d-1n-m1ddle-0'],
+			['hyphen-and_underscore_allowed', 'hyphen-and_underscore_allowed'],
+			['_but-not-at-the-end_', 'but-not-at-the-end'],
+			['-but-not-at-the-end-', 'but-not-at-the-end'],
+			['--_but-not-at-the-end___', 'but-not-at-the-end'],
+			[' also remove all spaces', 'alsoremoveallspaces'],
+			['a«"«»()@+-/*=%\{}…~|&œ—<>[]^±_−÷×≠‰A', 'a-_'],
+		];
+	}
+
+	#[DataProvider('dataCleanAppId')]
+	public function testCleanAppId(string $inputString, string $appid): void {
+		$this->assertEquals($appid, $this->manager->cleanAppId($inputString));
+	}
 }

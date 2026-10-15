@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -13,6 +15,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Config extends Base {
@@ -22,6 +25,7 @@ class Config extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:config')
@@ -37,11 +41,17 @@ class Config extends Base {
 			)->addArgument(
 				'value',
 				InputArgument::OPTIONAL,
-				'value to set the config option to, when no value is provided the existing value will be printed'
+				'value to set the config option to; when omitted, the existing value is printed; with --value-from-file, this is treated as a file pat'
+			)->addOption(
+				'value-from-file',
+				null,
+				InputOption::VALUE_NONE,
+				'treat the value argument as a file path and read the config value from that file'
 			);
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mountId = $input->getArgument('mount_id');
 		$key = $input->getArgument('key');
@@ -54,6 +64,14 @@ class Config extends Base {
 
 		$value = $input->getArgument('value');
 		if ($value !== null) {
+			if ($input->getOption('value-from-file')) {
+				$file = $value;
+				$value = file_get_contents($file);
+				if ($value === false) {
+					$output->writeln('<error>Failed to load value from ' . $file . '</error>');
+					return 1;
+				}
+			}
 			$this->setOption($mount, $key, $value, $output);
 		} else {
 			$this->getOption($mount, $key, $output);

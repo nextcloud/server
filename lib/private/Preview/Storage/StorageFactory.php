@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Preview\Storage;
+
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OC\Preview\Db\Preview;
+use OCP\Server;
+use Override;
+
+class StorageFactory implements IPreviewStorage {
+	private ?IPreviewStorage $backend = null;
+
+	public function __construct(
+		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
+	) {
+	}
+
+	#[Override]
+	public function writePreview(Preview $preview, mixed $stream): int {
+		return $this->getBackend()->writePreview($preview, $stream);
+	}
+
+	#[Override]
+	public function readPreview(Preview $preview): mixed {
+		return $this->getBackend()->readPreview($preview);
+	}
+
+	#[Override]
+	public function deletePreview(Preview $preview): void {
+		$this->getBackend()->deletePreview($preview);
+	}
+
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		$this->getBackend()->deleteUnreferencedPreview($preview);
+	}
+
+	private function getBackend(): IPreviewStorage {
+		if ($this->backend) {
+			return $this->backend;
+		}
+
+		if ($this->objectStoreConfig->hasObjectStore()) {
+			$this->backend = Server::get(ObjectStorePreviewStorage::class);
+		} else {
+			$this->backend = Server::get(LocalPreviewStorage::class);
+		}
+
+		return $this->backend;
+	}
+
+	#[Override]
+	public function migratePreviews(array $previews): void {
+		$this->getBackend()->migratePreviews($previews);
+	}
+
+	#[Override]
+	public function scan(): int {
+		return $this->getBackend()->scan();
+	}
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,20 +8,25 @@
 
 namespace Test\Archive;
 
+use OC\Archive\Archive;
+use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
+
 abstract class TestBase extends \Test\TestCase {
 	/**
-	 * @var \OC\Archive\Archive
+	 * @var Archive
 	 */
 	protected $instance;
 
 	/**
 	 * get the existing test archive
-	 * @return \OC\Archive\Archive
+	 * @return Archive
 	 */
 	abstract protected function getExisting();
 	/**
 	 * get a new archive for write testing
-	 * @return \OC\Archive\Archive
+	 * @return Archive
 	 */
 	abstract protected function getNew();
 
@@ -56,7 +62,7 @@ abstract class TestBase extends \Test\TestCase {
 		$textFile = $dir . '/lorem.txt';
 		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
 		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}
@@ -90,7 +96,8 @@ abstract class TestBase extends \Test\TestCase {
 		$this->instance = $this->getNew();
 		$fh = $this->instance->getStream('lorem.txt', 'w');
 		$source = fopen($dir . '/lorem.txt', 'r');
-		\OCP\Files::streamCopy($source, $fh);
+		$result = stream_copy_to_stream($source, $fh);
+		$this->assertNotFalse($result);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
@@ -110,13 +117,13 @@ abstract class TestBase extends \Test\TestCase {
 	public function testExtract(): void {
 		$dir = \OC::$SERVERROOT . '/tests/data';
 		$this->instance = $this->getExisting();
-		$tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir . 'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir . 'dir/lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir . 'logo-wide.png'));
 		$this->assertEquals(file_get_contents($dir . '/lorem.txt'), file_get_contents($tmpDir . 'lorem.txt'));
-		\OCP\Files::rmdirr($tmpDir);
+		Files::rmdirr($tmpDir);
 	}
 	public function testMoveRemove(): void {
 		$dir = \OC::$SERVERROOT . '/tests/data';
@@ -132,11 +139,9 @@ abstract class TestBase extends \Test\TestCase {
 		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}
 	public function testRecursive(): void {
-		$dir = \OC::$SERVERROOT . '/tests/data';
+		$dir = \OC::$SERVERROOT . '/tests/data/themes';
 		$this->instance = $this->getNew();
 		$this->instance->addRecursive('/dir', $dir);
-		$this->assertTrue($this->instance->fileExists('/dir/lorem.txt'));
-		$this->assertTrue($this->instance->fileExists('/dir/data.zip'));
-		$this->assertTrue($this->instance->fileExists('/dir/data.tar.gz'));
+		$this->assertTrue($this->instance->fileExists('/dir/abc/apps/files/l10n/zz.json'));
 	}
 }

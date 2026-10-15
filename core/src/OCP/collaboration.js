@@ -23,7 +23,7 @@ const types = {}
  *
  * @return {Array}
  */
-export const l10nProjects = () => {
+export function l10nProjects() {
 	return [
 		t('core', 'Add to a project'),
 		t('core', 'Show details'),

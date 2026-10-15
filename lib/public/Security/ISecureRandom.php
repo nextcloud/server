@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Security;
 
 /**
@@ -14,7 +15,7 @@ namespace OCP\Security;
  * use a fallback.
  *
  * Usage:
- * \OC::$server->get(ISecureRandom::class)->generate(10);
+ * \OCP\Server::get(ISecureRandom::class)->generate(10);
  *
  * @since 8.0.0
  */
@@ -59,7 +60,7 @@ interface ISecureRandom {
 	 * @param int $length The length of the generated string
 	 * @param string $characters An optional list of characters to use if no character list is
 	 *                           specified all valid base64 characters are used.
-	 * @return string
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 */
 	public function generate(int $length,

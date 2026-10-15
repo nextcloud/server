@@ -19,4 +19,12 @@ trait TProfileHelper {
 			FILTER_NULL_ON_FAILURE,
 		);
 	}
+
+	protected function isProfilePickerEnabled(IConfig $config): ?bool {
+		return filter_var(
+			$config->getAppValue('settings', 'profile_picker_enabled', '1'),
+			FILTER_VALIDATE_BOOLEAN,
+			FILTER_NULL_ON_FAILURE,
+		);
+	}
 }

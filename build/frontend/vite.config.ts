@@ -1,0 +1,217 @@
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: CC0-1.0
+ */
+
+import { createAppConfig } from '@nextcloud/vite-config'
+import { resolve } from 'node:path'
+
+const modules = {
+	appstore: {
+		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
+	},
+	comments: {
+		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
+		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
+		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
+	core: {
+		'ajax-cron': resolve(import.meta.dirname, 'core/src', 'ajax-cron.ts'),
+		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
+		'legacy-unified-search': resolve(import.meta.dirname, 'core/src', 'legacy-unified-search.ts'),
+		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
+		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),
+		main: resolve(import.meta.dirname, 'core/src', 'main.ts'),
+		maintenance: resolve(import.meta.dirname, 'core/src', 'maintenance.ts'),
+		public: resolve(import.meta.dirname, 'core/src', 'public.ts'),
+		'public-page-menu': resolve(import.meta.dirname, 'core/src', 'public-page-menu.ts'),
+		'public-page-user-menu': resolve(import.meta.dirname, 'core/src', 'public-page-user-menu.ts'),
+		public_share_auth: resolve(import.meta.dirname, 'core/src', 'public-share-auth.ts'),
+		recommendedapps: resolve(import.meta.dirname, 'core/src', 'recommendedapps.ts'),
+		'twofactor-request-token': resolve(import.meta.dirname, 'core/src', 'twofactor-request-token.ts'),
+		'unified-search': resolve(import.meta.dirname, 'core/src', 'unified-search.ts'),
+		'unsupported-browser': resolve(import.meta.dirname, 'core/src', 'unsupported-browser.ts'),
+		'unsupported-browser-redirect': resolve(import.meta.dirname, 'core/src', 'unsupported-browser-redirect.ts'),
+		update: resolve(import.meta.dirname, 'core/src', 'update.ts'),
+		'viewer-init': resolve(import.meta.dirname, 'core/src', 'viewer-init.ts'),
+	},
+	dashboard: {
+		main: resolve(import.meta.dirname, 'apps/dashboard/src', 'main.js'),
+	},
+	dav: {
+		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
+		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
+		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
+	},
+	encryption: {
+		encryption: resolve(import.meta.dirname, 'apps/encryption/src', 'encryption.ts'),
+		settings_admin: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-admin.ts'),
+		settings_personal: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-personal.ts'),
+	},
+	federation: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/federation/src', 'settings-admin.ts'),
+	},
+	federatedfilesharing: {
+		'init-files': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'init-files.js'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
+		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
+	},
+	files: {
+		sidebar: resolve(import.meta.dirname, 'apps/files/src', 'main-sidebar.ts'),
+		main: resolve(import.meta.dirname, 'apps/files/src', 'main.ts'),
+		init: resolve(import.meta.dirname, 'apps/files/src', 'init.ts'),
+		search: resolve(import.meta.dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-admin.ts'),
+		'settings-personal': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-personal.ts'),
+		'reference-files': resolve(import.meta.dirname, 'apps/files/src', 'reference-files.ts'),
+	},
+	files_external: {
+		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
+
+		init: resolve(import.meta.dirname, 'apps/files_external/src', 'init-files.ts'),
+		init_settings: resolve(import.meta.dirname, 'apps/files_external/src', 'init-settings.ts'),
+		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings-main.ts'),
+	},
+	files_reminders: {
+		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
+	},
+	files_sharing: {
+		// Only the public share entry point is migrated to Vue 3 so far, the rest
+		// of the app is still built by the Vue 2 frontend. It is referenced by path
+		// rather than through `apps/` so it resolves the Vue 3 dependencies.
+		'init-public': resolve(import.meta.dirname, '../..', 'apps/files_sharing/src/public', 'init.ts'),
+	},
+	files_trashbin: {
+		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
+	},
+	files_versions: {
+		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
+		workflow: resolve(import.meta.dirname, 'apps/files_versions/src', 'workflow.ts'),
+	},
+	oauth2: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
+	},
+	profile: {
+		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
+		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
+	},
+	settings: {
+		// Only the app password section is migrated to Vue 3 so far, the rest
+		// of the app is still built by the Vue 2 frontend. It is referenced by path
+		// rather than through `apps/` so it resolves the Vue 3 dependencies.
+		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/authtokens', 'main.ts'),
+	},
+	sharebymail: {
+		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
+	},
+	systemtags: {
+		init: resolve(import.meta.dirname, 'apps/systemtags/src', 'init.ts'),
+		admin: resolve(import.meta.dirname, 'apps/systemtags/src', 'admin.ts'),
+	},
+	theming: {
+		'settings-personal': resolve(import.meta.dirname, 'apps/theming/src', 'settings-personal.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/theming/src', 'settings-admin.ts'),
+		theming: resolve(import.meta.dirname, 'apps/theming/src', 'theming.ts'),
+	},
+	twofactor_backupcodes: {
+		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
+	},
+	updatenotification: {
+		init: resolve(import.meta.dirname, 'apps/updatenotification/src', 'init.ts'),
+		'view-changelog-page': resolve(import.meta.dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/updatenotification/src', 'settings-admin.ts'),
+		'update-notification-legacy': resolve(import.meta.dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
+	},
+	user_ldap: {
+		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
+	},
+	user_status: {
+		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
+	},
+	weather_status: {
+		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
+	},
+	workflowengine: {
+		workflowengine: resolve(import.meta.dirname, 'apps/workflowengine/src', 'workflowengine.ts'),
+	},
+}
+
+// convert modules to modules entries prefied with the app id
+const viteModuleEntries = Object.entries(modules)
+	.map(([appId, entries]) => (
+		Object.entries(entries)
+			.map(([entryName, entryPath]) => [`${appId}-${entryName}`, entryPath])
+	))
+	.flat(1)
+
+export default createAppConfig(Object.fromEntries(viteModuleEntries), {
+	createEmptyCSSEntryPoints: true,
+	emptyOutputDirectory: {
+		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
+	},
+	extractLicenseInformation: {
+		includeSourceMaps: true,
+	},
+	config: {
+		root: resolve(import.meta.dirname, '../..'),
+		resolve: {
+			preserveSymlinks: true,
+			alias: [
+				// allow to import from the repository root (cross reference other apps)
+				{ find: /^~\//, replacement: `${resolve(import.meta.dirname, '../..')}/` },
+			],
+		},
+		build: {
+			outDir: 'dist',
+			rollupOptions: {
+				output: {
+					entryFileNames: '[name].mjs',
+					chunkFileNames: '[name]-[hash].chunk.mjs',
+					assetFileNames({ originalFileNames }) {
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
+					},
+					experimentalMinChunkSize: 100 * 1024,
+					/* // with rolldown-vite:
+					advancedChunks: {
+						groups: [
+							// one group for common dependencies
+							{ name: 'common', test: /[\\/]node_modules[\\/]/ },
+							// one group per app with a lower minShareCount to encourage sharing within the app
+							...Object.keys(modules).map((name) => ({
+								name,
+								test: new RegExp(`[\\\\/]apps[\\\\/]${name}[\\\\/]`),
+								minShareCount: 2,
+							})),
+						],
+						// only include modules in the groups if they are used at least by 3 different chunks
+						minShareCount: 3,
+						// only include modules in the groups if they are smaller than 400kb on its own
+						// maxModuleSize: 400 * 1024,
+						// define the groups output size (not too small but also not too big!)
+						minSize: 100 * 1024,
+						maxSize: 800 * 1024,
+					},
+				},
+				experimental: {
+					strictExecutionOrder: true,
+				},
+					*/
+				},
+			},
+		},
+		experimental: {
+			renderBuiltUrl(filename, { hostType }) {
+				if (hostType === 'css') {
+					return `./${filename}`
+				}
+				return {
+					runtime: `window.OC.filePath('', '', 'dist/${filename}')`,
+				}
+			},
+		},
+	},
+})

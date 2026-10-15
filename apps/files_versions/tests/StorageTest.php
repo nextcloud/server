@@ -16,15 +16,13 @@ use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorageTest extends TestCase {
 	use UserTrait;
 
 	private $versionsRoot;
 	private $userFolder;
-	private $expireTimestamp = 10;
+	private int $expireTimestamp = 10;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,14 +43,13 @@ class StorageTest extends TestCase {
 		$this->userFolder = $root->getUserFolder('version_test');
 	}
 
-
-	protected function createPastFile(string $path, int $mtime) {
+	protected function createPastFile(string $path, int $mtime): void {
 		try {
 			$file = $this->userFolder->get($path);
+			$file->putContent((string)$mtime);
 		} catch (NotFoundException $e) {
-			$file = $this->userFolder->newFile($path);
+			$file = $this->userFolder->newFile($path, (string)$mtime);
 		}
-		$file->putContent((string)$mtime);
 		$file->touch($mtime);
 	}
 

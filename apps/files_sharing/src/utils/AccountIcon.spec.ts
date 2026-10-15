@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, expect, it, afterEach } from 'vitest'
-import { generateAvatarSvg } from './AccountIcon'
-describe('AccountIcon', () => {
 
+import { afterEach, describe, expect, it } from 'vitest'
+import { generateAvatarSvg } from './AccountIcon.ts'
+describe('AccountIcon', () => {
 	afterEach(() => {
 		delete document.body.dataset.themes
 	})

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\IntegrityCheck\Checker;
@@ -13,130 +14,49 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class CheckSetupControllerTest
  *
- * @backupStaticAttributes
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var CheckSetupController | \PHPUnit\Framework\MockObject\MockObject */
-	private $checkSetupController;
-	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
-	private $checker;
-	/** @var ISetupCheckManager|MockObject */
-	private $setupCheckManager;
+	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
+	private Checker&MockObject $checker;
+	private ISetupCheckManager&MockObject $setupCheckManager;
+	private CheckSetupController $checkSetupController;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
-		$this->l10n->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($message, array $replace) {
-				return vsprintf($message, $replace);
-			});
-		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->checker = $this->createMock(Checker::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
-		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
-			->setConstructorArgs([
-				'settings',
-				$this->request,
-				$this->config,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->setupCheckManager,
-			])
-			->setMethods([
-				'getCurlVersion',
-				'isPhpOutdated',
-				'isPHPMailerUsed',
-			])->getMock();
+		$this->checkSetupController = new CheckSetupController(
+			'settings',
+			$this->request,
+			$this->urlGenerator,
+			$this->checker,
+			$this->setupCheckManager,
+		);
 	}
 
 	public function testCheck(): void {
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturnMap([
-				['files_external', 'user_certificate_scan', '', '["a", "b"]'],
-				['dav', 'needs_system_address_book_sync', 'no', 'no'],
-			]);
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturnMap([
-				['connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'], ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']],
-				['memcache.local', null, 'SomeProvider'],
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-
-		$this->request->expects($this->never())
-			->method('getHeader');
-
-		$this->urlGenerator->method('linkToDocs')
-			->willReturnCallback(function (string $key): string {
-				if ($key === 'admin-performance') {
-					return 'http://docs.example.org/server/go.php?to=admin-performance';
-				}
-				if ($key === 'admin-security') {
-					return 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html';
-				}
-				if ($key === 'admin-reverse-proxy') {
-					return 'reverse-proxy-doc-link';
-				}
-				if ($key === 'admin-code-integrity') {
-					return 'http://docs.example.org/server/go.php?to=admin-code-integrity';
-				}
-				if ($key === 'admin-db-conversion') {
-					return 'http://docs.example.org/server/go.php?to=admin-db-conversion';
-				}
-				return '';
-			});
-
-		$this->urlGenerator->method('getAbsoluteURL')
-			->willReturnCallback(function (string $url): string {
-				if ($url === 'index.php/settings/admin') {
-					return 'https://server/index.php/settings/admin';
-				}
-				if ($url === 'index.php') {
-					return 'https://server/index.php';
-				}
-				return '';
-			});
+		$this->setupCheckManager->expects(self::once())
+			->method('runAll')
+			->willReturn(['category' => [], 'other' => []]);
 
 		$expected = new DataResponse(
 			[
-				'generic' => [],
+				'category' => [],
+				'other' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -165,7 +85,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
 	}
-
 
 	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound(): void {
 		$this->checker

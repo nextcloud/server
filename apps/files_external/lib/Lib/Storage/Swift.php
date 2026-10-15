@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use GuzzleHttp\Psr7\Uri;
@@ -126,9 +127,9 @@ class Swift extends Common {
 	}
 
 	public function __construct(array $parameters) {
-		if ((empty($parameters['key']) and empty($parameters['password']))
-			or (empty($parameters['user']) && empty($parameters['userid'])) or empty($parameters['bucket'])
-			or empty($parameters['region'])
+		if ((empty($parameters['key']) && empty($parameters['password']))
+			|| (empty($parameters['user']) && empty($parameters['userid'])) || empty($parameters['bucket'])
+			|| empty($parameters['region'])
 		) {
 			throw new StorageBadConfigException('API Key or password, Login, Bucket and Region have to be configured.');
 		}
@@ -175,6 +176,7 @@ class Swift extends Common {
 		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -206,6 +208,7 @@ class Swift extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -216,6 +219,7 @@ class Swift extends Common {
 		return $this->doesObjectExist($path);
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -250,6 +254,7 @@ class Swift extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		$path = $this->normalizePath($path);
 
@@ -286,9 +291,9 @@ class Swift extends Common {
 		}
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
-
 		if ($path === '.') {
 			$path = '';
 		} elseif ($this->is_dir($path)) {
@@ -308,24 +313,26 @@ class Swift extends Common {
 			return false;
 		}
 
-		$dateTime = $object->lastModified ? \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified) : false;
-		$mtime = $dateTime ? $dateTime->getTimestamp() : null;
-		$objectMetadata = $object->getMetadata();
-		if (isset($objectMetadata['timestamp'])) {
-			$mtime = $objectMetadata['timestamp'];
+		$mtime = null;
+		if (!empty($object->lastModified)) {
+			$dateTime = \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified);
+			if ($dateTime !== false) {
+				$mtime = $dateTime->getTimestamp();
+			}
 		}
 
-		if (!empty($mtime)) {
-			$mtime = floor($mtime);
+		if (is_numeric($object->getMetadata()['timestamp'] ?? null)) {
+			$mtime = (float)$object->getMetadata()['timestamp'];
 		}
 
-		$stat = [];
-		$stat['size'] = (int)$object->contentLength;
-		$stat['mtime'] = $mtime;
-		$stat['atime'] = time();
-		return $stat;
+		return [
+			'size' => (int)$object->contentLength,
+			'mtime' => isset($mtime) ? (int)floor($mtime) : null,
+			'atime' => time(),
+		];
 	}
 
+	#[\Override]
 	public function filetype(string $path) {
 		$path = $this->normalizePath($path);
 
@@ -342,6 +349,7 @@ class Swift extends Common {
 		}
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -366,6 +374,7 @@ class Swift extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
@@ -416,6 +425,7 @@ class Swift extends Common {
 		}
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		$path = $this->normalizePath($path);
 		if (is_null($mtime)) {
@@ -446,6 +456,7 @@ class Swift extends Common {
 		}
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -507,6 +518,7 @@ class Swift extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -532,6 +544,7 @@ class Swift extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
@@ -562,6 +575,7 @@ class Swift extends Common {
 		unlink($tmpFile);
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		if ($this->is_file($path)) {
 			return parent::hasUpdated($path, $time);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Service;
 
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
@@ -13,21 +14,14 @@ use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BackupCodeStorageTest extends TestCase {
-
-	/** @var BackupCodeStorage */
-	private $storage;
-
-	/** @var string */
-	private $testUID = 'test123456789';
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
+	private IManager&MockObject $notificationManager;
+	private string $testUID = 'test123456789';
+	private BackupCodeStorage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,10 +43,10 @@ class BackupCodeStorageTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($this->callback(function (INotification $notification) {
-				return $notification->getUser() === $this->testUID &&
-					$notification->getObjectType() === 'create' &&
-					$notification->getObjectId() === 'codes' &&
-					$notification->getApp() === 'twofactor_backupcodes';
+				return $notification->getUser() === $this->testUID
+					&& $notification->getObjectType() === 'create'
+					&& $notification->getObjectId() === 'codes'
+					&& $notification->getApp() === 'twofactor_backupcodes';
 			}));
 
 		// Create codes

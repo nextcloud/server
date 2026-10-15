@@ -161,5 +161,5 @@ Feature: LDAP
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Elisa | 0 | elisa |
+      | Elisa | 0 | elisa | elisa@nextcloud.ci |
     And "exact groups" sharees returned is empty

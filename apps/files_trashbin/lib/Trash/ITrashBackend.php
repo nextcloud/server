@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\Node;
@@ -30,6 +34,15 @@ interface ITrashBackend {
 	 * @since 15.0.0
 	 */
 	public function listTrashFolder(ITrashItem $folder): array;
+
+	/**
+	 * Get a specific item in the root of the trashbin
+	 *
+	 * @param IUser $user
+	 * @return ?ITrashItem
+	 * @since 36.0.0
+	 */
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
 
 	/**
 	 * Restore a trashbin item

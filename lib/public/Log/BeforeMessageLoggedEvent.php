@@ -42,7 +42,6 @@ class BeforeMessageLoggedEvent extends Event {
 		return $this->level;
 	}
 
-
 	/**
 	 * Get the app context of the log item
 	 *
@@ -52,7 +51,6 @@ class BeforeMessageLoggedEvent extends Event {
 	public function getApp(): string {
 		return $this->app;
 	}
-
 
 	/**
 	 * Get the message of the log item

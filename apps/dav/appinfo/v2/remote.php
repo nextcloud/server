@@ -15,8 +15,11 @@ if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 ignore_user_abort(true);
 
 // Turn off output buffering to prevent memory problems
-\OC_Util::obEnd();
+while (ob_get_level()) {
+	ob_end_clean();
+}
 
 $request = \OCP\Server::get(IRequest::class);
+/** @var string $baseuri defined in remote.php */
 $server = new Server($request, $baseuri);
 $server->exec();

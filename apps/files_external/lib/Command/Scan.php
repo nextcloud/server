@@ -11,6 +11,7 @@ namespace OCA\Files_External\Command;
 use OC\Files\Cache\Scanner;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,6 +30,7 @@ class Scan extends StorageAuthBase {
 		parent::__construct($globalService, $userManager);
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:scan')
@@ -53,10 +55,16 @@ class Scan extends StorageAuthBase {
 				InputOption::VALUE_OPTIONAL,
 				'The path in the storage to scan',
 				''
+			)->addOption(
+				'unscanned',
+				'',
+				InputOption::VALUE_NONE,
+				'only scan files which are marked as not fully scanned'
 			);
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		[, $storage] = $this->createStorage($input, $output);
 		if ($storage === null) {
@@ -82,7 +90,27 @@ class Scan extends StorageAuthBase {
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->scan($path);
+		try {
+			if ($input->getOption('unscanned')) {
+				if ($path !== '') {
+					$output->writeln('<error>--unscanned is mutually exclusive with --path</error>');
+					return 1;
+				}
+				$scanner->backgroundScan();
+			} else {
+				$scanner->scan($path);
+			}
+		} catch (LockedException $e) {
+			if (is_string($e->getReadablePath()) && str_starts_with($e->getReadablePath(), 'scanner::')) {
+				if ($e->getReadablePath() === 'scanner::') {
+					$output->writeln('<error>Another process is already scanning this storage</error>');
+				} else {
+					$output->writeln('<error>Another process is already scanning \'' . substr($e->getReadablePath(), strlen('scanner::')) . '\' in this storage</error>');
+				}
+			} else {
+				throw $e;
+			}
+		}
 
 		$this->presentStats($output);
 
@@ -125,7 +153,6 @@ class Scan extends StorageAuthBase {
 			->setRows([$rows]);
 		$table->render();
 	}
-
 
 	/**
 	 * Formats microtime into a human readable format

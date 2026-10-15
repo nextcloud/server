@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -17,10 +19,10 @@ use Test\TestCase;
 /**
  * Class Test_Wizard
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WizardTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
@@ -35,32 +37,28 @@ class WizardTest extends TestCase {
 		}
 	}
 
-	private function getWizardAndMocks() {
+	private function getWizardAndMocks(): array {
 		static $confMethods;
-		static $connMethods;
-		static $accMethods;
 
 		if (is_null($confMethods)) {
 			$confMethods = get_class_methods('\OCA\User_LDAP\Configuration');
-			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
-		/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject $lw */
+		/** @var ILDAPWrapper&MockObject $lw */
 		$lw = $this->createMock(ILDAPWrapper::class);
 
-		/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject $conf */
+		/** @var Configuration&MockObject $conf */
 		$conf = $this->getMockBuilder(Configuration::class)
-			->setMethods($confMethods)
+			->onlyMethods($confMethods)
 			->setConstructorArgs(['', true])
 			->getMock();
 
-		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
+		/** @var Access&MockObject $access */
 		$access = $this->createMock(Access::class);
 
 		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}
 
-	private function prepareLdapWrapperForConnections(MockObject &$ldap) {
+	private function prepareLdapWrapperForConnections(MockObject $ldap) {
 		$ldap->expects($this->once())
 			->method('connect')
 			//dummy value
@@ -346,7 +344,7 @@ class WizardTest extends TestCase {
 			});
 
 		$result = $wizard->detectEmailAttribute();
-		$this->assertSame(false, $result->hasChanges());
+		$this->assertFalse($result->hasChanges());
 	}
 
 	public function testCumulativeSearchOnAttributeSkipReadDN(): void {
@@ -423,7 +421,7 @@ class WizardTest extends TestCase {
 		// The following expectations are the real test
 		$filters = ['f1', 'f2', '*'];
 		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
-		$this->assertSame(6, count($resultArray));
+		$this->assertCount(6, $resultArray);
 		unset($mark);
 	}
 }

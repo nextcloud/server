@@ -22,9 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use function scandir;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ContactsMigratorTest extends TestCase {
 
 	private IUserManager $userManager;
@@ -33,7 +31,7 @@ class ContactsMigratorTest extends TestCase {
 
 	private OutputInterface $output;
 
-	private const ASSETS_DIR = __DIR__ . '/assets/address_books/';
+	private const string ASSETS_DIR = __DIR__ . '/assets/address_books/';
 
 	protected function setUp(): void {
 		$app = new App(Application::APP_ID);
@@ -44,7 +42,7 @@ class ContactsMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function dataAssets(): array {
+	public static function dataAssets(): array {
 		return array_map(
 			function (string $filename) {
 				$vCardSplitter = new VCardSplitter(
@@ -91,11 +89,11 @@ class ContactsMigratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAssets
 	 *
 	 * @param array{displayName: string, description?: string} $importMetadata
 	 * @param VCard[] $importCards
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $importMetadata, array $importCards): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 

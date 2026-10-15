@@ -20,7 +20,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
@@ -36,6 +36,7 @@ jobs:
               - 'composer.json'
               - 'composer.lock'
               - '**.php'
+              - build/autoloaderchecker.sh
 
   autoloader:
     runs-on: ubuntu-latest
@@ -43,31 +44,25 @@ jobs:
     needs: changes
     if: needs.changes.outputs.src != 'false'
 
-    strategy:
-      matrix:
-        php-versions: ['8.1']
-
     name: PHP checkers
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
-      - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+      - name: Set up php
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.3'
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up dependencies
-        run: composer i
 
       - name: Check auto loaders
         run: bash ./build/autoloaderchecker.sh
@@ -75,23 +70,23 @@ jobs:
   autocheckers:
     runs-on: ubuntu-latest-low
 
-    strategy:
-      matrix:
-        php-versions: ['8.1']
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     name: Translation and Files checkers
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
-      - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+      - name: Set up php
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.3'
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
@@ -110,6 +105,9 @@ jobs:
       - name: Check that all and only expected files are included
         run: php ./build/files-checker.php
 
+      - name: Check that all shipped apps are linted by psalm
+        run: sh ./build/psalm-checker.sh
+
   summary:
     permissions:
       contents: none
@@ -122,4 +120,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.autocheckers.result != 'success' || (needs.changes.outputs.src != 'false' && needs.autoloader.result != 'success') }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && (needs.autocheckers.result != 'success' || needs.autoloader.result != 'success') }}; then exit 1; fi

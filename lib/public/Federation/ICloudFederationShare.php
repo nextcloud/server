@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Federation;
 
 /**
@@ -218,7 +220,6 @@ interface ICloudFederationShare {
 	 * @since 14.0.0
 	 */
 	public function getShareSecret();
-
 
 	/**
 	 * get protocol specification

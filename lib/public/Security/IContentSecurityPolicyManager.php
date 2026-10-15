@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Security;
 
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -24,7 +25,7 @@ interface IContentSecurityPolicyManager {
 	 * Note that the adjustment is only applied to applications that use AppFramework
 	 * controllers.
 	 *
-	 * To use this from your `app.php` use `\OC::$server->getContentSecurityPolicyManager()->addDefaultPolicy($policy)`,
+	 * To use this from your `app.php` use `\OCP\Server::get(IContentSecurityPolicyManager::class)->addDefaultPolicy($policy)`,
 	 * $policy has to be of type `\OCP\AppFramework\Http\ContentSecurityPolicy`.
 	 *
 	 * WARNING: Using this API incorrectly may make the instance more insecure.

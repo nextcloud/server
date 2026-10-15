@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\BackgroundJobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -30,9 +31,10 @@ class CheckForUserCertificates extends QueuedJob {
 	/**
 	 * Checks all user directories for old user uploaded certificates
 	 */
-	public function run($arguments): void {
+	#[\Override]
+	public function run($argument): void {
 		$uploadList = [];
-		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList): void {
 			$userId = $user->getUID();
 			try {
 				\OC_Util::setupFS($userId);

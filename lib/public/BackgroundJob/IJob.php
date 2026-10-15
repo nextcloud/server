@@ -5,9 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCP\BackgroundJob;
 
-use OCP\ILogger;
+namespace OCP\BackgroundJob;
 
 /**
  * This interface represents a background job run with cron
@@ -16,6 +15,8 @@ use OCP\ILogger;
  * \OCP\BackgroundJob\TimedJob or \OCP\BackgroundJob\QueuedJob
  *
  * @since 7.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 33.0.0 removed deprecated `execute()` method
  */
 interface IJob {
 	/**
@@ -28,24 +29,13 @@ interface IJob {
 	public const TIME_SENSITIVE = 1;
 
 	/**
-	 * Run the background job with the registered argument
-	 *
-	 * @param IJobList $jobList The job list that manages the state of this job
-	 * @param ILogger|null $logger
-	 * @since 7.0.0
-	 * @deprecated 25.0.0 Use start() instead. This method will be removed
-	 * with the ILogger interface
-	 */
-	public function execute(IJobList $jobList, ?ILogger $logger = null);
-
-	/**
 	 * Start the background job with the registered argument
 	 *
 	 * This methods will take care of running the background job, of initializing
 	 * the state and cleaning up the job list after running the job.
 	 *
 	 * For common background job scenario, you will want to use TimedJob or QueuedJob
-	 * instead of overwritting this method.
+	 * instead of overwriting this method.
 	 *
 	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @since 25.0.0
@@ -54,43 +44,42 @@ interface IJob {
 
 	/**
 	 * @since 7.0.0
+	 * @since 33.0.0 Parameter $id changed from int to string
 	 */
-	public function setId(int $id);
+	public function setId(string $id): void;
 
 	/**
 	 * @since 7.0.0
 	 */
-	public function setLastRun(int $lastRun);
+	public function setLastRun(int $lastRun): void;
 
 	/**
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
-	public function setArgument($argument);
+	public function setArgument(mixed $argument): void;
 
 	/**
 	 * Get the id of the background job
 	 * This id is determined by the job list when a job is added to the list
 	 *
-	 * @return int
 	 * @since 7.0.0
+	 * @since 33.0.0 The return type changed from int to string
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get the last time this job was run as unix timestamp
 	 *
-	 * @return int
 	 * @since 7.0.0
 	 */
-	public function getLastRun();
+	public function getLastRun(): int;
 
 	/**
 	 * Get the argument associated with the background job
 	 * This is the argument that will be passed to the background job
 	 *
-	 * @return mixed
 	 * @since 7.0.0
 	 */
-	public function getArgument();
+	public function getArgument(): mixed;
 }

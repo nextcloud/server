@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\FileInfo;
@@ -11,6 +13,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCA\Files_Trashbin\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
@@ -20,9 +23,8 @@ use OCP\Share\IShare;
 
 /**
  * Class UpdaterTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UpdaterTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_updater_test';
 
@@ -120,10 +122,10 @@ class UpdaterTest extends TestCase {
 			$appManager->disableApp('files_trashbin');
 		}
 
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 	}
 
-	public function shareFolderProvider() {
+	public static function shareFolderProvider() {
 		return [
 			['/'],
 			['/my_shares'],
@@ -133,10 +135,10 @@ class UpdaterTest extends TestCase {
 	/**
 	 * if a file gets shared the etag for the recipients root should change
 	 *
-	 * @dataProvider shareFolderProvider
 	 *
 	 * @param string $shareFolder share folder to use
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareFolderProvider')]
 	public function testShareFile($shareFolder): void {
 		$config = Server::get(IConfig::class);
 		$oldShareFolder = $config->getSystemValue('share_folder');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,6 +21,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/** @var LoggerInterface */
 	private $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
@@ -129,7 +131,7 @@ class CapabilitiesManagerTest extends TestCase {
 	}
 
 	public function testInvalidCapability(): void {
-		$this->manager->registerCapability(function () {
+		$this->manager->registerCapability(function (): void {
 			throw new QueryException();
 		});
 
@@ -143,6 +145,7 @@ class CapabilitiesManagerTest extends TestCase {
 }
 
 class SimpleCapability implements ICapability {
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'foo' => 1
@@ -151,6 +154,7 @@ class SimpleCapability implements ICapability {
 }
 
 class SimpleCapability2 implements ICapability {
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'bar' => ['x' => 1]
@@ -159,6 +163,7 @@ class SimpleCapability2 implements ICapability {
 }
 
 class SimpleCapability3 implements ICapability {
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'bar' => ['y' => 2]
@@ -167,6 +172,7 @@ class SimpleCapability3 implements ICapability {
 }
 
 class PublicSimpleCapability1 implements IPublicCapability {
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'foo' => 1
@@ -183,6 +189,7 @@ class NoCapability {
 }
 
 class DeepCapability implements ICapability {
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'foo' => [

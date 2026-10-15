@@ -35,6 +35,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		return 'Adjust LDAP user and group ldap_dn column lengths and add ldap_dn_hash columns';
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
 			$this->processDuplicateUUIDs($tableName);
@@ -58,6 +59,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -127,6 +129,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		$this->handleDNHashes('ldap_group_mapping');
 		$this->handleDNHashes('ldap_user_mapping');
@@ -137,7 +140,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		$update = $this->getUpdateQuery($table);
 
 		$result = $select->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$dnHash = hash('sha256', $row['ldap_dn'], false);
 			$update->setParameter('name', $row['owncloud_name']);
 			$update->setParameter('dn_hash', $dnHash);

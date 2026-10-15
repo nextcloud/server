@@ -1,15 +1,19 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
+use OCP\Cache\CappedMemoryCache;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\WorkflowEngine\ICheck;
 
 class RequestRemoteAddress implements ICheck {
+	protected CappedMemoryCache $checked;
 
 	/**
 	 * @param IL10N $l
@@ -19,6 +23,7 @@ class RequestRemoteAddress implements ICheck {
 		protected IL10N $l,
 		protected IRequest $request,
 	) {
+		$this->checked = new CappedMemoryCache();
 	}
 
 	/**
@@ -26,19 +31,26 @@ class RequestRemoteAddress implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
+		$cacheKey = sha1($operator . $value);
+
+		if (isset($this->checked[$cacheKey])) {
+			return $this->checked[$cacheKey];
+		}
+
 		$actualValue = $this->request->getRemoteAddress();
 		$decodedValue = explode('/', $value);
 
-		if ($operator === 'matchesIPv4') {
-			return $this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
-		} elseif ($operator === '!matchesIPv4') {
-			return !$this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
-		} elseif ($operator === 'matchesIPv6') {
-			return $this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);
-		} else {
-			return !$this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);
-		}
+		$result = match ($operator) {
+			'matchesIPv4' => $this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			'!matchesIPv4' => !$this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			'matchesIPv6' => $this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			default => !$this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+		};
+
+		$this->checked[$cacheKey] = $result;
+		return $result;
 	}
 
 	/**
@@ -46,8 +58,9 @@ class RequestRemoteAddress implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['matchesIPv4', '!matchesIPv4', 'matchesIPv6', '!matchesIPv6'])) {
+		if (!in_array($operator, ['matchesIPv4', '!matchesIPv4', 'matchesIPv6', '!matchesIPv6'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
@@ -56,7 +69,7 @@ class RequestRemoteAddress implements ICheck {
 			throw new \UnexpectedValueException($this->l->t('The given IP range is invalid'), 2);
 		}
 
-		if (in_array($operator, ['matchesIPv4', '!matchesIPv4'])) {
+		if (in_array($operator, ['matchesIPv4', '!matchesIPv4'], true)) {
 			if (!filter_var($decodedValue[0], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv4'), 3);
 			}
@@ -75,12 +88,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/594134
-	 * @param string $ip
-	 * @param string $rangeIp
-	 * @param int $bits
-	 * @return bool
 	 */
-	protected function matchIPv4($ip, $rangeIp, $bits) {
+	protected function matchIPv4(string $ip, string $rangeIp, int $bits): bool {
 		$rangeDecimal = ip2long($rangeIp);
 		$ipDecimal = ip2long($ip);
 		$mask = -1 << (32 - $bits);
@@ -89,12 +98,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/7951507
-	 * @param string $ip
-	 * @param string $rangeIp
-	 * @param int $bits
-	 * @return bool
 	 */
-	protected function matchIPv6($ip, $rangeIp, $bits) {
+	protected function matchIPv6(string $ip, string $rangeIp, int $bits): bool {
 		$ipNet = inet_pton($ip);
 		$binaryIp = $this->ipv6ToBits($ipNet);
 		$ipNetBits = substr($binaryIp, 0, $bits);
@@ -108,10 +113,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/7951507
-	 * @param string $packedIp
-	 * @return string
 	 */
-	protected function ipv6ToBits($packedIp) {
+	protected function ipv6ToBits(string $packedIp): string {
 		$unpackedIp = unpack('A16', $packedIp);
 		$unpackedIp = str_split($unpackedIp[1]);
 		$binaryIp = '';
@@ -129,6 +132,7 @@ class RequestRemoteAddress implements ICheck {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function supportedEntities(): array {
 		return [];
 	}
@@ -145,6 +149,7 @@ class RequestRemoteAddress implements ICheck {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}

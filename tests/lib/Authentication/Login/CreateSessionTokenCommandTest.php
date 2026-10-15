@@ -1,42 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-declare(strict_types=1);
 
 namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\CreateSessionTokenCommand;
 use OC\Authentication\Token\IToken;
 use OC\User\Session;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
+use OCP\IURLGenerator;
 
-class CreateSessionTokenCommandTest extends ALoginCommandTest {
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var Session|MockObject */
-	private $userSession;
-
+class CreateSessionTokenCommandTest extends ALoginTestCommand {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->userSession = $this->createMock(Session::class);
-
-		$this->cmd = new CreateSessionTokenCommand(
-			$this->config,
-			$this->userSession
-		);
+		$this->cmd = $this->createInstanceWithMocks(CreateSessionTokenCommand::class);
 	}
 
 	public function testProcess(): void {
+		// Just return the route name as path to not return an empty string
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
+			->method('linkToRoute')
+			->willReturnArgument(0);
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
@@ -46,16 +40,17 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createSessionToken')
 			->with(
 				$this->request,
 				$this->username,
 				$this->username,
 				$this->password,
-				IToken::REMEMBER
+				IToken::REMEMBER,
+				null
 			);
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('updateTokens')
 			->with(
 				$this->username,
@@ -68,8 +63,12 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 	}
 
 	public function testProcessDoNotRemember(): void {
+		// Just return the route name as path to not return an empty string
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
+			->method('linkToRoute')
+			->willReturnArgument(0);
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
@@ -79,16 +78,17 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createSessionToken')
 			->with(
 				$this->request,
 				$this->username,
 				$this->username,
 				$this->password,
-				IToken::DO_NOT_REMEMBER
+				IToken::DO_NOT_REMEMBER,
+				null
 			);
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('updateTokens')
 			->with(
 				$this->username,
@@ -99,5 +99,47 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 		$this->assertFalse($data->isRememberLogin());
+	}
+
+	public function testLoginFlowEphemeral(): void {
+		$this->redirectUrl = 'EPHEMERAL_ROUTE';
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
+			->method('linkToRoute')
+			->willReturn($this->redirectUrl);
+		$this->getAutoMock(ITimeFactory::class)->expects(self::once())
+			->method('getTime')
+			->willReturn(1000);
+
+		$data = $this->getLoggedInLoginDataWithRedirectUrl();
+		$this->getAutoMock(IConfig::class)->expects($this->once())
+			->method('getSystemValueInt')
+			->with(
+				'remember_login_cookie_lifetime',
+				60 * 60 * 24 * 15
+			)
+			->willReturn(100);
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn($this->username);
+		$this->getAutoMock(Session::class)->expects($this->once())
+			->method('createSessionToken')
+			->with(
+				$this->request,
+				$this->username,
+				$this->username,
+				$this->password,
+				IToken::REMEMBER,
+				1000 + 5 * 60
+			);
+		$this->getAutoMock(Session::class)->expects($this->once())
+			->method('updateTokens')
+			->with(
+				$this->username,
+				$this->password
+			);
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
 	}
 }

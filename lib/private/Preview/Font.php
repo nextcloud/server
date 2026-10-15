@@ -1,25 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 // .otf, .ttf and .pfb
 class Font extends Bitmap {
-	/**
-	 * {@inheritDoc}
-	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/(?:font-sfnt|x-font$)/';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/(application|image)\/(?:font-sfnt|x-font|x-otf|x-ttf|x-pfb$)/';
+	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return [
+			"\x00\x01\x00\x00\x00", // TTF
+			'OTTO', // OTF
+		];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'ttf';
 	}
 }

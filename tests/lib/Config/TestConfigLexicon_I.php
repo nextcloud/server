@@ -6,34 +6,38 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Tests\lib\Config;
+namespace Test\Config;
 
-use NCU\Config\IUserConfig;
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\IConfigLexicon;
-use NCU\Config\ValueType;
+use OCP\Config\IUserConfig;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 use OCP\IAppConfig;
 
-class TestConfigLexicon_I implements IConfigLexicon {
+class TestConfigLexicon_I implements ILexicon {
 	public const APPID = 'lexicon_test_i';
 
-	public function getStrictness(): ConfigLexiconStrictness {
-		return ConfigLexiconStrictness::IGNORE;
+	#[\Override]
+	public function getStrictness(): Strictness {
+		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
-			new ConfigLexiconEntry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
-			new ConfigLexiconEntry('key2', ValueType::INT, 12345, 'test key', false)
-
+			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
+			new Entry('key2', ValueType::INT, 12345, 'test key', false),
+			new Entry('key3', ValueType::INT, 12345, 'test key', true, rename: 'old_key3'),
+			new Entry('key4', ValueType::BOOL, 12345, 'test key', true, rename: 'old_key4', options: Entry::RENAME_INVERT_BOOLEAN),
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
-			new ConfigLexiconEntry('key1', ValueType::STRING, 'abcde', 'test key', true, IUserConfig::FLAG_SENSITIVE),
-			new ConfigLexiconEntry('key2', ValueType::INT, 12345, 'test key', false)
+			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IUserConfig::FLAG_SENSITIVE),
+			new Entry('key2', ValueType::INT, 12345, 'test key', false)
 		];
 	}
 

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Search\SearchComparison;
@@ -19,24 +22,18 @@ use OCP\Files\Search\ISearchQuery;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
-	/** @var bool whether to show the failed storage in the ui */
-	private $visible;
-
-	/**
-	 * FailedCache constructor.
-	 *
-	 * @param bool $visible
-	 */
-	public function __construct($visible = true) {
-		$this->visible = $visible;
+	public function __construct(
+		private readonly bool $visible = true,
+	) {
 	}
 
-
-	public function getNumericStorageId() {
+	#[\Override]
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function get($file) {
+	#[\Override]
+	public function get($file): false|ICacheEntry {
 		if ($file === '') {
 			return new CacheEntry([
 				'fileid' => -1,
@@ -51,59 +48,74 @@ class FailedCache implements ICache {
 		}
 	}
 
-	public function getFolderContents($folder) {
+	#[\Override]
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function getFolderContentsById($fileId) {
+	#[\Override]
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
+	#[\Override]
 	public function put($file, array $data) {
 	}
 
+	#[\Override]
 	public function insert($file, array $data) {
 	}
 
+	#[\Override]
 	public function update($id, array $data) {
 	}
 
-	public function getId($file) {
+	#[\Override]
+	public function getId($file): int {
 		return -1;
 	}
 
-	public function getParentId($file) {
+	#[\Override]
+	public function getParentId($file): int {
 		return -1;
 	}
 
-	public function inCache($file) {
+	#[\Override]
+	public function inCache($file): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function remove($file) {
 	}
 
+	#[\Override]
 	public function move($source, $target) {
 	}
 
+	#[\Override]
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 	}
 
 	public function clear() {
 	}
 
+	#[\Override]
 	public function getStatus($file) {
 		return ICache::NOT_FOUND;
 	}
 
+	#[\Override]
 	public function search($pattern) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchByMime($mimetype) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchQuery(ISearchQuery $query) {
 		return [];
 	}
@@ -112,26 +124,32 @@ class FailedCache implements ICache {
 		return [];
 	}
 
+	#[\Override]
 	public function getIncomplete() {
 		return [];
 	}
 
+	#[\Override]
 	public function getPathById($id) {
 		return null;
 	}
 
+	#[\Override]
 	public function normalize($path) {
 		return $path;
 	}
 
+	#[\Override]
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		throw new \Exception('Invalid cache');
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', -1);
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		return null;
 	}

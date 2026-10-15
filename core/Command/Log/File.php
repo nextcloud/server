@@ -5,10 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
-
+use OCP\Util;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -24,6 +25,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('log:file')
@@ -49,6 +51,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$toBeSet = [];
 
@@ -61,7 +64,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		}
 
 		if (($rotateSize = $input->getOption('rotate-size')) !== null) {
-			$rotateSize = \OCP\Util::computerFileSize($rotateSize);
+			$rotateSize = Util::computerFileSize($rotateSize);
 			$this->validateRotateSize($rotateSize);
 			$toBeSet['log_rotate_size'] = $rotateSize;
 		}
@@ -87,7 +90,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 
 		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 		if ($rotateSize) {
-			$rotateString = \OCP\Util::humanFileSize($rotateSize);
+			$rotateString = Util::humanFileSize($rotateSize);
 		} else {
 			$rotateString = 'disabled';
 		}
@@ -112,6 +115,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'file') {
 			$helper = new ShellPathCompletion(
@@ -131,6 +135,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		return [];
 	}

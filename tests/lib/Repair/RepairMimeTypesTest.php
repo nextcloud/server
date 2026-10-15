@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,14 +15,15 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 
 /**
  * Tests for the converting of legacy storages to home storages.
  *
- * @group DB
  *
  * @see \OC\Repair\RepairMimeTypes
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairMimeTypesTest extends \Test\TestCase {
 
 	private RepairMimeTypes $repair;
@@ -29,11 +31,12 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	private IMimeTypeLoader $mimetypeLoader;
 	private IDBConnection $db;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mimetypeLoader = \OCP\Server::get(IMimeTypeLoader::class);
-		$this->db = \OCP\Server::get(IDBConnection::class);
+		$this->mimetypeLoader = Server::get(IMimeTypeLoader::class);
+		$this->db = Server::get(IDBConnection::class);
 
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
@@ -55,10 +58,11 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->repair = new RepairMimeTypes(
 			$config,
 			$appConfig,
-			\OCP\Server::get(IDBConnection::class),
+			Server::get(IDBConnection::class),
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
@@ -130,6 +134,37 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$fixedMimeTypes = [
 			['test.jp2', 'image/jp2'],
 			['test.webp', 'image/webp'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming AVIF images, which had no mapping and so were stored
+	 * as whatever the content sniffer made of them, or as nothing at all
+	 */
+	public function testRenameAvifType(): void {
+		$currentMimeTypes = [
+			['test.avif', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.avif', 'image/avif'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming JPEG XL images, which had no mapping either
+	 */
+	public function testRenameJxlType(): void {
+		$currentMimeTypes = [
+			['test.jxl', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.jxl', 'image/jxl'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);

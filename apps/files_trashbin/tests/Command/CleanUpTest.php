@@ -1,17 +1,24 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Tests\Command;
 
-use OC\User\Manager;
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Command\CleanUp;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
@@ -21,48 +28,40 @@ use Test\TestCase;
 /**
  * Class CleanUpTest
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CleanUpTest extends TestCase {
-
-	/** @var CleanUp */
-	protected $cleanup;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
-	protected $userManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
-	protected $rootFolder;
-
-	/** @var IDBConnection */
-	protected $dbConnection;
-
-	/** @var string */
-	protected $trashTable = 'files_trash';
-
-	/** @var string */
-	protected $user0 = 'user0';
+	protected IUserManager&MockObject $userManager;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IDBConnection $dbConnection;
+	protected CleanUp $cleanup;
+	protected string $trashTable = 'files_trash';
+	protected IUser&MockObject $user0;
+	protected SetupManager&MockObject $setupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
-			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('OC\User\Manager')
-			->disableOriginalConstructor()->getMock();
+
+		$this->user0 = $this->createMock(IUser::class);
+		$this->user0->method('getUID')->willReturn('user0');
+
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->dbConnection = Server::get(IDBConnection::class);
+		$this->setupManager = $this->createMock(SetupManager::class);
 
-		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->dbConnection);
+		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->dbConnection, $this->setupManager);
 	}
 
 	/**
 	 * populate files_trash table with 10 dummy values
 	 */
-	public function initTable() {
+	public function initTable(): void {
 		$query = $this->dbConnection->getQueryBuilder();
-		$query->delete($this->trashTable)->execute();
+		$query->delete($this->trashTable)->executeStatement();
 		for ($i = 0; $i < 10; $i++) {
 			$query->insert($this->trashTable)
 				->values([
@@ -70,38 +69,38 @@ class CleanUpTest extends TestCase {
 					'timestamp' => $query->expr()->literal($i),
 					'location' => $query->expr()->literal('.'),
 					'user' => $query->expr()->literal('user' . $i % 2)
-				])->execute();
+				])->executeStatement();
 		}
 		$getAllQuery = $this->dbConnection->getQueryBuilder();
 		$result = $getAllQuery->select('id')
 			->from($this->trashTable)
-			->execute()
-			->fetchAll();
-		$this->assertSame(10, count($result));
+			->executeQuery()
+			->fetchAllAssociative();
+		$this->assertCount(10, $result);
 	}
 
-	/**
-	 * @dataProvider dataTestRemoveDeletedFiles
-	 * @param boolean $nodeExists
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRemoveDeletedFiles')]
 	public function testRemoveDeletedFiles(bool $nodeExists): void {
 		$this->initTable();
 		$this->rootFolder
 			->method('nodeExists')
-			->with('/' . $this->user0 . '/files_trashbin')
-			->willReturnOnConsecutiveCalls($nodeExists, false);
+			->with('/' . $this->user0->getUID() . '/files_trashbin')
+			->willReturn(false);
 		if ($nodeExists) {
 			$this->rootFolder
 				->method('get')
-				->with('/' . $this->user0 . '/files_trashbin')
+				->with('/' . $this->user0->getUID() . '/files_trashbin')
 				->willReturn($this->rootFolder);
 			$this->rootFolder
 				->method('delete');
 		} else {
-			$this->rootFolder->expects($this->never())->method('get');
+			$this->rootFolder
+				->method('get')
+				->with('/' . $this->user0->getUID() . '/files_trashbin')
+				->willThrowException(new NotFoundException());
 			$this->rootFolder->expects($this->never())->method('delete');
 		}
-		$this->invokePrivate($this->cleanup, 'removeDeletedFiles', [$this->user0, new NullOutput(), false]);
+		self::invokePrivate($this->cleanup, 'removeDeletedFiles', [$this->user0, new NullOutput(), false]);
 
 		if ($nodeExists) {
 			// if the delete operation was executed only files from user1
@@ -110,11 +109,11 @@ class CleanUpTest extends TestCase {
 			$query->select('user')
 				->from($this->trashTable);
 
-			$qResult = $query->execute();
-			$result = $qResult->fetchAll();
+			$qResult = $query->executeQuery();
+			$result = $qResult->fetchAllAssociative();
 			$qResult->closeCursor();
 
-			$this->assertSame(5, count($result));
+			$this->assertCount(5, $result);
 			foreach ($result as $r) {
 				$this->assertSame('user1', $r['user']);
 			}
@@ -124,12 +123,12 @@ class CleanUpTest extends TestCase {
 			$getAllQuery = $this->dbConnection->getQueryBuilder();
 			$result = $getAllQuery->select('id')
 				->from($this->trashTable)
-				->execute()
-				->fetchAll();
-			$this->assertSame(10, count($result));
+				->executeQuery()
+				->fetchAllAssociative();
+			$this->assertCount(10, $result);
 		}
 	}
-	public function dataTestRemoveDeletedFiles() {
+	public static function dataTestRemoveDeletedFiles(): array {
 		return [
 			[true],
 			[false]
@@ -141,19 +140,22 @@ class CleanUpTest extends TestCase {
 	 */
 	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
-			->setMethods(['removeDeletedFiles'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
+		$instance = $this->getMockBuilder(CleanUp::class)
+			->onlyMethods(['removeDeletedFiles'])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection, $this->setupManager])
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($userIds): void {
-				$this->assertTrue(in_array($user, $userIds));
+			->willReturnCallback(function (IUser $user) use ($userIds): void {
+				$this->assertTrue(in_array($user->getUID(), $userIds));
 			});
 		$this->userManager->expects($this->exactly(count($userIds)))
-			->method('userExists')->willReturn(true);
-		$inputInterface = $this->getMockBuilder('\Symfony\Component\Console\Input\InputInterface')
-			->disableOriginalConstructor()->getMock();
+			->method('get')->willReturnCallback(function (string $userId): IUser {
+				$user = $this->createMock(IUser::class);
+				$user->method('getUID')->willReturn($userId);
+				return $user;
+			});
+		$inputInterface = $this->createMock(\Symfony\Component\Console\Input\InputInterface::class);
 		$inputInterface->method('getArgument')
 			->with('user_id')
 			->willReturn($userIds);
@@ -162,9 +164,8 @@ class CleanUpTest extends TestCase {
 				['all-users', false],
 				['verbose', false],
 			]);
-		$outputInterface = $this->getMockBuilder('\Symfony\Component\Console\Output\OutputInterface')
-			->disableOriginalConstructor()->getMock();
-		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
+		$outputInterface = $this->createMock(\Symfony\Component\Console\Output\OutputInterface::class);
+		self::invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
 
 	/**
@@ -173,9 +174,9 @@ class CleanUpTest extends TestCase {
 	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
-			->setMethods(['removeDeletedFiles'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
+		$instance = $this->getMockBuilder(CleanUp::class)
+			->onlyMethods(['removeDeletedFiles'])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection, $this->setupManager])
 			->getMock();
 		$backend = $this->createMock(UserInterface::class);
 		$backend->method('getUsers')
@@ -183,8 +184,8 @@ class CleanUpTest extends TestCase {
 			->willReturn($backendUsers);
 		$instance->expects($this->exactly(count($backendUsers)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($backendUsers): void {
-				$this->assertTrue(in_array($user, $backendUsers));
+			->willReturnCallback(function (IUser $user) use ($backendUsers): void {
+				$this->assertTrue(in_array($user->getUID(), $backendUsers));
 			});
 		$inputInterface = $this->createMock(InputInterface::class);
 		$inputInterface->method('getArgument')
@@ -199,7 +200,7 @@ class CleanUpTest extends TestCase {
 		$this->userManager
 			->method('getBackends')
 			->willReturn([$backend]);
-		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
+		self::invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
 
 	public function testExecuteNoUsersAndNoAllUsers(): void {
@@ -217,7 +218,7 @@ class CleanUpTest extends TestCase {
 		$this->expectException(InvalidOptionException::class);
 		$this->expectExceptionMessage('Either specify a user_id or --all-users');
 
-		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
+		self::invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
 
 	public function testExecuteUsersAndAllUsers(): void {
@@ -235,6 +236,6 @@ class CleanUpTest extends TestCase {
 		$this->expectException(InvalidOptionException::class);
 		$this->expectExceptionMessage('Either specify a user_id or --all-users');
 
-		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
+		self::invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
 }

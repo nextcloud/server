@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth;
 
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
@@ -19,19 +20,18 @@ class ProviderSet {
 	/** @var IProvider */
 	private $providers;
 
-	/** @var bool */
-	private $providerMissing;
-
 	/**
 	 * @param IProvider[] $providers
 	 * @param bool $providerMissing
 	 */
-	public function __construct(array $providers, bool $providerMissing) {
+	public function __construct(
+		array $providers,
+		private bool $providerMissing,
+	) {
 		$this->providers = [];
 		foreach ($providers as $provider) {
 			$this->providers[$provider->getId()] = $provider;
 		}
-		$this->providerMissing = $providerMissing;
 	}
 
 	/**

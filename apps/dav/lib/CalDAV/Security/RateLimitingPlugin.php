@@ -24,19 +24,17 @@ use function explode;
 
 class RateLimitingPlugin extends ServerPlugin {
 
-	private Limiter $limiter;
-
 	public function __construct(
-		Limiter $limiter,
+		private Limiter $limiter,
 		private IUserManager $userManager,
 		private CalDavBackend $calDavBackend,
 		private LoggerInterface $logger,
 		private IAppConfig $config,
 		private ?string $userId,
 	) {
-		$this->limiter = $limiter;
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		$server->on('beforeBind', [$this, 'beforeBind'], 1);
 	}

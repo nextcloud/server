@@ -6,13 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Notification;
 
-/**
- * Interface IApp
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Implementable;
+
+#[Implementable(since: '9.0.0')]
 interface IApp {
 	/**
 	 * @param INotification $notification

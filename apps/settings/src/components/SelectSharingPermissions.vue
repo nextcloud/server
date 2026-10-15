@@ -4,16 +4,16 @@
 -->
 <template>
 	<fieldset class="permissions-select">
-		<NcCheckboxRadioSwitch :checked="canCreate" @update:checked="toggle(PERMISSION_CREATE)">
+		<NcCheckboxRadioSwitch :model-value="canCreate" @update:modelValue="toggle(PERMISSION_CREATE)">
 			{{ t('settings', 'Create') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canUpdate" @update:checked="toggle(PERMISSION_UPDATE)">
+		<NcCheckboxRadioSwitch :model-value="canUpdate" @update:modelValue="toggle(PERMISSION_UPDATE)">
 			{{ t('settings', 'Change') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canDelete" @update:checked="toggle(PERMISSION_DELETE)">
+		<NcCheckboxRadioSwitch :model-value="canDelete" @update:modelValue="toggle(PERMISSION_DELETE)">
 			{{ t('settings', 'Delete') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canShare" @update:checked="toggle(PERMISSION_SHARE)">
+		<NcCheckboxRadioSwitch :model-value="canShare" @update:modelValue="toggle(PERMISSION_SHARE)">
 			{{ t('settings', 'Reshare') }}
 		</NcCheckboxRadioSwitch>
 	</fieldset>
@@ -29,15 +29,18 @@ export default defineComponent({
 	components: {
 		NcCheckboxRadioSwitch,
 	},
+
 	props: {
 		value: {
 			type: Number,
 			required: true,
 		},
 	},
+
 	emits: {
 		'update:value': (value: number) => typeof value === 'number',
 	},
+
 	data() {
 		return {
 			PERMISSION_UPDATE: 2,
@@ -46,24 +49,30 @@ export default defineComponent({
 			PERMISSION_SHARE: 16,
 		}
 	},
+
 	computed: {
 		canCreate() {
 			return (this.value & this.PERMISSION_CREATE) !== 0
 		},
+
 		canUpdate() {
 			return (this.value & this.PERMISSION_UPDATE) !== 0
 		},
+
 		canDelete() {
 			return (this.value & this.PERMISSION_DELETE) !== 0
 		},
+
 		canShare() {
 			return (this.value & this.PERMISSION_SHARE) !== 0
 		},
 	},
+
 	methods: {
 		t: translate,
 		/**
 		 * Toggle a permission
+		 *
 		 * @param permission The permission (bit) to toggle
 		 */
 		toggle(permission: number) {

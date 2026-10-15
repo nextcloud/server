@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,30 +8,38 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Files;
+use OCP\Files\ForbiddenException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ITempManager;
+use OCP\Server;
 
 /**
  * Class LocalTest
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LocalTest extends Storage {
 	/**
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->instance = new Local(['datadir' => $this->tmpDir]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 
@@ -50,23 +59,20 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
-
 	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local([]);
+		new Local([]);
 	}
-
 
 	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local([]);
+		new Local([]);
 	}
 
-
 	public function testDisallowSymlinksOutsideDatadir(): void {
-		$this->expectException(\OCP\Files\ForbiddenException::class);
+		$this->expectException(ForbiddenException::class);
 
 		$subDir1 = $this->tmpDir . 'sub1';
 		$subDir2 = $this->tmpDir . 'sub2';
@@ -76,7 +82,7 @@ class LocalTest extends Storage {
 
 		symlink($subDir2, $sym);
 
-		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+		$storage = new Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
 	}
@@ -90,7 +96,7 @@ class LocalTest extends Storage {
 
 		symlink($subDir2, $sym);
 
-		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+		$storage = new Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
 		$this->addToAssertionCount(1);
@@ -128,12 +134,12 @@ class LocalTest extends Storage {
 	}
 
 	public function testUnavailableExternal(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
+		$this->expectException(StorageNotAvailableException::class);
+		$this->instance = new Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
 	}
 
 	public function testUnavailableNonExternal(): void {
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist']);
+		$this->instance = new Local(['datadir' => $this->tmpDir . '/unexist']);
 		// no exception thrown
 		$this->assertNotNull($this->instance);
 	}
@@ -157,5 +163,121 @@ class LocalTest extends Storage {
 		]);
 		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
 		$this->assertTrue($this->instance->file_exists('target/file.txt'));
+	}
+
+	public function testFopenRestoresUmaskWhenTheWritePathThrows(): void {
+		$storage = new class(['datadir' => $this->tmpDir]) extends Local {
+			#[\Override]
+			public function __construct(array $parameters) {
+				parent::__construct($parameters);
+				$this->unlinkOnTruncate = true;
+			}
+
+			#[\Override]
+			public function unlink(string $path): bool {
+				throw new \RuntimeException('unlink failed');
+			}
+		};
+
+		$ambient = umask(0077);
+		$thrown = false;
+		try {
+			$storage->fopen('target.txt', 'w');
+		} catch (\RuntimeException) {
+			$thrown = true;
+		}
+		$leaked = umask($ambient);
+
+		$this->assertTrue($thrown, 'the exception has to propagate');
+		$this->assertSame(0077, $leaked, 'umask has to be restored when the write path throws');
+	}
+
+	public function testFopenRecoveryLeavesEntriesOutsideTheDataDirectoryAlone(): void {
+		if (!function_exists('exec')) {
+			$this->markTestSkipped('exec() is required to change the path type out of process');
+		}
+
+		$dataDir = rtrim($this->tmpDir, '/');
+		$stalePath = $this->tmpDir . 'folder';
+		$file = $stalePath . '/a.txt';
+
+		// opened only to get the "not a directory" entry into the realpath cache
+		$this->instance->file_put_contents('folder', 'its a file');
+		$handle = $this->instance->fopen('folder', 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		if ((realpath_cache_get()[$stalePath]['is_dir'] ?? null) !== false) {
+			$this->markTestSkipped('the realpath cache of this setup does not hold the directory flag');
+		}
+
+		realpath(__DIR__);
+		realpath($dataDir);
+		$this->assertArrayHasKey(__DIR__, realpath_cache_get());
+		$this->assertArrayHasKey($dataDir, realpath_cache_get());
+
+		exec(
+			'rm -f ' . escapeshellarg($stalePath)
+			. ' && mkdir -p ' . escapeshellarg($stalePath)
+			. ' && printf abc > ' . escapeshellarg($file),
+			$output,
+			$status
+		);
+		$this->assertSame(0, $status, 'failed to replace the file with a directory');
+
+		$handle = $this->instance->fopen('folder/a.txt', 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		$cache = realpath_cache_get();
+		$this->assertArrayHasKey(__DIR__, $cache, 'entries outside the data directory have to survive');
+		$this->assertArrayHasKey($dataDir, $cache, 'the walk has to stop at the data directory');
+	}
+
+	public static function dataStaleRealpathCache(): array {
+		return [
+			// invalidating only the direct parent passes the first and fails the second
+			'stale direct parent' => ['staleName' => 'folder', 'filePath' => 'folder/a.txt'],
+			'stale grandparent' => ['staleName' => 'nickname', 'filePath' => 'nickname/folder/a.txt'],
+		];
+	}
+
+	/**
+	 * The type change has to happen out of process: PHP drops its own realpath cache
+	 * entry when it is the one calling unlink() and mkdir(), so doing it here would
+	 * leave nothing stale and the test would pass either way.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataStaleRealpathCache')]
+	public function testFopenRecoversFromStaleRealpathCache(string $staleName, string $filePath): void {
+		if (!function_exists('exec')) {
+			$this->markTestSkipped('exec() is required to change the path type out of process');
+		}
+
+		$stalePath = $this->tmpDir . $staleName;
+		$file = $this->tmpDir . $filePath;
+
+		// opened only to get the "not a directory" entry into the realpath cache
+		$this->instance->file_put_contents($staleName, 'its a file');
+		$handle = $this->instance->fopen($staleName, 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		if ((realpath_cache_get()[$stalePath]['is_dir'] ?? null) !== false) {
+			$this->markTestSkipped('the realpath cache of this setup does not hold the directory flag');
+		}
+
+		exec(
+			'rm -f ' . escapeshellarg($stalePath)
+			. ' && mkdir -p ' . escapeshellarg(dirname($file))
+			. ' && printf abc > ' . escapeshellarg($file),
+			$output,
+			$status
+		);
+		$this->assertSame(0, $status, 'failed to replace the file with a directory');
+
+		$handle = $this->instance->fopen($filePath, 'r');
+		$this->assertIsResource($handle, 'fopen() has to recover from the stale realpath cache entry');
+		$this->assertSame('abc', stream_get_contents($handle));
+		fclose($handle);
 	}
 }

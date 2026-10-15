@@ -1,24 +1,25 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Configuration;
 
 class ConfigurationTest extends \Test\TestCase {
-	/** @var Configuration */
-	protected $configuration;
+	protected Configuration $configuration;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->configuration = new Configuration('t01', false);
 	}
 
-	public function configurationDataProvider() {
+	public static function configurationDataProvider(): array {
 		$inputWithDN = [
 			'cn=someUsers,dc=example,dc=org',
 			'  ',
@@ -54,6 +55,9 @@ class ConfigurationTest extends \Test\TestCase {
 
 		$password = ' such a passw0rd ';
 
+		$dnWithCrlf = "cn=admin\r\nset foo bar\r\n,dc=example,dc=org";
+		$expectedDn = 'cn=adminset foo bar,dc=example,dc=org';
+
 		return [
 			'set general base' => ['ldapBase', $inputWithDN, $expectWithDN],
 			'set user base' => ['ldapBaseUsers', $inputWithDN, $expectWithDN],
@@ -69,6 +73,7 @@ class ConfigurationTest extends \Test\TestCase {
 			'set login filter attributes' => ['ldapLoginFilterAttributes', $inputNames, $expectedNames],
 
 			'set agent password' => ['ldapAgentPassword', $password, $password],
+			'set agent name strips CRLF' => ['ldapAgentName', $dnWithCrlf, $expectedDn],
 
 			'set home folder, variant 1' => ['homeFolderNamingRule', $inputHomeFolder[0], $expectedHomeFolder[0]],
 			'set home folder, variant 2' => ['homeFolderNamingRule', $inputHomeFolder[1], $expectedHomeFolder[1]],
@@ -86,15 +91,13 @@ class ConfigurationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider configurationDataProvider
-	 */
-	public function testSetValue($key, $input, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configurationDataProvider')]
+	public function testSetValue(string $key, string|array $input, string|array $expected): void {
 		$this->configuration->setConfiguration([$key => $input]);
 		$this->assertSame($this->configuration->$key, $expected);
 	}
 
-	public function avatarRuleValueProvider() {
+	public static function avatarRuleValueProvider(): array {
 		return [
 			['none', []],
 			['data:selfie', ['selfie']],
@@ -105,18 +108,14 @@ class ConfigurationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider avatarRuleValueProvider
-	 */
-	public function testGetAvatarAttributes($setting, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarRuleValueProvider')]
+	public function testGetAvatarAttributes(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		$this->assertSame($expected, $this->configuration->getAvatarAttributes());
 	}
 
-	/**
-	 * @dataProvider avatarRuleValueProvider
-	 */
-	public function testResolveRule($setting, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarRuleValueProvider')]
+	public function testResolveRule(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		// so far the only thing that can get resolved :)
 		$this->assertSame($expected, $this->configuration->resolveRule('avatar'));

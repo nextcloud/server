@@ -29,6 +29,7 @@ class FediverseActionTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private IURLGenerator&MockObject $urlGenerator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -105,7 +106,7 @@ class FediverseActionTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataGetTitle */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetTitle')]
 	public function testGetTitle(string $value): void {
 		$property = $this->createMock(IAccountProperty::class);
 		$property->method('getValue')
@@ -154,7 +155,7 @@ class FediverseActionTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataGetTarget */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetTarget')]
 	public function testGetTarget(?string $value, ?string $expected): void {
 		$user = $this->createMock(IUser::class);
 

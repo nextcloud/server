@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Controller;
 
 use OCA\Files\ResponseDefinitions;
@@ -50,6 +51,24 @@ class TemplateController extends OCSController {
 			$templateFileCreator['templates'] = array_map(static fn (Template $template) => $template->jsonSerialize(), $templateFileCreator['templates']);
 			return $templateFileCreator;
 		}, $this->templateManager->listTemplates()));
+	}
+
+	/**
+	 * List the fields for the template specified by the given file ID
+	 *
+	 * @param int $fileId File ID of the template
+	 * @return DataResponse<Http::STATUS_OK, array<string, FilesTemplateField>, array{}>
+	 *
+	 * 200: Fields returned
+	 */
+	#[NoAdminRequired]
+	public function listTemplateFields(int $fileId): DataResponse {
+		$fields = $this->templateManager->listTemplateFields($fileId);
+
+		return new DataResponse(
+			array_merge([], ...$fields),
+			Http::STATUS_OK
+		);
 	}
 
 	/**

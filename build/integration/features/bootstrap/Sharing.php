@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,37 +7,38 @@
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use OCA\Files_Sharing\MountProvider;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
-
+require __DIR__ . '/autoload.php';
 
 trait Sharing {
 	use Provisioning;
 
-	/** @var int */
-	private $sharingApiVersion = 1;
-
-	/** @var SimpleXMLElement */
-	private $lastShareData = null;
+	private int $sharingApiVersion = 1;
+	private ?SimpleXMLElement $lastShareData = null;
 
 	/** @var SimpleXMLElement[] */
-	private $storedShareData = [];
+	private array $storedShareData = [];
+	private ?string $savedShareId = null;
 
-	/** @var int */
-	private $savedShareId = null;
-
+	/**
+	 * @BeforeScenario
+	 */
+	public function resetSharingState(): void {
+		$this->lastShareData = null;
+		$this->storedShareData = [];
+		$this->savedShareId = null;
+	}
 	/** @var ResponseInterface */
 	private $response;
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
-	 * @param string $user
-	 * @param TableNode|null $body
 	 */
-	public function asCreatingAShareWith($user, $body) {
+	public function asCreatingAShareWith(string $user, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -54,8 +56,12 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				if (!empty($dateModification)) {
+				if ($dateModification === 'null') {
+					$fd['expireDate'] = null;
+				} elseif (!empty($dateModification)) {
 					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				} else {
+					$fd['expireDate'] = '';
 				}
 			}
 			$options['form_params'] = $fd;
@@ -73,29 +79,89 @@ trait Sharing {
 	/**
 	 * @When /^save the last share data as "([^"]*)"$/
 	 */
-	public function saveLastShareData($name) {
+	public function saveLastShareData(string $name): void {
 		$this->storedShareData[$name] = $this->lastShareData;
 	}
 
 	/**
 	 * @When /^restore the last share data from "([^"]*)"$/
 	 */
-	public function restoreLastShareData($name) {
+	public function restoreLastShareData(string $name): void {
 		$this->lastShareData = $this->storedShareData[$name];
 	}
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param TableNode|null $body
 	 */
-	public function creatingShare($body) {
+	public function creatingShare(?TableNode $body): void {
 		$this->asCreatingAShareWith($this->currentUser, $body);
+	}
+
+	/**
+	 * @When /^opening last share accept confirmation page$/
+	 */
+	public function openingLastShareAcceptConfirmationPage(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$client = new Client();
+		try {
+			$this->response = $client->get(
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar,
+				]
+			);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^accepting last share via the accept endpoint with requesttoken$/
+	 */
+	public function acceptingLastShareViaAcceptEndpointWithRequesttoken(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$client = new Client();
+		try {
+			$this->response = $client->post(
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar,
+					'form_params' => [
+						'requesttoken' => $this->requestToken,
+					],
+					'headers' => [
+						'Origin' => $baseUrl,
+					],
+				]
+			);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^accepting last share via the accept endpoint$/
+	 */
+	public function acceptingLastShareViaAcceptEndpoint(): void {
+		$this->loggingInUsingWebAs($this->currentUser);
+		$this->openingLastShareAcceptConfirmationPage();
+
+		if ($this->response->getStatusCode() !== 200) {
+			return;
+		}
+
+		$this->theCsrfTokenIsExtractedFromThePreviousResponse();
+		$this->acceptingLastShareViaAcceptEndpointWithRequesttoken();
 	}
 
 	/**
 	 * @When /^accepting last share$/
 	 */
-	public function acceptingLastShare() {
+	public function acceptingLastShare(): void {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
 		$this->sendingToWith('POST', $url, null);
@@ -105,10 +171,8 @@ trait Sharing {
 
 	/**
 	 * @When /^user "([^"]*)" accepts last share$/
-	 *
-	 * @param string $user
 	 */
-	public function userAcceptsLastShare(string $user) {
+	public function userAcceptsLastShare(string $user): void {
 		// "As userXXX" and "user userXXX accepts last share" steps are not
 		// expected to be used in the same scenario, but restore the user just
 		// in case.
@@ -128,7 +192,7 @@ trait Sharing {
 	/**
 	 * @Then /^last link share can be downloaded$/
 	 */
-	public function lastLinkShareCanBeDownloaded() {
+	public function lastLinkShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$url = $this->lastShareData->data[0]->url;
 		} else {
@@ -139,9 +203,29 @@ trait Sharing {
 	}
 
 	/**
+	 * @Then /^last link share can not be downloaded with status "([^"]*)"$/
+	 */
+	public function lastLinkShareCanNotBeDownloaded(string $status): void {
+		if (count($this->lastShareData->data->element) > 0) {
+			$url = $this->lastShareData->data[0]->url;
+		} else {
+			$url = $this->lastShareData->data->url;
+		}
+		$fullUrl = $url . '/download';
+
+		$client = new Client();
+		try {
+			$response = $client->get($fullUrl, ['stream' => true]);
+		} catch (ClientException $ex) {
+			$response = $ex->getResponse();
+		}
+		Assert::assertNotEquals($status, $response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^last share can be downloaded$/
 	 */
-	public function lastShareCanBeDownloaded() {
+	public function lastShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
@@ -300,17 +384,30 @@ trait Sharing {
 		}
 	}
 
+	public function getFieldValueInResponse($field) {
+		$data = simplexml_load_string($this->response->getBody())->data[0];
+		if (count($data->element) > 0) {
+			foreach ($data as $element) {
+				return (string)$element->$field;
+			}
+
+			return false;
+		}
+		return $data->$field;
+	}
+
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
-		if ((string)$field == 'expiration') {
+		if ((string)$field === 'expiration') {
 			if (!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 			}
 		}
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
 				if ($contentExpected == 'A_TOKEN') {
-					return (strlen((string)$element->$field) == 15);
+					$tokenLength = strlen((string)$element->$field);
+					return $tokenLength === 15 || $tokenLength === 32;
 				} elseif ($contentExpected == 'A_NUMBER') {
 					return is_numeric((string)$element->$field);
 				} elseif ($contentExpected == 'AN_URL') {
@@ -325,13 +422,16 @@ trait Sharing {
 			return false;
 		} else {
 			if ($contentExpected == 'A_TOKEN') {
-				return (strlen((string)$data->$field) == 15);
+				$tokenLength = strlen((string)$data->$field);
+				return $tokenLength === 15 || $tokenLength === 32;
 			} elseif ($contentExpected == 'A_NUMBER') {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == 'AN_URL') {
 				return $this->isExpectedUrl((string)$data->$field, 'index.php/s/');
 			} elseif ($contentExpected == $data->$field) {
 				return true;
+			} else {
+				print($data->$field);
 			}
 			return false;
 		}
@@ -514,7 +614,7 @@ trait Sharing {
 	/**
 	 * @Then the list of returned shares has :count shares
 	 */
-	public function theListOfReturnedSharesHasShares(int $count) {
+	public function theListOfReturnedSharesHasShares(int $count): void {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 
@@ -539,7 +639,13 @@ trait Sharing {
 
 		$returnedShare = $this->getXmlResponse()->data[0];
 		if ($returnedShare->element) {
-			$returnedShare = $returnedShare->element[$number];
+			$returnedShare = (array)$returnedShare;
+			$returnedShare = $returnedShare['element'];
+			if (is_array($returnedShare)) {
+				usort($returnedShare, fn ($share1, $share2) => (int)$share1->id <=> (int)$share2->id);
+			}
+
+			$returnedShare = $returnedShare[$number];
 		}
 
 		$defaultExpectedFields = [
@@ -557,18 +663,18 @@ trait Sharing {
 		];
 		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
 
-		if (!array_key_exists('uid_file_owner', $expectedFields) &&
-				array_key_exists('uid_owner', $expectedFields)) {
+		if (!array_key_exists('uid_file_owner', $expectedFields)
+			&& array_key_exists('uid_owner', $expectedFields)) {
 			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
 		}
-		if (!array_key_exists('displayname_file_owner', $expectedFields) &&
-				array_key_exists('displayname_owner', $expectedFields)) {
+		if (!array_key_exists('displayname_file_owner', $expectedFields)
+			&& array_key_exists('displayname_owner', $expectedFields)) {
 			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
 		}
 
-		if (array_key_exists('share_type', $expectedFields) &&
-				$expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */ &&
-				array_key_exists('share_with', $expectedFields)) {
+		if (array_key_exists('share_type', $expectedFields)
+			&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
+			&& array_key_exists('share_with', $expectedFields)) {
 			if ($expectedFields['share_with'] === 'private_conversation') {
 				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
 			} else {
@@ -603,17 +709,18 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {
 			Assert::assertTrue(is_numeric((string)$returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
 		} elseif ($contentExpected === 'A_TOKEN') {
-			// A token is composed by 15 characters from
-			// ISecureRandom::CHAR_HUMAN_READABLE.
-			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+			// A token is either:
+			// - 15 characters from ISecureRandom::CHAR_HUMAN_READABLE (legacy), or
+			// - 32 characters from ISecureRandom::CHAR_ALPHANUMERIC (new OCM tokens)
+			Assert::assertMatchesRegularExpression('/^([a-zA-Z0-9]{15}|[a-zA-Z0-9]{32})$/', (string)$returnedShare->$field, "Field '$field' is not a token");
 		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
-			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
+			Assert::assertMatchesRegularExpression(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
 		} else {
 			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");
 		}
@@ -690,7 +797,13 @@ trait Sharing {
 		if ($body instanceof TableNode) {
 			$parameters = [];
 			foreach ($body->getRowsHash() as $key => $value) {
-				$parameters[] = $key . '=' . $value;
+				if ($key === 'shareTypes') {
+					foreach (explode(' ', $value) as $shareType) {
+						$parameters[] = 'shareType[]=' . $shareType;
+					}
+				} else {
+					$parameters[] = $key . '=' . $value;
+				}
 			}
 			if (!empty($parameters)) {
 				$url .= '?' . implode('&', $parameters);
@@ -725,10 +838,77 @@ trait Sharing {
 			$shareeType = substr($shareeType, 6);
 		}
 
+		// "simplexml_load_string" creates a SimpleXMLElement object for each
+		// XML element with child elements. In turn, each child is indexed by
+		// its tag in the SimpleXMLElement object. However, when there are
+		// several child XML elements with the same tag, an array with all the
+		// children with the same tag is indexed instead. Therefore, when the
+		// XML contains
+		// <XXX>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		// </XXX>
+		// the "$elements[$shareeType]" variable contains an "element" key which
+		// in turn contains "label" and "value" keys, but when the XML contains
+		// <XXX>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		// </XXX>
+		// the "$elements[$shareeType]" variable contains an "element" key which
+		// in turn contains "0" and "1" keys, and in turn each one contains
+		// "label" and "value" keys.
+		if (array_key_exists('element', $elements[$shareeType]) && is_int(array_keys($elements[$shareeType]['element'])[0])) {
+			$elements[$shareeType] = $elements[$shareeType]['element'];
+		}
+
 		$sharees = [];
 		foreach ($elements[$shareeType] as $element) {
-			$sharees[] = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
+			$sharee = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
+
+			if (array_key_exists('shareWithDisplayNameUnique', $element)) {
+				$sharee[] = $element['shareWithDisplayNameUnique'];
+			}
+
+			$sharees[] = $sharee;
 		}
 		return $sharees;
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" match$/
+	 */
+	public function checkShareMounts(string $user, ?TableNode $body) {
+		if ($body instanceof TableNode) {
+			$fd = $body->getRows();
+
+			$expected = [];
+			foreach ($fd as $row) {
+				$expected[] = $row[0];
+			}
+			$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+			$mounts = json_decode($this->lastStdOut, true)['cached'];
+			$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
+			$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+			Assert::assertEquals($expected, $actual);
+		}
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" are empty$/
+	 */
+	public function checkShareMountsEmpty(string $user) {
+		$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+		$mounts = json_decode($this->lastStdOut, true)['cached'];
+		$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
+		$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+		Assert::assertEquals([], $actual);
 	}
 }

@@ -6,13 +6,28 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Template;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\GenericFileException;
 
 /**
  * @since 21.0.0
+ * @psalm-type FilesTemplateFile = array{
+ *     basename: string,
+ *     etag: string,
+ *     fileid: int,
+ *     filename: ?string,
+ *     lastmod: int,
+ *     mime: string,
+ *     size: int|float,
+ *     type: string,
+ *     hasPreview: bool,
+ *     permissions: int,
+ * }
  */
+#[Consumable(since: '21.0.0')]
 interface ITemplateManager {
 	/**
 	 * Register a template type support
@@ -37,6 +52,15 @@ interface ITemplateManager {
 	 * @since 21.0.0
 	 */
 	public function listTemplates(): array;
+
+	/**
+	 * Get the fields for a given template
+	 *
+	 * @param int $fileId
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function listTemplateFields(int $fileId): array;
 
 	/**
 	 * @return bool
@@ -69,7 +93,7 @@ interface ITemplateManager {
 	 * @param string $templateId
 	 * @param string $templateType
 	 * @param array $templateFields Since 30.0.0
-	 * @return array
+	 * @return FilesTemplateFile
 	 * @throws GenericFileException
 	 * @since 21.0.0
 	 */

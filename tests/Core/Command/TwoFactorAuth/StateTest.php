@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Core\Command\TwoFactorAuth;
+namespace Tests\Core\Command\TwoFactorAuth;
 
 use OC\Core\Command\TwoFactorAuth\State;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -18,22 +18,14 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class StateTest extends TestCase {
-	/** @var IRegistry|MockObject */
-	private $registry;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
 	/** @var CommandTester|MockObject */
 	private $cmd;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->registry = $this->createMock(IRegistry::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-
-		$cmd = new State($this->registry, $this->userManager);
+		$cmd = $this->createInstanceWithMocks(State::class);
 		$this->cmd = new CommandTester($cmd);
 	}
 
@@ -48,7 +40,7 @@ class StateTest extends TestCase {
 
 	public function testStateNoProvidersActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('eldora')
 			->willReturn($user);
@@ -56,7 +48,7 @@ class StateTest extends TestCase {
 			'u2f' => false,
 			'totp' => false,
 		];
-		$this->registry->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);
@@ -71,7 +63,7 @@ class StateTest extends TestCase {
 
 	public function testStateOneProviderActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('mohamed')
 			->willReturn($user);
@@ -79,7 +71,7 @@ class StateTest extends TestCase {
 			'u2f' => true,
 			'totp' => false,
 		];
-		$this->registry->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);

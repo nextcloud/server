@@ -18,9 +18,7 @@ use OCP\Server;
 use OCP\User\Events\UserCreatedEvent;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WebhookListenerMapperTest extends TestCase {
 	private IDBConnection $connection;
 	private WebhookListenerMapper $mapper;
@@ -44,7 +42,7 @@ class WebhookListenerMapperTest extends TestCase {
 		parent::tearDown();
 	}
 
-	protected function pruneTables() {
+	protected function pruneTables(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(WebhookListenerMapper::TABLE_NAME)->executeStatement();
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,32 +11,38 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
-
-\OC::$loader->load('\OC\Files\Filesystem');
+use OC\Files\Storage\Wrapper\Quota;
+use OCP\Files;
+use OCP\Files\FileInfo;
+use OCP\Files\NotEnoughSpaceException;
+use OCP\ITempManager;
+use OCP\Server;
 
 /**
  * Class QuotaTest
  *
- * @group DB
  *
  * @package Test\Files\Storage\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QuotaTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
-		$this->instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 10000000]);
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$storage = new Local(['datadir' => $this->tmpDir]);
+		$this->instance = new Quota(['storage' => $storage, 'quota' => 10000000]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 
@@ -43,10 +50,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	 * @param integer $limit
 	 */
 	protected function getLimitedStorage($limit) {
-		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$storage = new Local(['datadir' => $this->tmpDir]);
 		$storage->mkdir('files');
 		$storage->getScanner()->scan('');
-		return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $limit]);
+		return new Quota(['storage' => $storage, 'quota' => $limit]);
 	}
 
 	public function testFilePutContentsNotEnoughSpace(): void {
@@ -76,7 +83,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testFreeSpaceWithUnknownDiskSpace(): void {
 		$storage = $this->getMockBuilder(Local::class)
-			->setMethods(['free_space'])
+			->onlyMethods(['free_space'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$storage->expects($this->any())
@@ -84,7 +91,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->willReturn(-2);
 		$storage->getScanner()->scan('');
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 9]);
+		$instance = new Quota(['storage' => $storage, 'quota' => 9]);
 		$instance->getCache()->put(
 			'', ['size' => 3]
 		);
@@ -112,9 +119,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(16);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		[$count, $result] = \OC_Helper::streamCopy($inputStream, $outputStream);
+		$count = stream_copy_to_stream($inputStream, $outputStream);
 		$this->assertEquals(12, $count);
-		$this->assertTrue($result);
 		fclose($inputStream);
 		fclose($outputStream);
 	}
@@ -123,23 +129,22 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(9);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		[$count, $result] = \OC_Helper::streamCopy($inputStream, $outputStream);
-		$this->assertEquals(9, $count);
-		$this->assertFalse($result);
+		$count = stream_copy_to_stream($inputStream, $outputStream);
+		$this->assertFalse($count);
 		fclose($inputStream);
 		fclose($outputStream);
 	}
 
 	public function testReturnFalseWhenFopenFailed(): void {
 		$failStorage = $this->getMockBuilder(Local::class)
-			->setMethods(['fopen'])
+			->onlyMethods(['fopen'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$failStorage->expects($this->any())
 			->method('fopen')
 			->willReturn(false);
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $failStorage, 'quota' => 1000]);
+		$instance = new Quota(['storage' => $failStorage, 'quota' => 1000]);
 
 		$this->assertFalse($instance->fopen('failedfopen', 'r'));
 	}
@@ -197,7 +202,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->with('files')
 			->willReturn(new CacheEntry(['size' => 50]));
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 1024, 'root' => 'files']);
+		$instance = new Quota(['storage' => $storage, 'quota' => 1024, 'root' => 'files']);
 
 		$this->assertEquals(1024 - 50, $instance->free_space(''));
 	}
@@ -225,5 +230,52 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	public function testNoTouchQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->touch('foobar'));
+	}
+
+	public function testNoFopenQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$fh = $instance->fopen('files/test.txt', 'w');
+		$this->assertFalse($fh);
+	}
+
+	public function testNoWriteStreamQuota(): void {
+		$instance = $this->getLimitedStorage(5.0);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+		$instance->writeStream('files/test.txt', $stream);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+		$this->expectException(NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	public function testWriteStreamAllowsUploadPathWithUnlimitedFreeSpace(): void {
+		$storage = $this->getMockBuilder(Local::class)
+			->onlyMethods(['free_space'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
+		$storage->expects($this->any())
+			->method('free_space')
+			->willReturn(FileInfo::SPACE_UNLIMITED);
+		$storage->mkdir('uploads');
+
+		$instance = new Quota(['storage' => $storage, 'quota' => 5.0]);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+
+		$this->assertEquals(6, $instance->writeStream('uploads/chunk', $stream, 6));
+		$this->assertEquals('foobar', $instance->file_get_contents('uploads/chunk'));
+	}
+
+	public function testNoWriteStreamQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$stream = fopen('php://temp', 'w+');
+		$this->expectException(NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
 	}
 }

@@ -36,7 +36,6 @@ use PHPUnit\Framework\Constraint\IsType;
  * @method void setDatetime(\DateTimeImmutable $datetime)
  */
 class TestEntity extends Entity {
-	protected $name;
 	protected $email;
 	protected $testId;
 	protected $smallInt;
@@ -49,7 +48,9 @@ class TestEntity extends Entity {
 	protected $time;
 	protected $datetime;
 
-	public function __construct($name = null) {
+	public function __construct(
+		protected $name = null,
+	) {
 		$this->addType('testId', Types::INTEGER);
 		$this->addType('smallInt', Types::SMALLINT);
 		$this->addType('bigInt', Types::BIGINT);
@@ -63,8 +64,6 @@ class TestEntity extends Entity {
 		$this->addType('trueOrFalse', 'bool');
 		$this->addType('legacyInt', 'int');
 		$this->addType('doubleNowFloat', 'double');
-
-		$this->name = $name;
 	}
 
 	public function setAnotherBool(bool $anotherBool): void {
@@ -72,15 +71,14 @@ class TestEntity extends Entity {
 	}
 }
 
-
 class EntityTest extends \Test\TestCase {
-	private $entity;
+	private TestEntity $entity;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->entity = new TestEntity();
 	}
-
 
 	public function testResetUpdatedFields(): void {
 		$entity = new TestEntity();
@@ -89,7 +87,6 @@ class EntityTest extends \Test\TestCase {
 
 		$this->assertEquals([], $entity->getUpdatedFields());
 	}
-
 
 	public function testFromRow(): void {
 		$row = [
@@ -104,7 +101,6 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals($row['another_bool'], $this->entity->getAnotherBool());
 	}
 
-
 	public function testGetSetId(): void {
 		$id = 3;
 		$this->entity->setId(3);
@@ -112,13 +108,11 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals($id, $this->entity->getId());
 	}
 
-
 	public function testColumnToPropertyNoReplacement(): void {
 		$column = 'my';
 		$this->assertEquals('my',
 			$this->entity->columnToProperty($column));
 	}
-
 
 	public function testColumnToProperty(): void {
 		$column = 'my_attribute';
@@ -126,13 +120,11 @@ class EntityTest extends \Test\TestCase {
 			$this->entity->columnToProperty($column));
 	}
 
-
 	public function testPropertyToColumnNoReplacement(): void {
 		$property = 'my';
 		$this->assertEquals('my',
 			$this->entity->propertyToColumn($property));
 	}
-
 
 	public function testSetterMarksFieldUpdated(): void {
 		$this->entity->setId(3);
@@ -140,15 +132,11 @@ class EntityTest extends \Test\TestCase {
 		$this->assertContains('id', array_keys($this->entity->getUpdatedFields()));
 	}
 
-
-
 	public function testCallShouldOnlyWorkForGetterSetter(): void {
 		$this->expectException(\BadFunctionCallException::class);
 
 		$this->entity->something();
 	}
-
-
 
 	public function testGetterShouldFailIfAttributeNotDefined(): void {
 		$this->expectException(\BadFunctionCallException::class);
@@ -156,13 +144,11 @@ class EntityTest extends \Test\TestCase {
 		$this->entity->getTest();
 	}
 
-
 	public function testSetterShouldFailIfAttributeNotDefined(): void {
 		$this->expectException(\BadFunctionCallException::class);
 
 		$this->entity->setTest();
 	}
-
 
 	public function testFromRowShouldNotAssignEmptyArray(): void {
 		$row = [];
@@ -172,7 +158,6 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals($entity2, $this->entity);
 	}
 
-
 	public function testIdGetsConvertedToInt(): void {
 		$row = ['id' => '4'];
 
@@ -180,14 +165,12 @@ class EntityTest extends \Test\TestCase {
 		$this->assertSame(4, $this->entity->getId());
 	}
 
-
 	public function testSetType(): void {
 		$row = ['testId' => '4'];
 
 		$this->entity = TestEntity::fromRow($row);
 		$this->assertSame(4, $this->entity->getTestId());
 	}
-
 
 	public function testFromParams(): void {
 		$params = [
@@ -210,8 +193,7 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals('slugify-this', $entity->slugify('name'));
 	}
 
-
-	public function dataSetterCasts(): array {
+	public static function dataSetterCasts(): array {
 		return [
 			['Id', '3', 3],
 			['smallInt', '3', 3],
@@ -225,16 +207,12 @@ class EntityTest extends \Test\TestCase {
 		];
 	}
 
-
-	/**
-	 * @dataProvider dataSetterCasts
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetterCasts')]
 	public function testSetterCasts(string $field, mixed $in, mixed $out): void {
 		$entity = new TestEntity();
 		$entity->{'set' . $field}($in);
 		$this->assertSame($out, $entity->{'get' . $field}());
 	}
-
 
 	public function testSetterDoesNotCastOnNull(): void {
 		$entity = new TestEntity();
@@ -290,13 +268,11 @@ class EntityTest extends \Test\TestCase {
 		], $entity->getFieldTypes());
 	}
 
-
 	public function testGetItInt(): void {
 		$entity = new TestEntity();
 		$entity->setId(3);
 		$this->assertEquals(Types::INTEGER, gettype($entity->getId()));
 	}
-
 
 	public function testFieldsNotMarkedUpdatedIfNothingChanges(): void {
 		$entity = new TestEntity('hey');
@@ -311,7 +287,6 @@ class EntityTest extends \Test\TestCase {
 		$this->assertThat($entity->isTrueOrFalse(), new IsType(IsType::TYPE_BOOL));
 		$this->assertThat($entity->isAnotherBool(), new IsType(IsType::TYPE_BOOL));
 	}
-
 
 	public function testIsGetterShoudFailForOtherType(): void {
 		$this->expectException(\BadFunctionCallException::class);

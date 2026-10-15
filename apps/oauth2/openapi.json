@@ -65,6 +65,15 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "redirect_uri",
+                        "in": "query",
+                        "description": "URI to redirect to after the flow (is only used for legacy ownCloud clients)",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
                     }
                 ],
                 "responses": {
@@ -79,7 +88,7 @@
                         }
                     },
                     "303": {
-                        "description": "Redirect to login URL",
+                        "description": "Redirect to the login URL",
                         "headers": {
                             "Location": {
                                 "schema": {
@@ -119,6 +128,10 @@
                                 "properties": {
                                     "grant_type": {
                                         "type": "string",
+                                        "enum": [
+                                            "authorization_code",
+                                            "refresh_token"
+                                        ],
                                         "description": "Token type that should be granted"
                                     },
                                     "code": {
@@ -186,6 +199,10 @@
                                         },
                                         "user_id": {
                                             "type": "string"
+                                        },
+                                        "x.nc-gss.secondary_url": {
+                                            "type": "string",
+                                            "nullable": true
                                         }
                                     }
                                 }

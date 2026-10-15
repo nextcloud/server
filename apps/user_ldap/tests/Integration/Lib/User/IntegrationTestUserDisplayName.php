@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -34,7 +35,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
 		$userBackend = new User_LDAP($this->access, Server::get(\OCP\Notification\IManager::class), Server::get(UserPluginManager::class), Server::get(LoggerInterface::class), Server::get(DeletedUsersIndex::class));
-		\OC_User::useBackend($userBackend);
+		Server::get(IUserManager::class)->registerBackend($userBackend);
 	}
 
 	/**

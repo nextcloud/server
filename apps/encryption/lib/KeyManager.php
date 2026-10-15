@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -23,7 +24,6 @@ class KeyManager {
 	private string $recoveryKeyId;
 	private string $publicShareKeyId;
 	private string $masterKeyId;
-	private string $keyId;
 	private string $publicKeyId = 'publicKey';
 	private string $privateKeyId = 'privateKey';
 	private string $shareKeyId = 'shareKey';
@@ -33,7 +33,7 @@ class KeyManager {
 		private IStorage $keyStorage,
 		private Crypt $crypt,
 		private IConfig $config,
-		IUserSession $userSession,
+		private IUserSession $userSession,
 		private Session $session,
 		private LoggerInterface $logger,
 		private Util $util,
@@ -61,8 +61,6 @@ class KeyManager {
 			$this->masterKeyId = 'master_' . substr(md5((string)time()), 0, 8);
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
-
-		$this->keyId = $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 	}
 
 	/**
@@ -136,7 +134,11 @@ class KeyManager {
 		if (!$this->session->isPrivateKeySet()) {
 			$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
 			$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
-			$this->session->setPrivateKey($decryptedMasterKey);
+			if ($decryptedMasterKey === false) {
+				$this->logger->error('A public master key is available but decrypting it failed. This should never happen.');
+			} else {
+				$this->session->setPrivateKey($decryptedMasterKey);
+			}
 		}
 
 		// after the encryption key is available we are ready to go
@@ -169,11 +171,10 @@ class KeyManager {
 		return $this->recoveryKeyId;
 	}
 
-	/**
-	 * @param string $password
-	 * @return bool
-	 */
-	public function checkRecoveryPassword($password) {
+	public function checkRecoveryPassword(
+		#[\SensitiveParameter]
+		string $password,
+	): bool {
 		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.' . $this->privateKeyId, Encryption::ID);
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $password);
 
@@ -183,13 +184,13 @@ class KeyManager {
 		return false;
 	}
 
-	/**
-	 * @param string $uid
-	 * @param string $password
-	 * @param array $keyPair
-	 * @return bool
-	 */
-	public function storeKeyPair($uid, $password, $keyPair) {
+	public function storeKeyPair(
+		string $uid,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		array $keyPair,
+	): bool {
 		// Save Public Key
 		$this->setPublicKey($uid, $keyPair['publicKey']);
 
@@ -204,15 +205,15 @@ class KeyManager {
 		return false;
 	}
 
-	/**
-	 * @param string $password
-	 * @param array $keyPair
-	 * @return bool
-	 */
-	public function setRecoveryKey($password, $keyPair) {
+	public function setRecoveryKey(
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		array $keyPair,
+	): bool {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId() .
-			'.' . $this->publicKeyId,
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId()
+			. '.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);
 
@@ -235,12 +236,11 @@ class KeyManager {
 		return $this->keyStorage->setUserKey($userId, $this->publicKeyId, $key, Encryption::ID);
 	}
 
-	/**
-	 * @param $userId
-	 * @param string $key
-	 * @return bool
-	 */
-	public function setPrivateKey($userId, $key) {
+	public function setPrivateKey(
+		string $userId,
+		#[\SensitiveParameter]
+		string $key,
+	): bool {
 		return $this->keyStorage->setUserKey($userId,
 			$this->privateKeyId,
 			$key,
@@ -249,22 +249,27 @@ class KeyManager {
 
 	/**
 	 * write file key to key storage
-	 *
-	 * @param string $path
-	 * @param string $key
-	 * @return boolean
 	 */
-	public function setFileKey($path, $key) {
+	public function setFileKey(
+		#[\SensitiveParameter]
+		string $path,
+		#[\SensitiveParameter]
+		string $key,
+	): bool {
 		return $this->keyStorage->setFileKey($path, $this->fileKeyId, $key, Encryption::ID);
 	}
 
 	/**
 	 * set all file keys (the file key and the corresponding share keys)
 	 *
-	 * @param string $path
-	 * @param array $keys
+	 * @param array{data:string,keys:array<string,string>} $keys
 	 */
-	public function setAllFileKeys($path, $keys) {
+	public function setAllFileKeys(
+		#[\SensitiveParameter]
+		string $path,
+		#[\SensitiveParameter]
+		array $keys,
+	): void {
 		$this->setFileKey($path, $keys['data']);
 		foreach ($keys['keys'] as $uid => $keyFile) {
 			$this->setShareKey($path, $uid, $keyFile);
@@ -330,11 +335,9 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @return string
 	 * @throws PrivateKeyMissingException
 	 */
-	public function getPrivateKey($userId) {
+	public function getPrivateKey(string $userId): string {
 		$privateKey = $this->keyStorage->getUserKey($userId,
 			$this->privateKeyId, Encryption::ID);
 
@@ -347,11 +350,8 @@ class KeyManager {
 	/**
 	 * @param ?bool $useLegacyFileKey null means try both
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
-		if ($uid === '') {
-			$uid = null;
-		}
-		$publicAccess = is_null($uid);
+	public function getFileKey(string $path, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
+		$publicAccess = !$this->userSession->isLoggedIn();
 		$encryptedFileKey = '';
 		if ($useLegacyFileKey ?? true) {
 			$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
@@ -380,6 +380,7 @@ class KeyManager {
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.' . $this->privateKeyId, Encryption::ID);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
+			$uid = $this->userSession->getUser()?->getUID();
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->session->getPrivateKey();
 		}
@@ -457,7 +458,6 @@ class KeyManager {
 			$keyId . '.' . $this->shareKeyId,
 			Encryption::ID);
 	}
-
 
 	/**
 	 * @param $path
@@ -599,7 +599,7 @@ class KeyManager {
 	 * @param string $keyId
 	 * @return string returns openssl key
 	 */
-	public function getSystemPrivateKey($keyId) {
+	public function getSystemPrivateKey($keyId): string {
 		return $this->keyStorage->getSystemUserKey($keyId . '.' . $this->privateKeyId, Encryption::ID);
 	}
 
@@ -633,8 +633,8 @@ class KeyManager {
 			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}
 
-		if ($this->recoveryKeyExists() &&
-			$this->util->isRecoveryEnabledForUser($uid)) {
+		if ($this->recoveryKeyExists()
+			&& $this->util->isRecoveryEnabledForUser($uid)) {
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
 

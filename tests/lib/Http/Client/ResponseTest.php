@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,6 +19,7 @@ class ResponseTest extends \Test\TestCase {
 	/** @var GuzzleResponse */
 	private $guzzleResponse;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->guzzleResponse = new GuzzleResponse(418);

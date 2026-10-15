@@ -25,16 +25,19 @@ class LoadAdditionalScriptsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
 		}
 
-		if (!$this->appManager->isEnabledForUser('notifications')) {
-			$this->logger->error('Failed to register the `files_reminders` app. This could happen due to the `notifications` app being disabled.', ['app' => 'files_reminders']);
+		if (!$this->appManager->isEnabledForUser(Application::APP_ID)
+			|| !$this->appManager->isEnabledForUser('notifications')
+		) {
 			return;
 		}
 
+		Util::addStyle(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }

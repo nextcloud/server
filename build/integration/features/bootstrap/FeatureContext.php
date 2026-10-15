@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,13 +10,14 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
 	use AppConfiguration;
+	use OccRunner;
 	use ContactsMenu;
 	use ExternalStorage;
 	use Search;
@@ -24,5 +28,8 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('bruteForce', 'whitelist_0');
 		$this->deleteServerConfig('bruteForce', 'whitelist_1');
 		$this->deleteServerConfig('bruteforcesettings', 'apply_allowlist_to_ratelimit');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
+		$this->deleteServerConfig('dav', 'system_addressbook_exposed');
 	}
 }

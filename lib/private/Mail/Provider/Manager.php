@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Mail\Provider;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -17,7 +18,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Manager implements IManager {
-	
+
 	protected ?array $providersCollection = null;
 
 	public function __construct(
@@ -34,11 +35,11 @@ class Manager implements IManager {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function has(): bool {
 
 		// return true if collection has any providers
 		return !empty($this->providers());
-
 	}
 
 	/**
@@ -48,11 +49,11 @@ class Manager implements IManager {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function count(): int {
 
 		// return count of providers in collection
 		return count($this->providers());
-
 	}
 
 	/**
@@ -62,8 +63,9 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,string> collection of provider id and label ['jmap' => 'JMap Connector']
 	 */
+	#[\Override]
 	public function types(): array {
-		
+
 		// construct types collection
 		$types = [];
 		// extract id and name from providers collection
@@ -72,7 +74,6 @@ class Manager implements IManager {
 		}
 		// return types collection
 		return $types;
-		
 	}
 
 	/**
@@ -82,6 +83,7 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,IProvider> collection of provider id and object ['jmap' => IProviderObject]
 	 */
+	#[\Override]
 	public function providers(): array {
 
 		// evaluate if we already have a cached collection of providers and return the collection if we do
@@ -113,7 +115,6 @@ class Manager implements IManager {
 		}
 		// return mail provider collection
 		return $this->providersCollection;
-
 	}
 
 	/**
@@ -125,19 +126,19 @@ class Manager implements IManager {
 	 *
 	 * @return IProvider|null
 	 */
+	#[\Override]
 	public function findProviderById(string $providerId): ?IProvider {
 
 		// evaluate if we already have a cached collection of providers
 		if (!is_array($this->providersCollection)) {
 			$this->providers();
 		}
-		
+
 		if (isset($this->providersCollection[$providerId])) {
 			return $this->providersCollection[$providerId];
 		}
 		// return null if provider was not found
 		return null;
-
 	}
 
 	/**
@@ -149,8 +150,9 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,array<string,IService>> collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
 	 */
+	#[\Override]
 	public function services(string $userId): array {
-		
+
 		// initilize collection
 		$services = [];
 		// retrieve and iterate through mail providers
@@ -164,7 +166,6 @@ class Manager implements IManager {
 		}
 		// return collection
 		return $services;
-		
 	}
 
 	/**
@@ -178,8 +179,9 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
+	#[\Override]
 	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService {
-		
+
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
 			// find provider
@@ -204,10 +206,9 @@ class Manager implements IManager {
 				}
 			}
 		}
-		
+
 		// return null if no match was found
 		return null;
-
 	}
 
 	/**
@@ -222,8 +223,9 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
+	#[\Override]
 	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService {
-		
+
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
 			// find provider
@@ -250,6 +252,5 @@ class Manager implements IManager {
 		}
 		// return null if no match was found
 		return null;
-
 	}
 }

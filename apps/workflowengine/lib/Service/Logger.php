@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Service;
 
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Helper\LogContext;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Log\IDataLogger;
@@ -23,19 +25,20 @@ class Logger {
 		protected LoggerInterface $generalLogger,
 		private IConfig $config,
 		private ILogFactory $logFactory,
+		private IAppConfig $appConfig,
 	) {
 		$this->initLogger();
 	}
 
 	protected function initLogger(): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
-		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
+		$logFile = trim($this->appConfig->getAppValueString('logfile', $default));
 		if ($logFile !== '') {
 			$this->flowLogger = $this->logFactory->getCustomPsrLogger($logFile);
 		}
 	}
 
-	public function logFlowRequests(LogContext $logContext) {
+	public function logFlowRequests(LogContext $logContext): void {
 		$message = 'Flow activation: rules were requested for operation {op}';
 		$context = ['op' => $logContext->getDetails()['operation']['name'], 'level' => ILogger::DEBUG];
 
@@ -44,7 +47,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logScopeExpansion(LogContext $logContext) {
+	public function logScopeExpansion(LogContext $logContext): void {
 		$message = 'Flow rule of a different user is legit for operation {op}';
 		$context = ['op' => $logContext->getDetails()['operation']['name']];
 
@@ -53,7 +56,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logPassedCheck(LogContext $logContext) {
+	public function logPassedCheck(LogContext $logContext): void {
 		$message = 'Flow rule qualified to run {op}, config: {config}';
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
@@ -66,7 +69,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logRunSingle(LogContext $logContext) {
+	public function logRunSingle(LogContext $logContext): void {
 		$message = 'Last qualified flow configuration is going to run {op}';
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
@@ -77,7 +80,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logRunAll(LogContext $logContext) {
+	public function logRunAll(LogContext $logContext): void {
 		$message = 'All qualified flow configurations are going to run {op}';
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
@@ -88,7 +91,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logRunNone(LogContext $logContext) {
+	public function logRunNone(LogContext $logContext): void {
 		$message = 'No flow configurations is going to run {op}';
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
@@ -100,7 +103,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logEventInit(LogContext $logContext) {
+	public function logEventInit(LogContext $logContext): void {
 		$message = 'Flow activated by event {ev}';
 
 		$context = [
@@ -113,7 +116,7 @@ class Logger {
 		$this->log($message, $context, $logContext);
 	}
 
-	public function logEventDone(LogContext $logContext) {
+	public function logEventDone(LogContext $logContext): void {
 		$message = 'Flow handling done for event {ev}';
 
 		$context = [

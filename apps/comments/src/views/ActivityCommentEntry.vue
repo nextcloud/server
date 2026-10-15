@@ -4,30 +4,31 @@
 -->
 
 <template>
-	<Comment ref="comment"
+	<CommentEntry
+		ref="comment"
 		tag="li"
 		v-bind="comment.props"
-		:auto-complete="autoComplete"
-		:resource-type="resourceType"
+		:autoComplete="autoComplete"
+		:resourceType="resourceType"
 		:message="commentMessage"
-		:resource-id="resourceId"
-		:user-data="genMentionsData(comment.props.mentions)"
+		:resourceId="resourceId"
+		:userData="genMentionsData(comment.props.mentions)"
 		class="comments-activity"
 		@delete="reloadCallback()" />
 </template>
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import { translate as t } from '@nextcloud/l10n'
 
-import Comment from '../components/Comment.vue'
-import CommentView from '../mixins/CommentView'
+import { t } from '@nextcloud/l10n'
+import CommentEntry from '../components/CommentEntry.vue'
+import CommentView from '../mixins/CommentView.ts'
 
 export default {
 	name: 'ActivityCommentEntry',
 
 	components: {
-		Comment,
+		CommentEntry,
 	},
 
 	mixins: [CommentView],
@@ -36,6 +37,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		reloadCallback: {
 			type: Function as PropType<() => void>,
 			required: true,

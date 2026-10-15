@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendar;
@@ -17,9 +19,9 @@ use Test\TestCase;
 
 class CalendarObjectTest extends TestCase {
 	private CalendarObject $calendarObject;
-	private AppCalendar|MockObject $calendar;
-	private ICalendar|MockObject $backend;
-	private VCalendar|MockObject $vobject;
+	private AppCalendar&MockObject $calendar;
+	private ICalendar&MockObject $backend;
+	private VCalendar&MockObject $vobject;
 
 	protected function setUp(): void {
 		parent::setUp();

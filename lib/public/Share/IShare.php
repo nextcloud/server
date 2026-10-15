@@ -1,15 +1,16 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
@@ -21,6 +22,7 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface IShare {
 	/**
 	 * @since 17.0.0
@@ -98,6 +100,7 @@ interface IShare {
 
 	/**
 	 * @since 26.0.0
+	 * @deprecated 33.0.0 The app is abandonned.
 	 */
 	public const TYPE_SCIENCEMESH = 15;
 
@@ -121,62 +124,52 @@ interface IShare {
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
-	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setId($id);
+	public function setId(string $id): self;
 
 	/**
 	 * Get the internal id of the share.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get the full share id. This is the <providerid>:<internalid>.
 	 * The full id is unique in the system.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 * @throws \UnexpectedValueException If the fullId could not be constructed
 	 */
-	public function getFullId();
+	public function getFullId(): string;
 
 	/**
 	 * Set the provider id of the share
 	 * It is only allowed to set the provider id of a share once.
 	 * Attempts to override the provider id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
-	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setProviderId($id);
+	public function setProviderId(string $id): self;
 
 	/**
 	 * Set the node of the file/folder that is shared
 	 *
 	 * @param Node $node
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNode(Node $node);
+	public function setNode(Node $node): self;
 
 	/**
 	 * Get the node of the file/folder that is shared
 	 *
-	 * @return File|Folder
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNode();
+	public function getNode(): Node;
 
 	/**
 	 * Set file id for lazy evaluation of the node
@@ -215,7 +208,7 @@ interface IShare {
 	/**
 	 * Set the shareType
 	 *
-	 * @param int $shareType
+	 * @param self::TYPE_* $shareType
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -224,7 +217,7 @@ interface IShare {
 	/**
 	 * Get the shareType
 	 *
-	 * @return int
+	 * @return self::TYPE_*
 	 * @since 9.0.0
 	 */
 	public function getShareType();
@@ -282,9 +275,8 @@ interface IShare {
 
 	/**
 	 * Set the permissions.
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @param int $permissions
+	 * @param int-mask-of<Constants::PERMISSION_*> $permissions
 	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -292,9 +284,8 @@ interface IShare {
 
 	/**
 	 * Get the share permissions
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 9.0.0
 	 */
 	public function getPermissions();
@@ -326,9 +317,8 @@ interface IShare {
 
 	/**
 	 * Set the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @param int $status
+	 * @param self::STATUS_* $status
 	 * @return IShare The modified object
 	 * @since 18.0.0
 	 */
@@ -336,12 +326,11 @@ interface IShare {
 
 	/**
 	 * Get the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @return int
+	 * @return ?self::STATUS_*
 	 * @since 18.0.0
 	 */
-	public function getStatus(): int;
+	public function getStatus(): ?int;
 
 	/**
 	 * Attach a note to a share
@@ -359,7 +348,6 @@ interface IShare {
 	 * @since 14.0.0
 	 */
 	public function getNote();
-
 
 	/**
 	 * Set the expiration date
@@ -379,14 +367,13 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
-	 * Set overwrite flag for falsy expiry date vavlues
+	 * Set overwrite flag for falsy expiry date values
 	 *
 	 * @param bool $noExpirationDate
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 30.0.0
 	 */
 	public function setNoExpirationDate(bool $noExpirationDate);
-
 
 	/**
 	 * Get value of overwrite falsy expiry date flag
@@ -467,6 +454,14 @@ interface IShare {
 	public function setPassword($password);
 
 	/**
+	 * Sets the password for the shared, but in it's already hashed form.
+	 * Use {@see isPasswordHashed} to check if the return value of {@see getPassword} is already hashed.
+	 *
+	 * @since 35.0.2
+	 */
+	public function setPasswordHash(string $passwordHash): IShare;
+
+	/**
 	 * Get the password of this share.
 	 * If this share is obtained via a shareprovider the password is
 	 * hashed.
@@ -475,6 +470,20 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getPassword();
+
+	/**
+	 * Returns whether the return value of {@see getPassword} is already hashed.
+	 *
+	 * @since 35.0.2
+	 */
+	public function isPasswordHashed(): bool;
+
+	/**
+	 * Returns whether the share is password protected by any means (e.g. password or OTP)
+	 * @return bool
+	 * @since 35.0.0
+	 */
+	public function isPasswordProtected(): bool;
 
 	/**
 	 * Set the password's expiration time of this share.
@@ -530,6 +539,20 @@ interface IShare {
 	public function getToken();
 
 	/**
+	 * Set the parent of this share
+	 *
+	 * @since 9.0.0
+	 */
+	public function setParent(int $parent): self;
+
+	/**
+	 * Get the parent of this share.
+	 *
+	 * @since 9.0.0
+	 */
+	public function getParent(): ?int;
+
+	/**
 	 * Set the target path of this share relative to the recipients user folder.
 	 *
 	 * @param string $target
@@ -537,6 +560,13 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function setTarget($target);
+
+	/**
+	 * Return the original target, if this share was moved
+	 *
+	 * @since 33.0.0
+	 */
+	public function getOriginalTarget(): ?string;
 
 	/**
 	 * Get the target path of this share relative to the recipients user folder.
@@ -633,4 +663,20 @@ interface IShare {
 	 * @since 31.0.0
 	 */
 	public function getReminderSent(): bool;
+
+	/**
+	 * Check if the current user can see this share files contents.
+	 * This will check the download permissions as well as the global
+	 * admin setting to allow viewing files without downloading.
+	 *
+	 * @since 32.0.0
+	 */
+	public function canSeeContent(): bool;
+
+	/**
+	 * Check if it is allowed to download this share.
+	 *
+	 * @since 34.0.0
+	 */
+	public function canDownload(): bool;
 }

@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\OCM;
 
 use JsonSerializable;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -17,6 +19,7 @@ use OCP\OCM\Exceptions\OCMProviderException;
  * @link https://github.com/cs3org/OCM-API/
  * @since 28.0.0
  */
+#[Consumable(since: '28.0.0')]
 interface IOCMProvider extends JsonSerializable {
 	/**
 	 * enable OCM
@@ -53,6 +56,20 @@ interface IOCMProvider extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function getApiVersion(): string;
+
+	/**
+	 * Remove the non-standard publicKey field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removePublicKey(): void;
+
+	/**
+	 * Remove the non-standard version field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removeVersion(): void;
 
 	/**
 	 * configure endpoint
@@ -108,6 +125,94 @@ interface IOCMProvider extends JsonSerializable {
 	public function getResourceTypes(): array;
 
 	/**
+	 * get the capabilities advertised by this provider
+	 *
+	 * @since 33.0.0
+	 */
+	public function getCapabilities(): OCMCapabilities;
+
+	/**
+	 * return if provider supports $capability
+	 *
+	 * @since 33.0.0
+	 */
+	public function hasCapability(string $capability): bool;
+
+	/**
+	 * get the provider name
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getProvider(): string;
+
+	/**
+	 * returns the invite accept dialog
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getInviteAcceptDialog(): string;
+
+	/**
+	 * set the capabilities
+	 *
+	 * @param array $capabilities
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setCapabilities(array $capabilities): static;
+
+	/**
+	 * set the invite accept dialog
+	 *
+	 * @param string $inviteAcceptDialog
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
+
+	/**
+	 * get the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421)
+	 *
+	 * @return string empty string if not advertised
+	 * @since 35.0.0
+	 */
+	public function getJwksUri(): string;
+
+	/**
+	 * set the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421).
+	 * MUST use https when the `http-sig` capability is advertised.
+	 *
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 * @since 35.0.0
+	 */
+	public function setJwksUri(string $jwksUri): static;
+
+	/**
+	 * get the token endpoint URL
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getTokenEndPoint(): string;
+
+	/**
+	 * set the token endpoint URL
+	 *
+	 * @param string $endPoint
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setTokenEndPoint(string $endPoint): static;
+	/**
 	 * extract a specific string value from the listing of protocols, based on resource-name and protocol-name
 	 *
 	 * @param string $resourceName
@@ -149,7 +254,7 @@ interface IOCMProvider extends JsonSerializable {
 	/**
 	 * @return array{
 	 *     enabled: bool,
-	 *     apiVersion: '1.0-proposal1',
+	 *     apiVersion: string,
 	 *     endPoint: string,
 	 *     publicKey?: array{
 	 *         keyId: string,
@@ -160,9 +265,11 @@ interface IOCMProvider extends JsonSerializable {
 	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
 	 *     }>,
-	 *     version: string
+	 *     version?: string,
+	 *     jwksUri?: string
 	 * }
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array;
 }

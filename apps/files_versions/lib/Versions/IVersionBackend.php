@@ -6,8 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Versions;
 
+use OC\Files\Node\Node;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
@@ -78,4 +80,11 @@ interface IVersionBackend {
 	 * @since 15.0.0
 	 */
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File;
+
+	/**
+	 * Get the revision for a node
+	 *
+	 * @since 32.0.0
+	 */
+	public function getRevision(Node $node): int;
 }

@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Contacts\ContactsMenu;
+namespace Test\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\Actions\LinkAction;
 use OC\Contacts\ContactsMenu\Entry;
@@ -14,6 +14,7 @@ use Test\TestCase;
 class EntryTest extends TestCase {
 	private Entry $entry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

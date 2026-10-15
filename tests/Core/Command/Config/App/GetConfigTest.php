@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,40 +9,30 @@
 
 namespace Tests\Core\Command\Config\App;
 
-use OC\AppConfig;
 use OC\Core\Command\Config\App\GetConfig;
 use OCP\Exceptions\AppConfigUnknownKeyException;
+use OCP\IAppConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class GetConfigTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
+	protected Command $command;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
-
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$config = $this->config = $this->getMockBuilder(AppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
-
-		/** @var \OCP\IAppConfig $config */
-		$this->command = new GetConfig($config);
+		$this->command = $this->createInstanceWithMocks(GetConfig::class);
 	}
 
-
-	public function getData() {
+	public static function dataGet(): array {
 		return [
 			// String output as json
 			['name', 'newvalue', true, null, false, 'json', 0, json_encode('newvalue')],
@@ -78,26 +70,14 @@ class GetConfigTest extends TestCase {
 			// Associative array output as json/plain
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'json', 0, json_encode(['a' => 1, 'b' => 2])],
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'plain', 0, "a: 1\nb: 2"],
-
 		];
 	}
 
-	/**
-	 * @dataProvider getData
-	 *
-	 * @param string $configName
-	 * @param mixed $value
-	 * @param bool $configExists
-	 * @param mixed $defaultValue
-	 * @param bool $hasDefault
-	 * @param string $outputFormat
-	 * @param int $expectedReturn
-	 * @param string $expectedMessage
-	 */
-	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGet')]
+	public function testGet(string $configName, mixed $value, bool $configExists, mixed $defaultValue, bool $hasDefault, string $outputFormat, int $expectedReturn, ?string $expectedMessage): void {
 		if (!$expectedReturn) {
 			if ($configExists) {
-				$this->config->expects($this->once())
+				$this->getAutoMock(IAppConfig::class)->expects($this->once())
 					->method('getDetails')
 					->with('app-name', $configName)
 					->willReturn(['value' => $value]);
@@ -105,7 +85,7 @@ class GetConfigTest extends TestCase {
 		}
 
 		if (!$configExists) {
-			$this->config->expects($this->once())
+			$this->getAutoMock(IAppConfig::class)->expects($this->once())
 				->method('getDetails')
 				->with('app-name', $configName)
 				->willThrowException(new AppConfigUnknownKeyException());
@@ -117,14 +97,12 @@ class GetConfigTest extends TestCase {
 				['app', 'app-name'],
 				['name', $configName],
 			]);
-		$this->consoleInput->expects($this->any())
-			->method('getOption')
+		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['default-value', $defaultValue],
 				['output', $outputFormat],
 			]);
-		$this->consoleInput->expects($this->any())
-			->method('hasParameterOption')
+		$this->consoleInput->method('hasParameterOption')
 			->willReturnMap([
 				['--output', false, true],
 				['--default-value', false, $hasDefault],
@@ -134,8 +112,7 @@ class GetConfigTest extends TestCase {
 			global $output;
 
 			$output = '';
-			$this->consoleOutput->expects($this->any())
-				->method('writeln')
+			$this->consoleOutput->method('writeln')
 				->willReturnCallback(function ($value) {
 					global $output;
 					$output .= $value . "\n";
@@ -143,7 +120,7 @@ class GetConfigTest extends TestCase {
 				});
 		}
 
-		$this->assertSame($expectedReturn, $this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+		$this->assertSame($expectedReturn, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 
 		if ($expectedMessage !== null) {
 			global $output;

@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
+use Closure;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -32,7 +34,7 @@ abstract class Controller {
 	protected $request;
 
 	/**
-	 * @var array
+	 * @var array<string, Closure>
 	 * @since 7.0.0
 	 */
 	private $responders;
@@ -81,7 +83,6 @@ abstract class Controller {
 		];
 	}
 
-
 	/**
 	 * Parses an HTTP accept header and returns the supported responder type
 	 * @param string $acceptHeader
@@ -89,6 +90,7 @@ abstract class Controller {
 	 * @return string the responder type
 	 * @since 7.0.0
 	 * @since 9.1.0 Added default parameter
+	 * @deprecated 33.0.0 Use {@see \OCP\IRequest::getFormat} instead
 	 */
 	public function getResponderByHTTPHeader($acceptHeader, $default = 'json') {
 		$headers = explode(',', $acceptHeader);
@@ -108,17 +110,15 @@ abstract class Controller {
 		return $default;
 	}
 
-
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
-	 * @param \Closure $responder
+	 * @param Closure $responder
 	 * @since 7.0.0
 	 */
-	protected function registerResponder($format, \Closure $responder) {
+	protected function registerResponder($format, Closure $responder) {
 		$this->responders[$format] = $responder;
 	}
-
 
 	/**
 	 * Serializes and formats a response
@@ -135,7 +135,14 @@ abstract class Controller {
 
 			return $responder($response);
 		}
-		throw new \DomainException('No responder registered for format ' .
-			$format . '!');
+		throw new \DomainException('No responder registered for format '
+			. $format . '!');
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function isResponderRegistered(string $responder): bool {
+		return isset($this->responders[$responder]);
 	}
 }

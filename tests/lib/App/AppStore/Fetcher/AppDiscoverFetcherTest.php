@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,8 +17,9 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AppDiscoverFetcherTest extends FetcherBase {
-	protected CompareVersion|MockObject $compareVersion;
+	protected CompareVersion&MockObject $compareVersion;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fileName = 'discover.json';
@@ -71,9 +75,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	/**
-	 * @dataProvider dataGetETag
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetETag')]
 	public function testGetEtag(?string $expected, bool $throws, string $content = ''): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		if (!$throws) {
@@ -104,7 +106,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		}
 	}
 
-	public function dataGetETag(): array {
+	public static function dataGetETag(): array {
 		return [
 			'file not found' => [null, true],
 			'empty file' => [null, false, ''],

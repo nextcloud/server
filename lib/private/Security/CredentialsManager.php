@@ -6,11 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\IDBConnection;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
+use SensitiveParameter;
 
 /**
  * Store and retrieve credentials for external services
@@ -32,7 +34,13 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $userId empty string for system-wide credentials
 	 * @param mixed $credentials
 	 */
-	public function store(string $userId, string $identifier, $credentials): void {
+	#[\Override]
+	public function store(
+		string $userId,
+		string $identifier,
+		#[SensitiveParameter]
+		$credentials,
+	): void {
 		$value = $this->crypto->encrypt(json_encode($credentials));
 
 		$this->dbConnection->setValues(self::DB_TABLE, [
@@ -48,6 +56,7 @@ class CredentialsManager implements ICredentialsManager {
 	 *
 	 * @param string $userId empty string for system-wide credentials
 	 */
+	#[\Override]
 	public function retrieve(string $userId, string $identifier): mixed {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
@@ -61,7 +70,7 @@ class CredentialsManager implements ICredentialsManager {
 		}
 
 		$qResult = $qb->executeQuery();
-		$result = $qResult->fetch();
+		$result = $qResult->fetchAssociative();
 		$qResult->closeCursor();
 
 		if (!$result) {
@@ -78,6 +87,7 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $userId empty string for system-wide credentials
 	 * @return int rows removed
 	 */
+	#[\Override]
 	public function delete(string $userId, string $identifier): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
@@ -97,6 +107,7 @@ class CredentialsManager implements ICredentialsManager {
 	 *
 	 * @return int rows removed
 	 */
+	#[\Override]
 	public function erase(string $userId): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)

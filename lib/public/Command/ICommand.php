@@ -5,11 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Command;
 
 /**
  * Interface ICommand
  *
+ * @deprecated 33.0.0 The interface is considered internal going forward and should not be implemented by apps anymore
  * @since 8.1.0
  */
 interface ICommand {

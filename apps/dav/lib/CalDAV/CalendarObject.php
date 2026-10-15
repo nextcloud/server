@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCP\IL10N;
@@ -37,6 +39,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get() {
 		$data = parent::get();
 
@@ -52,7 +55,8 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		}
 
 		// shows as busy if event is declared confidential
-		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL
+			&& ($this->isPublic() || !$this->canWrite())) {
 			$this->createConfidentialObject($vObject);
 		}
 
@@ -134,6 +138,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return true;
 	}
 
+	private function isPublic(): bool {
+		return $this->calendarInfo['{http://owncloud.org/ns}public'] ?? false;
+	}
+
 	public function getCalendarId(): int {
 		return (int)$this->objectData['calendarid'];
 	}
@@ -142,6 +150,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return $this->calendarInfo['principaluri'];
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];

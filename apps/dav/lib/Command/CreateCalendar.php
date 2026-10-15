@@ -5,21 +5,25 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Command;
 
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -37,6 +41,7 @@ class CreateCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:create-calendar')
@@ -49,6 +54,7 @@ class CreateCalendar extends Command {
 				'Name of the calendar');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {
@@ -64,7 +70,7 @@ class CreateCalendar extends Command {
 			Server::get(ProxyMapper::class),
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
-			\OC::$server->getL10NFactory(),
+			Server::get(IFactory::class),
 		);
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);
@@ -80,6 +86,8 @@ class CreateCalendar extends Command {
 			$dispatcher,
 			$config,
 			Server::get(Backend::class),
+			Server::get(FederatedCalendarMapper::class),
+			Server::get(ICacheFactory::class),
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return self::SUCCESS;

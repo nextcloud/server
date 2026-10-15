@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Accounts;
 
 use Generator;
@@ -27,6 +28,7 @@ class Account implements IAccount {
 	) {
 	}
 
+	#[\Override]
 	public function setProperty(string $property, string $value, string $scope, string $verified, string $verificationData = ''): IAccount {
 		if ($this->isCollection($property)) {
 			throw new \InvalidArgumentException('setProperty cannot set an IAccountsPropertyCollection');
@@ -35,6 +37,7 @@ class Account implements IAccount {
 		return $this;
 	}
 
+	#[\Override]
 	public function getProperty(string $property): IAccountProperty {
 		if ($this->isCollection($property)) {
 			throw new \InvalidArgumentException('getProperty cannot retrieve an IAccountsPropertyCollection');
@@ -45,12 +48,14 @@ class Account implements IAccount {
 		return $this->properties[$property];
 	}
 
+	#[\Override]
 	public function getProperties(): array {
 		return array_filter($this->properties, function ($obj) {
 			return $obj instanceof IAccountProperty;
 		});
 	}
 
+	#[\Override]
 	public function setAllPropertiesFromJson(array $properties): IAccount {
 		foreach ($properties as $propertyName => $propertyObject) {
 			if ($this->isCollection($propertyName)) {
@@ -73,6 +78,7 @@ class Account implements IAccount {
 		return $this;
 	}
 
+	#[\Override]
 	public function getAllProperties(): Generator {
 		foreach ($this->properties as $propertyObject) {
 			if ($propertyObject instanceof IAccountProperty) {
@@ -85,6 +91,7 @@ class Account implements IAccount {
 		}
 	}
 
+	#[\Override]
 	public function getFilteredProperties(?string $scope = null, ?string $verified = null): array {
 		$result = $incrementals = [];
 		/** @var IAccountProperty $obj */
@@ -106,6 +113,7 @@ class Account implements IAccount {
 	}
 
 	/** @return array<string, IAccountProperty|array<int, IAccountProperty>> */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$properties = $this->properties;
 		foreach ($properties as $propertyName => $propertyObject) {
@@ -117,15 +125,18 @@ class Account implements IAccount {
 		return $properties;
 	}
 
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function setPropertyCollection(IAccountPropertyCollection $propertyCollection): IAccount {
 		$this->properties[$propertyCollection->getName()] = $propertyCollection;
 		return $this;
 	}
 
+	#[\Override]
 	public function getPropertyCollection(string $propertyCollectionName): IAccountPropertyCollection {
 		if (!$this->isCollection($propertyCollectionName)) {
 			throw new PropertyDoesNotExistException($propertyCollectionName);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,9 +10,8 @@ namespace Test\Group;
 
 /**
  * Class Backend
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class Backend extends \Test\TestCase {
 	/**
 	 * @var \OC\Group\Backend $backend

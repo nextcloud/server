@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Log;
 
 use OC\SystemConfig;
@@ -56,6 +58,7 @@ class Systemdlog extends LogDetails implements IWriter {
 	 * Write a message to the log.
 	 * @param string|array $message
 	 */
+	#[\Override]
 	public function write(string $app, $message, int $level): void {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY=' . $journal_level,

@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\Builtin;
@@ -52,10 +54,6 @@ class LegacyBackend extends Backend {
 					$type = DefinitionParameter::VALUE_PASSWORD;
 					$placeholder = substr($placeholder, 1);
 					break;
-				case '#':
-					$type = DefinitionParameter::VALUE_HIDDEN;
-					$placeholder = substr($placeholder, 1);
-					break;
 			}
 			$this->addParameter((new DefinitionParameter($name, $placeholder))
 				->setType($type)
@@ -77,6 +75,7 @@ class LegacyBackend extends Backend {
 	/**
 	 * @return MissingDependency[]
 	 */
+	#[\Override]
 	public function checkDependencies() {
 		if ($this->hasDependencies) {
 			return $this->doCheckDependencies();

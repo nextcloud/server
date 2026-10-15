@@ -5,18 +5,22 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DB\ConnectionFactory;
 
 class Sqlite extends AbstractDatabase {
-	public $dbprettyname = 'Sqlite';
+	public string $dbprettyname = 'Sqlite';
 
-	public function validate($config) {
-		return [];
+	#[\Override]
+	public function validate(array $config): array {
+		// SQLite needs no credentials, but an encrypted connection is not a thing either
+		return $this->validateEncryptionOptions($config);
 	}
 
-	public function initialize($config) {
+	#[\Override]
+	public function initialize(array $config): void {
 		/*
 		 * Web: When using web based installer its not possible to set dbname
 		 * or dbtableprefix. Defaults used from ConnectionFactory and dbtype = 'sqlite'
@@ -45,7 +49,8 @@ class Sqlite extends AbstractDatabase {
 		}
 	}
 
-	public function setupDatabase($username) {
+	#[\Override]
+	public function setupDatabase(): void {
 		$datadir = $this->config->getValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data'

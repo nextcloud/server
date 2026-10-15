@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -30,6 +31,7 @@ class CssControllerTest extends TestCase {
 	/** @var CssController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -65,7 +67,6 @@ class CssControllerTest extends TestCase {
 
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
-
 
 	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);

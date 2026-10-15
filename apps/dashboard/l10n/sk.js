@@ -2,7 +2,7 @@ OC.L10N.register(
     "dashboard",
     {
     "Dashboard" : "Infopanel",
-    "Dashboard app" : "Aplikácia Infopanel",
+    "Dashboard app" : "Aplikácia Nástenka",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Začnite svoj deň informovaní\n\nNextcloud Infopanel je vaším východiskovým bodom dňa, ktorý vám poskytne prehľad o vašich nadchádzajúcich stretnutiach, naliehavých e-mailoch, správach, prijatých lístkoch, najnovších tweetoch a mnohom ďalšom! Ľudia si môžu pridať rozšírenia, ktoré sa im páčia, a zmeniť si pozadie podľa svojich predstáv.",
     "Weather" : "Počasie",
     "Status" : "Stav",
@@ -16,12 +16,11 @@ OC.L10N.register(
     "Hello, {name}" : "Ahoj, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} ikona\"",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
     "Get more widgets from the App Store" : "Získať viac miniaplikácií v Obchode s aplikáciami",
     "Weather service" : "Služba počasie",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "V záujme vášho súkromia údaje o počasí vyžaduje váš server Nextcloud vo vašom mene, aby meteorologická služba nedostávala žiadne osobné informácie.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Pre vaše súkromie sú údaje o počasí požadované vaším {productName} serverom vo vašom mene, takže služba počasia neobdrží žiadne osobné informácie.",
     "Weather data from Met.no" : "Dáta počasia z Met.no",
     "geocoding with Nominatim" : "geokódovanie pomocou Nominatim",
     "elevation data from OpenTopoData" : "dáta o nadmorskej výške z OpenTopoData"

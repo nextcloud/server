@@ -4,11 +4,10 @@
  */
 
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { defaultRemoteURL } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-
 import { logger } from '../logger.ts'
 
 /**

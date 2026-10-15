@@ -1,10 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 use Behat\Behat\Context\Exception\ContextNotFoundException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -16,13 +17,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	private $lastTransferPath;
 
 	private $featureContext;
-	private $localBaseUrl;
-	private $remoteBaseUrl;
 
-	public function __construct($ocPath, $baseUrl) {
+	public function __construct(
+		$ocPath,
+		private $baseUrl,
+	) {
 		$this->ocPath = rtrim($ocPath, '/') . '/';
-		$this->localBaseUrl = $baseUrl;
-		$this->remoteBaseUrl = $baseUrl;
 	}
 
 	/**
@@ -101,19 +101,6 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
 		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
-			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
-		} else {
-			// failure
-			$this->lastTransferPath = null;
-		}
-	}
-
-	/**
-	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)" with received shares$/
-	 */
-	public function transferringOwnershipPathWithIncomingShares($path, $user1, $user2) {
-		$path = '--path=' . $path;
-		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2, '--transfer-incoming-shares=1']) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
 		} else {
 			// failure

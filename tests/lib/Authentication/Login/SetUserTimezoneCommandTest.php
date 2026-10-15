@@ -12,32 +12,21 @@ namespace Test\Authentication\Login;
 use OC\Authentication\Login\SetUserTimezoneCommand;
 use OCP\IConfig;
 use OCP\ISession;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class SetUserTimezoneCommandTest extends ALoginCommandTest {
-	/** @var IConfig|MockObject */
-	private $config;
+class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
-	/** @var ISession|MockObject */
-	private $session;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->session = $this->createMock(ISession::class);
-
-		$this->cmd = new SetUserTimezoneCommand(
-			$this->config,
-			$this->session
-		);
+		$this->cmd = $this->createInstanceWithMocks(SetUserTimezoneCommand::class);
 	}
 
 	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->never())
+		$this->getAutoMock(IConfig::class)->expects($this->never())
 			->method('setUserValue');
-		$this->session->expects($this->never())
+		$this->getAutoMock(ISession::class)->expects($this->never())
 			->method('set');
 
 		$result = $this->cmd->process($data);
@@ -45,20 +34,94 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess(): void {
-		$data = $this->getLoggedInLoginDataWithTimezone();
+	/**
+	 * Debian and Ubuntu ship the tz database's backward links in a separate
+	 * tzdata-legacy package, so pick an alias this platform actually knows
+	 * instead of hardcoding one.
+	 */
+	private static function findBackwardCompatibleTimezone(): ?string {
+		$aliases = array_diff(
+			\DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+			\DateTimeZone::listIdentifiers(),
+		);
+		return $aliases === [] ? null : reset($aliases);
+	}
+
+	public static function dataAcceptedTimezone(): array {
+		return [
+			'primary identifier' => ['Europe/Vienna'],
+			'backward compatible alias' => [self::findBackwardCompatibleTimezone()],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAcceptedTimezone')]
+	public function testProcess(?string $timezone): void {
+		if ($timezone === null) {
+			$this->markTestSkipped('No backward compatible timezone aliases in this platform\'s tz database');
+		}
+
+		$data = $this->getLoggedInLoginDataWithTimezone($timezone);
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->config->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				''
+			)
+			->willReturn('');
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('setUserValue')
 			->with(
 				$this->username,
 				'core',
 				'timezone',
-				$this->timezone
+				$timezone
 			);
-		$this->session->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
+			->method('set')
+			->with(
+				'timezone',
+				$this->timeZoneOffset
+			);
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+	}
+
+	public function testProcessUnknownTimezone(): void {
+		$data = $this->getLoggedInLoginDataWithTimezone('Mars/Olympus_Mons');
+		$this->getAutoMock(IConfig::class)->expects($this->never())
+			->method('setUserValue');
+		$this->getAutoMock(ISession::class)->expects($this->never())
+			->method('set');
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+	}
+
+	public function testProcessAlreadySet(): void {
+		$data = $this->getLoggedInLoginDataWithTimezone();
+		$this->user->expects($this->once())
+			->method('getUID')
+			->willReturn($this->username);
+		$this->getAutoMock(IConfig::class)->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				'',
+			)
+			->willReturn('Europe/Berlin');
+		$this->getAutoMock(IConfig::class)->expects($this->never())
+			->method('setUserValue');
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with(
 				'timezone',

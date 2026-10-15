@@ -6,19 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PredefinedStatusServiceTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var PredefinedStatusService */
-	protected $service;
+	protected IL10N&MockObject $l10n;
+	protected PredefinedStatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -29,7 +27,7 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
@@ -53,6 +51,15 @@ class PredefinedStatusServiceTest extends TestCase {
 				'clearAt' => [
 					'type' => 'period',
 					'time' => 1800,
+				],
+			],
+			[
+				'id' => 'be-right-back',
+				'icon' => '⏳',
+				'message' => 'Be right back',
+				'clearAt' => [
+					'type' => 'period',
+					'time' => 900,
 				],
 			],
 			[
@@ -96,38 +103,26 @@ class PredefinedStatusServiceTest extends TestCase {
 		], $actual);
 	}
 
-	/**
-	 * @param string $id
-	 * @param string|null $expectedIcon
-	 *
-	 * @dataProvider getIconForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getIconForIdDataProvider')]
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
 		$actual = $this->service->getIconForId($id);
 		$this->assertEquals($expectedIcon, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getIconForIdDataProvider(): array {
+	public static function getIconForIdDataProvider(): array {
 		return [
 			['meeting', '📅'],
 			['commuting', '🚌'],
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['be-right-back', '⏳'],
 			['call', '💬'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @param string $id
-	 * @param string|null $expected
-	 *
-	 * @dataProvider getTranslatedStatusForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getTranslatedStatusForIdDataProvider')]
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
 		$this->l10n->method('t')
 			->willReturnArgument(0);
@@ -136,49 +131,40 @@ class PredefinedStatusServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getTranslatedStatusForIdDataProvider(): array {
+	public static function getTranslatedStatusForIdDataProvider(): array {
 		return [
 			['meeting', 'In a meeting'],
 			['commuting', 'Commuting'],
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['be-right-back', 'Be right back'],
 			['call', 'In a call'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @param string $id
-	 * @param bool $expected
-	 *
-	 * @dataProvider isValidIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'isValidIdDataProvider')]
 	public function testIsValidId(string $id, bool $expected): void {
 		$actual = $this->service->isValidId($id);
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function isValidIdDataProvider(): array {
+	public static function isValidIdDataProvider(): array {
 		return [
 			['meeting', true],
 			['commuting', true],
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['be-right-back', true],
 			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);

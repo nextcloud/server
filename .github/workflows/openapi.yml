@@ -26,12 +26,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: ctype, curl, dom, fileinfo, gd, json, libxml, mbstring, openssl, pcntl, pdo, posix, session, simplexml, xml, xmlreader, xmlwriter, zip, zlib
           coverage: none
           ini-file: development

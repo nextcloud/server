@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,30 +11,35 @@ namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\IOutput;
 use OCP\Files\File;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 class FileDisplayResponseTest extends \Test\TestCase {
-	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
-	private $file;
+	private FileDisplayResponse $response;
 
-	/** @var FileDisplayResponse */
-	private $response;
-
+	#[\Override]
 	protected function setUp(): void {
-		$this->file = $this->getMockBuilder('OCP\Files\File')
-			->getMock();
+		parent::setUp();
 
-		$this->file->expects($this->once())
+		/* This needs to be configured before calling the constructor */
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getName')
 			->willReturn('myFileName');
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getMTime')
 			->willReturn(1464825600);
 
-		$this->response = new FileDisplayResponse($this->file);
+		$this->response = $this->createInstanceWithMocks(
+			FileDisplayResponse::class,
+			[
+				/* This parameter is a union type so we have to specify which class to mock */
+				'file' => $this->getAutoMock(File::class),
+			],
+		);
 	}
 
 	public function testHeader(): void {
@@ -51,7 +59,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 	public function test304(): void {
-		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
+		$output = $this->getMockBuilder(IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -60,34 +68,132 @@ class FileDisplayResponseTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_NOT_MODIFIED);
 		$output->expects($this->never())
 			->method('setOutput');
-		$this->file->expects($this->never())
+		$this->getAutoMock(File::class)->expects($this->never())
 			->method('getContent');
 
 		$this->response->callback($output);
 	}
 
-
 	public function testNon304(): void {
-		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
+		$resource = fopen('php://memory', 'w+b');
+		fwrite($resource, 'my data');
+		rewind($resource);
+
+		$this->getAutoMock(File::class)->expects($this->once())
+			->method('fopen')
+			->willReturn($resource);
+		$this->getAutoMock(File::class)->expects($this->any())
+			->method('getSize')
+			->willReturn(7);
+
+		$output = $this->getMockBuilder(IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
-
-		$output->expects($this->any())
+		$output->expects($this->once())
 			->method('getHttpResponseCode')
 			->willReturn(Http::STATUS_OK);
 		$output->expects($this->once())
-			->method('setOutput')
-			->with($this->equalTo('my data'));
+			->method('setReadFile')
+			->with($this->equalTo($resource));
 		$output->expects($this->once())
 			->method('setHeader')
-			->with($this->equalTo('Content-Length: 42'));
-		$this->file->expects($this->once())
-			->method('getContent')
-			->willReturn('my data');
-		$this->file->expects($this->any())
-			->method('getSize')
-			->willReturn(42);
+			->with($this->equalTo('Content-Length: 7'));
 
 		$this->response->callback($output);
+	}
+
+	public function testFileNotFound(): void {
+		$this->getAutoMock(File::class)->expects($this->once())
+			->method('fopen')
+			->willReturn(false);
+
+		$output = $this->getMockBuilder(IOutput::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$output->expects($this->once())
+			->method('getHttpResponseCode')
+			->willReturn(Http::STATUS_OK);
+		$output->expects($this->once())
+			->method('setHttpResponseCode')
+			->with($this->equalTo(Http::STATUS_NOT_FOUND));
+		$output->expects($this->once())
+			->method('setOutput')
+			->with($this->equalTo(''));
+
+		$this->response->callback($output);
+	}
+
+	public function testSimpleFileNotFound(): void {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('getETag')
+			->willReturn('myETag');
+		$file->expects($this->once())
+			->method('getName')
+			->willReturn('myFileName');
+		$file->expects($this->once())
+			->method('getMTime')
+			->willReturn(1464825600);
+		$file->expects($this->once())
+			->method('read')
+			->willReturn(false);
+
+		$response = new FileDisplayResponse($file);
+
+		$output = $this->getMockBuilder(IOutput::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$output->expects($this->once())
+			->method('getHttpResponseCode')
+			->willReturn(Http::STATUS_OK);
+		$output->expects($this->once())
+			->method('setHttpResponseCode')
+			->with($this->equalTo(Http::STATUS_NOT_FOUND));
+		$output->expects($this->once())
+			->method('setOutput')
+			->with($this->equalTo(''));
+
+		$response->callback($output);
+	}
+
+	public function testSimpleFile(): void {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->expects($this->once())
+			->method('getETag')
+			->willReturn('myETag');
+		$file->expects($this->once())
+			->method('getName')
+			->willReturn('myFileName');
+		$file->expects($this->once())
+			->method('getMTime')
+			->willReturn(1464825600);
+
+		$resource = fopen('php://memory', 'w+b');
+		fwrite($resource, 'my data');
+		rewind($resource);
+
+		$file->expects($this->once())
+			->method('read')
+			->willReturn($resource);
+		$file->expects($this->any())
+			->method('getSize')
+			->willReturn(7);
+
+		$response = new FileDisplayResponse($file);
+
+		$output = $this->getMockBuilder(IOutput::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$output->expects($this->once())
+			->method('getHttpResponseCode')
+			->willReturn(Http::STATUS_OK);
+		$output->expects($this->once())
+			->method('setReadFile')
+			->with($this->equalTo($resource));
+		$output->expects($this->once())
+			->method('setHeader')
+			->with($this->equalTo('Content-Length: 7'));
+
+		$response->callback($output);
 	}
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
@@ -18,8 +19,9 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -32,8 +34,7 @@ class PreviewController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IPreview $preview,
-		private IRootFolder $root,
-		private ?string $userId,
+		private ?IUserFolder $userFolder,
 		private IMimeIconProvider $mimeIconProvider,
 	) {
 		parent::__construct($appName, $request);
@@ -43,8 +44,8 @@ class PreviewController extends Controller {
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -68,14 +69,13 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
-		bool $mimeFallback = false): Http\Response {
+		bool $mimeFallback = false): Response {
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$userFolder = $this->root->getUserFolder($this->userId);
-			$node = $userFolder->get($file);
+			$node = $this->userFolder->get($file);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -86,9 +86,9 @@ class PreviewController extends Controller {
 	/**
 	 * Get a preview by file ID
 	 *
-	 * @param int $fileId ID of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param positive-int $fileId ID of the file
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -106,19 +106,18 @@ class PreviewController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreviewByFileId(
-		int $fileId = -1,
+		int $fileId,
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
 		bool $mimeFallback = false) {
-		if ($fileId === -1 || $x === 0 || $y === 0) {
+		if ($x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$userFolder = $this->root->getUserFolder($this->userId);
-		$node = $userFolder->getFirstNodeById($fileId);
+		$node = $this->userFolder->getFirstNodeById($fileId);
 
 		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -137,7 +136,7 @@ class PreviewController extends Controller {
 		bool $a,
 		bool $forceIcon,
 		string $mode,
-		bool $mimeFallback = false) : Http\Response {
+		bool $mimeFallback = false) : Response {
 		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -151,15 +150,12 @@ class PreviewController extends Controller {
 
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
-		$isNextcloudPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+		$isNextcloudPreview = $this->request->getHeader('x-nc-preview') === 'true';
 		$storage = $node->getStorage();
 		if ($isNextcloudPreview === false && $storage->instanceOfStorage(ISharedStorage::class)) {
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			// No "allow preview" header set, so we must check if
-			// the share has not explicitly disabled download permissions
-			if ($attributes?->getAttribute('permissions', 'download') === false) {
+			if (!$share->canSeeContent()) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,40 +8,45 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\StorageObjectStore;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
 use OCP\Files\Storage\IStorage;
 
 /**
  * Class UpdaterTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdaterTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 */
 	protected $storage;
 
 	/**
-	 * @var \OC\Files\Cache\Cache
+	 * @var Cache
 	 */
 	protected $cache;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $view;
 
 	/**
-	 * @var \OC\Files\Cache\Updater
+	 * @var Updater
 	 */
 	protected $updater;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -51,6 +57,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->cache = $this->storage->getCache();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->logout();
 		parent::tearDown();
@@ -249,6 +256,48 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
+	public function testMoveCrossStorageMissingTargetParent(): void {
+		$storage2 = new Temporary([]);
+		$cache2 = $storage2->getCache();
+		Filesystem::mount($storage2, [], '/bar');
+		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		$this->updater->update('foo.txt');
+		$cached = $this->cache->get('foo.txt');
+
+		// the target parent exists on disk but is missing from the cache
+		$storage2->mkdir('sub');
+		$this->assertFalse($cache2->inCache('sub'));
+
+		$storage2->moveFromStorage($this->storage, 'foo.txt', 'sub/bar.txt');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo.txt', 'sub/bar.txt');
+
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+		$this->assertTrue($cache2->inCache('sub'));
+		$this->assertTrue($cache2->inCache('sub/bar.txt'));
+
+		// the moved entry is attached to the scanned parent instead of being orphaned
+		$cachedTarget = $cache2->get('sub/bar.txt');
+		$this->assertEquals($cache2->getId('sub'), $cachedTarget['parent']);
+		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
+	}
+
+	public function testMoveCrossStorageSourceNotInCache(): void {
+		$storage2 = new Temporary([]);
+		$cache2 = $storage2->getCache();
+		Filesystem::mount($storage2, [], '/bar');
+		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		// the source was never scanned into the cache
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+
+		$storage2->moveFromStorage($this->storage, 'foo.txt', 'bar.txt');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo.txt', 'bar.txt');
+
+		// the target still gets a cache entry
+		$this->assertTrue($cache2->inCache('bar.txt'));
+		$cachedTarget = $cache2->get('bar.txt');
+		$this->assertEquals(6, $cachedTarget['size']);
+	}
+
 	public function testMoveFolderCrossStorage(): void {
 		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
@@ -305,16 +354,14 @@ class UpdaterTest extends \Test\TestCase {
 		}
 	}
 
-	public function changeExtensionProvider(): array {
+	public static function changeExtensionProvider(): array {
 		return [
 			[new Temporary()],
 			[new ObjectStoreStorage(['objectstore' => new StorageObjectStore(new Temporary())])]
 		];
 	}
 
-	/**
-	 * @dataProvider changeExtensionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeExtensionProvider')]
 	public function testChangeExtension(IStorage $storage) {
 		$updater = $storage->getUpdater();
 		$cache = $storage->getCache();

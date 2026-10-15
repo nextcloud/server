@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\SetupCheck;
 
 use OCP\Http\Client\IClientService;
@@ -19,7 +20,7 @@ use Test\TestCase;
 class CheckServerResponseTraitTest extends TestCase {
 
 	protected const BASE_URL = 'https://nextcloud.local';
-	
+
 	private IL10N&MockObject $l10n;
 	private IConfig&MockObject $config;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -28,6 +29,7 @@ class CheckServerResponseTraitTest extends TestCase {
 
 	private CheckServerResponseTraitImplementation $trait;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -38,7 +40,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		
+
 		$this->trait = new CheckServerResponseTraitImplementation(
 			$this->l10n,
 			$this->config,
@@ -48,9 +50,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataNormalizeUrl
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNormalizeUrl')]
 	public function testNormalizeUrl(string $url, bool $isRootRequest, string $expected): void {
 		$this->assertEquals($expected, $this->trait->normalizeUrl($url, $isRootRequest));
 	}
@@ -75,9 +75,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetTestUrls
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetTestUrls')]
 	public function testGetTestUrls(
 		string $url,
 		bool $isRootRequest,
@@ -103,7 +101,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		$this->urlGenerator->expects(self::atLeastOnce())
 			->method('getBaseUrl')
 			->willReturn(self::BASE_URL . $webRoot);
-		
+
 		$result = $this->trait->getTestUrls($url, $isRootRequest);
 		$this->assertEquals($expected, $result);
 	}

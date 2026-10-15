@@ -3,12 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcButton :class="['files-list__column-sort-button', {
+	<NcButton
+		class="files-list__column-sort-button"
+		:class="[{
 			'files-list__column-sort-button--active': sortingMode === mode,
 			'files-list__column-sort-button--size': sortingMode === 'size',
 		}]"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
-		type="tertiary"
+		variant="tertiary"
 		:title="name"
 		@click="toggleSortBy(mode)">
 		<template #icon>
@@ -19,44 +21,28 @@
 	</NcButton>
 </template>
 
-<script lang="ts">
-import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-
+<script setup lang="ts">
+import NcButton from '@nextcloud/vue/components/NcButton'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 
-import filesSortingMixin from '../mixins/filesSorting.ts'
+defineProps<{
+	/**
+	 * The display name of the column this button represents.
+	 */
+	name: string
+	/**
+	 * The sorting mode this button represents.
+	 */
+	mode: string
+}>()
 
-export default defineComponent({
-	name: 'FilesListTableHeaderButton',
-
-	components: {
-		MenuDown,
-		MenuUp,
-		NcButton,
-	},
-
-	mixins: [
-		filesSortingMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-		mode: {
-			type: String,
-			required: true,
-		},
-	},
-
-	methods: {
-		t: translate,
-	},
-})
+const {
+	sortingMode,
+	isAscSorting,
+	toggleSortBy,
+} = useFilesSorting()
 </script>
 
 <style scoped lang="scss">

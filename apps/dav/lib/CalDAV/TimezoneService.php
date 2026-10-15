@@ -12,6 +12,7 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
@@ -22,13 +23,14 @@ class TimezoneService {
 
 	public function __construct(
 		private IConfig $config,
+		private IUserConfig $userConfig,
 		private PropertyMapper $propertyMapper,
 		private IManager $calendarManager,
 	) {
 	}
 
 	public function getUserTimezone(string $userId): ?string {
-		$fromConfig = $this->config->getUserValue(
+		$fromConfig = $this->userConfig->getValueString(
 			$userId,
 			'core',
 			'timezone',
@@ -51,7 +53,7 @@ class TimezoneService {
 		}
 
 		$principal = 'principals/users/' . $userId;
-		$uri = $this->config->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
+		$uri = $this->userConfig->getValueString($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
 		$calendars = $this->calendarManager->getCalendarsForPrincipal($principal);
 
 		/** @var ?VTimeZone $personalCalendarTimezone */

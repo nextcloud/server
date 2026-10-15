@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
@@ -31,10 +32,13 @@ class CacheJail extends CacheWrapper {
 	) {
 		parent::__construct($cache, $dependencies);
 
-		if ($cache instanceof CacheJail) {
-			$this->unjailedRoot = $cache->getSourcePath($root);
-		} else {
-			$this->unjailedRoot = $root;
+		$this->unjailedRoot = $root;
+		$parent = $cache;
+		while ($parent instanceof CacheWrapper) {
+			if ($parent instanceof CacheJail) {
+				$this->unjailedRoot = $parent->getSourcePath($this->unjailedRoot);
+			}
+			$parent = $parent->getCache();
 		}
 	}
 
@@ -50,7 +54,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return string
 	 */
-	protected function getGetUnjailedRoot() {
+	public function getGetUnjailedRoot() {
 		return $this->unjailedRoot;
 	}
 
@@ -62,6 +66,14 @@ class CacheJail extends CacheWrapper {
 			return $this->getRoot();
 		} else {
 			return $this->getRoot() . '/' . ltrim($path, '/');
+		}
+	}
+
+	protected function getUnjailedSourcePath(string $path): string {
+		if ($path === '') {
+			return $this->getGetUnjailedRoot();
+		} else {
+			return $this->getGetUnjailedRoot() . '/' . ltrim($path, '/');
 		}
 	}
 
@@ -87,9 +99,15 @@ class CacheJail extends CacheWrapper {
 		}
 	}
 
+	#[\Override]
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
-			$entry['path'] = $this->getJailedPath($entry['path']);
+			$jailedPath = $this->getJailedPath($entry['path']);
+			if ($jailedPath !== null) {
+				$entry['path'] = $jailedPath;
+			} else {
+				return false;
+			}
 		}
 		return $entry;
 	}
@@ -100,8 +118,9 @@ class CacheJail extends CacheWrapper {
 	 * @param string|int $file
 	 * @return ICacheEntry|false
 	 */
+	#[\Override]
 	public function get($file) {
-		if (is_string($file) or $file == '') {
+		if (is_string($file) || $file === '') {
 			$file = $this->getSourcePath($file);
 		}
 		return parent::get($file);
@@ -116,6 +135,7 @@ class CacheJail extends CacheWrapper {
 	 * @return int file id
 	 * @throws \RuntimeException
 	 */
+	#[\Override]
 	public function insert($file, array $data) {
 		return $this->getCache()->insert($this->getSourcePath($file), $data);
 	}
@@ -126,6 +146,7 @@ class CacheJail extends CacheWrapper {
 	 * @param int $id
 	 * @param array $data
 	 */
+	#[\Override]
 	public function update($id, array $data) {
 		$this->getCache()->update($id, $data);
 	}
@@ -136,6 +157,7 @@ class CacheJail extends CacheWrapper {
 	 * @param string $file
 	 * @return int
 	 */
+	#[\Override]
 	public function getId($file) {
 		return $this->getCache()->getId($this->getSourcePath($file));
 	}
@@ -146,6 +168,7 @@ class CacheJail extends CacheWrapper {
 	 * @param string $file
 	 * @return int
 	 */
+	#[\Override]
 	public function getParentId($file) {
 		return $this->getCache()->getParentId($this->getSourcePath($file));
 	}
@@ -156,6 +179,7 @@ class CacheJail extends CacheWrapper {
 	 * @param string $file
 	 * @return bool
 	 */
+	#[\Override]
 	public function inCache($file) {
 		return $this->getCache()->inCache($this->getSourcePath($file));
 	}
@@ -165,6 +189,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @param string $file
 	 */
+	#[\Override]
 	public function remove($file) {
 		$this->getCache()->remove($this->getSourcePath($file));
 	}
@@ -175,6 +200,7 @@ class CacheJail extends CacheWrapper {
 	 * @param string $source
 	 * @param string $target
 	 */
+	#[\Override]
 	public function move($source, $target) {
 		$this->getCache()->move($this->getSourcePath($source), $this->getSourcePath($target));
 	}
@@ -185,13 +211,15 @@ class CacheJail extends CacheWrapper {
 	 * @param string $path
 	 * @return array [$storageId, $internalPath]
 	 */
+	#[\Override]
 	protected function getMoveInfo($path) {
-		return [$this->getNumericStorageId(), $this->getSourcePath($path)];
+		return [$this->getNumericStorageId(), $this->getUnjailedSourcePath($path)];
 	}
 
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
+	#[\Override]
 	public function clear() {
 		$this->getCache()->remove($this->getRoot());
 	}
@@ -201,6 +229,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
+	#[\Override]
 	public function getStatus($file) {
 		return $this->getCache()->getStatus($this->getSourcePath($file));
 	}
@@ -210,6 +239,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
+	#[\Override]
 	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -224,6 +254,7 @@ class CacheJail extends CacheWrapper {
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int|float
 	 */
+	#[\Override]
 	public function calculateFolderSize($path, $entry = null) {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -238,6 +269,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return int[]
 	 */
+	#[\Override]
 	public function getAll() {
 		// not supported
 		return [];
@@ -252,6 +284,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
+	#[\Override]
 	public function getIncomplete() {
 		// not supported
 		return false;
@@ -263,6 +296,7 @@ class CacheJail extends CacheWrapper {
 	 * @param int $id
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getPathById($id) {
 		$path = $this->getCache()->getPathById($id);
 		if ($path === null) {
@@ -277,17 +311,18 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * Note that this should make sure the entries are removed from the source cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */
-	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+	#[\Override]
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache === $this) {
 			return $this->move($sourcePath, $targetPath);
 		}
 		return $this->getCache()->moveFromCache($sourceCache, $sourcePath, $this->getSourcePath($targetPath));
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		return $this->addJailFilterQuery($this->getCache()->getQueryFilterForStorage());
 	}
@@ -310,6 +345,7 @@ class CacheJail extends CacheWrapper {
 		}
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		if ($this->getGetUnjailedRoot() === '' || str_starts_with($rawEntry->getPath(), $this->getGetUnjailedRoot())) {
 			$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);

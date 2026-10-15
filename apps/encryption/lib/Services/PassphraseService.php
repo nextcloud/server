@@ -21,9 +21,8 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class PassphraseService {
-
 	/** @var array<string, bool> */
-	private static array $passwordResetUsers = [];
+	private array $passwordResetUsers = [];
 
 	public function __construct(
 		private Util $util,
@@ -39,19 +38,30 @@ class PassphraseService {
 
 	public function setProcessingReset(string $uid, bool $processing = true): void {
 		if ($processing) {
-			self::$passwordResetUsers[$uid] = true;
+			$this->passwordResetUsers[$uid] = true;
 		} else {
-			unset(self::$passwordResetUsers[$uid]);
+			unset($this->passwordResetUsers[$uid]);
 		}
 	}
 
 	/**
 	 * Change a user's encryption passphrase
 	 */
-	public function setPassphraseForUser(string $userId, string $password, ?string $recoveryPassword = null): bool {
+	public function setPassphraseForUser(
+		string $userId,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		?string $recoveryPassword = null,
+	): bool {
 		// if we are in the process to resetting a user password, we have nothing
 		// to do here
-		if (isset(self::$passwordResetUsers[$userId])) {
+		if (isset($this->passwordResetUsers[$userId])) {
+			return true;
+		}
+
+		if ($this->util->isMasterKeyEnabled()) {
+			$this->logger->error('setPassphraseForUser should never be called when master key is enabled');
 			return true;
 		}
 

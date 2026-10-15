@@ -6,16 +6,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\KnownUser;
 
 class KnownUserService {
-	/** @var KnownUserMapper */
-	protected $mapper;
-	/** @var array */
-	protected $knownUsers = [];
+	/** @var array<string, array<string, bool>> $knownUsers */
+	protected array $knownUsers = [];
 
-	public function __construct(KnownUserMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(
+		protected KnownUserMapper $mapper,
+	) {
 	}
 
 	/**

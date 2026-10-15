@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Version\VersionParser;
@@ -14,6 +16,13 @@ use OCP\IConfig;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Fetch app data from the app store
+ *
+ * @psalm-import-type AppStoreFetcherApp from ResponseDefinitions
+ * @psalm-import-type AppStoreFetcherAppReleasesEntry from ResponseDefinitions
+ * @template-extends Fetcher<AppStoreFetcherApp>
+ */
 class AppFetcher extends Fetcher {
 	/** @var bool */
 	private $ignoreMaxVersion;
@@ -44,14 +53,10 @@ class AppFetcher extends Fetcher {
 	/**
 	 * Only returns the latest compatible app release in the releases array
 	 *
-	 * @param string $ETag
-	 * @param string $content
-	 * @param bool [$allowUnstable] Allow unstable releases
-	 *
-	 * @return array
+	 * @inheritDoc
 	 */
-	protected function fetch($ETag, $content, $allowUnstable = false) {
-		/** @var mixed[] $response */
+	#[\Override]
+	protected function fetch($ETag, $content, $allowUnstable = false): array {
 		$response = parent::fetch($ETag, $content);
 
 		if (!isset($response['data']) || $response['data'] === null) {
@@ -63,6 +68,7 @@ class AppFetcher extends Fetcher {
 		$allowNightly = $allowUnstable || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		foreach ($response['data'] as $dataKey => $app) {
+			/** @var list<AppStoreFetcherAppReleasesEntry> $releases */
 			$releases = [];
 
 			// Filter all compatible releases
@@ -78,8 +84,8 @@ class AppFetcher extends Fetcher {
 						$minServerVersion = $serverVersion->getMinimumVersion();
 						$maxServerVersion = $serverVersion->getMaximumVersion();
 						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $minServerVersion, '>=');
-						$maxFulfilled = $maxServerVersion !== '' &&
-							$this->compareVersion->isCompatible($ncVersion, $maxServerVersion, '<=');
+						$maxFulfilled = $maxServerVersion !== ''
+							&& $this->compareVersion->isCompatible($ncVersion, $maxServerVersion, '<=');
 						$isPhpCompatible = true;
 						if (($release['rawPhpVersionSpec'] ?? '*') !== '*') {
 							$phpVersion = $versionParser->getVersion($release['rawPhpVersionSpec']);
@@ -111,7 +117,7 @@ class AppFetcher extends Fetcher {
 
 			if (empty($releases)) {
 				// Remove apps that don't have a matching release
-				$response['data'][$dataKey] = [];
+				unset($response['data'][$dataKey]);
 				continue;
 			}
 
@@ -139,17 +145,14 @@ class AppFetcher extends Fetcher {
 		return $response;
 	}
 
-	/**
-	 * @param string $version
-	 * @param string $fileName
-	 * @param bool $ignoreMaxVersion
-	 */
+	#[\Override]
 	public function setVersion(string $version, string $fileName = 'apps.json', bool $ignoreMaxVersion = true) {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 
+	#[\Override]
 	public function get($allowUnstable = false): array {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
@@ -161,9 +164,9 @@ class AppFetcher extends Fetcher {
 
 		// If the admin specified a allow list, filter apps from the appstore
 		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
-			return array_filter($apps, function ($app) use ($allowList) {
-				return in_array($app['id'], $allowList);
-			});
+			return array_values(array_filter($apps, function (array $app) use ($allowList) {
+				return in_array($app['id'], $allowList, true);
+			}));
 		}
 
 		return $apps;

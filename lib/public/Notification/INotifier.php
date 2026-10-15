@@ -6,13 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Notification;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
- * Interface INotifier
- *
- * @since 9.0.0
+ * Please consider implementing {@see IPreloadableNotifier} to improve performance. It allows to
+ * preload and cache data for many notifications at once instead of loading the data for each
+ * prepared notification separately.
  */
+#[Implementable(since: '9.0.0')]
 interface INotifier {
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]

@@ -5,28 +5,34 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
 
 class HighContrastTheme extends DefaultTheme implements ITheme {
 
+	#[\Override]
 	public function getId(): string {
 		return 'light-highcontrast';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('High contrast mode');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable high contrast mode');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-contrast: more)';
 	}
@@ -34,6 +40,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 	/**
 	 * Keep this consistent with other HighContrast Themes
 	 */
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
@@ -41,10 +48,10 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 
-		$colorError = '#D10000';
-		$colorWarning = '#995900';
-		$colorSuccess = '#207830';
-		$colorInfo = '#006DA8';
+		$colorError = '#FFB3B3';
+		$colorWarning = '#FFD888';
+		$colorSuccess = '#C4EDCE';
+		$colorInfo = '#6BCEFF';
 
 		$primaryVariables = $this->generatePrimaryVariables($colorMainBackground, $colorMainText, true);
 		return array_merge(
@@ -69,30 +76,37 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 				'--color-text-maxcontrast' => $colorMainText,
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
-				'--color-text-light' => $colorMainText,
-				'--color-text-lighter' => $colorMainText,
+				'--color-text-error' => $this->util->darken($colorError, 65),
+				'--color-text-success' => $this->util->darken($colorSuccess, 70),
+
+				'--color-element-error' => $this->util->darken($colorError, 50),
+				'--color-element-info' => $this->util->darken($colorInfo, 50),
+				'--color-element-success' => $this->util->darken($colorSuccess, 55),
+				'--color-element-warning' => $this->util->darken($colorWarning, 50),
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-				'--color-error-hover' => $this->util->darken($colorError, 8),
-				'--color-error-text' => $this->util->darken($colorError, 17),
+				'--color-error-hover' => $this->util->darken($colorError, 5),
+				'--color-error-text' => $this->util->darken($colorError, 70),
 
 				'--color-warning' => $colorWarning,
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-				'--color-warning-hover' => $this->util->darken($colorWarning, 7),
-				'--color-warning-text' => $this->util->darken($colorWarning, 13),
+				'--color-warning-hover' => $this->util->darken($colorWarning, 8),
+				'--color-warning-text' => $this->util->darken($colorWarning, 65),
 
 				'--color-info' => $colorInfo,
 				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-				'--color-info-hover' => $this->util->darken($colorInfo, 7),
-				'--color-info-text' => $this->util->darken($colorInfo, 15),
+				'--color-info-hover' => $this->util->darken($colorInfo, 8),
+				'--color-info-text' => $this->util->darken($colorInfo, 65),
 
 				'--color-success' => $colorSuccess,
 				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-				'--color-success-hover' => $this->util->darken($colorSuccess, 7),
-				'--color-success-text' => $this->util->darken($colorSuccess, 14),
+				'--color-success-hover' => $this->util->darken($colorSuccess, 8),
+				'--color-success-text' => $this->util->darken($colorSuccess, 70),
 
 				'--color-favorite' => '#936B06',
+				'--color-background-selection' => 'var(--color-primary-element)',
+				'--color-text-selection' => 'var(--color-primary-element-text)',
 
 				'--color-scrollbar' => 'auto transparent',
 
@@ -106,10 +120,16 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-border' => $this->util->darken($colorMainBackground, 50),
 				'--color-border-dark' => $this->util->darken($colorMainBackground, 50),
 				'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 56),
+				'--color-border-error' => $this->util->darken($colorError, 42),
+				'--color-border-success' => $this->util->darken($colorSuccess, 55),
+
+				// remove the gradient from the app icons
+				'--header-menu-icon-mask' => 'none',
 			]
 		);
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		return "
 			[class^='icon-'], [class*=' icon-'],

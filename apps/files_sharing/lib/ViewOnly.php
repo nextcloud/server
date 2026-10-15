@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2019 ownCloud GmbH
@@ -23,7 +24,7 @@ class ViewOnly {
 	}
 
 	/**
-	 * @param string[] $pathsToCheck
+	 * @param string[] $pathsToCheck paths to check, relative to the user folder
 	 * @return bool
 	 */
 	public function check(array $pathsToCheck): bool {

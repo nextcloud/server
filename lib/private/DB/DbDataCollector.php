@@ -12,16 +12,14 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\Response;
+use OCP\DataCollector\AbstractDataCollector;
 
-class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
+class DbDataCollector extends AbstractDataCollector {
 	protected ?BacktraceDebugStack $debugStack = null;
-	private Connection $connection;
 
-	/**
-	 * DbDataCollector constructor.
-	 */
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private Connection $connection,
+	) {
 	}
 
 	public function setDebugStack(BacktraceDebugStack $debugStack, $name = 'default'): void {
@@ -31,6 +29,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$queries = $this->sanitizeQueries($this->debugStack->queries);
 
@@ -39,6 +38,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 		];
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'db';
 	}

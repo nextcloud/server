@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Settings\Personal\Security;
 
 use OCA\Settings\Settings\Personal\Security\Password;
@@ -16,15 +17,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PasswordTest extends TestCase {
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var string */
-	private $uid;
-
-	/** @var Password */
-	private $section;
+	private IUserManager&MockObject $userManager;
+	private string $uid;
+	private Password $section;
 
 	protected function setUp(): void {
 		parent::setUp();

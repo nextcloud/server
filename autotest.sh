@@ -22,8 +22,8 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-	if [ -f build/integration/vendor/bin/phpunit ]; then
-		PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
+	if [ -f lib/composer/bin/phpunit ]; then
+		PHPUNIT_EXE="./lib/composer/bin/phpunit"
 		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
 	else
 		PHPUNIT_EXE=phpunit
@@ -35,6 +35,18 @@ set -e
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
+
+# Get the IP address of a docker container
+#
+# @param $1 - The container id
+function docker_get_ip {
+	_docker_version=$(docker --version | grep -Po "(?<=Docker version )\d+")
+	if [ "$_docker_version" -ge 29 ]; then
+		docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" "$1"
+	else
+		docker inspect --format="{{.NetworkSettings.IPAddress}}" "$1"
+	fi
+}
 
 function print_syntax {
 	echo -e "Syntax: ./autotest.sh [dbconfigname] [testfile]\n" >&2
@@ -53,8 +65,8 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 9.0 manually or via:" >&2
-	echo "  cd build/integration && composer install" >&2
+	echo "phpunit executable not found, please install phpunit version >= 11.5 manually or via:" >&2
+	echo "  composer install" >&2
 	exit 3
 fi
 
@@ -69,8 +81,8 @@ PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
 
-if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 9 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 9 -a "$PHPUNIT_MINOR_VERSION" -ge 0 \) ]; then
-	echo "phpunit version >= 9.0 required. Version found: $PHPUNIT_VERSION" >&2
+if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 11 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 11 -a "$PHPUNIT_MINOR_VERSION" -ge 5 \) ]; then
+	echo "phpunit version >= 11.5 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
 
@@ -146,6 +158,9 @@ function cleanup_config {
 	fi
 	# Remove mysqlmb4.config.php
 	rm -f config/mysqlmb4.config.php
+
+	# restore .htaccess
+	git restore .htaccess
 }
 
 # restore config on exit
@@ -198,19 +213,15 @@ function execute_tests {
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
 				-d mysql)
-			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+			DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 		else
-			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-				if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
-					echo "Your mysql binary is not provided by mysql"
-					echo "To use the docker container set the USEDOCKER environment variable"
-					exit -1
-				fi
-				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
-			else
-				DATABASEHOST=mysql
+			if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+				echo "Your mysql binary is not provided by mysql"
+				echo "To use the docker container set the USEDOCKER environment variable"
+				exit -1
 			fi
+			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 		fi
 		echo "Waiting for MySQL initialisation ..."
 		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
@@ -232,19 +243,15 @@ function execute_tests {
 				--innodb_file_format=barracuda \
 				--innodb_file_per_table=true)
 
-			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+			DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 		else
-			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-				if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
-					echo "Your mysql binary is not provided by mysql"
-					echo "To use the docker container set the USEDOCKER environment variable"
-					exit -1
-				fi
-				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
-			else
-				DATABASEHOST=mysqlmb4
+			if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+				echo "Your mysql binary is not provided by mysql"
+				echo "To use the docker container set the USEDOCKER environment variable"
+				exit -1
 			fi
+			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 		fi
 
 		echo "Waiting for MySQL(utf8mb4) initialisation ..."
@@ -265,12 +272,12 @@ function execute_tests {
 			echo "Fire up the mariadb docker"
 			DOCKER_CONTAINER_ID=$(docker run \
 				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
-				-e MYSQL_ROOT_PASSWORD=owncloud \
-				-e MYSQL_USER="$DATABASEUSER" \
-				-e MYSQL_PASSWORD=owncloud \
-				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d mariadb)
-			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+				-e MARIADB_ROOT_PASSWORD=owncloud \
+				-e MARIADB_USER="$DATABASEUSER" \
+				-e MARIADB_PASSWORD=owncloud \
+				-e MARIADB_DATABASE="$DATABASENAME" \
+				-d mariadb:lts)
+			DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
 			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
@@ -281,16 +288,13 @@ function execute_tests {
 			echo "MariaDB is up."
 
 		else
-			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-				if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
-					echo "Your mysql binary is not provided by MariaDB"
-					echo "To use the docker container set the USEDOCKER environment variable"
-					exit -1
-				fi
-				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
-			else
-				DATABASEHOST=mariadb
+			MARIADB_EXECUTABLE=$(command -v mariadb && echo "mariadb" || echo "mysql")
+			if [ "MariaDB" != "$($MARIADB_EXECUTABLE --version | grep -o MariaDB)" ] ; then
+				echo "Your $MARIADB_EXECUTABLE binary is not provided by MariaDB"
+				echo "To use the docker container set the USEDOCKER environment variable"
+				exit -1
 			fi
+			$MARIADB_EXECUTABLE -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 		fi
 
 		echo "Waiting for MariaDB initialisation ..."
@@ -306,7 +310,7 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the postgres docker"
 			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_DB="$DATABASENAME" -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
-			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+			DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for Postgres initialisation ..."
 
@@ -317,9 +321,6 @@ function execute_tests {
 
 			echo "Postgres is up."
 		else
-			if [ ! -z "$DRONE" ] ; then
-				DATABASEHOST="postgres-$POSTGRES"
-			fi
 			echo "Waiting for Postgres to be available ..."
 			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
 				echo "[ERROR] Waited 60 seconds for $DATABASEHOST, no response" >&2
@@ -328,15 +329,13 @@ function execute_tests {
 			echo "Give it 10 additional seconds ..."
 			sleep 10
 
-			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
-			fi
+			dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
 		fi
 	fi
 	if [ "$DB" == "oci" ] ; then
 		echo "Fire up the oracle docker"
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
-		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+		DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 		echo "Waiting for Oracle initialization ... "
 
@@ -356,6 +355,7 @@ function execute_tests {
 	# trigger installation
 	echo "Installing ...."
 	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
+	NC_debug=true "$PHP" ./occ testing:prepare-ci
 
 	#test execution
 	echo "Testing with $DB ..."
@@ -368,13 +368,13 @@ function execute_tests {
 	fi
 	GROUP=''
 	if [ "$TEST_SELECTION" == "QUICKDB" ]; then
-		GROUP='--group DB --exclude-group=SLOWDB'
+		GROUP='--group DB --exclude-group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "DB" ]; then
-		GROUP='--group DB,SLOWDB'
+		GROUP='--group DB --group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "NODB" ]; then
-		GROUP='--exclude-group DB,SLOWDB'
+		GROUP='--exclude-group DB --exclude-group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
 		GROUP='--group PRIMARY-s3'
@@ -387,14 +387,14 @@ function execute_tests {
 	fi
 
 	COVER=''
-	if [ -z "$NOCOVERAGE" ]; then
-		COVER="--coverage-clover autotest-clover-$DB.xml --coverage-html coverage-html-$DB"
+	if [ -z "$COVERAGE" ]; then
+		echo "No coverage. Set COVERAGE=1 to enable it."
 	else
-		echo "No coverage"
+		COVER="--coverage-clover autotest-clover-$DB.xml --coverage-html coverage-html-$DB"
 	fi
 
-	echo "$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	echo "$PHPUNIT" --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	DB_ROOT_PASSWORD=owncloud DB_ROOT_USER="root" "$PHPUNIT" --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 	RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then

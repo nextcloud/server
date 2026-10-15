@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\SimpleFS;
 
 use OCP\Files\NotFoundException;
@@ -79,4 +81,13 @@ interface ISimpleFolder {
 	 * @since 25.0.0
 	 */
 	public function newFolder(string $path): ISimpleFolder;
+
+	/**
+	 * Get or create new folder if the folder does not already exist.
+	 *
+	 * @param string $path relative path of the file or folder
+	 * @throw NotPermittedException
+	 * @since 35.0.0
+	 */
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): ISimpleFolder;
 }

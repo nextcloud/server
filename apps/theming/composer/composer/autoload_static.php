@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTheming
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Theming\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Theming\\' => 
+        'OCA\\Theming\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -25,6 +25,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Theming\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Theming\\Command\\UpdateConfig' => __DIR__ . '/..' . '/../lib/Command/UpdateConfig.php',
+        'OCA\\Theming\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Theming\\Controller\\IconController' => __DIR__ . '/..' . '/../lib/Controller/IconController.php',
         'OCA\\Theming\\Controller\\ThemingController' => __DIR__ . '/..' . '/../lib/Controller/ThemingController.php',
         'OCA\\Theming\\Controller\\UserThemeController' => __DIR__ . '/..' . '/../lib/Controller/UserThemeController.php',
@@ -54,6 +55,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Themes\\DyslexiaFont' => __DIR__ . '/..' . '/../lib/Themes/DyslexiaFont.php',
         'OCA\\Theming\\Themes\\HighContrastTheme' => __DIR__ . '/..' . '/../lib/Themes/HighContrastTheme.php',
         'OCA\\Theming\\Themes\\LightTheme' => __DIR__ . '/..' . '/../lib/Themes/LightTheme.php',
+        'OCA\\Theming\\Themes\\ReducedMotion' => __DIR__ . '/..' . '/../lib/Themes/ReducedMotion.php',
         'OCA\\Theming\\ThemingDefaults' => __DIR__ . '/..' . '/../lib/ThemingDefaults.php',
         'OCA\\Theming\\Util' => __DIR__ . '/..' . '/../lib/Util.php',
     );

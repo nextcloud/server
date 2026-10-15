@@ -57,8 +57,6 @@ $color-yellow: #FC0;
 // min. color contrast for normal text on white background according to WCAG AA
 // (Works as well: color: #000; opacity: 0.57;)
 $color-text-maxcontrast: nc-lighten($color-main-text, 33%) !default;
-$color-text-light: $color-main-text !default;
-$color-text-lighter: $color-text-maxcontrast !default;
 
 $image-logo: url('../img/logo/logo.svg?v=1') !default;
 $image-login-background: url('../img/background.png?v=2') !default;
@@ -89,14 +87,13 @@ $animation-quick: 100ms;
 $animation-slow: 300ms;
 
 // various structure data
-$header-height: 50px;
+$header-height: 44px;
 $navigation-width: 300px;
 $sidebar-min-width: 300px;
 $sidebar-max-width: 500px;
 $list-min-width: 200px;
 $list-max-width: 300px;
-$header-menu-item-height: 44px;
-$header-menu-profile-item-height: 66px;
+$header-menu-item-height: 34px;
 
 // mobile. Keep in sync with core/js/js.js
 $breakpoint-mobile: 1024px;

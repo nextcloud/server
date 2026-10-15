@@ -8,12 +8,16 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\Cache\FileAccess;
 use OC\Share20\ShareDisableChecker;
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Storage\IStorageFactory;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -36,6 +40,10 @@ class SetupManagerFactory {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppManager $appManager,
+		private FileAccess $fileAccess,
+		private IAppConfig $appConfig,
+		private IStorageFactory $storageFactory,
 	) {
 		$this->setupManager = null;
 	}
@@ -55,6 +63,10 @@ class SetupManagerFactory {
 				$this->logger,
 				$this->config,
 				$this->shareDisableChecker,
+				$this->appManager,
+				$this->fileAccess,
+				$this->appConfig,
+				$this->storageFactory,
 			);
 		}
 		return $this->setupManager;

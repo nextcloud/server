@@ -14,12 +14,10 @@
     "Hello, {name}" : "أهلا، {name} ",
     "Happy birthday 🥳🤩🎂🎉" : "عيد ميلاد سعيد 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "عيد ميلاد سعيد, يا {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} أيقونة\"",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل أدوات الصفحة الرئيسية",
     "Get more widgets from the App Store" : "يمكنك الحصول على المزيد من الأدوات من متجر التطبيقات",
     "Weather service" : "خدمة الطقس",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "للحفاظ على خصوصيتك، يتم استدعاء بيانات حالة الطقس عبر خادم NextCloud الخاص بك نيابه عنك، وبالتالي فإن خدمة حالة الطقس لا تشارك معلوماتك الشخصية.",
     "Weather data from Met.no" : "بيانات الطقس من Met.no",
     "geocoding with Nominatim" : "الترميز الجغرافي مع Nominatim",
     "elevation data from OpenTopoData" : "بيانات التقييم من OpenTopoData"

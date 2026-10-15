@@ -6,21 +6,20 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionFunction;
 use ReflectionParameter;
 use function array_map;
 
 class FunctionInjector {
-	/** @var ContainerInterface */
-	private $container;
-
-	public function __construct(ContainerInterface $container) {
-		$this->container = $container;
+	public function __construct(
+		private ContainerInterface $container,
+	) {
 	}
 
 	public function injectFn(callable $fn) {
@@ -30,14 +29,14 @@ class FunctionInjector {
 			if (($type = $param->getType()) !== null) {
 				try {
 					return $this->container->get($type->getName());
-				} catch (QueryException $ex) {
+				} catch (ContainerExceptionInterface) {
 					// Ignore and try name as well
 				}
 			}
 			// Second we try by name (mostly for primitives)
 			try {
 				return $this->container->get($param->getName());
-			} catch (QueryException $ex) {
+			} catch (ContainerExceptionInterface $ex) {
 				// As a last resort we pass `null` if allowed
 				if ($type !== null && $type->allowsNull()) {
 					return null;

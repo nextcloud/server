@@ -11,12 +11,12 @@ namespace OCA\FilesReminders\BackgroundJob;
 
 use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Service\ReminderService;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\Job;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
-class ScheduledNotifications extends Job {
+class ScheduledNotifications extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		protected ReminderMapper $reminderMapper,
@@ -24,18 +24,24 @@ class ScheduledNotifications extends Job {
 		protected LoggerInterface $logger,
 	) {
 		parent::__construct($time);
+
+		$this->setInterval(60);
 	}
 
 	/**
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
+	#[\Override]
 	public function run($argument) {
 		$reminders = $this->reminderMapper->findOverdue();
 		foreach ($reminders as $reminder) {
 			try {
 				$this->reminderService->send($reminder);
-			} catch (DoesNotExistException $e) {
-				$this->logger->debug('Could not send notification for reminder with id ' . $reminder->getId());
+			} catch (Throwable $e) {
+				// A single broken reminder (e.g. orphaned user record) must not
+				// stall the rest of the queue, which is ordered by due_date ASC
+				// and would otherwise re-hit the same row on every cron tick.
+				$this->logger->error('Could not send notification for reminder with id ' . $reminder->getId(), ['exception' => $e]);
 			}
 		}
 	}

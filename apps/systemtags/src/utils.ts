@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import camelCase from 'camelcase'
-
+import type { INode } from '@nextcloud/files'
 import type { DAVResultResponseProps } from 'webdav'
+import type { BaseTag, ServerTag, Tag, TagWithId } from './types.ts'
 
-import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
-import type { Node } from '@nextcloud/files'
-import Vue from 'vue'
+import { emit } from '@nextcloud/event-bus'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -17,18 +15,33 @@ export const defaultBaseTag: BaseTag = {
 	canAssign: true,
 }
 
-export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
-	return tags.map(({ props }) => Object.fromEntries(
-		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]),
-	)) as TagWithId[]
+const propertyMappings = Object.freeze({
+	'display-name': 'displayName',
+	'user-visible': 'userVisible',
+	'user-assignable': 'userAssignable',
+	'can-assign': 'canAssign',
+})
+
+/**
+ * Parse tags from WebDAV response
+ *
+ * @param tags - Array of tags from WebDAV response
+ */
+export function parseTags(tags: { props: DAVResultResponseProps }[]): TagWithId[] {
+	return tags.map(({ props }) => Object.fromEntries(Object.entries(props)
+		.map(([key, value]) => {
+			key = propertyMappings[key] ?? key
+			value = key === 'displayName' ? String(value) : value
+			return [key, value]
+		})) as unknown as TagWithId)
 }
 
 /**
  * Parse id from `Content-Location` header
+ *
  * @param url URL to parse
  */
-export const parseIdFromLocation = (url: string): number => {
+export function parseIdFromLocation(url: string): number {
 	const queryPos = url.indexOf('?')
 	if (queryPos > 0) {
 		url = url.substring(0, queryPos)
@@ -46,7 +59,12 @@ export const parseIdFromLocation = (url: string): number => {
 	return Number(result)
 }
 
-export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
+/**
+ * Format a tag for WebDAV operations
+ *
+ * @param initialTag - Tag to format
+ */
+export function formatTag(initialTag: Tag | ServerTag): ServerTag {
 	if ('name' in initialTag && !('displayName' in initialTag)) {
 		return { ...initialTag }
 	}
@@ -58,7 +76,12 @@ export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
 	return tag as unknown as ServerTag
 }
 
-export const getNodeSystemTags = function(node: Node): string[] {
+/**
+ * Get system tags from a node
+ *
+ * @param node - The node to get tags from
+ */
+export function getNodeSystemTags(node: INode): string[] {
 	const attribute = node.attributes?.['system-tags']?.['system-tag']
 	if (attribute === undefined) {
 		return []
@@ -68,7 +91,7 @@ export const getNodeSystemTags = function(node: Node): string[] {
 	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
 	return [attribute]
 		.flat()
-		.map((tag: string|{ text: string }) => (
+		.map((tag: string | { text: string }) => (
 			typeof tag === 'string'
 				// its a plain text prop (the tag name) without prop attributes
 				? tag
@@ -77,8 +100,15 @@ export const getNodeSystemTags = function(node: Node): string[] {
 		))
 }
 
-export const setNodeSystemTags = function(node: Node, tags: string[]): void {
-	Vue.set(node.attributes, 'system-tags', {
+/**
+ * Set system tags on a node
+ *
+ * @param node - The node to set tags on
+ * @param tags - The tags to set
+ */
+export function setNodeSystemTags(node: INode, tags: string[]): void {
+	node.attributes['system-tags'] = {
 		'system-tag': tags,
-	})
+	}
+	emit('files:node:updated', node)
 }

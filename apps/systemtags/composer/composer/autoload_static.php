@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitSystemTags
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\SystemTags\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\SystemTags\\' => 
+        'OCA\\SystemTags\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -22,11 +22,14 @@ class ComposerStaticInitSystemTags
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'OCA\\SystemTags\\Activity\\Listener' => __DIR__ . '/..' . '/../lib/Activity/Listener.php',
         'OCA\\SystemTags\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\SystemTags\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/Activity/Setting.php',
+        'OCA\\SystemTags\\Activity\\TagListener' => __DIR__ . '/..' . '/../lib/Activity/TagListener.php',
         'OCA\\SystemTags\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\SystemTags\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
+        'OCA\\SystemTags\\Command\\Files\\Add' => __DIR__ . '/..' . '/../lib/Command/Files/Add.php',
+        'OCA\\SystemTags\\Command\\Files\\Delete' => __DIR__ . '/..' . '/../lib/Command/Files/Delete.php',
+        'OCA\\SystemTags\\Command\\Files\\DeleteAll' => __DIR__ . '/..' . '/../lib/Command/Files/DeleteAll.php',
         'OCA\\SystemTags\\Controller\\LastUsedController' => __DIR__ . '/..' . '/../lib/Controller/LastUsedController.php',
         'OCA\\SystemTags\\Listeners\\BeforeSabrePubliclyLoadedListener' => __DIR__ . '/..' . '/../lib/Listeners/BeforeSabrePubliclyLoadedListener.php',
         'OCA\\SystemTags\\Listeners\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listeners/BeforeTemplateRenderedListener.php',

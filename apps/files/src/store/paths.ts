@@ -2,17 +2,22 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileSource, PathsStore, PathOptions, ServicesState, Service } from '../types'
-import { defineStore } from 'pinia'
-import { dirname } from '@nextcloud/paths'
-import { File, FileType, Folder, Node, getNavigation } from '@nextcloud/files'
+
+import type { Folder, Node } from '@nextcloud/files'
+import type { FileSource, PathOptions, PathsStore, Service, ServicesState } from '../types.ts'
+
 import { subscribe } from '@nextcloud/event-bus'
-import Vue from 'vue'
-import logger from '../logger'
+import { File, FileType, getNavigation } from '@nextcloud/files'
+import { dirname } from '@nextcloud/paths'
+import { defineStore } from 'pinia'
+import { logger } from '../utils/logger.ts'
+import { useFilesStore } from './files.ts'
 
-import { useFilesStore } from './files'
-
-export const usePathsStore = function(...args) {
+/**
+ *
+ * @param args
+ */
+export function usePathsStore(...args) {
 	const files = useFilesStore(...args)
 
 	const store = defineStore('paths', {
@@ -22,7 +27,7 @@ export const usePathsStore = function(...args) {
 
 		getters: {
 			getPath: (state) => {
-				return (service: string, path: string): FileSource|undefined => {
+				return (service: string, path: string): FileSource | undefined => {
 					if (!state.paths[service]) {
 						return undefined
 					}
@@ -35,11 +40,11 @@ export const usePathsStore = function(...args) {
 			addPath(payload: PathOptions) {
 				// If it doesn't exists, init the service state
 				if (!this.paths[payload.service]) {
-					Vue.set(this.paths, payload.service, {})
+					this.paths[payload.service] = {}
 				}
 
 				// Now we can set the provided path
-				Vue.set(this.paths[payload.service], payload.path, payload.source)
+				this.paths[payload.service][payload.path] = payload.source
 			},
 
 			deletePath(service: Service, path: string) {
@@ -48,7 +53,7 @@ export const usePathsStore = function(...args) {
 					return
 				}
 
-				Vue.delete(this.paths[service], path)
+				delete this.paths[service][path]
 			},
 
 			onCreatedNode(node: Node) {
@@ -106,7 +111,12 @@ export const usePathsStore = function(...args) {
 				}
 
 				// Dummy simple clone of the renamed node from a previous state
-				const oldNode = new File({ source: oldSource, owner: node.owner, mime: node.mime })
+				const oldNode = new File({
+					source: oldSource,
+					owner: node.owner,
+					mime: node.mime,
+					root: node.root,
+				})
 
 				this.deleteNodeFromParentChildren(oldNode)
 				this.addNodeToParentChildren(node)
@@ -122,7 +132,7 @@ export const usePathsStore = function(...args) {
 					// ensure sources are unique
 					const children = new Set(folder._children ?? [])
 					children.delete(node.source)
-					Vue.set(folder, '_children', [...children.values()])
+					folder._children = [...children.values()]
 					logger.debug('Children updated', { parent: folder, node, children: folder._children })
 					return
 				}
@@ -140,7 +150,7 @@ export const usePathsStore = function(...args) {
 					// ensure sources are unique
 					const children = new Set(folder._children ?? [])
 					children.add(node.source)
-					Vue.set(folder, '_children', [...children.values()])
+					folder._children = [...children.values()]
 					logger.debug('Children updated', { parent: folder, node, children: folder._children })
 					return
 				}

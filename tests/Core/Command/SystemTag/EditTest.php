@@ -1,10 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\Core\Command\SystemTag;
+namespace Tests\Core\Command\SystemTag;
 
 use OC\Core\Command\SystemTag\Edit;
 use OCP\SystemTag\ISystemTag;
@@ -27,13 +28,14 @@ class EditTest extends TestCase {
 	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Edit::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
@@ -134,7 +136,7 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('updateTag')
-			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
 					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);

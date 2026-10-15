@@ -1,76 +1,116 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ActiveStore } from '../types.ts'
-import type { FileAction, Node, View } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 
-import { defineStore } from 'pinia'
-import { getNavigation } from '@nextcloud/files'
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
+import { Folder, getNavigation, Permission } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
+import { defineStore } from 'pinia'
+import { ref, shallowRef, watch } from 'vue'
+import { logger } from '../utils/logger.ts'
 
-import logger from '../logger.ts'
+// Temporary fake folder to use until we have the first valid folder
+// fetched and cached. This allow us to mount the FilesListVirtual
+// at all time and avoid unmount/mount and undesired rendering issues.
+const dummyFolder = new Folder({
+	id: 0,
+	source: getRemoteURL() + getRootPath(),
+	root: getRootPath(),
+	owner: getCurrentUser()?.uid || null,
+	permissions: Permission.NONE,
+})
 
-export const useActiveStore = function(...args) {
-	const store = defineStore('active', {
-		state: () => ({
-			_initialized: false,
-			activeNode: null,
-			activeView: null,
-			activeAction: null,
-		} as ActiveStore),
+export const useActiveStore = defineStore('active', () => {
+	/**
+	 * The currently active action
+	 */
+	const activeAction = shallowRef<IFileAction>()
 
-		actions: {
-			setActiveNode(node: Node) {
-				if (!node) {
-					throw new Error('Use clearActiveNode to clear the active node')
-				}
-				logger.debug('Setting active node', { node })
-				this.activeNode = node
-			},
+	/**
+	 * The current active node within the folder
+	 */
+	const activeNode = ref<INode>()
 
-			clearActiveNode() {
-				this.activeNode = null
-			},
+	/**
+	 * The current active view
+	 */
+	const activeView = shallowRef<IView>()
 
-			onDeletedNode(node: Node) {
-				if (this.activeNode && this.activeNode.source === node.source) {
-					this.clearActiveNode()
-				}
-			},
+	/**
+	 * The currently active folder
+	 */
+	const activeFolder = ref<IFolder>(dummyFolder)
 
-			setActiveAction(action: FileAction) {
-				this.activeAction = action
-			},
+	// Set the active node on the router params
+	watch(activeNode, () => {
+		if (!activeNode.value?.id) {
+			return
+		}
 
-			clearActiveAction() {
-				this.activeAction = null
-			},
+		// Sync even when the active node is the current folder: skipping that case
+		// leaves a stale child fileid in the route, which then gets restored into
+		// the sidebar when it reopens.
+		if (activeNode.value.id === String(window.OCP.Files.Router.params?.fileid ?? '')) {
+			return
+		}
 
-			onChangedView(view: View|null = null) {
-				logger.debug('Setting active view', { view })
-				this.activeView = view
-				this.clearActiveNode()
-			},
-		},
+		logger.debug('Updating active fileid in URL query', { fileid: activeNode.value.id })
+		window.OCP.Files.Router.goToRoute(
+			null,
+			{ ...window.OCP.Files.Router.params, fileid: activeNode.value.id },
+			{ ...window.OCP.Files.Router.query },
+			true,
+		)
 	})
 
-	const activeStore = store(...args)
-	const navigation = getNavigation()
+	initialize()
 
-	// Make sure we only register the listeners once
-	if (!activeStore._initialized) {
-		subscribe('files:node:deleted', activeStore.onDeletedNode)
+	/**
+	 * Unset the active node if deleted
+	 *
+	 * @param node - The node thats deleted
+	 */
+	function onDeletedNode(node: INode) {
+		if (activeNode.value && activeNode.value.source === node.source) {
+			activeNode.value = undefined
+		}
+	}
 
-		activeStore._initialized = true
-		activeStore.onChangedView(navigation.active)
+	/**
+	 * Callback to update the current active view
+	 *
+	 * @param view - The new active view
+	 */
+	function onChangedView(view: IView | null = null) {
+		logger.debug('Setting active view', { view })
+		activeView.value = view ?? undefined
+		activeNode.value = undefined
+	}
 
+	/**
+	 * Initalize the store - connect all event listeners.
+	 *
+	 */
+	function initialize() {
+		const navigation = getNavigation()
+		onChangedView(navigation.active)
+
+		// Make sure we only register the listeners once
+		subscribe('files:node:deleted', onDeletedNode)
 		// Or you can react to changes of the current active view
 		navigation.addEventListener('updateActive', (event) => {
-			activeStore.onChangedView(event.detail)
+			onChangedView(event.detail)
 		})
 	}
 
-	return activeStore
-}
+	return {
+		activeAction,
+		activeFolder,
+		activeNode,
+		activeView,
+	}
+})

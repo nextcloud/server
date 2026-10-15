@@ -9,6 +9,8 @@
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class BaseController {
 	/**
@@ -34,9 +36,11 @@ class MiddleController extends BaseController {
 	/**
 	 * @NoAnnotation
 	 */
+	#[\Override]
 	public function test2() {
 	}
 
+	#[\Override]
 	public function test3() {
 	}
 
@@ -49,6 +53,51 @@ class MiddleController extends BaseController {
 	 */
 	public function test4(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
 	}
+
+	/**
+	 * @param int<-4, 42> $rangedOne
+	 * @param int<min, max> $rangedTwo
+	 * @param int<1, 6>|null $rangedThree
+	 * @param ?int<-70, -30> $rangedFour
+	 * @return void
+	 */
+	public function test5(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
+	}
+
+	/**
+	 * @psalm-param positive-int $positive
+	 * @psalm-param non-negative-int $nonNegative
+	 * @psalm-param negative-int $negative
+	 * @psalm-param non-positive-int $nonPositive
+	 * @psalm-param positive-int|null $positiveOrNull
+	 * @psalm-param ?non-negative-int $nonNegativeOrNull
+	 * @return void
+	 */
+	public function test6(int $positive, int $nonNegative, int $negative, int $nonPositive, ?int $positiveOrNull, ?int $nonNegativeOrNull) {
+	}
+
+	/**
+	 * @psalm-param non-empty-string $nonEmpty
+	 * @psalm-param non-empty-lowercase-string $nonEmptyLowercase
+	 * @psalm-param lowercase-string $lowercase
+	 * @psalm-param non-falsy-string $nonFalsy
+	 * @psalm-param numeric-string $numeric
+	 * @psalm-param non-empty-string|null $nonEmptyOrNull
+	 * @psalm-param ?non-empty-string $nonEmptyOrNullPrefix
+	 * @psalm-param string $plain
+	 * @return void
+	 */
+	public function test7(
+		string $nonEmpty,
+		string $nonEmptyLowercase,
+		string $lowercase,
+		string $nonFalsy,
+		string $numeric,
+		?string $nonEmptyOrNull,
+		?string $nonEmptyOrNullPrefix,
+		string $plain,
+	) {
+	}
 }
 
 class EndController extends MiddleController {
@@ -59,7 +108,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation
 	 */
 	public function testReadAnnotation(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadAnnotation'
@@ -72,7 +121,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation(parameter=value)
 	 */
 	public function testGetAnnotationParameterSingle(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			self::class,
 			__FUNCTION__
@@ -85,7 +134,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation(parameter1=value1, parameter2=value2,parameter3=value3)
 	 */
 	public function testGetAnnotationParameterMultiple(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			self::class,
 			__FUNCTION__
@@ -101,7 +150,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param test
 	 */
 	public function testReadAnnotationNoLowercase(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadAnnotationNoLowercase'
@@ -111,13 +160,12 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertFalse($reader->hasAnnotation('param'));
 	}
 
-
 	/**
 	 * @Annotation
 	 * @param int $test
 	 */
 	public function testReadTypeIntAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeIntAnnotations'
@@ -134,11 +182,8 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function arguments3($a, float $b, int $c, $d) {
 	}
 
-	/**
-	 * @requires PHP 7
-	 */
 	public function testReadTypeIntAnnotationsScalarTypes(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments3'
@@ -150,13 +195,12 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertNull($reader->getType('d'));
 	}
 
-
 	/**
 	 * @Annotation
 	 * @param double $test something special
 	 */
 	public function testReadTypeDoubleAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeDoubleAnnotations'
@@ -170,7 +214,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param string $foo
 	 */
 	public function testReadTypeWhitespaceAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeWhitespaceAnnotations'
@@ -179,11 +223,10 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals('string', $reader->getType('foo'));
 	}
 
-
 	public function arguments($arg, $arg2 = 'hi') {
 	}
 	public function testReflectParameters(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments'
@@ -192,11 +235,10 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals(['arg' => null, 'arg2' => 'hi'], $reader->getParameters());
 	}
 
-
 	public function arguments2($arg) {
 	}
 	public function testReflectParameters2(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments2'
@@ -205,33 +247,30 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals(['arg' => null], $reader->getParameters());
 	}
 
-
 	public function testInheritance(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test');
 
 		$this->assertTrue($reader->hasAnnotation('Annotation'));
 	}
 
-
 	public function testInheritanceOverride(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test2');
 
 		$this->assertTrue($reader->hasAnnotation('NoAnnotation'));
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
 
-
 	public function testInheritanceOverrideNoDocblock(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test3');
 
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
 
-	public function testRangeDetection(): void {
-		$reader = new ControllerMethodReflector();
+	public function testRangeDetectionPsalm(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test4');
 
 		$rangeInfo1 = $reader->getRange('rangedOne');
@@ -249,5 +288,108 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$rangeInfo3 = $reader->getRange('rangedFour');
 		$this->assertSame(-70, $rangeInfo3['min']);
 		$this->assertSame(-30, $rangeInfo3['max']);
+	}
+
+	public function testRangeDetectionNative(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test5');
+
+		$rangeInfo1 = $reader->getRange('rangedOne');
+		$this->assertSame(-4, $rangeInfo1['min']);
+		$this->assertSame(42, $rangeInfo1['max']);
+
+		$rangeInfo2 = $reader->getRange('rangedTwo');
+		$this->assertSame(PHP_INT_MIN, $rangeInfo2['min']);
+		$this->assertSame(PHP_INT_MAX, $rangeInfo2['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedThree');
+		$this->assertSame(1, $rangeInfo3['min']);
+		$this->assertSame(6, $rangeInfo3['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedFour');
+		$this->assertSame(-70, $rangeInfo3['min']);
+		$this->assertSame(-30, $rangeInfo3['max']);
+	}
+
+	public function testRangeDetectionIntAliases(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test6');
+
+		$positive = $reader->getRange('positive');
+		$this->assertSame(1, $positive['min']);
+		$this->assertSame(PHP_INT_MAX, $positive['max']);
+
+		$nonNegative = $reader->getRange('nonNegative');
+		$this->assertSame(0, $nonNegative['min']);
+		$this->assertSame(PHP_INT_MAX, $nonNegative['max']);
+
+		$negative = $reader->getRange('negative');
+		$this->assertSame(PHP_INT_MIN, $negative['min']);
+		$this->assertSame(-1, $negative['max']);
+
+		$nonPositive = $reader->getRange('nonPositive');
+		$this->assertSame(PHP_INT_MIN, $nonPositive['min']);
+		$this->assertSame(0, $nonPositive['max']);
+
+		$positiveOrNull = $reader->getRange('positiveOrNull');
+		$this->assertSame(1, $positiveOrNull['min']);
+		$this->assertSame(PHP_INT_MAX, $positiveOrNull['max']);
+
+		$nonNegativeOrNull = $reader->getRange('nonNegativeOrNull');
+		$this->assertSame(0, $nonNegativeOrNull['min']);
+		$this->assertSame(PHP_INT_MAX, $nonNegativeOrNull['max']);
+	}
+
+	public function testStringConstraintDetection(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test7');
+
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmpty'));
+		$this->assertSame('non-empty-lowercase-string', $reader->getStringConstraint('nonEmptyLowercase'));
+		$this->assertSame('lowercase-string', $reader->getStringConstraint('lowercase'));
+		$this->assertSame('non-falsy-string', $reader->getStringConstraint('nonFalsy'));
+		$this->assertSame('numeric-string', $reader->getStringConstraint('numeric'));
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmptyOrNull'));
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmptyOrNullPrefix'));
+		$this->assertNull($reader->getStringConstraint('plain'));
+	}
+
+	public static function stringConstraintDataProvider(): array {
+		return [
+			['non-empty-string', '', false],
+			['non-empty-string', 'a', true],
+			['non-empty-lowercase-string', '', false],
+			['non-empty-lowercase-string', 'ABC', false],
+			['non-empty-lowercase-string', 'abc', true],
+			['lowercase-string', '', true],
+			['lowercase-string', 'ABC', false],
+			['lowercase-string', 'abc', true],
+			['non-falsy-string', '', false],
+			['non-falsy-string', '0', false],
+			['non-falsy-string', '0.0', true],
+			['non-falsy-string', 'a', true],
+			['numeric-string', 'abc', false],
+			['numeric-string', '42', true],
+			['numeric-string', '4.2', true],
+			[null, '', true],
+			[null, 'anything', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringConstraintDataProvider')]
+	public function testSatisfiesStringConstraint(?string $constraint, string $value, bool $expected): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test7');
+
+		$parameter = match ($constraint) {
+			'non-empty-string' => 'nonEmpty',
+			'non-empty-lowercase-string' => 'nonEmptyLowercase',
+			'lowercase-string' => 'lowercase',
+			'non-falsy-string' => 'nonFalsy',
+			'numeric-string' => 'numeric',
+			default => 'plain',
+		};
+
+		$this->assertSame($expected, $reader->satisfiesStringConstraint($parameter, $value));
 	}
 }

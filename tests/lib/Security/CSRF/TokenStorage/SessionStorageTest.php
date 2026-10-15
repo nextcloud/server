@@ -10,25 +10,27 @@ declare(strict_types=1);
 
 namespace Test\Security\CSRF\TokenStorage;
 
+use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OCP\ISession;
 
 class SessionStorageTest extends \Test\TestCase {
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	private $session;
-	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
+	/** @var SessionStorage */
 	private $sessionStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
-		$this->sessionStorage = new \OC\Security\CSRF\TokenStorage\SessionStorage($this->session);
+		$this->sessionStorage = new SessionStorage($this->session);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getTokenDataProvider() {
+	public static function getTokenDataProvider(): array {
 		return [
 			[
 				'',
@@ -41,9 +43,9 @@ class SessionStorageTest extends \Test\TestCase {
 
 	/**
 	 * @param string $token
-	 * @dataProvider getTokenDataProvider
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getTokenDataProvider')]
 	public function testGetTokenWithEmptyToken($token): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Session does not contain a requesttoken');

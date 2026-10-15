@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcListItem :anchor-id="`${id}--link`"
+	<NcListItem
+		:anchorId="`${id}--link`"
 		compact
 		:details="details"
 		:href="href"
@@ -11,14 +12,19 @@
 		role="presentation"
 		@click="$emit('click')">
 		<template #icon>
-			<div role="presentation" :class="['icon', icon, 'public-page-menu-entry__icon']" />
+			<slot v-if="$slots.icon" name="icon" />
+			<div
+				v-else
+				role="presentation"
+				class="icon public-page-menu-entry__icon"
+				:class="[icon]" />
 		</template>
 	</NcListItem>
 </template>
 
 <script setup lang="ts">
-import NcListItem from '@nextcloud/vue/components/NcListItem'
 import { onMounted } from 'vue'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 const props = defineProps<{
 	/** Only emit click event but do not open href */
@@ -26,9 +32,13 @@ const props = defineProps<{
 	// menu entry props
 	id: string
 	label: string
-	icon: string
+	icon?: string
 	href: string
 	details?: string
+}>()
+
+defineEmits<{
+	click: []
 }>()
 
 onMounted(() => {

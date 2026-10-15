@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\SyncService;
@@ -22,12 +25,14 @@ class SyncSystemAddressBook extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:sync-system-addressbook')
 			->setDescription('Synchronizes users to the system addressbook');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use GuzzleHttp\Exception\ClientException;
@@ -20,6 +21,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -28,15 +30,18 @@ use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
 
-	protected CardDavBackend $backend;
-	protected IUserManager $userManager;
-	protected IDBConnection $dbConnection;
+	protected CardDavBackend&MockObject $backend;
+	protected IUserManager&MockObject $userManager;
+	protected IDBConnection&MockObject $dbConnection;
 	protected LoggerInterface $logger;
-	protected Converter $converter;
-	protected IClient $client;
-	protected IConfig $config;
+	protected Converter&MockObject $converter;
+	protected IClient&MockObject $client;
+	protected IConfig&MockObject $config;
 	protected SyncService $service;
+
 	public function setUp(): void {
+		parent::setUp();
+
 		$addressBook = [
 			'id' => 1,
 			'uri' => 'system',
@@ -62,13 +67,13 @@ class SyncServiceTest extends TestCase {
 			->willReturn($this->client);
 
 		$this->service = new SyncService(
+			$clientService,
+			$this->config,
 			$this->backend,
 			$this->userManager,
 			$this->dbConnection,
 			$this->logger,
 			$this->converter,
-			$clientService,
-			$this->config
 		);
 	}
 
@@ -100,11 +105,11 @@ class SyncServiceTest extends TestCase {
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/1', $token);
 	}
@@ -119,7 +124,6 @@ class SyncServiceTest extends TestCase {
 
 		$this->backend->method('getCard')
 			->willReturn(false);
-
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -171,11 +175,11 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
 	}
@@ -190,7 +194,6 @@ END:VCARD';
 
 		$this->backend->method('getCard')
 			->willReturn(true);
-
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -242,11 +245,11 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
@@ -283,18 +286,109 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
 	}
 
+	public function testFullSyncWithOrphanElement(): void {
+		$pendingCards = [];
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(1))
+			->method('updateCard')
+			->willReturnCallback(function ($id, $uri) use (&$pendingCards): void {
+				unset($pendingCards[$uri]);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('markCardsAsPending')
+			->willReturnCallback(function ($id) use (&$pendingCards): void {
+				$cards = array_values($this->backend->getCards($id));
+				$uris = array_map(fn ($card) => $card['uri'], $cards);
+				$pendingCards = array_combine($uris, $cards);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('getPendingCards')
+			->willReturnCallback(function ($id) use (&$pendingCards) {
+				return array_values($pendingCards);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('deleteCard');
+
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:response>
+        <d:href>/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf</d:href>
+        <d:propstat>
+            <d:prop>
+                <d:getcontenttype>text/vcard; charset=utf-8</d:getcontenttype>
+                <d:getetag>&quot;2df155fa5c2a24cd7f750353fc63f037&quot;</d:getetag>
+            </d:prop>
+            <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+    </d:response>
+    <d:sync-token>http://sabre.io/ns/sync/3</d:sync-token>
+</d:multistatus>';
+
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($reportResponse);
+
+		$vCard = 'BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.5.4//EN
+UID:alice
+FN;X-NC-SCOPE=v2-federated:alice
+N;X-NC-SCOPE=v2-federated:alice;;;;
+X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/index.php/u/alice
+CLOUD:alice@server2.internal
+END:VCARD';
+
+		$getResponse = new Response(new PsrResponse(
+			200,
+			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
+			$vCard,
+		));
+
+		$this->client
+			->method('get')
+			->willReturn($getResponse);
+
+		$this->backend->method('getCards')
+			->willReturn([
+				['uri' => 'Database:alice.vcf'],
+				['uri' => 'Database:bob.vcf'],
+			]);
+
+		$this->service->markCardsAsPending(1);
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		)[0];
+		$this->service->deletePendingCards(1);
+
+		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
+	}
+
 	public function testEnsureSystemAddressBookExists(): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
-		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->createMock(CardDavBackend::class);
 		$backend->expects($this->exactly(1))->method('createAddressBook');
 		$backend->expects($this->exactly(2))
 			->method('getAddressBooksByUri')
@@ -303,36 +397,27 @@ END:VCARD';
 				[],
 			);
 
-		/** @var IUserManager $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
-	public function dataActivatedUsers() {
+	public static function dataActivatedUsers(): array {
 		return [
 			[true, 1, 1, 1],
 			[false, 0, 0, 3],
 		];
 	}
 
-	/**
-	 * @dataProvider dataActivatedUsers
-	 *
-	 * @param boolean $activated
-	 * @param integer $createCalls
-	 * @param integer $updateCalls
-	 * @param integer $deleteCalls
-	 * @return void
-	 */
-	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataActivatedUsers')]
+	public function testUpdateAndDeleteUser(bool $activated, int $createCalls, int $updateCalls, int $deleteCalls): void {
+		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
@@ -348,12 +433,9 @@ END:VCARD';
 			->with('principals/system/system', 'system')
 			->willReturn(['id' => -1]);
 
-		/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-
-		/** @var IUser | \PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
@@ -367,12 +449,89 @@ END:VCARD';
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
 
 		$ss->deleteUser($user);
+	}
+
+	public function testUpdateUserSkipsUnchangedCard(): void {
+		$vCard = new VCard();
+		$vCard->VERSION = '3.0';
+		$vCard->UID = 'test-user';
+		$vCard->FN = 'test-user';
+
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
+
+		$backend->expects($this->never())->method('createCard');
+		$backend->expects($this->never())->method('updateCard');
+		$backend->expects($this->never())->method('deleteCard');
+
+		$backend->method('getCard')->willReturn(['carddata' => $vCard->serialize()]);
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$user->method('isEnabled')->willReturn(true);
+
+		$converter = $this->createMock(Converter::class);
+		$converter->method('createCardFromUser')->willReturn($vCard);
+
+		$ss = new SyncService(
+			$this->createMock(IClientService::class),
+			$this->createMock(IConfig::class),
+			$backend,
+			$this->createMock(IUserManager::class),
+			$this->createMock(IDBConnection::class),
+			$logger,
+			$converter,
+		);
+		$ss->updateUser($user);
+	}
+
+	public function testSyncInstance(): void {
+		/** @var CardDavBackend | MockObject $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+
+		$backend->expects($this->exactly(1))->method('deleteCard');
+
+		$backend->method('getCards')->willReturn([
+			[
+				'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n",
+				'uri' => 'Database:test-user.vcf',
+			],
+			[
+				'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n",
+				'uri' => 'LDAP:test-user.vcf',
+			],
+		]
+		);
+
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
+		$userManager = $this->createMock(IUserManager::class);
+		$dbConnection = $this->createMock(IDBConnection::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$user->method('getUID')->willReturn('test-user');
+		$userManager->method('get')->willReturn($user);
+
+		$converter = $this->createMock(Converter::class);
+		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
+
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
+		$ss->syncInstance();
 	}
 
 	public function testDeleteAddressbookWhenAccessRevoked(): void {
@@ -433,9 +592,7 @@ END:VCARD';
 		);
 	}
 
-	/**
-	 * @dataProvider providerUseAbsoluteUriReport
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providerUseAbsoluteUriReport')]
 	public function testUseAbsoluteUriReport(string $host, string $expected): void {
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -468,14 +625,14 @@ END:VCARD';
 			'system',
 			'remote.php/dav/addressbooks/system/system/system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
 		);
 	}
 
-	public function providerUseAbsoluteUriReport(): array {
+	public static function providerUseAbsoluteUriReport(): array {
 		return [
 			['https://server.internal', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
 			['https://server.internal/', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],

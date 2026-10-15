@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,18 +11,21 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patch level
 // when updating major/minor version number.
 
-$OC_Version = [32, 0, 0, 0];
+$OC_Version = [36, 0, 0, 0];
 
 // The human-readable string
-$OC_VersionString = '32.0.0 dev';
+$OC_VersionString = '36.0.0 dev';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
-		'31.0' => true,
-		'32.0' => true,
+		'35.0' => true,
+		'36.0' => true,
 	],
 	'owncloud' => [
 		'10.13' => true,
+		'10.14' => true,
+		'10.15' => true,
+		'10.16' => true,
 	],
 ];
 

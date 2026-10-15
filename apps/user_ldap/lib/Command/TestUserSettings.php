@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
@@ -31,6 +32,7 @@ class TestUserSettings extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:test-user-settings')
@@ -55,6 +57,7 @@ class TestUserSettings extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$uid = $input->getArgument('user');
@@ -91,9 +94,9 @@ class TestUserSettings extends Command {
 
 			if (!$access->isDNPartOfBase($knownDn, $access->getConnection()->ldapBaseUsers)) {
 				$output->writeln(
-					"User <info>$knownDn</info> is not in one of the configured user bases: <info>" .
-					implode(',', $access->getConnection()->ldapBaseUsers) .
-					'</info>.'
+					"User <info>$knownDn</info> is not in one of the configured user bases: <info>"
+					. implode(',', $access->getConnection()->ldapBaseUsers)
+					. '</info>.'
 				);
 			}
 
@@ -108,6 +111,7 @@ class TestUserSettings extends Command {
 				'ldapExpertUUIDUserAttr',
 				'ldapQuotaAttribute',
 				'ldapEmailAttribute',
+				'ldapUserActiveState',
 				'ldapUserDisplayName',
 				'ldapUserDisplayName2',
 				'ldapExtStorageHomeAttribute',
@@ -239,7 +243,6 @@ class TestUserSettings extends Command {
 			$output->writeln('Members: <info>' . json_encode($members) . '</info>');
 
 			return self::SUCCESS;
-
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;

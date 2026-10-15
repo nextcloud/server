@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
@@ -21,9 +22,11 @@ class UploadFolder implements ICollection {
 		private Directory $node,
 		private CleanupService $cleanupService,
 		private IStorage $storage,
+		private string $uid,
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		// TODO: verify name - should be a simple number
 		try {
@@ -37,10 +40,12 @@ class UploadFolder implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create file (filename ' . $name . ')');
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		if ($name === '.file') {
 			return new FutureFile($this->node, '.file');
@@ -48,6 +53,7 @@ class UploadFolder implements ICollection {
 		return new UploadFile($this->node->getChild($name));
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$tmpChildren = $this->node->getChildren();
 
@@ -78,6 +84,7 @@ class UploadFolder implements ICollection {
 		return $children;
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		if ($name === '.file') {
 			return true;
@@ -85,21 +92,25 @@ class UploadFolder implements ICollection {
 		return $this->node->childExists($name);
 	}
 
+	#[\Override]
 	public function delete() {
 		$this->node->delete();
 
 		// Background cleanup job is not needed anymore
-		$this->cleanupService->removeJob($this->getName());
+		$this->cleanupService->removeJob($this->uid, $this->getName());
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->node->getName();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return $this->node->getLastModified();
 	}

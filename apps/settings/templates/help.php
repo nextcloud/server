@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-\OC_Util::addStyle('settings', 'help');
+\OCP\Util::addStyle('settings', 'help');
 ?>
 <?php if ($_['knowledgebaseEmbedded'] === true) : ?>
 	<div id="app-navigation" role="navigation" tabindex="0">
@@ -49,6 +49,7 @@
 					</span>
 				</a>
 			</li>
+		</ul>
 	</div>
 
 	<div id="app-content" class="help-includes">
@@ -87,6 +88,7 @@
 						<?php p($l->t('Privacy policy')); ?> ↗
 					</a>
 				<?php } ?>
+				</div>
 			</div>
 		</div>
 	</div>

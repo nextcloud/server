@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
@@ -14,20 +15,14 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
-	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
-	private $time;
-
-	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var RegisterRegenerateBirthdayCalendars */
-	private $backgroundJob;
+	private ITimeFactory&MockObject $time;
+	private IUserManager&MockObject $userManager;
+	private IJobList&MockObject $jobList;
+	private RegisterRegenerateBirthdayCalendars $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -59,22 +54,26 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 				$closure($user3);
 			});
 
+		$calls = [
+			'uid1',
+			'uid2',
+			'uid3',
+		];
 		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->withConsecutive(
-				[GenerateBirthdayCalendarBackgroundJob::class, [
-					'userId' => 'uid1',
-					'purgeBeforeGenerating' => true
-				]],
-				[GenerateBirthdayCalendarBackgroundJob::class, [
-					'userId' => 'uid2',
-					'purgeBeforeGenerating' => true
-				]],
-				[GenerateBirthdayCalendarBackgroundJob::class, [
-					'userId' => 'uid3',
-					'purgeBeforeGenerating' => true
-				]],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals(
+					[
+						GenerateBirthdayCalendarBackgroundJob::class,
+						[
+							'userId' => $expected,
+							'purgeBeforeGenerating' => true
+						]
+					],
+					func_get_args()
+				);
+			});
 
 		$this->backgroundJob->run([]);
 	}

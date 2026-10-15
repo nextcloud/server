@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +15,7 @@ use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -24,25 +28,22 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var IClientService|MockObject */
-	protected $clientService;
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-	/** @var ICloudIdManager|MockObject */
-	protected $cloudIdManager;
-	/** @var LookupPlugin */
-	protected $plugin;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
+	protected IConfig&MockObject $config;
+	protected GlobalScaleConfig&MockObject $globalScaleConfig;
+	protected IClientService&MockObject $clientService;
+	protected IUserSession&MockObject $userSession;
+	protected ICloudIdManager&MockObject $cloudIdManager;
+	protected LookupPlugin $plugin;
+	protected LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->globalScaleConfig = $this->createMock(GlobalScaleConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$cloudId = $this->createMock(ICloudId::class);
@@ -56,16 +57,21 @@ class LookupPluginTest extends TestCase {
 				if ($cloudId === 'user@myNextcloud.net') {
 					return new CloudId('user@myNextcloud.net', 'user', 'myNextcloud.net');
 				}
+				if (str_contains($cloudId, '@enceladus.moon')) {
+					[$user, $remote] = explode('@', $cloudId, 2);
+					return new CloudId($cloudId, $user, $remote);
+				}
 				return new CloudId('user@someNextcloud.net', 'user', 'someNextcloud.net');
 			});
-
 
 		$this->plugin = new LookupPlugin(
 			$this->config,
 			$this->clientService,
 			$this->userSession,
 			$this->cloudIdManager,
-			$this->logger
+			$this->logger,
+			null,
+			$this->globalScaleConfig,
 		);
 	}
 
@@ -74,15 +80,15 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->once())
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['has_internet_connection', true, true],
+			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(true);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -103,15 +109,15 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(1))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				false,
-				false,
-			);
+			->willReturnMap([
+				['has_internet_connection', true, false],
+			]);
+
+		$this->globalScaleConfig->expects($this->exactly(1))
+			->method('isGlobalScaleEnabled')
+			->willReturn(false);
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -123,9 +129,9 @@ class LookupPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider searchDataProvider
 	 * @param array $searchParams
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testSearch(array $searchParams): void {
 		$type = new SearchResultType('lookup');
 
@@ -141,13 +147,14 @@ class LookupPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['has_internet_connection', true, true],
+				['gss.selfsigned.allow', false, false],
+			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(true);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -182,13 +189,12 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
-
 	/**
-	 * @dataProvider dataSearchEnableDisableLookupServer
 	 * @param array $searchParams
 	 * @param bool $GSEnabled
 	 * @param bool $LookupEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnableDisableLookupServer')]
 	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled): void {
 		$type = new SearchResultType('lookup');
 
@@ -206,13 +212,14 @@ class LookupPluginTest extends TestCase {
 
 			$this->config->expects($this->exactly(2))
 				->method('getSystemValueBool')
-				->withConsecutive(
-					['gs.enabled', false],
-					['has_internet_connection', true],
-				)->willReturnOnConsecutiveCalls(
-					$GSEnabled,
-					true,
-				);
+				->willReturnMap([
+					['has_internet_connection', true, true],
+					['gss.selfsigned.allow', false, false],
+				]);
+
+			$this->globalScaleConfig->expects($this->once())
+				->method('isGlobalScaleEnabled')
+				->willReturn($GSEnabled);
 			$this->config->expects($this->once())
 				->method('getSystemValueString')
 				->with('lookup_server', 'https://lookup.nextcloud.com')
@@ -237,15 +244,15 @@ class LookupPluginTest extends TestCase {
 				->willReturn($client);
 		} else {
 			$searchResult->expects($this->never())->method('addResultSet');
-			$this->config->expects($this->exactly(2))
+			$this->config->expects($this->once())
 				->method('getSystemValueBool')
-				->withConsecutive(
-					['gs.enabled', false],
-					['has_internet_connection', true],
-				)->willReturnOnConsecutiveCalls(
-					$GSEnabled,
-					true,
-				);
+				->willReturnMap([
+					['has_internet_connection', true, true],
+				]);
+
+			$this->globalScaleConfig->expects($this->once())
+				->method('isGlobalScaleEnabled')
+				->willReturn($GSEnabled);
 		}
 		$moreResults = $this->plugin->search(
 			$searchParams['search'],
@@ -257,14 +264,16 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
-
 	public function testSearchGSDisabled(): void {
-		$this->config->expects($this->atLeastOnce())
+		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['has_internet_connection', true, true],
-				['gs.enabled', false, false],
 			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(false);
 
 		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
@@ -276,7 +285,7 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->search('irr', 10, 0, $searchResult));
 	}
 
-	public function dataSearchEnableDisableLookupServer() {
+	public static function dataSearchEnableDisableLookupServer(): array {
 		$fedIDs = [
 			'foo@enceladus.moon',
 			'foobar@enceladus.moon',
@@ -300,7 +309,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[0]
+							'shareWith' => $fedIDs[0],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
 					],
@@ -309,7 +320,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[1]
+							'shareWith' => $fedIDs[1],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
 					],
@@ -318,7 +331,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[2]
+							'shareWith' => $fedIDs[2],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
 					],
@@ -342,7 +357,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[0]
+							'shareWith' => $fedIDs[0],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
 					],
@@ -351,7 +368,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[1]
+							'shareWith' => $fedIDs[1],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
 					],
@@ -360,7 +379,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[2]
+							'shareWith' => $fedIDs[2],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
 					],
@@ -449,7 +470,7 @@ class LookupPluginTest extends TestCase {
 		];
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		$fedIDs = [
 			'foo@enceladus.moon',
 			'foobar@enceladus.moon',
@@ -474,7 +495,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[0]
+							'shareWith' => $fedIDs[0],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
 					],
@@ -483,7 +506,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[1]
+							'shareWith' => $fedIDs[1],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
 					],
@@ -492,7 +517,9 @@ class LookupPluginTest extends TestCase {
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
 							'globalScale' => true,
-							'shareWith' => $fedIDs[2]
+							'shareWith' => $fedIDs[2],
+							'server' => 'enceladus.moon',
+							'isTrustedServer' => false,
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
 					],

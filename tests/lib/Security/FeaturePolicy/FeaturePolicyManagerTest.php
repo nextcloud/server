@@ -12,6 +12,7 @@ use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
+use OCP\Server;
 use Test\TestCase;
 
 class FeaturePolicyManagerTest extends TestCase {
@@ -21,9 +22,10 @@ class FeaturePolicyManagerTest extends TestCase {
 	/** @var FeaturePolicyManager */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = Server::get(IEventDispatcher::class);
 		$this->manager = new FeaturePolicyManager($this->dispatcher);
 	}
 
@@ -33,7 +35,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent(): void {
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e): void {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedMicrophoneDomain('mydomain.com');
 			$policy->addAllowedPaymentDomain('mypaymentdomain.com');
@@ -41,7 +43,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e): void {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedPaymentDomain('mydomainother.com');
 			$policy->addAllowedGeoLocationDomain('mylocation.here');
@@ -49,7 +51,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e): void {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedAutoplayDomain('youtube.com');
 

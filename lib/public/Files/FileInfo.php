@@ -5,8 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -14,6 +17,7 @@ use OCP\Files\Storage\IStorage;
  *
  * @since 7.0.0
  */
+#[Consumable(since: '7.0.0')]
 interface FileInfo {
 	/**
 	 * @since 7.0.0
@@ -103,10 +107,9 @@ interface FileInfo {
 	/**
 	 * Get the full mimetype of the file or folder i.e. 'image/png'
 	 *
-	 * @return string
 	 * @since 7.0.0
 	 */
-	public function getMimetype();
+	public function getMimetype(): string;
 
 	/**
 	 * Get the first part of the mimetype of the file or folder i.e. 'image'
@@ -282,6 +285,16 @@ interface FileInfo {
 	public function getUploadTime(): int;
 
 	/**
+	 * Get the last activity date as unix timestamp
+	 *
+	 * Last activity is the more recent of the upload time and the modification time
+	 *
+	 * @return int
+	 * @since 34.0.0
+	 */
+	public function getLastActivity(): int;
+
+	/**
 	 * Get the fileid or the parent folder
 	 * or -1 if this item has no parent folder (because it is the root)
 	 *
@@ -297,4 +310,12 @@ interface FileInfo {
 	 * @since 28.0.0
 	 */
 	public function getMetadata(): array;
+
+	/**
+	 * Get the filecache data for the file
+	 *
+	 * @return ICacheEntry
+	 * @since 34.0.0
+	 */
+	public function getData(): ICacheEntry;
 }

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\RichObjectStrings;
 
 /**
@@ -373,6 +375,18 @@ class Definitions {
 					'required' => false,
 					'description' => 'The blurhash of the image',
 					'example' => 'LEHV9uae2yk8pyo0adR*.7kCMdnj',
+				],
+				'hide-download' => [
+					'since' => '31.0.5',
+					'required' => false,
+					'description' => 'Whether the download option should be hidden. If not set to `yes` the option can be shown',
+					'example' => 'yes',
+				],
+				'can-download' => [
+					'since' => '36.0.0',
+					'required' => false,
+					'description' => 'Whether the user may download the file. If `no` it comes from a share that does not allow downloading, which `hide-download` also says',
+					'example' => 'no',
 				],
 			],
 		],

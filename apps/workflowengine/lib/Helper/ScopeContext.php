@@ -6,17 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Helper;
 
 use OCP\WorkflowEngine\IManager;
 
 class ScopeContext {
-	/** @var int */
-	private $scope;
-	/** @var string */
-	private $scopeId;
-	/** @var string */
-	private $hash;
+	private int $scope;
+	private string $scopeId;
+	private ?string $hash = null;
 
 	public function __construct(int $scope, ?string $scopeId = null) {
 		$this->scope = $this->evaluateScope($scope);
@@ -38,16 +36,10 @@ class ScopeContext {
 		return trim((string)$scopeId);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getScope(): int {
 		return $this->scope;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getScopeId(): string {
 		return $this->scopeId;
 	}

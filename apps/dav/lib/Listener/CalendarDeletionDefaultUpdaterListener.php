@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\Events\CalendarDeletedEvent;
@@ -29,6 +30,7 @@ class CalendarDeletionDefaultUpdaterListener implements IEventListener {
 	/**
 	 * In case the user has set their default calendar to the deleted one
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof CalendarDeletedEvent)) {
 			// Not what we subscribed to

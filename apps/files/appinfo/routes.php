@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\AppInfo;
 
 return [
@@ -134,6 +135,11 @@ return [
 		[
 			'name' => 'Template#list',
 			'url' => '/api/v1/templates',
+			'verb' => 'GET'
+		],
+		[
+			'name' => 'Template#listTemplateFields',
+			'url' => '/api/v1/templates/fields/{fileId}',
 			'verb' => 'GET'
 		],
 		[

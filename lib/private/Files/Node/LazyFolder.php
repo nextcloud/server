@@ -5,15 +5,19 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
+use Override;
 
 /**
  * Class LazyFolder
@@ -24,21 +28,20 @@ use OCP\Files\NotPermittedException;
  * @package OC\Files\Node
  */
 class LazyFolder implements Folder {
-	/** @var \Closure(): Folder */
-	private \Closure $folderClosure;
 	protected ?Folder $folder = null;
 	protected IRootFolder $rootFolder;
-	protected array $data;
 
 	/**
 	 * @param IRootFolder $rootFolder
 	 * @param \Closure(): Folder $folderClosure
 	 * @param array $data
 	 */
-	public function __construct(IRootFolder $rootFolder, \Closure $folderClosure, array $data = []) {
+	public function __construct(
+		IRootFolder $rootFolder,
+		private \Closure $folderClosure,
+		protected array $data = [],
+	) {
 		$this->rootFolder = $rootFolder;
-		$this->folderClosure = $folderClosure;
-		$this->data = $data;
 	}
 
 	protected function getRootFolder(): IRootFolder {
@@ -74,27 +77,6 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function listen($scope, $method, callable $callback) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function emit($scope, $method, $arguments = []) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function mount($storage, $mountPoint, $arguments = []) {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
@@ -107,7 +89,7 @@ class LazyFolder implements Folder {
 	}
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());
@@ -134,8 +116,14 @@ class LazyFolder implements Folder {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function get($path) {
 		return $this->getRootFolder()->get($this->getFullPath($path));
+	}
+
+	#[Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder {
+		return $this->getRootFolder()->getOrCreateFolder($this->getFullPath($path), $maxRetries);
 	}
 
 	/**
@@ -148,6 +136,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function delete() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -155,6 +144,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function copy($targetPath) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -162,6 +152,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function touch($mtime = null) {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
@@ -169,6 +160,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getStorage() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -176,6 +168,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getPath() {
 		if (isset($this->data['path'])) {
 			return $this->data['path'];
@@ -186,6 +179,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getInternalPath() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -193,6 +187,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId() {
 		if (isset($this->data['fileid'])) {
 			return $this->data['fileid'];
@@ -203,6 +198,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function stat() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -210,6 +206,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getMTime() {
 		if (isset($this->data['mtime'])) {
 			return $this->data['mtime'];
@@ -220,6 +217,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getSize($includeMounts = true): int|float {
 		if (isset($this->data['size'])) {
 			return $this->data['size'];
@@ -230,6 +228,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getEtag() {
 		if (isset($this->data['etag'])) {
 			return $this->data['etag'];
@@ -240,6 +239,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getPermissions() {
 		if (isset($this->data['permissions'])) {
 			return $this->data['permissions'];
@@ -250,9 +250,10 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isReadable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_READ) == Constants::PERMISSION_READ;
+			return ($this->data['permissions'] & Constants::PERMISSION_READ) === Constants::PERMISSION_READ;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -260,9 +261,10 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isUpdateable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) == Constants::PERMISSION_UPDATE;
+			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -270,9 +272,10 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isDeletable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) == Constants::PERMISSION_DELETE;
+			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -280,9 +283,10 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isShareable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) == Constants::PERMISSION_SHARE;
+			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -290,6 +294,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getParent() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -297,6 +302,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName() {
 		if (isset($this->data['path'])) {
 			return basename($this->data['path']);
@@ -307,17 +313,8 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getUserFolder($userId) {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMimetype() {
+	#[\Override]
+	public function getMimetype(): string {
 		if (isset($this->data['mimetype'])) {
 			return $this->data['mimetype'];
 		}
@@ -327,6 +324,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getMimePart() {
 		if (isset($this->data['mimetype'])) {
 			[$part,] = explode('/', $this->data['mimetype']);
@@ -338,6 +336,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isEncrypted() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -345,6 +344,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getType() {
 		if (isset($this->data['type'])) {
 			return $this->data['type'];
@@ -355,6 +355,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isShared() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -362,6 +363,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isMounted() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -369,6 +371,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getMountPoint() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -376,6 +379,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOwner() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -383,10 +387,12 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getChecksum() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function getExtension(): string {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -394,6 +400,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getFullPath($path) {
 		if (isset($this->data['path'])) {
 			$path = PathHelper::normalizePath($path);
@@ -408,17 +415,17 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isSubNode($node) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDirectoryListing() {
+	#[Override]
+	public function getDirectoryListing(?string $mimetypeFilter = null): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function nodeExists($path) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -426,6 +433,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function newFolder($path) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -433,6 +441,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function newFile($path, $content = null) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -440,6 +449,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search($query) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -447,6 +457,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function searchByMime($mimetype) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -454,10 +465,12 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function searchByTag($tag, $userId) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -465,17 +478,20 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getById($id) {
 		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
 	}
 
-	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+	#[\Override]
+	public function getFirstNodeById(int $id): ?Node {
 		return $this->getRootFolder()->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getFreeSpace() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -483,6 +499,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isCreatable() {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -490,13 +507,15 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getNonExistingName($name) {
+	#[\Override]
+	public function getNonExistingName($filename) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function move($targetPath) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -504,6 +523,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function lock($type) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -511,6 +531,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function changeLock($targetType) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -518,6 +539,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function unlock($type) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -525,6 +547,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getRecent($limit, $offset = 0) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -532,6 +555,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCreationTime(): int {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -539,14 +563,25 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUploadTime(): int {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	#[\Override]
+	public function getLastActivity(): int {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[\Override]
 	public function getRelativePath($path) {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
+	#[\Override]
 	public function getParentId(): int {
 		if (isset($this->data['parent'])) {
 			return $this->data['parent'];
@@ -558,7 +593,18 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 * @return array<string, int|string|bool|float|string[]|int[]>
 	 */
+	#[\Override]
 	public function getMetadata(): array {
 		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[\Override]
+	public function getData(): ICacheEntry {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[\Override]
+	public function verifyPath($fileName, $readonly = false): void {
+		$this->__call(__FUNCTION__, func_get_args());
 	}
 }

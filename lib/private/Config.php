@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\HintException;
+use OCP\Util;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
@@ -15,28 +17,38 @@ use OCP\HintException;
  */
 class Config {
 	public const ENV_PREFIX = 'NC_';
+	public const CONF_WARNING = "
+/*
+ * WARNING
+ *
+ * This file gets modified by automatic processes and all lines that are not
+ * active code (ie. comments) are lost during that process.
+ *
+ * If you want to document things with comments or use constants add your settings
+ * in a '<NAME>.config.php' file which will be included and rendered into this file.
+ *
+ * Example:
+ *   <?php
+ *   \$CONFIG = [];
+ *
+ * See also: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-merged-configuration-files
+ */
+";
 
-	/** @var array Associative array ($key => $value) */
-	protected $cache = [];
-	/** @var array */
-	protected $envCache = [];
-	/** @var string */
-	protected $configDir;
-	/** @var string */
-	protected $configFilePath;
-	/** @var string */
-	protected $configFileName;
-	/** @var bool */
-	protected $isReadOnly;
+	protected array $cache = [];
+	protected array $envCache = [];
+	protected string $configFilePath;
+	protected bool $isReadOnly;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
-	 * @param string $fileName (Optional) Name of the config file. Defaults to config.php
+	 * @param string $configFileName (Optional) Name of the config file. Defaults to config.php
 	 */
-	public function __construct($configDir, $fileName = 'config.php') {
-		$this->configDir = $configDir;
-		$this->configFilePath = $this->configDir . $fileName;
-		$this->configFileName = $fileName;
+	public function __construct(
+		protected string $configDir,
+		protected string $configFileName = 'config.php',
+	) {
+		$this->configFilePath = $this->configDir . $this->configFileName;
 		$this->readData();
 		$this->isReadOnly = $this->getValue('config_is_read_only', false);
 	}
@@ -48,7 +60,7 @@ class Config {
 	 *
 	 * @return array an array of key names
 	 */
-	public function getKeys() {
+	public function getKeys(): array {
 		return array_merge(array_keys($this->cache), array_keys($this->envCache));
 	}
 
@@ -237,12 +249,12 @@ class Config {
 				// syntax issues in the config file like leading spaces causing PHP to send output
 				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
 				if (!defined('OC_CONSOLE')) {
-					print(\OCP\Util::sanitizeHTML($errorMessage));
+					print(Util::sanitizeHTML($errorMessage));
 				}
 				throw new \Exception($errorMessage);
 			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
-				$this->cache = array_merge($this->cache, $CONFIG);
+				$this->cache = array_replace_recursive($this->cache, $CONFIG);
 			}
 		}
 
@@ -275,6 +287,7 @@ class Config {
 
 		// Create a php file ...
 		$content = "<?php\n";
+		$content .= self::CONF_WARNING;
 		$content .= '$CONFIG = ';
 		$content .= var_export(self::trustSystemConfig($this->cache), true);
 		$content .= ";\n";
@@ -282,8 +295,9 @@ class Config {
 		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
-		// Prevent others not to read the config
-		chmod($this->configFilePath, 0640);
+		// Apply permissions for config.php, defaulting to user read-write and group read
+		$permissions = $this->cache['configfilemode'] ?? 0640;
+		chmod($this->configFilePath, $permissions);
 
 		// File does not exist, this can happen when doing a fresh install
 		if (!is_resource($filePointer)) {

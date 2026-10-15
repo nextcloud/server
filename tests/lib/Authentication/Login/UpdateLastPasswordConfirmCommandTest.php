@@ -11,20 +11,13 @@ namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\UpdateLastPasswordConfirmCommand;
 use OCP\ISession;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
-	/** @var ISession|MockObject */
-	private $session;
-
+class UpdateLastPasswordConfirmCommandTest extends ALoginTestCommand {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->createMock(ISession::class);
-
-		$this->cmd = new UpdateLastPasswordConfirmCommand(
-			$this->session
-		);
+		$this->cmd = $this->createInstanceWithMocks(UpdateLastPasswordConfirmCommand::class);
 	}
 
 	public function testProcess(): void {
@@ -32,7 +25,7 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
 		$this->user->expects($this->once())
 			->method('getLastLogin')
 			->willReturn(1234);
-		$this->session->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with(
 				'last-password-confirm',

@@ -8,6 +8,7 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Encryption\\Command\\CleanOrphanedKeys' => $baseDir . '/../lib/Command/CleanOrphanedKeys.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
     'OCA\\Encryption\\Command\\DropLegacyFileKey' => $baseDir . '/../lib/Command/DropLegacyFileKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',
@@ -27,6 +28,7 @@ return array(
     'OCA\\Encryption\\Exceptions\\PrivateKeyMissingException' => $baseDir . '/../lib/Exceptions/PrivateKeyMissingException.php',
     'OCA\\Encryption\\Exceptions\\PublicKeyMissingException' => $baseDir . '/../lib/Exceptions/PublicKeyMissingException.php',
     'OCA\\Encryption\\KeyManager' => $baseDir . '/../lib/KeyManager.php',
+    'OCA\\Encryption\\Listeners\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
     'OCA\\Encryption\\Listeners\\UserEventsListener' => $baseDir . '/../lib/Listeners/UserEventsListener.php',
     'OCA\\Encryption\\Migration\\SetMasterKeyStatus' => $baseDir . '/../lib/Migration/SetMasterKeyStatus.php',
     'OCA\\Encryption\\Recovery' => $baseDir . '/../lib/Recovery.php',

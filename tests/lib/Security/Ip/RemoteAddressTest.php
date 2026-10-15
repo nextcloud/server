@@ -17,6 +17,7 @@ class RemoteAddressTest extends \Test\TestCase {
 	private IConfig $config;
 	private IRequest $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -25,8 +26,8 @@ class RemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @param mixed $allowedRanges
-	 * @dataProvider dataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAllowedIps(string $remoteIp, $allowedRanges, bool $expected): void {
 		$this->request
 			->method('getRemoteAddress')
@@ -44,7 +45,7 @@ class RemoteAddressTest extends \Test\TestCase {
 	/**
 	 * @return array<string, mixed, bool>
 	 */
-	public function dataProvider(): array {
+	public static function dataProvider(): array {
 		return [
 			// No IP (ie. CLI)
 			['', ['192.168.1.2/24'], true],

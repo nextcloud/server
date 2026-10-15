@@ -12,15 +12,16 @@ OC.L10N.register(
     "Files" : "文件",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "你在文件 “{file}” 内被一个已删除的账号评论提及",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的评论中提到了你",
+    "Go to file" : "前往文件",
     "Files app plugin to add comments to files" : "文件应用插件可向文件添加评论",
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
     "Cancel edit" : "取消编辑",
     "New comment" : "新评论",
-    "Write a comment …" : "发表评论 ...",
+    "Write a comment …" : "写评论 …",
     "Post comment" : "发表评论",
     "@ for mentions, : for emoji, / for smart picker" : "使用“@”提及，“:”输入表情符号，“/”唤起智能选择",
-    "Could not reload comments" : "无法重载评论",
+    "Could not reload comments" : "无法重新加载评论",
     "Failed to mark comments as read" : "无法将评论标记为已读",
     "Unable to load the comments list" : "无法加载评论列表",
     "No comments yet, start the conversation!" : "还没有评论，开始对话吧！",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "编辑评论时出错",
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
-    "An error occurred while trying to create the comment" : "创建评论时出错"
+    "An error occurred while trying to create the comment" : "创建评论时出错",
+    "Write a comment …" : "写评论 …"
 },
 "nplurals=1; plural=0;");

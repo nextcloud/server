@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Core\Controller\ClientFlowLoginController;
@@ -13,6 +17,7 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -21,20 +26,27 @@ use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
-class LoginRedirectorControllerTest extends TestCase {
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
+final class LoginRedirectorControllerTest extends TestCase {
 	private IRequest&MockObject $request;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private ClientMapper&MockObject $clientMapper;
+
 	private ISession&MockObject $session;
+
 	private IL10N&MockObject $l;
+
 	private ISecureRandom&MockObject $random;
+
 	private IAppConfig&MockObject $appConfig;
+
+	private IConfig&MockObject $config;
 
 	private LoginRedirectorController $loginRedirectorController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -45,6 +57,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->loginRedirectorController = new LoginRedirectorController(
 			'oauth2',
@@ -55,12 +68,14 @@ class LoginRedirectorControllerTest extends TestCase {
 			$this->l,
 			$this->random,
 			$this->appConfig,
+			$this->config,
 		);
 	}
 
 	public function testAuthorize(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -77,9 +92,15 @@ class LoginRedirectorControllerTest extends TestCase {
 				'core.ClientFlowLogin.showAuthPickerPage',
 				[
 					'clientIdentifier' => 'MyClientIdentifier',
+					'providedRedirectUri' => '',
 				]
 			)
 			->willReturn('https://example.com/?clientIdentifier=foo');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
 
 		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
@@ -87,8 +108,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeSkipPicker(): void {
 		$client = new Client();
-		$client->setName('MyClientName');
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -104,7 +125,7 @@ class LoginRedirectorControllerTest extends TestCase {
 						/* Expected */
 						break;
 					default:
-						throw new LogicException();
+						throw new \LogicException();
 				}
 			});
 		$this->appConfig
@@ -124,9 +145,15 @@ class LoginRedirectorControllerTest extends TestCase {
 				[
 					'stateToken' => 'MyStateToken',
 					'clientIdentifier' => 'MyClientIdentifier',
+					'providedRedirectUri' => '',
 				]
 			)
 			->willReturn('https://example.com/?clientIdentifier=foo');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
 
 		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
@@ -134,8 +161,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeWrongResponseType(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
-		$client->setRedirectUri('http://foo.bar');
+		$client->clientIdentifier = 'MyClientIdentifier';
+		$client->redirectUri = 'http://foo.bar';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -145,9 +172,77 @@ class LoginRedirectorControllerTest extends TestCase {
 			->expects($this->never())
 			->method('set');
 
-
 		$expected = new RedirectResponse('http://foo.bar?error=unsupported_response_type&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
+	}
+
+	public function testAuthorizeWithLegacyOcClient(): void {
+		$client = new Client();
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
+		$client->redirectUri = 'http://localhost:*';
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('oauth.state', 'MyState');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with(
+				'core.ClientFlowLogin.showAuthPickerPage',
+				[
+					'clientIdentifier' => 'MyClientIdentifier',
+					'providedRedirectUri' => 'http://localhost:30000',
+				]
+			)
+			->willReturn('https://example.com/?clientIdentifier=foo&providedRedirectUri=http://localhost:30000');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(true);
+
+		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo&providedRedirectUri=http://localhost:30000');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', 'http://localhost:30000'));
+	}
+
+	public function testAuthorizeNotForwardingUntrustedURIs(): void {
+		$client = new Client();
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('oauth.state', 'MyState');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with(
+				'core.ClientFlowLogin.showAuthPickerPage',
+				[
+					'clientIdentifier' => 'MyClientIdentifier',
+					'providedRedirectUri' => '',
+				]
+			)
+			->willReturn('https://example.com/?clientIdentifier=foo');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
+
+		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', 'http://untrusted-uri.com'));
 	}
 
 	public function testClientNotFound(): void {

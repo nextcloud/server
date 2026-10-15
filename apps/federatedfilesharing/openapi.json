@@ -158,47 +158,55 @@
                                     "remote": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Address of the remote"
                                     },
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "name": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Name of the shared resource"
                                     },
                                     "owner": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Display name of the receiver"
                                     },
                                     "sharedBy": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Display name of the sender"
                                     },
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the user that receives the share"
                                     },
                                     "remoteId": {
-                                        "type": "integer",
-                                        "format": "int64",
+                                        "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the remote"
                                     },
                                     "sharedByFederatedId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Federated ID of the sender"
                                     },
                                     "ownerFederatedId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Federated ID of the receiver"
                                     }
                                 }
@@ -276,11 +284,13 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the user that receives the share"
                                     },
                                     "remoteId": {
@@ -302,8 +312,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -394,7 +403,7 @@
         "/ocs/v2.php/cloud/shares/{id}/permissions": {
             "post": {
                 "operationId": "request_handler-update-permissions",
-                "summary": "update share information to keep federated re-shares in sync",
+                "summary": "Update share information to keep federated re-shares in sync.",
                 "tags": [
                     "request_handler"
                 ],
@@ -417,12 +426,14 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "permissions": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New permissions"
                                     }
                                 }
@@ -437,8 +448,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -538,6 +548,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -552,8 +563,7 @@
                         "description": "ID of the remote share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -635,6 +645,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -649,8 +660,7 @@
                         "description": "ID of the remote share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -722,6 +732,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -736,8 +747,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -809,6 +819,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -823,8 +834,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -924,16 +934,19 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "remote": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Address of the remote"
                                     },
                                     "remote_id": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the remote"
                                     }
                                 }

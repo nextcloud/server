@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Mail;
 
 use OCP\Mail\IAttachment;
@@ -30,6 +31,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function setFilename(string $filename): IAttachment {
 		$this->name = $filename;
 		return $this;
@@ -39,6 +41,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function setContentType(string $contentType): IAttachment {
 		$this->contentType = $contentType;
 		return $this;
@@ -48,6 +51,7 @@ class Attachment implements IAttachment {
 	 * @return $this
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function setBody(string $body): IAttachment {
 		$this->body = $body;
 		return $this;

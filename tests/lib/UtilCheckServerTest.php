@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,17 +8,22 @@
 
 namespace Test;
 
+use OC\SystemConfig;
+use OCP\ISession;
+use OCP\ITempManager;
+use OCP\Server;
+use OCP\Util;
+
 /**
  * Tests for server check functions
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UtilCheckServerTest extends \Test\TestCase {
 	private $datadir;
 
 	/**
 	 * @param array $systemOptions
-	 * @return \OC\SystemConfig | \PHPUnit\Framework\MockObject\MockObject
+	 * @return SystemConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;
@@ -34,15 +40,17 @@ class UtilCheckServerTest extends \Test\TestCase {
 		return $config;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->datadir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->datadir = Server::get(ITempManager::class)->getTemporaryFolder();
 
 		file_put_contents($this->datadir . '/.ncdata', '# Nextcloud data directory');
-		\OC::$server->getSession()->set('checkServer_succeeded', false);
+		Server::get(ISession::class)->set('checkServer_succeeded', false);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// clean up
 		@unlink($this->datadir . '/.ncdata');
@@ -85,7 +93,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		// simulate old version that didn't have it
 		unlink($this->datadir . '/.ncdata');
 
-		$session = \OC::$server->getSession();
+		$session = Server::get(ISession::class);
 		$oldCurrentVersion = $session->get('OC_Version');
 
 		// upgrade condition to simulate needUpgrade() === true
@@ -123,7 +131,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
-			'version' => implode('.', \OCP\Util::getVersion())
+			'version' => implode('.', Util::getVersion())
 		]));
 		$this->assertCount(1, $result);
 	}
@@ -134,21 +142,19 @@ class UtilCheckServerTest extends \Test\TestCase {
 	public function testDataDirWritable(): void {
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
-			'version' => implode('.', \OCP\Util::getVersion())
+			'version' => implode('.', Util::getVersion())
 		]));
 		$this->assertEmpty($result);
 	}
 
 	/**
-	 * Tests an error is given when the datadir is not writable
+	 * Tests an error is given when the datadir is not readable
 	 */
-	public function testDataDirNotWritable(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
+	public function testDataDirNotReadable(): void {
 		chmod($this->datadir, 0300);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
-			'version' => implode('.', \OCP\Util::getVersion())
+			'version' => implode('.', Util::getVersion())
 		]));
 		$this->assertCount(1, $result);
 	}
@@ -157,10 +163,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Tests no error is given when the datadir is not writable during setup
 	 */
 	public function testDataDirNotWritableSetup(): void {
-		chmod($this->datadir, 0300);
+		chmod($this->datadir, 0500);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false,
-			'version' => implode('.', \OCP\Util::getVersion())
+			'version' => implode('.', Util::getVersion())
 		]));
 		chmod($this->datadir, 0700); //needed for cleanup
 		$this->assertEmpty($result);

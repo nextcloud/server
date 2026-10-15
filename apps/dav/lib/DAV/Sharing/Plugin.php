@@ -5,17 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCA\DAV\DAV\Security\RateLimiting;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
 use OCP\AppFramework\Http;
-use OCP\IConfig;
 use OCP\IRequest;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -27,17 +30,10 @@ class Plugin extends ServerPlugin {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
-	/**
-	 * Plugin constructor.
-	 *
-	 * @param Auth $auth
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		private Auth $auth,
 		private IRequest $request,
-		private IConfig $config,
+		private RateLimiting $rateLimiting,
 	) {
 	}
 
@@ -56,6 +52,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures() {
 		return ['oc-resource-sharing'];
 	}
@@ -68,6 +65,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'oc-resource-sharing';
 	}
@@ -83,12 +81,14 @@ class Plugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = ShareRequest::class;
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
@@ -128,44 +128,66 @@ class Plugin extends ServerPlugin {
 
 		$message = $this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
-		switch ($documentType) {
+		if ($message instanceof ShareRequest) {
+			$this->rateLimiting->check();
+			$this->validateShareRequest($message);
 
-			// Dealing with the 'share' document, which modified invitees on a
-			// calendar.
-			case '{' . self::NS_OWNCLOUD . '}share':
+			// We can only deal with IShareableCalendar objects
+			if (!$node instanceof IShareable) {
+				return;
+			}
 
-				// We can only deal with IShareableCalendar objects
-				if (!$node instanceof IShareable) {
-					return;
-				}
+			$this->server->transactionType = 'post-oc-resource-share';
 
-				$this->server->transactionType = 'post-oc-resource-share';
+			// Getting ACL info
+			$acl = $this->server->getPlugin('acl');
 
-				// Getting ACL info
-				$acl = $this->server->getPlugin('acl');
+			// If there's no ACL support, we allow everything
+			if ($acl) {
+				/** @var \Sabre\DAVACL\Plugin $acl */
+				$acl->checkPrivileges($path, '{DAV:}write-acl');
+			}
 
-				// If there's no ACL support, we allow everything
-				if ($acl) {
-					/** @var \Sabre\DAVACL\Plugin $acl */
-					$acl->checkPrivileges($path, '{DAV:}write');
+			$node->updateShares($message->set, $message->remove);
 
-					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
-					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
-					if ($limitSharingToOwner && !$isOwner) {
-						return;
-					}
-				}
+			$response->setStatus(Http::STATUS_OK);
+			// Adding this because sending a response body may cause issues,
+			// and I wanted some type of indicator the response was handled.
+			$response->setHeader('X-Sabre-Status', 'everything-went-well');
 
-				$node->updateShares($message->set, $message->remove);
-
-				$response->setStatus(Http::STATUS_OK);
-				// Adding this because sending a response body may cause issues,
-				// and I wanted some type of indicator the response was handled.
-				$response->setHeader('X-Sabre-Status', 'everything-went-well');
-
-				// Breaking the event chain
-				return false;
+			// Breaking the event chain
+			return false;
 		}
+	}
+
+	private function validateShareRequest(ShareRequest $shareRequest): void {
+		$elements = (count($shareRequest->set) + count($shareRequest->remove));
+
+		if ($elements === 0) {
+			throw new BadRequest(ShareRequest::ELEMENT_SHARE . ' needs at least one set or remove element');
+		}
+
+		if ($elements > 10) {
+			throw new BadRequest(ShareRequest::ELEMENT_SHARE . ' is limited to 10 set or remove elements');
+		}
+	}
+
+	private function preloadCollection(PropFind $propFind, ICollection $collection): void {
+		if (!$collection instanceof CalendarHome || $propFind->getDepth() !== 1) {
+			return;
+		}
+
+		$backend = $collection->getCalDAVBackend();
+		if (!$backend instanceof CalDavBackend) {
+			return;
+		}
+
+		$calendars = $collection->getChildren();
+		$calendars = array_filter($calendars, static fn (INode $node) => $node instanceof IShareable);
+		/** @var int[] $resourceIds */
+		$resourceIds = array_map(
+			static fn (IShareable $node) => $node->getResourceId(), $calendars);
+		$backend->preloadShares($resourceIds);
 	}
 
 	/**
@@ -179,20 +201,6 @@ class Plugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function propFind(PropFind $propFind, INode $node) {
-		if ($node instanceof CalendarHome && $propFind->getDepth() === 1) {
-			$backend = $node->getCalDAVBackend();
-			if ($backend instanceof CalDavBackend) {
-				$calendars = $node->getChildren();
-				$calendars = array_filter($calendars, function (INode $node) {
-					return $node instanceof IShareable;
-				});
-				/** @var int[] $resourceIds */
-				$resourceIds = array_map(function (IShareable $node) {
-					return $node->getResourceId();
-				}, $calendars);
-				$backend->preloadShares($resourceIds);
-			}
-		}
 		if ($node instanceof IShareable) {
 			$propFind->handle('{' . Plugin::NS_OWNCLOUD . '}invite', function () use ($node) {
 				return new Invite(

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\QueryOptimizer\FlattenSingleArgumentBinaryOperation;
@@ -17,6 +19,7 @@ class OrEqualsToInTest extends TestCase {
 	private $optimizer;
 	private $simplifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

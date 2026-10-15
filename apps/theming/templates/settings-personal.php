@@ -6,4 +6,4 @@
 
 ?>
 
-<span id="theming"></span>
+<span id="settings-personal-theming"></span>

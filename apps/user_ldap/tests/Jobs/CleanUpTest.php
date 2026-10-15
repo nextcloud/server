@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Jobs;
 
 use Exception;
@@ -18,13 +20,11 @@ use OCP\IDBConnection;
 use Test\TestCase;
 
 class CleanUpTest extends TestCase {
-	/** @var CleanUp */
-	protected $bgJob;
-
-	/** @var array */
-	protected $mocks;
+	protected CleanUp $bgJob;
+	protected array $mocks;
 
 	public function setUp(): void {
+		parent::setUp();
 		$this->createMocks();
 		$this->bgJob = new CleanUp($this->mocks['timeFactory'], $this->mocks['userBackend'], $this->mocks['deletedUsersIndex']);
 		$this->bgJob->setArguments($this->mocks);
@@ -62,7 +62,7 @@ class CleanUpTest extends TestCase {
 	public function test_runNotAllowedByBrokenHelper(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->throwException(new Exception()));
+			->willThrowException(new Exception());
 
 		$this->mocks['ocConfig']->expects($this->never())
 			->method('getSystemValue');

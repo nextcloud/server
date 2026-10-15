@@ -16,13 +16,11 @@ use OCP\Migration\Attributes\AddColumn;
 use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 #[AddColumn(table: 'files_trash', name: 'deleted_by', type: ColumnType::STRING)]
 class Version1020Date20240403003535 extends SimpleMigrationStep {
-
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

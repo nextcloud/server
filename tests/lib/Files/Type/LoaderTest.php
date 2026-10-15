@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,27 +9,39 @@
 namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
+use OC\Memcache\ArrayCache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class LoaderTest extends TestCase {
 	protected IDBConnection $db;
+	protected ArrayCache $cache;
 	protected Loader $loader;
 
+	#[\Override]
 	protected function setUp(): void {
-		$this->db = \OC::$server->get(IDBConnection::class);
-		$this->loader = new Loader($this->db);
+		parent::setUp();
+
+		$this->db = Server::get(IDBConnection::class);
+		$this->cache = new ArrayCache('');
+		$this->loader = $this->createLoader();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')
 			->where($deleteMimetypes->expr()->like(
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
-		$deleteMimetypes->execute();
+		$deleteMimetypes->executeStatement();
+		$this->loader->reset();
+		parent::tearDown();
 	}
-
 
 	public function testGetMimetype(): void {
 		$qb = $this->db->getQueryBuilder();
@@ -36,7 +49,7 @@ class LoaderTest extends TestCase {
 			->values([
 				'mimetype' => $qb->createPositionalParameter('testing/mymimetype')
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->assertTrue($this->loader->exists('testing/mymimetype'));
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
@@ -61,8 +74,8 @@ class LoaderTest extends TestCase {
 			->from('mimetypes')
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($mimetypeId)));
 
-		$result = $qb->execute();
-		$mimetype = $result->fetch();
+		$result = $qb->executeQuery();
+		$mimetype = $result->fetchAssociative();
 		$result->closeCursor();
 		$this->assertEquals('testing/mymimetype', $mimetype['mimetype']);
 
@@ -75,5 +88,43 @@ class LoaderTest extends TestCase {
 		$mimetypeId2 = $this->loader->getId('testing/mymimetype');
 
 		$this->assertEquals($mimetypeId, $mimetypeId2);
+	}
+
+	private function createLoader(): Loader {
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')->willReturn($this->cache);
+		return new Loader($this->db, $cacheFactory);
+	}
+
+	private function insertMimetype(string $mimetype): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('mimetypes')
+			->values(['mimetype' => $qb->createPositionalParameter($mimetype)])
+			->executeStatement();
+		return $qb->getLastInsertId();
+	}
+
+	public function testMimetypesAreLoadedFromTheCache(): void {
+		$this->cache->set('mimetypes', [123456 => 'testing/cached']);
+
+		$this->assertSame('testing/cached', $this->createLoader()->getMimetypeById(123456));
+	}
+
+	public function testMimetypeMissingInTheCacheIsLoadedFromTheDatabase(): void {
+		$this->loader->getMimetypeById(1);
+		$id = $this->insertMimetype('testing/added-elsewhere');
+
+		$loader = $this->createLoader();
+		$this->assertSame('testing/added-elsewhere', $loader->getMimetypeById($id));
+		$this->assertTrue($loader->exists('testing/added-elsewhere'));
+		$this->assertSame($id, $loader->getId('testing/added-elsewhere'));
+	}
+
+	public function testStoreInvalidatesTheCache(): void {
+		$this->loader->getMimetypeById(1);
+		$this->assertTrue($this->cache->hasKey('mimetypes'));
+
+		$this->loader->getId('testing/stored');
+		$this->assertFalse($this->cache->hasKey('mimetypes'));
 	}
 }

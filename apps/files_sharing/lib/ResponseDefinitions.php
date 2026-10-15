@@ -22,6 +22,7 @@ namespace OCA\Files_Sharing;
  *     file_target: string,
  *     has_preview: bool,
  *     hide_download: 0|1,
+ *     is_trusted_server?: bool,
  *     is-mount-root: bool,
  *     id: string,
  *     item_mtime: int,
@@ -34,6 +35,7 @@ namespace OCA\Files_Sharing;
  *     mimetype: string,
  *     mount-type: string,
  *     note: string,
+ *     original_displayname: ?string,
  *     parent: null,
  *     password?: null|string,
  *     password_expiration_time?: ?string,
@@ -53,7 +55,7 @@ namespace OCA\Files_Sharing;
  *     token: ?string,
  *     uid_file_owner: string,
  *     uid_owner: string,
- *     url?: string,
+ *     url?: string|null,
  * }
  *
  * @psalm-type Files_SharingDeletedShare = array{
@@ -80,22 +82,23 @@ namespace OCA\Files_Sharing;
  * }
  *
  * @psalm-type Files_SharingRemoteShare = array{
- *     accepted: bool,
+ *     accepted: int,
  *     file_id: int|null,
- *     id: int,
+ *     id: string,
  *     mimetype: string|null,
  *     mountpoint: string,
  *     mtime: int|null,
  *     name: string,
  *     owner: string,
- *     parent: int|null,
+ *     parent: string|null,
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,
- *     share_token: string,
+ *     refresh_token: string,
  *     share_type: int,
  *     type: string|null,
  *     user: string,
+ *     item_size: int|float|null,
  * }
  *
  * @psalm-type Files_SharingSharee = array{

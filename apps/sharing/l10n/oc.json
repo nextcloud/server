@@ -1,0 +1,5 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Lo proprietari existís pas : %s",
+    "Sharing" : "Partiment"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

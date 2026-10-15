@@ -31,6 +31,7 @@ class DeleteSubscription extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->addArgument(
@@ -45,6 +46,7 @@ class DeleteSubscription extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = (string)$input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {

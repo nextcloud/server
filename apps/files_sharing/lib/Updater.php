@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
@@ -11,7 +13,10 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -36,18 +41,28 @@ class Updater {
 	 * @param string $path
 	 */
 	private static function moveShareInOrOutOfShare($path): void {
-		$userFolder = \OC::$server->getUserFolder();
-
-		// If the user folder can't be constructed (e.g. link share) just return.
-		if ($userFolder === null) {
+		$userInSession = Server::get(IUserSession::class)->getUser();
+		if (!$userInSession) {
 			return;
 		}
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($userInSession->getUID());
+
 		$user = $userFolder->getOwner();
 		if (!$user) {
 			throw new \Exception('user folder has no owner');
 		}
 
-		$src = $userFolder->get($path);
+		try {
+			$src = $userFolder->get($path);
+		} catch (NotFoundException) {
+			return;
+		}
+
+		// if the share itself is being moved, we don't need to do anything,
+		// since incoming shares can't be moved into other shares (and thus also not out of shares)
+		if ($src->getMountPoint() instanceof SharedMount && $src->getInternalPath() === '') {
+			return;
+		}
 
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 
@@ -75,8 +90,8 @@ class Updater {
 			foreach ($subShares as $subShare) {
 				$shareCacheEntry = $shareSources[$subShare->getNodeId()] ?? null;
 				if (
-					$shareCacheEntry &&
-					str_starts_with($shareCacheEntry->getPath(), $sourceInternalPath . '/')
+					$shareCacheEntry
+					&& str_starts_with($shareCacheEntry->getPath(), $sourceInternalPath . '/')
 				) {
 					$shares[] = $subShare;
 				}
@@ -95,9 +110,9 @@ class Updater {
 		//Ownership is moved over
 		foreach ($shares as $share) {
 			if (
-				$share->getShareType() !== IShare::TYPE_USER &&
-				$share->getShareType() !== IShare::TYPE_GROUP &&
-				$share->getShareType() !== IShare::TYPE_ROOM
+				$share->getShareType() !== IShare::TYPE_USER
+				&& $share->getShareType() !== IShare::TYPE_GROUP
+				&& $share->getShareType() !== IShare::TYPE_ROOM
 			) {
 				continue;
 			}
@@ -127,11 +142,15 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($userInSession === null) {
+			return;
+		}
+		$absNewPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $oldPath);
 
 		$mountManager = Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . $userInSession . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {

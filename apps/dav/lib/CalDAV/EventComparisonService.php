@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Schedule\IMipService;
@@ -15,13 +16,12 @@ use Sabre\VObject\Component\VEvent;
 class EventComparisonService {
 
 	/** @var string[] */
-	private const EVENT_DIFF = [
+	private const array EVENT_DIFF = [
 		'RECURRENCE-ID',
 		'RRULE',
 		'SEQUENCE',
 		'LAST-MODIFIED'
 	];
-
 
 	/**
 	 * If found, remove the event from $eventsToFilter that

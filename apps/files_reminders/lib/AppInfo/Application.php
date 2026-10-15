@@ -16,6 +16,7 @@ use OCA\FilesReminders\Listener\NodeDeletedListener;
 use OCA\FilesReminders\Listener\SabrePluginAddListener;
 use OCA\FilesReminders\Listener\UserDeletedListener;
 use OCA\FilesReminders\Notification\Notifier;
+use OCA\FilesReminders\SetupChecks\NeedNotificationsApp;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -30,9 +31,11 @@ class Application extends App implements IBootstrap {
 		parent::__construct(static::APP_ID);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 
@@ -42,5 +45,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
+
+		$context->registerSetupCheck(NeedNotificationsApp::class);
 	}
 }

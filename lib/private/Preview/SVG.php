@@ -5,16 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class SVG extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/svg\+xml/';
 	}
@@ -22,16 +26,21 @@ class SVG extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		try {
 			$content = stream_get_contents($file->fopen('r'));
-			if (substr($content, 0, 5) !== '<?xml') {
-				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+			if ($content === false) {
+				return null;
+			}
+			// check if the file can be processed by this provider
+			if (!$this->canBeProcessed($content)) {
+				return null;
 			}
 
-			// Do not parse SVG files with references
-			if (preg_match('/["\s](xlink:)?href\s*=/i', $content)) {
-				return null;
+			$content = ltrim($content);
+			if (substr($content, 0, 5) !== '<?xml') {
+				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
 			}
 
 			$svg = new \Imagick();
@@ -46,7 +55,7 @@ class SVG extends ProviderV2 {
 			$svg->readImageBlob($content);
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'File: ' . $file->getPath() . ' Imagick says:',
 				[
 					'exception' => $e,
@@ -57,7 +66,7 @@ class SVG extends ProviderV2 {
 		}
 
 		//new image object
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData((string)$svg);
 		//check if image object is valid
 		if ($image->valid()) {
@@ -66,5 +75,31 @@ class SVG extends ProviderV2 {
 			return $image;
 		}
 		return null;
+	}
+
+	/**
+	 * Check if the file can be processed by this provider,
+	 * meaning the SVG is safe to be processed and does not contain any external references.
+	 */
+	protected function canBeProcessed(string $content): bool {
+		// check for allowed encodings and convert if necessary
+		$encoding = mb_detect_encoding($content, ['UTF-8', 'ISO-2022-JP', 'ISO-8859-1'], true);
+		if ($encoding === false) {
+			return false;
+		} elseif ($encoding !== 'UTF-8') {
+			$content = mb_convert_encoding($content, 'UTF-8', $encoding);
+		}
+
+		// Strip all non-printable/control characters except newlines/tabs
+		$content = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content);
+		if ($content === null) {
+			return false;
+		}
+
+		// check for any potential external reference (include custom namespace prefix)
+		if (preg_match('/["\s\']([a-z_][a-z0-9_.-]*:)?href\s*=/i', $content)) {
+			return false;
+		}
+		return true;
 	}
 }

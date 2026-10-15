@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +11,7 @@
 namespace OC\DB\QueryBuilder;
 
 use OCP\DB\QueryBuilder\ICompositeExpression;
+use Override;
 
 class CompositeExpression implements ICompositeExpression, \Countable {
 	public const TYPE_AND = 'AND';
@@ -20,13 +23,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	) {
 	}
 
-	/**
-	 * Adds multiple parts to composite expression.
-	 *
-	 * @param array $parts
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
+	#[Override]
 	public function addMultiple(array $parts = []): ICompositeExpression {
 		foreach ($parts as $part) {
 			$this->add($part);
@@ -35,13 +32,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		return $this;
 	}
 
-	/**
-	 * Adds an expression to composite expression.
-	 *
-	 * @param mixed $part
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
+	#[Override]
 	public function add($part): ICompositeExpression {
 		if ($part === null) {
 			return $this;
@@ -61,6 +52,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return integer
 	 */
+	#[\Override]
 	public function count(): int {
 		return count($this->parts);
 	}
@@ -70,6 +62,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}

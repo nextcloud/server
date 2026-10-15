@@ -104,6 +104,7 @@ class ProfilePageController extends Controller {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
+		Util::addStyle('profile', 'main');
 		Util::addScript('profile', 'main');
 
 		return new TemplateResponse(

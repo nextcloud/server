@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -25,6 +26,7 @@ class Cleanup extends Base {
 		);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -33,6 +35,7 @@ class Cleanup extends Base {
 		$this->addArgument('provider-id', InputArgument::REQUIRED);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$providerId = $input->getArgument('provider-id');
 

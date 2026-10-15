@@ -11,9 +11,12 @@ on:
   issue_comment:
     types: [created]
 
+permissions:
+  contents: read
+
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     # On pull requests and if the comment starts with `/compile`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')
@@ -27,7 +30,7 @@ jobs:
 
     steps:
       - name: Get repository from pull request comment
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: get-repository
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -49,12 +52,12 @@ jobs:
           exit 1
 
       - name: Check actor permission
-        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v2
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v3.0
         with:
           require: write
 
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -62,7 +65,7 @@ jobs:
           reactions: '+1'
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
+        uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v3.1
         id: command
 
       # Init path depending on which command is run
@@ -80,7 +83,7 @@ jobs:
         id: comment-branch
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -94,15 +97,15 @@ jobs:
 
     steps:
       - name: Restore cached git repository
-        uses: buildjet/cache@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .git
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: true
+          persist-credentials: false
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
@@ -116,11 +119,11 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: package-engines-versions
         with:
-          fallbackNode: '^20'
-          fallbackNpm: '^10'
+          fallbackNode: '^24'
+          fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -130,9 +133,45 @@ jobs:
 
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
+        env:
+          BASE_REF: ${{ needs.init.outputs.base_ref }}
         run: |
-          git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
-          git rebase 'origin/${{ needs.init.outputs.base_ref }}'
+          git fetch origin "${BASE_REF}:${BASE_REF}"
+
+          # Start the rebase
+          git rebase "origin/${BASE_REF}" || {
+            # Handle rebase conflicts in a loop
+            while [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; do
+              echo "Handling rebase conflict..."
+
+              # Remove and checkout /dist and /js folders from the base branch
+              if [ -d "dist" ]; then
+                rm -rf dist
+                git checkout "origin/${BASE_REF}" -- dist/ 2>/dev/null || echo "No dist folder in base branch"
+              fi
+              if [ -d "js" ]; then
+                rm -rf js
+                git checkout "origin/${BASE_REF}" -- js/ 2>/dev/null || echo "No js folder in base branch"
+              fi
+
+              # Stage all changes
+              git add .
+
+              # Check if there are any changes after resolving conflicts
+              if git diff --cached --quiet; then
+                echo "No changes after conflict resolution, skipping commit"
+                git rebase --skip
+              else
+                echo "Changes found, continuing rebase without editing commit message"
+                git -c core.editor=true rebase --continue
+              fi
+
+              # Break if rebase is complete
+              if [ ! -d .git/rebase-merge ] && [ ! -d .git/rebase-apply ]; then
+                break
+              fi
+            done
+          }
 
       - name: Install dependencies & build
         env:
@@ -144,34 +183,50 @@ jobs:
 
       - name: Commit default
         if: ${{ !contains(needs.init.outputs.arg1, 'fixup') && !contains(needs.init.outputs.arg1, 'amend') }}
+        env:
+          GIT_PATH: ${{ needs.init.outputs.git_path }}
         run: |
-          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
+          git add "${GITHUB_WORKSPACE}${GIT_PATH}"
           git commit --signoff -m 'chore(assets): Recompile assets'
 
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
+        env:
+          GIT_PATH: ${{ needs.init.outputs.git_path }}
         run: |
-          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
+          git add "${GITHUB_WORKSPACE}${GIT_PATH}"
           git commit --fixup=HEAD --signoff
 
       - name: Commit amend
         if: ${{ contains(needs.init.outputs.arg1, 'amend') }}
+        env:
+          GIT_PATH: ${{ needs.init.outputs.git_path }}
         run: |
-          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
+          git add "${GITHUB_WORKSPACE}${GIT_PATH}"
           git commit --amend --no-edit --signoff
           # Remove any [skip ci] from the amended commit
           git commit --amend -m "$(git log -1 --format='%B' | sed '/\[skip ci\]/d')"
 
       - name: Push normally
         if: ${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push origin '${{ needs.init.outputs.head_ref }}'
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
+          BOT_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}  # zizmor: ignore[secrets-outside-env]
+        run: |
+          git remote set-url origin "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git"
+          git push origin "$HEAD_REF"
 
       - name: Force push
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') || contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push --force origin '${{ needs.init.outputs.head_ref }}'
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
+          BOT_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}  # zizmor: ignore[secrets-outside-env]
+        run: |
+          git remote set-url origin "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git"
+          git push --force-with-lease origin "$HEAD_REF"
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}

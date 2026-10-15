@@ -1,0 +1,359 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Preview\Db;
+
+use DateInterval;
+use DateTimeImmutable;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\IMimeTypeLoader;
+use OCP\IDBConnection;
+use OCP\Snowflake\ISnowflakeGenerator;
+use Override;
+
+/**
+ * @template-extends QBMapper<Preview>
+ */
+class PreviewMapper extends QBMapper {
+
+	private const string TABLE_NAME = 'previews';
+	private const string LOCATION_TABLE_NAME = 'preview_locations';
+	private const string VERSION_TABLE_NAME = 'preview_versions';
+	private const int MAX_INSERT_PARAMETERS = 900;
+	public const MAX_CHUNK_SIZE = 1000;
+
+	// Columns selected by joinLocation() that do not belong to the previews table
+	private const array JOINED_COLUMN_ALIASES = [
+		'version' => 'v',
+		'bucket_name' => 'l',
+		'object_store_name' => 'l',
+	];
+
+	public function __construct(
+		IDBConnection $db,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
+		private readonly ISnowflakeGenerator $snowflake,
+	) {
+		parent::__construct($db, self::TABLE_NAME, Preview::class);
+	}
+
+	#[\Override]
+	protected function mapRowToEntity(array $row): Entity {
+		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
+		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
+
+		return parent::mapRowToEntity($row);
+	}
+
+	#[Override]
+	public function insert(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+
+		// The version row reuses the preview id, so it has to exist before it is written.
+		$preview->generateId();
+		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
+		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
+
+		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+			$qb = $this->db->getQueryBuilder();
+			$qb->insert(self::VERSION_TABLE_NAME)
+				->values([
+					'id' => $qb->createNamedParameter($preview->getId()),
+					'version' => $qb->createNamedParameter($preview->getVersion(), IQueryBuilder::PARAM_STR),
+					'file_id' => $qb->createNamedParameter($preview->getFileId()),
+				])
+				->executeStatement();
+			$entity->setVersionId((string)$preview->getId());
+		}
+		return parent::insert($preview);
+	}
+
+	/**
+	 * Insert many migrated previews using multi-row INSERT statements.
+	 *
+	 * Only the columns set by the preview migration are written.
+	 *
+	 * @param list<Preview> $previews
+	 */
+	public function insertMany(array $previews): void {
+		$columns = [
+			'id' => IQueryBuilder::PARAM_STR,
+			'file_id' => IQueryBuilder::PARAM_INT,
+			'storage_id' => IQueryBuilder::PARAM_INT,
+			'old_file_id' => IQueryBuilder::PARAM_INT,
+			'location_id' => IQueryBuilder::PARAM_STR,
+			'width' => IQueryBuilder::PARAM_INT,
+			'height' => IQueryBuilder::PARAM_INT,
+			'mimetype_id' => IQueryBuilder::PARAM_INT,
+			'source_mimetype_id' => IQueryBuilder::PARAM_INT,
+			'mtime' => IQueryBuilder::PARAM_INT,
+			'size' => IQueryBuilder::PARAM_INT,
+			'max' => IQueryBuilder::PARAM_BOOL,
+			'cropped' => IQueryBuilder::PARAM_BOOL,
+			'encrypted' => IQueryBuilder::PARAM_BOOL,
+			'etag' => IQueryBuilder::PARAM_STR,
+		];
+
+		// Oracle before 23ai does not support multi-row VALUES.
+		$multiRow = $this->db->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE;
+		$bulk = [];
+		foreach ($previews as $preview) {
+			if (!$multiRow || ($preview->getVersion() !== null && $preview->getVersion() !== '')) {
+				$this->insert($preview);
+				continue;
+			}
+			$preview->generateId();
+			$bulk[] = $preview;
+		}
+
+		$platform = $this->db->getDatabasePlatform();
+		$sql = 'INSERT INTO ' . $this->db->getQueryBuilder()->getTableName(self::TABLE_NAME)
+			. ' (' . implode(', ', array_map($platform->quoteSingleIdentifier(...), array_keys($columns))) . ') VALUES ';
+		$placeholders = '(' . implode(', ', array_fill(0, count($columns), '?')) . ')';
+		$types = array_values($columns);
+
+		foreach (array_chunk($bulk, intdiv(self::MAX_INSERT_PARAMETERS, count($columns))) as $chunk) {
+			$params = [];
+			$paramTypes = [];
+			foreach ($chunk as $preview) {
+				array_push($params,
+					$preview->getId(),
+					$preview->getFileId(),
+					$preview->getStorageId(),
+					$preview->getOldFileId(),
+					$preview->getLocationId(),
+					$preview->getWidth(),
+					$preview->getHeight(),
+					$this->mimeTypeLoader->getId($preview->getMimeType()),
+					$this->mimeTypeLoader->getId($preview->getSourceMimeType()),
+					$preview->getMtime(),
+					$preview->getSize(),
+					$preview->isMax(),
+					$preview->isCropped(),
+					$preview->isEncrypted(),
+					$preview->getEtag(),
+				);
+				array_push($paramTypes, ...$types);
+			}
+			$this->db->executeStatement($sql . implode(', ', array_fill(0, count($chunk), $placeholders)), $params, $paramTypes);
+		}
+	}
+
+	#[Override]
+	public function update(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+
+		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
+		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
+
+		return parent::update($preview);
+	}
+
+	#[Override]
+	public function delete(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+
+		$versionId = $preview->getVersionId();
+		if ($versionId !== null && $versionId !== '' && $versionId !== '-1') {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete(self::VERSION_TABLE_NAME)
+				->where($qb->expr()->eq(
+					'id',
+					$qb->createNamedParameter($versionId),
+				))
+				->executeStatement();
+		}
+
+		return parent::delete($entity);
+	}
+
+	/**
+	 * @return \Generator<Preview>
+	 * @throws Exception
+	 */
+	public function getAvailablePreviewsForFile(int $fileId): \Generator {
+		$selectQb = $this->db->getQueryBuilder();
+		$this->joinLocation($selectQb)
+			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		yield from $this->yieldEntities($selectQb);
+	}
+
+	/**
+	 * @param int[] $fileIds
+	 * @return array<int, Preview[]>
+	 * @throws Exception
+	 */
+	public function getAvailablePreviews(array $fileIds): array {
+		$selectQb = $this->db->getQueryBuilder();
+		$this->joinLocation($selectQb)
+			->where(
+				$selectQb->expr()->in('p.file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
+			);
+		$previews = array_fill_keys($fileIds, []);
+		foreach ($this->yieldEntities($selectQb) as $preview) {
+			$previews[$preview->getFileId()][] = $preview;
+		}
+		return $previews;
+	}
+
+	/**
+	 * @return \Generator<Preview>
+	 */
+	public function getByFileId(int $fileId): \Generator {
+		$selectQb = $this->db->getQueryBuilder();
+		$this->joinLocation($selectQb)
+			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		yield from $this->yieldEntities($selectQb);
+	}
+
+	/**
+	 * @param int[] $previewIds
+	 */
+	public function deleteByIds(array $previewIds): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete(self::TABLE_NAME)
+			->where($qb->expr()->andX(
+				$qb->expr()->in('id', $qb->createNamedParameter($previewIds, IQueryBuilder::PARAM_INT_ARRAY))
+			))->executeStatement();
+	}
+
+	protected function joinLocation(IQueryBuilder $qb): IQueryBuilder {
+		return $qb->select('p.*', 'l.bucket_name', 'l.object_store_name', 'v.version')
+			->from(self::TABLE_NAME, 'p')
+			->leftJoin('p', self::LOCATION_TABLE_NAME, 'l', $qb->expr()->eq(
+				'p.location_id', 'l.id'
+			))
+			->leftJoin('p', self::VERSION_TABLE_NAME, 'v', $qb->expr()->eq(
+				'p.version_id', 'v.id'
+			));
+	}
+
+	/**
+	 * Get the location id corresponding to the $bucket and $objectStore. Create one
+	 * if not existing yet.
+	 *
+	 * @throws Exception
+	 */
+	public function getLocationId(string $bucket, string $objectStore): string {
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('id')
+			->from(self::LOCATION_TABLE_NAME)
+			->where($qb->expr()->eq('bucket_name', $qb->createNamedParameter($bucket)))
+			->andWhere($qb->expr()->eq('object_store_name', $qb->createNamedParameter($objectStore)))
+			->executeQuery();
+		$data = $result->fetchOne();
+		if ($data) {
+			return (string)$data;
+		} else {
+			try {
+				$id = $this->snowflake->nextId();
+				$qb->insert(self::LOCATION_TABLE_NAME)
+					->values([
+						'id' => $qb->createNamedParameter($id),
+						'bucket_name' => $qb->createNamedParameter($bucket),
+						'object_store_name' => $qb->createNamedParameter($objectStore),
+					])->executeStatement();
+				return $id;
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// Fetch again as there seems to be another entry added meanwhile
+					$result = $qb->select('id')
+						->from(self::LOCATION_TABLE_NAME)
+						->where($qb->expr()->eq('bucket_name', $qb->createNamedParameter($bucket)))
+						->andWhere($qb->expr()->eq('object_store_name', $qb->createNamedParameter($objectStore)))
+						->executeQuery();
+					$data = $result->fetchOne();
+					if ($data) {
+						return (string)$data;
+					}
+				}
+
+				throw $e;
+			}
+		}
+	}
+
+	public function deleteAll(): void {
+		$delete = $this->db->getQueryBuilder();
+		$delete->delete($this->getTableName())
+			->executeStatement();
+	}
+
+	/**
+	 * @return \Generator<Preview>
+	 */
+	public function getPreviews(string $lastId, int $limit = self::MAX_CHUNK_SIZE, ?int $maxAgeDays = null): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb)
+			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
+			->orderBy('p.id', 'ASC')
+			->setMaxResults($limit);
+
+		if ($maxAgeDays !== null) {
+			$qb->andWhere($qb->expr()->lt(
+				'p.mtime',
+				$qb->createNamedParameter(
+					(new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(),
+					IQueryBuilder::PARAM_INT,
+				),
+			));
+		}
+
+		return $this->yieldEntities($qb);
+	}
+
+	/**
+	 * @param string[] $mimeTypes
+	 * @return \Generator<Preview>
+	 */
+	public function getPreviewsForMimeTypes(array $mimeTypes): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb)
+			->where($qb->expr()->orX(
+				...array_map(function (string $mimeType) use ($qb): string {
+					return $qb->expr()->eq('source_mimetype_id', $qb->createNamedParameter($this->mimeTypeLoader->getId($mimeType), IQueryBuilder::PARAM_INT));
+				}, $mimeTypes)
+			));
+		return $this->yieldEntities($qb);
+	}
+
+	public function getPreviewForSpecification(array $parameters): ?Preview {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb);
+
+		foreach ($parameters as $key => $value) {
+			// The previews table is joined with preview_versions, which shares
+			// the file_id column name, so plain column names have to be aliased.
+			$column = str_contains($key, '.')
+				? $key
+				: (self::JOINED_COLUMN_ALIASES[$key] ?? 'p') . '.' . $key;
+			// An untyped false binds as an empty string, which PostgreSQL
+			// rejects for a boolean column.
+			$type = match (true) {
+				is_bool($value) => IQueryBuilder::PARAM_BOOL,
+				is_int($value) => IQueryBuilder::PARAM_INT,
+				default => IQueryBuilder::PARAM_STR,
+			};
+			$qb->andWhere($qb->expr()->eq($column, $qb->createNamedParameter($value, $type)));
+		}
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException) {
+			return null;
+		}
+	}
+}

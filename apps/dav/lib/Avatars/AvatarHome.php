@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Avatars;
 
 use OCP\IAvatarManager;
@@ -28,14 +29,17 @@ class AvatarHome implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create a file');
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create a folder');
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		$elements = pathinfo($name);
 		$ext = $elements['extension'] ?? '';
@@ -53,6 +57,7 @@ class AvatarHome implements ICollection {
 		return new AvatarNode($size, $ext, $avatar);
 	}
 
+	#[\Override]
 	public function getChildren() {
 		try {
 			return [
@@ -63,6 +68,7 @@ class AvatarHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		try {
 			$ret = $this->getChild($name);
@@ -74,15 +80,18 @@ class AvatarHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this folder');
 	}
 
+	#[\Override]
 	public function getName() {
 		[,$name] = Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
@@ -92,6 +101,7 @@ class AvatarHome implements ICollection {
 	 *
 	 * @return int|null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}

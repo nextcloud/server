@@ -20,11 +20,12 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProfilePageControllerTest extends TestCase {
 
-	private IUserManager $userManager;
+	private IUserManager&MockObject $userManager;
 	private ProfilePageController $controller;
 
 	protected function setUp(): void {

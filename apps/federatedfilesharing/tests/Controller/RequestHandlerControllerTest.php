@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
-use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -20,77 +20,39 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\IRequest;
-use OCP\IUserManager;
-use OCP\Share;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerTest
  *
  * @package OCA\FederatedFileSharing\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RequestHandlerControllerTest extends \Test\TestCase {
-	private $owner = 'owner';
-	private $user1 = 'user1';
-	private $user2 = 'user2';
-	private $ownerCloudId = 'owner@server0.org';
-	private $user1CloudId = 'user1@server1.org';
-	private $user2CloudId = 'user2@server2.org';
+	private string $owner = 'owner';
+	private string $user1 = 'user1';
+	private string $user2 = 'user2';
+	private string $ownerCloudId = 'owner@server0.org';
+	private string $user1CloudId = 'user1@server1.org';
 
-	/** @var RequestHandlerController */
-	private $requestHandler;
-
-	/** @var FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $federatedShareProvider;
-
-	/** @var Notifications|\PHPUnit\Framework\MockObject\MockObject */
-	private $notifications;
-
-	/** @var AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
-	private $addressHandler;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var IShare|\PHPUnit\Framework\MockObject\MockObject */
-	private $share;
-
-	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudIdManager;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $connection;
-
-	/** @var Share\IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationFactory;
-
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationProvider;
-
-	/** @var ICloudFederationShare|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationShare;
-
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
+	private RequestHandlerController $requestHandler;
+	private FederatedShareProvider&MockObject $federatedShareProvider;
+	private IShare&MockObject $share;
+	private ICloudIdManager&MockObject $cloudIdManager;
+	private LoggerInterface&MockObject $logger;
+	private IRequest&MockObject $request;
+	private IDBConnection&MockObject $connection;
+	private ICloudFederationFactory&MockObject $cloudFederationFactory;
+	private ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
+	private ICloudFederationProvider&MockObject $cloudFederationProvider;
+	private ICloudFederationShare&MockObject $cloudFederationShare;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
-		$this->share = $this->getMockBuilder(IShare::class)->getMock();
-		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
-			->disableOriginalConstructor()->getMock();
+		$this->share = $this->createMock(IShare::class);
+		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
 		$this->federatedShareProvider->expects($this->any())
@@ -98,15 +60,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->federatedShareProvider->expects($this->any())->method('getShareById')
 			->willReturn($this->share);
 
-		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
-			->disableOriginalConstructor()->getMock();
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
-			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->connection = $this->createMock(IDBConnection::class);
-		$this->shareManager = $this->createMock(Share\IManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationProvider = $this->createMock(ICloudFederationProvider::class);
@@ -121,10 +77,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			$this->request,
 			$this->federatedShareProvider,
 			$this->connection,
-			$this->shareManager,
-			$this->notifications,
-			$this->addressHandler,
-			$this->userManager,
 			$this->cloudIdManager,
 			$this->logger,
 			$this->cloudFederationFactory,
@@ -139,7 +91,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 				$this->user2,
 				'name',
 				'',
-				1,
+				'1',
 				$this->ownerCloudId,
 				$this->owner,
 				$this->user1CloudId,
@@ -149,7 +101,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 				'file'
 			)->willReturn($this->cloudFederationShare);
 
-		/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject $provider */
+		/** @var ICloudFederationProvider&MockObject $provider */
 		$this->cloudFederationProviderManager->expects($this->once())
 			->method('getCloudFederationProvider')
 			->with('file')
@@ -158,13 +110,13 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider->expects($this->once())->method('shareReceived')
 			->with($this->cloudFederationShare);
 
-		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, 1, $this->user1CloudId, $this->ownerCloudId);
+		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, '1', $this->user1CloudId, $this->ownerCloudId);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
 	public function testDeclineShare(): void {
-		$id = 42;
+		$id = '42';
 
 		$notification = [
 			'sharedSecret' => 'token',
@@ -185,9 +137,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
-
 	public function testAcceptShare(): void {
-		$id = 42;
+		$id = '42';
 
 		$notification = [
 			'sharedSecret' => 'token',

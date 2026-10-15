@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\BackgroundJob;
 
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -20,24 +21,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var IJobList|MockObject */
-	private $jobList;
-
-	/** @var IRegistry|MockObject */
-	private $registry;
-
-	/** @var Manager|MockObject */
-	private $manager;
-
-	/** @var IUser|MockObject */
-	private $user;
-
-	/** @var CheckBackupCodes */
-	private $checkBackupCodes;
+	private IUserManager&MockObject $userManager;
+	private IJobList&MockObject $jobList;
+	private IRegistry&MockObject $registry;
+	private Manager&MockObject $manager;
+	private IUser&MockObject $user;
+	private CheckBackupCodes $checkBackupCodes;
 
 	protected function setUp(): void {
 		parent::setUp();

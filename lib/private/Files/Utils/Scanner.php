@@ -5,15 +5,16 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
-use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
@@ -28,7 +29,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
-use OCP\Lock\ILockingProvider;
+use OCP\IUser;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,57 +43,28 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
-	public const MAX_ENTRIES_TO_COMMIT = 10000;
 
-	/** @var string $user */
-	private $user;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	protected LoggerInterface $logger;
-
-	/**
-	 * Whether to use a DB transaction
-	 *
-	 * @var bool
-	 */
-	protected $useTransaction;
-
-	/**
-	 * Number of entries scanned to commit
-	 *
-	 * @var int
-	 */
-	protected $entriesToCommit;
-
-	/**
-	 * @param string $user
-	 * @param IDBConnection|null $db
-	 * @param IEventDispatcher $dispatcher
-	 */
-	public function __construct($user, $db, IEventDispatcher $dispatcher, LoggerInterface $logger) {
-		$this->user = $user;
-		$this->db = $db;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
-		// when DB locking is used, no DB transactions will be used
-		$this->useTransaction = !(\OC::$server->get(ILockingProvider::class) instanceof DBLockingProvider);
+	public function __construct(
+		private readonly ?IUser $user,
+		protected readonly ?IDBConnection $db,
+		private readonly IEventDispatcher $eventDispatcher,
+		protected readonly LoggerInterface $logger,
+		private readonly SetupManager $setupManager,
+	) {
 	}
 
 	/**
-	 * get all storages for $dir
+	 * Get all storages for a specific directory.
 	 *
-	 * @param string $dir
 	 * @return array<string, IMountPoint>
 	 */
-	protected function getMounts($dir) {
+	protected function getMounts(string $dir): array {
 		//TODO: move to the node based fileapi once that's done
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($this->user);
+		$this->setupManager->tearDown();
+
+		if ($this->user !== null) {
+			$this->setupManager->setupForUser($this->user);
+		}
 
 		$mountManager = Filesystem::getMountManager();
 		$mounts = $mountManager->findIn($dir);
@@ -104,37 +77,32 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * attach listeners to the scanner
-	 *
-	 * @param \OC\Files\Mount\MountPoint $mount
 	 */
-	protected function attachListener($mount) {
+	protected function attachListener(IMountPoint $mount): void {
 		/** @var \OC\Files\Cache\Scanner $scanner */
 		$scanner = $mount->getStorage()->getScanner();
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount): void {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount): void {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount): void {
 			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount): void {
 			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount): void {
 			$this->emit('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', [$path]);
 		});
 	}
 
-	/**
-	 * @param string $dir
-	 */
-	public function backgroundScan($dir) {
+	public function backgroundScan(string $dir): void {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
 			try {
@@ -152,13 +120,13 @@ class Scanner extends PublicEmitter {
 				$scanner = $storage->getScanner();
 				$this->attachListener($mount);
 
-				$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+				$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage): void {
 					$this->triggerPropagator($storage, $path);
 				});
-				$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+				$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage): void {
 					$this->triggerPropagator($storage, $path);
 				});
-				$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+				$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage): void {
 					$this->triggerPropagator($storage, $path);
 				});
 
@@ -173,13 +141,10 @@ class Scanner extends PublicEmitter {
 	}
 
 	/**
-	 * @param string $dir
-	 * @param $recursive
-	 * @param callable|null $mountFilter
 	 * @throws ForbiddenException
 	 * @throws NotFoundException
 	 */
-	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, ?callable $mountFilter = null) {
+	public function scan(string $dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, ?callable $mountFilter = null) {
 		if (!Filesystem::isValidPath($dir)) {
 			throw new \InvalidArgumentException('Invalid path to scan');
 		}
@@ -204,7 +169,10 @@ class Scanner extends PublicEmitter {
 				foreach (['', 'files'] as $path) {
 					if (!$storage->isCreatable($path)) {
 						$fullPath = $storage->getSourcePath($path);
-						if (!$storage->is_dir($path) && $storage->getCache()->inCache($path)) {
+						if (isset($mounts[$mount->getMountPoint() . $path . '/'])) {
+							// /<user>/files is overwritten by a mountpoint, so this check is irrelevant
+							break;
+						} elseif (!$storage->is_dir($path) && $storage->getCache()->inCache($path)) {
 							throw new NotFoundException("User folder $fullPath exists in cache but not on disk");
 						} elseif ($storage->is_dir($path)) {
 							$ownerUid = fileowner($fullPath);
@@ -212,9 +180,6 @@ class Scanner extends PublicEmitter {
 							$owner = $owner['name'] ?? $ownerUid;
 							$permissions = decoct(fileperms($fullPath));
 							throw new ForbiddenException("User folder $fullPath is not writable, folders is owned by $owner and has mode $permissions");
-						} elseif (isset($mounts[$mount->getMountPoint() . $path . '/'])) {
-							// /<user>/files is overwritten by a mountpoint, so this check is irrelevant
-							break;
 						} else {
 							// if the root exists in neither the cache nor the storage the user isn't setup yet
 							break 2;
@@ -230,23 +195,22 @@ class Scanner extends PublicEmitter {
 			$relativePath = $mount->getInternalPath($dir);
 			/** @var \OC\Files\Cache\Scanner $scanner */
 			$scanner = $storage->getScanner();
-			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 
-			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
-				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
+			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage): void {
+				$this->triggerPropagator($storage, $path);
+				$this->eventDispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
-				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage): void {
+				$this->triggerPropagator($storage, $path);
+				$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
-				$this->postProcessEntry($storage, $path);
+			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage): void {
+				$this->triggerPropagator($storage, $path);
 				if ($fileId) {
-					$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 				} else {
-					$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+					$this->eventDispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
 				}
 			});
 
@@ -254,13 +218,18 @@ class Scanner extends PublicEmitter {
 				throw new NotFoundException($dir);
 			}
 
-			if ($this->useTransaction) {
-				$this->db->beginTransaction();
-			}
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
-				$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+				try {
+					$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+				} catch (LockedException $e) {
+					if (is_string($e->getReadablePath()) && str_starts_with($e->getReadablePath(), 'scanner::')) {
+						throw new LockedException("scanner::$dir", $e, $e->getExistingLock());
+					} else {
+						throw $e;
+					}
+				}
 				$cache = $storage->getCache();
 				if ($cache instanceof Cache) {
 					// only re-calculate for the root folder we scanned, anything below that is taken care of by the scanner
@@ -271,28 +240,10 @@ class Scanner extends PublicEmitter {
 				$this->logger->error('Storage ' . $storage->getId() . ' not available', ['exception' => $e]);
 				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
 			}
-			if ($this->useTransaction) {
-				$this->db->commit();
-			}
 		}
 	}
 
-	private function triggerPropagator(IStorage $storage, $internalPath) {
+	private function triggerPropagator(IStorage $storage, $internalPath): void {
 		$storage->getPropagator()->propagateChange($internalPath, time());
-	}
-
-	private function postProcessEntry(IStorage $storage, $internalPath) {
-		$this->triggerPropagator($storage, $internalPath);
-		if ($this->useTransaction) {
-			$this->entriesToCommit++;
-			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
-				$propagator = $storage->getPropagator();
-				$this->entriesToCommit = 0;
-				$this->db->commit();
-				$propagator->commitBatch();
-				$this->db->beginTransaction();
-				$propagator->beginBatch();
-			}
-		}
 	}
 }

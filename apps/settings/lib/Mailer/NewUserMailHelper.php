@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Mailer;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -74,6 +76,7 @@ class NewUserMailHelper {
 			'instancename' => $this->themingDefaults->getName(),
 			'resetTokenGenerated' => $generatePasswordResetToken,
 		]);
+		$emailTemplate->setLanguage($l10n->getLanguageCode());
 
 		$emailTemplate->setSubject($l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
 		$emailTemplate->addHeader();

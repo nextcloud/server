@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ContactsInteraction\Listeners;
 
 use OCA\ContactsInteraction\Db\CardSearchDao;
@@ -39,6 +40,7 @@ class ContactInteractionListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof ContactInteractedWithEvent)) {
 			return;
@@ -117,7 +119,8 @@ class ContactInteractionListener implements IEventListener {
 		$props = [
 			'URI' => UUIDUtil::getUUID(),
 			'FN' => $this->getDisplayName($contact->getUid()) ?? $contact->getEmail() ?? $contact->getFederatedCloudId(),
-			'CATEGORIES' => $this->l10n->t('Recently contacted'),
+			// Recently contacted not translated on purpose: https://github.com/nextcloud/contacts/issues/4663
+			'CATEGORIES' => 'Recently contacted',
 		];
 
 		if ($contact->getEmail() !== null) {

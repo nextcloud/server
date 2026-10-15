@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
@@ -14,11 +16,9 @@ use OCP\Server;
 use OCP\Util;
 
 class Helper {
-	public static function registerHooks() {
+	public static function registerHooks(): void {
 		Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
 		Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
-
-		Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser');
 	}
 
 	/**
@@ -28,7 +28,7 @@ class Helper {
 	 * @param View $view
 	 * @return string $path
 	 */
-	public static function generateUniqueTarget($path, $view) {
+	public static function generateUniqueTarget(string $path, View $view): string {
 		$pathinfo = pathinfo($path);
 		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
@@ -80,14 +80,5 @@ class Helper {
 		}
 
 		return $shareFolder;
-	}
-
-	/**
-	 * set default share folder
-	 *
-	 * @param string $shareFolder
-	 */
-	public static function setShareFolder($shareFolder) {
-		Server::get(IConfig::class)->setSystemValue('share_folder', $shareFolder);
 	}
 }

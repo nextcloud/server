@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Migration;
 
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -23,6 +23,7 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -33,8 +34,8 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 
 		$column = $table->getColumn('used');
 		if ($column->getType()->getName() !== Types::SMALLINT) {
-			$column->setType(Type::getType(Types::SMALLINT));
-			$column->setOptions(['length' => 6]);
+			$column->setType(Types::SMALLINT);
+			$column->setLength(6);
 		}
 
 		return $schema;

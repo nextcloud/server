@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -18,20 +19,17 @@ use OCP\IUserManager;
 
 class CheckBackupCodes extends QueuedJob {
 
-	/** @var Manager */
-	private $twofactorManager;
-
 	public function __construct(
 		ITimeFactory $timeFactory,
 		private IUserManager $userManager,
 		private IJobList $jobList,
-		Manager $twofactorManager,
+		private Manager $twofactorManager,
 		private IRegistry $registry,
 	) {
 		parent::__construct($timeFactory);
-		$this->twofactorManager = $twofactorManager;
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			if (!$user->isEnabled()) {

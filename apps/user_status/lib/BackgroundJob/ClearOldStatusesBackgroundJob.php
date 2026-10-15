@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\BackgroundJob;
 
 use OCA\UserStatus\Db\UserStatusMapper;
@@ -32,13 +33,13 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		// Run every time the cron is run
-		$this->setInterval(0);
+		$this->setInterval(60);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$now = $this->time->getTime();
 

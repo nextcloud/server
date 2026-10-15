@@ -1,0 +1,45 @@
+{
+  "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogDatePassword.vue": {
+    "vue/custom-event-name-casing": {
+      "count": 3
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntryQuickShareSelect.vue": {
+    "vue/no-mutating-props": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/SharingInput.vue": {
+    "@nextcloud/no-deprecated-library-props": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingDetailsTab.vue": {
+    "vue/no-mutating-props": {
+      "count": 31
+    }
+  },
+  "apps/files_sharing/src/views/SharingLinkList.vue": {
+    "vue/no-mutating-props": {
+      "count": 1
+    }
+  },
+  "apps/settings/src/components/Users/NewUserDialog.vue": {
+    "vue/no-mutating-props": {
+      "count": 2
+    }
+  },
+  "apps/workflowengine/src/components/Check.vue": {
+    "vue/no-mutating-props": {
+      "count": 3
+    }
+  },
+  "apps/workflowengine/src/components/Rule.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    },
+    "vue/no-mutating-props": {
+      "count": 1
+    }
+  }
+}

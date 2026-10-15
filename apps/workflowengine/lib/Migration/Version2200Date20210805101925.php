@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Migration;
 
 use Closure;
@@ -21,13 +22,14 @@ class Version2200Date20210805101925 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		if ($schema->hasTable('flow_operations')) {
 			$table = $schema->getTable('flow_operations');
-			$table->changeColumn('name', [
+			$table->modifyColumn('name', [
 				'notnull' => false,
 			]);
 		}

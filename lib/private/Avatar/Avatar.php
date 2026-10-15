@@ -7,20 +7,21 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Avatar;
 
 use Imagick;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
+use OCP\IConfig;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
-	protected LoggerInterface $logger;
-
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
 	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
@@ -35,8 +36,10 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -61,6 +64,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get(int $size = 64, bool $darkTheme = false) {
 		try {
 			$file = $this->getFile($size, $darkTheme);
@@ -68,7 +72,7 @@ abstract class Avatar implements IAvatar {
 			return false;
 		}
 
-		$avatar = new \OCP\Image();
+		$avatar = new Image();
 		$avatar->loadFromData($file->getContent());
 		return $avatar;
 	}
@@ -84,8 +88,7 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $darkTheme): string {
-		$userDisplayName = $this->getDisplayName();
+	protected function getAvatarVector(string $userDisplayName, int $size, bool $darkTheme): string {
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
@@ -96,9 +99,30 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
+	 * Select the rendering font based on the user's display name and language
+	 */
+	private function getFont(string $userDisplayName): string {
+		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
+			switch ($this->getAvatarLanguage()) {
+				case 'zh_TW':
+					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
+				case 'zh_HK':
+					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
+				case 'ja':
+					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+				case 'ko':
+					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+				default:
+					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
+			}
+		}
+		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+	}
+
+	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
@@ -107,14 +131,15 @@ abstract class Avatar implements IAvatar {
 		if (in_array('RSVG', $formats, true)) {
 			return null;
 		}
+		$text = $this->getAvatarText();
 		try {
-			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $darkTheme);
+			$font = $this->getFont($text);
+			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData((string)$avatar);
 			return $image->data();
 		} catch (\Exception $e) {
@@ -151,7 +176,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
@@ -165,7 +190,7 @@ abstract class Avatar implements IAvatar {
 		$data = ob_get_contents();
 		ob_end_clean();
 
-		return $data;
+		return $data ?: '';
 	}
 
 	/**
@@ -203,7 +228,6 @@ abstract class Avatar implements IAvatar {
 		return [$x, $y];
 	}
 
-
 	/**
 	 * Convert a string to an integer evenly
 	 * @param string $hash the text to parse
@@ -230,6 +254,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * @return Color Object containing r g b int in the range [0, 255]
 	 */
+	#[\Override]
 	public function avatarBackgroundColor(string $hash): Color {
 		// Normalize hash
 		$hash = strtolower($hash);
@@ -257,5 +282,13 @@ abstract class Avatar implements IAvatar {
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
 		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
+	}
+
+	/**
+	 * Get the language to be used for avatar generation.
+	 * This is used to determine the font to use for the avatar text (e.g. CJK characters).
+	 */
+	protected function getAvatarLanguage(): string {
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 }

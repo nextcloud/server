@@ -31,7 +31,27 @@ final class Task implements \JsonSerializable {
 	protected int $lastUpdated;
 
 	protected ?string $webhookUri = null;
+
 	protected ?string $webhookMethod = null;
+
+	/**
+	 * @psalm-var self::STATUS_*
+	 */
+	protected int $status = self::STATUS_UNKNOWN;
+
+	protected ?int $scheduledAt = null;
+
+	protected ?int $startedAt = null;
+
+	protected ?int $endedAt = null;
+
+	protected bool $allowCleanup = true;
+
+	protected ?string $userFacingErrorMessage = null;
+
+	protected bool $includeWatermark = true;
+
+	protected bool $preferStreaming = false;
 
 	/**
 	 * @since 30.0.0
@@ -57,15 +77,6 @@ final class Task implements \JsonSerializable {
 	 * @since 30.0.0
 	 */
 	public const STATUS_UNKNOWN = 0;
-
-	/**
-	 * @psalm-var self::STATUS_*
-	 */
-	protected int $status = self::STATUS_UNKNOWN;
-
-	protected ?int $scheduledAt = null;
-	protected ?int $startedAt = null;
-	protected ?int $endedAt = null;
 
 	/**
 	 * @param string $taskTypeId
@@ -253,9 +264,58 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<string, list<numeric|string>|numeric|string>, output: ?array<string, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float, scheduledAt: ?int, startedAt: ?int, endedAt: ?int}
+	 * @return bool
+	 * @since 32.0.0
+	 */
+	final public function getAllowCleanup(): bool {
+		return $this->allowCleanup;
+	}
+
+	/**
+	 * @param bool $allowCleanup
+	 * @since 32.0.0
+	 */
+	final public function setAllowCleanup(bool $allowCleanup): void {
+		$this->allowCleanup = $allowCleanup;
+	}
+
+	/**
+	 * @return bool
+	 * @since 33.0.0
+	 */
+	final public function getIncludeWatermark(): bool {
+		return $this->includeWatermark;
+	}
+
+	/**
+	 * @param bool $includeWatermark
+	 * @since 33.0.0
+	 */
+	final public function setIncludeWatermark(bool $includeWatermark): void {
+		$this->includeWatermark = $includeWatermark;
+	}
+
+	/**
+	 * @return bool
+	 * @since 35.0.0
+	 */
+	final public function getPreferStreaming(): bool {
+		return $this->preferStreaming;
+	}
+
+	/**
+	 * @param bool $preferStreaming
+	 * @since 35.0.0
+	 */
+	final public function setPreferStreaming(bool $preferStreaming): void {
+		$this->preferStreaming = $preferStreaming;
+	}
+
+	/**
+	 * @psalm-return array{id: int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<string, list<numeric|string>|numeric|string>, output: ?array<string, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float, scheduledAt: ?int, startedAt: ?int, endedAt: ?int, allowCleanup: bool, includeWatermark: bool, userFacingErrorMessage: ?string, preferStreaming: bool}
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	final public function jsonSerialize(): array {
 		return [
 			'id' => (int)$this->getId(),
@@ -272,6 +332,10 @@ final class Task implements \JsonSerializable {
 			'scheduledAt' => $this->getScheduledAt(),
 			'startedAt' => $this->getStartedAt(),
 			'endedAt' => $this->getEndedAt(),
+			'allowCleanup' => $this->getAllowCleanup(),
+			'includeWatermark' => $this->getIncludeWatermark(),
+			'userFacingErrorMessage' => $this->getUserFacingErrorMessage(),
+			'preferStreaming' => $this->getPreferStreaming(),
 		];
 	}
 
@@ -370,5 +434,19 @@ final class Task implements \JsonSerializable {
 			self::STATUS_SCHEDULED => 'STATUS_SCHEDULED',
 			default => 'STATUS_UNKNOWN',
 		};
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function setUserFacingErrorMessage(?string $userFacingErrorMessage): void {
+		$this->userFacingErrorMessage = $userFacingErrorMessage;
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function getUserFacingErrorMessage(): ?string {
+		return $this->userFacingErrorMessage;
 	}
 }

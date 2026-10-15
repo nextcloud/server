@@ -7,13 +7,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
+use OCA\DAV\ConfigLexicon;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\QueryException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -21,6 +24,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
@@ -30,11 +34,9 @@ use Sabre\DAV\MkCol;
 use function array_map;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var IConfig */
-	protected $config;
+	protected IL10N $l10n;
+	protected IConfig $config;
+	protected IAppConfig $appConfig;
 
 	public function __construct(
 		Backend\BackendInterface $carddavBackend,
@@ -44,6 +46,10 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		private ?IGroupManager $groupManager,
 	) {
 		parent::__construct($carddavBackend, $principalUri);
+
+		$this->l10n = Util::getL10N('dav');
+		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 	}
 
 	/**
@@ -51,20 +57,14 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return IAddressBook[]
 	 */
+	#[\Override]
 	public function getChildren() {
-		if ($this->l10n === null) {
-			$this->l10n = \OC::$server->getL10N('dav');
-		}
-		if ($this->config === null) {
-			$this->config = Server::get(IConfig::class);
-		}
-
 		/** @var string|array $principal */
 		$principal = $this->principalUri;
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		// add the system address book
 		$systemAddressBook = null;
-		$systemAddressBookExposed = $this->config->getAppValue('dav', 'system_addressbook_exposed', 'yes') === 'yes';
+		$systemAddressBookExposed = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED);
 		if ($systemAddressBookExposed && is_string($principal) && $principal !== 'principals/system/system' && $this->carddavBackend instanceof CardDavBackend) {
 			$systemAddressBook = $this->carddavBackend->getAddressBooksByUri('principals/system/system', 'system');
 			if ($systemAddressBook !== null) {
@@ -84,7 +84,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 				try {
 					$trustedServers = Server::get(TrustedServers::class);
 					$request = Server::get(IRequest::class);
-				} catch (QueryException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+				} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 					// nothing to do, the request / trusted servers don't exist
 				}
 				if ($addressBook['principaluri'] === 'principals/system/system') {
@@ -111,6 +111,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		return array_merge($objects, ...$objectsFromPlugins);
 	}
 
+	#[\Override]
 	public function createExtendedCollection($name, MkCol $mkCol) {
 		if (ExternalAddressBook::doesViolateReservedName($name)) {
 			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
@@ -131,6 +132,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getACL() {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {

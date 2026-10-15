@@ -5,13 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Listener;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
@@ -35,7 +36,9 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -53,6 +56,16 @@ class FileEventsListener implements IEventListener {
 	 * @var array<string, Node>
 	 */
 	private array $versionsDeleted = [];
+	/**
+	 * Source paths currently involved in a cross-backend rename.
+	 *
+	 * Cross-backend renames can emit write events as part of their copy/unlink
+	 * implementation. For nodes under these paths, version creation is handled
+	 * by VersionStorageMoveListener and must not be re-triggered by write_hook().
+	 *
+	 * @var array<string, true>
+	 */
+	private array $crossBackendRenamePaths = [];
 
 	public function __construct(
 		private IRootFolder $rootFolder,
@@ -63,6 +76,7 @@ class FileEventsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof NodeCreatedEvent) {
 			$this->created($event->getNode());
@@ -101,12 +115,61 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
+			$this->markCrossBackendRenamePath($event->getSource(), $event->getTarget());
 			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
 		}
 
 		if ($event instanceof BeforeNodeCopiedEvent) {
 			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
 		}
+	}
+
+	private function markCrossBackendRenamePath(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getParent()->getStorage());
+
+		if ($sourceBackend === $targetBackend) {
+			return;
+		}
+
+		$sourcePath = $this->getPathForNode($source);
+		if ($sourcePath === null) {
+			return;
+		}
+
+		$this->crossBackendRenamePaths[$this->normalizeRelativePath($sourcePath)] = true;
+	}
+
+	private function unmarkCrossBackendRenamePath(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+
+		if ($sourceBackend === $targetBackend) {
+			return;
+		}
+
+		$sourcePath = $this->getPathForNode($source);
+		if ($sourcePath === null) {
+			return;
+		}
+
+		unset($this->crossBackendRenamePaths[$this->normalizeRelativePath($sourcePath)]);
+	}
+
+	private function normalizeRelativePath(string $path): string {
+		return trim($path, '/');
+	}
+
+	private function isCrossBackendRenamePath(string $path): bool {
+		$path = $this->normalizeRelativePath($path);
+
+		foreach ($this->crossBackendRenamePaths as $renamePath => $_true) {
+			if ($path === $renamePath || ($renamePath !== '' && str_starts_with($path, $renamePath . '/'))) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function pre_touch_hook(Node $node): void {
@@ -124,6 +187,22 @@ class FileEventsListener implements IEventListener {
 	}
 
 	public function touch_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$previousNode = $this->nodesTouched[$node->getId()] ?? null;
 
 		if ($previousNode === null) {
@@ -134,8 +213,10 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				$revision = $this->versionManager->getRevision($previousNode);
+
 				// We update the timestamp of the version entity associated with the previousNode.
-				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
@@ -151,7 +232,22 @@ class FileEventsListener implements IEventListener {
 
 	public function created(Node $node): void {
 		// Do not handle folders.
-		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+		if (!($node instanceof File)) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
+		if ($this->versionManager instanceof INeedSyncVersionBackend) {
 			$this->versionManager->createVersionEntity($node);
 		}
 	}
@@ -171,6 +267,28 @@ class FileEventsListener implements IEventListener {
 		}
 
 		$path = $this->getPathForNode($node);
+		if ($path === null) {
+			return;
+		}
+
+		// Cross-backend renames can emit write events while the file is being
+		// copied away from the source storage. In that case, the dedicated
+		// VersionStorageMoveListener handles preserving versions.
+		if ($this->isCrossBackendRenamePath($path)) {
+			$this->logger->debug('Skipping version creation during cross-backend rename', [
+				'path' => $path,
+				'node' => [
+					'id' => $node->getId(),
+					'path' => $node->getPath(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				],
+				'activeCrossBackendRenamePaths' => array_keys($this->crossBackendRenamePaths),
+			]);
+
+			return;
+		}
+
 		$result = Storage::store($path);
 
 		// Store the result of the version creation so it can be used in post_write_hook.
@@ -189,6 +307,17 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$writeHookInfo = $this->writeHookInfo[$node->getId()] ?? null;
 
 		if ($writeHookInfo === null) {
@@ -196,8 +325,8 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			$writeHookInfo['versionCreated'] &&
-			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
+			$writeHookInfo['versionCreated']
+			&& $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// If both versions have the same mtime, it means the latest version file simply got overrode,
@@ -208,15 +337,26 @@ class FileEventsListener implements IEventListener {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
 				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$revision = $this->versionManager->getRevision($writeHookInfo['previousNode']);
+
 					$this->versionManager->updateVersionEntity(
 						$node,
-						$writeHookInfo['previousNode']->getMtime(),
+						$revision,
 						[
 							'timestamp' => $node->getMTime(),
 							'size' => $node->getSize(),
 							'mimetype' => $this->mimeTypeLoader->getId($node->getMimetype()),
 						],
 					);
+				}
+			} catch (DoesNotExistException $e) {
+				// This happens if the versions app was not enabled while the file was created or updated the last time.
+				// meaning there is no such revision and we need to create this file.
+				if ($writeHookInfo['versionCreated']) {
+					$this->created($node);
+				} else {
+					// Normally this should not happen so we re-throw the exception to not hide any potential issues.
+					throw $e;
 				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
@@ -241,7 +381,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * Erase versions of deleted file
 	 *
-	 * This function is connected to the delete signal of OC_Filesystem
+	 * This function is connected to the NodeDeletedEvent event
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public function remove_hook(Node $node): void {
@@ -253,6 +393,9 @@ class FileEventsListener implements IEventListener {
 		$node = $this->versionsDeleted[$path];
 		$relativePath = $this->getPathForNode($node);
 		unset($this->versionsDeleted[$path]);
+		if ($relativePath === null) {
+			return;
+		}
 		Storage::delete($relativePath);
 		// If no new version was stored in the FS, no new version should be added in the DB.
 		// So we simply update the associated version.
@@ -266,6 +409,9 @@ class FileEventsListener implements IEventListener {
 	 */
 	public function pre_remove_hook(Node $node): void {
 		$path = $this->getPathForNode($node);
+		if ($path === null) {
+			return;
+		}
 		Storage::markDeletedFile($path);
 		$this->versionsDeleted[$node->getPath()] = $node;
 	}
@@ -273,10 +419,12 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * rename/move versions of renamed/moved files
 	 *
-	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
+	 * This function is connected to the NodeRenamedEvent event and adjust the name and location
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
+		$this->unmarkCrossBackendRenamePath($source, $target);
+
 		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
 		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
 		// If different backends, do nothing.
@@ -286,13 +434,16 @@ class FileEventsListener implements IEventListener {
 
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
 		Storage::renameOrCopy($oldPath, $newPath, 'rename');
 	}
 
 	/**
 	 * copy versions of copied files
 	 *
-	 * This function is connected to the copy signal of OC_Filesystem and copies the
+	 * This function is connected to the NodeCopiedEvent event and copies the
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
@@ -305,6 +456,9 @@ class FileEventsListener implements IEventListener {
 
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
 		Storage::renameOrCopy($oldPath, $newPath, 'copy');
 	}
 
@@ -323,19 +477,27 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		// if we rename a movable mount point, then the versions don't have
-		// to be renamed
+		// if we rename a movable mount point, then the versions don't have to be renamed
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
-		$manager = Filesystem::getMountManager();
-		$mount = $manager->find($absOldPath);
-		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' and $mount instanceof MoveableMount) {
+		if ($oldPath === null || $newPath === null) {
 			return;
 		}
 
-		$view = new View(\OC_User::getUser() . '/files');
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user === null) {
+			return;
+		}
+
+		$absOldPath = Filesystem::normalizePath('/' . $user . '/files' . $oldPath);
+		$manager = Filesystem::getMountManager();
+		$mount = $manager->find($absOldPath);
+		$internalPath = $mount->getInternalPath($absOldPath);
+		if ($internalPath === '' && $mount instanceof IMovableMount) {
+			return;
+		}
+
+		$view = new View($user . '/files');
 		if ($view->file_exists($newPath)) {
 			Storage::store($newPath);
 		} else {
@@ -361,7 +523,7 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			$owner = $node->getOwner()?->getUid();
-		} catch (\OCP\Files\NotFoundException) {
+		} catch (NotFoundException) {
 			$owner = null;
 		}
 
@@ -384,6 +546,24 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
+		if (!($node instanceof NonExistingFile) && !($node instanceof NonExistingFolder)) {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+					'fileid' => $node->getId(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				]
+			]);
+		} else {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+				]
+			]);
+		}
 		return null;
 	}
 }

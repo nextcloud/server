@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitShareByMail
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\ShareByMail\\' => 16,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\ShareByMail\\' => 
+        'OCA\\ShareByMail\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

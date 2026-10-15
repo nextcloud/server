@@ -1,14 +1,18 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
+use OCA\Federation\TrustedServers;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -16,22 +20,22 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
-	/** @var string remote part of the current user's cloud id */
-	private string $currentUserRemote;
 
 	public function __construct(
-		private IConfig $config,
-		private IClientService $clientService,
+		private readonly IConfig $config,
+		private readonly IClientService $clientService,
 		IUserSession $userSession,
-		private ICloudIdManager $cloudIdManager,
-		private LoggerInterface $logger,
+		private readonly ICloudIdManager $cloudIdManager,
+		private readonly LoggerInterface $logger,
+		private readonly ?TrustedServers $trustedServers,
+		private readonly GlobalScaleConfig $globalScaleConfig,
 	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
-		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
-		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
+	#[\Override]
+	public function search(string $search, int $limit, int $offset, ISearchResult $searchResult): bool {
+		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
@@ -51,11 +55,16 @@ class LookupPlugin implements ISearchPlugin {
 
 		try {
 			$client = $this->clientService->newClient();
+			/**
+			 * @psalm-suppress TypeDoesNotContainType - $isGlobalScaleEnabled always true at this point
+			 * @psalm-suppress RedundantCondition - guard rail in case we re-activate LUS out of GlobalScale
+			 */
 			$response = $client->get(
 				$lookupServerUrl . '/users?search=' . urlencode($search),
 				[
 					'timeout' => 10,
 					'connect_timeout' => 3,
+					'verify' => !($isGlobalScaleEnabled && $this->config->getSystemValueBool('gss.selfsigned.allow', false) === true)
 				]
 			);
 
@@ -70,9 +79,6 @@ class LookupPlugin implements ISearchPlugin {
 					]);
 					continue;
 				}
-				if ($this->currentUserRemote === $remote) {
-					continue;
-				}
 				$name = $lookup['name']['value'] ?? '';
 				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
 				$result[] = [
@@ -81,6 +87,8 @@ class LookupPlugin implements ISearchPlugin {
 						'shareType' => IShare::TYPE_REMOTE,
 						'globalScale' => $isGlobalScaleEnabled,
 						'shareWith' => $lookup['federationId'],
+						'server' => $remote,
+						'isTrustedServer' => $this->trustedServers?->isTrustedServer($remote) ?? false,
 					],
 					'extra' => $lookup,
 				];

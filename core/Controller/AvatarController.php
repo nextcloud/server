@@ -5,25 +5,27 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Avatar\AvatarManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
-use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
-use OCP\IAvatarManager;
-use OCP\ICache;
+use OCP\Files\IUserFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -34,14 +36,29 @@ use Psr\Log\LoggerInterface;
  * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
+	private const CACHE_DEFAULT = 60 * 60 * 24;
+
+	/**
+	 * Long enough to span the gap between infrequent large calls, which is where
+	 * the cost of refetching everyone's avatar lands. Not longer, because this
+	 * is also how long a missed version bump stays wrong.
+	 */
+	private const CACHE_VERSIONED = 60 * 60 * 24 * 60;
+
+	/**
+	 * In some situations everyone fetches everyone else's avatar at once, so a fixed
+	 * window expires the whole set together and the next call pays for all of
+	 * it. Offsetting per user spreads those refetches over later calls.
+	 */
+	private const CACHE_SPREAD = 60 * 60 * 24 * 30;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		protected IAvatarManager $avatarManager,
-		protected ICache $cache,
+		protected AvatarManager $avatarManager,
 		protected IL10N $l10n,
 		protected IUserManager $userManager,
-		protected IRootFolder $rootFolder,
+		protected ?IUserFolder $userFolder,
 		protected LoggerInterface $logger,
 		protected ?string $userId,
 		protected TimeFactory $timeFactory,
@@ -51,13 +68,12 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get the dark avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @param string $v Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
@@ -68,7 +84,8 @@ class AvatarController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
+	#[NoSameSiteCookieRequired]
+	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -96,20 +113,17 @@ class AvatarController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24, false, true);
+		$response->cacheFor($this->cacheSecondsFor($userId, $v), false, true);
 		return $response;
 	}
 
-
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get the avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @param string $v Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
@@ -120,7 +134,8 @@ class AvatarController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
+	#[NoSameSiteCookieRequired]
+	public function getAvatar(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -148,11 +163,25 @@ class AvatarController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24, false, true);
+		$response->cacheFor($this->cacheSecondsFor($userId, $v), false, true);
 		return $response;
 	}
 
+	/**
+	 * Decided here rather than by the caller: attaching a version to an avatar
+	 * whose visibility depends on the viewer must not buy a month of caching.
+	 */
+	private function cacheSecondsFor(string $userId, string $version): int {
+		if ($version !== '' && $this->avatarManager->canCacheAvatarLongTerm($userId)) {
+			return self::CACHE_VERSIONED + (crc32($userId) % self::CACHE_SPREAD);
+		}
+
+		return self::CACHE_DEFAULT;
+	}
+
+	/**
+	 * @param ?non-empty-string $path
+	 */
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/')]
 	public function postAvatar(?string $path = null): JSONResponse {
@@ -160,9 +189,8 @@ class AvatarController extends Controller {
 
 		if (isset($path)) {
 			$path = stripslashes($path);
-			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			/** @var File $node */
-			$node = $userFolder->get($path);
+			$node = $this->userFolder->get($path);
 			if (!($node instanceof File)) {
 				return new JSONResponse(['data' => ['message' => $this->l10n->t('Please select a file.')]]);
 			}
@@ -182,7 +210,7 @@ class AvatarController extends Controller {
 
 			try {
 				$content = $node->getContent();
-			} catch (\OCP\Files\NotPermittedException $e) {
+			} catch (NotPermittedException $e) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l10n->t('The selected file cannot be read.')]],
 					Http::STATUS_BAD_REQUEST
@@ -190,8 +218,8 @@ class AvatarController extends Controller {
 			}
 		} elseif (!is_null($files)) {
 			if (
-				$files['error'][0] === 0 &&
-				 is_uploaded_file($files['tmp_name'][0])
+				$files['error'][0] === 0
+				 && is_uploaded_file($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
@@ -199,8 +227,7 @@ class AvatarController extends Controller {
 						Http::STATUS_BAD_REQUEST
 					);
 				}
-				$this->cache->set('avatar_upload', file_get_contents($files['tmp_name'][0]), 7200);
-				$content = $this->cache->get('avatar_upload');
+				$content = file_get_contents($files['tmp_name'][0]);
 				unlink($files['tmp_name'][0]);
 			} else {
 				$phpFileUploadErrors = [
@@ -229,7 +256,7 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData($content);
 			$image->readExif($content);
 			$image->fixOrientation();
@@ -247,8 +274,6 @@ class AvatarController extends Controller {
 					try {
 						$avatar = $this->avatarManager->getAvatar($this->userId);
 						$avatar->set($image);
-						// Clean up
-						$this->cache->remove('tmpAvatar');
 						return new JSONResponse(['status' => 'success']);
 					} catch (\Throwable $e) {
 						$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
@@ -256,9 +281,8 @@ class AvatarController extends Controller {
 					}
 				}
 
-				$this->cache->set('tmpAvatar', $image->data(), 7200);
 				return new JSONResponse(
-					['data' => 'notsquare'],
+					['data' => 'notsquare', 'image' => 'data:' . $mimeType . ';base64,' . base64_encode($image->data())],
 					Http::STATUS_OK
 				);
 			} else {
@@ -280,73 +304,6 @@ class AvatarController extends Controller {
 			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->remove();
 			return new JSONResponse();
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
-			return new JSONResponse(['data' => ['message' => $this->l10n->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
-		}
-	}
-
-	/**
-	 * @return JSONResponse|DataDisplayResponse
-	 */
-	#[NoAdminRequired]
-	#[FrontpageRoute(verb: 'GET', url: '/avatar/tmp')]
-	public function getTmpAvatar() {
-		$tmpAvatar = $this->cache->get('tmpAvatar');
-		if (is_null($tmpAvatar)) {
-			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t('No temporary profile picture available, try again')
-			]],
-				Http::STATUS_NOT_FOUND);
-		}
-
-		$image = new \OCP\Image();
-		$image->loadFromData($tmpAvatar);
-
-		$resp = new DataDisplayResponse(
-			$image->data() ?? '',
-			Http::STATUS_OK,
-			['Content-Type' => $image->mimeType()]);
-
-		$resp->setETag((string)crc32($image->data() ?? ''));
-		$resp->cacheFor(0);
-		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
-		return $resp;
-	}
-
-	#[NoAdminRequired]
-	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
-	public function postCroppedAvatar(?array $crop = null): JSONResponse {
-		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t('No crop data provided')]],
-				Http::STATUS_BAD_REQUEST);
-		}
-
-		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t('No valid crop data provided')]],
-				Http::STATUS_BAD_REQUEST);
-		}
-
-		$tmpAvatar = $this->cache->get('tmpAvatar');
-		if (is_null($tmpAvatar)) {
-			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t('No temporary profile picture available, try again')
-			]],
-				Http::STATUS_BAD_REQUEST);
-		}
-
-		$image = new \OCP\Image();
-		$image->loadFromData($tmpAvatar);
-		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
-		try {
-			$avatar = $this->avatarManager->getAvatar($this->userId);
-			$avatar->set($image);
-			// Clean up
-			$this->cache->remove('tmpAvatar');
-			return new JSONResponse(['status' => 'success']);
-		} catch (\OC\NotSquareException $e) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t('Crop is not square')]],
-				Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l10n->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);

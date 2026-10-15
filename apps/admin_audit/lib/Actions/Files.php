@@ -5,12 +5,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\AdminAudit\Actions;
 
 use OC\Files\Node\NonExistingFile;
+use OCA\AdminAudit\Operation;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
-use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
@@ -26,9 +27,6 @@ use Psr\Log\LoggerInterface;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
-
-	private array $renamedNodes = [];
-
 	/**
 	 * Logs file read actions
 	 */
@@ -36,7 +34,7 @@ class Files extends Action {
 		try {
 			$node = $event->getNode();
 			$params = [
-				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'id' => $node instanceof NonExistingFile ? 'not-yet-assigned' : $node->getId(),
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
@@ -46,6 +44,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileRead,
 			'File with id "%s" accessed: "%s"',
 			$params,
 			array_keys($params)
@@ -55,28 +54,13 @@ class Files extends Action {
 	/**
 	 * Logs rename actions of files
 	 */
-	public function beforeRename(BeforeNodeRenamedEvent $event): void {
-		try {
-			$source = $event->getSource();
-			$this->renamedNodes[$source->getId()] = $source;
-		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
-				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
-			);
-			return;
-		}
-	}
-
-	/**
-	 * Logs rename actions of files
-	 */
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
-			$originalSource = $this->renamedNodes[$target->getId()];
+			$source = $event->getSource();
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => $originalSource->getPath(),
+				'oldpath' => $source->getPath(),
 				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
@@ -87,21 +71,22 @@ class Files extends Action {
 		}
 
 		$this->log(
+			Operation::FileRenamed,
 			'File renamed with id "%s" from "%s" to "%s"',
 			$params,
 			array_keys($params)
 		);
 	}
 
-
 	/**
 	 * Logs creation of files
 	 */
 	public function create(NodeCreatedEvent $event): void {
 		try {
+			$node = $event->getNode();
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => $event->getNode()->getPath(),
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -113,6 +98,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileCreated,
 			'File with id "%s" created: "%s"',
 			$params,
 			array_keys($params)
@@ -124,11 +110,13 @@ class Files extends Action {
 	 */
 	public function copy(NodeCopiedEvent $event): void {
 		try {
+			$source = $event->getSource();
+			$target = $event->getTarget();
 			$params = [
-				'oldid' => $event->getSource()->getId(),
-				'newid' => $event->getTarget()->getId(),
-				'oldpath' => $event->getSource()->getPath(),
-				'newpath' => $event->getTarget()->getPath(),
+				'oldid' => $source->getId(),
+				'newid' => $target->getId(),
+				'oldpath' => $source->getPath(),
+				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -137,6 +125,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileCopied,
 			'File id copied from: "%s" to "%s", path from "%s" to "%s"',
 			$params,
 			array_keys($params)
@@ -147,8 +136,8 @@ class Files extends Action {
 	 * Logs writing of files
 	 */
 	public function write(NodeWrittenEvent $event): void {
-		$node = $event->getNode();
 		try {
+			$node = $event->getNode();
 			$params = [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
@@ -164,6 +153,7 @@ class Files extends Action {
 		}
 
 		$this->log(
+			Operation::FileWritten,
 			'File with id "%s" written to: "%s"',
 			$params,
 			array_keys($params)
@@ -175,9 +165,10 @@ class Files extends Action {
 	 */
 	public function delete(BeforeNodeDeletedEvent $event): void {
 		try {
+			$node = $event->getNode();
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => $event->getNode()->getPath(),
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -186,6 +177,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileDeleted,
 			'File with id "%s" deleted: "%s"',
 			$params,
 			array_keys($params)

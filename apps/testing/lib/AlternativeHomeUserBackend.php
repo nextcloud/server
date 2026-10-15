@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Testing;
 
 use OC\User\Database;
@@ -30,6 +32,7 @@ class AlternativeHomeUserBackend extends Database {
 	 * @param string $uid the username
 	 * @return string|false
 	 */
+	#[\Override]
 	public function getHome($uid) {
 		if ($this->userExists($uid)) {
 			// workaround to avoid killing the admin

@@ -1,14 +1,21 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\App;
 
 use OCP\ICache;
 use function simplexml_load_string;
 
+/**
+ * @psalm-import-type AppInfoLocalizedEntry from \OCP\App\AppInfoDefinition
+ * @psalm-import-type AppInfoXmlDefinition from \OCP\App\AppInfoDefinition
+ * @psalm-import-type AppInfoDefinition from \OCP\App\AppInfoDefinition
+ */
 class InfoParser {
 	/**
 	 * @param ICache|null $cache
@@ -20,17 +27,18 @@ class InfoParser {
 
 	/**
 	 * @param string $file the xml file to be loaded
-	 * @return null|array where null is an indicator for an error
+	 * @return AppInfoXmlDefinition|null - The parsed app info or null if an error occurred
 	 */
-	public function parse($file) {
+	public function parse(string $file): ?array {
 		if (!file_exists($file)) {
 			return null;
 		}
 
+		$fileCacheKey = $file . filemtime($file);
 		if ($this->cache !== null) {
-			$fileCacheKey = $file . filemtime($file);
-			if ($cachedValue = $this->cache->get($fileCacheKey)) {
-				return json_decode($cachedValue, true);
+			$cachedValue = $this->cache->get($fileCacheKey);
+			if (is_array($cachedValue)) {
+				return $cachedValue;
 			}
 		}
 
@@ -41,14 +49,14 @@ class InfoParser {
 			libxml_clear_errors();
 			return null;
 		}
-		$array = $this->xmlToArray($xml);
 
-		if (is_null($array)) {
+		$array = $this->xmlToArray($xml);
+		if (is_string($array)) {
 			return null;
 		}
 
-		if (!array_key_exists('info', $array)) {
-			$array['info'] = [];
+		if (!array_key_exists('description', $array)) {
+			$array['description'] = '';
 		}
 		if (!array_key_exists('remote', $array)) {
 			$array['remote'] = [];
@@ -165,11 +173,8 @@ class InfoParser {
 		if (isset($array['activity']['providers']['provider']) && is_array($array['activity']['providers']['provider'])) {
 			$array['activity']['providers'] = $array['activity']['providers']['provider'];
 		}
-		if (isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
-			&& is_array($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
-			&& !isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin']['class'])
-		) {
-			$array['collaboration']['collaborators']['searchPlugins'] = $array['collaboration']['collaborators']['searchPlugins']['searchPlugin'];
+		if (isset($array['collaboration']['plugins']['plugin']) && is_array($array['collaboration']['plugins']['plugin'])) {
+			$array['collaboration']['plugins'] = $array['collaboration']['plugins']['plugin'];
 		}
 		if (isset($array['settings']['admin']) && !is_array($array['settings']['admin'])) {
 			$array['settings']['admin'] = [$array['settings']['admin']];
@@ -183,11 +188,20 @@ class InfoParser {
 		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
+		if (isset($array['settings']['admin-delegation']) && !is_array($array['settings']['admin-delegation'])) {
+			$array['settings']['admin-delegation'] = [$array['settings']['admin-delegation']];
+		}
+		if (isset($array['settings']['admin-delegation-section']) && !is_array($array['settings']['admin-delegation-section'])) {
+			$array['settings']['admin-delegation-section'] = [$array['settings']['admin-delegation-section']];
+		}
 		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
 			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
 		}
 		if (isset($array['dependencies']['backend']) && !is_array($array['dependencies']['backend'])) {
 			$array['dependencies']['backend'] = [$array['dependencies']['backend']];
+		}
+		if (isset($array['openmetrics']['exporter']) && !is_array($array['openmetrics']['exporter'])) {
+			$array['openmetrics']['exporter'] = [$array['openmetrics']['exporter']];
 		}
 
 		// Ensure some fields are always arrays
@@ -201,17 +215,16 @@ class InfoParser {
 			$array['category'] = [$array['category']];
 		}
 
+		/**
+		 * @var AppInfoXmlDefinition $array
+		 */
 		if ($this->cache !== null) {
-			$this->cache->set($fileCacheKey, json_encode($array));
+			$this->cache->set($fileCacheKey, $array);
 		}
 		return $array;
 	}
 
-	/**
-	 * @param $data
-	 * @return bool
-	 */
-	private function isNavigationItem($data): bool {
+	private function isNavigationItem(array $data): bool {
 		// Allow settings navigation items with no route entry
 		$type = $data['type'] ?? 'link';
 		if ($type === 'settings') {
@@ -220,17 +233,17 @@ class InfoParser {
 		return isset($data['name'], $data['route']);
 	}
 
-	/**
-	 * @param \SimpleXMLElement $xml
-	 * @return array
-	 */
-	public function xmlToArray($xml) {
-		if (!$xml->children()) {
+	public function xmlToArray(\SimpleXMLElement $xml): array|string {
+		$children = $xml->children();
+		if ($children === null || count($children) === 0) {
 			return (string)$xml;
 		}
 
 		$array = [];
-		foreach ($xml->children() as $element => $node) {
+		foreach ($children as $element => $node) {
+			if ($element === null) {
+				throw new \InvalidArgumentException('xml contains a null element');
+			}
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
@@ -242,15 +255,18 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())) {
-					$value = (string)$node;
-					if (!empty($value)) {
-						$data['@value'] = $value;
+				$converted = $this->xmlToArray($node);
+				if (is_string($converted)) {
+					if (!empty($converted)) {
+						$data['@value'] = $converted;
 					}
 				} else {
-					$data = array_merge($data, $this->xmlToArray($node));
+					$data = array_merge($data, $converted);
 				}
 				foreach ($attributes as $attr => $value) {
+					if ($attr === null) {
+						throw new \InvalidArgumentException('xml contains a null element');
+					}
 					$data['@attributes'][$attr] = (string)$value;
 				}
 
@@ -270,5 +286,94 @@ class InfoParser {
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Select the appropriate l10n version for fields name, summary and description
+	 *
+	 * @param AppInfoXmlDefinition $data
+	 * @return AppInfoDefinition
+	 */
+	public function applyL10N(array $data, string $lang): array {
+		// Ensure name is set and convert arrays to strings
+		if (!isset($data['name'])) {
+			$data['name'] = '';
+		} elseif (is_array($data['name'])) {
+			$data['name'] = $this->findBestL10NOption($data['name'], $lang);
+		}
+		$data['name'] = trim((string)$data['name']);
+
+		if (!isset($data['summary'])) {
+			$data['summary'] = '';
+		} elseif (is_array($data['summary'])) {
+			$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
+		}
+		$data['summary'] = trim((string)$data['summary']);
+
+		// Ensure description is set and convert arrays to strings
+		if (!isset($data['description'])) {
+			$data['description'] = '';
+		} elseif (is_array($data['description'])) {
+			$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
+		}
+		$data['description'] = trim((string)$data['description']);
+
+		return $data;
+	}
+
+	/**
+	 * @param AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry> $options - The available l10n options for a field
+	 * @param string $lang - The desired language code
+	 * @return string - The best matching l10n option for the given language
+	 */
+	protected function findBestL10NOption(array $options, string $lang): string {
+		// only a single option
+		if (isset($options['@value'])) {
+			return $options['@value'];
+		}
+
+		$fallback = $similarLangFallback = $englishFallback = false;
+
+		$lang = strtolower($lang);
+		$similarLang = $lang;
+		$pos = strpos($similarLang, '_');
+		if ($pos !== false && $pos > 0) {
+			// For "de_DE" we want to find "de" and the other way around
+			$similarLang = substr($lang, 0, $pos);
+		}
+
+		foreach ($options as $option) {
+			if (is_array($option)) {
+				if ($fallback === false) {
+					$fallback = $option['@value'];
+				}
+
+				if (!isset($option['@attributes']['lang'])) {
+					continue;
+				}
+
+				$attributeLang = strtolower($option['@attributes']['lang']);
+				if ($attributeLang === $lang) {
+					return $option['@value'];
+				}
+
+				if ($attributeLang === $similarLang) {
+					$similarLangFallback = $option['@value'];
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
+					if ($similarLangFallback === false) {
+						$similarLangFallback = $option['@value'];
+					}
+				}
+			} else {
+				$englishFallback = $option;
+			}
+		}
+
+		if ($similarLangFallback !== false) {
+			return $similarLangFallback;
+		} elseif ($englishFallback !== false) {
+			return $englishFallback;
+		}
+		return (string)$fallback;
 	}
 }

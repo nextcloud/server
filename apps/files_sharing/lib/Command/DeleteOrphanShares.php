@@ -23,6 +23,7 @@ class DeleteOrphanShares extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('sharing:delete-orphan-shares')
@@ -32,12 +33,17 @@ class DeleteOrphanShares extends Base {
 				'f',
 				InputOption::VALUE_NONE,
 				'delete the shares without asking'
-			);
+			)
+			->addOption('owner', null, InputOption::VALUE_REQUIRED, 'Only check shares owned by a specific user')
+			->addOption('with', null, InputOption::VALUE_REQUIRED, 'Only check shares with a specific user');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$force = $input->getOption('force');
-		$shares = $this->orphanHelper->getAllShares();
+		$owner = $input->getOption('owner') ?: null;
+		$with = $input->getOption('with') ?: null;
+		$shares = $this->orphanHelper->getAllShares($owner, $with);
 
 		$orphans = [];
 		foreach ($shares as $share) {

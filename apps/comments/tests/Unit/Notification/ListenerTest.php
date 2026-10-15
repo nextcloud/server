@@ -5,34 +5,33 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Notification\Listener;
-use OCP\Comments\CommentsEvent;
+use OCP\Comments\Events\BeforeCommentUpdatedEvent;
+use OCP\Comments\Events\CommentAddedEvent;
+use OCP\Comments\Events\CommentDeletedEvent;
+use OCP\Comments\Events\CommentUpdatedEvent;
 use OCP\Comments\IComment;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ListenerTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
+	protected IManager&MockObject $notificationManager;
+	protected IUserManager&MockObject $userManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected Listener $listener;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-
-	/** @var Listener */
-	protected $listener;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->notificationManager = $this->createMock(\OCP\Notification\IManager::class);
+		$this->notificationManager = $this->createMock(IManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->listener = new Listener(
@@ -41,23 +40,23 @@ class ListenerTest extends TestCase {
 		);
 	}
 
-	public function eventProvider() {
+	public static function eventProvider(): array {
 		return [
-			[CommentsEvent::EVENT_ADD, 'notify'],
-			[CommentsEvent::EVENT_UPDATE, 'notify'],
-			[CommentsEvent::EVENT_PRE_UPDATE, 'markProcessed'],
-			[CommentsEvent::EVENT_DELETE, 'markProcessed']
+			['add', 'notify'],
+			['update', 'notify'],
+			['pre_update', 'markProcessed'],
+			['delete', 'markProcessed']
 		];
 	}
 
 	/**
-	 * @dataProvider eventProvider
 	 * @param string $eventType
 	 * @param string $notificationMethod
 	 */
-	public function testEvaluate($eventType, $notificationMethod): void {
-		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'eventProvider')]
+	public function testEvaluate(string $eventType, $notificationMethod): void {
+		/** @var IComment|MockObject $comment */
+		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
@@ -78,19 +77,15 @@ class ListenerTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-		$event = $this->getMockBuilder(CommentsEvent::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$event->expects($this->once())
-			->method('getComment')
-			->willReturn($comment);
-		$event->expects(($this->any()))
-			->method(('getEvent'))
-			->willReturn($eventType);
+		$event = match ($eventType) {
+			'add' => new CommentAddedEvent($comment),
+			'pre_update' => new BeforeCommentUpdatedEvent($comment),
+			'update' => new CommentUpdatedEvent($comment),
+			'delete' => new CommentDeletedEvent($comment),
+		};
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
-		$notification = $this->getMockBuilder(INotification::class)->getMock();
+		/** @var INotification|MockObject $notification */
+		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
 			->method($this->anything())
 			->willReturn($notification);
@@ -106,26 +101,22 @@ class ListenerTest extends TestCase {
 
 		$this->userManager->expects($this->exactly(6))
 			->method('userExists')
-			->withConsecutive(
-				['foobar'],
-				['barfoo'],
-				['foo@bar.com'],
-				['bar@foo.org@foobar.io'],
-				['23452-4333-54353-2342'],
-				['yolo']
-			)
-			->willReturn(true);
+			->willReturnMap([
+				['foobar', true],
+				['barfoo', true],
+				['foo@bar.com', true],
+				['bar@foo.org@foobar.io', true],
+				['23452-4333-54353-2342', true],
+				['yolo', true]
+			]);
 
 		$this->listener->evaluate($event);
 	}
 
-	/**
-	 * @dataProvider eventProvider
-	 * @param string $eventType
-	 */
-	public function testEvaluateNoMentions($eventType): void {
-		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'eventProvider')]
+	public function testEvaluateNoMentions(string $eventType): void {
+		/** @var IComment|MockObject $comment */
+		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
@@ -136,16 +127,12 @@ class ListenerTest extends TestCase {
 			->method('getMentions')
 			->willReturn([]);
 
-		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-		$event = $this->getMockBuilder(CommentsEvent::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$event->expects($this->once())
-			->method('getComment')
-			->willReturn($comment);
-		$event->expects(($this->any()))
-			->method(('getEvent'))
-			->willReturn($eventType);
+		$event = match ($eventType) {
+			'add' => new CommentAddedEvent($comment),
+			'pre_update' => new BeforeCommentUpdatedEvent($comment),
+			'update' => new CommentUpdatedEvent($comment),
+			'delete' => new CommentDeletedEvent($comment),
+		};
 
 		$this->notificationManager->expects($this->never())
 			->method('createNotification');
@@ -161,8 +148,8 @@ class ListenerTest extends TestCase {
 	}
 
 	public function testEvaluateUserDoesNotExist(): void {
-		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
-		$comment = $this->getMockBuilder(IComment::class)->getMock();
+		/** @var IComment|MockObject $comment */
+		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
@@ -176,19 +163,10 @@ class ListenerTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-		$event = $this->getMockBuilder(CommentsEvent::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$event->expects($this->once())
-			->method('getComment')
-			->willReturn($comment);
-		$event->expects(($this->any()))
-			->method(('getEvent'))
-			->willReturn(CommentsEvent::EVENT_ADD);
+		$event = new CommentAddedEvent($comment);
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
-		$notification = $this->getMockBuilder(INotification::class)->getMock();
+		/** @var INotification|MockObject $notification */
+		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
 			->method($this->anything())
 			->willReturn($notification);
@@ -203,9 +181,7 @@ class ListenerTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('userExists')
-			->withConsecutive(
-				['foobar']
-			)
+			->with('foobar')
 			->willReturn(false);
 
 		$this->listener->evaluate($event);

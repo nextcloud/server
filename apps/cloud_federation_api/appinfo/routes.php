@@ -9,6 +9,11 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		[
+			'name' => 'Token#jwks',
+			'url' => '/api/v1/jwks',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'RequestHandler#addShare',
 			'url' => '/shares',
 			'verb' => 'POST',
@@ -20,11 +25,14 @@ return [
 			'verb' => 'POST',
 			'root' => '/ocm',
 		],
-		//		[
-		//			'name' => 'RequestHandler#inviteAccepted',
-		//			'url' => '/invite-accepted',
-		//			'verb' => 'POST',
-		//			'root' => '/ocm',
-		//		]
+
+		// needs to be kept at the bottom of the list
+		[
+			'name' => 'OCMRequest#manageOCMRequests',
+			'url' => '/{ocmPath}',
+			'requirements' => ['ocmPath' => '.*'],
+			'verb' => ['GET', 'POST', 'PUT', 'DELETE'],
+			'root' => '/ocm',
+		],
 	],
 ];

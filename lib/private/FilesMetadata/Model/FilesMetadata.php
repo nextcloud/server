@@ -27,10 +27,10 @@ class FilesMetadata implements IFilesMetadata {
 	private bool $updated = false;
 	private int $lastUpdate = 0;
 	private string $syncToken = '';
-	private ?int $storageId = null;
 
 	public function __construct(
 		private int $fileId = 0,
+		private int $storageId = 0,
 	) {
 	}
 
@@ -39,24 +39,14 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return int related file id
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getFileId(): int {
 		return $this->fileId;
 	}
 
-	public function getStorageId(): ?int {
+	#[\Override]
+	public function getStorageId(): int {
 		return $this->storageId;
-	}
-
-	/**
-	 * Set which storage the file this metadata belongs to.
-	 *
-	 * This helps with sharded filecache setups to know where to store the metadata
-	 *
-	 * @param int $storageId
-	 * @return void
-	 */
-	public function setStorageId(int $storageId): void {
-		$this->storageId = $storageId;
 	}
 
 	/**
@@ -64,6 +54,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return int timestamp
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function lastUpdateTimestamp(): int {
 		return $this->lastUpdate;
 	}
@@ -73,15 +64,17 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return string token
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getSyncToken(): string {
 		return $this->syncToken;
 	}
 
 	/**
 	 * @inheritDoc
-	 * @return string[] list of keys
+	 * @return list<string> list of keys
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getKeys(): array {
 		return array_keys($this->metadata);
 	}
@@ -93,8 +86,9 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return bool TRUE if key exist
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function hasKey(string $needle): bool {
-		return (in_array($needle, $this->getKeys()));
+		return (in_array($needle, $this->getKeys(), true));
 	}
 
 	/**
@@ -102,6 +96,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return string[] list of indexes
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getIndexes(): array {
 		$indexes = [];
 		foreach ($this->getKeys() as $key) {
@@ -120,6 +115,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return bool TRUE if key exists and is set as indexed
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function isIndex(string $key): bool {
 		return $this->metadata[$key]?->isIndexed() ?? false;
 	}
@@ -132,6 +128,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataNotFoundException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getEditPermission(string $key): int {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -148,6 +145,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataNotFoundException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setEditPermission(string $key, int $permission): void {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -156,7 +154,7 @@ class FilesMetadata implements IFilesMetadata {
 		$this->metadata[$key]->setEditPermission($permission);
 	}
 
-
+	#[\Override]
 	public function getEtag(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			return '';
@@ -165,6 +163,7 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getEtag();
 	}
 
+	#[\Override]
 	public function setEtag(string $key, string $etag): void {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -182,6 +181,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getString(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -199,6 +199,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getInt(string $key): int {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -216,6 +217,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getFloat(string $key): float {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -233,6 +235,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getBool(string $key): bool {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -250,6 +253,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getArray(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -267,6 +271,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getStringList(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -284,6 +289,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataTypeException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getIntList(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -307,6 +313,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @see IMetadataValueWrapper::TYPE_INT_LIST
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getType(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -325,6 +332,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setString(string $key, string $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -352,6 +360,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setInt(string $key, int $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -378,6 +387,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setFloat(string $key, float $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -395,7 +405,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-
 	/**
 	 * @param string $key metadata key
 	 * @param bool $value metadata value
@@ -406,6 +415,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setBool(string $key, bool $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -423,7 +433,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-
 	/**
 	 * @param string $key metadata key
 	 * @param array $value metadata value
@@ -433,6 +442,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setArray(string $key, array $value): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -460,6 +470,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setStringList(string $key, array $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -487,6 +498,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @throws FilesMetadataKeyFormatException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function setIntList(string $key, array $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -511,6 +523,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return self
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function unset(string $key): IFilesMetadata {
 		if (!array_key_exists($key, $this->metadata)) {
 			return $this;
@@ -529,6 +542,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return self
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function removeStartsWith(string $keyPrefix): IFilesMetadata {
 		if ($keyPrefix === '') {
 			return $this;
@@ -563,10 +577,12 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return bool TRUE if metadata have been modified
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function updated(): bool {
 		return $this->updated;
 	}
 
+	#[\Override]
 	public function jsonSerialize(bool $emptyValues = false): array {
 		$data = [];
 		foreach ($this->metadata as $metaKey => $metaValueWrapper) {
@@ -579,6 +595,7 @@ class FilesMetadata implements IFilesMetadata {
 	/**
 	 * @return array<string, string|int|bool|float|string[]|int[]>
 	 */
+	#[\Override]
 	public function asArray(): array {
 		$data = [];
 		foreach ($this->metadata as $metaKey => $metaValueWrapper) {
@@ -599,6 +616,7 @@ class FilesMetadata implements IFilesMetadata {
 	 * @return IFilesMetadata
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function import(array $data): IFilesMetadata {
 		foreach ($data as $k => $v) {
 			$valueWrapper = new MetadataValueWrapper();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,71 +8,34 @@
 
 namespace Test;
 
-use OC\App\AppManager;
-use OC\Group\Manager;
 use OC\NavigationManager;
-use OC\SubAdmin;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
-	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10nFac;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
+	private NavigationManager $navigationManager;
 
-	protected IEVentDispatcher|MockObject $dispatcher;
-
-	/** @var \OC\NavigationManager */
-	protected $navigationManager;
-	protected LoggerInterface $logger;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->appManager = $this->createMock(AppManager::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l10nFac = $this->createMock(IFactory::class);
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupManager = $this->createMock(Manager::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->navigationManager = new NavigationManager(
-			$this->appManager,
-			$this->urlGenerator,
-			$this->l10nFac,
-			$this->userSession,
-			$this->groupManager,
-			$this->config,
-			$this->logger,
-			$this->dispatcher,
-		);
+		$this->navigationManager = $this->createInstanceWithMocks(NavigationManager::class);
 
 		$this->navigationManager->clear(false);
 	}
 
-	public function addArrayData() {
+	public static function addArrayData(): array {
 		return [
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -81,7 +45,7 @@ class NavigationManagerTest extends TestCase {
 					'classes' => '',
 					'unread' => 0
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -90,11 +54,11 @@ class NavigationManagerTest extends TestCase {
 					'active' => false,
 					'type' => 'settings',
 					'classes' => '',
-					'unread' => 0
+					'unread' => 0,
 				]
 			],
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -103,7 +67,7 @@ class NavigationManagerTest extends TestCase {
 					'active' => true,
 					'unread' => 0,
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -120,11 +84,11 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider addArrayData
 	 *
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('addArrayData')]
 	public function testAddArray(array $entry, array $expectedEntry): void {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
 		$this->navigationManager->add($entry);
@@ -138,11 +102,11 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider addArrayData
 	 *
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('addArrayData')]
 	public function testAddClosure(array $entry, array $expectedEntry): void {
 		global $testAddClosureNumberOfCalls;
 		$testAddClosureNumberOfCalls = 0;
@@ -156,6 +120,7 @@ class NavigationManagerTest extends TestCase {
 
 		$this->assertEquals(0, $testAddClosureNumberOfCalls, 'Expected that the closure is not called by add()');
 
+		$this->navigationManager->setup();
 		$navigationEntries = $this->navigationManager->getAll('all');
 		$this->assertEquals(1, $testAddClosureNumberOfCalls, 'Expected that the closure is called by getAll()');
 		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
@@ -168,6 +133,85 @@ class NavigationManagerTest extends TestCase {
 
 		$this->navigationManager->clear(false);
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
+	}
+
+	/**
+	 * Entry points that never call setup() (e.g. the OCS dispatch in ocs/v1.php)
+	 * must not silently lose closure-registered entries such as an app's nav
+	 * link: getAll() should only resolve what it can, not resolve nothing.
+	 */
+	public function testGetAllDoesNotResolveClosureBeforeSetup(): void {
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'entry id',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by getAll() before setup()');
+		$this->assertEmpty($navigationEntries, 'Expected no navigation entry exists before setup()');
+
+		$this->navigationManager->setup();
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is called by getAll() once setup() has run');
+		$this->assertArrayHasKey('entry id', $navigationEntries);
+	}
+
+	public function testAddClosureAfterSetup(): void {
+		$this->navigationManager->setup();
+		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
+
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'late entry',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by add()');
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure added after setup() is called by getAll()');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is only called once');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+	}
+
+	public function testGetAllFiltersActions(): void {
+		$this->navigationManager->add([
+			'id' => 'files',
+			'name' => 'Files',
+			'order' => 1,
+			'href' => 'url',
+		]);
+		$this->navigationManager->add([
+			'id' => 'logout',
+			'name' => 'Log out',
+			'order' => 2,
+			'href' => 'url',
+			'type' => INavigationManager::TYPE_ACTION,
+		]);
+
+		$this->assertEquals(['logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
+		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_APPS)));
+		$this->assertEquals(['files', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
 	}
 
 	public function testAddArrayClearGetAll(): void {
@@ -213,9 +257,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(0, $testAddClosureNumberOfCalls, 'Expected that the closure is not called by getAll()');
 	}
 
-	/**
-	 * @dataProvider providesNavigationConfig
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesNavigationConfig')]
 	public function testWithAppManager($expected, $navigation, $isAdmin = false): void {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
@@ -223,27 +265,33 @@ class NavigationManagerTest extends TestCase {
 		});
 
 		/* Return default value */
-		$this->config->method('getUserValue')
+		$this->getAutoMock(IConfig::class)->method('getUserValue')
 			->willReturnArgument(3);
 
-		$this->appManager->expects($this->any())
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('isEnabledForUser')
 			->with('theming')
 			->willReturn(true);
-		$this->appManager->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($navigation);
-		$this->urlGenerator->expects($this->any())
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
+		$this->getAutoMock(IURLGenerator::class)->expects($this->any())
 			->method('imagePath')
 			->willReturnCallback(function ($appName, $file) {
 				return "/apps/$appName/img/$file";
 			});
-		$this->appManager->expects($this->any())
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('getAppIcon')
 			->willReturnCallback(fn (string $appName) => "/apps/$appName/img/app.svg");
-		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
-		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+		$this->getAutoMock(IFactory::class)->expects($this->any())->method('get')->willReturn($l);
+		$this->getAutoMock(IURLGenerator::class)->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
 			if ($route === 'core.login.logout') {
 				return 'https://example.com/logout';
 			}
@@ -251,134 +299,41 @@ class NavigationManagerTest extends TestCase {
 		});
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
-		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
-		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
-		$this->appManager->expects($this->any())
+		$this->getAutoMock(IUserSession::class)->expects($this->any())->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('getEnabledAppsForUser')
 			->with($user)
 			->willReturn(['test']);
-		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
-		$subadmin = $this->createMock(SubAdmin::class);
-		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
-		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 
 		$this->navigationManager->clear();
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->atLeastOnce())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
+		$this->navigationManager->setup();
 		$entries = $this->navigationManager->getAll('all');
 		$this->assertEquals($expected, $entries);
 	}
 
-	public function providesNavigationConfig() {
-		$apps = [
-			'core_apps' => [
-				'id' => 'core_apps',
-				'order' => 5,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/apps.svg',
-				'name' => 'Apps',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-		$defaults = [
-			'profile' => [
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => '/apps/test/',
-				'name' => 'View profile',
-				'icon' => '',
-				'active' => false,
-				'classes' => '',
-				'unread' => 0,
-			],
-			'accessibility_settings' => [
-				'type' => 'settings',
-				'id' => 'accessibility_settings',
-				'order' => 2,
-				'href' => '/apps/test/',
-				'name' => 'Appearance and accessibility',
-				'icon' => '/apps/theming/img/accessibility-dark.svg',
-				'active' => false,
-				'classes' => '',
-				'unread' => 0,
-			],
-			'settings' => [
-				'id' => 'settings',
-				'order' => 3,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			],
-			'logout' => [
-				'id' => 'logout',
-				'order' => 99999,
-				'href' => 'https://example.com/logout?requesttoken=' . urlencode(\OCP\Util::callRegister()),
-				'icon' => '/apps/core/img/actions/logout.svg',
-				'name' => 'Log out',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-		$adminSettings = [
-			'accessibility_settings' => $defaults['accessibility_settings'],
-			'settings' => [
-				'id' => 'settings',
-				'order' => 3,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/personal.svg',
-				'name' => 'Personal settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			],
-			'admin_settings' => [
-				'id' => 'admin_settings',
-				'order' => 4,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Administration settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-
+	public static function providesNavigationConfig(): array {
 		return [
 			'minimalistic' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'link',
-						'classes' => '',
-						'unread' => 0,
-						'default' => true,
-						'app' => 'test',
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => true,
+					'app' => 'test',
+				]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test']
@@ -386,23 +341,17 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'minimalistic-settings' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'settings',
-						'classes' => '',
-						'unread' => 0,
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'settings',
+					'classes' => '',
+					'unread' => 0,
+				]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
@@ -410,38 +359,32 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'with-multiple' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => false,
+					'app' => 'test',
+				],
+					'test1' => [
+						'id' => 'test1',
+						'order' => 50,
 						'href' => '/apps/test/',
 						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
+						'name' => 'Other test',
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
 						'unread' => 0,
-						'default' => false,
+						'default' => true, // because of order
 						'app' => 'test',
-					],
-						'test1' => [
-							'id' => 'test1',
-							'order' => 50,
-							'href' => '/apps/test/',
-							'icon' => '/apps/test/img/app.svg',
-							'name' => 'Other test',
-							'active' => false,
-							'type' => 'link',
-							'classes' => '',
-							'unread' => 0,
-							'default' => true, // because of order
-							'app' => 'test',
-						]],
-					['logout' => $defaults['logout']]
-				),
+					]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test'],
@@ -450,25 +393,19 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'admin' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					$adminSettings,
-					$apps,
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'link',
-						'classes' => '',
-						'unread' => 0,
-						'default' => true,
-						'app' => 'test',
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => true,
+					'app' => 'test',
+				]],
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
@@ -477,12 +414,7 @@ class NavigationManagerTest extends TestCase {
 				true
 			],
 			'no name' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					$adminSettings,
-					$apps,
-					['logout' => $defaults['logout']]
-				),
+				[], // nothing because the entry is not added because it has no name
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
@@ -491,12 +423,13 @@ class NavigationManagerTest extends TestCase {
 				true
 			],
 			'no admin' => [
-				$defaults,
+				[], // nothing because user is not an admin
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
 					],
 				]],
+				false,
 			]
 		];
 	}
@@ -529,7 +462,7 @@ class NavigationManagerTest extends TestCase {
 			],
 		]];
 
-		$this->config->method('getUserValue')
+		$this->getAutoMock(IConfig::class)->method('getUserValue')
 			->willReturnCallback(
 				function (string $userId, string $appName, string $key, mixed $default = '') use ($testOrder) {
 					$this->assertEquals('user001', $userId);
@@ -540,17 +473,29 @@ class NavigationManagerTest extends TestCase {
 				}
 			);
 
-		$this->appManager->expects($this->any())
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('isEnabledForUser')
 			->with('theming')
 			->willReturn(true);
-		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
-		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
-		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
+			->method('getAppIcon')
+			->with('test')
+			->willReturn('/apps/test/img/app.svg');
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($navigation);
+		$this->getAutoMock(IAppManager::class)->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
+		$this->getAutoMock(IFactory::class)->expects($this->any())->method('get')->willReturn($l);
+		$this->getAutoMock(IURLGenerator::class)->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
 		});
-		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+		$this->getAutoMock(IURLGenerator::class)->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
 			if ($route === 'core.login.logout') {
 				return 'https://example.com/logout';
 			}
@@ -558,25 +503,169 @@ class NavigationManagerTest extends TestCase {
 		});
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
-		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
-		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
-		$this->appManager->expects($this->any())
+		$this->getAutoMock(IUserSession::class)->expects($this->any())->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('getEnabledAppsForUser')
 			->with($user)
 			->willReturn(['test']);
-		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(false);
-		$subadmin = $this->createMock(SubAdmin::class);
-		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
-		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		$this->navigationManager->clear();
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
+		$this->navigationManager->setup();
 		$entries = $this->navigationManager->getAll();
 		$this->assertEquals($expected, $entries);
+	}
+
+	/**
+	 * Known apps get a default order, all other apps keep the order from their info.xml.
+	 */
+	public function testDefaultAppOrder(): void {
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(false);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledApps')->willReturn([]);
+		$this->getAutoMock(IAppManager::class)->method('isEnabledForUser')->willReturn(true);
+
+		// order as shipped by the apps themselves
+		$apps = ['circles' => 80, 'activity' => 1, 'other' => 2, 'spreed' => -5, 'files' => 0, 'dashboard' => -10];
+		foreach ($apps as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['dashboard', 'files', 'spreed', 'circles', 'activity', 'other'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
+	 * Users that sorted the apps themselves keep their order, also for apps they never sorted.
+	 */
+	public function testDefaultAppOrderIsSkippedForCustomOrder(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->getAutoMock(IUserSession::class)->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->willReturn([]);
+		$this->getAutoMock(IAppManager::class)->method('isEnabledForUser')->willReturn(true);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->getAutoMock(IConfig::class)->method('getUserValue')
+			->willReturnCallback(static function (string $userId, string $appName, string $key, mixed $default = '') {
+				return $key === 'apporder' ? json_encode(['other' => ['app' => 'other', 'order' => 0]]) : $default;
+			});
+
+		// `circles` is not part of the user order, so it keeps the order from its info.xml
+		// instead of moving to the front of the user order
+		foreach (['other' => 2, 'circles' => 80] as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['other', 'circles'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
+	 * Navigation entries of enabled apps that are not booted yet must not be resolved.
+	 */
+	public function testResolveOnlyLoadedApps(): void {
+		/* Return default value */
+		$this->getAutoMock(IConfig::class)->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->getAutoMock(IUserSession::class)->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
+
+		// The app is enabled but not booted yet ...
+		$this->getAutoMock(IAppManager::class)->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->with('test')
+			->willReturn(false);
+		// ... so its info.xml navigation entries must never be read
+		$this->getAutoMock(IAppManager::class)->expects($this->never())->method('getAppInfo');
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * The LoadAdditionalEntriesEvent is only dispatched by setup(), not by getAll().
+	 */
+	public function testGetAllDoesNotDispatchAdditionalEntries(): void {
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(false);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledApps')->willReturn([]);
+
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())->method('dispatchTyped');
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * An app's info.xml must only be resolved once, even across multiple getAll() calls
+	 * and even when the app does not provide any navigation entries.
+	 */
+	public function testAppInfoResolvedOnlyOnce(): void {
+		$this->getAutoMock(IConfig::class)->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->getAutoMock(IUserSession::class)->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+		$this->getAutoMock(IAppManager::class)->method('isAppLoaded')->with('test')->willReturn(true);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
+
+		// App has no navigation entries; info.xml must only be read once
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn(['navigations' => []]);
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * clear(false) keeps the resolved state, so already loaded apps are not resolved again;
+	 * clear(true) resets it, forcing a fresh resolve.
+	 */
+	public function testClearResetsResolvedStateOnlyWhenRequested(): void {
+		$this->getAutoMock(IConfig::class)->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->getAutoMock(IUserSession::class)->method('getUser')->willReturn($user);
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')->willReturn(true);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+		$this->getAutoMock(IAppManager::class)->method('isAppLoaded')->with('test')->willReturn(true);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
+
+		// Resolved once for the initial getAll(), then again after clear(true) resets the state
+		$this->getAutoMock(IAppManager::class)->expects($this->exactly(2))
+			->method('getAppInfo')
+			->with('test')
+			->willReturn(['navigations' => []]);
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+
+		// Soft clear keeps the resolved state, so getAppInfo is not called again
+		$this->navigationManager->clear(false);
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+
+		// Full clear resets the resolved state, so the app is resolved again
+		$this->navigationManager->clear(true);
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
 	}
 
 	public static function provideDefaultEntries(): array {
@@ -704,60 +793,103 @@ class NavigationManagerTest extends TestCase {
 				true,
 				'settings',
 			],
+			// closure navigation entries are also resolved
+			[
+				'closure2',
+				'',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'closure2',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'',
+				'{"closure2":{"order":1,"app":"closure2","href":"/closure2"}}',
+				true,
+				'closure2',
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider provideDefaultEntries
-	 */
-	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideDefaultEntries')]
+	public function testGetDefaultEntryIdForUser(string $defaultApps, string $userDefaultApps, string $userApporder, bool $withFallbacks, string $expectedApp): void {
 		$this->navigationManager->add([
 			'id' => 'files',
 		]);
 		$this->navigationManager->add([
 			'id' => 'settings',
 		]);
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure1',
+				'href' => '/closure1',
+			];
+		});
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure2',
+				'href' => '/closure2',
+			];
+		});
 
-		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledApps')->willReturn(['files']);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->willReturn(['files']);
+		$this->getAutoMock(IAppManager::class)->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
 
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->atLeastOnce())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->config->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getSystemValueString')
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
 
-		$this->config->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->willReturnMap([
 				['user1', 'core', 'defaultapp', '', $userDefaultApps],
 				['user1', 'core', 'apporder', '[]', $userApporder],
 			]);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
 
+		$this->navigationManager->setup();
 		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
 	}
 
 	public function testDefaultEntryUpdated(): void {
-		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledApps')->willReturn([]);
+		$this->getAutoMock(IAppManager::class)->method('getEnabledAppsForUser')->willReturn([]);
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
 
-		$this->userSession
+		$this->getAutoMock(IUserSession::class)
 			->method('getUser')
 			->willReturn($user);
 
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->method('getSystemValueString')
 			->with('defaultapp', $this->anything())
 			->willReturn('app4,app3,app2,app1');
 
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->method('getUserValue')
 			->willReturnMap([
 				['user1', 'core', 'defaultapp', '', ''],

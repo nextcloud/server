@@ -5,18 +5,26 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
-use Doctrine\DBAL\Platforms\MySQL80Platform;
+use Doctrine\DBAL\Platforms\MySQL84Platform;
+use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
-	public $dbprettyname = 'MySQL/MariaDB';
+	public string $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase($username) {
+	/**
+	 * There is no equivalent to the PostgreSQL `sslmode`, the connection is encrypted by
+	 * providing a CA certificate. A revocation list cannot be passed through PDO either.
+	 */
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = ['dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslnoverify'];
+
+	#[\Override]
+	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -28,13 +36,35 @@ class MySQL extends AbstractDatabase {
 		}
 
 		if ($this->tryCreateDbUser) {
-			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+			$this->createSpecificUser('oc_admin', new ConnectionAdapter($connection));
 		}
 
 		$this->config->setValues([
 			'dbuser' => $this->dbUser,
 			'dbpassword' => $this->dbPassword,
 		]);
+
+		// for MD5 support
+		// In MySQL 9+ MD5 has been deprecated and is only available as a component.
+		// Until we dropped the support for it on the function builder, we need to load the component.
+		if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+			$statement = $connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->executeQuery();
+			$row = $result->fetchAssociative();
+			$version = $row['Value'];
+			[$major, ] = explode('.', strtolower($version));
+			if ((int)$major >= 9) {
+				// check if the component is already loaded, if not load it
+				$statement = $connection->prepare("SELECT COUNT(*) FROM mysql.component WHERE component_urn = 'file://component_classic_hashing';");
+				$result = $statement->executeQuery();
+				$count = $result->fetchOne();
+				if ($count !== false && (int)$count === 0) {
+					// not yet loaded
+					$statement = $connection->prepare("INSTALL COMPONENT 'file://component_classic_hashing';");
+					$statement->executeStatement();
+				}
+			}
+		}
 
 		//create the database
 		$this->createDatabase($connection);
@@ -51,22 +81,59 @@ class MySQL extends AbstractDatabase {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 			]);
-			throw new \OC\DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
+			throw new DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
 
+	#[\Override]
+	protected function getEncryptionConfig(array $config): array {
+		// The attributes only exist with the MySQL driver, so only look them up when needed.
+		$driverOptions = [];
+		foreach (['dbsslca' => 'ca', 'dbsslcert' => 'cert', 'dbsslkey' => 'key'] as $option => $attribute) {
+			if (!empty($config[$option])) {
+				$driverOptions[$this->getSslAttributes()[$attribute]] = (string)$config[$option];
+			}
+		}
+		if (!empty($config['dbsslnoverify'])) {
+			$driverOptions[$this->getSslAttributes()['verify']] = false;
+		}
+
+		return $driverOptions === [] ? [] : ['dbdriveroptions' => $driverOptions];
+	}
+
 	/**
-	 * @param \OC\DB\Connection $connection
+	 * PDO attributes configuring an encrypted connection.
+	 *
+	 * @return array{ca: int, cert: int, key: int, verify: int}
 	 */
-	private function createDatabase($connection): void {
+	private function getSslAttributes(): array {
+		// TODO: simplify once we only support PHP 8.5+.
+		if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+			/** @psalm-suppress UndefinedConstant Psalm resolves the non-mysqlnd variant of the symfony polyfill class, which lacks this constant */
+			return [
+				'ca' => \Pdo\Mysql::ATTR_SSL_CA,
+				'cert' => \Pdo\Mysql::ATTR_SSL_CERT,
+				'key' => \Pdo\Mysql::ATTR_SSL_KEY,
+				'verify' => \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT,
+			];
+		}
+		return [
+			'ca' => \PDO::MYSQL_ATTR_SSL_CA,
+			'cert' => \PDO::MYSQL_ATTR_SSL_CERT,
+			'key' => \PDO::MYSQL_ATTR_SSL_KEY,
+			'verify' => \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT,
+		];
+	}
+
+	private function createDatabase(\OC\DB\Connection $connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
 			//we can't use OC_DB functions here because we need to connect as the administrative user.
 			$characterSet = $this->config->getValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE {$characterSet}_bin;";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->error('Database creation failed.', [
 				'exception' => $ex,
@@ -78,7 +145,7 @@ class MySQL extends AbstractDatabase {
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges.', [
 				'exception' => $ex,
@@ -88,26 +155,26 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param IDBConnection $connection
-	 * @throws \OC\DatabaseSetupException
+	 * @throws DatabaseSetupException
 	 */
-	private function createDBUser($connection): void {
+	private function createDBUser(IDBConnection $connection): void {
+		$name = $this->dbUser;
+		$password = $this->dbPassword;
+
 		try {
-			$name = $this->dbUser;
-			$password = $this->dbPassword;
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
 
-			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeUpdate($query, [$name,$password]);
-				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeUpdate($query, [$name,$password]);
+			if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
 			} else {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
-				$connection->executeUpdate($query, [$name,$password]);
+				$connection->executeStatement($query, [$name,$password]);
 				$query = "CREATE USER ?@'%' IDENTIFIED BY ?";
-				$connection->executeUpdate($query, [$name,$password]);
+				$connection->executeStatement($query, [$name,$password]);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [
@@ -118,22 +185,12 @@ class MySQL extends AbstractDatabase {
 		}
 	}
 
-	/**
-	 * @param string $username
-	 * @param IDBConnection $connection
-	 */
-	private function createSpecificUser($username, $connection): void {
+	private function createSpecificUser(string $username, IDBConnection $connection): void {
 		$rootUser = $this->dbUser;
 		$rootPassword = $this->dbPassword;
 
-		//create a random password so we don't need to store the admin password in the config file
-		$saveSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
-		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $saveSymbols)
-			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
-			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
-			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
-			. $this->random->generate(2, $saveSymbols);
-		$this->dbPassword = str_shuffle($password);
+		// Create a random password so we don't need to store the admin password in the config file
+		$this->dbPassword = $this->generateDbPassword();
 
 		try {
 			//user already specified in config
@@ -151,13 +208,18 @@ class MySQL extends AbstractDatabase {
 					$result = $connection->executeQuery($query, [$adminUser]);
 
 					//current dbuser has admin rights
-					$data = $result->fetchAll();
+					$data = $result->fetchAllAssociative();
 					$result->closeCursor();
 					//new dbuser does not exist
 					if (count($data) === 0) {
 						//use the admin login data for the new database user
 						$this->dbUser = $adminUser;
 						$this->createDBUser($connection);
+						// if sharding is used we need to manually call this for every shard as those also need the user setup!
+						/** @var ConnectionAdapter $connection */
+						foreach ($connection->getInner()->getShardConnections() as $shard) {
+							$this->createDBUser($shard);
+						}
 
 						break;
 					} else {

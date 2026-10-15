@@ -6,23 +6,19 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\BackgroundJob;
 
 use OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClearOldStatusesBackgroundJobTest extends TestCase {
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $time;
-
-	/** @var UserStatusMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $mapper;
-
-	/** @var ClearOldStatusesBackgroundJob */
-	private $job;
+	private ITimeFactory&MockObject $time;
+	private UserStatusMapper&MockObject $mapper;
+	private ClearOldStatusesBackgroundJob $job;
 
 	protected function setUp(): void {
 		parent::setUp();

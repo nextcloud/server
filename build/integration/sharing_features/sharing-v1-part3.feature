@@ -46,7 +46,7 @@ Feature: sharing
   Scenario: Correct webdav share-permissions for owned folder
     Given user "user0" exists
     And user "user0" created a folder "/tmp"
-    When as "user0" gets properties of folder "/" with
+    When as "user0" gets properties of folder "/tmp" with
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
 
@@ -449,7 +449,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | publicUpload | true |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: do not allow to increase link share permissions on sub reshare
@@ -471,7 +471,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | publicUpload | true |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: deleting file out of a share as recipient creates a backup for the owner
@@ -607,6 +607,6 @@ Feature: sharing
       | id | A_NUMBER |
       | item_source | A_NUMBER |
       | share_type | 3 |
-      | permissions | 23 |
+      | permissions | 31 |
       | file_target | /subfolder |
       | expireDate  |            |

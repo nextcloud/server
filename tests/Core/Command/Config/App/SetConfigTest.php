@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,37 +13,33 @@ use OC\AppConfig;
 use OC\Core\Command\Config\App\SetConfig;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SetConfigTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
+	protected Command $command;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
-
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$config = $this->config = $this->getMockBuilder(AppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
-
-		/** @var \OCP\IAppConfig $config */
-		$this->command = new SetConfig($config);
+		$this->command = $this->createInstanceWithMocks(
+			SetConfig::class,
+			[
+				/* Mock internal class */
+				'appConfig' => $this->getAutoMock(AppConfig::class),
+			],
+		);
 	}
 
-
-	public function setData() {
+	public static function dataSet(): array {
 		return [
 			[
 				'name',
@@ -62,34 +60,22 @@ class SetConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider setData
-	 *
-	 * @param string $configName
-	 * @param mixed $newValue
-	 * @param bool $configExists
-	 * @param bool $updateOnly
-	 * @param bool $updated
-	 * @param string $expectedMessage
-	 */
-	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage): void {
-		$this->config->expects($this->any())
-			->method('hasKey')
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSet')]
+	public function testSet(string $configName, mixed $newValue, bool $configExists, bool $updateOnly, bool $updated, string $expectedMessage): void {
+		$this->getAutoMock(AppConfig::class)->method('hasKey')
 			->with('app-name', $configName)
 			->willReturn($configExists);
 
 		if (!$configExists) {
-			$this->config->expects($this->any())
-				->method('getValueType')
+			$this->getAutoMock(AppConfig::class)->method('getValueType')
 				->willThrowException(new AppConfigUnknownKeyException());
 		} else {
-			$this->config->expects($this->any())
-				->method('getValueType')
+			$this->getAutoMock(AppConfig::class)->method('getValueType')
 				->willReturn(IAppConfig::VALUE_MIXED);
 		}
 
 		if ($updated) {
-			$this->config->expects($this->once())
+			$this->getAutoMock(AppConfig::class)->expects($this->once())
 				->method('setValueMixed')
 				->with('app-name', $configName, $newValue);
 		}
@@ -100,25 +86,22 @@ class SetConfigTest extends TestCase {
 				['app', 'app-name'],
 				['name', $configName],
 			]);
-		$this->consoleInput->expects($this->any())
-			->method('getOption')
+		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['value', $newValue],
 				['lazy', null],
 				['sensitive', null],
 				['no-interaction', true],
 			]);
-		$this->consoleInput->expects($this->any())
-			->method('hasParameterOption')
+		$this->consoleInput->method('hasParameterOption')
 			->willReturnMap([
 				['--type', false, false],
 				['--value', false, true],
 				['--update-only', false, $updateOnly]
 			]);
-		$this->consoleOutput->expects($this->any())
-			->method('writeln')
+		$this->consoleOutput->method('writeln')
 			->with($this->stringContains($expectedMessage));
 
-		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

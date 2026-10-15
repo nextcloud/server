@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -91,6 +93,20 @@ class Expiration {
 		}
 
 		return $isOlderThanMax || $isMinReached;
+	}
+
+	/**
+	 * Get minimal retention obligation as a timestamp
+	 *
+	 * @return int|false
+	 */
+	public function getMinAgeAsTimestamp() {
+		$minAge = false;
+		if ($this->isEnabled() && $this->minAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$minAge = $time - ($this->minAge * 86400);
+		}
+		return $minAge;
 	}
 
 	/**

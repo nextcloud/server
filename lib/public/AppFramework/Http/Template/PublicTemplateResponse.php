@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http\Template;
 
 use InvalidArgumentException;
@@ -14,8 +16,8 @@ use OCP\IInitialStateService;
  * Class PublicTemplateResponse
  *
  * @since 14.0.0
- * @template H of array<string, mixed>
- * @template S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
  * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class PublicTemplateResponse extends TemplateResponse {
@@ -44,6 +46,9 @@ class PublicTemplateResponse extends TemplateResponse {
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
 		\OCP\Util::addScript('core', 'public-page-menu');
+		\OCP\Util::addStyle('core', 'public-page-menu');
+		\OCP\Util::addScript('core', 'public-page-user-menu');
+		\OCP\Util::addStyle('core', 'public-page-user-menu');
 
 		$state = \OCP\Server::get(IInitialStateService::class);
 		$state->provideLazyInitialState('core', 'public-page-menu', function () {
@@ -164,6 +169,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @return string
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function render(): string {
 		$params = array_merge($this->getParams(), [
 			'template' => $this,

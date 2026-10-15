@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
@@ -20,6 +22,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('group:list')
@@ -56,6 +59,7 @@ class ListCommand extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$groups = $this->groupManager->search((string)$input->getArgument('searchstring'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));

@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OCP\Snowflake;
+
+use DateTimeImmutable;
+use OCP\AppFramework\Attribute\Consumable;
+
+/**
+ * Nextcloud Snowflake ID generator
+ *
+ * Customized version of Snowflake IDs for Nextcloud:
+ *   1 bit : Unused, always 0, avoid issue with PHP signed integers.
+ *  31 bits: Timestamp from 2025-10-01. Allows to store a bit more than 68 years. Allows to find creation time.
+ *  10 bits: Milliseconds (between 0 and 999)
+ *   9 bits: Server ID, identify server which generated the ID (between 0 and 511)
+ *   1 bit : CLI or Web (0 or 1)
+ *  12 bits: Sequence ID, usually a serial number of objects created in the same number on same server (between 0 and 4095)
+ *
+ * @since 33.0.0
+ */
+#[Consumable(since: '33.0.0')]
+interface ISnowflakeGenerator {
+	/**
+	 * Offset applied on timestamps to keep it short
+	 * Start from 2025-10-01 at 00:00:00
+	 *
+	 * @since 33.0.0
+	 */
+	public const TS_OFFSET = 1759276800;
+
+	/**
+	 * Get a new Snowflake ID.
+	 *
+	 * Each call to this method is guaranteed to return a different ID.
+	 *
+	 * @param ?DateTimeImmutable $timestamp Generate the Snowflake ID for a specific time. This should only be used in very special cases.
+	 * @return non-empty-string
+	 * @throws \InvalidArgumentException if the timestamp is before 2025-10-01, as such a time cannot be represented
+	 *
+	 * @since 33.0.0
+	 * @since 35.0.2 Parameter $timestamp was added
+	 */
+	public function nextId(?DateTimeImmutable $timestamp = null): string;
+
+	/**
+	 * Return the smallest possible Snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. Examples:
+	 * - find all Snowflake IDs generated from a given $timestamp
+	 *   Look for `>= minForTimeId($timestamp)`
+	 * - delete all Snowflake IDs generated before a given $timestamp
+	 *   Delete where `id < minForTimeId($timestamp)`
+	 *
+	 * @since 34.0.1
+	 */
+	public function minForTimeId(int $timestamp): string;
+}

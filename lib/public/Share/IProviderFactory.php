@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OC\Share20\Exception\ProviderException;
@@ -39,7 +40,8 @@ interface IProviderFactory {
 
 	/**
 	 * @since 21.0.0
-	 * @param string $shareProvier
+	 * @since 32.0.0 Fix typo in parameter name
+	 * @param string $shareProviderClass
 	 */
-	public function registerProvider(string $shareProvier): void;
+	public function registerProvider(string $shareProviderClass): void;
 }

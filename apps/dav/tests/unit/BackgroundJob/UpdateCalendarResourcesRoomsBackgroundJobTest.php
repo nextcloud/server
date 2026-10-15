@@ -6,10 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
-
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Room\IManager as IRoomManager;
@@ -18,15 +18,9 @@ use Test\TestCase;
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	private UpdateCalendarResourcesRoomsBackgroundJob $backgroundJob;
-
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
-	/** @var IResourceManager|MockObject */
-	private $resourceManager;
-
-	/** @var IRoomManager|MockObject */
-	private $roomManager;
+	private ITimeFactory&MockObject $time;
+	private IResourceManager&MockObject $resourceManager;
+	private IRoomManager&MockObject $roomManager;
 
 	protected function setUp(): void {
 		parent::setUp();

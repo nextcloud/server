@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
@@ -31,6 +32,7 @@ class SubscriptionListener implements IEventListener {
 	/**
 	 * In case the user has set their default calendar to the deleted one
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof SubscriptionCreatedEvent) {
 			$subscriptionId = $event->getSubscriptionId();

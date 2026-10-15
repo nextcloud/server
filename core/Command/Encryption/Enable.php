@@ -1,26 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Encryption;
 
 use OCP\Encryption\IManager;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command {
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $encryptionManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('encryption:enable')
@@ -28,11 +32,13 @@ class Enable extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes') {
+		$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
+		if ($isEnabled) {
 			$output->writeln('Encryption is already enabled');
 		} else {
-			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+			$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 			$output->writeln('<info>Encryption enabled</info>');
 		}
 		$output->writeln('');
@@ -42,8 +48,8 @@ class Enable extends Command {
 			$output->writeln('<error>No encryption module is loaded</error>');
 			return 1;
 		}
-		$defaultModule = $this->config->getAppValue('core', 'default_encryption_module', null);
-		if ($defaultModule === null) {
+		$defaultModule = $this->appConfig->getValueString('core', 'default_encryption_module');
+		if ($defaultModule === '') {
 			$output->writeln('<error>No default module is set</error>');
 			return 1;
 		}

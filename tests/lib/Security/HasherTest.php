@@ -17,10 +17,7 @@ use OCP\IConfig;
  * Class HasherTest
  */
 class HasherTest extends \Test\TestCase {
-	/**
-	 * @return array
-	 */
-	public function versionHashProvider() {
+	public static function versionHashProvider(): array {
 		return [
 			['asf32äà$$a.|3', null],
 			['asf32äà$$a.|3|5', null],
@@ -30,7 +27,7 @@ class HasherTest extends \Test\TestCase {
 		];
 	}
 
-	public function hashProviders70_71(): array {
+	public static function hashProviders70_71(): array {
 		return [
 			// Valid SHA1 strings
 			['password', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', true],
@@ -66,7 +63,7 @@ class HasherTest extends \Test\TestCase {
 		];
 	}
 
-	public function hashProviders72(): array {
+	public static function hashProviders72(): array {
 		return [
 			// Valid ARGON2 hashes
 			['password', '2|$argon2i$v=19$m=1024,t=2,p=2$T3JGcEkxVFNOVktNSjZUcg$4/hyLtSejxNgAuzSFFV/HLM3qRQKBwEtKw61qPN4zWA', true],
@@ -83,7 +80,7 @@ class HasherTest extends \Test\TestCase {
 		];
 	}
 
-	public function hashProviders73(): array {
+	public static function hashProviders73(): array {
 		return [
 			// Valid ARGON2ID hashes
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$TEtIMnhUczliQzI0Y01WeA$BpMUDrApy25iagIogUAnlc0rNTPJmGs8lOEeVHujJ9Q', true],
@@ -97,29 +94,21 @@ class HasherTest extends \Test\TestCase {
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$V3ovTHlvc0Eyb24xenVRNQ$iY/A0Yf24c2DToedj2rj9+KeoJBGsJYQOlJMoa0SFXk', false],
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$NlYuMlQ0ODIudTRkZDhYUw$/Z71ckOIuydujedUGK73iXC9vbLzlH/iXkG9+gGgn+c', false],
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$b09kNFZTZWFjS05aTkl6ZA$llE4TnIYYrC0H7wkTL1JsIwAAgoMJERlqtFcHHQcXTs', false],
-
 		];
 	}
-
-
 
 	/** @var Hasher */
 	protected $hasher;
 
-	/** @var IConfig */
-	protected $config;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-
-		$this->config->method('getSystemValueInt')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
 			->willReturnCallback(function ($name, $default) {
 				return $default;
 			});
-
-		$this->hasher = new Hasher($this->config);
+		$this->hasher = $this->createInstanceWithMocks(Hasher::class);
 	}
 
 	public function testHash(): void {
@@ -127,20 +116,15 @@ class HasherTest extends \Test\TestCase {
 		$this->assertNotNull($hash);
 	}
 
-	/**
-	 * @dataProvider versionHashProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionHashProvider')]
 	public function testSplitHash($hash, $expected): void {
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$hash]);
 		$this->assertSame($expected, $relativePath);
 	}
 
-
-	/**
-	 * @dataProvider hashProviders70_71
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders70_71')]
 	public function testVerify($password, $hash, $expected): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -154,9 +138,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	/**
-	 * @dataProvider hashProviders72
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders72')]
 	public function testVerifyArgon2i($password, $hash, $expected): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
@@ -166,9 +148,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	/**
-	 * @dataProvider hashProviders73
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders73')]
 	public function testVerifyArgon2id(string $password, string $hash, bool $expected): void {
 		if (!\defined('PASSWORD_ARGON2ID')) {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
@@ -194,7 +174,6 @@ class HasherTest extends \Test\TestCase {
 			$argon2 = 2 . '|' . password_hash($message, PASSWORD_ARGON2ID, []);
 		}
 
-
 		$this->assertTrue($this->hasher->verify($message, $blowfish, $newHash));
 		$this->assertTrue($this->hasher->verify($message, $argon2));
 
@@ -208,7 +187,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 
@@ -232,7 +211,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
 
-		$this->config->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(false);
 
@@ -250,7 +229,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 

@@ -7,9 +7,7 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
-script('settings', [
-	'vue-settings-admin-basic-settings',
-]);
+\OCP\Util::addScript('settings', 'vue-settings-admin-basic-settings');
 ?>
 
 <div id="vue-admin-background-job"></div>

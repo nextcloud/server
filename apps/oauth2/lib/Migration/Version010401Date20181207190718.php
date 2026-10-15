@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Migration;
 
 use Closure;
@@ -13,16 +14,9 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version010401Date20181207190718 extends SimpleMigrationStep {
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
+final class Version010401Date20181207190718 extends SimpleMigrationStep {
+	#[\Override]
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$schema = $schemaClosure();
 
 		if (!$schema->hasTable('oauth2_clients')) {
@@ -77,6 +71,7 @@ class Version010401Date20181207190718 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['hashed_code'], 'oauth2_access_hash_idx');
 			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
 		}
+
 		return $schema;
 	}
 }

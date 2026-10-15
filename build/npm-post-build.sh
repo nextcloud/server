@@ -12,13 +12,13 @@ npm run sass:icons
 
 # Add licenses for source maps
 if [ -d "dist" ]; then
-	for f in dist/*.js; do
+	for f in dist/*.js dist/*.mjs dist/*.css; do
 		# If license file and source map exists copy license for the source map
 		if [ -f "$f.license" ] && [ -f "$f.map" ]; then
 			# Remove existing link
-			[ -e "$f.map.license" ] || [ -L "$f.map.license" ] && rm "$f.map.license"
+			[ -L "$f.map.license" ] && rm "$f.map.license"
 			# Create a new link
-			ln -s "$(basename "$f.license")" "$f.map.license" 
+			[ ! -e "$f.map.license" ] && ln -s "$(basename "$f.license")" "$f.map.license" 
 		fi
 	done
 	echo "Copying licenses for sourcemaps done"

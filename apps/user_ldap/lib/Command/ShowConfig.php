@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OC\Core\Command\Base;
@@ -23,6 +24,7 @@ class ShowConfig extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:show-config')
@@ -48,12 +50,13 @@ class ShowConfig extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!is_null($configID)) {
 			$configIDs[] = $configID;
-			if (!in_array($configIDs[0], $availableConfigs)) {
+			if (!in_array($configIDs[0], $availableConfigs, true)) {
 				$output->writeln('Invalid configID');
 				return self::FAILURE;
 			}
@@ -75,7 +78,7 @@ class ShowConfig extends Base {
 		InputInterface $input,
 		OutputInterface $output,
 	): void {
-		$renderTable = $input->getOption('output') === 'table' or $input->getOption('output') === null;
+		$renderTable = $input->getOption('output') === 'table' || $input->getOption('output') === null;
 		$showPassword = $input->getOption('show-password');
 
 		$configs = [];

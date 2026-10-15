@@ -12,10 +12,8 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 
 class HomeMountPoint extends MountPoint {
-	private IUser $user;
-
 	public function __construct(
-		IUser $user,
+		private IUser $user,
 		$storage,
 		string $mountpoint,
 		?array $arguments = null,
@@ -25,7 +23,6 @@ class HomeMountPoint extends MountPoint {
 		?string $mountProvider = null,
 	) {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, $mountProvider);
-		$this->user = $user;
 	}
 
 	public function getUser(): IUser {

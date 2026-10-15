@@ -1,10 +1,12 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "Sääntö puuttuu",
     "Versions" : "Versiot",
     "This application automatically maintains older versions of files that are changed." : "Tämä sovellus säilyttää automaattisesti vanhempia versioita muuttuneista tiedostoista.",
     "Current version" : "Nykyinen versio",
     "Initial version" : "Ensimmäinen versio",
+    "You" : "Sinä",
     "Name this version" : "Nimeä tämä versio",
     "Edit version name" : "Muokkaa version nimeä",
     "Compare to current version" : "Vertaa nykyiseen versioon",
@@ -18,6 +20,7 @@ OC.L10N.register(
     "Initial version restored" : "Ensimmäinen versio palautettu",
     "Version restored" : "Versio palautettu",
     "Could not restore version" : "Versiota ei voitu palauttaa",
-    "Could not delete version" : "Versiota ei voitu poistaa"
+    "Could not delete version" : "Versiota ei voitu poistaa",
+    "File versions" : "Tiedoston versiot"
 },
 "nplurals=2; plural=(n != 1);");

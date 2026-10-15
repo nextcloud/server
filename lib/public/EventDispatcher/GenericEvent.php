@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\EventDispatcher;
 
 use ArrayAccess;
@@ -18,10 +19,12 @@ use function array_key_exists;
 /**
  * Class GenericEvent
  *
- * convenience reimplementation of \Symfony\Component\GenericEvent against
+ * convenience re-implementation of \Symfony\Component\GenericEvent against
  * \OCP\EventDispatcher\Event
  *
  * @since 18.0.0
+ * @template-implements ArrayAccess<array-key, mixed>
+ * @template-implements IteratorAggregate<array-key, mixed>
  * @deprecated 22.0.0 use \OCP\EventDispatcher\Event
  */
 class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
@@ -117,6 +120,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @since 18.0.0
 	 * @deprecated 22.0.0
 	 */
+	#[\Override]
 	public function getIterator(): Traversable {
 		return new ArrayIterator($this->arguments);
 	}
@@ -128,6 +132,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @since 18.0.0
 	 * @deprecated 22.0.0
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->hasArgument($offset);
 	}
@@ -140,6 +145,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @deprecated 22.0.0
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->arguments[$offset];
@@ -152,6 +158,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @since 18.0.0
 	 * @deprecated 22.0.0
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->setArgument($offset, $value);
 	}
@@ -163,6 +170,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @since 18.0.0
 	 * @deprecated 22.0.0
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		if ($this->hasArgument($offset)) {
 			unset($this->arguments[$offset]);

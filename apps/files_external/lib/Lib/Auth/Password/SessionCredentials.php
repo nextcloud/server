@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -32,13 +36,16 @@ class SessionCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in session'))
 			->addParameters([
 				(new DefinitionParameter('password', $l->t('Password')))
-					->setType(DefinitionParameter::VALUE_PASSWORD),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			]);
 	}
 
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		try {
 			$credentials = $this->credentialsStore->getLoginCredentials();
@@ -58,6 +65,7 @@ class SessionCredentials extends AuthMechanism {
 		$storage->setBackendOption('password', $credentials->getPassword());
 	}
 
+	#[\Override]
 	public function wrapStorage(IStorage $storage): IStorage {
 		return new SessionStorageWrapper(['storage' => $storage]);
 	}

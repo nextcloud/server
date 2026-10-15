@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
@@ -18,7 +18,9 @@ use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
@@ -27,8 +29,10 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -107,6 +111,7 @@ class File extends Node implements IFile {
 	 * @throws FileLocked
 	 * @return string|null
 	 */
+	#[\Override]
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
@@ -129,8 +134,9 @@ class File extends Node implements IFile {
 		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
+			$transferId = \rand();
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
@@ -202,6 +208,16 @@ class File extends Node implements IFile {
 				}
 			}
 
+			// Methods other than PUT carry no Content-Length describing the data written
+			// here: the chunked upload assembly is a MOVE or COPY with no body of its own.
+			$expected = null;
+			if ($this->request->getMethod() === 'PUT') {
+				$lengthHeader = $this->request->getHeader('content-length');
+				if ($lengthHeader !== '') {
+					$expected = (int)$lengthHeader;
+				}
+			}
+
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF): void {
@@ -213,8 +229,10 @@ class File extends Node implements IFile {
 					$count = -1;
 					try {
 						/** @var IWriteStreamStorage $partStorage */
-						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-					} catch (GenericFileException) {
+						$count = $partStorage->writeStream($internalPartPath, $wrappedData, $expected);
+					} catch (GenericFileException $e) {
+						$logger = Server::get(LoggerInterface::class);
+						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
 						$result = $isEOF;
 						if (is_resource($wrappedData)) {
 							$result = feof($wrappedData);
@@ -228,46 +246,42 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				$count = stream_copy_to_stream($data, $target);
+				if ($count === false) {
+					$result = false;
+					$count = 0;
+				} else {
+					$result = true;
+				}
 				fclose($target);
 			}
-
-			if ($result === false) {
-				$expected = -1;
-				$lengthHeader = $this->request->getHeader('content-length');
-				if ($lengthHeader) {
-					$expected = (int)$lengthHeader;
-				}
-				if ($expected !== 0) {
-					throw new Exception(
-						$this->l10n->t(
-							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $count),
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-							],
-						)
-					);
-				}
+			if ($result === false && $expected !== null) {
+				throw new Exception(
+					$this->l10n->t(
+						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $count),
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+						],
+					)
+				);
 			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			$lengthHeader = $this->request->getHeader('content-length');
-			if ($lengthHeader && $this->request->getMethod() === 'PUT') {
-				$expected = (int)$lengthHeader;
-				if ($count !== $expected) {
-					throw new BadRequest(
-						$this->l10n->t(
-							'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-								$this->l10n->n('%n byte', '%n bytes', $count),
-							],
-						)
-					);
-				}
+			if ($expected !== null
+				&& $expected !== $count
+			) {
+				throw new BadRequest(
+					$this->l10n->t(
+						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+							$this->l10n->n('%n byte', '%n bytes', $count),
+						],
+					)
+				);
 			}
 		} catch (\Exception $e) {
 			if ($e instanceof LockedException) {
@@ -314,7 +328,14 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
+						Server::get(LoggerInterface::class)
+							->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', [
+								'app' => 'webdav',
+								'source_storage' => $partStorage->getId(),
+								'target_storage' => $storage->getId(),
+								'source_internal_path' => $internalPartPath,
+								'target_internal_path' => $internalPath,
+							]);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
@@ -328,51 +349,7 @@ class File extends Node implements IFile {
 				}
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
-
-			try {
-				$this->changeLock(ILockingProvider::LOCK_SHARED);
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-			}
-
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
-					$this->header('X-OC-MTime: accepted');
-				}
-			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
-
-			// allow sync clients to send the creation time along in a header
-			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
-			if ($ctimeHeader) {
-				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdate['creation_time'] = $ctime;
-				$this->header('X-OC-CTime: accepted');
-			}
-
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
-
-			if ($view) {
-				$this->emitPostHooks($exists);
-			}
-
-			$this->refreshInfo();
-
-			$checksumHeader = $this->request->getHeader('oc-checksum');
-			if ($checksumHeader) {
-				$checksum = trim($checksumHeader);
-				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->setChecksum('');
-			}
+			$this->finalizeUpload($storage, $internalPath, $exists, $view);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to check file size: %1$s', [$e->getMessage()]), 0, $e);
 		}
@@ -380,12 +357,69 @@ class File extends Node implements IFile {
 		return '"' . $this->info->getEtag() . '"';
 	}
 
+	private function finalizeUpload(IStorage $storage, string $internalPath, bool $exists, ?View $view): void {
+		// Since we skipped the view for the final publish step, finalize the file
+		// state explicitly here: update cache/bookkeeping, persist metadata, then
+		// downgrade to a shared lock before emitting post-write hooks so listeners
+		// can still access the file.
+		$storage->getUpdater()->update($internalPath);
+
+		$fileInfoUpdate = [
+			'upload_time' => time(),
+		];
+
+		// allow sync clients to send the mtime along in a header
+		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+		if ($mtimeHeader !== '') {
+			$mtime = $this->sanitizeMtime($mtimeHeader);
+			if ($this->fileView->touch($this->path, $mtime)) {
+				$this->header('X-OC-MTime: accepted');
+			}
+		}
+
+		// allow sync clients to send the creation time along in a header
+		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+		if ($ctimeHeader !== '') {
+			$ctime = $this->sanitizeMtime($ctimeHeader);
+			$fileInfoUpdate['creation_time'] = $ctime;
+			$this->header('X-OC-CTime: accepted');
+		}
+
+		// Persist checksum before post hooks so observers see fully finalized metadata.
+		$checksumHeader = $this->request->getHeader('oc-checksum');
+		if ($checksumHeader) {
+			$fileInfoUpdate['checksum'] = trim($checksumHeader);
+		} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			$fileInfoUpdate['checksum'] = '';
+		}
+
+		$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+		$this->refreshInfo();
+
+		// Downgrade to shared lock before post hooks so legacy hook consumers can
+		// still access the file during post_write.
+		try {
+			$this->changeLock(ILockingProvider::LOCK_SHARED);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+
+		if ($view) {
+			$this->emitPostHooks($exists);
+		}
+	}
+
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
-			return $path;
+			$filename = basename($path);
+			// hash does not need to be secure but fast and semi unique
+			$hashedFilename = hash('xxh128', $filename);
+			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
-			return md5($path); // will place it in the root of the view with a unique name
+			// will place the .part file in the users root directory
+			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			return hash('xxh128', $path);
 		}
 	}
 
@@ -448,6 +482,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function get() {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
@@ -464,17 +499,22 @@ class File extends Node implements IFile {
 
 			if ($res === false) {
 				if ($this->fileView->file_exists($path)) {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file does seem to exist', [$path, $this->info->getId()]));
 				} else {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file doesn\'t seem to exist', [$path, $this->info->getId()]));
 				}
 			}
 
+			$logger = Server::get(LoggerInterface::class);
 			// comparing current file size with the one in DB
 			// if different, fix DB and refresh cache.
-			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
-				$logger = Server::get(LoggerInterface::class);
-				$logger->warning('fixing cached size of file id=' . $this->getId());
+			//
+			$fsSize = $this->fileView->filesize($this->getPath());
+			if ($fsSize === false) {
+				$logger->warning('file not found on storage after successfully opening it');
+				throw new ServiceUnavailable($this->l10n->t('Failed to get size for : %1$s', [$this->getPath()]));
+			} elseif ($this->getSize() !== $fsSize) {
+				$logger->warning('fixing cached size of file id=' . $this->getId() . ', cached size was ' . $this->getSize() . ', but the filesystem reported a size of ' . $fsSize);
 
 				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
 				$this->refreshInfo();
@@ -499,6 +539,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function delete() {
 		if (!$this->info->isDeletable()) {
 			throw new Forbidden();
@@ -525,6 +566,7 @@ class File extends Node implements IFile {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getContentType() {
 		$mimeType = $this->info->getMimetype();
 
@@ -536,18 +578,24 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * @return array|bool
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
-	public function getDirectDownload() {
+	public function getDirectDownload(): array|false {
 		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
-			return [];
+			return false;
 		}
-		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-		if (is_null($storage)) {
-			return [];
+		$node = $this->getNode();
+		$storage = $node->getStorage();
+		if (!$storage) {
+			return false;
 		}
 
-		return $storage->getDirectDownload($internalPath);
+		if (!($node->getPermissions() & Constants::PERMISSION_READ)) {
+			return false;
+		}
+
+		return $storage->getDirectDownloadById((string)$node->getId());
 	}
 
 	/**
@@ -596,6 +644,9 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
+		if ($e instanceof NotEnoughSpaceException) {
+			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
+		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
@@ -624,6 +675,7 @@ class File extends Node implements IFile {
 		return $this->fileView->hash($type, $this->path);
 	}
 
+	#[\Override]
 	public function getNode(): \OCP\Files\File {
 		return $this->node;
 	}

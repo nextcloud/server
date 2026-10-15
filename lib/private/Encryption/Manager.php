@@ -5,8 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
+use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Keys\Storage;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -16,8 +19,10 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -39,14 +44,14 @@ class Manager implements IManager {
 	 *
 	 * @return bool true if enabled, false if not
 	 */
+	#[\Override]
 	public function isEnabled() {
 		$installed = $this->config->getSystemValueBool('installed', false);
 		if (!$installed) {
 			return false;
 		}
 
-		$enabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
-		return $enabled === 'yes';
+		return Server::get(IAppConfig::class)->getValueBool('core', 'encryption_enabled');
 	}
 
 	/**
@@ -90,9 +95,10 @@ class Manager implements IManager {
 	 * @param callable $callback
 	 * @throws Exceptions\ModuleAlreadyExistsException
 	 */
+	#[\Override]
 	public function registerEncryptionModule($id, $displayName, callable $callback) {
 		if (isset($this->encryptionModules[$id])) {
-			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
+			throw new ModuleAlreadyExistsException($id, $displayName);
 		}
 
 		$this->encryptionModules[$id] = [
@@ -113,6 +119,7 @@ class Manager implements IManager {
 	 *
 	 * @param string $moduleId
 	 */
+	#[\Override]
 	public function unregisterEncryptionModule($moduleId) {
 		unset($this->encryptionModules[$moduleId]);
 	}
@@ -122,6 +129,7 @@ class Manager implements IManager {
 	 *
 	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
 	 */
+	#[\Override]
 	public function getEncryptionModules() {
 		return $this->encryptionModules;
 	}
@@ -133,6 +141,7 @@ class Manager implements IManager {
 	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
+	#[\Override]
 	public function getEncryptionModule($moduleId = '') {
 		if (empty($moduleId)) {
 			return $this->getDefaultEncryptionModule();
@@ -142,26 +151,26 @@ class Manager implements IManager {
 		}
 		$message = "Module with ID: $moduleId does not exist.";
 		$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
-		throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
+		throw new ModuleDoesNotExistsException($message, $hint);
 	}
 
 	/**
 	 * get default encryption module
 	 *
-	 * @return \OCP\Encryption\IEncryptionModule
+	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	protected function getDefaultEncryptionModule() {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
 		if (empty($defaultModuleId)) {
 			$message = 'No default encryption module defined';
-			throw new Exceptions\ModuleDoesNotExistsException($message);
+			throw new ModuleDoesNotExistsException($message);
 		}
 		if (isset($this->encryptionModules[$defaultModuleId])) {
 			return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
 		}
 		$message = 'Default encryption module not loaded';
-		throw new Exceptions\ModuleDoesNotExistsException($message);
+		throw new ModuleDoesNotExistsException($message);
 	}
 
 	/**
@@ -170,6 +179,7 @@ class Manager implements IManager {
 	 * @param string $moduleId
 	 * @return bool
 	 */
+	#[\Override]
 	public function setDefaultEncryptionModule($moduleId) {
 		try {
 			$this->getEncryptionModule($moduleId);
@@ -186,6 +196,7 @@ class Manager implements IManager {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getDefaultEncryptionModuleId() {
 		return $this->config->getAppValue('core', 'default_encryption_module');
 	}
@@ -193,11 +204,11 @@ class Manager implements IManager {
 	/**
 	 * Add storage wrapper
 	 */
-	public function setupStorage() {
+	public function setupStorage(): void {
 		// If encryption is disabled and there are no loaded modules it makes no sense to load the wrapper
 		if (!empty($this->encryptionModules) || $this->isEnabled()) {
 			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
-			Filesystem::addStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage'], 2);
+			Filesystem::addStorageWrapper('oc_encryption', $encryptionWrapper->wrapStorage(...), 2);
 		}
 	}
 
@@ -205,7 +216,6 @@ class Manager implements IManager {
 		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 		return $encryptionWrapper->wrapStorage($mountPoint->getMountPoint(), $storage, $mountPoint, true);
 	}
-
 
 	/**
 	 * check if key storage is ready

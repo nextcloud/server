@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC;
 
 use Closure;
@@ -13,31 +14,25 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\IInitialStateService;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class InitialStateService implements IInitialStateService {
-	/** @var LoggerInterface */
-	private $logger;
 
 	/** @var string[][] */
-	private $states = [];
+	private array $states = [];
 
 	/** @var Closure[][] */
-	private $lazyStates = [];
+	private array $lazyStates = [];
 
-	/** @var Coordinator */
-	private $bootstrapCoordinator;
-
-	/** @var IServerContainer */
-	private $container;
-
-	public function __construct(LoggerInterface $logger, Coordinator $bootstrapCoordinator, IServerContainer $container) {
-		$this->logger = $logger;
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->container = $container;
+	public function __construct(
+		private LoggerInterface $logger,
+		private Coordinator $bootstrapCoordinator,
+		private ContainerInterface $container,
+	) {
 	}
 
+	#[\Override]
 	public function provideInitialState(string $appName, string $key, $data): void {
 		// Scalars and JsonSerializable are fine
 		if (is_scalar($data) || $data instanceof \JsonSerializable || is_array($data)) {
@@ -55,6 +50,7 @@ class InitialStateService implements IInitialStateService {
 		$this->logger->warning('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
+	#[\Override]
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
 		if (!isset($this->lazyStates[$appName])) {
 			$this->lazyStates[$appName] = [];
@@ -98,7 +94,7 @@ class InitialStateService implements IInitialStateService {
 		$initialStates = $context->getInitialStates();
 		foreach ($initialStates as $initialState) {
 			try {
-				$provider = $this->container->query($initialState->getService());
+				$provider = $this->container->get($initialState->getService());
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
 				$this->logger->error('Could not load initial state provider dynamically: ' . $e->getMessage(), [

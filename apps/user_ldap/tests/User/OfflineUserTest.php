@@ -6,43 +6,39 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\OfflineUser;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class OfflineUserTest extends TestCase {
-
-	/** @var OfflineUser */
-	protected $offlineUser;
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapping;
-	/** @var string */
-	protected $uid;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected UserMapping&MockObject $mapping;
+	protected string $uid;
+	protected IUserConfig&MockObject $userConfig;
+	protected IManager&MockObject $shareManager;
+	protected OfflineUser $offlineUser;
 
 	public function setUp(): void {
 		$this->uid = 'deborah';
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->mapping = $this->createMock(UserMapping::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->offlineUser = new OfflineUser(
 			$this->uid,
-			$this->config,
+			$this->userConfig,
 			$this->mapping,
 			$this->shareManager
 		);
 	}
 
-	public function shareOwnerProvider(): array {
+	public static function shareOwnerProvider(): array {
 		return [
 			[[], false],
 			[[IShare::TYPE_USER], true],
@@ -52,9 +48,7 @@ class OfflineUserTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider shareOwnerProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareOwnerProvider')]
 	public function testHasActiveShares(array $existingShareTypes, bool $expected): void {
 		$shareMock = $this->createMock(IShare::class);
 

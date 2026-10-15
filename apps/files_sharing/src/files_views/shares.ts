@@ -2,18 +2,20 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
-import AccountClockSvg from '@mdi/svg/svg/account-clock.svg?raw'
-import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
-import AccountSvg from '@mdi/svg/svg/account.svg?raw'
-import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
-import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
-import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 
-import { getContents, isFileRequest } from '../services/SharingService'
+import AccountClockSvg from '@mdi/svg/svg/account-clock-outline.svg?raw'
+import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
+import AccountSvg from '@mdi/svg/svg/account-outline.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
+import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
+import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import DeleteSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getNavigation, View } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { getContents, isFileRequest } from '../services/SharingService.ts'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'
@@ -58,39 +60,46 @@ export default () => {
 		getContents: () => getContents(true, false, false, false),
 	}))
 
-	Navigation.register(new View({
-		id: sharedWithOthersViewId,
-		name: t('files_sharing', 'Shared with others'),
-		caption: t('files_sharing', 'List of files that you shared with others.'),
+	// Don't show this view if the user has no storage quota
+	const storageStats = loadState('files', 'storageStats', { quota: -1 })
+	if (storageStats.quota !== 0) {
+		Navigation.register(new View({
+			id: sharedWithOthersViewId,
+			name: t('files_sharing', 'Shared with others'),
+			caption: t('files_sharing', 'List of files that you shared with others.'),
 
-		emptyTitle: t('files_sharing', 'Nothing shared yet'),
-		emptyCaption: t('files_sharing', 'Files and folders you shared will show up here'),
+			emptyTitle: t('files_sharing', 'Nothing shared yet'),
+			emptyCaption: t('files_sharing', 'Files and folders you shared will show up here'),
 
-		icon: AccountGroupSvg,
-		order: 2,
-		parent: sharesViewId,
+			icon: AccountGroupSvg,
+			order: 2,
+			parent: sharesViewId,
 
-		columns: [],
+			columns: [],
 
-		getContents: () => getContents(false, true, false, false),
-	}))
+			getContents: () => getContents(false, true, false, false),
+		}))
+	}
 
-	Navigation.register(new View({
-		id: sharingByLinksViewId,
-		name: t('files_sharing', 'Shared by link'),
-		caption: t('files_sharing', 'List of files that are shared by link.'),
+	// Don't show this view if sharing by link is disabled.
+	if (getCapabilities().files_sharing?.public.enabled) {
+		Navigation.register(new View({
+			id: sharingByLinksViewId,
+			name: t('files_sharing', 'Shared by link'),
+			caption: t('files_sharing', 'List of files that are shared by link.'),
 
-		emptyTitle: t('files_sharing', 'No shared links'),
-		emptyCaption: t('files_sharing', 'Files and folders you shared by link will show up here'),
+			emptyTitle: t('files_sharing', 'No shared links'),
+			emptyCaption: t('files_sharing', 'Files and folders you shared by link will show up here'),
 
-		icon: LinkSvg,
-		order: 3,
-		parent: sharesViewId,
+			icon: LinkSvg,
+			order: 3,
+			parent: sharesViewId,
 
-		columns: [],
+			columns: [],
 
-		getContents: () => getContents(false, true, false, false, [ShareType.Link]),
-	}))
+			getContents: () => getContents(false, true, false, false, [ShareType.Link]),
+		}))
+	}
 
 	Navigation.register(new View({
 		id: fileRequestViewId,

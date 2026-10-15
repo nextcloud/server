@@ -1,13 +1,14 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
-use OC\User\NoUserException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
@@ -16,6 +17,7 @@ use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,6 +36,7 @@ class Import extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:import')
@@ -58,6 +61,7 @@ class Import extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = (string)$input->getOption('user');
 		$path = $input->getArgument('path');
@@ -112,10 +116,10 @@ class Import extends Base {
 		foreach ($mounts as $mount) {
 			foreach ($existingMounts as $existingMount) {
 				if (
-					$existingMount->getMountPoint() === $mount->getMountPoint() &&
-					$existingMount->getApplicableGroups() === $mount->getApplicableGroups() &&
-					$existingMount->getApplicableUsers() === $mount->getApplicableUsers() &&
-					$existingMount->getBackendOptions() === $mount->getBackendOptions()
+					$existingMount->getMountPoint() === $mount->getMountPoint()
+					&& $existingMount->getApplicableGroups() === $mount->getApplicableGroups()
+					&& $existingMount->getApplicableUsers() === $mount->getApplicableUsers()
+					&& $existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
 					$output->writeln('<error>Duplicate mount (' . $mount->getMountPoint() . ')</error>');
 					return self::FAILURE;
@@ -170,7 +174,7 @@ class Import extends Base {
 
 		$user = $this->userManager->get($userId);
 		if (is_null($user)) {
-			throw new NoUserException("user $userId not found");
+			throw UserNotFoundException::createForUser($userId);
 		}
 		$this->userSession->setUser($user);
 		return $this->userService;

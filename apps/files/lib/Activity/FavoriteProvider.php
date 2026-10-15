@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -43,6 +45,7 @@ class FavoriteProvider implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files' || $event->getType() !== 'favorite') {
 			throw new UnknownActivityException();
@@ -138,7 +141,7 @@ class FavoriteProvider implements IProvider {
 		}
 		$parameter = [
 			'type' => 'file',
-			'id' => $subjectParams['id'],
+			'id' => (string)$subjectParams['id'],
 			'name' => basename($subjectParams['path']),
 			'path' => trim($subjectParams['path'], '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $subjectParams['id']]),

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,22 +17,23 @@ use OC\App\AppStore\Bundles\HubBundle;
 use OC\App\AppStore\Bundles\PublicSectorBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BundleFetcherTest extends TestCase {
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var BundleFetcher */
-	private $bundleFetcher;
+	private IL10N&MockObject $l10n;
+	private BundleFetcher $bundleFetcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10n = $this->createMock(IL10N::class);
+		$factory = $this->createMock(IFactory::class);
+		$factory->method('get')->willReturn($this->l10n);
 
-		$this->bundleFetcher = new BundleFetcher(
-			$this->l10n
-		);
+		$this->bundleFetcher = new BundleFetcher($factory);
 	}
 
 	public function testGetBundles(): void {
@@ -48,7 +52,6 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
-
 
 	public function testGetBundleByIdentifierWithException(): void {
 		$this->expectException(\BadMethodCallException::class);

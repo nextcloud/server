@@ -73,7 +73,7 @@ class Manager {
 
 	/**
 	 * Retrieve a log entry from the changelog
-	 * @param string $path The path to the changlog file
+	 * @param string $path The path to the changelog file
 	 * @param string $version The version to query (make sure to only pass in "{major}.{minor}(.{patch}" format)
 	 */
 	protected function retrieveChangelogEntry(string $path, string $version): ?string {

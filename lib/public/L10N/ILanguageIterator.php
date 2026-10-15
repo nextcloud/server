@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\L10N;
 
 /**
@@ -21,7 +22,7 @@ namespace OCP\L10N;
  * if settings are not present or truncating is not applicable, the iterator
  * skips to the next valid item itself
  *
- *
+ * @template-extends \Iterator<int, string>
  * @since 14.0.0
  */
 interface ILanguageIterator extends \Iterator {
@@ -30,28 +31,30 @@ interface ILanguageIterator extends \Iterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function current(): string;
 
 	/**
 	 * Move forward to next element
 	 *
 	 * @since 14.0.0
-	 * @return void
 	 */
-	#[\ReturnTypeWillChange]
-	public function next();
+	#[\Override]
+	public function next(): void;
 
 	/**
 	 * Return the key of the current element
 	 *
 	 * @since 14.0.0
 	 */
-	public function key():int;
+	#[\Override]
+	public function key(): int;
 
 	/**
 	 * Checks if current position is valid
 	 *
 	 * @since 14.0.0
 	 */
-	public function valid():bool;
+	#[\Override]
+	public function valid(): bool;
 }

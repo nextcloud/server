@@ -5,31 +5,34 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Installer;
 use OCA\Provisioning_API\Controller\AppsController;
 use OCA\Provisioning_API\Tests\TestCase;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AppsTest
  *
- * @group DB
  *
  * @package OCA\Provisioning_API\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AppsControllerTest extends TestCase {
-	/** @var IAppManager */
-	private $appManager;
-	/** @var AppsController */
-	private $api;
-	/** @var IUserSession */
-	private $userSession;
+	private IAppManager $appManager;
+	private IAppConfig&MockObject $appConfig;
+	private Installer&MockObject $installer;
+	private AppsController $api;
+	private IUserSession $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,15 +40,17 @@ class AppsControllerTest extends TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 		$this->groupManager = Server::get(IGroupManager::class);
 		$this->userSession = Server::get(IUserSession::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->installer = $this->createMock(Installer::class);
 
-		$request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(IRequest::class);
 
 		$this->api = new AppsController(
 			'provisioning_api',
 			$request,
-			$this->appManager
+			$this->appManager,
+			$this->installer,
+			$this->appConfig,
 		);
 	}
 
@@ -58,7 +63,6 @@ class AppsControllerTest extends TestCase {
 		$expected = $this->appManager->getAppInfo('provisioning_api');
 		$this->assertEquals($expected, $result->getData());
 	}
-
 
 	public function testGetAppInfoOnBadAppID(): void {
 		$this->expectException(OCSException::class);
@@ -96,7 +100,6 @@ class AppsControllerTest extends TestCase {
 		$this->assertEquals(count($disabled), count($data['apps']));
 	}
 
-	
 	public function testGetAppsInvalidFilter(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);

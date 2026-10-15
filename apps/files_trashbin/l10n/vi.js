@@ -6,7 +6,6 @@ OC.L10N.register(
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Các tệp và thư mục đã xóa trong thùng rác (có thể hết hạn trong quá trình xuất nếu bạn sắp hết dung lượng lưu trữ)",
     "Restore" : "Khôi phục",
     "Cancel" : "Hủy bỏ",
-    "Deletion cancelled" : "Thao tác xóa bị hủy",
     "Deleted" : "Đã xóa",
     "A long time ago" : "Một khoảng thời gian trước",
     "Unknown" : "Không xác định",

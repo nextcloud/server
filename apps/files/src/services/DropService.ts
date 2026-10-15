@@ -1,23 +1,21 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Upload } from '@nextcloud/upload'
-import type { RootDirectory } from './DropServiceUtils'
+import type { Folder, IFolder, INode } from '@nextcloud/files'
+import type { IUpload } from '@nextcloud/files/upload'
+import type { RootDirectory } from './DropServiceUtils.ts'
 
-import { Folder, Node, NodeStatus, davRootPath } from '@nextcloud/files'
-import { getUploader, hasConflict } from '@nextcloud/upload'
-import { join } from 'path'
-import { joinPaths } from '@nextcloud/paths'
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
-
-import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
-import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
-import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
-import logger from '../logger.ts'
+import { getUploader } from '@nextcloud/files/upload'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
+import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
+import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
+import { getConflicts } from '../utils/conflicts.ts'
+import { logger } from '../utils/logger.ts'
+import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.
@@ -28,7 +26,7 @@ import logger from '../logger.ts'
  *
  * @param items the list of DataTransferItems
  */
-export const dataTransferToFileTree = async (items: DataTransferItem[]): Promise<RootDirectory> => {
+export async function dataTransferToFileTree(items: DataTransferItem[]): Promise<RootDirectory> {
 	// Check if the browser supports the Filesystem API
 	// We need to cache the entries to prevent Blink engine bug that clears
 	// the list (`data.items`) after first access props of one of the entries
@@ -41,7 +39,7 @@ export const dataTransferToFileTree = async (items: DataTransferItem[]): Promise
 			return true
 		}).map((item) => {
 			// MDN recommends to try both, as it might be renamed in the future
-			return (item as unknown as { getAsEntry?: () => FileSystemEntry|undefined })?.getAsEntry?.()
+			return (item as unknown as { getAsEntry?: () => FileSystemEntry | undefined })?.getAsEntry?.()
 				?? item?.webkitGetAsEntry?.()
 				?? item
 		}) as (FileSystemEntry | DataTransferItem)[]
@@ -89,15 +87,30 @@ export const dataTransferToFileTree = async (items: DataTransferItem[]): Promise
 	return fileTree
 }
 
-export const onDropExternalFiles = async (root: RootDirectory, destination: Folder, contents: Node[]): Promise<Upload[]> => {
+/**
+ * Handle dropping external files
+ *
+ * @param root - The root directory which should be uploaded
+ * @param destination - The destination folder
+ * @param contents - The contents of the destination folder
+ */
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<IUpload[]> {
+	// Ask the user to fix any invalid name before uploading anything
+	if (!await renameInvalidDroppedEntries(root)) {
+		showInfo(t('files', 'Upload cancelled, drop the files again to retry'))
+		return []
+	}
+
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
-	if (await hasConflict(root.contents, contents)) {
+	if (getConflicts(root.contents, contents).length !== 0) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
-	}
-
-	if (root.contents.length === 0) {
+		if (root.contents.length === 0) {
+			// user cancelled the upload
+			return []
+		}
+	} else if (root.contents.length === 0) {
 		logger.info('No files to upload', { root })
 		showInfo(t('files', 'No files to upload'))
 		return []
@@ -105,7 +118,8 @@ export const onDropExternalFiles = async (root: RootDirectory, destination: Fold
 
 	// Let's process the files
 	logger.debug(`Uploading files to ${destination.path}`, { root, contents: root.contents })
-	const queue = [] as Promise<Upload>[]
+	const queue = [] as Promise<IUpload>[]
+	let hasDirectoryErrors = false
 
 	const uploadDirectoryContents = async (directory: Directory, path: string) => {
 		for (const file of directory.contents) {
@@ -116,14 +130,14 @@ export const onDropExternalFiles = async (root: RootDirectory, destination: Fold
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = joinPaths(davRootPath, destination.path, relativePath)
 				try {
-					console.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(absolutePath)
+					logger.debug('Processing directory', { relativePath, destination })
+					await createDirectoryIfNotExists(relativePath, destination)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
+					hasDirectoryErrors = true
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
-					logger.error('', { error, absolutePath, directory: file })
+					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
 				continue
 			}
@@ -131,8 +145,7 @@ export const onDropExternalFiles = async (root: RootDirectory, destination: Fold
 			// If we've reached a file, we can upload it
 			logger.debug('Uploading file to ' + join(destination.path, relativePath), { file })
 
-			// Overriding the root to avoid changing the current uploader context
-			queue.push(uploader.upload(relativePath, file, destination.source))
+			queue.push(uploader.upload(relativePath, file))
 		}
 	}
 
@@ -140,19 +153,30 @@ export const onDropExternalFiles = async (root: RootDirectory, destination: Fold
 	// while we compute the queue
 	uploader.pause()
 
-	// Upload the files. Using '/' as the starting point
-	// as we already adjusted the uploader destination
-	await uploadDirectoryContents(root, '/')
-	uploader.start()
+	// The uploader resolves every upload path against its own destination, so it
+	// has to be pointed at the drop target while the queue is built. Dropping on
+	// a folder row uploads into that folder, not into the folder being browsed.
+	const previousDestination = uploader.destination
+	uploader.destination = destination as Folder
+	try {
+		// Upload the files. Using '/' as the starting point
+		// as we already adjusted the uploader destination
+		await uploadDirectoryContents(root, '/')
+	} finally {
+		uploader.destination = previousDestination
+		uploader.start()
+	}
 
 	// Wait for all promises to settle
 	const results = await Promise.allSettled(queue)
 
 	// Check for errors
-	const errors = results.filter(result => result.status === 'rejected')
+	const errors = results.filter((result) => result.status === 'rejected')
 	if (errors.length > 0) {
 		logger.error('Error while uploading files', { errors })
 		showError(t('files', 'Some files could not be uploaded'))
+	}
+	if (errors.length > 0 || hasDirectoryErrors) {
 		return []
 	}
 
@@ -162,11 +186,17 @@ export const onDropExternalFiles = async (root: RootDirectory, destination: Fold
 	return Promise.all(queue)
 }
 
-export const onDropInternalFiles = async (nodes: Node[], destination: Folder, contents: Node[], isCopy = false) => {
-	const queue = [] as Promise<void>[]
-
+/**
+ * Handle dropping internal files
+ *
+ * @param nodes - The nodes being dropped
+ * @param destination - The destination folder
+ * @param contents - The contents of the destination folder
+ * @param isCopy - Whether the operation is a copy
+ */
+export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
 	// Check for conflicts on root elements
-	if (await hasConflict(nodes, contents)) {
+	if (getConflicts(nodes, contents).length !== 0) {
 		nodes = await resolveConflict(nodes, destination, contents)
 	}
 
@@ -176,23 +206,17 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 		return
 	}
 
-	for (const node of nodes) {
-		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+	try {
+		const promises = Array.fromAsync(handleCopyMoveNodesTo(nodes, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		await promises
+		logger.debug('Files copy/move successful')
+		showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
+	} catch (error) {
+		logger.error('Error while processing dropped files', { error })
+		if (error instanceof HintException) {
+			showError(error.message)
+		} else {
+			showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
+		}
 	}
-
-	// Wait for all promises to settle
-	const results = await Promise.allSettled(queue)
-	nodes.forEach(node => Vue.set(node, 'status', undefined))
-
-	// Check for errors
-	const errors = results.filter(result => result.status === 'rejected')
-	if (errors.length > 0) {
-		logger.error('Error while copying or moving files', { errors })
-		showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
-		return
-	}
-
-	logger.debug('Files copy/move successful')
-	showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
 }

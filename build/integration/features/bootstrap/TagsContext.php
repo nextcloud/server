@@ -1,18 +1,17 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 class TagsContext implements \Behat\Behat\Context\Context {
-	/** @var string */
-	private $baseUrl;
 	/** @var Client */
 	private $client;
 	/** @var ResponseInterface */
@@ -21,9 +20,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @param string $baseUrl
 	 */
-	public function __construct($baseUrl) {
-		$this->baseUrl = $baseUrl;
-
+	public function __construct(
+		private $baseUrl,
+	) {
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
 		if ($testServerUrl !== false) {
@@ -255,9 +254,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		foreach ($table->getRowsHash() as $rowDisplayName => $row) {
 			foreach ($tags as $key => $tag) {
 				if (
-					$tag['display-name'] === $rowDisplayName &&
-					$tag['user-visible'] === $row[0] &&
-					$tag['user-assignable'] === $row[1]
+					$tag['display-name'] === $rowDisplayName
+					&& $tag['user-visible'] === $row[0]
+					&& $tag['user-assignable'] === $row[1]
 				) {
 					unset($tags[$key]);
 				}

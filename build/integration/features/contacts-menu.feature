@@ -73,6 +73,170 @@ Feature: contacts-menu
 
 
 
+  Scenario: users can not be searched by display name when searcher belongs to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And user "user0" belongs to group "ExcludedGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can not be searched by email when searcher belongs to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And user "user0" belongs to group "ExcludedGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can not be searched by display name when searcher belongs to both a group excluded from sharing and another group
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And user "user0" belongs to group "ExcludedGroup"
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can not be searched by email when searcher belongs to both a group excluded from sharing and another group
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And user "user0" belongs to group "ExcludedGroup"
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can be searched by display name when searcher does not belong to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "Test name"
+
+  Scenario: users can be searched by email when searcher does not belong to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "user1"
+
+  Scenario: users can not be searched by display name when searcher does not belong to a group allowed to share
+    Given user "user0" exists
+    And group "AllowedGroup" exists
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AllowedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can not be searched by email when searcher does not belong to a group allowed to share
+    Given user "user0" exists
+    And group "AllowedGroup" exists
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AllowedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can be searched by display name when searcher belongs to both a group allowed to share and another group
+    Given user "user0" exists
+    And group "AllowedGroup" exists
+    And user "user0" belongs to group "AllowedGroup"
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AllowedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "Test name"
+
+  Scenario: users can be searched by email when searcher belongs to both a group allowed to share and another group
+    Given user "user0" exists
+    And group "AllowedGroup" exists
+    And user "user0" belongs to group "AllowedGroup"
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AllowedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "user1"
+
+
+
   Scenario: users can not be found by display name if visibility is private
     Given user "user0" exists
     And user "user1" exists
@@ -80,11 +244,11 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | displayname | Another test name |
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     # Disabled because it regularly fails on drone:
@@ -98,11 +262,11 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | email | another_test@example.com |
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     # Disabled because it regularly fails on drone:
     # When Logging in using web as "user0"
     # And searching for contacts matching with "test"
@@ -116,15 +280,15 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | displayname | Another test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
       | email | another_test@example.com |
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     Then the list of searched contacts has "2" contacts
@@ -140,9 +304,9 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     Then the list of searched contacts has "1" contacts
@@ -154,9 +318,9 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     # Disabled because it regularly fails on drone:
     # When Logging in using web as "user0"
     # And searching for contacts matching with "test"
@@ -170,7 +334,7 @@ Feature: contacts-menu
     And user "user1" exists
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And As an "admin"
     And sending "PUT" to "/cloud/users/user1" with
       | key | displayname |
@@ -185,7 +349,7 @@ Feature: contacts-menu
     And user "user1" exists
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | emailScope | private |
+      | emailScope | v2-private |
     And As an "admin"
     And sending "PUT" to "/cloud/users/user1" with
       | key | email |
@@ -194,3 +358,21 @@ Feature: contacts-menu
     And searching for contacts matching with "test"
     # Disabled because it regularly fails on drone:
     # Then the list of searched contacts has "0" contacts
+
+  # The example contact of the personal address book is listed next to "user0" of the system address book
+  Scenario: users can list other users from the system address book
+    Given user "user0" exists
+    And user "user1" exists
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "2" contacts
+
+  # Exposing the system address book is only about DAV clients, user searching and
+  # auto-completion keep working when it is disabled
+  Scenario: users can list other users from the system address book when it is not exposed to DAV clients
+    Given user "user0" exists
+    And user "user1" exists
+    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "2" contacts

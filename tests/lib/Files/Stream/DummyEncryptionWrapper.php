@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,13 +10,16 @@
 
 namespace Test\Files\Stream;
 
-class DummyEncryptionWrapper extends \OC\Files\Stream\Encryption {
+use OC\Files\Stream\Encryption;
+
+class DummyEncryptionWrapper extends Encryption {
 	/**
 	 * simulate a non-seekable stream wrapper by always return false
 	 *
 	 * @param int $position
 	 * @return bool
 	 */
+	#[\Override]
 	protected function parentStreamSeek($position) {
 		return false;
 	}

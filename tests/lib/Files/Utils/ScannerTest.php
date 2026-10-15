@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,55 +12,54 @@ namespace Test\Files\Utils;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Temporary;
+use OC\Files\Utils\Scanner;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
+use Test\Util\User\Dummy;
 
-class TestScanner extends \OC\Files\Utils\Scanner {
-	/**
-	 * @var \OC\Files\Mount\MountPoint[] $mounts
-	 */
-	private $mounts = [];
+class TestScanner extends Scanner {
+	/** @var array<string, MountPoint> $mounts */
+	private array $mounts = [];
 
-	/**
-	 * @param \OC\Files\Mount\MountPoint $mount
-	 */
-	public function addMount($mount) {
-		$this->mounts[] = $mount;
+	public function addMount(MountPoint $mount): void {
+		$this->mounts[$mount->getMountPoint()] = $mount;
 	}
 
-	protected function getMounts($dir) {
+	#[\Override]
+	protected function getMounts(string $dir): array {
 		return $this->mounts;
 	}
 }
 
-/**
- * Class ScannerTest
- *
- * @group DB
- *
- * @package Test\Files\Utils
- */
-class ScannerTest extends \Test\TestCase {
-	/**
-	 * @var \Test\Util\User\Dummy
-	 */
-	private $userBackend;
+#[Group('DB')]
+class ScannerTest extends TestCase {
+	private Dummy $userBackend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC::$server->getUserManager()->registerBackend($this->userBackend);
+		$this->userBackend = new Dummy();
+		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->logout();
-		\OC::$server->getUserManager()->removeBackend($this->userBackend);
+		Server::get(IUserManager::class)->removeBackend($this->userBackend);
 		parent::tearDown();
 	}
 
@@ -71,7 +73,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), $this->createMock(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -93,7 +101,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), $this->createMock(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -124,46 +138,44 @@ class ScannerTest extends \Test\TestCase {
 				}
 			});
 
-		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		Server::get(IMountProviderCollection::class)->registerProvider($mountProvider);
 		$cache = $storage->getCache();
 
 		$storage->mkdir('folder');
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new Scanner(
+			Server::get(IUserManager::class)->get($uid),
+			Server::get(IDBConnection::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$scanner->scan('/' . $uid . '/files/foo');
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function invalidPathProvider() {
-		return [
-			[
-				'../',
-			],
-			[
-				'..\\',
-			],
-			[
-				'../..\\../',
-			],
-		];
+	public static function invalidPathProvider(): \Generator {
+		yield [ '../' ];
+		yield [ '..\\' ];
+		yield [ '../..\\../' ];
 	}
 
-	/**
-	 * @dataProvider invalidPathProvider
-	 * @param string $invalidPath
-	 */
-	public function testInvalidPathScanning($invalidPath): void {
+	#[DataProvider(methodName: 'invalidPathProvider')]
+	public function testInvalidPathScanning(string $invalidPath): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Invalid path to scan');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), $this->createMock(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->scan($invalidPath);
 	}
 
@@ -177,7 +189,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 		$storage->touch('folder/bar.txt', time() - 200);
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), $this->createMock(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -203,17 +221,23 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 		$storage->file_put_contents('folder/subfolder/foobar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), $this->createMock(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
-		$scanner->scan('', $recusive = false);
+		$scanner->scan('', false);
 		$this->assertTrue($cache->inCache('folder'));
 		$this->assertFalse($cache->inCache('folder/subfolder'));
 		$this->assertTrue($cache->inCache('foo.txt'));
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
 
-		$scanner->scan('folder', $recusive = false);
+		$scanner->scan('folder', false);
 		$this->assertTrue($cache->inCache('folder'));
 		$this->assertTrue($cache->inCache('folder/subfolder'));
 		$this->assertTrue($cache->inCache('foo.txt'));

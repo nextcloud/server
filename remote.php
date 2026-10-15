@@ -1,19 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\ServiceUnavailableException;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
+
+require_once __DIR__ . '/lib/versioncheck.php';
+require_once __DIR__ . '/lib/OC.php';
 
 /**
  * Class RemoteException
@@ -35,7 +42,7 @@ function handleException(Exception|Error $e): void {
 				// we shall not log on RemoteException
 				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OCP\Server::get(LoggerInterface::class)));
 			}
-			$server->on('beforeMethod:*', function () use ($e) {
+			$server->on('beforeMethod:*', function () use ($e): void {
 				if ($e instanceof RemoteException) {
 					switch ($e->getCode()) {
 						case 503:
@@ -50,16 +57,17 @@ function handleException(Exception|Error $e): void {
 			});
 			$server->exec();
 		} else {
-			$statusCode = 500;
-			if ($e instanceof \OC\ServiceUnavailableException) {
-				$statusCode = 503;
-			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
 				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
+				if ($e->getCode() > 0) {
+					$status = $e->getCode();
+				} else {
+					$status = $e instanceof ServiceUnavailableException ? 503 : 500;
+				}
 				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
+				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $status);
 			}
 		}
 	} catch (\Exception $e) {
@@ -86,67 +94,71 @@ function resolveService($service) {
 		return $services[$service];
 	}
 
-	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	return \OCP\Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
-try {
-	require_once __DIR__ . '/lib/base.php';
+\OC::boot();
 
-	// All resources served via the DAV endpoint should have the strictest possible
-	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
-	// this policy with a softer one if debug mode is enabled.
-	header("Content-Security-Policy: default-src 'none';");
+\OC::handleRequests(static function (): void {
+	try {
+		\OC::initForRequest();
 
-	if (\OCP\Util::needUpgrade()) {
-		// since the behavior of apps or remotes are unpredictable during
-		// an upgrade, return a 503 directly
-		throw new RemoteException('Service unavailable', 503);
+		// All resources served via the DAV endpoint should have the strictest possible
+		// policy. Exempted from this is the SabreDAV browser plugin which overwrites
+		// this policy with a softer one if debug mode is enabled.
+		header("Content-Security-Policy: default-src 'none';");
+
+		if (Util::needUpgrade()) {
+			// since the behavior of apps or remotes are unpredictable during
+			// an upgrade, return a 503 directly
+			throw new RemoteException('Service unavailable', 503);
+		}
+
+		$request = \OCP\Server::get(IRequest::class);
+		$pathInfo = $request->getPathInfo();
+		if ($pathInfo === false || $pathInfo === '') {
+			throw new RemoteException('Path not found', 404);
+		}
+		if (!$pos = strpos($pathInfo, '/', 1)) {
+			$pos = strlen($pathInfo);
+		}
+		$service = substr($pathInfo, 1, $pos - 1);
+
+		$file = resolveService($service);
+
+		if (is_null($file)) {
+			throw new RemoteException('Path not found', 404);
+		}
+
+		$file = ltrim($file, '/');
+
+		$parts = explode('/', $file, 2);
+		$app = $parts[0];
+
+		// Load all required applications
+		\OC::$REQUESTEDAPP = $app;
+		$appManager = \OCP\Server::get(IAppManager::class);
+		$appManager->loadApps(['authentication']);
+		$appManager->loadApps(['extended_authentication']);
+		$appManager->loadApps(['filesystem', 'logging']);
+
+		switch ($app) {
+			case 'core':
+				$file = OC::$SERVERROOT . '/' . $file;
+				break;
+			default:
+				if (!$appManager->isEnabledForUser($app)) {
+					throw new RemoteException('App not installed: ' . $app);
+				}
+				$appManager->loadApp($app);
+				$file = $appManager->getAppPath($app) . '/' . ($parts[1] ?? '');
+				break;
+		}
+		$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
+		require $file;
+	} catch (Exception $ex) {
+		handleException($ex);
+	} catch (Error $e) {
+		handleException($e);
 	}
-
-	$request = \OC::$server->getRequest();
-	$pathInfo = $request->getPathInfo();
-	if ($pathInfo === false || $pathInfo === '') {
-		throw new RemoteException('Path not found', 404);
-	}
-	if (!$pos = strpos($pathInfo, '/', 1)) {
-		$pos = strlen($pathInfo);
-	}
-	$service = substr($pathInfo, 1, $pos - 1);
-
-	$file = resolveService($service);
-
-	if (is_null($file)) {
-		throw new RemoteException('Path not found', 404);
-	}
-
-	$file = ltrim($file, '/');
-
-	$parts = explode('/', $file, 2);
-	$app = $parts[0];
-
-	// Load all required applications
-	\OC::$REQUESTEDAPP = $app;
-	$appManager = \OCP\Server::get(IAppManager::class);
-	$appManager->loadApps(['authentication']);
-	$appManager->loadApps(['extended_authentication']);
-	$appManager->loadApps(['filesystem', 'logging']);
-
-	switch ($app) {
-		case 'core':
-			$file = OC::$SERVERROOT . '/' . $file;
-			break;
-		default:
-			if (!$appManager->isEnabledForUser($app)) {
-				throw new RemoteException('App not installed: ' . $app);
-			}
-			$appManager->loadApp($app);
-			$file = $appManager->getAppPath($app) . '/' . ($parts[1] ?? '');
-			break;
-	}
-	$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
-	require_once $file;
-} catch (Exception $ex) {
-	handleException($ex);
-} catch (Error $e) {
-	handleException($e);
-}
+});

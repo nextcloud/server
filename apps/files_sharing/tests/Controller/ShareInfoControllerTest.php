@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareInfoController;
@@ -15,30 +17,24 @@ use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ShareInfoControllerTest extends TestCase {
 
-	/** @var ShareInfoController */
-	private $controller;
-
-	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
+	protected ShareInfoController $controller;
+	protected ShareManager&MockObject $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(ShareManager::class);
 
-		$this->controller = $this->getMockBuilder(ShareInfoController::class)
-			->setConstructorArgs([
-				'files_sharing',
-				$this->createMock(IRequest::class),
-				$this->shareManager
-			])
-			->setMethods(['addROWrapper'])
-			->getMock();
+		$this->controller = new ShareInfoController(
+			'files_sharing',
+			$this->createMock(IRequest::class),
+			$this->shareManager
+		);
 	}
 
 	public function testNoShare(): void {
@@ -55,6 +51,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 
 		$this->shareManager->method('getShareByToken')
 			->with('token')
@@ -72,6 +69,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_CREATE);
 
@@ -113,6 +111,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
 		$share->method('getNode')
@@ -145,6 +144,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);
 		$share->method('getNode')
@@ -188,7 +188,6 @@ class ShareInfoControllerTest extends TestCase {
 		$root->method('getType')->willReturn('folder');
 		$root->method('getEtag')->willReturn('etag');
 
-
 		//Subfolder
 		$sub = $this->createMock(Folder::class);
 
@@ -227,6 +226,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
 		$share->method('getNode')

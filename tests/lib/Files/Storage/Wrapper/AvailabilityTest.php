@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,6 +21,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/** @var Availability */
 	protected $wrapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -53,7 +55,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 *
 	 */
 	public function testUnavailable(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
+		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
 			->method('getAvailability')
@@ -76,12 +78,16 @@ class AvailabilityTest extends \Test\TestCase {
 		$this->storage->expects($this->once())
 			->method('test')
 			->willReturn(true);
+		$calls = [
+			false, // prevents concurrent rechecks
+			true, // sets correct availability
+		];
 		$this->storage->expects($this->exactly(2))
 			->method('setAvailability')
-			->withConsecutive(
-				[$this->equalTo(false)], // prevents concurrent rechecks
-				[$this->equalTo(true)] // sets correct availability
-			);
+			->willReturnCallback(function ($value) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $value);
+			});
 		$this->storage->expects($this->once())
 			->method('mkdir');
 
@@ -93,7 +99,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 *
 	 */
 	public function testAvailableThrowStorageNotAvailable(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
+		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
 			->method('getAvailability')
@@ -102,7 +108,7 @@ class AvailabilityTest extends \Test\TestCase {
 			->method('test');
 		$this->storage->expects($this->once())
 			->method('mkdir')
-			->will($this->throwException(new StorageNotAvailableException()));
+			->willThrowException(new StorageNotAvailableException());
 		$this->storageCache->expects($this->once())
 			->method('setAvailability')
 			->with($this->equalTo(false));
@@ -144,10 +150,36 @@ class AvailabilityTest extends \Test\TestCase {
 			->method('test');
 		$this->storage->expects($this->once())
 			->method('mkdir')
-			->will($this->throwException(new \Exception()));
+			->willThrowException(new \Exception());
 		$this->storage->expects($this->never())
 			->method('setAvailability');
 
 		$this->wrapper->mkdir('foobar');
+	}
+
+	public function testUnavailableMultiple(): void {
+		$this->storage->expects($this->once())
+			->method('getAvailability')
+			->willReturn(['available' => true, 'last_checked' => 0]);
+		$this->storage->expects($this->never())
+			->method('test');
+		$this->storage
+			->expects($this->once()) // load-bearing `once`
+			->method('mkdir')
+			->willThrowException(new StorageNotAvailableException());
+
+		try {
+			$this->wrapper->mkdir('foobar');
+			$this->fail();
+		} catch (StorageNotAvailableException) {
+		}
+
+		$this->storage->expects($this->never())->method('file_exists');
+
+		try {
+			$this->wrapper->mkdir('foobar');
+			$this->fail();
+		} catch (StorageNotAvailableException) {
+		}
 	}
 }

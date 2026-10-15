@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,14 +8,19 @@
 
 namespace Test\BackgroundJob;
 
+use ArrayIterator;
+use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\Job;
+use OCP\Server;
+use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Class DummyJobList
  *
  * in memory job list for testing purposes
  */
-class DummyJobList extends \OC\BackgroundJob\JobList {
+class DummyJobList extends JobList {
 	/**
 	 * @var IJob[]
 	 */
@@ -26,7 +32,6 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	private array $reserved = [];
 
 	private int $last = 0;
-	private int $lastId = 0;
 
 	public function __construct() {
 	}
@@ -35,19 +40,20 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
+	#[\Override]
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
-			$job = \OCP\Server::get($job);
+			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
-		$job->setId($this->lastId);
-		$this->lastId++;
+		$job->setId(Server::get(ISnowflakeGenerator::class)->nextId());
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
 	}
 
+	#[\Override]
 	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
 		$this->add($job, $argument, $runAfter);
 	}
@@ -56,6 +62,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
+	#[\Override]
 	public function remove($job, $argument = null): void {
 		foreach ($this->jobs as $index => $listJob) {
 			if (get_class($job) === get_class($listJob) && $job->getArgument() == $listJob->getArgument()) {
@@ -65,7 +72,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	public function removeById(int $id): void {
+	#[\Override]
+	public function removeById(string $id): void {
 		foreach ($this->jobs as $index => $listJob) {
 			if ($listJob->getId() === $id) {
 				unset($this->jobs[$index]);
@@ -81,6 +89,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param mixed $argument
 	 * @return bool
 	 */
+	#[\Override]
 	public function has($job, $argument): bool {
 		return array_search($job, $this->jobs) !== false;
 	}
@@ -94,25 +103,30 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return $this->jobs;
 	}
 
-	public function getJobsIterator($job, ?int $limit, int $offset): array {
+	#[\Override]
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		if ($job instanceof IJob) {
 			$jobClass = get_class($job);
 		} else {
 			$jobClass = $job;
 		}
-		return array_slice(
+
+		$jobs = array_slice(
 			array_filter(
 				$this->jobs,
-				fn ($job) => ($jobClass === null) || (get_class($job) == $jobClass)
+				fn ($job) => ($jobClass === null) || (get_class($job) === $jobClass)
 			),
 			$offset,
 			$limit
 		);
+
+		return new ArrayIterator($jobs);
 	}
 
 	/**
 	 * get the next job in the list
 	 */
+	#[\Override]
 	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		if (count($this->jobs) > 0) {
 			if ($this->last < (count($this->jobs) - 1)) {
@@ -129,8 +143,9 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OCP\BackgroundJob\Job $job
+	 * @param Job $job
 	 */
+	#[\Override]
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);
 		if ($i !== false) {
@@ -140,7 +155,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	public function getById(int $id): ?IJob {
+	#[\Override]
+	public function getById(string $id): ?IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
@@ -149,14 +165,17 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return null;
 	}
 
-	public function getDetailsById(int $id): ?array {
+	#[\Override]
+	public function getDetailsById(string $id): ?array {
 		return null;
 	}
 
+	#[\Override]
 	public function setLastRun(IJob $job): void {
 		$job->setLastRun(time());
 	}
 
+	#[\Override]
 	public function hasReservedJob(?string $className = null): bool {
 		return isset($this->reserved[$className ?? '']) && $this->reserved[$className ?? ''];
 	}
@@ -165,9 +184,11 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		$this->reserved[$className ?? ''] = $hasReserved;
 	}
 
+	#[\Override]
 	public function setExecutionTime(IJob $job, $timeTaken): void {
 	}
 
+	#[\Override]
 	public function resetBackgroundJob(IJob $job): void {
 	}
 }

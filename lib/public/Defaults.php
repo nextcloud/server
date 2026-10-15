@@ -29,7 +29,7 @@ class Defaults {
 	 */
 	public function __construct(?\OC_Defaults $defaults = null) {
 		if ($defaults === null) {
-			$defaults = \OC::$server->get('ThemingDefaults');
+			$defaults = \OCP\Server::get('ThemingDefaults');
 		}
 		$this->defaults = $defaults;
 	}
@@ -171,6 +171,16 @@ class Defaults {
 	 */
 	public function getLogo(bool $useSvg = true): string {
 		return $this->defaults->getLogo($useSvg);
+	}
+
+	/**
+	 * Raw logo image data (raster) for embedding directly into emails
+	 *
+	 * @return array{content: string, mimeType: string}|null null when unavailable
+	 * @since 35.0.0
+	 */
+	public function getLogoImage(): ?array {
+		return $this->defaults->getLogoImage();
 	}
 
 	/**

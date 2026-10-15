@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -26,10 +27,12 @@ class PushService implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Push service');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
@@ -46,6 +49,7 @@ class PushService implements ISetupCheck {
 		return $this->notificationsManager->isFairUseOfFreePushService();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->subscriptionRegistry->delegateHasValidSubscription()) {
 			return SetupResult::success($this->l10n->t('Valid enterprise license'));

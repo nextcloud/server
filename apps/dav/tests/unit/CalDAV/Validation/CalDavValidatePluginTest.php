@@ -18,11 +18,11 @@ use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class CalDavValidatePluginTest extends TestCase {
+	private IAppConfig&MockObject $config;
+	private RequestInterface&MockObject $request;
+	private ResponseInterface&MockObject $response;
 
 	private CalDavValidatePlugin $plugin;
-	private IAppConfig|MockObject $config;
-	private RequestInterface|MockObject $request;
-	private ResponseInterface|MockObject $response;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,7 +36,7 @@ class CalDavValidatePluginTest extends TestCase {
 	}
 
 	public function testPutSizeLessThenLimit(): void {
-		
+
 		// construct method responses
 		$this->config
 			->method('getValueInt')
@@ -50,11 +50,11 @@ class CalDavValidatePluginTest extends TestCase {
 		$this->assertTrue(
 			$this->plugin->beforePut($this->request, $this->response)
 		);
-		
+
 	}
 
 	public function testPutSizeMoreThenLimit(): void {
-		
+
 		// construct method responses
 		$this->config
 			->method('getValueInt')
@@ -67,7 +67,7 @@ class CalDavValidatePluginTest extends TestCase {
 		$this->expectException(Forbidden::class);
 		// test condition
 		$this->plugin->beforePut($this->request, $this->response);
-		
+
 	}
 
 }

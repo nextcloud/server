@@ -1,27 +1,29 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Manager;
 use OC\Share20\ShareDisableChecker;
 use OCA\Files_Sharing\Capabilities;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
@@ -29,19 +31,17 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class CapabilitiesTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends \Test\TestCase {
 
 	/**
 	 * Test for the general part in each return statement and assert.
 	 * Strip of the general part on the way.
 	 *
-	 * @param string[] $data Capabilities
-	 * @return string[]
+	 * @param array $data Capabilities
 	 */
-	private function getFilesSharingPart(array $data) {
+	private function getFilesSharingPart(array $data): array {
 		$this->assertArrayHasKey('files_sharing', $data);
 		return $data['files_sharing'];
 	}
@@ -52,11 +52,31 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * levels in the array
 	 *
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
-	 * @return string[]
 	 */
-	private function getResults(array $map) {
+	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true): array {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
+		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
+		$appManager->method('isEnabledForAnyone')->with('federation')->willReturn($federationEnabled);
+
+		if (empty($typedMap)) {
+			$appConfig = $this->createMock(IAppConfig::class);
+		} else {
+			// hack to help transition from old IConfig to new IAppConfig
+			$appConfig = $this->getMockBuilder(IAppConfig::class)->disableOriginalConstructor()->getMock();
+			$appConfig->expects($this->any())->method('getValueBool')->willReturnCallback(function (...$args) use ($typedMap): bool {
+				foreach ($typedMap as $entry) {
+					if ($entry[0] !== $args[0] || $entry[1] !== $args[1]) {
+						continue;
+					}
+
+					return $entry[2];
+				}
+
+				return false;
+			});
+		}
+
 		$shareManager = new Manager(
 			$this->createMock(LoggerInterface::class),
 			$config,
@@ -68,19 +88,17 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IProviderFactory::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IRootFolder::class),
-			$this->createMock(IMailer::class),
-			$this->createMock(IURLGenerator::class),
-			$this->createMock(\OC_Defaults::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserSession::class),
 			$this->createMock(KnownUserService::class),
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
-			$this->createMock(IAppConfig::class),
+			$appConfig,
+			$this->createMock(IDBConnection::class),
 		);
-		$cap = new Capabilities($config, $shareManager);
-		$result = $this->getFilesSharingPart($cap->getCapabilities());
-		return $result;
+
+		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);
+		return $this->getFilesSharingPart($cap->getCapabilities());
 	}
 
 	public function testEnabledSharingAPI(): void {
@@ -131,12 +149,31 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
-			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
 		];
-		$result = $this->getResults($map);
+		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', true],
+			['core', 'shareapi_enforce_links_password', true],
+		];
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('password', $result['public']);
 		$this->assertArrayHasKey('enforced', $result['public']['password']);
 		$this->assertTrue($result['public']['password']['enforced']);
+	}
+
+	public function testLinkPasswordEnforcedWithoutDefaultPrompt(): void {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		];
+		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', false],
+			['core', 'shareapi_enforce_links_password', true],
+		];
+		$result = $this->getResults($map, $typedMap);
+		$this->assertArrayHasKey('password', $result['public']);
+		$this->assertArrayHasKey('enforced', $result['public']['password']);
+		$this->assertFalse($result['public']['password']['enforced']);
 	}
 
 	public function testLinkNoPassword(): void {
@@ -169,16 +206,42 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
-			['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			['core', 'shareapi_expire_after_n_days', '7', '7'],
-			['core', 'shareapi_enforce_expire_date', 'no', 'no'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+			['core', 'link_defaultExpDays', '7', '7'],
 		];
-		$result = $this->getResults($map);
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', false],
+		];
+
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertIsArray($result['public']['expire_date']);
 		$this->assertTrue($result['public']['expire_date']['enabled']);
-		$this->assertArrayHasKey('days', $result['public']['expire_date']);
+		$this->assertSame(7, $result['public']['expire_date']['days']);
+		$this->assertSame(7, $result['public']['expire_date']['default_days']);
+		$this->assertFalse($result['public']['expire_date']['enforced']);
+	}
+
+	public function testLinkExpireDateWithDefaultDays(): void {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_expire_after_n_days', '7', '7'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+			['core', 'link_defaultExpDays', '7', '3'],
+		];
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', false],
+		];
+
+		$result = $this->getResults($map, $typedMap);
+		$this->assertSame(7, $result['public']['expire_date']['days']);
+		$this->assertSame(3, $result['public']['expire_date']['default_days']);
 		$this->assertFalse($result['public']['expire_date']['enforced']);
 	}
 
@@ -186,11 +249,15 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
-			['core', 'shareapi_default_expire_date', 'no', 'yes'],
-			['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
-		$result = $this->getResults($map);
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', true],
+		];
+
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertIsArray($result['public']['expire_date']);
 		$this->assertTrue($result['public']['expire_date']['enforced']);
@@ -321,5 +388,14 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertEquals(['enabled' => true], $result['federation']['expire_date']);
 		$this->assertEquals(['enabled' => true], $result['federation']['expire_date_supported']);
+	}
+
+	public function testFederatedSharingDisabled(): void {
+		$result = $this->getResults([], federationEnabled: false);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertFalse($result['federation']['incoming']);
+		$this->assertFalse($result['federation']['outgoing']);
+		$this->assertEquals(['enabled' => false], $result['federation']['expire_date']);
+		$this->assertEquals(['enabled' => false], $result['federation']['expire_date_supported']);
 	}
 }

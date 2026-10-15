@@ -9,12 +9,15 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\TempManager;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class TempManagerTest extends \Test\TestCase {
 	protected $baseDir = null;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -24,20 +27,16 @@ class TempManagerTest extends \Test\TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->baseDir !== null) {
-			\OC_Helper::rmdirr($this->baseDir);
+			Files::rmdirr($this->baseDir);
 		}
 		$this->baseDir = null;
 		parent::tearDown();
 	}
 
-	/**
-	 * @param ?LoggerInterface $logger
-	 * @param ?IConfig $config
-	 * @return \OC\TempManager
-	 */
-	protected function getManager($logger = null, $config = null) {
+	protected function getManager(?LoggerInterface $logger = null, ?IConfig $config = null): TempManager {
 		if (!$logger) {
 			$logger = $this->createMock(LoggerInterface::class);
 		}
@@ -45,10 +44,10 @@ class TempManagerTest extends \Test\TestCase {
 			$config = $this->createMock(IConfig::class);
 			$config->method('getSystemValue')
 				->with('tempdirectory', null)
-				->willReturn('/tmp');
+				->willReturn('/dev/shm');
 		}
 		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
-		$manager = new \OC\TempManager($logger, $config, $iniGetWrapper);
+		$manager = new TempManager($logger, $config, $iniGetWrapper);
 		if ($this->baseDir) {
 			$manager->overrideTempBaseDir($this->baseDir);
 		}
@@ -131,8 +130,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFile(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
 		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
@@ -143,8 +140,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFolder(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
 		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);

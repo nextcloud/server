@@ -2,6 +2,26 @@
  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const light = ref<string>()
+const dark = ref<string>()
+
+onMounted(() => {
+	const styles = getComputedStyle(document.documentElement)
+	dark.value = styles.getPropertyValue('--color-placeholder-dark')
+	light.value = styles.getPropertyValue('--color-placeholder-light')
+})
+
+/**
+ * A random width for a placeholder line, in percent.
+ */
+function randWidth() {
+	return Math.floor(Math.random() * 20) + 30
+}
+</script>
+
 <template>
 	<ul>
 		<!-- Placeholder animation -->
@@ -9,13 +29,15 @@
 			<defs>
 				<linearGradient id="unified-search__result-placeholder-gradient">
 					<stop offset="0%" :stop-color="light">
-						<animate attributeName="stop-color"
+						<animate
+							attributeName="stop-color"
 							:values="`${light}; ${light}; ${dark}; ${dark}; ${light}`"
 							dur="2s"
 							repeatCount="indefinite" />
 					</stop>
 					<stop offset="100%" :stop-color="dark">
-						<animate attributeName="stop-color"
+						<animate
+							attributeName="stop-color"
 							:values="`${dark}; ${light}; ${light}; ${dark}; ${dark}`"
 							dur="2s"
 							repeatCount="indefinite" />
@@ -26,40 +48,17 @@
 
 		<!-- Placeholders -->
 		<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
-			<svg class="unified-search__result-placeholder"
+			<svg
+				class="unified-search__result-placeholder"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="url(#unified-search__result-placeholder-gradient)">
 				<rect class="unified-search__result-placeholder-icon" />
 				<rect class="unified-search__result-placeholder-line-one" />
-				<rect class="unified-search__result-placeholder-line-two" :style="{width: `calc(${randWidth()}%)`}" />
+				<rect class="unified-search__result-placeholder-line-two" :style="{ width: `calc(${randWidth()}%)` }" />
 			</svg>
 		</li>
 	</ul>
 </template>
-
-<script>
-export default {
-	name: 'SearchResultPlaceholders',
-
-	data() {
-		return {
-			light: null,
-			dark: null,
-		}
-	},
-	mounted() {
-		const styles = getComputedStyle(document.documentElement)
-		this.dark = styles.getPropertyValue('--color-placeholder-dark')
-		this.light = styles.getPropertyValue('--color-placeholder-light')
-	},
-
-	methods: {
-		randWidth() {
-			return Math.floor(Math.random() * 20) + 30
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 $clickable-area: 44px;

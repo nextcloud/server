@@ -27,7 +27,7 @@ const mutations = {
 }
 
 export default new Store({
-	strict: process.env.NODE_ENV !== 'production',
+	strict: !PRODUCTION,
 	state,
 	mutations,
 })

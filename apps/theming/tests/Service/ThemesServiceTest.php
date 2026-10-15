@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Service;
 
 use OCA\Theming\AppInfo\Application;
@@ -15,6 +18,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\Themes\ReducedMotion;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -28,21 +32,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ThemesServiceTest extends TestCase {
-	/** @var ThemesService */
-	private $themesService;
+	private IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private ThemesService $themesService;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -78,6 +76,7 @@ class ThemesServiceTest extends TestCase {
 			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
+			'reduced-motion',
 		];
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
@@ -114,12 +113,13 @@ class ThemesServiceTest extends TestCase {
 			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
+			'reduced-motion',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
-	public function dataTestEnableTheme() {
+	public static function dataTestEnableTheme(): array {
 		return [
 			['default', ['default'], ['default']],
 			['dark', ['default'], ['dark']],
@@ -130,12 +130,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestEnableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestEnableTheme')]
 	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -153,8 +152,7 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expectedEnabled, $this->themesService->enableTheme($this->themes[$toEnable]));
 	}
 
-
-	public function dataTestDisableTheme() {
+	public static function dataTestDisableTheme(): array {
 		return [
 			['dark', ['default'], ['default']],
 			['dark', ['dark'], []],
@@ -164,12 +162,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestDisableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDisableTheme')]
 	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -184,12 +181,10 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expectedEnabled, $this->themesService->disableTheme($this->themes[$toDisable]));
 	}
 
-
-	public function dataTestIsEnabled() {
+	public static function dataTestIsEnabled(): array {
 		return [
 			['dark', [], false],
 			['dark', ['dark'], true],
@@ -199,12 +194,10 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsEnabled
-	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testIsEnabled(string $themeId, array $enabledThemes, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsEnabled')]
+	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -218,7 +211,6 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
 
@@ -230,7 +222,6 @@ class ThemesServiceTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
@@ -253,7 +244,6 @@ class ThemesServiceTest extends TestCase {
 			->method('getUID')
 			->willReturn('user');
 
-
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
@@ -266,8 +256,7 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
 
-
-	public function dataTestSetEnabledThemes() {
+	public static function dataTestSetEnabledThemes(): array {
 		return [
 			[[], []],
 			[['light'], ['light']],
@@ -277,11 +266,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEnabledThemes
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEnabledThemes')]
 	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -372,6 +361,7 @@ class ThemesServiceTest extends TestCase {
 				$appManager,
 				null,
 			),
+			'reduced-motion' => new ReducedMotion($l10n),
 		];
 	}
 }

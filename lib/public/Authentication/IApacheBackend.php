@@ -19,23 +19,27 @@ interface IApacheBackend {
 	/**
 	 * In case the user has been authenticated by a module true is returned.
 	 *
-	 * @return boolean whether the module reports a user as currently logged in.
+	 * @return bool whether the module reports a user as currently logged in.
 	 * @since 6.0.0
 	 */
-	public function isSessionActive();
+	public function isSessionActive(): bool;
 
 	/**
 	 * Gets the current logout URL
 	 *
+	 * Can return an empty string when the backend has no logout URL to
+	 * offer (e.g. Kerberos/SPNEGO where logging out client-side has no
+	 * effect since the browser will just re-authenticate transparently).
+	 *
 	 * @return string
 	 * @since 12.0.3
 	 */
-	public function getLogoutUrl();
+	public function getLogoutUrl(): string;
 
 	/**
 	 * Return the id of the current user
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getCurrentUserId();
+	public function getCurrentUserId(): string;
 }

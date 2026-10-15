@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 /**
  * Observe various events and save the current
  * special keys states. Useful for checking the
  * current status of a key when executing a method.
- * @param {...any} args
+ *
+ * @param args
  */
-export const useKeyboardStore = function(...args) {
+export function useKeyboardStore(...args) {
 	const store = defineStore('keyboard', {
 		state: () => ({
 			altKey: false,
@@ -25,10 +25,10 @@ export const useKeyboardStore = function(...args) {
 				if (!event) {
 					event = window.event as MouseEvent | KeyboardEvent
 				}
-				Vue.set(this, 'altKey', !!event.altKey)
-				Vue.set(this, 'ctrlKey', !!event.ctrlKey)
-				Vue.set(this, 'metaKey', !!event.metaKey)
-				Vue.set(this, 'shiftKey', !!event.shiftKey)
+				this.altKey = !!event.altKey
+				this.ctrlKey = !!event.ctrlKey
+				this.metaKey = !!event.metaKey
+				this.shiftKey = !!event.shiftKey
 			},
 		},
 	})

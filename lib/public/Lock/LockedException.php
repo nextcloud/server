@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Lock;
 
 /**
@@ -24,6 +25,8 @@ class LockedException extends \Exception {
 	/** @var string|null */
 	private $existingLock;
 
+	private ?string $readablePath;
+
 	/**
 	 * LockedException constructor.
 	 *
@@ -34,6 +37,7 @@ class LockedException extends \Exception {
 	 * @since 8.1.0
 	 */
 	public function __construct(string $path, ?\Exception $previous = null, ?string $existingLock = null, ?string $readablePath = null) {
+		$this->readablePath = $readablePath;
 		if ($readablePath) {
 			$message = "\"$path\"(\"$readablePath\") is locked";
 		} else {
@@ -62,4 +66,13 @@ class LockedException extends \Exception {
 	public function getExistingLock(): ?string {
 		return $this->existingLock;
 	}
+
+	/**
+	 * @return ?string
+	 * @since 32.0.0
+	 */
+	public function getReadablePath(): ?string {
+		return $this->readablePath;
+	}
+
 }

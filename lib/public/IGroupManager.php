@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
@@ -37,6 +38,11 @@ interface IGroupManager {
 	 * @since 8.0.0
 	 */
 	public function addBackend($backend);
+
+	/**
+	 * @since 34.0.0
+	 */
+	public function removeBackend(GroupInterface $backend): void;
 
 	/**
 	 * @since 8.0.0
@@ -75,7 +81,7 @@ interface IGroupManager {
 	 * @param string $search
 	 * @param ?int $limit
 	 * @param ?int $offset
-	 * @return \OCP\IGroup[]
+	 * @return list<IGroup>
 	 * @since 8.0.0
 	 */
 	public function search(string $search, ?int $limit = null, ?int $offset = 0);
@@ -89,7 +95,7 @@ interface IGroupManager {
 
 	/**
 	 * @param \OCP\IUser $user
-	 * @return string[] with group names
+	 * @return list<string> with group ids
 	 * @since 8.0.0
 	 */
 	public function getUserGroupIds(IUser $user): array;
@@ -101,7 +107,7 @@ interface IGroupManager {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
+	 * @return array<string, string> ['user id' => 'display name']
 	 * @since 8.0.0
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);

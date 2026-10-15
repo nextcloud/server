@@ -20,11 +20,13 @@ use OC\Net\IpAddressClassifier;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICacheFactory;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\NullLogger;
 use Test\TestCase;
 
 class DnsPinMiddlewareTest extends TestCase {
 	private DnsPinMiddleware $dnsPinMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -35,9 +37,10 @@ class DnsPinMiddlewareTest extends TestCase {
 
 		$ipAddressClassifier = new IpAddressClassifier();
 		$negativeDnsCache = new NegativeDnsCache($cacheFactory);
+		$logger = new NullLogger();
 
 		$this->dnsPinMiddleware = $this->getMockBuilder(DnsPinMiddleware::class)
-			->setConstructorArgs([$negativeDnsCache, $ipAddressClassifier])
+			->setConstructorArgs([$negativeDnsCache, $ipAddressClassifier, $logger])
 			->onlyMethods(['dnsGetRecord'])
 			->getMock();
 	}
@@ -59,7 +62,7 @@ class DnsPinMiddlewareTest extends TestCase {
 			->method('dnsGetRecord')
 			->willReturnCallback(function (string $hostname, int $type) {
 				// example.com SOA
-				if ($hostname === 'example.com') {
+				if ($hostname === 'example.com.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -74,7 +77,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.com A, AAAA, CNAME
-				if ($hostname === 'www.example.com') {
+				if ($hostname === 'www.example.com.') {
 					return match ($type) {
 						DNS_A => [],
 						DNS_AAAA => [],
@@ -91,7 +94,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net SOA
-				if ($hostname === 'example.net') {
+				if ($hostname === 'example.net.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -106,7 +109,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net A, AAAA, CNAME
-				if ($hostname === 'www.example.net') {
+				if ($hostname === 'www.example.net.') {
 					return match ($type) {
 						DNS_A => [
 							[
@@ -152,7 +155,7 @@ class DnsPinMiddlewareTest extends TestCase {
 			->method('dnsGetRecord')
 			->willReturnCallback(function (string $hostname, int $type) {
 				// example.com SOA
-				if ($hostname === 'example.com') {
+				if ($hostname === 'example.com.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -167,7 +170,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.com A, AAAA, CNAME
-				if ($hostname === 'www.example.com') {
+				if ($hostname === 'www.example.com.') {
 					return match ($type) {
 						DNS_A => [],
 						DNS_AAAA => [],
@@ -184,7 +187,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net SOA
-				if ($hostname === 'example.net') {
+				if ($hostname === 'example.net.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -199,7 +202,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net A, AAAA, CNAME
-				if ($hostname === 'www.example.net') {
+				if ($hostname === 'www.example.net.') {
 					return match ($type) {
 						DNS_A => [
 							[
@@ -273,7 +276,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -320,7 +323,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -367,7 +370,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -376,7 +379,7 @@ class DnsPinMiddlewareTest extends TestCase {
 			->method('dnsGetRecord')
 			->willReturnCallback(function (string $hostname, int $type) {
 				// example.com SOA
-				if ($hostname === 'example.com') {
+				if ($hostname === 'example.com.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -391,7 +394,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.com A, AAAA, CNAME
-				if ($hostname === 'www.example.com') {
+				if ($hostname === 'www.example.com.') {
 					return match ($type) {
 						DNS_A => [],
 						DNS_AAAA => [],
@@ -408,7 +411,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net SOA
-				if ($hostname === 'example.net') {
+				if ($hostname === 'example.net.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -423,7 +426,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net A, AAAA, CNAME
-				if ($hostname === 'www.example.net') {
+				if ($hostname === 'www.example.net.') {
 					return match ($type) {
 						DNS_A => [
 							[
@@ -457,7 +460,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('No DNS record found for www.example.com');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -480,7 +483,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testIgnoreSubdomainForSoaQuery(): void {
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -494,7 +497,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				$dnsQueries[] = $hostname . $type;
 
 				// example.com SOA
-				if ($hostname === 'example.com') {
+				if ($hostname === 'example.com.') {
 					return match ($type) {
 						DNS_SOA => [
 							[
@@ -509,7 +512,7 @@ class DnsPinMiddlewareTest extends TestCase {
 				}
 
 				// example.net A, AAAA, CNAME
-				if ($hostname === 'subsubdomain.subdomain.example.com') {
+				if ($hostname === 'subsubdomain.subdomain.example.com.') {
 					return match ($type) {
 						DNS_A => [
 							[
@@ -538,10 +541,10 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 
 		$this->assertCount(3, $dnsQueries);
-		$this->assertContains('example.com' . DNS_SOA, $dnsQueries);
-		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_A, $dnsQueries);
-		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_AAAA, $dnsQueries);
+		$this->assertContains('example.com.' . DNS_SOA, $dnsQueries);
+		$this->assertContains('subsubdomain.subdomain.example.com.' . DNS_A, $dnsQueries);
+		$this->assertContains('subsubdomain.subdomain.example.com.' . DNS_AAAA, $dnsQueries);
 		// CNAME should not be queried if A or AAAA succeeded already
-		$this->assertNotContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
+		$this->assertNotContains('subsubdomain.subdomain.example.com.' . DNS_CNAME, $dnsQueries);
 	}
 }

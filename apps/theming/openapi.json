@@ -79,7 +79,10 @@
                         "type": "object",
                         "required": [
                             "name",
+                            "productName",
                             "url",
+                            "imprintUrl",
+                            "privacyUrl",
                             "slogan",
                             "color",
                             "color-text",
@@ -92,13 +95,31 @@
                             "background-plain",
                             "background-default",
                             "logoheader",
-                            "favicon"
+                            "favicon",
+                            "primaryColor",
+                            "backgroundColor",
+                            "defaultPrimaryColor",
+                            "defaultBackgroundColor",
+                            "inverted",
+                            "cacheBuster",
+                            "enabledThemes",
+                            "toastTimeout",
+                            "toastTimeoutValues"
                         ],
                         "properties": {
                             "name": {
                                 "type": "string"
                             },
+                            "productName": {
+                                "type": "string"
+                            },
                             "url": {
+                                "type": "string"
+                            },
+                            "imprintUrl": {
+                                "type": "string"
+                            },
+                            "privacyUrl": {
                                 "type": "string"
                             },
                             "slogan": {
@@ -139,6 +160,41 @@
                             },
                             "favicon": {
                                 "type": "string"
+                            },
+                            "primaryColor": {
+                                "type": "string"
+                            },
+                            "backgroundColor": {
+                                "type": "string"
+                            },
+                            "defaultPrimaryColor": {
+                                "type": "string"
+                            },
+                            "defaultBackgroundColor": {
+                                "type": "string"
+                            },
+                            "inverted": {
+                                "type": "boolean"
+                            },
+                            "cacheBuster": {
+                                "type": "string"
+                            },
+                            "enabledThemes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "toastTimeout": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "toastTimeoutValues": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
                             }
                         }
                     }
@@ -178,12 +234,8 @@
                         "in": "query",
                         "description": "Let the browser decide the CSS priority",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -191,12 +243,8 @@
                         "in": "query",
                         "description": "Include custom CSS",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -256,12 +304,8 @@
                         "in": "query",
                         "description": "Return image as SVG",
                         "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -406,9 +450,7 @@
                         "description": "App not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -447,6 +489,12 @@
                     "200": {
                         "description": "Favicon returned",
                         "content": {
+                            "image/png": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
                             "image/x-icon": {
                                 "schema": {
                                     "type": "string",
@@ -516,7 +564,7 @@
                                     "format": "binary"
                                 }
                             },
-                            "image/x-icon": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -667,6 +715,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -701,6 +777,7 @@
                                     "color": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Color for the background"
                                     }
                                 }
@@ -775,6 +852,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -813,6 +918,34 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Background"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -922,6 +1055,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1025,6 +1186,34 @@
                             "text/plain": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -1,16 +1,21 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
+import { showInfo, showWarning } from '@nextcloud/dialogs'
+import { openConflictPicker } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Folder, Node, davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
-import { openConflictPicker } from '@nextcloud/upload'
-import { showError, showInfo } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-
-import logger from '../logger.ts'
+import { getUniqueName } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
+import { getFilenameValidity } from '../utils/filenameValidity.ts'
+import { logger } from '../utils/logger.ts'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 /**
  * This represents a Directory in the file tree
@@ -20,20 +25,18 @@ import logger from '../logger.ts'
  * properties to compute them dynamically.
  */
 export class Directory extends File {
+	_contents: (Directory | File)[]
 
-	/* eslint-disable no-use-before-define */
-	_contents: (Directory|File)[]
-
-	constructor(name, contents: (Directory|File)[] = []) {
+	constructor(name, contents: (Directory | File)[] = []) {
 		super([], name, { type: 'httpd/unix-directory' })
 		this._contents = contents
 	}
 
-	set contents(contents: (Directory|File)[]) {
+	set contents(contents: (Directory | File)[]) {
 		this._contents = contents
 	}
 
-	get contents(): (Directory|File)[] {
+	get contents(): (Directory | File)[] {
 		return this._contents
 	}
 
@@ -51,6 +54,7 @@ export class Directory extends File {
 	/**
 	 * Get the last modification time of a file tree
 	 * This is not perfect, but will get us a pretty good approximation
+	 *
 	 * @param directory the directory to traverse
 	 */
 	_computeDirectoryMtime(directory: Directory): number {
@@ -66,17 +70,17 @@ export class Directory extends File {
 
 	/**
 	 * Get the size of a file tree
+	 *
 	 * @param directory the directory to traverse
 	 */
 	_computeDirectorySize(directory: Directory): number {
-		return directory.contents.reduce((acc: number, entry: Directory|File) => {
+		return directory.contents.reduce((acc: number, entry: Directory | File) => {
 			// If the file is a directory, the size will
 			// also return the results of its _computeDirectorySize method
 			// Fancy recursion, huh?
 			return acc + entry.size
 		}, 0)
 	}
-
 }
 
 export type RootDirectory = Directory & {
@@ -84,10 +88,54 @@ export type RootDirectory = Directory & {
 }
 
 /**
+ * Ask the user to rename every invalid file or folder of a dropped file tree.
+ * Entries are replaced instead of renamed, as `File.name` is read only.
+ *
+ * @param directory Directory to validate
+ * @param path Path of the directory relative to the upload destination
+ * @return false if the user aborted the rename
+ */
+export async function renameInvalidDroppedEntries(directory: Directory, path = ''): Promise<boolean> {
+	for (const [index, entry] of directory.contents.entries()) {
+		const isFolder = entry instanceof Directory
+		let node = entry
+
+		if (getFilenameValidity(node.name, false, isFolder) !== '') {
+			const otherNames = directory.contents.filter((other) => other !== node).map((other) => other.name)
+			const name = await newNodeName(node.name, otherNames, {
+				name: t('files', 'Invalid name for "{path}"', { path: join(path, node.name) }, { escape: false }),
+				label: isFolder ? t('files', 'Folder name') : t('files', 'Filename'),
+				submitLabel: t('files', 'Rename'),
+				isFolder,
+			})
+
+			if (name === null) {
+				logger.debug('Upload cancelled while renaming an invalid entry', { path, name: node.name })
+				return false
+			}
+
+			// Keep the name unique within the dropped folder
+			const uniqueName = getUniqueName(name.trim(), otherNames)
+			node = isFolder
+				? new Directory(uniqueName, (node as Directory).contents)
+				: new File([node], uniqueName, { type: node.type, lastModified: node.lastModified })
+			directory.contents.splice(index, 1, node)
+		}
+
+		if (node instanceof Directory && !await renameInvalidDroppedEntries(node, join(path, node.name))) {
+			return false
+		}
+	}
+
+	return true
+}
+
+/**
  * Traverse a file tree using the Filesystem API
+ *
  * @param entry the entry to traverse
  */
-export const traverseTree = async (entry: FileSystemEntry): Promise<Directory|File> => {
+export async function traverseTree(entry: FileSystemEntry): Promise<Directory | File> {
 	// Handle file
 	if (entry.isFile) {
 		return new Promise<File>((resolve, reject) => {
@@ -105,9 +153,10 @@ export const traverseTree = async (entry: FileSystemEntry): Promise<Directory|Fi
 
 /**
  * Read a directory using Filesystem API
+ *
  * @param directory the directory to read
  */
-const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemEntry[]> => {
+function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemEntry[]> {
 	const dirReader = directory.createReader()
 
 	return new Promise<FileSystemEntry[]>((resolve, reject) => {
@@ -129,36 +178,50 @@ const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemE
 	})
 }
 
-export const createDirectoryIfNotExists = async (absolutePath: string) => {
-	const davClient = davGetClient()
-	const dirExists = await davClient.exists(absolutePath)
+/**
+ * @param path - The path relative to the destination root
+ * @param destination - The destination folder. When provided, directories are created relative
+ *   to its source URL instead of the default user root. This is needed for uploads into
+ *   non-default locations like team folders.
+ */
+export async function createDirectoryIfNotExists(path: string, destination?: IFolder) {
+	const davUrl = destination?.source ?? join(defaultRemoteURL, defaultRootPath)
+	const davRoot = destination?.root ?? defaultRootPath
+	const davClient = getClient(davUrl)
+	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
-		logger.debug('Directory does not exist, creating it', { absolutePath })
-		await davClient.createDirectory(absolutePath, { recursive: true })
-		const stat = await davClient.stat(absolutePath, { details: true, data: davGetDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', davResultToNode(stat.data))
+		logger.debug('Directory does not exist, creating it', { path, davUrl })
+		await davClient.createDirectory(path, { recursive: true })
+		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
+		emit('files:node:created', resultToNode(stat.data, davRoot, davUrl))
 	}
 }
 
-export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: Array<T>, destination: Folder, contents: Node[]): Promise<T[]> => {
+/**
+ * Resolve conflicts between existing files and incoming files
+ *
+ * @param files - incoming files
+ * @param destination - destination folder
+ * @param contents - existing contents of the destination folder
+ */
+export async function resolveConflict<T extends ((Directory | File) | INode)>(files: Array<T>, destination: IFolder, contents: INode[]): Promise<T[]> {
 	try {
 		// List all conflicting files
-		const conflicts = files.filter((file: File|Node) => {
-			return contents.find((node: Node) => node.basename === (file instanceof File ? file.name : file.basename))
-		}).filter(Boolean) as (File|Node)[]
+		const conflicts = files.filter((file: File | INode) => {
+			return contents.find((node: INode) => node.basename === (file instanceof File ? file.name : file.basename))
+		}).filter(Boolean) as (File | INode)[]
 
 		// List of incoming files that are NOT in conflict
-		const uploads = files.filter((file: File|Node) => {
+		const uploads = files.filter((file: File | INode) => {
 			return !conflicts.includes(file)
 		})
 
 		// Let the user choose what to do with the conflicting files
-		const { selected, renamed } = await openConflictPicker(destination.path, conflicts, contents)
-
-		logger.debug('Conflict resolution', { uploads, selected, renamed })
+		const conflictResults = await openConflictPicker(destination.path, conflicts, contents)
+		logger.debug('Conflict resolution', { uploads, conflictResults })
 
 		// If the user selected nothing, we cancel the upload
-		if (selected.length === 0 && renamed.length === 0) {
+		if (conflictResults === null || (conflictResults.selected.length === 0 && conflictResults.renamed.length === 0 && uploads.length === 0)) {
 			// User skipped
 			showInfo(t('files', 'Conflicts resolution skipped'))
 			logger.info('User skipped the conflict resolution')
@@ -166,12 +229,11 @@ export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: 
 		}
 
 		// Update the list of files to upload
-		return [...uploads, ...selected, ...renamed] as (typeof files)
+		return [...uploads, ...conflictResults.selected, ...conflictResults.renamed] as (typeof files)
 	} catch (error) {
-		console.error(error)
 		// User cancelled
-		showError(t('files', 'Upload cancelled'))
-		logger.error('User cancelled the upload')
+		logger.warn('User cancelled the upload', { error })
+		showWarning(t('files', 'Upload cancelled'))
 	}
 
 	return []

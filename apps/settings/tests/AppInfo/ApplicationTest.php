@@ -1,13 +1,15 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\AppInfo;
 
 use OCA\Settings\AppInfo\Application;
 use OCA\Settings\Controller\AdminSettingsController;
-use OCA\Settings\Controller\AppSettingsController;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCA\Settings\Controller\CheckSetupController;
 use OCA\Settings\Controller\LogSettingsController;
@@ -15,22 +17,19 @@ use OCA\Settings\Controller\MailSettingsController;
 use OCA\Settings\Controller\UsersController;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 /**
  * Class ApplicationTest
  *
  * @package Tests\Settings
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
-	/** @var Application */
-	protected $app;
-
-	/** @var IAppContainer */
-	protected $container;
+	protected Application $app;
+	protected ContainerInterface $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,13 +39,12 @@ class ApplicationTest extends TestCase {
 
 	public function testContainerAppName(): void {
 		$this->app = new Application();
-		$this->assertEquals('settings', $this->container->getAppName());
+		$this->assertEquals('settings', $this->container->get('appName'));
 	}
 
-	public function dataContainerQuery() {
+	public static function dataContainerQuery(): array {
 		return [
 			[AdminSettingsController::class, Controller::class],
-			[AppSettingsController::class, Controller::class],
 			[AuthSettingsController::class, Controller::class],
 			[CheckSetupController::class, Controller::class],
 			[LogSettingsController::class, Controller::class],
@@ -57,12 +55,8 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataContainerQuery
-	 * @param string $service
-	 * @param string $expected
-	 */
-	public function testContainerQuery($service, $expected): void {
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
+	public function testContainerQuery(string $service, string $expected): void {
+		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
 }

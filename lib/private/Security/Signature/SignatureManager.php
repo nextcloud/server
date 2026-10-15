@@ -8,28 +8,31 @@ declare(strict_types=1);
 
 namespace OC\Security\Signature;
 
-use NCU\Security\Signature\Enum\SignatoryType;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\Exceptions\InvalidKeyOriginException;
-use NCU\Security\Signature\Exceptions\InvalidSignatureException;
-use NCU\Security\Signature\Exceptions\SignatoryConflictException;
-use NCU\Security\Signature\Exceptions\SignatoryException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\IIncomingSignedRequest;
-use NCU\Security\Signature\IOutgoingSignedRequest;
-use NCU\Security\Signature\ISignatoryManager;
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\Signatory;
 use OC\Security\Signature\Db\SignatoryMapper;
 use OC\Security\Signature\Model\IncomingSignedRequest;
 use OC\Security\Signature\Model\OutgoingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
+use OC\Security\Signature\Rfc9421\IJwkResolvingSignatoryManager;
 use OCP\DB\Exception as DBException;
 use OCP\IAppConfig;
 use OCP\IRequest;
+use OCP\Security\Signature\Enum\SignatoryType;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\InvalidKeyOriginException;
+use OCP\Security\Signature\Exceptions\InvalidSignatureException;
+use OCP\Security\Signature\Exceptions\SignatoryConflictException;
+use OCP\Security\Signature\Exceptions\SignatoryException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Security\Signature\IOutgoingSignedRequest;
+use OCP\Security\Signature\ISignatoryManager;
+use OCP\Security\Signature\ISignatureManager;
+use OCP\Security\Signature\Model\Signatory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -90,14 +93,21 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatureException if signature could not be confirmed
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getIncomingSignedRequest(
 		ISignatoryManager $signatoryManager,
 		?string $body = null,
+		?string $origin = null,
 	): IIncomingSignedRequest {
 		$body = $body ?? file_get_contents('php://input');
 		$options = $signatoryManager->getOptions();
 		if (strlen($body) > ($options['bodyMaxSize'] ?? self::BODY_MAXSIZE)) {
 			throw new IncomingRequestException('content of request is too big');
+		}
+
+		// `Signature-Input` is unique to RFC 9421; cavage uses `Signature` only.
+		if ($this->request->getHeader('Signature-Input') !== '') {
+			return $this->getRfc9421IncomingSignedRequest($signatoryManager, $body, $options, $origin);
 		}
 
 		// generate IncomingSignedRequest based on body and request
@@ -112,6 +122,58 @@ class SignatureManager implements ISignatureManager {
 					'exception' => $e,
 					'signedRequest' => $signedRequest,
 					'signatoryManager' => get_class($signatoryManager)
+				]
+			);
+			throw $e;
+		}
+
+		return $signedRequest;
+	}
+
+	/**
+	 * RFC 9421 inbound path. Requires {@see IJwkResolvingSignatoryManager}.
+	 *
+	 * @param ISignatoryManager $signatoryManager
+	 * @param string $body request body
+	 * @param array $options signatory manager options
+	 * @param string|null $origin signer origin from the caller (the keyid is opaque)
+	 *
+	 * @throws IncomingRequestException
+	 * @throws SignatureException
+	 * @throws SignatureNotFoundException
+	 */
+	private function getRfc9421IncomingSignedRequest(
+		ISignatoryManager $signatoryManager,
+		string $body,
+		array $options,
+		?string $origin,
+	): IIncomingSignedRequest {
+		if (!($signatoryManager instanceof IJwkResolvingSignatoryManager)) {
+			throw new IncomingRequestException('RFC 9421 inbound is not supported by ' . get_class($signatoryManager));
+		}
+		if ($origin === null || $origin === '') {
+			// The keyid is opaque; the caller must supply the signer origin.
+			throw new IncomingRequestException('RFC 9421 verification requires the sender origin');
+		}
+
+		$signedRequest = new Rfc9421IncomingSignedRequest($body, $this->request, $options);
+		$signedRequest->setOrigin($origin);
+
+		try {
+			$key = $signatoryManager->getRemoteKey($signedRequest->getOrigin(), $signedRequest->getKeyId());
+			if ($key === null) {
+				// a present signature MUST be verified; an unresolvable key
+				// is a verification failure, not an unsigned request
+				throw new IncomingRequestException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
+			}
+			$signedRequest->setKey($key);
+			$signedRequest->verify();
+		} catch (SignatureException $e) {
+			$this->logger->warning(
+				'RFC 9421 signature could not be verified', [
+					'exception' => $e,
+					'signedRequest' => $signedRequest,
+					'signatoryManager' => get_class($signatoryManager),
 				]
 			);
 			throw $e;
@@ -191,19 +253,29 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutgoingSignedRequest(
 		ISignatoryManager $signatoryManager,
 		string $content,
 		string $method,
 		string $uri,
 	): IOutgoingSignedRequest {
-		$signedRequest = new OutgoingSignedRequest(
-			$content,
-			$signatoryManager,
-			$this->extractIdentityFromUri($uri),
-			$method,
-			parse_url($uri, PHP_URL_PATH) ?? '/'
-		);
+		$options = $signatoryManager->getOptions();
+		$signedRequest = ($options['rfc9421.format'] ?? false)
+			? new Rfc9421OutgoingSignedRequest(
+				$content,
+				$signatoryManager,
+				$this->extractIdentityFromUri($uri),
+				$method,
+				$uri,
+			)
+			: new OutgoingSignedRequest(
+				$content,
+				$signatoryManager,
+				$this->extractIdentityFromUri($uri),
+				$method,
+				parse_url($uri, PHP_URL_PATH) ?? '/',
+			);
 
 		$signedRequest->sign();
 
@@ -222,6 +294,7 @@ class SignatureManager implements ISignatureManager {
 	 * @return array new payload to be sent, including original payload and signature elements in headers
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function signOutgoingRequestIClientPayload(
 		ISignatoryManager $signatoryManager,
 		array $payload,
@@ -245,10 +318,10 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSignatory(string $host, string $account = ''): Signatory {
 		return $this->mapper->getByHost($host, $account);
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -261,6 +334,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws IdentityNotFoundException is identity is not set in app config
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function generateKeyIdFromConfig(string $path): string {
 		if (!$this->appConfig->hasKey('core', self::APPCONFIG_IDENTITY, true)) {
 			throw new IdentityNotFoundException(self::APPCONFIG_IDENTITY . ' not set');
@@ -280,6 +354,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws IdentityNotFoundException if identity cannot be extracted
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function extractIdentityFromUri(string $uri): string {
 		return Signatory::extractIdentityFromUri($uri);
 	}
@@ -370,7 +445,6 @@ class SignatureManager implements ISignatureManager {
 				$this->deleteSignatory($knownSignatory->getKeyId());
 				$this->insertSignatory($signatory);
 				return;
-
 			case SignatoryType::REFRESHABLE:
 				$this->updateSignatoryPublicKey($signatory);
 				$this->updateSignatoryMetadata($signatory);
@@ -379,7 +453,6 @@ class SignatureManager implements ISignatureManager {
 			case SignatoryType::TRUSTED:
 				// TODO: send notice to admin
 				throw new SignatoryConflictException();
-
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
 				throw new SignatoryConflictException();
@@ -399,18 +472,15 @@ class SignatureManager implements ISignatureManager {
 			case null: // unknown in local database
 			case SignatoryType::FORGIVABLE: // who cares ?
 				throw new SignatoryNotFoundException(); // meaning we just return the correct exception
-
 			case SignatoryType::REFRESHABLE:
 				// TODO: send notice to admin
 				throw new SignatoryConflictException(); // while it can be refreshed, it must exist
-
 			case SignatoryType::TRUSTED:
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
 				throw new SignatoryConflictException(); // no way.
 		}
 	}
-
 
 	private function updateSignatoryPublicKey(Signatory $signatory): void {
 		$this->mapper->updatePublicKey($signatory);

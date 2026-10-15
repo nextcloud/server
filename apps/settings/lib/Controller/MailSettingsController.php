@@ -1,12 +1,14 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
-use OCA\Settings\Settings\Admin\Overview;
+use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
@@ -18,6 +20,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use Psr\Log\LoggerInterface;
 
 class MailSettingsController extends Controller {
 
@@ -38,6 +41,7 @@ class MailSettingsController extends Controller {
 		private IUserSession $userSession,
 		private IURLGenerator $urlGenerator,
 		private IMailer $mailer,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -45,7 +49,7 @@ class MailSettingsController extends Controller {
 	/**
 	 * Sets the email settings
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	#[PasswordConfirmationRequired]
 	public function setMailSettings(
 		string $mail_domain,
@@ -53,11 +57,12 @@ class MailSettingsController extends Controller {
 		string $mail_smtpmode,
 		string $mail_smtpsecure,
 		string $mail_smtphost,
-		?string $mail_smtpauth,
+		?bool $mail_smtpauth,
 		string $mail_smtpport,
 		string $mail_sendmailmode,
+		?bool $mail_noverify = null,
 	): DataResponse {
-		$mail_smtpauth = $mail_smtpauth == '1';
+		$mail_smtpauth = $mail_smtpauth === true;
 
 		$configs = [
 			'mail_domain' => $mail_domain,
@@ -71,6 +76,15 @@ class MailSettingsController extends Controller {
 		];
 		foreach ($configs as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
+		}
+
+		if ($mail_noverify !== null) {
+			$options = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+			$options['ssl'] ??= [];
+			$options['ssl']['allow_self_signed'] = $mail_noverify;
+			$options['ssl']['verify_peer'] = !$mail_noverify;
+			$options['ssl']['verify_peer_name'] = !$mail_noverify;
+			$configs['mail_smtpstreamoptions'] = $options;
 		}
 
 		// Delete passwords from config in case no auth is specified
@@ -88,23 +102,18 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Store the credentials used for SMTP in the config
-	 *
-	 * @param string $mail_smtpname
-	 * @param string $mail_smtppassword
-	 * @return DataResponse
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	#[PasswordConfirmationRequired]
-	public function storeCredentials($mail_smtpname, $mail_smtppassword) {
+	public function storeCredentials(string $mail_smtpname, ?string $mail_smtppassword): DataResponse {
 		if ($mail_smtppassword === '********') {
 			return new DataResponse($this->l10n->t('Invalid SMTP password.'), Http::STATUS_BAD_REQUEST);
 		}
 
-		$this->config->setSystemValues([
-			'mail_smtpname' => $mail_smtpname,
-			'mail_smtppassword' => $mail_smtppassword,
-		]);
-
+		if ($mail_smtppassword !== null) {
+			$this->config->setSystemValue('mail_smtppassword', $mail_smtppassword);
+		}
+		$this->config->setSystemValue('mail_smtpname', $mail_smtpname);
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 
 		return new DataResponse();
@@ -114,7 +123,7 @@ class MailSettingsController extends Controller {
 	 * Send a mail to test the settings
 	 * @return DataResponse
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {
@@ -124,6 +133,7 @@ class MailSettingsController extends Controller {
 				$template = $this->mailer->createEMailTemplate('settings.TestEmail', [
 					'displayname' => $displayName,
 				]);
+				$template->setLanguage($this->l10n->getLanguageCode());
 
 				$template->setSubject($this->l10n->t('Email setting test'));
 				$template->addHeader();
@@ -144,11 +154,13 @@ class MailSettingsController extends Controller {
 				return new DataResponse();
 			} catch (\Exception $e) {
 				$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+				$this->logger->error('Failed sending test email: ' . $e->getMessage(), ['exception' => $e]);
 				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]), Http::STATUS_BAD_REQUEST);
 			}
 		}
 
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+		$this->logger->error('Failed sending test email: User ' . $this->userSession->getUser()->getUID() . ' has no email address configured in their account settings');
 		return new DataResponse($this->l10n->t('You need to set your account email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
 	}
 }

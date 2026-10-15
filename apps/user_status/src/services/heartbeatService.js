@@ -12,7 +12,7 @@ import { generateOcsUrl } from '@nextcloud/router'
  * @param {boolean} isAway Whether or not the user is active
  * @return {Promise<void>}
  */
-const sendHeartbeat = async (isAway) => {
+async function sendHeartbeat(isAway) {
 	const url = generateOcsUrl('apps/user_status/api/v1/heartbeat?format=json')
 	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',

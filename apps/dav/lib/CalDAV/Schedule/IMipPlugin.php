@@ -6,14 +6,18 @@
  * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\EventComparisonService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\Attachment;
@@ -45,13 +49,12 @@ use Sabre\VObject\Reader;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-	
+
 	private ?VCalendar $vCalendar = null;
 	public const MAX_DATE = '2038-01-01';
 	public const METHOD_REQUEST = 'request';
 	public const METHOD_REPLY = 'reply';
 	public const METHOD_CANCEL = 'cancel';
-	public const IMIP_INDENT = 15;
 
 	public function __construct(
 		private IAppConfig $config,
@@ -63,10 +66,13 @@ class IMipPlugin extends SabreIMipPlugin {
 		private IMipService $imipService,
 		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
+		private IEmailValidator $emailValidator,
+		private IAccountManager $accountManager,
 	) {
 		parent::__construct('');
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		parent::initialize($server);
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
@@ -95,6 +101,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Message $iTipMessage
 	 * @return void
 	 */
+	#[\Override]
 	public function schedule(Message $iTipMessage) {
 
 		// Not sending any emails if the system considers the update insignificant
@@ -119,11 +126,23 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		// Strip off mailto:
 		$recipient = substr($iTipMessage->recipient, 7);
-		if (!$this->mailer->validateMailAddress($recipient)) {
+		if (!$this->emailValidator->isValid($recipient)) {
 			// Nothing to send if the recipient doesn't have a valid email address
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
+
+		// Check if external attendees are disabled
+		$externalAttendeesDisabled = $this->config->getValueBool('dav', 'caldav_external_attendees_disabled', false);
+		if ($externalAttendeesDisabled && !$this->imipService->isSystemUser($recipient)) {
+			$this->logger->debug('Invitation not sent to external attendee (external attendees disabled)', [
+				'uid' => $iTipMessage->uid,
+				'attendee' => $recipient,
+			]);
+			$iTipMessage->scheduleStatus = '5.0; External attendees are disabled';
+			return;
+		}
+
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
 		$newEvents = $iTipMessage->message;
@@ -156,36 +175,33 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
-		// Don't send emails to things
-		if ($this->imipService->isRoomOrResource($attendee)) {
-			$this->logger->debug('No invitation sent as recipient is room or resource', [
+		// Don't send emails to rooms, resources and circles
+		if ($this->imipService->isRoomOrResource($attendee)
+				|| $this->imipService->isCircle($attendee)) {
+			$this->logger->debug('No invitation sent as recipient is room, resource or circle', [
 				'attendee' => $recipient,
 			]);
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
-		$this->imipService->setL10n($attendee);
+		$this->imipService->setL10nFromAttendee($attendee);
 
-		// Build the sender name.
+		$sender = substr($iTipMessage->sender, 7);
+
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
-		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
 			$senderName = trim($iTipMessage->senderName->getValue());
 		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
 			$senderName = trim($iTipMessage->senderName);
-		} elseif ($this->userSession->getUser() !== null) {
-			$senderName = trim($this->userSession->getUser()->getDisplayName());
 		} else {
-			$senderName = '';
+			$senderName = $this->getSenderNameFor($sender);
 		}
-
-		$sender = substr($iTipMessage->sender, 7);
 
 		$replyingAttendee = null;
 		switch (strtolower($iTipMessage->method)) {
 			case self::METHOD_REPLY:
 				$method = self::METHOD_REPLY;
-				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
+				$data = $this->imipService->buildReplyBodyData($vEvent);
 				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
 				break;
 			case self::METHOD_CANCEL:
@@ -205,10 +221,12 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->setLanguage($this->imipService->getLanguageCode());
 		$template->addHeader();
+		$template->addBodySender($data['invitee_name'], $senderName !== null ? $sender : '');
 
 		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
-		$this->imipService->addBulletList($template, $vEvent, $data);
+		$this->imipService->addEventDetails($template, $vEvent, $data);
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
 		if (strcasecmp($method, self::METHOD_REQUEST) === 0 && $this->imipService->getAttendeeRsvpOrReqForParticipant($attendee)) {
@@ -236,11 +254,10 @@ class IMipPlugin extends SabreIMipPlugin {
 			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getValueString('dav', 'invitation_link_recipients', 'yes'))));
 
 			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
-				|| in_array(strtolower($recipient), $invitationLinkRecipients)
-				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
+				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
+				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
 				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
 				$this->imipService->addResponseButtons($template, $token);
-				$this->imipService->addMoreOptionsButton($template, $token);
 			}
 		}
 
@@ -248,7 +265,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
 
-		$user = null;
 		$mailService = null;
 
 		try {
@@ -260,8 +276,14 @@ class IMipPlugin extends SabreIMipPlugin {
 					$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $sender);
 				}
 			}
+
+			// The display name in Nextcloud can use utf-8.
+			// As the default charset for text/* is us-ascii, it's important to explicitly define it.
+			// See https://www.rfc-editor.org/rfc/rfc6047.html#section-2.4.
+			$contentType = 'text/calendar; method=' . $iTipMessage->method . '; charset="utf-8"';
+
 			// evaluate if a mail service was found and has sending capabilities
-			if ($mailService !== null && $mailService instanceof IMessageSend) {
+			if ($mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
@@ -273,10 +295,12 @@ class IMipPlugin extends SabreIMipPlugin {
 				$message->setSubject($template->renderSubject());
 				$message->setBodyPlain($template->renderText());
 				$message->setBodyHtml($template->renderHtml());
+				// Adding name=event.ics is a trick to make the invitation also appear
+				// as a file attachment in mail clients like Thunderbird or Evolution.
 				$message->setAttachments((new Attachment(
 					$itip_msg,
 					null,
-					'text/calendar; name=event.ics; method=' . $iTipMessage->method,
+					$contentType . '; name=event.ics',
 					true
 				)));
 				// send message
@@ -292,10 +316,12 @@ class IMipPlugin extends SabreIMipPlugin {
 					(($senderName !== null) ? [$sender => $senderName] : [$sender])
 				);
 				$message->useTemplate($template);
+				// Using a different content type because Symfony Mailer/Mime will append the name to
+				// the content type header and attachInline does not allow null.
 				$message->attachInline(
 					$itip_msg,
 					'event.ics',
-					'text/calendar; method=' . $iTipMessage->method
+					$contentType,
 				);
 				$failed = $this->mailer->send($message);
 			}
@@ -309,6 +335,40 @@ class IMipPlugin extends SabreIMipPlugin {
 			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
+	}
+
+	/**
+	 * Messages are regularly brokered on behalf of somebody else, so the
+	 * session user's name is only used when the sender address is one of
+	 * theirs.
+	 */
+	private function getSenderNameFor(string $sender): ?string {
+		$user = $this->userSession->getUser();
+		if ($user !== null && $this->isAddressOfUser($sender, $user)) {
+			return trim($user->getDisplayName()) ?: null;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Profile email addresses are part of the user's calendar-user-address-set
+	 * and therefore valid sender addresses next to the system email address.
+	 */
+	private function isAddressOfUser(string $address, IUser $user): bool {
+		if (strcasecmp((string)$user->getEMailAddress(), $address) === 0) {
+			return true;
+		}
+
+		$emailCollection = $this->accountManager->getAccount($user)
+			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+		foreach ($emailCollection->getProperties() as $property) {
+			if (strcasecmp($property->getValue(), $address) === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -21,6 +21,7 @@ class FixShareOwners extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('sharing:fix-share-owners')
@@ -33,6 +34,7 @@ class FixShareOwners extends Base {
 			);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$shares = $this->orphanHelper->getAllShares();
 		$dryRun = $input->getOption('dry-run');

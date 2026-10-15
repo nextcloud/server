@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,15 +9,20 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
-use OC\L10N\L10N;
-use OC\L10N\LazyL10N;
 use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
-use OCP\L10N\IFactory as L10NFactory;
+use OCP\IL10N;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\EMailDetailsRow;
+use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
@@ -24,49 +30,36 @@ use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
 class IMipServiceTest extends TestCase {
-	/** @var URLGenerator|MockObject */
-	private $urlGenerator;
+	private URLGenerator&MockObject $urlGenerator;
+	private IUserConfig&MockObject $userConfig;
+	private IAppConfig&MockObject $appConfig;
+	private IDBConnection&MockObject $db;
+	private ISecureRandom&MockObject $random;
+	private IFactory&MockObject $l10nFactory;
+	private IL10N&MockObject $l10n;
+	private ITimeFactory&MockObject $timeFactory;
+	private IMipService $service;
+	private IUserManager&MockObject $userManager;
 
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IDBConnection|MockObject */
-	private $db;
-
-	/** @var ISecureRandom|MockObject */
-	private $random;
-
-	/** @var L10NFactory|MockObject */
-	private $l10nFactory;
-
-	/** @var L10N|MockObject */
-	private $l10n;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var IMipService */
-	private $service;
-
-	/** @var VCalendar */
-	private $vCalendar1a;
-	/** @var VCalendar */
-	private $vCalendar1b;
-	/** @var VCalendar */
-	private $vCalendar2;
-	/** @var VCalendar */
-	private $vCalendar3;
+	private VCalendar $vCalendar1a;
+	private VCalendar $vCalendar1b;
+	private VCalendar $vCalendar2;
+	private VCalendar $vCalendar3;
 	/** @var DateTime DateTime object that will be returned by DateTime() or DateTime('now') */
 	public static $datetimeNow;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->random = $this->createMock(ISecureRandom::class);
-		$this->l10nFactory = $this->createMock(L10NFactory::class);
-		$this->l10n = $this->createMock(LazyL10N::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -76,11 +69,13 @@ class IMipServiceTest extends TestCase {
 			->willReturn($this->l10n);
 		$this->service = new IMipService(
 			$this->urlGenerator,
-			$this->config,
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->userManager,
+			$this->userConfig,
+			$this->appConfig,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -169,8 +164,39 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetLanguageCode(): void {
+		$this->l10n->method('getLanguageCode')->willReturn('ar');
+
+		$this->assertEquals('ar', $this->service->getLanguageCode());
+	}
+
+	public function testIsSystemUserWhenUserExists(): void {
+		$email = 'user@example.com';
+		$user = $this->createMock(IUser::class);
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([$user]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertTrue($result);
+	}
+
+	public function testIsSystemUserWhenUserDoesNotExist(): void {
+		$email = 'external@example.com';
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertFalse($result);
+	}
+
 	public function testBuildBodyDataCreated(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -183,11 +209,11 @@ class IMipServiceTest extends TestCase {
 		);
 		$this->l10n->method('n')->willReturnMap([
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			]
 		]);
 		// construct time factory return(s)
@@ -209,7 +235,6 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
@@ -217,8 +242,64 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testBuildBodyDataCreatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240630T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReader),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
+
+		$this->assertEquals($expected, $actual);
+	}
+
 	public function testBuildBodyDataUpdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -231,11 +312,11 @@ class IMipServiceTest extends TestCase {
 		);
 		$this->l10n->method('n')->willReturnMap([
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			]
 		]);
 		// construct time factory return(s)
@@ -260,15 +341,221 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
-			'meeting_when_html' => $this->service->generateWhenString($eventReaderNew),
-			'meeting_title_html' => sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", 'Testing Singleton Event', 'Testing Event'),
-			'meeting_description_html' => '',
-			'meeting_location_html' => ''
+			'meeting_title_previous' => 'Testing Singleton Event',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
 		// test output
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$oldTitle = '<h1>Old event</h1>';
+		$oldLocation = '<h1>Stuttgart Office</h1>';
+		$oldDescription = '<h1>Description for old event</h1>';
+		$oldUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$newTitle = '<h1>New event</h1>';
+		$newLocation = '<h1>Berlin Office</h1>';
+		$newDescription = '<h1>Description for new event</h1>';
+		$newUrl = 'https://example.test/event?id=456"><script>alert(1)</script><a href="';
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', []);
+		$vEventNew->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventNew->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('SUMMARY', $newTitle);
+		$vEventNew->add('LOCATION', $newLocation);
+		$vEventNew->add('DESCRIPTION', $newDescription);
+		$vEventNew->add('URL', $newUrl);
+
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', []);
+		$vEventOld->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventOld->add('DTSTART', '20240702T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('DTEND', '20240702T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('SUMMARY', $oldTitle);
+		$vEventOld->add('LOCATION', $oldLocation);
+		$vEventOld->add('DESCRIPTION', $oldDescription);
+		$vEventOld->add('URL', $oldUrl);
+
+		$eventReaderNew = new EventReader($vCalendarNew, $vCalendarNew->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_description' => $newDescription,
+			'meeting_title' => $newTitle,
+			'meeting_location' => $newLocation,
+			'meeting_url' => $newUrl,
+			'meeting_title_previous' => $oldTitle,
+			'meeting_description_previous' => $oldDescription,
+			'meeting_location_previous' => $oldLocation,
+			'meeting_url_previous' => $oldUrl,
+		];
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedWhen(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static fn (string $type, \DateTime $date): string => $date->format($type === 'time' ? 'H:i' : 'm-d'));
+		$this->l10n->method('n')
+			->willReturnCallback(static fn (string $singular, string $plural, int $count, array $parameters = []): string => implode(' ', $parameters));
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240601T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarOld = clone $this->vCalendar1a;
+		$vCalendarOld->VEVENT[0]->DTSTART->setValue('20240702T080000');
+		$vCalendarOld->VEVENT[0]->DTEND->setValue('20240702T090000');
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame('07-01 08:00 09:00 (America/Toronto)', $actual['meeting_when']);
+		$this->assertSame('07-02 08:00 09:00 (America/Toronto)', $actual['meeting_when_previous']);
+		$this->assertArrayNotHasKey('meeting_title_previous', $actual);
+	}
+
+	public function testBuildReplyBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildReplyBodyData($vCalendar->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildCancelledBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expectedWhenString = $this->service->generateWhenString($eventReaderNew);
+
+		$expected = [
+			'meeting_when' => $expectedWhenString,
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildCancelledBodyData($vCalendar->VEVENT[0]);
+
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -349,7 +636,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringSingular(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -376,85 +663,85 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular entire day
 			[
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a minute on July 1, 2024 for the entire day'
+				'In 1 minute on July 1, 2024 for the entire day'
 			],
 			[
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a hour on July 1, 2024 for the entire day'
+				'In 1 hour on July 1, 2024 for the entire day'
 			],
 			[
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024 for the entire day'
+				'In 1 day on July 1, 2024 for the entire day'
 			],
 			[
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a week on July 1, 2024 for the entire day'
+				'In 1 week on July 1, 2024 for the entire day'
 			],
 			[
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a month on July 1, 2024 for the entire day'
+				'In 1 month on July 1, 2024 for the entire day'
 			],
 			[
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a year on July 1, 2024 for the entire day'
+				'In 1 year on July 1, 2024 for the entire day'
 			],
 			// plural entire day
 			[
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 minutes on July 1, 2024 for the entire day'
 			],
 			[
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 hours on July 1, 2024 for the entire day'
 			],
 			[
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024 for the entire day'
 			],
 			[
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 weeks on July 1, 2024 for the entire day'
 			],
 			[
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 months on July 1, 2024 for the entire day'
 			],
 			[
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
@@ -462,85 +749,85 @@ class IMipServiceTest extends TestCase {
 			],
 			// singular partial day
 			[
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			// plural partial day
 			[
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 minutes on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 hours on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 days on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 weeks on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 months on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
@@ -623,7 +910,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar1a;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -631,7 +918,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar2;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a minute on July 1, 2024 for the entire day',
+			'In 1 minute on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -655,7 +942,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar1a;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -663,7 +950,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar2;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a hour on July 1, 2024 for the entire day',
+			'In 1 hour on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -689,7 +976,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -699,7 +986,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 for the entire day',
+			'In 1 day on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -729,7 +1016,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -739,7 +1026,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a week on July 1, 2024 for the entire day',
+			'In 1 week on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -769,7 +1056,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -779,7 +1066,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a month on July 1, 2024 for the entire day',
+			'In 1 month on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -802,14 +1089,14 @@ class IMipServiceTest extends TestCase {
 			'In 2 months on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
-		
+
 		/** test patrial day event in 1 year*/
 		$vCalendar = clone $this->vCalendar1a;
 		// construct event reader
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -819,7 +1106,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a year on July 1, 2024 for the entire day',
+			'In 1 year on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -846,7 +1133,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringDaily(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -960,7 +1247,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringWeekly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1077,7 +1364,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringMonthly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1290,7 +1577,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringYearly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1504,7 +1791,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringFixed(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1545,7 +1832,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithRrule(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1559,50 +1846,50 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 3, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 3, 2024'],
 				'In 2 days on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
 				'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 		]);
-		
+
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
 			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
@@ -1626,7 +1913,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1637,7 +1924,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1648,7 +1935,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1687,7 +1974,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithRdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1701,43 +1988,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 3, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 3, 2024'],
 				'In 2 days on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
@@ -1768,7 +2055,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining'
 		);
@@ -1780,7 +2067,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining'
 		);
@@ -1792,7 +2079,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			''
 		);
@@ -1838,7 +2125,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithOneExdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1852,43 +2139,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024 and July 7, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 5, 2024'],
 				'In 2 days on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
@@ -1924,7 +2211,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining and one exception'
 		);
@@ -1937,7 +2224,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining and one exception'
 		);
@@ -1950,7 +2237,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with three occurrences remaining and one exception'
 		);
@@ -1963,7 +2250,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024 and July 7, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with four occurrences remaining and one exception'
 		);
@@ -2022,7 +2309,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithTwoExdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -2036,43 +2323,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024 and July 9, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 5, 2024'],
 				'In 2 days on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
@@ -2109,7 +2396,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining and two exception'
 		);
@@ -2123,7 +2410,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining and two exception'
 		);
@@ -2137,7 +2424,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with three occurrences remaining and two exception'
 		);
@@ -2151,7 +2438,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024 and July 9, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with four occurrences remaining and two exception'
 		);
@@ -2213,4 +2500,232 @@ class IMipServiceTest extends TestCase {
 		);
 	}
 
+	private function createDetailsEvent(): \Sabre\VObject\Component\VEvent {
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->add('UID', 'test-uid');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Event');
+		return $vEvent;
+	}
+
+	private function mockDetailsL10n(): void {
+		$this->l10n->method('t')->willReturnCallback(
+			static fn (string $text, array $parameters = []): string => vsprintf($text, $parameters)
+		);
+		$this->l10n->method('n')->willReturnCallback(
+			static fn (string $singular, string $plural, int $count): string => str_replace('%n', (string)$count, $count === 1 ? $singular : $plural)
+		);
+		$this->l10n->method('l')->willReturnCallback(
+			static fn (string $type, \DateTimeInterface $date, array $options): string => match ($options['width']) {
+				'full' => $date->format('l, F j, Y'),
+				'~MMM' => $date->format('M'),
+				'~d' => $date->format('j'),
+			}
+		);
+	}
+
+	/**
+	 * @return list<array{0: string, 1: list<array{type: string, text: string, url: string}>}>
+	 */
+	private static function rowsOf(EMailDetails $details): array {
+		return array_map(
+			static fn (EMailDetailsRow $row): array => [$row->getLabel(), $row->getParts()],
+			$details->getRows(),
+		);
+	}
+
+	public function testAddEventDetailsPutsDescriptionAfterCard(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+		$order = [];
+		$template->method('addBodyNote')->willReturnCallback(function (string $text, string $label) use (&$order): void {
+			$order[] = 'note:' . $label;
+		});
+		$template->method('addBodyDetails')->willReturnCallback(function () use (&$order): void {
+			$order[] = 'details';
+		});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => 'Title',
+			'meeting_when' => 'Monday',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+			'meeting_occurring' => '',
+		]);
+
+		$this->assertSame(['details', 'note:Description', 'note:Previous description'], $order);
+	}
+
+	public function testAddEventDetails(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$data = [
+			'meeting_title' => '<b>Title</b>',
+			'meeting_when' => 'Monday & Tuesday',
+			'meeting_location' => 'Room "A"',
+			'meeting_url' => 'https://example.com/?a=1&b=2',
+			'meeting_description' => "Line 1\nLine 2",
+			'meeting_occurring' => 'Every Monday',
+		];
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details) use ($data): bool {
+				self::assertSame($data['meeting_title'], $details->getTitle());
+				self::assertSame('Monday, July 1, 2024', $details->getSubtitle());
+				self::assertSame(['month' => 'Jul', 'day' => '1'], $details->getDateBadge());
+				self::assertSame([
+					['When', [['type' => 'text', 'text' => $data['meeting_when'], 'url' => '']]],
+					['Occurring', [['type' => 'text', 'text' => $data['meeting_occurring'], 'url' => '']]],
+					['Where', [['type' => 'text', 'text' => $data['meeting_location'], 'url' => '']]],
+					['Link', [['type' => 'link', 'text' => $data['meeting_url'], 'url' => $data['meeting_url']]]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$template->expects(self::once())
+			->method('addBodyNote')
+			->with($data['meeting_description'], 'Description');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data);
+	}
+
+	public function testAddEventDetailsShowsPreviousValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$data = [
+			'meeting_title' => 'New title',
+			'meeting_title_previous' => 'Old title',
+			'meeting_when' => 'Tomorrow',
+			'meeting_when_previous' => 'Today',
+			'meeting_location' => 'https://example.com/new',
+			'meeting_location_previous' => 'https://example.com/old',
+			'meeting_url' => '',
+			'meeting_url_previous' => 'https://example.com/removed',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+		];
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('New title', $details->getTitle());
+				self::assertSame([
+					['Title', [
+						['type' => 'text', 'text' => 'New title', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Old title', 'url' => ''],
+					]],
+					['When', [
+						['type' => 'text', 'text' => 'Tomorrow', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Today', 'url' => ''],
+					]],
+					['Where', [
+						['type' => 'link', 'text' => 'https://example.com/new', 'url' => 'https://example.com/new'],
+						['type' => 'muted', 'text' => 'Previously: https://example.com/old', 'url' => ''],
+					]],
+					['Calendar', [['type' => 'text', 'text' => 'Personal', 'url' => '']]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$calls = [
+			['New description', 'Description'],
+			['Old description', 'Previous description'],
+		];
+		$template->expects(self::exactly(2))
+			->method('addBodyNote')
+			->willReturnCallback(function (string $text, string $label) use (&$calls): void {
+				self::assertSame(array_shift($calls), [$text, $label]);
+			});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data, 'Personal');
+	}
+
+	public function testAddEventDetailsWithoutOptionalValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('Untitled event', $details->getTitle());
+				self::assertSame(['When'], array_column(self::rowsOf($details), 0));
+				return true;
+			}));
+		$template->expects(self::never())
+			->method('addBodyNote');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => '',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddEventDetailsListsAttendees(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')
+			->with('dav', 'invitation_list_attendees')
+			->willReturn(true);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$vEvent = $this->createDetailsEvent();
+		$vEvent->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'Organizer', 'PARTSTAT' => 'ACCEPTED']);
+		$vEvent->add('ATTENDEE', 'mailto:a1@example.com', ['CN' => 'Attendee 1', 'PARTSTAT' => 'ACCEPTED']);
+		for ($i = 2; $i <= 7; $i++) {
+			$vEvent->add('ATTENDEE', 'mailto:a' . $i . '@example.com');
+		}
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = self::rowsOf($details);
+				self::assertSame(['Organizer', [
+					['type' => 'link', 'text' => 'Organizer ✔︎', 'url' => 'mailto:organizer@example.com'],
+				]], $rows[1]);
+				self::assertSame(['Attendees', [
+					['type' => 'link', 'text' => 'Attendee 1 ✔︎', 'url' => 'mailto:a1@example.com'],
+					['type' => 'link', 'text' => 'a2@example.com', 'url' => 'mailto:a2@example.com'],
+					['type' => 'link', 'text' => 'a3@example.com', 'url' => 'mailto:a3@example.com'],
+					['type' => 'link', 'text' => 'a4@example.com', 'url' => 'mailto:a4@example.com'],
+					['type' => 'link', 'text' => 'a5@example.com', 'url' => 'mailto:a5@example.com'],
+					['type' => 'muted', 'text' => 'and 2 others', 'url' => ''],
+				]], $rows[2]);
+				return true;
+			}));
+
+		$this->service->addEventDetails($template, $vEvent, [
+			'meeting_title' => 'Test Event',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddResponseButtons(): void {
+		$this->mockDetailsL10n();
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->willReturnCallback(static fn (string $route, array $parameters): string => $route . '/' . $parameters['token']);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyButtons')
+			->with([
+				['text' => 'Accept', 'url' => 'dav.invitation_response.accept/token'],
+				['text' => 'Decline', 'url' => 'dav.invitation_response.decline/token'],
+				['text' => 'More options …', 'url' => 'dav.invitation_response.options/token'],
+			], 'Will you attend?');
+
+		$this->service->addResponseButtons($template, 'token');
+	}
 }

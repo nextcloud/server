@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -19,7 +20,6 @@ use OCP\ICache;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Transport\Utils as TransportUtils;
-use OpenStack\Identity\v2\Models\Catalog;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
 use OpenStack\Identity\v3\Service as IdentityV3Service;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -28,11 +28,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 class SwiftFactory {
-	private $cache;
-	private $params;
-	/** @var Container|null */
-	private $container = null;
-	private LoggerInterface $logger;
+	private ?Container $container = null;
 
 	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
@@ -41,19 +37,19 @@ class SwiftFactory {
 		'catalogType' => 'object-store'
 	];
 
-	public function __construct(ICache $cache, array $params, LoggerInterface $logger) {
-		$this->cache = $cache;
-		$this->params = $params;
-		$this->logger = $logger;
+	public function __construct(
+		private ICache $cache,
+		private array $params,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
 	 * Gets currently cached token id
 	 *
-	 * @return string
 	 * @throws StorageAuthException
 	 */
-	public function getCachedTokenId() {
+	public function getCachedTokenId(): string {
 		if (!isset($this->params['cachedToken'])) {
 			throw new StorageAuthException('Unauthenticated ObjectStore connection');
 		}
@@ -97,10 +93,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function getClient() {
+	private function getClient(): OpenStack {
 		if (isset($this->params['bucket'])) {
 			$this->params['container'] = $this->params['bucket'];
 		}
@@ -145,12 +140,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @param IdentityV2Service|IdentityV3Service $authService
-	 * @param string $cacheKey
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function auth($authService, string $cacheKey) {
+	private function auth(IdentityV2Service|IdentityV3Service $authService, string $cacheKey): OpenStack {
 		$this->params['identityService'] = $authService;
 		$this->params['authUrl'] = $this->params['url'];
 
@@ -207,18 +199,16 @@ class SwiftFactory {
 			}
 		}
 
-
 		$client = new OpenStack($this->params);
 
 		return $client;
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	public function getContainer() {
+	public function getContainer(): Container {
 		if (is_null($this->container)) {
 			$this->container = $this->createContainer();
 		}
@@ -227,11 +217,10 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	private function createContainer() {
+	private function createContainer(): Container {
 		$client = $this->getClient();
 		$objectStoreService = $client->objectStoreV1();
 

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Memcache;
 
 use OCP\Cache\CappedMemoryCache;
@@ -13,14 +14,16 @@ use OCP\ICache;
  * Wrap a cache instance with an extra later of local, in-memory caching
  */
 class WithLocalCache implements ICache {
-	private ICache $inner;
 	private CappedMemoryCache $cached;
 
-	public function __construct(ICache $inner, int $localCapacity = 512) {
-		$this->inner = $inner;
+	public function __construct(
+		private ICache $inner,
+		int $localCapacity = 512,
+	) {
 		$this->cached = new CappedMemoryCache($localCapacity);
 	}
 
+	#[\Override]
 	public function get($key) {
 		if (isset($this->cached[$key])) {
 			return $this->cached[$key];
@@ -33,25 +36,30 @@ class WithLocalCache implements ICache {
 		}
 	}
 
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$this->cached[$key] = $value;
 		return $this->inner->set($key, $value, $ttl);
 	}
 
+	#[\Override]
 	public function hasKey($key) {
 		return isset($this->cached[$key]) || $this->inner->hasKey($key);
 	}
 
+	#[\Override]
 	public function remove($key) {
 		unset($this->cached[$key]);
 		return $this->inner->remove($key);
 	}
 
+	#[\Override]
 	public function clear($prefix = '') {
 		$this->cached->clear();
 		return $this->inner->clear($prefix);
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return false;
 	}

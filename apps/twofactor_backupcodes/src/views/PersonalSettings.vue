@@ -2,11 +2,71 @@
   - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { logger } from '../service/logger.ts'
+import { print } from '../service/PrintService.js'
+import { useStore } from '../store/index.ts'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const instanceName = (getCapabilities() as any).theming.name ?? 'Nextcloud'
+
+const store = useStore()
+const generatingCodes = ref(false)
+
+const hasCodes = computed(() => {
+	return store.codes && store.codes.length > 0
+})
+
+const downloadFilename = instanceName + '-backup-codes.txt'
+const downloadUrl = computed(() => {
+	if (!hasCodes.value) {
+		return ''
+	}
+	return 'data:text/plain,' + encodeURIComponent(store.codes.reduce((prev, code) => {
+		return prev + code + '\n'
+	}, ''))
+})
+
+/**
+ * Generate new backup codes
+ */
+async function generateBackupCodes() {
+	await confirmPassword()
+	// Hide old codes
+	generatingCodes.value = true
+
+	try {
+		await store.generate()
+	} catch (error) {
+		logger.error('Error generating backup codes', { error })
+		showError(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))
+	} finally {
+		generatingCodes.value = false
+	}
+}
+
+/**
+ * Print the backup codes
+ */
+function printCodes() {
+	print(!store.codes || store.codes.length === 0 ? [] : store.codes)
+}
+</script>
+
 <template>
-	<div class="backupcodes-settings">
-		<NcButton v-if="!enabled"
-			id="generate-backup-codes"
+	<div :class="$style.backupcodesSettings">
+		<NcButton
+			v-if="!store.enabled"
 			:disabled="generatingCodes"
+			variant="primary"
 			@click="generateBackupCodes">
 			<template #icon>
 				<NcLoadingIcon v-if="generatingCodes" />
@@ -14,36 +74,40 @@
 			{{ t('twofactor_backupcodes', 'Generate backup codes') }}
 		</NcButton>
 		<template v-else>
-			<p class="backupcodes-settings__codes">
-				<template v-if="!haveCodes">
-					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', {used, total}) }}
+			<p>
+				<template v-if="!hasCodes">
+					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', { used: store.used, total: store.total }) }}
 				</template>
 				<template v-else>
 					{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.') }}
-					<ul>
-						<li v-for="code in codes"
+					<ul :aria-label="t('twofactor_backupcodes', 'List of backup codes')">
+						<li
+							v-for="code in store.codes"
 							:key="code"
-							class="backupcodes-settings__codes__code">
+							:class="$style.backupcodesSettings__code">
 							{{ code }}
 						</li>
 					</ul>
 				</template>
 			</p>
-			<p class="backupcodes-settings__actions">
-				<template v-if="haveCodes">
-					<NcButton :href="downloadUrl"
-						:download="downloadFilename"
-						type="primary">
-						{{ t('twofactor_backupcodes', 'Save backup codes') }}
-					</NcButton>
-					<NcButton @click="printCodes">
-						{{ t('twofactor_backupcodes', 'Print backup codes') }}
-					</NcButton>
-				</template>
-				<NcButton id="generate-backup-codes"
+			<p :class="$style.backupcodesSettings__actions">
+				<NcButton
+					id="generate-backup-codes"
+					variant="error"
 					@click="generateBackupCodes">
 					{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}
 				</NcButton>
+				<template v-if="hasCodes">
+					<NcButton @click="printCodes">
+						{{ t('twofactor_backupcodes', 'Print backup codes') }}
+					</NcButton>
+					<NcButton
+						:href="downloadUrl"
+						:download="downloadFilename"
+						variant="primary">
+						{{ t('twofactor_backupcodes', 'Save backup codes') }}
+					</NcButton>
+				</template>
 			</p>
 			<p>
 				<em>
@@ -54,104 +118,21 @@
 	</div>
 </template>
 
-<script>
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import { print } from '../service/PrintService.js'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import '@nextcloud/password-confirmation/dist/style.css'
-
-export default {
-	name: 'PersonalSettings',
-	components: {
-		NcButton,
-		NcLoadingIcon,
-	},
-	data() {
-		return {
-			generatingCodes: false,
-		}
-	},
-	computed: {
-		downloadUrl() {
-			if (!this.codes) {
-				return ''
-			}
-			return 'data:text/plain,' + encodeURIComponent(this.codes.reduce((prev, code) => {
-				return prev + code + '\r\n'
-			}, ''))
-		},
-		downloadFilename() {
-			const name = OC.theme.name || 'Nextcloud'
-			return name + '-backup-codes.txt'
-		},
-		enabled() {
-			return this.$store.state.enabled
-		},
-		total() {
-			return this.$store.state.total
-		},
-		used() {
-			return this.$store.state.used
-		},
-		codes() {
-			return this.$store.state.codes
-		},
-		name() {
-			return OC.theme.name || 'Nextcloud'
-		},
-		haveCodes() {
-			return this.codes && this.codes.length > 0
-		},
-	},
-	methods: {
-		generateBackupCodes() {
-			confirmPassword().then(() => {
-				// Hide old codes
-				this.generatingCodes = true
-
-				this.$store.dispatch('generate').then(() => {
-					this.generatingCodes = false
-				}).catch(err => {
-					OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))
-					this.generatingCodes = false
-					throw err
-				})
-			}).catch(console.error.bind(this))
-		},
-
-		getPrintData(codes) {
-			if (!codes) {
-				return ''
-			}
-			return codes.reduce((prev, code) => {
-				return prev + code + '<br>'
-			}, '')
-		},
-
-		printCodes() {
-			print(this.getPrintData(this.codes))
-		},
-	},
+<style module>
+.backupcodesSettings {
+	display: flex;
+	flex-direction: column;
 }
-</script>
 
-<style lang="scss" scoped>
-.backupcodes-settings {
-	&__codes {
-		&__code {
-			font-family: monospace;
-			letter-spacing: 0.02em;
-			font-size: 1.2em;
-		}
-	}
+.backupcodesSettings__code {
+	font-family: monospace;
+	letter-spacing: 0.02em;
+	font-size: 1.2em;
+}
 
-	&__actions {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--default-grid-baseline);
-	}
+.backupcodesSettings__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--default-grid-baseline);
 }
 </style>

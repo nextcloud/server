@@ -4,4 +4,6 @@
  */
 import { t } from '@nextcloud/l10n'
 
-export const textExistingFilesNotEncrypted = t('settings', 'For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted.')
+const productName = window.OC.theme.productName
+
+export const textExistingFilesNotEncrypted = t('settings', 'For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted.', { productName })

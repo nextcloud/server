@@ -12,7 +12,10 @@ const displayName = document
 
 export const currentUser = rawUid !== undefined ? rawUid : false
 
-export const getCurrentUser = () => {
+/**
+ *
+ */
+export function getCurrentUser() {
 	return {
 		uid: currentUser,
 		displayName,

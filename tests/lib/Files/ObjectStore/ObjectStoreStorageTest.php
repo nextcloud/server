@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,12 +11,11 @@ namespace Test\Files\ObjectStore;
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Constants;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\Storage;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreStorageTest extends Storage {
 	/** @var ObjectStoreStorageOverwrite */
 	protected $instance;
@@ -25,6 +25,7 @@ class ObjectStoreStorageTest extends Storage {
 	 */
 	private $objectStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -34,6 +35,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->instance = new ObjectStoreStorageOverwrite($config);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if (is_null($this->instance)) {
 			return;
@@ -43,6 +45,7 @@ class ObjectStoreStorageTest extends Storage {
 		parent::tearDown();
 	}
 
+	#[\Override]
 	public function testStat(): void {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$ctimeStart = time();
@@ -67,13 +70,13 @@ class ObjectStoreStorageTest extends Storage {
 		}
 	}
 
+	#[\Override]
 	public function testCheckUpdate(): void {
 		$this->markTestSkipped('Detecting external changes is not supported on object storages');
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\Override]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMove($source, $target): void {
 		$this->initSourceAndTarget($source);
 		$sourceId = $this->instance->getCache()->getId(ltrim($source, '/'));
@@ -89,6 +92,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameDirectory(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');
@@ -118,6 +122,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameOverWriteDirectory(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');
@@ -138,6 +143,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameOverWriteDirectoryOverFile(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');
@@ -225,28 +231,8 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertEquals('3', $this->instance->file_get_contents('b/target/sub/3.txt'));
 	}
 
-	public function testCopyPreservesPermissions(): void {
-		$cache = $this->instance->getCache();
-
-		$this->instance->file_put_contents('test.txt', 'foo');
-		$this->assertTrue($cache->inCache('test.txt'));
-
-		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('test.txt'));
-
-		$this->assertTrue($this->instance->copy('test.txt', 'new.txt'));
-
-		$this->assertTrue($cache->inCache('new.txt'));
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('new.txt'));
-	}
-
-	/**
-	 * Test that copying files will drop permissions like local storage does
-	 * TODO: Drop this and fix local storage
-	 */
 	public function testCopyGrantsPermissions(): void {
 		$config['objectstore'] = $this->objectStorage;
-		$config['handleCopiesAsOwned'] = true;
 		$instance = new ObjectStoreStorageOverwrite($config);
 
 		$cache = $instance->getCache();
@@ -254,12 +240,40 @@ class ObjectStoreStorageTest extends Storage {
 		$instance->file_put_contents('test.txt', 'foo');
 		$this->assertTrue($cache->inCache('test.txt'));
 
-		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
+		$cache->update($cache->getId('test.txt'), ['permissions' => Constants::PERMISSION_READ]);
+		$this->assertEquals(Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
 
 		$this->assertTrue($instance->copy('test.txt', 'new.txt'));
 
 		$this->assertTrue($cache->inCache('new.txt'));
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL, $instance->getPermissions('new.txt'));
+		$this->assertEquals(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, $instance->getPermissions('new.txt'));
+	}
+
+	public function testCopyFolderSize(): void {
+		$cache = $this->instance->getCache();
+
+		$this->instance->mkdir('source');
+		$this->instance->file_put_contents('source/test.txt', 'foo');
+		$this->instance->getUpdater()->update('source/test.txt');
+		$this->assertEquals(3, $cache->get('source')->getSize());
+
+		$this->assertTrue($this->instance->copy('source', 'target'));
+
+		$this->assertEquals(3, $cache->get('target')->getSize());
+	}
+
+	public function testFopenWriteInDottedDirectoryWithoutExtension(): void {
+		$dir = '0. Folder.With.Dots/Subfolder';
+		$this->instance->mkdir($dir);
+
+		$filePath = $dir . '/extensionlessfile';
+		$handle = $this->instance->fopen($filePath, 'w');
+		$this->assertIsResource($handle);
+
+		fwrite($handle, 'sample content');
+		fclose($handle);
+
+		$this->assertTrue($this->instance->file_exists($filePath));
+		$this->assertEquals('sample content', $this->instance->file_get_contents($filePath));
 	}
 }

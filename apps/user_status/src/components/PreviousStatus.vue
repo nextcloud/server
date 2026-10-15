@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="predefined-status backup-status"
+	<div
+		class="predefined-status backup-status"
 		tabindex="0"
 		@keyup.enter="select"
 		@keyup.space="select"
@@ -15,18 +16,19 @@
 			{{ message }}
 		</span>
 		<span class="predefined-status__clear-at">
-			{{ $t('user_status', 'Previously set') }}
+			{{ t('user_status', 'Previously set') }}
 		</span>
 
 		<div class="backup-status__reset-button">
 			<NcButton @click="select">
-				{{ $t('user_status', 'Reset status') }}
+				{{ t('user_status', 'Reset status') }}
 			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
@@ -41,12 +43,18 @@ export default {
 			type: [String, null],
 			required: true,
 		},
+
 		message: {
 			type: String,
 			required: true,
 		},
 	},
+
+	emits: ['select'],
+
 	methods: {
+		t,
+
 		/**
 		 * Emits an event when the user clicks the row
 		 */
@@ -65,7 +73,8 @@ export default {
 	flex-basis: 100%;
 	border-radius: var(--border-radius);
 	align-items: center;
-	min-height: 44px;
+	min-height: var(--default-clickable-area);
+	padding-inline: var(--default-grid-baseline);
 
 	&:hover,
 	&:focus {
@@ -77,7 +86,7 @@ export default {
 	}
 
 	&__icon {
-		flex-basis: 40px;
+		flex-basis: var(--default-clickable-area);
 		text-align: center;
 	}
 

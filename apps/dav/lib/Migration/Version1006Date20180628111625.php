@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCP\DB\ISchemaWrapper;
@@ -21,6 +22,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -49,6 +51,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 				$calendarObjectsTable->dropIndex('calobjects_index');
 			}
 			$calendarObjectsTable->addUniqueIndex(['calendarid', 'calendartype', 'uri'], 'calobjects_index');
+			$calendarObjectsTable->addUniqueIndex(['calendarid', 'calendartype', 'uid'], 'calobjects_by_uid_index');
 		}
 
 		if ($schema->hasTable('calendarobjects_props')) {
@@ -57,7 +60,6 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 				'notnull' => true,
 				'default' => 0,
 			]);
-
 
 			if ($calendarObjectsPropsTable->hasIndex('calendarobject_index')) {
 				$calendarObjectsPropsTable->dropIndex('calendarobject_index');

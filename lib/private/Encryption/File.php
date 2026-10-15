@@ -5,20 +5,21 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\App\IAppManager;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Encryption\IFile;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Server;
 use OCP\Share\IManager;
 
-class File implements \OCP\Encryption\IFile {
-	protected Util $util;
-	private IRootFolder $rootFolder;
-	private IManager $shareManager;
-
+class File implements IFile {
 	/**
 	 * Cache results of already checked folders
 	 * @var CappedMemoryCache<array>
@@ -26,13 +27,12 @@ class File implements \OCP\Encryption\IFile {
 	protected CappedMemoryCache $cache;
 	private ?IAppManager $appManager = null;
 
-	public function __construct(Util $util,
-		IRootFolder $rootFolder,
-		IManager $shareManager) {
-		$this->util = $util;
+	public function __construct(
+		protected Util $util,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+	) {
 		$this->cache = new CappedMemoryCache();
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
 	}
 
 	public function getAppManager(): IAppManager {
@@ -40,7 +40,7 @@ class File implements \OCP\Encryption\IFile {
 		if ($this->appManager) {
 			return $this->appManager;
 		}
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 		return $this->appManager;
 	}
 
@@ -50,6 +50,7 @@ class File implements \OCP\Encryption\IFile {
 	 * @param string $path to the file
 	 * @return array{users: string[], public: bool}
 	 */
+	#[\Override]
 	public function getAccessList($path) {
 		// Make sure that a share key is generated for the owner too
 		[$owner, $ownerPath] = $this->util->getUidAndFilename($path);
@@ -73,16 +74,18 @@ class File implements \OCP\Encryption\IFile {
 		// first get the shares for the parent and cache the result so that we don't
 		// need to check all parents for every file
 		$parent = dirname($ownerPath);
-		$parentNode = $userFolder->get($parent);
 		if (isset($this->cache[$parent])) {
 			$resultForParents = $this->cache[$parent];
 		} else {
-			$resultForParents = $this->shareManager->getAccessList($parentNode);
+			$resultForParents = ['users' => [], 'public' => false, 'remote' => false];
+			$parentNode = $this->getClosestExistingNode($userFolder, $parent);
+			if ($parentNode !== null) {
+				$resultForParents = $this->shareManager->getAccessList($parentNode) + $resultForParents;
+			}
 			$this->cache[$parent] = $resultForParents;
 		}
 		$userIds = array_merge($userIds, $resultForParents['users']);
 		$public = $resultForParents['public'] || $resultForParents['remote'];
-
 
 		// Find out who, if anyone, is sharing the file
 		if ($file !== null) {
@@ -94,10 +97,10 @@ class File implements \OCP\Encryption\IFile {
 		// check if it is a group mount
 		if ($this->getAppManager()->isEnabledForUser('files_external')) {
 			/** @var GlobalStoragesService $storageService */
-			$storageService = \OC::$server->get(GlobalStoragesService::class);
+			$storageService = Server::get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
 			foreach ($storages as $storage) {
-				if ($storage->getMountPoint() == substr($ownerPath, 0, strlen($storage->getMountPoint()))) {
+				if ($storage->getMountPoint() === substr($ownerPath, 0, strlen($storage->getMountPoint()))) {
 					$mountedFor = $this->util->getUserWithAccessToMountPoint($storage->getApplicableUsers(), $storage->getApplicableGroups());
 					$userIds = array_merge($userIds, $mountedFor);
 				}
@@ -108,5 +111,24 @@ class File implements \OCP\Encryption\IFile {
 		$uniqueUserIds = array_unique($userIds);
 
 		return ['users' => $uniqueUserIds, 'public' => $public];
+	}
+
+	/**
+	 * Get the node for $path, or for its closest ancestor that is known to the cache.
+	 *
+	 * @return ?Node null if not even the user folder itself could be resolved
+	 */
+	private function getClosestExistingNode(IUserFolder $userFolder, string $path): ?Node {
+		while (true) {
+			try {
+				return $userFolder->get($path);
+			} catch (NotFoundException) {
+				$parent = dirname($path);
+				if ($parent === $path) {
+					return null;
+				}
+				$path = $parent;
+			}
+		}
 	}
 }

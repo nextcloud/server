@@ -9,28 +9,32 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use NCU\Security\Signature\Model\Signatory;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\OCM\OCMCapabilities;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @since 28.0.0
  */
 class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
+	private bool $removePublicKey = false;
+	private bool $removeVersion = false;
 	private string $apiVersion = '';
+	private string $inviteAcceptDialog = '';
+	private array $capabilities = [];
 	private string $endPoint = '';
+	private string $tokenEndPoint = '';
+	private string $jwksUri = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
-	private bool $emittedEvent = false;
 
 	public function __construct(
-		protected IEventDispatcher $dispatcher,
+		private readonly string $provider = '',
 	) {
 	}
 
@@ -39,6 +43,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
@@ -48,6 +53,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
@@ -57,6 +63,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
@@ -66,8 +73,35 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getApiVersion(): string {
 		return $this->apiVersion;
+	}
+
+	/**
+	 * returns the invite accept dialog
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
+	#[\Override]
+	public function getInviteAcceptDialog(): string {
+		return $this->inviteAcceptDialog;
+	}
+
+	/**
+	 * set the invite accept dialog
+	 *
+	 * @param string $inviteAcceptDialog
+	 *
+	 * @return $this
+	 * @since 32.0.0
+	 */
+	#[\Override]
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
+		$this->inviteAcceptDialog = $inviteAcceptDialog;
+
+		return $this;
 	}
 
 	/**
@@ -75,6 +109,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
@@ -84,14 +119,100 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEndPoint(): string {
 		return $this->endPoint;
+	}
+
+	/**
+	 * @param string $tokenEndPoint
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setTokenEndPoint(string $endPoint): static {
+		$this->tokenEndPoint = $endPoint;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getTokenEndPoint(): string {
+		if (in_array('exchange-token', $this->capabilities, true)) {
+			return $this->tokenEndPoint;
+		}
+		return '';
+	}
+
+	/**
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setJwksUri(string $jwksUri): static {
+		$this->jwksUri = $jwksUri;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getJwksUri(): string {
+		return $this->jwksUri;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getProvider(): string {
+		return $this->provider;
+	}
+
+	/**
+	 * @param array $capabilities
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setCapabilities(array $capabilities): static {
+		$this->capabilities = array_unique(array_merge(
+			$this->capabilities,
+			array_map([$this, 'normalizeCapability'], $capabilities)
+		));
+		return $this;
+	}
+
+	#[\Override]
+	public function getCapabilities(): OCMCapabilities {
+		return new OCMCapabilities($this->capabilities);
+	}
+
+	/**
+	 * @param string $capability
+	 * @return bool
+	 */
+	#[\Override]
+	public function hasCapability(string $capability): bool {
+		return (in_array($this->normalizeCapability($capability), $this->capabilities, true));
+	}
+
+	private function normalizeCapability(string $capability): string {
+		// since ocm 1.2, removing leading slashes from capabilities
+		return strtolower(ltrim($capability, '/'));
 	}
 
 	/**
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
 	 */
+	#[\Override]
 	public function createNewResourceType(): IOCMResource {
 		return new OCMResource();
 	}
@@ -101,7 +222,23 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
+		foreach ($this->resourceTypes as $existing) {
+			if ($existing->getName() === $resource->getName()) {
+				$existing->setShareTypes(array_values(array_unique(
+					array_merge(
+						$existing->getShareTypes(),
+						$resource->getShareTypes()
+					)
+				)));
+				$existing->setProtocols(array_merge(
+					$existing->getProtocols(),
+					$resource->getProtocols()
+				));
+				return $this;
+			}
+		}
 		$this->resourceTypes[] = $resource;
 
 		return $this;
@@ -112,6 +249,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
@@ -121,13 +259,8 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return IOCMResource[]
 	 */
+	#[\Override]
 	public function getResourceTypes(): array {
-		if (!$this->emittedEvent) {
-			$this->emittedEvent = true;
-			$event = new ResourceTypeRegisterEvent($this);
-			$this->dispatcher->dispatchTyped($event);
-		}
-
 		return $this->resourceTypes;
 	}
 
@@ -138,6 +271,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return string
 	 * @throws OCMArgumentException
 	 */
+	#[\Override]
 	public function extractProtocolEntry(string $resourceName, string $protocol): string {
 		foreach ($this->getResourceTypes() as $resource) {
 			if ($resource->getName() === $resourceName) {
@@ -166,10 +300,10 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @param array $data
 	 *
-	 * @return $this
+	 * @return OCMProvider&static
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
-	 * @see self::jsonSerialize()
 	 */
+	#[\Override]
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			// Fall back to old apiVersion for Nextcloud 30 compatibility
@@ -182,6 +316,8 @@ class OCMProvider implements IOCMProvider {
 			$resources[] = $resource->import($resourceData);
 		}
 		$this->setResourceTypes($resources);
+		$this->setInviteAcceptDialog($data['inviteAcceptDialog'] ?? '');
+		$this->setCapabilities($data['capabilities'] ?? []);
 
 		if (isset($data['publicKey'])) {
 			// import details about the remote request signing public key, if available
@@ -192,6 +328,15 @@ class OCMProvider implements IOCMProvider {
 				$this->setSignatory($signatory);
 			}
 		}
+		if (isset($data['capabilities'])) {
+			$this->setCapabilities($data['capabilities']);
+		}
+		if (isset($data['tokenEndPoint'])) {
+			$this->setTokenEndPoint($data['tokenEndPoint']);
+		}
+		if (is_string($data['jwksUri'] ?? null)) {
+			$this->setJwksUri($data['jwksUri']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -199,7 +344,6 @@ class OCMProvider implements IOCMProvider {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return bool
@@ -209,35 +353,65 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
-	 * @return array{
-	 *      enabled: bool,
-	 *      apiVersion: '1.0-proposal1',
-	 *      endPoint: string,
-	 *      publicKey?: array{
-	 *          keyId: string,
-	 *          publicKeyPem: string
-	 *      },
-	 *      resourceTypes: list<array{
-	 *          name: string,
-	 *          shareTypes: list<string>,
-	 *          protocols: array<string, string>
-	 *      }>,
-	 *      version: string
-	 *  }
+	 * @since 35.0.0
 	 */
+	#[\Override]
+	public function removePublicKey(): void {
+		$this->removePublicKey = true;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function removeVersion(): void {
+		$this->removeVersion = true;
+	}
+
+	/**
+	 * @since 28.0.0
+	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {
 			$resourceTypes[] = $res->jsonSerialize();
 		}
 
-		return [
+		$response = [
 			'enabled' => $this->isEnabled(),
 			'apiVersion' => '1.0-proposal1', // deprecated, but keep it to stay compatible with old version
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
+			'provider' => $this->getProvider(),
 			'resourceTypes' => $resourceTypes
 		];
+
+		if ($this->removeVersion) {
+			$response['apiVersion'] = $this->getApiVersion();
+			unset($response['version']);
+		}
+
+		if ($this->removePublicKey) {
+			unset($response['publicKey']);
+		}
+
+		if ($this->capabilities !== []) {
+			$response['capabilities'] = $this->capabilities;
+		}
+		$tokenEndpoint = $this->getTokenEndPoint();
+		if ($tokenEndpoint) {
+			$response['tokenEndPoint'] = $tokenEndpoint;
+		}
+		$inviteAcceptDialog = $this->getInviteAcceptDialog();
+		if ($inviteAcceptDialog !== '') {
+			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
+		}
+		$jwksUri = $this->getJwksUri();
+		if ($jwksUri !== '') {
+			$response['jwksUri'] = $jwksUri;
+		}
+		return $response;
 	}
 }

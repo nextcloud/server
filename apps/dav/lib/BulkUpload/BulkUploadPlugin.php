@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -9,7 +10,7 @@ namespace OCA\DAV\BulkUpload;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
-use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -18,7 +19,7 @@ use Sabre\HTTP\ResponseInterface;
 
 class BulkUploadPlugin extends ServerPlugin {
 	public function __construct(
-		private Folder $userFolder,
+		private IUserFolder $userFolder,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -26,6 +27,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	/**
 	 * Register listener on POST requests with the httpPost method.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('method:POST', [$this, 'httpPost'], 10);
 	}
@@ -75,7 +77,7 @@ class BulkUploadPlugin extends ServerPlugin {
 					'error' => false,
 					'etag' => $node->getETag(),
 					'fileid' => DavUtil::getDavFileId($node->getId()),
-					'permissions' => DavUtil::getDavPermissions($node),
+					'permissions' => DavUtil::getDavPermissions($node, $node->getParent()),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

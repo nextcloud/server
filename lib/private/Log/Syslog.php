@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Log;
 
 use OC\SystemConfig;
@@ -20,15 +21,18 @@ class Syslog extends LogDetails implements IWriter {
 		ILogger::FATAL => LOG_CRIT,
 	];
 
+	private string $tag;
+
 	public function __construct(
 		SystemConfig $config,
 		?string $tag = null,
 	) {
 		parent::__construct($config);
 		if ($tag === null) {
-			$tag = $config->getValue('syslog_tag', 'Nextcloud');
+			$this->tag = $config->getValue('syslog_tag', 'Nextcloud');
+		} else {
+			$this->tag = $tag;
 		}
-		openlog($tag, LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {
@@ -39,8 +43,10 @@ class Syslog extends LogDetails implements IWriter {
 	 * write a message in the log
 	 * @param string|array $message
 	 */
+	#[\Override]
 	public function write(string $app, $message, int $level): void {
 		$syslog_level = $this->levels[$level];
+		openlog($this->tag, LOG_PID | LOG_CONS, LOG_USER);
 		syslog($syslog_level, $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

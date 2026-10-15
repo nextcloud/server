@@ -31,6 +31,7 @@ class Version25000Date20221007010957 extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$cleanUpQuery = $this->connection->getQueryBuilder();
 		$cleanUpQuery->delete('preferences')

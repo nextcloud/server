@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Test\Calendar;
 
+use OC\Calendar\Resource;
 use OC\Calendar\ResourcesRoomsUpdater;
+use OC\Calendar\Room;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
 use OCP\Calendar\Resource\IBackend;
-use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Resource\IResource;
-use OCP\Calendar\Room\IManager as IRoomManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Test\TestCase;
@@ -26,31 +26,24 @@ interface tmpI extends IResource, IMetadataProvider {
 
 class ResourcesRoomsUpdaterTest extends TestCase {
 	private ResourcesRoomsUpdater $updater;
+	private Resource\Manager&MockObject $resourceManager;
+	private Room\Manager&MockObject $roomManager;
+	private ContainerInterface&MockObject $container;
+	private CalDavBackend&MockObject $calDavBackend;
 
-	/** @var IResourceManager|MockObject */
-	private $resourceManager;
-
-	/** @var IRoomManager|MockObject */
-	private $roomManager;
-
-	/** @var ContainerInterface|MockObject */
-	private $container;
-
-	/** @var CalDavBackend|MockObject */
-	private $calDavBackend;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->resourceManager = $this->createMock(IResourceManager::class);
-		$this->roomManager = $this->createMock(IRoomManager::class);
+		$this->resourceManager = $this->createMock(Resource\Manager::class);
+		$this->roomManager = $this->createMock(Room\Manager::class);
 		$this->container = $this->createMock(ContainerInterface::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 
 		$this->container->method('get')
 			->willReturnMap([
-				[IResourceManager::class, $this->resourceManager],
-				[IRoomManager::class, $this->roomManager],
+				[Resource\Manager::class, $this->resourceManager],
+				[Room\Manager::class, $this->roomManager],
 			]);
 
 		$this->updater = new ResourcesRoomsUpdater(
@@ -60,12 +53,14 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->delete('calendar_resources')->execute();
-		$query->delete('calendar_resources_md')->execute();
-		$query->delete('calendar_rooms')->execute();
-		$query->delete('calendar_rooms_md')->execute();
+		$query->delete('calendar_resources')->executeStatement();
+		$query->delete('calendar_resources_md')->executeStatement();
+		$query->delete('calendar_rooms')->executeStatement();
+		$query->delete('calendar_rooms_md')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**
@@ -112,11 +107,11 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$backend2->method('getBackendIdentifier')
 			->willReturn('backend2');
 		$backend2->method('listAllResources')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend2->method('getResource')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend2->method('getAllResources')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend3->method('getBackendIdentifier')
 			->willReturn('backend3');
 		$backend3->method('listAllResources')
@@ -147,10 +142,8 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta99':
 					return 'value99-new';
-
 				case 'meta123':
 					return 'meta456';
-
 				default:
 					return null;
 			}
@@ -166,7 +159,6 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta1':
 					return 'value1';
-
 				default:
 					return null;
 			}
@@ -182,7 +174,6 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta2':
 					return 'value2';
-
 				default:
 					return null;
 			}
@@ -215,8 +206,8 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 
 		$rows = [];
 		$ids = [];
-		$stmt = $query->execute();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		$stmt = $query->executeQuery();
+		while ($row = $stmt->fetchAssociative()) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
 			$rows[] = $row;
@@ -285,8 +276,8 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$query2->select('*')->from('calendar_resources_md');
 
 		$rows2 = [];
-		$stmt = $query2->execute();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		$stmt = $query2->executeQuery();
+		while ($row = $stmt->fetchAssociative()) {
 			unset($row['id']);
 			$rows2[] = $row;
 		}
@@ -345,7 +336,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -355,7 +346,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('TV1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -365,7 +356,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id3 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources')
@@ -376,7 +367,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('TV2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id4 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources')
@@ -387,7 +378,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer3'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -397,7 +388,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Pointer'),
 				'group_restrictions' => $query->createNamedParameter('["foo", "bar"]'),
 			])
-			->execute();
+			->executeStatement();
 		$id6 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources_md')
@@ -406,34 +397,34 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'key' => $query->createNamedParameter('meta1'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id3),
 				'key' => $query->createNamedParameter('meta2'),
 				'value' => $query->createNamedParameter('value2')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('meta1'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('meta3'),
 				'value' => $query->createNamedParameter('value3-old')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id6),
 				'key' => $query->createNamedParameter('meta99'),
 				'value' => $query->createNamedParameter('value99')
 			])
-			->execute();
+			->executeStatement();
 	}
 }

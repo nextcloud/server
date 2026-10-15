@@ -11,10 +11,13 @@ namespace OCA\DAV\CalDAV\Schedule;
 use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use Sabre\VObject\Component\VCalendar;
@@ -27,10 +30,12 @@ use Sabre\VObject\Recur\EventIterator;
 
 class IMipService {
 
+	private const int MAX_LISTED_ATTENDEES = 5;
+
 	private IL10N $l10n;
 
 	/** @var string[] */
-	private const STRING_DIFF = [
+	private const array STRING_DIFF = [
 		'meeting_title' => 'SUMMARY',
 		'meeting_description' => 'DESCRIPTION',
 		'meeting_url' => 'URL',
@@ -39,11 +44,13 @@ class IMipService {
 
 	public function __construct(
 		private URLGenerator $urlGenerator,
-		private IConfig $config,
 		private IDBConnection $db,
 		private ISecureRandom $random,
 		private L10NFactory $l10nFactory,
 		private ITimeFactory $timeFactory,
+		private readonly IUserManager $userManager,
+		private readonly IUserConfig $userConfig,
+		private readonly IAppConfig $appConfig,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -63,6 +70,13 @@ class IMipService {
 		return $this->l10n->t('%1$s via %2$s', [$senderName, $default]);
 	}
 
+	/**
+	 * Language of the attendee the email is written for
+	 */
+	public function getLanguageCode(): string {
+		return $this->l10n->getLanguageCode();
+	}
+
 	public static function readPropertyWithDefault(VEvent $vevent, string $property, string $default) {
 		if (isset($vevent->$property)) {
 			$value = $vevent->$property->getValue();
@@ -73,51 +87,9 @@ class IMipService {
 		return $default;
 	}
 
-	private function generateDiffString(VEvent $vevent, VEvent $oldVEvent, string $property, string $default): ?string {
-		$strikethrough = "<span style='text-decoration: line-through'>%s</span><br />%s";
-		if (!isset($vevent->$property)) {
-			return $default;
-		}
-		$newstring = $vevent->$property->getValue();
-		if (isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
-			$oldstring = $oldVEvent->$property->getValue();
-			return sprintf($strikethrough, $oldstring, $newstring);
-		}
-		return $newstring;
-	}
-
-	/**
-	 * Like generateDiffString() but linkifies the property values if they are urls.
-	 */
-	private function generateLinkifiedDiffString(VEvent $vevent, VEvent $oldVEvent, string $property, string $default): ?string {
-		if (!isset($vevent->$property)) {
-			return $default;
-		}
-		/** @var string|null $newString */
-		$newString = $vevent->$property->getValue();
-		$oldString = isset($oldVEvent->$property) ? $oldVEvent->$property->getValue() : null;
-		if ($oldString !== $newString) {
-			return sprintf(
-				"<span style='text-decoration: line-through'>%s</span><br />%s",
-				$this->linkify($oldString) ?? $oldString ?? '',
-				$this->linkify($newString) ?? $newString ?? ''
-			);
-		}
-		return $this->linkify($newString) ?? $newString;
-	}
-
-	/**
-	 * Convert a given url to a html link element or return null otherwise.
-	 */
-	private function linkify(?string $url): ?string {
-		if ($url === null) {
-			return null;
-		}
-		if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
-			return null;
-		}
-
-		return sprintf('<a href="%1$s">%1$s</a>', htmlspecialchars($url));
+	private function isLinkUrl(string $url): bool {
+		return filter_var($url, FILTER_VALIDATE_URL) !== false
+			&& (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'));
 	}
 
 	/**
@@ -126,7 +98,6 @@ class IMipService {
 	 * @return array
 	 */
 	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent): array {
-
 		// construct event reader
 		$eventReaderCurrent = new EventReader($vEvent);
 		$eventReaderPrevious = !empty($oldVEvent) ? new EventReader($oldVEvent) : null;
@@ -138,28 +109,46 @@ class IMipService {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
 
-		$data['meeting_url_html'] = self::readPropertyWithDefault($vEvent, 'URL', $defaultVal);
-
-		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
-			$data['meeting_location_html'] = $locationHtml;
-		}
-
 		if (!empty($oldVEvent)) {
+			foreach (self::STRING_DIFF as $key => $property) {
+				$oldValue = self::readPropertyWithDefault($oldVEvent, $property, $defaultVal);
+				if ($oldValue !== $defaultVal && $oldValue !== $data[$key]) {
+					$data[$key . '_previous'] = $oldValue;
+				}
+			}
+
 			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
-			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
-			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
-			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
-
-			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
-			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
-
-			$data['meeting_when_html'] = $oldMeetingWhen !== $data['meeting_when'] ? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']) : $data['meeting_when'];
+			if ($oldMeetingWhen !== $data['meeting_when']) {
+				$data['meeting_when_previous'] = $oldMeetingWhen;
+			}
 		}
 		// generate occurring next string
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
-		
+		return $data;
+	}
+
+	/**
+	 * @param VEvent $vEvent
+	 * @return array
+	 */
+	public function buildReplyBodyData(VEvent $vEvent): array {
+		// construct event reader
+		$eventReader = new EventReader($vEvent);
+		$defaultVal = '';
+		$data = [];
+		$data['meeting_when'] = $this->generateWhenString($eventReader);
+
+		foreach (self::STRING_DIFF as $key => $property) {
+			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
+		}
+
+		// generate occurring next string
+		if ($eventReader->recurs()) {
+			$data['meeting_occurring'] = $this->generateOccurringString($eventReader);
+		}
+
 		return $data;
 	}
 
@@ -206,8 +195,8 @@ class IMipService {
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
 		// Output produced in order:
-		// In a minute/hour/day/week/month/year on July 1, 2024 for the entire day
-		// In a minute/hour/day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 for the entire day
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 for the entire day
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
 		return match ([$occurring['scale'], $endTime !== null]) {
@@ -216,37 +205,37 @@ class IMipService {
 				[$startDate]
 			),
 			['minute', false] => $this->l10n->n(
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['hour', false] => $this->l10n->n(
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['day', false] => $this->l10n->n(
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['week', false] => $this->l10n->n(
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['month', false] => $this->l10n->n(
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['year', false] => $this->l10n->n(
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
@@ -256,37 +245,37 @@ class IMipService {
 				[$startDate, $startTime, $endTime]
 			),
 			['minute', true] => $this->l10n->n(
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['hour', true] => $this->l10n->n(
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['day', true] => $this->l10n->n(
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['week', true] => $this->l10n->n(
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['month', true] => $this->l10n->n(
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['year', true] => $this->l10n->n(
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
@@ -324,7 +313,7 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringDaily(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
@@ -375,13 +364,15 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringWeekly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
 		$conclusion = null;
 		// days of the week
-		$days = implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+		$days = implode(', ', array_map(function ($value) {
+			return $this->localizeDayName($value);
+		}, $er->recurringDaysOfWeekNamed()));
 		// time of the day
 		if (!$er->entireDay()) {
 			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
@@ -428,15 +419,19 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringMonthly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
 		$conclusion = null;
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) {
+				return $this->localizeRelativePositionName($value);
+			}, $er->recurringRelativePositionNamed())) . ' '
+				. implode(', ', array_map(function ($value) {
+					return $this->localizeDayName($value);
+				}, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = implode(', ', $er->recurringDaysOfMonth());
 		}
@@ -493,17 +488,23 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringYearly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
 		$conclusion = null;
 		// months of year
-		$months = implode(', ', array_map(function ($value) { return $this->localizeMonthName($value); }, $er->recurringMonthsOfYearNamed()));
+		$months = implode(', ', array_map(function ($value) {
+			return $this->localizeMonthName($value);
+		}, $er->recurringMonthsOfYearNamed()));
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) {
+				return $this->localizeRelativePositionName($value);
+			}, $er->recurringRelativePositionNamed())) . ' '
+				. implode(', ', array_map(function ($value) {
+					return $this->localizeDayName($value);
+				}, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = $er->startDateTime()->format('jS');
 		}
@@ -582,7 +583,7 @@ class IMipService {
 			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
 		};
 	}
-	
+
 	/**
 	 * generates a occurring next string for a recurring event
 	 *
@@ -593,7 +594,6 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateOccurringString(EventReader $er): string {
-
 		// initialize
 		$occurrence = null;
 		$occurrence2 = null;
@@ -624,9 +624,9 @@ class IMipService {
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
 		// Output produced in order:
-		// In a minute/hour/day/week/month/year on July 1, 2024
-		// In a minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024
-		// In a minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 then on July 3, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 then on July 3, 2024 and July 5, 2024
@@ -636,37 +636,37 @@ class IMipService {
 				[$occurrence]
 			),
 			['minute', false, false] => $this->l10n->n(
-				'In a minute on %1$s',
+				'In %n minute on %1$s',
 				'In %n minutes on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['hour', false, false] => $this->l10n->n(
-				'In a hour on %1$s',
+				'In %n hour on %1$s',
 				'In %n hours on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['day', false, false] => $this->l10n->n(
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['week', false, false] => $this->l10n->n(
-				'In a week on %1$s',
+				'In %n week on %1$s',
 				'In %n weeks on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['month', false, false] => $this->l10n->n(
-				'In a month on %1$s',
+				'In %n month on %1$s',
 				'In %n months on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['year', false, false] => $this->l10n->n(
-				'In a year on %1$s',
+				'In %n year on %1$s',
 				'In %n years on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
@@ -676,37 +676,37 @@ class IMipService {
 				[$occurrence, $occurrence2]
 			),
 			['minute', true, false] => $this->l10n->n(
-				'In a minute on %1$s then on %2$s',
+				'In %n minute on %1$s then on %2$s',
 				'In %n minutes on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['hour', true, false] => $this->l10n->n(
-				'In a hour on %1$s then on %2$s',
+				'In %n hour on %1$s then on %2$s',
 				'In %n hours on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['day', true, false] => $this->l10n->n(
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['week', true, false] => $this->l10n->n(
-				'In a week on %1$s then on %2$s',
+				'In %n week on %1$s then on %2$s',
 				'In %n weeks on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['month', true, false] => $this->l10n->n(
-				'In a month on %1$s then on %2$s',
+				'In %n month on %1$s then on %2$s',
 				'In %n months on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['year', true, false] => $this->l10n->n(
-				'In a year on %1$s then on %2$s',
+				'In %n year on %1$s then on %2$s',
 				'In %n years on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
@@ -716,37 +716,37 @@ class IMipService {
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['minute', true, true] => $this->l10n->n(
-				'In a minute on %1$s then on %2$s and %3$s',
+				'In %n minute on %1$s then on %2$s and %3$s',
 				'In %n minutes on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['hour', true, true] => $this->l10n->n(
-				'In a hour on %1$s then on %2$s and %3$s',
+				'In %n hour on %1$s then on %2$s and %3$s',
 				'In %n hours on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['day', true, true] => $this->l10n->n(
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['week', true, true] => $this->l10n->n(
-				'In a week on %1$s then on %2$s and %3$s',
+				'In %n week on %1$s then on %2$s and %3$s',
 				'In %n weeks on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['month', true, true] => $this->l10n->n(
-				'In a month on %1$s then on %2$s and %3$s',
+				'In %n month on %1$s then on %2$s and %3$s',
 				'In %n months on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['year', true, true] => $this->l10n->n(
-				'In a year on %1$s then on %2$s and %3$s',
+				'In %n year on %1$s then on %2$s and %3$s',
 				'In %n years on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
@@ -764,26 +764,14 @@ class IMipService {
 		// construct event reader
 		$eventReaderCurrent = new EventReader($vEvent);
 		$defaultVal = '';
-		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
-
-		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
-		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
-		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
-		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
-		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
-		$newLocationHtml = $this->linkify($newLocation) ?? $newLocation;
 
 		$data = [];
-		$data['meeting_when_html'] = $newMeetingWhen === '' ?: sprintf($strikethrough, $newMeetingWhen);
-		$data['meeting_when'] = $newMeetingWhen;
-		$data['meeting_title_html'] = sprintf($strikethrough, $newSummary);
-		$data['meeting_title'] = $newSummary !== '' ? $newSummary: $this->l10n->t('Untitled event');
-		$data['meeting_description_html'] = $newDescription !== '' ? sprintf($strikethrough, $newDescription) : '';
-		$data['meeting_description'] = $newDescription;
-		$data['meeting_url_html'] = $newUrl !== '' ? sprintf($strikethrough, $newUrl) : '';
-		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : '';
-		$data['meeting_location_html'] = $newLocationHtml !== '' ? sprintf($strikethrough, $newLocationHtml) : '';
-		$data['meeting_location'] = $newLocation;
+		$data['meeting_when'] = $this->generateWhenString($eventReaderCurrent);
+		$data['meeting_title'] = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		$data['meeting_description'] = isset($vEvent->DESCRIPTION) ? (string)$vEvent->DESCRIPTION : $defaultVal;
+		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : $defaultVal;
+		$data['meeting_location'] = isset($vEvent->LOCATION) ? (string)$vEvent->LOCATION : $defaultVal;
+
 		return $data;
 	}
 
@@ -842,18 +830,45 @@ class IMipService {
 	}
 
 	/**
-	 * @param Property|null $attendee
+	 * Check if an email address belongs to a system user
+	 *
+	 * @param string $email
+	 * @return bool True if the email belongs to a system user, false otherwise
 	 */
-	public function setL10n(?Property $attendee = null) {
-		if ($attendee === null) {
-			return;
-		}
+	public function isSystemUser(string $email): bool {
+		return !empty($this->userManager->getByEmail($email));
+	}
 
-		$lang = $attendee->offsetGet('LANGUAGE');
-		if ($lang instanceof Parameter) {
-			$lang = $lang->getValue();
-			$this->l10n = $this->l10nFactory->get('dav', $lang);
+	/**
+	 * @param Property $attendee
+	 */
+	public function setL10nFromAttendee(Property $attendee) {
+		$language = null;
+		$locale = null;
+		// check if the attendee is a system user
+		$userAddress = $attendee->getValue();
+		if (str_starts_with($userAddress, 'mailto:')) {
+			$userAddress = substr($userAddress, 7);
 		}
+		$users = $this->userManager->getByEmail($userAddress);
+		if ($users !== []) {
+			$user = array_shift($users);
+			$language = $this->userConfig->getValueString($user->getUID(), 'core', 'lang', '') ?: null;
+			$locale = $this->userConfig->getValueString($user->getUID(), 'core', 'locale', '') ?: null;
+		}
+		// fallback to attendee LANGUAGE parameter if language not set
+		if ($language === null && isset($attendee['LANGUAGE']) && $attendee['LANGUAGE'] instanceof Parameter) {
+			$language = $attendee['LANGUAGE']->getValue();
+		}
+		// fallback to system language if language not set
+		if ($language === null) {
+			$language = $this->l10nFactory->findGenericLanguage();
+		}
+		// fallback to system locale if locale not set
+		if ($locale === null) {
+			$locale = $this->l10nFactory->findLocale($language);
+		}
+		$this->l10n = $this->l10nFactory->get('dav', $language, $locale);
 	}
 
 	/**
@@ -930,56 +945,82 @@ class IMipService {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
+	 * Add the event card, followed by the description, to the iMip mail.
+	 *
+	 * Values that changed in an update are shown with their previous value.
 	 */
-	public function getAbsoluteImagePath($path): string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
+	public function addEventDetails(IEMailTemplate $template, VEvent $vevent, array $data, string $calendarName = ''): void {
+		$start = (new EventReader($vevent))->startDateTime();
+		$details = (new EMailDetails($data['meeting_title'] ?: $this->l10n->t('Untitled event')))
+			->setSubtitle((string)$this->l10n->l('date', $start, ['width' => 'full']))
+			->setDateBadge(
+				(string)$this->l10n->l('date', $start, ['width' => '~MMM']),
+				(string)$this->l10n->l('date', $start, ['width' => '~d']),
+			);
+
+		if (isset($data['meeting_title_previous'])) {
+			$this->addDetailsRow($details, $this->l10n->t('Title'), $data, 'meeting_title');
+		}
+		$this->addDetailsRow($details, $this->l10n->t('When'), $data, 'meeting_when');
+		if (isset($data['meeting_occurring'])) {
+			$details->addRow($this->l10n->t('Occurring'))->text($data['meeting_occurring']);
+		}
+		$this->addDetailsRow($details, $this->l10n->t('Where'), $data, 'meeting_location');
+		$this->addDetailsRow($details, $this->l10n->t('Link'), $data, 'meeting_url');
+		if ($calendarName !== '') {
+			$details->addRow($this->l10n->t('Calendar'))->text($calendarName);
+		}
+		$this->addAttendees($details, $vevent);
+
+		$template->addBodyDetails($details);
+
+		if ($data['meeting_description'] !== '') {
+			$template->addBodyNote($data['meeting_description'], $this->l10n->t('Description'));
+			if (isset($data['meeting_description_previous'])) {
+				$template->addBodyNote($data['meeting_description_previous'], $this->l10n->t('Previous description'));
+			}
+		}
+	}
+
+	private function addDetailsRow(EMailDetails $details, string $label, array $data, string $key): void {
+		$value = $data[$key] ?? '';
+		if ($value === '') {
+			return;
+		}
+
+		$row = $details->addRow($label);
+		if ($this->isLinkUrl($value)) {
+			$row->link($value, $value);
+		} else {
+			$row->text($value);
+		}
+		if (isset($data[$key . '_previous'])) {
+			$row->muted($this->l10n->t('Previously: %s', [$data[$key . '_previous']]));
+		}
 	}
 
 	/**
-	 * addAttendees: add organizer and attendee names/emails to iMip mail.
+	 * Add organizer and attendee rows to the event card.
 	 *
 	 * Enable with DAV setting: invitation_list_attendees (default: no)
 	 *
 	 * The default is 'no', which matches old behavior, and is privacy preserving.
 	 *
 	 * To enable including attendees in invitation emails:
-	 *   % php occ config:app:set dav invitation_list_attendees --value yes
+	 *   % php occ config:app:set dav invitation_list_attendees --value yes --type bool
 	 *
-	 * @param IEMailTemplate $template
-	 * @param IL10N $this->l10n
-	 * @param VEvent $vevent
 	 * @author brad2014 on github.com
 	 */
-	public function addAttendees(IEMailTemplate $template, VEvent $vevent) {
-		if ($this->config->getAppValue('dav', 'invitation_list_attendees', 'no') === 'no') {
+	private function addAttendees(EMailDetails $details, VEvent $vevent): void {
+		if (!$this->appConfig->getValueBool('dav', 'invitation_list_attendees')) {
 			return;
 		}
 
 		if (isset($vevent->ORGANIZER)) {
-			/** @var Property | Property\ICalendar\CalAddress $organizer */
+			/** @var Property&Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
-			$organizerEmail = substr($organizer->getNormalizedValue(), 7);
-			/** @var string|null $organizerName */
-			$organizerName = isset($organizer->CN) ? $organizer->CN->getValue() : null;
-			$organizerHTML = sprintf('<a href="%s">%s</a>',
-				htmlspecialchars($organizer->getNormalizedValue()),
-				htmlspecialchars($organizerName ?: $organizerEmail));
-			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if (isset($organizer['PARTSTAT'])) {
-				/** @var Parameter $partstat */
-				$partstat = $organizer['PARTSTAT'];
-				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
-					$organizerHTML .= ' ✔︎';
-					$organizerText .= ' ✔︎';
-				}
-			}
-			$template->addBodyListItem($organizerHTML, $this->l10n->t('Organizer:'),
-				$this->getAbsoluteImagePath('caldav/organizer.png'),
-				$organizerText, '', IMipPlugin::IMIP_INDENT);
+			$details->addRow($this->l10n->t('Organizer'))
+				->link($this->getAttendeeLabel($organizer), $organizer->getNormalizedValue());
 		}
 
 		$attendees = $vevent->select('ATTENDEE');
@@ -987,65 +1028,31 @@ class IMipService {
 			return;
 		}
 
-		$attendeesHTML = [];
-		$attendeesText = [];
-		foreach ($attendees as $attendee) {
-			$attendeeEmail = substr($attendee->getNormalizedValue(), 7);
-			$attendeeName = isset($attendee['CN']) ? $attendee['CN']->getValue() : null;
-			$attendeeHTML = sprintf('<a href="%s">%s</a>',
-				htmlspecialchars($attendee->getNormalizedValue()),
-				htmlspecialchars($attendeeName ?: $attendeeEmail));
-			$attendeeText = sprintf('%s <%s>', $attendeeName, $attendeeEmail);
-			if (isset($attendee['PARTSTAT'])) {
-				/** @var Parameter $partstat */
-				$partstat = $attendee['PARTSTAT'];
-				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
-					$attendeeHTML .= ' ✔︎';
-					$attendeeText .= ' ✔︎';
-				}
-			}
-			$attendeesHTML[] = $attendeeHTML;
-			$attendeesText[] = $attendeeText;
+		$row = $details->addRow($this->l10n->t('Attendees'));
+		foreach (array_slice($attendees, 0, self::MAX_LISTED_ATTENDEES) as $attendee) {
+			/** @var Property&Property\ICalendar\CalAddress $attendee */
+			$row->link($this->getAttendeeLabel($attendee), $attendee->getNormalizedValue());
 		}
-
-		$template->addBodyListItem(implode('<br/>', $attendeesHTML), $this->l10n->t('Attendees:'),
-			$this->getAbsoluteImagePath('caldav/attendees.png'),
-			implode("\n", $attendeesText), '', IMipPlugin::IMIP_INDENT);
+		$hiddenCount = count($attendees) - self::MAX_LISTED_ATTENDEES;
+		if ($hiddenCount > 0) {
+			$row->muted($this->l10n->n('and %n other', 'and %n others', $hiddenCount));
+		}
 	}
 
 	/**
-	 * @param IEMailTemplate $template
-	 * @param VEVENT $vevent
-	 * @param $data
+	 * @param Property&Property\ICalendar\CalAddress $attendee
 	 */
-	public function addBulletList(IEMailTemplate $template, VEvent $vevent, $data) {
-		$template->addBodyListItem(
-			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
-			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
-		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('When:'),
-				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
+	private function getAttendeeLabel(Property $attendee): string {
+		$cn = $attendee['CN'];
+		$label = $cn instanceof Parameter ? (string)$cn->getValue() : '';
+		if ($label === '') {
+			$label = substr($attendee->getNormalizedValue(), 7);
 		}
-		if ($data['meeting_location'] !== '') {
-			$template->addBodyListItem($data['meeting_location_html'] ?? $data['meeting_location'], $this->l10n->t('Location:'),
-				$this->getAbsoluteImagePath('caldav/location.png'), $data['meeting_location'], '', IMipPlugin::IMIP_INDENT);
+		$partstat = $attendee['PARTSTAT'];
+		if ($partstat instanceof Parameter && strcasecmp((string)$partstat->getValue(), 'ACCEPTED') === 0) {
+			$label .= ' ✔︎';
 		}
-		if ($data['meeting_url'] !== '') {
-			$template->addBodyListItem($data['meeting_url_html'] ?? $data['meeting_url'], $this->l10n->t('Link:'),
-				$this->getAbsoluteImagePath('caldav/link.png'), $data['meeting_url'], '', IMipPlugin::IMIP_INDENT);
-		}
-		if (isset($data['meeting_occurring'])) {
-			$template->addBodyListItem($data['meeting_occurring_html'] ?? $data['meeting_occurring'], $this->l10n->t('Occurring:'),
-				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
-		}
-
-		$this->addAttendees($template, $vevent);
-
-		/* Put description last, like an email body, since it can be arbitrarily long */
-		if ($data['meeting_description']) {
-			$template->addBodyListItem($data['meeting_description_html'] ?? $data['meeting_description'], $this->l10n->t('Description:'),
-				$this->getAbsoluteImagePath('caldav/description.png'), $data['meeting_description'], '', IMipPlugin::IMIP_INDENT);
-		}
+		return $label;
 	}
 
 	/**
@@ -1080,9 +1087,9 @@ class IMipService {
 		$attendee = $iTipMessage->recipient;
 		$organizer = $iTipMessage->sender;
 		$sequence = $iTipMessage->sequence;
-		$recurrenceId = isset($vevent->{'RECURRENCE-ID'}) ?
-			$vevent->{'RECURRENCE-ID'}->serialize() : null;
-		$uid = $vevent->{'UID'};
+		$recurrenceId = isset($vevent->{'RECURRENCE-ID'})
+			? $vevent->{'RECURRENCE-ID'}->serialize() : null;
+		$uid = $vevent->{'UID'}?->getValue();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_invitations')
@@ -1105,28 +1112,20 @@ class IMipService {
 	 * @param $token
 	 */
 	public function addResponseButtons(IEMailTemplate $template, $token) {
-		$template->addBodyButtonGroup(
-			$this->l10n->t('Accept'),
-			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.accept', [
-				'token' => $token,
-			]),
-			$this->l10n->t('Decline'),
-			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.decline', [
-				'token' => $token,
-			])
-		);
-	}
-
-	public function addMoreOptionsButton(IEMailTemplate $template, $token) {
-		$moreOptionsURL = $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.options', [
-			'token' => $token,
-		]);
-		$html = vsprintf('<small><a href="%s">%s</a></small>', [
-			$moreOptionsURL, $this->l10n->t('More options …')
-		]);
-		$text = $this->l10n->t('More options at %s', [$moreOptionsURL]);
-
-		$template->addBodyText($html, $text);
+		$template->addBodyButtons([
+			[
+				'text' => $this->l10n->t('Accept'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.accept', ['token' => $token]),
+			],
+			[
+				'text' => $this->l10n->t('Decline'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.decline', ['token' => $token]),
+			],
+			[
+				'text' => $this->l10n->t('More options …'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.options', ['token' => $token]),
+			],
+		], $this->l10n->t('Will you attend?'));
 	}
 
 	public function getReplyingAttendee(Message $iTipMessage): ?Property {
@@ -1155,9 +1154,24 @@ class IMipService {
 		return false;
 	}
 
+	public function isCircle(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if (!$cuType instanceof Parameter) {
+			return false;
+		}
+
+		$uri = $attendee->getValue();
+		if (!$uri) {
+			return false;
+		}
+
+		$cuTypeValue = $cuType->getValue();
+		return $cuTypeValue === 'GROUP' && str_starts_with($uri, 'mailto:circle+');
+	}
+
 	public function minimizeInterval(\DateInterval $dateInterval): array {
 		// evaluate if time interval is in the past
-		if ($dateInterval->invert == 1) {
+		if ($dateInterval->invert === 1) {
 			return ['interval' => 1, 'scale' => 'past'];
 		}
 		// evaluate interval parts and return smallest time period

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,11 +8,12 @@
 
 namespace Test\Group;
 
+use OC\Group\Database;
+
 /**
  * Class Database
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DatabaseTest extends Backend {
 	private $groups = [];
 
@@ -19,17 +21,20 @@ class DatabaseTest extends Backend {
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
 	 */
+	#[\Override]
 	public function getGroupName($name = null): string {
 		$name = parent::getGroupName($name);
 		$this->groups[] = $name;
 		return $name;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->backend = new \OC\Group\Database();
+		$this->backend = new Database();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->groups as $group) {
 			$this->backend->deleteGroup($group);
@@ -42,7 +47,7 @@ class DatabaseTest extends Backend {
 
 		$this->backend->createGroup($group);
 
-		$backend = new \OC\Group\Database();
+		$backend = new Database();
 		$this->assertNull($backend->createGroup($group));
 	}
 

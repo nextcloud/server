@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit;
 
 use OCA\DAV\Capabilities;
@@ -28,6 +31,10 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
+				'search_supports_last_activity' => true,
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
@@ -47,6 +54,10 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
+				'search_supports_last_activity' => true,
 				'bulkupload' => '1.0',
 			],
 		];
@@ -67,6 +78,10 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
+				'search_supports_last_activity' => true,
 				'absence-supported' => true,
 				'absence-replacement' => true,
 			],

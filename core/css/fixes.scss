@@ -9,3 +9,15 @@
 	border: 0;
 }
 
+/* ---- LIBRARY FIXES ---- */
+
+/**
+ * TODO: Hotfix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/8783
+ *
+ * NcSelect appends its dropdown to the body, but `--vs-dropdown-z-index` is only
+ * set on the select itself, so the dropdown falls back to the vue-select default
+ * of 1000 and ends up behind modals (z-index 9998 and above).
+ */
+.nc-select__dropdown.vs__dropdown-menu {
+	--vs-dropdown-z-index: 9999;
+}

@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\TextProcessing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -33,6 +32,7 @@ class TaskBackgroundJob extends QueuedJob {
 	 * @param array{taskId: int} $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$taskId = $argument['taskId'];
 		$task = $this->textProcessingManager->getTask($taskId);

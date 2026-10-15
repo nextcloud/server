@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\CalDAV\Reminder\ReminderService;
@@ -39,6 +40,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$this->timeFactory = $timeFactory;
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = (int)$argument['offset'];
 		$stopAt = (int)$argument['stopAt'];
@@ -74,7 +76,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $result->fetchAssociative()) {
 			$offset = (int)$row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);

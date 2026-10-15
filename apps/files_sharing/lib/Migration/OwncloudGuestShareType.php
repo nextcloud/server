@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\IConfig;
@@ -30,6 +32,7 @@ class OwncloudGuestShareType implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Fix the share type of guest shares when migrating from ownCloud';
 	}
@@ -37,6 +40,7 @@ class OwncloudGuestShareType implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->shouldRun()) {
 			return;
@@ -46,12 +50,12 @@ class OwncloudGuestShareType implements IRepairStep {
 		$query->update('share')
 			->set('share_type', $query->createNamedParameter(IShare::TYPE_GUEST))
 			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_EMAIL)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function shouldRun() {
 		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
-		return $appVersion === '0.10.0' ||
-			$this->config->getAppValue('core', 'vendor', '') === 'owncloud';
+		return $appVersion === '0.10.0'
+			|| $this->config->getAppValue('core', 'vendor', '') === 'owncloud';
 	}
 }

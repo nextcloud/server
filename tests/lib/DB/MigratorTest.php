@@ -16,16 +16,18 @@ use OC\DB\Migrator;
 use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class MigratorTest
  *
- * @group DB
  *
  * @package Test\DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MigratorTest extends \Test\TestCase {
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection
@@ -43,18 +45,19 @@ class MigratorTest extends \Test\TestCase {
 	/** @var string */
 	private $tableNameTmp;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = \OC::$server->getConfig();
-		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
+		$this->config = Server::get(IConfig::class);
+		$this->connection = Server::get(\OC\DB\Connection::class);
 
 		$this->tableName = $this->getUniqueTableName();
 		$this->tableNameTmp = $this->getUniqueTableName();
 	}
 
 	private function getMigrator(): Migrator {
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
@@ -67,6 +70,7 @@ class MigratorTest extends \Test\TestCase {
 		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
 		try {
@@ -118,7 +122,6 @@ class MigratorTest extends \Test\TestCase {
 
 		return [$startSchema, $endSchema];
 	}
-
 
 	private function getSchemaConfig() {
 		$config = new SchemaConfig();
@@ -257,11 +260,10 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
-
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}
 
-	public function dataNotNullEmptyValuesFailOracle(): array {
+	public static function dataNotNullEmptyValuesFailOracle(): array {
 		return [
 			[ParameterType::BOOLEAN, true, Types::BOOLEAN, false],
 			[ParameterType::BOOLEAN, false, Types::BOOLEAN, true],
@@ -277,13 +279,13 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataNotNullEmptyValuesFailOracle
 	 *
 	 * @param int $parameterType
 	 * @param bool|int|string $value
 	 * @param string $columnType
 	 * @param bool $oracleThrows
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNotNullEmptyValuesFailOracle')]
 	public function testNotNullEmptyValuesFailOracle(int $parameterType, $value, string $columnType, bool $oracleThrows): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);

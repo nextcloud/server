@@ -9,8 +9,11 @@
 </template>
 
 <script lang="ts">
-import type { Folder, Header, View } from '@nextcloud/files'
+import type { Folder, IFileListHeader, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
+
+import PQueue from 'p-queue'
+import { logger } from '../utils/logger.ts'
 
 /**
  * This component is used to render custom
@@ -22,37 +25,83 @@ export default {
 	name: 'FilesListHeader',
 	props: {
 		header: {
-			type: Object as PropType<Header>,
+			type: Object as PropType<IFileListHeader>,
 			required: true,
 		},
+
 		currentFolder: {
 			type: Object as PropType<Folder>,
 			required: true,
 		},
+
 		currentView: {
 			type: Object as PropType<View>,
 			required: true,
 		},
 	},
+
+	setup() {
+		// Create a queue to ensure that the header is only rendered once at a time
+		const queue = new PQueue({ concurrency: 1 })
+
+		return {
+			queue,
+		}
+	},
+
 	computed: {
 		enabled() {
 			return this.header.enabled?.(this.currentFolder, this.currentView) ?? true
 		},
 	},
+
 	watch: {
 		enabled(enabled) {
 			if (!enabled) {
 				return
 			}
-			this.header.updated(this.currentFolder, this.currentView)
+			// If the header is enabled, we need to render it
+			logger.debug(`Enabled ${this.header.id} FilesListHeader`, { header: this.header })
+			this.queueUpdate(this.currentFolder, this.currentView)
 		},
-		currentFolder() {
-			this.header.updated(this.currentFolder, this.currentView)
+
+		currentFolder(folder: Folder) {
+			// This method can be used to queue an update of the header
+			// It will ensure that the header is only updated once at a time
+			this.queueUpdate(folder, this.currentView)
+		},
+
+		currentView(view: View) {
+			this.queueUpdate(this.currentFolder, view)
 		},
 	},
+
 	mounted() {
-		console.debug('Mounted', this.header.id)
-		this.header.render(this.$refs.mount as HTMLElement, this.currentFolder, this.currentView)
+		logger.debug(`Mounted ${this.header.id} FilesListHeader`, { header: this.header })
+		const initialRender = () => this.header.render(this.$refs.mount as HTMLElement, this.currentFolder, this.currentView)
+		this.queue.add(initialRender).then(() => {
+			logger.debug(`Rendered ${this.header.id} FilesListHeader`, { header: this.header })
+		}).catch((error) => {
+			logger.error(`Error rendering ${this.header.id} FilesListHeader`, { header: this.header, error })
+		})
+	},
+
+	unmounted() {
+		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
+	},
+
+	methods: {
+		queueUpdate(currentFolder: Folder, currentView: View) {
+			// This method can be used to queue an update of the header
+			// It will ensure that the header is only updated once at a time
+			this.queue.add(() => this.header.updated(currentFolder, currentView))
+				.then(() => {
+					logger.debug(`Updated ${this.header.id} FilesListHeader`, { header: this.header })
+				})
+				.catch((error) => {
+					logger.error(`Error updating ${this.header.id} FilesListHeader`, { header: this.header, error })
+				})
+		},
 	},
 }
 </script>

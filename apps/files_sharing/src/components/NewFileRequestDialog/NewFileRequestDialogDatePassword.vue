@@ -14,15 +14,17 @@
 		<fieldset class="file-request-dialog__expiration" data-cy-file-request-dialog-fieldset="expiration">
 			<!-- Enable expiration -->
 			<legend>{{ t('files_sharing', 'When should the request expire?') }}</legend>
-			<NcCheckboxRadioSwitch v-show="!defaultExpireDateEnforced"
-				:checked="defaultExpireDateEnforced || expirationDate !== null"
-				:disabled="disabled || defaultExpireDateEnforced"
-				@update:checked="onToggleDeadline">
+			<NcCheckboxRadioSwitch
+				v-show="!isExpirationDateEnforced"
+				:model-value="isExpirationDateEnforced || expirationDate !== null"
+				:disabled="disabled || isExpirationDateEnforced"
+				@update:modelValue="onToggleDeadline">
 				{{ t('files_sharing', 'Set a submission expiration date') }}
 			</NcCheckboxRadioSwitch>
 
 			<!-- Date picker -->
-			<NcDateTimePickerNative v-if="expirationDate !== null"
+			<NcDateTimePickerNative
+				v-if="expirationDate !== null"
 				id="file-request-dialog-expirationDate"
 				:disabled="disabled"
 				:hide-label="true"
@@ -31,7 +33,7 @@
 				:min="minDate"
 				:placeholder="t('files_sharing', 'Select a date')"
 				:required="defaultExpireDateEnforced"
-				:value="expirationDate"
+				:model-value="expirationDate"
 				name="expirationDate"
 				type="date"
 				@input="$emit('update:expirationDate', $event)" />
@@ -46,26 +48,29 @@
 		<fieldset class="file-request-dialog__password" data-cy-file-request-dialog-fieldset="password">
 			<!-- Enable password -->
 			<legend>{{ t('files_sharing', 'What password should be used for the request?') }}</legend>
-			<NcCheckboxRadioSwitch v-show="!enforcePasswordForPublicLink"
-				:checked="enforcePasswordForPublicLink || password !== null"
-				:disabled="disabled || enforcePasswordForPublicLink"
-				@update:checked="onTogglePassword">
+			<NcCheckboxRadioSwitch
+				v-show="!isPasswordEnforced"
+				:model-value="isPasswordEnforced || password !== null"
+				:disabled="disabled || isPasswordEnforced"
+				@update:modelValue="onTogglePassword">
 				{{ t('files_sharing', 'Set a password') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="password !== null" class="file-request-dialog__password-field">
-				<NcPasswordField ref="passwordField"
+				<NcPasswordField
+					ref="passwordField"
 					:check-password-strength="true"
 					:disabled="disabled"
 					:label="t('files_sharing', 'Password')"
 					:placeholder="t('files_sharing', 'Enter a valid password')"
-					:required="false"
-					:value="password"
+					:required="enforcePasswordForPublicLink"
+					:model-value="password"
 					name="password"
 					@update:value="$emit('update:password', $event)" />
-				<NcButton :aria-label="t('files_sharing', 'Generate a new password')"
+				<NcButton
+					:aria-label="t('files_sharing', 'Generate a new password')"
 					:title="t('files_sharing', 'Generate a new password')"
-					type="tertiary-no-background"
+					variant="tertiary-no-background"
 					@click="onGeneratePassword">
 					<template #icon>
 						<IconPasswordGen :size="20" />
@@ -82,20 +87,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue'
-import { t } from '@nextcloud/l10n'
+import type { PropType } from 'vue'
 
+import { t } from '@nextcloud/l10n'
+import {
+	defineComponent,
+} from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-
-import IconInfo from 'vue-material-design-icons/Information.vue'
 import IconPasswordGen from 'vue-material-design-icons/AutoFix.vue'
-
-import Config from '../../services/ConfigService'
-import GeneratePassword from '../../utils/GeneratePassword'
+import IconInfo from 'vue-material-design-icons/Information.vue'
+import Config from '../../services/ConfigService.ts'
+import GeneratePassword from '../../utils/GeneratePassword.ts'
 
 const sharingConfig = new Config()
 
@@ -118,11 +124,13 @@ export default defineComponent({
 			required: false,
 			default: false,
 		},
+
 		expirationDate: {
 			type: Date as PropType<Date | null>,
 			required: false,
 			default: null,
 		},
+
 		password: {
 			type: String as PropType<string | null>,
 			required: false,
@@ -180,6 +188,18 @@ export default defineComponent({
 
 			return ''
 		},
+
+		isExpirationDateEnforced(): boolean {
+			// Both fields needs to be enabled in the settings
+			return this.defaultExpireDateEnabled
+				&& this.defaultExpireDateEnforced
+		},
+
+		isPasswordEnforced(): boolean {
+			// Both fields needs to be enabled in the settings
+			return this.enableLinkPasswordByDefault
+				&& this.enforcePasswordForPublicLink
+		},
 	},
 
 	mounted() {
@@ -189,12 +209,12 @@ export default defineComponent({
 		}
 
 		// If enforced, we cannot set a date before the default expiration days (see admin settings)
-		if (this.defaultExpireDateEnforced) {
+		if (this.isExpirationDateEnforced) {
 			this.maxDate = sharingConfig.defaultExpirationDate
 		}
 
 		// If enabled by default, we generate a valid password
-		if (this.enableLinkPasswordByDefault) {
+		if (this.isPasswordEnforced) {
 			this.generatePassword()
 		}
 	},
@@ -218,7 +238,7 @@ export default defineComponent({
 		},
 
 		async generatePassword() {
-			await GeneratePassword().then(password => {
+			await GeneratePassword().then((password) => {
 				this.$emit('update:password', password)
 			})
 		},

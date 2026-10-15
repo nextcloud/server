@@ -153,7 +153,7 @@ class FtpConnection {
 		$tomorrow = (new \DateTime())->add(new \DateInterval('P1D'));
 
 		// since the provided date doesn't include the year, we either set it to the correct year
-		// or when the date would otherwise be in the future (by more then 1 day to account for timezone errors)
+		// or when the date would otherwise be in the future (by more than 1 day to account for timezone errors)
 		// we use last year
 		if ($parsedDate > $tomorrow) {
 			$parsedDate = $parsedDate->sub(new \DateInterval('P1Y'));

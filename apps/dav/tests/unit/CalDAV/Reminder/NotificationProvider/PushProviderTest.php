@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -13,13 +14,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class PushProviderTest extends AbstractNotificationProviderTest {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $manager;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
+class PushProviderTest extends AbstractNotificationProviderTestCase {
+	private IManager&MockObject $manager;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -96,20 +95,23 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 
 		$this->manager->expects($this->exactly(3))
 			->method('createNotification')
-			->with()
 			->willReturnOnConsecutiveCalls(
 				$notification1,
 				$notification2,
 				$notification3
 			);
 
+		$calls = [
+			$notification1,
+			$notification2,
+			$notification3,
+		];
 		$this->manager->expects($this->exactly(3))
 			->method('notify')
-			->withConsecutive(
-				[$notification1],
-				[$notification2],
-				[$notification3],
-			);
+			->willReturnCallback(function ($notification) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $notification);
+			});
 
 		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}

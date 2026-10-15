@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -23,7 +25,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  * @package OCA\DAV\Connector
  */
 class LegacyPublicAuth extends AbstractBasic {
-	private const BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
+	private const string BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
 
 	private ?IShare $share = null;
 
@@ -32,6 +34,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		private IManager $shareManager,
 		private ISession $session,
 		private IThrottler $throttler,
+		private IUserSession $userSession,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -50,6 +53,7 @@ class LegacyPublicAuth extends AbstractBasic {
 	 * @return bool
 	 * @throws \Sabre\DAV\Exception\NotAuthenticated
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
@@ -62,10 +66,10 @@ class LegacyPublicAuth extends AbstractBasic {
 
 		$this->share = $share;
 
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// check if the share is password protected
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {
@@ -75,7 +79,7 @@ class LegacyPublicAuth extends AbstractBasic {
 					&& $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()) {
 					return true;
 				} else {
-					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
 						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 						http_response_code(401);
 						header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
@@ -95,8 +99,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		return true;
 	}
 
-	public function getShare(): IShare {
-		assert($this->share !== null);
+	public function getShare(): ?IShare {
 		return $this->share;
 	}
 }

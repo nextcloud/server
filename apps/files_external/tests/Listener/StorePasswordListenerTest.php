@@ -18,19 +18,14 @@ use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorePasswordListenerTest extends TestCase {
-	/** @var MockObject|IUser */
-	protected $mockedUser;
+	protected IUser&MockObject $mockedUser;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->mockedUser = $this->createMock(IUser::class);
-		$this->mockedUser
-			->expects($this->any())
-			->method('getUID')
+		$this->mockedUser->method('getUID')
 			->willReturn('test');
 	}
 

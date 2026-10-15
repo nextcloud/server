@@ -1,27 +1,34 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\AppInfo;
 
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
-use OC\Share\Share;
 use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\Config\ConfigLexicon;
+use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
+use OCA\Files_Sharing\Listener\BeforeNodeReadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\RestrictInteractionListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
+use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserHomeSetupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
@@ -29,8 +36,6 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
-use OCA\Files_Sharing\ShareBackend\File;
-use OCA\Files_Sharing\ShareBackend\Folder;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -42,17 +47,24 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\UserHomeSetupEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroup;
+use OCP\Interaction\RestrictInteractionEvent;
+use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareMovedEvent;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -61,6 +73,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService(ExternalMountProvider::class, function (ContainerInterface $c) {
 			return new ExternalMountProvider(
@@ -68,7 +81,8 @@ class Application extends App implements IBootstrap {
 				function () use ($c) {
 					return $c->get(Manager::class);
 				},
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(IConfig::class),
 			);
 		});
 
@@ -94,24 +108,43 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupListener::class);
 
-		// Handle download events for view only checks
-		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class);
-		$context->registerEventListener(BeforeDirectFileDownloadEvent::class, BeforeDirectFileDownloadListener::class);
+		// Publish activity for public download
+		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
+		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeNodeReadListener::class);
+
+		// Handle download events for view only checks. Priority higher than 0 to run early.
+		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class, 5);
+		$context->registerEventListener(BeforeDirectFileDownloadEvent::class, BeforeDirectFileDownloadListener::class, 5);
 
 		// File request auth
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadPublicFileRequestAuthListener::class);
+
+		// Update mounts
+		$context->registerEventListener(ShareCreatedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(BeforeShareDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(ShareTransferredEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserAddedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(ShareMovedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
+
+		$context->registerEventListener(UserDeletedEvent::class, SharesUpdatedListener::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
 
 		Helper::registerHooks();
-
-		Share::registerBackend('file', File::class);
-		Share::registerBackend('folder', Folder::class, 'file');
 	}
-
 
 	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
 		$mountProviderCollection->registerProvider($mountProvider);
@@ -132,16 +165,8 @@ class Application extends App implements IBootstrap {
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
+			$listener = $this->getContainer()->get(Listener::class);
 			$listener->shareNotification($event);
-		});
-		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event): void {
-			if (!$event instanceof OldGenericEvent) {
-				return;
-			}
-			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
-			$listener->userAddedToGroup($event);
 		});
 	}
 }

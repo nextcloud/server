@@ -6,22 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\App;
 
 use OCP\Exceptions\AppConfigUnknownKeyException;
-use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -45,6 +40,12 @@ class GetConfig extends Base {
 				'returns complete details about the app config value'
 			)
 			->addOption(
+				'--key-details',
+				null,
+				InputOption::VALUE_NONE,
+				'returns complete details about the app config key'
+			)
+			->addOption(
 				'default-value',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -60,6 +61,7 @@ class GetConfig extends Base {
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
@@ -69,6 +71,12 @@ class GetConfig extends Base {
 			$details = $this->appConfig->getDetails($appName, $configName);
 			$details['type'] = $details['typeString'];
 			unset($details['typeString']);
+			$this->writeArrayInOutputFormat($input, $output, $details);
+			return 0;
+		}
+
+		if ($input->getOption('key-details')) {
+			$details = $this->appConfig->getKeyDetails($appName, $configName);
 			$this->writeArrayInOutputFormat($input, $output, $details);
 			return 0;
 		}

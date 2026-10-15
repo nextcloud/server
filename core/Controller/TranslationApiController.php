@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
@@ -17,13 +16,14 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\ITranslationManager;
 
-class TranslationApiController extends \OCP\AppFramework\OCSController {
+class TranslationApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -66,13 +66,15 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	#[AnonRateLimit(limit: 10, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
+		if (strlen($text) > 64_000) {
+			return new DataResponse(['message' => $this->l10n->t('Input text is too long')], Http::STATUS_BAD_REQUEST);
+		}
 		try {
 			$translation = $this->translationManager->translate($text, $fromLanguage, $toLanguage);
 
 			return new DataResponse([
 				'text' => $translation,
 				'from' => $fromLanguage,
-
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l10n->t('No translation provider available')], Http::STATUS_PRECONDITION_FAILED);

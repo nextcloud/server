@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Listeners;
 
 use OCA\DAV\CalDAV\Activity\Backend;
@@ -14,17 +17,10 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CalendarShareUpdateListenerTest extends TestCase {
-
-	/** @var Backend|MockObject */
-	private $activityBackend;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
+	private Backend&MockObject $activityBackend;
+	private LoggerInterface&MockObject $logger;
 	private CalendarShareUpdateListener $calendarPublicationListener;
-
-	/** @var CalendarShareUpdatedEvent|MockObject */
-	private $event;
+	private CalendarShareUpdatedEvent&MockObject $event;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Template;
 
+use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -31,6 +32,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param TemplateResponse::RENDER_AS_* $renderAs
 	 * @throws TemplateNotFoundException if the template cannot be found
 	 */
+	#[\Override]
 	public function getTemplate(string $app, string $name, string $renderAs = TemplateResponse::RENDER_AS_BLANK, bool $registerCall = true): ITemplate {
 		return new Template($app, $name, $renderAs, $registerCall);
 	}
@@ -41,6 +43,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param string $name Name of the template
 	 * @param array $parameters Parameters for the template
 	 */
+	#[\Override]
 	public function printGuestPage(string $application, string $name, array $parameters = []): void {
 		$content = $this->getTemplate($application, $name, $name === 'error' ? $name : 'guest');
 		foreach ($parameters as $key => $value) {
@@ -54,6 +57,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param string $error_msg The error message to show
 	 * @param string $hint An optional hint message - needs to be properly escape
 	 */
+	#[\Override]
 	public function printErrorPage(string $error_msg, string $hint = '', int $statusCode = 500): never {
 		if ($this->appManager->isEnabledForUser('theming') && !$this->appManager->isAppLoaded('theming')) {
 			$this->appManager->loadApp('theming');
@@ -79,7 +83,7 @@ class TemplateManager implements ITemplateManager {
 			$this->eventDispatcher->dispatchTyped($event);
 			print($response->render());
 		} catch (\Throwable $e1) {
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->error('Rendering themed error page failed. Falling back to un-themed error page.', [
 				'app' => 'core',
 				'exception' => $e1,
@@ -108,12 +112,13 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * print error page using Exception details
 	 */
+	#[\Override]
 	public function printExceptionErrorPage(\Throwable $exception, int $statusCode = 503): never {
 		$debug = false;
 		http_response_code($statusCode);
 		try {
-			$debug = (bool)Server::get(\OC\SystemConfig::class)->getValue('debug', false);
-			$serverLogsDocumentation = Server::get(\OC\SystemConfig::class)->getValue('documentation_url.server_logs', '');
+			$debug = (bool)Server::get(SystemConfig::class)->getValue('debug', false);
+			$serverLogsDocumentation = Server::get(SystemConfig::class)->getValue('documentation_url.server_logs', '');
 			$request = Server::get(IRequest::class);
 			$content = $this->getTemplate('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));

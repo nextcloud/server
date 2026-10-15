@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Db;
 
 use OCA\UserStatus\Db\UserStatus;
@@ -15,16 +16,14 @@ use OCP\DB\Exception;
 use Test\TestCase;
 
 class UserStatusMapperTest extends TestCase {
-
-	/** @var UserStatusMapper */
-	private $mapper;
+	private UserStatusMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		// make sure that DB is empty
 		$qb = self::$realDatabase->getQueryBuilder();
-		$qb->delete('user_status')->execute();
+		$qb->delete('user_status')->executeStatement();
 
 		$this->mapper = new UserStatusMapper(self::$realDatabase);
 	}
@@ -49,6 +48,37 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals('user2', $offsetResults[0]->getUserId());
 	}
 
+	public function testGetFindAllAfterId(): void {
+		$this->insertSampleStatuses();
+
+		$firstPage = $this->mapper->findAllAfterId(2);
+		$this->assertCount(2, $firstPage);
+		$this->assertEquals('admin', $firstPage[0]->getUserId());
+		$this->assertEquals('user1', $firstPage[1]->getUserId());
+
+		$secondPage = $this->mapper->findAllAfterId(2, $firstPage[1]->getId());
+		$this->assertCount(1, $secondPage);
+		$this->assertEquals('user2', $secondPage[0]->getUserId());
+	}
+
+	public function testFindAllExcludesBackups(): void {
+		$this->insertSampleStatuses();
+
+		$backup = new UserStatus();
+		$backup->setUserId('_backupuser');
+		$backup->setStatus('dnd');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(true);
+		$backup->setIsBackup(true);
+		$this->mapper->insert($backup);
+
+		$allResults = $this->mapper->findAll();
+		$this->assertCount(3, $allResults);
+
+		$userIds = array_map(fn ($s) => $s->getUserId(), $allResults);
+		$this->assertNotContains('_backupuser', $userIds);
+	}
+
 	public function testFindAllRecent(): void {
 		$this->insertSampleStatuses();
 
@@ -56,6 +86,26 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertCount(2, $allResults);
 		$this->assertEquals('user2', $allResults[0]->getUserId());
 		$this->assertEquals('user1', $allResults[1]->getUserId());
+	}
+
+	public function testFindAllRecentExcludesBackups(): void {
+		$this->insertSampleStatuses();
+
+		$backup = new UserStatus();
+		$backup->setUserId('_backupuser');
+		$backup->setStatus('dnd');
+		$backup->setStatusTimestamp(7000);
+		$backup->setStatusMessageTimestamp(7000);
+		$backup->setIsUserDefined(true);
+		$backup->setIsBackup(true);
+		$backup->setCustomMessage('Backed up status');
+		$this->mapper->insert($backup);
+
+		$allResults = $this->mapper->findAllRecent(10, 0);
+		$this->assertCount(2, $allResults);
+
+		$userIds = array_map(fn ($s) => $s->getUserId(), $allResults);
+		$this->assertNotContains('_backupuser', $userIds);
 	}
 
 	public function testGetFind(): void {
@@ -136,14 +186,7 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus2);
 	}
 
-	/**
-	 * @param string $status
-	 * @param bool $isUserDefined
-	 * @param int $timestamp
-	 * @param bool $expectsClean
-	 *
-	 * @dataProvider clearStatusesOlderThanDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'clearStatusesOlderThanDataProvider')]
 	public function testClearStatusesOlderThan(string $status, bool $isUserDefined, int $timestamp, bool $expectsClean): void {
 		$oldStatus = UserStatus::fromParams([
 			'userId' => 'john.doe',
@@ -169,7 +212,7 @@ class UserStatusMapperTest extends TestCase {
 		}
 	}
 
-	public function clearStatusesOlderThanDataProvider(): array {
+	public static function clearStatusesOlderThanDataProvider(): array {
 		return [
 			['offline', false, 6000, false],
 			['online', true, 6000, false],
@@ -197,6 +240,43 @@ class UserStatusMapperTest extends TestCase {
 
 		$this->expectException(DoesNotExistException::class);
 		$this->mapper->findByUserId('user1');
+	}
+
+	public function testClearOlderThanClearAtPreservesBackups(): void {
+		$backup = new UserStatus();
+		$backup->setUserId('_user1');
+		$backup->setStatus('dnd');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(true);
+		$backup->setIsBackup(true);
+		$backup->setClearAt(50000);
+		$this->mapper->insert($backup);
+
+		$this->mapper->clearOlderThanClearAt(55000);
+
+		// Backup should survive cleanup despite having expired clear_at
+		$backupStatus = $this->mapper->findByUserId('user1', true);
+		$this->assertEquals('_user1', $backupStatus->getUserId());
+		$this->assertEquals('dnd', $backupStatus->getStatus());
+		$this->assertTrue($backupStatus->getIsBackup());
+	}
+
+	public function testClearStatusesOlderThanPreservesBackups(): void {
+		$backup = new UserStatus();
+		$backup->setUserId('_user1');
+		$backup->setStatus('online');
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+		$this->mapper->insert($backup);
+
+		$this->mapper->clearStatusesOlderThan(5000, 8000);
+
+		// Backup should survive cleanup despite old timestamp
+		$backupStatus = $this->mapper->findByUserId('user1', true);
+		$this->assertEquals('online', $backupStatus->getStatus());
+		$this->assertFalse($backupStatus->getIsUserDefined());
+		$this->assertEquals(1000, $backupStatus->getStatusTimestamp());
 	}
 
 	private function insertSampleStatuses(): void {
@@ -231,7 +311,7 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus3);
 	}
 
-	public function dataCreateBackupStatus(): array {
+	public static function dataCreateBackupStatus(): array {
 		return [
 			[false, false, false],
 			[true, false, true],
@@ -240,12 +320,7 @@ class UserStatusMapperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateBackupStatus
-	 * @param bool $hasStatus
-	 * @param bool $hasBackup
-	 * @param bool $backupCreated
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateBackupStatus')]
 	public function testCreateBackupStatus(bool $hasStatus, bool $hasBackup, bool $backupCreated): void {
 		if ($hasStatus) {
 			$userStatus1 = new UserStatus();

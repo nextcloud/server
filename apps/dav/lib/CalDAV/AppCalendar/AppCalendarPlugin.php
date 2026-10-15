@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\CachedSubscriptionImpl;
 use OCA\DAV\CalDAV\CalendarImpl;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCP\Calendar\IManager;
@@ -24,20 +25,24 @@ class AppCalendarPlugin implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getAppID(): string {
 		return 'dav-wrapper';
 	}
 
+	#[\Override]
 	public function fetchAllForCalendarHome(string $principalUri): array {
 		return array_map(function ($calendar) use (&$principalUri) {
 			return new AppCalendar($this->getAppID(), $calendar, $principalUri);
 		}, $this->getWrappedCalendars($principalUri));
 	}
 
+	#[\Override]
 	public function hasCalendarInCalendarHome(string $principalUri, string $calendarUri): bool {
 		return count($this->getWrappedCalendars($principalUri, [ $calendarUri ])) > 0;
 	}
 
+	#[\Override]
 	public function getCalendarInCalendarHome(string $principalUri, string $calendarUri): ?ExternalCalendar {
 		$calendars = $this->getWrappedCalendars($principalUri, [ $calendarUri ]);
 		if (count($calendars) > 0) {
@@ -51,7 +56,11 @@ class AppCalendarPlugin implements ICalendarProvider {
 		return array_values(
 			array_filter($this->manager->getCalendarsForPrincipal($principalUri, $calendarUris), function ($c) {
 				// We must not provide a wrapper for DAV calendars
-				return ! (($c instanceof CalendarImpl) || ($c instanceof CachedSubscriptionImpl));
+				return !(
+					($c instanceof CalendarImpl)
+					|| ($c instanceof CachedSubscriptionImpl)
+					|| ($c instanceof FederatedCalendarImpl)
+				);
 			})
 		);
 	}

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Табла",
     "Dashboard app" : "Табла",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што ви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки за разговор, дојдовни билети, најнови твитови и многу повеќе! Корисниците можат да додадат виџети им се допаѓа и ја менуваат позадината по нивен вкус.",
     "Weather" : "Временска прогноза",
     "Status" : "Статус",
     "Good morning" : "Добро утро",
@@ -13,12 +14,13 @@ OC.L10N.register(
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "\"{title} icon\"" : "\"{title} икона\"",
+    "Happy birthday 🥳🤩🎂🎉" : "Среќен роденден 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Среќен роденден, {name} 🥳🤩🎂🎉",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
     "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
     "Weather service" : "Сервис за временска прогноза",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот сервер во ваше име, така што метеоролошката служба не добива лични информации.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот {productName} сервер во ваше име, така што метеоролошката служба не добива лични информации. ",
     "Weather data from Met.no" : "Податоци за временето од Met.no",
     "geocoding with Nominatim" : "Геокодирање со Nominatim",
     "elevation data from OpenTopoData" : "Податоци за височина од OpenTopoData"

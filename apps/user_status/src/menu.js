@@ -3,29 +3,31 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
-import Vue from 'vue'
-
+import { createApp } from 'vue'
 import UserStatus from './UserStatus.vue'
 import store from './store/index.js'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = getCSPNonce()
-
-Vue.prototype.t = t
-Vue.prototype.$t = t
+import './user-status-icons.css'
 
 const mountPoint = document.getElementById('user_status-menu-entry')
 
-const mountMenuEntry = () => {
+/**
+ *
+ */
+function mountMenuEntry() {
 	const mountPoint = document.getElementById('user_status-menu-entry')
-	// eslint-disable-next-line no-new
-	new Vue({
-		el: mountPoint,
-		render: h => h(UserStatus),
-		store,
-	})
+	// TODO: fix me after Core migration to Vue 3
+	// In Vue 2 menu items were mounted in place to the menu items
+	// In Vue 3 they are mounted inside the menu item
+	// A workaround - replace the menu item with "display: contents" div
+	const transparentMountPoint = document.createElement('div')
+	transparentMountPoint.style.display = 'contents'
+	mountPoint.replaceWith(transparentMountPoint)
+
+	createApp(UserStatus)
+		.use(store)
+		.mount(transparentMountPoint)
 }
 
 if (mountPoint) {
@@ -41,12 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	OCA.Dashboard.registerStatus('status', (el) => {
-		const Dashboard = Vue.extend(UserStatus)
-		return new Dashboard({
-			propsData: {
-				inline: true,
-			},
-			store,
-		}).$mount(el)
+		createApp(UserStatus, {
+			inline: true,
+		})
+			.use(store)
+			.mount(el)
 	})
 })

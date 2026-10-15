@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,59 +9,33 @@
 
 namespace Test\Template;
 
-use OC\SystemConfig;
 use OC\Template\JSCombiner;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ICache;
-use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class JSCombinerTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appData;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
-	protected $depsCache;
-	/** @var JSCombiner */
-	protected $jsCombiner;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cacheFactory;
+	private string $cacheName;
+	private JSCombiner $jsCombiner;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->appData = $this->createMock(IAppData::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->config = $this->createMock(SystemConfig::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->depsCache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->atLeastOnce())
-			->method('createDistributed')
-			->willReturn($this->depsCache);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->jsCombiner = new JSCombiner(
-			$this->appData,
-			$this->urlGenerator,
-			$this->cacheFactory,
-			$this->config,
-			$this->logger
-		);
+		$this->cacheName = 'JS-' . md5('');
+		$this->jsCombiner = $this->createInstanceWithMocks(JSCombiner::class);
 	}
 
 	public function testProcessDebugMode(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->once())
-			->method('getValue')
+			->method('getSystemValueBool')
 			->with('debug')
 			->willReturn(true);
 
@@ -67,37 +44,29 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessNotInstalled(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
-			->method('getValue')
-			->withConsecutive(
-				['debug'],
-				['installed']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				false
-			);
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['debug', false],
+				['installed', false]
+			]);
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
 		$this->assertFalse($actual);
 	}
 
 	public function testProcessUncachedFileNoAppDataFolder(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
-			->method('getValue')
-			->withConsecutive(
-				['debug'],
-				['installed']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true
-			);
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['debug', false],
+				['installed', true],
+			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willThrowException(new NotFoundException());
-		$this->appData->expects($this->once())->method('newFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willThrowException(new NotFoundException());
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('newFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
 
@@ -124,19 +93,15 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessUncachedFile(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
-			->method('getValue')
-			->withConsecutive(
-				['debug'],
-				['installed']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true
-			);
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['debug', false],
+				['installed', true],
+			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
@@ -162,19 +127,15 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFile(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
-			->method('getValue')
-			->withConsecutive(
-				['debug'],
-				['installed']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true
-			);
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['debug', false],
+				['installed', true],
+			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
@@ -203,19 +164,15 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFileMemcache(): void {
-		$this->config
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
-			->method('getValue')
-			->withConsecutive(
-				['debug'],
-				['installed']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true
-			);
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['debug', false],
+				['installed', true],
+			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData->expects($this->once())
+		$this->getAutoMock(IAppData::class)->expects($this->once())
 			->method('getFolder')
 			->with('awesomeapp')
 			->willReturn($folder);
@@ -227,7 +184,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 
-		$this->depsCache->method('get')
+		$this->getCacheAutoMock($this->cacheName)->method('get')
 			->with('awesomeapp-combine.js.deps')
 			->willReturn('{}');
 
@@ -312,7 +269,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file->expects($this->once())
 			->method('getContent')
 			->willReturn('');
-		$this->logger->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('info')
 			->with('JSCombiner: deps file empty: combine.js.deps');
 		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
@@ -395,15 +352,11 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->expects($this->exactly(3))
 			->method('getFile')
-			->withConsecutive(
-				[$fileName],
-				[$fileName . '.deps'],
-				[$fileName . '.gzip']
-			)->willReturnOnConsecutiveCalls(
-				$file,
-				$depsFile,
-				$gzFile
-			);
+			->willReturnMap([
+				[$fileName, $file],
+				[$fileName . '.deps', $depsFile],
+				[$fileName . '.gzip', $gzFile]
+			]);
 
 		$file->expects($this->once())
 			->method('putContent')
@@ -438,7 +391,6 @@ var b = \'world\';
 		$gzFile = $this->createMock(ISimpleFile::class);
 
 		$path = __DIR__ . '/data/';
-
 
 		$folder->method('getFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
@@ -484,7 +436,7 @@ var b = \'world\';
 		$this->assertTrue($actual);
 	}
 
-	public function dataGetCachedSCSS() {
+	public static function dataGetCachedSCSS(): array {
 		return [
 			['awesomeapp', 'core/js/foo.json', '/js/core/foo.js'],
 			['files', 'apps/files/js/foo.json', '/js/files/foo.js']
@@ -495,10 +447,10 @@ var b = \'world\';
 	 * @param $appName
 	 * @param $fileName
 	 * @param $result
-	 * @dataProvider dataGetCachedSCSS
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCachedSCSS')]
 	public function testGetCachedSCSS($appName, $fileName, $result): void {
-		$this->urlGenerator->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Js.getJs', [
 				'fileName' => 'foo.js',
@@ -512,7 +464,7 @@ var b = \'world\';
 
 	public function testGetContent(): void {
 		// Create temporary file with some content
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('JSCombinerTest');
 		$pathInfo = pathinfo($tmpFile);
 		file_put_contents($tmpFile, json_encode(['/foo/bar/test', $pathInfo['dirname'] . '/js/mytest.js']));
 		$tmpFilePathArray = explode('/', $pathInfo['basename']);
@@ -527,7 +479,7 @@ var b = \'world\';
 
 	public function testGetContentInvalidJson(): void {
 		// Create temporary file with some content
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('JSCombinerTest');
 		$pathInfo = pathinfo($tmpFile);
 		file_put_contents($tmpFile, 'CertainlyNotJson');
 		$expected = [];
@@ -544,13 +496,9 @@ var b = \'world\';
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$cache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->once())
-			->method('createDistributed')
-			->willReturn($cache);
-		$cache->expects($this->never())
+		$this->getCacheAutoMock('JS-')->expects($this->once())
 			->method('clear');
-		$this->appData->expects($this->once())
+		$this->getAutoMock(IAppData::class)->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn([$folder]);
 

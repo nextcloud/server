@@ -1,34 +1,39 @@
 /**
- * SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: CC0-1.0
  */
+
 import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue2'
 
 export default defineConfig({
-	plugins: [vue()],
 	test: {
-		include: ['{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-		environment: 'jsdom',
-		environmentOptions: {
-			jsdom: {
-				url: 'http://nextcloud.local',
-			},
-		},
-		coverage: {
-			include: ['apps/*/src/**', 'core/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'v8',
-			reporter: ['lcov', 'text'],
-		},
-		setupFiles: [
-			'__tests__/mock-window.js',
-			'__tests__/setup-testing-library.js',
+		projects: [
+			'build/frontend*',
 		],
-		globalSetup: '__tests__/setup-global.js',
-		server: {
-			deps: {
-				inline: [/@nextcloud\//],
+		onUnhandledError(error) {
+			// TODO: remove when this is fixed: https://github.com/nextcloud-libraries/nextcloud-vue/issues/8090
+			if (error.message.includes('`fallbackFocus` was specified but was not a node, or did not return a node')) {
+				return false
+			}
+			// NcPopover passes its fallback as `fallBackFocus`, which focus-trap does
+			// not know, and jsdom has no layout so nothing counts as tabbable.
+			// TODO: remove once NcPopover sets `fallbackFocus`.
+			if (error.message.includes('Your focus-trap must have at least one container with at least one tabbable node')) {
+				return false
+			}
+			// A worker that still has console output in flight when it shuts down
+			// fails the run even though every test passed. The specs that log
+			// heavily (the focus trap above prints per interaction) hit this
+			// depending on how the files are spread over the workers.
+			if (error.name === 'EnvironmentTeardownError' && error.message.includes('Closing rpc while')) {
+				return false
+			}
+		},
+	},
+	server: {
+		watch: {
+			ignored(path: string) {
+				return !/(\/|build\/frontend[^/]*\/)(apps|core)\/(src|tests)\//.test(path)
 			},
 		},
 	},

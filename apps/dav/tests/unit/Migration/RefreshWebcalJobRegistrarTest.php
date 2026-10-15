@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
@@ -12,17 +15,13 @@ use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RefreshWebcalJobRegistrarTest extends TestCase {
-	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
-	private $db;
-
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var RefreshWebcalJobRegistrar */
-	private $migration;
+	private IDBConnection&MockObject $db;
+	private IJobList&MockObject $jobList;
+	private RefreshWebcalJobRegistrar $migration;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,12 +55,11 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 			->with('calendarsubscriptions')
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($statement);
 
 		$statement->expects($this->exactly(4))
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
+			->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				[
 					'principaluri' => 'foo1',
@@ -75,40 +73,42 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 					'principaluri' => 'foo3',
 					'uri' => 'bar3',
 				],
-				null
+				false,
 			);
 
 		$this->jobList->expects($this->exactly(3))
 			->method('has')
-			->withConsecutive(
+			->willReturnMap([
 				[RefreshWebcalJob::class, [
 					'principaluri' => 'foo1',
 					'uri' => 'bar1',
-				]],
+				], false],
 				[RefreshWebcalJob::class, [
 					'principaluri' => 'foo2',
 					'uri' => 'bar2',
-				]],
+				], true ],
 				[RefreshWebcalJob::class, [
 					'principaluri' => 'foo3',
 					'uri' => 'bar3',
-				]])
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-				false,
-			);
+				], false],
+			]);
+
+		$calls = [
+			[RefreshWebcalJob::class, [
+				'principaluri' => 'foo1',
+				'uri' => 'bar1',
+			]],
+			[RefreshWebcalJob::class, [
+				'principaluri' => 'foo3',
+				'uri' => 'bar3',
+			]]
+		];
 		$this->jobList->expects($this->exactly(2))
 			->method('add')
-			->withConsecutive(
-				[RefreshWebcalJob::class, [
-					'principaluri' => 'foo1',
-					'uri' => 'bar1',
-				]],
-				[RefreshWebcalJob::class, [
-					'principaluri' => 'foo3',
-					'uri' => 'bar3',
-				]]);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$output->expects($this->once())
 			->method('info')

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -15,6 +16,7 @@ use OC\Console\TimestampFormatter;
 use OC\Migration\ConsoleOutput;
 use OC\Setup;
 use OC\SystemConfig;
+use OCP\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,6 +27,19 @@ use Throwable;
 use function get_class;
 
 class Install extends Command {
+	/**
+	 * SSL/TLS command line options and the installer options they provide. The database
+	 * setup translates those, see \OC\Setup\AbstractDatabase::ENCRYPTION_OPTIONS.
+	 * `--database-ssl-no-verify` is handled separately as it takes no value.
+	 */
+	private const array SSL_OPTIONS = [
+		'database-ssl-mode' => 'dbsslmode',
+		'database-ssl-ca' => 'dbsslca',
+		'database-ssl-cert' => 'dbsslcert',
+		'database-ssl-key' => 'dbsslkey',
+		'database-ssl-crl' => 'dbsslcrl',
+	];
+
 	public function __construct(
 		private SystemConfig $config,
 		private IniGetWrapper $iniGetWrapper,
@@ -32,6 +47,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('maintenance:install')
@@ -43,25 +59,30 @@ class Install extends Command {
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
+			->addOption('database-ssl-mode', null, InputOption::VALUE_REQUIRED, 'Encryption mode for the database connection, e.g. "require" or "verify-full" (pgsql only)')
+			->addOption('database-ssl-ca', null, InputOption::VALUE_REQUIRED, 'Path to the CA certificate the database server is verified against (mysql and pgsql only)')
+			->addOption('database-ssl-cert', null, InputOption::VALUE_REQUIRED, 'Path to the client certificate used to authenticate against the database (mysql and pgsql only)')
+			->addOption('database-ssl-key', null, InputOption::VALUE_REQUIRED, 'Path to the private key of the client certificate (mysql and pgsql only)')
+			->addOption('database-ssl-crl', null, InputOption::VALUE_REQUIRED, 'Path to the certificate revocation list (pgsql only)')
+			->addOption('database-ssl-no-verify', null, InputOption::VALUE_NONE, 'Do not verify that the database server certificate matches the hostname used to connect (mysql only)')
+			->addOption('disable-admin-user', null, InputOption::VALUE_NONE, 'Disable the creation of an admin user')
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
-			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data');
+			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data')
+			->addOption('password-salt', null, InputOption::VALUE_OPTIONAL, 'Password salt, at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters (will be randomly generated if not provided)')
+			->addOption('server-secret', null, InputOption::VALUE_OPTIONAL, 'Server secret, at least ' . Setup::MIN_SECRET_LENGTH . ' characters (will be randomly generated if not provided)');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
-		$setupHelper = \OCP\Server::get(\OC\Setup::class);
+		$setupHelper = Server::get(Setup::class);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
-
-			// ignore the OS X setup warning
-			if (count($errors) !== 1 ||
-				(string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk!') {
-				return 1;
-			}
+			return 1;
 		}
 
 		// validate user input
@@ -98,7 +119,7 @@ class Install extends Command {
 	protected function validateInput(InputInterface $input, OutputInterface $output, $supportedDatabases) {
 		$db = strtolower($input->getOption('database'));
 
-		if (!in_array($db, $supportedDatabases)) {
+		if (!in_array($db, $supportedDatabases, true)) {
 			throw new InvalidArgumentException("Database <$db> is not supported. " . implode(', ', $supportedDatabases) . ' are supported.');
 		}
 
@@ -119,6 +140,7 @@ class Install extends Command {
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string)$input->getOption('database-pass');
 		}
+		$disableAdminUser = (bool)$input->getOption('disable-admin-user');
 		$adminLogin = $input->getOption('admin-user');
 		$adminPassword = $input->getOption('admin-pass');
 		$adminEmail = $input->getOption('admin-email');
@@ -141,7 +163,7 @@ class Install extends Command {
 			}
 		}
 
-		if (is_null($adminPassword)) {
+		if (!$disableAdminUser && $adminPassword === null) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new Question('What is the password you like to use for the admin account <' . $adminLogin . '>?');
@@ -150,8 +172,18 @@ class Install extends Command {
 			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
-		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+		if (!$disableAdminUser && $adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
+		}
+
+		$passwordSalt = $input->getOption('password-salt');
+		$secret = $input->getOption('server-secret');
+
+		if ($passwordSalt !== null && strlen($passwordSalt) < Setup::MIN_PASSWORD_SALT_LENGTH) {
+			throw new InvalidArgumentException('Password salt must be at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters long.');
+		}
+		if ($secret !== null && strlen($secret) < Setup::MIN_SECRET_LENGTH) {
+			throw new InvalidArgumentException('Server secret must be at least ' . Setup::MIN_SECRET_LENGTH . ' characters long.');
 		}
 
 		$options = [
@@ -160,14 +192,30 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
+			'admindisable' => $disableAdminUser,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,
-			'directory' => $dataDir
+			'directory' => $dataDir,
+			'passwordsalt' => $passwordSalt,
+			'secret' => $secret,
 		];
 		if ($db === 'oci') {
 			$options['dbtablespace'] = $input->getParameterOption('--database-table-space', '');
 		}
+		// The database setup translates these into the system config values that configure
+		// an encrypted connection, and rejects the ones it does not support,
+		// see \OC\Setup\AbstractDatabase::getEncryptionConfig()
+		foreach (self::SSL_OPTIONS as $option => $installerOption) {
+			$value = $input->getOption($option);
+			if ($value !== null) {
+				$options[$installerOption] = (string)$value;
+			}
+		}
+		if ($input->getOption('database-ssl-no-verify')) {
+			$options['dbsslnoverify'] = true;
+		}
+
 		return $options;
 	}
 

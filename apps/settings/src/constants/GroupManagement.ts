@@ -8,5 +8,5 @@
  */
 export enum GroupSorting {
 	UserCount = 1,
-	GroupName = 2
+	GroupName = 2,
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -16,6 +17,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -37,7 +39,7 @@ class SettingsController extends Controller {
 	 * @param Util $util
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		private IL10N $l,
 		private IUserManager $userManager,
@@ -48,18 +50,17 @@ class SettingsController extends Controller {
 		private ISession $ocSession,
 		private Util $util,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
-
-	/**
-	 * @param string $oldPassword
-	 * @param string $newPassword
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
 	#[UseSession]
-	public function updatePrivateKeyPassword($oldPassword, $newPassword) {
+	public function updatePrivateKeyPassword(
+		#[\SensitiveParameter]
+		string $oldPassword,
+		#[\SensitiveParameter]
+		string $newPassword,
+	): DataResponse {
 		$result = false;
 		$uid = $this->userSession->getUser()->getUID();
 		$errorMessage = $this->l->t('Could not update the private key password.');
@@ -76,7 +77,13 @@ class SettingsController extends Controller {
 
 		if ($passwordCorrect !== false) {
 			$encryptedKey = $this->keyManager->getPrivateKey($uid);
-			$decryptedKey = $this->crypt->decryptPrivateKey($encryptedKey, $oldPassword, $uid);
+			try {
+				$decryptedKey = $this->crypt->decryptPrivateKey($encryptedKey, $oldPassword, $uid);
+			} catch (GenericEncryptionException) {
+				// A wrong passphrase does not only make decrypting return false, it can
+				// also fail the signature check or the decryption itself
+				$decryptedKey = false;
+			}
 
 			if ($decryptedKey) {
 				$encryptedKey = $this->crypt->encryptPrivateKey($decryptedKey, $newPassword, $uid);

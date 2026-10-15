@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
@@ -24,37 +28,18 @@ use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 
-	/** @var SettingsController */
-	private $controller;
+	protected SettingsController $controller;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $requestMock;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10nMock;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManagerMock;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSessionMock;
-
-	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $keyManagerMock;
-
-	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
-	private $cryptMock;
-
-	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-	private $sessionMock;
-	/** @var MockObject|IUser */
-	private $user;
-
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $ocSessionMock;
-
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $utilMock;
+	protected IRequest&MockObject $requestMock;
+	protected IL10N&MockObject $l10nMock;
+	protected IUserManager&MockObject $userManagerMock;
+	protected IUserSession&MockObject $userSessionMock;
+	protected KeyManager&MockObject $keyManagerMock;
+	protected Crypt&MockObject $cryptMock;
+	protected Session&MockObject $sessionMock;
+	protected IUser&MockObject $user;
+	protected ISession&MockObject $ocSessionMock;
+	protected Util&MockObject $utilMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -164,6 +149,28 @@ class SettingsControllerTest extends TestCase {
 	}
 
 	/**
+	 * test updatePrivateKeyPassword() if decrypting the private key with the given
+	 * old password fails with an exception instead of returning false
+	 */
+	public function testUpdatePrivateKeyPasswordUndecryptableKey(): void {
+		$this->userManagerMock
+			->expects($this->once())
+			->method('checkPassword')
+			->willReturn(true);
+
+		$this->cryptMock
+			->expects($this->once())
+			->method('decryptPrivateKey')
+			->willThrowException(new DecryptionFailedException('Decryption failed'));
+
+		$result = $this->controller->updatePrivateKeyPassword('old', 'new');
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+		$this->assertSame('The old password was not correct, please try again.',
+			$result->getData()['message']);
+	}
+
+	/**
 	 * test updatePrivateKeyPassword() with the correct old and new password
 	 */
 	public function testUpdatePrivateKeyPassword(): void {
@@ -171,21 +178,17 @@ class SettingsControllerTest extends TestCase {
 		$newPassword = 'new';
 
 		$this->ocSessionMock->expects($this->once())
-			->method('get')->with('loginname')->willReturn('testUser');
+			->method('get')
+			->with('loginname')
+			->willReturn('testUser');
 
 		$this->userManagerMock
 			->expects($this->exactly(2))
 			->method('checkPassword')
-			->withConsecutive(
-				['testUserUid', 'new'],
-				['testUser', 'new'],
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-			);
-
-
+			->willReturnMap([
+				['testUserUid', 'new', false],
+				['testUser', 'new', true],
+			]);
 
 		$this->cryptMock
 			->expects($this->once())

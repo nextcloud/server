@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Share20;
 
 use OCP\Cache\CappedMemoryCache;
@@ -25,12 +26,7 @@ class ShareDisableChecker {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
 
-
-	/**
-	 * @param ?string $userId
-	 * @return bool
-	 */
-	public function sharingDisabledForUser(?string $userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		if ($userId === null) {
 			return false;
 		}
@@ -43,7 +39,7 @@ class ShareDisableChecker {
 
 		if ($excludeGroups && $excludeGroups !== 'no') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
+			$excludedGroups = json_decode($groupsList, true);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);
@@ -54,29 +50,17 @@ class ShareDisableChecker {
 				return false;
 			}
 			$usersGroups = $this->groupManager->getUserGroupIds($user);
-			if ($excludeGroups !== 'allow') {
-				if (!empty($usersGroups)) {
-					$remainingGroups = array_diff($usersGroups, $excludedGroups);
-					// if the user is only in groups which are disabled for sharing then
-					// sharing is also disabled for the user
-					if (empty($remainingGroups)) {
-						$this->sharingDisabledForUsersCache[$userId] = true;
-						return true;
-					}
-				}
-			} else {
-				if (!empty($usersGroups)) {
-					$remainingGroups = array_intersect($usersGroups, $excludedGroups);
-					// if the user is in any group which is allowed for sharing then
-					// sharing is also allowed for the user
-					if (!empty($remainingGroups)) {
-						$this->sharingDisabledForUsersCache[$userId] = false;
-						return false;
-					}
-				}
-				$this->sharingDisabledForUsersCache[$userId] = true;
-				return true;
-			}
+			$intersectingGroups = array_intersect($usersGroups, $excludedGroups);
+
+			// 1. If the user is in a group which is disabled for sharing then
+			//    sharing is also disabled for the user.
+			// 2. If the user is in a group which is allowed for sharing then
+			//    sharing is also allowed for the user.
+			$isInList = $intersectingGroups !== [];
+			$isBlockList = $excludeGroups !== 'allow';
+			$sharingDisabled = $isBlockList ? $isInList : !$isInList;
+			$this->sharingDisabledForUsersCache[$userId] = $sharingDisabled;
+			return $sharingDisabled;
 		}
 
 		$this->sharingDisabledForUsersCache[$userId] = false;

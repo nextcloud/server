@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Log;
 
 use OC\Log;
@@ -15,6 +16,7 @@ use OCP\Log\IDataLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Stringable;
 use Throwable;
 use function array_key_exists;
 use function array_merge;
@@ -27,14 +29,14 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 
 	public static function logLevelToInt(string $level): int {
 		return match ($level) {
-			LogLevel::ALERT => ILogger::ERROR,
-			LogLevel::CRITICAL => ILogger::ERROR,
-			LogLevel::DEBUG => ILogger::DEBUG,
 			LogLevel::EMERGENCY => ILogger::FATAL,
-			LogLevel::ERROR => ILogger::ERROR,
-			LogLevel::INFO => ILogger::INFO,
-			LogLevel::NOTICE => ILogger::INFO,
+			LogLevel::ALERT,
+			LogLevel::ERROR,
+			LogLevel::CRITICAL => ILogger::ERROR,
 			LogLevel::WARNING => ILogger::WARN,
+			LogLevel::INFO,
+			LogLevel::NOTICE => ILogger::INFO,
+			LogLevel::DEBUG => ILogger::DEBUG,
 			default => throw new InvalidArgumentException('Unsupported custom log level'),
 		};
 	}
@@ -50,10 +52,10 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	/**
 	 * System is unusable.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function emergency($message, array $context = []): void {
+	#[\Override]
+	public function emergency(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::EMERGENCY, (string)$message, $context);
 	}
 
@@ -63,10 +65,10 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Entire website down, database unavailable, etc. This should
 	 * trigger the SMS alerts and wake you up.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function alert($message, array $context = []): void {
+	#[\Override]
+	public function alert(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ALERT, (string)$message, $context);
 	}
 
@@ -75,10 +77,10 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: Application component unavailable, unexpected exception.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function critical($message, array $context = []): void {
+	#[\Override]
+	public function critical(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::CRITICAL, (string)$message, $context);
 	}
 
@@ -86,10 +88,10 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Runtime errors that do not require immediate action but should typically
 	 * be logged and monitored.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function error($message, array $context = []): void {
+	#[\Override]
+	public function error(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ERROR, (string)$message, $context);
 	}
 
@@ -99,20 +101,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Use of deprecated APIs, poor use of an API, undesirable things
 	 * that are not necessarily wrong.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function warning($message, array $context = []): void {
+	#[\Override]
+	public function warning(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::WARNING, (string)$message, $context);
 	}
 
 	/**
 	 * Normal but significant events.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function notice($message, array $context = []): void {
+	#[\Override]
+	public function notice(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::NOTICE, (string)$message, $context);
 	}
 
@@ -121,20 +123,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: User logs in, SQL logs.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function info($message, array $context = []): void {
+	#[\Override]
+	public function info(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::INFO, (string)$message, $context);
 	}
 
 	/**
 	 * Detailed debug information.
 	 *
-	 * @param $message
 	 * @param mixed[] $context
 	 */
-	public function debug($message, array $context = []): void {
+	#[\Override]
+	public function debug(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::DEBUG, (string)$message, $context);
 	}
 
@@ -142,11 +144,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Logs with an arbitrary level.
 	 *
 	 * @param mixed $level
-	 * @param $message
 	 * @param mixed[] $context
 	 *
 	 * @throws InvalidArgumentException
 	 */
+	#[\Override]
 	public function log($level, $message, array $context = []): void {
 		if (is_string($level)) {
 			$level = self::logLevelToInt($level);
@@ -170,6 +172,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$this->logger->logData($message, $data, $context);
 	}

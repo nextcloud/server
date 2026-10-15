@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Test\Mail;
 
+use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
@@ -27,7 +29,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function mailAddressProvider() {
+	public static function mailAddressProvider(): array {
 		return [
 			[
 				['lukas@owncloud.com' => 'Lukas Reschke'],
@@ -62,21 +64,21 @@ class MessageTest extends TestCase {
 		];
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->symfonyEmail = $this->getMockBuilder(Email::class)
-			->disableOriginalConstructor()->getMock();
+		$this->symfonyEmail = $this->createMock(Email::class);
 
 		$this->message = new Message($this->symfonyEmail, false);
 	}
 
 	/**
-	 * @dataProvider mailAddressProvider
 	 *
 	 * @param string $unconverted
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mailAddressProvider')]
 	public function testConvertAddresses($unconverted, $expected): void {
 		$this->assertEquals($expected, self::invokePrivate($this->message, 'convertAddresses', [$unconverted]));
 	}
@@ -252,6 +254,28 @@ class MessageTest extends TestCase {
 			->method('renderSubject');
 
 		$message->useTemplate($template);
+	}
+
+	public function testUseTemplateEmbedsInlineImages(): void {
+		$symfonyEmail = new Email();
+		$template = $this->createMock(EMailTemplate::class);
+		$template->method('renderSubject')->willReturn('Subject');
+		$template->method('renderText')->willReturn('Text');
+		$template->expects($this->never())->method('renderHtml');
+		$template->expects($this->once())
+			->method('renderHtmlWithInlineImages')
+			->willReturn('<img src="cid:logo">');
+		$template->method('getInlineImages')
+			->willReturn([['name' => 'logo', 'content' => 'PNGDATA', 'mimeType' => 'image/png']]);
+
+		$message = new Message($symfonyEmail, false);
+		$message->useTemplate($template);
+
+		$this->assertSame('<img src="cid:logo">', $symfonyEmail->getHtmlBody());
+		$attachments = $symfonyEmail->getAttachments();
+		$this->assertCount(1, $attachments);
+		$this->assertSame('logo', $attachments[0]->getFilename());
+		$this->assertSame('PNGDATA', $attachments[0]->getBody());
 	}
 
 	public function testSetAutoSubmitted1(): void {

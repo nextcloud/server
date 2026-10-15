@@ -12,6 +12,7 @@ namespace OCA\WebhookListeners\BackgroundJobs;
 use OCA\AppAPI\PublicFunctions;
 use OCA\WebhookListeners\Db\AuthMethod;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
+use OCA\WebhookListeners\Service\TokenService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
@@ -30,6 +31,7 @@ class WebhookCall extends QueuedJob {
 		private WebhookListenerMapper $mapper,
 		private LoggerInterface $logger,
 		private IAppManager $appManager,
+		private TokenService $tokenService,
 		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
@@ -38,10 +40,14 @@ class WebhookCall extends QueuedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
+
+		// adding Ephemeral auth tokens to the call
+		$data['authentication'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid'] ?? null);
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
 			'headers' => $webhookListener->getHeaders() ?? [],
@@ -74,7 +80,8 @@ class WebhookCall extends QueuedJob {
 				} elseif (!$exApp['enabled']) {
 					throw new RuntimeException('ExApp ' . $exAppId . ' is disabled.');
 				}
-				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $webhookListener->getUserId(), $webhookListener->getHttpMethod(), [], $options);
+				$userId = ($data['user'] ?? [])['uid'] ?? null;
+				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $userId, $webhookListener->getHttpMethod(), [], $options);
 				if (is_array($response) && isset($response['error'])) {
 					throw new RuntimeException(sprintf('Error during request to ExApp(%s): %s', $exAppId, $response['error']));
 				}

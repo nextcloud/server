@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -93,8 +94,23 @@ class TeamResource implements \JsonSerializable {
 	}
 
 	/**
+	 * @return array{
+	 *     id: string,
+	 *     label: string,
+	 *     url: string,
+	 *     iconSvg: ?string,
+	 *     iconURL: ?string,
+	 *     iconEmoji: ?string,
+	 *     provider: array{
+	 *         id: string,
+	 *         name: string,
+	 *         icon: string,
+	 *     },
+	 * }
+	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->resourceId,

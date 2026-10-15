@@ -13,6 +13,8 @@ use OC\Files\Storage\Temporary;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
@@ -26,9 +28,7 @@ use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FilesMetadataManagerTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -44,12 +44,13 @@ class FilesMetadataManagerTest extends TestCase {
 	private Folder $userFolder;
 	private array $metadata = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->createMock(JobList::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->eventDispatcher->method('dispatchTyped')->willReturnCallback(function (Event $event) {
+		$this->eventDispatcher->method('dispatchTyped')->willReturnCallback(function (Event $event): void {
 			if ($event instanceof AMetadataEvent) {
 				$name = $event->getNode()->getName();
 				if (isset($this->metadata[$name])) {
@@ -94,5 +95,38 @@ class FilesMetadataManagerTest extends TestCase {
 		$retrieved = $this->manager->getMetadata($file->getId());
 		$this->assertEquals($file->getId(), $retrieved->getFileId());
 		$this->assertEquals('yes', $retrieved->getString('istest'));
+	}
+
+	public function testDropMetadataForFilesChunking(): void {
+		$connection = $this->createMock(IDBConnection::class);
+		$qb = $this->createMock(IQueryBuilder::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
+
+		$connection->method('getQueryBuilder')->willReturn($qb);
+		$qb->method('expr')->willReturn($expr);
+		$qb->method('delete')->willReturnSelf();
+		$qb->method('where')->willReturnSelf();
+		$qb->method('hintShardKey')->willReturnSelf();
+
+		$fileIds = range(1, IQueryBuilder::MAX_IN_PARAMETERS * 2 + 1);
+		$expectedChunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
+		$boundChunks = [];
+
+		$qb->expects($this->exactly(count($expectedChunks)))
+			->method('createNamedParameter')
+			->willReturnCallback(function (array $chunk, $type) use (&$boundChunks): string {
+				$this->assertSame(IQueryBuilder::PARAM_INT_ARRAY, $type);
+				$boundChunks[] = $chunk;
+				return ':param';
+			});
+
+		$qb->expects($this->exactly(count($expectedChunks)))
+			->method('executeStatement')
+			->willReturn(1);
+
+		$service = new MetadataRequestService($connection, $this->logger);
+		$service->dropMetadataForFiles(123, $fileIds);
+
+		$this->assertSame($expectedChunks, $boundChunks);
 	}
 }

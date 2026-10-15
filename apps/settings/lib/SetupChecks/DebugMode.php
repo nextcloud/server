@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
@@ -20,14 +21,17 @@ class DebugMode implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Debug mode');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			return SetupResult::warning($this->l10n->t('This instance is running in debug mode. Only enable this for local development and not in production environments.'));

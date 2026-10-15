@@ -5,11 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use InvalidArgumentException;
-use OC\App\AppManager;
-use OC\Group\Manager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -20,64 +19,93 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
- * Manages the ownCloud navigation
+ * Manages the Nextcloud navigation
+ * @psalm-import-type NavigationEntry from INavigationManager
+ * @psalm-import-type NavigationEntryOutput from INavigationManager
  */
-
 class NavigationManager implements INavigationManager {
-	protected $entries = [];
-	protected $closureEntries = [];
-	protected $activeEntry;
-	protected $unreadCounters = [];
+	/**
+	 * Default app menu order, grouped by topic with four apps per row.
+	 * Apps ship very different orders in their info.xml, so the values are
+	 * negative to keep this group in front of everything else.
+	 * Apps that are not listed keep their own order.
+	 */
+	private const array DEFAULT_APP_ORDER = [
+		// Basics
+		'dashboard' => -100,
+		'files' => -99,
+		'office' => -98,
+		'photos' => -97,
+		// Collaboration
+		'spreed' => -96,
+		'mail' => -95,
+		'calendar' => -94,
+		'contacts' => -93,
+		// Productivity
+		'deck' => -92,
+		'collectives' => -91,
+		'tables' => -90,
+		'circles' => -89,
+		// All other apps follow, starting with Activity
+		'activity' => -88,
+	];
 
-	/** @var bool */
-	protected $init = false;
-	/** @var IAppManager|AppManager */
-	protected $appManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IFactory */
-	private $l10nFac;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var Manager */
-	private $groupManager;
-	/** @var IConfig */
-	private $config;
+	/** @var list<NavigationEntry> */
+	private array $newEntries = [];
+	/** @var list<callable(): ?NavigationEntry> */
+	private array $closureEntries = [];
+
+	private ?string $defaultEntryId = null;
+
+	private ?string $activeEntry = null;
+	/** @var array<string, NavigationEntryOutput> */
+	private array $entries = [];
 	/** User defined app order (cached for the `add` function) */
-	private array $customAppOrder;
-	private LoggerInterface $logger;
+	private ?array $customAppOrder = null;
+	/** @var array<string, int> */
+	private array $unreadCounters = [];
+
+	/** true if the internal state has been initialized */
+	private bool $initAppOrderDone = false;
+	/** true if all apps have been loaded by the App Manager */
+	private bool $initSetupDone = false;
+	/** List of loaded app info */
+	private array $loadedAppInfo = [];
+
+	private ?bool $isAdmin = null;
+	private bool $eventFired = false;
 
 	public function __construct(
-		IAppManager $appManager,
-		IURLGenerator $urlGenerator,
-		IFactory $l10nFac,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IConfig $config,
-		LoggerInterface $logger,
+		protected IAppManager $appManager,
+		private IURLGenerator $urlGenerator,
+		private IFactory $l10nFac,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private IConfig $config,
+		private LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
 	) {
-		$this->appManager = $appManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10nFac = $l10nFac;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-		$this->logger = $logger;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function add($entry) {
-		if ($entry instanceof \Closure) {
+	#[Override]
+	public function add(array|callable $entry): void {
+		if (is_callable($entry)) {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
+		$this->newEntries[] = $entry;
+	}
+
+	/**
+	 * @param NavigationEntry $entry
+	 */
+	private function processEntry($entry): void {
+		// if needed initialize the internal state to allow setting app order and default app
+		$this->initCustomAppOrder();
 
 		$id = $entry['id'];
 
@@ -94,38 +122,30 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($entry['type'] === 'link') {
+			$entry['default'] = false;
+
 			// app might not be set when using closures, in this case try to fallback to ID
 			if (!isset($entry['app']) && $this->appManager->isEnabledForUser($id)) {
 				$entry['app'] = $id;
 			}
 
-			// Set order from user defined app order
-			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
+			// Set order from user defined app order, then the default app order.
+			// The default order is skipped for users that sorted the apps themselves,
+			// so a newly installed app does not jump to the front of their order.
+			$defaultOrder = $this->customAppOrder === [] ? (self::DEFAULT_APP_ORDER[$id] ?? null) : null;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $defaultOrder ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
-
-		// Needs to be done after adding the new entry to account for the default entries containing this new entry.
-		$this->updateDefaultEntries();
 	}
 
-	private function updateDefaultEntries() {
-		foreach ($this->entries as $id => $entry) {
-			if ($entry['type'] === 'link') {
-				$this->entries[$id]['default'] = $id === $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
-			}
-		}
+	private function updateDefaultEntries(): void {
+		$this->defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function getAll(string $type = 'link'): array {
-		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
-		}
-		$this->closureEntries = [];
+		$this->resolveAppNavigationEntries();
 
 		$result = $this->entries;
 		if ($type !== 'all') {
@@ -140,29 +160,35 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * Sort navigation entries default app is always sorted first, then by order, name and set active flag
 	 *
-	 * @param array $list
-	 * @return array
+	 * @param array<string, NavigationEntryOutput> $list
+	 * @return array<string, NavigationEntryOutput>
 	 */
 	private function proceedNavigation(array $list, string $type): array {
+		$noDefault = true;
+		if ($this->defaultEntryId !== null && isset($list[$this->defaultEntryId])) {
+			$list[$this->defaultEntryId]['default'] = true;
+			$noDefault = false;
+		}
+
 		uasort($list, function ($a, $b) {
 			if (($a['default'] ?? false) xor ($b['default'] ?? false)) {
 				// Always sort the default app first
 				return ($a['default'] ?? false) ? -1 : 1;
 			} elseif (isset($a['order']) && isset($b['order'])) {
 				// Sort by order
-				return ($a['order'] < $b['order']) ? -1 : 1;
+				return $a['order'] <=> $b['order'];
 			} elseif (isset($a['order']) || isset($b['order'])) {
 				// Sort the one that has an order property first
 				return isset($a['order']) ? -1 : 1;
 			} else {
 				// Sort by name otherwise
-				return ($a['name'] < $b['name']) ? -1 : 1;
+				return $a['name'] <=> $b['name'];
 			}
 		});
 
-		if ($type === 'all' || $type === 'link') {
+		if ($noDefault && ($type === 'all' || $type === 'link')) {
 			// There might be the case that no default app was set, in this case the first app is the default app.
-			// Otherwise the default app is already the ordered first, so setting the default prop will make no difference.
+			// Otherwise, the default app is already the ordered first, so setting the default prop will make no difference.
 			foreach ($list as $index => &$navEntry) {
 				if ($navEntry['type'] === 'link') {
 					$navEntry['default'] = true;
@@ -173,175 +199,105 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$activeEntry = $this->getActiveEntry();
-		if ($activeEntry !== null) {
-			foreach ($list as $index => &$navEntry) {
-				if ($navEntry['id'] == $activeEntry) {
-					$navEntry['active'] = true;
-				} else {
-					$navEntry['active'] = false;
-				}
-			}
-			unset($navEntry);
+		if ($activeEntry !== null && isset($list[$activeEntry])) {
+			$list[$activeEntry]['active'] = true;
 		}
 
 		return $list;
 	}
 
-
 	/**
 	 * removes all the entries
 	 */
-	public function clear($loadDefaultLinks = true) {
+	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = !$loadDefaultLinks;
+		$this->newEntries = [];
+		$this->defaultEntryId = null;
+		$this->activeEntry = null;
+
+		if ($resetInit) {
+			$this->loadedAppInfo = [];
+			$this->initAppOrderDone = false;
+		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function setActiveEntry($appId) {
+	#[Override]
+	public function setActiveEntry(string $appId): void {
 		$this->activeEntry = $appId;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getActiveEntry() {
+	#[Override]
+	public function getActiveEntry(): ?string {
 		return $this->activeEntry;
 	}
 
-	private function init() {
-		if ($this->init) {
+	/**
+	 * Initialize the internal state.
+	 * This loads the default app mapping and user mapping for app ordering.
+	 */
+	private function initCustomAppOrder(): void {
+		if ($this->initAppOrderDone) {
 			return;
 		}
-		$this->init = true;
+		$this->initAppOrderDone = true;
 
-		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$this->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help & privacy'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
-
-		if ($this->userSession->isLoggedIn()) {
-			// Profile
-			$this->add([
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute(
-					'profile.ProfilePage.index',
-					['targetUserId' => $this->userSession->getUser()->getUID()],
-				),
-				'name' => $l->t('View profile'),
-			]);
-
-			// Accessibility settings
-			if ($this->appManager->isEnabledForUser('theming', $this->userSession->getUser())) {
-				$this->add([
-					'type' => 'settings',
-					'id' => 'accessibility_settings',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-					'name' => $l->t('Appearance and accessibility'),
-					'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
-				]);
-			}
-
-			if ($this->isAdmin()) {
-				// App management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_apps',
-					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
-					'name' => $l->t('Apps'),
-				]);
-
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
-				]);
-
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin_settings',
-					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
-					'name' => $l->t('Administration settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
+		if ($this->customAppOrder === null) {
+			if ($this->userSession->isLoggedIn()) {
+				$user = $this->userSession->getUser();
+				$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 			} else {
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			}
-
-			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if ($logoutUrl !== '') {
-				// Logout
-				$this->add([
-					'type' => 'settings',
-					'id' => 'logout',
-					'order' => 99999,
-					'href' => $logoutUrl,
-					'name' => $l->t('Log out'),
-					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-				]);
-			}
-
-			if ($this->isSubadmin()) {
-				// User management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_users',
-					'order' => 6,
-					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Accounts'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
-				]);
+				$this->customAppOrder = [];
 			}
 		}
-		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+	}
 
-		if ($this->userSession->isLoggedIn()) {
-			$user = $this->userSession->getUser();
+	/**
+	 * Setup the navigation manager.
+	 *
+	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
+	 */
+	public function setup(): void {
+		// mark setup as done to allow performance optimizations
+		$this->initSetupDone = true;
+	}
+
+	/**
+	 * Resolve app navigation entries.
+	 *
+	 * This is called every time by any getter as some code for legacy reasons relies
+	 * on the navigation entries being available before the app loading is finished.
+	 * Some code relies on this to be available earlier then the app loading finished.
+	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
+	 */
+	private function resolveAppNavigationEntries(): void {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getEnabledApps();
-			$this->customAppOrder = [];
 		}
 
+		$this->isAdmin ??= $this->isAdmin();
+
 		foreach ($apps as $app) {
-			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
+			if (in_array($app, $this->loadedAppInfo, true)) {
+				// already loaded
 				continue;
 			}
+			if (!$this->appManager->isAppLoaded($app)) {
+				// app is not loaded yet, skip it
+				continue;
+			}
+			$this->loadedAppInfo[] = $app;
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
+				// this app does not have any navigation entries, skip it
 				continue;
 			}
+
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
@@ -352,14 +308,16 @@ class NavigationManager implements INavigationManager {
 					continue;
 				}
 				$role = $nav['@attributes']['role'] ?? 'all';
-				if ($role === 'admin' && !$this->isAdmin()) {
+				if ($role === 'admin' && !$this->isAdmin) {
 					continue;
 				}
-				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
-				$type = $nav['type'];
-				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'] ?? 'link';
+				$route = $nav['route'] ?? '';
+				if ($route !== '') {
+					$route = $this->urlGenerator->linkToRoute($route);
+				}
 				$icon = $nav['icon'] ?? null;
 				if ($icon !== null) {
 					try {
@@ -372,32 +330,78 @@ class NavigationManager implements INavigationManager {
 					$icon = $this->appManager->getAppIcon($app);
 				}
 				if ($icon === null) {
-					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+					$icon = $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg');
+				}
+				if ($type === 'link' && $route === '') {
+					// This means either the route is invalid in the info.xml or the app was not year loaded by the router
+					$this->logger->debug('Missing or invalid navigation route for app ' . $app, ['entry' => $nav]);
+					continue;
 				}
 
+				$l = $this->l10nFac->get($app);
 				$this->add(array_merge([
 					// Navigation id
 					'id' => $id,
 					// Order where this entry should be shown
-					'order' => $order,
+					'order' => (int)$order,
 					// Target of the navigation entry
 					'href' => $route,
-					// The icon used for the naviation entry
+					// The icon used for the navigation entry
 					'icon' => $icon,
 					// Type of the navigation entry ('link' vs 'settings')
 					'type' => $type,
 					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
 				], $type === 'link' ? [
-					// App that registered this navigation entry (not necessarly the same as the id)
+					// App that registered this navigation entry (not necessarily the same as the id)
 					'app' => $app,
 				] : []
 				));
 			}
 		}
+
+		$updateDefaultEntries = false;
+
+		// once all apps are loaded we can resolve the app navigation closures
+		if ($this->initSetupDone) {
+			if (!$this->eventFired) {
+				// Resolve dynamically added navigation entries via event listeners
+				$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+				$this->eventFired = true;
+			}
+
+			// This has to be done on every call,
+			// as apps might add new navigation entries via closures at any time
+			while ($c = array_pop($this->closureEntries)) {
+				try {
+					$entry = $c();
+					if ($entry === null) {
+						$this->logger->debug('Closure of navigation entry returned null, skipping');
+						continue;
+					}
+					$this->processEntry($entry);
+					$updateDefaultEntries = true;
+				} catch (\Throwable $e) {
+					$this->logger->error('Failed to add navigation entry from closure', ['exception' => $e]);
+				}
+			}
+		}
+
+		while ($entry = array_pop($this->newEntries)) {
+			try {
+				$this->processEntry($entry);
+				$updateDefaultEntries = true;
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to add navigation entry', ['exception' => $e, 'entry' => $entry]);
+			}
+		}
+
+		if ($updateDefaultEntries) {
+			$this->updateDefaultEntries();
+		}
 	}
 
-	private function isAdmin() {
+	private function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());
@@ -405,30 +409,29 @@ class NavigationManager implements INavigationManager {
 		return false;
 	}
 
-	private function isSubadmin() {
-		$user = $this->userSession->getUser();
-		if ($user !== null) {
-			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
-		}
-		return false;
-	}
-
+	#[Override]
 	public function setUnreadCounter(string $id, int $unreadCounter): void {
 		$this->unreadCounters[$id] = $unreadCounter;
 	}
 
+	#[Override]
 	public function get(string $id): ?array {
-		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
+		$this->resolveAppNavigationEntries();
+		if (!isset($this->entries[$id])) {
+			return null;
 		}
-		$this->closureEntries = [];
-
-		return $this->entries[$id];
+		$entry = $this->entries[$id];
+		if ($this->defaultEntryId === $id) {
+			$entry['default'] = true;
+		}
+		if ($this->activeEntry === $id) {
+			$entry['active'] = true;
+		}
+		return $entry;
 	}
 
+	#[Override]
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
-		$this->init();
 		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
 		$defaultEntryIds = $this->getDefaultEntryIds(false);
 
@@ -468,22 +471,23 @@ class NavigationManager implements INavigationManager {
 		return $withFallbacks ? 'files' : '';
 	}
 
+	#[Override]
 	public function getDefaultEntryIds(bool $withFallbacks = true): array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
 		$ids = [];
 		$entryIds = array_keys($this->entries);
 		foreach ($storedIds as $id) {
 			if (in_array($id, $entryIds, true)) {
 				$ids[] = $id;
-				break;
 			}
 		}
 		return array_filter($ids);
 	}
 
+	#[Override]
 	public function setDefaultEntryIds(array $ids): void {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$entryIds = array_keys($this->entries);
 
 		foreach ($ids as $id) {

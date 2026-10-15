@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/types'
-
-import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
-import { generateUrl } from '@nextcloud/router'
+import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/browser'
 
 import Axios from '@nextcloud/axios'
-import logger from '../logger'
+import { generateUrl } from '@nextcloud/router'
+import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
+import { logger } from '../utils/logger.ts'
 
 export class NoValidCredentials extends Error {}
 
@@ -32,6 +31,7 @@ export async function startAuthentication(loginName: string) {
 
 /**
  * Verify webauthn authentication
+ *
  * @param authData The authentication data to sent to the server
  */
 export async function finishAuthentication(authData: AuthenticationResponseJSON) {

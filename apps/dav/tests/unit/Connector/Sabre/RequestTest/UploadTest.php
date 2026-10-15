@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OCP\AppFramework\Http;
@@ -13,13 +16,13 @@ use OCP\Lock\ILockingProvider;
 /**
  * Class UploadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UploadTest extends RequestTestCase {
 	public function testBasicUpload(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$this->assertFalse($view->file_exists('foo.txt'));
@@ -35,7 +38,7 @@ class UploadTest extends RequestTestCase {
 	}
 
 	public function testUploadOverWrite(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'foobar');
@@ -51,7 +54,7 @@ class UploadTest extends RequestTestCase {
 	}
 
 	public function testUploadOverWriteReadLocked(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'bar');
@@ -63,7 +66,7 @@ class UploadTest extends RequestTestCase {
 	}
 
 	public function testUploadOverWriteWriteLocked(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 		$this->loginAsUser($user);
 

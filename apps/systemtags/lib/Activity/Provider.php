@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\SystemTags\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -47,6 +49,7 @@ class Provider implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'systemtags') {
 			throw new UnknownActivityException();
@@ -286,7 +289,7 @@ class Provider implements IProvider {
 		if ($tagData === null) {
 			[$name, $status] = explode('|||', substr($parameter, 3, -3));
 			$tagData = [
-				'id' => '0',// No way to recover the ID
+				'id' => '0', // No way to recover the ID
 				'name' => $name,
 				'assignable' => $status === 'assignable',
 				'visible' => $status !== 'invisible',

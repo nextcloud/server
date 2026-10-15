@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,6 +29,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
+	#[\Override]
 	public function createGroup(string $gid): bool {
 		if (!isset($this->groups[$gid])) {
 			$this->groups[$gid] = [];
@@ -44,6 +46,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
+	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			unset($this->groups[$gid]);
@@ -61,6 +64,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
+	#[\Override]
 	public function inGroup($uid, $gid) {
 		if (isset($this->groups[$gid])) {
 			return (array_search($uid, $this->groups[$gid]) !== false);
@@ -77,6 +81,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 *
 	 * Adds a user to a group.
 	 */
+	#[\Override]
 	public function addToGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (array_search($uid, $this->groups[$gid]) === false) {
@@ -98,6 +103,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 *
 	 * removes the user from a group.
 	 */
+	#[\Override]
 	public function removeFromGroup(string $uid, string $gid): bool {
 		if (isset($this->groups[$gid])) {
 			if (($index = array_search($uid, $this->groups[$gid])) !== false) {
@@ -119,6 +125,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
+	#[\Override]
 	public function getUserGroups($uid) {
 		$groups = [];
 		$allGroups = array_keys($this->groups);
@@ -137,6 +144,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 * @param int $offset
 	 * @return array an array of group names
 	 */
+	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if (empty($search)) {
 			return array_keys($this->groups);
@@ -158,6 +166,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 * @param int $offset
 	 * @return array an array of user IDs
 	 */
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if (isset($this->groups[$gid])) {
 			if (empty($search)) {
@@ -203,6 +212,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 	 * @param int $offset
 	 * @return int
 	 */
+	#[\Override]
 	public function countUsersInGroup(string $gid, string $search = ''): int {
 		if (isset($this->groups[$gid])) {
 			if (empty($search)) {
@@ -219,6 +229,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 		return 0;
 	}
 
+	#[\Override]
 	public function groupExists($gid) {
 		return isset($this->groups[$gid]);
 	}

@@ -4,24 +4,25 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('settings', 'Background jobs')"
+	<NcSettingsSection
+		:name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
 			<NcNoteCard v-if="oldExecution" type="error">
-				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
+				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', { time: relativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else-if="longExecutionCron" type="warning">
-				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", { maxAgeRelativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
-				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", { maxAgeRelativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else type="success">
-				{{ t('settings', 'Last job ran {relativeTime}.', {relativeTime}) }}
+				{{ t('settings', 'Last job ran {relativeTime}.', { relativeTime }) }}
 			</NcNoteCard>
 		</template>
 
@@ -29,31 +30,34 @@
 			{{ t('settings', 'Background job did not run yet!') }}
 		</NcNoteCard>
 
-		<NcCheckboxRadioSwitch type="radio"
-			:checked.sync="backgroundJobsMode"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			name="backgroundJobsMode"
 			value="ajax"
 			class="ajaxSwitch"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single account instance.') }}</em>
 
-		<NcCheckboxRadioSwitch type="radio"
-			:checked.sync="backgroundJobsMode"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			name="backgroundJobsMode"
 			value="webcron"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage).') }}</em>
 
-		<NcCheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			:disabled="!cliBasedCronPossible"
-			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
 		<!-- eslint-disable-next-line vue/no-v-html The translation is sanitized-->
@@ -62,18 +66,16 @@
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
-import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
-
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
-import '@nextcloud/password-confirmation/dist/style.css'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../../logger.ts'
 
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
@@ -103,6 +105,7 @@ export default {
 			maxAgeRelativeTime: moment(cronMaxAge * 1000).fromNow(),
 		}
 	},
+
 	computed: {
 		cronLabel() {
 			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
@@ -116,16 +119,20 @@ export default {
 			}
 			return desc
 		},
+
 		oldExecution() {
 			return Date.now() / 1000 - this.lastCron > 600
 		},
+
 		longExecutionNotCron() {
 			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
 		},
+
 		longExecutionCron() {
 			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
 		},
 	},
+
 	methods: {
 		async onBackgroundJobModeChanged(backgroundJobsMode) {
 			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
@@ -149,14 +156,16 @@ export default {
 				})
 			}
 		},
+
 		async handleResponse({ status, errorMessage, error }) {
 			if (status === 'ok') {
 				await this.deleteError()
 			} else {
 				showError(errorMessage)
-				console.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
+
 		async deleteError() {
 			// clear cron errors on background job mode change
 			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
@@ -169,7 +178,7 @@ export default {
 			try {
 				await axios.delete(url)
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 			}
 		},
 	},

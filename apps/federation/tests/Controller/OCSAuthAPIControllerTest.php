@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests\Controller;
 
 use OC\BackgroundJob\JobList;
+use OCA\Federation\BackgroundJob\GetSharedSecret;
 use OCA\Federation\Controller\OCSAuthAPIController;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
@@ -16,34 +19,19 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
-	private $request;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ISecureRandom */
-	private $secureRandom;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|JobList */
-	private $jobList;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
-	private $trustedServers;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|DbHandler */
-	private $dbHandler;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IThrottler */
-	private $throttler;
-
+	private IRequest&MockObject $request;
+	private ISecureRandom&MockObject $secureRandom;
+	private JobList&MockObject $jobList;
+	private TrustedServers&MockObject $trustedServers;
+	private DbHandler&MockObject $dbHandler;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $timeFactory;
+	private IThrottler&MockObject $throttler;
 	private OCSAuthAPIController $ocsAuthApi;
 
 	/** @var int simulated timestamp */
@@ -77,9 +65,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 			->willReturn($this->currentTime);
 	}
 
-	/**
-	 * @dataProvider dataTestRequestSharedSecret
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRequestSharedSecret')]
 	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, bool $ok): void {
 		$url = 'url';
 
@@ -91,7 +77,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
-				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
+				->with(GetSharedSecret::class, ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 			$this->jobList->expects($this->never())->method('remove');
@@ -102,16 +88,15 @@ class OCSAuthAPIControllerTest extends TestCase {
 			}
 		}
 
-
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($ok);
+			$this->assertTrue($isTrustedServer);
 		} catch (OCSForbiddenException $e) {
-			$this->assertFalse($ok);
+			$this->assertFalse($isTrustedServer);
 		}
 	}
 
-	public function dataTestRequestSharedSecret() {
+	public static function dataTestRequestSharedSecret(): array {
 		return [
 			['token2', 'token1', true, true],
 			['token1', 'token2', false, false],
@@ -119,34 +104,30 @@ class OCSAuthAPIControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestGetSharedSecret
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetSharedSecret')]
 	public function testGetSharedSecret(bool $isTrustedServer, bool $isValidToken, bool $ok): void {
 		$url = 'url';
 		$token = 'token';
 
-		/** @var OCSAuthAPIController | \PHPUnit\Framework\MockObject\MockObject $ocsAuthApi */
-		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
-			->setConstructorArgs(
-				[
-					'federation',
-					$this->request,
-					$this->secureRandom,
-					$this->jobList,
-					$this->trustedServers,
-					$this->dbHandler,
-					$this->logger,
-					$this->timeFactory,
-					$this->throttler
-				]
-			)->setMethods(['isValidToken'])->getMock();
+		/** @var OCSAuthAPIController&MockObject $ocsAuthApi */
+		$ocsAuthApi = new OCSAuthAPIController(
+			'federation',
+			$this->request,
+			$this->secureRandom,
+			$this->jobList,
+			$this->trustedServers,
+			$this->dbHandler,
+			$this->logger,
+			$this->timeFactory,
+			$this->throttler,
+		);
 
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')->with($url)->willReturn($isTrustedServer);
-		$ocsAuthApi->expects($this->any())
-			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
+		$this->dbHandler->method('getToken')
+			->with($url)
+			->willReturn($isValidToken ? $token : 'not $token');
 
 		if ($ok) {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
@@ -163,7 +144,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$result = $ocsAuthApi->getSharedSecret($url, $token);
-			$this->assertTrue($ok);
 			$data = $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
 		} catch (OCSForbiddenException $e) {
@@ -171,7 +151,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		}
 	}
 
-	public function dataTestGetSharedSecret() {
+	public static function dataTestGetSharedSecret(): array {
 		return [
 			[true, true, true],
 			[false, true, false],

@@ -20,9 +20,9 @@ use Test\TestCase;
 class CardDavValidatePluginTest extends TestCase {
 
 	private CardDavValidatePlugin $plugin;
-	private IAppConfig|MockObject $config;
-	private RequestInterface|MockObject $request;
-	private ResponseInterface|MockObject $response;
+	private IAppConfig&MockObject $config;
+	private RequestInterface&MockObject $request;
+	private ResponseInterface&MockObject $response;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,7 +36,7 @@ class CardDavValidatePluginTest extends TestCase {
 	}
 
 	public function testPutSizeLessThenLimit(): void {
-		
+
 		// construct method responses
 		$this->config
 			->method('getValueInt')
@@ -50,11 +50,11 @@ class CardDavValidatePluginTest extends TestCase {
 		$this->assertTrue(
 			$this->plugin->beforePut($this->request, $this->response)
 		);
-		
+
 	}
 
 	public function testPutSizeMoreThenLimit(): void {
-		
+
 		// construct method responses
 		$this->config
 			->method('getValueInt')
@@ -67,7 +67,7 @@ class CardDavValidatePluginTest extends TestCase {
 		$this->expectException(Forbidden::class);
 		// test condition
 		$this->plugin->beforePut($this->request, $this->response);
-		
+
 	}
 
 }

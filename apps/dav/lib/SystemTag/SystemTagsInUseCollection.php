@@ -11,39 +11,38 @@ namespace OCA\DAV\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagsInFilesDetector;
-use OC\User\NoUserException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsInUseCollection extends SimpleCollection {
-	protected SystemTagsInFilesDetector $systemTagsInFilesDetector;
-
 	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IRootFolder $rootFolder,
 		protected ISystemTagManager $systemTagManager,
 		protected ISystemTagObjectMapper $tagMapper,
-		SystemTagsInFilesDetector $systemTagsInFilesDetector,
+		protected SystemTagsInFilesDetector $systemTagsInFilesDetector,
 		protected string $mediaType = '',
 	) {
-		$this->systemTagsInFilesDetector = $systemTagsInFilesDetector;
 		$this->name = 'systemtags-assigned';
-		if ($this->mediaType != '') {
+		if ($this->mediaType !== '') {
 			$this->name .= '/' . $this->mediaType;
 		}
 	}
 
+	#[\Override]
 	public function setName($name): void {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
+	#[\Override]
 	public function getChild($name): self {
 		if ($this->mediaType !== '') {
 			throw new NotFound('Invalid media type');
@@ -56,6 +55,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 	 * @throws NotPermittedException
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		$user = $this->userSession->getUser();
 		$userFolder = null;
@@ -63,7 +63,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 			if ($user) {
 				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			}
-		} catch (NoUserException) {
+		} catch (UserNotFoundException) {
 			// will throw a Sabre exception in the next step.
 		}
 		if ($user === null || $userFolder === null) {

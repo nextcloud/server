@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace OC\Security\Signature\Db;
 
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Model\Signatory;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\IDBConnection;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @template-extends QBMapper<Signatory>

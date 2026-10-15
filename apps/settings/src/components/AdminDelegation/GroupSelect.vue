@@ -3,21 +3,23 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSelect v-model="selected"
+	<NcSelect
+		v-model="selected"
 		:input-id="setting.id"
 		class="group-select"
 		:placeholder="t('settings', 'None')"
 		label="displayName"
 		:options="availableGroups"
-		:multiple="true"
-		:close-on-select="false" />
+		multiple
+		keep-open />
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../logger.ts'
 
 export default {
@@ -25,20 +27,24 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		availableGroups: {
 			type: Array,
 			default: () => [],
 		},
+
 		setting: {
 			type: Object,
 			required: true,
 		},
+
 		authorizedGroups: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			selected: this.authorizedGroups
@@ -47,11 +53,13 @@ export default {
 				.filter((group) => group !== undefined),
 		}
 	},
+
 	watch: {
 		selected() {
 			this.saveGroups()
 		},
 	},
+
 	methods: {
 		async saveGroups() {
 			const data = {
@@ -59,7 +67,7 @@ export default {
 				class: this.setting.class,
 			}
 			try {
-				await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data)
+				await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data, { confirmPassword: PwdConfirmationMode.Strict })
 			} catch (e) {
 				showError(t('settings', 'Unable to modify setting'))
 				logger.error('Unable to modify setting', e)

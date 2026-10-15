@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Calendar\Room;
 
 /**
@@ -34,6 +36,17 @@ interface IRoomMetadata {
 	 * @since 17.0.0
 	 */
 	public const CAPACITY = '{http://nextcloud.com/ns}room-seating-capacity';
+
+	/**
+	 * The name of the building this room is located in
+	 *
+	 * Clients group rooms by building. Without this key they have to guess a
+	 * building from BUILDING_ADDRESS, which only works for backends that
+	 * happen to put the building name first.
+	 *
+	 * @since 35.0.0
+	 */
+	public const BUILDING_NAME = '{http://nextcloud.com/ns}room-building-name';
 
 	/**
 	 * The physical address of the building this room is located in

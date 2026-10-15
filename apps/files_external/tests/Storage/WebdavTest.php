@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Storage\DAV;
@@ -14,24 +17,23 @@ use OCP\Server;
 /**
  * Class WebdavTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WebdavTest extends \Test\Files\Storage\Storage {
+	use ConfigurableStorageTrait;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$config = include('files_external/tests/config.webdav.php');
-		if (!is_array($config) or !$config['run']) {
-			$this->markTestSkipped('WebDAV backend not configured');
+		$this->loadConfig(__DIR__ . '/../config.webdav.php');
+		if (isset($this->config['wait'])) {
+			$this->waitDelay = $this->config['wait'];
 		}
-		if (isset($config['wait'])) {
-			$this->waitDelay = $config['wait'];
-		}
-		$config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new DAV($config);
+		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new DAV($this->config);
 		$this->instance->mkdir('/');
 	}
 

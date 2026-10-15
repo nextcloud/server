@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Listener;
 
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -23,6 +24,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeTemplateRenderedEvent || $event instanceof BeforeLoginTemplateRenderedEvent)) {
 			return;
@@ -37,12 +39,13 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			Util::addScript('core', 'public');
 		}
 
-		\OC_Util::addStyle('server', null, true);
+		Util::addStyle('server', null, true);
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 		}
 
@@ -50,13 +53,11 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// include common nextcloud webpack bundle
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 
 			if ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_ERROR) {
-				Util::addScript('core', 'merged-template-prepend', 'core', true);
-				Util::addScript('core', 'files_client', 'core', true);
-				Util::addScript('core', 'files_fileinfo', 'core', true);
-
+				Util::addScript('core', 'mimetypelist', 'core', true);
 
 				// If installed and background job is set to ajax, add dedicated script
 				if ($this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax') {

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
@@ -19,8 +21,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class DummyGetResponsePluginTest extends TestCase {
-	/** @var DummyGetResponsePlugin */
-	private $dummyGetResponsePlugin;
+	private DummyGetResponsePlugin $dummyGetResponsePlugin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -29,10 +30,7 @@ class DummyGetResponsePluginTest extends TestCase {
 	}
 
 	public function testInitialize(): void {
-		/** @var Server $server */
-		$server = $this->getMockBuilder(Server::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$server = $this->createMock(Server::class);
 		$server
 			->expects($this->once())
 			->method('on')
@@ -41,16 +39,9 @@ class DummyGetResponsePluginTest extends TestCase {
 		$this->dummyGetResponsePlugin->initialize($server);
 	}
 
-
 	public function testHttpGet(): void {
-		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		/** @var \Sabre\HTTP\ResponseInterface $response */
-		$response = $server = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 		$response
 			->expects($this->once())
 			->method('setBody');

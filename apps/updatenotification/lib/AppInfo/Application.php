@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\AppInfo;
 
 use OCA\UpdateNotification\Listener\AppUpdateEventListener;
@@ -30,12 +31,13 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
-	public const APP_NAME = 'updatenotification';
+	public const APP_ID = 'updatenotification';
 
 	public function __construct() {
-		parent::__construct(self::APP_NAME, []);
+		parent::__construct(self::APP_ID, []);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerNotifierService(AppUpdateNotifier::class);
@@ -44,6 +46,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedEventListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IConfig $config,
 			IUserSession $userSession,
@@ -63,8 +66,8 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 
-			if (!$appManager->isEnabledForUser('notifications') &&
-				$groupManager->isAdmin($user->getUID())) {
+			if (!$appManager->isEnabledForUser('notifications')
+				&& $groupManager->isAdmin($user->getUID())) {
 				try {
 					$updateChecker = $container->get(UpdateChecker::class);
 				} catch (ContainerExceptionInterface $e) {
@@ -73,7 +76,7 @@ class Application extends App implements IBootstrap {
 				}
 
 				if ($updateChecker->getUpdateState() !== []) {
-					Util::addScript('updatenotification', 'update-notification-legacy');
+					Util::addScript(self::APP_ID, 'update-notification-legacy');
 					$updateChecker->setInitialState();
 				}
 			}

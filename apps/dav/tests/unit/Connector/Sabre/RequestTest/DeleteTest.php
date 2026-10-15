@@ -1,24 +1,27 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OCP\AppFramework\Http;
+use OCP\Files\FileInfo;
 
 /**
  * Class DeleteTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteTest extends RequestTestCase {
 	public function testBasicUpload(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'asd');
@@ -29,7 +32,7 @@ class DeleteTest extends RequestTestCase {
 		$mount->getStorage()->unlink($mount->getInternalPath($internalPath));
 
 		// cache entry still exists
-		$this->assertInstanceOf('\OCP\Files\FileInfo', $view->getFileInfo('foo.txt'));
+		$this->assertInstanceOf(FileInfo::class, $view->getFileInfo('foo.txt'));
 
 		$response = $this->request($view, $user, 'pass', 'DELETE', '/foo.txt');
 

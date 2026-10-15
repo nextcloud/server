@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="phone"
+	<AccountPropertySection
+		v-bind.sync="phone"
 		:placeholder="t('settings', 'Your phone number')"
 		autocomplete="tel"
 		type="tel"
@@ -12,11 +13,9 @@
 </template>
 
 <script>
-import { isValidPhoneNumber } from 'libphonenumber-js'
 import { loadState } from '@nextcloud/initial-state'
-
+import { isValidPhoneNumber } from 'libphonenumber-js'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const {

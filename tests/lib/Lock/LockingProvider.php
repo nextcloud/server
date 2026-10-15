@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,15 +14,16 @@ use Test\TestCase;
 
 abstract class LockingProvider extends TestCase {
 	/**
-	 * @var \OCP\Lock\ILockingProvider
+	 * @var ILockingProvider
 	 */
 	protected $instance;
 
 	/**
-	 * @return \OCP\Lock\ILockingProvider
+	 * @return ILockingProvider
 	 */
 	abstract protected function getInstance();
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = $this->getInstance();
@@ -59,9 +61,8 @@ abstract class LockingProvider extends TestCase {
 		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
 	}
 
-	
 	public function testDoubleExclusiveLock(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
@@ -76,9 +77,8 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
 	public function testExclusiveLockAfterShared(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
@@ -149,10 +149,8 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
 	}
 
-
-	
 	public function testSharedLockAfterExclusive(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
@@ -197,40 +195,35 @@ abstract class LockingProvider extends TestCase {
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
 	}
 
-	
 	public function testChangeLockToExclusiveDoubleShared(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
 	public function testChangeLockToExclusiveNoShared(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
 	public function testChangeLockToExclusiveFromExclusive(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
 	public function testChangeLockToSharedNoExclusive(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
 	}
 
-	
 	public function testChangeLockToSharedFromShared(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -16,22 +17,26 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCSController;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\Authentication\Token\IToken as OCPIToken;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 
-class AppPasswordController extends \OCP\AppFramework\OCSController {
+class AppPasswordController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -43,6 +48,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 		private Session $userSession,
 		private IUserManager $userManager,
 		private IThrottler $throttler,
+		private IConfig $serverConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -61,7 +67,12 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
 		if ($this->session->exists('app_password')) {
-			throw new OCSForbiddenException('You cannot request an new apppassword with an apppassword');
+			throw new OCSForbiddenException('You cannot request a new apppassword with an apppassword');
+		}
+
+		if ($this->userSession->getImpersonatingUserID() !== null
+			|| !$this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)) {
+			throw new OCSForbiddenException();
 		}
 
 		try {
@@ -76,7 +87,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			$password = null;
 		}
 
-		$userAgent = $this->request->getHeader('USER_AGENT');
+		$userAgent = $this->request->getHeader('user-agent');
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 
@@ -160,9 +171,9 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Confirm the user password
 	 *
-	 * @param string $password The password of the user
+	 * @param non-empty-string $password The password of the user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: positive-int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
@@ -184,5 +195,56 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 		$this->session->set('last-password-confirm', $confirmTimestamp);
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'sudo', ['loginName' => $loginName]);
 		return new DataResponse(['lastLogin' => $confirmTimestamp], Http::STATUS_OK);
+	}
+
+	/**
+	 * Get app password with one-time password
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: non-empty-string}, array{}>
+	 * @throws OCSForbiddenException Creating app password is not allowed
+	 *
+	 * 200: App password returned
+	 */
+	#[NoAdminRequired]
+	#[NoTwoFactorRequired]
+	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
+	public function getAppPasswordWithOneTimePassword(): DataResponse {
+		// Only allow with one-time app passwords
+		if (!$this->session->exists('one_time_token')) {
+			throw new OCSForbiddenException('could not get one-time app password');
+		}
+
+		try {
+			$credentials = $this->credentialStore->getLoginCredentials();
+		} catch (CredentialsUnavailableException) {
+			throw new OCSForbiddenException();
+		}
+
+		try {
+			$password = $credentials->getPassword();
+		} catch (PasswordUnavailableException) {
+			$password = null;
+		}
+
+		$userAgent = $this->request->getHeader('user-agent');
+
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+
+		$generatedToken = $this->tokenProvider->generateToken(
+			$token,
+			$credentials->getUID(),
+			$credentials->getLoginName(),
+			$password,
+			$userAgent,
+			OCPIToken::PERMANENT_TOKEN,
+		);
+
+		$this->eventDispatcher->dispatchTyped(
+			new AppPasswordCreatedEvent($generatedToken)
+		);
+
+		return new DataResponse([
+			'apppassword' => $token
+		]);
 	}
 }

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
@@ -28,7 +29,7 @@ class Encryption extends Wrapper {
 	protected string $cache;
 	protected ?int $size = null;
 	protected int $position;
-	protected ?int $unencryptedSize = null;
+	protected int|float|null $unencryptedSize = null;
 	protected int $headerSize;
 	protected int $unencryptedBlockSize;
 	protected array $header;
@@ -66,7 +67,6 @@ class Encryption extends Wrapper {
 			'signed'
 		];
 	}
-
 
 	/**
 	 * Wraps a stream with the provided callbacks
@@ -142,6 +142,7 @@ class Encryption extends Wrapper {
 	 * @return resource
 	 * @throws \BadMethodCallException
 	 */
+	#[\Override]
 	protected static function wrapSource($source, $context = [], $protocol = null, $class = null, $mode = 'r+') {
 		try {
 			if ($protocol === null) {
@@ -182,6 +183,7 @@ class Encryption extends Wrapper {
 	 * @return array
 	 * @throws \BadMethodCallException
 	 */
+	#[\Override]
 	protected function loadContext($name = null) {
 		$context = parent::loadContext($name);
 
@@ -195,6 +197,7 @@ class Encryption extends Wrapper {
 		return $context;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$this->loadContext('ocencryption');
 
@@ -246,10 +249,12 @@ class Encryption extends Wrapper {
 		return true;
 	}
 
+	#[\Override]
 	public function stream_eof() {
 		return $this->position >= $this->unencryptedSize;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		$result = '';
 
@@ -301,6 +306,7 @@ class Encryption extends Wrapper {
 		return $data;
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		$length = 0;
 		// loop over $data to fit it in 6126 sized unencrypted blocks
@@ -312,8 +318,8 @@ class Encryption extends Wrapper {
 
 			// for seekable streams the pointer is moved back to the beginning of the encrypted block
 			// flush will start writing there when the position moves to another block
-			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize) *
-				$this->util->getBlockSize() + $this->headerSize;
+			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize)
+				* $this->util->getBlockSize() + $this->headerSize;
 			$resultFseek = $this->parentStreamSeek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
@@ -336,8 +342,8 @@ class Encryption extends Wrapper {
 					// if $data doesn't fit the current block, the fill the current block and reiterate
 					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
-					$this->cache = substr($this->cache, 0, $blockPosition) .
-						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
+					$this->cache = substr($this->cache, 0, $blockPosition)
+						. substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
 					$this->flush();
 					$this->position += ($this->unencryptedBlockSize - $blockPosition);
 					$length += ($this->unencryptedBlockSize - $blockPosition);
@@ -351,10 +357,12 @@ class Encryption extends Wrapper {
 		return $length;
 	}
 
+	#[\Override]
 	public function stream_tell() {
 		return $this->position;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		$return = false;
 
@@ -390,6 +398,7 @@ class Encryption extends Wrapper {
 		return $return;
 	}
 
+	#[\Override]
 	public function stream_close() {
 		$this->flush('end');
 		$position = (int)floor($this->position / $this->unencryptedBlockSize);
@@ -496,6 +505,7 @@ class Encryption extends Wrapper {
 	 * @param array $options
 	 * @return bool
 	 */
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}

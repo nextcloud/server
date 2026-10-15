@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OCA\Settings\AppInfo\Application;
@@ -45,32 +46,19 @@ class Delegation implements ISettings {
 
 	private function initSettingState(): void {
 		// Available settings page initialization
-		$sections = $this->settingManager->getAdminSections();
+		$delegatedSettings = $this->settingManager->getAdminDelegatedSettings();
 		$settings = [];
-		foreach ($sections as $sectionPriority) {
-			foreach ($sectionPriority as $section) {
-				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				$settings = array_merge(
-					$settings,
-					array_map(function (IDelegatedSettings $setting) use ($section) {
-						$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
-						return [
-							'class' => get_class($setting),
-							'sectionName' => $sectionName,
-							'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
-							'priority' => $section->getPriority(),
-						];
-					}, $sectionSettings)
-				);
+		foreach ($delegatedSettings as ['section' => $section, 'settings' => $sectionSettings]) {
+			foreach ($sectionSettings as $setting) {
+				$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
+				$settings[] = [
+					'class' => get_class($setting),
+					'sectionName' => $sectionName,
+					'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
+					'priority' => $section->getPriority(),
+				];
 			}
 		}
-		usort($settings, function (array $a, array $b) {
-			if ($a['priority'] == $b['priority']) {
-				return 0;
-			}
-			return ($a['priority'] < $b['priority']) ? -1 : 1;
-		});
 		$this->initialStateService->provideInitialState('available-settings', $settings);
 	}
 
@@ -95,6 +83,7 @@ class Delegation implements ISettings {
 		$this->initialStateService->provideInitialState('authorized-groups', $this->authorizedGroupService->findAll());
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initSettingState();
 		$this->initAvailableGroupState();
@@ -107,6 +96,7 @@ class Delegation implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'admindelegation';
 	}
@@ -114,6 +104,7 @@ class Delegation implements ISettings {
 	/*
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 75;
 	}

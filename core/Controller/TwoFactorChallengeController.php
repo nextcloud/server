@@ -5,15 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC_User;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -25,6 +28,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -39,13 +43,6 @@ class TwoFactorChallengeController extends Controller {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getLogoutUrl() {
-		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
 
 	/**
@@ -65,16 +62,11 @@ class TwoFactorChallengeController extends Controller {
 		return [$regular, $backup];
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/selectchallenge')]
-	public function selectChallenge($redirect_url) {
+	#[TwoFactorSetUpDoneRequired]
+	public function selectChallenge(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
@@ -86,24 +78,19 @@ class TwoFactorChallengeController extends Controller {
 			'backupProvider' => $backupProvider,
 			'providerMissing' => $providerSet->isProviderMissing(),
 			'redirect_url' => $redirect_url,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse|RedirectResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[UseSession]
+	#[TwoFactorSetUpDoneRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/challenge/{challengeProviderId}')]
-	public function showChallenge($challengeProviderId, $redirect_url) {
+	public function showChallenge(string $challengeProviderId, ?string $redirect_url = null): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$provider = $providerSet->getProvider($challengeProviderId);
@@ -117,6 +104,9 @@ class TwoFactorChallengeController extends Controller {
 			// Don't show the backup provider link if we're already showing that provider's challenge
 			$backupProvider = null;
 		}
+
+		[$regularProviders] = $this->splitProvidersAndBackupCodes($providerSet->getProviders());
+		$otherProviders = array_filter($regularProviders, fn (IProvider $p) => $p->getId() !== $provider->getId());
 
 		$errorMessage = '';
 		$error = false;
@@ -133,7 +123,8 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_url' => $this->getLogoutUrl(),
+			'hasOtherProviders' => $otherProviders !== [],
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
@@ -141,24 +132,18 @@ class TwoFactorChallengeController extends Controller {
 		if ($provider instanceof IProvidesCustomCSP) {
 			$response->setContentSecurityPolicy($provider->getCSP());
 		}
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @UserRateThrottle(limit=5, period=100)
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $challenge
-	 * @param string $redirect_url
-	 * @return RedirectResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
-	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
+	#[TwoFactorSetUpDoneRequired]
+	#[UserRateLimit(limit: 5, period: 100)]
+	#[BruteForceProtection(action: 'solveChallenge')]
+	public function solveChallenge(string $challengeProviderId, string $challenge, ?string $redirect_url = null): RedirectResponse {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {
@@ -185,10 +170,12 @@ class TwoFactorChallengeController extends Controller {
 		$uid = $user->getUID();
 		$this->logger->warning("Two-factor challenge failed: $uid (Remote IP: $ip)");
 		$this->session->set('two_factor_auth_error', true);
-		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
+		$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
 			'challengeProviderId' => $provider->getId(),
 			'redirect_url' => $redirect_url,
 		]));
+		$response->throttle(['user' => $uid, 'provider' => $challengeProviderId]);
+		return $response;
 	}
 
 	#[NoAdminRequired]
@@ -200,10 +187,11 @@ class TwoFactorChallengeController extends Controller {
 
 		$data = [
 			'providers' => $setupProviders,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 		];
 
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
 	}
 
@@ -230,11 +218,12 @@ class TwoFactorChallengeController extends Controller {
 		$tmpl = $provider->getLoginSetup($user)->getBody();
 		$data = [
 			'provider' => $provider,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 

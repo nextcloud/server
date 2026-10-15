@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Migration;
 
 use Closure;
@@ -21,6 +22,7 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -103,7 +105,7 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['mount_id', 'key'], 'config_mount_key');
 		} else {
 			$table = $schema->getTable('external_config');
-			$table->changeColumn('value', [
+			$table->modifyColumn('value', [
 				'notnull' => false,
 				'length' => 4000,
 			]);

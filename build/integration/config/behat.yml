@@ -80,6 +80,21 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+        - PrincipalPropertySearchContext:
+            baseUrl: http://localhost:8080
+    encryption:
+      paths:
+        - "%paths.base%/../encryption_features"
+      contexts:
+        - FeatureContext:
+            baseUrl: http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
     federation:
       paths:
         - "%paths.base%/../federation_features"
@@ -124,6 +139,16 @@ default:
         - "%paths.base%/../file_conversions"
       contexts:
         - ConversionsContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    files_reminders:
+      paths:
+        - "%paths.base%/../files_reminders"
+      contexts:
+        - FilesRemindersContext:
             baseUrl: http://localhost:8080
             admin:
               - admin
@@ -181,6 +206,17 @@ default:
               - admin
             regular_user_password: 123456
         - TalkContext
+    guests:
+      paths:
+        - "%paths.base%/../guests_features"
+      contexts:
+        - GuestsContext
+        - SharingContext:
+            baseUrl: http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     setup:
       paths:
         - "%paths.base%/../setup_features"
@@ -231,15 +267,33 @@ default:
               - admin
               - admin
             regular_user_password: 123456
-    remoteapi:
+    ratelimiting:
       paths:
-        - "%paths.base%/../remoteapi_features"
+        - "%paths.base%/../ratelimiting_features"
       contexts:
-        - FeatureContext:
-            baseUrl: http://localhost:8080/ocs/
+        - RateLimitingContext:
+            baseUrl: http://localhost:8080
             admin:
               - admin
               - admin
             regular_user_password: 123456
-        - RemoteContext:
-            remote: http://localhost:8080
+    routing:
+      paths:
+        - "%paths.base%/../routing_features"
+      contexts:
+        - RoutingContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    theming:
+      paths:
+        - "%paths.base%/../theming_features"
+      contexts:
+        - FeatureContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456

@@ -1,20 +1,23 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Node, FileType, Permission, View, FileAction } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
+
+import type { IFileAction } from '@nextcloud/files'
+
+import FolderEyeSvg from '@mdi/svg/svg/folder-eye-outline.svg?raw'
+import { FileType, Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'view-in-folder',
 	displayName() {
 		return t('files', 'View in folder')
 	},
-	iconSvgInline: () => FolderMoveSvg,
+	iconSvgInline: () => FolderEyeSvg,
 
-	enabled(nodes: Node[], view: View) {
+	enabled({ nodes, view }) {
 		// Not enabled for public shares
 		if (isPublicShare()) {
 			return false
@@ -26,13 +29,12 @@ export const action = new FileAction({
 		}
 
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
 		const node = nodes[0]
-
-		if (!node.isDavRessource) {
+		if (!node.isDavResource) {
 			return false
 		}
 
@@ -48,18 +50,18 @@ export const action = new FileAction({
 		return node.type === FileType.File
 	},
 
-	async exec(node: Node) {
-		if (!node || node.type !== FileType.File) {
+	async exec({ nodes }) {
+		if (!nodes[0] || nodes[0].type !== FileType.File) {
 			return false
 		}
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: 'files', fileid: String(node.fileid) },
-			{ dir: node.dirname },
+			{ view: 'files', fileid: String(nodes[0].fileid) },
+			{ dir: nodes[0].dirname },
 		)
 		return null
 	},
 
-	order: 80,
-})
+	order: 10,
+}

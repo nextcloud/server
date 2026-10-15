@@ -12,12 +12,13 @@ OC.L10N.register(
     "Files" : "Fitxategiak",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den kontu baten iruzkin batean",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} erabiltzaileak aipatu zaitu \"{file}\"-eko iruzkin batean",
+    "Go to file" : "Joan fitxategira",
     "Files app plugin to add comments to files" : "Fitxategiak aplikazioko plugina, fitxategiei iruzkinak gehitzeko",
     "Edit comment" : "Editatu iruzkina",
     "Delete comment" : "Ezabatu iruzkina",
     "Cancel edit" : "Utzi editatzeari",
     "New comment" : "Iruzkin berria",
-    "Write a comment …" : "Idatzi iruzkin bat ...",
+    "Write a comment …" : "Idatzi iruzkin bat …",
     "Post comment" : "Argitaratu iruzkina",
     "@ for mentions, : for emoji, / for smart picker" : "@ aipamenetarako, : emojientzako, / hautatzaile adimentsurako",
     "Could not reload comments" : "Ezin izan dira iruzkinak freskatu",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Errorea gertatu da iruzkina editatzen saiatzean",
     "Comment deleted" : "Iruzkina ezabatu da",
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
-    "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean"
+    "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
+    "Write a comment …" : "Idatzi iruzkin bat ..."
 },
 "nplurals=2; plural=(n != 1);");

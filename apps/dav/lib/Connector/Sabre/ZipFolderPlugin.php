@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Streamer;
@@ -15,6 +16,7 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File as NcFile;
 use OCP\Files\Folder as NcFolder;
 use OCP\Files\Node as NcNode;
+use OCP\IDateTimeZone;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -37,10 +39,17 @@ class ZipFolderPlugin extends ServerPlugin {
 	 */
 	private ?Server $server = null;
 
+	/**
+	 * Whether handleDownload has fully streamed an archive for the current request.
+	 * Used by afterDownload to decide whether to suppress sabre/dav's own response logic.
+	 */
+	private bool $streamed = false;
+
 	public function __construct(
 		private Tree $tree,
 		private LoggerInterface $logger,
 		private IEventDispatcher $eventDispatcher,
+		private IDateTimeZone $timezoneFactory,
 	) {
 	}
 
@@ -52,9 +61,12 @@ class ZipFolderPlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', $this->handleDownload(...), 100);
+		// low priority to give any other afterMethod:* a chance to fire before we cancel everything
+		$this->server->on('afterMethod:GET', $this->afterDownload(...), 999);
 	}
 
 	/**
@@ -65,15 +77,16 @@ class ZipFolderPlugin extends ServerPlugin {
 		// Remove the root path from the filename to make it relative to the requested folder
 		$filename = str_replace($rootPath, '', $node->getPath());
 
+		$mtime = $node->getMTime();
 		if ($node instanceof NcFile) {
 			$resource = $node->fopen('rb');
 			if ($resource === false) {
 				$this->logger->info('Cannot read file for zip stream', ['filePath' => $node->getPath()]);
 				throw new \Sabre\DAV\Exception\ServiceUnavailable('Requested file can currently not be accessed.');
 			}
-			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $node->getMTime());
+			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
 		} elseif ($node instanceof NcFolder) {
-			$streamer->addEmptyDir($filename);
+			$streamer->addEmptyDir($filename, $mtime);
 			$content = $node->getDirectoryListing();
 			foreach ($content as $subNode) {
 				$this->streamNode($streamer, $subNode, $rootPath);
@@ -86,10 +99,11 @@ class ZipFolderPlugin extends ServerPlugin {
 	 * It is possible to filter / limit the files that should be downloaded,
 	 * either by passing (multiple) `X-NC-Files: the-file` headers
 	 * or by setting a `files=JSON_ARRAY_OF_FILES` URL query.
-	 *
-	 * @return false|null
 	 */
-	public function handleDownload(Request $request, Response $response): ?bool {
+	public function handleDownload(Request $request, Response $response): ?false {
+		if ($request->getHeader('X-Sabre-Original-Method') === 'HEAD') {
+			return null;
+		}
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof Directory)) {
 			// only handle directories
@@ -145,31 +159,48 @@ class ZipFolderPlugin extends ServerPlugin {
 			throw new Forbidden($errorMessage);
 		}
 
-		$content = empty($files) ? $folder->getDirectoryListing() : [];
-		foreach ($files as $path) {
-			$child = $node->getChild($path);
-			assert($child instanceof Node);
-			$content[] = $child->getNode();
+		$archiveName = $folder->getName();
+		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
+			// this is a download of the root folder
+			$archiveName = 'download';
 		}
 
-		$archiveName = 'download';
 		$rootPath = $folder->getPath();
 		if (empty($files)) {
 			// We download the full folder so keep it in the tree
 			$rootPath = dirname($folder->getPath());
-			// Full folder is loaded to rename the archive to the folder name
-			$archiveName = $folder->getName();
 		}
-		$streamer = new Streamer($tarRequest, -1, count($content));
+
+		$streamer = new Streamer($tarRequest, -1, -1, $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
 			$streamer->addEmptyDir($archiveName);
 		}
+
+		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
 		foreach ($content as $node) {
+			assert($node instanceof NcNode);
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();
+		$this->streamed = true; // archive fully streamed
+
+		return false;
+	}
+
+	/**
+	 * Tell sabre/dav not to trigger its own response sending logic as the handleDownload will have already sent the response
+	 */
+	public function afterDownload(Request $request, Response $response): ?false {
+		if ($request->getHeader('X-Sabre-Original-Method') === 'HEAD') {
+			return null;
+		}
+
+		if (!$this->streamed) {
+			return null;
+		}
+
 		return false;
 	}
 }

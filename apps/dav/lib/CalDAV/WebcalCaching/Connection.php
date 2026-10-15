@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use Exception;
@@ -14,7 +15,6 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
-use Sabre\VObject\Reader;
 
 class Connection {
 	public function __construct(
@@ -26,12 +26,24 @@ class Connection {
 
 	/**
 	 * gets webcal feed from remote server
+	 *
+	 * @return array{data: resource, format: string}|null
 	 */
-	public function queryWebcalFeed(array $subscription): ?string {
+	public function queryWebcalFeed(array $subscription): ?array {
 		$subscriptionId = $subscription['id'];
 		$url = $this->cleanURL($subscription['source']);
 		if ($url === null) {
 			return null;
+		}
+
+		// ICS feeds hosted on O365 can return HTTP 500 when the UA string isn't satisfactory
+		// Ref https://github.com/nextcloud/calendar/issues/7234
+		$uaString = 'Nextcloud Webcal Service';
+		if (parse_url($url, PHP_URL_HOST) === 'outlook.office365.com') {
+			// The required format/values here are not documented.
+			// Instead, this string based on research.
+			// Ref https://github.com/bitfireAT/icsx5/discussions/654#discussioncomment-14158051
+			$uaString = 'Nextcloud (Linux) Chrome/66';
 		}
 
 		$allowLocalAccess = $this->config->getValueString('dav', 'webcalAllowLocalAccess', 'no');
@@ -41,9 +53,10 @@ class Connection {
 				'allow_local_address' => $allowLocalAccess === 'yes',
 			],
 			RequestOptions::HEADERS => [
-				'User-Agent' => 'Nextcloud Webcal Service',
+				'User-Agent' => $uaString,
 				'Accept' => 'text/calendar, application/calendar+json, application/calendar+xml',
 			],
+			'stream' => true,
 		];
 
 		$user = parse_url($subscription['source'], PHP_URL_USER);
@@ -67,42 +80,22 @@ class Connection {
 			return null;
 		}
 
-		$body = $response->getBody();
-
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType, 2)[0];
-		switch ($contentType) {
-			case 'application/calendar+json':
-				try {
-					$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $jCalendar->serialize();
 
-			case 'application/calendar+xml':
-				try {
-					$xCalendar = Reader::readXML($body);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $xCalendar->serialize();
+		$format = match ($contentType) {
+			'application/calendar+json' => 'jcal',
+			'application/calendar+xml' => 'xcal',
+			default => 'ical',
+		};
 
-			case 'text/calendar':
-			default:
-				try {
-					$vCalendar = Reader::read($body);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $vCalendar->serialize();
+		// With 'stream' => true, getBody() returns the underlying stream resource
+		$stream = $response->getBody();
+		if (!is_resource($stream)) {
+			return null;
 		}
+
+		return ['data' => $stream, 'format' => $format];
 	}
 
 	/**

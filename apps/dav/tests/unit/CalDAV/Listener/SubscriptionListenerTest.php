@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Listeners;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
@@ -18,26 +21,13 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SubscriptionListenerTest extends TestCase {
-
-	/** @var RefreshWebcalService|MockObject */
-	private $refreshWebcalService;
-
-	/** @var Backend|MockObject */
-	private $reminderBackend;
-
-	/** @var IJobList|MockObject */
-	private $jobList;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
+	private RefreshWebcalService&MockObject $refreshWebcalService;
+	private Backend&MockObject $reminderBackend;
+	private IJobList&MockObject $jobList;
+	private LoggerInterface&MockObject $logger;
 	private SubscriptionListener $calendarPublicationListener;
-
-	/** @var SubscriptionCreatedEvent|MockObject */
-	private $subscriptionCreatedEvent;
-
-	/** @var SubscriptionDeletedEvent|MockObject */
-	private $subscriptionDeletedEvent;
+	private SubscriptionCreatedEvent&MockObject $subscriptionCreatedEvent;
+	private SubscriptionDeletedEvent&MockObject $subscriptionDeletedEvent;
 
 	protected function setUp(): void {
 		parent::setUp();

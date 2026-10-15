@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Http;
@@ -19,24 +21,15 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
+	private int $ocsVersion = 2;
 
-	/** @var int */
-	private $ocsVersion;
-
-	/**
-	 * @param IRequest $request
-	 */
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private readonly IRequest $request,
+	) {
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 */
-	public function beforeController($controller, $methodName) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($controller instanceof OCSController) {
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
 				$this->ocsVersion = 2;
@@ -47,18 +40,12 @@ class OCSMiddleware extends Middleware {
 		}
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param \Exception $exception
-	 * @throws \Exception
-	 * @return BaseResponse
-	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
-				$code = \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR;
+				$code = OCSController::RESPOND_UNKNOWN_ERROR;
 			}
 
 			return $this->buildNewResponse($controller, $code, $exception->getMessage());
@@ -67,13 +54,8 @@ class OCSMiddleware extends Middleware {
 		throw $exception;
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return \OCP\AppFramework\Http\Response
-	 */
-	public function afterController($controller, $methodName, Response $response) {
+	#[\Override]
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		/*
 		 * If a different middleware has detected that a request unauthorized or forbidden
 		 * we need to catch the response and convert it to a proper OCS response.
@@ -102,14 +84,11 @@ class OCSMiddleware extends Middleware {
 		return $response;
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param int $code
-	 * @param string $message
-	 * @return V1Response|V2Response
-	 */
-	private function buildNewResponse(Controller $controller, $code, $message) {
-		$format = $this->getFormat($controller);
+	private function buildNewResponse(Controller $controller, int $code, string $message): V1Response|V2Response {
+		$format = $this->request->getFormat();
+		if ($format === null || !$controller->isResponderRegistered($format)) {
+			$format = 'xml';
+		}
 
 		$data = new DataResponse();
 		$data->setStatus($code);
@@ -120,22 +99,5 @@ class OCSMiddleware extends Middleware {
 		}
 
 		return $response;
-	}
-
-	/**
-	 * @param Controller $controller
-	 * @return string
-	 */
-	private function getFormat(Controller $controller) {
-		// get format from the url format or request format parameter
-		$format = $this->request->getParam('format');
-
-		// if none is given try the first Accept header
-		if ($format === null) {
-			$headers = $this->request->getHeader('Accept');
-			$format = $controller->getResponderByHTTPHeader($headers, 'xml');
-		}
-
-		return $format;
 	}
 }

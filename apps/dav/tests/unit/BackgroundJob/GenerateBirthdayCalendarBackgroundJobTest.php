@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
@@ -16,18 +17,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
-
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
-	/** @var BirthdayService | MockObject */
-	private $birthdayService;
-
-	/** @var IConfig | MockObject */
-	private $config;
-
-	/** @var GenerateBirthdayCalendarBackgroundJob */
-	private $backgroundJob;
+	private ITimeFactory&MockObject $time;
+	private BirthdayService&MockObject $birthdayService;
+	private IConfig&MockObject $config;
+	private GenerateBirthdayCalendarBackgroundJob $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();

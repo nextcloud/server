@@ -12,6 +12,7 @@ namespace OC\TextToImage\Db;
 use DateTime;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Server;
 use OCP\TextToImage\Task as OCPTask;
 
 /**
@@ -48,13 +49,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
+	public const COLUMNS = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
-
+	public const FIELDS = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
 
 	public function __construct() {
 		// add types in constructor
@@ -70,16 +70,16 @@ class Task extends Entity {
 	}
 
 	public function toRow(): array {
-		return array_combine(self::$columns, array_map(function ($field) {
+		return array_combine(self::COLUMNS, array_map(function ($field) {
 			return $this->{'get' . ucfirst($field)}();
-		}, self::$fields));
+		}, self::FIELDS));
 	}
 
 	public static function fromPublicTask(OCPTask $task): Task {
 		/** @var Task $dbTask */
 		$dbTask = Task::fromParams([
 			'id' => $task->getId(),
-			'lastUpdated' => \OCP\Server::get(ITimeFactory::class)->getDateTime(),
+			'lastUpdated' => Server::get(ITimeFactory::class)->getDateTime(),
 			'status' => $task->getStatus(),
 			'numberOfImages' => $task->getNumberOfImages(),
 			'input' => $task->getInput(),

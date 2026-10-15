@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitProfile
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Profile\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Profile\\' => 
+        'OCA\\Profile\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -22,7 +22,13 @@ class ComposerStaticInitProfile
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'OCA\\Profile\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Profile\\Controller\\ProfileApiController' => __DIR__ . '/..' . '/../lib/Controller/ProfileApiController.php',
         'OCA\\Profile\\Controller\\ProfilePageController' => __DIR__ . '/..' . '/../lib/Controller/ProfilePageController.php',
+        'OCA\\Profile\\Listener\\LoadAdditionalEntriesListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalEntriesListener.php',
+        'OCA\\Profile\\Listener\\ProfilePickerReferenceListener' => __DIR__ . '/..' . '/../lib/Listener/ProfilePickerReferenceListener.php',
+        'OCA\\Profile\\Reference\\ProfilePickerReferenceProvider' => __DIR__ . '/..' . '/../lib/Reference/ProfilePickerReferenceProvider.php',
+        'OCA\\Profile\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

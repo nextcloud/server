@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,34 +8,38 @@
 
 namespace Test\Lock;
 
+use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * Class DBLockingProvider
  *
- * @group DB
  *
  * @package Test\Lock
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DBLockingProviderTest extends LockingProvider {
 	/**
-	 * @var \OC\Lock\DBLockingProvider
+	 * @var DBLockingProvider
 	 */
 	protected $instance;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	protected $connection;
 
 	/**
-	 * @var \OCP\AppFramework\Utility\ITimeFactory
+	 * @var ITimeFactory
 	 */
 	protected $timeFactory;
 
 	protected $currentTime;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->currentTime = time();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -47,15 +52,18 @@ class DBLockingProviderTest extends LockingProvider {
 	}
 
 	/**
-	 * @return \OCP\Lock\ILockingProvider
+	 * @return ILockingProvider
 	 */
+	#[\Override]
 	protected function getInstance() {
-		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600);
+		$this->connection = Server::get(IDBConnection::class);
+		return new DBLockingProvider($this->connection, $this->timeFactory, 3600);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
-		$this->connection->executeQuery('DELETE FROM `*PREFIX*file_locks`');
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('file_locks')->executeStatement();
 		parent::tearDown();
 	}
 
@@ -77,10 +85,12 @@ class DBLockingProviderTest extends LockingProvider {
 		$this->assertEquals(2, $this->getLockEntryCount());
 	}
 
-	private function getLockEntryCount() {
-		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
-		$query->execute();
-		return $query->fetchOne();
+	private function getLockEntryCount(): int {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select($qb->func()->count('*'))
+			->from('file_locks')
+			->executeQuery();
+		return (int)$result->fetchOne();
 	}
 
 	protected function getLockValue($key) {
@@ -89,7 +99,7 @@ class DBLockingProviderTest extends LockingProvider {
 			->from('file_locks')
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchOne();
 		$result->closeCursor();
 

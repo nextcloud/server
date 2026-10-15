@@ -16,12 +16,11 @@ OC.L10N.register(
     "Hello, {name}" : "Witaj {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"ikona {title}\"",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów z Nextcloud App Store",
     "Weather service" : "Serwis pogodowy",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Ze względu na Twoją prywatność dane pogodowe są pobierane przez serwer Nextcloud w Twoim imieniu. Usługa pogodowa nie otrzymuje żadnych danych osobowych.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Dla ochrony Twojej prywatności dane pogodowe są pobierane w Twoim imieniu przez serwer {productName}, dzięki czemu usługa pogodowa nie otrzymuje żadnych danych osobowych.",
     "Weather data from Met.no" : "Dane pogodowe z Met.no",
     "geocoding with Nominatim" : "geokodowanie z Nominatim",
     "elevation data from OpenTopoData" : "dane wysokościowe z OpenTopoData"

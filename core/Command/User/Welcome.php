@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 FedericoHeichou <federicoheichou@gmail.com>
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,29 +16,21 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Welcome extends Base {
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var NewUserMailHelper */
-	private $newUserMailHelper;
-
 	/**
 	 * @param IUserManager $userManager
 	 * @param NewUserMailHelper $newUserMailHelper
 	 */
 	public function __construct(
-		IUserManager $userManager,
-		NewUserMailHelper $newUserMailHelper,
+		protected IUserManager $userManager,
+		private NewUserMailHelper $newUserMailHelper,
 	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->newUserMailHelper = $newUserMailHelper;
 	}
 
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:welcome')
@@ -61,6 +54,7 @@ class Welcome extends Base {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user');
 		// check if user exists

@@ -3,20 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getBuilder } from '@nextcloud/browser-storage'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { parseFileSize } from '@nextcloud/files'
-import { showError } from '@nextcloud/dialogs'
-import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError } from '@nextcloud/dialogs'
+import { parseFileSize } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import { GroupSorting } from '../constants/GroupManagement.ts'
-import api from './api.js'
 import logger from '../logger.ts'
+import { naturalCollator } from '../utils/sorting.ts'
+import api from './api.js'
 
-const localStorage = getBuilder('settings').persist(true).build()
+const usersSettings = loadState('settings', 'usersSettings', {})
 
 const defaults = {
+	/**
+	 * @type {import('../views/user-types').IGroup}
+	 */
 	group: {
 		id: '',
 		name: '',
@@ -29,21 +32,25 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [],
-	orderBy: GroupSorting.UserCount,
+	groups: [
+		...(usersSettings.getSubAdminGroups ?? []),
+		...(usersSettings.systemGroups ?? []),
+	],
+	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
-	userCount: 0,
+	searchQuery: '',
+	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
-		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
-		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
-		showFirstLogin: localStorage.getItem('account_settings__showFirstLogin') === 'true',
-		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
-		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
-		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
+		showStoragePath: usersSettings.showConfig?.user_list_show_storage_path,
+		showUserBackend: usersSettings.showConfig?.user_list_show_user_backend,
+		showFirstLogin: usersSettings.showConfig?.user_list_show_first_login,
+		showLastLogin: usersSettings.showConfig?.user_list_show_last_login,
+		showNewUserForm: usersSettings.showConfig?.user_list_show_new_user_form,
+		showLanguages: usersSettings.showConfig?.user_list_show_languages,
 	},
 }
 
@@ -57,34 +64,33 @@ const mutations = {
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
-	updateDisabledUsers(state, _usersObj) {
+	updateDisabledUsers(state) {
 		state.disabledUsersOffset += state.disabledUsersLimit
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
 	},
-	initGroups(state, { groups, orderBy, userCount }) {
-		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
-		state.orderBy = orderBy
-		state.userCount = userCount
-	},
-	addGroup(state, { gid, displayName }) {
+	/**
+	 * @param {object} state store state
+	 * @param {import('../views/user-types.js').IGroup} newGroup new group
+	 */
+	addGroup(state, newGroup) {
 		try {
-			if (typeof state.groups.find((group) => group.id === gid) !== 'undefined') {
+			const existingGroup = state.groups.find((group) => group.id === newGroup.id)
+			if (existingGroup) {
+				// merge in whatever is provided, e.g. to upgrade a stub group with full details
+				Object.assign(existingGroup, newGroup)
 				return
 			}
 			// extend group to default values
-			const group = Object.assign({}, defaults.group, {
-				id: gid,
-				name: displayName,
-			})
+			const group = { ...defaults.group, ...newGroup }
 			state.groups.unshift(group)
-		} catch (e) {
-			console.error('Can\'t create group', e)
+		} catch (error) {
+			logger.error('Cannt create group', { error })
 		}
 	},
 	renameGroup(state, { gid, displayName }) {
-		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		const groupIndex = state.groups.findIndex((groupSearch) => groupSearch.id === gid)
 		if (groupIndex >= 0) {
 			const updatedGroup = state.groups[groupIndex]
 			updatedGroup.name = displayName
@@ -92,14 +98,14 @@ const mutations = {
 		}
 	},
 	removeGroup(state, gid) {
-		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		const groupIndex = state.groups.findIndex((groupSearch) => groupSearch.id === gid)
 		if (groupIndex >= 0) {
 			state.groups.splice(groupIndex, 1)
 		}
 	},
 	addUserGroup(state, { userid, gid }) {
-		const group = state.groups.find(groupSearch => groupSearch.id === gid)
-		const user = state.users.find(user => user.id === userid)
+		const group = state.groups.find((groupSearch) => groupSearch.id === gid)
+		const user = state.users.find((user) => user.id === userid)
 		// increase count if user is enabled
 		if (group && user.enabled && state.userCount > 0) {
 			group.usercount++
@@ -108,8 +114,8 @@ const mutations = {
 		groups.push(gid)
 	},
 	removeUserGroup(state, { userid, gid }) {
-		const group = state.groups.find(groupSearch => groupSearch.id === gid)
-		const user = state.users.find(user => user.id === userid)
+		const group = state.groups.find((groupSearch) => groupSearch.id === gid)
+		const user = state.users.find((user) => user.id === userid)
 		// lower count if user is enabled
 		if (group && user.enabled && state.userCount > 0) {
 			group.usercount--
@@ -118,15 +124,15 @@ const mutations = {
 		groups.splice(groups.indexOf(gid), 1)
 	},
 	addUserSubAdmin(state, { userid, gid }) {
-		const groups = state.users.find(user => user.id === userid).subadmin
+		const groups = state.users.find((user) => user.id === userid).subadmin
 		groups.push(gid)
 	},
 	removeUserSubAdmin(state, { userid, gid }) {
-		const groups = state.users.find(user => user.id === userid).subadmin
+		const groups = state.users.find((user) => user.id === userid).subadmin
 		groups.splice(groups.indexOf(gid), 1)
 	},
 	deleteUser(state, userid) {
-		const userIndex = state.users.findIndex(user => user.id === userid)
+		const userIndex = state.users.findIndex((user) => user.id === userid)
 		this.commit('updateUserCounts', { user: state.users[userIndex], actionType: 'remove' })
 		state.users.splice(userIndex, 1)
 	},
@@ -136,7 +142,7 @@ const mutations = {
 		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
-		const user = state.users.find(user => user.id === userid)
+		const user = state.users.find((user) => user.id === userid)
 		user.enabled = enabled
 		this.commit('updateUserCounts', { user, actionType: enabled ? 'enable' : 'disable' })
 	},
@@ -147,61 +153,97 @@ const mutations = {
 			return
 		}
 
-		const recentGroup = state.groups.find(group => group.id === '__nc_internal_recent')
-		const disabledGroup = state.groups.find(group => group.id === 'disabled')
+		const recentGroup = state.groups.find((group) => group.id === '__nc_internal_recent')
+		const disabledGroup = state.groups.find((group) => group.id === 'disabled')
 		switch (actionType) {
-		case 'enable':
-		case 'disable':
-			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
-			recentGroup.usercount += user.enabled ? 1 : -1
-			state.userCount += user.enabled ? 1 : -1 // update Active Users count
-			user.groups.forEach(userGroup => {
-				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
-				group.disabled += user.enabled ? -1 : 1 // update group disabled count
-			})
-			break
-		case 'create':
-			recentGroup.usercount++
-			state.userCount++ // increment Active Users count
-
-			user.groups.forEach(userGroup => {
-				state.groups
-					.find(groupSearch => groupSearch.id === userGroup)
-				    .usercount++ // increment group total count
-			})
-			break
-		case 'remove':
-			if (user.enabled) {
-				recentGroup.usercount--
-				state.userCount-- // decrement Active Users count
-				user.groups.forEach(userGroup => {
-					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+			case 'enable':
+			case 'disable':
+				disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+				recentGroup.usercount += user.enabled ? 1 : -1
+				state.userCount += user.enabled ? 1 : -1 // update Active Users count
+				user.groups.forEach((userGroup) => {
+					const group = state.groups.find((groupSearch) => groupSearch.id === userGroup)
 					if (!group) {
-						console.warn('User group ' + userGroup + ' does not exist during user removal')
 						return
 					}
-					group.usercount-- // decrement group total count
+					group.disabled += user.enabled ? -1 : 1 // update group disabled count
 				})
-			} else {
-				disabledGroup.usercount-- // decrement Disabled Users count
-				user.groups.forEach(userGroup => {
-					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
-					group.disabled-- // decrement group disabled count
+				break
+			case 'create':
+				recentGroup.usercount++
+				state.userCount++ // increment Active Users count
+
+				user.groups.forEach((userGroup) => {
+					const group = state.groups.find((groupSearch) => groupSearch.id === userGroup)
+					if (!group) {
+						return
+					}
+					group.usercount++ // increment group total count
 				})
-			}
-			break
-		default:
-			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
+				break
+			case 'remove':
+				if (user.enabled) {
+					recentGroup.usercount--
+					state.userCount-- // decrement Active Users count
+					user.groups.forEach((userGroup) => {
+						const group = state.groups.find((groupSearch) => groupSearch.id === userGroup)
+						if (!group) {
+							logger.warn('User group ' + userGroup + ' does not exist during user removal')
+							return
+						}
+						group.usercount-- // decrement group total count
+					})
+				} else {
+					disabledGroup.usercount-- // decrement Disabled Users count
+					user.groups.forEach((userGroup) => {
+						const group = state.groups.find((groupSearch) => groupSearch.id === userGroup)
+						if (!group) {
+							return
+						}
+						group.disabled-- // decrement group disabled count
+					})
+				}
+				break
+			default:
+				logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
 			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
 			const humanValue = parseFileSize(value, true)
-			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
+			state.users.find((user) => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
-			state.users.find(user => user.id === userid)[key] = value
+			state.users.find((user) => user.id === userid)[key] = value
 		}
+	},
+
+	/**
+	 * Apply multiple updated fields to a user in the local store.
+	 *
+	 * @param {object} state Store state
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.data Updated user data from server
+	 */
+	editUserMultiField(state, { userid, data }) {
+		const index = state.users.findIndex((user) => user.id === userid)
+		if (index === -1) {
+			return
+		}
+
+		// Delegate group membership changes so sidebar usercount stays in sync.
+		if (Array.isArray(data.groups)) {
+			const prevGids = state.users[index].groups ?? []
+			for (const gid of data.groups.filter((g) => !prevGids.includes(g))) {
+				this.commit('addUserGroup', { userid, gid })
+			}
+			for (const gid of prevGids.filter((g) => !data.groups.includes(g))) {
+				this.commit('removeUserGroup', { userid, gid })
+			}
+		}
+
+		state.users.splice(index, 1, { ...state.users[index], ...data })
 	},
 
 	/**
@@ -215,8 +257,23 @@ const mutations = {
 		state.disabledUsersOffset = 0
 	},
 
+	/**
+	 * Reset group list
+	 *
+	 * @param {object} state the store state
+	 */
+	resetGroups(state) {
+		state.groups = [
+			...(usersSettings.getSubAdminGroups ?? []),
+			...(usersSettings.systemGroups ?? []),
+		]
+	},
+
+	setSearchQuery(state, query) {
+		state.searchQuery = query
+	},
+
 	setShowConfig(state, { key, value }) {
-		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
 
@@ -245,20 +302,23 @@ const getters = {
 	getGroups(state) {
 		return state.groups
 	},
-	getSubadminGroups(state) {
-		// Can't be subadmin of admin, recent, or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+	getSearchQuery(state) {
+		return state.searchQuery
 	},
+	getSubAdminGroups() {
+		return usersSettings.subAdminGroups ?? []
+	},
+
 	getSortedGroups(state) {
 		const groups = [...state.groups]
 		if (state.orderBy === GroupSorting.UserCount) {
 			return groups.sort((a, b) => {
 				const numA = a.usercount - a.disabled
 				const numB = b.usercount - b.disabled
-				return (numA < numB) ? 1 : (numB < numA ? -1 : a.name.localeCompare(b.name))
+				return (numA < numB) ? 1 : (numB < numA ? -1 : naturalCollator.compare(a.name, b.name))
 			})
 		} else {
-			return groups.sort((a, b) => a.name.localeCompare(b.name))
+			return groups.sort((a, b) => naturalCollator.compare(a.name, b.name))
 		}
 	},
 	getGroupSorting(state) {
@@ -289,6 +349,20 @@ const getters = {
 
 const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
+
+function commitGroupsFromUsersResponse(context, response) {
+	const groups = response.data.ocs.data.groups ?? []
+	if (groups.length === 0) {
+		return
+	}
+
+	// The response only carries {id, displayname} (see AUserDataOCSController::findGroupsWithDisplayname),
+	// so addGroup fills usercount/disabled/canAdd/canRemove with defaults. Trade-off: a group
+	// only known through this path shows a wrong usercount until the sidebar loads full details.
+	groups.forEach((group) => {
+		context.commit('addGroup', { id: group.id, name: group.displayname })
+	})
+}
 
 const actions = {
 
@@ -344,14 +418,6 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
-
-		/**
-		 * Adding filters in the search bar such as in:files, in:users, etc.
-		 * collides with this particular search, so we need to remove them
-		 * here and leave only the original search query
-		 */
-		search = search.replace(/in:[^\s]+/g, '').trim()
-
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
@@ -362,6 +428,7 @@ const actions = {
 					if (usersCount > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
 					}
+					commitGroupsFromUsersResponse(context, response)
 					return usersCount
 				})
 				.catch((error) => {
@@ -379,6 +446,7 @@ const actions = {
 				if (usersCount > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
 				}
+				commitGroupsFromUsersResponse(context, response)
 				return usersCount
 			})
 			.catch((error) => {
@@ -442,9 +510,10 @@ const actions = {
 		const limitParam = limit === -1 ? '' : `&limit=${limit}`
 		return api.get(generateOcsUrl('cloud/groups?offset={offset}&search={search}', { offset, search }) + limitParam)
 			.then((response) => {
-				if (Object.keys(response.data.ocs.data.groups).length > 0) {
-					response.data.ocs.data.groups.forEach(function(group) {
-						context.commit('addGroup', { gid: group, displayName: group })
+				const groups = response.data.ocs.data.groups ?? []
+				if (groups.length > 0) {
+					groups.forEach(function(group) {
+						context.commit('addGroup', { id: group, name: group })
 					})
 					return true
 				}
@@ -508,10 +577,10 @@ const actions = {
 	 * @return {Promise}
 	 */
 	addGroup(context, gid) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('cloud/groups'), { groupid: gid })
-				.then((response) => {
-					context.commit('addGroup', { gid, displayName: gid })
+				.then(() => {
+					context.commit('addGroup', { id: gid, name: gid })
 					return { gid, displayName: gid }
 				})
 				.catch((error) => { throw error })
@@ -532,9 +601,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	renameGroup(context, { groupid, displayName }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.put(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(groupid) }), { key: 'displayname', value: displayName })
-				.then((response) => {
+				.then(() => {
 					context.commit('renameGroup', { gid: groupid, displayName })
 					return { groupid, displayName }
 				})
@@ -555,9 +624,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	removeGroup(context, gid) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.delete(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(gid) }))
-				.then((response) => context.commit('removeGroup', gid))
+				.then(() => context.commit('removeGroup', gid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }))
 	},
@@ -572,9 +641,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	addUserGroup(context, { userid, gid }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('cloud/users/{userid}/groups', { userid }), { groupid: gid })
-				.then((response) => context.commit('addUserGroup', { userid, gid }))
+				.then(() => context.commit('addUserGroup', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -589,9 +658,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	removeUserGroup(context, { userid, gid }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.delete(generateOcsUrl('cloud/users/{userid}/groups', { userid }), { groupid: gid })
-				.then((response) => context.commit('removeUserGroup', { userid, gid }))
+				.then(() => context.commit('removeUserGroup', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => {
 			context.commit('API_FAILURE', { userid, error })
@@ -611,9 +680,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	addUserSubAdmin(context, { userid, gid }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('cloud/users/{userid}/subadmins', { userid }), { groupid: gid })
-				.then((response) => context.commit('addUserSubAdmin', { userid, gid }))
+				.then(() => context.commit('addUserSubAdmin', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -628,9 +697,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	removeUserSubAdmin(context, { userid, gid }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.delete(generateOcsUrl('cloud/users/{userid}/subadmins', { userid }), { groupid: gid })
-				.then((response) => context.commit('removeUserSubAdmin', { userid, gid }))
+				.then(() => context.commit('removeUserSubAdmin', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -660,9 +729,9 @@ const actions = {
 	 * @return {Promise}
 	 */
 	deleteUser(context, userid) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.delete(generateOcsUrl('cloud/users/{userid}', { userid }))
-				.then((response) => context.commit('deleteUser', userid))
+				.then(() => context.commit('deleteUser', userid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -686,7 +755,7 @@ const actions = {
 	 * @return {Promise}
 	 */
 	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language, manager }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language, manager })
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
@@ -704,7 +773,7 @@ const actions = {
 	 * @return {Promise}
 	 */
 	addUserData(context, userid) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.get(generateOcsUrl('cloud/users/{userid}', { userid }))
 				.then((response) => context.commit('addUserData', response))
 				.catch((error) => { throw error })
@@ -722,9 +791,9 @@ const actions = {
 	 */
 	enableDisableUser(context, { userid, enabled = true }) {
 		const userStatus = enabled ? 'enable' : 'disable'
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.put(generateOcsUrl('cloud/users/{userid}/{userStatus}', { userid, userStatus }))
-				.then((response) => context.commit('enableDisableUser', { userid, enabled }))
+				.then(() => context.commit('enableDisableUser', { userid, enabled }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -741,24 +810,48 @@ const actions = {
 	 */
 	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
-		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
-			// We allow empty email or displayname
-			if (typeof value === 'string'
-				&& (
-					(allowedEmpty.indexOf(key) === -1 && value.length > 0)
-					|| allowedEmpty.indexOf(key) !== -1
-				)
-			) {
-				try {
-					await api.requireAdmin()
-					await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-					return context.commit('setUserData', { userid, key, value })
-				} catch (error) {
-					context.commit('API_FAILURE', { userid, error })
-				}
-			}
+		const validKeys = ['email', 'language', 'quota', 'displayname', 'password', 'manager']
+
+		if (!validKeys.includes(key)) {
+			throw new Error('Invalid request data')
 		}
-		return Promise.reject(new Error('Invalid request data'))
+
+		// If value is empty and the key doesn't allow empty values, throw error
+		if (value === '' && !allowedEmpty.includes(key)) {
+			throw new Error('Value cannot be empty for this field')
+		}
+
+		try {
+			await api.requireAdmin()
+			await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+			return context.commit('setUserData', { userid, key, value })
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			throw error
+		}
+	},
+
+	/**
+	 * Update multiple user fields atomically via the new bulk endpoint.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.payload Changed fields to send
+	 * @return {Promise}
+	 */
+	async editUserMultiField(context, { userid, payload }) {
+		try {
+			await api.requireAdmin()
+			const response = await api.patch(
+				generateOcsUrl('cloud/users/{userid}', { userid }),
+				payload,
+			)
+			context.commit('editUserMultiField', { userid, data: response.data.ocs.data })
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			throw error
+		}
 	},
 
 	/**
@@ -769,12 +862,74 @@ const actions = {
 	 * @return {Promise}
 	 */
 	sendWelcomeMail(context, userid) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('cloud/users/{userid}/welcome', { userid }))
-				.then(response => true)
+				.then(() => true)
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
+	/**
+	 * Migrate local storage keys to database
+	 *
+	 * @param {object} context store context
+	 * @param context.commit
+	 */
+	migrateLocalStorage({ commit }) {
+		const preferences = {
+			showStoragePath: 'user_list_show_storage_path',
+			showUserBackend: 'user_list_show_user_backend',
+			showFirstLogin: 'user_list_show_first_login',
+			showLastLogin: 'user_list_show_last_login',
+			showNewUserForm: 'user_list_show_new_user_form',
+			showLanguages: 'user_list_show_languages',
+		}
+
+		for (const [key, dbKey] of Object.entries(preferences)) {
+			const localKey = `account_settings__${key}`
+			const localValue = window.localStorage.getItem(localKey)
+			if (localValue === null) {
+				continue
+			}
+
+			const value = localValue === 'true'
+			commit('setShowConfig', { key, value })
+
+			axios.post(generateUrl(`/settings/users/preferences/${dbKey}`), {
+				value: value ? 'true' : 'false',
+			}).then(() => {
+				window.localStorage.removeItem(localKey)
+			}).catch((error) => {
+				logger.error(`Failed to migrate preference ${key}`, { error })
+			})
+		}
+	},
+
+	/**
+	 * Set show config
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.key Key to set
+	 * @param {boolean} options.value Value to set
+	 */
+	setShowConfig(context, { key, value }) {
+		context.commit('setShowConfig', { key, value })
+		const keyMap = {
+			showStoragePath: 'user_list_show_storage_path',
+			showUserBackend: 'user_list_show_user_backend',
+			showFirstLogin: 'user_list_show_first_login',
+			showLastLogin: 'user_list_show_last_login',
+			showNewUserForm: 'user_list_show_new_user_form',
+			showLanguages: 'user_list_show_languages',
+		}
+		axios.post(generateUrl(`settings/users/preferences/${keyMap[key]}`), { value: value ? 'true' : 'false' })
+			.catch((error) => logger.error(`Could not update ${key} preference`, { error }))
+	},
 }
 
-export default { state, mutations, getters, actions }
+export default {
+	state,
+	mutations,
+	getters,
+	actions,
+}

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
@@ -14,11 +16,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
 	public function __construct(
-		protected IAppManager $manager,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -46,6 +49,7 @@ class ListApps extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('shipped') === 'true' || $input->getOption('shipped') === 'false') {
 			$shippedFilter = $input->getOption('shipped') === 'true';
@@ -56,16 +60,16 @@ class ListApps extends Base {
 		$showEnabledApps = $input->getOption('enabled') || !$input->getOption('disabled');
 		$showDisabledApps = $input->getOption('disabled') || !$input->getOption('enabled');
 
-		$apps = \OC_App::getAllApps();
+		$apps = $this->appManager->getAllAppsInAppsFolders();
 		$enabledApps = $disabledApps = [];
-		$versions = \OC_App::getAppVersions();
+		$versions = $this->appManager->getAppInstalledVersions();
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
-			if ($shippedFilter !== null && $this->manager->isShipped($app) !== $shippedFilter) {
+			if ($shippedFilter !== null && $this->appManager->isShipped($app) !== $shippedFilter) {
 				continue;
 			}
-			if ($this->manager->isEnabledForAnyone($app)) {
+			if ($this->appManager->isEnabledForAnyone($app)) {
 				$enabledApps[] = $app;
 			} else {
 				$disabledApps[] = $app;
@@ -88,7 +92,7 @@ class ListApps extends Base {
 
 			sort($disabledApps);
 			foreach ($disabledApps as $app) {
-				$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
+				$apps['disabled'][$app] = $this->appManager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 			}
 		}
 
@@ -126,6 +130,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return array
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'shipped') {
 			return ['true', 'false'];
@@ -138,6 +143,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		return [];
 	}

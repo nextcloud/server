@@ -4,9 +4,8 @@
  */
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { davGetClient } from '@nextcloud/files'
+import { getClient } from '@nextcloud/files/dav'
 
-// init webdav client
 export const rootPath = `/trashbin/${getCurrentUser()?.uid}/trash`
 
-export const client = davGetClient()
+export const client = getClient()

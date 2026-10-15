@@ -2,32 +2,33 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Entry, Folder, Node } from '@nextcloud/files'
 
+import type { IFolder, INode, NewMenuEntry } from '@nextcloud/files'
+
+import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { Permission, removeNewFileMenuEntry } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { join } from 'path'
-import { newNodeName } from '../utils/newNodeDialog'
-
-import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
-import axios from '@nextcloud/axios'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
-let templatesPath = loadState<string|false>('files', 'templates_path', false)
+let templatesPath = loadState<string | false>('files', 'templates_path', false)
 logger.debug('Templates folder enabled', { templatesEnabled })
 logger.debug('Initial templates folder', { templatesPath })
 
 /**
  * Init template folder
+ *
  * @param directory Folder where to create the templates folder
  * @param name Name to use or the templates folder
  */
-const initTemplatesFolder = async function(directory: Folder, name: string) {
+async function initTemplatesFolder(directory: IFolder, name: string) {
 	const templatePath = join(directory.path, name)
 	try {
 		logger.debug('Initializing the templates directory', { templatePath })
@@ -48,17 +49,17 @@ const initTemplatesFolder = async function(directory: Folder, name: string) {
 		})
 		templatesPath = data.ocs.data.templates_path as string
 	} catch (error) {
-		logger.error('Unable to initialize the templates directory')
+		logger.error('Unable to initialize the templates directory', { error })
 		showError(t('files', 'Unable to initialize the templates directory'))
 	}
 }
 
-export const entry = {
+export const entry: NewMenuEntry = {
 	id: 'template-picker',
 	displayName: t('files', 'Create templates folder'),
 	iconSvgInline: PlusSvg,
 	order: 30,
-	enabled(context: Folder): boolean {
+	enabled(context: IFolder): boolean {
 		// Templates disabled or templates folder already initialized
 		if (!templatesEnabled || templatesPath) {
 			return false
@@ -69,8 +70,8 @@ export const entry = {
 		}
 		return (context.permissions & Permission.CREATE) !== 0
 	},
-	async handler(context: Folder, content: Node[]) {
-		const name = await newNodeName(t('files', 'Templates'), content, { name: t('files', 'New template folder') })
+	async handler(context: IFolder, content: INode[]) {
+		const name = await newNodeName(t('files', 'Templates'), content, { name: t('files', 'New template folder'), isFolder: true })
 
 		if (name !== null) {
 			// Create the template folder
@@ -80,4 +81,4 @@ export const entry = {
 			removeNewFileMenuEntry('template-picker')
 		}
 	},
-} as Entry
+}

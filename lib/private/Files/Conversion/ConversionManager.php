@@ -53,11 +53,13 @@ class ConversionManager implements IConversionManager {
 		$this->l10n = $l10nFactory->get('files');
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		return !empty($context->getFileConversionProviders());
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$providers = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
@@ -66,6 +68,7 @@ class ConversionManager implements IConversionManager {
 		return $providers;
 	}
 
+	#[\Override]
 	public function convert(File $file, string $targetMimeType, ?string $destination = null): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException($this->l10n->t('No file conversion providers available'));
@@ -125,11 +128,11 @@ class ConversionManager implements IConversionManager {
 			$appId = $providerRegistration->getAppId();
 
 			try {
-				if (in_array($appId, $this->preferredApps)) {
+				if (in_array($appId, $this->preferredApps, true)) {
 					$this->preferredProviders[$class] = $this->serverContainer->get($class);
 					continue;
 				}
-				
+
 				$this->providers[$class] = $this->serverContainer->get($class);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Throwable $e) {
 				$this->logger->error('Failed to load file conversion provider ' . $class, [
@@ -175,7 +178,7 @@ class ConversionManager implements IConversionManager {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -26,6 +27,7 @@ class TestRepairStep implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'A test repair step';
 	}
@@ -37,6 +39,7 @@ class TestRepairStep implements IRepairStep {
 	 * @since 9.1.0
 	 * @throws \Exception in case of failure
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// TODO: Implement run() method.
 	}
@@ -51,25 +54,19 @@ class BackgroundRepairTest extends TestCase {
 	private IAppManager $appManager;
 	private Repair $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->getMockBuilder(JobList::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->jobList = $this->createMock(JobList::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
 			->willReturn(999999);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->repair = new Repair($this->dispatcher, $this->logger);
-		$this->job = $this->getMockBuilder(BackgroundRepair::class)
-			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList, $this->appManager])
-			->setMethods(['loadApp'])
-			->getMock();
+		$this->job = new BackgroundRepair($this->repair, $this->time, $this->logger, $this->jobList, $this->appManager);
 	}
 
 	public function testNoArguments(): void {

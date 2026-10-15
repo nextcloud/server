@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
@@ -13,26 +14,32 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 	protected bool $isDarkVariant = true;
 
+	#[\Override]
 	public function getId(): string {
 		return 'dark';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dark theme');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dark theme');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: dark)';
 	}
 
+	#[\Override]
 	public function getMeta(): array {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
@@ -41,6 +48,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		]];
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
@@ -52,10 +60,18 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#FF3333';
-		$colorWarning = '#FFCC00';
-		$colorSuccess = '#3B973B';
-		$colorInfo = '#00AEFF';
+		$colorError = '#552121';
+		$colorErrorText = '#FFCCCC';
+		$colorErrorElement = '#FF5050';
+		$colorWarning = '#3D3010';
+		$colorWarningText = '#FFEEC5';
+		$colorWarningElement = '#FFCC00';
+		$colorSuccess = '#11321A';
+		$colorSuccessText = '#D5F2DC';
+		$colorSuccessElement = '#40A330';
+		$colorInfo = '#003553';
+		$colorInfoText = '#00AEFF';
+		$colorInfoElement = '#0099E0';
 
 		return array_merge(
 			$defaultVariables,
@@ -78,26 +94,45 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 6),
-				'--color-text-light' => 'var(--color-main-text)', // deprecated
-				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+				'--color-text-error' => $this->util->lighten($colorErrorElement, 6),
+				'--color-text-success' => $this->util->lighten($colorSuccessElement, 6),
+
+				'--color-border' => $this->util->lighten($colorMainBackground, 7),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
+
+				// Assistant colors (see default theme)
+				'--color-background-assistant' => '#221D2B',
+				'--color-border-assistant' => 'linear-gradient(125deg, #0C3A65 50%, #6204A5 125%)',
+				'--color-element-assistant' => 'linear-gradient(214deg, #C8A3E8 12%, #007CFF 39%, #C297DD 86%)',
+				'--color-element-assistant-icon' => 'linear-gradient(214deg, #CDACE7 15.28%, #008FDB 39.98%, #A180E0 82.05%)',
+
+				'--color-element-error' => $colorErrorElement,
+				'--color-element-info' => $colorInfoElement,
+				'--color-element-success' => $colorSuccessElement,
+				'--color-element-warning' => $colorWarningElement,
 
 				'--color-error' => $colorError,
-				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-error-hover' => $this->util->lighten($colorError, 10),
-				'--color-error-text' => $this->util->lighten($colorError, 15),
+				'--color-error-text' => $colorErrorText,
 				'--color-warning' => $colorWarning,
-				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
 				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
-				'--color-warning-text' => $colorWarning,
+				'--color-warning-text' => $colorWarningText,
 				'--color-success' => $colorSuccess,
-				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
 				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
-				'--color-success-text' => $this->util->lighten($colorSuccess, 15),
+				'--color-success-text' => $colorSuccessText,
 				'--color-info' => $colorInfo,
-				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
-				'--color-info-text' => $colorInfo,
+				'--color-info-text' => $colorInfoText,
 				'--color-favorite' => '#ffde00',
+				'--color-mark' => '#4d3800',
+				'--color-background-selection' => 'rgb(from var(--color-primary-element) r g b / 0.4)',
+				'--color-text-selection' => 'var(--color-main-text)',
+				// deprecated
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',
@@ -105,10 +140,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-box-shadow' => $colorBoxShadow,
 				'--color-box-shadow-rgb' => $colorBoxShadowRGB,
-
-				'--color-border' => $this->util->lighten($colorMainBackground, 7),
-				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
 
 				'--background-invert-if-dark' => 'invert(100%)',
 				'--background-invert-if-bright' => 'no',

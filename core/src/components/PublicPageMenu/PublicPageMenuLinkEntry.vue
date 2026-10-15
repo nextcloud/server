@@ -3,8 +3,9 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<PublicPageMenuEntry :id="id"
-		click-only
+	<PublicPageMenuEntry
+		:id="id"
+		clickOnly
 		:icon="icon"
 		:href="href"
 		:label="label"
@@ -33,7 +34,7 @@ const emit = defineEmits<{
 async function copyLink() {
 	try {
 		await window.navigator.clipboard.writeText(props.href)
-		showSuccess(t('core', 'Direct link copied to clipboard'))
+		showSuccess(t('core', 'Direct link copied'))
 	} catch {
 		// No secure context -> fallback to dialog
 		window.prompt(t('core', 'Please copy the link manually:'), props.href)

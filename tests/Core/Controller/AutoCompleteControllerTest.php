@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,8 +10,8 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\AutoCompleteController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -19,30 +20,32 @@ class AutoCompleteControllerTest extends TestCase {
 	protected $collaboratorSearch;
 	/** @var IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var IEventDispatcher|MockObject */
-	protected $dispatcher;
+	/** @var IRequest|MockObject */
+	protected $request;
+	/** @var IURLGenerator|MockObject */
+	protected $urlGenerator;
 	/** @var AutoCompleteController */
 	protected $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IRequest $request */
-		$request = $this->createMock(IRequest::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->autoCompleteManager = $this->createMock(IManager::class);
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new AutoCompleteController(
 			'core',
-			$request,
+			$this->request,
 			$this->collaboratorSearch,
 			$this->autoCompleteManager,
-			$this->dispatcher
+			$this->urlGenerator,
 		);
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		return [
 			[ #0 – regular search
 				// searchResults
@@ -153,12 +156,10 @@ class AutoCompleteControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider searchDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testGet(array $searchResults, array $expected, string $searchTerm, ?string $itemType, ?string $itemId, ?string $sorter): void {
 		$this->collaboratorSearch->expects($this->once())
-			->method('search')
+			->method('filteredSearch')
 			->willReturn([$searchResults, false]);
 
 		$runSorterFrequency = $sorter === null ? $this->never() : $this->once();
@@ -170,5 +171,33 @@ class AutoCompleteControllerTest extends TestCase {
 		$list = $response->getData();
 		$this->assertEquals($expected, $list);	// has better error output…
 		$this->assertSame($expected, $list);
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
+	}
+
+	public function testGetSetsLinkHeaderWhenMoreResultsExist(): void {
+		$this->collaboratorSearch->expects($this->once())
+			->method('filteredSearch')
+			->with('bob', [0], false, null, null, 2, 0)
+			->willReturn([[
+				'exact' => ['users' => [], 'robots' => []],
+				'users' => [
+					['label' => 'Bob Y.', 'value' => ['shareWith' => 'bob']],
+					['label' => 'Bobby R.', 'value' => ['shareWith' => 'bobby']],
+				],
+			], true]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/core/autocomplete/get?search=bob&limit=2');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/core/autocomplete/get')
+			->willReturn('https://cloud.example.com/ocs/v2.php/core/autocomplete/get');
+
+		$response = $this->controller->get('bob', null, null, null, [0], 2, 0);
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/core/autocomplete/get?search=bob&shareTypes%5B0%5D=0&limit=2&offset=2>; rel="next"',
+			$response->getHeaders()['Link']
+		);
 	}
 }

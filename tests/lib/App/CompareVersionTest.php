@@ -14,16 +14,16 @@ use OC\App\CompareVersion;
 use Test\TestCase;
 
 class CompareVersionTest extends TestCase {
-	/** @var CompareVersion */
-	private $compare;
+	private CompareVersion $compare;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->compare = new CompareVersion();
 	}
 
-	public function comparisonData() {
+	public static function comparisonData(): array {
 		return [
 			// Compatible versions
 			['13.0.0.3', '13.0.0', '>=', true],
@@ -54,9 +54,7 @@ class CompareVersionTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider comparisonData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('comparisonData')]
 	public function testComparison(string $actualVersion, string $requiredVersion,
 		string $comparator, bool $expected): void {
 		$isCompatible = $this->compare->isCompatible($actualVersion, $requiredVersion,

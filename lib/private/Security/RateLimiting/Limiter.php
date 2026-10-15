@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\RateLimiting;
 
 use OC\Security\Normalizer\IpAddress;
@@ -13,10 +14,12 @@ use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OCP\IUser;
 use OCP\Security\RateLimiting\ILimiter;
+use Psr\Log\LoggerInterface;
 
 class Limiter implements ILimiter {
 	public function __construct(
 		private IBackend $backend,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -32,6 +35,11 @@ class Limiter implements ILimiter {
 	): void {
 		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
+			$this->logger->info('Request blocked because it exceeds the rate limit [method: {method}, limit: {limit}, period: {period}]', [
+				'method' => $methodIdentifier,
+				'limit' => $limit,
+				'period' => $period,
+			]);
 			throw new RateLimitExceededException();
 		}
 
@@ -44,6 +52,7 @@ class Limiter implements ILimiter {
 	 * @param int $anonPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerAnonRequest(
 		string $identifier,
 		int $anonLimit,
@@ -62,6 +71,7 @@ class Limiter implements ILimiter {
 	 * @param int $userPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerUserRequest(
 		string $identifier,
 		int $userLimit,

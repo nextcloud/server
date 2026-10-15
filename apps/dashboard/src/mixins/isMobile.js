@@ -12,7 +12,7 @@ export default {
 	beforeMount() {
 		window.addEventListener('resize', this._onResize)
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this._onResize)
 	},
 	methods: {

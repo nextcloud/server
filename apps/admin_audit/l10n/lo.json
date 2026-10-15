@@ -1,0 +1,5 @@
+{ "translations": {
+    "Auditing / Logging" : "ການກວດສອບ / ການບັນທຶກ",
+    "Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions." : "ສະໜອງຄວາມສາມາດໃນການບັນທຶກສຳລັບ Nextcloud ເຊັ່ນ ການບັນທຶກການເຂົ້າເຖິງໄຟລ໌ ຫຼື ການກະທຳອື່ນໆທີ່ອ່ອນໄຫວ."
+},"pluralForm" :"nplurals=1; plural=0;"
+}

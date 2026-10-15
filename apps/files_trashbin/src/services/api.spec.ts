@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { emptyTrash } from './api.ts'
 import * as ncAuth from '@nextcloud/auth'
 import * as ncDialogs from '@nextcloud/dialogs'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as logger from '../logger.ts'
+import { emptyTrash } from './api.ts'
 
 const axiosMock = vi.hoisted(() => ({
 	delete: vi.fn(),
 }))
 vi.mock('@nextcloud/axios', () => ({ default: axiosMock }))
+vi.mock('@nextcloud/dialogs')
 
 describe('files_trashbin: API - emptyTrash', () => {
 	beforeEach(() => {
@@ -31,7 +32,9 @@ describe('files_trashbin: API - emptyTrash', () => {
 	})
 
 	it('shows failure', async () => {
-		axiosMock.delete.mockImplementationOnce(() => { throw new Error() })
+		axiosMock.delete.mockImplementationOnce(() => {
+			throw new Error()
+		})
 		const dialogSpy = vi.spyOn(ncDialogs, 'showError')
 		const loggerSpy = vi.spyOn(logger.logger, 'error').mockImplementationOnce(() => {})
 

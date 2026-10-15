@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -17,12 +19,14 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 
 	public function __construct(
 		private IDBConnection $connection,
+		private IAppConfig $appConfig,
 	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Remove activity entries of private events';
 	}
@@ -30,13 +34,19 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
+		if ($this->appConfig->getAppValueBool('checked_for_classified_activity')) {
+			return;
+		}
+
 		if (!$this->connection->tableExists('activity')) {
 			return;
 		}
 
 		$deletedEvents = $this->removePrivateEventActivity();
 		$deletedEvents += $this->removeConfidentialUncensoredEventActivity();
+		$this->appConfig->setAppValueBool('checked_for_classified_activity', true);
 
 		$output->info("Removed $deletedEvents activity entries");
 	}
@@ -58,7 +68,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 			->where($query->expr()->eq('o.classification', $query->createNamedParameter(CalDavBackend::CLASSIFICATION_PRIVATE)));
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			if ($row['principaluri'] === null) {
 				continue;
 			}
@@ -92,7 +102,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 			->where($query->expr()->eq('o.classification', $query->createNamedParameter(CalDavBackend::CLASSIFICATION_CONFIDENTIAL)));
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			if ($row['principaluri'] === null) {
 				continue;
 			}

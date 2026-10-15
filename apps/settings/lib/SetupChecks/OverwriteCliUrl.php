@@ -23,21 +23,24 @@ class OverwriteCliUrl implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'config';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Overwrite CLI URL');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$currentOverwriteCliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		$suggestedOverwriteCliUrl = $this->request->getServerProtocol() . '://' . $this->request->getInsecureServerHost() . \OC::$WEBROOT;
 
 		// Check correctness by checking if it is a valid URL
 		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
-			if ($currentOverwriteCliUrl == $suggestedOverwriteCliUrl) {
+			if ($currentOverwriteCliUrl === $suggestedOverwriteCliUrl) {
 				return SetupResult::success(
 					$this->l10n->t(
 						'The "overwrite.cli.url" option in your config.php is correctly set to "%s".',

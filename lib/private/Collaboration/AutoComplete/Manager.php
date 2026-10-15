@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\AutoComplete;
 
 use OCP\Collaboration\AutoComplete\IManager;
@@ -24,6 +26,7 @@ class Manager implements IManager {
 	) {
 	}
 
+	#[\Override]
 	public function runSorters(array $sorters, array &$sortArray, array $context): void {
 		$sorterInstances = $this->getSorters();
 		while ($sorter = array_shift($sorters)) {
@@ -37,6 +40,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function registerSorter($className): void {
 		$this->sorters[] = $className;
 	}

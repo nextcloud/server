@@ -21,6 +21,7 @@ class RequestIdTest extends \Test\TestCase {
 	/** @var ISecureRandom|MockObject */
 	protected $secureRandom;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,11 +50,7 @@ class RequestIdTest extends \Test\TestCase {
 		$this->secureRandom->expects($this->once())
 			->method('generate')
 			->with('20')
-			->willReturnOnConsecutiveCalls(
-				'GeneratedByNextcloudItself1',
-				'GeneratedByNextcloudItself2',
-				'GeneratedByNextcloudItself3'
-			);
+			->willReturn('GeneratedByNextcloudItself1');
 
 		$this->assertSame('GeneratedByNextcloudItself1', $requestId->getId());
 		$this->assertSame('GeneratedByNextcloudItself1', $requestId->getId());

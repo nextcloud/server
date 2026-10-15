@@ -10,35 +10,29 @@ declare(strict_types=1);
 namespace OC\Talk;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\IServerContainer;
 use OCP\Talk\Exceptions\NoBackendException;
 use OCP\Talk\IBroker;
 use OCP\Talk\IConversation;
 use OCP\Talk\IConversationOptions;
 use OCP\Talk\ITalkBackend;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
 
 class Broker implements IBroker {
-	private Coordinator $coordinator;
-
-	private IServerContainer $container;
-
-	private LoggerInterface $logger;
-
 	private ?bool $hasBackend = null;
 
 	private ?ITalkBackend $backend = null;
 
-	public function __construct(Coordinator $coordinator,
-		IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private Coordinator $coordinator,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+	) {
 	}
 
+	#[\Override]
 	public function hasBackend(): bool {
 		if ($this->hasBackend !== null) {
 			return $this->hasBackend;
@@ -73,10 +67,12 @@ class Broker implements IBroker {
 		}
 	}
 
+	#[\Override]
 	public function newConversationOptions(): IConversationOptions {
 		return ConversationOptions::default();
 	}
 
+	#[\Override]
 	public function createConversation(string $name,
 		array $moderators,
 		?IConversationOptions $options = null): IConversation {
@@ -91,11 +87,30 @@ class Broker implements IBroker {
 		);
 	}
 
+	#[\Override]
 	public function deleteConversation(string $id): void {
 		if (!$this->hasBackend()) {
 			throw new NoBackendException('The Talk broker has no registered backend');
 		}
 
 		$this->backend->deleteConversation($id);
+	}
+
+	#[\Override]
+	public function isAllowedToCreateConversations(): bool {
+		if (!$this->isEnabledForUser()) {
+			return false;
+		}
+
+		return $this->backend->isAllowedToCreateConversations();
+	}
+
+	#[\Override]
+	public function isEnabledForUser(): bool {
+		if (!$this->hasBackend()) {
+			return false;
+		}
+
+		return $this->backend->isEnabledForUser();
 	}
 }

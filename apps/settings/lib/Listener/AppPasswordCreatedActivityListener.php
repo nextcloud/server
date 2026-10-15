@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Listener;
 
 use BadMethodCallException;
@@ -18,7 +19,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\AppPasswordCreatedEvent>
+ * @template-implements IEventListener<AppPasswordCreatedEvent>
  */
 class AppPasswordCreatedActivityListener implements IEventListener {
 	public function __construct(
@@ -28,6 +29,7 @@ class AppPasswordCreatedActivityListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AppPasswordCreatedEvent)) {
 			return;

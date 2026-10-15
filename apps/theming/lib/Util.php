@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use Mexitek\PHPColors\Color;
@@ -33,6 +35,15 @@ class Util {
 	 */
 	public function invertTextColor(string $color): bool {
 		return $this->colorContrast($color, '#ffffff') < 4.5;
+	}
+
+	/**
+	 * Get the best text color contrast-wise for the given color.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getTextColor(string $color): string {
+		return $this->invertTextColor($color) ? '#000000' : '#ffffff';
 	}
 
 	/**
@@ -186,40 +197,47 @@ class Util {
 	 * @return string base64 encoded radio button svg
 	 */
 	public function generateRadioButton($color) {
-		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' .
-			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="' . $color . '"/></svg>';
+		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">'
+			. '<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="' . $color . '"/></svg>';
 		return base64_encode($radioButtonIcon);
 	}
-
 
 	/**
 	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
-	public function getAppIcon($app) {
+	public function getAppIcon($app, $useSvg = true) {
 		$app = $this->appManager->cleanAppId($app);
 		try {
+			// find app specific icon
 			$appPath = $this->appManager->getAppPath($app);
-			$icon = $appPath . '/img/' . $app . '.svg';
+			$extension = ($useSvg ? '.svg' : '.png');
+
+			$icon = $appPath . '/img/' . $app . $extension;
 			if (file_exists($icon)) {
 				return $icon;
 			}
-			$icon = $appPath . '/img/app.svg';
+
+			$icon = $appPath . '/img/app' . $extension;
 			if (file_exists($icon)) {
 				return $icon;
 			}
 		} catch (AppPathNotFoundException $e) {
 		}
-
+		// fallback to custom instance logo
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
-			$logoFile = null;
 			try {
 				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}
 		}
-		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+		// fallback to core logo
+		if ($useSvg) {
+			return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+		} else {
+			return \OC::$SERVERROOT . '/core/img/logo/logo.png';
+		}
 	}
 
 	/**

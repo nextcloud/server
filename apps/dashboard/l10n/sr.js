@@ -16,12 +16,11 @@ OC.L10N.register(
     "Hello, {name}" : "Здраво, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Срећан рођендан 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Срећан рођендан {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} икона”",
     "Customize" : "Прилагођавање",
     "Edit widgets" : "Уређивање виџета",
     "Get more widgets from the App Store" : "Преузмите још виџета из Продавнице апликација",
     "Weather service" : "Метео сервис",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Ради чувања ваше приватности, временске податке са метеоролошког сервиса у ваше име захтева Nextcloud сервер, тако да се метеоролошком сервису не шаљу лични подаци.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Ради чувања ваше приватности, временске податке са метеоролошког сервиса у ваше име захтева {productName} сервер, тако да се метеоролошком сервису не шаљу лични подаци.",
     "Weather data from Met.no" : "Метеоролошки подаци са Met.no",
     "geocoding with Nominatim" : "геокодирање са Nominatim",
     "elevation data from OpenTopoData" : "висински подаци са OpenTopoData"

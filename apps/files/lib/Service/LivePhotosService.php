@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Service;
 
+use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 
@@ -20,9 +21,9 @@ class LivePhotosService {
 	/**
 	 * Get the associated live photo for a given file id
 	 */
-	public function getLivePhotoPeerId(int $fileId): ?int {
+	public function getLivePhotoPeerId(Node $file): ?int {
 		try {
-			$metadata = $this->filesMetadataManager->getMetadata($fileId);
+			$metadata = $this->filesMetadataManager->getMetadataForNode($file);
 		} catch (FilesMetadataNotFoundException $ex) {
 			return null;
 		}
@@ -32,5 +33,23 @@ class LivePhotosService {
 		}
 
 		return (int)$metadata->getString('files-live-photo');
+	}
+
+	/**
+	 * Get the associated live photo for multiple file ids
+	 * @param int[] $fileIds
+	 * @return int[]
+	 */
+	public function getLivePhotoPeerIds(array $fileIds): array {
+		$metadata = $this->filesMetadataManager->getMetadataForFiles($fileIds);
+		$peersIds = [];
+		foreach ($metadata as $item) {
+			if (!$item->hasKey('files-live-photo')) {
+				continue;
+			}
+
+			$peersIds[] = (int)$item->getString('files-live-photo');
+		}
+		return $peersIds;
 	}
 }

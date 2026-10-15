@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\CallbackWrapper;
@@ -47,7 +49,8 @@ class FTP extends Common {
 				$this->secure = false;
 			}
 			$this->root = isset($parameters['root']) ? '/' . ltrim($parameters['root']) : '/';
-			$this->port = $parameters['port'] ?? 21;
+			$parsedPort = $parameters['port'] ?? null;
+			$this->port = is_numeric($parsedPort) ? (int)$parsedPort : 21;
 			$this->utf8Mode = isset($parameters['utf8']) && $parameters['utf8'];
 		} else {
 			throw new \Exception('Creating ' . self::class . ' storage failed, required parameters not set');
@@ -81,6 +84,7 @@ class FTP extends Common {
 		return $this->connection;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'ftp::' . $this->username . '@' . $this->host . '/' . $this->root;
 	}
@@ -97,6 +101,7 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function filemtime(string $path): int|false {
 		$result = $this->getConnection()->mdtm($this->buildPath($path));
 
@@ -129,6 +134,7 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function filesize(string $path): false|int|float {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {
@@ -138,6 +144,7 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			$result = $this->getConnection()->rmdir($this->buildPath($path));
@@ -169,6 +176,7 @@ class FTP extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function test(): bool {
 		try {
 			return $this->getConnection()->systype() !== false;
@@ -177,6 +185,7 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		if (!$this->file_exists($path)) {
 			return false;
@@ -187,6 +196,7 @@ class FTP extends Common {
 		];
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		if ($path === '' || $path === '.' || $path === '/') {
 			return true;
@@ -194,6 +204,7 @@ class FTP extends Common {
 		return $this->filetype($path) !== false;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		switch ($this->filetype($path)) {
 			case 'dir':
@@ -205,11 +216,13 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		$files = $this->getConnection()->nlist($this->buildPath($path));
 		return IteratorDirectory::wrap($files);
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			return false;
@@ -217,6 +230,7 @@ class FTP extends Common {
 		return $this->getConnection()->mkdir($this->buildPath($path)) !== false;
 	}
 
+	#[\Override]
 	public function is_dir(string $path): bool {
 		if ($path === '') {
 			return true;
@@ -229,10 +243,12 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function is_file(string $path): bool {
 		return $this->filesize($path) !== false;
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		if ($this->is_dir($path)) {
 			return 'dir';
@@ -243,6 +259,7 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$useExisting = true;
 		switch ($mode) {
@@ -264,7 +281,7 @@ class FTP extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				if ($useExisting and $this->file_exists($path)) {
+				if ($useExisting && $this->file_exists($path)) {
 					if (!$this->isUpdatable($path)) {
 						return false;
 					}
@@ -284,6 +301,7 @@ class FTP extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size): void {
@@ -309,6 +327,7 @@ class FTP extends Common {
 		return $stream;
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		if ($this->file_exists($path)) {
 			return false;
@@ -318,11 +337,13 @@ class FTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$this->unlink($target);
 		return $this->getConnection()->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$files = $this->getConnection()->mlsd($this->buildPath($directory));
 		$mimeTypeDetector = Server::get(IMimeTypeDetector::class);

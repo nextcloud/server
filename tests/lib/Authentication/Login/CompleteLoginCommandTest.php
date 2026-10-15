@@ -11,25 +11,18 @@ namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\CompleteLoginCommand;
 use OC\User\Session;
-use PHPUnit\Framework\MockObject\MockObject;
 
-class CompleteLoginCommandTest extends ALoginCommandTest {
-	/** @var Session|MockObject */
-	private $session;
-
+class CompleteLoginCommandTest extends ALoginTestCommand {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->createMock(Session::class);
-
-		$this->cmd = new CompleteLoginCommand(
-			$this->session
-		);
+		$this->cmd = $this->createInstanceWithMocks(CompleteLoginCommand::class);
 	}
 
 	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->session->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('completeLogin')
 			->with(
 				$this->user,

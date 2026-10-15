@@ -26,6 +26,7 @@ class OCMResource implements IOCMResource {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setName(string $name): static {
 		$this->name = $name;
 
@@ -35,6 +36,7 @@ class OCMResource implements IOCMResource {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
@@ -44,6 +46,7 @@ class OCMResource implements IOCMResource {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setShareTypes(array $shareTypes): static {
 		$this->shareTypes = $shareTypes;
 
@@ -53,6 +56,7 @@ class OCMResource implements IOCMResource {
 	/**
 	 * @return list<string>
 	 */
+	#[\Override]
 	public function getShareTypes(): array {
 		return $this->shareTypes;
 	}
@@ -62,6 +66,7 @@ class OCMResource implements IOCMResource {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setProtocols(array $protocols): static {
 		$this->protocols = $protocols;
 
@@ -71,6 +76,7 @@ class OCMResource implements IOCMResource {
 	/**
 	 * @return array<string, string>
 	 */
+	#[\Override]
 	public function getProtocols(): array {
 		return $this->protocols;
 	}
@@ -83,6 +89,7 @@ class OCMResource implements IOCMResource {
 	 * @return $this
 	 * @see self::jsonSerialize()
 	 */
+	#[\Override]
 	public function import(array $data): static {
 		return $this->setName((string)($data['name'] ?? ''))
 			->setShareTypes($data['shareTypes'] ?? [])
@@ -96,6 +103,7 @@ class OCMResource implements IOCMResource {
 	 *     protocols: array<string, string>
 	 * }
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

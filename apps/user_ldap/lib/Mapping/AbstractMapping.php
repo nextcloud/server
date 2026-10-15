@@ -5,11 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -28,15 +31,80 @@ abstract class AbstractMapping {
 	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
+	 * A month worth of cache time for as good as never changing mapping data.
+	 * Implemented when it was found that name-to-DN lookups are quite frequent.
+	 */
+	protected const LOCAL_CACHE_TTL = 2592000;
+
+	/**
+	 * A week worth of cache time for rarely changing user count data.
+	 */
+	protected const LOCAL_USER_COUNT_TTL = 604800;
+
+	/**
+	 * By default, the local cache is only used up to a certain amount of objects.
+	 * This constant holds this number. The amount of entries would amount up to
+	 * 1 MiB (worst case) per mappings table.
+	 * Setting `use_local_mapping_cache` for `user_ldap` to `yes` or `no`
+	 * deliberately enables or disables this mechanism.
+	 */
+	protected const LOCAL_CACHE_OBJECT_THRESHOLD = 2000;
+
+	protected ?ICache $localNameToDnCache = null;
+
+	/** @var array caches Names (value) by DN (key) */
+	protected array $cache = [];
+
+	/**
 	 * @param IDBConnection $dbc
 	 */
 	public function __construct(
 		protected IDBConnection $dbc,
+		protected ICacheFactory $cacheFactory,
+		protected IAppConfig $config,
+		protected bool $isCLI,
 	) {
+		$this->initLocalCache();
 	}
 
-	/** @var array caches Names (value) by DN (key) */
-	protected $cache = [];
+	protected function initLocalCache(): void {
+		if ($this->isCLI || !$this->cacheFactory->isLocalCacheAvailable()) {
+			return;
+		}
+
+		$useLocalCache = $this->config->getValueString('user_ldap', 'use_local_mapping_cache', 'auto', false);
+		if ($useLocalCache !== 'yes' && $useLocalCache !== 'auto') {
+			return;
+		}
+
+		$section = \str_contains($this->getTableName(), 'user') ? 'u/' : 'g/';
+		$this->localNameToDnCache = $this->cacheFactory->createLocal('ldap/map/' . $section);
+
+		// We use the cache as well to store whether it shall be used. If the
+		// answer was no, we unset it again.
+		if ($useLocalCache === 'auto' && !$this->useCacheByUserCount()) {
+			$this->localNameToDnCache = null;
+		}
+	}
+
+	protected function useCacheByUserCount(): bool {
+		$use = $this->localNameToDnCache->get('use');
+		if ($use !== null) {
+			return $use;
+		}
+
+		$qb = $this->dbc->getQueryBuilder();
+		$q = $qb->select($qb->func()->count('owncloud_name', 'count'))
+			->from($this->getTableName());
+		$q->setMaxResults(self::LOCAL_CACHE_OBJECT_THRESHOLD + 1);
+		$result = $q->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+
+		$use = (int)$row['count'] <= self::LOCAL_CACHE_OBJECT_THRESHOLD;
+		$this->localNameToDnCache->set('use', $use, self::LOCAL_USER_COUNT_TTL);
+		return $use;
+	}
 
 	/**
 	 * checks whether a provided string represents an existing table col
@@ -71,14 +139,13 @@ abstract class AbstractMapping {
 			//having SQL injection at all.
 			throw new \Exception('Invalid Column Name');
 		}
-		$query = $this->dbc->prepare('
-			SELECT `' . $fetchCol . '`
-			FROM `' . $this->getTableName() . '`
-			WHERE `' . $compareCol . '` = ?
-		');
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select($fetchCol)
+			->from($this->getTableName())
+			->where($qb->expr()->eq($compareCol, $qb->createNamedParameter($search)));
 
 		try {
-			$res = $query->execute([$search]);
+			$res = $qb->executeQuery();
 			$data = $res->fetchOne();
 			$res->closeCursor();
 			return $data;
@@ -88,36 +155,21 @@ abstract class AbstractMapping {
 	}
 
 	/**
-	 * Performs a DELETE or UPDATE query to the database.
-	 *
-	 * @param IPreparedStatement $statement
-	 * @param array $parameters
-	 * @return bool true if at least one row was modified, false otherwise
-	 */
-	protected function modify(IPreparedStatement $statement, $parameters) {
-		try {
-			$result = $statement->execute($parameters);
-			$updated = $result->rowCount() > 0;
-			$result->closeCursor();
-			return $updated;
-		} catch (Exception $e) {
-			return false;
-		}
-	}
-
-	/**
 	 * Gets the LDAP DN based on the provided name.
-	 * Replaces Access::ocname2dn
-	 *
-	 * @param string $name
-	 * @return string|false
 	 */
-	public function getDNByName($name) {
-		$dn = array_search($name, $this->cache);
-		if ($dn === false && ($dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name)) !== false) {
-			$this->cache[$dn] = $name;
+	public function getDNByName(string $name): string|false {
+		$dn = array_search($name, $this->cache, true);
+		if ($dn === false) {
+			$dn = $this->localNameToDnCache?->get($name);
+			if ($dn === null) {
+				$dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name);
+				if ($dn !== false) {
+					$this->cache[$dn] = $name;
+				}
+				$this->localNameToDnCache?->set($name, $dn, self::LOCAL_CACHE_TTL);
+			}
 		}
-		return $dn;
+		return $dn ?? false;
 	}
 
 	/**
@@ -129,16 +181,25 @@ abstract class AbstractMapping {
 	 */
 	public function setDNbyUUID($fdn, $uuid) {
 		$oldDn = $this->getDnByUUID($uuid);
-		$statement = $this->dbc->prepare('
-			UPDATE `' . $this->getTableName() . '`
-			SET `ldap_dn_hash` = ?, `ldap_dn` = ?
-			WHERE `directory_uuid` = ?
-		');
-
-		$r = $this->modify($statement, [$this->getDNHash($fdn), $fdn, $uuid]);
-
-		if ($r && is_string($oldDn) && isset($this->cache[$oldDn])) {
-			$this->cache[$fdn] = $this->cache[$oldDn];
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			$r = $qb->update($this->getTableName(false))
+				->set('ldap_dn_hash', $qb->createNamedParameter($this->getDNHash($fdn)))
+				->set('ldap_dn', $qb->createNamedParameter($fdn))
+				->where($qb->expr()->eq('directory_uuid', $qb->createNamedParameter($uuid)))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			$r = false;
+		}
+		if ($r) {
+			if (is_string($oldDn) && isset($this->cache[$oldDn])) {
+				$userId = $this->cache[$oldDn];
+			}
+			$userId = $userId ?? $this->getNameByUUID($uuid);
+			if ($userId) {
+				$this->cache[$fdn] = $userId;
+				$this->localNameToDnCache?->set($userId, $fdn, self::LOCAL_CACHE_TTL);
+			}
 			unset($this->cache[$oldDn]);
 		}
 
@@ -155,15 +216,17 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function setUUIDbyDN($uuid, $fdn): bool {
-		$statement = $this->dbc->prepare('
-			UPDATE `' . $this->getTableName() . '`
-			SET `directory_uuid` = ?
-			WHERE `ldap_dn_hash` = ?
-		');
-
 		unset($this->cache[$fdn]);
 
-		return $this->modify($statement, [$uuid, $this->getDNHash($fdn)]);
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			return $qb->update($this->getTableName(false))
+				->set('directory_uuid', $qb->createNamedParameter($uuid))
+				->where($qb->expr()->eq('ldap_dn_hash', $qb->createNamedParameter($this->getDNHash($fdn))))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -199,7 +262,7 @@ abstract class AbstractMapping {
 
 	protected function collectResultsFromListOfIdsQuery(IQueryBuilder $qb, array &$results): void {
 		$stmt = $qb->executeQuery();
-		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
+		while ($entry = $stmt->fetchAssociative()) {
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
 		}
@@ -213,7 +276,13 @@ abstract class AbstractMapping {
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
-		$maxSlices = $this->dbc->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE ? 9 : $totalDBParamLimit / $sliceSize;
+		// SQLite's variable limit is very low; Oracle's OCI8 driver has high per-bind overhead,
+		// making large parameter lists (65k) extremely slow — use smaller batches for both.
+		$maxSlices = match ($this->dbc->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_SQLITE => 9,
+			IDBConnection::PLATFORM_ORACLE => 5,
+			default => $totalDBParamLimit / $sliceSize,
+		};
 		$results = [];
 
 		$slice = 1;
@@ -257,21 +326,22 @@ abstract class AbstractMapping {
 	 * @return string[]
 	 */
 	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
-		$statement = $this->dbc->prepare('
-			SELECT `owncloud_name`
-			FROM `' . $this->getTableName() . '`
-			WHERE `owncloud_name` LIKE ?
-		');
-
+		$qb = $this->dbc->getQueryBuilder();
 		try {
-			$res = $statement->execute([$prefixMatch . $this->dbc->escapeLikeParameter($search) . $postfixMatch]);
+			$res = $qb->select('owncloud_name')
+				->from($this->getTableName(false))
+				->where($qb->expr()->like('owncloud_name', $qb->createNamedParameter(
+					$prefixMatch . $this->dbc->escapeLikeParameter($search) . $postfixMatch
+				)))
+				->executeQuery();
 		} catch (Exception $e) {
 			return [];
 		}
 		$names = [];
-		while ($row = $res->fetch()) {
+		while ($row = $res->fetchAssociative()) {
 			$names[] = $row['owncloud_name'];
 		}
+		$res->closeCursor();
 		return $names;
 	}
 
@@ -314,7 +384,7 @@ abstract class AbstractMapping {
 		}
 
 		$result = $select->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $entries;
@@ -351,6 +421,7 @@ abstract class AbstractMapping {
 			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
 			if ((bool)$result === true) {
 				$this->cache[$fdn] = $name;
+				$this->localNameToDnCache?->set($name, $fdn, self::LOCAL_CACHE_TTL);
 			}
 			// insertIfNotExist returns values as int
 			return (bool)$result;
@@ -366,16 +437,20 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function unmap($name) {
-		$statement = $this->dbc->prepare('
-			DELETE FROM `' . $this->getTableName() . '`
-			WHERE `owncloud_name` = ?');
-
-		$dn = array_search($name, $this->cache);
+		$dn = array_search($name, $this->cache, true);
 		if ($dn !== false) {
 			unset($this->cache[$dn]);
 		}
+		$this->localNameToDnCache?->remove($name);
 
-		return $this->modify($statement, [$name]);
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			return $qb->delete($this->getTableName(false))
+				->where($qb->expr()->eq('owncloud_name', $qb->createNamedParameter($name)))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -389,6 +464,7 @@ abstract class AbstractMapping {
 			->getTruncateTableSQL('`' . $this->getTableName() . '`');
 		try {
 			$this->dbc->executeQuery($sql);
+			$this->localNameToDnCache?->clear();
 
 			return true;
 		} catch (Exception $e) {

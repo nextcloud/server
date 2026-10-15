@@ -6,61 +6,76 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Node;
 
+use OC\Files\View;
 use OCP\Constants;
-use OCP\Files\File;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountManager;
-use OCP\Files\NotFoundException;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
-use Psr\Log\LoggerInterface;
+use OCP\Server;
 
-class LazyUserFolder extends LazyFolder {
-	private IUser $user;
+class LazyUserFolder extends LazyFolder implements IUserFolder {
 	private string $path;
-	private IMountManager $mountManager;
 
-	public function __construct(IRootFolder $rootFolder, IUser $user, IMountManager $mountManager) {
-		$this->user = $user;
-		$this->mountManager = $mountManager;
+	public function __construct(
+		IRootFolder $rootFolder,
+		private IUser $user,
+		private IMountManager $mountManager,
+		bool $useDefaultHomeFoldersPermissions = true,
+	) {
 		$this->path = '/' . $user->getUID() . '/files';
-		parent::__construct($rootFolder, function () use ($user): Folder {
-			try {
-				$node = $this->getRootFolder()->get($this->path);
-				if ($node instanceof File) {
-					$e = new \RuntimeException();
-					\OCP\Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
-						'exception' => $e,
-					]);
-					throw $e;
-				}
-				return $node;
-			} catch (NotFoundException $e) {
-				if (!$this->getRootFolder()->nodeExists('/' . $user->getUID())) {
-					$this->getRootFolder()->newFolder('/' . $user->getUID());
-				}
-				return $this->getRootFolder()->newFolder($this->path);
-			}
-		}, [
+		$data = [
 			'path' => $this->path,
-			// Sharing user root folder is not allowed
-			'permissions' => Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE,
 			'type' => FileInfo::TYPE_FOLDER,
 			'mimetype' => FileInfo::MIMETYPE_FOLDER,
-		]);
+		];
+
+		// By default, we assume the permissions for the users' home folders.
+		// If a mount point is mounted on a user's home folder, the permissions cannot be assumed.
+		if ($useDefaultHomeFoldersPermissions) {
+			// Sharing user root folder is not allowed
+			$data['permissions'] = Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE;
+		}
+
+		parent::__construct(
+			$rootFolder,
+			function () use ($user): UserFolder {
+				$root = $this->getRootFolder();
+				$realFolder = $root->getOrCreateFolder('/' . $user->getUID() . '/files', maxRetries: 1);
+				return new UserFolder(
+					$root,
+					new View(),
+					$realFolder->getPath(),
+					null,
+					Server::get(IConfig::class),
+					$user,
+					Server::get(ICacheFactory::class),
+				);
+			},
+			$data,
+		);
 	}
 
+	#[\Override]
 	public function getMountPoint() {
 		if ($this->folder !== null) {
 			return $this->folder->getMountPoint();
 		}
-		$mountPoint = $this->mountManager->find('/' . $this->user->getUID());
+		$mountPoint = $this->mountManager->find($this->path);
 		if (is_null($mountPoint)) {
 			throw new \Exception('No mountpoint for user folder');
 		}
 		return $mountPoint;
+	}
+
+	#[\Override]
+	public function getUserQuota(bool $useCache = true): array {
+		return $this->__call(__FUNCTION__, func_get_args());
 	}
 }

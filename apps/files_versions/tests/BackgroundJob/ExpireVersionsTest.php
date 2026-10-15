@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,17 +18,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ExpireVersionsTest extends TestCase {
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var Expiration|MockObject */
-	private $expiration;
-
-	/** @var IJobList|MockObject */
-	private $jobList;
+	private IConfig&MockObject $config;
+	private IUserManager&MockObject $userManager;
+	private Expiration&MockObject $expiration;
+	private IJobList&MockObject $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Settings;
 
 use OCA\WorkflowEngine\AppInfo\Application;
@@ -16,36 +20,40 @@ class Section implements IIconSection {
 	 * @param IL10N $l
 	 */
 	public function __construct(
-		private IURLGenerator $url,
-		private IL10N $l,
+		private readonly IURLGenerator $url,
+		private readonly IL10N $l,
 	) {
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getID() {
+	#[\Override]
+	public function getID(): string {
 		return 'workflow';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return $this->l->t('Flow');
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPriority() {
+	#[\Override]
+	public function getPriority(): int {
 		return 55;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIcon() {
+	#[\Override]
+	public function getIcon(): string {
 		return $this->url->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
 }

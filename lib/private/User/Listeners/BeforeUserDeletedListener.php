@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\User\Listeners;
 
 use OCP\EventDispatcher\Event;
@@ -20,16 +21,14 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<BeforeUserDeletedEvent>
  */
 class BeforeUserDeletedListener implements IEventListener {
-	private IAvatarManager $avatarManager;
-	private ICredentialsManager $credentialsManager;
-	private LoggerInterface $logger;
-
-	public function __construct(LoggerInterface $logger, IAvatarManager $avatarManager, ICredentialsManager $credentialsManager) {
-		$this->avatarManager = $avatarManager;
-		$this->credentialsManager = $credentialsManager;
-		$this->logger = $logger;
+	public function __construct(
+		private LoggerInterface $logger,
+		private IAvatarManager $avatarManager,
+		private ICredentialsManager $credentialsManager,
+	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeUserDeletedEvent)) {
 			return;

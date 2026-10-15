@@ -1,61 +1,64 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Command;
 
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Delete all file entries that have no matching entries in the storage table.
+ * Delete all file entries that have no matching entries in the storage table,
+ * and the rows keyed by file id that have no matching file entry.
  */
-class DeleteOrphanedFiles extends Command {
-	public const CHUNK_SIZE = 200;
+#[AsCommand(
+	name: 'files:cleanup',
+	description: 'Clean up orphaned filecache and mount entries',
+	help: 'Deletes orphaned filecache and mount entries (those without an existing storage), and filecache_extended and file metadata entries without a filecache entry.',
+)]
+class DeleteOrphanedFiles {
+	public const int CHUNK_SIZE = 200;
 
 	public function __construct(
-		protected IDBConnection $connection,
+		protected readonly IDBConnection $connection,
 	) {
-		parent::__construct();
 	}
 
-	protected function configure(): void {
-		$this
-			->setName('files:cleanup')
-			->setDescription('Clean up orphaned filecache and mount entries')
-			->setHelp('Deletes orphaned filecache and mount entries (those without an existing storage).')
-			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
-	}
-
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$fileIdsByStorage = [];
-
+	public function __invoke(
+		IOutput $output,
+		#[Option(name: 'skip-filecache-extended', description: 'don\'t remove orphaned entries from filecache_extended')]
+		bool $skipFilecacheExtended = false,
+	): ExitCode {
 		$deletedStorages = array_diff($this->getReferencedStorages(), $this->getExistingStorages());
-
-		$deleteExtended = !$input->getOption('skip-filecache-extended');
-		if ($deleteExtended) {
-			$fileIdsByStorage = $this->getFileIdsForStorages($deletedStorages);
-		}
 
 		$deletedEntries = $this->cleanupOrphanedFileCache($deletedStorages);
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
-		if ($deleteExtended) {
-			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended($fileIdsByStorage);
+		if (!$skipFilecacheExtended) {
+			$deletedFileCacheExtended = $this->cleanupEntriesWithoutFileCache('filecache_extended', 'fileid');
 			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
 		}
 
+		$deletedMetadata = $this->cleanupEntriesWithoutFileCache('files_metadata', 'file_id');
+		$output->writeln("$deletedMetadata orphaned file metadata entries deleted");
+
+		$deletedMetadataIndex = $this->cleanupEntriesWithoutFileCache('files_metadata_index', 'file_id');
+		$output->writeln("$deletedMetadataIndex orphaned file metadata index entries deleted");
+
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
-		
-		return self::SUCCESS;
+
+		return ExitCode::Success;
 	}
 
 	private function getReferencedStorages(): array {
@@ -64,7 +67,7 @@ class DeleteOrphanedFiles extends Command {
 			->from('filecache')
 			->groupBy('storage')
 			->runAcrossAllShards();
-		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchFirstColumn();
 	}
 
 	private function getExistingStorages(): array {
@@ -72,29 +75,7 @@ class DeleteOrphanedFiles extends Command {
 		$query->select('numeric_id')
 			->from('storages')
 			->groupBy('numeric_id');
-		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
-	}
-
-	/**
-	 * @param int[] $storageIds
-	 * @return array<int, int[]>
-	 */
-	private function getFileIdsForStorages(array $storageIds): array {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('storage', 'fileid')
-			->from('filecache')
-			->where($query->expr()->in('storage', $query->createParameter('storage_ids')));
-
-		$result = [];
-		$storageIdChunks = array_chunk($storageIds, self::CHUNK_SIZE);
-		foreach ($storageIdChunks as $storageIdChunk) {
-			$query->setParameter('storage_ids', $storageIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$chunk = $query->executeQuery()->fetchAll();
-			foreach ($chunk as $row) {
-				$result[$row['storage']][] = $row['fileid'];
-			}
-		}
-		return $result;
+		return $query->executeQuery()->fetchFirstColumn();
 	}
 
 	private function cleanupOrphanedFileCache(array $deletedStorages): int {
@@ -112,28 +93,39 @@ class DeleteOrphanedFiles extends Command {
 
 		return $deletedEntries;
 	}
-	
-	/**
-	 * @param array<int, int[]> $fileIdsByStorage
-	 * @return int
-	 */
-	private function cleanupOrphanedFileCacheExtended(array $fileIdsByStorage): int {
+
+	private function cleanupEntriesWithoutFileCache(string $table, string $fileIdColumn): int {
 		$deletedEntries = 0;
+		$lastFileId = 0;
 
-		$deleteQuery = $this->connection->getQueryBuilder();
-		$deleteQuery->delete('filecache_extended')
-			->where($deleteQuery->expr()->in('fileid', $deleteQuery->createParameter('file_ids')));
-
-		foreach ($fileIdsByStorage as $storageId => $fileIds) {
-			$deleteQuery->hintShardKey('storage', $storageId, true);
-			$fileChunks = array_chunk($fileIds, self::CHUNK_SIZE);
-			foreach ($fileChunks as $fileChunk) {
-				$deleteQuery->setParameter('file_ids', $fileChunk, IQueryBuilder::PARAM_INT_ARRAY);
-				$deletedEntries += $deleteQuery->executeStatement();
+		while (true) {
+			$query = $this->connection->getQueryBuilder();
+			$query->select($fileIdColumn)
+				->from($table)
+				->where($query->expr()->gt($fileIdColumn, $query->createNamedParameter($lastFileId, IQueryBuilder::PARAM_INT)))
+				->orderBy($fileIdColumn)
+				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS)
+				->runAcrossAllShards();
+			$fileIds = array_unique(array_map(intval(...), $query->executeQuery()->fetchFirstColumn()));
+			if ($fileIds === []) {
+				return $deletedEntries;
 			}
-		}
 
-		return $deletedEntries;
+			$query = $this->connection->getQueryBuilder();
+			$query->select('fileid')
+				->from('filecache')
+				->where($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$missingFileIds = array_diff($fileIds, $query->executeQuery()->fetchFirstColumn());
+
+			if ($missingFileIds !== []) {
+				$query = $this->connection->getQueryBuilder();
+				$query->delete($table)
+					->where($query->expr()->in($fileIdColumn, $query->createNamedParameter($missingFileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+				$deletedEntries += $query->executeStatement();
+			}
+
+			$lastFileId = max($fileIds);
+		}
 	}
 
 	private function cleanupOrphanedMounts(): int {
@@ -155,7 +147,7 @@ class DeleteOrphanedFiles extends Command {
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$deletedInLastChunk++;
 				$deletedEntries += $deleteQuery->setParameter('storageid', (int)$row['storage_id'])
 					->executeStatement();

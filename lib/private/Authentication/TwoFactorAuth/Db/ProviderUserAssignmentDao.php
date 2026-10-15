@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth\Db;
 
 use OCP\IDBConnection;
@@ -18,11 +19,9 @@ use function array_map;
 class ProviderUserAssignmentDao {
 	public const TABLE_NAME = 'twofactor_providers';
 
-	/** @var IDBConnection */
-	private $conn;
-
-	public function __construct(IDBConnection $dbConn) {
-		$this->conn = $dbConn;
+	public function __construct(
+		private IDBConnection $conn,
+	) {
 	}
 
 	/**
@@ -39,7 +38,7 @@ class ProviderUserAssignmentDao {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
 		$result = $query->executeQuery();
 		$providers = [];
-		foreach ($result->fetchAll() as $row) {
+		foreach ($result->fetchAllAssociative() as $row) {
 			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
 		}
 		$result->closeCursor();
@@ -82,7 +81,7 @@ class ProviderUserAssignmentDao {
 			->from(self::TABLE_NAME)
 			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
 		$selectResult = $selectQuery->executeQuery();
-		$rows = $selectResult->fetchAll();
+		$rows = $selectResult->fetchAllAssociative();
 		$selectResult->closeCursor();
 
 		$qb2 = $this->conn->getQueryBuilder();
@@ -91,13 +90,13 @@ class ProviderUserAssignmentDao {
 			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
 		$deleteQuery->executeStatement();
 
-		return array_values(array_map(function (array $row) {
+		return array_map(function (array $row) {
 			return [
 				'provider_id' => (string)$row['provider_id'],
 				'uid' => (string)$row['uid'],
 				'enabled' => ((int)$row['enabled']) === 1,
 			];
-		}, $rows));
+		}, $rows);
 	}
 
 	public function deleteAll(string $providerId): void {

@@ -5,33 +5,20 @@
 
 <template>
 	<section class="section-emails">
-		<HeaderBar :input-id="inputId"
-			:readable="primaryEmail.readable"
-			:is-editable="true"
-			:is-multi-value-supported="true"
-			:is-valid-section="isValidSection"
-			:scope.sync="primaryEmail.scope"
-			@add-additional="onAddAdditionalEmail" />
-
-		<template v-if="displayNameChangeSupported">
-			<Email :input-id="inputId"
-				:primary="true"
+		<template v-if="emailChangeSupported">
+			<EmailSectionEntry
+				:input-id="inputId"
+				primary
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				:active-notification-email.sync="notificationEmail"
 				@update:email="onUpdateEmail"
 				@update:notification-email="onUpdateNotificationEmail" />
-		</template>
 
-		<span v-else>
-			{{ primaryEmail.value || t('settings', 'No email address set') }}
-		</span>
-
-		<template v-if="additionalEmails.length">
 			<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
-			<Email v-for="(additionalEmail, index) in additionalEmails"
+			<EmailSectionEntry
+				v-for="(additionalEmail, index) in additionalEmails"
 				:key="additionalEmail.key"
-				class="section-emails__additional-email"
 				:index="index"
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
@@ -40,38 +27,54 @@
 				@update:email="onUpdateEmail"
 				@update:notification-email="onUpdateNotificationEmail"
 				@delete-additional-email="onDeleteAdditionalEmail(index)" />
+
+			<NcFormBox class="section-emails__add">
+				<NcFormBoxButton
+					:label="t('settings', 'Additional address')"
+					:disabled="!isValidSection"
+					@click="onAddAdditionalEmail">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcFormBoxButton>
+			</NcFormBox>
 		</template>
+
+		<span v-else>
+			{{ primaryEmail.value || t('settings', 'No email address set') }}
+		</span>
 	</section>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
-import Email from './Email.vue'
-import HeaderBar from '../shared/HeaderBar.vue'
-
-import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
-import { validateEmail } from '../../../utils/validate.js'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import EmailSectionEntry from './EmailSectionEntry.vue'
+import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants.js'
+import { removeAdditionalEmail, savePrimaryEmail } from '../../../service/PersonalInfo/EmailService.js'
 import { handleError } from '../../../utils/handlers.ts'
+import { validateEmail } from '../../../utils/validate.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
-const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { emailChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'EmailSection',
 
 	components: {
-		HeaderBar,
-		Email,
+		EmailSectionEntry,
+		NcFormBox,
+		NcFormBoxButton,
+		Plus,
 	},
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
-			displayNameChangeSupported,
-			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
+			additionalEmails: additionalEmails.map((properties) => ({ ...properties, key: this.generateUniqueKey() })),
+			emailChangeSupported,
+			primaryEmail: { ...primaryEmail },
 			notificationEmail,
 		}
 	},
@@ -97,6 +100,7 @@ export default {
 			get() {
 				return this.primaryEmail.value
 			},
+
 			set(value) {
 				this.primaryEmail.value = value
 			},
@@ -180,10 +184,9 @@ export default {
 
 <style lang="scss" scoped>
 .section-emails {
-	padding: 10px 10px;
-
-	&__additional-email {
-		margin-top: calc(var(--default-grid-baseline) * 3);
-	}
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 6px 0;
 }
 </style>

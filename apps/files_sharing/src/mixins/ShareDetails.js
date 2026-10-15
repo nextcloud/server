@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { ATOMIC_PERMISSIONS } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
 
 export default {
 	methods: {
 		async openSharingDetails(shareRequestObject) {
-			let share = {}
+			let share
 			// handle externalResults from OCA.Sharing.ShareSearch
 			// TODO : Better name/interface for handler required
 			// For example `externalAppCreateShareHook` with proper documentation
@@ -26,6 +28,18 @@ export default {
 				share = this.mapShareRequestToShareObject(shareRequestObject)
 			}
 
+			if (this.fileInfo.type !== 'dir') {
+				const originalPermissions = share.permissions
+				const strippedPermissions = originalPermissions
+					& ~ATOMIC_PERMISSIONS.CREATE
+					& ~ATOMIC_PERMISSIONS.DELETE
+
+				if (originalPermissions !== strippedPermissions) {
+					logger.debug('Removed create/delete permissions from file share (only valid for folders)')
+					share.permissions = strippedPermissions
+				}
+			}
+
 			const shareDetails = {
 				fileInfo: this.fileInfo,
 				share,
@@ -38,7 +52,6 @@ export default {
 			this.openSharingDetails(share)
 		},
 		mapShareRequestToShareObject(shareRequestObject) {
-
 			if (shareRequestObject.id) {
 				return shareRequestObject
 			}

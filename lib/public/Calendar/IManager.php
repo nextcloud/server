@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Calendar;
 
 use DateTimeInterface;
@@ -139,6 +140,17 @@ interface IManager {
 	 * @since 23.0.0
 	 */
 	public function newQuery(string $principalUri) : ICalendarQuery;
+
+	/**
+	 * Handles a iMip message
+	 *
+	 * @param array{absent?: "create"|"ignore", absentCreateStatus?: "cancelled"|"confirmed"|"tentative", recipient?: string, ...} $options
+	 *
+	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function handleIMip(string $userId, string $message, array $options = []): bool;
 
 	/**
 	 * Handle a iMip REQUEST message

@@ -110,8 +110,13 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?string $userIdFilter User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering.
 	 * @param ?array<string,string> $headers Array of headers to send
-	 * @param "none"|"headers"|null $authMethod Authentication method to use
+	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
+	 * @param ?array{user_ids?:list<string>,user_roles?:list<string>} $tokenNeeded
+	 *                                                                             List of user ids for which to include auth tokens in the event.
+	 *                                                                             Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                                                             Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
+	 *                                                                             Requested auth tokens are valid for 1 hour after receiving them in the event call request.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
@@ -134,10 +139,11 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = null,
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -156,6 +162,7 @@ class WebhooksController extends OCSController {
 				$headers,
 				$authMethod,
 				$authData,
+				$tokenNeeded,
 			);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
@@ -178,8 +185,13 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?string $userIdFilter User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering.
 	 * @param ?array<string,string> $headers Array of headers to send
-	 * @param "none"|"headers"|null $authMethod Authentication method to use
+	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
+	 * @param ?array{user_ids?:list<string>,user_roles?:list<string>} $tokenNeeded
+	 *                                                                             List of user ids for which to include auth tokens in the event.
+	 *                                                                             Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                                                             Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
+	 *                                                                             Requested auth tokens are valid for 1 hour after receiving them in the event call request.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
@@ -203,10 +215,11 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = null,
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -226,6 +239,7 @@ class WebhooksController extends OCSController {
 				$headers,
 				$authMethod,
 				$authData,
+				$tokenNeeded,
 			);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
@@ -271,7 +285,7 @@ class WebhooksController extends OCSController {
 	/**
 	 * Remove all existing webhook registration mapped to an AppAPI app id
 	 *
-	 * @param string $appid id of the app, as in the EX-APP-ID for creation
+	 * @param string $appid id of the app, as in the ex-app-id for creation
 	 *
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 *

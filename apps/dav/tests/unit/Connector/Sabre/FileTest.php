@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
@@ -43,26 +45,27 @@ use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
 /**
+ * Internal helper to mock legacy hook receiver.
+ */
+interface EventHandlerMock {
+	public function writeCallback(): void;
+	public function postWriteCallback(): void;
+}
+
+/**
  * Class File
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FileTest extends TestCase {
 	use MountProviderTrait;
 	use UserTrait;
 
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var IRequestId|MockObject */
-	protected $requestId;
+	private string $user;
+	protected IConfig&MockObject $config;
+	protected IRequestId&MockObject $requestId;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -72,7 +75,7 @@ class FileTest extends TestCase {
 		$this->user = 'test_user';
 		$this->createUser($this->user, 'pass');
 
-		$this->loginAsUser($this->user);
+		self::loginAsUser($this->user);
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->requestId = $this->createMock(IRequestId::class);
@@ -86,9 +89,7 @@ class FileTest extends TestCase {
 	}
 
 	private function getMockStorage(): MockObject&IStorage {
-		$storage = $this->getMockBuilder(IStorage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')
 			->willReturn('home::someuser');
 		return $storage;
@@ -101,8 +102,7 @@ class FileTest extends TestCase {
 		return $stream;
 	}
 
-
-	public function fopenFailuresProvider() {
+	public static function fopenFailuresProvider(): array {
 		return [
 			[
 				// return false
@@ -158,17 +158,15 @@ class FileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider fopenFailuresProvider
-	 */
-	public function testSimplePutFails($thrownException, $expectedException, $checkPreviousClass = true): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'fopenFailuresProvider')]
+	public function testSimplePutFails(?\Throwable $thrownException, string $expectedException, bool $checkPreviousClass = true): void {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
 			->onlyMethods(['writeStream'])
 			->setConstructorArgs([['datadir' => Server::get(ITempManager::class)->getTemporaryFolder()]])
 			->getMock();
 		Filesystem::mount($storage, [], $this->user . '/');
-		/** @var View | MockObject $view */
+		/** @var View&MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath', 'resolvePath'])
 			->getMock();
@@ -183,7 +181,7 @@ class FileTest extends TestCase {
 		if ($thrownException !== null) {
 			$storage->expects($this->once())
 				->method('writeStream')
-				->will($this->throwException($thrownException));
+				->willThrowException($thrownException);
 		} else {
 			$storage->expects($this->once())
 				->method('writeStream')
@@ -217,16 +215,85 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
+	public static function expectedSizeProvider(): array {
+		return [
+			'PUT with a length passes it through' => ['PUT', ['CONTENT_LENGTH' => '9'], 9],
+			'PUT of an empty body still expects zero' => ['PUT', ['CONTENT_LENGTH' => '0'], 0],
+			'PUT without the header expects nothing' => ['PUT', [], null],
+			// The chunked upload assembly reaches put() as a MOVE or COPY, where the
+			// Content-Length describes the request rather than the assembled stream.
+			'MOVE ignores a zero length' => ['MOVE', ['CONTENT_LENGTH' => '0'], null],
+			'MOVE ignores a non-zero length' => ['MOVE', ['CONTENT_LENGTH' => '9'], null],
+			'COPY ignores a zero length' => ['COPY', ['CONTENT_LENGTH' => '0'], null],
+			'COPY ignores a non-zero length' => ['COPY', ['CONTENT_LENGTH' => '9'], null],
+		];
+	}
+
+	/**
+	 * The expected size handed to IWriteStreamStorage::writeStream() may only come from
+	 * the Content-Length of a PUT body. Passing it on for other methods makes storages
+	 * that only measure the stream when given no size - ObjectStoreStorage among them -
+	 * write a truncated or empty file.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'expectedSizeProvider')]
+	public function testPutExpectedSizeOnlyComesFromPutContentLength(string $method, array $server, ?int $expectedSize): void {
+		$storage = $this->getMockBuilder(Local::class)
+			->onlyMethods(['writeStream'])
+			->setConstructorArgs([['datadir' => Server::get(ITempManager::class)->getTemporaryFolder()]])
+			->getMock();
+		Filesystem::mount($storage, [], $this->user . '/');
+
+		/** @var View&MockObject $view */
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['getRelativePath', 'resolvePath'])
+			->getMock();
+		$view->expects($this->atLeastOnce())
+			->method('resolvePath')
+			->willReturnCallback(fn ($path) => [$storage, $path]);
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
+
+		$receivedSize = false;
+		$storage->expects($this->once())
+			->method('writeStream')
+			->willReturnCallback(function (string $path, $stream, ?int $size = null) use (&$receivedSize): int {
+				$receivedSize = $size;
+				return (int)stream_copy_to_stream($stream, fopen('php://temp', 'r+'));
+			});
+
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+
+		$request = new Request([
+			'server' => $server,
+			'method' => $method,
+		], $this->requestId, $this->config, null);
+
+		$file = new File($view, $info, null, $request);
+
+		try {
+			$file->put($this->getStream('test data'));
+		} catch (\Exception $e) {
+			// Whatever happens after the write - size checks, renaming the part file - is
+			// not what this test is about.
+		}
+
+		$this->assertSame($expectedSize, $receivedSize);
+	}
+
 	/**
 	 * Simulate putting a file to the given path.
 	 *
 	 * @param string $path path to put the file into
-	 * @param string $viewRoot root to use for the view
+	 * @param ?string $viewRoot root to use for the view
 	 * @param null|Request $request the HTTP request
 	 *
 	 * @return null|string of the PUT operation which is usually the etag
 	 */
-	private function doPut($path, $viewRoot = null, ?Request $request = null) {
+	private function doPut(string $path, ?string $viewRoot = null, ?Request $request = null) {
 		$view = Filesystem::getView();
 		if (!is_null($viewRoot)) {
 			$view = new View($viewRoot);
@@ -240,12 +307,13 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
 
-		/** @var File|MockObject $file */
+		/** @var File&MockObject $file */
 		$file = $this->getMockBuilder(File::class)
 			->setConstructorArgs([$view, $info, null, $request])
 			->onlyMethods(['header'])
@@ -269,64 +337,64 @@ class FileTest extends TestCase {
 		$this->assertNotEmpty($this->doPut('/foo.txt'));
 	}
 
-	public function legalMtimeProvider() {
+	public static function legalMtimeProvider(): array {
 		return [
 			'string' => [
-				'HTTP_X_OC_MTIME' => 'string',
-				'expected result' => null
+				'requestMtime' => 'string',
+				'resultMtime' => null
 			],
 			'castable string (int)' => [
-				'HTTP_X_OC_MTIME' => '987654321',
-				'expected result' => 987654321
+				'requestMtime' => '987654321',
+				'resultMtime' => 987654321
 			],
 			'castable string (float)' => [
-				'HTTP_X_OC_MTIME' => '123456789.56',
-				'expected result' => 123456789
+				'requestMtime' => '123456789.56',
+				'resultMtime' => 123456789
 			],
 			'float' => [
-				'HTTP_X_OC_MTIME' => 123456789.56,
-				'expected result' => 123456789
+				'requestMtime' => 123456789.56,
+				'resultMtime' => 123456789
 			],
 			'zero' => [
-				'HTTP_X_OC_MTIME' => 0,
-				'expected result' => null
+				'requestMtime' => 0,
+				'resultMtime' => null
 			],
 			'zero string' => [
-				'HTTP_X_OC_MTIME' => '0',
-				'expected result' => null
+				'requestMtime' => '0',
+				'resultMtime' => null
 			],
 			'negative zero string' => [
-				'HTTP_X_OC_MTIME' => '-0',
-				'expected result' => null
+				'requestMtime' => '-0',
+				'resultMtime' => null
 			],
 			'string starting with number following by char' => [
-				'HTTP_X_OC_MTIME' => '2345asdf',
-				'expected result' => null
+				'requestMtime' => '2345asdf',
+				'resultMtime' => null
 			],
 			'string castable hex int' => [
-				'HTTP_X_OC_MTIME' => '0x45adf',
-				'expected result' => null
+				'requestMtime' => '0x45adf',
+				'resultMtime' => null
 			],
 			'string that looks like invalid hex int' => [
-				'HTTP_X_OC_MTIME' => '0x123g',
-				'expected result' => null
+				'requestMtime' => '0x123g',
+				'resultMtime' => null
 			],
 			'negative int' => [
-				'HTTP_X_OC_MTIME' => -34,
-				'expected result' => null
+				'requestMtime' => -34,
+				'resultMtime' => null
 			],
 			'negative float' => [
-				'HTTP_X_OC_MTIME' => -34.43,
-				'expected result' => null
+				'requestMtime' => -34.43,
+				'resultMtime' => null
 			],
 		];
 	}
 
 	/**
 	 * Test putting a file with string Mtime
-	 * @dataProvider legalMtimeProvider
 	 */
-	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalMtimeProvider')]
+	public function testPutSingleFileLegalMtime(mixed $requestMtime, ?int $resultMtime): void {
 		$request = new Request([
 			'server' => [
 				'HTTP_X_OC_MTIME' => (string)$requestMtime,
@@ -482,7 +550,7 @@ class FileTest extends TestCase {
 	 */
 	public function testSimplePutFailsSizeCheck(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['rename', 'getRelativePath', 'filesize'])
 			->getMock();
@@ -569,7 +637,7 @@ class FileTest extends TestCase {
 	 */
 	public function testSimplePutInvalidChars(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])
 			->getMock();
@@ -609,7 +677,7 @@ class FileTest extends TestCase {
 		$this->expectException(InvalidPath::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])
 			->getMock();
@@ -627,10 +695,9 @@ class FileTest extends TestCase {
 		$file->setName("/i\nvalid");
 	}
 
-
 	public function testUploadAbort(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['rename', 'getRelativePath', 'filesize'])
 			->getMock();
@@ -677,12 +744,15 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-
 	public function testDeleteWhenAllowed(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -699,14 +769,17 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => 0,
@@ -719,14 +792,17 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())
@@ -744,14 +820,17 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionThrows(): void {
 		$this->expectException(Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())
@@ -786,7 +865,13 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * Test whether locks are set before and after the operation
+	 * Test that PUT keeps hook-time lock semantics compatible:
+	 * - pre-write hooks run while the file is shared-locked
+	 * - post-write hooks also run while the file is shared-locked
+	 *
+	 * Post-write hooks are expected to observe a fully finalized file state,
+	 * but should still be able to access the file without exclusive-lock
+	 * contention.
 	 */
 	public function testPutLocking(): void {
 		$view = new View('/' . $this->user . '/files/');
@@ -798,7 +883,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
@@ -816,12 +902,10 @@ class FileTest extends TestCase {
 
 		$wasLockedPre = false;
 		$wasLockedPost = false;
-		$eventHandler = $this->getMockBuilder(\stdclass::class)
-			->addMethods(['writeCallback', 'postWriteCallback'])
-			->getMock();
+		$eventHandler = $this->createMock(EventHandlerMock::class);
 
-		// both pre and post hooks might need access to the file,
-		// so only shared lock is acceptable
+		// Pre-write hooks should run under a shared lock so observers can safely
+		// inspect the target while the write is in progress.
 		$eventHandler->expects($this->once())
 			->method('writeCallback')
 			->willReturnCallback(
@@ -830,6 +914,10 @@ class FileTest extends TestCase {
 					$wasLockedPre = $wasLockedPre && !$this->isFileLocked($view, $path, ILockingProvider::LOCK_EXCLUSIVE);
 				}
 			);
+
+		// Post-write hooks should also run under a shared lock. They are expected to
+		// see fully finalized metadata/state, but still be able to access the file
+		// during the callback.
 		$eventHandler->expects($this->once())
 			->method('postWriteCallback')
 			->willReturnCallback(
@@ -860,8 +948,8 @@ class FileTest extends TestCase {
 		// afterMethod unlocks
 		$view->unlockFile($path, ILockingProvider::LOCK_SHARED);
 
-		$this->assertTrue($wasLockedPre, 'File was locked during pre-hooks');
-		$this->assertTrue($wasLockedPost, 'File was locked during post-hooks');
+		$this->assertTrue($wasLockedPre, 'File was shared-locked during pre-hooks');
+		$this->assertTrue($wasLockedPost, 'File was shared-locked during post-hooks');
 
 		$this->assertFalse(
 			$this->isFileLocked($view, $path, ILockingProvider::LOCK_SHARED),
@@ -919,11 +1007,10 @@ class FileTest extends TestCase {
 		];
 	}
 
-
 	public function testGetFopenFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();
@@ -941,11 +1028,10 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-
 	public function testGetFopenThrows(): void {
 		$this->expectException(Forbidden::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();
@@ -963,11 +1049,10 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-
 	public function testGetThrowsIfNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();
@@ -1025,7 +1110,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -47,7 +48,6 @@ abstract class ApiController extends Controller {
 		$this->corsMaxAge = $corsMaxAge;
 	}
 
-
 	/**
 	 * This method implements a preflighted cors response for you that you can
 	 * link to for the options request
@@ -58,9 +58,8 @@ abstract class ApiController extends Controller {
 	#[PublicPage]
 	#[NoAdminRequired]
 	public function preflightedCors() {
-		if (isset($this->request->server['HTTP_ORIGIN'])) {
-			$origin = $this->request->server['HTTP_ORIGIN'];
-		} else {
+		$origin = $this->request->getHeader('origin');
+		if ($origin === '') {
 			$origin = '*';
 		}
 

@@ -3,36 +3,21 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcContent app-name="files">
-		<Navigation v-if="!isPublic" />
-		<FilesList :is-public="isPublic" />
+	<NcContent appName="files">
+		<FilesNavigation v-if="!isPublic" />
+		<RouterView />
+		<FilesSidebar v-if="!isPublic" />
 	</NcContent>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { isPublicShare } from '@nextcloud/sharing/public'
-import { defineComponent } from 'vue'
-
 import NcContent from '@nextcloud/vue/components/NcContent'
+import FilesNavigation from './views/FilesNavigation.vue'
+import FilesSidebar from './views/FilesSidebar.vue'
+import { useHotKeys } from './composables/useHotKeys.ts'
 
-import Navigation from './views/Navigation.vue'
-import FilesList from './views/FilesList.vue'
+useHotKeys()
 
-export default defineComponent({
-	name: 'FilesApp',
-
-	components: {
-		NcContent,
-		FilesList,
-		Navigation,
-	},
-
-	setup() {
-		const isPublic = isPublicShare()
-
-		return {
-			isPublic,
-		}
-	},
-})
+const isPublic = isPublicShare()
 </script>

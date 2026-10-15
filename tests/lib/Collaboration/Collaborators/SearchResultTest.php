@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,6 +11,8 @@ use OC\Collaboration\Collaborators\Search;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IContainer;
 use Test\TestCase;
 
@@ -19,15 +22,16 @@ class SearchResultTest extends TestCase {
 	/** @var ISearch */
 	protected $search;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->container = $this->createMock(IContainer::class);
 
-		$this->search = new Search($this->container);
+		$this->search = new Search($this->container, $this->createMock(IEventDispatcher::class), $this->createMock(IConfig::class));
 	}
 
-	public function dataAddResultSet() {
+	public static function dataAddResultSet(): array {
 		return [
 			[[], ['exact' => []]],
 			[['users' => ['exact' => null, 'loose' => []]], ['exact' => ['users' => []], 'users' => []]],
@@ -37,10 +41,10 @@ class SearchResultTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAddResultSet
 	 * @param array $toAdd
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAddResultSet')]
 	public function testAddResultSet(array $toAdd, array $expected): void {
 		$result = new SearchResult();
 
@@ -51,7 +55,7 @@ class SearchResultTest extends TestCase {
 		$this->assertEquals($expected, $result->asArray());
 	}
 
-	public function dataHasResult() {
+	public static function dataHasResult(): array {
 		$result = ['value' => ['shareWith' => 'l1']];
 		return [
 			[[],'users', 'n1', false],
@@ -61,17 +65,16 @@ class SearchResultTest extends TestCase {
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l1', true],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l2', false],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'groups', 'l1', false],
-
 		];
 	}
 
 	/**
-	 * @dataProvider dataHasResult
 	 * @param array $toAdd
 	 * @param string $type
 	 * @param string $id
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataHasResult')]
 	public function testHasResult(array $toAdd, $type, $id, $expected): void {
 		$result = new SearchResult();
 

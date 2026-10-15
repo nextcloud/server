@@ -32,6 +32,7 @@ class ProviderLoaderTest extends TestCase {
 	/** @var ProviderLoader */
 	private $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -45,7 +46,6 @@ class ProviderLoaderTest extends TestCase {
 
 		$this->loader = new ProviderLoader($this->appManager, $coordinator);
 	}
-
 
 	public function testFailHardIfProviderCanNotBeLoaded(): void {
 		$this->expectException(\Exception::class);

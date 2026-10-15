@@ -6,16 +6,20 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Provisioning_API\Controller;
 
 use OC\AppConfig;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OC\Config\ConfigManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\Config\ValueType;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
@@ -37,6 +41,7 @@ class AppConfigController extends OCSController {
 		private IGroupManager $groupManager,
 		private IManager $settingManager,
 		private IAppManager $appManager,
+		private readonly ConfigManager $configManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -98,8 +103,6 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update the config value of an app
 	 *
 	 * @param string $app ID of the app
@@ -112,6 +115,7 @@ class AppConfigController extends OCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -130,19 +134,27 @@ class AppConfigController extends OCSController {
 		}
 
 		$type = null;
-		try {
-			$configDetails = $this->appConfig->getDetails($app, $key);
-			$type = $configDetails['type'];
-		} catch (AppConfigUnknownKeyException) {
+
+		// checking expected type from lexicon
+		$keyDetails = $this->appConfig->getKeyDetails($app, $key);
+		if (array_key_exists('valueType', $keyDetails)) {
+			$type = $keyDetails['valueType'];
+		} else {
+			// if no details from lexicon, get from eventual current value in database
+			try {
+				$configDetails = $this->appConfig->getDetails($app, $key);
+				$type = $configDetails['type'];
+			} catch (AppConfigUnknownKeyException) {
+			}
 		}
 
 		/** @psalm-suppress InternalMethod */
 		match ($type) {
-			IAppConfig::VALUE_BOOL => $this->appConfig->setValueBool($app, $key, (bool)$value),
-			IAppConfig::VALUE_FLOAT => $this->appConfig->setValueFloat($app, $key, (float)$value),
-			IAppConfig::VALUE_INT => $this->appConfig->setValueInt($app, $key, (int)$value),
-			IAppConfig::VALUE_STRING => $this->appConfig->setValueString($app, $key, $value),
-			IAppConfig::VALUE_ARRAY => $this->appConfig->setValueArray($app, $key, \json_decode($value, true)),
+			IAppConfig::VALUE_BOOL, ValueType::BOOL => $this->appConfig->setValueBool($app, $key, $this->configManager->convertToBool($value)),
+			IAppConfig::VALUE_FLOAT, ValueType::FLOAT => $this->appConfig->setValueFloat($app, $key, $this->configManager->convertToFloat($value)),
+			IAppConfig::VALUE_INT, ValueType::INT => $this->appConfig->setValueInt($app, $key, $this->configManager->convertToInt($value)),
+			IAppConfig::VALUE_STRING, ValueType::STRING => $this->appConfig->setValueString($app, $key, $value),
+			IAppConfig::VALUE_ARRAY, ValueType::ARRAY => $this->appConfig->setValueArray($app, $key, $this->configManager->convertToArray($value)),
 			default => $this->appConfig->setValueMixed($app, $key, $value),
 		};
 
@@ -188,7 +200,7 @@ class AppConfigController extends OCSController {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function verifyConfigKey(string $app, string $key, string $value) {
-		if (in_array($key, ['installed_version', 'enabled', 'types'])) {
+		if (in_array($key, ['installed_version', 'enabled', 'types'], true)) {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
 

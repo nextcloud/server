@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2015 Christian Kampka <christian@kampka.net>
  * SPDX-License-Identifier: MIT
  */
+
 namespace Test\Command;
 
 use OC\Core\Command\Background\Mode;
@@ -16,12 +17,16 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BackgroundModeTest extends TestCase {
 	private IAppConfig $appConfig;
 
 	private Mode $command;
 
+	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$inputDefinition = new InputDefinition([
@@ -32,9 +37,7 @@ class BackgroundModeTest extends TestCase {
 		$this->command->setDefinition($inputDefinition);
 	}
 
-	/**
-	 * @dataProvider dataModeCommand
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataModeCommand')]
 	public function testModeCommand(string $mode): void {
 		$this->appConfig->expects($this->once())
 			->method('setValueString')
@@ -49,7 +52,7 @@ class BackgroundModeTest extends TestCase {
 		$this->assertStringContainsString($mode, $output);
 	}
 
-	public function dataModeCommand(): array {
+	public static function dataModeCommand(): array {
 		return [
 			'ajax' => ['ajax'],
 			'cron' => ['cron'],

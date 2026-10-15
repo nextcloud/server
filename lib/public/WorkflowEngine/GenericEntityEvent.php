@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\WorkflowEngine;
 
 /**
@@ -44,6 +45,7 @@ class GenericEntityEvent implements IEntityEvent {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->displayName;
 	}
@@ -55,6 +57,7 @@ class GenericEntityEvent implements IEntityEvent {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function getEventName(): string {
 		return $this->eventName;
 	}

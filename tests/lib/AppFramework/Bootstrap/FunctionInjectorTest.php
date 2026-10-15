@@ -11,15 +11,16 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\FunctionInjector;
 use OC\AppFramework\Utility\SimpleContainer;
+use Psr\Container\ContainerExceptionInterface;
 use Test\TestCase;
 
 interface Foo {
 }
 
 class FunctionInjectorTest extends TestCase {
-	/** @var SimpleContainer */
-	private $container;
+	private SimpleContainer $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -27,18 +28,16 @@ class FunctionInjectorTest extends TestCase {
 	}
 
 	public function testInjectFnNotRegistered(): void {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		$this->expectException(ContainerExceptionInterface::class);
 
 		(new FunctionInjector($this->container))->injectFn(static function (Foo $p1): void {
 		});
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testInjectFnNotRegisteredButNullable(): void {
 		(new FunctionInjector($this->container))->injectFn(static function (?Foo $p1): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 
 	public function testInjectFnByType(): void {
@@ -50,18 +49,13 @@ class FunctionInjectorTest extends TestCase {
 
 		(new FunctionInjector($this->container))->injectFn(static function (Foo $p1): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testInjectFnByName(): void {
 		$this->container->registerParameter('test', 'abc');
 
 		(new FunctionInjector($this->container))->injectFn(static function ($test): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 }

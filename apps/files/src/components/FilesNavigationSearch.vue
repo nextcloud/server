@@ -1,0 +1,87 @@
+<!--
+  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
+import { useActiveStore } from '../store/active.ts'
+import { useSearchStore } from '../store/search.ts'
+import { VIEW_ID } from '../views/search.ts'
+
+const activeStore = useActiveStore()
+const searchStore = useSearchStore()
+
+/**
+ * When the route is changed from search view to something different we need to clear the search box.
+ *
+ * This component is rendered by the navigation, not by a `RouterView`, so the
+ * in-component guards do not apply to it and a global guard is needed.
+ */
+onBeforeNavigation((to, from) => {
+	if (to.params.view !== VIEW_ID
+		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
+		// we are leaving the search view or navigate to another directory -> unset the query
+		searchStore.query = ''
+		searchStore.scope = 'filter'
+	} else if (to.params.view === VIEW_ID && from.params.view === VIEW_ID) {
+		// fix the query if the user refreshed the view
+		if (searchStore.query && !to.query.query) {
+			return {
+				...to,
+				query: {
+					...to.query,
+					query: searchStore.query,
+				},
+			}
+		}
+	}
+})
+
+/**
+ * Are we currently on the search view.
+ * Needed to disable the action menu (we cannot change the search mode there)
+ */
+const isSearchView = computed(() => activeStore.activeView?.id === VIEW_ID)
+
+/**
+ * Different searchbox label depending if filtering or searching
+ */
+const searchLabel = computed(() => {
+	if (searchStore.scope === 'globally') {
+		return t('files', 'Search everywhere')
+	}
+	return t('files', 'Search here')
+})
+</script>
+
+<template>
+	<NcAppNavigationSearch v-model="searchStore.query" :label="searchLabel">
+		<template #actions>
+			<NcActions :aria-label="t('files', 'Search scope options')" :disabled="isSearchView">
+				<template #icon>
+					<NcIconSvgWrapper :path="searchStore.scope === 'globally' ? mdiSearchWeb : mdiMagnify" />
+				</template>
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'filter'">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiMagnify" />
+					</template>
+					{{ t('files', 'Search here') }}
+				</NcActionButton>
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'globally'">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiSearchWeb" />
+					</template>
+					{{ t('files', 'Search everywhere') }}
+				</NcActionButton>
+			</NcActions>
+		</template>
+	</NcAppNavigationSearch>
+</template>

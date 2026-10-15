@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Server;
 use Sabre\DAV\Auth\Backend\BackendInterface;
@@ -62,7 +65,7 @@ class Auth implements BackendInterface {
 			$user = $userSession->getUser()->getUID();
 			\OC_Util::setupFS($user);
 			//trigger creation of user home and /files folder
-			\OC::$server->getUserFolder($user);
+			Server::get(IRootFolder::class)->getUserFolder($user);
 			return [true, "principals/$user"];
 		}
 		return [false, 'login failed'];

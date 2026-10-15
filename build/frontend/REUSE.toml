@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "nextcloud"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/server"
+
+[[annotations]]
+path = ["package.json", "package-lock.json", "tsconfig.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

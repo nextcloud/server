@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,6 +28,7 @@ class Delegation implements IIconSection {
 	 * {@inheritdoc}
 	 * @return string
 	 */
+	#[\Override]
 	public function getID() {
 		return 'admindelegation';
 	}
@@ -33,6 +37,7 @@ class Delegation implements IIconSection {
 	 * {@inheritdoc}
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('Administration privileges');
 	}
@@ -41,6 +46,7 @@ class Delegation implements IIconSection {
 	 * {@inheritdoc}
 	 * @return int
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 54;
 	}
@@ -49,6 +55,7 @@ class Delegation implements IIconSection {
 	 * {@inheritdoc}
 	 * @return string
 	 */
+	#[\Override]
 	public function getIcon() {
 		return $this->url->imagePath('core', 'actions/user-admin.svg');
 	}

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\WebAuthn;
 
 use Cose\Algorithm\Signature\ECDSA\ES256;
@@ -26,6 +27,7 @@ use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
+use Webauthn\AuthenticatorData;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -37,28 +39,12 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
 class Manager {
-	/** @var CredentialRepository */
-	private $repository;
-
-	/** @var PublicKeyCredentialMapper */
-	private $credentialMapper;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IConfig */
-	private $config;
-
 	public function __construct(
-		CredentialRepository $repository,
-		PublicKeyCredentialMapper $credentialMapper,
-		LoggerInterface $logger,
-		IConfig $config,
+		private CredentialRepository $repository,
+		private PublicKeyCredentialMapper $credentialMapper,
+		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
-		$this->repository = $repository;
-		$this->credentialMapper = $credentialMapper;
-		$this->logger = $logger;
-		$this->config = $config;
 	}
 
 	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {
@@ -156,7 +142,7 @@ class Manager {
 	}
 
 	private function stripPort(string $serverHost): string {
-		return preg_replace('/(:\d+$)/', '', $serverHost);
+		return preg_replace('/(:\d+$)/', '', $serverHost) ?? '';
 	}
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
@@ -183,7 +169,7 @@ class Manager {
 		);
 	}
 
-	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, string $uid) {
+	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, string $uid): AuthenticatorData {
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 
@@ -231,7 +217,7 @@ class Manager {
 			throw $e;
 		}
 
-		return true;
+		return $response->authenticatorData;
 	}
 
 	public function deleteRegistration(IUser $user, int $id): void {

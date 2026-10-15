@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -13,6 +15,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -41,7 +44,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		IL10N $l10n,
 		UserGlobalStoragesService $userGlobalStoragesService,
@@ -49,16 +52,18 @@ class UserGlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$userGlobalStoragesService,
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService,
 		);
 	}
 
@@ -67,6 +72,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	public function index() {
 		/** @var UserGlobalStoragesService */
@@ -83,6 +89,7 @@ class UserGlobalStoragesController extends StoragesController {
 		);
 	}
 
+	#[\Override]
 	protected function manipulateStorageConfig(StorageConfig $storage) {
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
@@ -96,15 +103,15 @@ class UserGlobalStoragesController extends StoragesController {
 	 * Get an external storage entry.
 	 *
 	 * @param int $id storage id
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
-	public function show($id, $testOnly = true) {
+	public function show($id) {
 		try {
 			$storage = $this->service->getStorage($id);
 
-			$this->updateStorageStatus($storage, $testOnly);
+			$this->updateStorageStatus($storage);
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
@@ -132,16 +139,14 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @param int $id storage id
 	 * @param array $backendOptions backend-specific options
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
+		int $id,
 		$backendOptions,
-		$testOnly = true,
 	) {
 		try {
 			$storage = $this->service->getStorage($id);
@@ -166,7 +171,7 @@ class UserGlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 		$this->sanitizeStorage($storage);
 
 		return new DataResponse(

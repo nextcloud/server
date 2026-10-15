@@ -15,6 +15,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Security\ICrypto;
@@ -29,17 +30,17 @@ class MigrateOauthTables implements IRepairStep {
 		private ISecureRandom $random,
 		private ITimeFactory $timeFactory,
 		private ICrypto $crypto,
+		private IConfig $config,
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Migrate oauth2_clients table to nextcloud schema';
 	}
 
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
 			$output->info('oauth2_clients table does not exist.');
@@ -110,7 +111,7 @@ class MigrateOauthTables implements IRepairStep {
 				->from('oauth2_clients');
 
 			$result = $qbSelect->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$id = $row['id'];
 				$shortenedName = mb_substr($row['name'], 0, 64);
 				$qb->setParameter('theId', $id, IQueryBuilder::PARAM_INT);
@@ -148,7 +149,7 @@ class MigrateOauthTables implements IRepairStep {
 			$selectQuery = $this->db->getQueryBuilder();
 			$selectQuery->select('id', 'identifier')->from('oauth2_clients');
 			$result = $selectQuery->executeQuery();
-			$identifiers = $result->fetchAll();
+			$identifiers = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
@@ -169,7 +170,12 @@ class MigrateOauthTables implements IRepairStep {
 			$schema = new SchemaWrapper($this->db);
 		}
 
-		$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		if ($enableOcClients) {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc://');
+		} else {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		}
 		// delete the access tokens
 		$qbDeleteAccessTokens = $this->db->getQueryBuilder();
 
@@ -178,10 +184,12 @@ class MigrateOauthTables implements IRepairStep {
 			->from('oauth2_clients')
 			->where(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbSelectClientId->orWhere(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 
 		$qbDeleteAccessTokens->delete('oauth2_access_tokens')
 			->where(
@@ -194,10 +202,12 @@ class MigrateOauthTables implements IRepairStep {
 		$qbDeleteClients->delete('oauth2_clients')
 			->where(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbDeleteClients->orWhere(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 		$qbDeleteClients->executeStatement();
 
 		// Migrate legacy refresh tokens from oc
@@ -210,9 +220,9 @@ class MigrateOauthTables implements IRepairStep {
 			$result = $qbSelect->executeQuery();
 			$now = $this->timeFactory->now()->getTimestamp();
 			$index = 0;
-			while ($row = $result->fetch()) {
-				$clientId = $row['client_id'];
-				$refreshToken = $row['token'];
+			while ($row = $result->fetchAssociative()) {
+				$clientId = (int)$row['client_id'];
+				$refreshToken = (string)$row['token'];
 
 				// Insert expired token so that it can be rotated on the next refresh
 				$accessToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
@@ -229,12 +239,12 @@ class MigrateOauthTables implements IRepairStep {
 				$this->tokenProvider->updateToken($authToken);
 
 				$accessTokenEntity = new AccessToken();
-				$accessTokenEntity->setTokenId($authToken->getId());
-				$accessTokenEntity->setClientId($clientId);
-				$accessTokenEntity->setHashedCode(hash('sha512', $refreshToken));
-				$accessTokenEntity->setEncryptedToken($this->crypto->encrypt($accessToken, $refreshToken));
-				$accessTokenEntity->setCodeCreatedAt($now);
-				$accessTokenEntity->setTokenCount(1);
+				$accessTokenEntity->tokenId = $authToken->getId();
+				$accessTokenEntity->clientId = $clientId;
+				$accessTokenEntity->hashedCode = hash('sha512', $refreshToken);
+				$accessTokenEntity->encryptedToken = $this->crypto->encrypt($accessToken, $refreshToken);
+				$accessTokenEntity->codeCreatedAt = $now;
+				$accessTokenEntity->tokenCount = 1;
 				$this->accessTokenMapper->insert($accessTokenEntity);
 
 				$index++;

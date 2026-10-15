@@ -7,7 +7,8 @@
 	<div v-if="!enforceAcceptShares || allowCustomDirectory" id="files-sharing-personal-settings" class="section">
 		<h2>{{ t('files_sharing', 'Sharing') }}</h2>
 		<p v-if="!enforceAcceptShares">
-			<input id="files-sharing-personal-settings-accept"
+			<input
+				id="files-sharing-personal-settings-accept"
 				v-model="accepting"
 				class="checkbox"
 				type="checkbox"
@@ -21,12 +22,12 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 import SelectShareFolderDialogue from './SelectShareFolderDialogue.vue'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'PersonalSettings',
@@ -53,7 +54,7 @@ export default {
 				})
 			} catch (error) {
 				showError(t('files_sharing', 'Error while toggling options'))
-				console.error(error)
+				logger.error(error)
 			}
 		},
 	},

@@ -1,42 +1,82 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable jsdoc/require-param */
-/* eslint-disable jsdoc/require-jsdoc */
-/**
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { joinPaths, encodePath } from '@nextcloud/paths'
-import moment from '@nextcloud/moment'
-
-import client from '../utils/davClient.js'
-import davRequest from '../utils/davRequest.js'
-import logger from '../utils/logger.js'
+import axios from '@nextcloud/axios'
+import { File, Permission } from '@nextcloud/files'
+import { getClient } from '@nextcloud/files/dav'
+import { getCanonicalLocale } from '@nextcloud/l10n'
+import { encodePath, join } from '@nextcloud/paths'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import davRequest from '../utils/davRequest.ts'
+import logger from '../utils/logger.ts'
 
 export interface Version {
-	fileId: string, // The id of the file associated to the version.
-	label: string, // 'Current version' or ''
-	author: string|null, // UID for the author of the version
-	filename: string, // File name relative to the version DAV endpoint
-	basename: string, // A base name generated from the mtime
-	mime: string, // Empty for the current version, else the actual mime type of the version
-	etag: string, // Empty for the current version, else the actual mime type of the version
-	size: string, // Human readable size
-	type: string, // 'file'
-	mtime: number, // Version creation date as a timestamp
-	permissions: string, // Only readable: 'R'
-	hasPreview: boolean, // Whether the version has a preview
-	previewUrl: string, // Preview URL of the version
-	url: string, // Download URL of the version
-	source: string, // The WebDAV endpoint of the ressource
-	fileVersion: string|null, // The version id, null for the current version
+	fileId: string // The id of the file associated to the version.
+	label: string // 'Current version' or ''
+	author: string | null // UID for the author of the version
+	authorName: string | null // Display name of the author
+	filename: string // File name relative to the version DAV endpoint
+	basename: string // A base name generated from the mtime
+	mime: string // Empty for the current version, else the actual mime type of the version
+	etag: string // Empty for the current version, else the actual mime type of the version
+	size: number // File size in bytes
+	type: string // 'file'
+	mtime: number // Version creation date as a timestamp
+	permissions: string // Only readable: 'R'
+	previewUrl: string // Preview URL of the version
+	url: string // Download URL of the version
+	source: string // The WebDAV endpoint of the resource
+	fileVersion: string | null // The version id, null for the current version
 }
 
-export async function fetchVersions(fileInfo: any): Promise<Version[]> {
-	const path = `/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}`
+const client = getClient()
+
+/**
+ * Build a node for a version, so that it can be handed to the viewer.
+ *
+ * The version content lives at its own dav endpoint, which is what the
+ * node points at: the preview a version has is a 250px thumbnail meant
+ * for this list, too small to show as the file itself. A version is
+ * named after its id on the server and reads as the date it was taken,
+ * so that is its display name.
+ *
+ * @param version - The version to build a node for
+ * @param node - The file the version belongs to
+ */
+export function versionToNode(version: Version, node: INode): File {
+	const owner = getCurrentUser()?.uid ?? null
+
+	return new File({
+		id: Number(version.fileId),
+		source: version.source,
+		root: `/versions/${owner}/versions/${version.fileId}`,
+		displayname: version.basename,
+		// The current version reports no mime of its own
+		mime: version.mime || node.mime || 'application/octet-stream',
+		size: version.size,
+		mtime: new Date(version.mtime),
+		owner,
+		permissions: Permission.READ,
+		attributes: {
+			etag: version.etag,
+			hasPreview: false,
+		},
+	})
+}
+
+/**
+ * Get file versions for a given node
+ *
+ * @param node - The node to fetch versions for
+ */
+export async function fetchVersions(node: INode): Promise<Version[]> {
+	const path = `/versions/${getCurrentUser()?.uid}/versions/${node.fileid}`
 
 	try {
 		const response = await client.getDirectoryContents(path, {
@@ -44,10 +84,22 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 			details: true,
 		}) as ResponseDataDetailed<FileStat[]>
 
-		return response.data
+		const versions = response.data
 			// Filter out root
 			.filter(({ mime }) => mime !== '')
-			.map(version => formatVersion(version, fileInfo))
+			.map((version) => formatVersion(version as Required<FileStat>, node))
+
+		const authorIds = new Set(versions.map((version) => String(version.author)))
+		const authors = await axios.post(generateUrl('/displaynames'), { users: [...authorIds] })
+
+		for (const version of versions) {
+			const author = authors.data.users[version.author ?? '']
+			if (author) {
+				version.authorName = author
+			}
+		}
+
+		return versions
 	} catch (exception) {
 		logger.error('Could not fetch version', { exception })
 		throw exception
@@ -56,6 +108,8 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 
 /**
  * Restore the given version
+ *
+ * @param version - The version to restore
  */
 export async function restoreVersion(version: Version) {
 	try {
@@ -72,44 +126,61 @@ export async function restoreVersion(version: Version) {
 
 /**
  * Format version
+ *
+ * @param version - The version data from WebDAV
+ * @param node - The original node
  */
-function formatVersion(version: any, fileInfo: any): Version {
-	const mtime = moment(version.lastmod).unix() * 1000
-	let previewUrl = ''
+function formatVersion(version: Required<FileStat>, node: INode): Version {
+	const mtime = Date.parse(version.lastmod)
+	// server timestamps are seconds-based, we have to nullify the milliseconds
+	const nodeNormalizedMtime = Math.floor((node.mtime?.getTime() ?? 0) / 1000) * 1000
 
-	if (mtime === fileInfo.mtime) { // Version is the current one
-		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
-			fileId: fileInfo.id,
-			fileEtag: fileInfo.etag,
+	let previewUrl: string
+	if (mtime === nodeNormalizedMtime) { // Version is the current one
+		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
+			fileId: node.id,
+			fileEtag: node.attributes.etag,
 		})
 	} else {
-		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
+		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}&mimeFallback=1', {
+			file: node.path,
 			fileVersion: version.basename,
 		})
 	}
 
 	return {
-		fileId: fileInfo.id,
+		fileId: node.id!,
 		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
-		label: version.props['version-label'] && String(version.props['version-label']),
-		author: version.props['version-author'] ?? null,
+		label: version.props['version-label'] ? String(version.props['version-label']) : '',
+		author: version.props['version-author'] ? String(version.props['version-author']) : null,
+		authorName: null,
 		filename: version.filename,
-		basename: moment(mtime).format('LLL'),
+		basename: new Date(mtime).toLocaleString(
+			[getCanonicalLocale(), getCanonicalLocale().split('-')[0]!],
+			{
+				timeStyle: 'long',
+				dateStyle: 'medium',
+			},
+		),
 		mime: version.mime,
 		etag: `${version.props.getetag}`,
 		size: version.size,
 		type: version.type,
 		mtime,
 		permissions: 'R',
-		hasPreview: version.props['has-preview'] === 1,
 		previewUrl,
-		url: joinPaths('/remote.php/dav', version.filename),
+		url: join('/remote.php/dav', version.filename),
 		source: generateRemoteUrl('dav') + encodePath(version.filename),
 		fileVersion: version.basename,
 	}
 }
 
+/**
+ * Set version label
+ *
+ * @param version - The version to set the label for
+ * @param newLabel - The new label
+ */
 export async function setVersionLabel(version: Version, newLabel: string) {
 	return await client.customRequest(
 		version.filename,
@@ -130,6 +201,11 @@ export async function setVersionLabel(version: Version, newLabel: string) {
 	)
 }
 
+/**
+ * Delete version
+ *
+ * @param version - The version to delete
+ */
 export async function deleteVersion(version: Version) {
 	await client.deleteFile(version.filename)
 }

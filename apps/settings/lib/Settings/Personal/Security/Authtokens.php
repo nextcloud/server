@@ -6,18 +6,22 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Personal\Security;
 
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
+use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
+use OCP\Util;
 use function array_map;
 
 class Authtokens implements ISettings {
@@ -27,10 +31,12 @@ class Authtokens implements ISettings {
 		private ISession $session,
 		private IUserSession $userSession,
 		private IInitialState $initialState,
+		private IConfig $serverConfig,
 		private ?string $userId,
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState(
 			'app_tokens',
@@ -40,15 +46,21 @@ class Authtokens implements ISettings {
 		$this->initialState->provideInitialState(
 			'can_create_app_token',
 			$this->userSession->getImpersonatingUserID() === null
+			&& $this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)
 		);
+
+		Util::addStyle(Application::APP_ID, 'personal-security-authtokens');
+		Util::addScript(Application::APP_ID, 'personal-security-authtokens');
 
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 100;
 	}

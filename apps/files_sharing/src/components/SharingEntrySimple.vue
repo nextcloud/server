@@ -11,11 +11,18 @@
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
+			<p v-if="extra">
+				{{ extra }}
+			</p>
 		</div>
-		<NcActions v-if="$slots['default']"
+		<!-- Standalone action(s) shown before the overflow menu (e.g. a caret) -->
+		<slot name="action" />
+		<NcActions
+			v-if="$slots['default']"
 			ref="actionsComponent"
 			class="sharing-entry__actions"
 			menu-align="right"
+			:force-menu="forceMenu"
 			:aria-expanded="ariaExpandedValue">
 			<slot />
 		</NcActions>
@@ -35,20 +42,35 @@ export default {
 	props: {
 		title: {
 			type: String,
-			default: '',
 			required: true,
 		},
+
 		subtitle: {
 			type: String,
 			default: '',
 		},
+
+		// Third line, truncated when it is longer than the sidebar.
+		extra: {
+			type: String,
+			default: '',
+		},
+
 		isUnique: {
 			type: Boolean,
 			default: true,
 		},
+
 		ariaExpanded: {
 			type: Boolean,
 			default: null,
+		},
+
+		// Force the overflow menu even with a single action (keeps destructive
+		// actions in a menu instead of rendering them inline).
+		forceMenu: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -77,6 +99,9 @@ export default {
 		min-width: 0;
 		p {
 			color: var(--color-text-maxcontrast);
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 	}
 	&__title {

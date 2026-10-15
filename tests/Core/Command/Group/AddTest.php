@@ -1,10 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\Core\Command\Group;
+namespace Tests\Core\Command\Group;
 
 use OC\Core\Command\Group\Add;
 use OCP\IGroup;
@@ -14,9 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddTest extends TestCase {
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
-
 	/** @var Add */
 	private $command;
 
@@ -26,11 +24,10 @@ class AddTest extends TestCase {
 	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->command = new Add($this->groupManager);
+		$this->command = $this->createInstanceWithMocks(Add::class);
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
@@ -46,11 +43,11 @@ class AddTest extends TestCase {
 	public function testGroupExists(): void {
 		$gid = 'myGroup';
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with($gid)
 			->willReturn($group);
 
-		$this->groupManager->expects($this->never())
+		$this->getAutoMock(IGroupManager::class)->expects($this->never())
 			->method('createGroup');
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -64,10 +61,10 @@ class AddTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')
 			->willReturn($gid);
-		$this->groupManager->method('createGroup')
+		$this->getAutoMock(IGroupManager::class)->method('createGroup')
 			->willReturn($group);
 
-		$this->groupManager->expects($this->once())
+		$this->getAutoMock(IGroupManager::class)->expects($this->once())
 			->method('createGroup')
 			->with($this->equalTo($gid));
 		$this->output->expects($this->once())

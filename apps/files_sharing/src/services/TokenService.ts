@@ -9,12 +9,15 @@ import { generateOcsUrl } from '@nextcloud/router'
 interface TokenData {
 	ocs: {
 		data: {
-			token: string,
+			token: string
 		}
 	}
 }
 
-export const generateToken = async (): Promise<string> => {
+/**
+ *
+ */
+export async function generateToken(): Promise<string> {
 	const { data } = await axios.get<TokenData>(generateOcsUrl('/apps/files_sharing/api/v1/token'))
 	return data.ocs.data.token
 }

@@ -19,6 +19,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10nFactory;
 use OCP\SabrePluginEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
@@ -31,7 +32,9 @@ if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 ignore_user_abort(true);
 
 // Turn off output buffering to prevent memory problems
-\OC_Util::obEnd();
+while (ob_get_level()) {
+	ob_end_clean();
+}
 
 $dispatcher = Server::get(IEventDispatcher::class);
 
@@ -45,7 +48,7 @@ $serverFactory = new ServerFactory(
 	Server::get(IRequest::class),
 	Server::get(IPreview::class),
 	$dispatcher,
-	\OC::$server->getL10N('dav')
+	Server::get(IL10nFactory::class)->get('dav')
 );
 
 // Backends
@@ -61,13 +64,15 @@ $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $bearerAuthPlugin = new BearerAuth(
 	Server::get(IUserSession::class),
 	Server::get(ISession::class),
-	Server::get(IRequest::class)
+	Server::get(IRequest::class),
+	Server::get(IConfig::class),
 );
 $authPlugin->addBackend($bearerAuthPlugin);
 
 $requestUri = Server::get(IRequest::class)->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
+/** @var string $baseuri defined in remote.php */
+$server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user
 	return Filesystem::getView();
 });
@@ -79,4 +84,4 @@ $event = new SabrePluginAddEvent($server);
 $dispatcher->dispatchTyped($event);
 
 // And off we go!
-$server->exec();
+$server->start();

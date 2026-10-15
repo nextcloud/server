@@ -11,33 +11,43 @@ namespace Test\Files\ObjectStore;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class FailDeleteObjectStore implements IObjectStore {
-	private $objectStore;
-
-	public function __construct(IObjectStore $objectStore) {
-		$this->objectStore = $objectStore;
+	public function __construct(
+		private IObjectStore $objectStore,
+	) {
 	}
 
+	#[\Override]
 	public function getStorageId() {
 		return $this->objectStore->getStorageId();
 	}
 
+	#[\Override]
 	public function readObject($urn) {
 		return $this->objectStore->readObject($urn);
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		return $this->objectStore->writeObject($urn, $stream, $mimetype);
 	}
 
+	#[\Override]
 	public function deleteObject($urn) {
 		throw new \Exception();
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		return $this->objectStore->objectExists($urn);
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->objectStore->copyObject($from, $to);
+	}
+
+	#[\Override]
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
+		return null;
 	}
 }

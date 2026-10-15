@@ -21,10 +21,12 @@ class InitBackgroundImagesMigration implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Initialize migration of background images from dashboard to theming app';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(MigrateBackgroundImages::class, ['stage' => MigrateBackgroundImages::STAGE_PREPARE]);
 	}

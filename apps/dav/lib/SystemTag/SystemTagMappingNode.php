@@ -5,12 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
-
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
@@ -64,6 +64,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->tag->getId();
 	}
@@ -77,6 +78,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
@@ -86,6 +88,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}
@@ -95,6 +98,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function delete() {
 		try {
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {

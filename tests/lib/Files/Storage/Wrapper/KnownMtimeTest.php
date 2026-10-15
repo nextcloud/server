@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,9 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Clock\ClockInterface;
 use Test\Files\Storage\Storage;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class KnownMtimeTest extends Storage {
 	/** @var Temporary */
 	private $sourceStorage;
@@ -23,6 +22,7 @@ class KnownMtimeTest extends Storage {
 	private $clock;
 	private int $fakeTime = 0;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fakeTime = 0;
@@ -38,6 +38,7 @@ class KnownMtimeTest extends Storage {
 		$this->instance = $this->getWrappedStorage();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();

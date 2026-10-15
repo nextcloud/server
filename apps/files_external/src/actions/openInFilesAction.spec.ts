@@ -1,23 +1,28 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
 
-import type { StorageConfig } from '../services/externalStorage'
-import { action } from './openInFilesAction'
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
+import type { IView } from '@nextcloud/files'
+import type { IStorage } from '../types.ts'
+
+import * as dialogs from '@nextcloud/dialogs'
+import { DefaultType, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import { StorageStatus } from '../types.ts'
+import { action } from './openInFilesAction.ts'
+
+vi.mock('@nextcloud/dialogs', { spy: true })
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const externalStorageView = {
 	id: 'extstoragemounts',
 	name: 'External storage',
-} as View
+} as IView
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
@@ -29,15 +34,24 @@ describe('Open in files action conditions tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.SUCCESS,
-				} as StorageConfig,
+					status: StorageStatus.Success,
+				} as IStorage,
 			},
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-in-files-external-storage')
-		expect(action.displayName([storage], externalStorageView)).toBe('Open in Files')
-		expect(action.iconSvgInline([storage], externalStorageView)).toBe('')
+		expect(action.displayName({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Open in Files')
+		expect(action.iconSvgInline({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
 		expect(action.inline).toBeUndefined()
@@ -52,30 +66,45 @@ describe('Open in files action conditions tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.ERROR,
-				} as StorageConfig,
+					status: StorageStatus.Error,
+				} as IStorage,
 			},
 		})
-		expect(action.displayName([failingStorage], externalStorageView)).toBe('Examine this faulty external storage configuration')
+		expect(action.displayName({
+			nodes: [failingStorage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Examine this faulty external storage configuration')
 	})
 })
 
 describe('Open in files action enabled tests', () => {
 	test('Enabled with on valid view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], externalStorageView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
+		// @ts-expect-error - mocking for tests
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const storage = new Folder({
@@ -86,12 +115,17 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.SUCCESS,
-				} as StorageConfig,
+					status: StorageStatus.Success,
+				} as IStorage,
 			},
 		})
 
-		const exec = await action.exec(storage, externalStorageView, '/')
+		const exec = await action.exec({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
@@ -99,9 +133,8 @@ describe('Open in files action execute tests', () => {
 	})
 
 	test('Open in files broken storage', async () => {
-		const confirmMock = vi.fn()
-		// @ts-expect-error We only mock what is needed
-		window.OC = { dialogs: { confirm: confirmMock } }
+		// @ts-expect-error - spy added by vitest
+		dialogs.showConfirmation.mockImplementationOnce(() => Promise.resolve(true))
 
 		const storage = new Folder({
 			id: 1,
@@ -111,14 +144,19 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.ERROR,
-				} as StorageConfig,
+					status: StorageStatus.Error,
+				} as IStorage,
 			},
 		})
 
-		const exec = await action.exec(storage, externalStorageView, '/')
+		const exec = await action.exec({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
-		expect(confirmMock).toBeCalledTimes(1)
+		expect(dialogs.showConfirmation).toHaveBeenCalledOnce()
 	})
 })

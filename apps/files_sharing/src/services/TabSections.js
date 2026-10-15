@@ -3,8 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-export default class TabSections {
+/**
+ * Callback to render a section in the sharing tab.
+ *
+ * @callback registerSectionCallback
+ * @param {undefined} el - Deprecated and will always be undefined (formerly the root element)
+ * @param {object} fileInfo - File info object
+ */
 
+export default class TabSections {
 	_sections
 
 	constructor() {
@@ -21,5 +28,4 @@ export default class TabSections {
 	getSections() {
 		return this._sections
 	}
-
 }

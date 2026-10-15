@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing;
 
-use OC\User\NoUserException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class OrphanHelper {
 	public function __construct(
@@ -25,7 +25,7 @@ class OrphanHelper {
 	public function isShareValid(string $owner, int $fileId): bool {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($owner);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			return false;
 		}
 		$node = $userFolder->getFirstNodeById($fileId);
@@ -39,8 +39,13 @@ class OrphanHelper {
 	public function deleteShares(array $ids): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('share')
-			->where($query->expr()->in('id', $query->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->executeStatement();
+			->where($query->expr()->in('id', $query->createParameter('ids')));
+
+		$idsChunks = array_chunk($ids, 500);
+		foreach ($idsChunks as $idsChunk) {
+			$query->setParameter('ids', $idsChunk, IQueryBuilder::PARAM_INT_ARRAY)
+				->executeStatement();
+		}
 	}
 
 	public function fileExists(int $fileId): bool {
@@ -54,13 +59,21 @@ class OrphanHelper {
 	/**
 	 * @return \Traversable<int, array{id: int, owner: string, fileid: int, target: string}>
 	 */
-	public function getAllShares() {
+	public function getAllShares(?string $owner = null, ?string $with = null) {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('id', 'file_source', 'uid_owner', 'file_target')
 			->from('share')
 			->where($query->expr()->in('item_type', $query->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
+
+		if ($owner !== null) {
+			$query->andWhere($query->expr()->eq('uid_owner', $query->createNamedParameter($owner)));
+		}
+		if ($with !== null) {
+			$query->andWhere($query->expr()->eq('share_with', $query->createNamedParameter($with)));
+		}
+
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield [
 				'id' => (int)$row['id'],
 				'owner' => (string)$row['uid_owner'],

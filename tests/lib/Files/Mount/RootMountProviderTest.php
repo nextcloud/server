@@ -10,19 +10,19 @@ namespace Test\Files\Mount;
 
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\ObjectStore\S3;
 use OC\Files\Storage\LocalRootStorage;
 use OC\Files\Storage\StorageFactory;
+use OCP\App\IAppManager;
 use OCP\IConfig;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RootMountProviderTest extends TestCase {
 	private StorageFactory $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -40,8 +40,8 @@ class RootMountProviderTest extends TestCase {
 
 	private function getProvider(array $systemConfig): RootMountProvider {
 		$config = $this->getConfig($systemConfig);
-		$provider = new RootMountProvider($config, $this->createMock(LoggerInterface::class));
-		return $provider;
+		$objectStoreConfig = new PrimaryObjectStoreConfig($config, $this->createMock(IAppManager::class));
+		return new RootMountProvider($objectStoreConfig, $config);
 	}
 
 	public function testLocal(): void {
@@ -85,7 +85,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud', $objectStore->getBucket());
@@ -118,7 +117,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud0', $objectStore->getBucket());

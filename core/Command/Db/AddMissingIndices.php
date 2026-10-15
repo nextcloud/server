@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Db;
 
 use OC\DB\Connection;
@@ -33,6 +34,7 @@ class AddMissingIndices extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('db:add-missing-indices')
@@ -40,6 +42,7 @@ class AddMissingIndices extends Command {
 			->addOption('dry-run', null, InputOption::VALUE_NONE, 'Output the SQL queries instead of running them.');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 
@@ -86,14 +89,7 @@ class AddMissingIndices extends Command {
 				if ($schema->hasTable($toReplaceIndex['tableName'])) {
 					$table = $schema->getTable($toReplaceIndex['tableName']);
 
-					$allOldIndicesExists = true;
-					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						if (!$table->hasIndex($oldIndexName)) {
-							$allOldIndicesExists = false;
-						}
-					}
-
-					if (!$allOldIndicesExists) {
+					if ($table->hasIndex($toReplaceIndex['newIndexName'])) {
 						continue;
 					}
 
@@ -110,8 +106,10 @@ class AddMissingIndices extends Command {
 					}
 
 					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
-						$table->dropIndex($oldIndexName);
+						if ($table->hasIndex($oldIndexName)) {
+							$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+							$table->dropIndex($oldIndexName);
+						}
 					}
 
 					if (!$dryRun) {

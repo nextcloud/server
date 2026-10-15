@@ -12,13 +12,12 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "حدث خطأ عند توليد أكوادك الاحتياطية",
     "Backup codes have been generated. {used} of {total} codes have been used." : "تمّ توليد الأكواد الاحتياطية. {used} من {total} تمّ استخدامها.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "هذه هي الرموز الاحتياطية الخاصة بك. يرجى حفظها و/أو طباعتها لأنك لن تتمكن من قراءة الرموز لاحقًا.",
-    "Save backup codes" : "الإحتفاظ بالرموز الإحتياطية",
-    "Print backup codes" : "طباعة الرموز الإحتياطية",
     "Regenerate backup codes" : "إعادة توليد رموز الإسترجاع الإحتياطية",
+    "Print backup codes" : "طباعة الرموز الإحتياطية",
+    "Save backup codes" : "الإحتفاظ بالرموز الإحتياطية",
     "If you regenerate backup codes, you automatically invalidate old codes." : "عندما تقوم بتوليد أكواد احتياطية جديدة، فإن الأكواد القديمة تفقد صلاحيتها تلقائيّتاً.",
     "{name} backup codes" : "{name} أكواد احتياطية",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "استخدم واحداً من الأكواد الاحتياطية التي سبق و أن خزنتها عند تجهيز إعدادات التحقق ثنائي العوامل من الهويّة.",
-    "Submit" : "إرسال ",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "هذه هي الأكواد الاحتياطية. رجاءً إحفظها أو إطبعها حيث أنك لن تستطيع قراءتها مجدّداً في المستقبل"
+    "Submit" : "إرسال "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -17,10 +16,10 @@ use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\OCSController;
 use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
@@ -34,7 +33,7 @@ use OCP\TextToImage\Task;
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions
  */
-class TextToImageApiController extends \OCP\AppFramework\OCSController {
+class TextToImageApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -53,7 +52,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Returns availability status
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/is_available', root: '/text2image')]
 	public function isAvailable(): DataResponse {
 		return new DataResponse([
@@ -74,11 +73,19 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task scheduled successfully
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/text2image')]
 	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
+		if (strlen($input) > 64_000) {
+			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_PRECONDITION_FAILED);
+		}
+		if ($numberOfImages > 12) {
+			return new DataResponse(['message' => $this->l->t('Cannot generate more than 12 images')], Http::STATUS_PRECONDITION_FAILED);
+		}
+		if ($numberOfImages < 1) {
+			return new DataResponse(['message' => $this->l->t('Cannot generate less than 1 image')], Http::STATUS_PRECONDITION_FAILED);
+		}
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
 			try {
@@ -110,7 +117,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/text2image')]
 	public function getTask(int $id): DataResponse {
@@ -142,7 +149,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Image returned
 	 * 404: Task or image not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}/image/{index}', root: '/text2image')]
 	public function getImage(int $id, int $index): DataResponse|FileDisplayResponse {
@@ -204,7 +211,6 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 	/**
 	 * This endpoint returns a list of tasks of a user that are related

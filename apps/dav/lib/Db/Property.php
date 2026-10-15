@@ -16,6 +16,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getPropertypath()
  * @method string getPropertyname()
  * @method string getPropertyvalue()
+ * @method int getValuetype()
  */
 class Property extends Entity {
 

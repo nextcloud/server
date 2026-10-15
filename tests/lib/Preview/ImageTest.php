@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,14 +8,17 @@
 
 namespace Test\Preview;
 
+use OC\Preview\JPEG;
+
 /**
  * Class ImageTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ImageTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -22,6 +26,6 @@ class ImageTest extends Provider {
 		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 		$this->width = 1680;
 		$this->height = 1050;
-		$this->provider = new \OC\Preview\JPEG();
+		$this->provider = new JPEG();
 	}
 }

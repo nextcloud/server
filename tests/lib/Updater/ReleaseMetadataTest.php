@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Updater;
 
 use OC\Updater\ReleaseMetadata;
@@ -15,11 +16,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ReleaseMetadataTest extends \Test\TestCase {
 	private IClientService|MockObject $clientService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->clientService = $this->createMock(IClientService::class);
 	}
 
 	public function testDownloadMetadata(): void {
@@ -37,17 +37,16 @@ class ReleaseMetadataTest extends \Test\TestCase {
 			->with()
 			->willReturn($this->resultRequest());
 
-
 		$releaseMetadata = new ReleaseMetadata($this->clientService);
-		$this->assertSame($this->resultRequestArray(), $releaseMetadata->downloadMetadata('ouila'));
+		$this->assertSame(self::resultRequestArray(), $releaseMetadata->downloadMetadata('ouila'));
 	}
 
 	/**
-	 * @dataProvider getMetadataUrlProvider
 	 *
 	 * @param string $version
 	 * @param string $url
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getMetadataUrlProvider')]
 	public function testGetMetadata(string $version, string $url): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
@@ -72,7 +71,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function getMetadataUrlProvider(): array {
+	public static function getMetadataUrlProvider(): array {
 		return [
 			[
 				'30.0.0',
@@ -89,11 +88,11 @@ class ReleaseMetadataTest extends \Test\TestCase {
 		];
 	}
 
-	private function resultRequest(): string {
-		return json_encode($this->resultRequestArray());
+	private static function resultRequest(): string {
+		return json_encode(self::resultRequestArray());
 	}
 
-	private function resultRequestArray(): array {
+	private static function resultRequestArray(): array {
 		return [
 			'migrations' => [
 				'core' => [],

@@ -6,11 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -28,7 +29,7 @@ use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IInitialState $initialState,
 		private ITranslationManager $translationManager,
@@ -44,6 +45,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$translationProviders = [];
 		$translationPreferences = [];
@@ -140,10 +142,11 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
 			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
+			'ai.taskprocessing_guests' => false,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
-			$json = $this->config->getAppValue('core', $key, '');
+			$json = $this->appConfig->getValueString('core', $key, '', lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 			if ($json !== '') {
 				try {
 					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -158,7 +161,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 					}
 					continue;
 				}
-				
+
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.taskprocessing_type_preferences':
@@ -189,6 +192,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'ai';
 	}
@@ -200,17 +204,20 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Artificial Intelligence');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'core' => ['/ai..*/'],
+			'core' => ['/^ai\..*$/'],
 		];
 	}
 }

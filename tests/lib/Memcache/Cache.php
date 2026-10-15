@@ -8,9 +8,11 @@
 
 namespace Test\Memcache;
 
+use OCP\IMemcache;
+
 abstract class Cache extends \Test\Cache\TestCache {
 	/**
-	 * @var \OCP\IMemcache cache;
+	 * @var IMemcache cache;
 	 */
 	protected $instance;
 
@@ -145,6 +147,7 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertFalse($this->instance->ncad('foo', 'bar'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->clear();

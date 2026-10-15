@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCP\FilesMetadata;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
@@ -20,6 +21,7 @@ use OCP\FilesMetadata\Model\IMetadataValueWrapper;
  *
  * @since 28.0.0
  */
+#[Consumable(since: '28.0.0')]
 interface IFilesMetadataManager {
 	/** @since 28.0.0 */
 	public const PROCESS_LIVE = 1;
@@ -62,8 +64,21 @@ interface IFilesMetadataManager {
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
+	 * @deprecated 36.0.0 use `getMetadataForNode` instead.
 	 */
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata;
+
+	/**
+	 * returns metadata of a file id
+	 *
+	 * @param Node $node file id
+	 * @param boolean $generate Generate if metadata does not exist
+	 *
+	 * @return IFilesMetadata
+	 * @throws FilesMetadataNotFoundException if not found
+	 * @since 36.0.0
+	 */
+	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata;
 
 	/**
 	 * returns metadata of multiple file ids
@@ -97,6 +112,16 @@ interface IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	public function deleteMetadata(int $fileId): void;
+
+	/**
+	 * Delete metadata and its indexes of multiple file ids
+	 *
+	 * @param int $storage The storage id coresponding to the $fileIds
+	 * @param array<int> $fileIds file ids
+	 * @return void
+	 * @since 32.0.0
+	 */
+	public function deleteMetadataForFiles(int $storage, array $fileIds): void;
 
 	/**
 	 * generate and return a MetadataQuery to help building sql queries

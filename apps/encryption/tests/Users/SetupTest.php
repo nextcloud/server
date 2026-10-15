@@ -1,30 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Users;
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
-	/**
-	 * @var KeyManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $keyManagerMock;
-	/**
-	 * @var Crypt|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $cryptMock;
-	/**
-	 * @var Setup
-	 */
-	private $instance;
+
+	protected Setup $instance;
+
+	protected KeyManager&MockObject $keyManagerMock;
+	protected Crypt&MockObject $cryptMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,11 +35,17 @@ class SetupTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$cache = $this->createMock(ICache::class);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturn($cache);
+
 		$this->instance = new Setup(
 			$this->cryptMock,
-			$this->keyManagerMock);
+			$this->keyManagerMock,
+			$cacheFactory,
+		);
 	}
-
 
 	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
@@ -50,11 +55,11 @@ class SetupTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetupUser
 	 *
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetupUser')]
 	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
@@ -72,7 +77,7 @@ class SetupTest extends TestCase {
 		);
 	}
 
-	public function dataTestSetupUser() {
+	public static function dataTestSetupUser(): array {
 		return [
 			[true, true],
 			[false, true]

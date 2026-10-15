@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\AppFramework\Http;
 
 /**
@@ -102,7 +104,7 @@ class RequestStream {
 	}
 
 	public function stream_metadata(string $path, int $option, $var): bool {
-		if ($option == STREAM_META_TOUCH) {
+		if ($option === STREAM_META_TOUCH) {
 			$url = parse_url($path);
 			$varname = $url['host'] ?? '';
 			if (!isset($GLOBALS[$varname])) {

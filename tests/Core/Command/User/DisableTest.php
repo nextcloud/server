@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DisableTest extends TestCase {
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
 	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
 	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -24,14 +23,13 @@ class DisableTest extends TestCase {
 	/** @var Disable */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = new Disable($this->userManager);
+		$this->command = $this->createInstanceWithMocks(Disable::class);
 	}
 
 	public function testValidUser(): void {
@@ -40,7 +38,7 @@ class DisableTest extends TestCase {
 			->method('setEnabled')
 			->with(false);
 
-		$this->userManager
+		$this->getAutoMock(IUserManager::class)
 			->method('get')
 			->with('user')
 			->willReturn($user);
@@ -58,7 +56,7 @@ class DisableTest extends TestCase {
 	}
 
 	public function testInvalidUser(): void {
-		$this->userManager->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('user')
 			->willReturn(null);

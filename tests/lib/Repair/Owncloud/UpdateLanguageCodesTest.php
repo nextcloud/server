@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,25 +12,27 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
  * Class UpdateLanguageCodesTest
  *
- * @group DB
  *
  * @package Test\Repair
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdateLanguageCodesTest extends TestCase {
 
 	protected IDBConnection $connection;
 	private IConfig&MockObject $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 	}
 
@@ -72,7 +75,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->orderBy('userid')
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertSame($users, $rows, 'Asserts that the entries are the ones from the test data set');
@@ -91,7 +94,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->exactly(7))
 			->method('info')
-			->willReturnCallback(function () use (&$outputMessages) {
+			->willReturnCallback(function () use (&$outputMessages): void {
 				$outputMessages[] = func_get_args();
 			});
 
@@ -113,7 +116,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->orderBy('userid')
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		// value has changed for one user

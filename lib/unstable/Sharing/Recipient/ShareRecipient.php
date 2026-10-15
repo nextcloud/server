@@ -1,0 +1,139 @@
+<?php
+
+/*
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+declare(strict_types=1);
+
+namespace NCU\Sharing\Recipient;
+
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareUser;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use RuntimeException;
+
+/**
+ * @psalm-import-type SharingRecipient from Share
+ * @experimental 35.0.0
+ */
+#[Consumable(since: '35.0.0')]
+final class ShareRecipient {
+	/** @var array<class-string<ISharePermissionType>, SharePermission> $disabledPermissions */
+	private ?array $disabledPermissions = null;
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function __construct(
+		/** @var class-string<IShareRecipientType> $class */
+		public readonly string $class,
+		/** @var non-empty-string $value */
+		public readonly string $value,
+		/** @var ?non-empty-string $instance */
+		public readonly ?string $instance,
+		/** @var ?non-empty-string $secret */
+		public readonly ?string $secret = null,
+		public readonly ?ShareUser $initiator = null,
+		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
+		public readonly array $permissions = [],
+	) {
+	}
+
+	/**
+	 * @return array<class-string<ISharePermissionType>, SharePermission>
+	 * @experimental 35.0.0
+	 */
+	public function getDisabledPermissions(): array {
+		return $this->disabledPermissions ??= array_filter($this->permissions, static fn (SharePermission $permission): bool => !$permission->enabled);
+	}
+
+	/**
+	 * @return SharingRecipient
+	 * @experimental 35.0.0
+	 */
+	public function format(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, bool $isUnique): array {
+		if (($recipientType = ($registry->getRecipientTypes()[$this->class] ?? null)) === null) {
+			throw new RuntimeException('The recipient type is not registered: ' . $this->class);
+		}
+
+		$displayName = $recipientType->getRecipientDisplayName($this->value, $this->instance) ?? $this->value;
+		if (!$isUnique) {
+			$displayName .= ' (' . $recipientType->getDisplayName($l10nFactory) . ': ' . $this->value . ')';
+		}
+
+		$secret = [
+			'updatable' => $recipientType instanceof IShareRecipientTypePublicSecret && $recipientType->isSecretUpdatable($this->value),
+		];
+		if ($this->secret !== null && $recipientType instanceof IShareRecipientTypePublicSecret && $recipientType->isSecretPublic($this->value)) {
+			$secret['value'] = $this->secret;
+
+			// TODO: We need a dedicated page that shows all sources linked to a share
+			$secret['url'] = $urlGenerator->linkToRouteAbsolute(
+				'files_sharing.sharecontroller.showShare',
+				[
+					'token' => $this->secret,
+				],
+			);
+		}
+
+		$icon = $recipientType->getRecipientIcon($this->value, $this->instance);
+		$icon ??= new ShareIconURL(
+			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64]),
+			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64, 'darkTheme' => true]),
+		);
+
+		return [
+			'class' => $this->class,
+			'value' => $this->value,
+			'instance' => $this->instance,
+			'display_name' => $displayName,
+			'icon' => $icon->format(),
+			'secret' => $secret,
+			'initiator' => $this->initiator?->format($userManager),
+			'permissions' => SharePermission::formatMultiple($registry, $l10nFactory, array_values($this->permissions)),
+		];
+	}
+
+	/**
+	 * @param list<self> $recipients
+	 * @return list<SharingRecipient>
+	 * @experimental 35.0.0
+	 */
+	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, array $recipients): array {
+		$recipientTypes = $registry->getRecipientTypes();
+
+		$recipientDisplayNames = [];
+		foreach ($recipients as $recipient) {
+			$displayName = $recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value, $recipient->instance) ?? $recipient->value;
+			$recipientDisplayNames[$displayName] ??= 0;
+			++$recipientDisplayNames[$displayName];
+		}
+
+		usort(
+			$recipients,
+			static fn (ShareRecipient $a, ShareRecipient $b): int
+				=> (count($a->getDisabledPermissions()) <=> count($b->getDisabledPermissions()))
+				?: ($a->instance === null ? -1 : ($a->instance <=> $b->instance))
+				?: ($a->class <=> $b->class)
+				?: ($a->value <=> $b->value),
+		);
+
+		return array_map(static fn (ShareRecipient $recipient): array => $recipient->format($registry, $l10nFactory, $urlGenerator, $userManager, $recipientDisplayNames[$recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value, $recipient->instance) ?? $recipient->value] === 1), $recipients);
+	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function equals(ShareRecipient $other): bool {
+		return $this->class === $other->class && $this->value === $other->value && $this->instance === $other->instance;
+	}
+}

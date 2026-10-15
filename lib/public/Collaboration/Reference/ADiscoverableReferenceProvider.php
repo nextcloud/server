@@ -17,6 +17,7 @@ abstract class ADiscoverableReferenceProvider implements IDiscoverableReferenceP
 	/**
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$json = [
 			'id' => $this->getId(),

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files;
 
 use OCA\Files\Service\SettingsService;
@@ -18,13 +19,12 @@ class AdvancedCapabilitiesTest extends TestCase {
 	protected AdvancedCapabilities $capabilities;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->service = $this->createMock(SettingsService::class);
 		$this->capabilities = new AdvancedCapabilities($this->service);
 	}
 
-	/**
-	 * @dataProvider dataGetCapabilities
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetCapabilities')]
 	public function testGetCapabilities(bool $wcf): void {
 		$this->service
 			->expects(self::once())

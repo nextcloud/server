@@ -1,31 +1,32 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class SameSiteCookieMiddleware extends Middleware {
-	/** @var Request */
-	private $request;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	public function __construct(Request $request,
-		ControllerMethodReflector $reflector) {
-		$this->request = $request;
-		$this->reflector = $reflector;
+	public function __construct(
+		private readonly Request $request,
+		private readonly ControllerMethodReflector $reflector,
+	) {
 	}
 
-	public function beforeController($controller, $methodName) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
 		$requestUri = $this->request->getScriptName();
 		$processingScript = explode('/', $requestUri);
 		$processingScript = $processingScript[count($processingScript) - 1];
@@ -34,7 +35,7 @@ class SameSiteCookieMiddleware extends Middleware {
 			return;
 		}
 
-		$noSSC = $this->reflector->hasAnnotation('NoSameSiteCookieRequired');
+		$noSSC = $this->reflector->hasAnnotationOrAttribute('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class);
 		if ($noSSC) {
 			return;
 		}
@@ -44,7 +45,8 @@ class SameSiteCookieMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
 			$response = new Response();
 			$response->setStatus(Http::STATUS_FOUND);
@@ -58,7 +60,7 @@ class SameSiteCookieMiddleware extends Middleware {
 		throw $exception;
 	}
 
-	protected function setSameSiteCookie() {
+	protected function setSameSiteCookie(): void {
 		$cookieParams = $this->request->getCookieParams();
 		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
 		$policies = [

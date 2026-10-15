@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,6 +17,9 @@ return [
 	],
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
+		['name' => 'federated_calendar#getPending', 'url' => '/api/v1/federated_calendars/pending', 'verb' => 'GET'],
+		['name' => 'federated_calendar#accept', 'url' => '/api/v1/federated_calendars/pending/{id}', 'verb' => 'POST'],
+		['name' => 'federated_calendar#decline', 'url' => '/api/v1/federated_calendars/pending/{id}', 'verb' => 'DELETE'],
 		['name' => 'upcoming_events#getEvents', 'url' => '/api/v1/events/upcoming', 'verb' => 'GET'],
 		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}/now', 'verb' => 'GET'],
 		['name' => 'out_of_office#getOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],

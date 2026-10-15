@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Encryption;
 
-use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\View;
 use OCP\IConfig;
@@ -30,6 +30,7 @@ class MigrateKeyStorage extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -37,6 +38,7 @@ class MigrateKeyStorage extends Command {
 			->setDescription('Migrate the format of the keystorage to a newer format');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$root = $this->util->getKeyStorageRoot();
 
@@ -80,10 +82,10 @@ class MigrateKeyStorage extends Command {
 				continue;
 			}
 
-			if ($node['name'] === 'fileKey' ||
-				str_ends_with($node['name'], '.privateKey') ||
-				str_ends_with($node['name'], '.publicKey') ||
-				str_ends_with($node['name'], '.shareKey')) {
+			if ($node['name'] === 'fileKey'
+				|| str_ends_with($node['name'], '.privateKey')
+				|| str_ends_with($node['name'], '.publicKey')
+				|| str_ends_with($node['name'], '.shareKey')) {
 				$path = $folder . '/' . $node['name'];
 
 				$content = $this->rootView->file_get_contents($path);
@@ -127,10 +129,10 @@ class MigrateKeyStorage extends Command {
 					return (substr($haystack, -$length) === $needle);
 				};
 
-				if ($node['name'] === 'fileKey' ||
-					$endsWith($node['name'], '.privateKey') ||
-					$endsWith($node['name'], '.publicKey') ||
-					$endsWith($node['name'], '.shareKey')) {
+				if ($node['name'] === 'fileKey'
+					|| $endsWith($node['name'], '.privateKey')
+					|| $endsWith($node['name'], '.publicKey')
+					|| $endsWith($node['name'], '.shareKey')) {
 					$path = $folder . '/' . $node['name'];
 
 					$content = $this->rootView->file_get_contents($path);
@@ -158,7 +160,6 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-
 	/**
 	 * setup file system for the given user
 	 */
@@ -166,7 +167,6 @@ class MigrateKeyStorage extends Command {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
-
 
 	/**
 	 * iterate over each user and move the keys to the new storage

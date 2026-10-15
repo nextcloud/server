@@ -1,21 +1,27 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Controller;
 
+use OC\Settings\AuthorizedGroupMapper;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
@@ -34,9 +40,36 @@ class AjaxController extends Controller {
 		private GlobalAuth $globalAuth,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
+		private IUserManager $userManager,
 		private IL10N $l10n,
+		private AuthorizedGroupMapper $authorizedGroupMapper,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	/**
+	 * Returns a list of users and groups that match the given pattern.
+	 * Used for user and group picker in the admin settings.
+	 *
+	 * @param string $pattern The search pattern
+	 * @param int|null $limit The maximum number of results to return
+	 * @param int|null $offset The offset from which to start returning results
+	 * @return JSONResponse
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function getApplicableEntities(string $pattern = '', ?int $limit = null, ?int $offset = null): JSONResponse {
+		$groups = [];
+		foreach ($this->groupManager->search($pattern, $limit, $offset) as $group) {
+			$groups[$group->getGID()] = $group->getDisplayName();
+		}
+
+		$users = [];
+		foreach ($this->userManager->searchDisplayName($pattern, $limit, $offset) as $user) {
+			$users[$user->getUID()] = $user->getDisplayName();
+		}
+
+		$results = ['groups' => $groups, 'users' => $users];
+		return new JSONResponse($results);
 	}
 
 	/**
@@ -45,10 +78,15 @@ class AjaxController extends Controller {
 	 */
 	private function generateSshKeys($keyLength) {
 		$key = $this->rsaMechanism->createKey($keyLength);
-		// Replace the placeholder label with a more meaningful one
-		$key['publickey'] = str_replace('phpseclib-generated-key', gethostname(), $key['publickey']);
-
-		return $key;
+		return [
+			'private_key' => $key->toString('PKCS1'),
+			// Replace the placeholder label with a more meaningful one
+			'public_key' => str_replace(
+				'phpseclib-generated-key',
+				gethostname(),
+				$key->getPublicKey()->toString('OpenSSH'),
+			),
+		];
 	}
 
 	/**
@@ -60,10 +98,7 @@ class AjaxController extends Controller {
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse([
-			'data' => [
-				'private_key' => $key['privatekey'],
-				'public_key' => $key['publickey']
-			],
+			'data' => $key,
 			'status' => 'success',
 		]);
 	}
@@ -85,10 +120,14 @@ class AjaxController extends Controller {
 			], Http::STATUS_UNAUTHORIZED);
 		}
 
-		// Non-admins can only edit their own credentials
-		// Admin can edit global credentials
+		// Non-admins can only edit their own credentials.
+		// Admin or delegated admin can edit global credentials (uid === '').
+		// Cannot use #[AuthorizedAdminSetting] here because this endpoint is
+		// #[NoAdminRequired] and must also allow users to edit their own (uid !== '')
+		// credentials — the two paths share one method.
 		$allowedToEdit = $uid === ''
 			? $this->groupManager->isAdmin($currentUser->getUID())
+				|| in_array(Admin::class, $this->authorizedGroupMapper->findAllClassesForUser($currentUser), true)
 			: $currentUser->getUID() === $uid;
 
 		if ($allowedToEdit) {

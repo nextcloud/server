@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
@@ -14,36 +16,23 @@ use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class EntityCollectionTest extends \Test\TestCase {
-
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var EntityCollection */
-	protected $collection;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IUserManager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected IUserSession&MockObject $userSession;
+	protected EntityCollection $collection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->collection = new EntityCollection(
 			'19',
@@ -60,19 +49,20 @@ class EntityCollectionTest extends \Test\TestCase {
 	}
 
 	public function testGetChild(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->method('getObjectType')
+			->willReturn('files');
+		$comment->method('getObjectId')
+			->willReturn('19');
+
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->willReturn(
-				$this->getMockBuilder(IComment::class)
-					->disableOriginalConstructor()
-					->getMock()
-			);
+			->willReturn($comment);
 
 		$node = $this->collection->getChild('55');
-		$this->assertTrue($node instanceof CommentNode);
+		$this->assertInstanceOf(CommentNode::class, $node);
 	}
-
 
 	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -80,7 +70,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->collection->getChild('55');
 	}
@@ -97,8 +87,8 @@ class EntityCollectionTest extends \Test\TestCase {
 
 		$result = $this->collection->getChildren();
 
-		$this->assertSame(count($result), 1);
-		$this->assertTrue($result[0] instanceof CommentNode);
+		$this->assertCount(1, $result);
+		$this->assertInstanceOf(CommentNode::class, $result[0]);
 	}
 
 	public function testFindChildren(): void {
@@ -114,11 +104,22 @@ class EntityCollectionTest extends \Test\TestCase {
 
 		$result = $this->collection->findChildren(5, 15, $dt);
 
-		$this->assertSame(count($result), 1);
-		$this->assertTrue($result[0] instanceof CommentNode);
+		$this->assertCount(1, $result);
+		$this->assertInstanceOf(CommentNode::class, $result[0]);
 	}
 
 	public function testChildExistsTrue(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->method('getObjectType')
+			->willReturn('files');
+		$comment->method('getObjectId')
+			->willReturn('19');
+
+		$this->commentsManager->expects($this->once())
+			->method('get')
+			->with('44')
+			->willReturn($comment);
+
 		$this->assertTrue($this->collection->childExists('44'));
 	}
 
@@ -126,7 +127,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('44')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->assertFalse($this->collection->childExists('44'));
 	}

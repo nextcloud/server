@@ -10,42 +10,49 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use NCU\Config\Lexicon\IConfigLexicon;
-use OC\Config\Lexicon\CoreConfigLexicon;
+use NCU\Search\IAccountScopedSearchProvider;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\Authentication\IAlternativeLoginProvider;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Config\Lexicon\ILexicon;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Server;
 use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\SystemReport\ISystemReportSection;
 use OCP\Talk\ITalkBackend;
+use OCP\TaskProcessing\ITaskType;
 use OCP\Teams\ITeamResourceProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
+use Override;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
-use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -90,8 +97,14 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IProvider>[] */
 	private $searchProviders = [];
 
+	/** @var ServiceRegistration<IAccountScopedSearchProvider>[] */
+	private array $accountScopedSearchProviders = [];
+
 	/** @var ServiceRegistration<IAlternativeLogin>[] */
 	private $alternativeLogins = [];
+
+	/** @var ServiceRegistration<IAlternativeLoginProvider>[] */
+	private array $alternativeLoginProviders = [];
 
 	/** @var ServiceRegistration<InitialStateProvider>[] */
 	private $initialStates = [];
@@ -132,10 +145,11 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
 	private $publicShareTemplateProviders = [];
 
-	private LoggerInterface $logger;
-
 	/** @var ServiceRegistration<ISetupCheck>[] */
 	private array $setupChecks = [];
+
+	/** @var ServiceRegistration<ISystemReportSection>[] */
+	private array $systemReportSections = [];
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
@@ -144,7 +158,7 @@ class RegistrationContext {
 	private array $declarativeSettings = [];
 
 	/** @var array<array-key, string> */
-	private array $configLexiconClasses = ['core' => CoreConfigLexicon::class];
+	private array $configLexiconClasses = [];
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
@@ -152,32 +166,32 @@ class RegistrationContext {
 	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
 	private array $taskProcessingProviders = [];
 
-	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
+	/** @var ServiceRegistration<ITaskType>[] */
 	private array $taskProcessingTaskTypes = [];
 
-	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
+	/** @var ServiceRegistration<IConversionProvider>[] */
 	private array $fileConversionProviders = [];
-	
+
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	/** @var class-string<IGlobalScaleService>|null */
+	private ?string $globalScaleService = null;
+
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function for(string $appId): IRegistrationContext {
 		return new class($appId, $this) implements IRegistrationContext {
-			/** @var string */
-			private $appId;
-
-			/** @var RegistrationContext */
-			private $context;
-
-			public function __construct(string $appId, RegistrationContext $context) {
-				$this->appId = $appId;
-				$this->context = $context;
+			public function __construct(
+				private string $appId,
+				private RegistrationContext $context,
+			) {
 			}
 
+			#[\Override]
 			public function registerCapability(string $capability): void {
 				$this->context->registerCapability(
 					$this->appId,
@@ -185,6 +199,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCrashReporter(string $reporterClass): void {
 				$this->context->registerCrashReporter(
 					$this->appId,
@@ -192,6 +207,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerDashboardWidget(string $widgetClass): void {
 				$this->context->registerDashboardPanel(
 					$this->appId,
@@ -199,6 +215,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerService(string $name, callable $factory, bool $shared = true): void {
 				$this->context->registerService(
 					$this->appId,
@@ -208,6 +225,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerServiceAlias(string $alias, string $target): void {
 				$this->context->registerServiceAlias(
 					$this->appId,
@@ -216,6 +234,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerParameter(string $name, $value): void {
 				$this->context->registerParameter(
 					$this->appId,
@@ -224,6 +243,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerEventListener(string $event, string $listener, int $priority = 0): void {
 				$this->context->registerEventListener(
 					$this->appId,
@@ -233,6 +253,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerMiddleware(string $class, bool $global = false): void {
 				$this->context->registerMiddleware(
 					$this->appId,
@@ -241,6 +262,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSearchProvider(string $class): void {
 				$this->context->registerSearchProvider(
 					$this->appId,
@@ -248,6 +270,15 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
+			public function registerAccountScopedSearchProvider(string $class): void {
+				$this->context->registerAccountScopedSearchProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			#[\Override]
 			public function registerAlternativeLogin(string $class): void {
 				$this->context->registerAlternativeLogin(
 					$this->appId,
@@ -255,6 +286,15 @@ class RegistrationContext {
 				);
 			}
 
+			#[Override]
+			public function registerAlternativeLoginProvider(string $class): void {
+				$this->context->registerAlternativeLoginProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			#[\Override]
 			public function registerInitialStateProvider(string $class): void {
 				$this->context->registerInitialState(
 					$this->appId,
@@ -262,6 +302,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerWellKnownHandler(string $class): void {
 				$this->context->registerWellKnown(
 					$this->appId,
@@ -269,12 +310,14 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSpeechToTextProvider(string $providerClass): void {
 				$this->context->registerSpeechToTextProvider(
 					$this->appId,
 					$providerClass
 				);
 			}
+			#[\Override]
 			public function registerTextProcessingProvider(string $providerClass): void {
 				$this->context->registerTextProcessingProvider(
 					$this->appId,
@@ -282,6 +325,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTextToImageProvider(string $providerClass): void {
 				$this->context->registerTextToImageProvider(
 					$this->appId,
@@ -289,6 +333,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
 					$this->appId,
@@ -296,6 +341,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTranslationProvider(string $providerClass): void {
 				$this->context->registerTranslationProvider(
 					$this->appId,
@@ -303,6 +349,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerNotifierService(string $notifierClass): void {
 				$this->context->registerNotifierService(
 					$this->appId,
@@ -310,6 +357,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTwoFactorProvider(string $twoFactorProviderClass): void {
 				$this->context->registerTwoFactorProvider(
 					$this->appId,
@@ -317,6 +365,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void {
 				$this->context->registerPreviewProvider(
 					$this->appId,
@@ -325,6 +374,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarProvider(string $class): void {
 				$this->context->registerCalendarProvider(
 					$this->appId,
@@ -332,6 +382,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerReferenceProvider(string $class): void {
 				$this->context->registerReferenceProvider(
 					$this->appId,
@@ -339,6 +390,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerProfileLinkAction(string $actionClass): void {
 				$this->context->registerProfileLinkAction(
 					$this->appId,
@@ -346,6 +398,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTalkBackend(string $backend): void {
 				$this->context->registerTalkBackend(
 					$this->appId,
@@ -353,6 +406,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarResourceBackend(string $class): void {
 				$this->context->registerCalendarResourceBackend(
 					$this->appId,
@@ -360,6 +414,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTeamResourceProvider(string $class) : void {
 				$this->context->registerTeamResourceProvider(
 					$this->appId,
@@ -367,6 +422,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarRoomBackend(string $class): void {
 				$this->context->registerCalendarRoomBackend(
 					$this->appId,
@@ -374,6 +430,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerUserMigrator(string $migratorClass): void {
 				$this->context->registerUserMigrator(
 					$this->appId,
@@ -381,6 +438,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSensitiveMethods(string $class, array $methods): void {
 				$this->context->registerSensitiveMethods(
 					$this->appId,
@@ -389,6 +447,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerPublicShareTemplateProvider(string $class): void {
 				$this->context->registerPublicShareTemplateProvider(
 					$this->appId,
@@ -396,6 +455,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSetupCheck(string $setupCheckClass): void {
 				$this->context->registerSetupCheck(
 					$this->appId,
@@ -403,6 +463,15 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
+			public function registerSystemReportSection(string $sectionClass): void {
+				$this->context->registerSystemReportSection(
+					$this->appId,
+					$sectionClass
+				);
+			}
+
+			#[\Override]
 			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
 				$this->context->registerDeclarativeSettings(
 					$this->appId,
@@ -410,6 +479,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
 				$this->context->registerTaskProcessingProvider(
 					$this->appId,
@@ -417,6 +487,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
 				$this->context->registerTaskProcessingTaskType(
 					$this->appId,
@@ -424,6 +495,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerFileConversionProvider(string $class): void {
 				$this->context->registerFileConversionProvider(
 					$this->appId,
@@ -431,6 +503,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerMailProvider(string $class): void {
 				$this->context->registerMailProvider(
 					$this->appId,
@@ -438,10 +511,18 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerConfigLexicon(string $configLexiconClass): void {
 				$this->context->registerConfigLexicon(
 					$this->appId,
 					$configLexiconClass
+				);
+			}
+
+			#[\Override]
+			public function registerGlobalScaleService(string $globalScaleServiceClass): void {
+				$this->context->registerGlobalScaleService(
+					$globalScaleServiceClass
 				);
 			}
 		};
@@ -495,8 +576,16 @@ class RegistrationContext {
 		$this->searchProviders[] = new ServiceRegistration($appId, $class);
 	}
 
+	public function registerAccountScopedSearchProvider(string $appId, string $class): void {
+		$this->accountScopedSearchProviders[] = new ServiceRegistration($appId, $class);
+	}
+
 	public function registerAlternativeLogin(string $appId, string $class): void {
 		$this->alternativeLogins[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerAlternativeLoginProvider(string $appId, string $class): void {
+		$this->alternativeLoginProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerInitialState(string $appId, string $class): void {
@@ -617,6 +706,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @psalm-param class-string<ISystemReportSection> $sectionClass
+	 */
+	public function registerSystemReportSection(string $appId, string $sectionClass): void {
+		$this->systemReportSections[] = new ServiceRegistration($appId, $sectionClass);
+	}
+
+	/**
 	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
@@ -631,14 +727,14 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $declarativeSettingsClass
+	 * @psalm-param class-string<ITaskType> $declarativeSettingsClass
 	 */
 	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
 		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
 
 	/**
-	 * @psalm-param class-string<\OCP\Files\Conversion\IConversionProvider> $class
+	 * @psalm-param class-string<IConversionProvider> $class
 	 */
 	public function registerFileConversionProvider(string $appId, string $class): void {
 		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
@@ -652,17 +748,24 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<IConfigLexicon> $configLexiconClass
+	 * @psalm-param class-string<ILexicon> $configLexiconClass
 	 */
 	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
 		$this->configLexiconClasses[$appId] = $configLexiconClass;
 	}
 
 	/**
+	 * @param class-string<IGlobalScaleService> $class
+	 */
+	public function registerGlobalScaleService(string $class): void {
+		$this->globalScaleService = $class;
+	}
+
+	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
-		while (($registration = array_shift($this->capabilities)) !== null) {
+		foreach ($this->capabilities as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -673,22 +776,24 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerCapability($registration->getService());
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerCapability($registration->getService());
 			} catch (Throwable $e) {
 				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
 		}
+		$this->capabilities = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCrashReporterRegistrations(array $apps, Registry $registry): void {
-		while (($registration = array_shift($this->crashReporters)) !== null) {
+		foreach ($this->crashReporters as $registration) {
 			try {
 				$registry->registerLazy($registration->getService());
 			} catch (Throwable $e) {
@@ -698,10 +803,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->crashReporters = [];
 	}
 
 	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
-		while (($panel = array_shift($this->dashboardPanels)) !== null) {
+		foreach ($this->dashboardPanels as $panel) {
 			try {
 				$dashboardManager->lazyRegisterWidget($panel->getService(), $panel->getAppId());
 			} catch (Throwable $e) {
@@ -711,10 +817,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->dashboardPanels = [];
 	}
 
 	public function delegateEventListenerRegistrations(IEventDispatcher $eventDispatcher): void {
-		while (($registration = array_shift($this->eventListeners)) !== null) {
+		foreach ($this->eventListeners as $registration) {
 			try {
 				$eventDispatcher->addServiceListener(
 					$registration->getEvent(),
@@ -728,13 +835,14 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->eventListeners = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateContainerRegistrations(array $apps): void {
-		while (($registration = array_shift($this->services)) !== null) {
+		foreach ($this->services as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -748,21 +856,23 @@ class RegistrationContext {
 				/**
 				 * Register the service and convert the callable into a \Closure if necessary
 				 */
-				$apps[$appId]
-					->getContainer()
-					->registerService(
-						$registration->getName(),
-						Closure::fromCallable($registration->getFactory()),
-						$registration->isShared()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerService(
+					$registration->getName(),
+					Closure::fromCallable($registration->getFactory()),
+					$registration->isShared()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
 		}
+		$this->services = [];
 
-		while (($registration = array_shift($this->aliases)) !== null) {
+		foreach ($this->aliases as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -773,20 +883,22 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerAlias(
-						$registration->getAlias(),
-						$registration->getTarget()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerAlias(
+					$registration->getAlias(),
+					$registration->getTarget()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service alias registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
 		}
+		$this->aliases = [];
 
-		while (($registration = array_shift($this->parameters)) !== null) {
+		foreach ($this->parameters as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -797,18 +909,20 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerParameter(
-						$registration->getName(),
-						$registration->getValue()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerParameter(
+					$registration->getName(),
+					$registration->getValue()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service parameter registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
 		}
+		$this->parameters = [];
 	}
 
 	/**
@@ -826,10 +940,24 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<IAccountScopedSearchProvider>[]
+	 */
+	public function getAccountScopedSearchProviders(): array {
+		return $this->accountScopedSearchProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<IAlternativeLogin>[]
 	 */
 	public function getAlternativeLogins(): array {
 		return $this->alternativeLogins;
+	}
+
+	/**
+	 * @return ServiceRegistration<IAlternativeLoginProvider>[]
+	 */
+	public function getAlternativeLoginProviders(): array {
+		return $this->alternativeLoginProviders;
 	}
 
 	/**
@@ -976,6 +1104,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<ISystemReportSection>[]
+	 */
+	public function getSystemReportSections(): array {
+		return $this->systemReportSections;
+	}
+
+	/**
 	 * @return ServiceRegistration<ITeamResourceProvider>[]
 	 */
 	public function getTeamResourceProviders(): array {
@@ -997,14 +1132,14 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @return ServiceRegistration<\OCP\TaskProcessing\ITaskType>[]
+	 * @return ServiceRegistration<ITaskType>[]
 	 */
 	public function getTaskProcessingTaskTypes(): array {
 		return $this->taskProcessingTaskTypes;
 	}
 
 	/**
-	 * @return ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[]
+	 * @return ServiceRegistration<IConversionProvider>[]
 	 */
 	public function getFileConversionProviders(): array {
 		return $this->fileConversionProviders;
@@ -1023,13 +1158,20 @@ class RegistrationContext {
 	 *
 	 * @param string $appId
 	 *
-	 * @return IConfigLexicon|null
+	 * @return ILexicon|null
 	 */
-	public function getConfigLexicon(string $appId): ?IConfigLexicon {
+	public function getConfigLexicon(string $appId): ?ILexicon {
 		if (!array_key_exists($appId, $this->configLexiconClasses)) {
 			return null;
 		}
 
-		return \OCP\Server::get($this->configLexiconClasses[$appId]);
+		return Server::get($this->configLexiconClasses[$appId]);
+	}
+
+	/**
+	 * @return ?class-string<IGlobalScaleService>
+	 */
+	public function getGlobalScaleService(): ?string {
+		return $this->globalScaleService;
 	}
 }

@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
+use OCP\Console\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Output\OutputInterface;
+use OCP\Util;
 
 class ObjectUtil {
 	public function __construct(
@@ -38,7 +39,7 @@ class ObjectUtil {
 		return null;
 	}
 
-	public function getObjectStore(?string $bucket, OutputInterface $output): ?IObjectStore {
+	public function getObjectStore(?string $bucket, IOutput $output): ?IObjectStore {
 		$config = $this->getObjectStoreConfig();
 		if (!$config) {
 			$output->writeln('<error>Instance is not using primary object store</error>');
@@ -90,5 +91,25 @@ class ObjectUtil {
 		}
 
 		return $fileId;
+	}
+
+	public function formatObjects(\Iterator $objects, bool $humanOutput): \Iterator {
+		foreach ($objects as $object) {
+			yield $this->formatObject($object, $humanOutput);
+		}
+	}
+
+	public function formatObject(array $object, bool $humanOutput): array {
+		$row = array_merge([
+			'urn' => $object['urn'],
+		], ($object['metadata'] ?? []));
+
+		if ($humanOutput && isset($row['size'])) {
+			$row['size'] = Util::humanFileSize($row['size']);
+		}
+		if (isset($row['mtime'])) {
+			$row['mtime'] = $row['mtime']->format(\DateTimeImmutable::ATOM);
+		}
+		return $row;
 	}
 }

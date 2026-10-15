@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
@@ -19,14 +20,9 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActivityPublisherTest extends TestCase {
-	/** @var IManager|MockObject */
-	private $activityManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ActivityPublisher */
-	private $listener;
+	private IManager&MockObject $activityManager;
+	private LoggerInterface&MockObject $logger;
+	private ActivityPublisher $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

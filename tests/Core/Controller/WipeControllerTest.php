@@ -23,6 +23,7 @@ class WipeControllerTest extends TestCase {
 	/** @var WipeController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -33,7 +34,7 @@ class WipeControllerTest extends TestCase {
 			$this->remoteWipe);
 	}
 
-	public function dataTest() {
+	public static function dataTest(): array {
 		return [
 			// valid token, could perform operation, valid result
 			[ true,  true,  true],
@@ -47,9 +48,8 @@ class WipeControllerTest extends TestCase {
 	 * @param bool $valid
 	 * @param bool $couldPerform
 	 * @param bool $result
-	 *
-	 * @dataProvider dataTest
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
 	public function testCheckWipe(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('start')
@@ -76,9 +76,8 @@ class WipeControllerTest extends TestCase {
 	 * @param bool $valid
 	 * @param bool $couldPerform
 	 * @param bool $result
-	 *
-	 * @dataProvider dataTest
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
 	public function testWipeDone(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('finish')

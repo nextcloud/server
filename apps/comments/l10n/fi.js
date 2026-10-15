@@ -11,11 +11,12 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "Tiedostojen <strong>kommentit</strong>",
     "Files" : "Tiedostot",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
+    "Go to file" : "Siirry tiedostoon",
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",
     "New comment" : "Uusi kommentti",
-    "Write a comment …" : "Kirjoita kommentti…",
+    "Write a comment …" : "Kirjoita kommentti …",
     "Post comment" : "Lähetä viesti",
     "@ for mentions, : for emoji, / for smart picker" : "@ maininnoille, : emojille, / älykkäälle valitsimelle",
     "Could not reload comments" : "Kommenttien lataus epäonnistui",
@@ -29,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommenttia muokatessa tapahtui virhe",
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
-    "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe"
+    "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
+    "Write a comment …" : "Kirjoita kommentti…"
 },
 "nplurals=2; plural=(n != 1);");

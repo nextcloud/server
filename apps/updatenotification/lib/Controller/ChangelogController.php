@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\Controller;
 
 use OCA\UpdateNotification\Manager;
@@ -46,7 +47,6 @@ class ChangelogController extends Controller {
 
 		$changes = $this->manager->getChangelog($app, $version) ?? '';
 		// Remove version headline
-		/** @var string[] */
 		$changes = explode("\n", $changes, 2);
 		$changes = trim(end($changes));
 
@@ -56,6 +56,7 @@ class ChangelogController extends Controller {
 			'text' => $changes,
 		]);
 
+		Util::addStyle($this->appName, 'view-changelog-page');
 		Util::addScript($this->appName, 'view-changelog-page');
 		return new TemplateResponse($this->appName, 'empty');
 	}

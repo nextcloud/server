@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -12,8 +13,8 @@ use OCP\AppFramework\Http;
 /**
  * Redirects to a different URL
  * @since 7.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class RedirectResponse extends Response {
@@ -32,7 +33,6 @@ class RedirectResponse extends Response {
 		$this->redirectURL = $redirectURL;
 		$this->addHeader('Location', $redirectURL);
 	}
-
 
 	/**
 	 * @return string the url to redirect

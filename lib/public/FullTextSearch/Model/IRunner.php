@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -36,7 +37,6 @@ interface IRunner {
 	 */
 	public const RESULT_TYPE_FAIL = 9;
 
-
 	/**
 	 * Info are displayed in the user interface when an admin execute the
 	 * ./occ fulltextsearch:index command.
@@ -57,7 +57,6 @@ interface IRunner {
 	 */
 	public function setInfo(string $info, string $value);
 
-
 	/**
 	 * This method should be used when editing multiple info to avoid too many
 	 * refresh of the interface.
@@ -67,7 +66,6 @@ interface IRunner {
 	 * @param array $data
 	 */
 	public function setInfoArray(array $data);
-
 
 	/**
 	 * Method used to update the current Action when an index is running.
@@ -90,7 +88,6 @@ interface IRunner {
 	 */
 	public function updateAction(string $action = '', bool $force = false): string;
 
-
 	/**
 	 * Call this method in a Search Platform or Content Provider if there is an
 	 * issue while generating a document or while indexing the current document.
@@ -105,7 +102,6 @@ interface IRunner {
 	 * @param int $sev
 	 */
 	public function newIndexError(IIndex $index, string $message, string $class = '', int $sev = 3);
-
 
 	/**
 	 * Call this method only in a Search Platform after an index of a document.

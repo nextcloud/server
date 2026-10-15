@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use OCP\IConfig;
+use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
+use OCP\Util;
 
 class OC_Defaults {
 	private $theme;
@@ -213,7 +215,7 @@ class OC_Defaults {
 			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib', $lang);
+				$l10n = Server::get(IFactory::class)->get('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;
@@ -228,9 +230,9 @@ class OC_Defaults {
 		if ($this->themeExist('getShortFooter')) {
 			$footer = $this->theme->getShortFooter();
 		} else {
-			$footer = '<a href="' . $this->getBaseUrl() . '" target="_blank"' .
-				' rel="noreferrer noopener">' . $this->getEntity() . '</a>' .
-				' – ' . $this->getSlogan();
+			$footer = '<a href="' . $this->getBaseUrl() . '" target="_blank"'
+				. ' rel="noreferrer noopener">' . $this->getEntity() . '</a>'
+				. ' – ' . $this->getSlogan();
 		}
 
 		return $footer;
@@ -312,11 +314,29 @@ class OC_Defaults {
 		}
 
 		if ($useSvg) {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.svg');
+			$logo = Server::get(IURLGenerator::class)->imagePath('core', 'logo/logo.svg');
 		} else {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
+			$logo = Server::get(IURLGenerator::class)->imagePath('core', 'logo/logo.png');
 		}
-		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+		return $logo . '?v=' . hash('sha1', implode('.', Util::getVersion()));
+	}
+
+	/**
+	 * Raw logo image data (raster, not SVG) for embedding directly into emails,
+	 * so mail clients don't have to fetch it from the internet.
+	 *
+	 * @return array{content: string, mimeType: string}|null null when unavailable
+	 */
+	public function getLogoImage(): ?array {
+		if ($this->themeExist('getLogoImage')) {
+			return $this->theme->getLogoImage();
+		}
+
+		$content = @file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
+		if ($content === false) {
+			return null;
+		}
+		return ['content' => $content, 'mimeType' => 'image/png'];
 	}
 
 	public function getTextColorPrimary() {

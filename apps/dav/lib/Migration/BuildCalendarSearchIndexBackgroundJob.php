@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -26,9 +27,10 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
-	public function run($arguments) {
-		$offset = (int)$arguments['offset'];
-		$stopAt = (int)$arguments['stopAt'];
+	#[\Override]
+	public function run($argument) {
+		$offset = (int)$argument['offset'];
+		$stopAt = (int)$argument['stopAt'];
 
 		$this->logger->info('Building calendar index (' . $offset . '/' . $stopAt . ')');
 
@@ -66,7 +68,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 			->setMaxResults(500);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $result->fetchAssociative()) {
 			$offset = $row['id'];
 
 			$calendarData = $row['calendardata'];

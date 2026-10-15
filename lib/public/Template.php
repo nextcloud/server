@@ -5,7 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
+
+use OCP\Template\ITemplate;
 
 /*
  * We have to require the functions file because this class contains aliases to the functions
@@ -19,9 +22,9 @@ require_once __DIR__ . '/../private/Template/functions.php';
  * @since 8.0.0
  * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
  */
-class Template extends \OC_Template {
+class Template extends \OC_Template implements ITemplate {
 	/**
-	 * Make OC_Helper::imagePath available as a simple function
+	 * Make \OCP\IURLGenerator::imagePath available as a simple function
 	 *
 	 * @see \OCP\IURLGenerator::imagePath
 	 *
@@ -35,9 +38,8 @@ class Template extends \OC_Template {
 		return \image_path($app, $image);
 	}
 
-
 	/**
-	 * Make OC_Helper::mimetypeIcon available as a simple function
+	 * Make IMimeTypeDetector->mimeTypeIcon available as a simple function
 	 *
 	 * @param string $mimetype
 	 * @return string to the image of this file type.
@@ -75,7 +77,7 @@ class Template extends \OC_Template {
 	}
 
 	/**
-	 * Make OC_Helper::humanFileSize available as a simple function
+	 * Make \OCP\Util::humanFileSize available as a simple function
 	 * Example: 2048 to 2 kB.
 	 *
 	 * @param int $bytes in bytes

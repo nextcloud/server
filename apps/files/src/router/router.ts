@@ -1,71 +1,137 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { RawLocation, Route } from 'vue-router'
+
+import type { INode } from '@nextcloud/files'
+
+import { subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
-import queryString from 'query-string'
-import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
-import Vue from 'vue'
-import logger from '../logger'
+import { relative } from 'path'
+import { createRouter, createWebHistory, isNavigationFailure, NavigationFailureType, stringifyQuery } from 'vue-router'
+import { useFilesStore } from '../store/files.ts'
+import { pinia } from '../store/index.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { defaultView } from '../utils/filesViews.ts'
+import { logger } from '../utils/logger.ts'
 
-Vue.use(Router)
-
-// Prevent router from throwing errors when we're already on the page we're trying to go to
-const originalPush = Router.prototype.push
-Router.prototype.push = (function(this: Router, ...args: Parameters<typeof originalPush>) {
-	if (args.length > 1) {
-		return originalPush.call(this, ...args)
-	}
-	return originalPush.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
-}) as typeof originalPush
-
-const originalReplace = Router.prototype.replace
-Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof originalReplace>) {
-	if (args.length > 1) {
-		return originalReplace.call(this, ...args)
-	}
-	return originalReplace.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
-}) as typeof originalReplace
+const FilesListComponent = () => import('../views/FilesList.vue')
 
 /**
- * Ignore duplicated-navigation error but forward real exceptions
- * @param error The thrown error
+ * Stringify the query the way Nextcloud URLs have always looked: spaces as
+ * "%20" rather than "+". A literal "+" is already encoded as "%2B" by then, so
+ * this cannot corrupt a file name.
+ *
+ * @param query - The query to stringify
  */
-function ignoreDuplicateNavigation(error: unknown): void {
-	if (isNavigationFailure(error, NavigationFailureType.duplicated)) {
-		logger.debug('Ignoring duplicated navigation from vue-router', { error })
-	} else {
-		throw error
-	}
+function stringifyNextcloudQuery(query: Parameters<typeof stringifyQuery>[0]): string {
+	return stringifyQuery(query).replace(/\+/g, '%20')
 }
 
-const router = new Router({
-	mode: 'history',
-
+export const router = createRouter({
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
-	base: generateUrl('/apps/files'),
+	history: createWebHistory(generateUrl('/apps/files')),
 	linkActiveClass: 'active',
-
+	stringifyQuery: stringifyNextcloudQuery,
 	routes: [
 		{
 			path: '/',
 			// Pretending we're using the default view
-			redirect: { name: 'filelist', params: { view: 'files' } },
+			redirect: { name: 'filelist', params: { view: defaultView() } },
 		},
 		{
 			path: '/:view/:fileid(\\d+)?',
 			name: 'filelist',
 			props: true,
+			component: FilesListComponent,
 		},
 	],
-
-	// Custom stringifyQuery to prevent encoding of slashes in the url
-	stringifyQuery(query) {
-		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
-		return result ? ('?' + result) : ''
-	},
 })
 
-export default router
+// Handle aborted navigation (NavigationGuards) gracefully
+router.onError((error) => {
+	if (isNavigationFailure(error, NavigationFailureType.aborted)) {
+		logger.debug('Navigation was aborted', { error })
+	} else {
+		throw error
+	}
+})
+
+// If navigating back from a folder to a parent folder,
+// we need to keep the current dir fileid so it's highlighted
+// and scrolled into view.
+router.beforeResolve((to, from) => {
+	if (to.params.view !== from.params.view) {
+		// skip if different views
+		return
+	}
+
+	const fromDir = (from.query?.dir || '/') as string
+	const toDir = (to.query?.dir || '/') as string
+
+	// We are going back to a parent directory
+	if (relative(fromDir, toDir) === '..') {
+		const { getNode } = useFilesStore()
+		const { getPath } = usePathsStore()
+
+		if (!from.params.view) {
+			logger.error('No current view id found, cannot navigate to parent directory', { fromDir, toDir })
+			return
+		}
+
+		// Get the previous parent's file id
+		const fromSource = getPath(from.params.view as string, fromDir)
+		if (!fromSource) {
+			logger.error('No source found for the parent directory', { fromDir, toDir })
+			return
+		}
+
+		const fileId = getNode(fromSource)?.fileid
+		if (to.params.fileid === String(fileId)) {
+			// prevent infinite loop of navigating to the same parent directory
+			return
+		}
+
+		if (!fileId) {
+			logger.error('No fileid found for the parent directory', { fromDir, toDir, fromSource })
+			return
+		}
+
+		logger.debug('Navigating back to parent directory', { fromDir, toDir, fileId })
+		return {
+			name: 'filelist',
+			query: to.query,
+			params: {
+				...to.params,
+				fileid: String(fileId),
+			},
+			// Replace the current history entry
+			replace: true,
+		}
+	}
+})
+
+// Navigate through the router service, so stores reacting to the same deletion
+// (e.g. the sidebar closing) build on this navigation instead of the outdated route.
+subscribe('files:node:deleted', (node: INode) => {
+	const { Router } = window.OCP.Files
+	if (Router.params.fileid === String(node.fileid)) {
+		const params = { ...Router.params }
+		const { getPath } = usePathsStore(pinia)
+		const { getNode } = useFilesStore(pinia)
+		const source = getPath(Router.params.view, node.dirname)
+		const parentFolder = getNode(source!)
+		if (source && parentFolder) {
+			params.fileid = String(parentFolder.fileid)
+		} else {
+			delete params.fileid
+		}
+
+		const query = { ...Router.query }
+		delete query.opendetails
+		delete query.openfile
+
+		Router.goToRoute(null, params, query, true)
+	}
+})

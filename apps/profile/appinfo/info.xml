@@ -8,14 +8,14 @@
 	<id>profile</id>
 	<name>Profile</name>
 	<summary>This application provides the profile</summary>
-	<description>Provides a customisable user profile interface.</description>
-	<version>1.1.0</version>
-	<licence>agpl</licence>
+	<description>Provides a customizable user profile interface.</description>
+	<version>3.0.0-dev.0</version>
+	<licence>AGPL-3.0-or-later</licence>
 	<author>Nextcloud GmbH</author>
 	<namespace>Profile</namespace>
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="32" max-version="32"/>
+		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
 </info>

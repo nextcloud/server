@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 /**
@@ -31,6 +32,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUserSession;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -48,11 +50,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-
-	/**
-	 * @var ITags
-	 */
-	private $tagger;
+	private ?ITags $tagger = null;
 
 	/**
 	 * Array of file id to tags array
@@ -61,6 +59,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var array
 	 */
 	private $cachedTags;
+	private array $cachedDirectories;
 
 	/**
 	 * @param \Sabre\DAV\Tree $tree tree
@@ -87,13 +86,16 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = TagList::class;
 
 		$this->server = $server;
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
+		$this->server->on('preloadProperties', [$this, 'handlePreloadProperties']);
 	}
 
 	/**
@@ -101,11 +103,17 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return ITags tagger
 	 */
-	private function getTagger() {
-		if (!$this->tagger) {
-			$this->tagger = $this->tagManager->load('files');
+	private function getTagger(): ITags {
+		if ($this->tagger) {
+			return $this->tagger;
 		}
-		return $this->tagger;
+
+		$tagger = $this->tagManager->load('files');
+		if ($tagger === null) {
+			throw new \RuntimeException('Tagger not found for files');
+		}
+		$this->tagger = $tagger;
+		return $tagger;
 	}
 
 	/**
@@ -119,7 +127,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$isFav = false;
 		$tags = $this->getTags($fileId);
 		if ($tags) {
-			$favPos = array_search(self::TAG_FAVORITE, $tags);
+			$favPos = array_search(self::TAG_FAVORITE, $tags, true);
 			if ($favPos !== false) {
 				$isFav = true;
 				unset($tags[$favPos]);
@@ -150,12 +158,31 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
+	 * Prefetches tags for a list of file IDs and caches the results
+	 *
+	 * @param array $fileIds List of file IDs to prefetch tags for
+	 * @return void
+	 */
+	private function prefetchTagsForFileIds(array $fileIds) {
+		$tags = $this->getTagger()->getTagsForObjects($fileIds);
+		if ($tags === false) {
+			// the tags API returns false on error...
+			$tags = [];
+		}
+
+		foreach ($fileIds as $fileId) {
+			$this->cachedTags[$fileId] = $tags[$fileId] ?? [];
+		}
+	}
+
+	/**
 	 * Updates the tags of the given file id
 	 *
 	 * @param int $fileId
 	 * @param array $tags array of tag strings
+	 * @param string $path path of the file
 	 */
-	private function updateTags($fileId, $tags) {
+	private function updateTags($fileId, $tags, string $path) {
 		$tagger = $this->getTagger();
 		$currentTags = $this->getTags($fileId);
 
@@ -164,14 +191,37 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			if ($tag === self::TAG_FAVORITE) {
 				continue;
 			}
-			$tagger->tagAs($fileId, $tag);
+			$tagger->tagAs($fileId, $tag, $path);
 		}
 		$deletedTags = array_diff($currentTags, $tags);
 		foreach ($deletedTags as $tag) {
 			if ($tag === self::TAG_FAVORITE) {
 				continue;
 			}
-			$tagger->unTag($fileId, $tag);
+			$tagger->unTag($fileId, $tag, $path);
+		}
+	}
+
+	private function preloadCollection(PropFind $propFind, ICollection $collection):
+	void {
+		if (!($collection instanceof Node)) {
+			return;
+		}
+
+		// need prefetch ?
+		if ($collection instanceof Directory
+			&& !isset($this->cachedDirectories[$collection->getPath()])
+			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
+				|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
+			)) {
+			// note: pre-fetching only supported for depth <= 1
+			$folderContent = $collection->getChildren();
+			$fileIds = [(int)$collection->getId()];
+			foreach ($folderContent as $info) {
+				$fileIds[] = (int)$info->getId();
+			}
+			$this->prefetchTagsForFileIds($fileIds);
+			$this->cachedDirectories[$collection->getPath()] = true;
 		}
 	}
 
@@ -189,32 +239,6 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 		if (!($node instanceof Node)) {
 			return;
-		}
-
-		// need prefetch ?
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
-			|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
-			)) {
-			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getChildren();
-			$fileIds[] = (int)$node->getId();
-			foreach ($folderContent as $info) {
-				$fileIds[] = (int)$info->getId();
-			}
-			$tags = $this->getTagger()->getTagsForObjects($fileIds);
-			if ($tags === false) {
-				// the tags API returns false on error...
-				$tags = [];
-			}
-
-			$this->cachedTags = $this->cachedTags + $tags;
-			$emptyFileIds = array_diff($fileIds, array_keys($tags));
-			// also cache the ones that were not found
-			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTags[$fileId] = [];
-			}
 		}
 
 		$isFav = null;
@@ -250,16 +274,16 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node) {
-			$this->updateTags($node->getId(), $tagList->getTags());
+		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node, $path) {
+			$this->updateTags($node->getId(), $tagList->getTags(), $path);
 			return true;
 		});
 
 		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
-				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE, $path);
 			} else {
-				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE, $path);
 			}
 
 			if (is_null($favState)) {
@@ -269,5 +293,15 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 
 			return 200;
 		});
+	}
+
+	public function handlePreloadProperties(array $nodes, array $requestProperties): void {
+		if (
+			!in_array(self::FAVORITE_PROPERTYNAME, $requestProperties, true)
+			&& !in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)
+		) {
+			return;
+		}
+		$this->prefetchTagsForFileIds(array_map(fn ($node) => $node->getId(), $nodes));
 	}
 }

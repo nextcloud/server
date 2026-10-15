@@ -8,18 +8,17 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Token;
 
-use OC;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PublicKeyTokenMapperTest extends TestCase {
 	/** @var PublicKeyTokenMapper */
 	private $mapper;
@@ -30,10 +29,11 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var int */
 	private $time;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConnection = OC::$server->getDatabaseConnection();
+		$this->dbConnection = Server::get(IDBConnection::class);
 		$this->time = time();
 		$this->resetDatabase();
 
@@ -42,7 +42,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 	private function resetDatabase() {
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->delete('authtoken')->execute();
+		$qb->delete('authtoken')->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
 			'login_name' => $qb->createNamedParameter('User1'),
@@ -55,7 +55,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user2'),
 			'login_name' => $qb->createNamedParameter('User2'),
@@ -68,7 +68,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
 			'login_name' => $qb->createNamedParameter('User1'),
@@ -81,7 +81,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user3'),
 			'login_name' => $qb->createNamedParameter('User3'),
@@ -95,7 +95,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
 			'password_invalid' => $qb->createNamedParameter(1),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user3'),
 			'login_name' => $qb->createNamedParameter('User3'),
@@ -109,15 +109,15 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
 			'password_invalid' => $qb->createNamedParameter(1),
-		])->execute();
+		])->executeStatement();
 	}
 
 	private function getNumberOfTokens() {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$result = $qb->select($qb->func()->count('*', 'count'))
 			->from('authtoken')
-			->execute()
-			->fetch();
+			->executeQuery()
+			->fetchAssociative();
 		return (int)$result['count'];
 	}
 
@@ -176,9 +176,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-
 	public function testGetInvalidToken(): void {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+		$this->expectException(DoesNotExistException::class);
 
 		$token = 'thisisaninvalidtokenthatisnotinthedatabase';
 
@@ -208,16 +207,14 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-
 	public function testGetTokenByIdNotFound(): void {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+		$this->expectException(DoesNotExistException::class);
 
 		$this->mapper->getTokenById(-1);
 	}
 
-
 	public function testGetInvalidTokenById(): void {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+		$this->expectException(DoesNotExistException::class);
 
 		$id = '42';
 
@@ -239,8 +236,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$qb->select('id')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
-		$result = $qb->execute();
-		$id = $result->fetch()['id'];
+		$result = $qb->executeQuery();
+		$id = $result->fetchAssociative()['id'];
 
 		$token = $this->mapper->getTokenById((int)$id);
 		$this->assertEquals('user1', $token->getUID());
@@ -251,8 +248,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$qb->select('name')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
-		$result = $qb->execute();
-		$name = $result->fetch()['name'];
+		$result = $qb->executeQuery();
+		$name = $result->fetchAssociative()['name'];
 		$this->mapper->deleteByName($name);
 		$this->assertEquals(4, $this->getNumberOfTokens());
 	}

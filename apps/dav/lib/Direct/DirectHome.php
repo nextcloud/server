@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Direct;
 
 use OCA\DAV\Db\DirectMapper;
@@ -32,14 +33,17 @@ class DirectHome implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getChild($name): DirectFile {
 		try {
 			$direct = $this->mapper->getByToken($name);
@@ -53,32 +57,38 @@ class DirectHome implements ICollection {
 		} catch (DoesNotExistException $e) {
 			// Since the token space is so huge only throttle on non-existing token
 			$this->throttler->registerAttempt('directlink', $this->request->getRemoteAddress());
-			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'directlink');
+			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), 'directlink');
 
 			throw new NotFound();
 		}
 	}
 
+	#[\Override]
 	public function getChildren() {
 		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'direct';
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}

@@ -22,7 +22,7 @@ export default {
 	 */
 	loadScript(app, file) {
 		const key = app + file
-		if (Object.prototype.hasOwnProperty.call(loadedScripts, key)) {
+		if (Object.hasOwn(loadedScripts, key)) {
 			return Promise.resolve()
 		}
 		loadedScripts[key] = true
@@ -46,7 +46,7 @@ export default {
 	 */
 	loadStylesheet(app, file) {
 		const key = app + file
-		if (Object.prototype.hasOwnProperty.call(loadedStylesheets, key)) {
+		if (Object.hasOwn(loadedStylesheets, key)) {
 			return Promise.resolve()
 		}
 		loadedStylesheets[key] = true

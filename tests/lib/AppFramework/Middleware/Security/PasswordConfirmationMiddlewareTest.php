@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,6 +18,9 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
@@ -37,26 +41,29 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var ITimeFactory&\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	private IProvider&\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
-	private LoggerInterface $logger;
 	/** @var IRequest&\PHPUnit\Framework\MockObject\MockObject */
 	private IRequest $request;
 	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
 	private Manager $userManager;
+	private IRemoteAddress&MockObject $remoteAddress;
 
+	#[\Override]
 	protected function setUp(): void {
-		$this->reflector = new ControllerMethodReflector();
+		parent::setUp();
+
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->controller = new PasswordConfirmationMiddlewareController(
 			'test',
 			$this->createMock(IRequest::class)
 		);
+		$this->remoteAddress = $this->createMock(IRemoteAddress::class);
 
 		$this->middleware = new PasswordConfirmationMiddleware(
 			$this->reflector,
@@ -64,9 +71,9 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->userSession,
 			$this->timeFactory,
 			$this->tokenProvider,
-			$this->logger,
 			$this->request,
 			$this->userManager,
+			$this->remoteAddress,
 		);
 	}
 
@@ -90,9 +97,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	/**
-	 * @dataProvider dataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
@@ -125,9 +130,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-	/**
-	 * @dataProvider dataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAttribute($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
@@ -160,9 +163,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-
-
-	public function dataProvider() {
+	public static function dataProvider(): array {
 		return [
 			['foo', 2000, 4000, true],
 			['foo', 2000, 3000, false],
@@ -199,6 +200,36 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			->method('getToken')
 			->with($sessionId)
 			->willReturn($token);
+
+		$thrown = false;
+		try {
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
+		} catch (NotConfirmedException) {
+			$thrown = true;
+		}
+
+		$this->assertSame(false, $thrown);
+	}
+
+	public function testAuthHeader(): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn('fictional_backend');
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->session->method('get')
+			->with('loginname')
+			->willReturn('user');
+
+		$this->request->method('getHeader')
+			->with('PHP_AUTH_PW')
+			->willReturn('password');
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->with('user', 'password');
 
 		$thrown = false;
 		try {

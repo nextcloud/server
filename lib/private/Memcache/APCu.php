@@ -1,13 +1,16 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Memcache;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IMemcache;
+use OCP\Server;
 
 class APCu extends Cache implements IMemcache {
 	use CASTrait {
@@ -16,6 +19,7 @@ class APCu extends Cache implements IMemcache {
 
 	use CADTrait;
 
+	#[\Override]
 	public function get($key) {
 		$result = apcu_fetch($this->getPrefix() . $key, $success);
 		if (!$success) {
@@ -24,6 +28,7 @@ class APCu extends Cache implements IMemcache {
 		return $result;
 	}
 
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl === 0) {
 			$ttl = self::DEFAULT_TTL;
@@ -31,14 +36,17 @@ class APCu extends Cache implements IMemcache {
 		return apcu_store($this->getPrefix() . $key, $value, $ttl);
 	}
 
+	#[\Override]
 	public function hasKey($key) {
 		return apcu_exists($this->getPrefix() . $key);
 	}
 
+	#[\Override]
 	public function remove($key) {
 		return apcu_delete($this->getPrefix() . $key);
 	}
 
+	#[\Override]
 	public function clear($prefix = '') {
 		$ns = $this->getPrefix() . $prefix;
 		$ns = preg_quote($ns, '/');
@@ -58,6 +66,7 @@ class APCu extends Cache implements IMemcache {
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		if ($ttl === 0) {
 			$ttl = self::DEFAULT_TTL;
@@ -72,6 +81,7 @@ class APCu extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		$success = null;
 		return apcu_inc($this->getPrefix() . $key, $step, $success, self::DEFAULT_TTL);
@@ -84,6 +94,7 @@ class APCu extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		return apcu_exists($this->getPrefix() . $key)
 			? apcu_dec($this->getPrefix() . $key, $step)
@@ -98,21 +109,23 @@ class APCu extends Cache implements IMemcache {
 	 * @param mixed $new
 	 * @return bool
 	 */
+	#[\Override]
 	public function cas($key, $old, $new) {
 		// apc only does cas for ints
-		if (is_int($old) and is_int($new)) {
+		if (is_int($old) && is_int($new)) {
 			return apcu_cas($this->getPrefix() . $key, $old, $new);
 		} else {
 			return $this->casEmulated($key, $old, $new);
 		}
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		if (!extension_loaded('apcu')) {
 			return false;
-		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enabled')) {
+		} elseif (!Server::get(IniGetWrapper::class)->getBool('apc.enabled')) {
 			return false;
-		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
+		} elseif (!Server::get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
 		} elseif (version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1) {
 			return false;

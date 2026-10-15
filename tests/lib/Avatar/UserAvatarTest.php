@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,29 +8,29 @@
 
 namespace Test\Avatar;
 
+use OC\Avatar\UserAvatar;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
+use OCP\Color;
+use OCP\Config\IUserConfig;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Image;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var SimpleFolder | \PHPUnit\Framework\MockObject\MockObject */
-	private $folder;
 
-	/** @var \OC\Avatar\UserAvatar */
-	private $avatar;
+	private UserAvatar $avatar;
+	private SimpleFolder&MockObject $folder;
+	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
+	private User&MockObject $user;
 
-	/** @var \OC\User\User | \PHPUnit\Framework\MockObject\MockObject $user */
-	private $user;
-
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -37,11 +38,12 @@ class UserAvatarTest extends \Test\TestCase {
 		// abcdefghi is a convenient name that our algorithm convert to our nextcloud blue 0082c9
 		$this->user = $this->getUserWithDisplayName('abcdefghi');
 		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 
 		$this->avatar = $this->getUserAvatar($this->user);
 	}
 
-	public function avatarTextData() {
+	public static function avatarTextData(): array {
 		return [
 			['', '?'],
 			['matchish', 'M'],
@@ -56,7 +58,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function (string $path) {
+			->willReturnCallback(function (string $path): void {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
@@ -144,7 +146,7 @@ class UserAvatarTest extends \Test\TestCase {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {
-						throw new \OCP\Files\NotFoundException;
+						throw new NotFoundException;
 					}
 				}
 			);
@@ -222,10 +224,11 @@ class UserAvatarTest extends \Test\TestCase {
 			->method('putContent')
 			->with($image->data());
 
-		$this->config->expects($this->exactly(3))
+		$this->config->expects($this->exactly(2))
 			->method('setUserValue');
-		$this->config->expects($this->once())
-			->method('getUserValue');
+		$this->userConfig->expects($this->once())
+			->method('setValueInt')
+			->with($this->user->getUID(), 'avatar', 'version', 1);
 
 		$this->user->expects($this->exactly(1))->method('triggerChange');
 
@@ -233,7 +236,7 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGenerateSvgAvatar(): void {
-		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64, false]);
+		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [$this->user->getDisplayName(), 64, false]);
 
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
@@ -243,10 +246,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($avatar, $svg);
 	}
 
-
-	/**
-	 * @dataProvider avatarTextData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('avatarTextData')]
 	public function testGetAvatarText($displayName, $expectedAvatarText): void {
 		$user = $this->getUserWithDisplayName($displayName);
 		$avatar = $this->getUserAvatar($user);
@@ -261,17 +261,17 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testMixPalette(): void {
-		$colorFrom = new \OCP\Color(0, 0, 0);
-		$colorTo = new \OCP\Color(6, 12, 18);
+		$colorFrom = new Color(0, 0, 0);
+		$colorTo = new Color(6, 12, 18);
 		$steps = 6;
-		$palette = \OCP\Color::mixPalette($steps, $colorFrom, $colorTo);
+		$palette = Color::mixPalette($steps, $colorFrom, $colorTo);
 		foreach ($palette as $j => $color) {
 			// calc increment
-			$incR = $colorTo->red() / $steps * $j;
-			$incG = $colorTo->green() / $steps * $j;
-			$incB = $colorTo->blue() / $steps * $j;
+			$incR = (int)($colorTo->red() / $steps * $j);
+			$incG = (int)($colorTo->green() / $steps * $j);
+			$incB = (int)($colorTo->blue() / $steps * $j);
 			// ensure everything is equal
-			$this->assertEquals($color, new \OCP\Color($incR, $incG, $incB));
+			$this->assertEquals($color, new Color($incR, $incG, $incB));
 		}
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
@@ -284,16 +284,17 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	private function getUserAvatar($user) {
-		/** @var \OCP\IL10N | \PHPUnit\Framework\MockObject\MockObject $l */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 
-		return new \OC\Avatar\UserAvatar(
+		return new UserAvatar(
 			$this->folder,
 			$l,
 			$user,
 			$this->createMock(LoggerInterface::class),
-			$this->config
+			$this->config,
+			$this->userConfig,
 		);
 	}
 }

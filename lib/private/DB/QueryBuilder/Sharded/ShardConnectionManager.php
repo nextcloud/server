@@ -12,6 +12,7 @@ use OC\DB\ConnectionAdapter;
 use OC\DB\ConnectionFactory;
 use OC\SystemConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Keeps track of the db connections to the various shards
@@ -34,7 +35,7 @@ class ShardConnectionManager {
 		}
 
 		if ($shard === ShardDefinition::MIGRATION_SHARD) {
-			$this->connections[$connectionKey] = \OC::$server->get(IDBConnection::class);
+			$this->connections[$connectionKey] = Server::get(IDBConnection::class);
 		} elseif (isset($shardDefinition->shards[$shard])) {
 			$this->connections[$connectionKey] = $this->createConnection($shardDefinition->shards[$shard]);
 		} else {

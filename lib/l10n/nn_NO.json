@@ -14,14 +14,12 @@
     "_%n minute ago_::_%n minutes ago_" : ["%n minutt sidan","%n minutt sidan"],
     "seconds ago" : "sekund sidan",
     "__language_name__" : "Nynorsk",
-    "Apps" : "Appar",
-    "Settings" : "Instillingar",
-    "Log out" : "Logg ut",
     "Email" : "Epost",
     "Phone" : "Telefonnummer",
     "Address" : "Adresse",
     "Profile picture" : "Profilbilete",
     "About" : "Om",
+    "Role" : "Rolle",
     "Additional settings" : "Tilleggsinnstillingar",
     "Set an admin password." : "Vel eit admin-passord.",
     "Sunday" : "Søndag",
@@ -71,10 +69,13 @@
     "Dec." : "Des.",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Login canceled by app" : "Innlogging avbroten av app",
-    "Authentication error" : "Feil i autentisering",
+    "Images" : "Bilete",
+    "Text" : "Tekst",
     "Summary" : "Oppsumering",
-    "File name is too long" : "Filnamnet er for langt",
-    "Users" : "Brukarar",
-    "Open »%s«" : "Opna »%s«"
+    "Apps" : "Appar",
+    "Settings" : "Instillingar",
+    "Log out" : "Logg ut",
+    "Accounts" : "Accounts",
+    "Authentication error" : "Feil i autentisering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

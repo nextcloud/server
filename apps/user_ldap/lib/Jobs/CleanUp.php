@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Jobs;
 
 use OCA\User_LDAP\Helper;
@@ -67,7 +68,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
-			$this->ldapHelper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+			$this->ldapHelper = Server::get(Helper::class);
 		}
 
 		if (isset($arguments['ocConfig'])) {
@@ -101,6 +102,7 @@ class CleanUp extends TimedJob {
 	 * makes the background job do its work
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->setArguments($argument);
 
@@ -179,8 +181,8 @@ class CleanUp extends TimedJob {
 	 * @param bool $reset whether the offset should be set to 0
 	 */
 	public function setOffset(bool $reset = false): void {
-		$newOffset = $reset ? 0 :
-			$this->getOffset() + $this->getChunkSize();
+		$newOffset = $reset ? 0
+			: $this->getOffset() + $this->getChunkSize();
 		$this->ocConfig->setAppValue('user_ldap', 'cleanUpJobOffset', (string)$newOffset);
 	}
 

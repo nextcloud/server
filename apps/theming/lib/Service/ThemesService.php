@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Service;
 
 use OCA\Theming\AppInfo\Application;
@@ -13,6 +15,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\Themes\ReducedMotion;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -32,6 +35,7 @@ class ThemesService {
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont,
+		ReducedMotion $motionSickness,
 	) {
 
 		// Register themes
@@ -42,6 +46,7 @@ class ThemesService {
 			$highContrastTheme->getId() => $highContrastTheme,
 			$darkHighContrastTheme->getId() => $darkHighContrastTheme,
 			$dyslexiaFont->getId() => $dyslexiaFont,
+			$motionSickness->getId() => $motionSickness,
 		];
 	}
 
@@ -83,33 +88,22 @@ class ThemesService {
 	 * @return string[] the enabled themes
 	 */
 	public function enableTheme(ITheme $theme): array {
-		$themesIds = $this->getEnabledThemes();
+		$enabledThemeIds = $this->getEnabledThemes();
 
 		// If already enabled, ignore
-		if (in_array($theme->getId(), $themesIds)) {
-			return $themesIds;
+		if (in_array($theme->getId(), $enabledThemeIds, true)) {
+			return $enabledThemeIds;
 		}
 
-		/** @var ITheme[] */
-		$themes = array_filter(array_map(function ($themeId) {
-			return $this->getThemes()[$themeId];
-		}, $themesIds));
+		// for other types then supplementary themes we need to filter out themes with the same type
+		if ($theme->getType() !== ITheme::TYPE_SUPPLEMENTARY) {
+			$allThemes = $this->getThemes();
+			$enabledThemeIds = array_filter($enabledThemeIds, fn (string $themeId) => $allThemes[$themeId]->gettype() !== $theme->gettype());
+		}
 
-		// Filtering all themes with the same type
-		$filteredThemes = array_filter($themes, function (ITheme $t) use ($theme) {
-			return $theme->getType() === $t->getType();
-		});
-
-		// Retrieve IDs only
-		/** @var string[] */
-		$filteredThemesIds = array_map(function (ITheme $t) {
-			return $t->getId();
-		}, array_values($filteredThemes));
-
-		$enabledThemes = array_merge(array_diff($themesIds, $filteredThemesIds), [$theme->getId()]);
-		$this->setEnabledThemes($enabledThemes);
-
-		return $enabledThemes;
+		$enabledThemeIds[] = $theme->getId();
+		$this->setEnabledThemes($enabledThemeIds);
+		return array_values($enabledThemeIds);
 	}
 
 	/**
@@ -122,8 +116,8 @@ class ThemesService {
 		$themesIds = $this->getEnabledThemes();
 
 		// If enabled, removing it
-		if (in_array($theme->getId(), $themesIds)) {
-			$enabledThemes = array_diff($themesIds, [$theme->getId()]);
+		if (in_array($theme->getId(), $themesIds, true)) {
+			$enabledThemes = array_values(array_diff($themesIds, [$theme->getId()]));
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
 		}
@@ -142,18 +136,17 @@ class ThemesService {
 		if ($user instanceof IUser) {
 			// Using keys as it's faster
 			$themes = $this->getEnabledThemes();
-			return in_array($theme->getId(), $themes);
+			return in_array($theme->getId(), $themes, true);
 		}
 		return false;
 	}
 
 	/**
-	 * Get the list of all enabled themes IDs
-	 * for the logged-in user
+	 * Get the list of all enabled themes IDs for the current user.
 	 *
-	 * @return string[]
+	 * @return list<string>
 	 */
-	public function getEnabledThemes(): array {
+	public function getEnabledThemes() {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -163,6 +156,7 @@ class ThemesService {
 			return [];
 		}
 
+		/** @var list<string> */
 		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
 		if ($enforcedTheme !== '') {
 			return array_merge([$enforcedTheme], $enabledThemes);

@@ -6,8 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Versions;
 
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Events\VersionCreatedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -32,6 +35,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	) {
 	}
 
+	#[\Override]
 	public function registerBackend(string $storageType, IVersionBackend $backend) {
 		if (!isset($this->backends[$storageType])) {
 			$this->backends[$storageType] = [];
@@ -51,6 +55,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	 * @return IVersionBackend
 	 * @throws BackendNotFoundException
 	 */
+	#[\Override]
 	public function getBackendForStorage(IStorage $storage): IVersionBackend {
 		$fullType = get_class($storage);
 		$backends = $this->getBackends();
@@ -60,8 +65,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 
 		foreach ($backends as $type => $backendsForType) {
 			if (
-				$storage->instanceOfStorage($type) &&
-				($foundType === '' || is_subclass_of($type, $foundType))
+				$storage->instanceOfStorage($type)
+				&& ($foundType === '' || is_subclass_of($type, $foundType))
 			) {
 				foreach ($backendsForType as $backend) {
 					/** @var IVersionBackend $backend */
@@ -80,16 +85,19 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		}
 	}
 
+	#[\Override]
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		return $backend->getVersionsForFile($user, $file);
 	}
 
+	#[\Override]
 	public function createVersion(IUser $user, FileInfo $file) {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		$backend->createVersion($user, $file);
 	}
 
+	#[\Override]
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
 		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
@@ -100,20 +108,30 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		return $result;
 	}
 
+	#[\Override]
 	public function read(IVersion $version) {
 		$backend = $version->getBackend();
 		return $backend->read($version);
 	}
 
+	#[\Override]
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		return $backend->getVersionFile($user, $sourceFile, $revision);
 	}
 
+	#[\Override]
+	public function getRevision(Node $node): int {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		return $backend->getRevision($node);
+	}
+
+	#[\Override]
 	public function useBackendForStorage(IStorage $storage): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function deleteVersion(IVersion $version): void {
 		$backend = $version->getBackend();
 		if ($backend instanceof IDeletableVersionBackend) {
@@ -121,13 +139,24 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		}
 	}
 
+	#[\Override]
 	public function createVersionEntity(File $file): void {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
-			$backend->createVersionEntity($file);
+			$versionEntity = $backend->createVersionEntity($file);
+
+			if ($versionEntity instanceof VersionEntity) {
+				foreach ($backend->getVersionsForFile($file->getOwner(), $file) as $version) {
+					if ($version->getRevisionId() === $versionEntity->getTimestamp()) {
+						$this->dispatcher->dispatchTyped(new VersionCreatedEvent($file, $version));
+						break;
+					}
+				}
+			}
 		}
 	}
 
+	#[\Override]
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
@@ -135,6 +164,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		}
 	}
 
+	#[\Override]
 	public function deleteVersionsEntity(File $file): void {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
@@ -142,6 +172,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		}
 	}
 
+	#[\Override]
 	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
 		$backend = $this->getBackendForStorage($node->getStorage());
 		if ($backend instanceof IMetadataVersionBackend) {
@@ -174,7 +205,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		} catch (ManuallyLockedException $e) {
 			$owner = (string)$e->getOwner();
 			$appsThatHandleUpdates = ['text', 'richdocuments'];
-			if (!in_array($owner, $appsThatHandleUpdates)) {
+			if (!in_array($owner, $appsThatHandleUpdates, true)) {
 				throw $e;
 			}
 			// The LockWrapper in the files_lock app only compares the lock type and owner

@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\User;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -17,45 +22,37 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\Notification\INotification;
-use OCP\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class UserTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserTest extends \Test\TestCase {
-	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
-	protected $access;
-	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
-	protected $image;
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $avatarManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var string */
-	protected $uid = 'alice';
-	/** @var string */
-	protected $dn = 'uid=alice,dc=foo,dc=bar';
-	/** @var User */
-	protected $user;
+	protected Access&MockObject $access;
+	protected Connection&MockObject $connection;
+	protected IConfig&MockObject $config;
+	protected IUserConfig&MockObject $userConfig;
+	protected IAppConfig&MockObject $appConfig;
+	protected INotificationManager&MockObject $notificationManager;
+	protected IUserManager&MockObject $userManager;
+	protected Image&MockObject $image;
+	protected IAvatarManager&MockObject $avatarManager;
+	protected LoggerInterface&MockObject $logger;
+	protected string $uid = 'alice';
+	protected string $dn = 'uid=alice,dc=foo,dc=bar';
+	protected User $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = $this->createMock(Connection::class);
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 
 		$this->access = $this->createMock(Access::class);
 		$this->access->connection = $this->connection;
@@ -64,6 +61,8 @@ class UserTest extends \Test\TestCase {
 			->willReturn($this->connection);
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
@@ -75,11 +74,13 @@ class UserTest extends \Test\TestCase {
 			$this->dn,
 			$this->access,
 			$this->config,
+			$this->userConfig,
+			$this->appConfig,
 			$this->image,
 			$this->logger,
 			$this->avatarManager,
 			$this->userManager,
-			$this->notificationManager
+			$this->notificationManager,
 		);
 	}
 
@@ -100,9 +101,7 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('email'))
 			->willReturn(['alice@foo.bar']);
 
-		$coreUser = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$coreUser = $this->createMock(IUser::class);
 		$coreUser->expects($this->once())
 			->method('setSystemEMailAddress')
 			->with('alice@foo.bar');
@@ -126,8 +125,8 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('email'))
 			->willReturn(false);
 
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$this->user->updateEmail();
 	}
@@ -141,8 +140,8 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->never())
 			->method('readAttribute');
 
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$this->user->updateEmail();
 	}
@@ -304,8 +303,8 @@ class UserTest extends \Test\TestCase {
 			->method('get')
 			->with($this->uid);
 
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$this->user->updateQuota();
 	}
@@ -328,8 +327,8 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->never())
 			->method('readAttribute');
 
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueFloat');
 
 		$this->user->updateQuota();
 	}
@@ -495,18 +494,18 @@ class UserTest extends \Test\TestCase {
 			->method('data')
 			->willReturn('this is a photo');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
 			->willReturn('');
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image));
+			->with($this->image);
 
 		$this->avatarManager->expects($this->once())
 			->method('getAvatar')
@@ -543,12 +542,12 @@ class UserTest extends \Test\TestCase {
 			->method('data')
 			->willReturn('this is a photo');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
 			->willReturn(md5('this is a photo'));
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
@@ -606,18 +605,18 @@ class UserTest extends \Test\TestCase {
 			->method('data')
 			->willReturn('this is a photo');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
 			->willReturn('');
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image));
+			->with($this->image);
 
 		$this->avatarManager->expects($this->once())
 			->method('getAvatar')
@@ -660,10 +659,10 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->never())
 			->method('data');
 
-		$this->config->expects($this->never())
-			->method('getUserValue');
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('getValueString');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
@@ -713,17 +712,17 @@ class UserTest extends \Test\TestCase {
 			->method('data')
 			->willReturn('this is a photo');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
 			->willReturn('');
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image))
+			->with($this->image)
 			->willThrowException(new \Exception());
 
 		$this->avatarManager->expects($this->once())
@@ -764,10 +763,10 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->never())
 			->method('data');
 
-		$this->config->expects($this->never())
-			->method('getUserValue');
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('getValueString');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$this->avatarManager->expects($this->never())
 			->method('getAvatar');
@@ -780,7 +779,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateAvatar();
 	}
 
-	public function extStorageHomeDataProvider() {
+	public static function extStorageHomeDataProvider(): array {
 		return [
 			[ 'myFolder', null ],
 			[ '', null, false ],
@@ -788,9 +787,49 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider extStorageHomeDataProvider
-	 */
+	public function testActivateUser(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(true);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('TRUE');
+	}
+
+	public function testDeactivateUserCorrect(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('FALSE');
+	}
+
+	public function testDeactivateUserFallback(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('weird');
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'extStorageHomeDataProvider')]
 	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true): void {
 		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
@@ -810,12 +849,12 @@ class UserTest extends \Test\TestCase {
 		}
 
 		if ($expected !== '') {
-			$this->config->expects($this->once())
-				->method('setUserValue')
+			$this->userConfig->expects($this->once())
+				->method('setValueString')
 				->with($this->uid, 'user_ldap', 'extStorageHome', $expected);
 		} else {
-			$this->config->expects($this->once())
-				->method('deleteUserValue')
+			$this->userConfig->expects($this->once())
+				->method('deleteUserConfig')
 				->with($this->uid, 'user_ldap', 'extStorageHome');
 		}
 
@@ -824,12 +863,12 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testMarkLogin(): void {
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueBool')
 			->with($this->equalTo($this->uid),
 				$this->equalTo('user_ldap'),
 				$this->equalTo(User::USER_PREFKEY_FIRSTLOGIN),
-				$this->equalTo(1))
+				$this->equalTo(true))
 			->willReturn(true);
 
 		$this->user->markLogin();
@@ -865,7 +904,7 @@ class UserTest extends \Test\TestCase {
 		$this->assertFalse($this->user->getAvatarImage());
 	}
 
-	public function imageDataProvider() {
+	public static function imageDataProvider(): array {
 		return [
 			[ false, false ],
 			[ 'corruptData', false ],
@@ -884,20 +923,22 @@ class UserTest extends \Test\TestCase {
 			'updateExtStorageHome',
 		];
 
-		/** @var User|\PHPUnit\Framework\MockObject\MockObject $userMock */
+		/** @var User&MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
 			->setConstructorArgs([
 				$this->uid,
 				$this->dn,
 				$this->access,
 				$this->config,
+				$this->userConfig,
+				$this->appConfig,
 				$this->image,
 				$this->logger,
 				$this->avatarManager,
 				$this->userManager,
 				$this->notificationManager
 			])
-			->setMethods($requiredMethods)
+			->onlyMethods($requiredMethods)
 			->getMock();
 
 		$this->connection->setConfiguration([
@@ -931,23 +972,18 @@ class UserTest extends \Test\TestCase {
 			$userMock->expects($this->once())
 				->method($method);
 		}
-		\OC_Hook::clear();//disconnect irrelevant hooks
 		$userMock->processAttributes($record);
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
 
-	public function emptyHomeFolderAttributeValueProvider() {
+	public static function emptyHomeFolderAttributeValueProvider(): array {
 		return [
 			'empty' => [''],
 			'prefixOnly' => ['attr:'],
 		];
 	}
 
-	/**
-	 * @dataProvider emptyHomeFolderAttributeValueProvider
-	 */
-	public function testGetHomePathNotConfigured($attributeValue): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'emptyHomeFolderAttributeValueProvider')]
+	public function testGetHomePathNotConfigured(string $attributeValue): void {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
@@ -956,8 +992,8 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->never())
 			->method('readAttribute');
 
-		$this->config->expects($this->never())
-			->method('getAppValue');
+		$this->appConfig->expects($this->never())
+			->method('getAppValueBool');
 
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->assertFalse($this->user->getHomePath());
@@ -978,14 +1014,13 @@ class UserTest extends \Test\TestCase {
 			->willReturn($this->dn);
 
 		// asks for "enforce_home_folder_naming_rule"
-		$this->config->expects($this->once())
-			->method('getAppValue')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueBool')
 			->willReturn(false);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->assertFalse($this->user->getHomePath());
 	}
-
 
 	public function testGetHomePathConfiguredNotAvailableNotAllowed(): void {
 		$this->expectException(\Exception::class);
@@ -1004,14 +1039,14 @@ class UserTest extends \Test\TestCase {
 			->willReturn($this->dn);
 
 		// asks for "enforce_home_folder_naming_rule"
-		$this->config->expects($this->once())
-			->method('getAppValue')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueBool')
 			->willReturn(true);
 
 		$this->user->getHomePath();
 	}
 
-	public function displayNameProvider() {
+	public static function displayNameProvider(): array {
 		return [
 			['Roland Deschain', '', 'Roland Deschain', false],
 			['Roland Deschain', '', 'Roland Deschain', true],
@@ -1020,16 +1055,14 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider displayNameProvider
-	 */
-	public function testComposeAndStoreDisplayName($part1, $part2, $expected, $expectTriggerChange): void {
-		$this->config->expects($this->once())
-			->method('setUserValue');
-		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : null;
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with($this->user->getUsername(), 'user_ldap', 'displayName', null)
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'displayNameProvider')]
+	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $expectTriggerChange): void {
+		$this->userConfig->expects($this->once())
+			->method('setValueString');
+		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : '';
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
+			->with($this->user->getUsername(), 'user_ldap', 'displayName', '')
 			->willReturn($oldName);
 
 		$ncUserObj = $this->createMock(\OC\User\User::class);
@@ -1051,10 +1084,10 @@ class UserTest extends \Test\TestCase {
 
 	public function testComposeAndStoreDisplayNameNoOverwrite(): void {
 		$displayName = 'Randall Flagg';
-		$this->config->expects($this->never())
-			->method('setUserValue');
-		$this->config->expects($this->once())
-			->method('getUserValue')
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
+		$this->userConfig->expects($this->once())
+			->method('getValueString')
 			->willReturn($displayName);
 
 		$this->userManager->expects($this->never())
@@ -1062,132 +1095,5 @@ class UserTest extends \Test\TestCase {
 
 		$composedDisplayName = $this->user->composeAndStoreDisplayName($displayName);
 		$this->assertSame($composedDisplayName, $displayName);
-	}
-
-	public function testHandlePasswordExpiryWarningDefaultPolicy(): void {
-		$this->connection->expects($this->any())
-			->method('__get')
-			->willReturnCallback(function ($name) {
-				if ($name === 'ldapDefaultPPolicyDN') {
-					return 'cn=default,ou=policies,dc=foo,dc=bar';
-				}
-				if ($name === 'turnOnPasswordChange') {
-					return '1';
-				}
-				return $name;
-			});
-
-		$this->access->expects($this->any())
-			->method('search')
-			->willReturnCallback(function ($filter, $base) {
-				if ($base === $this->dn) {
-					return [
-						[
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
-							'pwdgraceusetime' => [],
-						],
-					];
-				}
-				if ($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
-					return [
-						[
-							'pwdmaxage' => ['2592000'],
-							'pwdexpirewarning' => ['2591999'],
-						],
-					];
-				}
-				return [];
-			});
-
-		$notification = $this->getMockBuilder(INotification::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$notification->expects($this->any())
-			->method('setApp')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setUser')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setObject')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setDateTime')
-			->willReturn($notification);
-
-		$this->notificationManager->expects($this->exactly(2))
-			->method('createNotification')
-			->willReturn($notification);
-		$this->notificationManager->expects($this->exactly(1))
-			->method('notify');
-
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
-	}
-
-	public function testHandlePasswordExpiryWarningCustomPolicy(): void {
-		$this->connection->expects($this->any())
-			->method('__get')
-			->willReturnCallback(function ($name) {
-				if ($name === 'ldapDefaultPPolicyDN') {
-					return 'cn=default,ou=policies,dc=foo,dc=bar';
-				}
-				if ($name === 'turnOnPasswordChange') {
-					return '1';
-				}
-				return $name;
-			});
-
-		$this->access->expects($this->any())
-			->method('search')
-			->willReturnCallback(function ($filter, $base) {
-				if ($base === $this->dn) {
-					return [
-						[
-							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
-							'pwdgraceusetime' => [],
-						]
-					];
-				}
-				if ($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
-					return [
-						[
-							'pwdmaxage' => ['2592000'],
-							'pwdexpirewarning' => ['2591999'],
-						]
-					];
-				}
-				return [];
-			});
-
-		$notification = $this->getMockBuilder(INotification::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$notification->expects($this->any())
-			->method('setApp')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setUser')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setObject')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setDateTime')
-			->willReturn($notification);
-
-		$this->notificationManager->expects($this->exactly(2))
-			->method('createNotification')
-			->willReturn($notification);
-		$this->notificationManager->expects($this->exactly(1))
-			->method('notify');
-
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
 }

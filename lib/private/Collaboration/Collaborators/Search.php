@@ -1,40 +1,50 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
+use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IContainer;
-use OCP\Share;
+use OCP\Share\IShare;
 
 class Search implements ISearch {
+	/** @var array<IShare::TYPE_*, list<class-string<ISearchPlugin>>> $pluginList */
 	protected array $pluginList = [];
 
 	public function __construct(
-		private IContainer $container,
+		private readonly IContainer $container,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly IConfig $config,
 	) {
 	}
 
-	/**
-	 * @param string $search
-	 * @param bool $lookup
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @throws \OCP\AppFramework\QueryException
-	 */
-	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
+	#[\Override]
+	public function search(string $search, array $shareTypes, bool $lookup, int $limit, int $offset): array {
+		[$results, $more] = $this->filteredSearch($search, $shareTypes, $lookup, null, null, $limit, $offset, false);
+		return [$results, $more];
+	}
+
+	#[\Override]
+	public function filteredSearch(string $search, array $shareTypes, bool $lookup, ?string $itemType, ?string $itemId, int $limit, int $offset, bool $sendFilterEvent = true): array {
 		$hasMoreResults = false;
 
 		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
 		$search = trim($search);
 
-		/** @var ISearchResult $searchResult */
-		$searchResult = $this->container->resolve(SearchResult::class);
+		$searchResult = new SearchResult();
+
+		// confirm lookup server is not empty
+		$lookup = $lookup && !empty($this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com'));
 
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
@@ -42,14 +52,18 @@ class Search implements ISearch {
 			}
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
-				$searchPlugin = $this->container->resolve($plugin);
+				$searchPlugin = $this->container->get($plugin);
+				if ($searchPlugin instanceof UserPlugin && $lookup) {
+					// we are in GlobalScale, we ignore local accounts and prefer the result from lookup
+					continue;
+				}
 				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
 
 		// Get from lookup server, not a separate share type
 		if ($lookup) {
-			$searchPlugin = $this->container->resolve(LookupPlugin::class);
+			$searchPlugin = $this->container->get(LookupPlugin::class);
 			$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 		}
 
@@ -76,11 +90,32 @@ class Search implements ISearch {
 			$searchResult->unsetResult($emailType);
 		}
 
-		return [$searchResult->asArray(), $hasMoreResults];
+		$results = $searchResult->asArray();
+		if ($sendFilterEvent) {
+			$event = new AutoCompleteFilterEvent(
+				$results,
+				$search,
+				$itemType,
+				$itemId,
+				null,
+				$shareTypes,
+				$limit,
+			);
+			$this->eventDispatcher->dispatchTyped($event);
+			$results = $event->getResults();
+		}
+
+		return [$results, $hasMoreResults];
 	}
 
+	#[\Override]
 	public function registerPlugin(array $pluginInfo): void {
-		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
+		/** @psalm-suppress InvalidScalarArgument For legacy reasons */
+		if (str_starts_with($pluginInfo['shareType'], 'SHARE_')) {
+			$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
+		} else {
+			$shareType = $pluginInfo['shareType'];
+		}
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
@@ -91,15 +126,17 @@ class Search implements ISearch {
 		$allResults = $searchResult->asArray();
 
 		$emailType = new SearchResultType('emails');
-		$remoteType = new SearchResultType('remotes');
-
-		if (!isset($allResults[$remoteType->getLabel()])
-			|| !isset($allResults[$emailType->getLabel()])) {
+		$emailLabel = $emailType->getLabel();
+		$emailEntries = array_merge(
+			$allResults['exact'][$emailLabel] ?? [],
+			$allResults[$emailLabel] ?? []
+		);
+		if ($emailEntries === []) {
 			return;
 		}
 
 		$mailIdMap = [];
-		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+		foreach ($emailEntries as $mailRow) {
 			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
 			if (!isset($mailRow['uuid'])) {
 				continue;
@@ -107,12 +144,28 @@ class Search implements ISearch {
 			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
 		}
 
-		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
-			if (!isset($resultRow['uuid'])) {
-				continue;
+		$remoteType = new SearchResultType('remotes');
+		if (isset($allResults[$remoteType->getLabel()])) {
+			foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+				if (!isset($resultRow['uuid'])) {
+					continue;
+				}
+				if (isset($mailIdMap[$resultRow['uuid']])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+				}
 			}
-			if (isset($mailIdMap[$resultRow['uuid']])) {
-				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+		}
+
+		$lookupType = new SearchResultType('lookup');
+		if (isset($allResults[$lookupType->getLabel()])) {
+			foreach ($allResults[$lookupType->getLabel()] as $resultRow) {
+				$userid = $resultRow['extra']['userid']['value'] ?? null;
+				if ($userid === null) {
+					continue;
+				}
+				if (isset($mailIdMap[$userid])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$userid]);
+				}
 			}
 		}
 	}

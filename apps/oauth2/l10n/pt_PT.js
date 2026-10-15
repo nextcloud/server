@@ -6,15 +6,19 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Permite autenticação OAuth2 compatível com outras aplicações web.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "A app OAuth2 permite que os administradores configurem o fluxo de autenticação para também permitir autenticação compatível com OAuth2 de outras aplicações web.",
+    "Secret key" : "Código secreto",
+    "Delete" : "Apagar",
+    "An unknown error occurred." : "Ocorreu um erro desconhecido.",
     "OAuth 2.0 clients" : "Clientes OAuth 2.0",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth2.0 permite que dispositivos externos peçam acesso a {instanceName}.",
     "Name" : "Nome",
     "Redirection URI" : "URI de redirecionamento",
-    "Client Identifier" : "Identificador de Cliente",
-    "Secret key" : "Código secreto",
+    "Client identifier" : "Identificador de cliente",
+    "Delete client" : "Excluir cliente",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar",
+    "Client Identifier" : "Identificador de Cliente",
     "Show client secret" : "Mostrar segredo do cliente",
-    "Delete" : "Apagar"
+    "Hide client secret" : "Ocultar segredo do cliente"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

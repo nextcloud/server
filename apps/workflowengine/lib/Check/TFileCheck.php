@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
-use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -44,8 +44,7 @@ trait TFileCheck {
 		if ($entity instanceof File) {
 			if (!$subject instanceof Node) {
 				throw new \UnexpectedValueException(
-					'Expected Node subject for File entity, got {class}',
-					['app' => Application::APP_ID, 'class' => get_class($subject)]
+					'Expected Node subject for File entity, got ' . get_class($subject),
 				);
 			}
 			$this->storage = $subject->getStorage();

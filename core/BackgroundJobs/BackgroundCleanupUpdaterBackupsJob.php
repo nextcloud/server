@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\BackgroundJobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -27,6 +29,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	 *
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->log->info('Running background job to clean-up outdated updater backups');
 
@@ -70,7 +73,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 
 			foreach ($dirList as $dir) {
 				$this->log->info("Removing $dir ...");
-				$result = \OC_Helper::rmdirr($dir);
+				$result = Files::rmdirr($dir);
 				if (!$result) {
 					$this->log->error('Could not remove updater backup folder $dir');
 				}

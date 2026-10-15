@@ -15,13 +15,14 @@ use Test\TestCase;
 class HostnameClassifierTest extends TestCase {
 	private HostnameClassifier $classifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->classifier = new HostnameClassifier();
 	}
 
-	public function localHostnamesData():array {
+	public static function localHostnamesData(): array {
 		return [
 			['localhost'],
 			['localHost'],
@@ -29,31 +30,29 @@ class HostnameClassifierTest extends TestCase {
 			['another-host.local'],
 			['service.localhost'],
 			['randomdomain.internal'],
+			['another-host.local.'],
 		];
 	}
 
-	/**
-	 * @dataProvider localHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localHostnamesData')]
 	public function testLocalHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 
 		self::assertTrue($isLocal);
 	}
 
-	public function publicHostnamesData(): array {
+	public static function publicHostnamesData(): array {
 		return [
 			['example.com'],
 			['example.net'],
 			['example.org'],
 			['host.domain'],
 			['cloud.domain.tld'],
+			['cloud.domain.tld.'],
 		];
 	}
 
-	/**
-	 * @dataProvider publicHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('publicHostnamesData')]
 	public function testPublicHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 

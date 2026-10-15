@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,16 +7,21 @@
 
 namespace OC\Preview;
 
+use GuzzleHttp\Psr7\AppendStream;
+use GuzzleHttp\Psr7\Utils;
 use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-
 use OCP\Image;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
+	/** Covers the EXIF segment at the start of a JPEG */
+	private const EXIF_HEAD_SIZE = 256 * 1024;
+
 	/** @var IConfig */
 	private $config;
 
@@ -27,14 +33,15 @@ class Imaginary extends ProviderV2 {
 
 	public function __construct(array $config) {
 		parent::__construct($config);
-		$this->config = \OC::$server->get(IConfig::class);
-		$this->service = \OC::$server->get(IClientService::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->config = Server::get(IConfig::class);
+		$this->service = Server::get(IClientService::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return self::supportedMimeTypes();
 	}
@@ -101,6 +108,17 @@ class Imaginary extends ProviderV2 {
 			default:
 		}
 
+		$body = $stream;
+		if ($autorotate && $file->getMimeType() === 'image/jpeg') {
+			// Each pipeline operation re-encodes the full image, only rotate when needed
+			$head = fread($stream, self::EXIF_HEAD_SIZE);
+			if ($head === false) {
+				return null;
+			}
+			$autorotate = $this->needsRotation($head);
+			$body = new AppendStream([Utils::streamFor($head), Utils::streamFor($stream)]);
+		}
+
 		$operations = [];
 
 		if ($convert) {
@@ -145,8 +163,10 @@ class Imaginary extends ProviderV2 {
 				$imaginaryUrl . '/pipeline', [
 					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
-					'content-type' => $file->getMimeType(),
-					'body' => $stream,
+					'headers' => [
+						'Content-Type' => $file->getMimeType(),
+					],
+					'body' => $body,
 					'nextcloud' => ['allow_local_address' => true],
 					'timeout' => 120,
 					'connect_timeout' => 3,
@@ -181,9 +201,18 @@ class Imaginary extends ProviderV2 {
 		return $image->valid() ? $image : null;
 	}
 
+	private function needsRotation(string $head): bool {
+		if (!is_callable('exif_read_data')) {
+			return true;
+		}
+		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($head), 'IFD0');
+		return $exif !== false && isset($exif['Orientation']) && (int)$exif['Orientation'] !== 1;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		return $this->getCroppedThumbnail($file, $maxX, $maxY, false);
 	}

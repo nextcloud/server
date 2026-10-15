@@ -1,32 +1,27 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DBConfigServiceTest extends TestCase {
-	/**
-	 * @var DBConfigService
-	 */
-	private $dbConfig;
+	private IDBConnection $connection;
+	private DBConfigService $dbConfig;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	private $mounts = [];
+	private array $mounts = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,9 +34,10 @@ class DBConfigServiceTest extends TestCase {
 			$this->dbConfig->removeMount($mount);
 		}
 		$this->mounts = [];
+		parent::tearDown();
 	}
 
-	private function addMount($mountPoint, $storageBackend, $authBackend, $priority, $type) {
+	private function addMount(string $mountPoint, string $storageBackend, string $authBackend, int $priority, int $type) {
 		$id = $this->dbConfig->addMount($mountPoint, $storageBackend, $authBackend, $priority, $type);
 		$this->mounts[] = $id;
 		return $id;
@@ -74,7 +70,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GROUP, 'value' => 'bar', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GLOBAL, 'value' => null, 'mount_id' => $id]
@@ -153,9 +149,11 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $mount['options']);
 
 		$this->dbConfig->setOption($id, 'foo2', 'bar2');
+		$this->dbConfig->setOption($id, 'disabled', false);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2'], $mount['options']);
+		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2', 'disabled' => false], $mount['options']);
+		$this->assertSame(false, $mount['options']['disabled']);
 	}
 
 	public function testSetOptionOverwrite(): void {
@@ -276,5 +274,33 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertCount(2, $mounts);
 		$this->assertEquals($id1, $mounts[0]['mount_id']);
 		$this->assertEquals($id2, $mounts[1]['mount_id']);
+	}
+
+	public static function mountsForPathProvider(): array {
+		return [
+			['/test/files/test/', false, ['/test']],
+			['/test/files/test/', true, ['/test/more']],
+			['/test/files/', false, ['/']],
+			['/test/files/', true, ['/test', '/test/more', '/test2']],
+		];
+	}
+
+	#[DataProvider('mountsForPathProvider')]
+	public function testGetMountsForUserAndPath(string $path, bool $forChildren, array $expectedMountPoints): void {
+		sort($expectedMountPoints);
+		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$id2 = $this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
+		$this->dbConfig->addApplicable($id2, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$id3 = $this->addMount('/test/more', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+		$this->dbConfig->addApplicable($id3, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$id4 = $this->addMount('/', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+		$this->dbConfig->addApplicable($id4, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+
+		$mounts = $this->dbConfig->getMountsForUserAndPath('test', [], $path, $forChildren);
+		$mountPoints = array_map(fn (array $mountInfo) => $mountInfo['mount_point'], $mounts);
+		sort($mountPoints);
+		$this->assertEquals($expectedMountPoints, $mountPoints);
+
 	}
 }

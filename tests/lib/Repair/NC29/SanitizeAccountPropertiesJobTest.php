@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC29;
 
 use InvalidArgumentException;
@@ -24,10 +25,13 @@ class SanitizeAccountPropertiesJobTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IAccountManager&MockObject $accountManager;
 	private LoggerInterface&MockObject $logger;
-	
+
 	private SanitizeAccountPropertiesJob $job;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -104,7 +108,7 @@ class SanitizeAccountPropertiesJobTest extends TestCase {
 		$valid = false;
 		$this->accountManager->expects(self::exactly(3))
 			->method('updateAccount')
-			->willReturnCallback(function (IAccount $account) use (&$account1, &$valid) {
+			->willReturnCallback(function (IAccount $account) use (&$account1, &$valid): void {
 				if (!$valid && $account === $account1) {
 					$valid = true;
 					throw new InvalidArgumentException(IAccountManager::PROPERTY_PHONE);

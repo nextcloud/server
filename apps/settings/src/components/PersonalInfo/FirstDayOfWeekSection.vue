@@ -5,39 +5,36 @@
 
 <template>
 	<section class="fdow-section">
-		<HeaderBar :input-id="inputId"
-			:readable="propertyReadable" />
-
-		<NcSelect :aria-label-listbox="t('settings', 'Day to use as the first day of week')"
+		<NcSelect
+			:aria-label-listbox="t('settings', 'Day to use as the first day of week')"
 			class="fdow-section__day-select"
 			:clearable="false"
 			:input-id="inputId"
+			:input-label="t('settings', 'First day of week')"
 			label="label"
-			label-outside
 			:options="dayOptions"
-			:value="valueOption"
+			:model-value="valueOption"
 			@option:selected="updateFirstDayOfWeek" />
 	</section>
 </template>
 
 <script lang="ts">
-import HeaderBar from './shared/HeaderBar.vue'
+import { loadState } from '@nextcloud/initial-state'
+import { getDayNames } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import {
 	ACCOUNT_SETTING_PROPERTY_ENUM,
-	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,
-} from '../../constants/AccountPropertyConstants'
-import { getDayNames, getFirstDay } from '@nextcloud/l10n'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService'
+} from '../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.ts'
-import { loadState } from '@nextcloud/initial-state'
 
 interface DayOption {
-	value: number,
-	label: string,
+	value: number
+	label: string
 }
 
-const { firstDayOfWeek } = loadState<{firstDayOfWeek?: string}>(
+const { firstDayOfWeek } = loadState<{ firstDayOfWeek?: string }>(
 	'settings',
 	'personalInfoParameters',
 	{},
@@ -46,9 +43,9 @@ const { firstDayOfWeek } = loadState<{firstDayOfWeek?: string}>(
 export default {
 	name: 'FirstDayOfWeekSection',
 	components: {
-		HeaderBar,
 		NcSelect,
 	},
+
 	data() {
 		let firstDay = -1
 		if (firstDayOfWeek) {
@@ -59,18 +56,18 @@ export default {
 			firstDay,
 		}
 	},
+
 	computed: {
 		inputId(): string {
 			return 'account-property-fdow'
 		},
-		propertyReadable(): string {
-			return ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.FIRST_DAY_OF_WEEK
-		},
+
 		dayOptions(): DayOption[] {
 			const options = [{
 				value: -1,
 				label: t('settings', 'Derived from your locale ({weekDayName})', {
-					weekDayName: getDayNames()[getFirstDay()],
+					// use the locale's default first day (not the user's saved override)
+					weekDayName: getDayNames()[moment.localeData().firstDayOfWeek()],
 				}),
 			}]
 			for (const [index, dayName] of getDayNames().entries()) {
@@ -78,10 +75,12 @@ export default {
 			}
 			return options
 		},
+
 		valueOption(): DayOption | undefined {
 			return this.dayOptions.find((option) => option.value === this.firstDay)
 		},
 	},
+
 	methods: {
 		async updateFirstDayOfWeek(option: DayOption): Promise<void> {
 			try {
@@ -116,11 +115,10 @@ export default {
 
 <style lang="scss" scoped>
 .fdow-section {
-	padding: 10px;
+	padding: 6px 0;
 
 	&__day-select {
 		width: 100%;
-		margin-top: 6px; // align with other inputs
 	}
 }
 </style>

@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Node;
 
+use OCP\Constants;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
@@ -18,6 +20,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @param string $path path
 	 * @return NonExistingFile non-existing node
 	 */
+	#[\Override]
 	protected function createNonExistingNode($path) {
 		return new NonExistingFile($this->root, $this->view, $path);
 	}
@@ -28,8 +31,9 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function getContent() {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_READ)) {
+		if ($this->checkPermissions(Constants::PERMISSION_READ)) {
 			$content = $this->view->file_get_contents($this->path);
 			if ($content === false) {
 				throw new GenericFileException();
@@ -46,8 +50,9 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function putContent($data) {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preWrite']);
 			if ($this->view->file_put_contents($this->path, $data) === false) {
 				throw new GenericFileException('file_put_contents failed');
@@ -65,10 +70,11 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function fopen($mode) {
 		$preHooks = [];
 		$postHooks = [];
-		$requiredPermissions = \OCP\Constants::PERMISSION_READ;
+		$requiredPermissions = Constants::PERMISSION_READ;
 		switch ($mode) {
 			case 'r+':
 			case 'rb+':
@@ -86,7 +92,7 @@ class File extends Node implements \OCP\Files\File {
 			case 'ab':
 				$preHooks[] = 'preWrite';
 				$postHooks[] = 'postWrite';
-				$requiredPermissions |= \OCP\Constants::PERMISSION_UPDATE;
+				$requiredPermissions |= Constants::PERMISSION_UPDATE;
 				break;
 		}
 
@@ -105,8 +111,9 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws \OCP\Files\InvalidPathException
 	 * @throws \OCP\Files\NotFoundException
 	 */
+	#[\Override]
 	public function delete() {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->unlink($this->path);
@@ -123,6 +130,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @param bool $raw
 	 * @return string
 	 */
+	#[\Override]
 	public function hash($type, $raw = false) {
 		return $this->view->hash($type, $this->path, $raw);
 	}
@@ -130,10 +138,12 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChecksum() {
 		return $this->getFileInfo()->getChecksum();
 	}
 
+	#[\Override]
 	public function getExtension(): string {
 		return $this->getFileInfo()->getExtension();
 	}

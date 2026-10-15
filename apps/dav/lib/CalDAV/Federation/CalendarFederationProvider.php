@@ -1,0 +1,267 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\DAV\CalDAV\Federation;
+
+use OCA\DAV\BackgroundJob\FederatedCalendarSyncJob;
+use OCA\DAV\CalDAV\Federation\Protocol\CalendarFederationProtocolV1;
+use OCA\DAV\CalDAV\Federation\Protocol\CalendarProtocolParseException;
+use OCA\DAV\CalDAV\Federation\Protocol\ICalendarFederationProtocol;
+use OCA\DAV\DAV\Sharing\Backend as DavSharingBackend;
+use OCP\AppFramework\Http;
+use OCP\BackgroundJob\IJobList;
+use OCP\Constants;
+use OCP\Federation\Exceptions\BadRequestException;
+use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
+use OCP\Federation\ICloudFederationProvider;
+use OCP\Federation\ICloudFederationShare;
+use OCP\Federation\ICloudIdManager;
+use OCP\Federation\IValidationAwareCloudFederationProvider;
+use OCP\Share\Exceptions\ShareNotFound;
+use Psr\Log\LoggerInterface;
+
+class CalendarFederationProvider implements ICloudFederationProvider, IValidationAwareCloudFederationProvider {
+	public const PROVIDER_ID = 'calendar';
+	public const CALENDAR_RESOURCE = 'calendar';
+	public const USER_SHARE_TYPE = 'user';
+
+	public function __construct(
+		private readonly LoggerInterface $logger,
+		private readonly FederatedCalendarMapper $federatedCalendarMapper,
+		private readonly CalendarFederationConfig $calendarFederationConfig,
+		private readonly IJobList $jobList,
+		private readonly ICloudIdManager $cloudIdManager,
+		private readonly FederatedCalendarInvitationService $invitationService,
+	) {
+	}
+
+	#[\Override]
+	public function getShareType(): string {
+		return self::PROVIDER_ID;
+	}
+
+	#[\Override]
+	public function validateShare(ICloudFederationShare $share): void {
+		if (!$this->calendarFederationConfig->isFederationEnabled()) {
+			$this->logger->debug('Received a federation invite but federation is disabled');
+			throw new ProviderCouldNotAddShareException(
+				'Server does not support calendar federation',
+				'',
+				Http::STATUS_SERVICE_UNAVAILABLE,
+			);
+		}
+
+		if (!$this->calendarFederationConfig->isIncomingServer2serverShareEnabled()) {
+			$this->logger->debug('Received a federated calendar share which is not allowed on this instance');
+			throw new ProviderCouldNotAddShareException(
+				'Instance does not support receiving federated calendar shares',
+				'',
+				Http::STATUS_SERVICE_UNAVAILABLE,
+			);
+		}
+
+		if (!in_array($share->getShareType(), $this->getSupportedShareTypes(), true)) {
+			$this->logger->debug('Received a federation invite for invalid share type');
+			throw new ProviderCouldNotAddShareException(
+				'Support for sharing with non-users not implemented yet',
+				'',
+				Http::STATUS_NOT_IMPLEMENTED,
+			);
+			// TODO: Implement group shares
+		}
+
+		$parsed = $this->parseShare($share);
+		if ($parsed === null) {
+			throw new ProviderCouldNotAddShareException(
+				'Invalid or unsupported protocol payload',
+				'',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
+
+		[, $calendarUrl, $displayName, , $access, ] = $parsed;
+
+		if (!$calendarUrl || !$displayName) {
+			throw new ProviderCouldNotAddShareException(
+				'Incomplete protocol data',
+				'',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
+
+		if (!in_array($access, [DavSharingBackend::ACCESS_READ, DavSharingBackend::ACCESS_READ_WRITE], true)) {
+			throw new ProviderCouldNotAddShareException(
+				"Unsupported access value: $access",
+				'',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
+	}
+
+	#[\Override]
+	public function shareReceived(ICloudFederationShare $share): string {
+		$this->validateShare($share);
+		[, $calendarUrl, $displayName, $color, $access, $components] = $this->parseShare($share);
+
+		// convert access to permissions
+		$permissions = match ($access) {
+			DavSharingBackend::ACCESS_READ => Constants::PERMISSION_READ,
+			DavSharingBackend::ACCESS_READ_WRITE => Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE,
+		};
+
+		// The calendar uri is the local name of the calendar. As such it must not contain slashes.
+		// Just use the hashed url for simplicity here.
+		// Example: calendars/foo-bar-user/<calendar-uri>
+		$calendarUri = hash('md5', $calendarUrl);
+
+		$sharedWithPrincipal = 'principals/users/' . $share->getShareWith();
+
+		$calendar = $this->federatedCalendarMapper->findByUri($sharedWithPrincipal, $calendarUri);
+		$isNew = $calendar === null;
+
+		if ($calendar === null) {
+			$calendar = new FederatedCalendarEntity();
+			$calendar->setPrincipaluri($sharedWithPrincipal);
+			$calendar->setUri($calendarUri);
+			$calendar->setRemoteUrl($calendarUrl);
+			$calendar->setDisplayName($displayName);
+			$calendar->setColor($color);
+			$calendar->setToken($share->getShareSecret());
+			$calendar->setSharedBy($share->getSharedBy());
+			$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
+			$calendar->setPermissions($permissions);
+			$calendar->setComponents($components);
+			$calendar->setState(FederatedCalendarEntity::STATE_PENDING);
+			$calendar = $this->federatedCalendarMapper->insert($calendar);
+		} else {
+			$calendar->setToken($share->getShareSecret());
+			$calendar->setPermissions($permissions);
+			$calendar->setComponents($components);
+			if ($calendar->getState() === FederatedCalendarEntity::STATE_PENDING) {
+				// The open invitation shows the sharer's metadata, keep it
+				// fresh. Accepted calendars are not touched as the sharee owns
+				// the display name and color from that point on.
+				$calendar->setDisplayName($displayName);
+				$calendar->setColor($color);
+				$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
+			}
+			$this->federatedCalendarMapper->update($calendar);
+		}
+
+		if ($calendar->getState() === FederatedCalendarEntity::STATE_ACCEPTED) {
+			// Re-share of an already accepted calendar: just refresh the data
+			$this->jobList->add(FederatedCalendarSyncJob::class, [
+				FederatedCalendarSyncJob::ARGUMENT_ID => $calendar->getId(),
+			]);
+		} elseif ($this->invitationService->shouldAutoAccept($share->getOwner(), $calendar->getRemoteUrl())) {
+			$this->invitationService->accept($calendar);
+		} elseif ($isNew) {
+			// A re-shared pending calendar keeps its original invitation
+			$this->invitationService->notifyAboutNewShare($calendar);
+		}
+
+		return (string)$calendar->getId();
+	}
+
+	#[\Override]
+	public function notificationReceived(
+		$notificationType,
+		$providerId,
+		array $notification,
+	): array {
+		if ($providerId !== self::PROVIDER_ID) {
+			throw new BadRequestException(['providerId']);
+		}
+
+		switch ($notificationType) {
+			case CalendarFederationNotifier::NOTIFICATION_SYNC_CALENDAR:
+				return $this->handleSyncCalendarNotification($notification);
+			default:
+				return [];
+		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	#[\Override]
+	public function getSupportedShareTypes(): array {
+		return [self::USER_SHARE_TYPE];
+	}
+
+	/**
+	 * @throws BadRequestException If notification props are missing.
+	 * @throws ShareNotFound If the notification is not related to a known share.
+	 */
+	private function handleSyncCalendarNotification(array $notification): array {
+		$sharedSecret = $notification['sharedSecret'];
+		$shareWithRaw = $notification[CalendarFederationNotifier::PROP_SYNC_CALENDAR_SHARE_WITH] ?? null;
+		$calendarUrl = $notification[CalendarFederationNotifier::PROP_SYNC_CALENDAR_CALENDAR_URL] ?? null;
+
+		if ($shareWithRaw === null || $shareWithRaw === '') {
+			throw new BadRequestException([CalendarFederationNotifier::PROP_SYNC_CALENDAR_SHARE_WITH]);
+		}
+
+		if ($calendarUrl === null || $calendarUrl === '') {
+			throw new BadRequestException([CalendarFederationNotifier::PROP_SYNC_CALENDAR_CALENDAR_URL]);
+		}
+
+		try {
+			$shareWith = $this->cloudIdManager->resolveCloudId($shareWithRaw);
+		} catch (\InvalidArgumentException $e) {
+			throw new ShareNotFound('Invalid sharee cloud id');
+		}
+
+		$calendars = $this->federatedCalendarMapper->findByRemoteUrl(
+			$calendarUrl,
+			'principals/users/' . $shareWith->getUser(),
+			$sharedSecret,
+			FederatedCalendarEntity::STATE_ACCEPTED,
+		);
+		if (empty($calendars)) {
+			throw new ShareNotFound('Calendar is not shared with the sharee');
+		}
+
+		foreach ($calendars as $calendar) {
+			$this->jobList->add(FederatedCalendarSyncJob::class, [
+				FederatedCalendarSyncJob::ARGUMENT_ID => $calendar->getId(),
+			]);
+		}
+
+		return [];
+	}
+
+	/**
+	 * @return array{0: CalendarFederationProtocolV1, 1: string, 2: string, 3: ?string, 4: int, 5: string}|null
+	 *                                                                                                          [parsed protocol, calendarUrl, displayName, color, access, components], or null when
+	 *                                                                                                          the envelope cannot be parsed (missing/unsupported version, parse error).
+	 */
+	private function parseShare(ICloudFederationShare $share): ?array {
+		$rawProtocol = $share->getProtocol();
+		if (!isset($rawProtocol[ICalendarFederationProtocol::PROP_VERSION])) {
+			return null;
+		}
+		if ($rawProtocol[ICalendarFederationProtocol::PROP_VERSION] !== CalendarFederationProtocolV1::VERSION) {
+			return null;
+		}
+		try {
+			$protocol = CalendarFederationProtocolV1::parse($rawProtocol);
+		} catch (CalendarProtocolParseException $e) {
+			return null;
+		}
+		return [
+			$protocol,
+			$protocol->getUrl(),
+			$protocol->getDisplayName(),
+			$protocol->getColor(),
+			$protocol->getAccess(),
+			$protocol->getComponents(),
+		];
+	}
+}

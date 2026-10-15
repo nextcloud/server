@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,7 +9,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 /**
  * Capabilities context.
@@ -48,6 +49,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_allow_resharing');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
 		$this->deleteServerConfig('files_sharing', 'incoming_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_enable_link_password_by_default');
 		$this->deleteServerConfig('core', 'shareapi_enforce_links_password');
 		$this->deleteServerConfig('core', 'shareapi_allow_public_notification');
 		$this->deleteServerConfig('core', 'shareapi_default_expire_date');

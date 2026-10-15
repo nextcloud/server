@@ -6,23 +6,24 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Enum\SignatureAlgorithm;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\Exceptions\InvalidSignatureException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\IIncomingSignedRequest;
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\Signatory;
 use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Enum\SignatureAlgorithm;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\InvalidSignatureException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Security\Signature\ISignatureManager;
+use OCP\Security\Signature\Model\Signatory;
 use ValueError;
 
 /**
@@ -191,6 +192,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @return IRequest
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getRequest(): IRequest {
 		return $this->request;
 	}
@@ -213,6 +215,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws IncomingRequestException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOrigin(): string {
 		if ($this->origin === '') {
 			throw new IncomingRequestException('empty origin');
@@ -228,6 +231,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatureElementNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getKeyId(): string {
 		return $this->getSigningElement('keyId');
 	}
@@ -239,6 +243,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function verify(): void {
 		$publicKey = $this->getSignatory()->getPublicKey();
 		if ($publicKey === '') {
@@ -256,6 +261,7 @@ class IncomingSignedRequest extends SignedRequest implements
 		}
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

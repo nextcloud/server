@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security\CSRF;
 
 use OC\Security\CSRF\TokenStorage\SessionStorage;
@@ -16,14 +17,12 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
  * @package OC\Security\CSRF
  */
 class CsrfTokenManager {
-	private SessionStorage $sessionStorage;
 	private ?CsrfToken $csrfToken = null;
 
 	public function __construct(
 		private CsrfTokenGenerator $tokenGenerator,
-		SessionStorage $storageInterface,
+		private SessionStorage $sessionStorage,
 	) {
-		$this->sessionStorage = $storageInterface;
 	}
 
 	/**
@@ -75,5 +74,9 @@ class CsrfTokenManager {
 			$this->sessionStorage->getToken(),
 			$token->getDecryptedValue()
 		);
+	}
+
+	public function generateSessionToken(): void {
+		$this->getToken();
 	}
 }

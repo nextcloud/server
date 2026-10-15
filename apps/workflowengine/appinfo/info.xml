@@ -9,7 +9,7 @@
 	<name>Nextcloud workflow engine</name>
 	<summary>Nextcloud workflow engine</summary>
 	<description>Nextcloud workflow engine</description>
-	<version>2.14.0</version>
+	<version>4.0.0-dev.0</version>
 	<licence>agpl</licence>
 	<author>Arthur Schiwon</author>
 	<author>Julius Härtl</author>
@@ -26,7 +26,7 @@
 	<repository>https://github.com/nextcloud/server.git</repository>
 
 	<dependencies>
-		<nextcloud min-version="32" max-version="32"/>
+		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
 
 	<background-jobs>
@@ -41,6 +41,7 @@
 
 	<commands>
 		<command>OCA\WorkflowEngine\Command\Index</command>
+		<command>OCA\WorkflowEngine\Command\Runtime</command>
 	</commands>
 
 	<settings>

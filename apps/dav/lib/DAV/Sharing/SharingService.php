@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\DAV\Sharing;
 
 abstract class SharingService {
@@ -52,12 +53,9 @@ abstract class SharingService {
 	}
 
 	/**
-	 * @param array $oldShares
-	 * @return bool
+	 * @param string[] $principals
 	 */
-	public function hasGroupShare(array $oldShares): bool {
-		return !empty(array_filter($oldShares, function (array $share) {
-			return $share['{http://owncloud.org/ns}group-share'] === true;
-		}));
+	public function getSharesByPrincipals(array $principals): array {
+		return $this->mapper->getSharesByPrincipals($principals, $this->getResourceType());
 	}
 }

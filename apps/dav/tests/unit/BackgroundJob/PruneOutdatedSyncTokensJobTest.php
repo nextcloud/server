@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use InvalidArgumentException;
@@ -20,21 +21,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PruneOutdatedSyncTokensJobTest extends TestCase {
-	/** @var ITimeFactory | MockObject */
-	private $timeFactory;
-
-	/** @var CalDavBackend | MockObject */
-	private $calDavBackend;
-
-	/** @var CardDavBackend | MockObject */
-	private $cardDavBackend;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
+	private ITimeFactory&MockObject $timeFactory;
+	private CalDavBackend&MockObject $calDavBackend;
+	private CardDavBackend&MockObject $cardDavBackend;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private PruneOutdatedSyncTokensJob $backgroundJob;
 
 	protected function setUp(): void {
@@ -49,9 +40,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob = new PruneOutdatedSyncTokensJob($this->timeFactory, $this->calDavBackend, $this->cardDavBackend, $this->config, $this->logger);
 	}
 
-	/**
-	 * @dataProvider dataForTestRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestRun')]
 	public function testRun(string $configToKeep, string $configRetentionDays, int $actualLimit, int $retentionDays, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
@@ -84,7 +73,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob->run(null);
 	}
 
-	public function dataForTestRun(): array {
+	public static function dataForTestRun(): array {
 		return [
 			['100', '2', 100, 7 * 24 * 3600, 2, 3],
 			['100', '14', 100, 14 * 24 * 3600, 2, 3],

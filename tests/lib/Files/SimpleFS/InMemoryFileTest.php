@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\File\SimpleFS;
@@ -14,25 +14,21 @@ use OCP\Files\SimpleFS\InMemoryFile;
 use Test\TestCase;
 
 /**
- * This class provide test casesf or the InMemoryFile.
+ * This class provide test cases for the InMemoryFile.
  *
  * @package Test\File\SimpleFS
  */
 class InMemoryFileTest extends TestCase {
 	/**
 	 * Holds a pdf file with know attributes for tests.
-	 *
-	 * @var InMemoryFile
 	 */
-	private $testPdf;
+	private InMemoryFile $testPdf;
 
 	/**
 	 * Sets the test file from "./resources/test.pdf".
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupTestPdf() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupTestPdf(): void {
 		$fileContents = file_get_contents(
 			__DIR__ . '/../../../data/test.pdf'
 		);
@@ -49,15 +45,9 @@ class InMemoryFileTest extends TestCase {
 		self::assertEquals('test', $this->testPdf->getContent());
 	}
 
-	/**
-	 * Asserts that delete() doesn't rise an exception.
-	 *
-	 * @return void
-	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDelete(): void {
 		$this->testPdf->delete();
-		// assert true, otherwise phpunit complains about not doing any assert
-		self::assertTrue(true);
 	}
 
 	/**
@@ -108,15 +98,14 @@ class InMemoryFileTest extends TestCase {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
 	}
 
-
 	/**
-	 * Asserts that read() raises an NotPermittedException.
-	 *
-	 * @return void
+	 * Ensure that read() returns a stream with the same contents than the original file.
 	 */
 	public function testRead(): void {
-		self::expectException(NotPermittedException::class);
-		$this->testPdf->read();
+		self::assertEquals(
+			file_get_contents(__DIR__ . '/../../../data/test.pdf'),
+			stream_get_contents($this->testPdf->read()),
+		);
 	}
 
 	/**

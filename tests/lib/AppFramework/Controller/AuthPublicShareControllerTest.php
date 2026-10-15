@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,19 +15,15 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AuthPublicShareControllerTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
+	private IRequest&MockObject $request;
+	private ISession&MockObject $session;
+	private IURLGenerator&MockObject $urlGenerator;
+	private AuthPublicShareController&MockObject $controller;
 
-	/** @var AuthPublicShareController|\PHPUnit\Framework\MockObject\MockObject */
-	private $controller;
-
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -38,7 +37,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 				$this->request,
 				$this->session,
 				$this->urlGenerator
-			])->setMethods([
+			])->onlyMethods([
 				'authFailed',
 				'getPasswordHash',
 				'isAuthenticated',
@@ -64,7 +63,9 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->controller->setToken('myToken');
 
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
 		$this->urlGenerator->method('linkToRoute')
 			->willReturn('myLink!');
@@ -107,19 +108,19 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('regenerateId');
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
-		$tokenSet = false;
-		$hashSet = false;
+		$tokenStored = false;
 		$this->session
 			->method('set')
-			->willReturnCallback(function ($key, $value) use (&$tokenSet, &$hashSet) {
-				if ($key === 'public_link_authenticated_token' && $value === 'token') {
-					$tokenSet = true;
-					return true;
-				}
-				if ($key === 'public_link_authenticated_password_hash' && $value === 'hash') {
-					$hashSet = true;
+			->willReturnCallback(function ($key, $value) use (&$tokenStored) {
+				if ($key === AuthPublicShareController::DAV_AUTHENTICATED_FRONTEND) {
+					$decoded = json_decode($value, true);
+					if (isset($decoded['token']) && $decoded['token'] === 'hash') {
+						$tokenStored = true;
+					}
 					return true;
 				}
 				return false;
@@ -131,7 +132,6 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$result = $this->controller->authenticate('password');
 		$this->assertInstanceOf(RedirectResponse::class, $result);
 		$this->assertSame('myLink!', $result->getRedirectURL());
-		$this->assertTrue($tokenSet);
-		$this->assertTrue($hashSet);
+		$this->assertTrue($tokenStored);
 	}
 }

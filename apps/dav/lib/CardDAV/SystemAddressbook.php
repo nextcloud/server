@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV;
 
-use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
@@ -54,6 +54,7 @@ class SystemAddressbook extends AddressBook {
 	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users based on phone number integration' -> show only the same user
 	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users within the same groups' + 'Allow username autocompletion to users based on phone number integration' -> show only users in intersecting groups
 	 */
+	#[\Override]
 	public function getChildren() {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
@@ -102,6 +103,7 @@ class SystemAddressbook extends AddressBook {
 	 * @return Card[]
 	 * @throws NotFound
 	 */
+	#[\Override]
 	public function getMultipleChildren($paths): array {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
@@ -165,6 +167,7 @@ class SystemAddressbook extends AddressBook {
 	 * @throws NotFound
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function getChild($name): Card {
 		$user = $this->userSession->getUser();
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
@@ -212,14 +215,8 @@ class SystemAddressbook extends AddressBook {
 		}
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
-
-	/**
-	 * @throws UnsupportedLimitOnInitialSyncException
-	 */
+	#[\Override]
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
-		if (!$syncToken && $limit) {
-			throw new UnsupportedLimitOnInitialSyncException();
-		}
 
 		if (!$this->carddavBackend instanceof SyncSupport) {
 			return null;
@@ -240,7 +237,8 @@ class SystemAddressbook extends AddressBook {
 			return $changed;
 		}
 
-		$added = $modified = $deleted = [];
+		$added = $modified = [];
+		$deleted = array_values($changed['deleted']);
 		foreach ($changed['added'] as $uri) {
 			try {
 				$this->getChild($uri);
@@ -327,6 +325,7 @@ class SystemAddressbook extends AddressBook {
 	 * @return mixed
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function delete() {
 		if ($this->isFederation()) {
 			parent::delete();
@@ -334,6 +333,7 @@ class SystemAddressbook extends AddressBook {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getACL() {
 		return array_filter(parent::getACL(), function ($acl) {
 			if (in_array($acl['privilege'], ['{DAV:}write', '{DAV:}all'], true)) {

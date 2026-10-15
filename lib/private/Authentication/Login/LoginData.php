@@ -6,48 +6,32 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OCP\IRequest;
 use OCP\IUser;
 
 class LoginData {
-	/** @var IRequest */
-	private $request;
-
-	/** @var string */
-	private $username;
-
-	/** @var string */
-	private $password;
-
-	/** @var string */
-	private $redirectUrl;
-
-	/** @var string */
-	private $timeZone;
-
-	/** @var string */
-	private $timeZoneOffset;
-
 	/** @var IUser|false|null */
 	private $user = null;
 
-	/** @var bool */
-	private $rememberLogin = true;
+	/**
+	 * True when this login was performed via WebAuthn *and* the authenticator
+	 * verified the user (PIN, biometrics, …), which makes the login itself a
+	 * multi-factor authentication.
+	 */
+	private bool $webAuthnUserVerified = false;
 
-	public function __construct(IRequest $request,
-		string $username,
-		?string $password,
-		?string $redirectUrl = null,
-		string $timeZone = '',
-		string $timeZoneOffset = '') {
-		$this->request = $request;
-		$this->username = $username;
-		$this->password = $password;
-		$this->redirectUrl = $redirectUrl;
-		$this->timeZone = $timeZone;
-		$this->timeZoneOffset = $timeZoneOffset;
+	public function __construct(
+		private IRequest $request,
+		private string $username,
+		private ?string $password,
+		private bool $rememberLogin = true,
+		private ?string $redirectUrl = null,
+		private string $timeZone = '',
+		private string $timeZoneOffset = '',
+	) {
 	}
 
 	public function getRequest(): IRequest {
@@ -81,7 +65,7 @@ class LoginData {
 	/**
 	 * @param IUser|false|null $user
 	 */
-	public function setUser($user) {
+	public function setUser($user): void {
 		$this->user = $user;
 	}
 
@@ -98,5 +82,13 @@ class LoginData {
 
 	public function isRememberLogin(): bool {
 		return $this->rememberLogin;
+	}
+
+	public function setWebAuthnUserVerified(bool $webAuthnUserVerified): void {
+		$this->webAuthnUserVerified = $webAuthnUserVerified;
+	}
+
+	public function isWebAuthnUserVerified(): bool {
+		return $this->webAuthnUserVerified;
 	}
 }

@@ -6,32 +6,33 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\Repair\RepairMimeTypes;
 use OCP\IL10N;
-use OCP\L10N\IFactory;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class MimeTypeMigrationAvailable implements ISetupCheck {
-	private IL10N $l10n;
 
 	public function __construct(
-		IFactory $l10nFactory,
 		private RepairMimeTypes $repairMimeTypes,
+		private IL10N $l10n,
 	) {
-		$this->l10n = $l10nFactory->get('core');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Mimetype migrations available');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->repairMimeTypes->migrationsAvailable()) {
 			return SetupResult::warning(

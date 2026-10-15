@@ -6,26 +6,28 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Notification;
 
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
-	/** @var Notifier */
-	protected $notifier;
-
-	/** @var IFactory|MockObject */
-	protected $factory;
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-	/** @var IL10N|MockObject */
-	protected $l;
+	protected IFactory&MockObject $factory;
+	protected IURLGenerator&MockObject $url;
+	protected IL10N&MockObject $l;
+	protected BackupCodesProvider&MockObject $provider;
+	protected IUserManager&MockObject $userManager;
+	protected Notifier $notifier;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,17 +44,21 @@ class NotifierTest extends TestCase {
 			->method('get')
 			->willReturn($this->l);
 
+		$this->provider = $this->createMock(BackupCodesProvider::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+
 		$this->notifier = new Notifier(
 			$this->factory,
-			$this->url
+			$this->url,
+			$this->provider,
+			$this->userManager,
 		);
 	}
-
 
 	public function testPrepareWrongApp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -63,11 +69,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-
 	public function testPrepareWrongSubject(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -79,8 +84,39 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
+	public function testPrepareProviderInactive(): void {
+		$this->expectException(AlreadyProcessedException::class);
+
+		/** @var INotification&MockObject $notification */
+		$notification = $this->createMock(INotification::class);
+		$notification->expects($this->once())
+			->method('getApp')
+			->willReturn('twofactor_backupcodes');
+		$notification->expects($this->once())
+			->method('getSubject')
+			->willReturn('create_backupcodes');
+		$notification->expects($this->once())
+			->method('getUser')
+			->willReturn('user1');
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user1')
+			->willReturn($user);
+		$this->provider->expects($this->once())
+			->method('isActive')
+			->with($user)
+			->willReturn(false);
+
+		$notification->expects($this->never())
+			->method('setParsedSubject');
+
+		$this->notifier->prepare($notification, 'en');
+	}
+
 	public function testPrepare(): void {
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())
@@ -89,6 +125,19 @@ class NotifierTest extends TestCase {
 		$notification->expects($this->once())
 			->method('getSubject')
 			->willReturn('create_backupcodes');
+		$notification->expects($this->once())
+			->method('getUser')
+			->willReturn('user1');
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user1')
+			->willReturn($user);
+		$this->provider->expects($this->once())
+			->method('isActive')
+			->with($user)
+			->willReturn(true);
 
 		$this->factory->expects($this->once())
 			->method('get')

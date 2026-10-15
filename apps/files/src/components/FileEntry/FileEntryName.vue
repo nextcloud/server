@@ -4,23 +4,26 @@
 -->
 <template>
 	<!-- Rename input -->
-	<form v-if="isRenaming"
+	<form
+		v-if="isRenaming"
 		ref="renameForm"
 		v-on-click-outside="onRename"
 		:aria-label="t('files', 'Rename file')"
 		class="files-list__row-rename"
 		@submit.prevent.stop="onRename">
-		<NcTextField ref="renameInput"
+		<NcTextField
+			ref="renameInput"
+			v-model="newName"
 			:label="renameLabel"
-			:autofocus="true"
+			autofocus
+			required
 			:minlength="1"
-			:required="true"
-			:value.sync="newName"
 			enterkeyhint="done"
 			@keyup.esc="stopRenaming" />
 	</form>
 
-	<component :is="linkTo.is"
+	<component
+		:is="linkTo.is"
 		v-else
 		ref="basename"
 		class="files-list__row-name-link"
@@ -30,34 +33,38 @@
 		<span class="files-list__row-name-text" dir="auto">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
-			<span class="files-list__row-name-ext" v-text="extension" />
+			<span v-if="userConfigStore.userConfig.show_files_extensions" class="files-list__row-name-ext" v-text="extension" />
 		</span>
 	</component>
 </template>
 
 <script lang="ts">
-import type { FileAction, Node } from '@nextcloud/files'
-import type { PropType } from 'vue'
+import type { IFileAction, Node, TFileType } from '@nextcloud/files'
+import type { ComponentPublicInstance, PropType } from 'vue'
 
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { basename } from '@nextcloud/paths'
+import { vOnClickOutside } from '@vueuse/components'
 import { defineComponent, inject } from 'vue'
-
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-import { useNavigation } from '../../composables/useNavigation'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../../composables/useRouteParameters.ts'
+import { useActiveStore } from '../../store/active.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
+import { useUserConfigStore } from '../../store/userconfig.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
-import logger from '../../logger.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryName',
 
 	components: {
 		NcTextField,
+	},
+
+	directives: {
+		onClickOutside: vOnClickOutside,
 	},
 
 	props: {
@@ -68,6 +75,7 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
 		/**
 		 * The extension of the filename
 		 */
@@ -75,36 +83,29 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
-		nodes: {
-			type: Array as PropType<Node[]>,
-			required: true,
-		},
+
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
-		},
-		gridMode: {
-			type: Boolean,
-			default: false,
 		},
 	},
 
 	setup() {
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
-		const { directory } = useRouteParameters()
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const renamingStore = useRenamingStore()
+		const userConfigStore = useUserConfigStore()
+		const { activeFolder, activeView } = useActiveStore()
 
-		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
+		const defaultFileAction = inject<IFileAction | undefined>('defaultFileAction')
 
 		return {
-			currentView,
+			activeFolder,
+			activeView,
 			defaultFileAction,
-			directory,
-			filesListWidth,
-
+			isNarrow,
 			renamingStore,
+			userConfigStore,
 		}
 	},
 
@@ -112,20 +113,23 @@ export default defineComponent({
 		isRenaming() {
 			return this.renamingStore.renamingNode === this.source
 		},
+
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
+
 		newName: {
 			get(): string {
 				return this.renamingStore.newNodeName
 			},
+
 			set(newName: string) {
 				this.renamingStore.newNodeName = newName
 			},
 		},
 
 		renameLabel() {
-			const matchLabel: Record<FileType, string> = {
+			const matchLabel: Record<TFileType, string> = {
 				[FileType.File]: t('files', 'Filename'),
 				[FileType.Folder]: t('files', 'Folder name'),
 			}
@@ -137,18 +141,24 @@ export default defineComponent({
 				return {
 					is: 'span',
 					params: {
-						title: t('files', 'This node is unavailable'),
+						title: t('files', '{displayName} (unavailable)', { displayName: this.source.displayname }),
 					},
 				}
 			}
 
 			if (this.defaultFileAction) {
-				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
+				const displayName = this.defaultFileAction.displayName({
+					nodes: [this.source],
+					view: this.activeView!,
+					folder: this.activeFolder!,
+					contents: [],
+				})
+				const accessibleName = `${displayName}: ${this.source.displayname}`
 				return {
 					is: 'button',
 					params: {
-						'aria-label': displayName,
-						title: displayName,
+						'aria-label': accessibleName,
+						title: accessibleName,
 						tabindex: '0',
 					},
 				}
@@ -166,6 +176,7 @@ export default defineComponent({
 		/**
 		 * If renaming starts, select the filename
 		 * in the input, without the extension.
+		 *
 		 * @param renaming
 		 */
 		isRenaming: {
@@ -180,12 +191,12 @@ export default defineComponent({
 		newName() {
 			// Check validity of the new name
 			const newName = this.newName.trim?.() || ''
-			const input = (this.$refs.renameInput as Vue|undefined)?.$el.querySelector('input')
+			const input = (this.$refs.renameInput as ComponentPublicInstance | undefined)?.$el.querySelector('input')
 			if (!input) {
 				return
 			}
 
-			let validity = getFilenameValidity(newName)
+			let validity = getFilenameValidity(newName, false, this.source.type === FileType.Folder)
 			// Checking if already exists
 			if (validity === '' && this.checkIfNodeExists(newName)) {
 				validity = t('files', 'Another entry with the same name already exists.')
@@ -201,13 +212,14 @@ export default defineComponent({
 
 	methods: {
 		checkIfNodeExists(name: string) {
-			return this.nodes.find(node => node.basename === name && node !== this.source)
+			const sources: string[] = (this.activeFolder as { _children?: string[] })?._children || []
+			return sources.some((sourceName) => basename(sourceName) === name)
 		},
 
 		startRenaming() {
 			this.$nextTick(() => {
 				// Using split to get the true string length
-				const input = (this.$refs.renameInput as Vue|undefined)?.$el.querySelector('input')
+				const input = (this.$refs.renameInput as ComponentPublicInstance | undefined)?.$el.querySelector('input')
 				if (!input) {
 					logger.error('Could not find the rename input')
 					return
@@ -248,9 +260,6 @@ export default defineComponent({
 			try {
 				const status = await this.renamingStore.rename()
 				if (status) {
-					showSuccess(
-						t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName: this.source.basename }),
-					)
 					this.$nextTick(() => {
 						const nameContainer = this.$refs.basename as HTMLElement | undefined
 						nameContainer?.focus()

@@ -13,6 +13,8 @@ namespace NCU\Config\Lexicon;
  * The config lexicon is used to avoid conflicts and problems when storing/retrieving config values
  *
  * @experimental 31.0.0
+ * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
+ * @see \OCP\Config\Lexicon\ILexicon
  */
 interface IConfigLexicon {
 
@@ -20,9 +22,12 @@ interface IConfigLexicon {
 	 * Define the expected behavior when using config
 	 * keys not set within your application config lexicon.
 	 *
-	 * @see ConfigLexiconStrictness
 	 * @return ConfigLexiconStrictness
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
+	 * @see \OCP\Config\Lexicon\ILexicon
+	 * @psalm-suppress DeprecatedClass
+	 *
 	 */
 	public function getStrictness(): ConfigLexiconStrictness;
 
@@ -31,6 +36,9 @@ interface IConfigLexicon {
 	 *
 	 * @return ConfigLexiconEntry[]
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
+	 * @see \OCP\Config\Lexicon\ILexicon
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getAppConfigs(): array;
 
@@ -39,6 +47,9 @@ interface IConfigLexicon {
 	 *
 	 * @return ConfigLexiconEntry[]
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
+	 * @see \OCP\Config\Lexicon\ILexicon
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getUserConfigs(): array;
 }

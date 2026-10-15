@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -14,6 +15,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version21000Date20201120141228 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -24,16 +26,16 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			if ($loginNameColumn->getLength() !== 255) {
 				$loginNameColumn->setLength(255);
 			}
-			$table->changeColumn('type', [
+			$table->modifyColumn('type', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('remember', [
+			$table->modifyColumn('remember', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('last_activity', [
+			$table->modifyColumn('last_activity', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('last_check', [
+			$table->modifyColumn('last_check', [
 				'notnull' => false,
 			]);
 		}
@@ -51,7 +53,7 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('jobs')) {
 			$table = $schema->getTable('jobs');
-			$table->changeColumn('execution_duration', [
+			$table->modifyColumn('execution_duration', [
 				'notnull' => false,
 				'default' => 0,
 			]);

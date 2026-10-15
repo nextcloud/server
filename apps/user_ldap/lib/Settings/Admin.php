@@ -1,32 +1,34 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Settings;
 
+use OCA\User_LDAP\AppInfo\Application;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
-use OCP\IDBConnection;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	public function __construct(
 		private IL10N $l,
 		private ITemplateManager $templateManager,
+		private IInitialState $initialState,
 	) {
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+	#[\Override]
+	public function getForm(): TemplateResponse {
+		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();
@@ -35,19 +37,6 @@ class Admin implements IDelegatedSettings {
 			$config->saveConfiguration();
 			$prefixes[] = $newPrefix;
 		}
-
-		$hosts = $helper->getServerConfigurationHosts();
-
-		$wControls = $this->templateManager->getTemplate('user_ldap', 'part.wizardcontrols');
-		$wControls = $wControls->fetchPage();
-		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
-		$sControls = $sControls->fetchPage();
-
-		$parameters = [];
-		$parameters['serverConfigurationPrefixes'] = $prefixes;
-		$parameters['serverConfigurationHosts'] = $hosts;
-		$parameters['settingControls'] = $sControls;
-		$parameters['wizardControls'] = $wControls;
 
 		// assign default values
 		if (!isset($config)) {
@@ -58,13 +47,29 @@ class Admin implements IDelegatedSettings {
 			$parameters[$key . '_default'] = $default;
 		}
 
-		return new TemplateResponse('user_ldap', 'settings', $parameters);
+		$ldapConfigs = [];
+		foreach ($prefixes as $prefix) {
+			$ldapConfig = new Configuration($prefix);
+			$rawLdapConfig = $ldapConfig->getConfiguration();
+			foreach ($rawLdapConfig as $key => $value) {
+				if (is_array($value)) {
+					$rawLdapConfig[$key] = implode(';', $value);
+				}
+			}
+
+			$ldapConfigs[$prefix] = $rawLdapConfig;
+		}
+
+		$this->initialState->provideInitialState('ldapConfigs', $ldapConfigs);
+		$this->initialState->provideInitialState('ldapModuleInstalled', function_exists('ldap_connect'));
+
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'settings', $parameters);
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
-	public function getSection() {
+	#[\Override]
+	public function getSection(): string {
 		return 'ldap';
 	}
 
@@ -75,14 +80,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	#[\Override]
+	public function getPriority(): int {
 		return 5;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null; // Only one setting in this section
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return []; // Custom controller
 	}

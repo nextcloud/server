@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
@@ -16,7 +18,6 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -26,6 +27,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
+use Psr\Container\ContainerExceptionInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -41,12 +43,6 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasCircles;
 
-	/** @var ProxyMapper */
-	private $proxyMapper;
-
-	/** @var KnownUserService */
-	private $knownUserService;
-
 	public function __construct(
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
@@ -54,16 +50,14 @@ class Principal implements BackendInterface {
 		private IShareManager $shareManager,
 		private IUserSession $userSession,
 		private IAppManager $appManager,
-		ProxyMapper $proxyMapper,
-		KnownUserService $knownUserService,
+		private ProxyMapper $proxyMapper,
+		private KnownUserService $knownUserService,
 		private IConfig $config,
 		private IFactory $languageFactory,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
-		$this->proxyMapper = $proxyMapper;
-		$this->knownUserService = $knownUserService;
 	}
 
 	use PrincipalProxyTrait {
@@ -83,6 +77,7 @@ class Principal implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
@@ -103,7 +98,23 @@ class Principal implements BackendInterface {
 	 * @param string $path
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalByPath($path) {
+		return $this->getPrincipalPropertiesByPath($path);
+	}
+
+	/**
+	 * Returns a specific principal, specified by its path.
+	 * The returned structure should be the exact same as from
+	 * getPrincipalsByPrefix.
+	 *
+	 * It is possible to optionally filter retrieved properties in case only a limited set is
+	 * required. Note that the implementation might return more properties than requested.
+	 *
+	 * @param string $path The path of the principal
+	 * @param string[]|null $propertyFilter A list of properties to be retrieved or all if null. An empty array will cause a very shallow principal to be retrieved.
+	 */
+	public function getPrincipalPropertiesByPath($path, ?array $propertyFilter = null): ?array {
 		[$prefix, $name] = \Sabre\Uri\split($path);
 		$decodedName = urldecode($name);
 
@@ -130,7 +141,7 @@ class Principal implements BackendInterface {
 			$user = $this->userManager->get($decodedName);
 
 			if ($user !== null) {
-				return $this->userToPrincipal($user);
+				return $this->userToPrincipal($user, $propertyFilter);
 			}
 		} elseif ($prefix === 'principals/circles') {
 			if ($this->userSession->getUser() !== null) {
@@ -155,6 +166,11 @@ class Principal implements BackendInterface {
 				'uri' => 'principals/system/' . $name,
 				'{DAV:}displayname' => $this->languageFactory->get('dav')->t('Accounts'),
 			];
+		} elseif ($prefix === 'principals/shares') {
+			return [
+				'uri' => 'principals/shares/' . $name,
+				'{DAV:}displayname' => $name,
+			];
 		}
 		return null;
 	}
@@ -167,6 +183,7 @@ class Principal implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroupMembership($principal, $needGroups = false) {
 		[$prefix, $name] = \Sabre\Uri\split($principal);
 
@@ -184,6 +201,9 @@ class Principal implements BackendInterface {
 		if ($this->hasGroups || $needGroups) {
 			$userGroups = $this->groupManager->getUserGroups($user);
 			foreach ($userGroups as $userGroup) {
+				if ($userGroup->hideFromCollaboration()) {
+					continue;
+				}
 				$groups[] = 'principals/groups/' . urlencode($userGroup->getGID());
 			}
 		}
@@ -201,6 +221,7 @@ class Principal implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
+	#[\Override]
 	public function updatePrincipal($path, PropPatch $propPatch) {
 		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
@@ -379,7 +400,6 @@ class Principal implements BackendInterface {
 		switch ($test) {
 			case 'anyof':
 				return array_values(array_unique(array_merge(...$results)));
-
 			case 'allof':
 			default:
 				return array_values(array_intersect(...$results));
@@ -392,6 +412,7 @@ class Principal implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		if (count($searchProperties) === 0) {
 			return [];
@@ -400,7 +421,6 @@ class Principal implements BackendInterface {
 		switch ($prefixPath) {
 			case 'principals/users':
 				return $this->searchUserPrincipals($searchProperties, $test);
-
 			default:
 				return [];
 		}
@@ -411,6 +431,7 @@ class Principal implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return string
 	 */
+	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
 		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
@@ -461,29 +482,43 @@ class Principal implements BackendInterface {
 
 	/**
 	 * @param IUser $user
+	 * @param string[]|null $propertyFilter
 	 * @return array
 	 * @throws PropertyDoesNotExistException
 	 */
-	protected function userToPrincipal($user) {
+	protected function userToPrincipal($user, ?array $propertyFilter = null) {
+		$wantsProperty = static function (string $name) use ($propertyFilter) {
+			if ($propertyFilter === null) {
+				return true;
+			}
+
+			return in_array($name, $propertyFilter, true);
+		};
+
 		$userId = $user->getUID();
-		$displayName = $user->getDisplayName();
 		$principal = [
 			'uri' => $this->principalPrefix . '/' . $userId,
-			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+			'{DAV:}displayname' => $user->getDisplayName(),
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
-			'{http://nextcloud.com/ns}language' => $this->languageFactory->getUserLanguage($user),
 		];
 
-		$account = $this->accountManager->getAccount($user);
-		$alternativeEmails = array_map(fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
-
-		$email = $user->getSystemEMailAddress();
-		if (!empty($email)) {
-			$principal['{http://sabredav.org/ns}email-address'] = $email;
+		if ($wantsProperty('{http://nextcloud.com/ns}language')) {
+			$principal['{http://nextcloud.com/ns}language'] = $this->languageFactory->getUserLanguage($user);
 		}
 
-		if (!empty($alternativeEmails)) {
-			$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
+		if ($wantsProperty('{http://sabredav.org/ns}email-address')) {
+			$email = $user->getSystemEMailAddress();
+			if (!empty($email)) {
+				$principal['{http://sabredav.org/ns}email-address'] = $email;
+			}
+		}
+
+		if ($wantsProperty('{DAV:}alternate-URI-set')) {
+			$account = $this->accountManager->getAccount($user);
+			$alternativeEmails = array_map(static fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+			if (!empty($alternativeEmails)) {
+				$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
+			}
 		}
 
 		return $principal;
@@ -504,7 +539,7 @@ class Principal implements BackendInterface {
 
 		try {
 			$circle = Circles::detailsCircle($circleUniqueId, true);
-		} catch (QueryException $ex) {
+		} catch (ContainerExceptionInterface $ex) {
 			return null;
 		} catch (CircleNotFoundException $ex) {
 			return null;
@@ -528,7 +563,7 @@ class Principal implements BackendInterface {
 	 * @param string $principal
 	 * @return array
 	 * @throws Exception
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {

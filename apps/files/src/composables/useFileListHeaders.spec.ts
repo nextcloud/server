@@ -3,39 +3,59 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Header } from '@nextcloud/files'
+import type { IFileListHeader } from '@nextcloud/files'
+import type { registerFileListHeader } from '@nextcloud/files'
+import type { ComputedRef } from 'vue'
+
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { useFileListHeaders } from './useFileListHeaders.ts'
+import { nextTick } from 'vue'
 
-const getFileListHeaders = vi.hoisted(() => vi.fn())
-
-vi.mock('@nextcloud/files', async (originalModule) => {
-	return {
-		...(await originalModule()),
-		getFileListHeaders,
-	}
-})
+interface Context {
+	useFileListHeaders: () => ComputedRef<IFileListHeader[]>
+	registerFileListHeader: typeof registerFileListHeader
+}
 
 describe('useFileListHeaders', () => {
-	beforeEach(() => vi.resetAllMocks())
+	beforeEach(async (context: Context) => {
+		delete globalThis._nc_files_scope
+		// reset modules to reset internal variables (the headers ref) of the composable and the library (the scoped globals)
+		vi.resetModules()
+		context.useFileListHeaders = (await import('./useFileListHeaders.ts')).useFileListHeaders
+		context.registerFileListHeader = (await import('@nextcloud/files')).registerFileListHeader
+	})
 
-	it('gets the headers', () => {
-		const header = new Header({ id: '1', order: 5, render: vi.fn(), updated: vi.fn() })
-		getFileListHeaders.mockImplementationOnce(() => [header])
+	it<Context>('gets the headers', ({ useFileListHeaders, registerFileListHeader }) => {
+		const header: IFileListHeader = { id: '1', order: 5, render: vi.fn(), updated: vi.fn() }
+		registerFileListHeader(header)
 
 		const headers = useFileListHeaders()
 		expect(headers.value).toEqual([header])
-		expect(getFileListHeaders).toHaveBeenCalledOnce()
 	})
 
-	it('headers are sorted', () => {
-		const header = new Header({ id: '1', order: 10, render: vi.fn(), updated: vi.fn() })
-		const header2 = new Header({ id: '2', order: 5, render: vi.fn(), updated: vi.fn() })
-		getFileListHeaders.mockImplementationOnce(() => [header, header2])
+	it<Context>('headers are sorted', ({ useFileListHeaders, registerFileListHeader }) => {
+		const header: IFileListHeader = { id: '1', order: 10, render: vi.fn(), updated: vi.fn() }
+		const header2: IFileListHeader = { id: '2', order: 5, render: vi.fn(), updated: vi.fn() }
+		registerFileListHeader(header)
+		registerFileListHeader(header2)
 
 		const headers = useFileListHeaders()
 		// lower order first
 		expect(headers.value.map(({ id }) => id)).toStrictEqual(['2', '1'])
-		expect(getFileListHeaders).toHaveBeenCalledOnce()
+	})
+
+	it<Context>('composable is reactive', async ({ useFileListHeaders, registerFileListHeader }) => {
+		const header: IFileListHeader = { id: 'a', order: 10, render: vi.fn(), updated: vi.fn() }
+		registerFileListHeader(header)
+		await nextTick()
+
+		const headers = useFileListHeaders()
+		expect(headers.value.map(({ id }) => id)).toStrictEqual(['a'])
+		// now add a new header
+		const header2: IFileListHeader = { id: 'b', order: 5, render: vi.fn(), updated: vi.fn() }
+		registerFileListHeader(header2)
+
+		// reactive update, lower order first
+		await nextTick()
+		expect(headers.value.map(({ id }) => id)).toStrictEqual(['b', 'a'])
 	})
 })

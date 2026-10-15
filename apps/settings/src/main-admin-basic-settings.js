@@ -3,15 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-
-import logger from './logger.ts'
-
-import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
+import Vue from 'vue'
 import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'
+import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
+import logger from './logger.ts'
 
 __webpack_nonce__ = getCSPNonce()
 

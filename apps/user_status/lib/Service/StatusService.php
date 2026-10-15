@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Service;
 
 use OCA\UserStatus\Db\UserStatus;
@@ -61,6 +62,13 @@ class StatusService {
 	/** @var int */
 	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
+	/**
+	 * Has to stay at least one client heartbeat interval below INVALIDATE_STATUS_THRESHOLD.
+	 *
+	 * @var int
+	 */
+	public const REFRESH_STATUS_THRESHOLD = 7 /* minutes */ * 60 /* seconds */;
+
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
@@ -81,7 +89,7 @@ class StatusService {
 	/**
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return UserStatus[]
+	 * @return list<UserStatus>
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
 		// Return empty array if user enumeration is disabled or limited to groups
@@ -91,9 +99,27 @@ class StatusService {
 			return [];
 		}
 
+		return array_values(array_map(function ($status) {
+			return $this->processStatus($status);
+		}, $this->mapper->findAll($limit, $offset)));
+	}
+
+	/**
+	 * @param int|null $limit
+	 * @param int|null $lastId Id of the last status from the previous page, or null to fetch the first page
+	 * @return UserStatus[]
+	 */
+	public function findAllAfterId(?int $limit = null, ?int $lastId = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
-		}, $this->mapper->findAll($limit, $offset));
+		}, $this->mapper->findAllAfterId($limit, $lastId));
 	}
 
 	/**
@@ -167,7 +193,7 @@ class StatusService {
 		$userStatus->setIsBackup(false);
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -211,7 +237,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -284,6 +310,7 @@ class StatusService {
 
 		if ($createBackup) {
 			if ($this->backupCurrentStatus($userId) === false) {
+				$this->logger->debug('Automated status change aborted for user ' . $userId . ': backup already exists (another automated status is active)', ['app' => 'user_status']);
 				return null; // Already a status set automatically => abort.
 			}
 
@@ -313,7 +340,7 @@ class StatusService {
 		if ($userStatus->getId() !== null) {
 			return $this->mapper->update($userStatus);
 		}
-		return $this->mapper->insert($userStatus);
+		return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 	}
 
 	/**
@@ -360,7 +387,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -516,6 +543,7 @@ class StatusService {
 			return true;
 		} catch (Exception $ex) {
 			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				$this->logger->debug('Backup status already exists for user ' . $userId . ', skipping backup creation', ['app' => 'user_status']);
 				return false;
 			}
 			throw $ex;
@@ -533,7 +561,7 @@ class StatusService {
 
 		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
 		if (!$deleted) {
-			// Another status is set automatically or no status, do nothing
+			$this->logger->debug('Status revert skipped for user ' . $userId . ': current status does not match messageId "' . $messageId . '" (user may have changed status manually)', ['app' => 'user_status']);
 			return null;
 		}
 
@@ -583,5 +611,17 @@ class StatusService {
 
 		// For users that matched restore the previous status
 		$this->mapper->restoreBackupStatuses($restoreIds);
+	}
+
+	protected function insertWithoutThrowingUniqueConstrain(UserStatus $userStatus): UserStatus {
+		try {
+			return $this->mapper->insert($userStatus);
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+			$this->logger->debug('Concurrent insert conflict for user ' . $userStatus->getUserId() . ': status was already set by a parallel request', ['app' => 'user_status']);
+		}
+		return $userStatus;
 	}
 }

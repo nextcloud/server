@@ -12,7 +12,7 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 DBCONFIGS="sqlite mysql pgsql oci"
-PHPUNIT=$(which phpunit)
+PHPUNIT="$PWD/lib/composer/bin/phpunit"
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
@@ -28,13 +28,8 @@ function print_syntax {
 }
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, trying local one from build/integration" >&2
-	if [ -x "$PWD/build/integration/vendor/phpunit/phpunit/phpunit" ]; then
-		PHPUNIT="$PWD/build/integration/vendor/phpunit/phpunit/phpunit"
-	else
-		echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
-		exit 3
-	fi
+	echo "phpunit executable not found, please run 'composer install' in the root directory first." >&2
+	exit 3
 fi
 
 PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)
@@ -151,6 +146,7 @@ EOF
 	# trigger installation
 	echo "Installing ...."
 	./occ maintenance:install -vvv --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
+	NC_debug=true ./occ testing:prepare-ci
 
 	./occ config:system:set --value true --type boolean allow_local_remote_servers
 

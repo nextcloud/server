@@ -21,6 +21,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -40,11 +41,12 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->atLeastOnce())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$logger = $this->createMock(LoggerInterface::class);
+		$serverVersion = $this->createMock(ServerVersion::class);
 
 		$clientService = new ClientService(
 			$config,
@@ -53,14 +55,15 @@ class ClientServiceTest extends \Test\TestCase {
 			$remoteHostValidator,
 			$eventLogger,
 			$logger,
+			$serverVersion,
 		);
 
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
@@ -72,6 +75,7 @@ class ClientServiceTest extends \Test\TestCase {
 				$guzzleClient,
 				$remoteHostValidator,
 				$logger,
+				$serverVersion,
 			),
 			$clientService->newClient()
 		);
@@ -89,11 +93,12 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->never())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$logger = $this->createMock(LoggerInterface::class);
+		$serverVersion = $this->createMock(ServerVersion::class);
 
 		$clientService = new ClientService(
 			$config,
@@ -102,13 +107,14 @@ class ClientServiceTest extends \Test\TestCase {
 			$remoteHostValidator,
 			$eventLogger,
 			$logger,
+			$serverVersion,
 		);
 
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
@@ -120,6 +126,7 @@ class ClientServiceTest extends \Test\TestCase {
 				$guzzleClient,
 				$remoteHostValidator,
 				$logger,
+				$serverVersion,
 			),
 			$clientService->newClient()
 		);

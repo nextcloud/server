@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
@@ -16,11 +17,12 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
-use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -29,9 +31,6 @@ use OCP\Profiler\IProfiler;
  * Handles all the dependency injection, controllers and output flow
  */
 class App {
-	/** @var string[] */
-	private static $nameSpaceCache = [];
-
 	/**
 	 * Turns an app id into a namespace by either reading the appinfo.xml's
 	 * namespace tag or uppercasing the appid's first letter
@@ -39,49 +38,23 @@ class App {
 	 * @param string $topNamespace the namespace which should be prepended to
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
-		// Hit the cache!
-		if (isset(self::$nameSpaceCache[$appId])) {
-			return $topNamespace . self::$nameSpaceCache[$appId];
+		$appManager = Server::get(IAppManager::class);
+		$namespace = $appManager->getAppNamespace($appId);
+		if ($topNamespace !== 'OCA\\') {
+			return $topNamespace . substr($namespace, strlen('OCA\\'));
 		}
-
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
-		if (isset($appInfo['namespace'])) {
-			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
-		} else {
-			if ($appId !== 'spreed') {
-				// if the tag is not found, fall back to uppercasing the first letter
-				self::$nameSpaceCache[$appId] = ucfirst($appId);
-			} else {
-				// For the Talk app (appid spreed) the above fallback doesn't work.
-				// This leads to a problem when trying to install it freshly,
-				// because the apps namespace is already registered before the
-				// app is downloaded from the appstore, because of the hackish
-				// global route index.php/call/{token} which is registered via
-				// the core/routes.php so it does not have the app namespace.
-				// @ref https://github.com/nextcloud/server/pull/19433
-				self::$nameSpaceCache[$appId] = 'Talk';
-			}
-		}
-
-		return $topNamespace . self::$nameSpaceCache[$appId];
+		return $namespace;
 	}
 
+	/**
+	 * @deprecated 34.0.0 use IAppManager::getAppFromNamespace
+	 */
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (!str_starts_with($className, $topNamespace)) {
-			return null;
-		}
-
-		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
-				return $appId;
-			}
-		}
-
-		return null;
+		return Server::get(IAppManager::class)->getAppFromNamespace($className);
 	}
-
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
@@ -93,15 +66,20 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
+	public static function main(
+		string $controllerName,
+		string $methodName,
+		DIContainer $container,
+		?array $urlParams = null,
+	): void {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
 		// Disable profiler on the profiler UI
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
-			\OC::$server->get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+			Server::get(IEventLogger::class)->activate();
+			$profiler->add(new RoutingDataCollector($container->get('appName'), $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -110,12 +88,12 @@ class App {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($urlParams);
-		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+		} elseif ($container->has('urlParams') && !is_null($container->get('urlParams'))) {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
-			$request->setUrlParameters($container['urlParams']);
+			$request->setUrlParameters($container->get('urlParams'));
 		}
-		$appName = $container['AppName'];
+		$appName = $container->get('appName');
 
 		$eventLogger->end('app:controller:params');
 
@@ -124,7 +102,7 @@ class App {
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
 			$controller = $container->get($controllerName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface) {
 			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
@@ -137,7 +115,7 @@ class App {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		}
 
 		$eventLogger->end('app:controller:load');
@@ -145,8 +123,7 @@ class App {
 		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
 
 		// initialize the dispatcher and run all the middleware before the controller
-		/** @var Dispatcher $dispatcher */
-		$dispatcher = $container['Dispatcher'];
+		$dispatcher = $container->get(Dispatcher::class);
 
 		$eventLogger->end('app:controller:dispatcher');
 
@@ -162,7 +139,7 @@ class App {
 
 		$eventLogger->end('app:controller:run');
 
-		$io = $container[IOutput::class];
+		$io = $container->get(IOutput::class);
 
 		if ($profiler->isEnabled()) {
 			$eventLogger->end('runtime');
@@ -191,9 +168,9 @@ class App {
 				$name,
 				$value['value'],
 				$expireDate,
-				$container->getServer()->getWebRoot(),
-				null,
-				$container->getServer()->getRequest()->getServerProtocol() === 'https',
+				$container->get('webRoot'),
+				'',
+				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,
 				$sameSite
 			);
@@ -221,26 +198,5 @@ class App {
 				$io->setOutput($output);
 			}
 		}
-	}
-
-	/**
-	 * Shortcut for calling a controller method and printing the result.
-	 * Similar to App:main except that no headers will be sent.
-	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
-	 * @param array $urlParams an array with variables extracted from the routes
-	 * @param DIContainer $container an instance of a pimple container.
-	 */
-	public static function part(string $controllerName, string $methodName, array $urlParams,
-		DIContainer $container) {
-		$container['urlParams'] = $urlParams;
-		$controller = $container[$controllerName];
-
-		$dispatcher = $container['Dispatcher'];
-
-		[, , $output] = $dispatcher->dispatch($controller, $methodName);
-		return $output;
 	}
 }

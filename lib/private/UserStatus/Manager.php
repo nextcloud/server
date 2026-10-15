@@ -6,42 +6,30 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\UserStatus;
 
-use OCP\IServerContainer;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IProvider;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var IServerContainer */
-	private $container;
+	/** @var ?class-string */
+	private ?string $providerClass = null;
+	private ?IProvider $provider = null;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var class-string */
-	private $providerClass;
-
-	/** @var IProvider */
-	private $provider;
-
-	/**
-	 * Manager constructor.
-	 *
-	 * @param IServerContainer $container
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUserStatuses(array $userIds): array {
 		$this->setupProvider();
 		if (!$this->provider) {
@@ -87,26 +75,29 @@ class Manager implements IManager {
 		$this->provider = $provider;
 	}
 
+	#[\Override]
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, ?string $customMessage = null): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 
 		$this->provider->setUserStatus($userId, $messageId, $status, $createBackup, $customMessage);
 	}
 
+	#[\Override]
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 		$this->provider->revertUserStatus($userId, $messageId, $status);
 	}
 
+	#[\Override]
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 		$this->provider->revertMultipleUserStatus($userIds, $messageId, $status);

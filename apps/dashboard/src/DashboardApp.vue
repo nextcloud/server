@@ -5,60 +5,50 @@
 <template>
 	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
-		<ul class="statuses">
-			<li v-for="status in sortedRegisteredStatus"
+		<ul v-if="sortedRegisteredStatus.length > 0" class="statuses">
+			<li
+				v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
-				<div :ref="'status-' + status" />
+				<div :ref="(element) => setStatusElement(status, element)" />
 			</li>
 		</ul>
 
-		<Draggable v-model="layout"
+		<Draggable
+			v-model="layout"
+			v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 			class="panels"
-			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+			:itemKey="(element) => element"
 			handle=".panel--header"
 			@end="saveLayout">
-			<template v-for="panelId in layout">
-				<div v-if="isApiWidgetV2(panels[panelId].id)"
-					:key="`${panels[panelId].id}-v2`"
-					class="panel">
-					<div class="panel--header">
-						<h2>
-							<img v-if="apiWidgets[panels[panelId].id].icon_url"
-								:alt="apiWidgets[panels[panelId].id].title + ' icon'"
-								:src="apiWidgets[panels[panelId].id].icon_url"
-								aria-hidden="true">
-							<span v-else
-								:aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
-								aria-hidden="true"
-								:class="apiWidgets[panels[panelId].id].icon_class"
-								role="img" />
-							{{ apiWidgets[panels[panelId].id].title }}
-						</h2>
-						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually">
-							{{ t('dashboard', '"{title} icon"', { title: apiWidgets[panels[panelId].id].title }) }}
-						</span>
-					</div>
-					<div class="panel--content">
-						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
-							:data="apiWidgetItems[panels[panelId].id]"
-							:loading="loadingItems" />
-					</div>
-				</div>
-				<div v-else :key="panels[panelId].id" class="panel">
-					<div class="panel--header">
-						<h2>
-							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
-								aria-hidden="true"
-								:class="panels[panelId].iconClass"
-								role="img" />
-							{{ panels[panelId].title }}
-						</h2>
-						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
-					</div>
-					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
-						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
-					</div>
+			<template #item="{ element: panelId }">
+				<div :key="panelId" class="panel">
+					<template v-if="isApiWidgetV2(panels[panelId].id)">
+						<div class="panel--header">
+							<h2>
+								<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
+								<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
+								{{ apiWidgets[panels[panelId].id].title }}
+							</h2>
+						</div>
+						<div class="panel--content">
+							<ApiDashboardWidget
+								:widget="apiWidgets[panels[panelId].id]"
+								:data="apiWidgetItems[panels[panelId].id]"
+								:loading="loadingItems" />
+						</div>
+					</template>
+					<template v-else>
+						<div class="panel--header">
+							<h2>
+								<span :class="panels[panelId].iconClass" aria-hidden="true" />
+								{{ panels[panelId].title }}
+							</h2>
+						</div>
+						<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
+							<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+						</div>
+					</template>
 				</div>
 			</template>
 		</Draggable>
@@ -72,12 +62,17 @@
 			</NcButton>
 		</div>
 
-		<NcModal v-if="modal" size="large" @close="closeModal">
+		<NcModal
+			v-if="modal"
+			size="large"
+			:closeOnClickOutside="true"
+			@close="closeModal">
 			<div class="modal__content">
 				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
 				<ol class="panels">
 					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
-						<input :id="'status-checkbox-' + status"
+						<input
+							:id="'status-checkbox-' + status"
 							type="checkbox"
 							class="checkbox"
 							:checked="isStatusActive(status)"
@@ -89,35 +84,38 @@
 						</label>
 					</li>
 				</ol>
-				<Draggable v-model="layout"
+				<Draggable
+					v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 					class="panels"
 					tag="ol"
-					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+					:itemKey="(panel) => panel.id"
 					handle=".draggable"
-					@end="saveLayout">
-					<li v-for="panel in sortedPanels" :key="panel.id" :class="'panel-' + panel.id">
-						<input :id="'panel-checkbox-' + panel.id"
-							type="checkbox"
-							class="checkbox"
-							:checked="isActive(panel)"
-							@input="updateCheckbox(panel, $event.target.checked)">
-						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<img v-if="panel.iconUrl"
-								:alt="panel.title + ' icon'"
-								:src="panel.iconUrl"
-								aria-hidden="true">
-							<span v-else :class="panel.iconClass" aria-hidden="true" />
-							{{ panel.title }}
-						</label>
-					</li>
+					:modelValue="modalPanelList"
+					@update:modelValue="onModalPanelListUpdate"
+					@start="onModalDragStart"
+					@end="onModalDragEnd">
+					<template #item="{ element: panel }">
+						<li :key="panel.id" :class="'panel-' + panel.id">
+							<input
+								:id="'panel-checkbox-' + panel.id"
+								type="checkbox"
+								class="checkbox"
+								:checked="isActive(panel)"
+								@input="updateCheckbox(panel, $event.target.checked)">
+							<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
+								<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
+								<span v-else :class="panel.iconClass" aria-hidden="true" />
+								{{ panel.title }}
+							</label>
+						</li>
+					</template>
 				</Draggable>
-
 				<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<div v-if="statuses.weather && isStatusActive('weather')">
 					<h2>{{ t('dashboard', 'Weather service') }}</h2>
 					<p>
-						{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
+						{{ t('dashboard', 'For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information.', { productName }) }}
 					</p>
 					<p class="credits--end">
 						<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
@@ -131,19 +129,21 @@
 </template>
 
 <script>
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+// import this directly so Vite builds it and we don't end up using the UMD bundle which
+// tries to run "new Function(...)" (for no good reason) which is blocked by our CSP
+import Draggable from 'vuedraggable/src/vuedraggable.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import Draggable from 'vuedraggable'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import Vue from 'vue'
-
-import isMobile from './mixins/isMobile.js'
 import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
+import { logger } from './logger.ts'
+import isMobile from './mixins/isMobile.js'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
@@ -169,9 +169,17 @@ export default {
 		Pencil,
 		NcUserStatusIcon,
 	},
+
 	mixins: [
 		isMobile,
 	],
+
+	setup() {
+		return {
+			t,
+			productName: window.OC.theme.productName,
+		}
+	},
 
 	data() {
 		return {
@@ -179,8 +187,8 @@ export default {
 			timer: new Date(),
 			registeredStatus: [],
 			callbacks: {},
-			callbacksStatus: {},
 			allCallbacksStatus: {},
+			statusElements: {},
 			statusInfo,
 			enabledStatuses: loadState('dashboard', 'statuses'),
 			panels,
@@ -188,6 +196,8 @@ export default {
 			displayName: getCurrentUser()?.displayName,
 			uid: getCurrentUser()?.uid,
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
+			modalPanelList: [],
+			isModalDragging: false,
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			appStoreEnabled: loadState('dashboard', 'appStoreEnabled', true),
@@ -198,6 +208,7 @@ export default {
 			birthdate,
 		}
 	},
+
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
@@ -223,24 +234,28 @@ export default {
 			const good = {
 				morning: {
 					generic: t('dashboard', 'Good morning'),
-					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }),
+					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, { escape: false }),
 				},
+
 				afternoon: {
 					generic: t('dashboard', 'Good afternoon'),
-					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }),
+					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, { escape: false }),
 				},
+
 				evening: {
 					generic: t('dashboard', 'Good evening'),
-					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }),
+					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, { escape: false }),
 				},
+
 				night: {
 					// Don't use "Good night" as it's not a greeting
-					generic: t('dashboard', 'Hello'),
-					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
+					generic: t('dashboard', 'Hello') /* TRANSLATORS: Greeting to be used at night (in English there is no specific greeting, think of it like "good morning") */,
+					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, { escape: false }) /* TRANSLATORS: Greeting to be used at night (in English there is no specific greeting, think of it like "Good morning, J. Doe" but at night) */,
 				},
+
 				birthday: {
 					generic: t('dashboard', 'Happy birthday 🥳🤩🎂🎉'),
-					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, undefined, { escape: false }),
+					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, { escape: false }),
 				},
 			}
 
@@ -252,6 +267,7 @@ export default {
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
 		},
+
 		isStatusActive() {
 			return (status) => this.enabledStatuses.findIndex((s) => s === status) !== -1
 		},
@@ -259,16 +275,7 @@ export default {
 		sortedAllStatuses() {
 			return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)
 		},
-		sortedPanels() {
-			return Object.values(this.panels).sort((a, b) => {
-				const indexA = this.layout.indexOf(a.id)
-				const indexB = this.layout.indexOf(b.id)
-				if (indexA === -1 || indexB === -1) {
-					return indexB - indexA || a.id - b.id
-				}
-				return indexA - indexB || a.id - b.id
-			})
-		},
+
 		sortedRegisteredStatus() {
 			return this.registeredStatus.slice().sort(this.sortStatuses)
 		},
@@ -276,20 +283,12 @@ export default {
 
 	watch: {
 		callbacks() {
-			this.rerenderPanels()
+			this.$nextTick(() => this.rerenderPanels())
 		},
-		callbacksStatus() {
-			for (const app in this.callbacksStatus) {
-				const element = this.$refs['status-' + app]
-				if (this.statuses[app] && this.statuses[app].mounted) {
-					continue
-				}
-				if (element) {
-					this.callbacksStatus[app](element[0])
-					Vue.set(this.statuses, app, { mounted: true })
-				} else {
-					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
-				}
+
+		layout() {
+			if (this.modal && !this.isModalDragging) {
+				this.modalPanelList = this.getSortedPanelObjects()
 			}
 		},
 	},
@@ -299,9 +298,9 @@ export default {
 
 		const apiWidgetIdsToFetch = Object
 			.values(this.apiWidgets)
-			.filter(widget => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
-			.map(widget => widget.id)
-		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
+			.filter((widget) => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
+			.map((widget) => widget.id)
+		await Promise.all(apiWidgetIdsToFetch.map((id) => this.fetchApiWidgetItems([id], true)))
 
 		for (const widget of Object.values(this.apiWidgets)) {
 			if (widget.reload_interval > 0) {
@@ -314,7 +313,10 @@ export default {
 				}, widget.reload_interval * 1000)
 			}
 		}
+
+		this.$nextTick(() => this.rerenderPanels())
 	},
+
 	mounted() {
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
@@ -327,7 +329,8 @@ export default {
 			window.addEventListener('scroll', this.disableFirstrunHint)
 		}
 	},
-	destroyed() {
+
+	unmounted() {
 		window.removeEventListener('scroll', this.handleScroll)
 	},
 
@@ -339,19 +342,43 @@ export default {
 		 * @param {Function} callback The callback function to register a panel which gets the DOM element passed as parameter
 		 */
 		register(app, callback) {
-			Vue.set(this.callbacks, app, callback)
+			this.callbacks[app] = callback
 		},
+
 		registerStatus(app, callback) {
 			// always save callbacks in case user enables the status later
-			Vue.set(this.allCallbacksStatus, app, callback)
+			this.allCallbacksStatus[app] = callback
 			// register only if status is enabled or missing from config
 			if (this.isStatusActive(app)) {
-				this.registeredStatus.push(app)
-				this.$nextTick(() => {
-					Vue.set(this.callbacksStatus, app, callback)
-				})
+				if (!this.registeredStatus.includes(app)) {
+					this.registeredStatus.push(app)
+				}
+				this.$nextTick(() => this.mountStatus(app))
 			}
 		},
+
+		setStatusElement(app, element) {
+			if (element) {
+				this.statusElements[app] = element
+				this.mountStatus(app)
+			} else {
+				delete this.statusElements[app]
+			}
+		},
+
+		mountStatus(app) {
+			if (this.statuses[app]?.mounted) {
+				return
+			}
+
+			const element = this.statusElements[app]
+			const callback = this.allCallbacksStatus[app]
+			if (element && callback) {
+				callback(element)
+				this.statuses[app] = { mounted: true }
+			}
+		},
+
 		rerenderPanels() {
 			for (const app in this.callbacks) {
 				// TODO: Properly rerender v2 widgets
@@ -367,32 +394,67 @@ export default {
 					continue
 				}
 				if (element) {
-					this.callbacks[app](element[0], {
+					// In Vue 3, refs in v-for are arrays
+					const el = Array.isArray(element) ? element[0] : element
+					this.callbacks[app](el, {
 						widget: this.panels[app],
 					})
-					Vue.set(this.panels[app], 'mounted', true)
+					this.panels[app].mounted = true
 				} else {
-					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
+					logger.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
 				}
 			}
 		},
+
 		saveLayout() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
 				layout: this.layout,
 			})
 		},
+
 		saveStatuses() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/statuses'), {
 				statuses: this.enabledStatuses,
 			})
 		},
+
 		showModal() {
 			this.modal = true
 			this.firstRun = false
+			this.modalPanelList = this.getSortedPanelObjects()
 		},
+
 		closeModal() {
 			this.modal = false
 		},
+
+		getSortedPanelObjects() {
+			return Object.values(this.panels).sort((a, b) => {
+				const indexA = this.layout.indexOf(a.id)
+				const indexB = this.layout.indexOf(b.id)
+				if (indexA === -1 || indexB === -1) {
+					return indexB - indexA || a.id - b.id
+				}
+				return indexA - indexB || a.id - b.id
+			})
+		},
+
+		onModalPanelListUpdate(newList) {
+			this.modalPanelList = newList
+		},
+
+		onModalDragStart() {
+			this.isModalDragging = true
+		},
+
+		onModalDragEnd() {
+			this.isModalDragging = false
+			this.layout = this.modalPanelList
+				.filter((panel) => this.layout.includes(panel.id))
+				.map((panel) => panel.id)
+			this.saveLayout()
+		},
+
 		updateCheckbox(panel, currentValue) {
 			const index = this.layout.indexOf(panel.id)
 			if (!currentValue && index > -1) {
@@ -403,20 +465,23 @@ export default {
 					this.fetchApiWidgetItems([panel.id], true)
 				}
 			}
-			Vue.set(this.panels[panel.id], 'mounted', false)
+			this.panels[panel.id].mounted = false
 			this.saveLayout()
 			this.$nextTick(() => this.rerenderPanels())
 		},
+
 		disableFirstrunHint() {
 			window.removeEventListener('scroll', this.disableFirstrunHint)
 			setTimeout(() => {
 				this.firstRun = false
 			}, 1000)
 		},
+
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
 			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
 		},
+
 		updateStatusCheckbox(app, checked) {
 			if (checked) {
 				this.enableStatus(app)
@@ -424,11 +489,13 @@ export default {
 				this.disableStatus(app)
 			}
 		},
+
 		enableStatus(app) {
 			this.enabledStatuses.push(app)
 			this.registerStatus(app, this.allCallbacksStatus[app])
 			this.saveStatuses()
 		},
+
 		disableStatus(app) {
 			const i = this.enabledStatuses.findIndex((s) => s === app)
 			if (i !== -1) {
@@ -437,13 +504,11 @@ export default {
 			const j = this.registeredStatus.findIndex((s) => s === app)
 			if (j !== -1) {
 				this.registeredStatus.splice(j, 1)
-				Vue.set(this.statuses, app, { mounted: false })
-				this.$nextTick(() => {
-					Vue.delete(this.callbacksStatus, app)
-				})
+				this.statuses[app] = { mounted: false }
 			}
 			this.saveStatuses()
 		},
+
 		sortStatuses(a, b) {
 			const al = a.toLowerCase()
 			const bl = b.toLowerCase()
@@ -453,6 +518,7 @@ export default {
 					? -1
 					: 0
 		},
+
 		handleScroll() {
 			if (window.scrollY > 70) {
 				document.body.classList.add('dashboard--scrolled')
@@ -460,18 +526,20 @@ export default {
 				document.body.classList.remove('dashboard--scrolled')
 			}
 		},
+
 		async fetchApiWidgets() {
 			const { data } = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
 			this.apiWidgets = data.ocs.data
 		},
+
 		async fetchApiWidgetItems(widgetIds, merge = false) {
 			try {
 				const url = generateOcsUrl('/apps/dashboard/api/v2/widget-items')
-				const params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]))
+				const params = new URLSearchParams(widgetIds.map((id) => ['widgets[]', id]))
 				const response = await axios.get(`${url}?${params.toString()}`)
 				const widgetItems = response.data.ocs.data
 				if (merge) {
-					this.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems)
+					this.apiWidgetItems = { ...this.apiWidgetItems, ...widgetItems }
 				} else {
 					this.apiWidgetItems = widgetItems
 				}
@@ -479,6 +547,7 @@ export default {
 				this.loadingItems = false
 			}
 		},
+
 		isApiWidgetV2(id) {
 			for (const widget of Object.values(this.apiWidgets)) {
 				if (widget.id === id && widget.item_api_versions.includes(2)) {
@@ -492,6 +561,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+:global(#content.app-dashboard) {
+	margin-inline: 0;
+	width: 100%;
+}
+
 #app-dashboard {
 	width: 100%;
 	min-height: 100%;
@@ -763,6 +837,7 @@ export default {
 	}
 }
 </style>
+
 <style>
 html, body {
 	background-attachment: fixed;
@@ -774,5 +849,11 @@ html, body {
 
 #content {
 	overflow: auto;
+	/* Scrollbar sits on the background image — use plain-text color for contrast */
+	scrollbar-color: var(--color-background-plain-text) transparent;
+}
+
+#app-content-vue {
+	width: 100%;
 }
 </style>

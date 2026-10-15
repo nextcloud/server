@@ -23,6 +23,36 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+Scenario: getting all shares of a file with reshares with link share with less permissions
+  Given user "user0" exists
+  And user "user1" exists
+  When as "user0" creating a share with
+    | path | textfile0.txt |
+    | shareType | 0 |
+    | shareWith | user1 |
+    | permissions | 17 |
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  When as "user0" creating a share with
+    | path | textfile0.txt |
+    | shareType | 3 |
+    | permissions | 19 |
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  And last link share can be downloaded
+  When As an "user1"
+  And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0 (2).txt"
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  And User "user1" should not be included in the response
+  Then the list of returned shares has 1 shares
+  And share 0 is returned with
+    | share_type             | 3 |
+    | uid_owner              | user0 |
+    | token                  | |
+    | url                    | |
+    | permissions            | 19 |
+
   Scenario: getting all shares of a file with a received share after revoking the resharing rights
     Given user "user0" exists
     And user "user1" exists
@@ -43,9 +73,52 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
+
+Scenario: getting all shares of a file with a received share after revoking the resharing rights with delayed share check
+	Given user "user0" exists
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user1" exists
+	And user "user2" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And user "user0" accepts last share
+	And Updating last share with
+		| permissions | 1 |
+	And file "textfile0.txt" of user "user1" is shared with user "user2"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0.txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
+	# After user2 does an FS setup the share is renamed
+	When As an "user2"
+	And Downloading file "/textfile0 (2).txt" with range "bytes=10-18"
+	Then Downloaded content should be "test text"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0 (2).txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
 
   Scenario: getting all shares of a file with a received share also reshared after revoking the resharing rights
     Given user "user0" exists
@@ -84,7 +157,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -120,7 +193,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user1 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0.txt |
+      | file_target | /textfile0 (2).txt |
       | path | /textfile0.txt |
       | permissions | 19 |
       | stime | A_NUMBER |
@@ -401,7 +474,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/FOLDER/textfile0.txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -440,7 +513,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/FOLDER/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -584,7 +657,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is allowed to reshare file with more permissions if shares of same file to same user have them
@@ -635,7 +708,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of same file to other users have them
@@ -664,7 +737,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of other files from same user have them
@@ -692,7 +765,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of other files from other users have them
@@ -721,7 +794,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: download restrictions can not be dropped
@@ -815,7 +888,7 @@ Feature: sharing
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 25 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with additional delete permissions for files
@@ -887,7 +960,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user2 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0.txt |
+      | file_target | /textfile0 (2).txt |
       | path | /textfile0 (2).txt |
       | permissions | 19 |
       | stime | A_NUMBER |
@@ -1124,7 +1197,7 @@ Feature: sharing
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of same file to other users have them
@@ -1156,7 +1229,7 @@ Feature: sharing
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of other files from same user have them
@@ -1187,7 +1260,7 @@ Feature: sharing
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of other files from other users have them
@@ -1219,7 +1292,7 @@ Feature: sharing
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow sub reshare to exceed permissions
@@ -1243,7 +1316,7 @@ Feature: sharing
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Only allow 1 link share per file/folder
@@ -1265,7 +1338,9 @@ Feature: sharing
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
 
-  Scenario: Cannot download a file when it's shared view-only
+  Scenario: Cannot download a file when it's shared view-only without shareapi_allow_view_without_download
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" moves file "/textfile0.txt" to "/document.odt"
@@ -1274,8 +1349,15 @@ Feature: sharing
     When As an "user1"
     And Downloading file "/document.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And Downloading file "/document.odt"
+    Then the HTTP status code should be "200"
 
-  Scenario: Cannot download a file when its parent is shared view-only
+  Scenario: Cannot download a file when its parent is shared view-only without shareapi_allow_view_without_download
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" created a folder "/sharedviewonly"
@@ -1285,8 +1367,15 @@ Feature: sharing
     When As an "user1"
     And Downloading file "/sharedviewonly/document.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And Downloading file "/sharedviewonly/document.odt"
+    Then the HTTP status code should be "200"
 
-  Scenario: Cannot copy a file when it's shared view-only
+  Scenario: Cannot copy a file when it's shared view-only even with shareapi_allow_view_without_download enabled
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" moves file "/textfile0.txt" to "/document.odt"
@@ -1294,8 +1383,15 @@ Feature: sharing
     And user "user1" accepts last share
     When User "user1" copies file "/document.odt" to "/copyforbidden.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And User "user1" copies file "/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
 
   Scenario: Cannot copy a file when its parent is shared view-only
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" created a folder "/sharedviewonly"
@@ -1303,6 +1399,11 @@ Feature: sharing
     And folder "sharedviewonly" of user "user0" is shared with user "user1" view-only
     And user "user1" accepts last share
     When User "user1" copies file "/sharedviewonly/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And User "user1" copies file "/sharedviewonly/document.odt" to "/copyforbidden.odt"
     Then the HTTP status code should be "403"
 
 # See sharing-v1-part3.feature

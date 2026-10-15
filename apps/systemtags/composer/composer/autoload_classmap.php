@@ -7,11 +7,14 @@ $baseDir = $vendorDir;
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'OCA\\SystemTags\\Activity\\Listener' => $baseDir . '/../lib/Activity/Listener.php',
     'OCA\\SystemTags\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
     'OCA\\SystemTags\\Activity\\Setting' => $baseDir . '/../lib/Activity/Setting.php',
+    'OCA\\SystemTags\\Activity\\TagListener' => $baseDir . '/../lib/Activity/TagListener.php',
     'OCA\\SystemTags\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\SystemTags\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
+    'OCA\\SystemTags\\Command\\Files\\Add' => $baseDir . '/../lib/Command/Files/Add.php',
+    'OCA\\SystemTags\\Command\\Files\\Delete' => $baseDir . '/../lib/Command/Files/Delete.php',
+    'OCA\\SystemTags\\Command\\Files\\DeleteAll' => $baseDir . '/../lib/Command/Files/DeleteAll.php',
     'OCA\\SystemTags\\Controller\\LastUsedController' => $baseDir . '/../lib/Controller/LastUsedController.php',
     'OCA\\SystemTags\\Listeners\\BeforeSabrePubliclyLoadedListener' => $baseDir . '/../lib/Listeners/BeforeSabrePubliclyLoadedListener.php',
     'OCA\\SystemTags\\Listeners\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listeners/BeforeTemplateRenderedListener.php',

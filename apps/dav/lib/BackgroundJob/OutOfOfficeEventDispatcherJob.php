@@ -35,13 +35,14 @@ class OutOfOfficeEventDispatcherJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$id = $argument['id'];
 		$event = $argument['event'];
 
 		try {
 			$absence = $this->absenceMapper->findById($id);
-		} catch (DoesNotExistException|\OCP\DB\Exception $e) {
+		} catch (DoesNotExistException $e) {
 			$this->logger->error('Failed to dispatch out-of-office event: ' . $e->getMessage(), [
 				'exception' => $e,
 				'argument' => $argument,

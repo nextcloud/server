@@ -14,6 +14,8 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IL10N;
@@ -23,13 +25,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Verifies whether an user has at least subadmin rights.
- * To bypass use the `@NoSubAdminRequired` annotation
+ * To bypass use the `#[NoSubAdminRequired]` attribute
  *
  * @package Tests\Settings\Middleware
  */
 class SubadminMiddlewareTest extends \Test\TestCase {
 	private SubadminMiddleware $subadminMiddleware;
-
 	private IUserSession&MockObject $userSession;
 	private ISubAdmin&MockObject $subAdminManager;
 	private ControllerMethodReflector&MockObject $reflector;
@@ -38,8 +39,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->reflector = $this->getMockBuilder(ControllerMethodReflector::class)
-			->disableOriginalConstructor()->getMock();
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->subAdminManager = $this->createMock(ISubAdmin::class);
 		$this->l10n = $this->createMock(IL10N::class);
@@ -51,8 +51,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			$this->l10n,
 		);
 
-		$this->controller = $this->getMockBuilder(Controller::class)
-			->disableOriginalConstructor()->getMock();
+		$this->controller = $this->createMock(Controller::class);
 
 		$this->userSession
 			->expects(self::any())
@@ -60,17 +59,16 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->willReturn($this->createMock(IUser::class));
 	}
 
-
 	public function testBeforeControllerAsUserWithoutAnnotation(): void {
 		$this->expectException(NotAdminException::class);
 
 		$this->reflector
 			->expects($this->exactly(2))
-			->method('hasAnnotation')
-			->withConsecutive(
-				['NoSubAdminRequired'],
-				['AuthorizedAdminSetting'],
-			)->willReturn(false);
+			->method('hasAnnotationOrAttribute')
+			->willReturnMap([
+				['NoSubAdminRequired', NoSubAdminRequired::class, false],
+				['AuthorizedAdminSetting', AuthorizedAdminSetting::class, false],
+			]);
 
 		$this->subAdminManager
 			->expects(self::once())
@@ -80,12 +78,11 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
-
 	public function testBeforeControllerWithAnnotation(): void {
 		$this->reflector
 			->expects($this->once())
-			->method('hasAnnotation')
-			->with('NoSubAdminRequired')
+			->method('hasAnnotationOrAttribute')
+			->with('NoSubAdminRequired', NoSubAdminRequired::class)
 			->willReturn(true);
 
 		$this->subAdminManager
@@ -98,11 +95,11 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerAsSubAdminWithoutAnnotation(): void {
 		$this->reflector
 			->expects($this->exactly(2))
-			->method('hasAnnotation')
-			->withConsecutive(
-				['NoSubAdminRequired'],
-				['AuthorizedAdminSetting'],
-			)->willReturn(false);
+			->method('hasAnnotationOrAttribute')
+			->willReturnMap([
+				['NoSubAdminRequired', NoSubAdminRequired::class, false],
+				['AuthorizedAdminSetting', AuthorizedAdminSetting::class, false],
+			]);
 
 		$this->subAdminManager
 			->expects(self::once())
@@ -117,7 +114,6 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
-
 
 	public function testAfterRegularException(): void {
 		$this->expectException(\Exception::class);

@@ -17,17 +17,16 @@ class JSONResponseTest extends \Test\TestCase {
 	 */
 	private $json;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->json = new JSONResponse();
 	}
 
-
 	public function testHeader(): void {
 		$headers = $this->json->getHeaders();
 		$this->assertEquals('application/json; charset=utf-8', $headers['Content-Type']);
 	}
-
 
 	public function testSetData(): void {
 		$params = ['hi', 'yo'];
@@ -35,7 +34,6 @@ class JSONResponseTest extends \Test\TestCase {
 
 		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
-
 
 	public function testSetRender(): void {
 		$params = ['test' => 'hi'];
@@ -46,10 +44,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-	/**
-	 * @return array
-	 */
-	public function renderDataProvider() {
+	public static function renderDataProvider(): array {
 		return [
 			[
 				['test' => 'hi'], '{"test":"hi"}',
@@ -61,15 +56,14 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider renderDataProvider
 	 * @param array $input
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('renderDataProvider')]
 	public function testRender(array $input, $expected): void {
 		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());
 	}
-
 
 	public function testRenderWithNonUtf8Encoding(): void {
 		$this->expectException(\JsonException::class);

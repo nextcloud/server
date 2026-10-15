@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -18,6 +19,9 @@ use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use function parse_url;
 
@@ -27,25 +31,14 @@ use function parse_url;
  * @package OC\Http
  */
 class Client implements IClient {
-	/** @var GuzzleClient */
-	private $client;
-	/** @var IConfig */
-	private $config;
-	/** @var ICertificateManager */
-	private $certificateManager;
-	private IRemoteHostValidator $remoteHostValidator;
-
 	public function __construct(
-		IConfig $config,
-		ICertificateManager $certificateManager,
-		GuzzleClient $client,
-		IRemoteHostValidator $remoteHostValidator,
+		private IConfig $config,
+		private ICertificateManager $certificateManager,
+		private GuzzleClient $client,
+		private IRemoteHostValidator $remoteHostValidator,
 		protected LoggerInterface $logger,
+		protected ServerVersion $serverVersion,
 	) {
-		$this->config = $config;
-		$this->client = $client;
-		$this->certificateManager = $certificateManager;
-		$this->remoteHostValidator = $remoteHostValidator;
 	}
 
 	private function buildRequestOptions(array $options): array {
@@ -54,7 +47,10 @@ class Client implements IClient {
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
+			// Prefer HTTP/2 globally (PSR-7 request version)
+			RequestOptions::VERSION => '2.0',
 		];
+		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
 		if ($options['nextcloud']['allow_local_address'] === false) {
@@ -62,7 +58,7 @@ class Client implements IClient {
 				\Psr\Http\Message\RequestInterface $request,
 				\Psr\Http\Message\ResponseInterface $response,
 				\Psr\Http\Message\UriInterface $uri,
-			) use ($options) {
+			) use ($options): void {
 				$this->preventLocalAddress($uri->__toString(), $options);
 			};
 
@@ -81,11 +77,23 @@ class Client implements IClient {
 		$options = array_merge($defaults, $options);
 
 		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
-			$options[RequestOptions::HEADERS]['User-Agent'] = 'Nextcloud Server Crawler';
+			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
+			$overwriteCliUrl = $this->config->getSystemValueString('overwrite.cli.url');
+			if ($this->config->getSystemValueBool('http_client_add_user_agent_url') && !empty($overwriteCliUrl)) {
+				$userAgent .= '; +' . rtrim($overwriteCliUrl, '/');
+			}
+			$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
 		}
 
-		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
-			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+		// Ensure headers array exists and set Accept-Encoding only if not present
+		$headers = $options[RequestOptions::HEADERS] ?? [];
+		if (!isset($headers['Accept-Encoding'])) {
+			$acceptEnc = 'gzip';
+			if (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) {
+				$acceptEnc = 'br, ' . $acceptEnc;
+			}
+			$options[RequestOptions::HEADERS] = $headers; // ensure headers are present
+			$options[RequestOptions::HEADERS]['Accept-Encoding'] = $acceptEnc;
 		}
 
 		// Fallback for save_to
@@ -102,7 +110,7 @@ class Client implements IClient {
 		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiate
 		// a view
 		if (!$this->config->getSystemValueBool('installed', false)) {
-			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+			return $this->certificateManager->getDefaultCertificatesBundlePath();
 		}
 
 		return $this->certificateManager->getAbsoluteBundlePath();
@@ -149,8 +157,8 @@ class Client implements IClient {
 	}
 
 	private function isLocalAddressAllowed(array $options) : bool {
-		if (($options['nextcloud']['allow_local_address'] ?? false) ||
-			$this->config->getSystemValueBool('allow_local_remote_servers', false)) {
+		if (($options['nextcloud']['allow_local_address'] ?? false)
+			|| $this->config->getSystemValueBool('allow_local_remote_servers', false)) {
 			return true;
 		}
 
@@ -201,7 +209,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function get(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function get(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
@@ -232,7 +246,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function head(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function head(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -267,7 +287,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function post(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function post(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 
 		if (isset($options['body']) && is_array($options['body'])) {
@@ -308,7 +334,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function put(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function put(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -343,7 +375,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function patch(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function patch(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('patch', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -378,7 +416,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function delete(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function delete(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -413,7 +457,13 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function options(string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function options(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -427,6 +477,7 @@ class Client implements IClient {
 	 * @throws \Throwable When $e did not have a response
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getResponseFromThrowable(\Throwable $e): IResponse {
 		if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
 			return new Response($e->getResponse());
@@ -465,11 +516,24 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function request(string $method, string $uri, array $options = []): IResponse {
+	#[\Override]
+	public function request(
+		string $method,
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
+	}
+
+	#[\Override]
+	public function sendRequest(RequestInterface $request): ResponseInterface {
+		$this->preventLocalAddress((string)$request->getUri(), []);
+		return $this->client->send($request, $this->buildRequestOptions([]));
 	}
 
 	protected function wrapGuzzlePromise(PromiseInterface $promise): IPromise {
@@ -507,7 +571,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function getAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function getAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('get', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -536,7 +606,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function headAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function headAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('head', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -570,7 +646,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function postAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function postAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 
 		if (isset($options['body']) && is_array($options['body'])) {
@@ -609,7 +691,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function putAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function putAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('put', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -643,7 +731,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function deleteAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function deleteAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('delete', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -677,7 +771,13 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
-	public function optionsAsync(string $uri, array $options = []): IPromise {
+	#[\Override]
+	public function optionsAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('options', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);

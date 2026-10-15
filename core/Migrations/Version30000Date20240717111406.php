@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -29,27 +30,33 @@ class Version30000Date20240717111406 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
+		$schemaChanged = false;
 
 		if ($schema->hasTable('taskprocessing_tasks')) {
 			$table = $schema->getTable('taskprocessing_tasks');
 
-			$table->addColumn('webhook_uri', Types::STRING, [
-				'notnull' => false,
-				'default' => null,
-				'length' => 4000,
-			]);
-			$table->addColumn('webhook_method', Types::STRING, [
-				'notnull' => false,
-				'default' => null,
-				'length' => 64,
-			]);
-
-			return $schema;
+			if (!$table->hasColumn('webhook_uri')) {
+				$table->addColumn('webhook_uri', Types::STRING, [
+					'notnull' => false,
+					'default' => null,
+					'length' => 4000,
+				]);
+				$schemaChanged = true;
+			}
+			if (!$table->hasColumn('webhook_method')) {
+				$table->addColumn('webhook_method', Types::STRING, [
+					'notnull' => false,
+					'default' => null,
+					'length' => 64,
+				]);
+				$schemaChanged = true;
+			}
 		}
 
-		return null;
+		return $schemaChanged ? $schema : null;
 	}
 }

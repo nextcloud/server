@@ -1,10 +1,13 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 
 class Users extends Base {
@@ -24,9 +27,10 @@ class Users extends Base {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -51,7 +55,7 @@ class Users extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED) {
 			$subject = $this->l->t('Share expired');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -68,9 +72,10 @@ class Users extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -95,7 +100,7 @@ class Users extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED) {
 			$subject = $this->l->t('Share for file {file} expired');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -137,6 +142,7 @@ class Users extends Base {
 					'actor' => $this->getUser($parameters[1]),
 				];
 		}
-		return [];
+
+		throw new UnknownActivityException();
 	}
 }

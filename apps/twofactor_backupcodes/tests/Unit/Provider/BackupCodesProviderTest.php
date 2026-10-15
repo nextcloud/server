@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Provider;
 
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Server;
@@ -25,7 +26,7 @@ class BackupCodesProviderTest extends TestCase {
 	private BackupCodeStorage&MockObject $storage;
 	private IL10N&MockObject $l10n;
 	private AppManager&MockObject $appManager;
-	private IInitialStateService&MockObject $initialState;
+	private IInitialState&MockObject $initialState;
 
 	private ITemplateManager $templateManager;
 	private BackupCodesProvider $provider;
@@ -37,7 +38,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->storage = $this->createMock(BackupCodeStorage::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(AppManager::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = Server::get(ITemplateManager::class);
 
 		$this->provider = new BackupCodesProvider(

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +12,7 @@ namespace Test\App\AppStore\Fetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 
 class CategoryFetcherTest extends FetcherBase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fileName = 'categories.json';

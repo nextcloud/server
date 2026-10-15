@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Db;
 
 use Generator;
@@ -51,7 +52,6 @@ abstract class QBMapper {
 		}
 	}
 
-
 	/**
 	 * @return string the table name
 	 * @since 14.0.0
@@ -59,7 +59,6 @@ abstract class QBMapper {
 	public function getTableName(): string {
 		return $this->tableName;
 	}
-
 
 	/**
 	 * Deletes an entity from the table
@@ -84,7 +83,6 @@ abstract class QBMapper {
 		return $entity;
 	}
 
-
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
@@ -96,6 +94,11 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	public function insert(Entity $entity): Entity {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+		}
+
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -109,17 +112,20 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
 			$type = $this->getParameterTypeForProperty($entity, $property);
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeStatement();
-
 		if ($entity->id === null) {
+			$qb->executeStatement();
 			// When autoincrement is used id is always an int
 			$entity->setId($qb->getLastInsertId());
+		} else {
+			$qb->executeStatement();
 		}
-
 		return $entity;
 	}
 
@@ -253,7 +259,7 @@ abstract class QBMapper {
 	}
 
 	/**
-	 * Returns an db result and throws exceptions when there are more or less
+	 * Returns a db result and throws exceptions when there are more or less
 	 * results
 	 *
 	 * @param IQueryBuilder $query
@@ -268,7 +274,7 @@ abstract class QBMapper {
 	protected function findOneQuery(IQueryBuilder $query): array {
 		$result = $query->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		if ($row === false) {
 			$result->closeCursor();
 			$msg = $this->buildDebugMessage(
@@ -277,7 +283,7 @@ abstract class QBMapper {
 			throw new DoesNotExistException($msg);
 		}
 
-		$row2 = $result->fetch();
+		$row2 = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($row2 !== false) {
 			$msg = $this->buildDebugMessage(
@@ -296,10 +302,9 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
-		return $msg .
-			': query "' . $sql->getSQL() . '"; ';
+		return $msg
+			. ': query "' . $sql->getSQL() . '"; ';
 	}
-
 
 	/**
 	 * Creates an entity from a row. Automatically determines the entity class
@@ -315,7 +320,6 @@ abstract class QBMapper {
 		return \call_user_func($this->entityClass . '::fromRow', $row);
 	}
 
-
 	/**
 	 * Runs a sql query and returns an array of entities
 	 *
@@ -329,7 +333,7 @@ abstract class QBMapper {
 		$result = $query->executeQuery();
 		try {
 			$entities = [];
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$entities[] = $this->mapRowToEntity($row);
 			}
 			return $entities;
@@ -350,14 +354,13 @@ abstract class QBMapper {
 	protected function yieldEntities(IQueryBuilder $query): Generator {
 		$result = $query->executeQuery();
 		try {
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				yield $this->mapRowToEntity($row);
 			}
 		} finally {
 			$result->closeCursor();
 		}
 	}
-
 
 	/**
 	 * Returns an db result and throws exceptions when there are more or less

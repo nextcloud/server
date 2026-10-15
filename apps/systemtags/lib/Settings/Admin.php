@@ -1,27 +1,46 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\SystemTags\Settings;
 
+use OCA\SystemTags\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
 class Admin implements ISettings {
 
+	public function __construct(
+		private IAppConfig $appConfig,
+		private IInitialState $initialStateService,
+	) {
+	}
+
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
-		Util::addScript('systemtags', 'admin');
-		return new TemplateResponse('systemtags', 'admin', [], '');
+		$restrictSystemTagsCreationToAdmin = $this->appConfig->getValueBool(Application::APP_ID, 'restrict_creation_to_admin', false);
+		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $restrictSystemTagsCreationToAdmin);
+
+		Util::addStyle(Application::APP_ID, 'admin');
+		Util::addScript(Application::APP_ID, 'admin');
+		return new TemplateResponse(Application::APP_ID, 'admin', [], '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'server';
 	}
@@ -33,6 +52,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 70;
 	}

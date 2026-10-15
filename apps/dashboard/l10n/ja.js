@@ -16,12 +16,11 @@ OC.L10N.register(
     "Hello, {name}" : "こんにちは、{name} さん",
     "Happy birthday 🥳🤩🎂🎉" : "お誕生日おめでとう 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "お誕生日おめでとう、{name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} アイコン\"",
     "Customize" : "カスタマイズ",
     "Edit widgets" : "ウィジェットを編集",
     "Get more widgets from the App Store" : "アプリストアから他のガジェットを入手",
     "Weather service" : "ウェザーサービス",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "あなたのプライバシーを保護するため、あなたに変わって Nextcloud サーバーが気象データをウェザーサービスに要求します。そのため、ウェザーサービスはあなたの個人情報を受け取ることはありません。",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "プライバシー保護のため、気象データはユーザに代わって{productName}サーバーによって要求されるため気象サービスが個人情報を受け取ることはありません。",
     "Weather data from Met.no" : "気象データ提供元は Met.no",
     "geocoding with Nominatim" : "Nominatim でジオコーディング",
     "elevation data from OpenTopoData" : "標高データ提供元は OpenTopoData です"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,53 +9,26 @@
 namespace Test;
 
 use OC\Installer;
-use OC\IntegrityCheck\Checker;
 use OC\Updater;
-use OCP\IAppConfig;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\IConfig;
-use OCP\ServerVersion;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
-	/** @var ServerVersion|MockObject */
-	private $serverVersion;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IAppConfig|MockObject */
-	private $appConfig;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 	/** @var Updater */
 	private $updater;
-	/** @var Checker|MockObject */
-	private $checker;
-	/** @var Installer|MockObject */
-	private $installer;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->serverVersion = $this->createMock(ServerVersion::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->checker = $this->createMock(Checker::class);
-		$this->installer = $this->createMock(Installer::class);
 
-		$this->updater = new Updater(
-			$this->serverVersion,
-			$this->config,
-			$this->appConfig,
-			$this->checker,
-			$this->logger,
-			$this->installer
-		);
+		$this->updater = $this->createInstanceWithMocks(Updater::class);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function versionCompatibilityTestData() {
+	public static function versionCompatibilityTestData(): array {
 		return [
 			// Upgrade with invalid version
 			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], false],
@@ -81,7 +55,6 @@ class UpdaterTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider versionCompatibilityTestData
 	 *
 	 * @param string $oldVersion
 	 * @param string $newVersion
@@ -90,16 +63,68 @@ class UpdaterTest extends TestCase {
 	 * @param bool $debug
 	 * @param string $vendor
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionCompatibilityTestData')]
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
-		$this->config->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueBool')
 			->with('debug', false)
 			->willReturn($debug);
-		$this->config->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'vendor', '')
 			->willReturn($vendor);
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function majorUpgradeTestData(): array {
+		return [
+			// Same major version
+			['33.0.0.10', '33.1.2.3', false],
+			// Major upgrade
+			['33.0.5.1', '34.0.0.10', true],
+			// Downgrade, only reachable with debug enabled
+			['34.0.0.10', '33.0.5.1', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('majorUpgradeTestData')]
+	public function testIsMajorUpgrade(string $installedVersion, string $currentVersion, bool $result): void {
+		$this->assertSame($result, self::invokePrivate($this->updater, 'isMajorUpgrade', [$installedVersion, $currentVersion]));
+	}
+
+	public function testUpgradeAppStoreAppsRestoresMissingAutoDisabledAppBeforeEnabling(): void {
+		$this->getAutoMock(Installer::class)->expects($this->once())
+			->method('isUpdateAvailable')
+			->with('mailroundcube')
+			->willReturn(false);
+
+		$this->getAutoMock(Installer::class)->expects($this->once())
+			->method('downloadApp')
+			->with('mailroundcube');
+
+		$this->getAutoMock(Installer::class)->expects($this->once())
+			->method('installApp')
+			->with('mailroundcube');
+
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
+			->method('getAppPath')
+			->with('mailroundcube', true)
+			->willThrowException(new AppPathNotFoundException('missing'));
+
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
+			->method('enableApp')
+			->with('mailroundcube');
+
+		$this->getAutoMock(IAppManager::class)->expects($this->never())
+			->method('enableAppForGroups');
+
+		self::invokePrivate($this->updater, 'upgradeAppStoreApps', [
+			['mailroundcube'],
+			['mailroundcube' => 'yes'],
+		]);
 	}
 }

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Calendar\Room;
 
 use OCP\Calendar\BackendTemporarilyUnavailableException;
@@ -14,7 +16,7 @@ use OCP\Calendar\BackendTemporarilyUnavailableException;
  */
 interface IBackend {
 	/**
-	 * get a list of all rooms in this backend
+	 * Get a list of all rooms in this backend.
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return IRoom[]
@@ -23,7 +25,7 @@ interface IBackend {
 	public function getAllRooms():array;
 
 	/**
-	 * get a list of all room identifiers in this backend
+	 * Get a list of all room identifiers in this backend.
 	 *
 	 * @throws BackendTemporarilyUnavailableException
 	 * @return string[]
@@ -32,7 +34,7 @@ interface IBackend {
 	public function listAllRooms():array;
 
 	/**
-	 * get a room by it's id
+	 * Get a room by its id.
 	 *
 	 * @param string $id
 	 * @throws BackendTemporarilyUnavailableException
@@ -42,7 +44,7 @@ interface IBackend {
 	public function getRoom($id);
 
 	/**
-	 * Get unique identifier of the backend
+	 * Get unique identifier of the backend.
 	 *
 	 * @return string
 	 * @since 14.0.0

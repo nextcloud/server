@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Share20;
 
 use OCP\EventDispatcher\IEventDispatcher;
@@ -16,25 +18,22 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 
 class LegacyHooks {
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(IEventDispatcher $eventDispatcher) {
-		$this->eventDispatcher = $eventDispatcher;
-
-		$this->eventDispatcher->addListener(BeforeShareDeletedEvent::class, function (BeforeShareDeletedEvent $event) {
+	public function __construct(
+		private IEventDispatcher $eventDispatcher,
+	) {
+		$this->eventDispatcher->addListener(BeforeShareDeletedEvent::class, function (BeforeShareDeletedEvent $event): void {
 			$this->preUnshare($event);
 		});
-		$this->eventDispatcher->addListener(ShareDeletedEvent::class, function (ShareDeletedEvent $event) {
+		$this->eventDispatcher->addListener(ShareDeletedEvent::class, function (ShareDeletedEvent $event): void {
 			$this->postUnshare($event);
 		});
-		$this->eventDispatcher->addListener(ShareDeletedFromSelfEvent::class, function (ShareDeletedFromSelfEvent $event) {
+		$this->eventDispatcher->addListener(ShareDeletedFromSelfEvent::class, function (ShareDeletedFromSelfEvent $event): void {
 			$this->postUnshareFromSelf($event);
 		});
-		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event): void {
 			$this->preShare($event);
 		});
-		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->postShare($event);
 		});
 	}
@@ -69,9 +68,9 @@ class LegacyHooks {
 		// Prepare hook
 		$shareType = $share->getShareType();
 		$sharedWith = '';
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_REMOTE) {
 			$sharedWith = $share->getSharedWith();
 		}
 
@@ -81,7 +80,7 @@ class LegacyHooks {
 			'itemSource' => $share->getNodeId(),
 			'shareType' => $shareType,
 			'shareWith' => $sharedWith,
-			'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
+			'itemparent' => $share->getParent(),
 			'uidOwner' => $share->getSharedBy(),
 			'fileSource' => $share->getNodeId(),
 			'fileTarget' => $share->getTarget()

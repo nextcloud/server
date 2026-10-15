@@ -30,6 +30,7 @@ class BruteforceAllowListTest extends TestCase {
 	/** @var BruteforceAllowList */
 	private $allowList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -42,7 +43,7 @@ class BruteforceAllowListTest extends TestCase {
 		);
 	}
 
-	public function dataIsBypassListed(): array {
+	public static function dataIsBypassListed(): array {
 		return [
 			[
 				'10.10.10.10',
@@ -130,17 +131,16 @@ class BruteforceAllowListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsBypassListed
-	 *
 	 * @param string[] $allowList
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsBypassListed')]
 	public function testIsBypassListed(
 		string $ip,
 		array $allowList,
 		bool $isAllowListed,
 	): void {
-		$this->appConfig->method('getKeys')
-			->with($this->equalTo('bruteForce'))
+		$this->appConfig->method('searchKeys')
+			->with($this->equalTo('bruteForce'), $this->equalTo('whitelist_'))
 			->willReturn(array_keys($allowList));
 
 		$this->appConfig->method('getValueString')

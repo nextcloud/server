@@ -1,11 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
@@ -25,11 +30,12 @@ class AppleProvisioningNode implements INode, IProperties {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return self::FILENAME;
 	}
 
-
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Renaming ' . self::FILENAME . ' is forbidden');
 	}
@@ -37,6 +43,7 @@ class AppleProvisioningNode implements INode, IProperties {
 	/**
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}
@@ -44,6 +51,7 @@ class AppleProvisioningNode implements INode, IProperties {
 	/**
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function delete() {
 		throw new Forbidden(self::FILENAME . ' may not be deleted.');
 	}
@@ -52,12 +60,13 @@ class AppleProvisioningNode implements INode, IProperties {
 	 * @param array $properties
 	 * @return array
 	 */
+	#[\Override]
 	public function getProperties($properties) {
 		$datetime = $this->timeFactory->getDateTime();
 
 		return [
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC2822),
+			'{DAV:}getlastmodified' => $datetime->format(Constants::DATE_RFC7231),
 		];
 	}
 
@@ -65,6 +74,7 @@ class AppleProvisioningNode implements INode, IProperties {
 	 * @param PropPatch $propPatch
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function propPatch(PropPatch $propPatch) {
 		throw new Forbidden(self::FILENAME . '\'s properties may not be altered.');
 	}

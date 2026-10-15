@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,10 +8,11 @@
 namespace Test\RichObjectStrings;
 
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
-	public function dataGetDefinition() {
+	public static function dataGetDefinition() {
 		$definitions = new Definitions();
 		$testsuite = [];
 		foreach ($definitions->definitions as $type => $definition) {
@@ -19,9 +21,8 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-	
 	public function testGetDefinitionNotExisting(): void {
-		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
+		$this->expectException(InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
 
 		$definitions = new Definitions();
@@ -29,10 +30,10 @@ class DefinitionsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetDefinition
 	 * @param string $type
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDefinition')]
 	public function testGetDefinition($type, array $expected): void {
 		$definitions = new Definitions();
 		$definition = $definitions->getDefinition($type);
@@ -47,7 +48,6 @@ class DefinitionsTest extends TestCase {
 		$this->assertArrayHasKey('parameters', $definition);
 		$this->assertTrue(is_array($definition['parameters']), 'Parameters of definition must be of type array');
 		$this->assertNotEmpty($definition['parameters'], 'Parameters of definition must not be empty');
-
 
 		$this->assertArrayHasKey('id', $definition['parameters'], 'Parameter ID must be defined');
 		$this->assertArrayHasKey('name', $definition['parameters'], 'Parameter name must be defined');

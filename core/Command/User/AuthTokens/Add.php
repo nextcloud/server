@@ -6,13 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\User\Manager as UserManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -24,14 +25,15 @@ use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
 	public function __construct(
-		protected IUserManager $userManager,
-		protected IProvider $tokenProvider,
+		private UserManager $userManager,
+		private IProvider $tokenProvider,
 		private ISecureRandom $random,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:auth-tokens:add')
@@ -48,9 +50,22 @@ class Add extends Command {
 				InputOption::VALUE_NONE,
 				'Read password from environment variable NC_PASS/OC_PASS. Alternatively it will be asked for interactively or an app password without the login password will be created.'
 			)
+			->addOption(
+				'name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Name for the app password, defaults to "cli".'
+			)
+			->addOption(
+				'login-name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Optional login-name, defaults to UID'
+			)
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 		$password = null;
@@ -62,9 +77,9 @@ class Add extends Command {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('NC_PASS') ?? getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but NC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
@@ -77,17 +92,30 @@ class Add extends Command {
 			$password = $helper->ask($input, $output, $question);
 		}
 
+		$loginName = $input->getOption('login-name') ?? $user->getUID();
+
 		if ($password === null) {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
+		} else {
+			$loggedInUser = $this->userManager->checkPasswordNoLogging($loginName, $password);
+			if ($loggedInUser === false) {
+				$output->writeln('<error>The given password is invalid for login ' . $loginName . '</error>');
+				return self::FAILURE;
+			} elseif ($loggedInUser->getUID() !== $user->getUID()) {
+				$output->writeln('<error>The user ' . $username . ' does not match the given login ' . $loginName . '</error>');
+				return self::FAILURE;
+			}
 		}
+
+		$tokenName = $input->getOption('name') ?: 'cli';
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
-			$user->getUID(),
+			$loginName,
 			$password,
-			'cli',
+			$tokenName,
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);

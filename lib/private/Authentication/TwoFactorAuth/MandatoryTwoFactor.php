@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth;
 
 use OCP\IConfig;
@@ -13,15 +14,10 @@ use OCP\IGroupManager;
 use OCP\IUser;
 
 class MandatoryTwoFactor {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	public function __construct(IConfig $config, IGroupManager $groupManager) {
-		$this->config = $config;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		private IConfig $config,
+		private IGroupManager $groupManager,
+	) {
 	}
 
 	/**

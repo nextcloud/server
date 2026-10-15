@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDashboard
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Dashboard\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Dashboard\\' => 
+        'OCA\\Dashboard\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

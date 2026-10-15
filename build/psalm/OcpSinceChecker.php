@@ -1,12 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\EnumCase;
 use Psalm\CodeLocation;
 use Psalm\DocComment;
 use Psalm\Exception\DocblockParseException;
@@ -20,20 +25,85 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		$classLike = $event->getStmt();
 		$statementsSource = $event->getStatementsSource();
 
-		self::checkClassComment($classLike, $statementsSource);
+		if (!str_contains($statementsSource->getFilePath(), '/lib/public/')) {
+			return;
+		}
 
+		$isTesting = str_contains($statementsSource->getFilePath(), '/lib/public/Notification/')
+			|| str_contains($statementsSource->getFilePath(), '/lib/public/Config/')
+			|| str_contains($statementsSource->getFilePath(), '/lib/public/Migration/Attributes/')
+			|| str_contains($statementsSource->getFilePath(), 'CalendarEventStatus');
+
+		if ($isTesting) {
+			self::checkStatementAttributes($classLike, $statementsSource);
+		} else {
+			self::checkClassComment($classLike, $statementsSource);
+		}
 		foreach ($classLike->stmts as $stmt) {
 			if ($stmt instanceof ClassConst) {
 				self::checkStatementComment($stmt, $statementsSource, 'constant');
 			}
 
-			if ($stmt instanceof ClassMethod) {
+			if ($stmt instanceof ClassMethod && ($stmt->isPublic() || $stmt->isProtected())) {
 				self::checkStatementComment($stmt, $statementsSource, 'method');
 			}
 
 			if ($stmt instanceof EnumCase) {
-				self::checkStatementComment($stmt, $statementsSource, 'enum');
+				if ($isTesting) {
+					self::checkStatementAttributes($classLike, $statementsSource);
+				} else {
+					self::checkStatementComment($stmt, $statementsSource, 'enum');
+				}
 			}
+		}
+	}
+
+	private static function checkStatementAttributes(ClassLike $stmt, FileSource $statementsSource): void {
+		$hasAppFrameworkAttribute = false;
+		$mustBeConsumable = false;
+		$isConsumable = false;
+		foreach ($stmt->attrGroups as $attrGroup) {
+			foreach ($attrGroup->attrs as $attr) {
+				if (in_array($attr->name->getLast(), [
+					'Catchable',
+					'Consumable',
+					'Dispatchable',
+					'Implementable',
+					'Listenable',
+					'Throwable',
+				], true)) {
+					$hasAppFrameworkAttribute = true;
+					self::checkAttributeHasValidSinceVersion($attr, $statementsSource);
+				}
+				if (in_array($attr->name->getLast(), [
+					'Catchable',
+					'Consumable',
+					'Listenable',
+				], true)) {
+					$isConsumable = true;
+				}
+				if ($attr->name->getLast() === 'ExceptionalImplementable') {
+					$mustBeConsumable = true;
+				}
+			}
+		}
+
+		if ($mustBeConsumable && !$isConsumable) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'Attribute OCP\\AppFramework\\Attribute\\ExceptionalImplementable is only valid on classes that also have OCP\\AppFramework\\Attribute\\Consumable',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
+		}
+
+		if (!$hasAppFrameworkAttribute) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'At least one of the OCP\\AppFramework\\Attribute attributes is required',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
 		}
 	}
 
@@ -122,6 +192,30 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 					new CodeLocation($statementsSource, $stmt)
 				)
 			);
+		}
+	}
+
+	private static function checkAttributeHasValidSinceVersion(\PhpParser\Node\Attribute $stmt, FileSource $statementsSource): void {
+		foreach ($stmt->args as $arg) {
+			if ($arg->name?->name === 'since') {
+				if (!$arg->value instanceof \PhpParser\Node\Scalar\String_) {
+					IssueBuffer::maybeAdd(
+						new InvalidDocblock(
+							'Attribute since argument is not a valid version string',
+							new CodeLocation($statementsSource, $stmt)
+						)
+					);
+				} else {
+					if (!preg_match('/^[1-9][0-9]*(\.[0-9]+){0,3}$/', $arg->value->value)) {
+						IssueBuffer::maybeAdd(
+							new InvalidDocblock(
+								'Attribute since argument is not a valid version string',
+								new CodeLocation($statementsSource, $stmt)
+							)
+						);
+					}
+				}
+			}
 		}
 	}
 }

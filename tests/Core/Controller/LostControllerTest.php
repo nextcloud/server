@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -52,6 +53,7 @@ class LostControllerTest extends TestCase {
 	private $defaults;
 	/** @var IConfig | MockObject */
 	private $config;
+	private string $lostPasswordLink = '';
 	/** @var IMailer | MockObject */
 	private $mailer;
 	/** @var IManager|MockObject */
@@ -71,6 +73,7 @@ class LostControllerTest extends TestCase {
 	/** @var Limiter|MockObject */
 	private $limiter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -91,11 +94,13 @@ class LostControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->willReturnMap([
-				['secret', null, 'SECRET'],
-				['secret', '', 'SECRET'],
-				['lost_password_link', '', ''],
-			]);
+			->willReturnCallback(function (string $key, $default = '') {
+				return match ($key) {
+					'secret' => 'SECRET',
+					'lost_password_link' => $this->lostPasswordLink,
+					default => $default,
+				};
+			});
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -103,8 +108,12 @@ class LostControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l10n->method('getLanguageCode')->willReturn('de');
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -160,6 +169,29 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testResetFormTokenErrorWithDisabledLink(): void {
+		$this->lostPasswordLink = 'disabled';
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+		$this->verificationToken->expects($this->once())
+			->method('check')
+			->with('12345:MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_NOT_FOUND));
+
+		$response = $this->lostController->resetform('12345:MySecretToken', 'ValidTokenUser');
+		$expectedResponse = new TemplateResponse('core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Password reset is disabled'],
+				]
+			],
+			'guest');
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	public function testResetFormValidToken(): void {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
@@ -172,13 +204,18 @@ class LostControllerTest extends TestCase {
 			->method('linkToRouteAbsolute')
 			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'MySecretToken'])
 			->willReturn('https://example.tld/index.php/lostpassword/set/sometoken/someuser');
+
+		$calls = [
+			['resetPasswordUser', 'ValidTokenUser'],
+			['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser'],
+		];
 		$this->initialState
 			->expects($this->exactly(2))
 			->method('provideInitialState')
-			->withConsecutive(
-				['resetPasswordUser', 'ValidTokenUser'],
-				['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser']
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$response = $this->lostController->resetform('MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
@@ -256,6 +293,9 @@ class LostControllerTest extends TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
 			->willReturn('HTML body');
@@ -398,7 +438,7 @@ class LostControllerTest extends TestCase {
 			->expects($this->once())
 			->method('send')
 			->with($message)
-			->will($this->throwException(new \Exception()));
+			->willThrowException(new \Exception());
 
 		$this->logger->expects($this->exactly(1))
 			->method('error');
@@ -448,12 +488,19 @@ class LostControllerTest extends TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-		$beforePasswordResetEvent = new BeforePasswordResetEvent($this->existingUser, 'NewPassword');
-		$passwordResetEvent = new PasswordResetEvent($this->existingUser, 'NewPassword');
+
+		$calls = [
+			[new BeforePasswordResetEvent($this->existingUser, 'NewPassword')],
+			[new PasswordResetEvent($this->existingUser, 'NewPassword')],
+		];
 		$this->eventDispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->withConsecutive([$beforePasswordResetEvent], [$passwordResetEvent]);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword');
@@ -662,22 +709,21 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-
 	/**
 	 * @return array
 	 */
-	public function dataTwoUserswithSameEmailOneDisabled(): array {
+	public static function dataTwoUsersWithSameEmailOneDisabled(): array {
 		return [
-			['user1' => true, 'user2' => false],
-			['user1' => false, 'user2' => true]
+			['userEnabled1' => true, 'userEnabled2' => false],
+			['userEnabled1' => false, 'userEnabled2' => true]
 		];
 	}
 
 	/**
-	 * @dataProvider dataTwoUserswithSameEmailOneDisabled
 	 * @param bool $userEnabled1
 	 * @param bool $userEnabled2
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTwoUsersWithSameEmailOneDisabled')]
 	public function testTwoUsersWithSameEmailOneDisabled(bool $userEnabled1, bool $userEnabled2): void {
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getEMailAddress')

@@ -1,10 +1,13 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -33,9 +36,10 @@ class RemoteShares extends Base {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -44,7 +48,7 @@ class RemoteShares extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
 			$subject = $this->l->t('{user} declined the remote share');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -61,9 +65,10 @@ class RemoteShares extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -76,7 +81,7 @@ class RemoteShares extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_UNSHARED) {
 			$subject = $this->l->t('{user} unshared {file} from you');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -116,6 +121,6 @@ class RemoteShares extends Base {
 					'user' => $this->getUser($parameters[0]),
 				];
 		}
-		throw new \InvalidArgumentException();
+		throw new UnknownActivityException();
 	}
 }

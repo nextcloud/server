@@ -5,12 +5,15 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\ConnectionActivityMiddleware;
+use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
@@ -88,12 +91,23 @@ class ConnectionFactory {
 			throw new \InvalidArgumentException("Unsupported type: $type");
 		}
 		$result = $this->defaultConnectionParams[$normalizedType];
-		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
-		// driver is missing. In this case, we won't be able to connect anyway.
-		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
-			$result['driverOptions'] = [
-				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
-			];
+		/**
+		 * {@see \PDO::MYSQL_ATTR_FOUND_ROWS} may not be defined, e.g. when the MySQL
+		 * driver is missing. In this case, we won't be able to connect anyway.
+		 * In PHP 8.5 it's deprecated and {@see \Pdo\Mysql::ATTR_FOUND_ROWS} should be used,
+		 * but that is only available since PHP 8.4
+		 */
+		if ($normalizedType === 'mysql') {
+			if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+				/** @psalm-suppress UndefinedClass */
+				$result['driverOptions'] = [
+					\Pdo\Mysql::ATTR_FOUND_ROWS => true,
+				];
+			} elseif (PHP_VERSION_ID < 80500 && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
+				$result['driverOptions'] = [
+					\PDO::MYSQL_ATTR_FOUND_ROWS => true,
+				];
+			}
 		}
 		return $result;
 	}
@@ -121,21 +135,9 @@ class ConnectionFactory {
 
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
-				// the driverOptions are unused in dbal and need to be mapped to the parameters
-				if (isset($connectionParams['driverOptions'])) {
-					$connectionParams = array_merge($connectionParams, $connectionParams['driverOptions']);
-				}
-				$host = $connectionParams['host'];
-				$port = $connectionParams['port'] ?? null;
-				$dbName = $connectionParams['dbname'];
-
-				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
-				if ($host === '') {
-					$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
-				} else {
-					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
-				}
-				unset($connectionParams['host']);
+				$connectionParams = $this->forceConnectionStringOracle($connectionParams);
+				$connectionParams['primary'] = $this->forceConnectionStringOracle($connectionParams['primary']);
+				$connectionParams['replica'] = array_map([$this, 'forceConnectionStringOracle'], $connectionParams['replica']);
 				break;
 
 			case 'sqlite3':
@@ -144,10 +146,17 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
+		$configuration = new Configuration();
+		$activityMiddleware = new ConnectionActivityMiddleware();
+		$configuration->setMiddlewares([
+			new UtcTimezoneMiddleware(),
+			$activityMiddleware,
+		]);
+		$connectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;
@@ -201,7 +210,7 @@ class ConnectionFactory {
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
-			$connectionParams['driverOptions'] = $driverOptions;
+			$connectionParams['driverOptions'] = $driverOptions + ($connectionParams['driverOptions'] ?? []);
 		}
 
 		// set default table creation options
@@ -209,6 +218,17 @@ class ConnectionFactory {
 			'collate' => 'utf8_bin',
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
+
+		if ($type === 'pgsql') {
+			$pgsqlSsl = $this->config->getValue('pgsql_ssl', false);
+			if (is_array($pgsqlSsl)) {
+				$connectionParams['sslmode'] = $pgsqlSsl['mode'] ?? '';
+				$connectionParams['sslrootcert'] = $pgsqlSsl['rootcert'] ?? '';
+				$connectionParams['sslcert'] = $pgsqlSsl['cert'] ?? '';
+				$connectionParams['sslkey'] = $pgsqlSsl['key'] ?? '';
+				$connectionParams['sslcrl'] = $pgsqlSsl['crl'] ?? '';
+			}
+		}
 
 		if ($type === 'mysql' && $this->config->getValue('mysql.utf8mb4', false)) {
 			$connectionParams['defaultTableOptions'] = [
@@ -264,5 +284,25 @@ class ConnectionFactory {
 		}
 
 		return $params;
+	}
+
+	protected function forceConnectionStringOracle(array $connectionParams): array {
+		// the driverOptions are unused in dbal and need to be mapped to the parameters
+		if (isset($connectionParams['driverOptions'])) {
+			$connectionParams = array_merge($connectionParams, $connectionParams['driverOptions']);
+		}
+		$host = $connectionParams['host'];
+		$port = $connectionParams['port'] ?? null;
+		$dbName = $connectionParams['dbname'];
+
+		// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
+		if ($host === '') {
+			$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
+		} else {
+			$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
+		}
+		unset($connectionParams['host']);
+
+		return $connectionParams;
 	}
 }

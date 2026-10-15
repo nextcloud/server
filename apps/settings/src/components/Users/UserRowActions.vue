@@ -4,23 +4,26 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
+	<NcActions
+		:aria-label="t('settings', 'Toggle account actions menu')"
 		:disabled="disabled"
 		:inline="1">
-		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
+		<NcActionButton
+			data-cy-user-list-action-edit
 			:disabled="disabled"
-			@click="toggleEdit">
-			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
+			@click="$emit('update:edit', true)">
+			{{ t('settings', 'Edit') }}
 			<template #icon>
-				<NcIconSvgWrapper :key="editSvg" :svg="editSvg" aria-hidden="true" />
+				<NcIconSvgWrapper :svg="SvgPencil" aria-hidden="true" />
 			</template>
 		</NcActionButton>
-		<NcActionButton v-for="({ action, icon, text }, index) in enabledActions"
+		<NcActionButton
+			v-for="({ action, icon, text }, index) in enabledActions"
 			:key="index"
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
-			close-after-click
+			closeAfterClick
 			@click="(event) => action(event, { ...user })">
 			{{ text }}
 			<template v-if="isSvg(icon)" #icon>
@@ -30,90 +33,31 @@
 	</NcActions>
 </template>
 
-<script lang="ts">
-import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
+import { translate as t } from '@nextcloud/l10n'
 import isSvg from 'is-svg'
-
+import { computed } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import SvgCheck from '@mdi/svg/svg/check.svg?raw'
-import SvgPencil from '@mdi/svg/svg/pencil.svg?raw'
 
 interface UserAction {
-	action: (event: MouseEvent, user: Record<string, unknown>) => void,
-	enabled?: (user: Record<string, unknown>) => boolean,
-	icon: string,
-	text: string,
+	action: (event: MouseEvent, user: Record<string, unknown>) => void
+	enabled?: (user: Record<string, unknown>) => boolean
+	icon: string
+	text: string
 }
 
-export default defineComponent({
-	components: {
-		NcActionButton,
-		NcActions,
-		NcIconSvgWrapper,
-	},
+const props = defineProps<{
+	actions: readonly UserAction[]
+	disabled: boolean
+	user: Record<string, unknown>
+}>()
 
-	props: {
-		/**
-		 * Array of user actions
-		 */
-		actions: {
-			type: Array as PropType<readonly UserAction[]>,
-			required: true,
-		},
+defineEmits<{
+	'update:edit': [value: boolean]
+}>()
 
-		/**
-		 * The state whether the row is currently disabled
-		 */
-		disabled: {
-			type: Boolean,
-			required: true,
-		},
-
-		/**
-		 * The state whether the row is currently edited
-		 */
-		edit: {
-			type: Boolean,
-			required: true,
-		},
-
-		/**
-		 * Target of this actions
-		 */
-		user: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	computed: {
-		/**
-		 * Current MDI logo to show for edit toggle
-		 */
-		editSvg(): string {
-			return this.edit ? SvgCheck : SvgPencil
-		},
-
-		/**
-		 * Enabled user row actions
-		 */
-		enabledActions(): UserAction[] {
-			return this.actions.filter(action => typeof action.enabled === 'function' ? action.enabled(this.user) : true)
-		},
-	},
-
-	methods: {
-		isSvg,
-
-		/**
-		 * Toggle edit mode by emitting the update event
-		 */
-		toggleEdit() {
-			this.$emit('update:edit', !this.edit)
-		},
-	},
-})
+const enabledActions = computed<UserAction[]>(() => props.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(props.user) : true))
 </script>

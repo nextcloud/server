@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitCloudFederationAPI
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\CloudFederationAPI\\' => 23,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\CloudFederationAPI\\' => 
+        'OCA\\CloudFederationAPI\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -23,9 +23,13 @@ class ComposerStaticInitCloudFederationAPI
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\CloudFederationAPI\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
-        'OCA\\CloudFederationAPI\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\CloudFederationAPI\\Config' => __DIR__ . '/..' . '/../lib/Config.php',
+        'OCA\\CloudFederationAPI\\Controller\\OCMRequestController' => __DIR__ . '/..' . '/../lib/Controller/OCMRequestController.php',
         'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
+        'OCA\\CloudFederationAPI\\Controller\\TokenController' => __DIR__ . '/..' . '/../lib/Controller/TokenController.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => __DIR__ . '/..' . '/../lib/Migration/Version1017Date20260306120000.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version2000Date20260919141251' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20260919141251.php',
         'OCA\\CloudFederationAPI\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 

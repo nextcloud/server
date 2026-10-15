@@ -6,21 +6,23 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Server;
+use OC\Settings\Manager;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\LoadAdditionalEntriesListener;
 use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
-use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
 use OCA\Settings\Settings\Admin\MailProvider;
@@ -66,12 +68,18 @@ use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\RepairSanitizeSystemTagsAvailable;
 use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
+use OCA\Settings\SetupChecks\ServerIdConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
+use OCA\Settings\SetupChecks\TaskProcessingSuccessRate;
+use OCA\Settings\SetupChecks\TaskProcessingWorkerIsRunning;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\TwoFactorConfiguration;
 use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
@@ -81,41 +89,51 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\QueryException;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IServerContainer;
+use OCP\IConfig;
+use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
 
-	/**
-	 * @param array $urlParams
-	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register Middleware
 		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
-		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, Hooks::class);
+		$context->registerEventListener(UserChangedEvent::class, Hooks::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 
 		// Register Mail Provider listeners
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
@@ -131,32 +149,23 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->query(IProvider::class);
+		$context->registerService(IProvider::class, function (): IProvider {
+			return Server::get(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->getSettingsManager();
+		$context->registerService(IManager::class, function (): Manager {
+			return  Server::get(Manager::class);
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
-			/** @var Server $server */
-			$server = $appContainer->query(IServerContainer::class);
-			/** @var Defaults $defaults */
-			$defaults = $server->query(Defaults::class);
-
+		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $appContainer) {
 			return new NewUserMailHelper(
-				$defaults,
-				$server->getURLGenerator(),
-				$server->getL10NFactory(),
-				$server->getMailer(),
-				$server->getSecureRandom(),
+				Server::get(Defaults::class),
+				$appContainer->get(IURLGenerator::class),
+				$appContainer->get(IFactory::class),
+				$appContainer->get(IMailer::class),
+				$appContainer->get(ISecureRandom::class),
 				new TimeFactory(),
-				$server->getConfig(),
-				$server->getCrypto(),
+				$appContainer->get(IConfig::class),
+				$appContainer->get(ICrypto::class),
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
@@ -202,12 +211,18 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(RepairSanitizeSystemTagsAvailable::class);
 		$context->registerSetupCheck(SecurityHeaders::class);
+		$context->registerSetupCheck(ServerIdConfig::class);
 		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
+		$context->registerSetupCheck(TaskProcessingSuccessRate::class);
+		$context->registerSetupCheck(TaskProcessingWorkerIsRunning::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
+		$context->registerSetupCheck(TwoFactorConfiguration::class);
 		$context->registerSetupCheck(PushService::class);
 		$context->registerSetupCheck(WellKnownUrls::class);
 		$context->registerSetupCheck(Woff2Loading::class);
@@ -215,38 +230,7 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(AccountMigrator::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
-		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
-		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
-	}
-
-	/**
-	 * @param array $parameters
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 * @throws QueryException
-	 */
-	public function onChangePassword(array $parameters) {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->onChangePassword($parameters['uid']);
-	}
-
-	/**
-	 * @param array $parameters
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 * @throws QueryException
-	 */
-	public function onChangeInfo(array $parameters) {
-		if ($parameters['feature'] !== 'eMailAddress') {
-			return;
-		}
-
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 }

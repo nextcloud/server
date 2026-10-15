@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Command;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -21,13 +23,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanupRemoteStorages extends Command {
 
 	public function __construct(
-		protected IDBConnection $connection,
-		private ICloudIdManager $cloudIdManager,
+		protected readonly IDBConnection $connection,
+		private readonly ICloudIdManager $cloudIdManager,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		$this
 			->setName('sharing:cleanup-remote-storages')
 			->setDescription('Cleanup shared storage entries that have no matching entry in the shares_external table')
@@ -39,6 +42,7 @@ class CleanupRemoteStorages extends Command {
 			);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$remoteStorages = $this->getRemoteStorages();
 
@@ -73,10 +77,11 @@ class CleanupRemoteStorages extends Command {
 				}
 			}
 		}
-		return 0;
+
+		return Command::SUCCESS;
 	}
 
-	public function countFiles($numericId, OutputInterface $output) {
+	public function countFiles($numericId, OutputInterface $output): void {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('fileid'))
 			->from('filecache')
@@ -91,7 +96,7 @@ class CleanupRemoteStorages extends Command {
 		$output->writeln("$count files can be deleted for storage $numericId");
 	}
 
-	public function deleteStorage($id, $numericId, OutputInterface $output) {
+	public function deleteStorage($id, $numericId, OutputInterface $output): void {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->delete('storages')
 			->where($queryBuilder->expr()->eq(
@@ -105,7 +110,7 @@ class CleanupRemoteStorages extends Command {
 		$this->deleteFiles($numericId, $output);
 	}
 
-	public function deleteFiles($numericId, OutputInterface $output) {
+	public function deleteFiles($numericId, OutputInterface $output): void {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->delete('filecache')
 			->where($queryBuilder->expr()->eq(
@@ -118,7 +123,11 @@ class CleanupRemoteStorages extends Command {
 		$output->writeln("deleted $count files");
 	}
 
-	public function getRemoteStorages() {
+	/**
+	 * @return array<string, int>
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getRemoteStorages(): array {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select(['id', 'numeric_id'])
 			->from('storages')
@@ -139,7 +148,7 @@ class CleanupRemoteStorages extends Command {
 
 		$remoteStorages = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$remoteStorages[$row['id']] = $row['numeric_id'];
 		}
 		$result->closeCursor();
@@ -147,19 +156,21 @@ class CleanupRemoteStorages extends Command {
 		return $remoteStorages;
 	}
 
-	public function getRemoteShareIds() {
+	/**
+	 * @return array<string, string>
+	 */
+	private function getRemoteShareIds(): array {
 		$queryBuilder = $this->connection->getQueryBuilder();
-		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
+		$queryBuilder->select(['id', 'refresh_token', 'owner', 'remote'])
 			->from('share_external');
 		$result = $queryBuilder->executeQuery();
 
 		$remoteShareIds = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
 			$remote = $cloudId->getRemote();
-
-			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
+			$remoteShareIds[$row['id']] = 'shared::' . md5($row['refresh_token'] . '@' . $remote);
 		}
 		$result->closeCursor();
 

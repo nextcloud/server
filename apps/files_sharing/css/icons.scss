@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'variables';
-@use 'functions';
 
-// This is the icons used in the sharing ui (multiselect)
+// This is the icons used in the sharing ui (SharingInput component)
+// loaded by apps/files_sharing/lib/Listener/LoadAdditionalListener.php
+
 .icon-room {
 	background-image: var(--icon-talk-dark);
 }

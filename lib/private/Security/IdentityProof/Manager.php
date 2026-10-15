@@ -6,11 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
@@ -19,13 +22,17 @@ use Psr\Log\LoggerInterface;
 class Manager {
 	private IAppData $appData;
 
+	protected ICache $cache;
+
 	public function __construct(
 		Factory $appDataFactory,
 		private ICrypto $crypto,
 		private IConfig $config,
 		private LoggerInterface $logger,
+		private ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('identityproof');
+		$this->cache = $this->cacheFactory->createDistributed('identityproof::');
 	}
 
 	/**
@@ -96,12 +103,24 @@ class Manager {
 	 */
 	protected function retrieveKey(string $id): Key {
 		try {
+			$cachedPublicKey = $this->cache->get($id . '-public');
+			$cachedPrivateKey = $this->cache->get($id . '-private');
+
+			if ($cachedPublicKey !== null && $cachedPrivateKey !== null) {
+				$decryptedPrivateKey = $this->crypto->decrypt($cachedPrivateKey);
+
+				return new Key($cachedPublicKey, $decryptedPrivateKey);
+			}
+
 			$folder = $this->appData->getFolder($id);
-			$privateKey = $this->crypto->decrypt(
-				$folder->getFile('private')->getContent()
-			);
+			$privateKey = $folder->getFile('private')->getContent();
 			$publicKey = $folder->getFile('public')->getContent();
-			return new Key($publicKey, $privateKey);
+
+			$this->cache->set($id . '-public', $publicKey);
+			$this->cache->set($id . '-private', $privateKey);
+
+			$decryptedPrivateKey = $this->crypto->decrypt($privateKey);
+			return new Key($publicKey, $decryptedPrivateKey);
 		} catch (\Exception $e) {
 			return $this->generateKey($id);
 		}
@@ -115,6 +134,18 @@ class Manager {
 	public function getKey(IUser $user): Key {
 		$uid = $user->getUID();
 		return $this->retrieveKey('user-' . $uid);
+	}
+
+	/**
+	 * Set public key for $user
+	 */
+	public function setPublicKey(IUser $user, string $publicKey): void {
+		$id = 'user-' . $user->getUID();
+
+		$folder = $this->appData->getFolder($id);
+		$folder->newFile('public', $publicKey);
+
+		$this->cache->set($id . '-public', $publicKey);
 	}
 
 	/**
@@ -146,6 +177,47 @@ class Manager {
 
 	public function generateAppKey(string $app, string $name, array $options = []): Key {
 		return $this->generateKey($this->generateAppKeyId($app, $name), $options);
+	}
+
+	/**
+	 * Generate an ECDSA P-256 (prime256v1, SECG/JOSE ES256 curve) keypair via
+	 * openssl. Returns PEM private + PEM public. Overwrites if already
+	 * present. Private key is encrypted on disk.
+	 *
+	 * @throws \RuntimeException
+	 */
+	public function generateEcdsaP256AppKey(string $app, string $name): Key {
+		$res = openssl_pkey_new([
+			'private_key_type' => OPENSSL_KEYTYPE_EC,
+			'curve_name' => 'prime256v1',
+		]);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		if (openssl_pkey_export($res, $privateKey) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$details = openssl_pkey_get_details($res);
+		if ($details === false || !isset($details['key'])) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$publicKey = $details['key'];
+
+		$id = $this->generateAppKeyId($app, $name);
+		try {
+			$this->appData->newFolder($id);
+		} catch (\Exception) {
+		}
+		$folder = $this->appData->getFolder($id);
+		$folder->newFile('private')
+			->putContent($this->crypto->encrypt($privateKey));
+		$folder->newFile('public')
+			->putContent($publicKey);
+
+		return new Key($publicKey, $privateKey);
 	}
 
 	public function deleteAppKey(string $app, string $name): bool {

@@ -143,6 +143,7 @@ final class WidgetItem implements JsonSerializable {
 	 *      sinceId: string,
 	 *  }
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'subtitle' => $this->getSubtitle(),

@@ -3,20 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div id="files-personal-settings" class="section">
-		<h2>{{ t('files', 'Files') }}</h2>
-		<TransferOwnershipDialogue />
-	</div>
-</template>
-
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { NcSettingsSection } from '@nextcloud/vue'
 import TransferOwnershipDialogue from './TransferOwnershipDialogue.vue'
-
-export default {
-	name: 'PersonalSettings',
-	components: {
-		TransferOwnershipDialogue,
-	},
-}
 </script>
+
+<template>
+	<NcSettingsSection :name="t('files', 'Files')">
+		<TransferOwnershipDialogue />
+	</NcSettingsSection>
+</template>

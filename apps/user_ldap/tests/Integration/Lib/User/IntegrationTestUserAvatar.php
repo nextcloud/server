@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -39,7 +41,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
 		$userBackend = new User_LDAP($this->access, Server::get(\OCP\Notification\IManager::class), Server::get(UserPluginManager::class), Server::get(LoggerInterface::class), Server::get(DeletedUsersIndex::class));
-		\OC_User::useBackend($userBackend);
+		Server::get(IUserManager::class)->registerBackend($userBackend);
 	}
 
 	/**
@@ -60,7 +62,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		// also remove an possibly existing avatar
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($username);
-		\OC::$server->getUserFolder($username);
+		Server::get(IRootFolder::class)->getUserFolder($username);
 		Server::get(IConfig::class)->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
 		if (Server::get(IAvatarManager::class)->getAvatar($username)->exists()) {
 			Server::get(IAvatarManager::class)->getAvatar($username)->remove();
@@ -108,7 +110,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 *
 	 * @param string $dn
 	 * @param string $image An image read via file_get_contents
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function setJpegPhotoAttribute($dn, $image) {
 		$changeSet = ['jpegphoto' => $image];

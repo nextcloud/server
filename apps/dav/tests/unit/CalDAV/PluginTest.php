@@ -1,16 +1,18 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Plugin;
 use Test\TestCase;
 
 class PluginTest extends TestCase {
-	/** @var Plugin */
-	private $plugin;
+	private Plugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -18,7 +20,7 @@ class PluginTest extends TestCase {
 		$this->plugin = new Plugin();
 	}
 
-	public function linkProvider() {
+	public static function linkProvider(): array {
 		return [
 			[
 				'principals/users/MyUserName',
@@ -35,13 +37,8 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider linkProvider
-	 *
-	 * @param $input
-	 * @param $expected
-	 */
-	public function testGetCalendarHomeForPrincipal($input, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'linkProvider')]
+	public function testGetCalendarHomeForPrincipal(string $input, string $expected): void {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 

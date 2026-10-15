@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,13 +13,11 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PropagatorTest extends TestCase {
-	/** @var IStorage */
-	private $storage;
+	private IStorage $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->storage = new Temporary();

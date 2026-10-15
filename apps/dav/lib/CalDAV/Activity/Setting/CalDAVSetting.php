@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Activity\Setting;
 
 use OCP\Activity\ActivitySettings;
@@ -20,10 +21,12 @@ abstract class CalDAVSetting extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'calendar';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Calendar, contacts and tasks');
 	}

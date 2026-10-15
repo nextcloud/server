@@ -9,15 +9,21 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
+use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Service\ExampleContactService;
+use OCA\DAV\Service\ExampleEventService;
+use OCP\Accounts\UserUpdatedEvent;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserChangedEvent;
@@ -28,7 +34,7 @@ use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent> */
+/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent|BeforeGroupDeletedEvent|GroupDeletedEvent> */
 class UserEventsListener implements IEventListener {
 
 	/** @var IUser[] */
@@ -44,9 +50,14 @@ class UserEventsListener implements IEventListener {
 		private CalDavBackend $calDav,
 		private CardDavBackend $cardDav,
 		private Defaults $themingDefaults,
+		private ExampleContactService $exampleContactService,
+		private ExampleEventService $exampleEventService,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserCreatedEvent) {
 			$this->postCreateUser($event->getUser());
@@ -67,10 +78,18 @@ class UserEventsListener implements IEventListener {
 			$this->changeUser($event->getUser(), $event->getFeature());
 		} elseif ($event instanceof UserFirstTimeLoggedInEvent) {
 			$this->firstLogin($event->getUser());
+		} elseif ($event instanceof UserUpdatedEvent) {
+			$this->updateUser($event->getUser());
+		} elseif ($event instanceof GroupDeletedEvent) {
+			$this->postDeleteGroup($event->getGroup()->getGID());
 		}
 	}
 
 	public function postCreateUser(IUser $user): void {
+		$this->syncService->updateUser($user);
+	}
+
+	public function updateUser(IUser $user): void {
 		$this->syncService->updateUser($user);
 	}
 
@@ -108,14 +127,23 @@ class UserEventsListener implements IEventListener {
 			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
+		$this->cardDav->deleteAllSharesByUser('principals/users/' . $uid);
 
 		foreach ($this->addressBooksToDelete[$uid] as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
 		}
 
+		$this->jobList->remove(UserStatusAutomation::class, ['userId' => $uid]);
+
 		unset($this->calendarsToDelete[$uid]);
 		unset($this->subscriptionsToDelete[$uid]);
 		unset($this->addressBooksToDelete[$uid]);
+	}
+
+	public function postDeleteGroup(string $gid): void {
+		$encodedGid = urlencode($gid);
+		$this->calDav->deleteAllSharesByUser('principals/groups/' . $encodedGid);
+		$this->cardDav->deleteAllSharesByUser('principals/groups/' . $encodedGid);
 	}
 
 	public function changeUser(IUser $user, string $feature): void {
@@ -128,25 +156,43 @@ class UserEventsListener implements IEventListener {
 
 	public function firstLogin(IUser $user): void {
 		$principal = 'principals/users/' . $user->getUID();
+
+		$calendarId = null;
 		if ($this->calDav->getCalendarsForUserCount($principal) === 0) {
 			try {
-				$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
+				$calendarId = $this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
 					'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
 					'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
 					'components' => 'VEVENT'
 				]);
 			} catch (\Exception $e) {
-				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
 		}
+		if ($calendarId !== null) {
+			try {
+				$this->exampleEventService->createExampleEvent($calendarId);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to create example event: ' . $e->getMessage(), [
+					'exception' => $e,
+					'userId' => $user->getUID(),
+					'calendarId' => $calendarId,
+				]);
+			}
+		}
+
+		$addressBookId = null;
 		if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
 			try {
-				$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
+				$addressBookId = $this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 					'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 				]);
 			} catch (\Exception $e) {
-				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
+		}
+		if ($addressBookId) {
+			$this->exampleContactService->createDefaultContact($addressBookId);
 		}
 	}
 }

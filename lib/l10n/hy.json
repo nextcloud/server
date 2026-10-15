@@ -5,8 +5,6 @@
     "today" : "այսօր",
     "seconds ago" : "վրկ. առաջ",
     "__language_name__" : "Հայերեն",
-    "Settings" : "կարգավորումներ",
-    "Log out" : "Դուրս գալ",
     "Email" : "Էլ․փոստ",
     "Address" : "Հասցե",
     "About" : "էջի վերաբերյալ",
@@ -56,6 +54,8 @@
     "Nov." : "Նոյ.",
     "Dec." : "Դեկ.",
     "Translate" : "Թարգմանել",
-    "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում"
+    "Settings" : "կարգավորումներ",
+    "Log out" : "Դուրս գալ",
+    "Accounts" : "Accounts"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

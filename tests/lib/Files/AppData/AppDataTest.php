@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,6 +26,7 @@ class AppDataTest extends \Test\TestCase {
 	/** @var IAppData */
 	private $appData;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

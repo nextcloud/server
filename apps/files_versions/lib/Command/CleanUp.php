@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Command;
 
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -25,6 +27,7 @@ class CleanUp extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('versions:cleanup')
@@ -42,7 +45,7 @@ class CleanUp extends Command {
 			);
 	}
 
-
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 
@@ -94,7 +97,6 @@ class CleanUp extends Command {
 
 		return self::SUCCESS;
 	}
-
 
 	/**
 	 * delete versions for the given user

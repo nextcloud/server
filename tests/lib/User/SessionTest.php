@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,11 +10,9 @@ namespace Test\User;
 
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Events\LoginFailed;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Session\Memory;
@@ -23,6 +22,9 @@ use OC\User\Session;
 use OC\User\User;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -33,40 +35,33 @@ use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 use function array_diff;
 use function get_class_methods;
 
-/**
- * @group DB
- * @package Test\User
- */
-class SessionTest extends \Test\TestCase {
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-	/** @var IProvider|MockObject */
-	private $tokenProvider;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IThrottler|MockObject */
-	private $throttler;
-	/** @var ISecureRandom|MockObject */
-	private $random;
-	/** @var Manager|MockObject */
-	private $manager;
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var Session|MockObject */
-	private $userSession;
-	/** @var ILockdownManager|MockObject */
-	private $lockdownManager;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
+#[Group(name: 'DB')]
+class SessionTest extends TestCase {
+	private ITimeFactory&MockObject $timeFactory;
+	private IProvider&MockObject $tokenProvider;
+	private IConfig&MockObject $config;
+	private IThrottler&MockObject $throttler;
+	private ISecureRandom&MockObject $random;
+	private Manager&MockObject $manager;
+	private ISession&MockObject $session;
+	private Session&MockObject $userSession;
+	private ILockdownManager&MockObject $lockdownManager;
+	private LoggerInterface&MockObject $logger;
+	private IEventDispatcher&MockObject $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -79,6 +74,9 @@ class SessionTest extends \Test\TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->manager = $this->createMock(Manager::class);
+		$this->manager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$this->session = $this->createMock(ISession::class);
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -93,26 +91,22 @@ class SessionTest extends \Test\TestCase {
 				$this->random,
 				$this->lockdownManager,
 				$this->logger,
-				$this->dispatcher
+				$this->dispatcher,
 			])
-			->setMethods([
+			->onlyMethods([
 				'setMagicInCookie',
 			])
 			->getMock();
-
-		\OC_User::setIncognitoMode(false);
 	}
 
-	public function isLoggedInData() {
+	public static function isLoggedInData(): array {
 		return [
 			[true],
 			[false],
 		];
 	}
 
-	/**
-	 * @dataProvider isLoggedInData
-	 */
+	#[DataProvider(methodName: 'isLoggedInData')]
 	public function testIsLoggedIn($isLoggedIn): void {
 		$session = $this->createMock(Memory::class);
 
@@ -120,7 +114,7 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods([
+			->onlyMethods([
 				'getUser'
 			])
 			->getMock();
@@ -139,8 +133,6 @@ class SessionTest extends \Test\TestCase {
 
 		$manager = $this->createMock(Manager::class);
 
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
@@ -157,26 +149,18 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('bar')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$session->expects($this->exactly(2))
 			->method('set')
-			->with($this->callback(function ($key) {
-				switch ($key) {
-					case 'user_id':
-					case 'loginname':
-						return true;
-						break;
-					default:
-						return false;
-						break;
-				}
-			}, 'foo'));
+			->with($this->callback(function (string $key): bool {
+				return $key === 'user_id' || $key === 'loginname';
+			}));
 
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -184,8 +168,6 @@ class SessionTest extends \Test\TestCase {
 				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
-
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -204,27 +186,26 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods([
+			->onlyMethods([
 				'prepareUserLogin'
 			])
 			->getMock();
 		$userSession->expects($this->once())
 			->method('prepareUserLogin');
 
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function (PostLoginEvent $e) {
-					return $e->getUser()->getUID() === 'foo' &&
-						$e->getPassword() === 'bar' &&
-						$e->isTokenLogin() === false;
+				$this->callback(function (PostLoginEvent|UserLoggedInEvent $e): bool {
+					return $e->getUser()->getUID() === 'foo'
+						&& $e->getPassword() === 'bar'
+						&& $e->isTokenLogin() === false;
 				})
 			);
 
 		$userSession->login('foo', 'bar');
 		$this->assertEquals($user, $userSession->getUser());
 	}
-
 
 	public function testLoginValidPasswordDisabled(): void {
 		$this->expectException(LoginException::class);
@@ -237,13 +218,13 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('bar')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -277,7 +258,7 @@ class SessionTest extends \Test\TestCase {
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -285,7 +266,6 @@ class SessionTest extends \Test\TestCase {
 				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
 		$user = $this->createMock(IUser::class);
@@ -297,7 +277,7 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('bar')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
 		$user->expects($this->never())
 			->method('isEnabled');
@@ -321,7 +301,7 @@ class SessionTest extends \Test\TestCase {
 		// Keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -331,11 +311,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -359,7 +345,7 @@ class SessionTest extends \Test\TestCase {
 		// Keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -369,11 +355,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -403,7 +395,7 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('bar')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
 		$manager->expects($this->once())
 			->method('checkPasswordNoLogging')
@@ -420,16 +412,15 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
-		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('doe')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
@@ -439,7 +430,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -448,24 +439,46 @@ class SessionTest extends \Test\TestCase {
 			->with('192.168.0.1')
 			->willReturn(0);
 
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(
+				function (Event $event): void {
+					if ($event instanceof LoginFailed) {
+						$this->assertEquals($event, new LoginFailed('john', 'doe'));
+					} elseif ($event instanceof BeforeUserLoggedInEvent) {
+						$this->assertEquals($event, new BeforeUserLoggedInEvent('john', 'doe'));
+					} else {
+						$this->fail('Unexpected event');
+					}
+				}
+			);
+
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
 
 	public function testLogClientInUnexist(): void {
 		$manager = $this->createMock(Manager::class);
+		$manager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
 		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('doe')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
@@ -482,15 +495,15 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
-		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(true);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-AN-APP-PASSWORD')
+			->willReturn($this->createMock(IToken::class));
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john', 'I-AM-AN-APP-PASSWORD')
@@ -516,7 +529,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
-
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);
 
@@ -524,16 +536,15 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
-		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['login', 'isTwoFactorEnforced'])
+			->onlyMethods(['login', 'isTwoFactorEnforced'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('doe')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->with('token_auth_enforced', false)
@@ -549,7 +560,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -557,6 +568,26 @@ class SessionTest extends \Test\TestCase {
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+
+		$this->dispatcher
+			->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(
+				function (Event $event): void {
+					if ($event instanceof LoginFailed) {
+						$this->assertEquals($event, new LoginFailed('john', 'doe'));
+					} elseif ($event instanceof BeforeUserLoggedInEvent) {
+						$this->assertEquals($event, new BeforeUserLoggedInEvent('john', 'doe'));
+					} else {
+						$this->fail('Unexpected event');
+					}
+				}
+			);
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
@@ -611,13 +642,105 @@ class SessionTest extends \Test\TestCase {
 		self::assertFalse($loginResult);
 	}
 
+	public function testTryTokenLoginNotAnAppPassword(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn('abcde12345');
+		$this->session->expects(self::once())
+			->method('getId')
+			->willReturn('abcde12345');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('johnny');
+		$dbToken->setLoginName('johnny');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setRemember(IToken::REMEMBER);
+		$this->tokenProvider->expects(self::any())
+			->method('getToken')
+			->with('abcde12345')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value): void {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('johnny')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertTrue($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenRejectedFromBearerByDefault(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		// The guard must reject before any login is attempted.
+		$this->manager->expects(self::never())
+			->method('get');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenAllowedFromBearerWhenPermitted(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value): void {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('alice')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request, true);
+
+		self::assertTrue($loginResult);
+	}
+
 	public function testRememberLoginValidToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -627,7 +750,7 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
-			->setMethods(['setMagicInCookie', 'setLoginName'])
+			->onlyMethods(['setMagicInCookie', 'setLoginName'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
 			->getMock();
 
@@ -672,8 +795,14 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->willReturn($tokenObject);
 
-		$this->tokenProvider->expects($this->never())
-			->method('getToken');
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
 
 		$user->expects($this->any())
 			->method('getUID')
@@ -685,7 +814,7 @@ class SessionTest extends \Test\TestCase {
 		$setUID = false;
 		$session
 			->method('set')
-			->willReturnCallback(function ($k, $v) use (&$setUID) {
+			->willReturnCallback(function ($k, $v) use (&$setUID): void {
 				if ($k === 'user_id' && $v === 'foo') {
 					$setUID = true;
 				}
@@ -707,7 +836,7 @@ class SessionTest extends \Test\TestCase {
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -717,7 +846,7 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
-			->setMethods(['setMagicInCookie'])
+			->onlyMethods(['setMagicInCookie'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
 			->getMock();
 
@@ -748,9 +877,18 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('renewSessionToken')
 			->with($oldSessionId, $sessionId)
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
-		$user->expects($this->never())
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
+
+		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('foo');
 		$userSession->expects($this->never())
@@ -766,13 +904,13 @@ class SessionTest extends \Test\TestCase {
 		$this->assertFalse($granted);
 	}
 
-	public function testRememberLoginInvalidToken(): void {
+	public function testRememberLoginMissingSessionToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -782,7 +920,7 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
-			->setMethods(['setMagicInCookie'])
+			->onlyMethods(['setMagicInCookie'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
 			->getMock();
 
@@ -790,7 +928,61 @@ class SessionTest extends \Test\TestCase {
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
+			->method('regenerateId');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($user);
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->willReturn([$token]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($oldSessionId)
+			->willThrowException(new InvalidTokenException());
+
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
+
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertFalse($granted);
+	}
+
+	public function testRememberLoginInvalidToken(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
@@ -825,7 +1017,7 @@ class SessionTest extends \Test\TestCase {
 		//keep following methods intact in order to ensure hooks are working
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
-			->setMethods($mockedManagerMethods)
+			->onlyMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(ICacheFactory::class),
@@ -835,13 +1027,13 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
-			->setMethods(['setMagicInCookie'])
+			->onlyMethods(['setMagicInCookie'])
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
 			->getMock();
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
@@ -885,7 +1077,7 @@ class SessionTest extends \Test\TestCase {
 		$session->set('user_id', 'foo');
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods([
+			->onlyMethods([
 				'validateSession'
 			])
 			->getMock();
@@ -932,7 +1124,7 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($password)
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
@@ -973,13 +1165,13 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($password)
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
 
-		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password, true));
+		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password, IToken::REMEMBER));
 	}
 
 	public function testCreateSessionTokenWithTokenPassword(): void {
@@ -1074,6 +1266,27 @@ class SessionTest extends \Test\TestCase {
 		$this->userSession->createRememberMeToken($user);
 	}
 
+	public static function renewMagicSessionIdData(): array {
+		return [
+			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
+			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
+			'no remember-me cookies' => [[], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with('u', 't');
+
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->userSession->renewMagicSessionId('old');
+	}
+
 	public function testTryBasicAuthLoginValid(): void {
 		$request = $this->createMock(Request::class);
 		$request->method('__get')
@@ -1086,23 +1299,20 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$davAuthenticatedSet = false;
-		$lastPasswordConfirmSet = false;
 
 		$this->session
 			->method('set')
-			->willReturnCallback(function ($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
+			->willReturnCallback(function (string $k, $v) use (&$davAuthenticatedSet): void {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;
-						return;
-					case 'last-password-confirm':
-						$lastPasswordConfirmSet = 1000;
 						return;
 					default:
 						throw new \Exception();
 				}
 			});
 
+		/** @var Session&MockObject $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([
 				$this->manager,
@@ -1115,13 +1325,12 @@ class SessionTest extends \Test\TestCase {
 				$this->logger,
 				$this->dispatcher
 			])
-			->setMethods([
+			->onlyMethods([
 				'logClientIn',
 				'getUser',
 			])
 			->getMock();
 
-		/** @var Session|MockObject */
 		$userSession->expects($this->once())
 			->method('logClientIn')
 			->with(
@@ -1140,8 +1349,8 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
 
+		/** @var string|false $davAuthenticatedSet */
 		$this->assertSame('username', $davAuthenticatedSet);
-		$this->assertSame(1000, $lastPasswordConfirmSet);
 	}
 
 	public function testTryBasicAuthLoginNoLogin(): void {
@@ -1167,12 +1376,11 @@ class SessionTest extends \Test\TestCase {
 				$this->logger,
 				$this->dispatcher
 			])
-			->setMethods([
+			->onlyMethods([
 				'logClientIn',
 			])
 			->getMock();
 
-		/** @var Session|MockObject */
 		$userSession->expects($this->never())
 			->method('logClientIn');
 
@@ -1192,18 +1400,18 @@ class SessionTest extends \Test\TestCase {
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
-		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(true);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-A-PASSWORD')
+			->willReturn($this->createMock(IToken::class));
 		$userSession->expects($this->once())
 			->method('login')
-			->with('john', 'I-AM-AN-PASSWORD')
+			->with('john', 'I-AM-A-PASSWORD')
 			->willReturn(false);
 
 		$session->expects($this->never())
@@ -1226,30 +1434,43 @@ class SessionTest extends \Test\TestCase {
 			->method('registerAttempt')
 			->with('login', '192.168.0.1', ['user' => 'john']);
 		$this->dispatcher
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with(new LoginFailed('john', 'I-AM-AN-PASSWORD'));
+			->willReturnCallback(
+				function (Event $event): void {
+					if ($event instanceof LoginFailed) {
+						$this->assertEquals($event, new LoginFailed('john', 'I-AM-A-PASSWORD'));
+					} elseif ($event instanceof BeforeUserLoggedInEvent) {
+						$this->assertEquals($event, new BeforeUserLoggedInEvent('john', 'I-AM-A-PASSWORD'));
+					} else {
+						$this->fail('Unexpected event');
+					}
+				}
+			);
 
-		$this->assertFalse($userSession->logClientIn('john', 'I-AM-AN-PASSWORD', $request, $this->throttler));
+		$this->assertFalse($userSession->logClientIn('john', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
 
 	public function testLogClientInThrottlerEmail(): void {
 		$manager = $this->createMock(Manager::class);
+		$manager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
 
-		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(false);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-A-PASSWORD')
+			->willThrowException(new InvalidTokenException());
 		$userSession->expects($this->once())
 			->method('login')
-			->with('john@foo.bar', 'I-AM-AN-PASSWORD')
+			->with('john@foo.bar', 'I-AM-A-PASSWORD')
 			->willReturn(false);
 		$manager
 			->method('getByEmail')
@@ -1276,10 +1497,21 @@ class SessionTest extends \Test\TestCase {
 			->method('registerAttempt')
 			->with('login', '192.168.0.1', ['user' => 'john@foo.bar']);
 		$this->dispatcher
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with(new LoginFailed('john@foo.bar', 'I-AM-AN-PASSWORD'));
+			->willReturnCallback(
+				function (Event $event): void {
+					if ($event instanceof LoginFailed) {
+						$this->assertEquals($event, new LoginFailed('john@foo.bar', 'I-AM-A-PASSWORD'));
+					} elseif ($event instanceof BeforeUserLoggedInEvent) {
+						$this->assertEquals($event, new BeforeUserLoggedInEvent('john@foo.bar', 'I-AM-A-PASSWORD'));
+					} else {
+						$this->fail('Unexpected event');
+					}
+				}
+			);
 
-		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-AN-PASSWORD', $request, $this->throttler));
+		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
+
 }

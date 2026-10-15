@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,21 +16,14 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
-use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SearchBuilderTest extends TestCase {
 	/** @var IQueryBuilder */
 	private $builder;
-
-	/** @var IMimeTypeLoader&\PHPUnit\Framework\MockObject\MockObject */
-	private $mimetypeLoader;
-
-	/** @var IFilesMetadataManager&\PHPUnit\Framework\MockObject\MockObject */
-	private $filesMetadataManager;
 
 	/** @var SearchBuilder */
 	private $searchBuilder;
@@ -37,13 +31,13 @@ class SearchBuilderTest extends TestCase {
 	/** @var integer */
 	private $numericStorageId;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
+		$this->searchBuilder = $this->createInstanceWithMocks(SearchBuilder::class);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getId')
 			->willReturnMap([
 				['text', 1],
@@ -54,7 +48,7 @@ class SearchBuilderTest extends TestCase {
 				['image', 6],
 			]);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getMimetypeById')
 			->willReturnMap([
 				[1, 'text'],
@@ -64,8 +58,6 @@ class SearchBuilderTest extends TestCase {
 				[5, 'image/png'],
 				[6, 'image']
 			]);
-
-		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader, $this->filesMetadataManager);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])
@@ -73,15 +65,16 @@ class SearchBuilderTest extends TestCase {
 			->where($this->builder->expr()->eq('storage', new Literal($this->numericStorageId)));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
-		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$builder->delete('filecache')
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->numericStorageId, IQueryBuilder::PARAM_INT)));
 
-		$builder->execute();
+		$builder->executeStatement();
 	}
 
 	private function addCacheEntry(array $data) {
@@ -102,14 +95,14 @@ class SearchBuilderTest extends TestCase {
 		$data['parent'] = -1;
 		if (isset($data['mimetype'])) {
 			[$mimepart,] = explode('/', $data['mimetype']);
-			$data['mimepart'] = $this->mimetypeLoader->getId($mimepart);
-			$data['mimetype'] = $this->mimetypeLoader->getId($data['mimetype']);
+			$data['mimepart'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($mimepart);
+			$data['mimetype'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($data['mimetype']);
 		} else {
 			$data['mimepart'] = 1;
 			$data['mimetype'] = 1;
 		}
 
-		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$values = [];
 		foreach ($data as $key => $value) {
@@ -118,7 +111,7 @@ class SearchBuilderTest extends TestCase {
 
 		$builder->insert('filecache')
 			->values($values)
-			->execute();
+			->executeStatement();
 
 		return $builder->getLastInsertId();
 	}
@@ -127,14 +120,14 @@ class SearchBuilderTest extends TestCase {
 		$dbOperator = $this->searchBuilder->searchOperatorToDBExpr($this->builder, $operator);
 		$this->builder->andWhere($dbOperator);
 
-		$result = $this->builder->execute();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$result = $this->builder->executeQuery();
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return $rows;
 	}
 
-	public function comparisonProvider() {
+	public static function comparisonProvider(): array {
 		return [
 			[new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'mtime', 125), [1]],
 			[new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125), [0]],
@@ -170,16 +163,24 @@ class SearchBuilderTest extends TestCase {
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
 				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%bar'),
 			]), [1]],
-
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []), []],
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'mimetype', []), []],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0, 1]],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mtime', 100),
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0]],
 		];
 	}
 
 	/**
-	 * @dataProvider comparisonProvider
 	 *
 	 * @param ISearchOperator $operator
 	 * @param array $fileIds
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('comparisonProvider')]
 	public function testComparison(ISearchOperator $operator, array $fileIds): void {
 		$fileId = [];
 		$fileId[] = $this->addCacheEntry([

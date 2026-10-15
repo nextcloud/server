@@ -1,9 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
@@ -17,35 +19,21 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Cache
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\External
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CacheTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/**
-	 * @var Storage
-	 **/
-	private $storage;
-
-	/**
-	 * @var Cache
-	 */
-	private $cache;
-
-	/**
-	 * @var string
-	 */
-	private $remoteUser;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
+	protected IManager&MockObject $contactsManager;
+	private Storage&MockObject $storage;
+	private Cache $cache;
+	private string $remoteUser;
+	private ICloudIdManager $cloudIdManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -53,15 +41,15 @@ class CacheTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
+		$this->storage = $this->getMockBuilder(\OCA\Files_Sharing\External\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->storage

@@ -16,7 +16,6 @@ use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Exception\ReminderNotFoundException;
-use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\Folder;
@@ -28,12 +27,21 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class ReminderService {
 
 	private ICache $cache;
+
+	/**
+	 * Reminders preloaded for whole folders, not capped like $cache
+	 * so listings of large folders don't fall back to one query per file.
+	 *
+	 * @var array<string, Reminder|false>
+	 */
+	private array $folderCache = [];
 
 	public function __construct(
 		protected IUserManager $userManager,
@@ -56,31 +64,43 @@ class ReminderService {
 
 		$nodes = $folder->getDirectoryListing();
 		foreach ($nodes as $node) {
-			$reminder = $reminderMap[$node->getId()] ?? false;
-			$this->cache->set("{$user->getUID()}-{$node->getId()}", $reminder);
+			$this->folderCache["{$user->getUID()}-{$node->getId()}"] = $reminderMap[$node->getId()] ?? false;
 		}
 	}
 
 	/**
 	 * @throws NodeNotFoundException
 	 */
-	public function getDueForUser(IUser $user, int $fileId): ?RichReminder {
-		$this->checkNode($user, $fileId);
+	public function getDueForUser(IUser $user, int $fileId, bool $checkNode = true): ?RichReminder {
+		if ($checkNode) {
+			$this->checkNode($user, $fileId);
+		}
+		$cacheKey = "{$user->getUID()}-$fileId";
 		/** @var null|false|Reminder $cachedReminder */
-		$cachedReminder = $this->cache->get("{$user->getUID()}-$fileId");
+		$cachedReminder = $this->folderCache[$cacheKey] ?? $this->cache->get($cacheKey);
 		if ($cachedReminder === false) {
 			return null;
 		}
 		if ($cachedReminder instanceof Reminder) {
+			if ($cachedReminder->getDueDate() < new DateTime()) {
+				$this->cache->remove($cacheKey);
+				unset($this->folderCache[$cacheKey]);
+				return null;
+			}
 			return new RichReminder($cachedReminder, $this->root);
 		}
 
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
-			$this->cache->set("{$user->getUID()}-$fileId", $reminder);
+			// If reminder is in the past, do not return it and do not cache it.
+			if ($reminder->getDueDate() < new DateTime()) {
+				return null;
+			}
+
+			$this->setCached($user->getUID(), $fileId, $reminder);
 			return new RichReminder($reminder, $this->root);
 		} catch (DoesNotExistException $e) {
-			$this->cache->set("{$user->getUID()}-$fileId", false);
+			$this->setCached($user->getUID(), $fileId, false);
 			return null;
 		}
 	}
@@ -115,13 +135,13 @@ class ReminderService {
 			$reminder->setUpdatedAt($now);
 			$reminder->setCreatedAt($now);
 			$this->reminderMapper->insert($reminder);
-			$this->cache->set("{$user->getUID()}-$fileId", $reminder);
+			$this->setCached($user->getUID(), $fileId, $reminder);
 			return true;
 		}
 		$reminder->setDueDate($dueDate);
 		$reminder->setUpdatedAt($now);
 		$this->reminderMapper->update($reminder);
-		$this->cache->set("{$user->getUID()}-$fileId", $reminder);
+		$this->setCached($user->getUID(), $fileId, $reminder);
 		return false;
 	}
 
@@ -163,7 +183,7 @@ class ReminderService {
 
 		$user = $this->userManager->get($reminder->getUserId());
 		if ($user === null) {
-			throw new UserNotFoundException();
+			throw UserNotFoundException::createForUser($reminder->getUserId());
 		}
 
 		$notification = $this->notificationManager->createNotification();
@@ -180,7 +200,7 @@ class ReminderService {
 		try {
 			$this->notificationManager->notify($notification);
 			$this->reminderMapper->markNotified($reminder);
-			$this->cache->set("{$user->getUID()}-{$reminder->getFileId()}", $reminder);
+			$this->setCached($user->getUID(), $reminder->getFileId(), $reminder);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), $th->getTrace());
 		}
@@ -198,9 +218,13 @@ class ReminderService {
 
 	private function deleteReminder(Reminder $reminder): void {
 		$this->reminderMapper->delete($reminder);
-		$this->cache->set("{$reminder->getUserId()}-{$reminder->getFileId()}", false);
+		$this->setCached($reminder->getUserId(), $reminder->getFileId(), false);
 	}
 
+	private function setCached(string $userId, int $fileId, Reminder|false $reminder): void {
+		$this->cache->set("$userId-$fileId", $reminder);
+		unset($this->folderCache["$userId-$fileId"]);
+	}
 
 	/**
 	 * @throws NodeNotFoundException

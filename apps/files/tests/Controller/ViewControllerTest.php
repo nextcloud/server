@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\Controller;
 
 use OC\Files\FilenameValidator;
@@ -17,12 +19,15 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -39,13 +44,14 @@ use Test\TestCase;
 /**
  * Class ViewControllerTest
  *
- * @group RoutingWeirdness
  *
  * @package OCA\Files\Tests\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
+	private IAppConfig&MockObject $appConfig;
 	private ICacheFactory&MockObject $cacheFactory;
 	private IConfig&MockObject $config;
 	private IEventDispatcher $eventDispatcher;
@@ -62,12 +68,14 @@ class ViewControllerTest extends TestCase {
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;
 	private Router $router;
+	private IRegistry&MockObject $twoFactorRegistry;
 
 	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
@@ -78,6 +86,7 @@ class ViewControllerTest extends TestCase {
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
+		$this->twoFactorRegistry = $this->createMock(IRegistry::class);
 
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
@@ -97,6 +106,10 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('files')
+			->willReturn('OCA\\Files');
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -137,6 +150,8 @@ class ViewControllerTest extends TestCase {
 				$this->userConfig,
 				$this->viewConfig,
 				$filenameValidator,
+				$this->twoFactorRegistry,
+				$this->appConfig,
 			])
 			->onlyMethods([
 				'getStorageInfo',
@@ -168,7 +183,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -192,7 +207,7 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function dataTestShortRedirect(): array {
+	public static function dataTestShortRedirect(): array {
 		// openfile is true by default
 		// opendetails is undefined by default
 		// both will be evaluated as truthy
@@ -209,16 +224,14 @@ class ViewControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestShortRedirect
-	 */
-	public function testShortRedirect($openfile, $opendetails, $result) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShortRedirect')]
+	public function testShortRedirect(?string $openfile, ?string $opendetails, string $result): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->with('files')
 			->willReturn(true);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->with('testuser1')
@@ -239,7 +252,7 @@ class ViewControllerTest extends TestCase {
 			->with(123456)
 			->willReturn($node);
 
-		$response = $this->viewController->showFile(123456, $opendetails, $openfile);
+		$response = $this->viewController->showFile('123456', $opendetails, $openfile);
 		$this->assertStringContainsString($result, $response->getHeaders()['Location']);
 	}
 
@@ -248,13 +261,13 @@ class ViewControllerTest extends TestCase {
 			->method('isEnabledForUser')
 			->willReturn(true);
 
-		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
+		$parentNode = $this->createMock(Folder::class);
 		$parentNode->expects($this->once())
 			->method('getPath')
 			->willReturn('testuser1/files_trashbin/files/test.d1462861890/sub');
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
-		$baseFolderTrash = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->createMock(IUserFolder::class);
+		$baseFolderTrash = $this->createMock(Folder::class);
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -270,7 +283,7 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->willReturn(null);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->once())
 			->method('getParent')
 			->willReturn($parentNode);
@@ -286,5 +299,29 @@ class ViewControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('/index.php/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
+	}
+
+	public function testTwoFactorAuthEnabled(): void {
+		$this->twoFactorRegistry->method('getProviderStates')
+			->willReturn([
+				'totp' => true,
+				'backup_codes' => true,
+			]);
+
+		$initialStates = [];
+		$this->initialState->expects(self::atLeast(13))
+			->method('provideInitialState')
+			->willReturnCallback(function ($key, $data) use (&$initialStates): void {
+				$initialStates[$key] = $data;
+			});
+
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
+			]);
+
+		$this->viewController->index('', '', null);
+		$this->assertTrue($initialStates['isTwoFactorEnabled'] ?? false);
 	}
 }

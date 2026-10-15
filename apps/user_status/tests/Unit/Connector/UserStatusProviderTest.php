@@ -6,20 +6,18 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Connector;
 
 use OCA\UserStatus\Connector\UserStatusProvider;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserStatusProviderTest extends TestCase {
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var UserStatusProvider */
-	private $provider;
+	private StatusService&MockObject $service;
+	private UserStatusProvider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();

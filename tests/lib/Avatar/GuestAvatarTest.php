@@ -11,7 +11,7 @@ namespace Test\Avatar;
 
 use OC\Avatar\GuestAvatar;
 use OCP\Files\SimpleFS\InMemoryFile;
-use PHPUnit\Framework\MockObject\MockObject;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -28,14 +28,13 @@ class GuestAvatarTest extends TestCase {
 
 	/**
 	 * Setups a guest avatar instance for tests.
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupGuestAvatar() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupGuestAvatar(): void {
 		/* @var MockObject|LoggerInterface $logger */
-		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->guestAvatar = new GuestAvatar('einstein', $logger);
+		$logger = $this->createMock(LoggerInterface::class);
+		$config = $this->createMock(IConfig::class);
+		$this->guestAvatar = new GuestAvatar('einstein', $config, $logger);
 	}
 
 	/**
@@ -45,7 +44,6 @@ class GuestAvatarTest extends TestCase {
 	 * the generated image is compared with an expected one.
 	 */
 	public function testGet(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
 		$expectedFile = file_get_contents(

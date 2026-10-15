@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\OCS\BaseResponse;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -17,19 +19,16 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class CompressionMiddleware extends Middleware {
-	/** @var bool */
-	private $useGZip;
+	private bool $useGZip = false;
 
-	/** @var IRequest */
-	private $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
-		$this->useGZip = false;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
-	public function afterController($controller, $methodName, Response $response) {
-		// By default we do not gzip
+	#[\Override]
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
+		// By default, we do not gzip
 		$allowGzip = false;
 
 		// Only return gzipped content for 200 responses
@@ -62,7 +61,8 @@ class CompressionMiddleware extends Middleware {
 		return $response;
 	}
 
-	public function beforeOutput($controller, $methodName, $output) {
+	#[\Override]
+	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
 		if (!$this->useGZip) {
 			return $output;
 		}

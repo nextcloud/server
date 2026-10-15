@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcActions ref="federationActions"
+	<NcActions
+		ref="federationActions"
 		class="federation-actions"
 		:aria-label="ariaLabel"
 		:disabled="disabled">
@@ -12,7 +13,8 @@
 			<NcIconSvgWrapper :path="scopeIcon" />
 		</template>
 
-		<NcActionButton v-for="federationScope in federationScopes"
+		<NcActionButton
+			v-for="federationScope in federationScopes"
 			:key="federationScope.name"
 			:close-after-click="true"
 			:disabled="!supportedScopes.includes(federationScope.name)"
@@ -26,25 +28,27 @@
 			</template>
 			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
 		</NcActionButton>
+
+		<slot />
 	</NcActions>
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { loadState } from '@nextcloud/initial-state'
-
+import { t } from '@nextcloud/l10n'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
 	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,
 	PROFILE_READABLE_ENUM,
 	PROPERTY_READABLE_KEYS_ENUM,
 	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
-	SCOPE_PROPERTY_ENUM,
 	SCOPE_ENUM,
+	SCOPE_PROPERTY_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
-} from '../../../constants/AccountPropertyConstants.js'
+} from '../../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
@@ -68,22 +72,27 @@ export default {
 			required: true,
 			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value) || Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(value) || value === PROFILE_READABLE_ENUM.PROFILE_VISIBILITY,
 		},
+
 		additional: {
 			type: Boolean,
 			default: false,
 		},
+
 		additionalValue: {
 			type: String,
 			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+
 		handleAdditionalScopeChange: {
 			type: Function,
 			default: null,
 		},
+
 		scope: {
 			type: String,
 			required: true,

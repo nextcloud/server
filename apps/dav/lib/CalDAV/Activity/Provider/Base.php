@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -40,8 +42,8 @@ abstract class Base implements IProvider {
 	 * @return array
 	 */
 	protected function generateCalendarParameter($data, IL10N $l) {
-		if ($data['uri'] === CalDavBackend::PERSONAL_CALENDAR_URI &&
-			$data['name'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
+		if ($data['uri'] === CalDavBackend::PERSONAL_CALENDAR_URI
+			&& $data['name'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			return [
 				'type' => 'calendar',
 				'id' => (string)$data['id'],

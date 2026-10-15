@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
 use OC\Security\IdentityProof\Signer;
@@ -13,6 +14,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -20,7 +22,6 @@ use OCP\IUserManager;
 
 class RetryJob extends Job {
 	private string $lookupServer;
-	private Signer $signer;
 	protected int $retries = 0;
 	protected bool $retainJob = false;
 
@@ -38,10 +39,10 @@ class RetryJob extends Job {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
-		Signer $signer,
+		private Signer $signer,
+		private GlobalScaleConfig $globalScaleConfig,
 	) {
 		parent::__construct($time);
-		$this->signer = $signer;
 
 		$this->lookupServer = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if (!empty($this->lookupServer)) {
@@ -53,6 +54,7 @@ class RetryJob extends Job {
 	/**
 	 * Run the job, then remove it from the jobList
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if (!isset($this->argument['userId'])) {
 			// Old background job without user id, just drop it.
@@ -86,7 +88,7 @@ class RetryJob extends Job {
 	protected function shouldRemoveBackgroundJob(): bool {
 		// TODO: Remove global scale condition once lookup server is used for non-global scale federation
 		// return $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') !== 'yes'
-		return !$this->config->getSystemValueBool('gs.enabled', false)
+		return !$this->globalScaleConfig->isGlobalScaleEnabled()
 			|| $this->config->getSystemValueBool('has_internet_connection', true) === false
 			|| $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === ''
 			|| $this->retries >= 5;
@@ -97,6 +99,7 @@ class RetryJob extends Job {
 		return ($this->time->getTime() - $this->lastRun) > $delay;
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$user = $this->userManager->get($this->argument['userId']);
 		if (!$user instanceof IUser) {

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFilesReminders
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\FilesReminders\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\FilesReminders\\' => 
+        'OCA\\FilesReminders\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -32,7 +32,6 @@ class ComposerStaticInitFilesReminders
         'OCA\\FilesReminders\\Db\\ReminderMapper' => __DIR__ . '/..' . '/../lib/Db/ReminderMapper.php',
         'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/NodeNotFoundException.php',
         'OCA\\FilesReminders\\Exception\\ReminderNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/ReminderNotFoundException.php',
-        'OCA\\FilesReminders\\Exception\\UserNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/UserNotFoundException.php',
         'OCA\\FilesReminders\\Listener\\LoadAdditionalScriptsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScriptsListener.php',
         'OCA\\FilesReminders\\Listener\\NodeDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/NodeDeletedListener.php',
         'OCA\\FilesReminders\\Listener\\SabrePluginAddListener' => __DIR__ . '/..' . '/../lib/Listener/SabrePluginAddListener.php',
@@ -41,6 +40,7 @@ class ComposerStaticInitFilesReminders
         'OCA\\FilesReminders\\Model\\RichReminder' => __DIR__ . '/..' . '/../lib/Model/RichReminder.php',
         'OCA\\FilesReminders\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\FilesReminders\\Service\\ReminderService' => __DIR__ . '/..' . '/../lib/Service/ReminderService.php',
+        'OCA\\FilesReminders\\SetupChecks\\NeedNotificationsApp' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedNotificationsApp.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

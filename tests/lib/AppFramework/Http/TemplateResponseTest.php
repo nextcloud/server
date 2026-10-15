@@ -13,16 +13,16 @@ use OCP\AppFramework\Http\TemplateResponse;
 
 class TemplateResponseTest extends \Test\TestCase {
 	/**
-	 * @var \OCP\AppFramework\Http\TemplateResponse
+	 * @var TemplateResponse
 	 */
 	private $tpl;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tpl = new TemplateResponse('app', 'home');
 	}
-
 
 	public function testSetParamsConstructor(): void {
 		$params = ['hi' => 'yo'];
@@ -31,7 +31,6 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
 
-
 	public function testSetRenderAsConstructor(): void {
 		$renderAs = 'myrender';
 		$this->tpl = new TemplateResponse('app', 'home', [], $renderAs);
@@ -39,14 +38,12 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->assertEquals($renderAs, $this->tpl->getRenderAs());
 	}
 
-
 	public function testSetParams(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl->setParams($params);
 
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
-
 
 	public function testGetTemplateName(): void {
 		$this->assertEquals('home', $this->tpl->getTemplateName());

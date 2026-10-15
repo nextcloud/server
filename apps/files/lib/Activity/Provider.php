@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -51,6 +53,7 @@ class Provider implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files') {
 			throw new UnknownActivityException();
@@ -319,7 +322,7 @@ class Provider implements IProvider {
 	protected function getFile($parameter, ?IEvent $event = null): array {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
-			$id = (string)key($parameter);
+			$id = (int)key($parameter);
 		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
@@ -341,7 +344,7 @@ class Provider implements IProvider {
 
 				return [
 					'type' => 'file',
-					'id' => $encryptionContainer->getId(),
+					'id' => (string)$encryptionContainer->getId(),
 					'name' => $encryptionContainer->getName(),
 					'path' => $path,
 					'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
@@ -354,7 +357,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'file',
-			'id' => $id,
+			'id' => (string)$id,
 			'name' => basename($path),
 			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),
@@ -500,7 +503,7 @@ class Provider implements IProvider {
 			'strict_search' => true,
 		]);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
+			if (isset($contact['isLocalSystemBook']) || isset($contact['isVirtualAddressbook'])) {
 				continue;
 			}
 

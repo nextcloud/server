@@ -10,28 +10,35 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use Closure;
+use Exception;
+use OC\Console\NullOutput;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCA\GroupFolders\Mount\GroupMountPoint;
+use OCP\Console\IOutput;
+use OCP\Console\Verbosity;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
-use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
-use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
+use OCP\User\Exceptions\UserNotFoundException;
 use function array_merge;
 use function basename;
 use function count;
@@ -49,6 +56,8 @@ class OwnershipTransferService {
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
 		private IRootFolder $rootFolder,
+		private IEventDispatcher $eventDispatcher,
+		private IDBConnection $connection,
 	) {
 	}
 
@@ -57,19 +66,20 @@ class OwnershipTransferService {
 	 * @param IUser $destinationUser
 	 * @param string $path
 	 *
-	 * @param OutputInterface|null $output
+	 * @param IOutput|null $output
 	 * @param bool $move
 	 * @throws TransferOwnershipException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function transfer(
 		IUser $sourceUser,
 		IUser $destinationUser,
 		string $path,
-		?OutputInterface $output = null,
+		?IOutput $output = null,
 		bool $move = false,
 		bool $firstLogin = false,
-		bool $transferIncomingShares = false,
+		bool $includeExternalStorage = false,
+		bool $useUserId = false,
 	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
@@ -101,7 +111,15 @@ class OwnershipTransferService {
 			$l = $this->l10nFactory->get('files', $this->l10nFactory->getUserLanguage($destinationUser));
 			$date = date('Y-m-d H-i-s');
 
-			$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+			if ($useUserId) {
+				$cleanUserName = $sourceUid;
+			} else {
+				$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName());
+				if ($cleanUserName === '') {
+					$cleanUserName = $sourceUid;
+				}
+			}
+
 			$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$cleanUserName, $date]));
 			try {
 				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
@@ -122,7 +140,6 @@ class OwnershipTransferService {
 		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {
 			throw new TransferOwnershipException('Destination path does not exists or is not empty', 1);
 		}
-
 
 		// analyse source folder
 		$this->analyse(
@@ -149,34 +166,54 @@ class OwnershipTransferService {
 			$sourcePath,
 			$finalTarget,
 			$view,
-			$output
+			$output,
+			$includeExternalStorage,
 		);
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
-		// transfer the incoming shares
-		if ($transferIncomingShares === true) {
-			$sourceShares = $this->collectIncomingShares(
-				$sourceUid,
-				$output,
-				$view
-			);
-			$destinationShares = $this->collectIncomingShares(
-				$destinationUid,
-				$output,
-				$view,
-				true
-			);
-			$this->transferIncomingShares(
-				$sourceUid,
-				$destinationUid,
-				$sourceShares,
-				$destinationShares,
-				$output,
-				$path,
-				$finalTarget,
-				$move
-			);
+		// Files in Team folders are not transferred, so their size needs to be subtracted to avoid warnings about size differences
+		$mounts = Server::get(IMountManager::class)->getAll();
+		foreach ($mounts as $mount) {
+			if (!$mount instanceof GroupMountPoint || !str_starts_with($mount->getMountPoint(), '/' . $sourcePath . '/')) {
+				continue;
+			}
+
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				$output->writeln('Failed to get storage for mount: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$rootCacheEntry = $storage->getCache()->get('');
+			if ($rootCacheEntry === false) {
+				$output->writeln('Failed to get root cache entry for storage: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$sizeDifference -= $rootCacheEntry->getSize();
 		}
+
+		// transfer the incoming shares
+		$sourceShares = $this->collectIncomingShares(
+			$sourceUid,
+			$output,
+			$sourcePath,
+		);
+		$destinationShares = $this->collectIncomingShares(
+			$destinationUid,
+			$output,
+			null,
+		);
+		$this->transferIncomingShares(
+			$sourceUid,
+			$destinationUid,
+			$sourceShares,
+			$destinationShares,
+			$output,
+			$path,
+			$finalTarget,
+			$move
+		);
 
 		$destinationPath = $finalTarget . '/' . $path;
 		// restore the shares
@@ -211,15 +248,18 @@ class OwnershipTransferService {
 	}
 
 	/**
-	 * @param OutputInterface $output
+	 * @param IOutput $output
 	 *
 	 * @throws TransferOwnershipException
 	 */
-	protected function analyse(string $sourceUid,
+	protected function analyse(
+		string $sourceUid,
 		string $destinationUid,
 		string $sourcePath,
 		View $view,
-		OutputInterface $output): void {
+		IOutput $output,
+		bool $includeExternalStorage = false,
+	): void {
 		$output->writeln('Validating quota');
 		$sourceFileInfo = $view->getFileInfo($sourcePath, false);
 		if ($sourceFileInfo === false) {
@@ -232,8 +272,7 @@ class OwnershipTransferService {
 		}
 
 		$output->writeln("Analysing files of $sourceUid ...");
-		$progress = new ProgressBar($output);
-		$progress->start();
+		$output->progressStart();
 
 		if ($this->encryptionManager->isEnabled()) {
 			$masterKeyEnabled = Server::get(Util::class)->isMasterKeyEnabled();
@@ -247,19 +286,24 @@ class OwnershipTransferService {
 				$encryptedFiles[] = $sourceFileInfo;
 			} else {
 				$this->walkFiles($view, $sourcePath,
-					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles) {
+					function (FileInfo $fileInfo) use ($output, $masterKeyEnabled, &$encryptedFiles, $includeExternalStorage) {
 						if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+							$mount = $fileInfo->getMountPoint();
 							// only analyze into folders from main storage,
-							if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+							if (
+								$mount->getMountProvider() instanceof IHomeMountProvider
+								|| ($includeExternalStorage && $mount->getMountProvider() instanceof ConfigAdapter)
+							) {
+								if ($fileInfo->isEncrypted()) {
+									/* Encrypted folder means e2ee encrypted, we cannot transfer it */
+									$encryptedFiles[] = $fileInfo;
+								}
+								return true;
+							} else {
 								return false;
 							}
-							if ($fileInfo->isEncrypted()) {
-								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
-								$encryptedFiles[] = $fileInfo;
-							}
-							return true;
 						}
-						$progress->advance();
+						$output->progressAdvance();
 						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
 							/* Encrypted file means SSE, we can only transfer it if master key is enabled */
 							$encryptedFiles[] = $fileInfo;
@@ -271,7 +315,7 @@ class OwnershipTransferService {
 			/* Encrypted file means SSE, we can only transfer it if master key is enabled */
 			$encryptedFiles[] = $sourceFileInfo;
 		}
-		$progress->finish();
+		$output->progressFinish();
 		$output->writeln('');
 
 		// no file is allowed to be encrypted
@@ -290,14 +334,14 @@ class OwnershipTransferService {
 	 */
 	private function collectUsersShares(
 		string $sourceUid,
-		OutputInterface $output,
+		IOutput $output,
 		View $view,
 		string $path,
 	): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
-		$progress = new ProgressBar($output);
+		$output->progressStart();
 
 		$normalizedPath = Filesystem::normalizePath($path);
 
@@ -310,30 +354,24 @@ class OwnershipTransferService {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH,
 		];
 
 		foreach ($supportedShareTypes as $shareType) {
 			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset, onlyValid: false);
-				$progress->advance(count($sharePage));
+				$output->progressAdvance(count($sharePage));
 				if (empty($sharePage)) {
 					break;
 				}
 				if ($path !== "$sourceUid/files") {
 					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $normalizedPath) {
 						try {
-							$relativePath = $view->getPath($share->getNodeId());
-							$singleFileTranfer = $view->is_file($normalizedPath);
-							if ($singleFileTranfer) {
-								return Filesystem::normalizePath($relativePath) === $normalizedPath;
-							}
+							$sourceNode = $share->getNode();
+							$relativePath = $view->getRelativePath($sourceNode->getPath());
 
-							return mb_strpos(
-								Filesystem::normalizePath($relativePath . '/', false),
-								$normalizedPath . '/') === 0;
-						} catch (\Exception $e) {
+							return str_starts_with($relativePath . '/', $normalizedPath . '/');
+						} catch (Exception $e) {
 							return false;
 						}
 					});
@@ -343,12 +381,12 @@ class OwnershipTransferService {
 			}
 		}
 
-		$progress->finish();
+		$output->progressFinish();
 		$output->writeln('');
 
 		return array_values(array_filter(array_map(function (IShare $share) use ($view, $normalizedPath, $output, $sourceUid) {
 			try {
-				$nodePath = $view->getPath($share->getNodeId());
+				$nodePath = $view->getRelativePath($share->getNode()->getPath());
 			} catch (NotFoundException $e) {
 				$output->writeln("<error>Failed to find path for shared file {$share->getNodeId()} for user $sourceUid, skipping</error>");
 				return null;
@@ -361,37 +399,46 @@ class OwnershipTransferService {
 		}, $shares)));
 	}
 
-	private function collectIncomingShares(string $sourceUid,
-		OutputInterface $output,
-		View $view,
-		bool $addKeys = false): array {
+	/**
+	 * @return array<int, IShare> shares keyed by node ID
+	 */
+	private function collectIncomingShares(
+		string $sourceUid,
+		IOutput $output,
+		?string $path,
+	): array {
 		$output->writeln("Collecting all incoming share information for files and folders of $sourceUid ...");
 
 		$shares = [];
-		$progress = new ProgressBar($output);
+		$output->progressStart();
+		$normalizedPath = Filesystem::normalizePath($path);
 
 		$offset = 0;
 		while (true) {
 			$sharePage = $this->shareManager->getSharedWith($sourceUid, IShare::TYPE_USER, null, 50, $offset);
-			$progress->advance(count($sharePage));
+			$output->progressAdvance(count($sharePage));
 			if (empty($sharePage)) {
 				break;
 			}
-			if ($addKeys) {
-				foreach ($sharePage as $singleShare) {
-					$shares[$singleShare->getNodeId()] = $singleShare;
-				}
-			} else {
-				foreach ($sharePage as $singleShare) {
-					$shares[] = $singleShare;
-				}
+
+			if ($path !== null && $path !== "$sourceUid/files") {
+				$sharePage = array_filter($sharePage, static function (IShare $share) use ($sourceUid, $normalizedPath) {
+					try {
+						return str_starts_with(Filesystem::normalizePath($sourceUid . '/files' . $share->getTarget() . '/', false), $normalizedPath . '/');
+					} catch (Exception) {
+						return false;
+					}
+				});
+			}
+
+			foreach ($sharePage as $share) {
+				$shares[$share->getNodeId()] = $share;
 			}
 
 			$offset += 50;
 		}
 
-
-		$progress->finish();
+		$output->progressFinish();
 		$output->writeln('');
 		return $shares;
 	}
@@ -399,11 +446,14 @@ class OwnershipTransferService {
 	/**
 	 * @throws TransferOwnershipException
 	 */
-	protected function transferFiles(string $sourceUid,
+	protected function transferFiles(
+		string $sourceUid,
 		string $sourcePath,
 		string $finalTarget,
 		View $view,
-		OutputInterface $output): void {
+		IOutput $output,
+		bool $includeExternalStorage,
+	): void {
 		$output->writeln("Transferring files to $finalTarget ...");
 
 		// This change will help user to transfer the folder specified using --path option.
@@ -412,12 +462,47 @@ class OwnershipTransferService {
 			$view->mkdir($finalTarget);
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
-		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
-			throw new TransferOwnershipException('Could not transfer files.', 1);
+		$sourceInfo = $view->getFileInfo($sourcePath);
+
+		/// handle the external storages mounted at the root, or the admin specifying an external storage with --path
+		if ($sourceInfo->getInternalPath() === '' && $includeExternalStorage) {
+			$this->moveMountContents($view, $sourcePath, $finalTarget);
+		} else {
+			if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
+				throw new TransferOwnershipException('Could not transfer files.', 1);
+			}
 		}
+
+		if ($includeExternalStorage) {
+			$nestedMounts = $this->mountManager->findIn($sourcePath);
+			foreach ($nestedMounts as $mount) {
+				if ($mount->getMountProvider() === ConfigAdapter::class) {
+					$relativePath = substr(trim($mount->getMountPoint(), '/'), strlen($sourcePath));
+					$this->moveMountContents($view, $mount->getMountPoint(), $finalTarget . $relativePath);
+				}
+			}
+		}
+
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$sourceUid/files");
+		}
+	}
+
+	private function moveMountContents(View $rootView, string $source, string $target) {
+		if ($rootView->copy($source, $target)) {
+			// just doing `rmdir` on the mountpoint would cause it to try and unmount the storage
+			// we need to empty the contents instead
+			$content = $rootView->getDirectoryContent($source);
+			foreach ($content as $item) {
+				if ($item->getType() === FileInfo::TYPE_FOLDER) {
+					$rootView->rmdir($item->getPath());
+				} else {
+					$rootView->unlink($item->getPath());
+				}
+			}
+		} else {
+			throw new TransferOwnershipException("Could not transfer $source to $target");
 		}
 	}
 
@@ -430,21 +515,23 @@ class OwnershipTransferService {
 		string $destinationUid,
 		string $targetLocation,
 		array $shares,
-		OutputInterface $output,
+		IOutput $output,
 	):void {
 		$output->writeln('Restoring shares ...');
-		$progress = new ProgressBar($output, count($shares));
+		$output->progressStart(count($shares));
 
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
-				$output->writeln('Transfering share ' . $share->getId() . ' of type ' . $share->getShareType(), OutputInterface::VERBOSITY_VERBOSE);
-				if ($share->getShareType() === IShare::TYPE_USER &&
-					$share->getSharedWith() === $destinationUid) {
+				$output->writeln('Transfering share ' . $share->getId() . ' of type ' . $share->getShareType(), Verbosity::Verbose);
+				if ($share->getShareType() === IShare::TYPE_USER
+					&& $share->getSharedWith() === $destinationUid) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $destinationUid . '/files' . $share->getTarget());
 					if ($shareMountPoint) {
 						$this->mountManager->removeMount($shareMountPoint->getMountPoint());
 					}
+
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} else {
 					if ($share->getShareOwner() === $sourceUid) {
@@ -454,8 +541,8 @@ class OwnershipTransferService {
 						$share->setSharedBy($destinationUid);
 					}
 
-					if ($share->getShareType() === IShare::TYPE_USER &&
-						!$this->userManager->userExists($share->getSharedWith())) {
+					if ($share->getShareType() === IShare::TYPE_USER
+						&& !$this->userManager->userExists($share->getSharedWith())) {
 						// stray share with deleted user
 						$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted user "' . $share->getSharedWith() . '", deleting</error>');
 						$this->shareManager->deleteShare($share);
@@ -475,7 +562,7 @@ class OwnershipTransferService {
 							// Try to get the new ID from the target path and suffix of the share
 							$node = $this->rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
 							$newNodeId = $node->getId();
-							$output->writeln('Had to change node id to ' . $newNodeId, OutputInterface::VERBOSITY_VERY_VERBOSE);
+							$output->writeln('Had to change node id to ' . $newNodeId, Verbosity::VeryVerbose);
 						}
 						$share->setNodeId($newNodeId);
 
@@ -487,22 +574,29 @@ class OwnershipTransferService {
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getMessage() . ' : ' . $e->getTraceAsString() . '</error>');
 			}
-			$progress->advance();
+			$this->eventDispatcher->dispatchTyped(new ShareTransferredEvent($share));
+			$output->progressAdvance();
 		}
-		$progress->finish();
+		$output->progressFinish();
 		$output->writeln('');
 	}
 
-	private function transferIncomingShares(string $sourceUid,
+	/**
+	 * @param array<int, IShare> $sourceShares shares of the source user, keyed by node ID
+	 * @param array<int, IShare> $destinationShares shares of the destination user, keyed by node ID
+	 */
+	private function transferIncomingShares(
+		string $sourceUid,
 		string $destinationUid,
 		array $sourceShares,
 		array $destinationShares,
-		OutputInterface $output,
+		IOutput $output,
 		string $path,
 		string $finalTarget,
-		bool $move): void {
+		bool $move,
+	): void {
 		$output->writeln('Restoring incoming shares ...');
-		$progress = new ProgressBar($output, count($sourceShares));
+		$output->progressStart(count($sourceShares));
 		$prefix = "$destinationUid/files";
 		$finalShareTarget = '';
 		if (str_starts_with($finalTarget, $prefix)) {
@@ -520,13 +614,15 @@ class OwnershipTransferService {
 				}
 				$shareTarget = $share->getTarget();
 				$shareTarget = $finalShareTarget . $shareTarget;
-				if ($share->getShareType() === IShare::TYPE_USER &&
-					$share->getSharedBy() === $destinationUid) {
+				if ($share->getShareType() === IShare::TYPE_USER
+					&& $share->getSharedBy() === $destinationUid) {
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} elseif (isset($destinationShares[$share->getNodeId()])) {
 					$destinationShare = $destinationShares[$share->getNodeId()];
 					// Keep the share which has the most permissions and discard the other one.
 					if ($destinationShare->getPermissions() < $share->getPermissions()) {
+						$this->promoteLinkShares($destinationShare, $share->getId());
 						$this->shareManager->deleteShare($destinationShare);
 						$share->setSharedWith($destinationUid);
 						// trigger refetching of the node so that the new owner and mountpoint are taken into account
@@ -535,16 +631,21 @@ class OwnershipTransferService {
 						$share->setNodeId($share->getNode()->getId());
 						$this->shareManager->updateShare($share);
 						// The share is already transferred.
-						$progress->advance();
+						$output->progressAdvance();
 						if ($move) {
 							continue;
 						}
+						$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+						$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 						$share->setTarget($shareTarget);
 						$this->shareManager->moveShare($share, $destinationUid);
+						$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 						continue;
 					}
+					$this->promoteLinkShares($share, $destinationShare->getId());
 					$this->shareManager->deleteShare($share);
 				} elseif ($share->getShareOwner() === $destinationUid) {
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} else {
 					$share->setSharedWith($destinationUid);
@@ -554,12 +655,15 @@ class OwnershipTransferService {
 					// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
 					$this->userMountCache->clear();
 					// The share is already transferred.
-					$progress->advance();
+					$output->progressAdvance();
 					if ($move) {
 						continue;
 					}
+					$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+					$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 					$share->setTarget($shareTarget);
 					$this->shareManager->moveShare($share, $destinationUid);
+					$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 					continue;
 				}
 			} catch (NotFoundException $e) {
@@ -567,9 +671,28 @@ class OwnershipTransferService {
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getTraceAsString() . '</error>');
 			}
-			$progress->advance();
+			$output->progressAdvance();
 		}
-		$progress->finish();
+		$output->progressFinish();
 		$output->writeln('');
+	}
+
+	/**
+	 * Sets the parent column of the link/email shares with $share as parent to
+	 * `null` or, if provided, to $newParentId.
+	 */
+	private function promoteLinkShares(IShare $share, ?string $newParentId = null): void {
+		$qb = $this->connection->getQueryBuilder();
+		$parentParam = $newParentId === null ? $qb->createNamedParameter(null, IQueryBuilder::PARAM_NULL) : $qb->createNamedParameter($newParentId, IQueryBuilder::PARAM_STR);
+
+		$qb->update('share')
+			->set('parent', $parentParam)
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_LINK, IShare::TYPE_EMAIL], IQueryBuilder::PARAM_INT_ARRAY)))
+			->executeStatement();
+	}
+
+	private function getShareMountPoint(string $uid, string $target): string {
+		return '/' . $uid . '/files/' . trim($target, '/') . '/';
 	}
 }

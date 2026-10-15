@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
@@ -23,14 +24,17 @@ class CheckUserCertificates implements ISetupCheck {
 		$this->configValue = $config->getAppValue('files_external', 'user_certificate_scan', '');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Old administration imported certificates');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		// all fine if neither "not-run-yet" nor a result
 		if ($this->configValue === '') {

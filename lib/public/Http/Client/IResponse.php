@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Http\Client;
 
 /**
@@ -15,8 +16,9 @@ namespace OCP\Http\Client;
  */
 interface IResponse {
 	/**
-	 * @return string|resource
+	 * @return null|resource|string
 	 * @since 8.1.0
+	 * @sicne 8.2.0 with stream enabled, the function returns null or a resource
 	 */
 	public function getBody();
 

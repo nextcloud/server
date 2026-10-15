@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Integration;
 
 use Sabre\CalDAV;
@@ -17,7 +21,7 @@ use Sabre\DAV;
 abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 
 	/** @var string */
-	private const PREFIX = 'app-generated';
+	private const string PREFIX = 'app-generated';
 
 	/**
 	 * @var string
@@ -30,7 +34,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 * - explode has a limit of three, so even if the app-generated
 	 *   calendar uri has double dashes, it won't be split
 	 */
-	private const DELIMITER = '--';
+	private const string DELIMITER = '--';
 
 	/**
 	 * ExternalCalendar constructor.
@@ -47,6 +51,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function getName() {
 		return implode(self::DELIMITER, [
 			self::PREFIX,
@@ -58,6 +63,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function setName($name) {
 		throw new DAV\Exception\MethodNotAllowed('Renaming calendars is not yet supported');
 	}
@@ -65,6 +71,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in calendar objects is not allowed');
 	}

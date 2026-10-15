@@ -13,26 +13,58 @@ on:
       - '.github/workflows/static-code-analysis.yml'
       - '**.php'
 
+permissions:
+  contents: read
+
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+
+    steps:
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'psalm*.xml'
+              - 'build/psalm-baseline*.xml'
+              - '**.php'
+
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -51,18 +83,24 @@ jobs:
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    permissions:
+      security-events: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
 
@@ -70,7 +108,14 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif --report-show-info=false
+
+      # Psalm exits 0 on taint findings when a report file is generated
+      - name: Fail on taint analysis findings
+        run: |
+          count=$(jq '[.runs[].results[]] | length' results.sarif)
+          echo "Taint analysis findings: $count"
+          test "$count" -eq 0
 
       - name: Show potential changes in Psalm baseline
         if: always()
@@ -78,25 +123,28 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4.38.1
         with:
           sarif_file: results.sarif
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -115,18 +163,21 @@ jobs:
   static-code-analysis-ncu:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -137,3 +188,56 @@ jobs:
 
       - name: Psalm
         run: composer run psalm:ncu -- --threads=1 --monochrome --no-progress --output-format=github
+
+  static-code-analysis-strict:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.3'
+          extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Composer install
+        run: composer i
+
+      - name: Psalm
+        run: composer run psalm:strict -- --threads=1 --monochrome --no-progress --output-format=github
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, static-code-analysis, static-code-analysis-security, static-code-analysis-ocp, static-code-analysis-ncu, static-code-analysis-strict]
+
+    if: always()
+
+    name: static-code-analysis-summary
+
+    steps:
+      - name: Summary status
+        run: |
+          if ${{ needs.changes.outputs.src != 'false' && (
+            needs.static-code-analysis-security.result != 'success' ||
+            (github.event_name != 'push' && (
+              needs.static-code-analysis.result != 'success' ||
+              needs.static-code-analysis-ocp.result != 'success' ||
+              needs.static-code-analysis-ncu.result != 'success' ||
+              needs.static-code-analysis-strict.result != 'success'
+            ))
+          ) }}; then
+            exit 1
+          fi

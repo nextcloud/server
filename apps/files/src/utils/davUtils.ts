@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { t } from '@nextcloud/l10n'
 import type { WebDAVClientError } from 'webdav'
+
+import { t } from '@nextcloud/l10n'
 
 /**
  * Whether error is a WebDAVClientError
+ *
  * @param error - Any exception
- * @return {boolean} - Whether error is a WebDAVClientError
+ * @return - Whether error is a WebDAVClientError
  */
 function isWebDAVClientError(error: unknown): error is WebDAVClientError {
 	return error instanceof Error && 'status' in error && 'response' in error
@@ -17,8 +19,9 @@ function isWebDAVClientError(error: unknown): error is WebDAVClientError {
 
 /**
  * Get a localized error message from webdav request
+ *
  * @param error - An exception from webdav request
- * @return {string} Localized error message for end user
+ * @return Localized error message for end user
  */
 export function humanizeWebDAVError(error: unknown) {
 	if (error instanceof Error) {
@@ -29,10 +32,14 @@ export function humanizeWebDAVError(error: unknown) {
 			} else if (status === 403) {
 				return t('files', 'This operation is forbidden')
 			} else if (status === 500) {
-				return t('files', 'This directory is unavailable, please check the logs or contact the administrator')
+				return t('files', 'This folder is unavailable, please try again later or contact the administration')
 			} else if (status === 503) {
 				return t('files', 'Storage is temporarily not available')
 			}
+		}
+		// We don't need to show abortion error to the user as those are expected.
+		if (error.name === 'AbortError') {
+			return null
 		}
 		return t('files', 'Unexpected error: {error}', { error: error.message })
 	}

@@ -12,40 +12,33 @@ namespace Test\Log;
 use OC\Log;
 use OC\Log\PsrLoggerAdapter;
 use OCP\ILogger;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Test\TestCase;
 
 class PsrLoggerAdapterTest extends TestCase {
-	protected Log&MockObject $logger;
 	protected PsrLoggerAdapter $loggerAdapter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->logger = $this->createMock(Log::class);
-		$this->loggerAdapter = new PsrLoggerAdapter($this->logger);
+		$this->loggerAdapter = $this->createInstanceWithMocks(PsrLoggerAdapter::class);
 	}
 
-	/**
-	 * @dataProvider dataPsrLoggingLevels
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLoggingWithPsrLogLevels(string $level, int $expectedLevel): void {
-		$this->logger->expects(self::once())
+		$this->getAutoMock(Log::class)->expects(self::once())
 			->method('log')
 			->with($expectedLevel, 'test message', ['app' => 'test']);
 		$this->loggerAdapter->log($level, 'test message', ['app' => 'test']);
 	}
 
-	/**
-	 * @dataProvider dataPsrLoggingLevels
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLogLevelToInt(string $level, int $expectedLevel): void {
 		$this->assertEquals($expectedLevel, PsrLoggerAdapter::logLevelToInt($level));
 	}
 
-	public function dataPsrLoggingLevels(): array {
+	public static function dataPsrLoggingLevels(): array {
 		return [
 			[LogLevel::ALERT, ILogger::ERROR],
 			[LogLevel::CRITICAL, ILogger::ERROR],
@@ -58,18 +51,16 @@ class PsrLoggerAdapterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataInvalidLoggingLevel
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidLoggingLevel')]
 	public function testInvalidLoggingLevel($level): void {
-		$this->logger->expects(self::never())
+		$this->getAutoMock(Log::class)->expects(self::never())
 			->method('log');
 		$this->expectException(InvalidArgumentException::class);
 
 		$this->loggerAdapter->log($level, 'valid message');
 	}
 
-	public function dataInvalidLoggingLevel(): array {
+	public static function dataInvalidLoggingLevel(): array {
 		return [
 			// invalid string
 			['this is not a level'],

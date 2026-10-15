@@ -9,14 +9,12 @@ declare(strict_types=1);
 
 namespace Test\Authentication\TwoFactorAuth\Db;
 
-use OC;
 use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var IDBConnection */
 	private $dbConn;
@@ -24,13 +22,14 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var ProviderUserAssignmentDao */
 	private $dao;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConn = OC::$server->getDatabaseConnection();
+		$this->dbConn = Server::get(IDBConnection::class);
 		$qb = $this->dbConn->getQueryBuilder();
 		$q = $qb->delete(ProviderUserAssignmentDao::TABLE_NAME);
-		$q->execute();
+		$q->executeStatement();
 
 		$this->dao = new ProviderUserAssignmentDao($this->dbConn);
 	}
@@ -42,13 +41,13 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			'uid' => $qb->createNamedParameter('user123'),
 			'enabled' => $qb->createNamedParameter(1),
 		]);
-		$q1->execute();
+		$q1->executeStatement();
 		$q2 = $qb->insert(ProviderUserAssignmentDao::TABLE_NAME)->values([
 			'provider_id' => $qb->createNamedParameter('twofactor_totp'),
 			'uid' => $qb->createNamedParameter('user123'),
 			'enabled' => $qb->createNamedParameter(0),
 		]);
-		$q2->execute();
+		$q2->executeStatement();
 		$expected = [
 			'twofactor_u2f' => true,
 			'twofactor_totp' => false,
@@ -70,8 +69,8 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter('twofactor_totp')))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(0)));
-		$res = $q->execute();
-		$data = $res->fetchAll();
+		$res = $q->executeQuery();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 		$this->assertCount(1, $data);
 	}
@@ -88,8 +87,8 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter('twofactor_totp')))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(1)));
-		$res = $q->execute();
-		$data = $res->fetchAll();
+		$res = $q->executeQuery();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 
 		$this->assertCount(1, $data);
@@ -107,8 +106,8 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter('twofactor_totp')))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(1)));
-		$res = $q->execute();
-		$data = $res->fetchAll();
+		$res = $q->executeQuery();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 
 		$this->assertCount(1, $data);

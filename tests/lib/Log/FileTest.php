@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
@@ -8,8 +9,10 @@
 namespace Test\Log;
 
 use OC\Log\File;
+use OC\SystemConfig;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -22,17 +25,19 @@ class FileTest extends TestCase {
 	/** @var File */
 	protected $logFile;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$config = \OC::$server->getSystemConfig();
+		$config = Server::get(SystemConfig::class);
 		$this->restore_logfile = $config->getValue('logfile');
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
 		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
+	#[\Override]
 	protected function tearDown(): void {
-		$config = \OC::$server->getSystemConfig();
+		$config = Server::get(SystemConfig::class);
 		if (isset($this->restore_logfile)) {
 			$config->getValue('logfile', $this->restore_logfile);
 		} else {
@@ -48,7 +53,7 @@ class FileTest extends TestCase {
 	}
 
 	public function testLogging(): void {
-		$config = \OC::$server->get(IConfig::class);
+		$config = Server::get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
 
@@ -69,7 +74,7 @@ class FileTest extends TestCase {
 	}
 
 	public function testMicrosecondsLogTimestamp(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
 

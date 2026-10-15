@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
+use OC\DB\SchemaChecker;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -21,6 +23,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -38,10 +41,12 @@ class Upgrade extends Command {
 	public function __construct(
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
+		private SchemaChecker $schemaChecker,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('upgrade')
@@ -54,6 +59,7 @@ class Upgrade extends Command {
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
 			if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
@@ -63,11 +69,10 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = \OCP\Server::get(Updater::class);
-			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
+			$updater = Server::get(Updater::class);
 
 			/** @var IEventDispatcher $dispatcher */
-			$dispatcher = \OC::$server->get(IEventDispatcher::class);
+			$dispatcher = Server::get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
 			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
@@ -131,18 +136,17 @@ class Upgrade extends Command {
 			$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
 			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
-
-			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output) {
+			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output): void {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($output) {
+			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($output): void {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output) {
-				$output->writeln('<info>Maintenance mode is kept active</info>');
+			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output): void {
+				$output->writeln('<comment>Maintenance mode is kept active</comment>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
-				function ($success) use ($output, $self) {
+				function ($success) use ($output, $self): void {
 					if ($success) {
 						$message = '<info>Update successful</info>';
 					} else {
@@ -150,48 +154,50 @@ class Upgrade extends Command {
 					}
 					$output->writeln($message);
 				});
-			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($output) {
+			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($output): void {
 				$output->writeln('<info>Updating database schema</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
+			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output): void {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
-				if (!in_array($app, $incompatibleOverwrites)) {
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output): void {
+				// Read per event, the overwrites are cleared during a major upgrade
+				$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
+				if (!in_array($app, $incompatibleOverwrites, true)) {
 					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 				}
 			});
-			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
+			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output): void {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
-			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
+			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output): void {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
+			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output): void {
 				$output->writeln("<info>Updating <$app> ...</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
+			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output): void {
 				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
-			$updater->listen('\OC\Updater', 'failure', function ($message) use ($output, $self) {
+			$updater->listen('\OC\Updater', 'failure', function ($message) use ($output, $self): void {
 				$output->writeln("<error>$message</error>");
 			});
-			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output): void {
 				$output->writeln('<info>Setting log level to debug</info>');
 			});
-			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output): void {
 				$output->writeln('<info>Resetting log level</info>');
 			});
-			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output) {
+			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output): void {
 				$output->writeln('<info>Starting code integrity check...</info>');
 			});
-			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output) {
+			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output): void {
 				$output->writeln('<info>Finished code integrity check</info>');
 			});
 
 			$success = $updater->upgrade();
 
-			$this->postUpgradeCheck($input, $output);
+			$this->postUpgradeCheck($input, $output, $success);
 
 			if (!$success) {
 				return self::ERROR_FAILURE;
@@ -221,15 +227,45 @@ class Upgrade extends Command {
 	 *
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
+	 * @param bool $upgradeSucceeded whether the upgrade itself completed successfully
 	 */
-	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
+	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output, bool $upgradeSucceeded) {
 		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		if (empty($trustedDomains)) {
 			$output->write(
-				'<warning>The setting "trusted_domains" could not be ' .
-				'set automatically by the upgrade script, ' .
-				'please set it manually</warning>'
+				'<warning>The setting "trusted_domains" could not be '
+				. 'set automatically by the upgrade script, '
+				. 'please set it manually</warning>'
 			);
 		}
+
+		if (!$upgradeSucceeded) {
+			return;
+		}
+
+		$this->checkSchema($output);
+	}
+
+	/**
+	 * Warns about database schema drift after an upgrade. This is
+	 * informational only and never fails the upgrade, since drift can
+	 * originate from third-party apps outside of core's control.
+	 */
+	private function checkSchema(OutputInterface $output): void {
+		$findings = $this->schemaChecker->getFindings();
+		if ($findings === []) {
+			return;
+		}
+
+		['blocking' => $blocking] = $this->schemaChecker->partitionFindings($findings);
+		if ($blocking === []) {
+			return;
+		}
+
+		$output->writeln('<comment>The database schema does not match what is expected for the installed version:</comment>');
+		foreach ($blocking as $finding) {
+			$output->writeln('  - ' . $this->schemaChecker->formatFinding($finding));
+		}
+		$output->writeln('<comment>Run "occ db:schema:check -v" for details.</comment>');
 	}
 }

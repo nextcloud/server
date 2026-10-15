@@ -1,5 +1,4 @@
 {
-	"info": [],
 	"remote": [],
 	"public": [],
 	"id": "files_encryption",
@@ -16,7 +15,6 @@
 		"admin": "admin-encryption"
 	},
 	"types": ["filesystem"],
-	"ocsid": "166047",
 	"dependencies": {
 		"php": {
 			"@attributes" : {
@@ -92,5 +90,11 @@
 		"admin-section": [],
 		"personal": [],
 		"personal-section": []
+	},
+	"openmetrics": {
+		"exporter": [
+			"OC\\OpenMetrics\\Exporters\\ActiveSessions",
+			"OC\\OpenMetrics\\Exporters\\ActiveUsers"
+		]
 	}
 }

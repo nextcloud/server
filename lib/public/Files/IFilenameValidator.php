@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files;
 
 /**
@@ -36,4 +37,17 @@ interface IFilenameValidator {
 	 * @since 30.0.0
 	 */
 	public function validateFilename(string $filename): void;
+
+	/**
+	 * Sanitize a give filename to comply with admin setup naming constrains.
+	 *
+	 * If no sanitizing is needed the same name is returned.
+	 *
+	 * @param string $name The filename to sanitize
+	 * @param null|string $charReplacement Character to use for replacing forbidden ones - by default underscore, dash or space is used if allowed.
+	 * @throws \InvalidArgumentException if no character replacement was given (and the default could not be applied) or the replacement is not valid.
+	 * @since 32.0.0
+	 */
+	public function sanitizeFilename(string $name, ?string $charReplacement = null): string;
+
 }

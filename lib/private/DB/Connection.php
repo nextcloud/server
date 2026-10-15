@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
@@ -16,6 +17,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
@@ -23,6 +25,7 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\Middleware\ConnectionActivityNotifier;
 use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
 use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\QueryBuilder;
@@ -33,9 +36,12 @@ use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IRequestId;
@@ -49,35 +55,23 @@ use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
-	/** @var string */
-	protected $tablePrefix;
-
-	/** @var \OC\DB\Adapter $adapter */
-	protected $adapter;
-
-	/** @var SystemConfig */
-	private $systemConfig;
-
+	protected string $tablePrefix;
+	protected Adapter $adapter;
+	private SystemConfig $systemConfig;
 	private ClockInterface $clock;
-
 	private LoggerInterface $logger;
-
 	protected $lockedTable = null;
-
-	/** @var int */
-	protected $queriesBuilt = 0;
-
-	/** @var int */
-	protected $queriesExecuted = 0;
-
-	/** @var DbDataCollector|null */
-	protected $dbDataCollector = null;
+	protected int $queriesBuilt = 0;
+	protected int $queriesExecuted = 0;
+	protected ?DbDataCollector $dbDataCollector = null;
+	/** Seconds the connection may sit idle before the next use re-verifies connectivity */
+	private const int CONNECTION_CHECK_INTERVAL = 30;
 	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;
 
 	/** @var array<string, int> */
-	protected $tableDirtyWrites = [];
+	protected array $tableDirtyWrites = [];
 
 	protected bool $logDbException = false;
 	private ?array $transactionBacktrace = null;
@@ -101,6 +95,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			'companion_tables' => [
 				'filecache_extended',
 				'files_metadata',
+				'files_metadata_index',
 			],
 			'primary_key' => 'fileid',
 			'shard_key' => 'storage',
@@ -131,6 +126,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+		$activityNotifier = $params['activity_notifier'] ?? null;
+		if ($activityNotifier instanceof ConnectionActivityNotifier) {
+			$activityNotifier->setListener($this->refreshLastConnectionCheck(...));
+		}
 		$this->isShardingEnabled = isset($this->params['sharding']) && !empty($this->params['sharding']);
 
 		if ($this->isShardingEnabled) {
@@ -142,7 +141,7 @@ class Connection extends PrimaryReadReplicaConnection {
 				$this->shardConnectionManager,
 			);
 		}
-		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->systemConfig = Server::get(SystemConfig::class);
 		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = Server::get(LoggerInterface::class);
 
@@ -150,7 +149,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->logDbException = $this->systemConfig->getValue('db.log_exceptions', false);
 		$this->requestId = Server::get(IRequestId::class)->getId();
 
-		/** @var \OCP\Profiler\IProfiler */
+		/** @var IProfiler */
 		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
@@ -214,6 +213,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	/**
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function connect($connectionName = null) {
 		try {
 			if ($this->_conn) {
@@ -229,7 +229,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 
 			return $status;
 		} catch (Exception $e) {
@@ -238,6 +238,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
+	#[\Override]
 	protected function performConnect(?string $connectionName = null): bool {
 		if (($connectionName ?? 'replica') === 'replica'
 			&& count($this->params['replica']) === 1
@@ -258,6 +259,14 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Returns a QueryBuilder for the connection.
 	 */
 	public function getQueryBuilder(): IQueryBuilder {
+		return $this->getInnerQueryBuilder();
+	}
+
+	public function getTypedQueryBuilder(): ITypedQueryBuilder {
+		return $this->getInnerQueryBuilder();
+	}
+
+	private function getInnerQueryBuilder(): IQueryBuilder&ITypedQueryBuilder {
 		$this->queriesBuilt++;
 
 		$builder = new QueryBuilder(
@@ -288,6 +297,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return \Doctrine\DBAL\Query\QueryBuilder
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
+	#[\Override]
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
@@ -301,6 +311,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
 	 */
+	#[\Override]
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
@@ -325,10 +336,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return '';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrefix() {
+	public function getPrefix(): string {
 		return $this->tablePrefix;
 	}
 
@@ -342,6 +350,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function prepare($sql, $limit = null, $offset = null): Statement {
 		if ($limit === -1 || $limit === null) {
 			$limit = null;
@@ -375,6 +384,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
+	#[\Override]
 	public function executeQuery(string $sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
 		$now = $this->clock->now()->getTimestamp();
@@ -414,7 +424,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return parent::executeQuery($sql, $params, $types, $qcp);
 		} catch (\Exception $e) {
@@ -436,6 +446,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	/**
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
 		return $this->executeStatement($sql, $params, $types);
 	}
@@ -454,6 +465,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
+	#[\Override]
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		$tables = $this->getQueriedTables($sql);
 		foreach ($tables as $table) {
@@ -461,7 +473,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return (int)parent::executeStatement($sql, $params, $types);
 		} catch (\Exception $e) {
@@ -470,14 +482,19 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
-	protected function logQueryToFile(string $sql): void {
+	protected function logQueryToFile(string $sql, array $params): void {
 		$logFile = $this->systemConfig->getValue('query_log_file');
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
+
 			$postfix = '';
+			if ($this->systemConfig->getValue('query_log_file_parameters') === 'yes') {
+				$postfix .= '; ' . json_encode($params);
+			}
+
 			if ($this->systemConfig->getValue('query_log_file_backtrace') === 'yes') {
 				$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 				array_pop($trace);
@@ -510,6 +527,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function lastInsertId($name = null): int {
 		if ($name) {
 			$name = $this->replaceTablePrefix($name);
@@ -592,7 +610,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			if (!in_array($e->getReason(), [
 				\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
 				\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
-			])
+			], true)
 			) {
 				throw $e;
 			}
@@ -777,7 +795,6 @@ class Connection extends PrimaryReadReplicaConnection {
 		return $this->getParams()['charset'] === 'utf8mb4';
 	}
 
-
 	/**
 	 * Create the schema of the connected database
 	 *
@@ -814,10 +831,10 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->get(ISecureRandom::class);
+		$random = Server::get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
-		$config = \OC::$server->getConfig();
-		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$config = Server::get(IConfig::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
@@ -827,6 +844,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
+	#[\Override]
 	public function beginTransaction() {
 		if (!$this->inTransaction()) {
 			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -835,6 +853,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return parent::beginTransaction();
 	}
 
+	#[\Override]
 	public function commit() {
 		$result = parent::commit();
 		if ($this->getTransactionNestingLevel() === 0) {
@@ -861,6 +880,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return $result;
 	}
 
+	#[\Override]
 	public function rollBack() {
 		$result = parent::rollBack();
 		if ($this->getTransactionNestingLevel() === 0) {
@@ -889,20 +909,31 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function reconnectIfNeeded(): void {
 		if (
-			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			!isset($this->lastConnectionCheck[$this->getConnectionName()])
+			|| time() <= $this->lastConnectionCheck[$this->getConnectionName()] + self::CONNECTION_CHECK_INTERVAL
+			|| $this->isTransactionActive()
 		) {
 			return;
 		}
 
 		try {
 			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 		} catch (ConnectionLost|\Exception $e) {
 			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
 			$this->close();
 		}
+	}
+
+	/**
+	 * A successful round trip proves the connection is alive: pushing the idle
+	 * timer forward keeps the connectivity probe of reconnectIfNeeded() from
+	 * firing between adjacent operations, where its query would reset the
+	 * driver level last insert id on MySQL. Invoked for every driver level
+	 * execution via the ConnectionActivityMiddleware.
+	 */
+	private function refreshLastConnectionCheck(): void {
+		$this->lastConnectionCheck[$this->getConnectionName()] = time();
 	}
 
 	private function getConnectionName(): string {
@@ -910,11 +941,13 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	/**
-	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE
+	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE|IDBConnection::PLATFORM_MARIADB
 	 */
-	public function getDatabaseProvider(): string {
+	public function getDatabaseProvider(bool $strict = false): string {
 		$platform = $this->getDatabasePlatform();
-		if ($platform instanceof MySQLPlatform) {
+		if ($strict && $platform instanceof MariaDBPlatform) {
+			return IDBConnection::PLATFORM_MARIADB;
+		} elseif ($platform instanceof MySQLPlatform) {
 			return IDBConnection::PLATFORM_MYSQL;
 		} elseif ($platform instanceof OraclePlatform) {
 			return IDBConnection::PLATFORM_ORACLE;

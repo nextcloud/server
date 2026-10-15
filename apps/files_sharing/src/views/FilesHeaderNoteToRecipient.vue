@@ -3,10 +3,11 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcNoteCard v-if="note.length > 0"
+	<NcNoteCard
+		v-if="note.length > 0"
 		class="note-to-recipient"
 		type="info">
-		<p v-if="user" class="note-to-recipient__heading">
+		<p v-if="displayName" class="note-to-recipient__heading">
 			{{ t('files_sharing', 'Note from') }}
 			<NcUserBubble :user="user.id" :display-name="user.displayName" />
 		</p>
@@ -19,22 +20,22 @@
 
 <script setup lang="ts">
 import type { Folder } from '@nextcloud/files'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
-
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 const folder = ref<Folder>()
 const note = computed<string>(() => folder.value?.attributes.note ?? '')
+const displayName = computed<string>(() => folder.value?.attributes['owner-display-name'] ?? '')
 const user = computed(() => {
 	const id = folder.value?.owner
-	const displayName = folder.value?.attributes?.['owner-display-name']
 	if (id !== getCurrentUser()?.uid) {
 		return {
 			id,
-			displayName,
+			displayName: displayName.value,
 		}
 	}
 	return null
@@ -42,6 +43,7 @@ const user = computed(() => {
 
 /**
  * Update the current folder
+ *
  * @param newFolder the new folder to show note for
  */
 function updateFolder(newFolder: Folder) {

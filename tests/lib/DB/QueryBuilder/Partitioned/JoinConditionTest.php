@@ -18,11 +18,12 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class JoinConditionTest extends TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 	}
 
-	public function platformProvider(): array {
+	public static function platformProvider(): array {
 		return [
 			[IDBConnection::PLATFORM_SQLITE],
 			[IDBConnection::PLATFORM_POSTGRES],
@@ -41,9 +42,7 @@ class JoinConditionTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider platformProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('platformProvider')]
 	public function testParseCondition(string $platform): void {
 		$query = $this->getBuilder($platform);
 		$param1 = $query->createNamedParameter('files');
@@ -63,9 +62,7 @@ class JoinConditionTest extends TestCase {
 		], $parsed->toConditions);
 	}
 
-	/**
-	 * @dataProvider platformProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('platformProvider')]
 	public function testParseCastCondition(string $platform): void {
 		$query = $this->getBuilder($platform);
 

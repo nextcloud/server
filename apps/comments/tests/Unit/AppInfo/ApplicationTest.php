@@ -1,13 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
+use OCA\Comments\Activity\Filter;
+use OCA\Comments\Activity\Listener;
+use OCA\Comments\Activity\Provider;
+use OCA\Comments\Activity\Setting;
 use OCA\Comments\AppInfo\Application;
+use OCA\Comments\Controller\NotificationsController;
 use OCA\Comments\Notification\Notifier;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -17,17 +25,18 @@ use Test\TestCase;
 /**
  * Class ApplicationTest
  *
- * @group DB
- *
  * @package OCA\Comments\Tests\Unit\AppInfo
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		Server::get(IUserManager::class)->createUser('dummy', '456');
 		Server::get(IUserSession::class)->setUser(Server::get(IUserManager::class)->get('dummy'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Server::get(IUserManager::class)->get('dummy')->delete();
 		parent::tearDown();
@@ -38,12 +47,12 @@ class ApplicationTest extends TestCase {
 		$c = $app->getContainer();
 
 		$services = [
-			'OCA\Comments\Controller\NotificationsController',
-			'OCA\Comments\Activity\Filter',
-			'OCA\Comments\Activity\Listener',
-			'OCA\Comments\Activity\Provider',
-			'OCA\Comments\Activity\Setting',
-			'OCA\Comments\Notification\Listener',
+			NotificationsController::class,
+			Filter::class,
+			Listener::class,
+			Provider::class,
+			Setting::class,
+			\OCA\Comments\Notification\Listener::class,
 			Notifier::class,
 		];
 

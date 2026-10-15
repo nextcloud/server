@@ -15,10 +15,12 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version27000Date20220613163520 extends SimpleMigrationStep {
+	#[\Override]
 	public function name(): string {
 		return 'Add mountpoint path to mounts table unique index';
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\AppInfo\Application;
@@ -30,6 +31,7 @@ class PruneOutdatedSyncTokensJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$limit = max(1, (int)$this->config->getAppValue(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000'));
 		$retention = max(7, (int)$this->config->getAppValue(Application::APP_ID, 'syncTokensRetentionDays', '60')) * 24 * 3600;

@@ -6,7 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Notification;
+
+use OCP\AppFramework\Attribute\Implementable;
 
 /**
  * Interface INotifier classes should implement if they want to process notifications
@@ -14,9 +17,8 @@ namespace OCP\Notification;
  *
  * This can be useful if dismissing the notification will leave it in an incomplete
  * state. The handler can choose to for example do some default action.
- *
- * @since 18.0.0
  */
+#[Implementable(since: '18.0.0')]
 interface IDismissableNotifier extends INotifier {
 	/**
 	 * @param INotification $notification

@@ -43,6 +43,7 @@ abstract class Field implements \JsonSerializable {
 	 * }
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'index' => $this->index,

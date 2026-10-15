@@ -10,6 +10,8 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\TimedJob;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,6 +25,7 @@ class Job extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('background-job:execute')
@@ -41,8 +44,9 @@ class Job extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int)$input->getArgument('job-id');
+		$jobId = (string)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -67,15 +71,14 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-		$job->execute($this->jobList);
+		$job->start($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -86,7 +89,7 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
+	protected function printJobInfo(string $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
@@ -99,10 +102,10 @@ class Job extends Command {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');
@@ -121,7 +124,6 @@ class Job extends Command {
 		if ($isTimedJob) {
 			$reflection = new \ReflectionClass($job);
 			$intervalProperty = $reflection->getProperty('interval');
-			$intervalProperty->setAccessible(true);
 			$interval = $intervalProperty->getValue($job);
 
 			$nextRun = new \DateTime();

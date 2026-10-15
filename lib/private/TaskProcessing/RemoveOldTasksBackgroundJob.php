@@ -1,26 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\TaskProcessing;
 
 use OC\TaskProcessing\Db\TaskMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\Files\SimpleFS\ISimpleFolder;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
-	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 7 * 4; // 4 weeks
-	private \OCP\Files\IAppData $appData;
+	private IAppData $appData;
 
 	public function __construct(
 		ITimeFactory $timeFactory,
+		private Manager $taskProcessingManager,
 		private TaskMapper $taskMapper,
 		private LoggerInterface $logger,
 		IAppDataFactory $appDataFactory,
@@ -32,48 +35,27 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		$this->appData = $appDataFactory->get('core');
 	}
 
-
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	protected function run($argument): void {
 		try {
-			$this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);
+			iterator_to_array($this->taskProcessingManager->cleanupTaskProcessingTaskFiles());
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to delete stale task processing tasks files', ['exception' => $e]);
+		}
+		try {
+			$this->taskMapper->deleteOlderThan(Manager::MAX_TASK_AGE_SECONDS);
 		} catch (\OCP\DB\Exception $e) {
 			$this->logger->warning('Failed to delete stale task processing tasks', ['exception' => $e]);
 		}
 		try {
-			$this->clearFilesOlderThan($this->appData->getFolder('text2image'), self::MAX_TASK_AGE_SECONDS);
-		} catch (NotFoundException $e) {
+			iterator_to_array($this->taskProcessingManager->clearFilesOlderThan($this->appData->getFolder('text2image')));
+		} catch (NotFoundException) {
 			// noop
 		}
 		try {
-			$this->clearFilesOlderThan($this->appData->getFolder('audio2text'), self::MAX_TASK_AGE_SECONDS);
-		} catch (NotFoundException $e) {
-			// noop
-		}
-		try {
-			$this->clearFilesOlderThan($this->appData->getFolder('TaskProcessing'), self::MAX_TASK_AGE_SECONDS);
-		} catch (NotFoundException $e) {
+			iterator_to_array($this->taskProcessingManager->clearFilesOlderThan($this->appData->getFolder('audio2text')));
+		} catch (NotFoundException) {
 			// noop
 		}
 	}
-
-	/**
-	 * @param ISimpleFolder $folder
-	 * @param int $ageInSeconds
-	 * @return void
-	 */
-	private function clearFilesOlderThan(ISimpleFolder $folder, int $ageInSeconds): void {
-		foreach ($folder->getDirectoryListing() as $file) {
-			if ($file->getMTime() < time() - $ageInSeconds) {
-				try {
-					$file->delete();
-				} catch (NotPermittedException $e) {
-					$this->logger->warning('Failed to delete a stale task processing file', ['exception' => $e]);
-				}
-			}
-		}
-	}
-
 }

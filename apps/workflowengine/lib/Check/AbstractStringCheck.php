@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OCP\IL10N;
@@ -11,8 +13,8 @@ use OCP\WorkflowEngine\IManager;
 
 abstract class AbstractStringCheck implements ICheck {
 
-	/** @var array[] Nested array: [Pattern => [ActualValue => Regex Result]] */
-	protected $matches;
+	/** @var array<string, array<string, false|int>> $matches Nested array: [Pattern => [ActualValue => Regex Result]] */
+	protected array $matches;
 
 	/**
 	 * @param IL10N $l
@@ -32,6 +34,7 @@ abstract class AbstractStringCheck implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		$actualValue = $this->getActualValue();
 		return $this->executeStringCheck($operator, $value, $actualValue);
@@ -63,33 +66,31 @@ abstract class AbstractStringCheck implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
+	#[\Override]
+	public function validateCheck($operator, $value): void {
+		if (!in_array($operator, ['is', '!is', 'matches', '!matches'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (in_array($operator, ['matches', '!matches']) &&
-			  @preg_match($value, null) === false) {
+		if (in_array($operator, ['matches', '!matches'], true)
+			  && @preg_match($value, '') === false) {
 			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		// universal by default
 		return [];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		// admin only by default
 		return $scope === IManager::SCOPE_ADMIN;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param string $subject
-	 * @return int|bool
-	 */
-	protected function match($pattern, $subject) {
+	protected function match(string $pattern, string $subject): int|false {
 		$patternHash = md5($pattern);
 		$subjectHash = md5($subject);
 		if (isset($this->matches[$patternHash][$subjectHash])) {

@@ -11,9 +11,13 @@ namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\GlobalScale\IConfig;
+use OCP\IAppConfig;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Util;
 
@@ -28,11 +32,26 @@ class LoadSidebarListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadSidebar)) {
 			return;
 		}
-
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
+		// Vue 3 bridge exposing the unified sharing dialog on OCA.Sharing for the
+		// (Vue 2) sidebar to trigger without bundling Vue 3.
+
+		$appConfig = Server::get(IAppConfig::class);
+		$gsConfig = Server::get(IConfig::class);
+		$showFederatedToTrustedAsInternal = $gsConfig->isGlobalScaleEnabled() || $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL);
+		$showFederatedAsInternal = ($gsConfig->isGlobalScaleEnabled() && $gsConfig->onlyInternalFederation())
+			|| $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL);
+		$showExternalSharing = $appConfig->getValueBool('core', 'shareapi_allow_links', true)
+			|| ($appConfig->getValueBool('files_sharing', 'outgoing_server2server_share_enabled', true)
+				&& !$showFederatedAsInternal);
+
+		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $showFederatedAsInternal);
+		$this->initialState->provideInitialState('showFederatedSharesToTrustedServersAsInternal', $showFederatedToTrustedAsInternal);
+		$this->initialState->provideInitialState('showExternalSharing', $showExternalSharing);
 	}
 }

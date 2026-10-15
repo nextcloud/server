@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace NCU\Security\Signature;
 
 use NCU\Security\Signature\Enum\SignatureAlgorithm;
@@ -24,6 +25,7 @@ use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
  *
  * @see ISignatureManager for details on signature
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
  */
 interface IOutgoingSignedRequest extends ISignedRequest {
 	/**
@@ -32,6 +34,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @param string $host
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function setHost(string $host): self;
 
@@ -42,6 +45,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function getHost(): string;
 
@@ -53,6 +57,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function addHeader(string $key, string|int|float $value): self;
 
@@ -61,6 +66,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return array
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function getHeaders(): array;
 
@@ -71,6 +77,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function setHeaderList(array $list): self;
 
@@ -79,6 +86,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return list<string>
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function getHeaderList(): array;
 
@@ -89,6 +97,8 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setAlgorithm(SignatureAlgorithm $algorithm): self;
 
@@ -97,6 +107,8 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @return SignatureAlgorithm
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getAlgorithm(): SignatureAlgorithm;
 
@@ -107,6 +119,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @throws SignatoryException
 	 * @throws SignatoryNotFoundException
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IOutgoingSignedRequest}
 	 */
 	public function sign(): self;
 }

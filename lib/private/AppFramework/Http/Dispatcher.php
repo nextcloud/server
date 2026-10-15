@@ -6,19 +6,27 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\InvalidEnumParameterException;
+use OCP\AppFramework\Http\InvalidStringParameterException;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -26,78 +34,42 @@ use Psr\Log\LoggerInterface;
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
-	/** @var MiddlewareDispatcher */
-	private $middlewareDispatcher;
-
-	/** @var Http */
-	private $protocol;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var ConnectionAdapter */
-	private $connection;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IEventLogger */
-	private $eventLogger;
-
-	private ContainerInterface $appContainer;
+	public const DEFAULT_MIN = 1;
+	public const DEFAULT_MAX = 500;
 
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
 	 *                                                   runs the middleware
-	 * @param ControllerMethodReflector $reflector the reflector that is used to inject
-	 *                                             the arguments for the controller
-	 * @param IRequest $request the incoming request
-	 * @param IConfig $config
-	 * @param ConnectionAdapter $connection
-	 * @param LoggerInterface $logger
-	 * @param IEventLogger $eventLogger
 	 */
-	public function __construct(Http $protocol,
-		MiddlewareDispatcher $middlewareDispatcher,
-		ControllerMethodReflector $reflector,
-		IRequest $request,
-		IConfig $config,
-		ConnectionAdapter $connection,
-		LoggerInterface $logger,
-		IEventLogger $eventLogger,
-		ContainerInterface $appContainer) {
-		$this->protocol = $protocol;
-		$this->middlewareDispatcher = $middlewareDispatcher;
-		$this->reflector = $reflector;
-		$this->request = $request;
-		$this->config = $config;
-		$this->connection = $connection;
-		$this->logger = $logger;
-		$this->eventLogger = $eventLogger;
-		$this->appContainer = $appContainer;
+	public function __construct(
+		private readonly Http $protocol,
+		private readonly MiddlewareDispatcher $middlewareDispatcher,
+		private readonly ControllerMethodReflector $reflector,
+		private readonly IRequest $request,
+		private readonly IConfig $config,
+		private readonly ConnectionAdapter $connection,
+		private readonly LoggerInterface $logger,
+		private readonly IEventLogger $eventLogger,
+		private readonly ContainerInterface $appContainer,
+		private readonly IUserSession $userSession,
+	) {
 	}
-
 
 	/**
 	 * Handles a request and calls the dispatcher on the controller
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array $array[0] contains a string with the http main header,
-	 *               $array[1] contains headers in the form: $key => value, $array[2] contains
-	 *               the response output
+	 * @return array{0: string, 1: array, 2: array, 3: string, 4: Response}
+	 *                                                                      $array[0] contains the http status header as a string,
+	 *                                                                      $array[1] contains response headers as an array,
+	 *                                                                      $array[2] contains response cookies as an array,
+	 *                                                                      $array[3] contains the response output as a string,
+	 *                                                                      $array[4] contains the response object
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {
-		$out = [null, [], null];
-
 		try {
 			// prefill reflector with everything that's needed for the
 			// middlewares
@@ -112,6 +84,12 @@ class Dispatcher {
 			}
 
 			$response = $this->executeController($controller, $methodName);
+
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Controller method left a transaction open after executing controller method ' . $controller::class . '::' . $methodName . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => Server::get(IAppManager::class)->getAppFromNamespace($controller::class)]);
+			}
 
 			if (!empty($databaseStatsBefore)) {
 				$databaseStatsAfter = $this->connection->getInner()->getStats();
@@ -152,17 +130,16 @@ class Dispatcher {
 			$controller, $methodName, $response);
 
 		// depending on the cache object the headers need to be changed
-		$out[0] = $this->protocol->getStatusHeader($response->getStatus());
-		$out[1] = array_merge($response->getHeaders());
-		$out[2] = $response->getCookies();
-		$out[3] = $this->middlewareDispatcher->beforeOutput(
-			$controller, $methodName, $response->render()
-		);
-		$out[4] = $response;
-
-		return $out;
+		return [
+			$this->protocol->getStatusHeader($response->getStatus()),
+			array_merge($response->getHeaders()),
+			$response->getCookies(),
+			$this->middlewareDispatcher->beforeOutput(
+				$controller, $methodName, $response->render()
+			),
+			$response,
+		];
 	}
-
 
 	/**
 	 * Uses the reflected parameters, types and request parameters to execute
@@ -188,7 +165,27 @@ class Dispatcher {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
-				$this->ensureParameterValueSatisfiesRange($param, $value);
+				$this->ensureParameterValueSatisfiesRange($param, $value, $default);
+			} elseif ($value !== null && $type === 'string' && \is_string($value)) {
+				$this->ensureParameterValueSatisfiesStringConstraint($param, $value);
+			} elseif ($value !== null && $type !== null && !($value instanceof $type) && enum_exists($type) && is_a($type, \BackedEnum::class, true)) {
+				$value = $this->resolveBackedEnumValue($param, $type, $value);
+			} elseif (is_a($type, \SortDirection::class, true)) {
+				if (strtolower($value) === 'asc') {
+					$value = \SortDirection::Ascending;
+				} elseif (strtolower($value) === 'desc') {
+					$value = \SortDirection::Descending;
+				} else {
+					throw new InvalidEnumParameterException($param, get_debug_type($value), \SortDirection::class);
+				}
+			} elseif (is_a($type, IUser::class, true)) {
+				// Inject current user
+				$user = $this->userSession->getUser();
+				if ($user instanceof IUser) {
+					$value = $user;
+				} else {
+					throw new NotLoggedInException('Could not inject ' . $param . ' in ' . $controller::class . '::' . $methodName . '. User is not logged in');
+				}
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -197,7 +194,18 @@ class Dispatcher {
 		}
 
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
-		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		try {
+			$response = \call_user_func_array([$controller, $methodName], $arguments);
+		} catch (\TypeError $e) {
+			// Only intercept TypeErrors occurring on the first line, meaning that the invocation of the controller method failed.
+			// Any other TypeError happens inside the controller method logic and should be logged as normal.
+			if ($e->getFile() === $this->reflector->getFile() && $e->getLine() === $this->reflector->getStartLine()) {
+				$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);
+				return new Response(Http::STATUS_BAD_REQUEST);
+			}
+
+			throw $e;
+		}
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		if (!($response instanceof Response)) {
@@ -206,16 +214,8 @@ class Dispatcher {
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
-			// get format from the url format or request format parameter
-			$format = $this->request->getParam('format');
-
-			// if none is given try the first Accept header
-			if ($format === null) {
-				$headers = $this->request->getHeader('Accept');
-				$format = $controller->getResponderByHTTPHeader($headers, null);
-			}
-
-			if ($format !== null) {
+			$format = $this->request->getFormat();
+			if ($format !== null && $controller->isResponderRegistered($format)) {
 				$response = $controller->buildResponse($response, $format);
 			} else {
 				$response = $controller->buildResponse($response);
@@ -229,7 +229,7 @@ class Dispatcher {
 	 * @psalm-param mixed $value
 	 * @throws ParameterOutOfRangeException
 	 */
-	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
+	private function ensureParameterValueSatisfiesRange(string $param, $value, $default): void {
 		$rangeInfo = $this->reflector->getRange($param);
 		if ($rangeInfo) {
 			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
@@ -240,6 +240,51 @@ class Dispatcher {
 					$rangeInfo['max'],
 				);
 			}
+		} elseif ($param === 'limit') {
+			if ($value !== $default && ($value < self::DEFAULT_MIN || $value > self::DEFAULT_MAX)) {
+				throw new ParameterOutOfRangeException(
+					$param,
+					$value,
+					self::DEFAULT_MIN,
+					self::DEFAULT_MAX,
+				);
+			}
 		}
+	}
+
+	/**
+	 * @throws InvalidStringParameterException
+	 */
+	private function ensureParameterValueSatisfiesStringConstraint(string $param, string $value): void {
+		if (!$this->reflector->satisfiesStringConstraint($param, $value)) {
+			throw new InvalidStringParameterException($param, $this->reflector->getStringConstraint($param));
+		}
+	}
+
+	/**
+	 * @template T of \BackedEnum
+	 * @psalm-param class-string<T> $enumClass
+	 * @psalm-param mixed $value
+	 * @psalm-return T
+	 * @throws InvalidEnumParameterException
+	 */
+	private function resolveBackedEnumValue(string $param, string $enumClass, $value): \BackedEnum {
+		if (!is_scalar($value)) {
+			throw new InvalidEnumParameterException($param, get_debug_type($value), $enumClass);
+		}
+
+		$backingType = (new \ReflectionEnum($enumClass))->getBackingType();
+		assert($backingType instanceof \ReflectionNamedType);
+		$backingType = $backingType->getName();
+		if ($backingType === 'int') {
+			if (!is_numeric($value)) {
+				throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
+			}
+			$value = (int)$value;
+		} else {
+			$value = (string)$value;
+		}
+
+		return $enumClass::tryFrom($value) ?? throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
 	}
 }
