@@ -779,7 +779,11 @@ class OC {
 		self::handleAuthHeaders();
 
 		// setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		if (!isset(self::$server)) {
+			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		} else {
+			self::$server->reset();
+		}
 		self::$server->boot();
 
 		self::oneTimeChecks();
