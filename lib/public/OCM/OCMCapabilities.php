@@ -82,7 +82,7 @@ final class OCMCapabilities implements JsonSerializable {
 	 * Whether the peer supports the OCM invitation flow.
 	 *
 	 * @since 33.0.0
-	 * @deprecated 35.0.2 Use hasInvites() instead.
+	 * @deprecated 35.0.3 Use hasInvites() instead.
 	 */
 	public function hasInviteAccepted(): bool {
 		return $this->hasInvites();

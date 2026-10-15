@@ -15,9 +15,9 @@ use OCP\Constants;
 /**
  * Permission conversion for Open Cloud Mesh.
  *
- * @since 35.0.2
+ * @since 35.0.3
  */
-#[Consumable(since: '35.0.2')]
+#[Consumable(since: '35.0.3')]
 final class Permissions {
 
 	/**
@@ -25,7 +25,7 @@ final class Permissions {
 	 * Create and update both map to write; delete alone grants no OCM permission.
 	 *
 	 * @return list<string>
-	 * @since 35.0.2
+	 * @since 35.0.3
 	 */
 	public static function fromNextcloud(int $ncPermissions): array {
 		$ocmPermissions = [];
