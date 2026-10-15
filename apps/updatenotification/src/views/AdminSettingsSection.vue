@@ -13,7 +13,7 @@
 				<p>
 					<!-- eslint-disable-next-line vue/no-v-html -->
 					<span v-html="newVersionAvailableString" /><br>
-					<span v-if="!isListFetched" class="icon icon-loading-small" />
+					<NcLoadingIcon v-if="!isListFetched" class="icon" :size="16" />
 					<!-- eslint-disable-next-line vue/no-v-html -->
 					<span v-html="statusText" />
 				</p>
@@ -21,8 +21,8 @@
 				<template v-if="missingAppUpdates.length">
 					<h3 class="clickable" @click="toggleHideMissingUpdates">
 						{{ t('updatenotification', 'Apps missing compatible version') }}
-						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n" />
-						<span v-if="hideMissingUpdates" class="icon icon-triangle-s" />
+						<IconMenuDown v-if="hideMissingUpdates" class="icon icon--toggle" :size="16" />
+						<IconMenuUp v-else class="icon icon--toggle" :size="16" />
 					</h3>
 					<ul v-if="!hideMissingUpdates" class="applist">
 						<li v-for="(app, index) in missingAppUpdates" :key="index">
@@ -34,8 +34,8 @@
 				<template v-if="availableAppUpdates.length">
 					<h3 class="clickable" @click="toggleHideAvailableUpdates">
 						{{ t('updatenotification', 'Apps with compatible version') }}
-						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n" />
-						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s" />
+						<IconMenuDown v-if="hideAvailableUpdates" class="icon icon--toggle" :size="16" />
+						<IconMenuUp v-else class="icon icon--toggle" :size="16" />
 					</h3>
 					<ul v-if="!hideAvailableUpdates" class="applist">
 						<li v-for="(app, index) in availableAppUpdates" :key="index">
@@ -97,8 +97,10 @@
 					:title="lastCheckedOnString"
 					:aria-label="lastCheckedOnString"
 					href="https://nextcloud.com/changelog/"
-					class="icon-info details"
-					target="_blank" />
+					class="details"
+					target="_blank">
+					<IconInformationOutline class="icon" :size="16" />
+				</a>
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -182,12 +184,16 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCaption from '@nextcloud/vue/components/NcActionCaption'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
+import IconInformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import IconLink from 'vue-material-design-icons/Link.vue'
+import IconMenuDown from 'vue-material-design-icons/MenuDown.vue'
+import IconMenuUp from 'vue-material-design-icons/MenuUp.vue'
 import IconNewBox from 'vue-material-design-icons/NewBox.vue'
 import IconPencil from 'vue-material-design-icons/PencilOutline.vue'
 import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
@@ -202,12 +208,16 @@ export default defineComponent({
 	name: 'UpdateNotification',
 	components: {
 		IconChevronDown,
+		IconInformationOutline,
 		IconLink,
+		IconMenuDown,
+		IconMenuUp,
 		IconNewBox,
 		NcActions,
 		NcActionButton,
 		NcActionCaption,
 		NcActionLink,
+		NcLoadingIcon,
 		NcNoteCard,
 		NcSelect,
 		NcSettingsSection,
@@ -535,7 +545,7 @@ export default defineComponent({
 			display: inline-block;
 			margin-bottom: -3px;
 		}
-		.icon-triangle-s, .icon-triangle-n {
+		.icon--toggle {
 			opacity: 0.5;
 		}
 		.applist {
