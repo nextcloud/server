@@ -37,6 +37,9 @@ class PathHelper {
 		if ($path === '' || $path === '/') {
 			return '/';
 		}
+		// Use the same Unicode normalization as Filesystem::normalizePath(),
+		// so that node paths match the filecache
+		$path = \Normalizer::normalize($path) ?: $path;
 		// No null bytes
 		$path = str_replace(chr(0), '', $path);
 		//no windows style slashes
