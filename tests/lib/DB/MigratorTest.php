@@ -129,6 +129,7 @@ class MigratorTest extends \Test\TestCase {
 		return $config;
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testUpgrade(): void {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
@@ -139,9 +140,9 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
 
 		$migrator->migrate($endSchema);
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testUpgradeDifferentPrefix(): void {
 		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
@@ -157,7 +158,6 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
 
 		$migrator->migrate($endSchema);
-		$this->addToAssertionCount(1);
 
 		$this->config->setSystemValue('dbtableprefix', $oldTablePrefix);
 	}
@@ -171,14 +171,12 @@ class MigratorTest extends \Test\TestCase {
 
 		$this->connection->insert($this->tableName, ['id' => 1, 'name' => 'foo']);
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
-		try {
-			$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'qwerty']);
-			$this->fail('Expected duplicate key insert to fail');
-		} catch (Exception $e) {
-			$this->addToAssertionCount(1);
-		}
+
+		$this->expectException(\Doctrine\DBAL\Exception\UniqueConstraintViolationException::class);
+		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'qwerty']);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testAddingPrimaryKeyWithAutoIncrement(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
@@ -195,10 +193,9 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
-
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testReservedKeywords(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
@@ -216,13 +213,12 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
-
-		$this->addToAssertionCount(1);
 	}
 
 	/**
 	 * Test for nextcloud/server#36803
 	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testColumnCommentsInUpdate(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
@@ -240,8 +236,6 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testAddingForeignKey(): void {
@@ -303,12 +297,10 @@ class MigratorTest extends \Test\TestCase {
 			$this->expectException(\Doctrine\DBAL\Exception\NotNullConstraintViolationException::class);
 		}
 
-		$this->connection->insert(
+		$this->assertSame(1, $this->connection->insert(
 			$this->tableName,
 			['id' => 1, 'will_it_blend' => $value],
 			['id' => ParameterType::INTEGER, 'will_it_blend' => $parameterType],
-		);
-
-		$this->addToAssertionCount(1);
+		));
 	}
 }
