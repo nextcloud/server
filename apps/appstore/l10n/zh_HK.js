@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "限制只有以下群組成員可使用 {app}。",
     "Reset limitation" : "重設限制",
     "Save" : "儲存",
-    "Failed to update app {appName}" : "更新應用程式 {appName} 失敗",
     "Update all apps" : "更新所有應用程式",
     "Are you sure you want to update all apps?" : "您確定您想要更新所有應用程式嗎？",
     "Update done" : "更新完成",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "無法載入應用程式分類。請稍後再試。",
     "Could not load apps list. Please try again later." : "無法載入應用程式列表。請稍後再試。",
     "Could not update the app. Please try again later." : "無法更新應用程式。請稍後再試。",
-    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。"
+    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
+    "Failed to update app {appName}" : "更新應用程式 {appName} 失敗"
 },
 "nplurals=1; plural=0;");

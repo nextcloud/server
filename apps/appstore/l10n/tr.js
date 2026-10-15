@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "{app} kullanımını belirtilen grupların üyeleriyle sınırlar.",
     "Reset limitation" : "Sınırlamayı sıfırla",
     "Save" : "Kaydet",
-    "Failed to update app {appName}" : "{appName} uygulaması güncellenemedi",
     "Update all apps" : "Tüm uygulamaları güncelle",
     "Are you sure you want to update all apps?" : "Tüm uygulamaları güncellemek istediğinize emin misiniz?",
     "Update done" : "Güncelleme tamamlandı",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Uygulama kategorileri yüklenemedi. Bir süre sonra yeniden deneyin.",
     "Could not load apps list. Please try again later." : "Uygulama listesi yüklenemedi. Bir süre sonra yeniden deneyin.",
     "Could not update the app. Please try again later." : "Uygulama güncellenemedi. Bir süre sonra yeniden deneyin.",
-    "An error occurred during the request. Unable to proceed." : "İstek yapılırken bir sorun çıktı. İşlem sürdürülemiyor."
+    "An error occurred during the request. Unable to proceed." : "İstek yapılırken bir sorun çıktı. İşlem sürdürülemiyor.",
+    "Failed to update app {appName}" : "{appName} uygulaması güncellenemedi"
 },
 "nplurals=2; plural=(n > 1);");
