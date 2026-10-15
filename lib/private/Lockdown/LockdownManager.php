@@ -8,6 +8,7 @@
 namespace OC\Lockdown;
 
 use OC\Authentication\Token\TokenScopes;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\Lockdown\ILockdownManager;
@@ -71,7 +72,7 @@ class LockdownManager implements ILockdownManager {
 		if ($scope && $this->tokenScopes->fromBlob($scope) === null) {
 			return $scope[IToken::SCOPE_FILESYSTEM] ?? false;
 		}
-		return $this->hasScope(TokenScopes::FILES_READ);
+		return $this->hasScope(FilesTokenScopes::FILES_READ);
 	}
 
 	/**

@@ -250,7 +250,7 @@ class AuthSettingsController extends Controller {
 		$currentScope = $token->getScopeAsArray();
 
 		try {
-			$newScope = $this->tokenScopes->mergeUpdate($currentScope, $scope);
+			$newScope = $this->tokenScopes->updateScope($currentScope, $scope);
 		} catch (\InvalidArgumentException) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}

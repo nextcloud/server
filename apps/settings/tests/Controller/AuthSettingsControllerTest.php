@@ -17,6 +17,7 @@ use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Authentication\Token\TokenScopes;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
@@ -532,11 +533,11 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public static function dataUpdateScopedToken(): array {
-		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]];
+		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['calendar:read']];
 		return [
 			'scopes omitted' => [$stored, [IToken::SCOPE_FILESYSTEM => false]],
 			'scopes sent back unchanged' => [$stored, $stored],
-			'legacy filesystem toggle' => [$stored, [IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]]],
+			'legacy filesystem toggle' => [$stored, [IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['calendar:read']]],
 		];
 	}
 
@@ -566,9 +567,9 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public static function dataUpdateScopes(): array {
-		$calendar = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]];
+		$calendar = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['calendar:read']];
 		return [
-			'scopes set, filesystem flips too' => [[IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], $calendar],
+			'scopes set, filesystem flips too' => [[IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => ['calendar:read']], $calendar],
 			'scopes cleared' => [$calendar, [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => null], [IToken::SCOPE_FILESYSTEM => true]],
 		];
 	}
@@ -613,7 +614,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, [TokenScopes::KEY => ['app:deck']], 'Renamed');
+		$response = $this->controller->update($tokenId, [TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], 'Renamed');
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 

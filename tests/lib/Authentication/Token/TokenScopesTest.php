@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC\Authentication\Token\TokenScopes;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
@@ -24,7 +25,7 @@ class TokenScopesTest extends TestCase {
 
 	public static function merges(): array {
 		$fs = IToken::SCOPE_FILESYSTEM;
-		$calendar = [$fs => false, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]];
+		$calendar = [$fs => false, TokenScopes::KEY => ['calendar:read']];
 		$deck = [$fs => false, TokenScopes::KEY => ['app:deck']];
 		return [
 			'legacy token takes requested filesystem' => [[$fs => true], [$fs => false], [$fs => false]],
@@ -33,11 +34,13 @@ class TokenScopesTest extends TestCase {
 			'null returns to full access' => [$calendar, [$fs => false, TokenScopes::KEY => null], [$fs => true]],
 			'new scopes normalised, filesystem derived' => [
 				[$fs => true],
-				[TokenScopes::KEY => ['a' => TokenScopes::FILES_WRITE, 3 => TokenScopes::FILES_READ, 7 => TokenScopes::FILES_WRITE]],
-				[$fs => true, TokenScopes::KEY => [TokenScopes::FILES_READ, TokenScopes::FILES_WRITE]],
+				[TokenScopes::KEY => ['a' => FilesTokenScopes::FILES_WRITE, 3 => FilesTokenScopes::FILES_READ, 7 => FilesTokenScopes::FILES_WRITE]],
+				[$fs => true, TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE]],
 			],
 			'empty scopes deny filesystem' => [[$fs => true], [TokenScopes::KEY => []], [$fs => false, TokenScopes::KEY => []]],
 			'unchanged scopes skip validation' => [$deck, $deck, $deck],
+			'scopes core does not know are stored' => [[$fs => true], [TokenScopes::KEY => ['app:deck']], $deck],
+			'write without read is stored' => [[$fs => true], [TokenScopes::KEY => ['calendar:write']], [$fs => false, TokenScopes::KEY => ['calendar:write']]],
 			'stored server keys are kept' => [
 				[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true, $fs => true],
 				[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => false],
@@ -48,22 +51,22 @@ class TokenScopesTest extends TestCase {
 	}
 
 	#[DataProvider('merges')]
-	public function testMergeUpdate(array $stored, array $requested, array $expected): void {
-		$this->assertSame($expected, $this->tokenScopes->mergeUpdate($stored, $requested));
+	public function testUpdateScope(array $stored, array $requested, array $expected): void {
+		$this->assertSame($expected, $this->tokenScopes->updateScope($stored, $requested));
 	}
 
 	public static function invalidUpdates(): array {
 		return [
-			'unknown scope' => [[TokenScopes::KEY => ['files:delete']]],
-			'per-app grant' => [[TokenScopes::KEY => ['app:deck']]],
-			'shared service' => [[TokenScopes::KEY => ['search:read']]],
-			'write without read' => [[TokenScopes::KEY => [TokenScopes::FILES_WRITE]]],
-			'share without read' => [[TokenScopes::KEY => [TokenScopes::FILES_SHARE]]],
-			'calendar write without read' => [[TokenScopes::KEY => [TokenScopes::CALENDAR_WRITE]]],
-			'read-only files' => [[TokenScopes::KEY => [TokenScopes::FILES_READ]]],
-			'read and share without write' => [[TokenScopes::KEY => [TokenScopes::FILES_READ, TokenScopes::FILES_SHARE]]],
-			'not an array' => [[TokenScopes::KEY => TokenScopes::FILES_READ]],
-			'nested array entry' => [[TokenScopes::KEY => [TokenScopes::CALENDAR_READ, ['x']]]],
+			'files write without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE]]],
+			'files share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_SHARE]]],
+			'files write and share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE, FilesTokenScopes::FILES_SHARE]]],
+			'read-only files' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]]],
+			'read and share without write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_SHARE]]],
+			'not an array' => [[TokenScopes::KEY => FilesTokenScopes::FILES_READ]],
+			'nested array entry' => [[TokenScopes::KEY => ['calendar:read', ['x']]]],
+			'empty scope' => [[TokenScopes::KEY => ['']]],
+			'scope too long' => [[TokenScopes::KEY => [str_repeat('a', 65)]]],
+			'too many scopes' => [[TokenScopes::KEY => array_map(static fn (int $i) => 'app:' . $i, range(1, 101))]],
 			'non-bool filesystem' => [[IToken::SCOPE_FILESYSTEM => 'false']],
 		];
 	}
@@ -71,18 +74,18 @@ class TokenScopesTest extends TestCase {
 	#[DataProvider('invalidUpdates')]
 	public function testInvalidUpdateIsRejected(array $requested): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->tokenScopes->mergeUpdate([IToken::SCOPE_FILESYSTEM => true], $requested);
+		$this->tokenScopes->updateScope([IToken::SCOPE_FILESYSTEM => true], $requested);
 	}
 
 	public static function blobs(): array {
 		return [
 			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], null],
-			'scoped' => [[TokenScopes::KEY => [TokenScopes::FILES_READ]], [TokenScopes::FILES_READ]],
+			'scoped' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], [FilesTokenScopes::FILES_READ]],
 			'empty' => [[TokenScopes::KEY => []], []],
-			'string' => [[TokenScopes::KEY => TokenScopes::FILES_READ], []],
+			'string' => [[TokenScopes::KEY => FilesTokenScopes::FILES_READ], []],
 			'null' => [[TokenScopes::KEY => null], []],
-			'map' => [[TokenScopes::KEY => ['a' => TokenScopes::FILES_READ]], [TokenScopes::FILES_READ]],
-			'int entry' => [[TokenScopes::KEY => [TokenScopes::FILES_READ, 1]], []],
+			'map' => [[TokenScopes::KEY => ['a' => FilesTokenScopes::FILES_READ]], [FilesTokenScopes::FILES_READ]],
+			'int entry' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, 1]], []],
 		];
 	}
 

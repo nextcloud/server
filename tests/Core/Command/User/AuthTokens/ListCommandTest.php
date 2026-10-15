@@ -11,6 +11,7 @@ namespace Tests\Core\Command\User\AuthTokens;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\TokenScopes;
 use OC\Core\Command\User\AuthTokens\ListCommand;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
 use OCP\IUserManager;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -24,7 +25,7 @@ class ListCommandTest extends TestCase {
 				'filesystem, password-unconfirmable',
 			],
 			'scoped' => [
-				[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [TokenScopes::FILES_READ, TokenScopes::FILES_WRITE]],
+				[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE]],
 				'filesystem, scopes: files:read files:write',
 			],
 			'empty scopes' => [

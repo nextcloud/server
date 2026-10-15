@@ -10,6 +10,7 @@ namespace Test\Lockdown;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\TokenScopes;
 use OC\Lockdown\LockdownManager;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -51,9 +52,9 @@ class LockdownManagerTest extends TestCase {
 	public static function filesystemAccess(): array {
 		return [
 			'legacy without filesystem key' => [[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true], false],
-			'files' => [[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [TokenScopes::FILES_READ]], true],
-			'calendar only' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], false],
-			'malformed' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => TokenScopes::FILES_READ], false],
+			'files' => [[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], true],
+			'calendar only' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['calendar:read']], false],
+			'malformed' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => FilesTokenScopes::FILES_READ], false],
 		];
 	}
 
@@ -64,15 +65,15 @@ class LockdownManagerTest extends TestCase {
 
 	public function testHasScopeWithoutToken(): void {
 		$manager = new LockdownManager($this->sessionCallback, new TokenScopes());
-		$this->assertTrue($manager->hasScope(TokenScopes::CALENDAR_READ));
+		$this->assertTrue($manager->hasScope('calendar:read'));
 	}
 
 	public static function hasScope(): array {
 		return [
-			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], TokenScopes::CALENDAR_READ, true],
-			'granted' => [[TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], TokenScopes::CALENDAR_READ, true],
-			'not granted' => [[TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], TokenScopes::FILES_READ, false],
-			'malformed' => [[TokenScopes::KEY => TokenScopes::CALENDAR_READ], TokenScopes::CALENDAR_READ, false],
+			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], 'calendar:read', true],
+			'granted' => [[TokenScopes::KEY => ['calendar:read']], 'calendar:read', true],
+			'not granted' => [[TokenScopes::KEY => ['calendar:read']], FilesTokenScopes::FILES_READ, false],
+			'malformed' => [[TokenScopes::KEY => 'calendar:read'], 'calendar:read', false],
 		];
 	}
 
