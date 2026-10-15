@@ -76,11 +76,6 @@ class UtilTest extends \Test\TestCase {
 		setlocale(LC_CTYPE, $locale);
 	}
 
-	public function testFileInfoLoaded(): void {
-		$expected = function_exists('finfo_open');
-		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
-	}
-
 	/**
 	 * Host is "localhost" this is a valid for emails,
 	 * but not for default strict email verification that requires a top level domain.
@@ -154,17 +149,17 @@ class UtilTest extends \Test\TestCase {
 	public function testCheckDataDirectoryValidity(): void {
 		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		touch($dataDir . '/.ncdata');
-		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$dataDir]);
 		$this->assertEmpty($errors);
 		Files::rmdirr($dataDir);
 
 		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		// no touch
-		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$dataDir]);
 		$this->assertNotEmpty($errors);
 		Files::rmdirr($dataDir);
 
-		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', ['relative/path']);
 		$this->assertNotEmpty($errors);
 	}
 

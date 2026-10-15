@@ -397,7 +397,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		if ($reflection->hasMethod($methodName)) {
 			$method = $reflection->getMethod($methodName);
-			return $method->invokeArgs($object, $parameters);
+			return $method->invokeArgs((is_string($object) ? null : $object), $parameters);
 		} elseif ($reflection->hasProperty($methodName)) {
 			$property = $reflection->getProperty($methodName);
 
