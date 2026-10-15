@@ -28,7 +28,9 @@
 					@click="onAddFilter">
 			</p>
 		</div>
-		<div class="icon-confirm" :class="[$style.flowIcon]" />
+		<div :class="$style.flowIcon">
+			<NcIconSvgWrapper :path="mdiArrowRight" :size="24" inline />
+		</div>
 		<div :class="$style.action">
 			<Operation :operation="operation">
 				<!-- eslint-disable vue/attribute-hyphenation -- a custom element takes hyphenated attributes -->
@@ -245,9 +247,9 @@ onMounted(() => {
 
 .flowIcon {
 	width: 44px;
-	background-position: right 27px;
-	padding-inline-end: 20px;
+	padding-top: 23px;
 	margin-inline-end: 20px;
+	text-align: end;
 }
 
 .rule {

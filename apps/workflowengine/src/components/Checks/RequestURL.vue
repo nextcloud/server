@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import type { PredefinedValue } from '../../types.ts'
 
+import { mdiFolder } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import SelectWithCustomValue from './SelectWithCustomValue.vue'
@@ -32,7 +33,7 @@ defineEmits<{ 'update:modelValue': [value: string] }>()
 
 const predefinedTypes: PredefinedValue[] = [
 	{
-		icon: 'icon-files-dark',
+		iconPath: mdiFolder,
 		id: 'webdav',
 		label: t('workflowengine', 'Files WebDAV'),
 	},
