@@ -211,7 +211,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$currentMigration = $fromMS->getMigration('current');
 		if ($currentMigration !== '0') {
 			$toMS = new MigrationService('core', $toDB);
-			$toMS->migrate($currentMigration);
+			$toMS->migrate($currentMigration, true);
 		}
 
 		$apps = $input->getOption('all-apps')
@@ -221,6 +221,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<info> - ' . $app . '</info>');
 			// Make sure autoloading works...
 			$this->appManager->loadApp($app);
+
 			$fromMS = new MigrationService($app, $fromDB);
 			$currentMigration = $fromMS->getMigration('current');
 			if ($currentMigration !== '0') {
