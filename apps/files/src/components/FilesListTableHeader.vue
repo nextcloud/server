@@ -172,7 +172,7 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const { directory } = useRouteParameters()
 
-		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 
 		return {
 			activeStore,
@@ -186,11 +186,7 @@ export default defineComponent({
 
 	computed: {
 		columns() {
-			// Hide columns if the list is too small
-			if (this.isNarrow) {
-				return []
-			}
-			return this.activeStore.activeView?.columns || []
+			return this.layout.columns
 		},
 
 		dir() {
