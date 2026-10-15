@@ -193,6 +193,14 @@ class MultipartRequestParser {
 			throw new LengthRequired('The Content-Length header must not be null.');
 		}
 
+		if (!ctype_digit($headers['content-length'])) {
+			throw new BadRequest('Content-Length must be a non-negative integer.');
+		}
+
+		if (!isset($headers['x-file-path']) || $headers['x-file-path'] === '') {
+			throw new BadRequest('The X-File-Path header must not be null or empty.');
+		}
+
 		// TODO: Drop $md5 condition when the latest desktop client that uses it is no longer supported.
 		if (!isset($headers['x-file-md5']) && !isset($headers['oc-checksum'])) {
 			throw new BadRequest('The hash headers must not be null.');
