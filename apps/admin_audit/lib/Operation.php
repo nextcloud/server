@@ -49,6 +49,8 @@ enum Operation: string {
 	case LogoutPerformed = 'auth.logout.performed';
 	case TwoFactorPassed = 'auth.twofactor.passed';
 	case TwoFactorFailed = 'auth.twofactor.failed';
+	case PasswordResetRequested = 'auth.password_reset.requested';
+	case RemoteWipeFinished = 'auth.remote_wipe.finished';
 
 	// Users
 	case UserCreated = 'users.user.created';
