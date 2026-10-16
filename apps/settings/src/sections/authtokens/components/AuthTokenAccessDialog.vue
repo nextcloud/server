@@ -39,7 +39,7 @@ const selection = ref(initial.selection)
 const scopes = computed(() => toScopes(selection.value, initial.kept))
 
 const canSave = computed(() => {
-	if (selection.value.preset === 'custom' && selection.value.areas.length === 0) {
+	if (selection.value.preset === 'custom' && selection.value.grants.length === 0) {
 		return false
 	}
 	if (props.token) {

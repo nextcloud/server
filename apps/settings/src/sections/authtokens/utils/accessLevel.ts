@@ -8,46 +8,61 @@ import type { ITokenScope } from '../store/authtoken.ts'
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
+/** An area, or one of its sub-options */
+export type Grant = Area | 'filesShare' | 'calendarWrite' | 'contactsWrite'
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
+export type AreaState = 'all' | 'partial' | 'none'
 
 export interface Selection {
 	preset: Preset
-	/** Ticked areas, only used when the preset is not `all` */
-	areas: Area[]
+	/** Ticked grants, only used when the preset is not `all` */
+	grants: Grant[]
 }
 
-/** Scopes each area grants. Must match the scope names the server checks */
-export const AREA_SCOPES: Record<Area, string[]> = {
-	files: ['files:files:read', 'files:files:write', 'files_sharing:shares:write'],
-	calendar: ['dav:calendar:read', 'dav:calendar:write'],
-	contacts: ['dav:contacts:read', 'dav:contacts:write'],
+/** Scopes each grant adds. Must match the scope names the server checks */
+export const GRANT_SCOPES: Record<Grant, string[]> = {
+	files: ['files:files:read', 'files:files:write'],
+	filesShare: ['files_sharing:shares:write'],
+	calendar: ['dav:calendar:read'],
+	calendarWrite: ['dav:calendar:write'],
+	contacts: ['dav:contacts:read'],
+	contactsWrite: ['dav:contacts:write'],
 }
 
-export const PRESET_AREAS: Record<'files' | 'calendarContacts', Area[]> = {
-	files: ['files'],
-	calendarContacts: ['calendar', 'contacts'],
+export const AREA_OPTIONS: Record<Area, Grant[]> = {
+	files: ['filesShare'],
+	calendar: ['calendarWrite'],
+	contacts: ['contactsWrite'],
 }
 
-const AREAS = Object.keys(AREA_SCOPES) as Area[]
+export const PRESET_GRANTS: Record<'files' | 'calendarContacts', Grant[]> = {
+	files: ['files', 'filesShare'],
+	calendarContacts: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'],
+}
+
+const AREAS = Object.keys(AREA_OPTIONS) as Area[]
+const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
 /**
  * Read a stored scope into what the picker shows.
- * An area counts as ticked only when all its scopes are there, everything else is kept as is.
+ * A grant counts as ticked only when all its scopes are there, and a sub-option only with its area.
+ * Everything else is kept as is.
  *
  * @param scopes Stored scopes, undefined for all access
  */
 export function fromScopes(scopes?: string[]): { selection: Selection, kept: string[] } {
 	if (scopes === undefined) {
-		return { selection: { preset: 'all', areas: [] }, kept: [] }
+		return { selection: { preset: 'all', grants: [] }, kept: [] }
 	}
 
-	const areas = AREAS.filter((area) => AREA_SCOPES[area].every((scope) => scopes.includes(scope)))
-	const shown = areas.flatMap((area) => AREA_SCOPES[area])
+	const held = GRANTS.filter((grant) => GRANT_SCOPES[grant].every((scope) => scopes.includes(scope)))
+	const grants = held.filter((grant) => held.includes(areaOf(grant)))
+	const shown = grants.flatMap((grant) => GRANT_SCOPES[grant])
 	const kept = scopes.filter((scope) => !shown.includes(scope))
 
-	const presets = Object.keys(PRESET_AREAS) as (keyof typeof PRESET_AREAS)[]
-	const preset = kept.length === 0 ? presets.find((name) => sameAreas(PRESET_AREAS[name], areas)) : undefined
-	return { selection: { preset: preset ?? 'custom', areas }, kept }
+	const presets = Object.keys(PRESET_GRANTS) as (keyof typeof PRESET_GRANTS)[]
+	const preset = kept.length === 0 ? presets.find((name) => sameGrants(PRESET_GRANTS[name], grants)) : undefined
+	return { selection: { preset: preset ?? 'custom', grants }, kept }
 }
 
 /**
@@ -60,7 +75,33 @@ export function toScopes(selection: Selection, kept: string[]): string[] | null 
 	if (selection.preset === 'all') {
 		return null
 	}
-	return [...new Set([...selection.areas.flatMap((area) => AREA_SCOPES[area]), ...kept])]
+	return [...new Set([...selection.grants.flatMap((grant) => GRANT_SCOPES[grant]), ...kept])]
+}
+
+/**
+ * @param grants Ticked grants
+ * @param area Area to check
+ */
+export function areaState(grants: Grant[], area: Area): AreaState {
+	if (!grants.includes(area)) {
+		return 'none'
+	}
+	return AREA_OPTIONS[area].every((option) => grants.includes(option)) ? 'all' : 'partial'
+}
+
+/**
+ * Tick or untick a grant. An area takes its sub-options with it, a sub-option brings its area.
+ *
+ * @param grants Ticked grants
+ * @param grant Grant to change
+ * @param on Whether to tick it
+ */
+export function setGrant(grants: Grant[], grant: Grant, on: boolean): Grant[] {
+	const changed = grant in AREA_OPTIONS ? [grant, ...AREA_OPTIONS[grant as Area]] : [grant]
+	if (!on) {
+		return grants.filter((held) => !changed.includes(held))
+	}
+	return [...new Set([...grants, areaOf(grant), ...changed])]
 }
 
 /**
@@ -76,12 +117,15 @@ export function accessLabel(scope: ITokenScope): string {
 	}
 
 	const { selection, kept } = fromScopes(scope.scopes)
-	const names = {
-		files: t('settings', 'Files'),
-		calendar: t('settings', 'Calendar'),
-		contacts: t('settings', 'Contacts'),
+	const names: Record<Area, Record<'all' | 'partial', string>> = {
+		files: { all: t('settings', 'Files'), partial: t('settings', 'Files') },
+		calendar: { all: t('settings', 'Calendar'), partial: t('settings', 'Calendar (read only)') },
+		contacts: { all: t('settings', 'Contacts'), partial: t('settings', 'Contacts (read only)') },
 	}
-	const parts = selection.areas.map((area) => names[area])
+	const parts = AREAS.flatMap((area) => {
+		const state = areaState(selection.grants, area)
+		return state === 'none' ? [] : [names[area][state]]
+	})
 	if (kept.length > 0) {
 		parts.push(t('settings', 'Other access'))
 	}
@@ -92,9 +136,16 @@ export function accessLabel(scope: ITokenScope): string {
 }
 
 /**
- * @param a First list of areas
- * @param b Second list of areas
+ * @param grant An area or sub-option
  */
-function sameAreas(a: Area[], b: Area[]): boolean {
-	return a.length === b.length && a.every((area) => b.includes(area))
+function areaOf(grant: Grant): Area {
+	return AREAS.find((area) => area === grant || AREA_OPTIONS[area].includes(grant))!
+}
+
+/**
+ * @param a First list of grants
+ * @param b Second list of grants
+ */
+function sameGrants(a: Grant[], b: Grant[]): boolean {
+	return a.length === b.length && a.every((grant) => b.includes(grant))
 }
