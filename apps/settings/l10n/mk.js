@@ -671,6 +671,7 @@ OC.L10N.register(
     "Set new email address" : "Постави нова Е-пошта адреса",
     "Set the language" : "Постави јазик",
     "Adding your device …" : "Додавање на вашиот уред ...",
+    "App Store" : "Продавница",
     "Loading categories" : "Вчитување категории",
     "Version {version}, {license}-licensed" : "Верзија {version}, {license}-лиценца",
     "Version {version}" : "Верзија {version}",
