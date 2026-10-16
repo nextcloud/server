@@ -90,9 +90,9 @@ class LockdownManagerTest extends TestCase {
 	public static function isScoped(): array {
 		return [
 			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], false],
-			'scoped' => [[TokenScopes::KEY => ['calendar:read']], true],
+			'scoped' => [[TokenScopes::KEY => ['dav:calendar:read']], true],
 			'empty scopes' => [[TokenScopes::KEY => []], true],
-			'malformed' => [[TokenScopes::KEY => 'calendar:read'], true],
+			'malformed' => [[TokenScopes::KEY => 'dav:calendar:read'], true],
 		];
 	}
 

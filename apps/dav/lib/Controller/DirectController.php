@@ -12,7 +12,6 @@ namespace OCA\DAV\Controller;
 use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
-use OCA\Files\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -60,7 +59,8 @@ class DirectController extends OCSController {
 	 * 200: Direct link returned
 	 */
 	#[NoAdminRequired]
-	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
+	// Not OCA\Files_Sharing\TokenScopes::SHARES_WRITE: files_sharing can be disabled, and its classes don't load then
+	#[TokenScope(scope: 'files_sharing:shares:write')]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		if (!$this->shareManager->shareApiAllowLinks()) {
 			throw new OCSForbiddenException('Creating direct links is disabled');

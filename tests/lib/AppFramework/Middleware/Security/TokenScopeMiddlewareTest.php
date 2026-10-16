@@ -18,6 +18,7 @@ use OC\Authentication\Token\TokenScopes;
 use OC\Core\Controller\PreviewController;
 use OC\Lockdown\LockdownManager;
 use OCA\DAV\Controller\DirectController;
+use OCA\DAV\TokenScopes as DavTokenScopes;
 use OCA\Files\Controller\ConversionApiController;
 use OCA\Files\Controller\DirectEditingController;
 use OCA\Files\Controller\DirectEditingViewController;
@@ -25,6 +26,7 @@ use OCA\Files\Controller\TemplateController;
 use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -45,7 +47,7 @@ class TokenScopeTestController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	#[TokenScope(scope: FilesTokenScopes::FILES_SHARE)]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function share(): void {
 	}
 
@@ -65,14 +67,14 @@ class TokenScopeTestClassController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	#[TokenScope(scope: FilesTokenScopes::FILES_SHARE)]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function share(): void {
 	}
 }
 
 class TokenScopeMiddlewareTest extends TestCase {
 	private const FILES = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
-	private const CALENDAR = ['calendar:read', 'calendar:write'];
+	private const CALENDAR = [DavTokenScopes::CALENDAR_READ, DavTokenScopes::CALENDAR_WRITE];
 
 	private IRequest&MockObject $request;
 	private ControllerMethodReflector $reflector;
@@ -88,7 +90,7 @@ class TokenScopeMiddlewareTest extends TestCase {
 		return [
 			'any token' => [[], TokenScopeTestController::class, 'anyToken', true],
 			'scope missing' => [self::FILES, TokenScopeTestController::class, 'share', false],
-			'scope held' => [[...self::FILES, FilesTokenScopes::FILES_SHARE], TokenScopeTestController::class, 'share', true],
+			'scope held' => [[...self::FILES, SharingTokenScopes::SHARES_WRITE], TokenScopeTestController::class, 'share', true],
 			'unannotated' => [self::FILES, TokenScopeTestController::class, 'unannotated', false],
 			'unannotated, legacy token' => [null, TokenScopeTestController::class, 'unannotated', true],
 			'admin only' => [self::FILES, TokenScopeTestController::class, 'adminOnly', false],
@@ -132,13 +134,13 @@ class TokenScopeMiddlewareTest extends TestCase {
 	 */
 	public static function pinnedScopes(): array {
 		return [
-			'create share' => [ShareAPIController::class, 'createShare', FilesTokenScopes::FILES_SHARE],
-			'update share' => [ShareAPIController::class, 'updateShare', FilesTokenScopes::FILES_SHARE],
-			'delete share' => [ShareAPIController::class, 'deleteShare', FilesTokenScopes::FILES_SHARE],
-			'send share email' => [ShareAPIController::class, 'sendShareEmail', FilesTokenScopes::FILES_SHARE],
-			'sharee search' => [ShareesAPIController::class, 'search', FilesTokenScopes::FILES_SHARE],
-			'recommended sharees' => [ShareesAPIController::class, 'findRecommended', FilesTokenScopes::FILES_SHARE],
-			'direct link' => [DirectController::class, 'getUrl', FilesTokenScopes::FILES_SHARE],
+			'create share' => [ShareAPIController::class, 'createShare', SharingTokenScopes::SHARES_WRITE],
+			'update share' => [ShareAPIController::class, 'updateShare', SharingTokenScopes::SHARES_WRITE],
+			'delete share' => [ShareAPIController::class, 'deleteShare', SharingTokenScopes::SHARES_WRITE],
+			'send share email' => [ShareAPIController::class, 'sendShareEmail', SharingTokenScopes::SHARES_WRITE],
+			'sharee search' => [ShareesAPIController::class, 'search', SharingTokenScopes::SHARES_WRITE],
+			'recommended sharees' => [ShareesAPIController::class, 'findRecommended', SharingTokenScopes::SHARES_WRITE],
+			'direct link' => [DirectController::class, 'getUrl', SharingTokenScopes::SHARES_WRITE],
 			'preview' => [PreviewController::class, 'getPreview', FilesTokenScopes::FILES_READ],
 			'preview by file id' => [PreviewController::class, 'getPreviewByFileId', FilesTokenScopes::FILES_READ],
 		];
