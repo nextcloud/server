@@ -137,6 +137,50 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response->getData());
 	}
 
+	private function mockSessionForCreate(): void {
+		$sessionToken = $this->createMock(IToken::class);
+		$sessionToken->method('getLoginName')->willReturn('User13');
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->with('sessionid')->willReturn($sessionToken);
+		$this->tokenProvider->method('getPassword')->willReturn('123456');
+		$this->secureRandom->method('generate')->willReturn('XXXXX');
+	}
+
+	public static function dataCreateWithScopes(): array {
+		$files = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, FilesTokenScopes::FILES_SHARE];
+		$sorted = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_SHARE, FilesTokenScopes::FILES_WRITE];
+		return [
+			'files' => [$files, [TokenScopes::KEY => $sorted, IToken::SCOPE_FILESYSTEM => true]],
+			'calendar' => [['calendar:read'], [TokenScopes::KEY => ['calendar:read'], IToken::SCOPE_FILESYSTEM => false]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateWithScopes')]
+	public function testCreateWithScopes(array $scopes, array $expectedScope): void {
+		$this->mockSessionForCreate();
+		$deviceToken = $this->createMock(IToken::class);
+		$deviceToken->method('jsonSerialize')->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with($this->anything(), $this->uid, 'User13', '123456', 'Nexus 4', IToken::PERMANENT_TOKEN, IToken::DO_NOT_REMEMBER, $expectedScope)
+			->willReturn($deviceToken);
+		$this->mockActivityManager();
+
+		$response = $this->controller->create('Nexus 4', false, $scopes);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testCreateInvalidScopes(): void {
+		$this->mockSessionForCreate();
+		$this->tokenProvider->expects($this->never())->method('generateToken');
+
+		$response = $this->controller->create('Nexus 4', false, [FilesTokenScopes::FILES_WRITE]);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+	}
+
 	public function testCreateDisabledBySystemConfig(): void {
 		$name = 'Nexus 4';
 
