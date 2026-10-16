@@ -8,6 +8,7 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
+		:loading="loading"
 		:gridMode="userConfig.grid_view"
 		:extraProps="{
 			isMimeAvailable,
@@ -117,6 +118,11 @@ export default defineComponent({
 		summary: {
 			type: String,
 			required: true,
+		},
+
+		loading: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
