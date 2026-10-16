@@ -31,6 +31,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use PHPUnit\Framework\TestCase;
@@ -178,6 +179,25 @@ class SetupManagerTest extends TestCase {
 
 		// setup called twice, provider should only be called once
 		$this->setupManager->setupForPath($this->path, false);
+		$this->setupManager->setupForPath($this->path, false);
+	}
+
+	#[TestWith([10, false])]
+	#[TestWith([11, true])]
+	public function testSetupForPathInHomeMountUsesCachedRootId(int $homeStorageId, bool $expectRootIdQuery): void {
+		$cachedMount = $this->getCachedMountInfo("/{$this->userId}/", 42);
+		$cachedMount->method('getStorageId')->willReturn(10);
+		$this->userMountCache->method('getMountForPath')->willReturn($cachedMount);
+		$this->fileAccess->method('getByFileId')->willReturn($this->createMock(CacheEntry::class));
+		$this->mountProviderCollection->method('getUserMountsFromProviderByPath')->willReturn([]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+		$homeMount->method('getNumericStorageId')->willReturn($homeStorageId);
+		$homeMount->expects($expectRootIdQuery ? $this->once() : $this->never())
+			->method('getStorageRootId')
+			->willReturn(42);
+		$this->mountProviderCollection->method('getHomeMountForUser')->willReturn($homeMount);
+
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
