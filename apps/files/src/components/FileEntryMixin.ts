@@ -275,7 +275,7 @@ export default defineComponent({
 			if (this.actionsMenuStore.opened === null) {
 				// Reset any right menu position potentially set
 				logger.debug('All actions menu closed, resetting right menu position...')
-				const root = this.$el?.closest('main.app-content') as HTMLElement
+				const root = this.$el?.closest('.app-content') as HTMLElement
 				if (root !== null) {
 					root.style.removeProperty('--mouse-pos-x')
 					root.style.removeProperty('--mouse-pos-y')
@@ -313,7 +313,7 @@ export default defineComponent({
 			// the actions menu mouse position
 			if (!this.gridMode) {
 				// Actions menu is contained within the app content
-				const root = this.$el?.closest('main.app-content') as HTMLElement
+				const root = this.$el?.closest('.app-content') as HTMLElement
 				const contentRect = root.getBoundingClientRect()
 				// Using Math.min/max to prevent the menu from going out of the AppContent
 				// 200 = max width of the menu
@@ -322,7 +322,7 @@ export default defineComponent({
 				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 			} else {
 				// Reset any right menu position potentially set
-				const root = this.$el?.closest('main.app-content') as HTMLElement
+				const root = this.$el?.closest('.app-content') as HTMLElement
 				root.style.removeProperty('--mouse-pos-x')
 				root.style.removeProperty('--mouse-pos-y')
 			}
