@@ -43,7 +43,7 @@
 				v-if="ldapLoginFilterMode"
 				:modelValue="ldapConfigProxy.ldapLoginFilter"
 				:placeholder="t('user_ldap', 'Edit LDAP Query')"
-				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`')"
+				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `{placeholder}` replaces the username in the login action. Example: `uid={placeholder}`', { placeholder: '%uid' })"
 				@change="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>
@@ -148,7 +148,7 @@ async function verifyLoginName() {
 				showError(t('user_ldap', 'A connection error to LDAP/AD occurred. Please check host, port and credentials.'))
 				break
 			case 'missing placeholder':
-				showError(t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.'))
+				showError(t('user_ldap', 'The "{placeholder}" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.', { placeholder: '%uid' }))
 				break
 		}
 	}
