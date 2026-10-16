@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import type { Area, Preset, Selection } from '../utils/accessLevel.ts'
 
-import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
@@ -20,10 +19,6 @@ defineProps<{
 	/** Scopes the picker can't show, kept when saving */
 	kept: string[]
 }>()
-
-const allAccessDescription = getCurrentUser()?.isAdmin
-	? t('settings', 'Everything you can do, including your settings and admin rights.')
-	: t('settings', 'Everything you can do, including your settings.')
 
 const areaOptions: { area: Area, label: string }[] = [
 	{ area: 'files', label: t('settings', 'Files') },
@@ -51,7 +46,7 @@ const areas = computed({
 <template>
 	<div class="access-picker">
 		<NcRadioGroup v-model="preset" :label="t('settings', 'Access')">
-			<NcCheckboxRadioSwitch value="all" :description="allAccessDescription">
+			<NcCheckboxRadioSwitch value="all" :description="t('settings', 'Everything you can do, including your settings and any admin rights you have.')">
 				{{ t('settings', 'All access') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch value="files">
