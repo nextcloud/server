@@ -593,7 +593,9 @@ class StorageTest extends TestCase {
 				return $systemWideMountTarget;
 			});
 
-		$this->storage->renameKeys($source, $target);
+		$this->assertTrue(
+			$this->storage->renameKeys($source, $target)
+		);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderCopyRename')]
@@ -622,7 +624,63 @@ class StorageTest extends TestCase {
 				return $systemWideMountTarget;
 			});
 
-		$this->storage->copyKeys($source, $target);
+		$this->assertTrue(
+			$this->storage->copyKeys($source, $target)
+		);
+	}
+
+	public function testCopyKeysReturnsUnderlyingCopyFailure(): void {
+		$this->util->method('getUidAndFilename')
+			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
+		$this->util->method('isSystemWideMountPoint')->willReturn(false);
+		$this->view->method('file_exists')->willReturn(true);
+
+		$this->view->expects($this->once())
+			->method('copy')
+			->with(
+				'/user1/files_encryption/keys/files/source.txt/',
+				'/user1/files_encryption/keys/files/target.txt/',
+			)
+			->willReturn(false);
+
+		$this->assertFalse(
+			$this->storage->copyKeys('/user1/files/source.txt', '/user1/files/target.txt')
+		);
+	}
+
+	public function testCopyKeysReturnsFalseWhenSourceKeyDirectoryIsMissing(): void {
+		$this->util->method('getUidAndFilename')
+			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
+		$this->util->method('isSystemWideMountPoint')->willReturn(false);
+
+		$this->view->expects($this->once())
+			->method('file_exists')
+			->with('/user1/files_encryption/keys/files/source.txt/')
+			->willReturn(false);
+		$this->view->expects($this->never())->method('copy');
+
+		$this->assertFalse(
+			$this->storage->copyKeys('/user1/files/source.txt', '/user1/files/target.txt')
+		);
+	}
+
+	public function testRenameKeysReturnsUnderlyingRenameFailure(): void {
+		$this->util->method('getUidAndFilename')
+			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
+		$this->util->method('isSystemWideMountPoint')->willReturn(false);
+		$this->view->method('file_exists')->willReturn(true);
+
+		$this->view->expects($this->once())
+			->method('rename')
+			->with(
+				'/user1/files_encryption/keys/files/source.txt/',
+				'/user1/files_encryption/keys/files/target.txt/',
+			)
+			->willReturn(false);
+
+		$this->assertFalse(
+			$this->storage->renameKeys('/user1/files/source.txt', '/user1/files/target.txt')
+		);
 	}
 
 	public function getUidAndFilenameCallback() {
