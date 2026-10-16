@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\ContextChat;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * This interface defines methods to implement a content provider
  * @since 32.0.0
  */
+#[Implementable(since: '32.0.0')]
 interface IContentProvider {
 	/**
 	 * The ID of the provider
