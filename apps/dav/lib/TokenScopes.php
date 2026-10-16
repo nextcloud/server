@@ -13,8 +13,8 @@ namespace OCA\DAV;
  * App password scopes for calendars and address books
  */
 class TokenScopes {
-	public const CALENDAR_READ = 'calendar:read';
-	public const CALENDAR_WRITE = 'calendar:write';
-	public const CONTACTS_READ = 'contacts:read';
-	public const CONTACTS_WRITE = 'contacts:write';
+	public const CALENDAR_READ = 'dav:calendar:read';
+	public const CALENDAR_WRITE = 'dav:calendar:write';
+	public const CONTACTS_READ = 'dav:contacts:read';
+	public const CONTACTS_WRITE = 'dav:contacts:write';
 }
