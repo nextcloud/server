@@ -65,10 +65,6 @@ class PublicAuth extends AbstractBasic {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
-			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->isPasswordProtected()) {
-				throw new PreconditionFailed('Strict cookie check failed');
-			}
-
 			$auth = new HTTP\Auth\Basic(
 				$this->realm,
 				$request,
@@ -76,6 +72,12 @@ class PublicAuth extends AbstractBasic {
 			);
 
 			$userpass = $auth->getCredentials();
+
+			// the check targets ambient session replay, supplied credentials are not ambient
+			if ($userpass === null && count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->isPasswordProtected()) {
+				throw new PreconditionFailed('Strict cookie check failed');
+			}
+
 			// If authentication provided, checking its validity
 			if ($userpass && !$this->validateUserPass($userpass[0], $userpass[1])) {
 				return [false, 'Username or password was incorrect'];
@@ -146,7 +148,12 @@ class PublicAuth extends AbstractBasic {
 		// If the share is protected but user is not authenticated
 		if ($share->isPasswordProtected()) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
-			throw new NotAuthenticated();
+			if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+				// do not challenge over ajax, it would trigger the browser password prompt
+				throw new NotAuthenticated();
+			}
+			// only a returned failure reaches Auth\Plugin::challenge()
+			return [false, 'No password supplied for password protected share'];
 		}
 
 		return [true, $this->principalPrefix . $token];
