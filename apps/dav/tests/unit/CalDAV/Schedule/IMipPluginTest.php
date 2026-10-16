@@ -264,6 +264,104 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
+	/**
+	 * A reply must be sent even when the stored event has no LAST-MODIFIED,
+	 * which is how Outlook invitations arrive. The reply then matches the stored
+	 * event on every property the comparison looks at, see #50665
+	 */
+	public function testReplyIsSentWhenStoredEventHasNoLastModified(): void {
+		$message = new Message();
+		$message->method = 'REPLY';
+		$newVCalendar = new VCalendar();
+		/** @var VEvent $newVevent */
+		$newVevent = $newVCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['PARTSTAT' => 'ACCEPTED', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:' . 'frodo@hobb.it';
+		$message->senderName = 'Frodo';
+		$message->recipient = 'mailto:gandalf@wiz.ard';
+		// the stored copy differs only in PARTSTAT
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = $oldVCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['PARTSTAT' => 'NEEDS-ACTION', 'RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		// use the real comparison, which considers these two events identical
+		$plugin = new IMipPlugin(
+			$this->config,
+			$this->mailer,
+			$this->logger,
+			$this->timeFactory,
+			$this->defaults,
+			$this->userSession,
+			$this->service,
+			new EventComparisonService(),
+			$this->mailManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->accountManager,
+		);
+		$plugin->setVCalendar($oldVCalendar);
+		$data = ['invitee_name' => 'Frodo',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'gandalf@wiz.ard'
+		];
+		$attendee = $newVevent->ATTENDEE;
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($attendee);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildReplyBodyData')
+			->with($newVevent)
+			->willReturn($data);
+		$this->service->expects(self::once())
+			->method('getReplyingAttendee')
+			->with($message)
+			->willReturn($attendee);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'reply', 'Frodo', 'Fellowship meeting', false, $attendee);
+		$this->service->expects(self::once())
+			->method('addEventDetails')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
 	public function testAttendeeIsResource(): void {
 		$message = new Message();
 		$message->method = 'REQUEST';
