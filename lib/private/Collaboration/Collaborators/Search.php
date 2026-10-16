@@ -11,6 +11,7 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\IConfig;
 use OCP\IContainer;
 use OCP\Share\IShare;
 
@@ -19,6 +20,7 @@ class Search implements ISearch {
 
 	public function __construct(
 		private IContainer $container,
+		private readonly IConfig $config,
 	) {
 	}
 
@@ -38,6 +40,9 @@ class Search implements ISearch {
 
 		/** @var ISearchResult $searchResult */
 		$searchResult = $this->container->resolve(SearchResult::class);
+
+		// confirm lookup server is not empty
+		$lookup = $lookup && !empty($this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com'));
 
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
