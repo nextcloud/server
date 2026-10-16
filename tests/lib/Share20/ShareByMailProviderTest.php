@@ -14,7 +14,6 @@ use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -22,7 +21,6 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -70,17 +68,8 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var IHasher|MockObject */
-	private $hasher;
-
 	/** @var \OCP\Activity\IManager|MockObject */
 	private $activityManager;
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var \OCP\Share\IManager|MockObject */
-	private $shareManager;
 
 	/** @var ISecureRandom|MockObject */
 	private $secureRandom;
@@ -102,9 +91,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->activityManager = $this->createMock(\OCP\Activity\IManager::class);
 		$this->settingsManager = $this->createMock(SettingsManager::class);
-		$this->hasher = $this->createMock(IHasher::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->shareManager = $this->createMock(\OCP\Share\IManager::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->config = $this->createMock(IConfig::class);
 
@@ -124,9 +110,6 @@ class ShareByMailProviderTest extends TestCase {
 			$this->activityManager,
 			$this->settingsManager,
 			$this->defaults,
-			$this->hasher,
-			$this->eventDispatcher,
-			$this->shareManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}

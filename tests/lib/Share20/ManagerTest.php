@@ -3570,6 +3570,50 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertTrue($createdShare->isPasswordHashed());
 	}
 
+	public function testCreateShareMailWithoutPasswordFailsWhenPasswordsAreEnforced(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'generalChecks',
+				'pathCreateChecks',
+				'validateExpirationDateLink',
+				'setLinkParent',
+			])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getStorage')->willReturn($this->createMock(IStorage::class));
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_EMAIL)
+			->setNode($path)
+			->setSharedBy('sharedBy')
+			->setSharedWith('recipient@example.com')
+			->setPermissions(Constants::PERMISSION_READ);
+
+		$manager->method('validateExpirationDateLink')->willReturnArgument(0);
+
+		$this->secureRandom->method('generate')
+			->willReturn('token');
+		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		]);
+		$this->appConfig->method('getValueBool')->willReturnCallback(
+			fn (string $app, string $key): bool => $app === 'core'
+				&& in_array($key, ['shareapi_enable_link_password_by_default', 'shareapi_enforce_links_password'], true),
+		);
+
+		$this->defaultProvider->expects($this->never())->method('create');
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Passwords are enforced for link and mail shares');
+
+		$manager->createShare($share);
+	}
+
 	public function testCreateShareHookError(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('I won\'t let you share');

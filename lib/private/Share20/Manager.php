@@ -654,7 +654,7 @@ class Manager implements IManager {
 					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}
 			} else {
-				$this->logger->debug('Share notification not sent because mailsend is false.', ['app' => 'share']);
+				$this->logger->debug('Share notification not sent because mailSend is false.', ['app' => 'share']);
 			}
 		} else {
 			$this->logger->debug('Share notification not sent because sharing notification emails is disabled.', ['app' => 'share']);
