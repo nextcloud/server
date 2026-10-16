@@ -62,7 +62,13 @@ class Connection {
 		$user = parse_url($subscription['source'], PHP_URL_USER);
 		$pass = parse_url($subscription['source'], PHP_URL_PASS);
 		if ($user !== null && $pass !== null) {
-			$params[RequestOptions::AUTH] = [$user, $pass];
+			/*
+			 * parse_url() does not decode percent-encoded characters, so
+			 * special characters (e.g. '#', '@', ':') in the credentials
+			 * must be decoded before use, or Basic Auth sends the raw
+			 * percent-encoded sequence instead of the real password.
+			 */
+			$params[RequestOptions::AUTH] = [urldecode($user), urldecode($pass)];
 		}
 
 		try {
