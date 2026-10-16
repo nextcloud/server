@@ -13,7 +13,9 @@ use OC\Security\Bruteforce\Backend\IBackend;
 use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\Normalizer\IpAddress;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
@@ -41,6 +43,7 @@ class Throttler implements IThrottler {
 		private IConfig $config,
 		private IBackend $backend,
 		private BruteforceAllowList $allowList,
+		private IEventDispatcher $dispatcher,
 	) {
 	}
 
@@ -58,6 +61,12 @@ class Throttler implements IThrottler {
 
 		$ipAddress = new IpAddress($ip);
 		if ($this->isBypassListed((string)$ipAddress)) {
+			$this->dispatcher->dispatchTyped(
+				new CriticalActionPerformedEvent(
+					'Bruteforce attempt from "{ip}" detected for action "{action}" not throttled due to allow-list.',
+					['ip' => $ip, 'action' => $action],
+				)
+			);
 			return;
 		}
 
