@@ -6,7 +6,7 @@
 import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
-import { getByRole, getByText } from '@testing-library/vue'
+import { fireEvent, getByRole, getByText } from '@testing-library/vue'
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
@@ -34,6 +34,7 @@ function makeToken(scope: IToken['scope']): IToken {
 function mountDialog(token?: IToken) {
 	return mount(AuthTokenAccessDialog, {
 		props: { token, open: true },
+		attachTo: document.body,
 		global: {
 			stubs: { NcDialog },
 			plugins: [createTestingPinia({ createSpy: vi.fn })],
@@ -51,11 +52,21 @@ describe('AuthTokenAccessDialog', () => {
 		expect(save).toBeEnabled()
 	})
 
+	it('shows a partly granted area as mixed', () => {
+		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:contacts:read', 'dav:contacts:write'] }))
+		const checkbox = (name: string) => getByRole(wrapper.element as HTMLElement, 'checkbox', { name }) as HTMLInputElement
+
+		expect(checkbox('Calendar').indeterminate).toBe(true)
+		expect(checkbox('Can edit calendars').checked).toBe(false)
+		expect(checkbox('Contacts').checked).toBe(true)
+		expect(checkbox('Contacts').indeterminate).toBe(false)
+	})
+
 	it('needs at least one area in Custom', async () => {
 		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:calendar:write'] }))
 		const save = getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' })
 
-		await wrapper.find('input[type="checkbox"][value="calendar"]').setValue(false)
+		await fireEvent.click(getByRole(wrapper.element as HTMLElement, 'checkbox', { name: 'Calendar' }))
 
 		expect(save).toBeDisabled()
 		expect(getByText(wrapper.element as HTMLElement, 'Choose at least one')).toBeTruthy()
@@ -68,7 +79,7 @@ describe('AuthTokenAccessDialog', () => {
 		vi.mocked(store.setTokenScopes).mockResolvedValue(true)
 
 		expect(wrapper.text()).toContain('access set outside of Settings')
-		await wrapper.find('input[type="checkbox"][value="calendar"]').setValue(true)
+		await fireEvent.click(getByRole(wrapper.element as HTMLElement, 'checkbox', { name: 'Calendar' }))
 		getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' }).click()
 		await flushPromises()
 
