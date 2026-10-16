@@ -2461,7 +2461,6 @@ return array(
     'OC\\User\\DisplayNameCache' => $baseDir . '/lib/private/User/DisplayNameCache.php',
     'OC\\User\\LastInteractiveLogin' => $baseDir . '/lib/private/User/LastInteractiveLogin.php',
     'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
-    'OC\\User\\Listeners\\BeforeUserDeletedListener' => $baseDir . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
     'OC\\User\\Listeners\\UserChangedListener' => $baseDir . '/lib/private/User/Listeners/UserChangedListener.php',
     'OC\\User\\Listeners\\UserLoggedInWithCookieListener' => $baseDir . '/lib/private/User/Listeners/UserLoggedInWithCookieListener.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
