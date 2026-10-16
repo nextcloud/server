@@ -9,6 +9,7 @@
 namespace OC\Files\Config;
 
 use OC\Files\Filesystem;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -25,7 +26,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		protected string $mountPoint,
 		protected string $mountProvider,
 		protected ?int $mountId = null,
-		protected string $rootInternalPath = '',
+		protected ICacheEntry $rootCacheEntry,
 	) {
 		if (strlen($this->mountProvider) > 128) {
 			throw new \Exception("Mount provider $this->mountProvider name exceeds the limit of 128 characters");
@@ -60,7 +61,6 @@ class CachedMountInfo implements ICachedMountInfo {
 	#[\Override]
 	public function getMountPointNode(): ?Node {
 		// TODO injection etc
-		Filesystem::initMountPoints($this->getUser()->getUID());
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->getUser()->getUID());
 		return $userFolder->getParent()->getFirstNodeById($this->getRootId());
 	}
@@ -91,7 +91,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	 */
 	#[\Override]
 	public function getRootInternalPath(): string {
-		return $this->rootInternalPath;
+		return $this->getRootCacheEntry()->getPath();
 	}
 
 	#[\Override]
@@ -102,5 +102,14 @@ class CachedMountInfo implements ICachedMountInfo {
 	#[\Override]
 	public function getKey(): string {
 		return $this->key;
+	}
+
+	/**
+	 * Get the cached file data for the root of the mount
+	 *
+	 * @return ICacheEntry
+	 */
+	public function getRootCacheEntry(): ICacheEntry {
+		return $this->rootCacheEntry;
 	}
 }
