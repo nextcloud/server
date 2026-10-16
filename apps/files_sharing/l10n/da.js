@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "Delt med dig og konversationen {conversation} af {owner}",
     "Shared with you in a conversation by {owner}" : "Delt med dig og konversationen af {owner}",
     "Shared with you by {owner}" : "Delt med dig {owner}",
+    "Originally as {name}" : "Oprindeligt navn: {name}",
     "%1$s shared %2$s with you" : "%1$s delte %2$s med dig",
     "Do you want to accept this share?" : "Vil du acceptere denne deling?",
     "Share not found" : "Delt fil ikke fundet",

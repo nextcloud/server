@@ -216,6 +216,7 @@ OC.L10N.register(
     "Use {productName} mobile client you want to connect to scan the code" : "Користи {productName} за мобилен за да се најавиш со скенирање на кодот",
     "Code will expire {timeCountdown} or after use" : "Кодот ќе истече за {timeCountdown} или одкога ќе го искористиш",
     "More apps" : "Повеќе апликации",
+    "App store" : "Продавница",
     "Settings" : "Параметри",
     "Profile" : "Профил",
     "Applications" : "Апликации",

@@ -85,7 +85,7 @@ OC.L10N.register(
     "Shared with" : "Delad med",
     "Tags" : "Taggar",
     "Content" : "Innehåll",
-    "in %s" : "om %s",
+    "in %s" : "i %s",
     "Transferred from %1$s on %2$s" : "Överförd från %1$s den %2$s",
     "Create files" : "Skapa filer",
     "Delete files" : "Ta bort filer",

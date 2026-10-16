@@ -154,10 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "Bäst säkerhet: dokumenten lämnar aldrig din server",
     "Best ODF compatibility" : "Bäst ODF-kompatibilitet",
     "Best support for legacy files" : "Bäst stöd för äldre filformat",
+    "Enabling following apps: {apps}" : "Aktiverar följande appar: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Uppdaterar %n app.","Uppdaterar %n appar."],
     "Could not load app categories. Please try again later." : "Det gick inte att läsa in appkategorierna. Försök igen senare.",
     "Could not load apps list. Please try again later." : "Det gick inte att läsa in applistan. Försök igen senare.",
     "Could not update the app. Please try again later." : "Det gick inte att uppdatera appen. Försök igen senare.",
     "An error occurred during the request. Unable to proceed." : "Ett fel uppstod under begäran. Det gick inte att fortsätta.",
+    "Could not update an exApp. Please try again later." : "Det gick inte att uppdatera en ExApp. Försök igen senare.",
+    "Could not update {app}. Please try again later." : "Det gick inte att uppdatera {app}. Försök igen senare.",
+    "Could not update an app. Please try again later." : "Det gick inte att uppdatera en app. Försök igen senare.",
     "Failed to update app {appName}" : "Det gick inte att uppdatera appen {appName}"
 },
 "nplurals=2; plural=(n != 1);");
