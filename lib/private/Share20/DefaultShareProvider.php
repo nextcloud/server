@@ -534,6 +534,7 @@ class DefaultShareProvider implements
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
+				'attributes' => $qb->createNamedParameter($this->formatShareAttributes($share->getAttributes())),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->executeStatement();
 
