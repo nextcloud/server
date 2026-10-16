@@ -6,10 +6,10 @@
 <script setup lang="ts">
 import type { IToken } from '../store/authtoken.ts'
 
-import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
+import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiShieldLockOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
 import { showConfirmation } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { computed, nextTick, ref, useTemplateRef } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -17,8 +17,10 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
+import { accessLabel } from '../utils/accessLevel.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
 const props = defineProps<{
@@ -56,8 +58,15 @@ const actionOpen = ref(false)
 const renaming = ref(false)
 const newName = ref('')
 const deleteDialogOpen = ref(false)
+const accessDialogOpen = ref(false)
 
 const canChangeScope = computed(() => props.token.type === TokenType.PERMANENT_TOKEN)
+
+watch(accessDialogOpen, (open) => {
+	if (!open) {
+		focusActions()
+	}
+})
 
 /**
  * Object ob the current user agent used by the token
@@ -157,6 +166,14 @@ function updateFileSystemScope(state: boolean) {
 }
 
 /**
+ * Open the dialog to change what this token can reach
+ */
+function editAccess() {
+	actionOpen.value = false
+	accessDialogOpen.value = true
+}
+
+/**
  * Show the rename form for this token
  */
 function startRename() {
@@ -253,6 +270,7 @@ async function wipe() {
 					</NcButton>
 				</form>
 				<span v-else>{{ tokenLabel }}</span>
+				<span v-if="canChangeScope" class="auth-token__access">{{ accessLabel(token.scope) }}</span>
 				<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
 			</div>
 		</td>
@@ -269,9 +287,17 @@ async function wipe() {
 				v-model:open="actionOpen"
 				:title="t('settings', 'Device settings')"
 				:aria-label="t('settings', 'Device settings')">
+				<NcActionButton
+					v-if="canChangeScope"
+					@click.stop.prevent="editAccess">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiShieldLockOutline" />
+					</template>
+					{{ t('settings', 'Edit access') }}
+				</NcActionButton>
 				<!-- TODO: add text/longtext with some description -->
 				<NcActionCheckbox
-					v-if="canChangeScope"
+					v-if="canChangeScope && token.scope.scopes === undefined"
 					:modelValue="token.scope.filesystem"
 					@update:modelValue="updateFileSystemScope">
 					{{ t('settings', 'Allow filesystem access') }}
@@ -317,6 +343,10 @@ async function wipe() {
 				</template>
 			</NcActions>
 		</td>
+		<AuthTokenAccessDialog
+			v-if="accessDialogOpen"
+			v-model:open="accessDialogOpen"
+			:token="token" />
 		<AuthTokenDeleteDialog
 			v-if="deleteDialogOpen"
 			v-model:open="deleteDialogOpen"
@@ -364,6 +394,7 @@ async function wipe() {
 		padding-inline-start: 10px;
 	}
 
+	&__access,
 	.wiping-warning {
 		color: var(--color-text-maxcontrast);
 	}

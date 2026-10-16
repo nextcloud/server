@@ -18,8 +18,10 @@ vi.mock('@nextcloud/dialogs', () => ({
 	showConfirmation: showConfirmationMock,
 }))
 
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
+import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
@@ -341,5 +343,29 @@ describe('Desktop Firefox regression tests', () => {
 			version: '124',
 			os: 'Linux',
 		})
+	})
+})
+
+describe('AuthToken access', () => {
+	it('shows what an app password can reach', () => {
+		const wrapper = mountAuthToken(makeToken({ scope: { filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files_sharing:shares:write'] } }))
+
+		expect(wrapper.find('.auth-token__access').text()).toBe('Files')
+	})
+
+	it('keeps the filesystem toggle for tokens without scopes only', () => {
+		const stubs = { NcActions: { template: '<div><slot /></div>' } }
+		expect(mountAuthToken(makeToken(), { stubs }).findComponent(NcActionCheckbox).exists()).toBe(true)
+		expect(mountAuthToken(makeToken({ scope: { filesystem: false, scopes: ['dav:calendar:read'] } }), { stubs }).findComponent(NcActionCheckbox).exists()).toBe(false)
+	})
+
+	it('opens the access dialog for the token', async () => {
+		const token = makeToken()
+		const wrapper = mountAuthToken(token, { stubs: { AuthTokenAccessDialog: true } })
+
+		;(wrapper.vm as unknown as { editAccess: () => void }).editAccess()
+		await nextTick()
+
+		expect(wrapper.findComponent(AuthTokenAccessDialog).props('token')).toEqual(token)
 	})
 })

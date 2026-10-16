@@ -65,4 +65,48 @@ export class DevicesSessionsSettingsPage {
 		await dialog.getByRole('button', { name: 'Revoke all others' }).click()
 		await awaitPasswordGuardedRequest(this.page, revoked)
 	}
+
+	accessDialog(name: 'Create new app password' | 'Edit access'): Locator {
+		return this.page.getByRole('dialog', { name })
+	}
+
+	/**
+	 * @param name - Name of the new app password
+	 * @param access - Label of the access preset to pick
+	 */
+	async createAppPassword(name: string, access: string): Promise<void> {
+		await this.page.getByRole('button', { name: 'Create new app password' }).click()
+		const dialog = this.accessDialog('Create new app password')
+		await dialog.getByRole('textbox', { name: 'App name' }).fill(name)
+		await dialog.getByRole('radio', { name: access }).check({ force: true })
+
+		const created = this.page.waitForResponse((r) => r.request().method() === 'POST'
+			&& r.url().includes('/settings/personal/authtokens')
+			&& r.ok())
+		await dialog.getByRole('button', { name: 'Create' }).click()
+		await awaitPasswordGuardedRequest(this.page, created)
+
+		const setup = this.page.getByRole('dialog', { name: 'New app password', exact: true })
+		await expect(setup).toBeVisible()
+		await setup.getByRole('button', { name: 'Close' }).click()
+		await expect(setup).toBeHidden()
+	}
+
+	/**
+	 * @param row - Visible name of the app password
+	 * @param access - Label of the access preset to pick
+	 */
+	async editAccess(row: string, access: string): Promise<void> {
+		await this.tokenRow(row).getByRole('button', { name: 'Device settings' }).click()
+		await this.page.getByRole('menuitem', { name: 'Edit access' }).click()
+		const dialog = this.accessDialog('Edit access')
+		await dialog.getByRole('radio', { name: access }).check({ force: true })
+
+		const saved = this.page.waitForResponse((r) => r.request().method() === 'PUT'
+			&& r.url().includes('/settings/personal/authtokens/')
+			&& r.ok())
+		await dialog.getByRole('button', { name: 'Save' }).click()
+		await awaitPasswordGuardedRequest(this.page, saved)
+		await expect(dialog).toBeHidden()
+	}
 }
