@@ -533,11 +533,11 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public static function dataUpdateScopedToken(): array {
-		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['calendar:read']];
+		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['dav:calendar:read']];
 		return [
 			'scopes omitted' => [$stored, [IToken::SCOPE_FILESYSTEM => false]],
 			'scopes sent back unchanged' => [$stored, $stored],
-			'legacy filesystem toggle' => [$stored, [IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['calendar:read']]],
+			'legacy filesystem toggle' => [$stored, [IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['dav:calendar:read']]],
 		];
 	}
 
@@ -567,9 +567,9 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public static function dataUpdateScopes(): array {
-		$calendar = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['calendar:read']];
+		$calendar = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => ['dav:calendar:read']];
 		return [
-			'scopes set, filesystem flips too' => [[IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => ['calendar:read']], $calendar],
+			'scopes set, filesystem flips too' => [[IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => ['dav:calendar:read']], $calendar],
 			'scopes cleared' => [$calendar, [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => null], [IToken::SCOPE_FILESYSTEM => true]],
 		];
 	}

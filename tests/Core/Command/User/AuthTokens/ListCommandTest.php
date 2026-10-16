@@ -26,7 +26,7 @@ class ListCommandTest extends TestCase {
 			],
 			'scoped' => [
 				[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE]],
-				'filesystem, scopes: files:read files:write',
+				'filesystem, scopes: files:files:read files:files:write',
 			],
 			'empty scopes' => [
 				[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => []],

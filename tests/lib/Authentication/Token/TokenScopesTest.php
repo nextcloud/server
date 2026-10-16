@@ -10,6 +10,7 @@ namespace Test\Authentication\Token;
 
 use OC\Authentication\Token\TokenScopes;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCP\Authentication\Token\IToken;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
@@ -25,7 +26,7 @@ class TokenScopesTest extends TestCase {
 
 	public static function merges(): array {
 		$fs = IToken::SCOPE_FILESYSTEM;
-		$calendar = [$fs => false, TokenScopes::KEY => ['calendar:read']];
+		$calendar = [$fs => false, TokenScopes::KEY => ['dav:calendar:read']];
 		$deck = [$fs => false, TokenScopes::KEY => ['app:deck']];
 		return [
 			'legacy token takes requested filesystem' => [[$fs => true], [$fs => false], [$fs => false]],
@@ -37,10 +38,15 @@ class TokenScopesTest extends TestCase {
 				[TokenScopes::KEY => ['a' => FilesTokenScopes::FILES_WRITE, 3 => FilesTokenScopes::FILES_READ, 7 => FilesTokenScopes::FILES_WRITE]],
 				[$fs => true, TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE]],
 			],
+			'files with sharing' => [
+				[$fs => true],
+				[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE]],
+				[$fs => true, TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE]],
+			],
 			'empty scopes deny filesystem' => [[$fs => true], [TokenScopes::KEY => []], [$fs => false, TokenScopes::KEY => []]],
 			'unchanged scopes skip validation' => [$deck, $deck, $deck],
 			'scopes core does not know are stored' => [[$fs => true], [TokenScopes::KEY => ['app:deck']], $deck],
-			'write without read is stored' => [[$fs => true], [TokenScopes::KEY => ['calendar:write']], [$fs => false, TokenScopes::KEY => ['calendar:write']]],
+			'write without read is stored' => [[$fs => true], [TokenScopes::KEY => ['dav:calendar:write']], [$fs => false, TokenScopes::KEY => ['dav:calendar:write']]],
 			'stored server keys are kept' => [
 				[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true, $fs => true],
 				[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => false],
@@ -58,12 +64,12 @@ class TokenScopesTest extends TestCase {
 	public static function invalidUpdates(): array {
 		return [
 			'files write without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE]]],
-			'files share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_SHARE]]],
-			'files write and share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE, FilesTokenScopes::FILES_SHARE]]],
+			'files share without read' => [[TokenScopes::KEY => [SharingTokenScopes::SHARES_WRITE]]],
+			'files write and share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE]]],
 			'read-only files' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]]],
-			'read and share without write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_SHARE]]],
+			'read and share without write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, SharingTokenScopes::SHARES_WRITE]]],
 			'not an array' => [[TokenScopes::KEY => FilesTokenScopes::FILES_READ]],
-			'nested array entry' => [[TokenScopes::KEY => ['calendar:read', ['x']]]],
+			'nested array entry' => [[TokenScopes::KEY => ['dav:calendar:read', ['x']]]],
 			'empty scope' => [[TokenScopes::KEY => ['']]],
 			'scope too long' => [[TokenScopes::KEY => [str_repeat('a', 65)]]],
 			'too many scopes' => [[TokenScopes::KEY => array_map(static fn (int $i) => 'app:' . $i, range(1, 101))]],

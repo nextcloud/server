@@ -53,7 +53,7 @@ class LockdownManagerTest extends TestCase {
 		return [
 			'legacy without filesystem key' => [[IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true], false],
 			'files' => [[IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], true],
-			'calendar only' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['calendar:read']], false],
+			'calendar only' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => ['dav:calendar:read']], false],
 			'malformed' => [[IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => FilesTokenScopes::FILES_READ], false],
 		];
 	}
@@ -65,15 +65,15 @@ class LockdownManagerTest extends TestCase {
 
 	public function testHasScopeWithoutToken(): void {
 		$manager = new LockdownManager($this->sessionCallback, new TokenScopes());
-		$this->assertTrue($manager->hasScope('calendar:read'));
+		$this->assertTrue($manager->hasScope('dav:calendar:read'));
 	}
 
 	public static function hasScope(): array {
 		return [
-			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], 'calendar:read', true],
-			'granted' => [[TokenScopes::KEY => ['calendar:read']], 'calendar:read', true],
-			'not granted' => [[TokenScopes::KEY => ['calendar:read']], FilesTokenScopes::FILES_READ, false],
-			'malformed' => [[TokenScopes::KEY => 'calendar:read'], 'calendar:read', false],
+			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], 'dav:calendar:read', true],
+			'granted' => [[TokenScopes::KEY => ['dav:calendar:read']], 'dav:calendar:read', true],
+			'not granted' => [[TokenScopes::KEY => ['dav:calendar:read']], FilesTokenScopes::FILES_READ, false],
+			'malformed' => [[TokenScopes::KEY => 'dav:calendar:read'], 'dav:calendar:read', false],
 		];
 	}
 

@@ -13,7 +13,6 @@ namespace OCA\Files;
  * App password scopes for files
  */
 class TokenScopes {
-	public const FILES_READ = 'files:read';
-	public const FILES_WRITE = 'files:write';
-	public const FILES_SHARE = 'files:share';
+	public const FILES_READ = 'files:files:read';
+	public const FILES_WRITE = 'files:files:write';
 }
