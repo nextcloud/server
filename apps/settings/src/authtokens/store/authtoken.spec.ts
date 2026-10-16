@@ -50,3 +50,43 @@ describe('store:authtoken addToken', () => {
 		expect(store.tokens).toHaveLength(0)
 	})
 })
+
+// The automock of @nextcloud/axios has no `put`, so those tests assign one
+describe('store:authtoken scopes', () => {
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		vi.restoreAllMocks()
+	})
+
+	it('sends the scopes when creating a token', async () => {
+		const post = vi.spyOn(axios, 'post').mockResolvedValue({
+			data: { deviceToken, loginName: 'alice', token: 'secret' },
+		})
+
+		await useAuthTokenStore().addToken('Laptop', ['calendar:read'])
+
+		expect(post.mock.calls[0][1]).toMatchObject({ name: 'Laptop', scopes: ['calendar:read'] })
+	})
+
+	it.each([
+		[['calendar:read'], { filesystem: false, scopes: ['calendar:read'] }],
+		[['files:read', 'files:write'], { filesystem: true, scopes: ['files:read', 'files:write'] }],
+		[null, { filesystem: true }],
+	])('sets the scopes %o', async (scopes, expected) => {
+		const put = axios.put = vi.fn().mockResolvedValue({ data: [] })
+		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['contacts:read'] } }
+
+		expect(await useAuthTokenStore().setTokenScopes(token, scopes)).toBe(true)
+		expect(put.mock.calls[0][1]).toMatchObject({ scope: { scopes } })
+		expect(token.scope).toEqual(expected)
+	})
+
+	it('keeps the old scopes when saving fails', async () => {
+		axios.put = vi.fn().mockRejectedValue(new Error('Request failed'))
+		const scope = { filesystem: false, scopes: ['contacts:read'] }
+		const token = { ...deviceToken, scope }
+
+		expect(await useAuthTokenStore().setTokenScopes(token, null)).toBe(false)
+		expect(token.scope).toBe(scope)
+	})
+})
