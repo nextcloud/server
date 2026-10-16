@@ -3272,4 +3272,64 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		self::invokePrivate($this->provider, 'sendNote', [[$recipient], $share]);
 	}
+
+	public function testLookupByFileIdsMatchesLookupByNode(): void {
+		$storageId = $this->createTestStorageEntry('home::shareOwner');
+		$fileIds = [
+			$this->createTestFileEntry('files/a.txt', $storageId),
+			$this->createTestFileEntry('files/b.txt', $storageId),
+			$this->createTestFileEntry('files/c.txt', $storageId),
+		];
+		[$a, $b, $c] = $fileIds;
+
+		// Created by alice
+		$this->addShareToDB(IShare::TYPE_USER, 'bob', 'alice', 'shareOwner', 'file', $a, '/a.txt', 19, null, null);
+		$this->addShareToDB(IShare::TYPE_USER, 'carol', 'alice', 'shareOwner', 'file', $b, '/b.txt', 19, null, null);
+		$this->addShareToDB(IShare::TYPE_LINK, null, 'alice', 'shareOwner', 'file', $b, null, 1, 'token1', null);
+		// Created by someone else
+		$this->addShareToDB(IShare::TYPE_USER, 'dave', 'bob', 'shareOwner', 'file', $a, '/a.txt', 19, null, null);
+		// Received by alice, directly and through her groups
+		$this->addShareToDB(IShare::TYPE_USER, 'alice', 'bob', 'shareOwner', 'file', $c, '/c.txt', 19, null, null);
+		$this->addShareToDB(IShare::TYPE_GROUP, 'staff', 'bob', 'shareOwner', 'file', $a, '/a.txt', 19, null, null);
+		$left = $this->addShareToDB(IShare::TYPE_GROUP, 'staff', 'bob', 'shareOwner', 'file', $c, '/c.txt', 19, null, null);
+		// alice left that one
+		$this->addShareToDB(IShare::TYPE_USERGROUP, 'alice', 'bob', 'shareOwner', 'file', $c, '/c.txt', 0, null, null, $left);
+		$this->addShareToDB(IShare::TYPE_GROUP, 'other', 'bob', 'shareOwner', 'file', $b, '/b.txt', 19, null, null);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userManager->method('get')->willReturn($user);
+		$this->groupManager->method('getUserGroupIds')->willReturn(['staff']);
+		$this->rootFolder->method('getUserFolder')->willReturnSelf();
+		$this->rootFolder->method('getFirstNodeById')->willReturn($this->createMock(File::class));
+
+		$ids = static fn (array $shares): array => array_map(static fn (IShare $share): string => $share->getId(), $shares);
+		foreach ([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK] as $shareType) {
+			$byFileIds = $this->provider->getSharesByFileIds('alice', $shareType, $fileIds);
+			// Like getSharedWith(), the provider receives no link shares
+			$withByFileIds = $shareType === IShare::TYPE_LINK ? [] : $this->provider->getSharedWithByFileIds('alice', $shareType, $fileIds);
+			$byNode = [];
+			$withByNode = [];
+			foreach ($fileIds as $fileId) {
+				$node = $this->createMock(File::class);
+				$node->method('getId')->willReturn($fileId);
+				$byNode[] = $this->provider->getSharesBy('alice', $shareType, $node, false, -1, 0);
+				if ($shareType !== IShare::TYPE_LINK) {
+					$withByNode[] = $this->provider->getSharedWith('alice', $shareType, $node, -1, 0);
+				}
+			}
+
+			$this->assertEqualsCanonicalizing($ids(array_merge(...$byNode)), $ids($byFileIds), 'shares by alice, type ' . $shareType);
+			if ($shareType !== IShare::TYPE_LINK) {
+				$this->assertEqualsCanonicalizing($ids(array_merge(...$withByNode)), $ids($withByFileIds), 'shares with alice, type ' . $shareType);
+			}
+		}
+
+		// The expected shares are found at all
+		$this->assertCount(2, $this->provider->getSharesByFileIds('alice', IShare::TYPE_USER, $fileIds));
+		$this->assertCount(1, $this->provider->getSharedWithByFileIds('alice', IShare::TYPE_USER, $fileIds));
+		// The group share alice left comes back with no permissions, like with getSharedWith()
+		$groupShares = $this->provider->getSharedWithByFileIds('alice', IShare::TYPE_GROUP, $fileIds);
+		$this->assertEqualsCanonicalizing([19, 0], array_map(static fn (IShare $share): int => $share->getPermissions(), $groupShares));
+	}
 }

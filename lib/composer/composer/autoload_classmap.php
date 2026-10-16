@@ -971,6 +971,7 @@ return array(
     'OCP\\Share\\IShareProviderGetUsers' => $baseDir . '/lib/public/Share/IShareProviderGetUsers.php',
     'OCP\\Share\\IShareProviderSupportsAccept' => $baseDir . '/lib/public/Share/IShareProviderSupportsAccept.php',
     'OCP\\Share\\IShareProviderSupportsAllSharesInFolder' => $baseDir . '/lib/public/Share/IShareProviderSupportsAllSharesInFolder.php',
+    'OCP\\Share\\IShareProviderSupportsFileIds' => $baseDir . '/lib/public/Share/IShareProviderSupportsFileIds.php',
     'OCP\\Share\\IShareProviderWithNotification' => $baseDir . '/lib/public/Share/IShareProviderWithNotification.php',
     'OCP\\Share\\ShareReview\\Events\\ShareReviewAccessCheckEvent' => $baseDir . '/lib/public/Share/ShareReview/Events/ShareReviewAccessCheckEvent.php',
     'OCP\\Share\\ShareReview\\IShareReviewSource' => $baseDir . '/lib/public/Share/ShareReview/IShareReviewSource.php',

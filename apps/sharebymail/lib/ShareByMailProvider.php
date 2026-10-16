@@ -839,6 +839,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 */
 	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset): array {
+		return $this->getSharesByInternal($userId, $shareType, $node === null ? null : [$node->getId()], $reshares, $limit, $offset);
+	}
+
+	#[\Override]
+	public function getSharesByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return $this->getSharesByInternal($userId, $shareType, $fileIds, false, -1, 0);
+	}
+
+	/**
+	 * @param list<int>|null $fileIds
+	 * @return list<IShare>
+	 */
+	private function getSharesByInternal($userId, $shareType, ?array $fileIds, $reshares, $limit, $offset): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
 			->from('share');
@@ -861,7 +874,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 					$or1
 				)
 			);
-		} elseif ($node === null) {
+		} elseif ($fileIds === null) {
 			$qb->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
@@ -870,8 +883,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 		}
 
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		if ($fileIds !== null) {
+			$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		if ($limit !== -1) {
@@ -954,6 +967,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 */
 	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset): array {
+		return $this->getSharedWithInternal($userId, $shareType, $node === null ? null : [$node->getId()], $limit, $offset);
+	}
+
+	#[\Override]
+	public function getSharedWithByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return array_values($this->getSharedWithInternal($userId, $shareType, $fileIds, -1, 0));
+	}
+
+	/**
+	 * @param list<int>|null $fileIds
+	 * @return IShare[]
+	 */
+	private function getSharedWithInternal($userId, $shareType, ?array $fileIds, $limit, $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
 
@@ -977,8 +1003,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
 
 		// Filter by node if provided
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		if ($fileIds !== null) {
+			$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		$cursor = $qb->executeQuery();

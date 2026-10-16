@@ -44,6 +44,7 @@ use OCP\Share\IShare;
 use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
+use OCP\Share\IShareProviderSupportsFileIds;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -57,6 +58,7 @@ use function strlen;
  * @package OC\Share20
  */
 class DefaultShareProvider implements
+	IShareProviderSupportsFileIds,
 	IShareProviderWithNotification,
 	IShareProviderSupportsAccept,
 	IShareProviderSupportsAllSharesInFolder,
@@ -726,6 +728,19 @@ class DefaultShareProvider implements
 	 */
 	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
+		return $this->getSharesByInternal($userId, $shareType, $node === null ? null : [$node->getId()], $reshares, $limit, $offset);
+	}
+
+	#[\Override]
+	public function getSharesByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return $this->getSharesByInternal($userId, $shareType, $fileIds, false, -1, 0);
+	}
+
+	/**
+	 * @param list<int>|null $fileIds
+	 * @return list<IShare>
+	 */
+	private function getSharesByInternal($userId, $shareType, ?array $fileIds, $reshares, $limit, $offset): array {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share')
@@ -739,7 +754,7 @@ class DefaultShareProvider implements
 		if ($reshares === false) {
 			$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
 		} else {
-			if ($node === null) {
+			if ($fileIds === null) {
 				$qb->andWhere(
 					$qb->expr()->orX(
 						$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
@@ -749,8 +764,8 @@ class DefaultShareProvider implements
 			}
 		}
 
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		if ($fileIds !== null) {
+			$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		if ($limit !== -1) {
@@ -869,7 +884,12 @@ class DefaultShareProvider implements
 
 	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
-		return $this->_getSharedWith($userId, $shareType, $limit, $offset, $node);
+		return $this->_getSharedWith($userId, $shareType, $limit, $offset, $node === null ? null : [$node->getId()]);
+	}
+
+	#[\Override]
+	public function getSharedWithByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return array_values($this->_getSharedWith($userId, $shareType, -1, 0, $fileIds));
 	}
 
 	#[\Override]
@@ -885,6 +905,7 @@ class DefaultShareProvider implements
 	}
 
 	/**
+	 * @param list<int>|null $fileIds only the shares of these files
 	 * @return IShare[]
 	 */
 	private function _getSharedWith(
@@ -892,7 +913,7 @@ class DefaultShareProvider implements
 		int $shareType,
 		int $limit,
 		int $offset,
-		?Node $node = null,
+		?array $fileIds = null,
 		?string $path = null,
 		?bool $forChildren = false,
 	): iterable {
@@ -940,9 +961,9 @@ class DefaultShareProvider implements
 				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
 				->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 
-			// Filter by node if provided
-			if ($node !== null) {
-				$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+			// Filter by files if provided
+			if ($fileIds !== null) {
+				$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 			}
 
 			if ($path !== null) {
@@ -1007,9 +1028,9 @@ class DefaultShareProvider implements
 					$qb->setMaxResults($limit - count($shares));
 				}
 
-				// Filter by node if provided
-				if ($node !== null) {
-					$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+				// Filter by files if provided
+				if ($fileIds !== null) {
+					$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 				}
 
 				if ($path !== null) {

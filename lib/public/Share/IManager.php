@@ -135,6 +135,28 @@ interface IManager {
 	public function getSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
 
 	/**
+	 * Get the shares the user created on each of these nodes,
+	 * the same as `getSharesBy($userId, $shareType, $node, false, -1)` for each node
+	 *
+	 * @param IShare::TYPE_* $shareType
+	 * @param list<Node> $nodes
+	 * @return array<int, list<IShare>> shares by file id, nodes without shares are left out
+	 * @since 36.0.0
+	 */
+	public function getSharesByNodes(string $userId, int $shareType, array $nodes): array;
+
+	/**
+	 * Get the shares of each of these nodes the user received,
+	 * the same as `getSharedWith($userId, $shareType, $node, -1)` for each node
+	 *
+	 * @param IShare::TYPE_* $shareType
+	 * @param list<Node> $nodes
+	 * @return array<int, list<IShare>> shares by file id, nodes without shares are left out
+	 * @since 36.0.0
+	 */
+	public function getSharedWithByNodes(string $userId, int $shareType, array $nodes): array;
+
+	/**
 	 * Get shares shared with a $user filtering by $path.
 	 *
 	 * @param IShare::TYPE_* $shareType
