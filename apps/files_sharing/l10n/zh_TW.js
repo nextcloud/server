@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} 與您和 {conversation} 對話分享",
     "Shared with you in a conversation by {owner}" : "{owner} 在對話中與您分享",
     "Shared with you by {owner}" : "{owner} 已與您分享",
+    "Originally as {name}" : "原本為 {name}",
     "%1$s shared %2$s with you" : "%1$s 與您分享了 %2$s",
     "Do you want to accept this share?" : "您想要接受此分享嗎？",
     "Share not found" : "找不到分享",

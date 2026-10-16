@@ -154,10 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "Parim turvalisus: dokumendid ei lahku sinu serverist.",
     "Best ODF compatibility" : "Parim ühilduvus ODF-failidega",
     "Best support for legacy files" : "Parim pärandfailide tugi",
+    "Enabling following apps: {apps}" : "Järgnevad rakendused on sisselülitamisel/kasutuselevõtmisel: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["%n rakendus on uuendamisel.","%n rakendust on uuendamisel."],
     "Could not load app categories. Please try again later." : "Rakenduste kategooriate laadimine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Could not load apps list. Please try again later." : "Rakenduste loendi laadimine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Could not update the app. Please try again later." : "Rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
     "An error occurred during the request. Unable to proceed." : "Päringu ajal tekkis viga. Jätkamine pole võimalik.",
+    "Could not update an exApp. Please try again later." : "ExApp süsteemirakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
+    "Could not update {app}. Please try again later." : "„{app}“ rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
+    "Could not update an app. Please try again later." : "Rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Failed to update app {appName}" : "„{appName}“ rakenduse uuendamine ei õnnestunud"
 },
 "nplurals=2; plural=(n != 1);");

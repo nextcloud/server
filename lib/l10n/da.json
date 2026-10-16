@@ -530,7 +530,7 @@
     "Sharing backend for %s not found" : "Delingsbackend'en for %s blev ikke fundet",
     "%1$s shared %2$s with you and wants to add:" : "%1$s delte %2$s med dig og ønsker at tilføje:",
     "%1$s shared %2$s with you and wants to add" : "%1$s delte %2$s med dig og ønsker at tilføje",
-    "Share recipient is not a valid circle" : "Delingsmodtager er ikke en gyldig cirkel",
+    "Share recipient is not a valid circle" : "Delingsmodtager er ikke et gyldigt team",
     "You cannot share your root folder" : "Du kan ikke dele din rodmappe",
     "You are not allowed to share %s" : "Du har ikke tilladelse til at dele %s",
     "File shares cannot have create or delete permissions" : "Fildelinger kan ikke have oprettelses- eller sletningsrettigheder",
