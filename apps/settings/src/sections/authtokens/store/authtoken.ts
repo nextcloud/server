@@ -21,6 +21,14 @@ export enum TokenType {
 	ONETIME_TOKEN = 3,
 }
 
+export interface ITokenScope {
+	filesystem: boolean
+	/**
+	 * Scopes the app password is limited to, missing for all access
+	 */
+	scopes?: string[]
+}
+
 export interface IToken {
 	id: number
 	canDelete: boolean
@@ -32,7 +40,7 @@ export interface IToken {
 	lastActivity: number
 	name: string
 	type: TokenType
-	scope: Record<string, boolean>
+	scope: ITokenScope
 }
 
 export interface IRevokeAllResponse {
@@ -95,13 +103,14 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		 * Add a new token
 		 *
 		 * @param name The token name
+		 * @param scopes Scopes to limit the token to, null for all access
 		 */
-		async addToken(name: string) {
+		async addToken(name: string, scopes: string[] | null = null) {
 			logger.debug('Creating a new app token')
 
 			// Let the failure reach the caller: AuthTokenSetup is the one that
 			// reports it, the same way updateToken leaves reporting to its callers.
-			const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true }, { confirmPassword: PwdConfirmationMode.Strict })
+			const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true, scopes }, { confirmPassword: PwdConfirmationMode.Strict })
 
 			this.tokens.push(data.deviceToken)
 			logger.debug('App token created')
@@ -208,7 +217,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		 * @param scope scope to set
 		 * @param value value to set
 		 */
-		async setTokenScope(token: IToken, scope: string, value: boolean) {
+		async setTokenScope(token: IToken, scope: 'filesystem', value: boolean) {
 			logger.debug('Updating app token scope', { token, scope, value })
 
 			const oldVal = token.scope[scope]
@@ -223,6 +232,33 @@ export const useAuthTokenStore = defineStore('auth-token', {
 				showError(t('settings', 'Error while updating device token scope'))
 				// Restore
 				token.scope[scope] = oldVal
+			}
+			return false
+		},
+
+		/**
+		 * Change what the token can reach
+		 *
+		 * @param token Token to change
+		 * @param scopes Scopes to limit the token to, null for all access
+		 */
+		async setTokenScopes(token: IToken, scopes: string[] | null) {
+			logger.debug('Updating app token scopes', { token, scopes })
+
+			const oldScope = token.scope
+			try {
+				// `scopes: null` has to be sent explicitly, it is what clears the limit
+				await axios.put(`${BASE_URL}/${token.id}`, { ...token, scope: { scopes } }, { confirmPassword: PwdConfirmationMode.Strict })
+				// Same as the server: files access follows files:read, all access includes files
+				token.scope = scopes === null
+					? { filesystem: true }
+					: { filesystem: scopes.includes('files:read'), scopes }
+				logger.debug('App token scopes updated')
+				return true
+			} catch (error) {
+				logger.error('Could not update app token scopes', { error })
+				showError(t('settings', 'Could not save the access'))
+				token.scope = oldScope
 			}
 			return false
 		},

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { ITokenScope } from '../store/authtoken.ts'
+
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
@@ -12,12 +14,6 @@ export interface Selection {
 	preset: Preset
 	/** Ticked areas, only used when the preset is not `all` */
 	areas: Area[]
-}
-
-/** Stored scope of an app password, as sent by the server */
-export interface TokenScope {
-	filesystem?: boolean
-	scopes?: string[]
 }
 
 /** Scopes each area grants. Must match the scope names the server checks */
@@ -72,11 +68,11 @@ export function toScopes(selection: Selection, kept: string[]): string[] | null 
  *
  * @param scope Stored scope of the app password
  */
-export function accessLabel(scope: TokenScope): string {
+export function accessLabel(scope: ITokenScope): string {
 	if (scope.scopes === undefined) {
-		return scope.filesystem === false
-			? t('settings', 'All access without files')
-			: t('settings', 'All access')
+		return scope.filesystem
+			? t('settings', 'All access')
+			: t('settings', 'All access without files')
 	}
 
 	const { selection, kept } = fromScopes(scope.scopes)
