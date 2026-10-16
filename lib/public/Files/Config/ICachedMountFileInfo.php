@@ -7,11 +7,12 @@
 
 namespace OCP\Files\Config;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Holds information about a mount for a user
- *
- * @since 13.0.0
  */
+#[Consumable('13.0.0')]
 interface ICachedMountFileInfo extends ICachedMountInfo {
 	/**
 	 * Return the path for the file within the cached mount

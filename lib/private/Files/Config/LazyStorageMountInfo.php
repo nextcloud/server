@@ -8,16 +8,24 @@
 
 namespace OC\Files\Config;
 
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\IUser;
+use OCP\Server;
 
-class LazyStorageMountInfo extends CachedMountInfo {
+class LazyStorageMountInfo implements ICachedMountInfo {
+	private ?string $key = null;
+	private ?int $storageId = null;
+	private ?int $rootId = null;
+	private ?ICacheEntry $rootCacheEntry = null;
+
 	public function __construct(
-		IUser $user,
-		private IMountPoint $mount,
+		private readonly IUser $user,
+		private readonly IMountPoint $mount,
 	) {
-		parent::__construct($user, 0, 0, '', '');
-		$this->key = '';
 	}
 
 	/**
@@ -25,10 +33,10 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 */
 	#[\Override]
 	public function getStorageId(): int {
-		if (!$this->storageId) {
+		if ($this->storageId === null) {
 			$this->storageId = $this->mount->getNumericStorageId();
 		}
-		return parent::getStorageId();
+		return $this->storageId;
 	}
 
 	/**
@@ -36,10 +44,10 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 */
 	#[\Override]
 	public function getRootId(): int {
-		if (!$this->rootId) {
+		if ($this->rootId === null) {
 			$this->rootId = $this->mount->getStorageRootId();
 		}
-		return parent::getRootId();
+		return $this->rootId;
 	}
 
 	/**
@@ -47,10 +55,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 */
 	#[\Override]
 	public function getMountPoint(): string {
-		if (!$this->mountPoint) {
-			$this->mountPoint = $this->mount->getMountPoint();
-		}
-		return parent::getMountPoint();
+		return $this->mount->getMountPoint();
 	}
 
 	#[\Override]
@@ -75,9 +80,27 @@ class LazyStorageMountInfo extends CachedMountInfo {
 
 	#[\Override]
 	public function getKey(): string {
-		if (!$this->key) {
+		if ($this->key === null) {
 			$this->key = $this->getRootId() . '::' . $this->getMountPoint();
 		}
 		return $this->key;
 	}
+
+	public function getUser(): IUser {
+		return $this->user;
+	}
+
+	public function getMountPointNode(): ?Node {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->getUser()->getUID());
+		return $userFolder->getParent()->getFirstNodeById($this->getRootId());
+	}
+
+	public function getRootCacheEntry(): ICacheEntry {
+		if ($this->rootCacheEntry === null) {
+			$this->rootCacheEntry = $this->mount->getStorage()->getCache()->get();
+		}
+		return $this->rootCacheEntry;
+	}
+
+
 }
