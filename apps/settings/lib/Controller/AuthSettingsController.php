@@ -60,11 +60,12 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
+	 * @param list<string>|null $scopes Scopes the app password is limited to, null for all access. Ignored for QR code logins
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
+	public function create(string $name = '', bool $qrcodeLogin = false, ?array $scopes = null): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
@@ -111,7 +112,11 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		} else {
 			$type = IToken::PERMANENT_TOKEN;
-			$scope = null;
+			try {
+				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes]);
+			} catch (\InvalidArgumentException) {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
