@@ -249,10 +249,10 @@ export const useAuthTokenStore = defineStore('auth-token', {
 			try {
 				// `scopes: null` has to be sent explicitly, it is what clears the limit
 				await axios.put(`${BASE_URL}/${token.id}`, { ...token, scope: { scopes } }, { confirmPassword: PwdConfirmationMode.Strict })
-				// Same as the server: files access follows files:read, all access includes files
+				// Same as the server: files access follows files:files:read, all access includes files
 				token.scope = scopes === null
 					? { filesystem: true }
-					: { filesystem: scopes.includes('files:read'), scopes }
+					: { filesystem: scopes.includes('files:files:read'), scopes }
 				logger.debug('App token scopes updated')
 				return true
 			} catch (error) {

@@ -52,7 +52,7 @@ describe('AuthTokenAccessDialog', () => {
 	})
 
 	it('needs at least one area in Custom', async () => {
-		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['calendar:read', 'calendar:write'] }))
+		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:calendar:write'] }))
 		const save = getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' })
 
 		await wrapper.find('input[type="checkbox"][value="calendar"]').setValue(false)
@@ -62,7 +62,7 @@ describe('AuthTokenAccessDialog', () => {
 	})
 
 	it('saves the new scopes and keeps the ones it can not show', async () => {
-		const token = makeToken({ filesystem: false, scopes: ['contacts:read', 'contacts:write', 'app:deck'] })
+		const token = makeToken({ filesystem: false, scopes: ['dav:contacts:read', 'dav:contacts:write', 'app:deck'] })
 		const wrapper = mountDialog(token)
 		const store = useAuthTokenStore()
 		vi.mocked(store.setTokenScopes).mockResolvedValue(true)
@@ -72,7 +72,7 @@ describe('AuthTokenAccessDialog', () => {
 		getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' }).click()
 		await flushPromises()
 
-		expect(store.setTokenScopes).toHaveBeenCalledWith(token, ['contacts:read', 'contacts:write', 'calendar:read', 'calendar:write', 'app:deck'])
+		expect(store.setTokenScopes).toHaveBeenCalledWith(token, ['dav:contacts:read', 'dav:contacts:write', 'dav:calendar:read', 'dav:calendar:write', 'app:deck'])
 	})
 
 	it('creates a token with the chosen preset', async () => {
@@ -88,7 +88,7 @@ describe('AuthTokenAccessDialog', () => {
 		create.click()
 		await flushPromises()
 
-		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', ['calendar:read', 'calendar:write', 'contacts:read', 'contacts:write'])
+		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', ['dav:calendar:read', 'dav:calendar:write', 'dav:contacts:read', 'dav:contacts:write'])
 		expect(wrapper.emitted('created')).toEqual([[response]])
 	})
 })

@@ -63,18 +63,18 @@ describe('store:authtoken scopes', () => {
 			data: { deviceToken, loginName: 'alice', token: 'secret' },
 		})
 
-		await useAuthTokenStore().addToken('Laptop', ['calendar:read'])
+		await useAuthTokenStore().addToken('Laptop', ['dav:calendar:read'])
 
-		expect(post.mock.calls[0][1]).toMatchObject({ name: 'Laptop', scopes: ['calendar:read'] })
+		expect(post.mock.calls[0][1]).toMatchObject({ name: 'Laptop', scopes: ['dav:calendar:read'] })
 	})
 
 	it.each([
-		[['calendar:read'], { filesystem: false, scopes: ['calendar:read'] }],
-		[['files:read', 'files:write'], { filesystem: true, scopes: ['files:read', 'files:write'] }],
+		[['dav:calendar:read'], { filesystem: false, scopes: ['dav:calendar:read'] }],
+		[['files:files:read', 'files:files:write'], { filesystem: true, scopes: ['files:files:read', 'files:files:write'] }],
 		[null, { filesystem: true }],
 	])('sets the scopes %o', async (scopes, expected) => {
 		const put = axios.put = vi.fn().mockResolvedValue({ data: [] })
-		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['contacts:read'] } }
+		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['dav:contacts:read'] } }
 
 		expect(await useAuthTokenStore().setTokenScopes(token, scopes)).toBe(true)
 		expect(put.mock.calls[0][1]).toMatchObject({ scope: { scopes } })
@@ -83,7 +83,7 @@ describe('store:authtoken scopes', () => {
 
 	it('keeps the old scopes when saving fails', async () => {
 		axios.put = vi.fn().mockRejectedValue(new Error('Request failed'))
-		const scope = { filesystem: false, scopes: ['contacts:read'] }
+		const scope = { filesystem: false, scopes: ['dav:contacts:read'] }
 		const token = { ...deviceToken, scope }
 
 		expect(await useAuthTokenStore().setTokenScopes(token, null)).toBe(false)
