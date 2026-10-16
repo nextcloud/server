@@ -187,4 +187,21 @@ final class Types {
 	 * @since 35.0.0
 	 */
 	public const GUID = 'guid';
+
+	/**
+	 * 1 byte int (0 to 255 when unsigned, -126 to 127 otherwise)
+	 * Fallback on smallint when not supported by the database.
+	 *
+	 * @since 36.0.0
+	 */
+	public const TINYINT = 'tinyint';
+
+	/**
+	 * Unix timestamp returned as DateTimeImmutable
+	 * Fallback on datetime_immutable when not supported by the database.
+	 *
+	 * @see self::DATETIME_IMMUTABLE
+	 * @since 36.0.0
+	 */
+	public const TIMESTAMP_IMMUTABLE = 'timestamp_immutable';
 }
