@@ -3504,6 +3504,72 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals('token', $share->getToken());
 	}
 
+	public function testCreateShareMailSendsClearPassword(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'generalChecks',
+				'pathCreateChecks',
+				'validateExpirationDateLink',
+				'verifyPassword',
+				'setLinkParent',
+			])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getName')->willReturn('target');
+		$path->method('getId')->willReturn(1);
+		$path->method('getStorage')->willReturn($this->createMock(IStorage::class));
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_EMAIL)
+			->setNode($path)
+			->setSharedBy('sharedBy')
+			->setPermissions(Constants::PERMISSION_ALL)
+			->setMailSend(true)
+			->setPassword('password');
+
+		$manager->method('validateExpirationDateLink')->willReturnArgument(0);
+		$manager->expects($this->once())
+			->method('verifyPassword')
+			->with('password');
+
+		$this->secureRandom->method('generate')
+			->willReturn('token');
+		$this->config->method('getSystemValueBool')
+			->with('sharing.enable_share_mail', true)
+			->willReturn(true);
+
+		$storedPassword = null;
+		$this->defaultProvider
+			->expects($this->once())
+			->method('create')
+			->willReturnCallback(function (Share $share) use (&$storedPassword): Share {
+				$storedPassword = $share->getPassword();
+				$storedShare = clone $share;
+				return $storedShare->setId('42');
+			});
+
+		$mailedPassword = null;
+		$this->defaultProvider
+			->expects($this->once())
+			->method('sendMailNotification')
+			->willReturnCallback(function (IShare $share) use (&$mailedPassword): bool {
+				$mailedPassword = $share->getPassword();
+				return true;
+			});
+
+		$createdShare = $manager->createShare($share);
+
+		$this->assertTrue(Server::get(IHasher::class)->verify('password', $storedPassword));
+		$this->assertSame('password', $mailedPassword);
+		$this->assertSame($storedPassword, $createdShare->getPassword());
+		$this->assertTrue($createdShare->isPasswordHashed());
+	}
+
 	public function testCreateShareHookError(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('I won\'t let you share');
