@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} tarafından sizinle ve {conversation} görüşmesi ile paylaştırılmış",
     "Shared with you in a conversation by {owner}" : "{owner} tarafından sizinle bir görüşmede paylaşılmış",
     "Shared with you by {owner}" : "{owner} tarafından sizinle paylaşılmış",
+    "Originally as {name}" : "Özgün olarak {name}",
     "%1$s shared %2$s with you" : "%1$s, sizinle %2$s ögesini paylaştı",
     "Do you want to accept this share?" : "Bu paylaşımı kabul etmek istiyor musunuz?",
     "Share not found" : "Paylaşım bulunamadı",

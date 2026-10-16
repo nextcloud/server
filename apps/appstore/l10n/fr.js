@@ -154,10 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "Meilleure sécurité : les documents ne quittent jamais votre serveur",
     "Best ODF compatibility" : "Meilleure compatibilité ODF",
     "Best support for legacy files" : "Meilleure prise en charge des anciens fichiers",
+    "Enabling following apps: {apps}" : "Activation des applications suivantes : {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Mise à jour de %n application.","Mise à jour de %n applications.","Mise à jour de %n applications."],
     "Could not load app categories. Please try again later." : "Impossible de charger les catégories d'applications. Veuillez réessayer plus tard.",
     "Could not load apps list. Please try again later." : "Impossible de charger la liste des applications. Veuillez réessayer plus tard.",
     "Could not update the app. Please try again later." : "Impossible de mettre à jour l'application. Veuillez réessayer plus tard.",
     "An error occurred during the request. Unable to proceed." : "Une erreur est survenue pendant la demande. Impossible de poursuivre.",
+    "Could not update an exApp. Please try again later." : "Impossible de mettre à jour une ExApp. Veuillez réessayer plus tard.",
+    "Could not update {app}. Please try again later." : "Impossible de mettre à jour {app}. Veuillez réessayer plus tard.",
+    "Could not update an app. Please try again later." : "Impossible de mettre à jour une application. Veuillez réessayer plus tard.",
     "Failed to update app {appName}" : "Échec de la mise à jour de l'application {appName}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

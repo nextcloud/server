@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} hat dies mit dir und der Unterhaltung {conversation} geteilt",
     "Shared with you in a conversation by {owner}" : "{owner} hat dies mit dir in einer Unterhaltung geteilt",
     "Shared with you by {owner}" : "{owner} hat dies mit dir geteilt",
+    "Originally as {name}" : "Ursprünglich als {name}",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit dir geteilt",
     "Do you want to accept this share?" : "Möchtest Du diese Freigabe annehmen?",
     "Share not found" : "Freigabe nicht gefunden",
