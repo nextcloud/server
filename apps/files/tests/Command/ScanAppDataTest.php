@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Files\StorageInvalidException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
@@ -132,6 +133,29 @@ class ScanAppDataTest extends TestCase {
 
 		$exitCode = ($this->scanner)($this->output, $this->signalHandler, '');
 		$this->assertEquals(ExitCode::Success, $exitCode);
+	}
+
+	public function testScanAppDataReportsInvalidStorage(): void {
+		$homeProvider = Server::get(ObjectHomeMountProvider::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
+			$this->markTestSkipped();
+		}
+
+		$this->internalScanner->method('scan')->willReturnCallback(function (): void {
+			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [new StorageInvalidException('Remote share not found')]);
+		});
+		$lines = [];
+		$this->output->method('writeln')
+			->willReturnCallback(function (string|iterable $messages, Verbosity $verbosity = Verbosity::Normal) use (&$lines): void {
+				$lines[] = [$messages, $verbosity];
+			});
+
+		$exitCode = ($this->scanner)($this->output, $this->signalHandler, '');
+		$this->assertEquals(ExitCode::Success, $exitCode);
+		$this->assertContains(['Error while scanning, storage not available (Remote share not found)', Verbosity::Verbose], $lines);
 	}
 
 	public static function scanPreviewLocalData(): \Generator {
