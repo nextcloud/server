@@ -10,6 +10,7 @@ namespace OCP\FilesMetadata;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
