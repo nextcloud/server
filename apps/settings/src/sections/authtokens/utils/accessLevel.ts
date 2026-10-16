@@ -18,9 +18,9 @@ export interface Selection {
 
 /** Scopes each area grants. Must match the scope names the server checks */
 export const AREA_SCOPES: Record<Area, string[]> = {
-	files: ['files:read', 'files:write', 'files:share'],
-	calendar: ['calendar:read', 'calendar:write'],
-	contacts: ['contacts:read', 'contacts:write'],
+	files: ['files:files:read', 'files:files:write', 'files_sharing:shares:write'],
+	calendar: ['dav:calendar:read', 'dav:calendar:write'],
+	contacts: ['dav:contacts:read', 'dav:contacts:write'],
 }
 
 export const PRESET_AREAS: Record<'files' | 'calendarContacts', Area[]> = {

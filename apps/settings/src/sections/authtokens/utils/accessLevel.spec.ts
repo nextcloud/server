@@ -8,8 +8,8 @@ import type { Selection } from './accessLevel.ts'
 import { describe, expect, it } from 'vitest'
 import { accessLabel, fromScopes, toScopes } from './accessLevel.ts'
 
-const files = ['files:read', 'files:write', 'files:share']
-const calendarContacts = ['calendar:read', 'calendar:write', 'contacts:read', 'contacts:write']
+const files = ['files:files:read', 'files:files:write', 'files_sharing:shares:write']
+const calendarContacts = ['dav:calendar:read', 'dav:calendar:write', 'dav:contacts:read', 'dav:contacts:write']
 
 describe('accessLevel', () => {
 	it.each<[string, Selection]>([
@@ -31,12 +31,12 @@ describe('accessLevel', () => {
 	})
 
 	it('keeps scopes the picker can not show and sends them back', () => {
-		const { selection, kept } = fromScopes([...files, 'app:deck', 'calendar:read'])
+		const { selection, kept } = fromScopes([...files, 'app:deck', 'dav:calendar:read'])
 
 		expect(selection).toEqual({ preset: 'custom', areas: ['files'] })
-		expect(kept).toEqual(['app:deck', 'calendar:read'])
+		expect(kept).toEqual(['app:deck', 'dav:calendar:read'])
 		expect(toScopes({ preset: 'custom', areas: ['contacts'] }, kept))
-			.toEqual(['contacts:read', 'contacts:write', 'app:deck', 'calendar:read'])
+			.toEqual(['dav:contacts:read', 'dav:contacts:write', 'app:deck', 'dav:calendar:read'])
 	})
 
 	it.each([

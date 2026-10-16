@@ -18,6 +18,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Authentication\Token\TokenScopes;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
@@ -150,11 +151,11 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public static function dataCreateWithScopes(): array {
-		$files = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, FilesTokenScopes::FILES_SHARE];
-		$sorted = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_SHARE, FilesTokenScopes::FILES_WRITE];
+		$files = [SharingTokenScopes::SHARES_WRITE, FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
+		$sorted = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE];
 		return [
 			'files' => [$files, [TokenScopes::KEY => $sorted, IToken::SCOPE_FILESYSTEM => true]],
-			'calendar' => [['calendar:read'], [TokenScopes::KEY => ['calendar:read'], IToken::SCOPE_FILESYSTEM => false]],
+			'calendar' => [['dav:calendar:read'], [TokenScopes::KEY => ['dav:calendar:read'], IToken::SCOPE_FILESYSTEM => false]],
 		];
 	}
 
