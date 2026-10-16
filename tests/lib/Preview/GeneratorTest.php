@@ -18,6 +18,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
@@ -200,6 +201,9 @@ class GeneratorTest extends TestCase {
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
 		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my data');
+		$image->method('resizeCopy')
+			->willReturnCallback(fn (int $size): IImage => $this->getMockImage($size, $size, 'my resized data'));
 
 		$this->helper->method('getThumbnail')
 			->willReturnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image): false|IImage {
@@ -209,9 +213,6 @@ class GeneratorTest extends TestCase {
 					return false;
 				}
 			});
-
-		$image->method('data')
-			->willReturn('my data');
 
 		$this->previewMapper->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
@@ -244,9 +245,9 @@ class GeneratorTest extends TestCase {
 				$this->fail('file name is wrong:' . $preview->getName());
 			});
 
-		$image = $this->getMockImage(2048, 2048, 'my resized data');
-		$this->helper->method('getImage')
-			->willReturn($image);
+		// The generated max preview is reused, not decoded again
+		$this->helper->expects($this->never())
+			->method('getImage');
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
@@ -512,6 +513,54 @@ class GeneratorTest extends TestCase {
 		} else {
 			$this->assertSame($filename, $result->getName());
 		}
+	}
+
+	#[TestWith([false, '256-256.png'])]
+	#[TestWith([true, '2048-2048-max.png'])]
+	public function testResizeFromSmallestCachedPreview(bool $cropped, string $expectedSource): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$this->previewManager->method('isMimeSupported')
+			->willReturn(true);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(2048);
+		$maxPreview->setHeight(2048);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
+
+		$previews = [$maxPreview];
+		foreach ([1024, 256] as $size) {
+			$preview = new Preview();
+			$preview->setWidth($size);
+			$preview->setHeight($size);
+			$preview->setMax(false);
+			$preview->setSize(1000);
+			$preview->setCropped($cropped);
+			$preview->setVersion(null);
+			$preview->setMimeType('image/png');
+			$previews[] = $preview;
+		}
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->willReturn([42 => $previews]);
+
+		$this->helper->expects($this->once())
+			->method('getImage')
+			->willReturnCallback(function (ISimpleFile $source) use ($expectedSource): IImage {
+				$this->assertSame($expectedSource, $source->getName());
+				return $this->getMockImage(256, 256);
+			});
+
+		$this->previewMapper->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->storageFactory->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, 32, 32);
+		$this->assertSame('64-64.png', $result->getName());
 	}
 
 	public function testUnreadbleFile(): void {
