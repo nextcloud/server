@@ -19,11 +19,13 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Notification\IManager as NotificationManager;
 
 final class TransferOwnershipController extends OCSController {
@@ -37,6 +39,7 @@ final class TransferOwnershipController extends OCSController {
 		private readonly TransferOwnershipMapper $mapper,
 		private readonly IUserManager $userManager,
 		private readonly IRootFolder $rootFolder,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -94,6 +97,19 @@ final class TransferOwnershipController extends OCSController {
 
 		$this->notificationManager->notify($notification);
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Ownership transfer "%s" from user "%s" to user "%s" was requested for "%s" (file ID "%s")',
+			[
+				'transferId' => $transferOwnership->id,
+				'sourceUser' => $user->getUID(),
+				'targetUser' => $recipient,
+				'path' => $path,
+				'fileId' => $node->getId(),
+			],
+			false,
+			'files.ownership_transfer.requested',
+		));
+
 		return new DataResponse([]);
 	}
 
@@ -129,6 +145,17 @@ final class TransferOwnershipController extends OCSController {
 			->setObject('transfer', (string)$id);
 		$this->notificationManager->markProcessed($notification);
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Ownership transfer "%s" from user "%s" to user "%s" was accepted',
+			[
+				'transferId' => $transferOwnership->id,
+				'sourceUser' => $transferOwnership->sourceUser,
+				'targetUser' => $transferOwnership->targetUser,
+			],
+			false,
+			'files.ownership_transfer.accepted',
+		));
+
 		return new DataResponse([], Http::STATUS_OK);
 	}
 
@@ -161,6 +188,17 @@ final class TransferOwnershipController extends OCSController {
 		$this->notificationManager->markProcessed($notification);
 
 		$this->mapper->delete($transferOwnership);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Ownership transfer "%s" from user "%s" to user "%s" was rejected',
+			[
+				'transferId' => $id,
+				'sourceUser' => $transferOwnership->sourceUser,
+				'targetUser' => $transferOwnership->targetUser,
+			],
+			false,
+			'files.ownership_transfer.rejected',
+		));
 
 		// A "request denied" notification will be created by Notifier::dismissNotification
 

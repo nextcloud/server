@@ -27,6 +27,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
@@ -220,6 +221,10 @@ class Manager {
 			$result = true;
 		}
 
+		if ($result) {
+			$this->logRemoteShareDecision($externalShare, $user, 'accepted', 'files_sharing.remote_share.accepted');
+		}
+
 		// Make sure the user has no notification for something that does not exist anymore.
 		$this->processNotification($externalShare, $user);
 		return $result;
@@ -251,9 +256,29 @@ class Manager {
 			}
 		}
 
+		if ($result) {
+			$this->logRemoteShareDecision($externalShare, $user, 'declined', 'files_sharing.remote_share.declined');
+		}
+
 		// Make sure the user has no notification for something that does not exist anymore.
 		$this->processNotification($externalShare, $user);
 		return $result;
+	}
+
+	private function logRemoteShareDecision(ExternalShare $externalShare, IUser $user, string $action, string $operation): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'The federated share "%s" with ID "%s" from "%s" on "%s" was ' . $action . ' for user "%s"',
+			[
+				'name' => $externalShare->getName(),
+				'id' => $externalShare->getId(),
+				'owner' => $externalShare->getOwner(),
+				'remote' => $externalShare->getRemote(),
+				'user' => $user->getUID(),
+				'remoteId' => $externalShare->getRemoteId(),
+			],
+			false,
+			$operation,
+		));
 	}
 
 	public function processNotification(ExternalShare $remoteShare, IUser $user): void {
@@ -407,6 +432,20 @@ class Manager {
 			}
 
 			$this->removeReShares((string)$id);
+
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The federated share mounted at "%s" with ID "%s" from "%s" on "%s" was removed for user "%s"',
+				[
+					'mountPoint' => $mountPoint,
+					'id' => $externalShare->getId(),
+					'owner' => $externalShare->getOwner(),
+					'remote' => $externalShare->getRemote(),
+					'user' => $user->getUID(),
+					'remoteId' => $externalShare->getRemoteId(),
+				],
+				false,
+				'files_sharing.remote_share.removed',
+			));
 		} catch (Exception $ex) {
 			$this->logger->emergency('Could not update share', ['exception' => $ex]);
 			return false;

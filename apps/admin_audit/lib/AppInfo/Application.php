@@ -15,17 +15,30 @@ use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\Versions;
 use OCA\AdminAudit\AuditLogger;
 use OCA\AdminAudit\IAuditLogger;
+use OCA\AdminAudit\Listener\AddressBookEventListener;
 use OCA\AdminAudit\Listener\AppManagementEventListener;
 use OCA\AdminAudit\Listener\AuthEventListener;
 use OCA\AdminAudit\Listener\CacheEventListener;
+use OCA\AdminAudit\Listener\CalendarEventListener;
 use OCA\AdminAudit\Listener\ConsoleEventListener;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
+use OCA\AdminAudit\Listener\FederationEventListener;
 use OCA\AdminAudit\Listener\FileEventListener;
 use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCA\AdminAudit\Listener\TagEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCA\DAV\Events\AddressBookCreatedEvent;
+use OCA\DAV\Events\AddressBookDeletedEvent;
+use OCA\DAV\Events\AddressBookShareUpdatedEvent;
+use OCA\DAV\Events\CalendarCreatedEvent;
+use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarMovedToTrashEvent;
+use OCA\DAV\Events\CalendarPublishedEvent;
+use OCA\DAV\Events\CalendarRestoredEvent;
+use OCA\DAV\Events\CalendarShareUpdatedEvent;
+use OCA\DAV\Events\CalendarUnpublishedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -37,8 +50,11 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -47,16 +63,25 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
+use OCP\SystemTag\TagAssignedEvent;
+use OCP\SystemTag\TagUnassignedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -128,6 +153,38 @@ class Application extends App implements IBootstrap {
 
 		// System tag event
 		$context->registerEventListener(TagCreatedEvent::class, TagEventListener::class);
+
+		// Users, groups and two-factor providers
+		$context->registerEventListener(GroupChangedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminAddedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminRemovedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, SecurityEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, SecurityEventListener::class);
+
+		// System tags
+		$context->registerEventListener(TagUpdatedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagDeletedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagAssignedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagUnassignedEvent::class, TagEventListener::class);
+
+		// Files sharing recipient events
+		$context->registerEventListener(ShareAcceptedEvent::class, SharingEventListener::class);
+		$context->registerEventListener(ShareDeletedFromSelfEvent::class, SharingEventListener::class);
+
+		// Federation
+		$context->registerEventListener(TrustedServerRemovedEvent::class, FederationEventListener::class);
+
+		// DAV events
+		$context->registerEventListener(CalendarCreatedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarMovedToTrashEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarRestoredEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarPublishedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarUnpublishedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarEventListener::class);
+		$context->registerEventListener(AddressBookCreatedEvent::class, AddressBookEventListener::class);
+		$context->registerEventListener(AddressBookDeletedEvent::class, AddressBookEventListener::class);
+		$context->registerEventListener(AddressBookShareUpdatedEvent::class, AddressBookEventListener::class);
 	}
 
 	#[\Override]

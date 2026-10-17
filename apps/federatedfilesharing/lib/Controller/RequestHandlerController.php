@@ -109,9 +109,30 @@ class RequestHandlerController extends OCSController {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$provider->shareReceived($share);
 			if ($sharedByFederatedId === $ownerFederatedId) {
-				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('A new federated share with "%s" was created by "%s" and shared with "%s"', [$name, $ownerFederatedId, $shareWith]));
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'A new federated share with "%s" was created by "%s" and shared with "%s"',
+					[
+						'name' => $name,
+						'owner' => $ownerFederatedId,
+						'shareWith' => $shareWith,
+						'remoteId' => $remoteId,
+					],
+					false,
+					'federatedfilesharing.share.received',
+				));
 			} else {
-				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('A new federated share with "%s" was shared by "%s" (resource owner is: "%s") and shared with "%s"', [$name, $sharedByFederatedId, $ownerFederatedId, $shareWith]));
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'A new federated share with "%s" was shared by "%s" (resource owner is: "%s") and shared with "%s"',
+					[
+						'name' => $name,
+						'sharedBy' => $sharedByFederatedId,
+						'owner' => $ownerFederatedId,
+						'shareWith' => $shareWith,
+						'remoteId' => $remoteId,
+					],
+					false,
+					'federatedfilesharing.share.received',
+				));
 			}
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
@@ -195,7 +216,12 @@ class RequestHandlerController extends OCSController {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$provider->notificationReceived('SHARE_ACCEPTED', $id, $notification);
-			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" was accepted', [$id]));
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Federated share with id "%s" was accepted',
+				['shareId' => $id],
+				false,
+				'federatedfilesharing.share.accepted',
+			));
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		} catch (ShareNotFound $e) {
@@ -228,7 +254,12 @@ class RequestHandlerController extends OCSController {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$provider->notificationReceived('SHARE_DECLINED', $id, $notification);
-			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" was declined', [$id]));
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Federated share with id "%s" was declined',
+				['shareId' => $id],
+				false,
+				'federatedfilesharing.share.declined',
+			));
 		} catch (ProviderDoesNotExistsException $e) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		} catch (ShareNotFound $e) {
@@ -261,7 +292,12 @@ class RequestHandlerController extends OCSController {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$notification = ['sharedSecret' => $token];
 			$provider->notificationReceived('SHARE_UNSHARED', $id, $notification);
-			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" was unshared', [$id]));
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Federated share with id "%s" was unshared',
+				['shareId' => $id],
+				false,
+				'federatedfilesharing.share.unshared',
+			));
 		} catch (\Exception $e) {
 			$this->logger->debug('processing unshare notification failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
@@ -292,6 +328,12 @@ class RequestHandlerController extends OCSController {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$notification = ['sharedSecret' => $token];
 			$provider->notificationReceived('RESHARE_UNDO', $id, $notification);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Federated share with id "%s" was revoked',
+				['shareId' => $id],
+				false,
+				'federatedfilesharing.share.revoked',
+			));
 			return new DataResponse();
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException();
@@ -337,7 +379,15 @@ class RequestHandlerController extends OCSController {
 			$ocmPermissions = $this->ncPermissions2ocmPermissions((int)$ncPermissions);
 			$notification = ['sharedSecret' => $token, 'permission' => $ocmPermissions];
 			$provider->notificationReceived('RESHARE_CHANGE_PERMISSION', $id, $notification);
-			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" has updated permissions "%s"', [$id, implode(', ', $ocmPermissions)]));
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Federated share with id "%s" has updated permissions "%s"',
+				[
+					'shareId' => $id,
+					'permissions' => implode(', ', $ocmPermissions),
+				],
+				false,
+				'federatedfilesharing.share.permissions_updated',
+			));
 		} catch (\Exception $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException();

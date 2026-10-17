@@ -54,6 +54,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -799,7 +800,50 @@ class Manager implements IManager {
 			]);
 		}
 
+		$attributes = $this->formatShareAttributes($share);
+		if ($share->getHideDownload() !== $originalShare->getHideDownload()
+			|| $attributes !== $this->formatShareAttributes($originalShare)) {
+			$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The attributes of the share of the %s with ID "%s" were updated: hide download "%s", attributes "%s" (Share ID: %s)',
+				[
+					'itemType' => $share->getNodeType(),
+					'itemSource' => $share->getNodeId(),
+					'hideDownload' => $share->getHideDownload() ? 'enabled' : 'disabled',
+					'attributes' => $attributes,
+					'id' => $share->getId(),
+					'shareType' => $share->getShareType(),
+				],
+				false,
+				'sharing.share.attributes_updated',
+			));
+		}
+
+		if ($share->getToken() !== $originalShare->getToken()) {
+			$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The link token of the share of the %s with ID "%s" was changed (Share ID: %s)',
+				[
+					'itemType' => $share->getNodeType(),
+					'itemSource' => $share->getNodeId(),
+					'id' => $share->getId(),
+					'shareType' => $share->getShareType(),
+				],
+				false,
+				'sharing.share.token_updated',
+			));
+		}
+
 		return $share;
+	}
+
+	/**
+	 * Format the share attributes as a comma-separated list of `scope.key=value`
+	 */
+	private function formatShareAttributes(IShare $share): string {
+		$attributes = $share->getAttributes()?->toArray() ?? [];
+		return implode(', ', array_map(
+			static fn (array $attribute): string => $attribute['scope'] . '.' . $attribute['key'] . '=' . json_encode($attribute['value']),
+			$attributes,
+		));
 	}
 
 	#[Override]

@@ -58,7 +58,9 @@ class AISettingsController extends Controller {
 			if ($changed) {
 				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 					'AI configuration was changed by user %s: %s was set to %s',
-					[$this->userId, $key, $settings[$key]]
+					['userId' => $this->userId, 'configKey' => $key, 'configValue' => $settings[$key]],
+					false,
+					'settings.ai.updated',
 				));
 			}
 		}

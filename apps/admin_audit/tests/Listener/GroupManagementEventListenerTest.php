@@ -11,8 +11,11 @@ namespace OCA\AdminAudit\Tests\Listener;
 
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\GroupManagementEventListener;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
@@ -62,5 +65,44 @@ class GroupManagementEventListenerTest extends TestCase {
 	public function testGroupDeleted(): void {
 		$this->expectInfo('Group deleted: "admins"', 'groups.group.deleted');
 		$this->listener->handle(new GroupDeletedEvent($this->group));
+	}
+
+	public function testGroupDisplayNameChanged(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Display name of group "admins" was changed',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.group.display_name_changed'),
+			);
+
+		$this->listener->handle(new GroupChangedEvent($this->group, 'displayName', 'Admins', 'Old admins'));
+	}
+
+	public function testGroupChangedOtherFeatureIsIgnored(): void {
+		$this->logger->expects($this->never())->method($this->anything());
+
+		$this->listener->handle(new GroupChangedEvent($this->group, 'unsupported', 'value'));
+	}
+
+	public function testSubAdminAdded(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'User "alice" was added as subadmin of group "admins"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.subadmin.added'),
+			);
+
+		$this->listener->handle(new SubAdminAddedEvent($this->group, $this->user));
+	}
+
+	public function testSubAdminRemoved(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'User "alice" was removed as subadmin of group "admins"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'groups.subadmin.removed'),
+			);
+
+		$this->listener->handle(new SubAdminRemovedEvent($this->group, $this->user));
 	}
 }

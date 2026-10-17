@@ -20,10 +20,12 @@ use OCP\AppFramework\OCSController;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class CalendarExportController extends OCSController {
 
@@ -34,6 +36,7 @@ class CalendarExportController extends OCSController {
 		private IGroupManager $groupManager,
 		private IManager $calendarManager,
 		private ExportService $exportService,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -101,6 +104,17 @@ class CalendarExportController extends OCSController {
 		};
 		$response = new StreamTraversableResponse($this->exportService->export($calendar, $options), Http::STATUS_OK, ['Content-Type' => $contentType]);
 		$response->cacheFor(0);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Calendar "%s" of "%s" was exported in format "%s"',
+			[
+				'calendarId' => $calendarId,
+				'owner' => $userId,
+				'format' => $format,
+			],
+			false,
+			'dav.calendar.exported',
+		));
 
 		return $response;
 	}
