@@ -30,7 +30,7 @@ class CriticalActionPerformedEventListenerTest extends TestCase {
 	public function testSprintfPlaceholders(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Share "42" was accepted by "alice"', ['app' => 'admin_audit']);
+			->with('Share "42" was accepted by "alice"', ['app' => 'admin_audit', 'params' => ['42', 'alice']]);
 
 		$this->listener->handle(new CriticalActionPerformedEvent('Share "%s" was accepted by "%s"', ['42', 'alice']));
 	}
@@ -40,7 +40,7 @@ class CriticalActionPerformedEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				'Bruteforce attempt from "{ip}" detected for action "{action}" not throttled due to allow-list.',
-				['app' => 'admin_audit', 'ip' => '10.0.0.1', 'action' => 'login'],
+				['app' => 'admin_audit', 'ip' => '10.0.0.1', 'action' => 'login', 'params' => ['ip' => '10.0.0.1', 'action' => 'login']],
 			);
 
 		$this->listener->handle(new CriticalActionPerformedEvent(
@@ -61,7 +61,7 @@ class CriticalActionPerformedEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				'Federated share with id "42" was accepted',
-				['app' => 'admin_audit', 'operation' => 'federatedfilesharing.share.accepted'],
+				['app' => 'admin_audit', 'operation' => 'federatedfilesharing.share.accepted', 'params' => ['42']],
 			);
 
 		$this->listener->handle(new CriticalActionPerformedEvent(

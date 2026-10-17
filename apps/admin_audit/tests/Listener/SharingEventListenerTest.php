@@ -62,18 +62,26 @@ class SharingEventListenerTest extends TestCase {
 
 	#[DataProvider('shareTypeProvider')]
 	public function testShareCreatedOperation(int $shareType): void {
+		$params = ['itemType' => 'file', 'path' => '/alice/files/a.txt', 'itemSource' => 42, 'shareWith' => 'bob', 'permissions' => 19, 'id' => '7'];
+		if ($shareType === IShare::TYPE_LINK) {
+			unset($params['shareWith']);
+		}
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($this->isString(), ['app' => 'admin_audit', 'operation' => 'sharing.share.created']);
+			->with($this->isString(), ['app' => 'admin_audit', 'operation' => 'sharing.share.created', 'params' => $params]);
 
 		$this->listener->handle(new ShareCreatedEvent($this->createShare($shareType)));
 	}
 
 	#[DataProvider('shareTypeProvider')]
 	public function testShareDeletedOperation(int $shareType): void {
+		$params = ['itemType' => 'file', 'fileTarget' => '/a.txt', 'itemSource' => 42, 'shareWith' => 'bob', 'id' => '7'];
+		if ($shareType === IShare::TYPE_LINK) {
+			unset($params['shareWith']);
+		}
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($this->isString(), ['app' => 'admin_audit', 'operation' => 'sharing.share.deleted']);
+			->with($this->isString(), ['app' => 'admin_audit', 'operation' => 'sharing.share.deleted', 'params' => $params]);
 
 		$this->listener->handle(new ShareDeletedEvent($this->createShare($shareType)));
 	}
@@ -83,7 +91,7 @@ class SharingEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				'The file "/alice/files/a.txt" with ID "42" has been shared to the user "bob" with permissions "19"  (Share ID: 7)',
-				['app' => 'admin_audit', 'operation' => 'sharing.share.created'],
+				['app' => 'admin_audit', 'operation' => 'sharing.share.created', 'params' => ['itemType' => 'file', 'path' => '/alice/files/a.txt', 'itemSource' => 42, 'shareWith' => 'bob', 'permissions' => 19, 'id' => '7']],
 			);
 
 		$this->listener->handle(new ShareCreatedEvent($this->createShare(IShare::TYPE_USER)));
@@ -94,7 +102,7 @@ class SharingEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				'The file "/a.txt" with ID "42" has been unshared (Share ID: 7)',
-				['app' => 'admin_audit', 'operation' => 'sharing.share.deleted'],
+				['app' => 'admin_audit', 'operation' => 'sharing.share.deleted', 'params' => ['itemType' => 'file', 'fileTarget' => '/a.txt', 'itemSource' => 42, 'id' => '7']],
 			);
 
 		$this->listener->handle(new ShareDeletedEvent($this->createShare(IShare::TYPE_LINK)));
