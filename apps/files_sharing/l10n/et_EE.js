@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "„{owner}“ jagas seda sinuga ja vestlusega „{conversation}“",
     "Shared with you in a conversation by {owner}" : "„{owner}“ jagas seda sinuga vestluses",
     "Shared with you by {owner}" : "Jagatud sinuga {owner} poolt",
+    "Originally as {name}" : "Algselt kui „{name}“",
     "%1$s shared %2$s with you" : "%1$s jagas sinuga: %2$s",
     "Do you want to accept this share?" : "Kas soovid seda jagamist kasutada?",
     "Share not found" : "Jagamist ei leidu",

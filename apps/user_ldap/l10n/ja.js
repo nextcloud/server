@@ -57,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "ベースユーザーツリー",
     "Optional; one attribute per line" : "オプション：1行に1属性",
     "User Search Attributes" : "ユーザー検索属性",
+    "User Active/Inactive Attribute" : "ユーザーのアクティブ／非アクティブ属性",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "ユーザーがアクティブか非アクティブかを示すユーザー属性。アクティブな場合は `TRUE`、そうでない場合は `FALSE` とする。",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "オンにすると、LDAPからインポートされたユーザーのうち欠落しているユーザーは無効になります。",
     "Disable users missing from LDAP" : "LDAPから消えたユーザーを無効にする",
     "Group Display Name Field" : "グループ表示名のフィールド",

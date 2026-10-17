@@ -119,6 +119,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "appinfoファイルが読み込めないため、アプリ名 \"%s\"  がインストールできません。",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "\"%s\" アプリは、このバージョンのサーバーと互換性がないためインストールされませんでした。",
     "__language_name__" : "日本語 (Japanese)",
+    "This email was sent from %1$s on behalf of %2$s." : "このメールは、%1$s から %2$s の代理として送信されました。",
     "This is an automatically sent email, please do not reply." : "これは自動的に生成されたメールです。返信しないでください。",
     "Bluesky" : "Bluesky",
     "View %s on Bluesky" : "Blueskyで%sを表示",

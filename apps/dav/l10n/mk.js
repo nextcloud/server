@@ -188,6 +188,7 @@ OC.L10N.register(
     "Third Last" : "Трето од крајот",
     "Fourth Last" : "Четврто од крајот",
     "Fifth Last" : "Петто од крајот",
+    "Content" : "Содржина",
     "Owner" : "Сопственик",
     "Shared" : "Споделено",
     "Checksum" : "Контролна сума",
