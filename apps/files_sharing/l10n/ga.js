@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "Roinnte leat agus an comhrá {conversation} ag {owner}",
     "Shared with you in a conversation by {owner}" : "Roinnte leat i gcomhrá le {owner}",
     "Shared with you by {owner}" : "Roinnte ag {owner} leat",
+    "Originally as {name}" : "Ar dtús mar {name}",
     "%1$s shared %2$s with you" : "%1$s roinnte %2$s leat",
     "Do you want to accept this share?" : "Ar mhaith leat glacadh leis an sciar seo?",
     "Share not found" : "Ní bhfuarthas an sciar",

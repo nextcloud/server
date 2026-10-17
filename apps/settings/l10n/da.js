@@ -494,7 +494,7 @@ OC.L10N.register(
     "Disclaimer text" : "Ansvarsfraskrivelsestekst",
     "This text will be shown on the public link upload page when the file list is hidden." : "Denne tekst vil blive vist på den offentlige link uploadside, når fillisten er skjult.",
     "Default share permissions" : "Standard delingsrettigheder",
-    "Two-Factor Authentication" : "To-faktor godkendelse",
+    "Two-Factor Authentication" : "To-faktor-godkendelse",
     "Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "To-faktor-godkendelse kan håndhæves for alle konti og bestemte grupper. Hvis de ikke har konfigureret en udbyder af to-faktor-godkendelse, kan de ikke logge ind i systemet.",
     "Enforce two-factor authentication" : "Gennemtving to-faktor-godkendelse",
     "Limit to groups" : "Begræns til grupper",

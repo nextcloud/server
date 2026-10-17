@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Tároló szerkesztése",
     "Add storage" : "Tároló hozzáadása",
     "Folder name" : "Mappa neve",
+    "Without a restriction this storage is available to every account on this server." : "Ez a tároló korlátozás nélkül érhető el a kiszolgáló összes fiókja számára.",
     "Authentication" : "Hitelesítés",
     "Cancel" : "Mégse",
     "Edit" : "Szerkesztés",

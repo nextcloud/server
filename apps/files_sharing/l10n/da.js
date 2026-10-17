@@ -212,7 +212,7 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "Delt via link af {initiator}",
     "File request ({label})" : "Fil-forespørgsel ({label})",
     "Mail share ({label})" : "Deling via e-mail ({label})",
-    "Share link ({label})" : "Delingslnk ({label})",
+    "Share link ({label})" : "Delingslink ({label})",
     "Mail share" : "Deling via e-mail",
     "Share link ({index})" : "Delingslink ({index})",
     "Create public link" : "Opret offentligt link",
