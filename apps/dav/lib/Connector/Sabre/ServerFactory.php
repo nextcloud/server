@@ -8,6 +8,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use NCU\Files\NodeAttributes\NodeAttributeContext;
+use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Files\View;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
@@ -33,7 +35,6 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserManager;
@@ -56,7 +57,6 @@ class ServerFactory {
 		private IMountManager $mountManager,
 		private ITagManager $tagManager,
 		private IRequest $request,
-		private IPreview $previewManager,
 		private IEventDispatcher $eventDispatcher,
 		private IL10N $l10n,
 	) {
@@ -171,7 +171,6 @@ class ServerFactory {
 					$tree,
 					$this->config,
 					$this->request,
-					$this->previewManager,
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
@@ -189,6 +188,13 @@ class ServerFactory {
 
 			if ($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new TagsPlugin($tree, $this->tagManager, $this->eventDispatcher, $this->userSession));
+				if (!$isPublicShare) {
+					// Public shares add their own, with the share as context
+					$server->addPlugin(new NodeAttributesPlugin(
+						\OCP\Server::get(NodeAttributeRegistry::class),
+						fn (): ?NodeAttributeContext => ($user = $this->userSession->getUser()) !== null ? NodeAttributeContext::forUser($user) : null,
+					));
+				}
 				$server->addPlugin(new SharesPlugin(
 					$tree,
 					$this->userSession,

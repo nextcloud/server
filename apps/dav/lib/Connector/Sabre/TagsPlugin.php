@@ -211,9 +211,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		// need prefetch ?
 		if ($collection instanceof Directory
 			&& !isset($this->cachedDirectories[$collection->getPath()])
-			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
-				|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
-			)) {
+			&& !is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))) {
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $collection->getChildren();
 			$fileIds = [(int)$collection->getId()];
@@ -226,8 +224,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * Adds tags and favorites properties to the response,
-	 * if requested.
+	 * Adds the tags property to the response, if requested.
+	 * Favorites are served by the favorite node attribute provider.
 	 *
 	 * @param PropFind $propFind
 	 * @param \Sabre\DAV\INode $node
@@ -241,22 +239,9 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		$isFav = null;
-
-		$propFind->handle(self::TAGS_PROPERTYNAME, function () use (&$isFav, $node) {
-			[$tags, $isFav] = $this->getTagsAndFav($node->getId());
+		$propFind->handle(self::TAGS_PROPERTYNAME, function () use ($node) {
+			[$tags] = $this->getTagsAndFav($node->getId());
 			return new TagList($tags);
-		});
-
-		$propFind->handle(self::FAVORITE_PROPERTYNAME, function () use ($isFav, $node) {
-			if (is_null($isFav)) {
-				[, $isFav] = $this->getTagsAndFav($node->getId());
-			}
-			if ($isFav) {
-				return 1;
-			} else {
-				return 0;
-			}
 		});
 	}
 
@@ -296,10 +281,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	public function handlePreloadProperties(array $nodes, array $requestProperties): void {
-		if (
-			!in_array(self::FAVORITE_PROPERTYNAME, $requestProperties, true)
-			&& !in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)
-		) {
+		if (!in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)) {
 			return;
 		}
 		$this->prefetchTagsForFileIds(array_map(fn ($node) => $node->getId(), $nodes));

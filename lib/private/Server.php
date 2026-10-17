@@ -1002,6 +1002,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
+		$this->registerAlias(\NCU\Files\NodeAttributes\INodeSerializer::class, \OC\Files\NodeAttributes\NodeSerializer::class);
 		$this->registerAlias(ITeamManager::class, TeamManager::class);
 
 		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
