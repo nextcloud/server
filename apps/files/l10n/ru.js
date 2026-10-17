@@ -199,7 +199,7 @@ OC.L10N.register(
     "Search here" : "Искать здесь",
     "Search scope options" : "Параметры области поиска",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
-    "{used} of {quota} used" : "использовано {used} из {quota}",
+    "{used} of {quota} used" : "Использовано {used} из {quota}",
     "{relative}% used" : "Использовано {relative}%",
     "Could not refresh storage stats" : "Не удалось обновить данные об использовании хранилища",
     "Your storage is full, files can not be updated or synced anymore!" : "Хранилище заполнено: файлы больше не обновляются и не синхронизируются!",

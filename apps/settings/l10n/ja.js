@@ -79,6 +79,8 @@ OC.L10N.register(
     "Your email address on %s was changed by an administrator." : "%s のメールアドレスを管理者が変更しました。",
     "Email address for %1$s changed on %2$s" : "%1$s のメールアドレスが %2$sで変更しました。",
     "Email address changed for %s" : "%s のメールアドレスを変更しました",
+    "Previous email address" : "以前のメールアドレス",
+    "New email address" : "新しいメールアドレス",
     "No email address set" : "メールアドレスが設定されていません",
     "Appearance and accessibility" : "外観とアクセシビリティ",
     "Personal settings" : "個人設定",

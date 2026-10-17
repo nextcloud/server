@@ -174,7 +174,7 @@ OC.L10N.register(
     "Go left in grid" : "Gå til venstre i gitter",
     "Go right in grid" : "Gå til højre i gitter",
     "View" : "Vis",
-    "Toggle grid view" : "Vis som liste",
+    "Toggle grid view" : "Skift gittervisning",
     "Show those shortcuts" : "Vis disse genveje",
     "Warnings" : "Advarsler",
     "Warn before changing a file extension" : "Advar inden en filendelse ændres",

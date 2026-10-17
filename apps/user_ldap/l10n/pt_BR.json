@@ -85,7 +85,7 @@
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Defina o e-mail do usuário de seu atributo LDAP. Deixe vazio para o comportamento padrão.",
     "User Home Folder Naming Rule" : "Regra de nomeação de pasta de usuário Home",
     "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Deixe em branco para o nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD.",
-    "`$home` Placeholder Field" : "Campo de Espaço Reservado `$home`",
+    "`$home` Placeholder Field" : "Campo do espaço reservado `$home`",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home em uma configuração de armazenamento externo será substituído pelo valor do atributo especificado",
     "User Profile Attributes" : "Atributos do Perfil do Usuário",
     "Phone Field" : "Campo de Telefone",
