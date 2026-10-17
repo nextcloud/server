@@ -29,6 +29,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OCM\Permissions;
 use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
@@ -348,7 +349,7 @@ class FilesPlugin extends ServerPlugin {
 				$ncPermissions = $node->getSharePermissions(
 					$user->getUID()
 				);
-				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
+				$ocmPermissions = Permissions::fromNextcloud($ncPermissions);
 				return json_encode($ocmPermissions, JSON_THROW_ON_ERROR);
 			});
 
@@ -565,31 +566,6 @@ class FilesPlugin extends ServerPlugin {
 				$propFind->handle(self::SUBFOLDER_COUNT_PROPERTYNAME, $nbFolders);
 			}
 		}
-	}
-
-	/**
-	 * translate Nextcloud permissions to OCM Permissions
-	 *
-	 * @param $ncPermissions
-	 * @return array
-	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions) {
-		$ocmPermissions = [];
-
-		if ($ncPermissions & Constants::PERMISSION_SHARE) {
-			$ocmPermissions[] = 'share';
-		}
-
-		if ($ncPermissions & Constants::PERMISSION_READ) {
-			$ocmPermissions[] = 'read';
-		}
-
-		if (($ncPermissions & Constants::PERMISSION_CREATE)
-			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
-			$ocmPermissions[] = 'write';
-		}
-
-		return $ocmPermissions;
 	}
 
 	/**

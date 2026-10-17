@@ -884,6 +884,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\OCM\\IOCMProvider' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMProvider.php',
         'OCP\\OCM\\IOCMResource' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMResource.php',
         'OCP\\OCM\\OCMCapabilities' => __DIR__ . '/../../..' . '/lib/public/OCM/OCMCapabilities.php',
+        'OCP\\OCM\\Permissions' => __DIR__ . '/../../..' . '/lib/public/OCM/Permissions.php',
         'OCP\\OCS\\IDiscoveryService' => __DIR__ . '/../../..' . '/lib/public/OCS/IDiscoveryService.php',
         'OCP\\OpenMetrics\\IMetricFamily' => __DIR__ . '/../../..' . '/lib/public/OpenMetrics/IMetricFamily.php',
         'OCP\\OpenMetrics\\Metric' => __DIR__ . '/../../..' . '/lib/public/OpenMetrics/Metric.php',
