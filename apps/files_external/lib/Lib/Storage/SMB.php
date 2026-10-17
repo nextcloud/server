@@ -725,9 +725,7 @@ class SMB extends Common implements INotifyStorage {
 	public function test(): bool {
 		try {
 			return parent::test();
-		} catch (StorageAuthException $e) {
-			return false;
-		} catch (ForbiddenException $e) {
+		} catch (NotFoundException | StorageAuthException | ForbiddenException $e) {
 			return false;
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
