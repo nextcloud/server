@@ -33,6 +33,7 @@ class Provider implements IProvider {
 	public const APP_TOKEN_RENAMED = 'app_token_renamed';
 	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
 	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
+	public const APP_TOKEN_SCOPES_CHANGED = 'app_token_scopes_changed';
 
 	/** @var IL10N */
 	protected $l;
@@ -104,6 +105,8 @@ class Provider implements IProvider {
 			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
 			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
+		} elseif ($event->getSubject() === self::APP_TOKEN_SCOPES_CHANGED) {
+			$subject = $this->l->t('You changed the access of app password "{token}"');
 		} else {
 			throw new UnknownActivityException('Unknown subject');
 		}
@@ -141,6 +144,7 @@ class Provider implements IProvider {
 			case self::APP_TOKEN_DELETED_WIPE_CANCELLED:
 			case self::APP_TOKEN_FILESYSTEM_GRANTED:
 			case self::APP_TOKEN_FILESYSTEM_REVOKED:
+			case self::APP_TOKEN_SCOPES_CHANGED:
 				return [
 					'token' => [
 						'type' => 'highlight',

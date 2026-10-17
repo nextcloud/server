@@ -122,6 +122,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
         'OCA\\Files_Sharing\\SharesReminderJob' => __DIR__ . '/..' . '/../lib/SharesReminderJob.php',
+        'OCA\\Files_Sharing\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
         'OCA\\Files_Sharing\\Updater' => __DIR__ . '/..' . '/../lib/Updater.php',
         'OCA\\Files_Sharing\\ViewOnly' => __DIR__ . '/..' . '/../lib/ViewOnly.php',
     );
