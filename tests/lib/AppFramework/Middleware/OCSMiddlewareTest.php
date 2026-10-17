@@ -21,6 +21,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\Share\Exceptions\ShareNotFound;
 
 class OCSMiddlewareTest extends \Test\TestCase {
 	/**
@@ -143,6 +144,30 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
 		$this->assertSame($code, $result->getStatus());
+	}
+
+	public function testAfterExceptionShareNotFound(): void {
+		$controller = $this->createMock(OCSController::class);
+		$this->request
+			->method('getScriptName')
+			->willReturn('/ocs/v2.php');
+		$OCSMiddleware = new OCSMiddleware($this->request);
+		$OCSMiddleware->beforeController($controller, 'method');
+
+		$result = $OCSMiddleware->afterException($controller, 'method', new ShareNotFound('token invalid'));
+
+		$this->assertInstanceOf(V2Response::class, $result);
+		$this->assertSame('token invalid', $this->invokePrivate($result, 'statusMessage'));
+		$this->assertSame(Http::STATUS_NOT_FOUND, $result->getOCSStatus());
+		$this->assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
+	}
+
+	public function testAfterExceptionShareNotFoundForwardedForNonOCSController(): void {
+		$controller = $this->createMock(Controller::class);
+		$OCSMiddleware = new OCSMiddleware($this->request);
+
+		$this->expectException(ShareNotFound::class);
+		$OCSMiddleware->afterException($controller, 'method', new ShareNotFound());
 	}
 
 	public static function dataAfterController(): array {

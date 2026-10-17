@@ -23,6 +23,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Share\Exceptions\ShareNotFound;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
@@ -250,6 +251,135 @@ class RateLimitingMiddlewareTest extends TestCase {
 
 		$this->reflector->reflect($controller, 'testMethodWithAttributesFallback');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributesFallback');
+	}
+
+	public function testBeforeControllerWithExceptionsDoesNotRegisterRequest(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonAttempt');
+		$this->limiter
+			->expects($this->once())
+			->method('isAnonRateLimitReached')
+			->with(get_class($controller) . '::testMethodWithExceptionRateLimit', 10, '127.0.0.1')
+			->willReturn(false);
+
+		$this->reflector->reflect($controller, 'testMethodWithExceptionRateLimit');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithExceptionRateLimit');
+	}
+
+	public function testBeforeControllerWithExceptionsThrowsWhenLimitReached(): void {
+		$this->expectException(RateLimitExceededException::class);
+
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('isAnonRateLimitReached')
+			->willReturn(true);
+
+		$this->reflector->reflect($controller, 'testMethodWithExceptionRateLimit');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithExceptionRateLimit');
+	}
+
+	public function testAfterExceptionCountsMatchingException(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->method('isAnonRateLimitReached')
+			->willReturn(false);
+		$this->limiter
+			->expects($this->once())
+			->method('registerAnonAttempt')
+			->with(get_class($controller) . '::testMethodWithExceptionRateLimit', 100, '127.0.0.1');
+
+		$this->reflector->reflect($controller, 'testMethodWithExceptionRateLimit');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithExceptionRateLimit');
+
+		$this->expectException(ShareNotFound::class);
+		$this->rateLimitingMiddleware->afterException($controller, 'testMethodWithExceptionRateLimit', new ShareNotFound());
+	}
+
+	public function testAfterExceptionDoesNotCountOtherExceptions(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->method('isAnonRateLimitReached')
+			->willReturn(false);
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonAttempt');
+
+		$this->reflector->reflect($controller, 'testMethodWithExceptionRateLimit');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithExceptionRateLimit');
+
+		$this->expectException(\RuntimeException::class);
+		$this->rateLimitingMiddleware->afterException($controller, 'testMethodWithExceptionRateLimit', new \RuntimeException('fail'));
+	}
+
+	public function testAfterExceptionDoesNotCountOnMethodWithoutExceptions(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonAttempt');
+
+		$this->reflector->reflect($controller, 'testMethodWithAttributesFallback');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributesFallback');
+
+		$this->expectException(ShareNotFound::class);
+		$this->rateLimitingMiddleware->afterException($controller, 'testMethodWithAttributesFallback', new ShareNotFound());
 	}
 
 	public function testAfterExceptionWithOtherException(): void {
