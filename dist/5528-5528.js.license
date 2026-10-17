@@ -43,13 +43,13 @@ SPDX-FileCopyrightText: Andrea Giammarchi
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.6
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - unist-util-is
 	- version: 3.0.0
