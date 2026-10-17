@@ -88,7 +88,7 @@
     "@vue/tsconfig": "~0.5.1",
     "babel-loader-exclude-node-modules-except": "^1.2.4",
     "babel-plugin-module-resolver": "^5.0.3",
-    "mime": "^4.1.0",
+    "mime": "^4.1.1",
     "patch-package": "^8.0.1",
     "sass": "^1.105.1",
     "terser-webpack-plugin": "^5.6.1",
