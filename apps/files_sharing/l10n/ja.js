@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "{owner}のスレッド{conversation}であなたと共有しました",
     "Shared with you in a conversation by {owner}" : "{owner}のスレッドであなたと共有しました",
     "Shared with you by {owner}" : "{owner} と共有中",
+    "Originally as {name}" : "元々は{name}として",
     "%1$s shared %2$s with you" : "%1$s は %2$s をあなたと共有しました",
     "Do you want to accept this share?" : "この共有を受け入れますか？",
     "Share not found" : "共有が見つかりません",

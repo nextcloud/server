@@ -152,6 +152,8 @@
     "Best security: documents never leave your server" : "Beste Sicherheit: Dokumente verlassen nie deinen Server",
     "Best ODF compatibility" : "Beste ODF-Kompatibilität",
     "Best support for legacy files" : "Beste Unterstützung für Legacy-Dateien",
+    "Enabling following apps: {apps}" : "Aktiviere folgende Apps: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["%n App wird aktualisiert","%n Apss werden aktualisiert."],
     "Could not load app categories. Please try again later." : "App-Kategorien konnten nicht geladen werden. Bitte später erneut versuchen.",
     "Could not load apps list. Please try again later." : "App-Listen konnten nicht geladen werden. Bitte später erneut versuchen.",
     "Could not update the app. Please try again later." : "App konnte nicht aktualisiert werden. Bitte später erneut versuchen.",
