@@ -220,7 +220,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 8.2.2
+	- version: 8.2.3
 	- license: MIT
 - hookable
 	- version: 5.5.3
@@ -235,7 +235,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.3.0
 	- license: BSD-3-Clause
 - moment-timezone
-	- version: 0.6.4
+	- version: 0.6.5
 	- license: MIT
 - moment
 	- version: 2.31.0
