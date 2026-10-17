@@ -124,7 +124,7 @@
     "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
-    "mime": "^4.1.0",
+    "mime": "^4.1.1",
     "msw": "^2.15.0",
     "patch-package": "^8.0.1",
     "raw-loader": "^4.0.2",
