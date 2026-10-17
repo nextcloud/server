@@ -23,18 +23,43 @@ class FileSequenceTest extends ISequenceBase {
 		parent::setUp();
 
 		$tempManager = $this->createMock(ITempManager::class);
-		$this->path = sys_get_temp_dir();
+		$this->path = sys_get_temp_dir() . '/' . uniqid('file_sequence_test_');
+		mkdir($this->path);
 		$tempManager->method('getTempBaseDir')->willReturn($this->path);
 		$this->sequence = new FileSequence($tempManager);
 	}
 
 	#[\Override]
 	public function tearDown():void {
-		$lockDirectory = $this->path . '/' . FileSequence::LOCK_FILE_DIRECTORY;
-		foreach (glob($lockDirectory . '/*') as $file) {
+		foreach (glob($this->path . '/' . FileSequence::LOCK_FILE_DIRECTORY . '*/*') as $file) {
 			unlink($file);
 		}
+		foreach (glob($this->path . '/' . FileSequence::LOCK_FILE_DIRECTORY . '*') as $directory) {
+			rmdir($directory);
+		}
+		rmdir($this->path);
 
 		parent::tearDown();
+	}
+
+	public function testSequenceIncrementsWithinTheSameMillisecond(): void {
+		$this->assertSame(0, $this->sequence->nextId(42, 1000, 500));
+		$this->assertSame(1, $this->sequence->nextId(42, 1000, 500));
+		$this->assertSame(2, $this->sequence->nextId(42, 1000, 500));
+	}
+
+	public function testSequenceStartsAtZeroForEachMillisecond(): void {
+		$this->assertSame(0, $this->sequence->nextId(42, 1000, 500));
+		// Same lock file, different slot
+		$this->assertSame(0, $this->sequence->nextId(42, 1000, 520));
+		$this->assertSame(0, $this->sequence->nextId(42, 1001, 500));
+		// Same slot, reused after the TTL window
+		$this->assertSame(0, $this->sequence->nextId(42, 1030, 500));
+	}
+
+	public function testSequenceKeepsEarlierMillisecondsWithinTheWindow(): void {
+		$this->assertSame(0, $this->sequence->nextId(42, 1000, 500));
+		$this->assertSame(0, $this->sequence->nextId(42, 1001, 500));
+		$this->assertSame(1, $this->sequence->nextId(42, 1000, 500));
 	}
 }
