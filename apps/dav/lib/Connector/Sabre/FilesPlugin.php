@@ -18,6 +18,7 @@ use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
@@ -435,7 +436,7 @@ class FilesPlugin extends ServerPlugin {
 				try {
 					$file = $node->getNode();
 					$storage = $file->getStorage();
-				} catch (\OCP\Files\NotFoundException|StorageNotAvailableException) {
+				} catch (NotFoundException|StorageNotAvailableException) {
 					return null;
 				}
 
