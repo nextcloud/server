@@ -130,7 +130,7 @@
     "Your administrator has enforced a {count} days expiration policy." : "Din administrator har gjort en udløbspolitik på {count} dage obligatorisk.",
     "What password should be used for the request?" : "Hvilken adgangskode skal anvendes til denne forespørgsel?",
     "Set a password" : "Indstil en adgangskode",
-    "Password" : "Kodeord",
+    "Password" : "Adgangskode",
     "Enter a valid password" : "Angiv en gyldig adgangskode",
     "Generate a new password" : "Generer en ny adgangskode",
     "Your administrator has enforced a password protection." : "Din administrator har gjort adgangskodebeskyttelse obligatorisk.",
