@@ -22,7 +22,7 @@ OC.L10N.register(
     "None" : "Ingen",
     "OpenStack v2" : "OpenStack v2",
     "Login" : "Login",
-    "Password" : "Kodeord",
+    "Password" : "Adgangskode",
     "Tenant name" : "Tenant-navn",
     "Identity endpoint URL" : "Identificer afslutnings URL",
     "OpenStack v3" : "OpenStack v3",
