@@ -261,7 +261,7 @@ jobs:
 
   merge-reports:
     # Merge reports after playwright-tests, even if some shards have failed
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.gate.result == 'success' }}
     needs: [gate, playwright-tests, playwright-installer-tests]
 
     runs-on: ubuntu-latest-low
