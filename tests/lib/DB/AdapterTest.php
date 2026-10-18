@@ -200,4 +200,27 @@ class AdapterTest extends TestCase {
 
 		$this->assertSame($this->appId, $value);
 	}
+
+	public function testFetchMethodsWithNoRows(): void {
+		$createResult = function () {
+			$qb = $this->connection->getQueryBuilder();
+
+			return $qb->select(['appid', 'configkey', 'configvalue'])
+				->from('appconfig')
+				->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('__no_such_adapter_test_row__')))
+				->executeQuery();
+		};
+
+		$this->assertFalse($createResult()->fetchAssociative());
+		$this->assertFalse($createResult()->fetchNumeric());
+		$this->assertFalse($createResult()->fetchOne());
+
+		$this->assertSame([], $createResult()->fetchAllAssociative());
+		$this->assertSame([], $createResult()->fetchAllNumeric());
+		$this->assertSame([], $createResult()->fetchFirstColumn());
+
+		$this->assertSame([], iterator_to_array($createResult()->iterateAssociative()));
+		$this->assertSame([], iterator_to_array($createResult()->iterateNumeric()));
+	}
 }
