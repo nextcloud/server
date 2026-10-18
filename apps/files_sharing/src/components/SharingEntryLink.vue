@@ -779,6 +779,13 @@ export default {
 				}
 				showSuccess(t('files_sharing', 'Link share created'))
 			} catch (data) {
+				if (data?.cause?.response?.status === 429 || data?.response?.status === 429) {
+					const rateLimitMessage = t('files_sharing', 'Share creation is temporarily rate limited. Please wait a few minutes before creating more shares.')
+					showError(rateLimitMessage)
+					logger.error('Rate limit reached while creating the share', { error: data })
+					return
+				}
+
 				const message = data?.response?.data?.ocs?.meta?.message
 				if (!message) {
 					showError(t('files_sharing', 'Error while creating the share'))
