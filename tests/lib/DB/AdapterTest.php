@@ -39,7 +39,7 @@ class AdapterTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testInsertIgnoreOnConflictDuplicate(): void {
+	public function testInsertIgnoreConflictIgnoresDuplicate(): void {
 		$configKey = uniqid('key', true);
 		$expected = [
 			[
@@ -76,7 +76,7 @@ class AdapterTest extends TestCase {
 			->fetchAllAssociative();
 	}
 
-	public function testFetchAssociative(): void {
+	private function insertTestRow(): void {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			->values([
@@ -85,7 +85,10 @@ class AdapterTest extends TestCase {
 				'configvalue' => '1',
 			])
 			->executeStatement();
+	}
 
+	public function testFetchAllAssociative(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$rows = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -99,7 +102,10 @@ class AdapterTest extends TestCase {
 			'configkey' => 'test',
 			'configvalue' => '1',
 		]], $rows);
+	}
 
+	public function testFetchAssociative(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$row = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -113,7 +119,10 @@ class AdapterTest extends TestCase {
 			'configkey' => 'test',
 			'configvalue' => '1',
 		], $row);
+	}
 
+	public function testIterateAssociative(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$rows = iterator_to_array($qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -129,16 +138,8 @@ class AdapterTest extends TestCase {
 		]], $rows);
 	}
 
-	public function testFetchNumeric(): void {
-		$insert = $this->connection->getQueryBuilder();
-		$insert->insert('appconfig')
-			->values([
-				'appid' => $this->appId,
-				'configkey' => 'test',
-				'configvalue' => '1',
-			])
-			->executeStatement();
-
+	public function testFetchAllNumeric(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$rows = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -148,7 +149,10 @@ class AdapterTest extends TestCase {
 			->fetchAllNumeric();
 
 		$this->assertSame([[$this->appId, 'test', '1']], $rows);
+	}
 
+	public function testFetchNumeric(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$row = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -158,7 +162,10 @@ class AdapterTest extends TestCase {
 			->fetchNumeric();
 
 		$this->assertSame([$this->appId, 'test', '1'], $row);
+	}
 
+	public function testIterateNumeric(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$rows = iterator_to_array($qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
@@ -170,16 +177,8 @@ class AdapterTest extends TestCase {
 		$this->assertSame([[$this->appId, 'test', '1']], $rows);
 	}
 
-	public function testFetchOne(): void {
-		$insert = $this->connection->getQueryBuilder();
-		$insert->insert('appconfig')
-			->values([
-				'appid' => $this->appId,
-				'configkey' => 'test',
-				'configvalue' => '1',
-			])
-			->executeStatement();
-
+	public function testFetchFirstColumn(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$values = $qb->select(['appid'])
 			->from('appconfig')
@@ -189,7 +188,10 @@ class AdapterTest extends TestCase {
 			->fetchFirstColumn();
 
 		$this->assertSame([$this->appId], $values);
+	}
 
+	public function testFetchOne(): void {
+		$this->insertTestRow();
 		$qb = $this->connection->getQueryBuilder();
 		$value = $qb->select(['appid'])
 			->from('appconfig')
