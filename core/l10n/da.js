@@ -451,7 +451,7 @@ OC.L10N.register(
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Hvis du bruger klienter til fil synkronisering, frarådes brugen af SQLite på det kraftigste.",
     "Database connection" : "Database-forbindelse",
     "Database user" : "Databasebruger",
-    "Database password" : "Databasekodeord",
+    "Database password" : "Adgangskode til databasen",
     "Database name" : "Navn på database",
     "Database tablespace" : "Database tabelplads",
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Angiv et portnummer sammen med hostnavnet (f.eks. localhost:5432).",

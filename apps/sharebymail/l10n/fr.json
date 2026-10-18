@@ -1,8 +1,8 @@
 { "translations": {
     "Shared with {email}" : "Partagé avec {email}",
     "Shared with {email} by {actor}" : "Partagé avec {email} par {actor}",
-    "Unshared from {email}" : "Partage supprimé de {email}",
-    "Unshared from {email} by {actor}" : "Partage supprimé de {email} par {actor}",
+    "Unshared from {email}" : "Partage avec {email} supprimé",
+    "Unshared from {email} by {actor}" : "Partage avec {email} supprimé par {actor}",
     "Password for mail share sent to {email}" : "Le mot de passe pour le partage par e-mail a été envoyé à {email}",
     "Password for mail share sent to you" : "Le mot de passe pour le partage par e-mail vous a été envoyé",
     "You shared {file} with {email} by mail" : "Vous avez partagé {file} avec {email} par e-mail",
