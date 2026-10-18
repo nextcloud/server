@@ -12,6 +12,9 @@ use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+/**
+ * Exercise database adapter behavior via a real IDBConnection.
+ */
 #[Group('DB')]
 class AdapterTest extends TestCase {
 	private string $appId;
@@ -73,7 +76,7 @@ class AdapterTest extends TestCase {
 			->fetchAllAssociative();
 	}
 
-	public function fetchAssociative(): void {
+	public function testFetchAssociative(): void {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			->values([
@@ -83,47 +86,50 @@ class AdapterTest extends TestCase {
 			])
 			->executeStatement();
 
-		// fetch all associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$rows = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchAllAssociative();
 
-		$rows = $result->fetchAllAssociative();
-		$this->assertEquals([
-			[
-				'appid' => $this->appId,
-				'configkey' => 'test',
-				'configvalue' => '1',
-			]
-		], $rows);
+		$this->assertSame([[
+			'appid' => $this->appId,
+			'configkey' => 'test',
+			'configvalue' => '1',
+		]], $rows);
 
-		// fetch associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$row = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
-		$row = $result->fetchAssociative();
-		$this->assertEquals([
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchAssociative();
+
+		$this->assertSame([
 			'appid' => $this->appId,
 			'configkey' => 'test',
 			'configvalue' => '1',
 		], $row);
 
-		// iterate associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$rows = iterator_to_array($qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
-		$row = iterator_to_array($result->iterateAssociative());
-		$this->assertEquals([
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->iterateAssociative());
+
+		$this->assertSame([[
 			'appid' => $this->appId,
 			'configkey' => 'test',
 			'configvalue' => '1',
-		], $row);
+		]], $rows);
 	}
 
-	public function fetchNumeric(): void {
+	public function testFetchNumeric(): void {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			->values([
@@ -133,47 +139,38 @@ class AdapterTest extends TestCase {
 			])
 			->executeStatement();
 
-		// fetch all associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$rows = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchAllNumeric();
 
-		$rows = $result->fetchAllNumeric();
-		$this->assertEquals([
-			[
-				0 => $this->appId,
-				1 => 'test',
-				2 => '1',
-			]
-		], $rows);
+		$this->assertSame([[$this->appId, 'test', '1']], $rows);
 
-		// fetch associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$row = $qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
-		$row = $result->fetchNumeric();
-		$this->assertEquals([
-			0 => $this->appId,
-			1 => 'test',
-			2 => '1',
-		], $row);
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchNumeric();
 
-		// iterate associative
+		$this->assertSame([$this->appId, 'test', '1'], $row);
+
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$rows = iterator_to_array($qb->select(['appid', 'configkey', 'configvalue'])
 			->from('appconfig')
-			->executeQuery();
-		$row = iterator_to_array($result->iterateNumeric());
-		$this->assertEquals([
-			0 => $this->appId,
-			1 => 'test',
-			2 => '1',
-		], $row);
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->iterateNumeric());
+
+		$this->assertSame([[$this->appId, 'test', '1']], $rows);
 	}
 
-	public function fetchOne(): void {
+	public function testFetchOne(): void {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			->values([
@@ -183,29 +180,24 @@ class AdapterTest extends TestCase {
 			])
 			->executeStatement();
 
-		// fetch all associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$values = $qb->select(['appid'])
 			->from('appconfig')
-			->executeQuery();
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchFirstColumn();
 
-		$rows = $result->fetchFirstColumn();
-		$this->assertEquals($this->appId, $rows);
+		$this->assertSame([$this->appId], $values);
 
-		// fetch associative
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+		$value = $qb->select(['appid'])
 			->from('appconfig')
-			->executeQuery();
-		$row = $result->fetchFirstColumn();
-		$this->assertEquals($this->appId, $row);
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('test')))
+			->executeQuery()
+			->fetchOne();
 
-		// iterate associative
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select(['configkey', 'configvalue', 'appid'])
-			->from('appconfig')
-			->executeQuery();
-		$rows = iterator_to_array($result->iterateNumeric());
-		$this->assertEquals([$this->appId], $rows);
+		$this->assertSame($this->appId, $value);
 	}
 }
