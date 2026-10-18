@@ -155,6 +155,7 @@ OC.L10N.register(
     "Best ODF compatibility" : "Comhoiriúnacht OF is fearr",
     "Best support for legacy files" : "An tacaíocht is fearr do chomhaid oidhreachta",
     "Enabling following apps: {apps}" : "Ag cumasú na n-aipeanna seo a leanas: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip."],
     "Could not load app categories. Please try again later." : "Níorbh fhéidir catagóirí aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not load apps list. Please try again later." : "Níorbh fhéidir liosta na n-aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not update the app. Please try again later." : "Níorbh fhéidir an aip a nuashonrú. Déan iarracht arís ar ball.",
