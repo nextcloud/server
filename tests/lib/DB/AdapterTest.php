@@ -80,10 +80,9 @@ class AdapterTest extends TestCase {
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
 			->values([
-				'appid' => $this->appId,
-				'configkey' => 'test',
-				'configvalue' => '1',
-			])
+				'appid' => $insert->createNamedParameter($this->appId),
+				'configkey' => $insert->createNamedParameter('test'),
+				'configvalue' => $insert->createNamedParameter('1'),			])
 			->executeStatement();
 	}
 
