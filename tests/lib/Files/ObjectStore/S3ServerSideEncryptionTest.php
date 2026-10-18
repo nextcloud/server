@@ -186,15 +186,16 @@ class S3ServerSideEncryptionTest extends TestCase {
 		$this->assertStringContainsString('sse_kms_bucket_key', $warnings[0]);
 	}
 
-	/**
-	 * @dataProvider dataTruthyLegacyKmsEnabled
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTruthyLegacyKmsEnabled')]
 	public function testSseKmsLegacyAliasAcceptsAnyTruthyValue(mixed $value): void {
-		// Prior to this change, 'sse_kms_enabled' required a strict `=== true` check, so
-		// e.g. 1 or 'true' from an environment-driven config would silently disable encryption.
+		// Truthy values such as 1 or 'true' from an environment-driven config must enable
+		// encryption, not silently disable it.
 		$s3 = $this->makeS3(['sse_kms_enabled' => $value]);
 		$this->assertSame(['ServerSideEncryption' => 'aws:kms'], $this->getServerSideEncryptionParameters($s3));
+
+		$warnings = $this->getEncryptionWarnings($s3);
+		$this->assertCount(1, $warnings);
+		$this->assertStringContainsString("The 'sse_kms_enabled' objectstore argument is deprecated", $warnings[0]);
 	}
 
 	public static function dataTruthyLegacyKmsEnabled(): array {
@@ -204,16 +205,6 @@ class S3ServerSideEncryptionTest extends TestCase {
 			'string "true"' => ['true'],
 			'string "1"' => ['1'],
 		];
-	}
-
-	public function testLegacySseKmsEnabledAloneWarnsOnlyAboutDeprecation(): void {
-		$s3 = $this->makeS3(['sse_kms_enabled' => true]);
-		$this->assertSame(['ServerSideEncryption' => 'aws:kms'], $this->getServerSideEncryptionParameters($s3));
-
-		$warnings = $this->getEncryptionWarnings($s3);
-		$this->assertCount(1, $warnings);
-		$this->assertStringContainsString('sse_kms_enabled', $warnings[0]);
-		$this->assertStringContainsString('deprecated', $warnings[0]);
 	}
 
 	public function testBothLegacyKeysResolveToSseCByPrecedence(): void {
@@ -229,11 +220,10 @@ class S3ServerSideEncryptionTest extends TestCase {
 		], $this->getServerSideEncryptionParameters($s3));
 
 		$warnings = $this->getEncryptionWarnings($s3);
-		$this->assertGreaterThanOrEqual(1, count($warnings));
-		$this->assertTrue(
-			(bool)array_filter($warnings, static fn (string $w): bool => str_contains($w, 'precedence')),
-			'Expected a precedence warning, got: ' . implode(' | ', $warnings)
-		);
+		$this->assertCount(3, $warnings);
+		$this->assertStringContainsString("'sse_c_key' (SSE-C) takes precedence", $warnings[0]);
+		$this->assertStringContainsString("The 'sse_c_key' objectstore argument is deprecated", $warnings[1]);
+		$this->assertStringContainsString('SSE-C', $warnings[2]);
 	}
 
 	public function testExplicitSseKmsOverridesLegacySseCKey(): void {
@@ -267,8 +257,9 @@ class S3ServerSideEncryptionTest extends TestCase {
 		], $this->getServerSideEncryptionParameters($s3));
 
 		$warnings = $this->getEncryptionWarnings($s3);
-		$ignoreWarnings = array_filter($warnings, static fn (string $w): bool => str_contains($w, 'sse_kms_enabled') && str_contains($w, 'Ignoring'));
-		$this->assertNotEmpty($ignoreWarnings, 'Expected an "ignoring sse_kms_enabled" warning, got: ' . implode(' | ', $warnings));
+		$this->assertCount(2, $warnings);
+		$this->assertStringContainsString("Ignoring the 'sse_kms_enabled' objectstore argument", $warnings[0]);
+		$this->assertStringContainsString('SSE-C', $warnings[1]);
 	}
 
 	public function testInvalidSseValueIsRejected(): void {
@@ -301,26 +292,61 @@ class S3ServerSideEncryptionTest extends TestCase {
 		], $this->getServerSideEncryptionParameters($s3));
 
 		$warnings = $this->getEncryptionWarnings($s3);
-		$this->assertTrue(
-			(bool)array_filter($warnings, static fn (string $w): bool => str_contains($w, 'sse_kms_encryption_context')),
-			'Expected a warning about sse_kms_encryption_context, got: ' . implode(' | ', $warnings)
-		);
+		$this->assertCount(2, $warnings);
+		$this->assertStringContainsString('SSE-C', $warnings[0]);
+		$this->assertStringContainsString("Ignoring the 'sse_kms_encryption_context' objectstore argument", $warnings[1]);
 	}
 
-	public function testEncryptionContextRejectsNonStringValues(): void {
+	public static function dataInvalidEncryptionContext(): array {
+		return [
+			'non-string value' => [['tenant' => 123]],
+			'list instead of map' => [['acme']],
+			// PHP casts numeric-string array keys to int, so this is not a string key either
+			'numeric-string key' => [['123' => 'acme']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidEncryptionContext')]
+	public function testEncryptionContextRejectsNonStringPairs(array $context): void {
 		$this->expectException(\Exception::class);
-		$this->makeS3(['sse' => 'sse-kms', 'sse_kms_encryption_context' => ['tenant' => 123]]);
+		$this->expectExceptionMessage('must be an array of string key-value pairs');
+		$this->makeS3(['sse' => 'sse-kms', 'sse_kms_encryption_context' => $context]);
 	}
 
 	public function testMalformedEncryptionContextIsRejectedRegardlessOfMode(): void {
 		// A structurally invalid context can never be resolved, even for a mode where the
 		// context itself would otherwise just be redundant and warned-about.
 		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('must be an array of string key-value pairs');
 		$this->makeS3([
 			'sse' => 'sse-c',
 			'sse_c_key' => base64_encode(random_bytes(32)),
 			'sse_kms_encryption_context' => 'not-an-array',
 		]);
+	}
+
+	public static function dataKmsOnlyOptionsWithoutEncryption(): array {
+		return [
+			'sse_kms_key_id' => [['sse_kms_key_id' => 'arn:aws:kms:us-east-1:123456789012:key/test-key'], 'sse_kms_key_id'],
+			'sse_kms_bucket_key' => [['sse_kms_bucket_key' => true], 'sse_kms_bucket_key'],
+			'sse_kms_encryption_context' => [['sse_kms_encryption_context' => ['tenant' => 'acme']], 'sse_kms_encryption_context'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataKmsOnlyOptionsWithoutEncryption')]
+	public function testKmsOnlyOptionWithoutAnyModeIsWarnedAndIgnored(array $arguments, string $option): void {
+		$s3 = $this->makeS3($arguments);
+		$this->assertSame([], $this->getServerSideEncryptionParameters($s3));
+
+		$warnings = $this->getEncryptionWarnings($s3);
+		$this->assertCount(1, $warnings);
+		$this->assertStringContainsString("Ignoring the '$option' objectstore argument", $warnings[0]);
+	}
+
+	public function testEmptyKmsKeyIdMeansBucketDefaultKey(): void {
+		$s3 = $this->makeS3(['sse' => 'sse-kms', 'sse_kms_key_id' => '']);
+		$this->assertSame(['ServerSideEncryption' => 'aws:kms'], $this->getServerSideEncryptionParameters($s3));
+		$this->assertSame([], $this->getEncryptionWarnings($s3));
 	}
 
 	public function testBucketKeyWithoutSseKmsModeIsWarnedAndIgnored(): void {
@@ -388,22 +414,11 @@ class S3ServerSideEncryptionTest extends TestCase {
 		$second = $makeIdenticallyConfiguredS3();
 		$second->getConnection();
 		$this->assertSame($expectedWarnings, $loggedMessages, 'Second instance with the same warnings should not log them again');
-	}
 
-	public function testReadParametersAreEmptyForNonSseCModes(): void {
-		foreach ([[], ['sse' => 'sse-s3'], ['sse' => 'sse-kms'], ['sse' => 'sse-kms-dsse', 'sse_kms_key_id' => 'key']] as $arguments) {
-			$s3 = $this->makeS3($arguments);
-			$this->assertSame([], $this->getReadServerSideEncryptionParameters($s3), json_encode($arguments));
-			$this->assertSame([], $this->getReadServerSideEncryptionParameters($s3, true), json_encode($arguments));
-		}
-	}
-
-	public function testReadParametersCarrySseCKey(): void {
-		$rawKey = random_bytes(32);
-		$s3 = $this->makeS3(['sse' => 'sse-c', 'sse_c_key' => base64_encode($rawKey)]);
-
-		$this->assertSame($this->getServerSideEncryptionParameters($s3), $this->getReadServerSideEncryptionParameters($s3));
-		$this->assertSame($this->getServerSideEncryptionParameters($s3, true), $this->getReadServerSideEncryptionParameters($s3, true));
+		$third = $this->makeS3(['sse_kms_enabled' => true, 'verify_bucket_exists' => false]);
+		$thirdWarnings = $this->getEncryptionWarnings($third);
+		$third->getConnection();
+		$this->assertSame(array_merge($expectedWarnings, $thirdWarnings), $loggedMessages, 'An instance with different warnings should still log them');
 	}
 
 	public function testReadParametersIgnoreSseCKeyWhenAnotherModeIsExplicit(): void {

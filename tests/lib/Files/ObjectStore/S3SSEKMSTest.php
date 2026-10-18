@@ -32,8 +32,12 @@ use OCP\Server;
 #[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 #[\PHPUnit\Framework\Attributes\Group('SSE-KMS')]
 class S3SSEKMSTest extends ObjectStoreTestCase {
+	use S3EncryptionCapabilityTrait;
 
 	private S3 $instance;
+
+	/** The `ServerSideEncryption` value objects are expected to have under the configured mode */
+	private static string $expectedServerSideEncryption = 'aws:kms';
 
 	#[\Override]
 	public static function setUpBeforeClass(): void {
@@ -46,13 +50,20 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 
 		$arguments = $config['arguments'] ?? [];
 		if (array_key_exists('sse', $arguments)) {
-			$isKmsEnabled = S3EncryptionMode::tryFrom((string)$arguments['sse'])?->isKms() ?? false;
+			$mode = S3EncryptionMode::tryFrom((string)$arguments['sse']);
+		} elseif (!empty($arguments['sse_c_key'])) {
+			// 'sse_c_key' takes precedence over 'sse_kms_enabled' when 'sse' is not set
+			$mode = S3EncryptionMode::SseC;
 		} else {
-			$isKmsEnabled = !empty($arguments['sse_kms_enabled']);
+			$mode = !empty($arguments['sse_kms_enabled']) ? S3EncryptionMode::SseKms : null;
 		}
-		if (!$isKmsEnabled) {
+		if ($mode === null || !$mode->isKms()) {
 			self::markTestSkipped("SSE-KMS not enabled. Set sse => 'sse-kms' or 'sse-kms-dsse' in the objectstore config");
 		}
+
+		self::$expectedServerSideEncryption = $mode === S3EncryptionMode::SseKmsDsse ? 'aws:kms:dsse' : 'aws:kms';
+		$keyId = empty($arguments['sse_kms_key_id']) ? null : (string)$arguments['sse_kms_key_id'];
+		self::requireEncryptionSupport(new S3($arguments), self::$expectedServerSideEncryption, $keyId);
 	}
 
 	#[\Override]
@@ -62,17 +73,6 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 			$this->instance = new S3($config['arguments']);
 		}
 		return $this->instance;
-	}
-
-	/**
-	 * The `ServerSideEncryption` value expected on objects, given the configured `sse` mode
-	 * (or its deprecated `sse_kms_enabled` alias, which always maps to single-layer SSE-KMS).
-	 */
-	private function getExpectedServerSideEncryption(): string {
-		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
-		$arguments = $config['arguments'] ?? [];
-		$sse = S3EncryptionMode::tryFrom($arguments['sse'] ?? '');
-		return $sse === S3EncryptionMode::SseKmsDsse ? 'aws:kms:dsse' : 'aws:kms';
 	}
 
 	/**
@@ -230,7 +230,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 		]);
 
 		// Verify SSE is KMS
-		$this->assertEquals($this->getExpectedServerSideEncryption(), $result->get('ServerSideEncryption'),
+		$this->assertEquals(self::$expectedServerSideEncryption, $result->get('ServerSideEncryption'),
 			'Object should have SSE-KMS encryption');
 
 		// If specific key configured, verify it's used
@@ -270,7 +270,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 
 		$this->assertEquals(0, $metadata->get('ContentLength'),
 			'Zero-byte file should have ContentLength of 0');
-		$this->assertEquals($this->getExpectedServerSideEncryption(), $metadata->get('ServerSideEncryption'),
+		$this->assertEquals(self::$expectedServerSideEncryption, $metadata->get('ServerSideEncryption'),
 			'Zero-byte file should still have SSE-KMS encryption');
 	}
 
@@ -303,7 +303,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 			'Key' => $urn,
 		]);
 
-		$this->assertEquals($this->getExpectedServerSideEncryption(), $metadata->get('ServerSideEncryption'),
+		$this->assertEquals(self::$expectedServerSideEncryption, $metadata->get('ServerSideEncryption'),
 			"Object should have SSE-KMS encryption for size $size");
 		$this->assertEquals($size, $metadata->get('ContentLength'),
 			"Size should match for $size byte file");
@@ -342,7 +342,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 			'Key' => 'kms-test-multipart-copy-target',
 		]);
 
-		$this->assertEquals($this->getExpectedServerSideEncryption(), $metadata->get('ServerSideEncryption'),
+		$this->assertEquals(self::$expectedServerSideEncryption, $metadata->get('ServerSideEncryption'),
 			'Copied object should have SSE-KMS encryption');
 	}
 
@@ -411,7 +411,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 			'Key' => 'kms-test-overwrite',
 		]);
 
-		$this->assertEquals($this->getExpectedServerSideEncryption(), $metadata->get('ServerSideEncryption'),
+		$this->assertEquals(self::$expectedServerSideEncryption, $metadata->get('ServerSideEncryption'),
 			'Overwritten object should still have SSE-KMS encryption');
 	}
 }

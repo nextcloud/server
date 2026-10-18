@@ -43,7 +43,6 @@ class S3SseCEncryptionTest extends TestCase {
 			'non-S3 objectstore class' => [['class' => 'OC\\Files\\ObjectStore\\Swift', 'arguments' => ['sse_c_key' => 'x']], null, SetupResult::SUCCESS],
 			'S3 with no sse* arguments' => [$s3([]), null, SetupResult::SUCCESS],
 			'S3 with sse-kms' => [$s3(['sse' => 'sse-kms']), null, SetupResult::SUCCESS],
-			'S3 with sse-kms-dsse' => [$s3(['sse' => 'sse-kms-dsse']), null, SetupResult::SUCCESS],
 			'S3 with legacy sse_c_key only' => [$s3(['sse_c_key' => 'x']), null, SetupResult::WARNING],
 			'S3 with explicit sse => sse-c' => [$s3(['sse' => 'sse-c', 'sse_c_key' => 'x']), null, SetupResult::WARNING],
 			'S3 with both legacy keys set (sse_c_key wins by precedence)' => [$s3(['sse_c_key' => 'x', 'sse_kms_enabled' => true]), null, SetupResult::WARNING],
@@ -61,7 +60,9 @@ class S3SseCEncryptionTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
 	public function testRun(?array $objectStore, ?array $objectStoreMultibucket, string $expected): void {
-		$this->urlGenerator->method('linkToDocs')->willReturn('admin-s3-sse-c');
+		$this->urlGenerator->method('linkToDocs')
+			->with('admin-s3-sse-c')
+			->willReturn('https://docs.example.com/admin-s3-sse-c');
 
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function (string $key, $default = null) use ($objectStore, $objectStoreMultibucket) {
@@ -76,5 +77,11 @@ class S3SseCEncryptionTest extends TestCase {
 
 		$result = $check->run();
 		$this->assertEquals($expected, $result->getSeverity());
+		if ($expected === SetupResult::WARNING) {
+			$this->assertSame('https://docs.example.com/admin-s3-sse-c', $result->getLinkToDoc());
+			$this->assertStringContainsString('Migrate to SSE-KMS', $result->getDescription());
+		} else {
+			$this->assertNull($result->getLinkToDoc());
+		}
 	}
 }

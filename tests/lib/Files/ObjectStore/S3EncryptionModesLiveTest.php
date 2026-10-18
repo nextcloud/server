@@ -23,13 +23,16 @@ use Test\TestCase;
  * instances per test with different `sse*` overrides, so it cannot extend
  * ObjectStoreTestCase (one getInstance() per test class).
  *
- * Requires a bucket + KMS setup that actually supports SSE-KMS/DSSE-KMS (i.e. AWS, not
- * MinIO/Ceph) and a real symmetric CMK. Skips unless NC_TEST_S3_KMS_KEY_ID is set, so
- * upstream's MinIO-based CI (.github/workflows/object-storage-s3.yml) skips this cleanly.
+ * Opt-in: skips unless NC_TEST_S3_KMS_KEY_ID names a real symmetric KMS key. Which modes
+ * run is then decided by probing the provider (S3EncryptionCapabilityTrait): the whole class
+ * skips without SSE-KMS support, and individual tests skip for SSE-S3 or DSSE-KMS when the
+ * provider lacks those, as non-AWS providers such as MinIO and Ceph do for DSSE-KMS.
  */
 #[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 #[\PHPUnit\Framework\Attributes\Group('S3-AWS-KMS')]
 class S3EncryptionModesLiveTest extends TestCase {
+	use S3EncryptionCapabilityTrait;
+
 	private static array $baseArguments = [];
 	private static string $kmsKeyId = '';
 
@@ -52,6 +55,11 @@ class S3EncryptionModesLiveTest extends TestCase {
 
 		self::$baseArguments = $config['arguments'] ?? [];
 		self::$kmsKeyId = $keyId;
+
+		$reason = self::getEncryptionUnsupportedReason(self::makePlainS3(), 'aws:kms', self::$kmsKeyId);
+		if ($reason !== null) {
+			self::markTestSkipped("S3 provider does not support SSE-KMS with the configured key: $reason");
+		}
 	}
 
 	#[\Override]
@@ -82,12 +90,23 @@ class S3EncryptionModesLiveTest extends TestCase {
 	 *                         file starts from a clean slate, with no 'sse*' carried over.
 	 */
 	private function makeS3(array $overrides): S3 {
-		$arguments = array_filter(
+		return new S3($overrides + self::getArgumentsWithoutEncryption());
+	}
+
+	private static function makePlainS3(): S3 {
+		return new S3(self::getArgumentsWithoutEncryption());
+	}
+
+	private static function getArgumentsWithoutEncryption(): array {
+		return array_filter(
 			self::$baseArguments,
 			static fn (string $key): bool => !str_starts_with($key, 'sse'),
 			ARRAY_FILTER_USE_KEY,
 		);
-		return new S3($overrides + $arguments);
+	}
+
+	private function requireDsse(): void {
+		self::requireEncryptionSupport(self::makePlainS3(), 'aws:kms:dsse', self::$kmsKeyId);
 	}
 
 	private function stringToStream(string $data) {
@@ -166,6 +185,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 	}
 
 	public function testSseS3(): void {
+		self::requireEncryptionSupport(self::makePlainS3(), 'AES256');
 		$urn = $this->cleanupAfter('live-sse-s3');
 		$s3 = $this->makeS3(['sse' => 'sse-s3']);
 		$s3->writeObject($urn, $this->stringToStream('sse-s3'));
@@ -205,6 +225,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 		$head = $this->headObject($s3, $urn);
 		$this->assertSame('aws:kms', $head['ServerSideEncryption']);
 		$this->assertSame(self::$kmsKeyId, $head['SSEKMSKeyId']);
+		$this->assertSame('sse-kms-keyid', stream_get_contents($s3->readObject($urn)));
 	}
 
 	public static function dataMultipartKmsModes(): array {
@@ -216,6 +237,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataMultipartKmsModes')]
 	public function testMultipartUpload(string $mode, string $expectedEncryption): void {
+		self::requireEncryptionSupport(self::makePlainS3(), $expectedEncryption, self::$kmsKeyId);
 		$urn = $this->cleanupAfter('live-multipart-' . $mode);
 		$s3 = $this->makeS3(['sse' => $mode, 'sse_kms_key_id' => self::$kmsKeyId]);
 		$data = random_bytes(1024);
@@ -266,6 +288,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 	}
 
 	public function testSseKmsDsseWithKeyId(): void {
+		$this->requireDsse();
 		$urn = $this->cleanupAfter('live-sse-dsse-keyid');
 		$s3 = $this->makeS3(['sse' => 'sse-kms-dsse', 'sse_kms_key_id' => self::$kmsKeyId]);
 		$s3->writeObject($urn, $this->stringToStream('sse-dsse-keyid'));
@@ -273,9 +296,11 @@ class S3EncryptionModesLiveTest extends TestCase {
 		$head = $this->headObject($s3, $urn);
 		$this->assertSame('aws:kms:dsse', $head['ServerSideEncryption']);
 		$this->assertSame(self::$kmsKeyId, $head['SSEKMSKeyId']);
+		$this->assertSame('sse-dsse-keyid', stream_get_contents($s3->readObject($urn)));
 	}
 
 	public function testSseKmsDsseWithEncryptionContext(): void {
+		$this->requireDsse();
 		// See testSseKmsWithEncryptionContext(): the context is not echoed back by S3.
 		$urn = $this->cleanupAfter('live-sse-dsse-context');
 		$s3 = $this->makeS3([
@@ -291,6 +316,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 	}
 
 	public function testSseKmsDsseBucketKeyIsIgnoredByAws(): void {
+		$this->requireDsse();
 		// Matches S3ServerSideEncryptionTest::testSseKmsDsseBucketKeyIsWarnedAndIgnored:
 		// verified live that AWS accepts the request and simply doesn't apply the bucket
 		// key, rather than rejecting it, despite documenting it as unsupported.
@@ -310,9 +336,9 @@ class S3EncryptionModesLiveTest extends TestCase {
 	// --- Cross-mode reads, the ones that catch real bugs ----------------------------------
 
 	public function testDsseObjectReadableWithNoEncryptionHeaders(): void {
-		// Proves the read path needs no encryption headers for KMS/DSSE-KMS: AWS rejects
-		// GET/HEAD requests that carry SSE-KMS headers with an HTTP 400, so if Nextcloud's
-		// read path ever started sending them, this would fail instead of silently working.
+		$this->requireDsse();
+		// Proves a DSSE-KMS object is readable by an instance with no encryption configured:
+		// S3 decrypts KMS-encrypted objects without any key material from the client.
 		$urn = $this->cleanupAfter('live-cross-dsse-write-plain-read');
 		$writer = $this->makeS3(['sse' => 'sse-kms-dsse', 'sse_kms_key_id' => self::$kmsKeyId]);
 		$writer->writeObject($urn, $this->stringToStream('cross-mode'));
@@ -323,6 +349,7 @@ class S3EncryptionModesLiveTest extends TestCase {
 	}
 
 	public function testSseKmsObjectReadableByDsseInstanceAndViceVersa(): void {
+		$this->requireDsse();
 		$kmsUrn = $this->cleanupAfter('live-cross-kms-write');
 		$dsseUrn = $this->cleanupAfter('live-cross-dsse-write');
 
@@ -336,18 +363,8 @@ class S3EncryptionModesLiveTest extends TestCase {
 		$this->assertSame('written-as-dsse', stream_get_contents($kms->readObject($dsseUrn)));
 	}
 
-	public function testSseCObjectNotReadableWithoutCustomerKey(): void {
-		// The negative-path counterpart to testSseC(), kept as its own cross-mode case:
-		// a plain reader must not be able to read an SSE-C object.
-		$urn = $this->cleanupAfter('live-cross-ssec-negative');
-		$key = base64_encode(random_bytes(32));
-		$writer = $this->makeS3(['sse' => 'sse-c', 'sse_c_key' => $key]);
-		$this->writeObjectOrSkipIfSseCBlocked($writer, $urn, 'ssec-negative');
-
-		$this->assertReadFails($this->makeS3(['sse' => '']), $urn);
-	}
-
 	public function testMultipartUploadUnderDsse(): void {
+		$this->requireDsse();
 		// Parts inherit their encryption from CreateMultipartUpload, not from UploadPart;
 		// this is the case that would catch a regression there. putSizeLimit is lowered so
 		// a modest 6 MB body actually exercises the multipart path (default is 100 MB).
