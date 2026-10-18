@@ -123,7 +123,11 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	 * Get the (encrypted) login password
 	 */
 	public function getPassword(): ?string {
-		return parent::getPassword();
+		$password = parent::getPassword();
+		if ($password === '') {
+			return null;
+		}
+		return $password;
 	}
 
 	public function jsonSerialize(): array {
