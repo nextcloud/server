@@ -42,7 +42,10 @@ defineEmits<{
 }>()
 
 onMounted(() => {
-	const anchor = document.getElementById(`${props.id}--link`) as HTMLAnchorElement
+	const anchor = document.getElementById(`${props.id}--link`) as HTMLAnchorElement | null
+	if (!anchor) {
+		return
+	}
 	// Make the `<a>` a menuitem
 	anchor.role = 'menuitem'
 	// Prevent native click handling if required
