@@ -51,7 +51,6 @@ describe('store:authtoken addToken', () => {
 	})
 })
 
-// The automock of @nextcloud/axios has no `put`, so those tests assign one
 describe('store:authtoken scopes', () => {
 	beforeEach(() => {
 		setActivePinia(createPinia())
@@ -70,7 +69,7 @@ describe('store:authtoken scopes', () => {
 
 	it.each([['dav:calendar:read'], null])('sets the scopes %o and keeps what the server stored', async (scopes) => {
 		const stored = { filesystem: false, scopes: ['dav:calendar:read'] }
-		const put = axios.put = vi.fn().mockResolvedValue({ data: { scope: stored } })
+		const put = vi.spyOn(axios, 'put').mockResolvedValue({ data: { scope: stored } })
 		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['dav:contacts:read'] } }
 
 		expect(await useAuthTokenStore().setTokenScopes(token, scopes)).toBe(true)
@@ -79,7 +78,7 @@ describe('store:authtoken scopes', () => {
 	})
 
 	it('keeps the old scopes when saving fails', async () => {
-		axios.put = vi.fn().mockRejectedValue(new Error('Request failed'))
+		vi.spyOn(axios, 'put').mockRejectedValue(new Error('Request failed'))
 		const scope = { filesystem: false, scopes: ['dav:contacts:read'] }
 		const token = { ...deviceToken, scope }
 

@@ -11,7 +11,7 @@ import { computed } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import { AREA_OPTIONS, AREAS, areaState, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
+import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
 
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
@@ -20,15 +20,6 @@ defineProps<{
 	/** Scopes the picker can't show, kept when saving */
 	kept: string[]
 }>()
-
-const labels: Record<Grant, string> = {
-	files: t('settings', 'Files'),
-	filesShare: t('settings', 'Can create shares and public links'),
-	calendar: t('settings', 'Calendar'),
-	calendarWrite: t('settings', 'Can edit calendars'),
-	contacts: t('settings', 'Contacts'),
-	contactsWrite: t('settings', 'Can edit contacts'),
-}
 
 const preset = computed({
 	get: () => selection.value.preset,
@@ -60,7 +51,7 @@ function toggle(grant: Grant, on: boolean) {
 			<NcCheckboxRadioSwitch value="calendarContacts" :description="t('settings', 'Read and edit calendars and contacts.')">
 				{{ t('settings', 'Calendar and contacts') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch value="custom" :description="t('settings', 'Choose at least one.')">
+			<NcCheckboxRadioSwitch value="custom" :description="t('settings', 'Pick what this app password can reach.')">
 				{{ t('settings', 'Custom') }}
 			</NcCheckboxRadioSwitch>
 		</NcRadioGroup>
@@ -76,7 +67,7 @@ function toggle(grant: Grant, on: boolean) {
 					:modelValue="areaState(selection.grants, area) === 'all'"
 					:indeterminate="areaState(selection.grants, area) === 'partial'"
 					@update:modelValue="toggle(area, $event)">
-					{{ labels[area] }}
+					{{ GRANT_LABELS[area] }}
 				</NcCheckboxRadioSwitch>
 				<div class="access-picker__options">
 					<NcCheckboxRadioSwitch
@@ -84,7 +75,7 @@ function toggle(grant: Grant, on: boolean) {
 						:key="option"
 						:modelValue="selection.grants.includes(option)"
 						@update:modelValue="toggle(option, $event)">
-						{{ labels[option] }}
+						{{ GRANT_LABELS[option] }}
 					</NcCheckboxRadioSwitch>
 				</div>
 			</template>

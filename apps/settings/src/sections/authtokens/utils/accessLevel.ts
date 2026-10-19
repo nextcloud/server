@@ -40,6 +40,15 @@ export const PRESET_GRANTS: Record<'files' | 'calendarContacts', Grant[]> = {
 }
 
 export const AREAS = Object.keys(AREA_OPTIONS) as Area[]
+
+export const GRANT_LABELS: Record<Grant, string> = {
+	files: t('settings', 'Files'),
+	filesShare: t('settings', 'Can create shares and public links'),
+	calendar: t('settings', 'Calendar'),
+	calendarWrite: t('settings', 'Can edit calendars'),
+	contacts: t('settings', 'Contacts'),
+	contactsWrite: t('settings', 'Can edit contacts'),
+}
 const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
 /**
@@ -116,11 +125,6 @@ export function accessLabel(scope: ITokenScope): string {
 	}
 
 	const { selection, kept } = fromScopes(scope.scopes)
-	const names: Record<Area, string> = {
-		files: t('settings', 'Files'),
-		calendar: t('settings', 'Calendar'),
-		contacts: t('settings', 'Contacts'),
-	}
 	// Files without sharing keeps its plain name
 	const readOnly: Partial<Record<Area, string>> = {
 		calendar: t('settings', 'Calendar (read only)'),
@@ -131,9 +135,10 @@ export function accessLabel(scope: ITokenScope): string {
 		if (state === 'none') {
 			return []
 		}
-		return [(state === 'partial' && readOnly[area]) || names[area]]
+		return [(state === 'partial' && readOnly[area]) || GRANT_LABELS[area]]
 	})
 	if (kept.length > 0) {
+		// TRANSLATORS Last item of a list such as "Files and other access"
 		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
 	}
 	if (parts.length === 0) {

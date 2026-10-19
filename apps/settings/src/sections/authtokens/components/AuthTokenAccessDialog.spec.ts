@@ -101,4 +101,17 @@ describe('AuthTokenAccessDialog', () => {
 		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', ['dav:calendar:read', 'dav:calendar:write', 'dav:contacts:read', 'dav:contacts:write'])
 		expect(wrapper.emitted('created')).toEqual([[response]])
 	})
+
+	it('creates the token on Enter and closes', async () => {
+		const wrapper = mountDialog()
+		const store = useAuthTokenStore()
+		vi.mocked(store.addToken).mockResolvedValue({ token: 'secret', loginName: 'alice', deviceToken: makeToken({ filesystem: true }) })
+
+		await wrapper.find('input[type="text"]').setValue('Thunderbird')
+		wrapper.findComponent(NcDialog).vm.$emit('submit')
+		await flushPromises()
+
+		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', null)
+		expect(wrapper.emitted('update:open')).toEqual([[false]])
+	})
 })
