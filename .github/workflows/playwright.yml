@@ -18,6 +18,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: playwright-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   gate:
     runs-on: ubuntu-latest-low
@@ -33,6 +37,10 @@ jobs:
             const hasToReviewLabel = pr.labels.some((label) => label.name === '3. to review')
             const hasToReleaseLabel = pr.labels.some((label) => label.name === '4. to release')
 
+            if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel) {
+              return
+            }
+
             const files = await github.paginate(github.rest.pulls.listFiles, {
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -41,9 +49,7 @@ jobs:
             })
             const playwrightTouched = files.some((file) => file.filename.startsWith('tests/playwright'))
 
-            if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || playwrightTouched) {
-              return
-            } else {
+            if (!playwrightTouched) {
               core.setFailed('Skipping Playwright: draft state, missing labels or no playwright path changes.')
             }
 
@@ -257,7 +263,7 @@ jobs:
 
   merge-reports:
     # Merge reports after playwright-tests, even if some shards have failed
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.gate.result == 'success' }}
     needs: [gate, playwright-tests, playwright-installer-tests]
 
     runs-on: ubuntu-latest-low
