@@ -14,7 +14,7 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import AuthTokenAccessPicker from './AuthTokenAccessPicker.vue'
 import logger from '../../logger.ts'
 import { useAuthTokenStore } from '../store/authtoken.ts'
-import { fromScopes, toScopes } from '../utils/accessLevel.ts'
+import { fromScopes, sameItems, toScopes } from '../utils/accessLevel.ts'
 
 const open = defineModel<boolean>('open', { required: true })
 
@@ -43,7 +43,9 @@ const canSave = computed(() => {
 		return false
 	}
 	if (props.token) {
-		return !sameScopes(scopes.value, initialScopes)
+		return scopes.value === null || initialScopes === null
+			? scopes.value !== initialScopes
+			: !sameItems(scopes.value, initialScopes)
 	}
 	return name.value.trim() !== ''
 })
@@ -76,17 +78,6 @@ async function save(): Promise<false | undefined> {
 		showError(t('settings', 'Error while creating device token'))
 		return false
 	}
-}
-
-/**
- * @param a First scopes, null for all access
- * @param b Second scopes, null for all access
- */
-function sameScopes(a: string[] | null, b: string[] | null): boolean {
-	if (a === null || b === null) {
-		return a === b
-	}
-	return a.length === b.length && a.every((scope) => b.includes(scope))
 }
 </script>
 

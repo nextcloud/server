@@ -8,10 +8,9 @@ import type { ITokenScope } from '../store/authtoken.ts'
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
-/** An area, or one of its sub-options */
 export type Grant = Area | 'filesShare' | 'calendarWrite' | 'contactsWrite'
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
-export type AreaState = 'all' | 'partial' | 'none'
+type AreaState = 'all' | 'partial' | 'none'
 
 export interface Selection {
 	preset: Preset
@@ -19,8 +18,8 @@ export interface Selection {
 	grants: Grant[]
 }
 
-/** Scopes each grant adds. Must match the scope names the server checks */
-export const GRANT_SCOPES: Record<Grant, string[]> = {
+/** Must match the scope names the server checks */
+const GRANT_SCOPES: Record<Grant, string[]> = {
 	files: ['files:files:read', 'files:files:write'],
 	filesShare: ['files_sharing:shares:write'],
 	calendar: ['dav:calendar:read'],
@@ -40,7 +39,7 @@ export const PRESET_GRANTS: Record<'files' | 'calendarContacts', Grant[]> = {
 	calendarContacts: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'],
 }
 
-const AREAS = Object.keys(AREA_OPTIONS) as Area[]
+export const AREAS = Object.keys(AREA_OPTIONS) as Area[]
 const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
 /**
@@ -61,7 +60,7 @@ export function fromScopes(scopes?: string[]): { selection: Selection, kept: str
 	const kept = scopes.filter((scope) => !shown.includes(scope))
 
 	const presets = Object.keys(PRESET_GRANTS) as (keyof typeof PRESET_GRANTS)[]
-	const preset = kept.length === 0 ? presets.find((name) => sameGrants(PRESET_GRANTS[name], grants)) : undefined
+	const preset = kept.length === 0 ? presets.find((name) => sameItems(PRESET_GRANTS[name], grants)) : undefined
 	return { selection: { preset: preset ?? 'custom', grants }, kept }
 }
 
@@ -117,14 +116,22 @@ export function accessLabel(scope: ITokenScope): string {
 	}
 
 	const { selection, kept } = fromScopes(scope.scopes)
-	const names: Record<Area, Record<'all' | 'partial', string>> = {
-		files: { all: t('settings', 'Files'), partial: t('settings', 'Files') },
-		calendar: { all: t('settings', 'Calendar'), partial: t('settings', 'Calendar (read only)') },
-		contacts: { all: t('settings', 'Contacts'), partial: t('settings', 'Contacts (read only)') },
+	const names: Record<Area, string> = {
+		files: t('settings', 'Files'),
+		calendar: t('settings', 'Calendar'),
+		contacts: t('settings', 'Contacts'),
+	}
+	// Files without sharing keeps its plain name
+	const readOnly: Partial<Record<Area, string>> = {
+		calendar: t('settings', 'Calendar (read only)'),
+		contacts: t('settings', 'Contacts (read only)'),
 	}
 	const parts = AREAS.flatMap((area) => {
 		const state = areaState(selection.grants, area)
-		return state === 'none' ? [] : [names[area][state]]
+		if (state === 'none') {
+			return []
+		}
+		return [(state === 'partial' && readOnly[area]) || names[area]]
 	})
 	if (kept.length > 0) {
 		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
@@ -143,9 +150,11 @@ function areaOf(grant: Grant): Area {
 }
 
 /**
- * @param a First list of grants
- * @param b Second list of grants
+ * Same items in any order
+ *
+ * @param a First list
+ * @param b Second list
  */
-function sameGrants(a: Grant[], b: Grant[]): boolean {
-	return a.length === b.length && a.every((grant) => b.includes(grant))
+export function sameItems<T>(a: T[], b: T[]): boolean {
+	return a.length === b.length && a.every((item) => b.includes(item))
 }

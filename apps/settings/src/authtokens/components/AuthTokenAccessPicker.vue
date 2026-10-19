@@ -4,14 +4,14 @@
 -->
 
 <script setup lang="ts">
-import type { Area, Grant, Preset, Selection } from '../utils/accessLevel.ts'
+import type { Grant, Preset, Selection } from '../utils/accessLevel.ts'
 
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import { AREA_OPTIONS, areaState, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
+import { AREA_OPTIONS, AREAS, areaState, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
 
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
@@ -30,13 +30,11 @@ const labels: Record<Grant, string> = {
 	contactsWrite: t('settings', 'Can edit contacts'),
 }
 
-const areas = Object.keys(AREA_OPTIONS) as Area[]
-
 const preset = computed({
 	get: () => selection.value.preset,
 	set(value: string) {
 		const name = value as Preset
-		const grants = name === 'files' || name === 'calendarContacts' ? PRESET_GRANTS[name] : selection.value.grants
+		const grants = PRESET_GRANTS[name as keyof typeof PRESET_GRANTS] ?? selection.value.grants
 		selection.value = { preset: name, grants }
 	},
 })
@@ -72,8 +70,8 @@ function toggle(grant: Grant, on: boolean) {
 			class="access-picker__areas"
 			role="group"
 			:aria-label="t('settings', 'Custom access')">
-			<template v-for="area in areas" :key="area">
-				<!-- A partly granted area shows as mixed; clicking it grants the whole area -->
+			<template v-for="area in AREAS" :key="area">
+				<!-- Mixed counts as unticked, so a click grants the whole area -->
 				<NcCheckboxRadioSwitch
 					:modelValue="areaState(selection.grants, area) === 'all'"
 					:indeterminate="areaState(selection.grants, area) === 'partial'"
@@ -111,6 +109,5 @@ function toggle(grant: Grant, on: boolean) {
 	&__options {
 		padding-inline-start: calc(8 * var(--default-grid-baseline));
 	}
-
 }
 </style>

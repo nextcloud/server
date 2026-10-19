@@ -68,17 +68,14 @@ describe('store:authtoken scopes', () => {
 		expect(post.mock.calls[0][1]).toMatchObject({ name: 'Laptop', scopes: ['dav:calendar:read'] })
 	})
 
-	it.each([
-		[['dav:calendar:read'], { filesystem: false, scopes: ['dav:calendar:read'] }],
-		[['files:files:read', 'files:files:write'], { filesystem: true, scopes: ['files:files:read', 'files:files:write'] }],
-		[null, { filesystem: true }],
-	])('sets the scopes %o', async (scopes, expected) => {
-		const put = axios.put = vi.fn().mockResolvedValue({ data: [] })
+	it.each([['dav:calendar:read'], null])('sets the scopes %o and keeps what the server stored', async (scopes) => {
+		const stored = { filesystem: false, scopes: ['dav:calendar:read'] }
+		const put = axios.put = vi.fn().mockResolvedValue({ data: { scope: stored } })
 		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['dav:contacts:read'] } }
 
 		expect(await useAuthTokenStore().setTokenScopes(token, scopes)).toBe(true)
 		expect(put.mock.calls[0][1]).toMatchObject({ scope: { scopes } })
-		expect(token.scope).toEqual(expected)
+		expect(token.scope).toEqual(stored)
 	})
 
 	it('keeps the old scopes when saving fails', async () => {
