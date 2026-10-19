@@ -138,18 +138,6 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response->getData());
 	}
 
-	private function mockSessionForCreate(): void {
-		$sessionToken = $this->createMock(IToken::class);
-		$sessionToken->method('getLoginName')->willReturn('User13');
-		$this->serverConfig->method('getSystemValueBool')
-			->with('auth_can_create_app_token', true)
-			->willReturn(true);
-		$this->session->method('getId')->willReturn('sessionid');
-		$this->tokenProvider->method('getToken')->with('sessionid')->willReturn($sessionToken);
-		$this->tokenProvider->method('getPassword')->willReturn('123456');
-		$this->secureRandom->method('generate')->willReturn('XXXXX');
-	}
-
 	public static function dataCreateWithScopes(): array {
 		$files = [SharingTokenScopes::SHARES_WRITE, FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
 		$sorted = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE];
@@ -723,6 +711,18 @@ class AuthSettingsControllerTest extends TestCase {
 		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	private function mockSessionForCreate(): void {
+		$sessionToken = $this->createMock(IToken::class);
+		$sessionToken->method('getLoginName')->willReturn('User13');
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->with('sessionid')->willReturn($sessionToken);
+		$this->tokenProvider->method('getPassword')->willReturn('123456');
+		$this->secureRandom->method('generate')->willReturn('XXXXX');
 	}
 
 	private function mockAuthToken(int $id, int $type = IToken::PERMANENT_TOKEN): PublicKeyToken&MockObject {
