@@ -5,10 +5,7 @@
 <template>
 	<div
 		class="files-list"
-		:class="{
-			'files-list--grid': gridMode,
-			'files-list--loading': loading,
-		}"
+		:class="{ 'files-list--grid': gridMode }"
 		data-cy-files-list
 		@scroll.passive="onScroll">
 		<!-- Header -->
@@ -21,17 +18,23 @@
 		</div>
 
 		<div
-			v-if="dataSources.length === 0"
+			v-if="navigating"
+			class="files-list__navigating">
+			<slot name="navigating" />
+		</div>
+
+		<div
+			v-else-if="dataSources.length === 0"
 			class="files-list__empty">
 			<slot name="empty" />
 		</div>
 
 		<table
-			:aria-hidden="dataSources.length === 0"
-			:inert="dataSources.length === 0"
+			:aria-hidden="navigating || dataSources.length === 0"
+			:inert="navigating || dataSources.length === 0"
 			class="files-list__table"
 			:class="{
-				'files-list__table--hidden': dataSources.length === 0,
+				'files-list__table--hidden': navigating || dataSources.length === 0,
 			}">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
@@ -127,7 +130,7 @@ export default defineComponent({
 			default: '',
 		},
 
-		loading: {
+		navigating: {
 			type: Boolean,
 			default: false,
 		},
@@ -449,11 +452,3 @@ export default defineComponent({
 	},
 })
 </script>
-
-<style scoped>
-.files-list--loading {
-	filter: saturate(0);
-	opacity: 0.7;
-}
-</style>
-

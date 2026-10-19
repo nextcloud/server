@@ -47,6 +47,36 @@
 			<slot name="empty" />
 		</template>
 
+		<!-- Loading skeleton while navigating -->
+		<template #navigating>
+			<div class="files-list__loading-skeleton">
+				<!-- Skeleton rows -->
+				<div
+					v-for="index in 5"
+					:key="`skeleton-${index}`"
+					class="files-list__skeleton-row">
+					<!-- Checkbox skeleton -->
+					<div class="files-list__skeleton-checkbox" />
+					<!-- Icon skeleton -->
+					<div class="files-list__skeleton-icon" />
+					<!-- Name skeleton -->
+					<div class="files-list__skeleton-name" />
+					<!-- Additional columns skeleton -->
+					<template>
+						<div
+							v-if="isMimeAvailable"
+							class="files-list__skeleton-column" />
+						<div
+							v-if="isMtimeAvailable"
+							class="files-list__skeleton-column" />
+						<div
+							v-if="isSizeAvailable"
+							class="files-list__skeleton-column" />
+					</template>
+				</div>
+			</div>
+		</template>
+
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter
@@ -119,7 +149,7 @@ export default defineComponent({
 			required: true,
 		},
 
-		loading: {
+		navigating: {
 			type: Boolean,
 			default: false,
 		},
@@ -581,6 +611,93 @@ export default defineComponent({
 			justify-content: center;
 			width: 100%;
 			height: 100%;
+		}
+
+		// Loading skeleton
+		.files-list__loading-skeleton {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.files-list__skeleton-row {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: var(--row-height);
+			border-block-end: 1px solid var(--color-border);
+			box-sizing: border-box;
+			gap: 8px;
+			padding: 0 8px;
+		}
+
+		.files-list__skeleton-checkbox {
+			width: var(--checkbox-size);
+			height: var(--checkbox-size);
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-background-hover),
+				var(--color-main-background),
+				var(--color-background-hover)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-icon {
+			width: 24px;
+			height: 24px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-background-hover),
+				var(--color-main-background),
+				var(--color-background-hover)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-name {
+			flex: 1 1 auto;
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-background-hover),
+				var(--color-main-background),
+				var(--color-background-hover)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			min-width: 100px;
+		}
+
+		.files-list__skeleton-column {
+			width: calc(var(--row-height) * 1.5);
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-background-hover),
+				var(--color-main-background),
+				var(--color-background-hover)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			flex-shrink: 0;
+		}
+
+		@keyframes skeleton-loading {
+			0% {
+				background-position: 200% 0;
+			}
+			100% {
+				background-position: -200% 0;
+			}
 		}
 
 		tr {
