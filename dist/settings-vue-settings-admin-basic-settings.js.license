@@ -125,7 +125,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.44
 	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 6.2.0
+	- version: 6.2.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 3.1.0
@@ -167,13 +167,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - debounce
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
