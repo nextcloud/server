@@ -505,7 +505,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
 	}
 
 	public static function dataUpdateFilesystemScope(): array {
@@ -543,7 +543,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => $newFilesystem]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
 
 	public function testUpdateNoChange(): void {
@@ -574,7 +574,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public static function dataUpdateScopedToken(): array {
@@ -608,7 +608,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($token);
 
-		$this->assertSame([], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
+		$this->assertSame(['scope' => $stored], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
 	}
 
 	public static function dataUpdateScopes(): array {
@@ -639,7 +639,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($token);
 
-		$this->assertSame([], $this->controller->update($tokenId, $scope, 'App password')->getData());
+		$this->assertSame(['scope' => $expected], $this->controller->update($tokenId, $scope, 'App password')->getData());
 	}
 
 	public function testUpdateInvalidScopes(): void {
@@ -688,7 +688,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateTokenWrongUser(): void {

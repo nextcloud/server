@@ -61,6 +61,7 @@ const deleteDialogOpen = ref(false)
 const accessDialogOpen = ref(false)
 
 const canChangeScope = computed(() => props.token.type === TokenType.PERMANENT_TOKEN)
+const access = computed(() => accessLabel(props.token.scope))
 
 watch(accessDialogOpen, (open) => {
 	if (!open) {
@@ -270,7 +271,7 @@ async function wipe() {
 					</NcButton>
 				</form>
 				<span v-else>{{ tokenLabel }}</span>
-				<span v-if="canChangeScope" class="auth-token__access">{{ accessLabel(token.scope) }}</span>
+				<span v-if="canChangeScope" class="auth-token__access">{{ access }}</span>
 				<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
 			</div>
 		</td>

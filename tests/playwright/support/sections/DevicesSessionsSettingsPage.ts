@@ -66,7 +66,7 @@ export class DevicesSessionsSettingsPage {
 		await awaitPasswordGuardedRequest(this.page, revoked)
 	}
 
-	accessDialog(name: 'Create new app password' | 'Edit access'): Locator {
+	private accessDialog(name: 'Create new app password' | 'Edit access'): Locator {
 		return this.page.getByRole('dialog', { name })
 	}
 

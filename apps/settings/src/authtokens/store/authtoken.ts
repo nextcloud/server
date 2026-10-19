@@ -92,10 +92,10 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		/**
 		 * Update a token on server
 		 *
-		 * @param token Token to update
+		 * @param token Token to update, `scope` may carry only the changed keys
 		 */
-		async updateToken(token: IToken) {
-			const { data } = await axios.put(`${BASE_URL}/${token.id}`, token, { confirmPassword: PwdConfirmationMode.Strict })
+		async updateToken(token: Omit<IToken, 'scope'> & { scope: Partial<ITokenScope> | { scopes: string[] | null } }) {
+			const { data } = await axios.put<{ scope: ITokenScope }>(`${BASE_URL}/${token.id}`, token, { confirmPassword: PwdConfirmationMode.Strict })
 			return data
 		},
 
@@ -108,7 +108,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		async addToken(name: string, scopes: string[] | null = null) {
 			logger.debug('Creating a new app token')
 
-			// Let the failure reach the caller: AuthTokenSetup is the one that
+			// Let the failure reach the caller: AuthTokenAccessDialog is the one that
 			// reports it, the same way updateToken leaves reporting to its callers.
 			const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true, scopes }, { confirmPassword: PwdConfirmationMode.Strict })
 
@@ -245,20 +245,15 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		async setTokenScopes(token: IToken, scopes: string[] | null) {
 			logger.debug('Updating app token scopes', { token, scopes })
 
-			const oldScope = token.scope
 			try {
 				// `scopes: null` has to be sent explicitly, it is what clears the limit
-				await axios.put(`${BASE_URL}/${token.id}`, { ...token, scope: { scopes } }, { confirmPassword: PwdConfirmationMode.Strict })
-				// Same as the server: files access follows files:files:read, all access includes files
-				token.scope = scopes === null
-					? { filesystem: true }
-					: { filesystem: scopes.includes('files:files:read'), scopes }
+				const data = await this.updateToken({ ...token, scope: { scopes } })
+				token.scope = data.scope
 				logger.debug('App token scopes updated')
 				return true
 			} catch (error) {
 				logger.error('Could not update app token scopes', { error })
 				showError(t('settings', 'Could not save the access'))
-				token.scope = oldScope
 			}
 			return false
 		},
