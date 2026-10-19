@@ -406,7 +406,7 @@ class Encryption extends Wrapper {
 	 * @param int $size size of the physical file
 	 * @param int $unencryptedSize size of the unencrypted file
 	 */
-	protected function fixUnencryptedSize(string $path, int $size, int $unencryptedSize): int|float {
+	protected function fixUnencryptedSize(string $path, int $size, int $unencryptedSize): int {
 		$headerSize = $this->getHeaderSize($path);
 		$header = $this->getHeader($path);
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -441,8 +441,7 @@ class Encryption extends Wrapper {
 		// calculate last chunk nr
 		// next highest is end of chunks, one subtracted is last one
 		// we have to read the last chunk, we can't just calculate it (because of padding etc)
-
-		$lastChunkNr = ceil($size / $blockSize) - 1;
+		$lastChunkNr = (int)ceil($size / $blockSize) - 1;
 		// calculate last chunk position
 		$lastChunkPos = ($lastChunkNr * $blockSize);
 		// try to fseek to the last chunk, if it fails we have to read the whole file
