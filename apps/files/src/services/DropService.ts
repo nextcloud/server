@@ -62,7 +62,9 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
 
 			// Warn the user that the browser does not support the Filesystem API
 			// we therefore cannot upload directories recursively.
-			if (file.type === 'httpd/unix-directory' || !file.type) {
+			// Note: files with an unknown type are kept on purpose, the server
+			// detects their mime type on upload (content sniffing + extension map).
+			if (file.type === 'httpd/unix-directory') {
 				if (!warned) {
 					logger.warn('Browser does not support Filesystem API. Directories will not be uploaded')
 					showWarning(t('files', 'Your browser does not support the Filesystem API. Directories will not be uploaded'))
