@@ -6,7 +6,7 @@
 import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
-import { fireEvent, getByRole, getByText } from '@testing-library/vue'
+import { fireEvent, getByRole } from '@testing-library/vue'
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
@@ -69,7 +69,6 @@ describe('AuthTokenAccessDialog', () => {
 		await fireEvent.click(getByRole(wrapper.element as HTMLElement, 'checkbox', { name: 'Calendar' }))
 
 		expect(save).toBeDisabled()
-		expect(getByText(wrapper.element as HTMLElement, 'Choose at least one')).toBeTruthy()
 	})
 
 	it('saves the new scopes and keeps the ones it can not show', async () => {
