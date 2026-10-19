@@ -112,6 +112,19 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given slogan is too long');
 				}
 				break;
+			case 'customLinkText':
+				if (strlen($value) > 500) {
+					$error = $this->l10n->t('The given custom link text is too long');
+				}
+				break;
+			case 'customLinkUrl':
+				if (strlen($value) > 500) {
+					$error = $this->l10n->t('The given custom link address is too long');
+				}
+				if ($value !== '' && !$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given custom link address is not a valid URL');
+				}
+				break;
 			case 'primaryColor':
 				$setting = 'primary_color';
 				// no break
