@@ -171,7 +171,7 @@ OC.L10N.register(
     "Incomplete configuration" : "Yapılandırma tamamlanmamış",
     "Unauthorized" : "Kimliği doğrulanmamış",
     "Network error" : "Ağ sorunu",
-    "Grant access" : "Erişim ver",
+    "Grant access" : "Erişme izni ver",
     "Error configuring OAuth2" : "OAuth2 yapılandırması sorunu",
     "%s" : "%s",
     "Access key" : "Erişim anahtarı",
