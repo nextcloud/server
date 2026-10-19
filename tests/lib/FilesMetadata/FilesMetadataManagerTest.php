@@ -11,8 +11,13 @@ namespace Test\FilesMetadata;
 use OC\BackgroundJob\JobList;
 use OC\Files\Storage\Temporary;
 use OC\FilesMetadata\FilesMetadataManager;
+use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
@@ -93,5 +98,32 @@ class FilesMetadataManagerTest extends TestCase {
 		$retrieved = $this->manager->getMetadata($file->getId());
 		$this->assertEquals($file->getId(), $retrieved->getFileId());
 		$this->assertEquals('yes', $retrieved->getString('istest'));
+	}
+
+	public function testStoreCastsStorageIdLookedUpFromFilecache(): void {
+		// Oracle returns numeric columns as strings
+		$result = $this->createMock(IResult::class);
+		$result->method('fetchOne')->willReturn('42');
+		$result->method('fetchColumn')->willReturn('42');
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		foreach (['select', 'from', 'where', 'insert', 'setValue'] as $method) {
+			$qb->method($method)->willReturnSelf();
+		}
+		$qb->method('expr')->willReturn($this->createMock(IExpressionBuilder::class));
+		$qb->method('func')->willReturn($this->createMock(IFunctionBuilder::class));
+		$qb->method('executeQuery')->willReturn($result);
+		$qb->expects($this->once())
+			->method('hintShardKey')
+			->with('storage', $this->identicalTo(42))
+			->willReturnSelf();
+
+		$connection = $this->createMock(IDBConnection::class);
+		$connection->method('getQueryBuilder')->willReturn($qb);
+
+		$metadata = new FilesMetadata(1);
+		(new MetadataRequestService($connection, $this->logger))->store($metadata);
+
+		$this->assertSame(42, $metadata->getStorageId());
 	}
 }

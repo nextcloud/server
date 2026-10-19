@@ -41,7 +41,7 @@ class MetadataRequestService {
 		$query->select('storage')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)));
-		$storageId = $query->executeQuery()->fetchColumn();
+		$storageId = (int)$query->executeQuery()->fetchOne();
 
 		if ($filesMetadata instanceof FilesMetadata) {
 			$filesMetadata->setStorageId($storageId);

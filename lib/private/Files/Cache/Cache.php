@@ -605,7 +605,9 @@ class Cache implements ICache {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$event = new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 		}
 	}
 
@@ -676,8 +678,8 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000, true) as $chunk) {
+			$cacheEntryRemovedEvents = [];
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -899,10 +901,7 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereStorageId($this->getNumericStorageId());
-		$query->executeStatement();
+		Storage::removeFileCacheEntries($this->getNumericStorageId());
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
