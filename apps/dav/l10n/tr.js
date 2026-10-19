@@ -384,6 +384,6 @@ OC.L10N.register(
     "Enable System Address Book" : "Sistem adres defteri kullanılsın",
     "No results." : "Herhangi bir sonuç bulunamadı.",
     "Start typing." : "Yazmaya başlayın.",
-    "Delegate:" : "Yetkiyi devret:"
+    "Delegate:" : "Yetki ver:"
 },
 "nplurals=2; plural=(n > 1);");
