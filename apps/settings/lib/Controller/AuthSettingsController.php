@@ -280,7 +280,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->updateToken($token);
-		return new JSONResponse([]);
+		return new JSONResponse(['scope' => $newScope]);
 	}
 
 	/**
