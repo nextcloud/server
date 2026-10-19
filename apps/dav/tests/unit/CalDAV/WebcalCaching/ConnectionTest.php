@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
+use GuzzleHttp\RequestOptions;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -145,6 +146,47 @@ class ConnectionTest extends TestCase {
 		if (is_resource($output['data'])) {
 			fclose($output['data']);
 		}
+	}
+
+	public static function credentialsDataProvider(): array {
+		return [
+			'with credentials' => [['us@er', 'p#ss'], ['us@er', 'p#ss']],
+			'without credentials' => [null, null],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'credentialsDataProvider')]
+	public function testConnectionCredentials(?array $credentials, ?array $expectedAuth): void {
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$subscription = [
+			'id' => 42,
+			'uri' => 'sub123',
+			'source' => 'webcal://foo.bar/bla2',
+			'credentials' => $credentials,
+			'lastmodified' => 0,
+		];
+
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getValueString')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->once())
+			->method('get')
+			->with('https://foo.bar/bla2', $this->callback(fn (array $params): bool => ($params[RequestOptions::AUTH] ?? null) === $expectedAuth))
+			->willReturn($response);
+
+		$response->method('getHeader')
+			->willReturn('text/calendar');
+		$response->method('getBody')
+			->willReturn('not a resource');
+
+		$this->connection->queryWebcalFeed($subscription);
 	}
 
 	public function testConnectionReturnsNullWhenBodyIsNotResource(): void {
