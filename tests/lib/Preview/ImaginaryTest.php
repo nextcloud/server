@@ -14,6 +14,8 @@ use OCP\Files\File;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
+use OCP\Server;
 use PHPUnit\Framework\Attributes\TestWith;
 use Psr\Http\Message\StreamInterface;
 use Test\TestCase;
@@ -25,7 +27,7 @@ class ImaginaryTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->overwriteSystemConfig('preview_imaginary_url', 'http://imaginary');
+		Server::get(IConfig::class)->setSystemValue('preview_imaginary_url', 'http://imaginary');
 		$this->client = $this->createMock(IClient::class);
 		$clientService = $this->createMock(IClientService::class);
 		$clientService->method('newClient')->willReturn($this->client);
@@ -35,6 +37,7 @@ class ImaginaryTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreService(IClientService::class);
+		Server::get(IConfig::class)->deleteSystemValue('preview_imaginary_url');
 		parent::tearDown();
 	}
 
