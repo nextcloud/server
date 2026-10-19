@@ -127,7 +127,7 @@ export function accessLabel(scope: ITokenScope): string {
 		return state === 'none' ? [] : [names[area][state]]
 	})
 	if (kept.length > 0) {
-		parts.push(t('settings', 'Other access'))
+		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
 	}
 	if (parts.length === 0) {
 		return t('settings', 'No access')

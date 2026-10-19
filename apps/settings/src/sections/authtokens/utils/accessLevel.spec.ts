@@ -67,6 +67,7 @@ describe('accessLevel', () => {
 		[{ filesystem: false, scopes: calendarContacts }, 'Calendar and Contacts'],
 		[{ filesystem: false, scopes: ['dav:calendar:read'] }, 'Calendar (read only)'],
 		[{ filesystem: false, scopes: ['app:deck'] }, 'Other access'],
+		[{ filesystem: true, scopes: [...files, 'app:deck'] }, 'Files and other access'],
 		[{ filesystem: false, scopes: [] }, 'No access'],
 	])('labels %o as %s', (scope, label) => {
 		expect(accessLabel(scope)).toBe(label)

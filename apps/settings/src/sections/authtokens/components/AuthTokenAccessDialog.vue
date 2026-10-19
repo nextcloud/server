@@ -93,9 +93,10 @@ function sameScopes(a: string[] | null, b: string[] | null): boolean {
 <template>
 	<NcDialog
 		v-model:open="open"
-		:name="token ? t('settings', 'Edit access') : t('settings', 'Create new app password')"
+		:name="token ? t('settings', 'Edit access for {name}', { name: token.name }) : t('settings', 'Create new app password')"
 		:buttons="buttons">
-		<div class="access-dialog">
+		<!-- NcModal ignores Escape pressed in any input, radios and checkboxes included -->
+		<div class="access-dialog" @keydown.esc="open = false">
 			<NcTextField
 				v-if="!token"
 				v-model="name"
