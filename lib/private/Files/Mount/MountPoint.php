@@ -159,14 +159,14 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
 	#[\Override]
 	public function getStorageId() {
 		if (!$this->storageId) {
 			$storage = $this->getStorage();
 			if (is_null($storage)) {
-				return null;
+				return 'invalid';
 			}
 			$this->storageId = $storage->getId();
 			if (strlen($this->storageId) > 64) {

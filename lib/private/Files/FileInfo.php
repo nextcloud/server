@@ -162,6 +162,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->data['mimepart'];
 	}
 
+	#[\Override]
+	public function getStorageId(): int {
+		return $this->getMountPoint()->getNumericStorageId();
+	}
+
 	/**
 	 * @return string
 	 */
