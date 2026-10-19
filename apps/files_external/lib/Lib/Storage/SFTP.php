@@ -18,6 +18,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\IUserSession;
 use OCP\Server;
 use phpseclib3\Net\SFTP\Stream;
 
@@ -191,7 +192,7 @@ class SFTP extends Common {
 
 	private function hostKeysPath(): string|false {
 		try {
-			$userId = Server::get(\OCP\IUserSession::class)->getUser()?->getUID() ?? false;
+			$userId = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 			;
 			if ($userId === false) {
 				return false;
