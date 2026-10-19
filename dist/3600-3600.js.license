@@ -144,7 +144,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - debounce
 	- version: 3.0.0

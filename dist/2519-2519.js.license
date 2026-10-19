@@ -15,7 +15,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 
 This file is generated from multiple sources. Included packages:
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - process
 	- version: 0.11.10
