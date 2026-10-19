@@ -417,6 +417,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1036Date20251202000000' => $baseDir . '/../lib/Migration/Version1036Date20251202000000.php',
     'OCA\\DAV\\Migration\\Version1038Date20260302000000' => $baseDir . '/../lib/Migration/Version1038Date20260302000000.php',
     'OCA\\DAV\\Migration\\Version1039Date20260408000000' => $baseDir . '/../lib/Migration/Version1039Date20260408000000.php',
+    'OCA\\DAV\\Migration\\Version1039Date20260408000001' => $baseDir . '/../lib/Migration/Version1039Date20260408000001.php',
     'OCA\\DAV\\Migration\\Version1040Date20260805000000' => $baseDir . '/../lib/Migration/Version1040Date20260805000000.php',
     'OCA\\DAV\\Model\\ExampleEvent' => $baseDir . '/../lib/Model/ExampleEvent.php',
     'OCA\\DAV\\Paginate\\LimitedCopyIterator' => $baseDir . '/../lib/Paginate/LimitedCopyIterator.php',
