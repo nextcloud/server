@@ -9,6 +9,7 @@ import type { Area, Grant, Preset, Selection } from '../utils/accessLevel.ts'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import { AREA_OPTIONS, areaState, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
 
@@ -55,13 +56,13 @@ function toggle(grant: Grant, on: boolean) {
 			<NcCheckboxRadioSwitch value="all" :description="t('settings', 'Everything you can do, including your settings and any admin rights you have.')">
 				{{ t('settings', 'All access') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch value="files">
+			<NcCheckboxRadioSwitch value="files" :description="t('settings', 'Read, edit and share files.')">
 				{{ t('settings', 'Files only') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch value="calendarContacts">
+			<NcCheckboxRadioSwitch value="calendarContacts" :description="t('settings', 'Read and edit calendars and contacts.')">
 				{{ t('settings', 'Calendar and contacts') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch value="custom" :description="t('settings', 'This app password can only reach what is ticked.')">
+			<NcCheckboxRadioSwitch value="custom" :description="t('settings', 'Choose at least one.')">
 				{{ t('settings', 'Custom') }}
 			</NcCheckboxRadioSwitch>
 		</NcRadioGroup>
@@ -89,15 +90,11 @@ function toggle(grant: Grant, on: boolean) {
 					</NcCheckboxRadioSwitch>
 				</div>
 			</template>
-			<!-- The live region stays in the DOM, screen readers skip regions inserted with their text -->
-			<p class="access-picker__hint" role="status">
-				{{ selection.grants.length === 0 ? t('settings', 'Choose at least one') : '' }}
-			</p>
 		</div>
 
-		<p v-if="kept.length > 0" class="access-picker__hint">
+		<NcNoteCard v-if="kept.length > 0" type="info">
 			{{ t('settings', 'This app password also has access set outside of Settings. It stays when you save.') }}
-		</p>
+		</NcNoteCard>
 	</div>
 </template>
 
@@ -115,8 +112,5 @@ function toggle(grant: Grant, on: boolean) {
 		padding-inline-start: calc(8 * var(--default-grid-baseline));
 	}
 
-	&__hint {
-		color: var(--color-text-maxcontrast);
-	}
 }
 </style>
