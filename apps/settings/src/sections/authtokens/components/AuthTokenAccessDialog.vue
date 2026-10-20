@@ -4,12 +4,11 @@
 -->
 
 <script setup lang="ts">
-import type { IDialogButton } from '@nextcloud/dialogs'
 import type { IToken, ITokenResponse } from '../store/authtoken.ts'
 
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { computed, ref } from 'vue'
+import { computed, ref, useTemplateRef } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import AuthTokenAccessPicker from './AuthTokenAccessPicker.vue'
@@ -30,73 +29,60 @@ const emit = defineEmits<{
 	created: [response: ITokenResponse]
 }>()
 
+type INcDialogButtons = InstanceType<typeof NcDialog>['$props']['buttons']
+
 const authTokenStore = useAuthTokenStore()
 
 const initial = fromScopes(props.token?.scope.scopes)
 const initialScopes = toScopes(initial.selection, initial.kept)
 
 const name = ref('')
-const saving = ref(false)
 const selection = ref(initial.selection)
+const content = useTemplateRef('content')
 
 const scopes = computed(() => toScopes(selection.value, initial.kept))
 
-const canSave = computed(() => {
-	if (selection.value.preset === 'custom' && selection.value.grants.length === 0) {
-		return false
-	}
-	if (props.token) {
-		return scopes.value === null || initialScopes === null
-			? scopes.value !== initialScopes
-			: !sameItems(scopes.value, initialScopes)
-	}
-	return name.value.trim() !== ''
-})
+const changed = computed(() => scopes.value === null || initialScopes === null
+	? scopes.value !== initialScopes
+	: !sameItems(scopes.value, initialScopes))
 
-const buttons = computed<IDialogButton[]>(() => [
+const buttons = computed<INcDialogButtons>(() => [
 	{
 		label: t('settings', 'Cancel'),
 		variant: 'tertiary',
-		callback: () => {},
 	},
 	{
 		label: props.token ? t('settings', 'Save') : t('settings', 'Create'),
+		type: 'submit',
 		variant: 'primary',
-		disabled: !canSave.value,
 		callback: save,
 	},
 ])
 
 /**
  * Create the app password or save its new access.
- * Returns false to keep the dialog open when that failed.
+ * Returns false to keep the dialog open when the form is invalid or saving failed.
  */
 async function save(): Promise<false | undefined> {
+	// NcDialog only checks validity after the callback, so check before saving
+	if (!content.value?.closest('form')?.reportValidity()) {
+		return false
+	}
 	if (props.token) {
+		if (!changed.value) {
+			return
+		}
 		return await authTokenStore.setTokenScopes(props.token, scopes.value) ? undefined : false
 	}
 
 	try {
-		emit('created', await authTokenStore.addToken(name.value, scopes.value))
+		const response = await authTokenStore.addToken(name.value, scopes.value)
+		emit('created', response)
 	} catch (error) {
 		logger.error('Could not create the app password', { error })
 		showError(t('settings', 'Error while creating device token'))
 		return false
 	}
-}
-
-/**
- * Enter in the name field. The dialog buttons only handle clicks, so close here on success.
- */
-async function submit() {
-	if (!canSave.value || saving.value) {
-		return
-	}
-	saving.value = true
-	if (await save() !== false) {
-		open.value = false
-	}
-	saving.value = false
 }
 </script>
 
@@ -106,13 +92,13 @@ async function submit() {
 		:name="token ? t('settings', 'Edit access for {name}', { name: token.name }) : t('settings', 'Create new app password')"
 		size="normal"
 		isForm
-		:buttons="buttons"
-		@submit="submit">
+		:buttons="buttons">
 		<!-- NcModal ignores Escape pressed in any input, radios and checkboxes included -->
-		<div class="access-dialog" @keydown.esc="open = false">
+		<div ref="content" class="access-dialog" @keydown.esc="open = false">
 			<NcTextField
 				v-if="!token"
 				v-model="name"
+				required
 				:maxlength="120"
 				:label="t('settings', 'App name')" />
 			<AuthTokenAccessPicker v-model="selection" :kept="initial.kept" />
