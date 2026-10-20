@@ -28,25 +28,12 @@ class MetadataRequestService {
 	) {
 	}
 
-	private function getStorageId(IFilesMetadata $filesMetadata): int {
-		if ($filesMetadata instanceof FilesMetadata) {
-			$storage = $filesMetadata->getStorageId();
-			if ($storage) {
-				return $storage;
-			}
-		}
-		// all code paths that lead to saving metadata *should* have the storage id set
-		// this fallback is there just in case
+	public function getStorageIdForFileId(int $fileId): int {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('storage')
 			->from('filecache')
-			->where($query->expr()->eq('fileid', $query->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)));
-		$storageId = (int)$query->executeQuery()->fetchOne();
-
-		if ($filesMetadata instanceof FilesMetadata) {
-			$filesMetadata->setStorageId($storageId);
-		}
-		return $storageId;
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		return (int)$query->executeQuery()->fetchOne();
 	}
 
 	/**
@@ -59,7 +46,7 @@ class MetadataRequestService {
 	public function store(IFilesMetadata $filesMetadata): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA)
-			->hintShardKey('storage', $this->getStorageId($filesMetadata))
+			->hintShardKey('storage', $filesMetadata->getStorageId())
 			->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
 			->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
 			->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
@@ -75,11 +62,12 @@ class MetadataRequestService {
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if no metadata are found in database
 	 */
-	public function getMetadataFromFileId(int $fileId): IFilesMetadata {
+	public function getMetadataFromFileId(int $fileId, int $storageId): IFilesMetadata {
 		try {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb->select('json', 'sync_token')->from(self::TABLE_METADATA);
-			$qb->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			$qb->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+				->hintShardKey('storage', $storageId);
 			$result = $qb->executeQuery();
 			$data = $result->fetchAssociative();
 			$result->closeCursor();
@@ -91,8 +79,7 @@ class MetadataRequestService {
 		if ($data === false) {
 			throw new FilesMetadataNotFoundException();
 		}
-
-		$metadata = new FilesMetadata($fileId);
+		$metadata = new FilesMetadata($fileId, $storageId);
 		$metadata->importFromDatabase($data);
 
 		return $metadata;
@@ -174,7 +161,7 @@ class MetadataRequestService {
 		$expr = $qb->expr();
 
 		$qb->update(self::TABLE_METADATA)
-			->hintShardKey('files_metadata', $this->getStorageId($filesMetadata))
+			->hintShardKey('files_metadata', $filesMetadata->getStorageId())
 			->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
 			->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
 			->set('last_update', $qb->func()->now())
