@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "クライアントを削除",
     "Make sure you store the secret key, it cannot be recovered." : "秘密鍵は復元できないので、必ず保管してください。",
     "Add client" : "クライアントの追加",
-    "Add" : "追加",
-    "Client Identifier" : "クライアントID",
-    "Show client secret" : "クライアントシークレットキーを表示",
-    "Hide client secret" : "クライアントのシークレットキーを隠す"
+    "Add" : "追加"
 },
 "nplurals=1; plural=0;");

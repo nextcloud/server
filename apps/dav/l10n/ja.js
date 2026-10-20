@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "リンク:",
     "Occurring:" : "発生:",
     "More options at %s" : "%s のその他のオプション",
-    "The system address book contains contact information for all users in your instance." : "システムのアドレス帳には、インスタンスのすべてのユーザーの連絡先情報が含まれています。",
-    "Enable System Address Book" : "システム連絡先リストを有効にする",
-    "No results." : "結果はありません。",
-    "Start typing." : "入力を開始する。",
     "Delegate:" : "委任者："
 },
 "nplurals=1; plural=0;");

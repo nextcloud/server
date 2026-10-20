@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "Энэ амралтын өдөр",
     "Set reminder for this weekend" : "Энэ амралтын өдөр сануулга тохируулах",
     "Next week" : "Дараа 7 хоног",
-    "Set reminder for next week" : "Дараа долоо хоног сануулга тохируулах",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"-д сануулга тохируулах",
-    "We will remind you of this file" : "Бид танд энэ файлын тухай сануулах болно"
+    "Set reminder for next week" : "Дараа долоо хоног сануулга тохируулах"
 },
 "nplurals=2; plural=(n != 1);");

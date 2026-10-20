@@ -38,7 +38,6 @@ OC.L10N.register(
     "Add remote share" : "원격 공유 추가",
     "Remote share" : "원격 공유",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
-    "Remote share password" : "원격 공유 암호",
-    "X (formerly Twitter)" : "X (구 Twitter)"
+    "Remote share password" : "원격 공유 암호"
 },
 "nplurals=1; plural=0;");

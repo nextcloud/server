@@ -125,7 +125,6 @@ OC.L10N.register(
     "Request user agent" : "User agent permintaan",
     "Group membership" : "Keanggotaan grup",
     "is member of" : "anggota dari",
-    "is not member of" : "bukan anggota dari",
-    "Type to search for group …" : "Ketik untuk mencari grup …"
+    "is not member of" : "bukan anggota dari"
 },
 "nplurals=1; plural=0;");

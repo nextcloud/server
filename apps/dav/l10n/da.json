@@ -378,10 +378,6 @@
     "Link:" : "Link:",
     "Occurring:" : "Forekomst:",
     "More options at %s" : "Flere muligheder på %s",
-    "The system address book contains contact information for all users in your instance." : "System adressebogen indeholder kontaktoplysninger for alle brugere i din instans.",
-    "Enable System Address Book" : "Aktivér System adressebog",
-    "No results." : "Ingen resultater.",
-    "Start typing." : "Begynd at skrive.",
     "Delegate:" : "Stedfortræder:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

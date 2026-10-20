@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Partajare la distanță",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vrei să adaugi partajarea la distanță {name} de la {owner}@{remote}?",
     "Remote share password" : "Parola partajării la distanță",
-    "Incoming share could not be processed" : "Partajarea primită nu a putut fi procesată",
-    "X (formerly Twitter)" : "X (fost Twitter)",
-    "formerly Twitter" : "fost Twitter"
+    "Incoming share could not be processed" : "Partajarea primită nu a putut fi procesată"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

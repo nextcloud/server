@@ -365,10 +365,6 @@
     "Link:" : "Nuoroda:",
     "Occurring:" : "Pasitaiko:",
     "More options at %s" : "Daugiau parinkčių %s",
-    "The system address book contains contact information for all users in your instance." : "Sistemos adresų knygoje yra visų jūsų turimų vartotojų kontaktinė informacija.",
-    "Enable System Address Book" : "Įjungti sistemos adresų knygą",
-    "No results." : "Jokių rezultatų.",
-    "Start typing." : "Start typing.",
     "Delegate:" : "Deleguoti:"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

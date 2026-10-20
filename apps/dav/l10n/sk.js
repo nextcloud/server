@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Odkaz:",
     "Occurring:" : "Výskyt:",
     "More options at %s" : "Ďalšie nastavenia %s",
-    "The system address book contains contact information for all users in your instance." : "Systémový adresár obsahuje kontaktné informácie o všetkých užívateľov vo vašej inštancii.",
-    "Enable System Address Book" : "Povoliť systémový Adresár",
-    "No results." : "Žiadne výsledky.",
-    "Start typing." : "Začnite písať.",
     "Delegate:" : "Delegát:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

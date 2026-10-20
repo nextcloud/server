@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "グループ共有が管理者によって無効にされています。",
     "Public link sharing is disabled by the administrator" : "URL共有が管理者によって無効されています。",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s の共有に失敗しました。バックエンド側で %2$s タイプの共有が許可されていません。",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "バックエンドが ScienceMesh 共有をサポートしていないため %s の共有に失敗しました。",
     "Public upload disabled by the administrator" : "URL共有へのアップロードが管理者によって無効されています。",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "トークンは少なくとも1文字を含む必要があり、文字、数字、またはハイフンのみを含むことができます",
     "Via “{folder}”" : "“{folder}” 経由",
-    "Name or email …" : "名前またはメールアドレス…",
-    "Name, email, or Federated Cloud ID …" : "名前、メールアドレス、またはクラウド連携ID…",
-    "Searching …" : "検索しています…",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "公開共有リンクのトークンを覚えやすいものに設定するか、新しいトークンを生成してください。機密情報を含む共有には、推測可能なトークンを使用することはおすすめしません。"
 },
 "nplurals=1; plural=0;");

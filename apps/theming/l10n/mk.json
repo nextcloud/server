@@ -106,21 +106,6 @@
     "Misc accessibility options" : "Разни опции за пристапност",
     "Enable blur background filter (may increase GPU load)" : "Овозможи филтер за замаглување на позадината (може да го зголеми оптоварувањето на графичкиот процесор)",
     "Customization has been disabled by your administrator" : "Уредувањето е оневозможено од администраторот",
-    "Disable-user-theming should be true or false" : "Disable-user-theming треба да биде true или false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Примарната боја се користи за истакнување на елементи како важни копчиња. Може да биде малку прилагодена во зависност од моменталната шема на бои.",
-    "Header logo" : "Лого на заглавие",
-    "Upload new header logo" : "Прикачи ново лого на заглавие",
-    "Upload new favicon" : "Прикачи нов Фавикон",
-    "User settings" : "Кориснички параметри",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Наместо позадинска слика, можеш да конфигурираш обична позадинска боја. Ако користиш позадинска слика, менувањето на оваа боја ќе влијае на бојата на иконите во менито на апликациите.",
-    "Upload new logo" : "Прикачи ново лого",
-    "Upload new background and login image" : "Прикачи нова позадина и слика на страната за најавување",
-    "Background and login image" : "Позадина и слика на страната за најавување",
-    "Advanced options" : "Напредни опции",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај ImageMagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
-    "Unable to apply the setting." : "Не може да се примени поставката.",
-    "No background has been selected" : "Нема избрано позадина",
-    "Select a custom color" : "Избери боја",
-    "Upload" : "Прикачи"
+    "Unable to apply the setting." : "Не може да се примени поставката."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

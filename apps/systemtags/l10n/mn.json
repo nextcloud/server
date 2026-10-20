@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Файлын тагуудыг ачаалж чадсангүй",
     "Failed to set tag for file" : "Файлд таг тохируулж чадсангүй",
     "Failed to delete tag for file" : "Файлаас таг устгаж чадсангүй",
-    "Collaborative tags …" : "Хамтарсан тагууд …",
-    "Loading …" : "Ачаалж байна …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} тохируулагдаж {tag2} 1 файлаас хасагдана.","{tag1} тохируулагдаж {tag2} {count} файлаас хасагдана."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} 1 файлаас хасагдана.","{tag} {count} файлаас хасагдана."],
-    "Loading collaborative tags …" : "Хамтарсан тагуудыг ачаалж байна …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} 1 файлаас хасагдана.","{tag} {count} файлаас хасагдана."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
