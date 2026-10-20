@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import type { IToken } from '../store/authtoken.ts'
 
-import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiShieldLockOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
+import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiShieldEditOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
 import { showConfirmation } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
@@ -170,7 +170,6 @@ function updateFileSystemScope(state: boolean) {
  * Open the dialog to change what this token can reach
  */
 function editAccess() {
-	actionOpen.value = false
 	accessDialogOpen.value = true
 }
 
@@ -290,9 +289,10 @@ async function wipe() {
 				:aria-label="t('settings', 'Device settings')">
 				<NcActionButton
 					v-if="canChangeScope"
+					closeAfterClick
 					@click.stop.prevent="editAccess">
 					<template #icon>
-						<NcIconSvgWrapper :path="mdiShieldLockOutline" />
+						<NcIconSvgWrapper :path="mdiShieldEditOutline" />
 					</template>
 					{{ t('settings', 'Edit access') }}
 				</NcActionButton>

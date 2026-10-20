@@ -7,7 +7,7 @@
 import type { Grant, Preset, Selection } from '../utils/accessLevel.ts'
 
 import { t } from '@nextcloud/l10n'
-import { computed } from 'vue'
+import { computed, useTemplateRef, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
@@ -16,10 +16,12 @@ import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, setGrant }
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
 
-defineProps<{
+const props = defineProps<{
 	/** Scopes the picker can't show, kept when saving */
 	kept: string[]
 }>()
+
+const areas = useTemplateRef('areas')
 
 const preset = computed({
 	get: () => selection.value.preset,
@@ -29,6 +31,12 @@ const preset = computed({
 		selection.value = { preset: name, grants }
 	},
 })
+
+// Custom needs something to save, a ticked box or the kept scopes
+watch([() => selection.value, areas], () => {
+	const empty = selection.value.grants.length === 0 && props.kept.length === 0
+	areas.value?.querySelector('input')?.setCustomValidity(empty ? t('settings', 'Choose at least one area') : '')
+}, { flush: 'post', immediate: true })
 
 /**
  * @param grant Area or sub-option to change
@@ -58,6 +66,7 @@ function toggle(grant: Grant, on: boolean) {
 
 		<div
 			v-if="preset === 'custom'"
+			ref="areas"
 			class="access-picker__areas"
 			role="group"
 			:aria-label="t('settings', 'Custom access')">

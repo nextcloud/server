@@ -16,7 +16,7 @@ enableAutoUnmount(afterEach)
 
 const NcDialog = {
 	props: ['buttons'],
-	template: '<div><slot /><button v-for="button in buttons" :key="button.label" :disabled="button.disabled" @click="button.callback?.()">{{ button.label }}</button></div>',
+	template: '<form @submit.prevent><slot /><button v-for="button in buttons" :key="button.label" :type="button.type ?? \'button\'" @click="button.callback?.()">{{ button.label }}</button></form>',
 }
 
 function makeToken(scope: IToken['scope']): IToken {
@@ -43,75 +43,89 @@ function mountDialog(token?: IToken) {
 }
 
 describe('AuthTokenAccessDialog', () => {
-	it('keeps Save disabled until the access changes', async () => {
-		const wrapper = mountDialog(makeToken({ filesystem: false }))
-		const save = getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' })
-		expect(save).toBeDisabled()
+	const button = (wrapper: ReturnType<typeof mountDialog>, name: string) => getByRole(wrapper.element as HTMLElement, 'button', { name })
+	const checkbox = (wrapper: ReturnType<typeof mountDialog>, name: string) => getByRole(wrapper.element as HTMLElement, 'checkbox', { name }) as HTMLInputElement
 
-		await wrapper.find('input[value="files"]').setValue(true)
-		expect(save).toBeEnabled()
+	it('saves nothing when the access is unchanged', async () => {
+		const dialog = mountDialog(makeToken({ filesystem: false }))
+		const store = useAuthTokenStore()
+
+		await fireEvent.click(button(dialog, 'Save'))
+		await flushPromises()
+
+		expect(store.setTokenScopes).not.toHaveBeenCalled()
 	})
 
 	it('shows a partly granted area as mixed', () => {
-		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:contacts:read', 'dav:contacts:write'] }))
-		const checkbox = (name: string) => getByRole(wrapper.element as HTMLElement, 'checkbox', { name }) as HTMLInputElement
+		const dialog = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:contacts:read', 'dav:contacts:write'] }))
 
-		expect(checkbox('Calendar').indeterminate).toBe(true)
-		expect(checkbox('Can edit calendars').checked).toBe(false)
-		expect(checkbox('Contacts').checked).toBe(true)
-		expect(checkbox('Contacts').indeterminate).toBe(false)
+		expect(checkbox(dialog, 'Calendar').indeterminate).toBe(true)
+		expect(checkbox(dialog, 'Can edit calendars').checked).toBe(false)
+		expect(checkbox(dialog, 'Contacts').checked).toBe(true)
+		expect(checkbox(dialog, 'Contacts').indeterminate).toBe(false)
 	})
 
 	it('needs at least one area in Custom', async () => {
-		const wrapper = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:calendar:write'] }))
-		const save = getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' })
+		const dialog = mountDialog(makeToken({ filesystem: true, scopes: ['dav:calendar:read', 'dav:calendar:write'] }))
+		const store = useAuthTokenStore()
 
-		await fireEvent.click(getByRole(wrapper.element as HTMLElement, 'checkbox', { name: 'Calendar' }))
+		await fireEvent.click(checkbox(dialog, 'Calendar'))
+		await fireEvent.click(button(dialog, 'Save'))
+		await flushPromises()
 
-		expect(save).toBeDisabled()
+		expect(checkbox(dialog, 'Files').validity.valid).toBe(false)
+		expect(store.setTokenScopes).not.toHaveBeenCalled()
 	})
 
 	it('saves the new scopes and keeps the ones it can not show', async () => {
 		const token = makeToken({ filesystem: false, scopes: ['dav:contacts:read', 'dav:contacts:write', 'app:deck'] })
-		const wrapper = mountDialog(token)
+		const dialog = mountDialog(token)
 		const store = useAuthTokenStore()
 		vi.mocked(store.setTokenScopes).mockResolvedValue(true)
 
-		expect(wrapper.text()).toContain('access set outside of Settings')
-		await fireEvent.click(getByRole(wrapper.element as HTMLElement, 'checkbox', { name: 'Calendar' }))
-		getByRole(wrapper.element as HTMLElement, 'button', { name: 'Save' }).click()
+		expect(dialog.text()).toContain('access set outside of Settings')
+		await fireEvent.click(checkbox(dialog, 'Calendar'))
+		await fireEvent.click(button(dialog, 'Save'))
 		await flushPromises()
 
 		expect(store.setTokenScopes).toHaveBeenCalledWith(token, ['dav:contacts:read', 'dav:contacts:write', 'dav:calendar:read', 'dav:calendar:write', 'app:deck'])
 	})
 
+	it('saves the kept scopes alone when every area is unticked', async () => {
+		const token = makeToken({ filesystem: false, scopes: ['dav:calendar:read', 'dav:calendar:write', 'app:deck'] })
+		const dialog = mountDialog(token)
+		const store = useAuthTokenStore()
+		vi.mocked(store.setTokenScopes).mockResolvedValue(true)
+
+		await fireEvent.click(checkbox(dialog, 'Calendar'))
+		await fireEvent.click(button(dialog, 'Save'))
+		await flushPromises()
+
+		expect(store.setTokenScopes).toHaveBeenCalledWith(token, ['app:deck'])
+	})
+
+	it('needs a name to create a token', async () => {
+		const dialog = mountDialog()
+		const store = useAuthTokenStore()
+
+		await fireEvent.click(button(dialog, 'Create'))
+		await flushPromises()
+
+		expect(store.addToken).not.toHaveBeenCalled()
+	})
+
 	it('creates a token with the chosen preset', async () => {
-		const wrapper = mountDialog()
+		const dialog = mountDialog()
 		const store = useAuthTokenStore()
 		const response = { token: 'secret', loginName: 'alice', deviceToken: makeToken({ filesystem: true }) }
 		vi.mocked(store.addToken).mockResolvedValue(response)
-		const create = getByRole(wrapper.element as HTMLElement, 'button', { name: 'Create' })
-		expect(create).toBeDisabled()
 
-		await wrapper.find('input[type="text"]').setValue('Thunderbird')
-		await wrapper.find('input[value="calendarContacts"]').setValue(true)
-		create.click()
+		await dialog.find('input[type="text"]').setValue('Thunderbird')
+		await dialog.find('input[value="calendarContacts"]').setValue(true)
+		await fireEvent.click(button(dialog, 'Create'))
 		await flushPromises()
 
 		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', ['dav:calendar:read', 'dav:calendar:write', 'dav:contacts:read', 'dav:contacts:write'])
-		expect(wrapper.emitted('created')).toEqual([[response]])
-	})
-
-	it('creates the token on Enter and closes', async () => {
-		const wrapper = mountDialog()
-		const store = useAuthTokenStore()
-		vi.mocked(store.addToken).mockResolvedValue({ token: 'secret', loginName: 'alice', deviceToken: makeToken({ filesystem: true }) })
-
-		await wrapper.find('input[type="text"]').setValue('Thunderbird')
-		wrapper.findComponent(NcDialog).vm.$emit('submit')
-		await flushPromises()
-
-		expect(store.addToken).toHaveBeenCalledWith('Thunderbird', null)
-		expect(wrapper.emitted('update:open')).toEqual([[false]])
+		expect(dialog.emitted('created')).toEqual([[response]])
 	})
 })
