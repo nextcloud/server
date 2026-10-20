@@ -468,6 +468,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(IUserSession::class, Session::class);
 
 		$this->registerAlias(IRegistry::class, Registry::class);
+		$this->registerAlias(\OCP\Authentication\TwoFactorAuth\IChallengeRequester::class, \OC\Authentication\TwoFactorAuth\ChallengeRequester::class);
 
 		$this->registerAlias(INavigationManager::class, NavigationManager::class);
 
