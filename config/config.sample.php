@@ -1622,6 +1622,24 @@ $CONFIG = [
 	'preview_imaginary_key' => 'secret',
 
 	/**
+	 * Set the URL of an external ffmpeg service to send videos to for preview
+	 * generation. Also requires the ``OC\Preview\MovieRemote`` provider to be
+	 * enabled in the ``enabledPreviewProviders`` array. No local ffmpeg binary
+	 * is needed in that case.
+	 *
+	 * The video is sent as request body to ``<url>/thumbnail`` with the query
+	 * parameters ``width``, ``height`` and ``time`` (comma separated list of
+	 * seconds to try in order). The service must reply with a JPEG or PNG still.
+	 */
+	'preview_ffmpeg_url' => 'http://ffmpeg:8080/',
+
+	/**
+	 * If you want to set an API key for the external ffmpeg service. It is sent
+	 * in the ``Authorization: Bearer <key>`` header.
+	 */
+	'preview_ffmpeg_key' => 'secret',
+
+	/**
 	 * Only register providers that have been explicitly enabled
 	 *
 	 * The following providers are disabled by default due to performance or privacy
@@ -1634,6 +1652,7 @@ $CONFIG = [
 	 *  - ``OC\Preview\Illustrator``
 	 *  - ``OC\Preview\JP2``
 	 *  - ``OC\Preview\Movie``
+	 *  - ``OC\Preview\MovieRemote``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``

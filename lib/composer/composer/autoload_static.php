@@ -2222,6 +2222,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\MarkDown' => __DIR__ . '/../../..' . '/lib/private/Preview/MarkDown.php',
         'OC\\Preview\\MimeIconProvider' => __DIR__ . '/../../..' . '/lib/private/Preview/MimeIconProvider.php',
         'OC\\Preview\\Movie' => __DIR__ . '/../../..' . '/lib/private/Preview/Movie.php',
+        'OC\\Preview\\MovieRemote' => __DIR__ . '/../../..' . '/lib/private/Preview/MovieRemote.php',
         'OC\\Preview\\Office' => __DIR__ . '/../../..' . '/lib/private/Preview/Office.php',
         'OC\\Preview\\OpenDocument' => __DIR__ . '/../../..' . '/lib/private/Preview/OpenDocument.php',
         'OC\\Preview\\PDF' => __DIR__ . '/../../..' . '/lib/private/Preview/PDF.php',

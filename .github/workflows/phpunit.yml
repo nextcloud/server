@@ -27,6 +27,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
       resources: ${{ steps.changes.outputs.resources }}
       kvstore: ${{ steps.changes.outputs.kvstore }}
+      ffmpeg-preview: ${{ steps.changes.outputs.ffmpeg-preview }}
 
     steps:
       - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
@@ -54,6 +55,12 @@ jobs:
               - '3rdparty/**'
               - '**/appinfo/**'
               - '**.php'
+            ffmpeg-preview:
+              - '.github/workflows/phpunit-ffmpeg-preview.yml'
+              - 'build/ffmpeg-preview-service/**'
+              - 'lib/private/Preview/**'
+              - 'lib/private/PreviewManager.php'
+              - 'tests/lib/Preview/**'
 
   mariadb:
     needs: changes
@@ -105,11 +112,16 @@ jobs:
     if: needs.changes.outputs.kvstore != 'false'
     uses: ./.github/workflows/phpunit-kvstore.yml
 
+  ffmpeg-preview:
+    needs: changes
+    if: needs.changes.outputs.ffmpeg-preview != 'false'
+    uses: ./.github/workflows/phpunit-ffmpeg-preview.yml
+
   summary:
     permissions:
       contents: none
     runs-on: ubuntu-latest-low
-    needs: [changes, mariadb, memcached, mysql, mysql-sharding, object-store-primary, oci, pgsql, sqlite, nodb, kvstore]
+    needs: [changes, mariadb, memcached, mysql, mysql-sharding, object-store-primary, oci, pgsql, sqlite, nodb, kvstore, ffmpeg-preview]
 
     if: always()
 
