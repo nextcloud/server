@@ -100,8 +100,8 @@ class PostgreSQLTest extends TestCase {
 				'dbhost' => 'db.example.org',
 				'dbtableprefix' => 'oc_',
 				'pgsql_ssl' => [
-				   'rootcert' => '/rootCA.crt',
-				   'mode' => 'verify-full',
+					'rootcert' => '/rootCA.crt',
+					'mode' => 'verify-full',
 				],
 			]);
 
@@ -119,7 +119,7 @@ class PostgreSQLTest extends TestCase {
 				'dbhost' => 'db.example.org',
 				'dbtableprefix' => 'oc_',
 				'pgsql_ssl' => [
-				   'mode' => 'verify-full',
+					'mode' => 'verify-full',
 				],
 			]);
 
