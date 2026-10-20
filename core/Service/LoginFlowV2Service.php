@@ -20,7 +20,9 @@ use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -35,6 +37,7 @@ class LoginFlowV2Service {
 		private ICrypto $crypto,
 		private LoggerInterface $logger,
 		private IProvider $tokenProvider,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -153,7 +156,7 @@ class LoginFlowV2Service {
 		}
 
 		$appPassword = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-		$this->tokenProvider->generateToken(
+		$appToken = $this->tokenProvider->generateToken(
 			$appPassword,
 			$userId,
 			$loginName,
@@ -170,6 +173,7 @@ class LoginFlowV2Service {
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
 		$this->mapper->update($data);
+		$this->eventDispatcher->dispatchTyped(new AppPasswordCreatedEvent($appToken));
 		return true;
 	}
 

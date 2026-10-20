@@ -7,7 +7,6 @@
 
 namespace OC\Core\Controller;
 
-use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OCA\OAuth2\Db\AccessToken;
@@ -29,6 +28,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\Defaults;
