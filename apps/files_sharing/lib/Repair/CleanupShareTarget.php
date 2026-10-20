@@ -128,6 +128,7 @@ class CleanupShareTarget implements IRepairStepExpensive {
 						$this->userMountCache->addMount($recipient, $newMountPoint, new CacheEntry([
 							'fileid' => $mount->getRootId(),
 							'storage' => $mount->getStorageId(),
+							'path' => $mount->getRootInternalPath(),
 						]), $mount->getMountProvider(), $mount->getMountId());
 					}
 				}
