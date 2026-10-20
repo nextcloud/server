@@ -20,6 +20,7 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\LoginFlowV2GrantedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
@@ -348,6 +349,8 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setPublicKey($publicKey);
 		$loginFlowV2->setClientName('client_name');
+		$loginFlowV2->setInitiatorIp('198.51.100.7');
+		$loginFlowV2->setTimestamp(1700000000);
 
 		$this->mapper->expects($this->once())
 			->method('getByLoginToken')
@@ -392,10 +395,12 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			)
 			->willReturn($appToken);
 
-		$this->eventDispatcher->expects($this->once())
+		$events = [];
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.app_password.created'
-				&& $event->getParameters() === ['tokenId' => 7, 'tokenName' => 'client_name']));
+			->willReturnCallback(static function (object $event) use (&$events): void {
+				$events[] = $event;
+			});
 
 		$result = $this->subjectUnderTest->flowDone(
 			'login_token',
@@ -404,6 +409,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'user_id'
 		);
 		$this->assertTrue($result);
+
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[0]);
+		$this->assertSame(['tokenId' => 7, 'tokenName' => 'client_name'], $events[0]->getParameters());
+		$this->assertInstanceOf(LoginFlowV2GrantedEvent::class, $events[1]);
+		$this->assertSame($appToken, $events[1]->getToken());
+		$this->assertSame('198.51.100.7', $events[1]->getInitiatorIp());
+		$this->assertSame(1700000000, $events[1]->getStartedAt());
 
 		// app password is encrypted and must look like:
 		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==
@@ -453,12 +465,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			});
 
 		$this->mapper->expects($this->once())
-			->method('insert');
+			->method('insert')
+			->with($this->callback(static fn (LoginFlowV2 $flow): bool => $flow->getInitiatorIp() === '198.51.100.7'));
 
 		$this->secureRandom->expects($this->exactly(2))
 			->method('generate');
 
-		$token = $this->subjectUnderTest->createTokens('user_agent');
+		$token = $this->subjectUnderTest->createTokens('user_agent', '198.51.100.7');
 		$this->assertTrue($token instanceof LoginFlowV2Tokens);
 	}
 }
