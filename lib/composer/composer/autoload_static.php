@@ -925,6 +925,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\Bruteforce\\MaxDelayReached' => __DIR__ . '/../../..' . '/lib/public/Security/Bruteforce/MaxDelayReached.php',
         'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
         'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',
+        'OCP\\Security\\Events\\PasswordResetRequestedEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/PasswordResetRequestedEvent.php',
         'OCP\\Security\\Events\\ValidatePasswordPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/ValidatePasswordPolicyEvent.php',
         'OCP\\Security\\FeaturePolicy\\AddFeaturePolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/FeaturePolicy/AddFeaturePolicyEvent.php',
         'OCP\\Security\\Guard\\GuardDecision' => __DIR__ . '/../../..' . '/lib/public/Security/Guard/GuardDecision.php',
