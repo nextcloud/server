@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\NavigationManager;
 use OC\Profiler\BuiltInProfiler;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
+use OC\Security\Guard\RequestGuardManager;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
@@ -418,6 +419,26 @@ class OC {
 			// ignore
 		}
 		return $productName;
+	}
+
+	/**
+	 * Lets apps refuse a request before the session is started,
+	 * e.g. one from a banned address.
+	 */
+	private static function checkRequestGuards(): void {
+		$decision = Server::get(RequestGuardManager::class)->check(Server::get(IRequest::class));
+		if ($decision === null) {
+			return;
+		}
+
+		http_response_code(403);
+		header('Retry-After: ' . $decision->getRetryAfter());
+		header('Content-Type: text/plain; charset=utf-8');
+		echo Server::get(\OCP\L10N\IFactory::class)->get('lib')->t(
+			'Access from your network is temporarily blocked. If you think this is a mistake, contact your administrator and give them this reference: %s',
+			[$decision->getReference()]
+		);
+		exit();
 	}
 
 	public static function initSession(): void {
@@ -832,6 +853,10 @@ class OC {
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
 		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
+
+		if (!self::$CLI) {
+			self::checkRequestGuards();
+		}
 
 		$eventLogger->start('init_session', 'Initialize session');
 
