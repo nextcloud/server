@@ -57,6 +57,7 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -5942,6 +5943,102 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$this->assertSame($expected, $manager->currentUserCanEnumerateTargetUser($currentUser, $targetUser));
+	}
+
+	public function testDuplicateCustomTokens(): void {
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
+		$manager = $this->createManager($factory);
+		$factory->setProvider($this->defaultProvider);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_enabled', 'yes', 'yes'],
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_links_exclude_groups', '[]', '[]'],
+			]);
+
+		$owner1 = $this->createMock(IUser::class);
+		$owner1->method('getUID')->willReturn('alice');
+		$owner1->method('isEnabled')->willReturn(true);
+
+		$this->userManager->method('get')->willReturn($owner1);
+
+		$storage1 = $this->createMock(IStorage::class);
+		$storage1->method('instanceOfStorage')->willReturn(false);
+
+		$node1 = $this->createMock(File::class);
+		$node1->method('getId')->willReturn(1);
+		$node1->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$node1->method('getStorage')->willReturn($storage1);
+
+		$userFolder1 = $this->createMock(Folder::class);
+		$userFolder1->method('getById')->willReturn([$node1]);
+		$userFolder1->method('getFirstNodeById')->willReturn($node1);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder1);
+
+		$share1 = $manager->newShare();
+		$share1->setId(1)
+			->setProviderId('prov')
+			->setShareType(IShare::TYPE_LINK)
+			->setSharedBy('alice')
+			->setShareOwner('alice')
+			->setNode($node1)
+			->setPermissions(Constants::PERMISSION_READ)
+			->setToken('abc123');
+
+		$owner2 = $this->createMock(IUser::class);
+		$owner2->method('getUID')->willReturn('bob');
+		$owner2->method('isEnabled')->willReturn(true);
+
+		$this->userManager->method('get')->willReturn($owner2);
+
+		$storage2 = $this->createMock(IStorage::class);
+		$storage2->method('instanceOfStorage')->willReturn(false);
+
+		$node2 = $this->createMock(File::class);
+		$node2->method('getId')->willReturn(2);
+		$node2->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$node2->method('getStorage')->willReturn($storage2);
+
+		$userFolder2 = $this->createMock(Folder::class);
+		$userFolder2->method('getById')->willReturn([$node2]);
+		$userFolder2->method('getFirstNodeById')->willReturn($node2);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder2);
+
+		$share2 = $manager->newShare();
+		$share2->setId(2)
+			->setProviderId('prov')
+			->setShareType(IShare::TYPE_LINK)
+			->setSharedBy('bob')
+			->setShareOwner('bob')
+			->setNode($node2)
+			->setPermissions(Constants::PERMISSION_READ)
+			->setToken('def456');
+
+		$this->defaultProvider
+			->method('create')
+			->willReturnCallback(fn (IShare $share) => $share->getId() === $share2->getId() ? $share2 : $share1);
+		$this->defaultProvider
+			->method('getShareById')
+			->willReturnCallback(fn ($id) => $id === '2' ? $share2 : $share1);
+		$this->defaultProvider->method('update')
+			->willReturnCallback(fn (IShare $share) => $share->getId() === $share2->getId() ? $share2 : $share1);
+		$this->defaultProvider->method('getShareByToken')->with('abc123')->willReturn($share1);
+
+		$this->manager->createShare($share1);
+
+		// It is currently not possible to set a custome token on share creation
+		// so emulate the behavior by creating the share first with a randomly
+		// generated unique share token and then update the share with the
+		// duplicate token
+		$share2 = $manager->createShare($share2);
+		$share2->setToken('abc123');
+
+		$this->expectException(ShareTokenException::class);
+		$share2 = $manager->updateShare($share2);
+
+		$this->assertNotEquals($share1->getToken(), $share2->getToken());
 	}
 }
 
