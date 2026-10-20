@@ -43,6 +43,8 @@ class CoreCapabilities implements ICapability {
 	 *         mod-rewrite-working: boolean,
 	 *         previews: array{
 	 *             enabled_providers: list<string>,
+	 *             max_width: int,
+	 *             max_height: int,
 	 *         },
 	 *     },
 	 * }
@@ -62,6 +64,10 @@ class CoreCapabilities implements ICapability {
 					// the formats a browser cannot show on its own but the
 					// server can render from the ones it can do neither of.
 					'enabled_providers' => array_keys($this->preview->getProviders()),
+					// The largest preview the server renders. Past it, a client
+					// that needs more detail has to load the file itself
+					'max_width' => $this->config->getSystemValueInt('preview_max_x', 4096),
+					'max_height' => $this->config->getSystemValueInt('preview_max_y', 4096),
 				],
 			],
 		];

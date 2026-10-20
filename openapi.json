@@ -172,7 +172,9 @@
                             "previews": {
                                 "type": "object",
                                 "required": [
-                                    "enabled_providers"
+                                    "enabled_providers",
+                                    "max_width",
+                                    "max_height"
                                 ],
                                 "properties": {
                                     "enabled_providers": {
@@ -180,6 +182,14 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "max_width": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_height": {
+                                        "type": "integer",
+                                        "format": "int64"
                                     }
                                 }
                             },
