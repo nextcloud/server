@@ -1389,6 +1389,8 @@ class ShareAPIController extends OCSController {
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
+		} catch (ShareTokenException $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException('Failed to update share.', $e);
