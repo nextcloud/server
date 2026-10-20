@@ -950,6 +950,7 @@ return array(
     'OCP\\Share\\Events\\ShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/ShareCreatedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedFromSelfEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedFromSelfEvent.php',
+    'OCP\\Share\\Events\\ShareLinkAccessFailedEvent' => $baseDir . '/lib/public/Share/Events/ShareLinkAccessFailedEvent.php',
     'OCP\\Share\\Events\\ShareMovedEvent' => $baseDir . '/lib/public/Share/Events/ShareMovedEvent.php',
     'OCP\\Share\\Events\\ShareTransferredEvent' => $baseDir . '/lib/public/Share/Events/ShareTransferredEvent.php',
     'OCP\\Share\\Events\\VerifyMountPointEvent' => $baseDir . '/lib/public/Share/Events/VerifyMountPointEvent.php',

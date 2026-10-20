@@ -45,6 +45,7 @@ use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Share;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
@@ -200,6 +201,12 @@ class ShareController extends AuthPublicShareController {
 	protected function authFailed() {
 		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
 		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
+		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($this->getToken(), $this->share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD));
+	}
+
+	#[\Override]
+	public function shareNotFound() {
+		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($this->getToken(), null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND));
 	}
 
 	/**
