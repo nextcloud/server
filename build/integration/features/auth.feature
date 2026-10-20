@@ -120,10 +120,10 @@ Feature: auth
 		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
 		Then the HTTP status code should be "200"
 
-	Scenario: a files token reaches capabilities
+	Scenario: a files token is refused on capabilities
 		Given a new client token limited to "files:files:read files:files:write" is added
 		When requesting "/ocs/v2.php/cloud/capabilities" with "GET" using scoped basic token auth
-		Then the HTTP status code should be "200"
+		Then the HTTP status code should be "403"
 
 	Scenario: a files token without files_sharing:shares:write cannot create shares
 		Given a new client token limited to "files:files:read files:files:write" is added

@@ -13,7 +13,7 @@ use Attribute;
 
 /**
  * Opens a controller method, or every method of a controller class, to every app password,
- * whatever its scopes. For what any client needs to work, such as capabilities, avatars and theming.
+ * whatever its scopes. For what a token does to itself, such as revoking it.
  *
  * A method's attribute replaces its class's, like with TokenScope.
  */

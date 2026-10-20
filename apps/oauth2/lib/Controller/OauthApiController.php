@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Controller;
 
-use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
@@ -84,7 +83,6 @@ final class OauthApiController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'oauth2GetToken')]
-	#[NoTokenScopeRequired]
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
 		?string $client_id, ?string $client_secret,

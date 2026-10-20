@@ -8,7 +8,6 @@
 namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
-use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
@@ -361,7 +360,6 @@ class ThemingController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	#[NoTokenScopeRequired]
 	public function getImage(string $key, bool $useSvg = true) {
 		try {
 			$useSvg = $useSvg && $this->imageManager->canConvert('SVG');
@@ -402,7 +400,6 @@ class ThemingController extends Controller {
 	#[NoTwoFactorRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
-	#[NoTokenScopeRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes), true)) {
@@ -459,7 +456,6 @@ class ThemingController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'manifest')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	#[NoTokenScopeRequired]
 	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = (string)$this->appConfig->getAppValueInt('cachebuster');
 		if ($app === 'core' || $app === 'settings') {
