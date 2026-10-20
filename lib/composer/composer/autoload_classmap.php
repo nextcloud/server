@@ -1224,6 +1224,7 @@ return array(
     'OC\\AppFramework\\DependencyInjection\\DIContainer' => $baseDir . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
     'OC\\AppFramework\\Http' => $baseDir . '/lib/private/AppFramework/Http.php',
     'OC\\AppFramework\\Http\\Attributes\\FederationRateLimit' => $baseDir . '/lib/private/AppFramework/Http/Attributes/FederationRateLimit.php',
+    'OC\\AppFramework\\Http\\Attributes\\NoTokenScopeRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/NoTokenScopeRequired.php',
     'OC\\AppFramework\\Http\\Attributes\\TokenScope' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TokenScope.php',
     'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
     'OC\\AppFramework\\Http\\Dispatcher' => $baseDir . '/lib/private/AppFramework/Http/Dispatcher.php',

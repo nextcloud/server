@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Middleware\Security;
 
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Middleware\Security\Exceptions\TokenScopeException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -42,8 +43,10 @@ class TokenScopeMiddleware extends Middleware {
 		}
 
 		$attribute = $this->tokenScope($controller);
-		if ($attribute === null
-			|| ($attribute->scope !== null && !$this->lockdownManager->hasScope($attribute->scope))) {
+		if ($attribute instanceof NoTokenScopeRequired) {
+			return;
+		}
+		if ($attribute === null || !$this->lockdownManager->hasScope($attribute->scope)) {
 			throw new TokenScopeException();
 		}
 	}
@@ -51,9 +54,13 @@ class TokenScopeMiddleware extends Middleware {
 	/**
 	 * The method's attribute, else its class's
 	 */
-	private function tokenScope(Controller $controller): ?TokenScope {
+	private function tokenScope(Controller $controller): TokenScope|NoTokenScopeRequired|null {
+		$class = new ReflectionClass($controller);
 		$attribute = $this->reflector->getAttribute(TokenScope::class)
-			?? (new ReflectionClass($controller))->getAttributes(TokenScope::class)[0] ?? null;
+			?? $this->reflector->getAttribute(NoTokenScopeRequired::class)
+			?? $class->getAttributes(TokenScope::class)[0]
+			?? $class->getAttributes(NoTokenScopeRequired::class)[0]
+			?? null;
 		return $attribute?->newInstance();
 	}
 

@@ -1265,6 +1265,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\DependencyInjection\\DIContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
         'OC\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http.php',
         'OC\\AppFramework\\Http\\Attributes\\FederationRateLimit' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/FederationRateLimit.php',
+        'OC\\AppFramework\\Http\\Attributes\\NoTokenScopeRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/NoTokenScopeRequired.php',
         'OC\\AppFramework\\Http\\Attributes\\TokenScope' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TokenScope.php',
         'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',

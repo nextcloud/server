@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Theming\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
 use OCA\Theming\ResponseDefinitions;
@@ -134,7 +134,7 @@ class UserThemeController extends OCSController {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	#[TokenScope]
+	#[NoTokenScopeRequired]
 	public function getBackground(): Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
