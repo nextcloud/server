@@ -3807,14 +3807,7 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$result]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
-      <code><![CDATA[$lastChunkPos]]></code>
       <code><![CDATA[$size]]></code>
     </InvalidScalarArgument>
   </file>
