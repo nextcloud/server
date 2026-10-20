@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\PreConditionNotMetException;
+use OCP\Security\Events\PasswordResetRequestedEvent;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Server;
@@ -161,9 +162,14 @@ class LostController extends Controller {
 
 		$user = $this->userManager->getUserNameFromLoginName($user);
 
+		$event = new PasswordResetRequestedEvent($user);
+		$this->eventDispatcher->dispatchTyped($event);
+
 		// FIXME: use HTTP error codes
 		try {
-			$this->sendEmail($user);
+			if (!$event->isEmailPrevented()) {
+				$this->sendEmail($user);
+			}
 		} catch (ResetPasswordException $e) {
 			// Ignore the error since we do not want to leak this info
 			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
