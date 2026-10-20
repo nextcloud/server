@@ -33,6 +33,8 @@ use OCP\DB\Types;
  * @method void setServer(string $server)
  * @method string getAppPassword()
  * @method void setAppPassword(string $appPassword)
+ * @method string|null getInitiatorIp()
+ * @method void setInitiatorIp(?string $initiatorIp)
  */
 class LoginFlowV2 extends Entity {
 	/** @var int */
@@ -55,6 +57,8 @@ class LoginFlowV2 extends Entity {
 	protected $server;
 	/** @var string */
 	protected $appPassword;
+	/** @var string|null */
+	protected $initiatorIp;
 
 	public function __construct() {
 		$this->addType('timestamp', Types::INTEGER);
@@ -67,5 +71,6 @@ class LoginFlowV2 extends Entity {
 		$this->addType('loginName', 'string');
 		$this->addType('server', 'string');
 		$this->addType('appPassword', 'string');
+		$this->addType('initiatorIp', 'string');
 	}
 }
