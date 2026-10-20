@@ -11,12 +11,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -49,6 +51,7 @@ class PublicAuth extends AbstractBasic {
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
 		private IUserSession $userSession,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -132,6 +135,7 @@ class PublicAuth extends AbstractBasic {
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (ShareNotFound $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($token, null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND));
 			throw new NotFound();
 		}
 
@@ -172,6 +176,7 @@ class PublicAuth extends AbstractBasic {
 			$share = $this->getShare();
 		} catch (ShareNotFound $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($this->getToken(), null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND));
 			return false;
 		}
 
@@ -195,6 +200,8 @@ class PublicAuth extends AbstractBasic {
 				if ($this->isShareInSession($share)) {
 					return true;
 				}
+
+				$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($this->getToken(), $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD));
 
 				if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
 					// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
