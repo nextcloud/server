@@ -145,7 +145,7 @@ class PostgreSQLTest extends TestCase {
 			'key without certificate' => [['dbsslkey' => '/client.key']],
 		];
 	}
- 
+
 	#[\PHPUnit\Framework\Attributes\DataProvider('incompleteClientCertificateOptions')]
 	public function testValidateRejectsIncompleteClientCertificate(array $options): void {
 		$errors = $this->database->validate($this->options($options));
