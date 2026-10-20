@@ -20,6 +20,7 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
@@ -392,10 +393,12 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			)
 			->willReturn($appToken);
 
-		$this->eventDispatcher->expects($this->once())
+		$events = [];
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.app_password.created'
-				&& $event->getParameters() === ['tokenId' => 7, 'tokenName' => 'client_name']));
+			->willReturnCallback(static function (object $event) use (&$events): void {
+				$events[] = $event;
+			});
 
 		$result = $this->subjectUnderTest->flowDone(
 			'login_token',
@@ -404,6 +407,12 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'user_id'
 		);
 		$this->assertTrue($result);
+
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[0]);
+		$this->assertSame('auth.app_password.created', $events[0]->getOperation());
+		$this->assertSame(['tokenId' => 7, 'tokenName' => 'client_name'], $events[0]->getParameters());
+		$this->assertInstanceOf(AppPasswordCreatedEvent::class, $events[1]);
+		$this->assertSame($appToken, $events[1]->getToken());
 
 		// app password is encrypted and must look like:
 		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==

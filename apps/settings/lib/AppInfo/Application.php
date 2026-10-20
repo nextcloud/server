@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Settings\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Settings\Manager;
 use OCA\Settings\ConfigLexicon;
@@ -89,6 +88,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
