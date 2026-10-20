@@ -8,7 +8,7 @@
 
 namespace OCA\Files\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application;

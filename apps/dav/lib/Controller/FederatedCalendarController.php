@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarInvitationService;

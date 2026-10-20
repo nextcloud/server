@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;

@@ -7,6 +7,7 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'NCU\\AppFramework\\Http\\Attribute\\TokenScope' => $baseDir . '/lib/unstable/AppFramework/Http/Attribute/TokenScope.php',
     'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
     'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
     'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
@@ -1225,7 +1226,6 @@ return array(
     'OC\\AppFramework\\Http' => $baseDir . '/lib/private/AppFramework/Http.php',
     'OC\\AppFramework\\Http\\Attributes\\FederationRateLimit' => $baseDir . '/lib/private/AppFramework/Http/Attributes/FederationRateLimit.php',
     'OC\\AppFramework\\Http\\Attributes\\NoTokenScopeRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/NoTokenScopeRequired.php',
-    'OC\\AppFramework\\Http\\Attributes\\TokenScope' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TokenScope.php',
     'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
     'OC\\AppFramework\\Http\\Dispatcher' => $baseDir . '/lib/private/AppFramework/Http/Dispatcher.php',
     'OC\\AppFramework\\Http\\Output' => $baseDir . '/lib/private/AppFramework/Http/Output.php',

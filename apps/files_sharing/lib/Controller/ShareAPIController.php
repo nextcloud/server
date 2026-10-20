@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
-use OCA\Files\TokenScopes;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -77,7 +77,7 @@ use Psr\Log\LoggerInterface;
  *
  * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
-#[TokenScope(scope: TokenScopes::FILES_WRITE)]
+#[TokenScope(scope: FilesTokenScopes::FILES_WRITE)]
 class ShareAPIController extends OCSController {
 
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */

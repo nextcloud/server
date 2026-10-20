@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\Db\OpenLocalEditor;
 use OCA\Files\Db\OpenLocalEditorMapper;
 use OCA\Files\TokenScopes;

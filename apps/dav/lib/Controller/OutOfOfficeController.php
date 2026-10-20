@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use DateTimeImmutable;
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\ResponseDefinitions;
 use OCA\DAV\Service\AbsenceService;
 use OCA\DAV\TokenScopes;

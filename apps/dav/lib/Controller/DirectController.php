@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http;

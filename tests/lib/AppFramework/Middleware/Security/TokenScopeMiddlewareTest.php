@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
-use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Middleware\Security\Exceptions\TokenScopeException;
 use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -28,6 +28,7 @@ use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -54,6 +55,11 @@ class TokenScopeTestController extends Controller {
 
 	#[NoAdminRequired]
 	public function unannotated(): void {
+	}
+
+	#[NoAdminRequired]
+	#[TokenScope(scope: 'deck:boards:read')]
+	public function deck(): void {
 	}
 
 	#[NoTokenScopeRequired]
@@ -104,18 +110,21 @@ class TokenScopeMiddlewareTest extends TestCase {
 			'class attribute, other scope' => [self::CALENDAR, TokenScopeTestClassController::class, 'files', false],
 			'method overrides class' => [self::FILES, TokenScopeTestClassController::class, 'share', false],
 			'method opens what the class limits' => [self::CALENDAR, TokenScopeTestClassController::class, 'anyToken', true],
+			'app requires its own scope' => [['deck:boards:read'], TokenScopeTestController::class, 'deck', true, 'deck'],
+			'app requires another app\'s scope' => [[...self::FILES, SharingTokenScopes::SHARES_WRITE], TokenScopeTestController::class, 'share', false, 'deck'],
+			'app opens itself to every token' => [[], TokenScopeTestController::class, 'anyToken', false, 'deck'],
 		];
 	}
 
 	#[DataProvider('requests')]
-	public function testBeforeController(?array $scopes, string $class, string $method, bool $allowed): void {
+	public function testBeforeController(?array $scopes, string $class, string $method, bool $allowed, ?string $thirdPartyApp = null): void {
 		$controller = new $class('test', $this->request);
 		$this->reflector->reflect($controller, $method);
 
 		if (!$allowed) {
 			$this->expectException(TokenScopeException::class);
 		}
-		$this->middleware($scopes)->beforeController($controller, $method);
+		$this->middleware($scopes, $thirdPartyApp)->beforeController($controller, $method);
 		$this->addToAssertionCount(1);
 	}
 
@@ -183,12 +192,18 @@ class TokenScopeMiddlewareTest extends TestCase {
 		}
 	}
 
-	private function middleware(?array $scopes): TokenScopeMiddleware {
+	/**
+	 * @param string|null $thirdPartyApp app the controller belongs to, null for a shipped app
+	 */
+	private function middleware(?array $scopes, ?string $thirdPartyApp = null): TokenScopeMiddleware {
 		$lockdownManager = new LockdownManager(fn () => $this->createMock(ISession::class), new TokenScopes());
 		$token = new PublicKeyToken();
 		$token->setScope($scopes === null ? [] : [TokenScopes::KEY => $scopes]);
 		$lockdownManager->setToken($token);
 
-		return new TokenScopeMiddleware($this->reflector, $lockdownManager);
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager->method('isShipped')->willReturn($thirdPartyApp === null);
+
+		return new TokenScopeMiddleware($this->reflector, $lockdownManager, $appManager, $thirdPartyApp ?? 'files');
 	}
 }

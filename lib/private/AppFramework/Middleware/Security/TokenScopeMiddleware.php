@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Middleware\Security;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
-use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Middleware\Security\Exceptions\TokenScopeException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Lockdown\LockdownManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -27,6 +28,8 @@ class TokenScopeMiddleware extends Middleware {
 	public function __construct(
 		private ControllerMethodReflector $reflector,
 		private LockdownManager $lockdownManager,
+		private IAppManager $appManager,
+		private string $appName,
 	) {
 	}
 
@@ -43,23 +46,35 @@ class TokenScopeMiddleware extends Middleware {
 		}
 
 		$attribute = $this->tokenScope($controller);
-		if ($attribute instanceof NoTokenScopeRequired) {
+		if ($attribute instanceof NoTokenScopeRequired && $this->isShipped()) {
 			return;
 		}
-		if ($attribute === null || !$this->lockdownManager->hasScope($attribute->scope)) {
+		if (!$attribute instanceof TokenScope
+			|| !$this->mayRequire($attribute->scope)
+			|| !$this->lockdownManager->hasScope($attribute->scope)) {
 			throw new TokenScopeException();
 		}
+	}
+
+	/**
+	 * Apps that aren't shipped may only require scopes named after themselves,
+	 * so they can't open their routes to app passwords limited to another app
+	 */
+	private function mayRequire(string $scope): bool {
+		return $this->isShipped() || str_starts_with($scope, $this->appName . ':');
+	}
+
+	private function isShipped(): bool {
+		return $this->appName === 'core' || $this->appManager->isShipped($this->appName);
 	}
 
 	/**
 	 * The method's attribute, else its class's
 	 */
 	private function tokenScope(Controller $controller): TokenScope|NoTokenScopeRequired|null {
-		$class = new ReflectionClass($controller);
 		$attribute = $this->reflector->getAttribute(TokenScope::class)
 			?? $this->reflector->getAttribute(NoTokenScopeRequired::class)
-			?? $class->getAttributes(TokenScope::class)[0]
-			?? $class->getAttributes(NoTokenScopeRequired::class)[0]
+			?? (new ReflectionClass($controller))->getAttributes(TokenScope::class)[0]
 			?? null;
 		return $attribute?->newInstance();
 	}
