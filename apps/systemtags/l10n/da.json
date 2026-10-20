@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Kunne ikke indlæse mærker for filen",
     "Failed to set tag for file" : "Kunne ikke sætte mærke på filen",
     "Failed to delete tag for file" : "Kunne ikke slette mærke fra filen",
-    "Collaborative tags …" : "Samarbejdsmærker …",
-    "Loading …" : "Indlæser …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} vil blive indstillet og {tag2} vil blive fjernet fra 1 fil.","{tag1} vil blive sat og {tag2} vil blive fjernet fra {count} filer."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vil blive fjernet fra 1 fil.","{tag} vil blive fjernet fra {count} filer."],
-    "Loading collaborative tags …" : "Indlæser samarbejdsmærker …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vil blive fjernet fra 1 fil.","{tag} vil blive fjernet fra {count} filer."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

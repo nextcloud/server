@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Vyskytla sa chyba pri editovaní komentára",
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
-    "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
-    "Write a comment …" : "Napísať komentár …"
+    "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

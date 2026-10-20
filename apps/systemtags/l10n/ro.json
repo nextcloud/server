@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Etichetele fișierului nu au putut fi încărcate",
     "Failed to set tag for file" : "Eticheta nu a putut fi aplicată fișierului",
     "Failed to delete tag for file" : "Eticheta nu a putut fi eliminată de la fișier",
-    "Collaborative tags …" : "Etichete colaborative …",
-    "Loading …" : "Se încarcă …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} va fi aplicată și {tag2} va fi eliminată de la 1 fișier.","{tag1} va fi aplicată și {tag2} va fi eliminată de la {count} fișiere.","{tag1} va fi aplicată și {tag2} va fi eliminată de la {count} de fișiere."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} va fi eliminată de la 1 fișier.","{tag} va fi eliminată de la {count} fișiere.","{tag} va fi eliminată de la {count} de fișiere."],
-    "Loading collaborative tags …" : "Se încarcă etichetele colaborative …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} va fi eliminată de la 1 fișier.","{tag} va fi eliminată de la {count} fișiere.","{tag} va fi eliminată de la {count} de fișiere."]
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

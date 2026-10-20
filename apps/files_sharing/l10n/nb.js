@@ -338,11 +338,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Public link sharing is disabled by the administrator" : "Administratoren har skrudd av offentlig lenkedeling",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deling av %s feilet fordi backend-en ikke støtter ScienceMesh-delinger",
     "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
-    "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Navn eller epost ...",
-    "Name, email, or Federated Cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
-    "Searching …" : "Søker ..."
+    "Via “{folder}”" : "Via “{folder}”"
 },
 "nplurals=2; plural=(n != 1);");

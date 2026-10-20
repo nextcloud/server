@@ -128,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "Begärans användaragent",
     "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i",
-    "Type to search for group …" : "Skriv för att söka efter en grupp …"
+    "is not member of" : "är inte medlem i"
 },
 "nplurals=2; plural=(n != 1);");

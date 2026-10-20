@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Izohni tahrirlashda xatolik yuz berdi",
     "Comment deleted" : "Izoh o'chirildi",
     "An error occurred while trying to delete the comment" : "Izohni o'chirishda xatolik yuz berdi",
-    "An error occurred while trying to create the comment" : "Izoh yaratishda xatolik yuz berdi",
-    "Write a comment …" : "Izoh yozing..."
+    "An error occurred while trying to create the comment" : "Izoh yaratishda xatolik yuz berdi"
 },
 "nplurals=1; plural=0;");

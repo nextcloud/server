@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Nasc:",
     "Occurring:" : "Ag tarlú:",
     "More options at %s" : "Tuilleadh roghanna ag %s",
-    "The system address book contains contact information for all users in your instance." : "Tá faisnéis teagmhála i leabhar seoltaí an chórais do gach úsáideoir i do chás.",
-    "Enable System Address Book" : "Cumasaigh Leabhar Seoltaí an Chórais",
-    "No results." : "Gan torthaí.",
-    "Start typing." : "Tosaigh ag clóscríobh.",
     "Delegate:" : "Toscaire:"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

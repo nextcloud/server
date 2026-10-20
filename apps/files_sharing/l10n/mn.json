@@ -418,13 +418,9 @@
     "Group sharing is disabled by the administrator" : "Бүлгийн хуваалцалт админаар идэвхгүй болгогдсон",
     "Public link sharing is disabled by the administrator" : "Нийтийн холбоосын хуваалцалт админаар идэвхгүй болгогдсон",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s-г хуваалцах амжилтгүй боллоо, учир нь систем %2$s төрлийн хуваалцалтыг зөвшөөрдөггүй",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s-г хуваалцахад алдаа гарлаа, учир нь арын систем ScienceMesh хуваалцалтыг дэмждэггүй",
     "Public upload disabled by the administrator" : "Нийтийн байршуулалт админаар идэвхгүй болгогдсон",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токен нь дор хаяж 1 тэмдэгт агуулсан байх бөгөөд зөвхөн үсэг, тоо эсвэл зураас агуулж болно",
     "Via “{folder}”" : "\"{folder}\"-аар",
-    "Name or email …" : "Нэр эсвэл имэйл …",
-    "Name, email, or Federated Cloud ID …" : "Нэр, имэйл эсвэл Холбогдсон Үүл ID …",
-    "Searching …" : "Хайж байна …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Нийтийн хуваалцах холбоосын токеныг санахад хялбар зүйл болгож тохируулна уу эсвэл шинэ токен үүсгэнэ үү. Нууц мэдээлэл агуулсан хуваалцалтад таахад хялбар токен ашиглахыг зөвлөдөггүй."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

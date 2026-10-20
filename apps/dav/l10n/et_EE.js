@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Link:",
     "Occurring:" : "Toimub:",
     "More options at %s" : "Lisavalikud: %s",
-    "The system address book contains contact information for all users in your instance." : "Süsteemiüleses aadressiraamatus leiduvad kõikide selle serveri kasutajate kontaktandmed.",
-    "Enable System Address Book" : "Kasuta süsteemiülest aadressiraamatut",
-    "No results." : "Vasteid ei leitud.",
-    "Start typing." : "Alusta kirjutamist.",
     "Delegate:" : "Volitatu:"
 },
 "nplurals=2; plural=(n != 1);");

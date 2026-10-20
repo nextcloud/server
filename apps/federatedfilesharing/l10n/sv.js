@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Fjärrdelning",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till fjärrdelningen {name} från {owner}@{remote}?",
     "Remote share password" : "Lösenord för fjärrdelning",
-    "Incoming share could not be processed" : "Det gick inte att behandla den inkommande delningen",
-    "X (formerly Twitter)" : "X (tidigare Twitter)",
-    "formerly Twitter" : "tidigare Twitter"
+    "Incoming share could not be processed" : "Det gick inte att behandla den inkommande delningen"
 },
 "nplurals=2; plural=(n != 1);");

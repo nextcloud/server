@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "ファイルのタグのロードに失敗しました",
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
-    "Collaborative tags …" : "コラボレーションタグ ...",
-    "Loading …" : "読み込み中…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
-    "Loading collaborative tags …" : "コラボレーションタグを読み込み中 ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

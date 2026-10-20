@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "Suprimeix el client",
     "Make sure you store the secret key, it cannot be recovered." : "Assegureu-vos d'emmagatzemar la clau secreta, no es pot recuperar.",
     "Add client" : "Afegeix un client",
-    "Add" : "Afegeix",
-    "Client Identifier" : "Identificador del client",
-    "Show client secret" : "Mostra el secret del client",
-    "Hide client secret" : "Amaga el secret del client"
+    "Add" : "Afegeix"
 },
 "nplurals=2; plural=(n != 1);");

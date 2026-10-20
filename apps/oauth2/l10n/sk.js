@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Odstrániť klienta",
     "Make sure you store the secret key, it cannot be recovered." : "Uistite sa, že ste uložili tajný kľúč. Nedá sa obnoviť.",
     "Add client" : "Pridať klienta",
-    "Add" : "Pridať",
-    "Client Identifier" : "Identifikátor klienta",
-    "Show client secret" : "Zobraziť tajomstvo klienta",
-    "Hide client secret" : "Skryť tajný kľúč klienta"
+    "Add" : "Pridať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Vzdálené sdílení",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share password" : "Heslo ke vzdálenému sdílení",
-    "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat",
-    "X (formerly Twitter)" : "X (dříve Twitter)",
-    "formerly Twitter" : "dříve Twitter"
+    "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -378,10 +378,6 @@
     "Link:" : "Ссылка:",
     "Occurring:" : "Повторение:",
     "More options at %s" : "Дополнительные параметры на %s",
-    "The system address book contains contact information for all users in your instance." : "Системная адресная книга содержит контактные данные всех пользователей сервера.",
-    "Enable System Address Book" : "Включить системную адресную книгу",
-    "No results." : "Ничего не найдено.",
-    "Start typing." : "Начните вводить текст.",
     "Delegate:" : "Представитель:"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -419,13 +419,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Public link sharing is disabled by the administrator" : "公開連結分享已被管理員停用",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "分享 %1$s 失敗，因為後端不允許來自 %2$s 類型的分享",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "分享 %s 失敗，因為後端不支援 ScienceMesh 分享",
     "Public upload disabled by the administrator" : "公開上傳已被管理員停用",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "權杖必須至少包含 1 個字元，且只能包含字母、數字或連字符。",
     "Via “{folder}”" : "透過 “{folder}”",
-    "Name or email …" : "名字或電郵地址",
-    "Name, email, or Federated Cloud ID …" : "名字，電郵地址或 Federated Cloud ID …",
-    "Searching …" : "搜尋中 …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "將公開分享連結權杖設定為容易記住的權杖，或產生新的權杖。不建議對包含敏感資訊的分享使用可猜測的權杖。"
 },
 "nplurals=1; plural=0;");

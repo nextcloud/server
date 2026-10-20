@@ -323,10 +323,6 @@ OC.L10N.register(
     "Location:" : "Ubicación:",
     "Link:" : "Enlace:",
     "Occurring:" : "Repetición:",
-    "More options at %s" : "Más opciones en %s",
-    "The system address book contains contact information for all users in your instance." : "La libreta de direcciones del sistema contiene la información de contacto de todos los usuarios de su instancia.",
-    "Enable System Address Book" : "Habilitar la Libreta de Direcciones del Sistema",
-    "No results." : "Sin resultados.",
-    "Start typing." : "Empiece a escribir."
+    "More options at %s" : "Más opciones en %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
