@@ -99,7 +99,13 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview): void {
+	public function migratePreviews(array $previews): void {
+		foreach ($previews as $preview) {
+			$this->migratePreview($preview);
+		}
+	}
+
+	private function migratePreview(Preview $preview): void {
 		// legacy flat directory
 		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
 		if (!file_exists($sourcePath)) {
