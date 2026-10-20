@@ -432,6 +432,11 @@ export default {
 					this.share.sendPasswordByTalk = !this.share.sendPasswordByTalk
 					break
 				}
+				case 'token': {
+					this.$set(this.errors, property, message)
+					this.$set(this.share, 'token', this.initialToken)
+					break
+				}
 			}
 		},
 		/**
