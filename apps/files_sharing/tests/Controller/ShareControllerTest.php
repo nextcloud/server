@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Defaults;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -46,6 +47,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
@@ -191,6 +193,41 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test without a not existing token
 		$this->shareController->showShare();
+	}
+
+	public function testShareNotFoundDispatchesFailureEvent(): void {
+		$this->shareController->setToken('invalidtoken');
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (ShareLinkAccessFailedEvent $event): bool => $event->getToken() === 'invalidtoken'
+				&& $event->getShare() === null
+				&& $event->getReason() === ShareLinkAccessFailedEvent::REASON_NOT_FOUND));
+
+		$this->shareController->shareNotFound();
+	}
+
+	public function testAuthFailedDispatchesFailureEvent(): void {
+		$this->shareController->setToken('token');
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+		$this->assertTrue($this->shareController->isValidToken());
+
+		$events = [];
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(static function (Event $event) use (&$events): void {
+				$events[] = $event;
+			});
+
+		self::invokePrivate($this->shareController, 'authFailed');
+
+		$failures = array_values(array_filter($events, static fn (Event $event): bool => $event instanceof ShareLinkAccessFailedEvent));
+		$this->assertCount(1, $failures);
+		$this->assertSame('token', $failures[0]->getToken());
+		$this->assertSame($share, $failures[0]->getShare());
+		$this->assertSame(ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD, $failures[0]->getReason());
 	}
 
 	public function testShowShareNotAuthenticated(): void {
