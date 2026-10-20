@@ -107,6 +107,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
 				'1000'
 			)
+			->addOption(
+				'skip-utf8mb4-check',
+				null,
+				InputOption::VALUE_NONE,
+				'convert to MySQL even if the target database does not support 4-byte characters (utf8mb4)'
+			)
 		;
 	}
 
@@ -218,16 +224,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return true;
 		}
 
-		$output->writeln('<comment>The target MySQL database does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL.</comment>');
-		$output->writeln('<comment>For more information please read the documentation at ' . $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4') . '</comment>');
+		if ($input->getOption('skip-utf8mb4-check')) {
+			$output->writeln('<comment>The target MySQL database does not support 4-byte characters. Continuing because --skip-utf8mb4-check was given.</comment>');
+			return true;
+		}
 
-		$continueConversion = !$input->isInteractive(); // assume yes for --no-interaction and no otherwise.
-		$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', $continueConversion);
+		$output->writeln('<error>The target MySQL database does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is required to enable the 4-byte support in MySQL.</error>');
+		$output->writeln('For more information please read the documentation at ' . $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4'));
+		$output->writeln('To convert anyway, run the command again with --skip-utf8mb4-check.');
 
-		/** @var QuestionHelper $helper */
-		$helper = $this->getHelper('question');
-
-		return (bool)$helper->ask($input, $output, $question);
+		return false;
 	}
 
 	protected function createSchema(Connection $fromDB, Connection $toDB, InputInterface $input, OutputInterface $output) {

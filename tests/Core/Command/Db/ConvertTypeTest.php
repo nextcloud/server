@@ -58,6 +58,7 @@ class ConvertTypeTest extends TestCase {
 
 	public function testNonMysqlTargetIsNotChecked(): void {
 		$this->input->method('getArgument')->with('type')->willReturn('pgsql');
+		$this->input->expects($this->never())->method('getOption');
 		$this->mySqlTools->expects($this->never())->method('supports4ByteCharset');
 		$this->questionHelper->expects($this->never())->method('ask');
 
@@ -77,27 +78,29 @@ class ConvertTypeTest extends TestCase {
 		$this->assertSame('', $this->output->fetch());
 	}
 
-	public static function dataMysqlTargetWithout4ByteSupport(): array {
-		return [
-			'user aborts' => [false],
-			'user continues' => [true],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataMysqlTargetWithout4ByteSupport')]
-	public function testMysqlTargetWithout4ByteSupport(bool $answer): void {
+	public function testMysqlTargetWithout4ByteSupportFails(): void {
 		$this->input->method('getArgument')->with('type')->willReturn('mysql');
+		$this->input->method('getOption')->with('skip-utf8mb4-check')->willReturn(false);
 		$this->mySqlTools->method('supports4ByteCharset')->willReturn(false);
 		$this->urlGenerator->method('linkToDocs')
 			->with('admin-mysql-utf8mb4')
 			->willReturn('https://docs.example.com/mysql_4byte_support');
-		$this->questionHelper->expects($this->once())
-			->method('ask')
-			->willReturn($answer);
+		$this->questionHelper->expects($this->never())->method('ask');
 
-		$this->assertSame($answer, $this->checkTarget());
+		$this->assertFalse($this->checkTarget());
 		$display = $this->output->fetch();
 		$this->assertStringContainsString('does not support 4-byte characters', $display);
 		$this->assertStringContainsString('https://docs.example.com/mysql_4byte_support', $display);
+		$this->assertStringContainsString('--skip-utf8mb4-check', $display);
+	}
+
+	public function testMysqlTargetWithout4ByteSupportSkipped(): void {
+		$this->input->method('getArgument')->with('type')->willReturn('mysql');
+		$this->input->method('getOption')->with('skip-utf8mb4-check')->willReturn(true);
+		$this->mySqlTools->method('supports4ByteCharset')->willReturn(false);
+		$this->questionHelper->expects($this->never())->method('ask');
+
+		$this->assertTrue($this->checkTarget());
+		$this->assertStringContainsString('does not support 4-byte characters', $this->output->fetch());
 	}
 }
