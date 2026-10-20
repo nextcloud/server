@@ -12,11 +12,9 @@ namespace OC\AppFramework\Http\Attributes;
 use Attribute;
 
 /**
- * Opens a controller method, or every method of a controller class, to every app password,
- * whatever its scopes. For what a token does to itself, such as revoking it.
- *
- * A method's attribute replaces its class's, like with TokenScope.
+ * Opens a controller method to every app password, whatever its scopes, over a TokenScope
+ * on its class. For what a token does to itself, such as revoking it.
  */
-#[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
+#[Attribute(Attribute::TARGET_METHOD)]
 class NoTokenScopeRequired {
 }

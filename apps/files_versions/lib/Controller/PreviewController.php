@@ -7,7 +7,7 @@
 
 namespace OCA\Files_Versions\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\TokenScopes;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;

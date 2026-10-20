@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use InvalidArgumentException;
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 /**
  * @psalm-type ContactsImportResult = array{items: list<string>, total: non-negative-int}
  */

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\TokenScopes;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;

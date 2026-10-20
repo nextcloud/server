@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
-use OC\AppFramework\Http\Attributes\TokenScope;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\ResponseDefinitions;

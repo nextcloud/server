@@ -48,6 +48,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\AppFramework\\Http\\Attribute\\TokenScope' => __DIR__ . '/../../..' . '/lib/unstable/AppFramework/Http/Attribute/TokenScope.php',
         'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
         'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
         'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
@@ -1263,7 +1264,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http.php',
         'OC\\AppFramework\\Http\\Attributes\\FederationRateLimit' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/FederationRateLimit.php',
         'OC\\AppFramework\\Http\\Attributes\\NoTokenScopeRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/NoTokenScopeRequired.php',
-        'OC\\AppFramework\\Http\\Attributes\\TokenScope' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TokenScope.php',
         'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',
         'OC\\AppFramework\\Http\\Output' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Output.php',
