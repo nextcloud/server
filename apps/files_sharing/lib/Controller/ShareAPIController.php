@@ -1361,6 +1361,7 @@ class ShareAPIController extends OCSController {
 				if (!$this->validateToken($token)) {
 					throw new OCSBadRequestException($this->l->t('Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen', [self::TOKEN_MAX_LENGTH]));
 				}
+
 				$share->setToken($token);
 			}
 		}
@@ -1389,6 +1390,8 @@ class ShareAPIController extends OCSController {
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
+		} catch (ShareTokenException $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException('Failed to update share.', $e);
