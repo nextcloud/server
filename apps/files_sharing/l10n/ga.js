@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Tá comhroinnt grúpa díchumasaithe ag an riarthóir",
     "Public link sharing is disabled by the administrator" : "Tá comhroinnt naisc phoiblí díchumasaithe ag an riarthóir",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Theip ar chomhroinnt %1$s toisc nach gceadaíonn an cúlcheann scaireanna ón gcineál %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Theip ar chomhroinnt %s toisc nach dtacaíonn an cúlcheann le scaireanna ScienceMesh",
     "Public upload disabled by the administrator" : "Dhíchumasaigh an riarthóir an uaslódáil phoiblí",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Ní mór carachtar 1 ar a laghad a bheith sna comharthaí agus ní fhéadfaidh ach litreacha, uimhreacha nó fleiscín a bheith iontu",
     "Via “{folder}”" : "Trí “{folder}”",
-    "Name or email …" : "Ainm nó ríomhphost…",
-    "Name, email, or Federated Cloud ID …" : "Ainm, ríomhphost, nó ID Néal Cónaidhme…",
-    "Searching …" : "Ag cuardach…",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Socraigh an comhartha nasc scaireanna poiblí le rud éigin atá éasca le cuimhneamh nó giniúint comhartha nua. Ní mholtar comhartha inmheasta a úsáid le haghaidh scaireanna ina bhfuil faisnéis íogair."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

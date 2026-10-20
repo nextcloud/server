@@ -111,10 +111,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "无法加载该文件的标签",
     "Failed to set tag for file" : "无法设置该文件的标签",
     "Failed to delete tag for file" : "无法删除该文件的标签",
-    "Collaborative tags …" : "协作标签",
-    "Loading …" : "正在加载 …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["将设置 {tag1}并从 {count} 个文件中移除 {tag2}。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["将从 {count} 个文件中移除 {tag}。"],
-    "Loading collaborative tags …" : "正在加载协作标签 ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["将从 {count} 个文件中移除 {tag}。"]
 },
 "nplurals=1; plural=0;");

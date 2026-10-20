@@ -128,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "Хүсэлтийн хэрэглэгчийн агент",
     "Group membership" : "Бүлгийн гишүүнчлэл",
     "is member of" : "-ын гишүүн ",
-    "is not member of" : "-ын гишүүн биш",
-    "Type to search for group …" : "Бүлэг хайхын тулд бичнэ үү …"
+    "is not member of" : "-ын гишүүн биш"
 },
 "nplurals=2; plural=(n != 1);");

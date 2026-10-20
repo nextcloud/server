@@ -366,10 +366,6 @@ OC.L10N.register(
     "Link:" : "Link:",
     "Occurring:" : "Elke:",
     "More options at %s" : "Meer opties op %s",
-    "The system address book contains contact information for all users in your instance." : "Het systeem-adresboek bevat contactgegevens van alle gebruikers op jouw server.",
-    "Enable System Address Book" : "Systeem-adresboek inschakelen",
-    "No results." : "Geen resultaten.",
-    "Start typing." : "Start met typen.",
     "Delegate:" : "Gemachtigde:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -407,13 +407,9 @@
     "Group sharing is disabled by the administrator" : "Διαμοιρασμός σε ομάδες είναι απενεργοποιημένος από τον διαχειρηστή",
     "Public link sharing is disabled by the administrator" : "Διαμοιρασμός δημόσιου συνδέσμου είναι απενεργοποιημένος από τον διαχειριστή",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Διαμοιρασμός %1$s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ο διαμοιρασμός %s απέτυχε επειδή το σύστημα υποστήριξης δεν υποστηρίζει μετοχές ScienceMesh",
     "Public upload disabled by the administrator" : "Δημόσιο ανέβασμα είναι απενεργοποιημένο από τον διαχειριστή",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Τα tokens πρέπει να περιέχουν τουλάχιστον 1 χαρακτήρα και μπορούν να περιέχουν μόνο γράμματα, αριθμούς ή παύλα",
     "Via “{folder}”" : "Μέσω “{folder}”",
-    "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
-    "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
-    "Searching …" : "Αναζήτηση ...",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

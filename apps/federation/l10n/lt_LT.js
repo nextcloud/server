@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Nepavyko pašalinti patikimo serverio. Bandykite dar kartą vėliau.",
     "Delete" : "Ištrinti",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federacija leidžia prisijungti prie kitų patikimų serverių, kad būtų galima keistis paskyrų katalogu. Pavyzdžiui, tai bus naudojama automatiškai užpildyti išorines paskyras, skirtas federaciniam bendrinimui. Norint sukurti federuotą bendrinimą, nebūtina pridėti serverio kaip patikimo serverio.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Kiekvienas serveris turi patvirtinti kitą. Šiam procesui gali prireikti kelių „cron“ ciklų.",
-    "External documentation for Federated Cloud Sharing" : "Išorinė dokumentacija apie federacinį debesies bendrinimą",
-    "+ Add trusted server" : "+ Pridėti patikimą serverį",
-    "Trusted server" : "Patikimas serveris"
+    "Each server must validate the other. This process may require a few cron cycles." : "Kiekvienas serveris turi patvirtinti kitą. Šiam procesui gali prireikti kelių „cron“ ciklų."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

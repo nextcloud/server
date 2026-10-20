@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "Collaborative tags …" : "Kollaborative Schlagworte …",
-    "Loading …" : "Lade …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} wird gesetzt und {tag2} von einer Datei entfernt.","{tag1} wird gesetzt und {tag2} von {count} Dateien entfernt."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} wird von einer Datei entfernt.","{tag} wird von {count} Dateien entfernt."],
-    "Loading collaborative tags …" : "Kollaborative Schlagworte laden …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} wird von einer Datei entfernt.","{tag} wird von {count} Dateien entfernt."]
 },
 "nplurals=2; plural=(n != 1);");

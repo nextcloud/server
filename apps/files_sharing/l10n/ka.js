@@ -240,11 +240,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Public link sharing is disabled by the administrator" : "Public link sharing is disabled by the administrator",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sharing %1$s failed because the back end does not allow shares from type %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sharing %s failed because the back end does not support ScienceMesh shares",
     "Public upload disabled by the administrator" : "Public upload disabled by the administrator",
-    "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Name or email …",
-    "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
-    "Searching …" : "Searching …"
+    "Via “{folder}”" : "Via “{folder}”"
 },
 "nplurals=2; plural=(n!=1);");

@@ -129,21 +129,6 @@
     "Misc accessibility options" : "Бусад хүртээмжийн сонголтууд",
     "Enable blur background filter (may increase GPU load)" : "Бүдгэрүүлсэн дэвсгэр шүүлтүүр идэвхжүүлэх (GPU ачааллыг нэмэгдүүлж болно)",
     "Customization has been disabled by your administrator" : "Тохиргоог администратор идэвхгүй болгосон",
-    "Disable-user-theming should be true or false" : "Disable-user-theming нь үнэн эсвэл худал байх ёстой",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Үндсэн өнгийг чухал товчлуур зэрэг элементүүдийг тодруулахад ашигладаг. Одоогийн өнгийн схемээс хамааран арай тохируулагдаж болно.",
-    "Header logo" : "Толгой хэсгийн лого",
-    "Upload new header logo" : "Шинэ толгой хэсгийн лого байршуулах",
-    "Upload new favicon" : "Шинэ favicon байршуулах",
-    "User settings" : "Хэрэглэгчийн тохиргоо",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Дэвсгэр зургийн оронд та энгийн дэвсгэр өнгийг тохируулах боломжтой. Хэрэв та дэвсгэр зураг ашиглаж байгаа бол энэ өнгийг өөрчлөх нь аппын цэсний дүрс тэмдгийн өнгөд нөлөөлнө.",
-    "Upload new logo" : "Шинэ бэлгэ тэмдэг байршуулах",
-    "Upload new background and login image" : "Шинэ дэвсгэр болон нэвтрэх зураг байршуулах",
-    "Background and login image" : "Дэвсгэр болон нэвтрэх зураг",
-    "Advanced options" : "Бусад сонголтууд",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Байршуулсан лого болон өнгөд тулгуурлан favicon-ыг автоматаар үүсгэхийн тулд SVG зургийг дэмждэг ImageMagick PHP өргөтгөлийг суулгана уу.",
-    "Unable to apply the setting." : "Тохиргоог хэрэглэх боломжгүй.",
-    "No background has been selected" : "Дэвсгэр сонгогдоогүй",
-    "Select a custom color" : "Тохируулсан өнгө сонгох",
-    "Upload" : "байршуулах"
+    "Unable to apply the setting." : "Тохиргоог хэрэглэх боломжгүй."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

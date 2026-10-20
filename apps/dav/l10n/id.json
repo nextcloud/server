@@ -365,10 +365,6 @@
     "Link:" : "Tautan:",
     "Occurring:" : "Berlangsung:",
     "More options at %s" : "Opsi lainnya di %s",
-    "The system address book contains contact information for all users in your instance." : "Buku alamat sistem berisi informasi kontak untuk semua pengguna di instance Anda.",
-    "Enable System Address Book" : "Aktifkan Buku Alamat Sistem",
-    "No results." : "Tidak ada hasil.",
-    "Start typing." : "Mulai mengetik.",
     "Delegate:" : "Delegasi:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

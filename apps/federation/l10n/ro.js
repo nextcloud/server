@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Ștergerea serverului de încredere a eșuat. Încearcă din nou mai târziu.",
     "Delete" : "Șterge",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federarea îți permite să te conectezi la alte servere de încredere pentru a face schimb de directoare de conturi. De exemplu, aceasta va fi folosită pentru completarea automată a conturilor externe la partajarea federată. Nu este necesar să adaugi un server ca server de încredere pentru a crea o partajare federată.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Fiecare server trebuie să îl valideze pe celălalt. Acest proces poate dura câteva cicluri cron.",
-    "External documentation for Federated Cloud Sharing" : "Documentație externă pentru partajarea Federated Cloud",
-    "+ Add trusted server" : "+ Adaugă un server de încredere",
-    "Trusted server" : "Server de încredere"
+    "Each server must validate the other. This process may require a few cron cycles." : "Fiecare server trebuie să îl valideze pe celălalt. Acest proces poate dura câteva cicluri cron."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

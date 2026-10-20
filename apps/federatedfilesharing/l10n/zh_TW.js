@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "遠端分享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要新增來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share password" : "遠端分享密碼",
-    "Incoming share could not be processed" : "無法處理收到的分享",
-    "X (formerly Twitter)" : "X（前身為 Twitter）",
-    "formerly Twitter" : "前身為 Twitter"
+    "Incoming share could not be processed" : "無法處理收到的分享"
 },
 "nplurals=1; plural=0;");

@@ -418,13 +418,9 @@
     "Group sharing is disabled by the administrator" : "Споделување во групата е оневозможено од страна на администраторот",
     "Public link sharing is disabled by the administrator" : "Споделување со јавен линк е оневозможено од страна на администраторот",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделувањето на %1$s е неуспешно бидејќи позадината не дозволува споделувања од видот %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделувањето на %s е неуспешно бидејќи серверот не дозволува ScienceMesh споделувања",
     "Public upload disabled by the administrator" : "Јавно прикачување е оневозможено од страна на администраторот",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токените мора да содржат најмалку 1 знак и може да содржат само букви, бројки или цртичка",
     "Via “{folder}”" : "Преку “{folder}”",
-    "Name or email …" : "Име или е-пошта ...",
-    "Name, email, or Federated Cloud ID …" : "Име, е-пошта или федерален ИД ...",
-    "Searching …" : "Пребарување ...",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Поставете го токенот за јавен линкза споделување на нешто лесно за паметење или генерирајте нов токен. Не се препорачува да се користи токен што може да се погоди за акции што содржат чувствителни информации."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

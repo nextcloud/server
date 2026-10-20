@@ -236,8 +236,6 @@ OC.L10N.register(
     "When:" : "Kdaj:",
     "Location:" : "Mesto:",
     "Link:" : "Povezava:",
-    "More options at %s" : "Več možnosti je na %s",
-    "No results." : "Ni zadetkov",
-    "Start typing." : "Začnite vpisovati."
+    "More options at %s" : "Več možnosti je na %s"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

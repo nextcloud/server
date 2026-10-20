@@ -189,13 +189,6 @@ OC.L10N.register(
     "Check out our blog" : "Donar un còp d’uèlh a nòstre blòg",
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
     "Open documentation" : "Dobrir la documentacion",
-    "Very weak password" : "Senhal plan feble",
-    "Weak password" : "Senhal feble",
-    "So-so password" : "Senhal mejan",
-    "Good password" : "Bon senhal",
-    "Strong password" : "Senhal fòrt",
-    "Group list is empty" : "La lista de grop es voida",
-    "Unable to retrieve the group list" : "Recuperacion de la lista de grops impossibla",
     "Apps" : "Aplicacions",
     "Personal info" : "Info personalas",
     "Update to {update}" : "Actualizar en {update}",
@@ -222,12 +215,7 @@ OC.L10N.register(
     "You are a member of the following groups:" : "Formatz part d’aquestes grops :",
     "Week starts on {firstDayOfWeek}" : "La setmana comença lo {firstDayOfWeek}",
     "Edit your Profile visibility" : "Modificatz la visibilitat de vòstre perfil",
-    "Adding your device …" : "Apondon del periferic…",
-    "Sending…" : "Mandadís…",
-    "Email sent" : "Corrièl mandat",
-    "Disable" : "Desactivar",
     "Encryption" : "Chiframent",
-    "Credentials" : "Informacions d'identificacion",
-    "SMTP Password" : "Senhal SMTP"
+    "Disable" : "Desactivar"
 },
 "nplurals=2; plural=(n > 1);");

@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "O compartilhamento para grupos foi desabilitado pelo administrador",
     "Public link sharing is disabled by the administrator" : "O compartilhamento por link público foi desativado pelo administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "O compartilhamento %1$s falhou porque a infraestrutura não permite compartilhamentos do tipo %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "O compartilhamento de %s falhou porque o back-end não é compatível com os compartilhamentos ScienceMesh",
     "Public upload disabled by the administrator" : "Upload público foi desativado pelo administrador",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Os tokens devem conter pelo menos 1 caractere e podem incluir apenas letras, números ou um hífen",
     "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Nome ou e-mail...",
-    "Name, email, or Federated Cloud ID …" : "Nome, e-mail ou ID de Nuvem Federada …",
-    "Searching …" : "Pesquisando...",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público para algo fácil de lembrar ou gere um novo token. Não é recomendado usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

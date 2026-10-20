@@ -29,8 +29,6 @@ OC.L10N.register(
     "This weekend" : "Ovaj vikend",
     "Set reminder for this weekend" : "Postavi podsjetnik za ovaj vikend",
     "Next week" : "Sljedeći tjedan",
-    "Set reminder for next week" : "Postavi podsjetnik za sljedeći tjedan",
-    "Set reminder for \"{fileName}\"" : "Postavi podsjetnik za \"{fileName}\"",
-    "We will remind you of this file" : "Podsjetit ćemo vas na ovu datoteku."
+    "Set reminder for next week" : "Postavi podsjetnik za sljedeći tjedan"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

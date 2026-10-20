@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "În acest weekend",
     "Set reminder for this weekend" : "Setează un memento pentru acest weekend",
     "Next week" : "Săptămâna viitoare",
-    "Set reminder for next week" : "Setează un memento pentru săptămâna viitoare",
-    "Set reminder for \"{fileName}\"" : "Setează un memento pentru „{fileName}”",
-    "We will remind you of this file" : "Îți vom reaminti de acest fișier"
+    "Set reminder for next week" : "Setează un memento pentru săptămâna viitoare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

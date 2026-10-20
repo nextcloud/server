@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Alte opțiuni de accesibilitate",
     "Enable blur background filter (may increase GPU load)" : "Activează filtrul de estompare a fundalului (poate crește încărcarea GPU)",
     "Customization has been disabled by your administrator" : "Personalizarea a fost dezactivată de administrator",
-    "Disable-user-theming should be true or false" : "Disable-user-theming trebuie să fie true sau false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Culoarea principală este folosită pentru evidențierea elementelor, cum ar fi butoanele importante. Poate fi ajustată ușor în funcție de schema de culori curentă.",
-    "Header logo" : "Logoul din antet",
-    "Upload new header logo" : "Încarcă un nou logo pentru antet",
-    "Upload new favicon" : "Încarcă un nou favicon",
-    "User settings" : "Setările utilizatorului",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "În locul unei imagini de fundal poți configura și o culoare simplă de fundal. Dacă folosești o imagine de fundal, schimbarea acestei culori va influența culoarea pictogramelor din meniul aplicațiilor.",
-    "Upload new logo" : "Încarcă un nou logo",
-    "Upload new background and login image" : "Încarcă o nouă imagine de fundal și de autentificare",
-    "Background and login image" : "Imaginea de fundal și cea de autentificare",
-    "Advanced options" : "Opțiuni avansate",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalează extensia PHP ImageMagick cu suport pentru imagini SVG ca să generezi automat faviconuri pe baza logoului și culorii încărcate.",
-    "Unable to apply the setting." : "Setarea nu a putut fi aplicată.",
-    "No background has been selected" : "Nu a fost selectat niciun fundal",
-    "Select a custom color" : "Selectează o culoare personalizată",
-    "Upload" : "Încarcă"
+    "Unable to apply the setting." : "Setarea nu a putut fi aplicată."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

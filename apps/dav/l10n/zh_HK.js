@@ -370,10 +370,6 @@ OC.L10N.register(
     "Link:" : "連結：",
     "Occurring:" : "發生：",
     "More options at %s" : "%s有更多選項",
-    "The system address book contains contact information for all users in your instance." : "系統通訊錄包含您實例中的所有聯絡人資訊。",
-    "Enable System Address Book" : "啟用系統通訊錄",
-    "No results." : "沒有結果。",
-    "Start typing." : "開始輸入。",
     "Delegate:" : "代表："
 },
 "nplurals=1; plural=0;");

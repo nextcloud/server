@@ -409,7 +409,6 @@
     "Settings" : "Definições",
     "Log out" : "Sair",
     "Accounts" : "Contas",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "O Mac OS X não é compatível e %s não funcionará corretamente nessa plataforma. Use-o por sua própria conta e risco!",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Ao partilhar a interface %s deve implementar a interface OCP\\Share_Backend",
     "Sharing backend %s not found" : "Não foi encontrada a partilha da interface %s",
     "Sharing backend for %s not found" : "Não foi encontrada a partilha da interface para %s",
