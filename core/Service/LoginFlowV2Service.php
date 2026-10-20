@@ -21,6 +21,7 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Events\AppPasswordCreatedEvent;
+use OCP\Authentication\Events\LoginFlowV2GrantedEvent;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -181,6 +182,7 @@ class LoginFlowV2Service {
 
 		$this->mapper->update($data);
 		$this->eventDispatcher->dispatchTyped(new AppPasswordCreatedEvent($generatedToken));
+		$this->eventDispatcher->dispatchTyped(new LoginFlowV2GrantedEvent($generatedToken, $data->getInitiatorIp(), $data->getTimestamp()));
 		return true;
 	}
 
@@ -201,7 +203,7 @@ class LoginFlowV2Service {
 		return true;
 	}
 
-	public function createTokens(string $userAgent): LoginFlowV2Tokens {
+	public function createTokens(string $userAgent, string $initiatorIp): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
 		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
@@ -210,6 +212,7 @@ class LoginFlowV2Service {
 		$flow->setStarted(0);
 		$flow->setTimestamp($this->time->getTime());
 		$flow->setClientName($userAgent);
+		$flow->setInitiatorIp($initiatorIp);
 
 		[$publicKey, $privateKey] = $this->getKeyPair();
 		$privateKey = $this->crypto->encrypt($privateKey, $pollToken);
