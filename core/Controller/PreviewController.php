@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
@@ -198,7 +197,6 @@ class PreviewController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/core/mimeicon')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	#[NoTokenScopeRequired]
 	public function getMimeIconUrl(string $mime = 'application/octet-stream') {
 		$url = $this->mimeIconProvider->getMimeIconUrl($mime);
 		if ($url === null) {

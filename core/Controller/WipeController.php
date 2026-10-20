@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -46,7 +45,6 @@ class WipeController extends Controller {
 	#[NoCSRFRequired]
 	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
-	#[NoTokenScopeRequired]
 	public function checkWipe(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->start($token)) {
@@ -75,7 +73,6 @@ class WipeController extends Controller {
 	#[NoCSRFRequired]
 	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
-	#[NoTokenScopeRequired]
 	public function wipeDone(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->finish($token)) {
