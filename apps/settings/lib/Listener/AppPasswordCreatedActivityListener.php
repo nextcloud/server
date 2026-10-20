@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\Settings\Listener;
 
 use BadMethodCallException;
-use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;

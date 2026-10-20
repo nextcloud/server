@@ -25,10 +25,12 @@ use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -54,6 +56,7 @@ class AuthSettingsController extends Controller {
 		private IConfig $serverConfig,
 		private IL10N $l,
 		private TokenScopes $tokenScopes,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -132,7 +135,7 @@ class AuthSettingsController extends Controller {
 		$tokenData['canDelete'] = true;
 		$tokenData['canRename'] = true;
 
-		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), ['name' => $deviceToken->getName()]);
+		$this->eventDispatcher->dispatchTyped(new AppPasswordCreatedEvent($deviceToken));
 
 		return new JSONResponse([
 			'token' => $token,

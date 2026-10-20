@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\User\AuthTokens;
 
-use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\User\Manager as UserManager;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
