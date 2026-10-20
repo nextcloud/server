@@ -7,7 +7,7 @@
 
 namespace OC\Core\Controller;
 
-use OC\AppFramework\Http\Attributes\TokenScope;
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http;
@@ -63,7 +63,7 @@ final class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
-	#[TokenScope]
+	#[NoTokenScopeRequired]
 	public function getCapabilities(): DataResponse {
 		$result = [];
 		$result['version'] = [

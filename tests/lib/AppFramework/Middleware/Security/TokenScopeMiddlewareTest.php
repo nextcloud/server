@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security;
 
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Middleware\Security\Exceptions\TokenScopeException;
 use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
@@ -42,7 +43,7 @@ use Test\TestCase;
 
 class TokenScopeTestController extends Controller {
 	#[NoAdminRequired]
-	#[TokenScope]
+	#[NoTokenScopeRequired]
 	public function anyToken(): void {
 	}
 
@@ -55,7 +56,7 @@ class TokenScopeTestController extends Controller {
 	public function unannotated(): void {
 	}
 
-	#[TokenScope]
+	#[NoTokenScopeRequired]
 	public function adminOnly(): void {
 	}
 }
@@ -69,6 +70,11 @@ class TokenScopeTestClassController extends Controller {
 	#[NoAdminRequired]
 	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function share(): void {
+	}
+
+	#[NoAdminRequired]
+	#[NoTokenScopeRequired]
+	public function anyToken(): void {
 	}
 }
 
@@ -97,6 +103,7 @@ class TokenScopeMiddlewareTest extends TestCase {
 			'class attribute' => [self::FILES, TokenScopeTestClassController::class, 'files', true],
 			'class attribute, other scope' => [self::CALENDAR, TokenScopeTestClassController::class, 'files', false],
 			'method overrides class' => [self::FILES, TokenScopeTestClassController::class, 'share', false],
+			'method opens what the class limits' => [self::CALENDAR, TokenScopeTestClassController::class, 'anyToken', true],
 		];
 	}
 
@@ -168,9 +175,11 @@ class TokenScopeMiddlewareTest extends TestCase {
 	#[DataProvider('refusedControllers')]
 	public function testRefusedControllersStayUnannotated(string $class): void {
 		$class = new \ReflectionClass($class);
-		$this->assertSame([], $class->getAttributes(TokenScope::class));
-		foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-			$this->assertSame([], $method->getAttributes(TokenScope::class), $method->getName());
+		foreach ([TokenScope::class, NoTokenScopeRequired::class] as $attribute) {
+			$this->assertSame([], $class->getAttributes($attribute));
+			foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+				$this->assertSame([], $method->getAttributes($attribute), $method->getName());
+			}
 		}
 	}
 
