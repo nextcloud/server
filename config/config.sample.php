@@ -1634,6 +1634,25 @@ $CONFIG = [
 	'preview_imaginary_key' => 'secret',
 
 	/**
+	 * Set the address (``host:port``) of an ffmpeg-over-ip server to generate
+	 * video previews on. Also requires the ``OC\Preview\MovieRemote`` provider
+	 * to be enabled in the ``enabledPreviewProviders`` array. Neither ffmpeg nor
+	 * the ffmpeg-over-ip client is needed on the Nextcloud server in that case.
+	 *
+	 * The server reads the videos from Nextcloud over the same connection, so
+	 * it needs no access to the data directory. The connection is not
+	 * encrypted, so only use it within a trusted network.
+	 *
+	 * See https://github.com/steelbrain/ffmpeg-over-ip
+	 */
+	'preview_ffmpeg_url' => 'ffmpeg-over-ip:5050',
+
+	/**
+	 * The ``authSecret`` configured on the ffmpeg-over-ip server.
+	 */
+	'preview_ffmpeg_key' => 'secret',
+
+	/**
 	 * Only register providers that have been explicitly enabled
 	 *
 	 * The following providers are disabled by default due to performance or privacy
@@ -1646,6 +1665,7 @@ $CONFIG = [
 	 *  - ``OC\Preview\Illustrator``
 	 *  - ``OC\Preview\JP2``
 	 *  - ``OC\Preview\Movie``
+	 *  - ``OC\Preview\MovieRemote``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``
