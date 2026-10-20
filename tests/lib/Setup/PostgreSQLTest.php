@@ -139,8 +139,16 @@ class PostgreSQLTest extends TestCase {
 		], $errors);
 	}
 
-	public function testValidateRejectsIncompleteClientCertificate(): void {
-		$errors = $this->database->validate($this->options(['dbsslkey' => '/client.key']));
+	public static function incompleteClientCertificateOptions(): array {
+		return [
+			'certificate without key' => [['dbsslcert' => '/client.crt']],
+			'key without certificate' => [['dbsslkey' => '/client.key']],
+		];
+	}
+ 
+	#[\PHPUnit\Framework\Attributes\DataProvider('incompleteClientCertificateOptions')]
+	public function testValidateRejectsIncompleteClientCertificate(array $options): void {
+		$errors = $this->database->validate($this->options($options));
 
 		$this->assertEquals([
 			'The database options "dbsslcert" and "dbsslkey" have to be provided together',
