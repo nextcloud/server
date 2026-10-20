@@ -136,8 +136,9 @@ class PreviewController extends Controller {
 		bool $a,
 		bool $forceIcon,
 		string $mode,
-		bool $mimeFallback = false) : Response {
-		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
+		bool $mimeFallback = false
+	): Response {
+		if (!($node instanceof File)) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		if (!$node->isReadable()) {
@@ -158,6 +159,16 @@ class PreviewController extends Controller {
 			if (!$share->canSeeContent()) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
+		}
+
+		if (!$forceIcon && !$this->preview->isAvailable($node)) {
+			if ($mimeFallback) {
+				if ($url = $this->mimeIconProvider->getMimeIconUrl($node->getMimeType())) {
+					return new RedirectResponse($url);
+				}
+			}
+
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		try {
