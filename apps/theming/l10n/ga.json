@@ -129,21 +129,6 @@
     "Misc accessibility options" : "Roghanna inrochtaineachta éagsúla",
     "Enable blur background filter (may increase GPU load)" : "Cumasaigh an scagaire cúlra doiléir (d'fhéadfadh sé ualach GPU a mhéadú)",
     "Customization has been disabled by your administrator" : "Dhíchumasaigh do riarthóir an oiriúnú",
-    "Disable-user-theming should be true or false" : "Díchumasaigh-úsáideoir-téamaí ba chóir a bheith fíor nó bréagach",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Úsáidtear an dath príomhúil chun gnéithe cosúil le cnaipí tábhachtacha a aibhsiú. D'fhéadfadh sé go ndéanfaí é a choigeartú beagán ag brath ar an scéimre datha reatha.",
-    "Header logo" : "Lógó ceanntásca",
-    "Upload new header logo" : "Íoslódáil an ceanntásc lógó nua",
-    "Upload new favicon" : "Íosluchtaigh favicon nua",
-    "User settings" : "Socruithe úsáideora",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "In ionad íomhá chúlra is féidir leat dath cúlra simplí a chumrú freisin. Má úsáideann tú íomhá cúlra beidh tionchar ag athrú an datha seo ar dhath deilbhíní roghchláir na haipe.",
-    "Upload new logo" : "Íosluchtaigh lógó nua",
-    "Upload new background and login image" : "Íosluchtaigh cúlra nua agus logáil isteach",
-    "Background and login image" : "Cúlra agus íomhá logáil isteach",
-    "Advanced options" : "Ardroghanna",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Suiteáil an síneadh ImageMagick PHP le tacaíocht d'íomhánna SVG chun favicons a ghiniúint go huathoibríoch bunaithe ar an lógó agus an dath uaslódáilte.",
-    "Unable to apply the setting." : "Ní féidir an socrú a chur i bhfeidhm.",
-    "No background has been selected" : "Níor roghnaíodh aon chúlra",
-    "Select a custom color" : "Roghnaigh dath saincheaptha",
-    "Upload" : "Uaslódáil"
+    "Unable to apply the setting." : "Ní féidir an socrú a chur i bhfeidhm."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

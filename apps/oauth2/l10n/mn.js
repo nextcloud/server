@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Клиент устгах",
     "Make sure you store the secret key, it cannot be recovered." : "Нууц түлхүүрийг хадгалсан эсэхийг шалгаарай, түүнийг сэргээх боломжгүй.",
     "Add client" : "Клиент нэмэх",
-    "Add" : "Нэмэх",
-    "Client Identifier" : "Клиентийн танигч",
-    "Show client secret" : "Клиентийн нууцыг харуулах",
-    "Hide client secret" : "Клиентийн нууцыг нуух"
+    "Add" : "Нэмэх"
 },
 "nplurals=2; plural=(n != 1);");

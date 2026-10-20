@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Länk:",
     "Occurring:" : "Förekommer:",
     "More options at %s" : "Fler alternativ på %s",
-    "The system address book contains contact information for all users in your instance." : "Systemadressboken innehåller kontaktinformation för alla användare i din instans.",
-    "Enable System Address Book" : "Aktivera systemadressboken",
-    "No results." : "Inga resultat.",
-    "Start typing." : "Börja skriva.",
     "Delegate:" : "Ombud:"
 },
 "nplurals=2; plural=(n != 1);");

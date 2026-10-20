@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Skupinové zdieľanie je zakázané administrátorom",
     "Public link sharing is disabled by the administrator" : "Zdieľanie pomocou verejných odkazov je zakázané administrátorom",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Zdieľanie %1$s zlyhalo, backend nepodporuje typ zdieľania %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Zdieľanie %s sa nepodarilo, pretože backend nepodporuje zdieľanie ScienceMesh miestností.",
     "Public upload disabled by the administrator" : "Verejné nahrávanie je zakázané administrátorom",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny musia obsahovať aspoň 1 znak a môžu obsahovať iba písmená, čísla alebo spojovník",
     "Via “{folder}”" : "Prostredníctvom „{folder}“",
-    "Name or email …" : "Meno alebo e-mail …",
-    "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
-    "Searching …" : "Hľadá sa …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

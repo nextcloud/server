@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Diverse tilgængelighedsindstillinger",
     "Enable blur background filter (may increase GPU load)" : "Aktivér sløring af baggrunden (kan øge belastningen af GPU'en)",
     "Customization has been disabled by your administrator" : "Brugerdefinering er blevet deaktiveret af din administrator",
-    "Disable-user-theming should be true or false" : "Disable-user-theming skal være \"true\" eller \"false\"",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Den primære farve anvendes til at fremhæve elementer såsom vigtige knapper. Den kan ændres en smule afhængigt af det aktuelle farveskema.",
-    "Header logo" : "Headerlogo",
-    "Upload new header logo" : "Overfør nyt logo til topbjælken",
-    "Upload new favicon" : "Overfør nyt favicon",
-    "User settings" : "Brugerindstillinger",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "I stedet for et baggrundsbillede så kan du også konfigurere en ren baggrundsfarve. Hvis du anvender et baggrundsbillede så vil ændring af denne farve påvirke farven af app menuikonerne.",
-    "Upload new logo" : "Overfør nyt logo",
-    "Upload new background and login image" : "Overfør nyt baggrunds- og loginbillede",
-    "Background and login image" : "Baggrunds- og loginbillede",
-    "Advanced options" : "Avancerede indstillinger",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer ImageMagick PHP udvidelsen med understøttelse af SVG billeder for automatisk at generere favikoner baseret på det uploadede logo og farve.",
-    "Unable to apply the setting." : "Indstillingen kunne ikke anvendes.",
-    "No background has been selected" : "Ingen baggrund er valgt",
-    "Select a custom color" : "Vælg en brugerdefineret farve",
-    "Upload" : "Overfør"
+    "Unable to apply the setting." : "Indstillingen kunne ikke anvendes."
 },
 "nplurals=2; plural=(n != 1);");

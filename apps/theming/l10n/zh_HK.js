@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "其他輔助使用選項",
     "Enable blur background filter (may increase GPU load)" : "啟用模糊背景過濾（可能會增加 GPU 負載）",
     "Customization has been disabled by your administrator" : "您的管理員已停用自訂",
-    "Disable-user-theming should be true or false" : "Disable-user-theming 應該是 true 或 false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "基本顏色用來突顯如重要的按鈕等元素。根據目前的配色方案，其可能會稍做調整。",
-    "Header logo" : "頁首圖示",
-    "Upload new header logo" : "上傳新的頁首圖示",
-    "Upload new favicon" : "上傳新 favicon",
-    "User settings" : "用戶設定",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "除了背景影像以外，您也可以設定純色的背景顏色。若您使用背景影像，變更此顏色將會影像應用程式選單圖示的顏色。",
-    "Upload new logo" : "上傳新的 Logo",
-    "Upload new background and login image" : "上傳新的背景與登入圖像",
-    "Background and login image" : "背景與登入圖像",
-    "Advanced options" : "進階選項",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
-    "Unable to apply the setting." : "無法套用該設定。",
-    "No background has been selected" : "未選取背景",
-    "Select a custom color" : "選擇自訂色彩",
-    "Upload" : "上傳"
+    "Unable to apply the setting." : "無法套用該設定。"
 },
 "nplurals=1; plural=0;");

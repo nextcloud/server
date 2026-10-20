@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Grup paylaşımı özelliği BT yöneticisi tarafından kapatılmış",
     "Public link sharing is disabled by the administrator" : "Herkese açık bağlantı paylaşımı özelliği BT yöneticisi tarafından kapatılmış",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Yönetim bölümünden %2$s türündeki paylaşımlar yapılamadığından %1$s paylaşılamadı",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Arka yüz ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Public upload disabled by the administrator" : "Herkese açık yükleme özelliği BT yöneticisi tarafından kapatılmış",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Kodlar en az 1 karakter uzunluğunda olmalı ve yalnızca harf, sayı veya tire karakterlerini içermelidir",
     "Via “{folder}”" : "“{folder}” ile",
-    "Name or email …" : "Ad ya da e-posta adresi …",
-    "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
-    "Searching …" : "Aranıyor …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Herkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez."
 },
 "nplurals=2; plural=(n > 1);");

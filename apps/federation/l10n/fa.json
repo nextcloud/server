@@ -23,9 +23,6 @@
     "Failed to delete trusted server. Please try again later." : "حذف سرور مورد اعتماد ناموفق بود. لطفاً بعداً دوباره تلاش کنید",
     "Delete" : "حذف",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "اتحاد به شما امکان می‌دهد با سایر سرورهای مورد اعتماد برای تبادل دایرکتوری حساب‌ها ارتباط برقرار کنید. برای مثال از این ویژگی برای تکمیل خودکار حساب‌های خارجی برای اشتراک‌گذاری اتحادی استفاده خواهد شد. برای ایجاد یک اشتراک‌گذاری اتحادی نیازی به افزودن سرور به عنوان سرور مورد اعتماد نیست",
-    "Each server must validate the other. This process may require a few cron cycles." : "هر سرور باید دیگری را تأیید کند. این فرآیند ممکن است به چند چرخه cron نیاز داشته باشد",
-    "External documentation for Federated Cloud Sharing" : "مستندات خارجی برای اشتراک‌گذاری ابری اتحادی",
-    "+ Add trusted server" : "+ افزودن سرور مورد اعتماد",
-    "Trusted server" : "سرور مورد اعتماد"
+    "Each server must validate the other. This process may require a few cron cycles." : "هر سرور باید دیگری را تأیید کند. این فرآیند ممکن است به چند چرخه cron نیاز داشته باشد"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

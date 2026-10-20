@@ -266,11 +266,7 @@
     "Group sharing is disabled by the administrator" : "L'alministración desactivó la compartición grupal",
     "Public link sharing is disabled by the administrator" : "L'alministración desactivó al compartición d'enllaces públicos",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Nun se pudo compartir «%1$s» porque'l backend nun permite los elementos compartíos del tipu «%2$s»",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Nun se pudo compartir «%s» porque nun ye compatible coles comparticiones de ScienceMesh",
     "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública",
-    "Via “{folder}”" : "Per «{folder}»",
-    "Name or email …" : "Nome o direición de corréu electrónicu…",
-    "Name, email, or Federated Cloud ID …" : "Nome, direición de corréu electrónicu o ID de nube federada…",
-    "Searching …" : "Buscando…"
+    "Via “{folder}”" : "Per «{folder}»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

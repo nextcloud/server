@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Partajarea cu grupuri este dezactivată de administrator",
     "Public link sharing is disabled by the administrator" : "Partajarea prin link public este dezactivată de administrator",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Partajarea %1$s a eșuat, deoarece backendul nu permite partajări de tipul %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Partajarea %s a eșuat, deoarece backendul nu acceptă partajări ScienceMesh",
     "Public upload disabled by the administrator" : "Încărcarea publică este dezactivată de administrator",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokenurile trebuie să conțină cel puțin un caracter și pot conține doar litere, cifre sau cratime",
     "Via “{folder}”" : "Prin „{folder}”",
-    "Name or email …" : "Nume sau e-mail …",
-    "Name, email, or Federated Cloud ID …" : "Nume, e-mail sau ID Federated Cloud …",
-    "Searching …" : "Se caută …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Setează tokenul linkului public de partajare la ceva ușor de reținut sau generează un token nou. Nu este recomandat să folosești un token ușor de ghicit pentru partajările care conțin informații sensibile."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

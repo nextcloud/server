@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Холбоос:",
     "Occurring:" : "Тохиолдох:",
     "More options at %s" : "Илүү олон сонголт %s-д",
-    "The system address book contains contact information for all users in your instance." : "Системийн дэвтэр нь таны системийн бүх хэрэглэгчдийн холбоо барих мэдээллийг агуулдаг.",
-    "Enable System Address Book" : "Системийн хаягийн дэвтрийг идэвхжүүлэх",
-    "No results." : "Үр дүн байхгүй.",
-    "Start typing." : "Бичиж эхлэх.",
     "Delegate:" : "Төлөөлөгч:"
 },
 "nplurals=2; plural=(n != 1);");

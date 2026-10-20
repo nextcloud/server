@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktiveret af administratoren",
     "Public link sharing is disabled by the administrator" : "Deling med offentligt link er deaktiveret af administratoren",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling af %1$s mislykkedes fordi backenden ikke tillader delinger fra typen %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Kunne ikke dele %s fordi backenden ikke understøtter deling af ScienceMesh",
     "Public upload disabled by the administrator" : "Offentlig overførsel er slået fra af administratoren",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens skal indeholde minimum 1 karakter og må kun indeholde bogstaver, tal, eller en bindestreg",
     "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Navn eller e-mail …",
-    "Name, email, or Federated Cloud ID …" : "Navn, e-mail eller Federated Cloud ID …",
-    "Searching …" : "Søger …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sæt det offentlige delingslink til noget der er let at huske eller generer en ny token. Det anbefales ikke at anvende en token der er let at gætte, til delinger som indeholder følsomme informationer."
 },
 "nplurals=2; plural=(n != 1);");

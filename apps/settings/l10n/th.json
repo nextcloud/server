@@ -222,13 +222,6 @@
     "Reasons to use Nextcloud in your organization" : "เหตุผลที่ควรใช้ Nextcloud ในองค์กรของคุณ",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "รุ่นที่ออกโดยชุมชนของ Nextcloud นี้ไม่ได้รับการสนับสนุน และไม่สามารถใช้งานการแจ้งเตือนทันทีได้",
     "Open documentation" : "เปิดเอกสารประกอบ",
-    "Very weak password" : "รหัสผ่านระดับต่ำมาก",
-    "Weak password" : "รหัสผ่านระดับต่ำ",
-    "So-so password" : "รหัสผ่านระดับปกติ",
-    "Good password" : "รหัสผ่านระดับดี",
-    "Strong password" : "รหัสผ่านระดับดีมาก",
-    "Group list is empty" : "รายชื่อกลุ่มว่างอยู่",
-    "Unable to retrieve the group list" : "ไม่สามารถดึงรายชื่อกลุ่ม",
     "Apps" : "แอป",
     "Personal info" : "ข้อมูลส่วนบุคคล",
     "Update to {update}" : "อัปเดตเป็น {update}",
@@ -261,17 +254,11 @@
     "You are a member of the following groups:" : "คุณเป็นสมาชิกกลุ่มต่อไปนี้:",
     "Primary email for password reset and notifications" : "อีเมลหลักสำหรับการตั้งรหัสผ่านใหม่และการแจ้งเตือน",
     "Week starts on {firstDayOfWeek}" : "เริ่มต้นสัปดาห์{firstDayOfWeek}",
-    "Adding your device …" : "กำลังเพิ่มอุปกรณ์ …",
-    "Sending…" : "กำลังส่ง....",
-    "Email sent" : "ส่งอีเมลแล้ว",
+    "Encryption" : "การเข้ารหัส",
     "Download and enable" : "ดาวน์โหลดและเปิดใช้งาน",
     "Disable" : "ปิดใช้งาน",
     "The app will be downloaded from the App Store" : "แอปจะถูกดาวน์โหลดจากร้านค้าแอป",
     "Error: This app cannot be enabled because it makes the server unstable" : "ข้อผิดพลาด: ไม่สามารถเปิดใช้งานแอปนี้เพราะทำให้เซิร์ฟเวอร์ไม่เสถียร",
-    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอปเปิดใช้งานแล้ว แต่ต้องทำการอัปเดต คุณจะถูกนำไปยังหน้าอัปเดตใน 5 วินาที",
-    "SSL" : "SSL",
-    "Encryption" : "การเข้ารหัส",
-    "Credentials" : "ข้อมูลส่วนตัวสำหรับเข้าระบบ",
-    "SMTP Password" : "รหัสผ่าน SMTP"
+    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอปเปิดใช้งานแล้ว แต่ต้องทำการอัปเดต คุณจะถูกนำไปยังหน้าอัปเดตใน 5 วินาที"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

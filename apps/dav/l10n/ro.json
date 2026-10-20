@@ -378,10 +378,6 @@
     "Link:" : "Link:",
     "Occurring:" : "Recurență:",
     "More options at %s" : "Mai multe opțiuni la %s",
-    "The system address book contains contact information for all users in your instance." : "Agenda de sistem conține datele de contact ale tuturor utilizatorilor din instanța ta.",
-    "Enable System Address Book" : "Activează agenda de sistem",
-    "No results." : "Niciun rezultat.",
-    "Start typing." : "Începe să tastezi.",
     "Delegate:" : "Delegat:"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

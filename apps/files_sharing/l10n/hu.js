@@ -295,11 +295,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a ScienceMesh megosztásokat",
     "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda",
-    "Via “{folder}”" : "A(z) „{folder}” mappán keretül",
-    "Name or email …" : "Név vagy e-mail-cím…",
-    "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
-    "Searching …" : "Keresés…"
+    "Via “{folder}”" : "A(z) „{folder}” mappán keretül"
 },
 "nplurals=2; plural=(n != 1);");

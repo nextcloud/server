@@ -30,7 +30,6 @@
     "An error occurred while trying to edit the comment" : "S'ha produït un error en intentar editar el comentari",
     "Comment deleted" : "S'ha suprimit el comentari",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
-    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "Write a comment …" : "Escriviu un comentari…"
+    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

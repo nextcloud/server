@@ -76,9 +76,6 @@ OC.L10N.register(
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
-    "Failed to delete tag for file" : "Failed to delete tag for file",
-    "Collaborative tags …" : "Collaborative tags …",
-    "Loading …" : "Loading …",
-    "Loading collaborative tags …" : "Loading collaborative tags …"
+    "Failed to delete tag for file" : "Failed to delete tag for file"
 },
 "nplurals=2; plural=(n!=1);");

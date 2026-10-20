@@ -370,10 +370,6 @@ OC.L10N.register(
     "Link:" : "Hivatkozás:",
     "Occurring:" : "Előfordulás:",
     "More options at %s" : "További lehetőségek itt: %s",
-    "The system address book contains contact information for all users in your instance." : "A rendszercímjegyzék a példányon lévő összes felhasználó névjegyadatait tartalmazza.",
-    "Enable System Address Book" : "Rendszercímjegyzék engedélyezése",
-    "No results." : "Nincs eredmény.",
-    "Start typing." : "Kezdjen gépelni.",
     "Delegate:" : "Delegált:"
 },
 "nplurals=2; plural=(n != 1);");
