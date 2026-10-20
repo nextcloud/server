@@ -111,10 +111,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Αποτυχία φόρτωσης ετικετών για το αρχείο",
     "Failed to set tag for file" : "Αποτυχία ορισμού ετικέτας για το αρχείο",
     "Failed to delete tag for file" : "Αποτυχία διαγραφής ετικέτας για το αρχείο",
-    "Collaborative tags …" : "Συνεργατικές ετικέτες…",
-    "Loading …" : "Γίνεται φόρτωση…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από {count} αρχεία."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Η ετικέτα {tag} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag} θα αφαιρεθεί από {count} αρχεία."],
-    "Loading collaborative tags …" : "Φόρτωση συνεργατικών ετικετών…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Η ετικέτα {tag} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag} θα αφαιρεθεί από {count} αρχεία."]
 },
 "nplurals=2; plural=(n != 1);");

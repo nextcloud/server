@@ -8,6 +8,8 @@ import type { LegacyViewerApi } from './legacy.ts'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const warn = vi.fn()
+// What open() resolves with: the viewer tells its opener through it
+let session = new EventTarget()
 const viewerOpen = vi.fn()
 const viewerClose = vi.fn()
 const viewerCompare = vi.fn()
@@ -41,6 +43,7 @@ vi.mock('@nextcloud/files/dav', async (orig) => {
 })
 
 const { installLegacyViewerApi } = await import('./legacy.ts')
+const { Permission } = await import('@nextcloud/files')
 
 /** The global the shim installs */
 function viewer(): LegacyViewerApi {
@@ -50,6 +53,8 @@ function viewer(): LegacyViewerApi {
 describe('OCA.Viewer compatibility layer', () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
+		session = new EventTarget()
+		viewerOpen.mockResolvedValue(session)
 		canViewMock.mockReturnValue(true)
 		installLegacyViewerApi()
 	})
@@ -110,6 +115,47 @@ describe('OCA.Viewer compatibility layer', () => {
 		expect(target.basename).toBe('pineapple.jpg')
 	})
 
+	it('addresses a file with a dav source relative to its dav home', async () => {
+		await viewer().open({
+			fileInfo: { source: 'https://cloud.example/remote.php/dav/files/emma/Photos/2019/x.jpg', filename: '/Photos/2019/x.jpg', mime: 'image/jpeg' },
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.source).toBe('https://cloud.example/remote.php/dav/files/emma/Photos/2019/x.jpg')
+		expect(target.root).toBe('/files/emma')
+		expect(target.path).toBe('/Photos/2019/x.jpg')
+	})
+
+	it('addresses a file of another dav service relative to its home there', async () => {
+		await viewer().open({
+			fileInfo: { source: 'https://cloud.example/remote.php/dav/photos/emma/albums/Trip/x.jpg', mime: 'image/jpeg' },
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.root).toBe('/photos/emma')
+		expect(target.basename).toBe('x.jpg')
+	})
+
+	it('reads the permissions dav answers as a string', async () => {
+		// Shaped like what the photos app hands over
+		await viewer().open({
+			fileInfo: {
+				fileid: 42,
+				basename: 'x.jpg',
+				filename: '/Photos/x.jpg',
+				source: 'https://cloud.example/remote.php/dav/files/emma/Photos/x.jpg',
+				mime: 'image/jpeg',
+				mtime: Date.parse('2019-10-24T08:13:01Z'),
+				etag: 'abc',
+				hasPreview: true,
+				permissions: 'CKWNVGDR',
+			},
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.permissions).toBe(Permission.ALL)
+	})
+
 	it('passes the handler on to openWith', async () => {
 		await viewer().openWith('richdocuments', { fileInfo: { fileid: 1, filename: '/a.pdf', mime: 'application/pdf' } })
 		expect(viewerOpen.mock.calls[0][3]).toBe('richdocuments')
@@ -148,11 +194,50 @@ describe('OCA.Viewer compatibility layer', () => {
 		const onClose = vi.fn()
 		await viewer().open({ fileInfo: { fileid: 1, filename: '/a.jpg', mime: 'image/jpeg' }, onClose })
 
-		// the viewer calls back rather than being told
-		viewerOpen.mock.calls[0][2].onClose()
+		// the viewer tells rather than being told
+		session.dispatchEvent(new CustomEvent('close', { detail: [] }))
 
 		expect(onClose).toHaveBeenCalledOnce()
 		expect(viewer().file).toBe('')
+	})
+
+	it('tells which way the viewer moved, wrapping around the end', async () => {
+		const onPrev = vi.fn()
+		const onNext = vi.fn()
+		const list = [1, 2, 3].map((fileid) => ({ fileid, filename: `/${fileid}.jpg`, mime: 'image/jpeg' }))
+		await viewer().open({ fileInfo: list[0], list, onPrev, onNext })
+		const [nodes] = viewerOpen.mock.calls[0]
+		const moveTo = (index: number) => session.dispatchEvent(new CustomEvent('update:file', { detail: [nodes[index]] }))
+
+		moveTo(1)
+		moveTo(2)
+		expect(onNext.mock.calls.map(([file]) => file)).toEqual([nodes[1], nodes[2]])
+		// past the last one, back to the first
+		moveTo(0)
+		expect(onNext).toHaveBeenLastCalledWith(nodes[0])
+		moveTo(2)
+		expect(onPrev).toHaveBeenCalledExactlyOnceWith(nodes[2])
+	})
+
+	it('counts the files loaded on the way when telling which way', async () => {
+		const onNext = vi.fn()
+		const loadMore = vi.fn(() => [{ fileid: 2, filename: '/2.jpg', mime: 'image/jpeg' }])
+		const fileInfo = { fileid: 1, filename: '/1.jpg', mime: 'image/jpeg' }
+		await viewer().open({ fileInfo, list: [fileInfo], loadMore, onNext })
+		const [more] = await viewerOpen.mock.calls[0][2].loadMore()
+
+		session.dispatchEvent(new CustomEvent('update:file', { detail: [more] }))
+
+		expect(onNext).toHaveBeenCalledExactlyOnceWith(more)
+	})
+
+	it('compares the file with the one given to compare it with, as the base', async () => {
+		viewerCompare.mockResolvedValue(session)
+		await viewer().compare({ fileid: 2, filename: '/new.md', mime: 'text/markdown' }, { fileid: 1, filename: '/old.md', mime: 'text/markdown' })
+
+		const [file, base] = viewerCompare.mock.calls[0]
+		expect(file.fileid).toBe(2)
+		expect(base.fileid).toBe(1)
 	})
 
 	it('answers mimetypes by asking the handlers', () => {

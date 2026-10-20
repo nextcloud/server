@@ -23,6 +23,7 @@ class CriticalActionPerformedEventListener extends Action implements IEventListe
 		}
 
 		$this->log(
+			$event->getOperation(),
 			$event->getLogMessage(),
 			$event->getParameters(),
 			array_keys($event->getParameters()),

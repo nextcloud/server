@@ -196,7 +196,8 @@ class Comment implements IComment {
 	 *
 	 * @param bool $supportMarkdown
 	 * @return array each mention provides a 'type' and an 'id', see example below
-	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
+	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'matrix'|'user', id: non-empty-lowercase-string}>
+	 * @since 36.0.0 Type 'matrix' is supported
 	 * @since 33.0.1 Parameter $supportMarkdown was added to decide if mentions inside markdown code blocks should be ignored (default to true)
 	 * @since 30.0.2 Type 'email' is supported
 	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported
@@ -213,7 +214,7 @@ class Comment implements IComment {
 			$message = preg_replace('/`[^`\n]*`/', '', $message);
 		}
 
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $message, $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"matrix\/@[a-z0-9_\-\.=\/+]+:[a-z0-9\-\.:\[\]]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $message, $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -253,6 +254,10 @@ class Comment implements IComment {
 				/** @var non-empty-lowercase-string $cleanId */
 				$cleanId = substr($cleanId, 15);
 				$result[] = ['type' => 'federated_user', 'id' => $cleanId];
+			} elseif (str_starts_with($cleanId, 'matrix/')) {
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 7);
+				$result[] = ['type' => 'matrix', 'id' => $cleanId];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];
 			}

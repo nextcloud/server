@@ -1,158 +1,115 @@
 <!--
- - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
- - SPDX-License-Identifier: AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import { mdiWeb } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { supportedBrowsers } from '../services/BrowsersListService.ts'
+import browserStorage from '../services/BrowserStorageService.ts'
+import { logger } from '../utils/logger.ts'
+import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
+
+logger.debug('Supported browsers', { supportedBrowsers })
+
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
+// Lowest supported version per browser, restricted to the kind of device in use
+const lowestVersions = new Map<string, number>()
+for (const browser of supportedBrowsers) {
+	if (!browser || isMobileBrowser(browser) !== isMobile) {
+		continue
+	}
+	const [id, version] = browser.split(' ') as [string, string]
+	const lowest = lowestVersions.get(id)
+	if (lowest === undefined || lowest > parseFloat(version)) {
+		lowestVersions.set(id, parseFloat(version))
+	}
+}
+
+const formattedBrowsersList = [...lowestVersions]
+	.filter(([id]) => agents[id]?.browser)
+	.map(([id, version]) => t('core', '{name} version {version} and above', { name: agents[id]!.browser, version }))
+
+/**
+ * Remember to allow this browser and continue to the page the user was
+ * redirected from, or to the start page.
+ */
+function forceBrowsing() {
+	browserStorage.setItem(browserStorageKey, 'true')
+
+	const redirectUrl = new URLSearchParams(window.location.search).get('redirect_url')
+	if (redirectUrl) {
+		const redirectPath = atob(redirectUrl)
+			.replace('index.php', '')
+			.replace(getRootUrl(), '')
+			.replace(/\/\//g, '/')
+
+		if (redirectPath.startsWith('/')) {
+			window.location.href = generateUrl(redirectPath)
+			return
+		}
+	}
+
+	window.location.href = generateUrl('/')
+}
+
+/**
+ * Detect if the browserslist browser is a mobile one
+ *
+ * @see https://github.com/browserslist/browserslist#query-composition
+ * @param browser - A browserslist browser, e.g. `and_chr 90`
+ */
+function isMobileBrowser(browser: string): boolean {
+	browser = browser.toLowerCase()
+	return browser.includes('and_')
+		|| browser.includes('android')
+		|| browser.includes('ios_')
+		|| browser.includes('mobile')
+		|| browser.includes('_mob')
+		|| browser.includes('samsung')
+}
+</script>
+
 <template>
-	<div class="content-unsupported-browser guest-box">
-		<NcEmptyContent>
-			{{ t('core', 'This browser is not supported') }}
+	<div class="guest-box" :class="$style.unsupportedBrowser">
+		<NcEmptyContent :name="t('core', 'This browser is not supported')">
 			<template #icon>
-				<Web />
+				<NcIconSvgWrapper :path="mdiWeb" />
 			</template>
 			<template #action>
 				<div>
 					<h2>
 						{{ t('core', 'Your browser is not supported. Please upgrade to a newer version or a supported one.') }}
 					</h2>
-					<NcButton class="content-unsupported-browser__continue" variant="primary" @click="forceBrowsing">
+					<NcButton :class="$style.unsupportedBrowser__continue" variant="primary" @click="forceBrowsing">
 						{{ t('core', 'Continue with this unsupported browser') }}
 					</NcButton>
 				</div>
 
-				<ul class="content-unsupported-browser__list">
+				<div :class="$style.unsupportedBrowser__list">
 					<h3>{{ t('core', 'Supported versions') }}</h3>
-					<li v-for="browser in formattedBrowsersList" :key="browser">
-						{{ browser }}
-					</li>
-				</ul>
+					<ul>
+						<li v-for="browser in formattedBrowsersList" :key="browser">
+							{{ browser }}
+						</li>
+					</ul>
+				</div>
 			</template>
 		</NcEmptyContent>
 	</div>
 </template>
 
-<script>
-import { translatePlural as n, translate as t } from '@nextcloud/l10n'
-import { generateUrl, getRootUrl } from '@nextcloud/router'
-import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import Web from 'vue-material-design-icons/Web.vue'
-import { supportedBrowsers } from '../services/BrowsersListService.js'
-import browserStorage from '../services/BrowserStorageService.js'
-import { logger } from '../utils/logger.ts'
-import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
-
-logger.debug('Supported browsers', { supportedBrowsers })
-
-export default {
-	name: 'UnsupportedBrowser',
-	components: {
-		Web,
-		NcButton,
-		NcEmptyContent,
-	},
-
-	computed: {
-		isMobile() {
-			return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-		},
-
-		/**
-		 * Filter out or include mobile/desktop browsers depending
-		 * on the current user platform/device
-		 */
-		filteredSupportedBrowsers() {
-			return supportedBrowsers.filter((browser) => {
-				if (!browser) {
-					return false
-				}
-
-				if (this.isMobile) {
-					return this.isMobileBrowser(browser)
-				}
-				return !this.isMobileBrowser(browser)
-			})
-		},
-
-		formattedBrowsersList() {
-			const list = {}
-
-			// supportedBrowsers is generated by webpack at compilation time
-			this.filteredSupportedBrowsers.forEach((browser) => {
-				const [id, version] = browser.split(' ')
-				if (!list[id] || list[id] < parseFloat(version, 10)) {
-					list[id] = parseFloat(version, 10)
-				}
-			})
-
-			return Object.keys(list).map((id) => {
-				if (!agents[id]?.browser) {
-					return null
-				}
-
-				const version = list[id]
-				const name = agents[id]?.browser
-				return this.t('core', '{name} version {version} and above', {
-					name,
-					version,
-				})
-			}).filter((entry) => entry !== null)
-		},
-	},
-
-	methods: {
-		t,
-		n,
-
-		// Set the flag allowing this browser and redirect to home
-		forceBrowsing() {
-			browserStorage.setItem(browserStorageKey, true)
-
-			// Redirect if there is the data
-			const urlParams = new URLSearchParams(window.location.search)
-			if (urlParams.has('redirect_url')) {
-				let redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
-
-				// remove index.php and double slashes
-				redirectPath = redirectPath
-					.replace('index.php', '')
-					.replace(getRootUrl(), '')
-					.replace(/\/\//g, '/')
-
-				// if we have a valid redirect url, use it
-				if (redirectPath.startsWith('/')) {
-					window.location = generateUrl(redirectPath)
-					return
-				}
-			}
-
-			// else redirect to root
-			window.location = generateUrl('/')
-		},
-
-		/**
-		 * Detect if the browserslist browser is a mobile one
-		 * https://github.com/browserslist/browserslist#query-composition
-		 *
-		 * @param {string} browser a valid browserlist browser. e.g `and_chr 90`
-		 */
-		isMobileBrowser(browser) {
-			browser = browser.toLowerCase()
-			return browser.includes('and_')
-				|| browser.includes('android')
-				|| browser.includes('ios_')
-				|| browser.includes('mobile')
-				|| browser.includes('_mob')
-				|| browser.includes('samsung')
-		},
-	},
-}
-</script>
-
-<style lang="scss" scoped>
+<style module lang="scss">
 $spacing: 30px;
 
-.content-unsupported-browser {
+.unsupportedBrowser {
 	display: flex;
 	justify-content: center;
 	width: 400px;
@@ -160,12 +117,12 @@ $spacing: 30px;
 	margin: auto;
 	padding: $spacing;
 
-	.empty-content {
+	:global(.empty-content) {
 		margin: 0;
+	}
 
-		:deep(.empty-content__icon) {
-			opacity: 1;
-		}
+	:global(.empty-content__icon) {
+		opacity: 1;
 	}
 
 	&__continue {
@@ -176,10 +133,10 @@ $spacing: 30px;
 	&__list {
 		margin-top: 2 * $spacing;
 		margin-bottom: $spacing;
+
 		li {
 			text-align: start;
 		}
 	}
 }
-
 </style>

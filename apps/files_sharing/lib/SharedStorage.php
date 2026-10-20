@@ -413,6 +413,45 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	/**
+	 * Source name when the mount name differs from the shared node.
+	 *
+	 * The mount name changes when this recipient or a sharer further up the
+	 * chain renames the node, and when a conflict suffix is added.
+	 * Only the share root has a distinct name.
+	 */
+	public function getOriginalDisplayName(): ?string {
+		$sourceName = $this->getSharedNodeName();
+		if ($sourceName === null) {
+			return null;
+		}
+
+		$mountName = basename($this->getMountPoint());
+		if ($mountName === '' || $mountName === '/' || $mountName === $sourceName) {
+			return null;
+		}
+
+		return $sourceName;
+	}
+
+	private function getSharedNodeName(): ?string {
+		$cacheEntry = $this->superShare->getNodeCacheEntry();
+		if ($cacheEntry instanceof ICacheEntry) {
+			$name = $cacheEntry->getName();
+			if (is_string($name) && $name !== '') {
+				return $name;
+			}
+		}
+
+		try {
+			$name = $this->superShare->getNode()->getName();
+		} catch (NotFoundException) {
+			return null;
+		}
+
+		return $name === '' ? null : $name;
+	}
+
+	/**
 	 * return share type, can be "file" or "folder"
 	 *
 	 * @return string

@@ -12,6 +12,8 @@ use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use Test\TestCase;
 
 class EMailTemplateTest extends TestCase {
@@ -223,14 +225,317 @@ class EMailTemplateTest extends TestCase {
 		$this->defaults->method('getName')->willReturn('TestCloud');
 		$this->defaults->method('getLogoImage')
 			->willReturn(['content' => 'PNGDATA', 'mimeType' => 'image/png']);
-		$this->urlGenerator->expects($this->never())->method('getAbsoluteURL');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
 
 		$this->emailTemplate->addHeader();
 
-		$this->assertStringContainsString('src="cid:logo"', $this->emailTemplate->renderHtml());
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertStringContainsString('src="cid:logo"', $html);
+		$this->assertStringNotContainsString('https://example.org/img/logo-mail-header.png', $html);
 		$this->assertSame(
 			[['name' => 'logo', 'content' => 'PNGDATA', 'mimeType' => 'image/png']],
 			$this->emailTemplate->getInlineImages()
 		);
+	}
+
+	private function mockThemingColors(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getDefaultTextColorPrimary')->willReturn('#ffffff');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogo')->willReturn('/img/logo-mail-header.png');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+	}
+
+	public function testEMailTemplateBlocks(): void {
+		$this->mockThemingColors();
+
+		$details = new EMailDetails('Q3 board review');
+		$details->setSubtitle('Thursday, October 15, 2026')
+			->setDateBadge('Oct', '15');
+		$details->addRow('When')
+			->text('14:00 - 15:30 (Europe/Berlin)');
+		$details->addRow('Where')
+			->text('Meeting room 2')
+			->link('Join in Nextcloud Talk', 'https://example.org/call/abc?x=1&y=2');
+		$details->addRow('Attendees')
+			->text('Alice Martin (organizer)')
+			->text('You')
+			->muted('and 3 others');
+
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addBodySender('Alice Martin', 'alice.martin@example.org');
+		$this->emailTemplate->addHeading('Alice Martin invited you to an event');
+		$this->emailTemplate->addBodyDetails($details);
+		$this->emailTemplate->addBodyNote("We'll go through the Q3 numbers.\nPlease review the report beforehand.", 'Description');
+		$this->emailTemplate->addBodyNote('The password is sent in a separate email.', 'This share is password protected.', IEMailTemplate::NOTE_WARNING);
+		$this->emailTemplate->addBodyButtons([
+			['text' => 'Accept', 'url' => 'https://example.org/invitation/accept'],
+			['text' => 'Maybe', 'url' => 'https://example.org/invitation/tentative'],
+			['text' => 'Decline', 'url' => 'https://example.org/invitation/decline'],
+		], 'Will you attend?');
+		$this->emailTemplate->addFooter('TestCloud - A safe home for your data');
+
+		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/blocks-email.html');
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
+		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/blocks-email.txt');
+		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateBlocksEscapeHtml(): void {
+		$this->mockThemingColors();
+
+		$details = (new EMailDetails('<b>title</b>'))
+			->setSubtitle('<i>subtitle</i>')
+			->setInitials('<script>');
+		$details->addRow('<u>label</u>')
+			->text('<img src=x>')
+			->link('<em>link</em>', 'https://example.org/"onmouseover="alert(1)')
+			->muted('<s>muted</s>');
+
+		$this->emailTemplate->addBodySender('<b>Eve</b>', '<i>eve@example.org</i>');
+		$this->emailTemplate->addBodyDetails($details);
+		$this->emailTemplate->addBodyNote('<p>note</p>', '<b>label</b>');
+		$this->emailTemplate->addBodyNote('<p>note</p>', '<b>title</b>', IEMailTemplate::NOTE_ERROR);
+		$this->emailTemplate->addBodyButtons([['text' => '<b>Go</b>', 'url' => 'https://example.org/"><script>']], '<b>label</b>');
+
+		$html = $this->emailTemplate->renderHtml();
+		foreach (['<b>', '<i>', '<u>', '<s>', '<em>', '<img', '<script>', '<p>', '"onmouseover'] as $raw) {
+			$this->assertStringNotContainsString($raw, $html);
+		}
+		$this->assertStringContainsString('&lt;b&gt;Eve&lt;/b&gt;', $html);
+		$this->assertStringContainsString('https://example.org/&quot;onmouseover=&quot;alert(1)', $html);
+
+		$text = $this->emailTemplate->renderText();
+		$this->assertStringContainsString('<b>Eve</b> (<i>eve@example.org</i>)', $text);
+		$this->assertStringContainsString('<b>title</b> <p>note</p>', $text);
+	}
+
+	public function testEMailTemplateDetailsLeadingVisual(): void {
+		$this->mockThemingColors();
+
+		$details = (new EMailDetails('Board prep'))->setInitials('board prep');
+		$this->emailTemplate->addBodyDetails($details);
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertStringContainsString('>BP</div>', $html);
+		$this->assertStringNotContainsString('text-transform:uppercase', $html);
+		// No row, so no separator under the title
+		$this->assertStringNotContainsString('border-bottom:1px solid #ddd;', $html);
+		$this->assertSame('Board prep' . PHP_EOL . PHP_EOL, $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateDetailsLinkWithUrlAsText(): void {
+		$this->mockThemingColors();
+
+		$details = new EMailDetails('Event');
+		$details->addRow('Link')->link('https://example.org/event', 'https://example.org/event');
+		$this->emailTemplate->addBodyDetails($details);
+
+		$this->assertSame('Event' . PHP_EOL . '  Link: https://example.org/event' . PHP_EOL . PHP_EOL, $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateBlocksIgnoredAfterFooter(): void {
+		$this->mockThemingColors();
+
+		$this->emailTemplate->addFooter('Footer');
+		$html = $this->emailTemplate->renderHtml();
+		$text = $this->emailTemplate->renderText();
+
+		$this->emailTemplate->addBodySender('Alice Martin');
+		$this->emailTemplate->addBodyNote('Note');
+		$this->emailTemplate->addBodyDetails(new EMailDetails('Details'));
+		$this->emailTemplate->addBodyButtons([['text' => 'Open', 'url' => 'https://example.org']]);
+
+		$this->assertSame($html, $this->emailTemplate->renderHtml());
+		$this->assertSame($text, $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateDefaultFooterOnBehalfOfSender(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getDefaultTextColorPrimary')->willReturn('#ffffff');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getSlogan')->willReturn('A safe home for your data');
+		$this->urlGenerator->method('getAbsoluteURL')->with('/')->willReturn('https://cloud.example.org/');
+		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$factory = $this->createMock(IFactory::class);
+		$factory->method('get')->willReturn($l10n);
+		$template = new EMailTemplate($this->defaults, $this->urlGenerator, $factory, 252, 120, 'test.TestTemplate', []);
+
+		$template->addBodySender('Tom & Jerry', 'tom@example.org');
+		$template->addFooter();
+
+		$html = $template->renderHtml();
+		$this->assertStringContainsString('This email was sent from <a class="nc-link" href="https://cloud.example.org/" style="color:inherit">cloud.example.org</a> on behalf of Tom &amp; Jerry.', $html);
+		$this->assertStringNotContainsString('please do not reply', $html);
+		$this->assertStringEndsWith(
+			'-- ' . PHP_EOL . 'TestCloud - A safe home for your data' . PHP_EOL . 'This email was sent from cloud.example.org on behalf of Tom & Jerry.',
+			$template->renderText(),
+		);
+	}
+
+	public function testEMailTemplateCustomFooterWinsOverSender(): void {
+		$this->mockThemingColors();
+
+		$this->emailTemplate->addBodySender('Alice Martin');
+		$this->emailTemplate->addFooter('Custom footer');
+
+		$this->assertStringNotContainsString('on behalf of', $this->emailTemplate->renderHtml());
+		$this->assertStringEndsWith('-- ' . PHP_EOL . 'Custom footer', $this->emailTemplate->renderText());
+	}
+
+	private function renderBlocks(EMailTemplate $template): void {
+		$details = new EMailDetails('Q3 board review');
+		$details->setSubtitle('Thursday, October 15, 2026')
+			->setDateBadge('Oct', '15');
+		$details->addRow('When')->text('14:00 - 15:30 (Europe/Berlin)');
+		$details->addRow('Where')->text('Meeting room 2, left wing');
+
+		$template->addHeader();
+		$template->addBodySender('Alice Martin', 'alice.martin@example.org');
+		$template->addHeading('Alice Martin invited you to an event');
+		$template->addBodyNote('Turn left after the entrance.', 'Description');
+		$template->addBodyNote('The password is sent in a separate email.', 'This share is password protected.', IEMailTemplate::NOTE_WARNING);
+		$template->addBodyDetails($details);
+		$template->addBodyButtons([
+			['text' => 'Accept', 'url' => 'https://example.org/invitation/accept'],
+			['text' => 'Decline', 'url' => 'https://example.org/invitation/decline'],
+		]);
+		$template->addFooter('TestCloud - A safe home for your data');
+	}
+
+	public function testEMailTemplateLanguageLtr(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->with('pt_BR')->willReturn('ltr');
+
+		$this->emailTemplate->setLanguage('pt_BR');
+		$this->renderBlocks($this->emailTemplate);
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertStringContainsString('lang="pt-BR" xml:lang="pt-BR" dir="ltr"', $html);
+		$this->assertStringContainsString('border-left:4px solid', $html);
+		$this->assertStringNotContainsString('border-right:4px solid', $html);
+	}
+
+	public function testEMailTemplateLanguageRtl(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->with('ar')->willReturn('rtl');
+
+		$this->emailTemplate->setLanguage('ar');
+		$this->renderBlocks($this->emailTemplate);
+
+		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/blocks-email-rtl.html');
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
+	}
+
+	public function testEMailTemplateRtlMirrorsOnlyStyles(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->willReturn('rtl');
+
+		$this->emailTemplate->setLanguage('he');
+		$this->renderBlocks($this->emailTemplate);
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertStringContainsString('lang="he" xml:lang="he" dir="rtl"', $html);
+		// Note bar, padding shorthands and the dark mode rules are mirrored
+		$this->assertStringContainsString('border-right:4px solid', $html);
+		$this->assertStringNotContainsString('border-left:4px solid', $html);
+		$this->assertStringContainsString('padding:12px 0 12px 20px', $html);
+		$this->assertStringContainsString('border-right-color:', $html);
+		// Text content is left alone
+		$this->assertStringContainsString('Turn left after the entrance.', $html);
+		$this->assertStringContainsString('Meeting room 2, left wing', $html);
+		$this->assertStringContainsString('Turn left after the entrance.', $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateDefaultFooterUsesLanguage(): void {
+		$this->mockThemingColors();
+		$factory = $this->createMock(IFactory::class);
+		$factory->expects($this->once())->method('get')->with('lib', 'ar')->willReturn($this->createMock(IL10N::class));
+		$factory->method('getLanguageDirection')->willReturn('rtl');
+		$template = new EMailTemplate($this->defaults, $this->urlGenerator, $factory, 252, 120, 'test.TestTemplate', []);
+
+		$template->setLanguage('ar');
+		$template->addFooter();
+		$template->renderHtml();
+	}
+
+	public function testEMailTemplateLinksLogoWhenRenderedWithoutInlineImages(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->expects($this->never())->method('getLogoImage');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+
+		$html = $this->emailTemplate->renderHtml();
+		$this->assertStringContainsString('src="https://example.org/img/logo-mail-header.png"', $html);
+		$this->assertStringNotContainsString('cid:logo', $html);
+		$this->assertSame([], $this->emailTemplate->getInlineImages());
+	}
+
+	public function testEMailTemplateLinksLogoWhenNoLogoImageAvailable(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogoImage')->willReturn(null);
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertStringContainsString('src="https://example.org/img/logo-mail-header.png"', $html);
+		$this->assertSame([], $this->emailTemplate->getInlineImages());
+	}
+	public function testEMailTemplateEmbedsOnlyTheHeaderLogo(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogoImage')
+			->willReturn(['content' => 'PNGDATA', 'mimeType' => 'image/png']);
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addBodyListItem('Item', '', 'https://example.org/img/logo-mail-header.png');
+
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertSame(1, substr_count($html, 'src="cid:logo"'));
+		$this->assertSame(1, substr_count($html, 'src="https://example.org/img/logo-mail-header.png"'));
+	}
+
+	public function testEMailTemplateKeepsCustomHeaderWithoutLogo(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->expects($this->never())->method('getLogoImage');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			protected string $header = '<img class="logo" src="https://brand.example/logo.png">';
+		};
+		$template->addHeader();
+
+		$this->assertSame($template->renderHtml(), $template->renderHtmlWithInlineImages());
+		$this->assertSame([], $template->getInlineImages());
+	}
+
+	public function testEMailTemplateKeepsOwnHeaderImplementation(): void {
+		$this->defaults->expects($this->never())->method('getLogoImage');
+
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			// a subclass may keep its own logo URL in a property of the same name
+			private string $logoUrl = 'https://brand.example/logo.png';
+
+			public function addHeader(): void {
+				$this->htmlBody .= '<img class="logo" src="' . $this->logoUrl . '">';
+			}
+		};
+		$template->addHeader();
+
+		$this->assertSame($template->renderHtml(), $template->renderHtmlWithInlineImages());
+		$this->assertSame([], $template->getInlineImages());
 	}
 }

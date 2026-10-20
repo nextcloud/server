@@ -95,6 +95,7 @@
     "Decline" : "Kieltäydy",
     "Remember to upload the files to %s" : "Muista lähettää tiedostot kansioon %s",
     "We would like to kindly remind you that you have not yet uploaded any files to the shared folder." : "Muistutamme, ettet ole lähettänyt yhtäkään tiedostoa jaettuun kansioon.",
+    "Valid until" : "Kelvollinen",
     "Open \"%s\"" : "Avaa \"%s\"",
     "Filter accounts" : "Suodata tilejä",
     "you" : "sinä",
@@ -259,7 +260,6 @@
     "Unable to load the shares list" : "Jakolistan haku epäonnistui",
     "Expires {relativetime}" : "Vanhenee {relativetime}",
     "this share just expired." : "tämä jako vanheni juuri.",
-    "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
     "Internal shares" : "Sisäiset jaot",
     "External shares" : "Ulkoiset jaot",
     "Additional shares" : "Muut jaot",
@@ -326,6 +326,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} on jakanut tämän sinun ja piirin {circle} kanssa",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} on jakanut tämän sinun ja keskustelun {conversation} kanssa",
     "Shared with you in a conversation by {owner}" : "{owner} jakoi tämän kanssasi keskustelussa",
+    "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
     "%1$s shared %2$s with you" : "%1$s jakoi kohteen %2$s kanssasi",
     "Do you want to accept this share?" : "Hyväksytkö tämän jaon?",
     "Share not found" : "Jakoa ei löytynyt",
@@ -335,9 +336,6 @@
     "Public link sharing is disabled by the administrator" : "Ylläpitäjä on estänyt julkisen linkin jakamisen",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tietovarasto ei salli %2$s tyyppisiä jakoja",
     "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen",
-    "Via “{folder}”" : "“{folder}” kautta",
-    "Name or email …" : "Nimi tai sähköposti...",
-    "Name, email, or Federated Cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
-    "Searching …" : "Haetaan…"
+    "Via “{folder}”" : "“{folder}” kautta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -320,6 +320,10 @@ export default {
 					try {
 						const updatedShare = await this.updateShare(this.share.id, properties)
 
+						if (propertyNames.includes('expireDate') && (this.share.expireDate ?? '') === properties.expireDate) {
+							this.share.expireDate = updatedShare.expiration
+						}
+
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined

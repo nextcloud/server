@@ -66,8 +66,13 @@ interface IObjectStore {
 	public function copyObject($from, $to);
 
 	/**
-	 * Get pre signed url for an object
+	 * Get a pre-signed url for an object.
+	 *
+	 * The URL is signed so a browser download via an anchor click receives
+	 * Content-Disposition: attachment. $filename is that download name.
+	 *
 	 * @since 33.0.0
+	 * @since 36.0.0 optional $filename
 	 */
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string;
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string;
 }

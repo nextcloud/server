@@ -123,7 +123,6 @@ OC.L10N.register(
     "Request user agent" : "Cliente usado para a solicitude",
     "Group membership" : "Pertenza ao grupo",
     "is member of" : "é membro de",
-    "is not member of" : "non é membro de",
-    "Type to search for group …" : "Escriba para buscar por grupo…"
+    "is not member of" : "non é membro de"
 },
 "nplurals=2; plural=(n != 1);");

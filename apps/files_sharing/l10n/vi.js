@@ -90,6 +90,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Bạn đã nhận được {share} để nhóm {group} dưới dạng lượt chia sẻ của {user}",
     "Accept" : "Chấp nhận",
     "Decline" : "Từ chối",
+    "Valid until" : "Có hiệu lực đến",
     "Expiration date" : "Ngày kết thúc",
     "Set a password" : "Đặt mật khẩu",
     "Password" : "Mật khẩu",
@@ -186,7 +187,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Không thể tải danh sách chia sẻ",
     "Expires {relativetime}" : "Hết hạn {relativetime}",
     "this share just expired." : "chia sẻ này vừa hết hạn.",
-    "Shared with you by {owner}" : "Đã được chia sẽ bởi {owner}",
     "Link to a file" : "Liên kết đến một tập tin",
     "_Accept share_::_Accept shares_" : ["Chấp nhận chia sẻ"],
     "Open in Files" : "Mở trong Tệp",
@@ -230,6 +230,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Được chia sẻ với bạn và {circle} bởi {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Được chia sẻ với bạn và cuộc trò chuyện {conversation} của {owner}",
     "Shared with you in a conversation by {owner}" : "Được chia sẻ với bạn trong cuộc trò chuyện bởi {owner}",
+    "Shared with you by {owner}" : "Đã được chia sẽ bởi {owner}",
     "%1$s shared %2$s with you" : "%1$s đã chia sẻ %2$s với bạ",
     "Share not found" : "Không tìm thấy chia sẻ.",
     "Back to %s" : "Quay lại %s",
@@ -237,11 +238,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Chia sẻ nhóm bị quản trị viên vô hiệu hóa",
     "Public link sharing is disabled by the administrator" : "Chia sẻ liên kết công khai bị quản trị viên vô hiệu hóa",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Chia sẻ %1$s không thành công vì phần phụ trợ không cho phép chia sẻ từ loại %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Chia sẻ %s không thành công vì phần sau không hỗ trợ chia sẻ ScienceMesh",
     "Public upload disabled by the administrator" : "Tải lên công khai bị quản trị viên vô hiệu hóa",
-    "Via “{folder}”" : "Thông qua “{folder}”",
-    "Name or email …" : "Tên hoặc email…",
-    "Name, email, or Federated Cloud ID …" : "Tên, email hoặc ID đám mây liên kết…",
-    "Searching …" : "Đang tìm kiếm ..."
+    "Via “{folder}”" : "Thông qua “{folder}”"
 },
 "nplurals=1; plural=0;");

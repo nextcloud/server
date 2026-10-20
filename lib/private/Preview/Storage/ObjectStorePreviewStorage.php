@@ -98,10 +98,17 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview): void {
-		// Just set the Preview::bucket and Preview::objectStore
-		$this->getObjectStoreInfoForNewPreview($preview, migration: true);
-		$this->previewMapper->update($preview);
+	public function migratePreviews(array $previews): void {
+		// The objects keep their urn, only the location of the previews has to be set.
+		$locationIds = [];
+		foreach ($previews as $preview) {
+			[$objectStoreName, $config] = $this->getConfigForNewPreview($preview, migration: true);
+			$bucketName = $config['arguments']['bucket'];
+			$locationIds[$objectStoreName][$bucketName] ??= $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+			$preview->setLocationId($locationIds[$objectStoreName][$bucketName]);
+			$preview->setObjectStoreName($objectStoreName);
+			$preview->setBucketName($bucketName);
+		}
 	}
 
 	/**
@@ -126,7 +133,27 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	/**
 	 * @return ObjectStoreDefinition
 	 */
-	private function getObjectStoreInfoForNewPreview(Preview $preview, bool $migration = false): array {
+	private function getObjectStoreInfoForNewPreview(Preview $preview): array {
+		[$objectStoreName, $config] = $this->getConfigForNewPreview($preview);
+		$bucketName = $config['arguments']['bucket'];
+
+		// Get the locationId corresponding to the bucketName and objectStoreName, this will create
+		// a new one, if no matching location is found in the DB.
+		$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+		$preview->setLocationId($locationId);
+		$preview->setObjectStoreName($objectStoreName);
+		$preview->setBucketName($bucketName);
+
+		return [
+			'urn' => $this->getUrn($preview, $config),
+			'store' => $this->getObjectStore($objectStoreName, $config),
+		];
+	}
+
+	/**
+	 * @return array{0: string, 1: ObjectStoreConfig} the object store name and its configuration with the bucket of the preview
+	 */
+	private function getConfigForNewPreview(Preview $preview, bool $migration = false): array {
 		// When migrating old previews, use the 'root' object store configuration
 		$config = $this->objectStoreConfig->getObjectStoreConfiguration($migration ? 'root' : 'preview');
 		$objectStoreName = $this->objectStoreConfig->resolveAlias($migration ? 'root' : 'preview');
@@ -145,17 +172,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		}
 		$config['arguments']['bucket'] = $bucketName;
 
-		// Get the locationId corresponding to the bucketName and objectStoreName, this will create
-		// a new one, if no matching location is found in the DB.
-		$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
-		$preview->setLocationId($locationId);
-		$preview->setObjectStoreName($objectStoreName);
-		$preview->setBucketName($bucketName);
-
-		return [
-			'urn' => $this->getUrn($preview, $config),
-			'store' => $this->getObjectStore($objectStoreName, $config),
-		];
+		return [$objectStoreName, $config];
 	}
 
 	private function getObjectStore(string $objectStoreName, array $config): IObjectStore {

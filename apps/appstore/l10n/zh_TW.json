@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "將 {app} 的使用權限限制為以下群組的成員。",
     "Reset limitation" : "重設限制",
     "Save" : "儲存",
-    "Failed to update app {appName}" : "更新應用程式 {appName} 失敗",
     "Update all apps" : "更新所有應用程式",
     "Are you sure you want to update all apps?" : "您確定您想要更新所有應用程式嗎？",
     "Update done" : "更新完成",
@@ -153,9 +152,15 @@
     "Best security: documents never leave your server" : "最佳安全性：文件永遠不會離開您的伺服器",
     "Best ODF compatibility" : "最佳 ODF 相容性",
     "Best support for legacy files" : "對舊版檔案的最佳支援",
+    "Enabling following apps: {apps}" : "正在啟用以下應用程式：{apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["正在更新 %n 個應用程式。"],
     "Could not load app categories. Please try again later." : "無法載入應用程式分類。請稍後再試。",
     "Could not load apps list. Please try again later." : "無法載入應用程式清單。請稍後再試。",
     "Could not update the app. Please try again later." : "無法更新應用程式。請稍後再試。",
-    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。"
+    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
+    "Could not update an exApp. Please try again later." : "無法更新 exApp。請稍後再試。",
+    "Could not update {app}. Please try again later." : "無法更新 {app}。請稍後再試。",
+    "Could not update an app. Please try again later." : "無法更新應用程式。請稍後再試。",
+    "Failed to update app {appName}" : "更新應用程式 {appName} 失敗"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

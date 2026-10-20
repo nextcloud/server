@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Usaldatava serveri kustutamine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Delete" : "Kustuta",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Liitjagamine võimaldab kontokataloogi vahendamiseks luua ühenduse teiste usaldusväärsete serveritega. Näiteks kasutatakse seda väliste kontode automaatseks täitmiseks ühendatud jagamiseks. Liitjagamise loomiseks ei ole vaja serverit usaldusväärse serverina lisada.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Iga server peab valideerima teise. See protsess võib võtta mitu cron tsüklit.",
-    "External documentation for Federated Cloud Sharing" : "Väiline dokumentatsioon liitpilves jagamise kohta",
-    "+ Add trusted server" : "+ Lisa usaldatud server",
-    "Trusted server" : "Usaldatud server"
+    "Each server must validate the other. This process may require a few cron cycles." : "Iga server peab valideerima teise. See protsess võib võtta mitu cron tsüklit."
 },
 "nplurals=2; plural=(n != 1);");

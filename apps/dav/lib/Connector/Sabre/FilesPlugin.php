@@ -12,11 +12,13 @@ use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Accounts\IAccountManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
@@ -71,6 +73,7 @@ class FilesPlugin extends ServerPlugin {
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const LAST_ACTIVITY_PROPERTYNAME = '{http://nextcloud.org/ns}last_activity';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
+	public const ORIGINAL_DISPLAYNAME_PROPERTYNAME = '{http://nextcloud.org/ns}original-displayname';
 	public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = '{http://nextcloud.org/ns}hide-download';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
@@ -134,6 +137,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
+		$server->protectedProperties[] = self::ORIGINAL_DISPLAYNAME_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -424,6 +428,26 @@ class FilesPlugin extends ServerPlugin {
 				);
 			});
 
+			$propFind->handle(self::ORIGINAL_DISPLAYNAME_PROPERTYNAME, function () use ($node): ?string {
+				if ($this->isPublic) {
+					return null;
+				}
+
+				try {
+					$file = $node->getNode();
+					$storage = $file->getStorage();
+				} catch (NotFoundException|StorageNotAvailableException) {
+					return null;
+				}
+
+				if ($file->getInternalPath() !== '' || !$storage->instanceOfStorage(SharedStorage::class)) {
+					return null;
+				}
+
+				/** @var SharedStorage $storage */
+				return $storage->getOriginalDisplayName();
+			});
+
 			$propFind->handle(self::SHARE_HIDE_DOWNLOAD_PROPERTYNAME, function () use ($node) {
 				$storage = $node->getNode()->getStorage();
 				if ($storage->instanceOfStorage(ISharedStorage::class)) {
@@ -583,34 +607,42 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 
-		$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$node->touch($time);
-			return true;
-		});
-		$propPatch->handle(self::GETETAG_PROPERTYNAME, function ($etag) use ($node) {
-			if (empty($etag)) {
-				return false;
-			}
-			return $node->setEtag($etag) !== -1;
-		});
-		$propPatch->handle(self::CREATIONDATE_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$dateTime = new \DateTimeImmutable($time);
-			$node->setCreationTime($dateTime->getTimestamp());
-			return true;
-		});
-		$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$node->setCreationTime((int)$time);
-			return true;
-		});
+		// The mtime, etag and creation time are written straight to the file
+		// cache, bypassing the storage permission wrappers that guard content
+		// writes. Only register the handlers when the caller has update rights,
+		// otherwise a read-only share (including anonymous public links) could
+		// corrupt the owner's metadata. Sabre reports 403 for the properties
+		// that are left without a handler.
+		if ($node->getFileInfo()->isUpdateable()) {
+			$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$node->touch($time);
+				return true;
+			});
+			$propPatch->handle(self::GETETAG_PROPERTYNAME, function ($etag) use ($node) {
+				if (empty($etag)) {
+					return false;
+				}
+				return $node->setEtag($etag) !== -1;
+			});
+			$propPatch->handle(self::CREATIONDATE_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$dateTime = new \DateTimeImmutable($time);
+				$node->setCreationTime($dateTime->getTimestamp());
+				return true;
+			});
+			$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$node->setCreationTime((int)$time);
+				return true;
+			});
+		}
 
 		$this->handleUpdatePropertiesMetadata($propPatch, $node);
 
@@ -650,8 +682,7 @@ class FilesPlugin extends ServerPlugin {
 				$mutation,
 				function (mixed $value) use ($accessRight, $knownMetadata, $node, $mutation, $filesMetadataManager): bool {
 					/** @var FilesMetadata $metadata */
-					$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
-					$metadata->setStorageId($node->getNode()->getStorage()->getCache()->getNumericStorageId());
+					$metadata = $filesMetadataManager->getMetadataForNode($node->getNode(), true);
 					$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
 
 					// confirm metadata key is editable via PROPPATCH

@@ -2858,6 +2858,49 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($cache->inCache('foo.txt'));
 	}
 
+	/**
+	 * Regression test: checks that when fopen fails, the view checks the correct path and removes the cache entry.
+	 */
+	public function testFopenGoneViewBelowMountRoot(): void {
+		$storage = new Temporary([]);
+		$storage->mkdir('sub');
+		$storage->file_put_contents('foo.txt', 'bar');
+		$storage->file_put_contents('sub/foo.txt', 'bar');
+		$storage->getScanner()->scan('');
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test/sub');
+
+		$storage->unlink('sub/foo.txt');
+
+		$this->assertTrue($cache->inCache('sub/foo.txt'));
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+		$this->assertFalse($cache->inCache('sub/foo.txt'));
+	}
+
+	public function testFopenFailureOnExistingFileDoesNotPropagate(): void {
+		/** @var Temporary&MockObject $storage */
+		$storage = $this->getMockBuilder(Temporary::class)
+			->setConstructorArgs([[]])
+			->onlyMethods(['fopen'])
+			->getMock();
+		$storage->method('fopen')
+			->willReturn(false);
+		$storage->mkdir('sub');
+		$storage->file_put_contents('sub/foo.txt', 'bar');
+		$storage->getScanner()->scan('');
+		$cache = $storage->getCache();
+		$cache->update($cache->getId('sub'), ['mtime' => 100]);
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test/sub');
+
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+		$this->assertTrue($cache->inCache('sub/foo.txt'));
+		$this->assertEquals(100, $cache->get('sub')->getMTime());
+	}
+
 	public function testMountpointParentsCreated(): void {
 		$storage1 = $this->getTestStorage();
 		Filesystem::mount($storage1, [], '/');

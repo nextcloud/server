@@ -91,8 +91,10 @@ class TemplateLayout {
 					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
 					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 					Util::addScript('core', 'legacy-unified-search', 'core');
+					Util::addStyle('core', 'legacy-unified-search');
 				} else {
 					Util::addScript('core', 'unified-search', 'core');
+					Util::addStyle('core', 'unified-search');
 				}
 
 				// Set logo link target
@@ -159,7 +161,7 @@ class TemplateLayout {
 				}
 
 				$page->assign('user_displayname', $userDisplayName);
-				$page->assign('user_uid', \OC_User::getUser());
+				$page->assign('user_uid', $user?->getUID() ?? false);
 				break;
 			case TemplateResponse::RENDER_AS_PUBLIC:
 				$page = $this->templateManager->getTemplate('core', 'layout.public');

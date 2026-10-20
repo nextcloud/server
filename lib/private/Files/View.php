@@ -1065,7 +1065,7 @@ class View {
 			$mount = $this->getMount($path);
 			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
 			$storage = $mount->getStorage();
-			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
+			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($internalPath)) {
 				$this->writeUpdate($storage, $internalPath);
 			}
 		}
@@ -2285,7 +2285,8 @@ class View {
 			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
 		}
 		$uid = $info->getOwner()->getUID();
-		if ($uid !== \OC_User::getUser()) {
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($uid !== $userInSession) {
 			Filesystem::initMountPoints($uid);
 			$ownerView = new View('/' . $uid . '/files');
 			try {

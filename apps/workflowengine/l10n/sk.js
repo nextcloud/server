@@ -21,7 +21,7 @@ OC.L10N.register(
     "File copied" : "Kopírovaný súbor",
     "Tag assigned" : "Priradený štítok",
     "Someone" : "Niekto",
-    "%s created %s" : "%s vytvorené %s",
+    "%s created %s" : "%s vytvoril(a) %s",
     "%s modified %s" : "%s zmenené %s",
     "%s deleted %s" : "%s vymazané %s",
     "%s accessed %s" : "%s pristupené k %s",
@@ -128,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "User agent požiadavky",
     "Group membership" : "Skupinové členstvo",
     "is member of" : "Je členom",
-    "is not member of" : "Nie je členom",
-    "Type to search for group …" : "Začnite písať pre vyhľadanie skupiny ..."
+    "is not member of" : "Nie je členom"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

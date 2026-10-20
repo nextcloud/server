@@ -28,11 +28,12 @@ export class PublicSharePage {
 
 	/**
 	 * The header's primary action — the first share action, rendered as a button
-	 * next to the menu (e.g. "Download"). On small screens there is none: every
-	 * action moves into the actions menu.
+	 * next to the menu (e.g. "Download"), which is a link when the action has one.
+	 * On small screens there is none: every action moves into the actions menu.
 	 */
 	primaryAction(name: string | RegExp): Locator {
-		return this.header().getByRole('button', { name })
+		return this.header().getByRole('link', { name })
+			.or(this.header().getByRole('button', { name }))
 	}
 
 	/** The header's "More actions" menu (teleported, so matched at page level). */

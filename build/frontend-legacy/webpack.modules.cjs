@@ -5,25 +5,6 @@
 const path = require('path')
 
 module.exports = {
-	core: {
-		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
-		install: path.join(__dirname, 'core/src', 'install.ts'),
-		login: path.join(__dirname, 'core/src', 'login.js'),
-		login_flow: path.join(__dirname, 'core/src', 'login-flow.ts'),
-		main: path.join(__dirname, 'core/src', 'main.js'),
-		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
-		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
-		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
-		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
-		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
-		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
-		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
-		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
-		public: path.join(__dirname, 'core/src', 'public.ts'),
-		public_share_auth: path.join(__dirname, 'core/src', 'public-share-auth.ts'),
-		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
-		update: path.join(__dirname, 'core/src', 'update.ts'),
-	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
@@ -47,7 +28,6 @@ module.exports = {
 		'vue-settings-profile-contact': path.join(__dirname, 'apps/settings/src', 'main-profile-contact.js'),
 		'vue-settings-language-locale': path.join(__dirname, 'apps/settings/src', 'main-language-locale.js'),
 		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
-		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),

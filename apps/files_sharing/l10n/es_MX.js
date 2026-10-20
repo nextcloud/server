@@ -105,6 +105,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Ha recibido {share} para el grupo {group} como un recurso compartido por {user}",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",
+    "Valid until" : "Válido hasta",
     "Filter accounts" : "Filtrar cuentas",
     "you" : "tú",
     "The request will expire on {date} at midnight and will be password protected." : "La solicitud caducará el {date} a la medianoche y estará protegida por contraseña.",
@@ -263,7 +264,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "No se pudo cargar la lista de recursos compartidos",
     "Expires {relativetime}" : "Caduca en {relativetime}",
     "this share just expired." : "este recurso compartido acaba de caducar.",
-    "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "Link to a file" : "Enlazar a un archivo",
     "_Accept share_::_Accept shares_" : ["Aceptar recurso compartido","Aceptar recursos compartidos","Aceptar recursos compartidos"],
     "Open in Files" : "Abrir en Archivos",
@@ -314,6 +314,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Compartido con Ud. y {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Compartido con Ud. y la conversación {conversation} por {owner}",
     "Shared with you in a conversation by {owner}" : "Compartido con Ud. en una conversación por {owner}",
+    "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "%1$s shared %2$s with you" : "%1$s le compartió %2$s",
     "Share not found" : "No se encontró el elemento compartido",
     "Back to %s" : "Volver a %s",
@@ -321,11 +322,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Public link sharing is disabled by the administrator" : "Compartir ligas públicas está deshabilitado por el administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s falló porque el servidor no permite compartir recursos del tipo %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Compartir %s falló porque el servidor no soporta recursos compartidos de ScienceMesh",
     "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
-    "Via “{folder}”" : "Vía \"{folder}\"",
-    "Name or email …" : "Nombre o correo electrónico …",
-    "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o identificador de la nube federada ...",
-    "Searching …" : "Buscando  …"
+    "Via “{folder}”" : "Vía \"{folder}\""
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -7,7 +7,6 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\Template\TemplateManager;
 use OC\Setup;
@@ -18,17 +17,14 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\HintException;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
-use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -68,46 +64,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if a password is required for each public link
-	 *
-	 * @param bool $checkGroupMembership Check group membership exclusion
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
-	 */
-	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
-	}
-
-	/**
-	 * check if sharing is disabled for the current user
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUser|null $user
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's sharingDisabledForUser directly
-	 */
-	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		$userId = $user ? $user->getUID() : null;
-		return $shareManager->sharingDisabledForUser($userId);
-	}
-
-	/**
-	 * check if share API enforces a default expire date
-	 *
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
-	 */
-	public static function isDefaultExpireDateEnforced() {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
-	}
-
-	/**
 	 * copies the skeleton to the users /files
 	 *
 	 * @param string $userId
@@ -118,44 +74,6 @@ class OC_Util {
 	 */
 	public static function copySkeleton($userId, Folder $userDirectory) {
 		Server::get(TemplateManager::class)->copySkeleton($userId);
-	}
-
-	/**
-	 * copies a directory recursively by using streams
-	 *
-	 * @param string $source
-	 * @param Folder $target
-	 * @return void
-	 * @deprecated 34.0.0 Unused, if you really need this functionality, open an issue on GitHub
-	 */
-	public static function copyr($source, Folder $target) {
-		$logger = Server::get(LoggerInterface::class);
-
-		// Verify if folder exists
-		$dir = opendir($source);
-		if ($dir === false) {
-			$logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
-			return;
-		}
-
-		// Copy the files
-		while (false !== ($file = readdir($dir))) {
-			if (!Filesystem::isIgnoredDir($file)) {
-				if (is_dir($source . '/' . $file)) {
-					$child = $target->newFolder($file);
-					self::copyr($source . '/' . $file, $child);
-				} else {
-					$sourceStream = fopen($source . '/' . $file, 'r');
-					if ($sourceStream === false) {
-						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
-						closedir($dir);
-						return;
-					}
-					$target->newFile($file, $sourceStream);
-				}
-			}
-		}
-		closedir($dir);
 	}
 
 	/**
@@ -459,7 +377,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 * @internal
 	 */
-	public static function checkDataDirectoryPermissions($dataDirectory) {
+	private static function checkDataDirectoryPermissions($dataDirectory) {
 		if (!Server::get(IConfig::class)->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
@@ -488,7 +406,7 @@ class OC_Util {
 	 * @return array errors found
 	 * @internal
 	 */
-	public static function checkDataDirectoryValidity($dataDirectory) {
+	private static function checkDataDirectoryValidity($dataDirectory) {
 		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
@@ -588,7 +506,7 @@ class OC_Util {
 	 *
 	 * @internal
 	 */
-	public static function isAnnotationsWorking(): bool {
+	private static function isAnnotationsWorking(): bool {
 		if (PHP_VERSION_ID >= 80300) {
 			/** @psalm-suppress UndefinedMethod */
 			$reflection = \ReflectionMethod::createFromMethodName(__METHOD__);
@@ -598,15 +516,6 @@ class OC_Util {
 		$docs = $reflection->getDocComment();
 
 		return (is_string($docs) && strlen($docs) > 50);
-	}
-
-	/**
-	 * Check if the PHP module fileinfo is loaded.
-	 *
-	 * @internal
-	 */
-	public static function fileInfoLoaded(): bool {
-		return function_exists('finfo_open');
 	}
 
 	/**

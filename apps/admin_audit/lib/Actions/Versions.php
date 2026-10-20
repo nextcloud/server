@@ -8,9 +8,11 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Actions;
 
+use OCA\AdminAudit\Operation;
+
 class Versions extends Action {
 	public function delete(array $params): void {
-		$this->log('Version "%s" was deleted.',
+		$this->log(Operation::VersionDeleted, 'Version "%s" was deleted.',
 			['path' => $params['path']],
 			['path']
 		);

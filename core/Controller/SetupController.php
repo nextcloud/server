@@ -32,7 +32,10 @@ class SetupController {
 		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
 
-	public function run(array $post): void {
+	public function run(
+		#[\SensitiveParameter]
+		array $post,
+	): void {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -71,7 +74,10 @@ class SetupController {
 		$this->templateManager->printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display(array $post): void {
+	public function display(
+		#[\SensitiveParameter]
+		array $post,
+	): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -99,7 +105,9 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'install');
+		Util::addStyle('core', 'install');
 		Util::addTranslations('core');
 
 		$this->initialStateService->provideInitialState('core', 'config', $parameters);
@@ -131,7 +139,10 @@ class SetupController {
 	/**
 	 * @psalm-taint-escape file we trust file path given in POST for setup
 	 */
-	public function loadAutoConfig(array $post): array {
+	public function loadAutoConfig(
+		#[\SensitiveParameter]
+		array $post,
+	): array {
 		if (file_exists($this->autoConfigFile)) {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];

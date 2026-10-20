@@ -146,6 +146,7 @@ EOF
 	# trigger installation
 	echo "Installing ...."
 	./occ maintenance:install -vvv --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
+	NC_debug=true ./occ testing:prepare-ci
 
 	./occ config:system:set --value true --type boolean allow_local_remote_servers
 

@@ -2,15 +2,171 @@
   - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import type { DbType, SetupConfig, SetupLinks } from '../types/install.d.ts'
+
+import { mdiArrowRight } from '@mdi/js'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import DomPurify from 'dompurify'
+import { computed, onMounted, reactive, ref, useTemplateRef } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+
+enum PasswordStrength {
+	VeryWeak,
+	Weak,
+	Moderate,
+	Strong,
+	VeryStrong,
+	ExtremelyStrong,
+}
+
+/**
+ * Estimate the strength of a password from its entropy.
+ *
+ * @param password - The password
+ */
+function checkPasswordEntropy(password: string = ''): PasswordStrength {
+	const uniqueCharacters = new Set(password)
+	const entropy = parseInt(Math.log2(Math.pow(uniqueCharacters.size, password.length)).toFixed(2))
+	if (entropy < 16) {
+		return PasswordStrength.VeryWeak
+	} else if (entropy < 31) {
+		return PasswordStrength.Weak
+	} else if (entropy < 46) {
+		return PasswordStrength.Moderate
+	} else if (entropy < 61) {
+		return PasswordStrength.Strong
+	} else if (entropy < 76) {
+		return PasswordStrength.VeryStrong
+	}
+
+	return PasswordStrength.ExtremelyStrong
+}
+
+const config = reactive(loadState<SetupConfig>('core', 'config'))
+const links = loadState<SetupLinks>('core', 'links')
+
+const form = useTemplateRef('form')
+const isValidAutoconfig = ref(false)
+const loading = ref(false)
+
+const passwordStrength = computed(() => checkPasswordEntropy(config.adminpass))
+
+const passwordHelperText = computed(() => {
+	if (config.adminpass === '') {
+		return ''
+	}
+
+	switch (passwordStrength.value) {
+		case PasswordStrength.VeryWeak:
+			return t('core', 'Password is too weak')
+		case PasswordStrength.Weak:
+			return t('core', 'Password is weak')
+		case PasswordStrength.Moderate:
+			return t('core', 'Password is average')
+		case PasswordStrength.Strong:
+			return t('core', 'Password is strong')
+		case PasswordStrength.VeryStrong:
+			return t('core', 'Password is very strong')
+		case PasswordStrength.ExtremelyStrong:
+			return t('core', 'Password is extremely strong')
+	}
+
+	return t('core', 'Unknown password strength')
+})
+
+const passwordHelperType = computed(() => {
+	if (passwordStrength.value < PasswordStrength.Moderate) {
+		return 'error'
+	}
+	if (passwordStrength.value < PasswordStrength.Strong) {
+		return 'warning'
+	}
+	return 'success'
+})
+
+/**
+ * Only MySQL/MariaDB and PostgreSQL can be configured to use an encrypted
+ * connection through the installer, see OC\Setup\AbstractDatabase.
+ */
+const supportsEncryptedConnection = computed(() => config.dbtype === 'mysql' || config.dbtype === 'pgsql')
+
+/**
+ * The form is submitted natively, so the checkbox needs a `name` to be part of
+ * the request - which NcCheckboxRadioSwitch only supports for groups of
+ * checkboxes, meaning the model has to be the list of the checked values.
+ * The value is submitted as a string and reflected back on validation errors.
+ */
+const dbsslnoverify = computed({
+	get: () => config.dbsslnoverify ? ['1'] : [],
+	set: (checked: string[]) => {
+		config.dbsslnoverify = checked.includes('1')
+	},
+})
+
+const firstAndOnlyDatabase = computed(() => {
+	const dbNames = Object.values(config.databases || {})
+	return dbNames.length === 1 ? dbNames[0] : null
+})
+
+// More than 3 databases are listed vertically
+const DBTypeGroupDirection = computed(() => Object.keys(config.databases || {}).length > 3 ? 'vertical' : 'horizontal')
+
+const htaccessWarning = computed(() => {
+	// The message is rendered with v-html
+	const message = [
+		t('core', 'Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work.'),
+		t('core', 'For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}', {
+			linkStart: '<a href="' + links.adminInstall + '" target="_blank" rel="noreferrer noopener">',
+			linkEnd: '</a>',
+		}, { escape: false }),
+	].join('<br>')
+	return DomPurify.sanitize(message)
+})
+
+const errors = computed(() => (config.errors || []).map((error) => {
+	if (typeof error === 'string') {
+		return { heading: '', message: error }
+	}
+
+	// Without a hint there is nothing to show below a heading
+	if (error.hint === '') {
+		return { heading: '', message: error.error }
+	}
+
+	return { heading: error.error, message: error.hint }
+}))
+
+onMounted(() => {
+	if (config.dbtype === '') {
+		config.dbtype = Object.keys(config.databases).at(0) as DbType
+	}
+
+	// An autoconfig is only valid if it fills in everything but the administration account
+	if (config.hasAutoconfig && form.value) {
+		const adminFields = form.value.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]')
+		adminFields.forEach((input) => input.removeAttribute('required'))
+		isValidAutoconfig.value = form.value.checkValidity() && config.errors.length === 0
+		adminFields.forEach((input) => input.setAttribute('required', 'true'))
+	}
+})
+</script>
+
 <template>
 	<form
 		ref="form"
-		class="setup-form"
-		:class="{ 'setup-form--loading': loading }"
+		:class="$style.setupForm"
 		action=""
 		data-cy-setup-form
 		method="POST"
-		@submit="onSubmit">
+		@submit="loading = true">
 		<!-- Autoconfig info -->
 		<NcNoteCard
 			v-if="config.hasAutoconfig"
@@ -40,7 +196,7 @@
 		</NcNoteCard>
 
 		<!-- Admin creation -->
-		<fieldset class="setup-form__administration">
+		<fieldset>
 			<legend>{{ t('core', 'Create administration account') }}</legend>
 
 			<!-- Username -->
@@ -70,7 +226,7 @@
 			<summary>{{ t('core', 'Storage & database') }}</summary>
 
 			<!-- Data folder -->
-			<fieldset class="setup-form__data-folder">
+			<fieldset>
 				<NcTextField
 					v-model="config.directory"
 					:label="t('core', 'Data folder')"
@@ -84,25 +240,25 @@
 			</fieldset>
 
 			<!-- Database -->
-			<fieldset class="setup-form__database">
+			<fieldset>
 				<legend>{{ t('core', 'Database configuration') }}</legend>
 
 				<!-- Database type select -->
-				<fieldset class="setup-form__database-type">
+				<fieldset>
 					<legend class="hidden-visually">
 						{{ t('core', 'Database type') }}
 					</legend>
 
 					<!-- Using v-show instead of v-if ensures that the input dbtype remains set even when only one database engine is available -->
-					<p v-show="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
+					<p v-show="!firstAndOnlyDatabase" :class="[$style.setupForm__databaseTypeSelect, { [$style.setupForm__databaseTypeSelect_vertical]: DBTypeGroupDirection === 'vertical' }]">
 						<NcCheckboxRadioSwitch
 							v-for="(name, db) in config.databases"
 							:key="db"
 							v-model="config.dbtype"
-							:button-variant="true"
+							buttonVariant
 							:data-cy-setup-form-field="`dbtype-${db}`"
 							:value="db"
-							:button-variant-grouped="DBTypeGroupDirection"
+							:buttonVariantGrouped="DBTypeGroupDirection"
 							name="dbtype"
 							type="radio">
 							{{ name }}
@@ -177,7 +333,7 @@
 
 					<NcTextField
 						v-model="config.dbhost"
-						:helper-text="t('core', 'Please specify the port number along with the host name (e.g., localhost:5432).')"
+						:helperText="t('core', 'Please specify the port number along with the host name (e.g., localhost:5432).')"
 						:label="t('core', 'Database host')"
 						:placeholder="t('core', 'localhost')"
 						autocapitalize="none"
@@ -199,7 +355,7 @@
 						<NcTextField
 							v-if="config.dbtype === 'pgsql'"
 							v-model="config.dbsslmode"
-							:helper-text="t('core', 'Supported modes: disable, allow, prefer, require, verify-ca, verify-full.')"
+							:helperText="t('core', 'Supported modes: disable, allow, prefer, require, verify-ca, verify-full.')"
 							:label="t('core', 'Encryption mode')"
 							autocapitalize="none"
 							autocomplete="off"
@@ -208,7 +364,7 @@
 
 						<NcTextField
 							v-model="config.dbsslca"
-							:helper-text="t('core', 'Has to be readable by the web server.')"
+							:helperText="t('core', 'Has to be readable by the web server.')"
 							:label="t('core', 'CA certificate path')"
 							autocapitalize="none"
 							autocomplete="off"
@@ -255,17 +411,16 @@
 
 		<!-- Submit -->
 		<NcButton
-			class="setup-form__button"
-			:class="{ 'setup-form__button--loading': loading }"
+			:class="{ [$style.setupForm__button]: !loading }"
 			:disabled="loading"
-			:wide="true"
+			wide
 			alignment="center-reverse"
 			data-cy-setup-form-submit
 			type="submit"
 			variant="primary">
 			<template #icon>
 				<NcLoadingIcon v-if="loading" />
-				<IconArrowRight v-else />
+				<NcIconSvgWrapper v-else :path="mdiArrowRight" />
 			</template>
 			{{ loading ? t('core', 'Installing …') : t('core', 'Install') }}
 		</NcButton>
@@ -278,240 +433,8 @@
 	</form>
 </template>
 
-<script lang="ts">
-import type { DbType, SetupConfig, SetupLinks } from '../install.ts'
-
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import DomPurify from 'dompurify'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-
-enum PasswordStrength {
-	VeryWeak,
-	Weak,
-	Moderate,
-	Strong,
-	VeryStrong,
-	ExtremelyStrong,
-}
-
-/**
- *
- * @param password
- */
-function checkPasswordEntropy(password: string = ''): PasswordStrength {
-	const uniqueCharacters = new Set(password)
-	const entropy = parseInt(Math.log2(Math.pow(parseInt(uniqueCharacters.size.toString()), password.length)).toFixed(2))
-	if (entropy < 16) {
-		return PasswordStrength.VeryWeak
-	} else if (entropy < 31) {
-		return PasswordStrength.Weak
-	} else if (entropy < 46) {
-		return PasswordStrength.Moderate
-	} else if (entropy < 61) {
-		return PasswordStrength.Strong
-	} else if (entropy < 76) {
-		return PasswordStrength.VeryStrong
-	}
-
-	return PasswordStrength.ExtremelyStrong
-}
-
-export default defineComponent({
-	name: 'WebInstaller',
-
-	components: {
-		IconArrowRight,
-		NcButton,
-		NcCheckboxRadioSwitch,
-		NcLoadingIcon,
-		NcNoteCard,
-		NcPasswordField,
-		NcTextField,
-	},
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		return {
-			config: {} as SetupConfig,
-			links: {} as SetupLinks,
-			isValidAutoconfig: false,
-			loading: false,
-		}
-	},
-
-	computed: {
-		passwordHelperText(): string {
-			if (this.config?.adminpass === '') {
-				return ''
-			}
-
-			const passwordStrength = checkPasswordEntropy(this.config?.adminpass)
-			switch (passwordStrength) {
-				case PasswordStrength.VeryWeak:
-					return t('core', 'Password is too weak')
-				case PasswordStrength.Weak:
-					return t('core', 'Password is weak')
-				case PasswordStrength.Moderate:
-					return t('core', 'Password is average')
-				case PasswordStrength.Strong:
-					return t('core', 'Password is strong')
-				case PasswordStrength.VeryStrong:
-					return t('core', 'Password is very strong')
-				case PasswordStrength.ExtremelyStrong:
-					return t('core', 'Password is extremely strong')
-			}
-
-			return t('core', 'Unknown password strength')
-		},
-
-		passwordHelperType() {
-			if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Moderate) {
-				return 'error'
-			}
-			if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Strong) {
-				return 'warning'
-			}
-			return 'success'
-		},
-
-		/**
-		 * Only MySQL/MariaDB and PostgreSQL can be configured to use an encrypted
-		 * connection through the installer, see OC\Setup\AbstractDatabase.
-		 */
-		supportsEncryptedConnection(): boolean {
-			return this.config?.dbtype === 'mysql' || this.config?.dbtype === 'pgsql'
-		},
-
-		/**
-		 * The form is submitted natively, so the checkbox needs a `name` to be part of
-		 * the request - which NcCheckboxRadioSwitch only supports for groups of
-		 * checkboxes, meaning the model has to be the list of the checked values.
-		 * The value is submitted as a string and reflected back on validation errors.
-		 */
-		dbsslnoverify: {
-			get(): string[] {
-				return this.config?.dbsslnoverify ? ['1'] : []
-			},
-
-			set(checked: string[]) {
-				this.config.dbsslnoverify = checked.includes('1')
-			},
-		},
-
-		firstAndOnlyDatabase(): string | null {
-			const dbNames = Object.values(this.config?.databases || {})
-			if (dbNames.length === 1) {
-				return dbNames[0]
-			}
-
-			return null
-		},
-
-		DBTypeGroupDirection() {
-			const databases = Object.keys(this.config?.databases || {})
-			// If we have more than 3 databases, we want to display them vertically
-			if (databases.length > 3) {
-				return 'vertical'
-			}
-			return 'horizontal'
-		},
-
-		htaccessWarning(): string {
-			// We use v-html, let's make sure we're safe
-			const message = [
-				t('core', 'Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work.'),
-				t('core', 'For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}', {
-					linkStart: '<a href="' + this.links.adminInstall + '" target="_blank" rel="noreferrer noopener">',
-					linkEnd: '</a>',
-				}, { escape: false }),
-			].join('<br>')
-			return DomPurify.sanitize(message)
-		},
-
-		errors() {
-			return (this.config?.errors || []).map((error) => {
-				if (typeof error === 'string') {
-					return {
-						heading: '',
-						message: error,
-					}
-				}
-
-				// f no hint is set, we don't want to show a heading
-				if (error.hint === '') {
-					return {
-						heading: '',
-						message: error.error,
-					}
-				}
-
-				return {
-					heading: error.error,
-					message: error.hint,
-				}
-			})
-		},
-	},
-
-	beforeMount() {
-		// Needs to only read the state once we're mounted
-		// for Cypress to be properly initialized.
-		this.config = loadState<SetupConfig>('core', 'config')
-		this.links = loadState<SetupLinks>('core', 'links')
-	},
-
-	mounted() {
-		// Set the first database type as default if none is set
-		if (this.config.dbtype === '') {
-			this.config.dbtype = Object.keys(this.config.databases).at(0) as DbType
-		}
-
-		// Validate the legitimacy of the autoconfig
-		if (this.config.hasAutoconfig) {
-			const form = this.$refs.form as HTMLFormElement
-
-			// Check the form without the administration account fields
-			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach((input) => {
-				input.removeAttribute('required')
-			})
-
-			if (form.checkValidity() && this.config.errors.length === 0) {
-				this.isValidAutoconfig = true
-			} else {
-				this.isValidAutoconfig = false
-			}
-
-			// Restore the required attribute
-			// Check the form without the administration account fields
-			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach((input) => {
-				input.setAttribute('required', 'true')
-			})
-		}
-	},
-
-	methods: {
-		async onSubmit() {
-			this.loading = true
-		},
-	},
-})
-</script>
-
-<style lang="scss">
-form {
+<style module lang="scss">
+.setupForm {
 	padding: calc(3 * var(--default-grid-baseline));
 	color: var(--color-main-text);
 	border-radius: var(--border-radius-container);
@@ -524,11 +447,11 @@ form {
 	margin-bottom: 30px;
 
 	> fieldset:first-child,
-	> .notecard:first-child {
+	> :global(.notecard):first-child {
 		margin-top: 0;
 	}
 
-	> .notecard:last-child {
+	> :global(.notecard):last-child {
 		margin-bottom: 0;
 	}
 
@@ -537,39 +460,37 @@ form {
 		margin-block: 1rem;
 	}
 
-	.setup-form__button:not(.setup-form__button--loading) {
-		.material-design-icon {
-			transition: all linear var(--animation-quick);
-		}
-
-		&:hover .material-design-icon {
-			transform: translateX(0.2em);
-		}
+	code {
+		background-color: var(--color-background-dark);
+		margin-top: 1rem;
+		padding: 0 0.3em;
+		border-radius: var(--border-radius);
 	}
 
-	// Db select required styling
-	.setup-form__database-type-select {
-		display: flex;
-		&--vertical {
-			flex-direction: column;
-		}
+	:global(.input-field) {
+		margin-block-start: 1rem !important;
 	}
 
+	:global(.notecard__heading) {
+		font-size: inherit !important;
+	}
 }
 
-code {
-	background-color: var(--color-background-dark);
-	margin-top: 1rem;
-	padding: 0 0.3em;
-	border-radius: var(--border-radius);
+.setupForm__button {
+	:global(.icon-vue) {
+		transition: all linear var(--animation-quick);
+	}
+
+	&:hover :global(.icon-vue) {
+		transform: translateX(0.2em);
+	}
 }
 
-// Various overrides
-.input-field {
-	margin-block-start: 1rem !important;
+.setupForm__databaseTypeSelect {
+	display: flex;
 }
 
-.notecard__heading {
-	font-size: inherit !important;
+.setupForm__databaseTypeSelect_vertical {
+	flex-direction: column;
 }
 </style>

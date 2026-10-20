@@ -18,6 +18,7 @@
 	</types>
 
 	<commands>
+		<command>OCA\Testing\Command\SetUnencryptedSize</command>
 		<command>OCA\Testing\Command\StaticHunt</command>
 	</commands>
 

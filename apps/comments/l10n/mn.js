@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Сэтгэгдэл засварлах үед алдаа гарлаа",
     "Comment deleted" : "Сэтгэгдэл устгагдсан",
     "An error occurred while trying to delete the comment" : "Сэтгэгдэл устгах үед алдаа гарлаа",
-    "An error occurred while trying to create the comment" : "Сэтгэгдэл үүсгэх үед алдаа гарлаа",
-    "Write a comment …" : "Сэтгэгдэл бичих …"
+    "An error occurred while trying to create the comment" : "Сэтгэгдэл үүсгэх үед алдаа гарлаа"
 },
 "nplurals=2; plural=(n != 1);");

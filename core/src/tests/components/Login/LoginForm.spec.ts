@@ -44,7 +44,7 @@ describe('core: LoginForm', () => {
 
 	it('offers only account name if email is not enabled', async () => {
 		const page = render(LoginForm, {
-			propsData: {
+			props: {
 				emailStates: ['0', '1'],
 			},
 		})

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.18.1@79465b8dc674127f442ae31ea114c11bc4dd7ed6">
+<files psalm-version="6.19.1@e2ca44251c1f1aa2e35452d426895746b47de64e">
   <file src="apps/admin_audit/lib/AppInfo/Application.php">
     <DeprecatedClass>
       <code><![CDATA[Share::class]]></code>
@@ -296,13 +296,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$paths]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/dav/lib/CalDAV/Publishing/PublishPlugin.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/AbstractProvider.php">
     <LessSpecificReturnStatement>
@@ -880,11 +873,6 @@
       <code><![CDATA[$principal]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="apps/dav/lib/DAV/Sharing/Plugin.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/DAV/SystemPrincipalBackend.php">
     <InvalidNullableReturnType>
@@ -2248,15 +2236,11 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Personal/APersonalInfoSettings.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
-    </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_Helper::getStorageInfo('/')]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
@@ -3598,14 +3582,7 @@
     <FalsableReturnStatement>
       <code><![CDATA[$firstBlock]]></code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement>
-      <code><![CDATA[$result]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
-      <code><![CDATA[$lastChunkPos]]></code>
       <code><![CDATA[$size]]></code>
     </InvalidScalarArgument>
   </file>

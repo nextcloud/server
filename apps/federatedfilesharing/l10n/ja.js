@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "リモート共有",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
     "Remote share password" : "リモート共有のパスワード",
-    "Incoming share could not be processed" : "受信した共有を処理できませんでした",
-    "X (formerly Twitter)" : "X (旧 Twitter)",
-    "formerly Twitter" : " 旧 Twitter"
+    "Incoming share could not be processed" : "受信した共有を処理できませんでした"
 },
 "nplurals=1; plural=0;");

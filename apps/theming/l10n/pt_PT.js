@@ -115,19 +115,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Opções de acessibilidade diversas",
     "Enable blur background filter (may increase GPU load)" : "Ativar o filtro de desfoque de fundo (pode aumentar a carga da GPU)",
     "Customization has been disabled by your administrator" : "A personalização foi desativada por seu administrador",
-    "Disable-user-theming should be true or false" : "A configuração \"disable-user-theming\" (desabilitar temas do usuário) deve ser \"true\" ou \"false\"",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "A cor primária é usada para destacar elementos como botões importantes. Ela pode ser ligeiramente ajustado, dependendo do esquema de cores atual.",
-    "Header logo" : "Logótipo do cabeçalho",
-    "Upload new header logo" : "Carregar logótipo do cabeçalho",
-    "Upload new favicon" : "Carregar novo favicon",
-    "User settings" : "Configurações de usuário",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Em vez de uma imagem de fundo você também pode configurar uma cor de fundo lisa. Se você usar uma imagem de fundo, a alteração dessa cor influenciará a cor dos ícones do menu do aplicativo.",
-    "Upload new logo" : "Carregar novo logótipo",
-    "Background and login image" : "Plano de fundo e imagem de login",
-    "Advanced options" : "Opções avançadas",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP ImageMagick com suporte para imagens SVG para gerar automaticamente favicons com base no logotipo carregado e na cor.",
-    "Unable to apply the setting." : "Não foi possível aplicar a configuração.",
-    "No background has been selected" : "Nenhum plano de fundo foi selecionado",
-    "Upload" : "Enviar"
+    "Unable to apply the setting." : "Não foi possível aplicar a configuração."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -62,7 +62,6 @@ class OC_Hook {
 		['OCP\Trashbin','deleteAll'],
 		['OCP\Versions','preDelete'],
 		['OCP\Versions','delete'],
-		[OC_User::class,'post_login'],
 		['OC\User','assignedUserId'],
 		['OC\User','preUnassignedUserId'],
 		['OC\User','postUnassignedUserId'],

@@ -7,19 +7,7 @@
 
 namespace OC\Log;
 
-use OC\Core\Controller\SetupController;
-use OC\Http\Client\Client;
-use OC\Security\IdentityProof\Key;
-use OC\Setup;
 use OC\SystemConfig;
-use OCA\Encryption\Controller\RecoveryController;
-use OCA\Encryption\Controller\SettingsController;
-use OCA\Encryption\Crypto\Crypt;
-use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\KeyManager;
-use OCA\Encryption\Listeners\UserEventsListener;
-use OCA\Encryption\Services\PassphraseService;
-use OCA\Encryption\Session;
 use OCP\HintException;
 
 class ExceptionSerializer {
@@ -98,98 +86,25 @@ class ExceptionSerializer {
 	) {
 	}
 
-	protected array $methodsWithSensitiveParametersByClass = [
-		SetupController::class => [
-			'run',
-			'display',
-			'loadAutoConfig',
-		],
-		Setup::class => [
-			'install'
-		],
-		Key::class => [
-			'__construct'
-		],
-		Client::class => [
-			'request',
-			'delete',
-			'deleteAsync',
-			'get',
-			'getAsync',
-			'head',
-			'headAsync',
-			'options',
-			'optionsAsync',
-			'patch',
-			'post',
-			'postAsync',
-			'put',
-			'putAsync',
-		],
-		\Redis::class => [
-			'auth'
-		],
-		\RedisCluster::class => [
-			'__construct'
-		],
-		Crypt::class => [
-			'symmetricEncryptFileContent',
-			'encrypt',
-			'generatePasswordHash',
-			'encryptPrivateKey',
-			'decryptPrivateKey',
-			'isValidPrivateKey',
-			'symmetricDecryptFileContent',
-			'checkSignature',
-			'createSignature',
-			'decrypt',
-			'multiKeyDecrypt',
-			'multiKeyEncrypt',
-		],
-		RecoveryController::class => [
-			'adminRecovery',
-			'changeRecoveryPassword'
-		],
-		SettingsController::class => [
-			'updatePrivateKeyPassword',
-		],
-		Encryption::class => [
-			'encrypt',
-			'decrypt',
-		],
-		KeyManager::class => [
-			'checkRecoveryPassword',
-			'storeKeyPair',
-			'setRecoveryKey',
-			'setPrivateKey',
-			'setFileKey',
-			'setAllFileKeys',
-		],
-		Session::class => [
-			'setPrivateKey',
-			'prepareDecryptAll',
-		],
-		\OCA\Encryption\Users\Setup::class => [
-			'setupUser',
-		],
-		UserEventsListener::class => [
-			'handle',
-			'onUserCreated',
-			'onUserLogin',
-			'onBeforePasswordUpdated',
-			'onPasswordUpdated',
-			'onPasswordReset',
-		],
-		PassphraseService::class => [
-			'setPassphraseForUser',
-		],
-	];
+	protected array $methodsWithSensitiveParametersByClass = [];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
 		if (isset($traceLine['args'])) {
 			$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
 		}
 		$traceLine['args'] = [self::SENSITIVE_VALUE_PLACEHOLDER];
+		return $traceLine;
+	}
+
+	private function processSensitiveParameterValues(array &$sensitiveValues, array $traceLine): array {
+		if (isset($traceLine['args'])) {
+			foreach ($traceLine['args'] as &$arg) {
+				if ($arg instanceof \SensitiveParameterValue) {
+					$sensitiveValues[] = $arg->getValue();
+					$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
+				}
+			}
+		}
 		return $traceLine;
 	}
 
@@ -208,7 +123,7 @@ class ExceptionSerializer {
 					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
-			return $traceLine;
+			return $this->processSensitiveParameterValues($sensitiveValues, $traceLine);
 		}, $trace);
 		return array_map(function (array $traceLine) use ($sensitiveValues) {
 			if (isset($traceLine['args'])) {
@@ -218,7 +133,7 @@ class ExceptionSerializer {
 		}, $trace);
 	}
 
-	private function removeValuesFromArgs($args, $values): array {
+	private function removeValuesFromArgs(array $args, array $values): array {
 		$workArgs = [];
 		foreach ($args as $key => $arg) {
 			if (in_array($arg, $values, true)) {
@@ -231,18 +146,22 @@ class ExceptionSerializer {
 		return $workArgs;
 	}
 
-	private function encodeTrace($trace) {
+	private function encodeTrace(array $trace): array {
 		$trace = array_map(function (array $line) {
 			if (isset($line['args'])) {
-				$line['args'] = array_map([$this, 'encodeArg'], $line['args']);
+				$line['args'] = array_map($this->encodeArg(...), $line['args']);
 			}
 			return $line;
 		}, $trace);
 		return $this->filterTrace($trace);
 	}
 
-	private function encodeArg($arg, $nestingLevel = 5) {
+	private function encodeArg(mixed $arg, int $nestingLevel = 5): mixed {
 		if (is_object($arg)) {
+			if ($arg instanceof \SensitiveParameterValue) {
+				// Keep SensitiveParameterValue as-is, it will be handled later
+				return $arg;
+			}
 			if ($nestingLevel === 0) {
 				return [
 					'__class__' => get_class($arg),

@@ -93,6 +93,7 @@
     "You received {share} to group {group} as a share by {user}" : "A(z) {share} megosztást a(z) {group} csoportba kapta {user} felhasználótól.",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
+    "Valid until" : "Érvényesség vége:",
     "This application enables people to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable people can then share files and folders with other accounts and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other people outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Ez az alkalmazás lehetővé teszi fájlok megosztását a Nextcloudon belül. Amennyiben engedélyezve van, a rendszergazda kiválaszthatja, hogy mely csoportok oszthassanak meg fájlokat. Az érintettek ezután megoszthatják a fájlokat és mappákat más fiókokkal és csoportokkal a Nextcloudon belül. Ezenkívül, ha a rendszergazda engedélyezi a megosztás hivatkozással funkciót, akkor egy külső hivatkozás segítségével fájlokat oszthat meg más fiókokkal a Nextcloudon kívül. A rendszergazdák kikényszeríthetik a jelszavakat, a lejárati dátumokat, és engedélyezhetik a megosztási hivatkozásokkal történő kiszolgálók közötti, valamint a mobileszközökön történő megosztást.\nA funkció kikapcsolása eltávolítja a megosztott fájlokat és mappákat a kiszolgálóról az összes megosztott címzett, valamint a szinkronizálási kliensek és mobilalkalmazások számára. További információ a Nextcloud dokumentációjában található.",
     "Filter accounts" : "Fiókok szűrése",
     "you" : "Ön",
@@ -228,7 +229,6 @@
     "Unable to load the shares list" : "A megosztások listájának betöltése sikertelen",
     "Expires {relativetime}" : "Lejárat: {relativetime}",
     "this share just expired." : "ez a megosztás épp most járt le.",
-    "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "Internal shares" : "Belső megosztások",
     "External shares" : "Külső megosztások",
     "Additional shares" : "További megosztások",
@@ -285,6 +285,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} megosztotta Önnel és a(z) {circle} körrel",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} megosztotta Önnel és a(z) {conversation} beszélgetéssel",
     "Shared with you in a conversation by {owner}" : "{owner} megosztotta Önnel egy beszélgetésben",
+    "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "%1$s shared %2$s with you" : "%1$s megosztotta ezt Önnel: %2$s",
     "Share not found" : "A megosztás nem található",
     "Back to %s" : "Vissza ide: %s",
@@ -292,11 +293,7 @@
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a ScienceMesh megosztásokat",
     "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda",
-    "Via “{folder}”" : "A(z) „{folder}” mappán keretül",
-    "Name or email …" : "Név vagy e-mail-cím…",
-    "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
-    "Searching …" : "Keresés…"
+    "Via “{folder}”" : "A(z) „{folder}” mappán keretül"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

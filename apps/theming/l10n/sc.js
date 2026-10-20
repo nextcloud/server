@@ -73,15 +73,6 @@ OC.L10N.register(
     "Reset to default" : "Torra a sa cunfiguratzione predefinida",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si agatas unu problema, no istentes a ddu sinnalare a {issuetracker}rilevadore de problemas{linkend} nostru. E si nos boles agiudare, intra a s'{designteam}iscuadra de disinnu {linkend} nostra!",
     "Appearance and accessibility settings" : "Cunfiguratzione de aspetu e atzessibilidade",
-    "Misc accessibility options" : "Àteras optziones de atzessibilidade",
-    "Header logo" : "Logo de intestatzione",
-    "Upload new header logo" : "Càrriga logo de intestatzione nou",
-    "Upload new favicon" : "Càrriga favicon noa",
-    "User settings" : "Cunfiguratzione de utente",
-    "Upload new logo" : "Càrriga logo nou",
-    "Upload new background and login image" : "Càrriga s'immàgine de identificatzione e s'isfundu noos",
-    "Advanced options" : "Sèberos avantzados",
-    "No background has been selected" : "Perunu isfundu seletzionadu",
-    "Upload" : "Càrriga"
+    "Misc accessibility options" : "Àteras optziones de atzessibilidade"
 },
 "nplurals=2; plural=(n != 1);");

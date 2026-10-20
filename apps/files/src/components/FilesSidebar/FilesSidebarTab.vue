@@ -7,7 +7,7 @@
 import type { ISidebarTab } from '@nextcloud/files'
 
 import { NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
-import { computed, ref, toRef, watch } from 'vue'
+import { computed, ref, toRaw, toRef, watch } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import { useSidebarStore } from '../../store/sidebar.ts'
@@ -31,10 +31,13 @@ const context = computed(() => {
 	if (!sidebar.currentContext) {
 		return undefined
 	}
+	// The store hands out reactive proxies, which the native structuredClone
+	// used by clone() rejects, so the raw nodes are cloned.
+	const { folder, node, view } = sidebar.currentContext
 	return {
-		folder: sidebar.currentContext.folder?.clone(),
-		node: sidebar.currentContext.node.clone(),
-		view: sidebar.currentContext.view,
+		folder: folder ? toRaw(folder).clone() : undefined,
+		node: toRaw(node).clone(),
+		view,
 	}
 })
 
