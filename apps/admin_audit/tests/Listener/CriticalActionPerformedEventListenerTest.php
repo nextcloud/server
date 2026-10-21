@@ -9,20 +9,21 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Tests\Listener;
 
-use OCA\AdminAudit\AuditLogger;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
+use OCP\EventDispatcher\Event;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CriticalActionPerformedEventListenerTest extends TestCase {
-	private AuditLogger&MockObject $logger;
+	private IAuditLogger&MockObject $logger;
 	private CriticalActionPerformedEventListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(AuditLogger::class);
+		$this->logger = $this->createMock(IAuditLogger::class);
 		$this->listener = new CriticalActionPerformedEventListener($this->logger);
 	}
 
@@ -46,5 +47,12 @@ class CriticalActionPerformedEventListenerTest extends TestCase {
 			'Bruteforce attempt from "{ip}" detected for action "{action}" not throttled due to allow-list.',
 			['ip' => '10.0.0.1', 'action' => 'login'],
 		));
+	}
+
+	public function testUnrelatedEventIsIgnored(): void {
+		$this->logger->expects($this->never())
+			->method($this->anything());
+
+		$this->listener->handle(new Event());
 	}
 }
