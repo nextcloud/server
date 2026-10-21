@@ -73,7 +73,7 @@ OC.L10N.register(
     "Please specify a valid federated group ID" : "Lütfen geçerli bir birleşik grup kimliği belirtin",
     "You cannot share to a Team if the app is not enabled" : "Uygulama kullanıma alınmamışsa bir Takım ile paylaşamazsınız",
     "Please specify a valid team" : "Lütfen geçerli bir takım belirtin",
-    "Sharing %s failed because the back end does not support room shares" : "Arka yüz oda paylaşımlarına izin vermediğinden %s paylaşılamadı",
+    "Sharing %s failed because the back end does not support room shares" : "Arka uç oda paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Unknown share type" : "Paylaşım türü bilinmiyor",
     "Not a directory" : "Bir klasör değil",
     "Could not lock node" : "Düğüm kilitlenemedi",
