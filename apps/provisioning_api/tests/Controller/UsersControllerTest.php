@@ -41,6 +41,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
@@ -2337,6 +2338,9 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
@@ -2425,6 +2429,9 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getBackend')
 			->willReturn($backend);
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -2574,6 +2581,8 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getBackend')
 			->willReturn($backend);
+
+		$this->expectAuditEvent('users.user.account_updated', ['userId' => 'UserToEdit', 'field' => 'language'], 'Account of user "%s" was changed: %s');
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
@@ -2840,6 +2849,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser->expects($this->once())->method('setDisplayName')->with('New Name')->willReturn(true);
 		$targetUser->expects($this->once())->method('setSystemEMailAddress')->with('new@example.com');
 
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+
 		$result = $this->api->editUserMultiField('targetuser', displayName: 'New Name', email: 'new@example.com');
 
 		$this->assertInstanceOf(DataResponse::class, $result);
@@ -2889,6 +2901,9 @@ class UsersControllerTest extends TestCase {
 
 		$targetUser->expects($this->never())->method('setDisplayName');
 		$targetUser->expects($this->never())->method('setPassword');
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$result = $this->api->editUserMultiField('targetuser');
 
@@ -3256,6 +3271,121 @@ class UsersControllerTest extends TestCase {
 
 		$result = $this->api->editUserMultiField('targetuser', displayName: '');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testEditUserMultiFieldByAdminIsAudited(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($this->createMock(ISubAdmin::class));
+		$this->l10nFactory->method('languageExists')->willReturn(true);
+
+		$this->expectAuditEvent('users.user.account_updated', ['userId' => 'targetuser', 'field' => 'language'], 'Account of user "%s" was changed: %s');
+
+		$result = $this->api->editUserMultiField('targetuser', quota: 'default', language: 'de');
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testEditUserMultiValueByAdminIsAudited(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('getSubAdmin')->willReturn($this->createMock(ISubAdmin::class));
+
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->expects($this->once())
+			->method('removePropertyByValue')
+			->with('old@example.com');
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($collection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($account);
+
+		$this->expectAuditEvent('users.user.account_updated', ['userId' => 'targetuser', 'field' => IAccountManager::COLLECTION_EMAIL], 'Account of user "%s" was changed: %s');
+
+		$this->api->editUserMultiValue('targetuser', IAccountManager::COLLECTION_EMAIL, 'old@example.com', '');
+	}
+
+	public function testEditUserPasswordByAdminIsNotAuditedAsAccountUpdate(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('canChangePassword')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$targetUser->expects($this->once())
+			->method('setPassword')
+			->with('NewPassword');
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('getSubAdmin')->willReturn($this->createMock(ISubAdmin::class));
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+
+		$this->api->editUser('targetuser', 'password', 'NewPassword');
+	}
+
+	public static function dataWipeUserDevices(): array {
+		return [
+			'tokens marked for wipe' => [true],
+			'no wipeable tokens' => [false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataWipeUserDevices')]
+	public function testWipeUserDevices(bool $marked): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturnCallback(fn (string $uid): bool => $uid === 'admin');
+		$this->groupManager->method('getSubAdmin')->willReturn($this->createMock(ISubAdmin::class));
+
+		$this->remoteWipe->expects($this->once())
+			->method('markAllTokensForWipe')
+			->with($targetUser)
+			->willReturn($marked);
+
+		if ($marked) {
+			$this->expectAuditEvent('auth.remote_wipe.requested', ['userId' => 'targetuser'], 'Remote wipe was requested for all devices of user "%s"');
+		} else {
+			$this->eventDispatcher->expects($this->never())
+				->method('dispatchTyped');
+		}
+
+		$this->api->wipeUserDevices('targetuser');
+	}
+
+	private function expectAuditEvent(string $operation, array $parameters, string $message): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === $operation
+				&& $event->getParameters() === $parameters
+				&& $event->getLogMessage() === $message));
 	}
 
 	public function testDeleteUserNotExistingUser(): void {
@@ -4835,6 +4965,8 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('sendMail')
 			->with($targetUser, $emailTemplate);
+
+		$this->expectAuditEvent('users.user.welcome_email_sent', ['userId' => 'user-id'], 'Welcome email was sent to user "%s"');
 
 		$this->api->resendWelcomeMessage('UserToGet');
 	}

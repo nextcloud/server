@@ -129,10 +129,15 @@ class UserManagementEventListenerTest extends TestCase {
 		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
 	}
 
-	public function testPasswordUpdatedForNonDatabaseUserIsNotLogged(): void {
+	public function testPasswordUpdatedForNonDatabaseUser(): void {
 		$this->user->method('getBackendClassName')->willReturn('LDAP');
 
-		$this->logger->expects($this->never())->method('info');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Password of user "alice" has been changed',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'users.user.password_changed'),
+			);
 		$this->logger->expects($this->never())->method('critical');
 
 		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
@@ -152,5 +157,49 @@ class UserManagementEventListenerTest extends TestCase {
 			->with('UserID unassigned: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.id_unassigned']);
 
 		$this->listener->handle(new UserIdUnassignedEvent('alice'));
+	}
+
+	public function testUserDisplayNameChanged(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Display name changed for user alice',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'users.user.display_name_changed'),
+			);
+
+		$this->listener->handle(new UserChangedEvent($this->user, 'displayName', 'Alice New', 'Alice Old'));
+	}
+
+	public function testUserQuotaChanged(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Quota of user "alice" was changed to "5 GB"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'users.user.quota_changed'),
+			);
+
+		$this->listener->handle(new UserChangedEvent($this->user, 'quota', '5 GB', 'none'));
+	}
+
+	public function testUserManagersChanged(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Managers of user "alice" were changed to "bob, carol"',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'users.user.managers_changed'),
+			);
+
+		$this->listener->handle(new UserChangedEvent($this->user, 'managers', ['bob', 'carol'], []));
+	}
+
+	public function testUserManagersRemoved(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Managers of user "alice" were changed to ""',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'users.user.managers_changed'),
+			);
+
+		$this->listener->handle(new UserChangedEvent($this->user, 'managers', [], ['bob']));
 	}
 }

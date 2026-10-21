@@ -46,6 +46,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -4692,6 +4693,121 @@ class ManagerTest extends \Test\TestCase {
 		$hookListener3 = $this->createMock(DummyShareManagerListener::class);
 		Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
 		$hookListener3->expects($this->never())->method('post');
+
+		$manager->updateShare($share);
+	}
+
+	public function testUpdateShareLogsAttributesAndTokenChanges(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('oldtoken')
+			->setPermissions(1);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$attributes = $this->manager->newShare()->newAttributes();
+		$attributes->setAttribute('permissions', 'download', false);
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('newtoken')
+			->setHideDownload(true)
+			->setAttributes($attributes)
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($file)
+			->setPermissions(1);
+
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($share)
+			->willReturn($share);
+
+		$auditEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[$event->getOperation()] = $event;
+				}
+			});
+
+		$manager->updateShare($share);
+
+		$this->assertSame(['sharing.share.attributes_updated', 'sharing.share.token_updated'], array_keys($auditEvents));
+		$this->assertSame(
+			'The attributes of the share of the %s with ID "%s" were updated: hide download "%s", attributes "%s" (Share ID: %s)',
+			$auditEvents['sharing.share.attributes_updated']->getLogMessage(),
+		);
+		$this->assertSame([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'hideDownload' => 'enabled',
+			'attributes' => 'permissions.download=false',
+			'id' => '42',
+			'shareType' => IShare::TYPE_LINK,
+		], $auditEvents['sharing.share.attributes_updated']->getParameters());
+		$this->assertSame(
+			'The link token of the share of the %s with ID "%s" was changed (Share ID: %s)',
+			$auditEvents['sharing.share.token_updated']->getLogMessage(),
+		);
+		$this->assertSame([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'id' => '42',
+			'shareType' => IShare::TYPE_LINK,
+		], $auditEvents['sharing.share.token_updated']->getParameters());
+	}
+
+	public function testUpdateShareWithoutAttributesOrTokenChangeDoesNotLog(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+			])
+			->getMock();
+
+		$attributes = $this->manager->newShare()->newAttributes();
+		$attributes->setAttribute('permissions', 'download', false);
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('token')
+			->setHideDownload(true)
+			->setAttributes($attributes)
+			->setPermissions(1);
+
+		$sameAttributes = $this->manager->newShare()->newAttributes();
+		$sameAttributes->setAttribute('permissions', 'download', false);
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('token')
+			->setHideDownload(true)
+			->setAttributes($sameAttributes)
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($this->createMock(File::class))
+			->setPermissions(1);
+
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($share)
+			->willReturn($share);
+
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$manager->updateShare($share);
 	}

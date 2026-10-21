@@ -26,6 +26,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
@@ -147,6 +148,20 @@ class ManagerTest extends TestCase {
 			$query->delete($table)
 				->executeStatement();
 		}
+	}
+
+	/**
+	 * @return \ArrayObject<int, CriticalActionPerformedEvent>
+	 */
+	protected function collectAuditEvents(): \ArrayObject {
+		$events = new \ArrayObject();
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use ($events): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$events[] = $event;
+				}
+			});
+		return $events;
 	}
 
 	public function testChecks(): void {
@@ -446,6 +461,8 @@ class ManagerTest extends TestCase {
 		$check1 = ['class' => ICheck::class, 'operator' => 'eq', 'value' => 'asdf'];
 		$check2 = ['class' => ICheck::class, 'operator' => 'eq', 'value' => 23456];
 
+		$auditEvents = $this->collectAuditEvents();
+
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['\OCP\Files::postDelete']);
 		$this->assertSame('Test01a', $op['name']);
@@ -465,6 +482,25 @@ class ManagerTest extends TestCase {
 				$this->assertTrue(true);
 			}
 		}
+
+		$this->assertCount(2, $auditEvents);
+		$this->assertSame('workflowengine.rule.updated', $auditEvents[0]->getOperation());
+		$this->assertSame('Flow rule "%s" with operation "%s" on entity "%s" was updated in the %s scope', $auditEvents[0]->getLogMessage());
+		$this->assertSame([
+			'ruleId' => $opId1,
+			'operationClass' => TestAdminOp::class,
+			'entity' => $entity,
+			'scopeType' => 'admin',
+		], $auditEvents[0]->getParameters());
+		$this->assertSame('workflowengine.rule.updated', $auditEvents[1]->getOperation());
+		$this->assertSame('Flow rule "%s" with operation "%s" on entity "%s" was updated in the %s scope of user "%s"', $auditEvents[1]->getLogMessage());
+		$this->assertSame([
+			'ruleId' => $opId2,
+			'operationClass' => TestUserOp::class,
+			'entity' => $entity,
+			'scopeType' => 'user',
+			'scopeId' => 'jackie',
+		], $auditEvents[1]->getParameters());
 	}
 
 	public function testDeleteOperation(): void {
@@ -492,6 +528,8 @@ class ManagerTest extends TestCase {
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 
+		$auditEvents = $this->collectAuditEvents();
+
 		foreach ([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
 			try {
 				/** @noinspection PhpUnhandledExceptionInspection */
@@ -515,6 +553,63 @@ class ManagerTest extends TestCase {
 				$this->assertInstanceOf(\UnexpectedValueException::class, $e);
 			}
 		}
+
+		$this->assertCount(2, $auditEvents);
+		$this->assertSame('workflowengine.rule.deleted', $auditEvents[0]->getOperation());
+		$this->assertSame('Flow rule "%s" with operation "%s" on entity "%s" was deleted in the %s scope', $auditEvents[0]->getLogMessage());
+		$this->assertSame([
+			'ruleId' => $opId1,
+			'operationClass' => 'OCA\WFE\TestAdminOp',
+			'entity' => $entity,
+			'scopeType' => 'admin',
+		], $auditEvents[0]->getParameters());
+		$this->assertSame('workflowengine.rule.deleted', $auditEvents[1]->getOperation());
+		$this->assertSame('Flow rule "%s" with operation "%s" on entity "%s" was deleted in the %s scope of user "%s"', $auditEvents[1]->getLogMessage());
+		$this->assertSame([
+			'ruleId' => $opId2,
+			'operationClass' => 'OCA\WFE\TestUserOp',
+			'entity' => $entity,
+			'scopeType' => 'user',
+			'scopeId' => 'jackie',
+		], $auditEvents[1]->getParameters());
+	}
+
+	public function testAddOperation(): void {
+		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
+
+		$cache = $this->createMock(ICache::class);
+		$this->cacheFactory->method('createDistributed')->willReturn($cache);
+
+		$operationMock = $this->createMock(IOperation::class);
+		$operationMock->method('isAvailableForScope')->willReturn(true);
+		$eventMock = $this->createMock(IEntityEvent::class);
+		$eventMock->method('getEventName')->willReturn('MyEvent');
+		$entityMock = $this->createMock(IEntity::class);
+		$entityMock->method('getEvents')->willReturn([$eventMock]);
+		$this->container->method('get')
+			->willReturnCallback(fn (string $class) => match ($class) {
+				TestUserOp::class => $operationMock,
+				$entity => $entityMock,
+				default => $this->createMock(ICheck::class),
+			});
+
+		$auditEvents = $this->collectAuditEvents();
+
+		$check = ['class' => ICheck::class, 'operator' => 'eq', 'value' => 'asdf'];
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$op = $this->manager->addOperation(TestUserOp::class, 'Test01', [$check], 'foo', $userScope, $entity, ['MyEvent']);
+
+		$this->assertCount(1, $auditEvents);
+		$this->assertSame('workflowengine.rule.created', $auditEvents[0]->getOperation());
+		$this->assertSame('Flow rule "%s" with operation "%s" on entity "%s" was created in the %s scope of user "%s"', $auditEvents[0]->getLogMessage());
+		$this->assertSame([
+			'ruleId' => (int)$op['id'],
+			'operationClass' => TestUserOp::class,
+			'entity' => $entity,
+			'scopeType' => 'user',
+			'scopeId' => 'jackie',
+		], $auditEvents[0]->getParameters());
 	}
 
 	public function testGetEntitiesListBuildInOnly(): void {

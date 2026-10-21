@@ -18,11 +18,13 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class SettingsController extends Controller {
 
@@ -49,6 +51,7 @@ class SettingsController extends Controller {
 		private Session $session,
 		private ISession $ocSession,
 		private Util $util,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -102,6 +105,12 @@ class SettingsController extends Controller {
 
 		if ($result === true) {
 			$this->session->setStatus(Session::INIT_SUCCESSFUL);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Private key password of user "%s" was changed',
+				['userId' => $uid],
+				false,
+				'encryption.private_key.password_changed',
+			));
 			return new DataResponse(
 				['message' => $this->l->t('Private key password successfully updated.')]
 			);
@@ -120,6 +129,12 @@ class SettingsController extends Controller {
 	#[UseSession]
 	public function setEncryptHomeStorage($encryptHomeStorage) {
 		$this->util->setEncryptHomeStorage($encryptHomeStorage);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Encryption of home storages was %s',
+			['status' => $encryptHomeStorage ? 'enabled' : 'disabled'],
+			false,
+			'encryption.home_storage.updated',
+		));
 		return new DataResponse();
 	}
 }

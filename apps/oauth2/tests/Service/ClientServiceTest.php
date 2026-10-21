@@ -16,8 +16,10 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Service\ClientService;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
@@ -43,6 +45,8 @@ final class ClientServiceTest extends TestCase {
 
 	private LoggerInterface&MockObject $logger;
 
+	private IEventDispatcher&MockObject $eventDispatcher;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,6 +58,7 @@ final class ClientServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->clientService = new ClientService(
 			$this->secureRandom,
 			$this->crypto,
@@ -62,6 +67,7 @@ final class ClientServiceTest extends TestCase {
 			$this->authTokenProvider,
 			$this->logger,
 			$this->accessTokenMapper,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -95,6 +101,12 @@ final class ClientServiceTest extends TestCase {
 						$c->id = 42;
 						return $c;
 					});
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'oauth2.client.created'
+				&& $event->getParameters() === ['clientId' => 42, 'clientName' => 'My Client Name', 'redirectUri' => 'https://example.com/']
+				&& $event->getLogMessage() === 'OAuth2 client with ID "%s" and name "%s" was created with redirect URI "%s"'));
 
 		$result = $this->clientService->addClient('My Client Name', 'https://example.com/');
 
@@ -161,7 +173,14 @@ final class ClientServiceTest extends TestCase {
 			$tokenProviderMock,
 			$this->logger,
 			$this->accessTokenMapper,
+			$this->eventDispatcher,
 		);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'oauth2.client.deleted'
+				&& $event->getParameters() === ['clientId' => 123, 'clientName' => 'My Client Name']
+				&& $event->getLogMessage() === 'OAuth2 client with ID "%s" and name "%s" was deleted'));
 
 		$this->clientService->deleteClient(123);
 
@@ -242,6 +261,7 @@ final class ClientServiceTest extends TestCase {
 			$this->authTokenProvider,
 			$this->logger,
 			$this->accessTokenMapper,
+			$this->eventDispatcher,
 		);
 
 		$clientService->deleteClient(456);

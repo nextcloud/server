@@ -19,12 +19,14 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -46,6 +48,7 @@ class DeletedShareAPIController extends OCSController {
 		private IGroupManager $groupManager,
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -175,6 +178,19 @@ class DeletedShareAPIController extends OCSController {
 		} catch (GenericShareException $e) {
 			throw new OCSException('Something went wrong');
 		}
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'The share of the %s with ID "%s" for "%s" was restored (Share ID: %s)',
+			[
+				'itemType' => $share->getNodeType(),
+				'itemSource' => $share->getNodeId(),
+				'shareWith' => $share->getSharedWith(),
+				'id' => $share->getId(),
+				'shareType' => $share->getShareType(),
+			],
+			false,
+			'sharing.share.restored',
+		));
 
 		return new DataResponse([]);
 	}

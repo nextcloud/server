@@ -20,9 +20,11 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
@@ -36,6 +38,7 @@ class WebAuthnController extends Controller {
 		private Manager $manager,
 		private IUserSession $userSession,
 		private ISession $session,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -73,7 +76,15 @@ class WebAuthnController extends Controller {
 
 		$this->session->remove(self::WEBAUTHN_REGISTRATION);
 
-		return new JSONResponse($this->manager->finishRegister($publicKeyCredentialCreationOptions, $name, $data));
+		$credential = $this->manager->finishRegister($publicKeyCredentialCreationOptions, $name, $data);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'WebAuthn device with ID "%s" was added',
+			['deviceId' => $credential->getId()],
+			false,
+			'auth.webauthn_device.added',
+		));
+
+		return new JSONResponse($credential);
 	}
 
 	#[NoSubAdminRequired]
@@ -83,6 +94,12 @@ class WebAuthnController extends Controller {
 		$this->logger->debug('Finishing WebAuthn registration');
 
 		$this->manager->deleteRegistration($this->userSession->getUser(), $id);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'WebAuthn device with ID "%s" was removed',
+			['deviceId' => $id],
+			false,
+			'auth.webauthn_device.removed',
+		));
 
 		return new JSONResponse([]);
 	}

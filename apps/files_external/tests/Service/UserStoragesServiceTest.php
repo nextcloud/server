@@ -18,6 +18,7 @@ use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
@@ -187,5 +188,25 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertInstanceOf('\OCA\Files_External\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
 
 		$this->service->getStorage($newStorage->getId());
+	}
+
+	public function testAuditEventsPersonalScope(): void {
+		$auditEvents = [];
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+
+		$storage = $this->service->addStorage($this->makeTestStorageData());
+		$this->service->removeStorage($storage->getId());
+
+		$this->assertCount(2, $auditEvents);
+		$this->assertSame('files_external.storage.created', $auditEvents[0]->getOperation());
+		$this->assertSame($this->userId, $auditEvents[0]->getParameters()['applicableUsers']);
+		$this->assertSame('personal', $auditEvents[0]->getParameters()['scope']);
+		$this->assertSame('files_external.storage.deleted', $auditEvents[1]->getOperation());
+		$this->assertSame('personal', $auditEvents[1]->getParameters()['scope']);
 	}
 }

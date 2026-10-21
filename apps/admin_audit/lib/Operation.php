@@ -72,4 +72,32 @@ enum Operation: string {
 	case AppUpdated = 'apps.app.updated';
 	case ConsoleCommandExecuted = 'console.command.executed';
 	case SystemTagCreated = 'systemtags.tag.created';
+
+	// Users, groups and two-factor providers
+	case UserDisplayNameChanged = 'users.user.display_name_changed';
+	case UserQuotaChanged = 'users.user.quota_changed';
+	case UserManagersChanged = 'users.user.managers_changed';
+	case GroupDisplayNameChanged = 'groups.group.display_name_changed';
+	case SubAdminAdded = 'groups.subadmin.added';
+	case SubAdminRemoved = 'groups.subadmin.removed';
+	case TwoFactorProviderEnabled = 'auth.twofactor_provider.enabled';
+	case TwoFactorProviderDisabled = 'auth.twofactor_provider.disabled';
+
+	// System tags
+	case SystemTagUpdated = 'systemtags.tag.updated';
+	case SystemTagDeleted = 'systemtags.tag.deleted';
+	case SystemTagGroupsUpdated = 'systemtags.tag_groups.updated';
+	case SystemTagAssigned = 'systemtags.tag.assigned';
+	case SystemTagUnassigned = 'systemtags.tag.unassigned';
+
+	// Shares
+	case ShareAccepted = 'sharing.share.accepted';
+	case ShareLeft = 'sharing.share.left';
+	case ShareAttributesUpdated = 'sharing.share.attributes_updated';
+	case ShareTokenUpdated = 'sharing.share.token_updated';
+
+	// App passwords and remote wipe
+	case AppPasswordCreated = 'auth.app_password.created';
+	case AppPasswordDeleted = 'auth.app_password.deleted';
+	case RemoteWipeRequested = 'auth.remote_wipe.requested';
 }

@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -33,6 +34,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
@@ -60,6 +62,7 @@ class ApiController extends OCSController {
 		private readonly IRegistry $subscriptionRegistry,
 		private readonly LoggerInterface $logger,
 		private readonly IURLGenerator $urlGenerator,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -240,6 +243,12 @@ class ApiController extends OCSController {
 			// If this app was force enabled, remove the force-enabled-state
 			$this->appManager->removeOverwriteNextcloudRequirement($appId);
 			$this->appManager->clearAppsCache();
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'App "%s" uninstalled',
+				['app' => $appId],
+				false,
+				'apps.app.uninstalled',
+			));
 			return new DataResponse([]);
 		}
 

@@ -23,11 +23,13 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,6 +47,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private RemoteWipe&MockObject $remoteWipe;
 	private IConfig&MockObject $serverConfig;
 	private IL10N&MockObject $l;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private string $uid = 'jane';
 	private AuthSettingsController $controller;
 
@@ -63,6 +66,7 @@ class AuthSettingsControllerTest extends TestCase {
 		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 		$this->l = $this->createMock(IL10N::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new AuthSettingsController(
 			'core',
@@ -78,6 +82,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$logger,
 			$this->serverConfig,
 			$this->l,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -120,7 +125,11 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('jsonSerialize')
 			->willReturn(['dummy' => 'dummy', 'canDelete' => true]);
 
+		$deviceToken->method('getId')->willReturn(7);
+		$deviceToken->method('getName')->willReturn($name);
+
 		$this->mockActivityManager();
+		$this->expectAuditEvent('auth.app_password.created', ['tokenId' => 7, 'tokenName' => $name], 'App password with ID "%s" and name "%s" was created');
 
 		$expected = [
 			'token' => $newToken,
@@ -196,7 +205,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->mockGetTokenById($tokenId, $token);
 		$this->mockActivityManager();
 
-		$token->expects($this->exactly(2))
+		$token->expects($this->once())
 			->method('getId')
 			->willReturn($tokenId);
 
@@ -208,6 +217,8 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('invalidateTokenById')
 			->with($this->uid, $tokenId);
 
+		$this->expectAuditEvent('auth.app_password.deleted', ['tokenId' => $tokenId], 'App password with ID "%s" was deleted');
+
 		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
@@ -215,7 +226,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 124;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$token->expects($this->exactly(2))
+		$token->expects($this->once())
 			->method('getId')
 			->willReturn($tokenId);
 
@@ -297,7 +308,17 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->mockActivityManager();
 
+		$auditedIds = [];
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function (CriticalActionPerformedEvent $event) use (&$auditedIds): void {
+				$this->assertSame('auth.app_password.deleted', $event->getOperation());
+				$auditedIds[] = $event->getParameters()['tokenId'];
+			});
+
 		$response = $this->controller->destroyOthers();
+
+		$this->assertSame([11, 12], $auditedIds);
 
 		$this->assertSame([11, 12], $revokedIds, 'the current session token must not be revoked');
 		$this->assertSame(['revoked' => [11, 12]], $response->getData());
@@ -494,6 +515,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
+		$token->method('getId')->willReturn($tokenId);
+		$this->expectAuditEvent(
+			'auth.app_password.scope_changed',
+			['tokenId' => $tokenId, 'filesystemAccess' => $newFilesystem ? 'granted' : 'revoked'],
+			'Filesystem access of app password with ID "%s" was %s',
+		);
+
 		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
 
@@ -520,6 +548,9 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->never())
 			->method('setScope');
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
@@ -589,6 +620,14 @@ class AuthSettingsControllerTest extends TestCase {
 		return $token;
 	}
 
+	private function expectAuditEvent(string $operation, array $parameters, string $message): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === $operation
+				&& $event->getParameters() === $parameters
+				&& $event->getLogMessage() === $message));
+	}
+
 	private function mockActivityManager(): void {
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
@@ -619,6 +658,9 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('markTokenForWipe')
 			->with($token)
 			->willReturn(false);
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$response = $this->controller->wipe(123);
 
@@ -653,6 +695,9 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('markTokenForWipe')
 			->with($token)
 			->willReturn(true);
+
+		$token->method('getId')->willReturn(123);
+		$this->expectAuditEvent('auth.remote_wipe.requested', ['tokenId' => 123], 'Remote wipe was requested for app password with ID "%s"');
 
 		$response = $this->controller->wipe(123);
 

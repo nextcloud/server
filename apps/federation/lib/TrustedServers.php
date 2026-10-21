@@ -18,6 +18,7 @@ use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -64,6 +65,15 @@ class TrustedServers {
 					'created' => $this->timeFactory->getTime()
 				]
 			);
+			$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Trusted server "%s" was added with ID "%s"',
+				[
+					'url' => $url,
+					'serverId' => $result,
+				],
+				false,
+				'federation.trusted_server.added',
+			));
 		}
 
 		return $result;
@@ -81,6 +91,12 @@ class TrustedServers {
 	 */
 	public function addSharedSecret(string $url, string $sharedSecret): void {
 		$this->dbHandler->addSharedSecret($url, $sharedSecret);
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Shared secret with trusted server "%s" was exchanged',
+			['url' => $url],
+			false,
+			'federation.shared_secret.exchanged',
+		));
 	}
 
 	/**
@@ -90,7 +106,15 @@ class TrustedServers {
 		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
 		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash'], $server['url']));
-
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Trusted server "%s" was removed',
+			[
+				'url' => $server['url'],
+				'urlHash' => $server['url_hash'],
+			],
+			false,
+			'federation.trusted_server.removed',
+		));
 	}
 
 	/**

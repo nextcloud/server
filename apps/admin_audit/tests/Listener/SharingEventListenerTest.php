@@ -12,8 +12,10 @@ namespace OCA\AdminAudit\Tests\Listener;
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCP\Files\File;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -98,5 +100,27 @@ class SharingEventListenerTest extends TestCase {
 			);
 
 		$this->listener->handle(new ShareDeletedEvent($this->createShare(IShare::TYPE_LINK)));
+	}
+
+	public function testShareAcceptedMessage(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'The share of the file with ID "42" for "bob" was accepted (Share ID: 7)',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'sharing.share.accepted'),
+			);
+
+		$this->listener->handle(new ShareAcceptedEvent($this->createShare(IShare::TYPE_USER)));
+	}
+
+	public function testShareDeletedFromSelfMessage(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'The share of the file with ID "42" for "bob" was left (Share ID: 7)',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'sharing.share.left'),
+			);
+
+		$this->listener->handle(new ShareDeletedFromSelfEvent($this->createShare(IShare::TYPE_GROUP)));
 	}
 }
