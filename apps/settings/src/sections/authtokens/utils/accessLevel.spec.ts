@@ -18,6 +18,8 @@ describe('accessLevel', () => {
 		['calendar and contacts', { preset: 'calendarContacts', grants: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'] }],
 		['files without sharing', { preset: 'custom', grants: ['files'] }],
 		['read-only calendar', { preset: 'custom', grants: ['calendar'] }],
+		['files with search', { preset: 'custom', grants: ['files', 'filesShare', 'search'] }],
+		['people lookup alone', { preset: 'custom', grants: ['people'] }],
 	])('round-trips %s', (_, selection) => {
 		const scopes = toScopes(selection, [])!
 		expect(fromScopes(scopes)).toEqual({ selection, kept: [] })
@@ -55,6 +57,11 @@ describe('accessLevel', () => {
 		expect(setGrant(['calendar', 'calendarWrite', 'files'], 'calendar', false)).toEqual(['files'])
 	})
 
+	it('ticks a service on its own', () => {
+		expect(setGrant(['files'], 'search', true)).toEqual(['files', 'search'])
+		expect(setGrant(['files', 'search'], 'search', false)).toEqual(['files'])
+	})
+
 	it('ticks the area with a sub-option, and unticks only the sub-option', () => {
 		expect(setGrant([], 'contactsWrite', true)).toEqual(['contacts', 'contactsWrite'])
 		expect(setGrant(['contacts', 'contactsWrite'], 'contactsWrite', false)).toEqual(['contacts'])
@@ -71,6 +78,7 @@ describe('accessLevel', () => {
 		[{ filesystem: false, scopes: ['app:deck'] }, 'Other access'],
 		[{ filesystem: true, scopes: [...files, 'app:deck'] }, 'Files and other access'],
 		[{ filesystem: false, scopes: [] }, 'No access'],
+		[{ filesystem: true, scopes: [...files, 'core:search:read', 'core:people:read'] }, 'Files, Search, and People lookup'],
 	])('labels %o as %s', (scope, label) => {
 		expect(accessLabel(scope)).toBe(label)
 	})
