@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Paginate;
 
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
+use OCP\IAppConfig;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Xml\Element\Response;
@@ -16,33 +19,44 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class PaginatePlugin extends ServerPlugin {
-	public const PAGINATE_HEADER = 'X-NC-Paginate';
-	public const PAGINATE_TOTAL_HEADER = 'X-NC-Paginate-Total';
-	public const PAGINATE_TOKEN_HEADER = 'X-NC-Paginate-Token';
-	public const PAGINATE_OFFSET_HEADER = 'X-NC-Paginate-Offset';
-	public const PAGINATE_COUNT_HEADER = 'X-NC-Paginate-Count';
+	public const string PAGINATE_HEADER = 'X-NC-Paginate';
+	public const string PAGINATE_TOTAL_HEADER = 'X-NC-Paginate-Total';
+	public const string PAGINATE_TOKEN_HEADER = 'X-NC-Paginate-Token';
+	public const string PAGINATE_OFFSET_HEADER = 'X-NC-Paginate-Offset';
+	public const string PAGINATE_COUNT_HEADER = 'X-NC-Paginate-Count';
 
 	/** @var Server */
 	private $server;
 
 	public function __construct(
-		private PaginateCache $cache,
-		private int $pageSize = 100,
+		private readonly IAppConfig $appConfig,
+		private readonly PaginateCache $cache,
+		private readonly int $pageSize = 100,
 	) {
+	}
+
+	private function enabled(): bool {
+		return $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::ENABLE_PAGINATION);
 	}
 
 	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
-		$server->on('beforeMultiStatus', [$this, 'onMultiStatus']);
-		$server->on('method:SEARCH', [$this, 'onMethod'], 1);
-		$server->on('method:PROPFIND', [$this, 'onMethod'], 1);
-		$server->on('method:REPORT', [$this, 'onMethod'], 1);
+		if ($this->enabled()) {
+			$server->on('beforeMultiStatus', [$this, 'onMultiStatus']);
+			$server->on('method:SEARCH', [$this, 'onMethod'], 1);
+			$server->on('method:PROPFIND', [$this, 'onMethod'], 1);
+			$server->on('method:REPORT', [$this, 'onMethod'], 1);
+		}
 	}
 
 	#[\Override]
 	public function getFeatures(): array {
-		return ['nc-paginate'];
+		if ($this->enabled()) {
+			return ['nc-paginate'];
+		} else {
+			return [];
+		}
 	}
 
 	public function onMultiStatus(&$fileProperties): void {
