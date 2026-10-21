@@ -51,12 +51,12 @@ class ApplicableHelper {
 		if (count($storage->getApplicableUsers()) + count($storage->getApplicableGroups()) === 0) {
 			return true;
 		}
-		if (in_array($user->getUID(), $storage->getApplicableUsers())) {
+		if (in_array($user->getUID(), $storage->getApplicableUsers(), true)) {
 			return true;
 		}
 		$groupIds = $this->groupManager->getUserGroupIds($user);
 		foreach ($groupIds as $groupId) {
-			if (in_array($groupId, $storage->getApplicableGroups())) {
+			if (in_array($groupId, $storage->getApplicableGroups(), true)) {
 				return true;
 			}
 		}
@@ -99,7 +99,7 @@ class ApplicableHelper {
 				}
 			}
 			foreach ($a->getApplicableUsers() as $userId) {
-				if (!in_array($userId, $b->getApplicableUsers())) {
+				if (!in_array($userId, $b->getApplicableUsers(), true)) {
 					$user = $this->userManager->get($userId);
 					if ($user && !$this->isApplicableForUser($b, $user)) {
 						if (!isset($yielded[$user->getUID()])) {
