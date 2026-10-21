@@ -104,7 +104,7 @@ class AuthSettingsController extends Controller {
 				$type = IToken::PERMANENT_TOKEN;
 				$scope = null;
 			}
-		} elseif ($name === '') {
+		} elseif (trim($name) === '') {
 			// No name is only allowed for one time logins
 			return $this->getServiceNotAvailableResponse();
 		} else {
@@ -245,6 +245,10 @@ class AuthSettingsController extends Controller {
 		}
 
 		$currentName = $token->getName();
+
+		if ($name !== $currentName && trim($name) === '') {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
 
 		if ($scope !== $token->getScopeAsArray()) {
 			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
