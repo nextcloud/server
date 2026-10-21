@@ -37,6 +37,10 @@ const props = defineProps<{
 	details?: string
 }>()
 
+defineEmits<{
+	click: []
+}>()
+
 onMounted(() => {
 	const anchor = document.getElementById(`${props.id}--link`) as HTMLAnchorElement
 	// Make the `<a>` a menuitem
