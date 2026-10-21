@@ -17,12 +17,22 @@ use OCP\AppFramework\Attribute\Implementable;
  * {@see RegisterShareReviewSourceEvent} and resolved from the dependency
  * injection container.
  *
+ * Sources with many shares should implement the extending
+ * {@see IPaginatedShareReviewSource}, which lists shares page by page with
+ * sorting, search, filters and counts instead of everything at once.
+ *
  * @since 34.0.2
  */
 #[Implementable(since: '34.0.2')]
 interface IShareReviewSource {
 	/**
-	 * The name of the app, used in the review table
+	 * Stable, non-translated identifier of this source, e.g. 'Deck'. Used as
+	 * the key of the source in the review app (tab id, per-source review
+	 * state) and as the source name of
+	 * {@see Events\ShareReviewAccessCheckEvent}, so it must never change and
+	 * must not be translated. Use
+	 * {@see IPaginatedShareReviewSource::getDisplayName()} for a localized
+	 * label.
 	 *
 	 * @since 34.0.2
 	 */
@@ -31,7 +41,10 @@ interface IShareReviewSource {
 	/**
 	 * Return all app-specific shares.
 	 *
-	 * The app name is added by the share-review app from getName().
+	 * The app name is added by the share-review app from getName(). A source
+	 * implementing {@see IPaginatedShareReviewSource} is queried page by page
+	 * through queryShares() instead; it may implement this method by iterating
+	 * over all pages.
 	 *
 	 * @return list<ShareReviewEntry>
 	 *
