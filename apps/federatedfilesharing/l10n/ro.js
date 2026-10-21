@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Invalid Federated Cloud ID" : "ID Federated Cloud invalid",
+    "Invalid Federated Cloud ID" : "ID Federated Cloud nevalid",
     "Server to server sharing is not enabled on this server" : "Partajarea server-server nu este activată pe acest server",
     "Couldn't establish a federated share." : "Nu s-a putut stabili o partajare federată.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nu s-a putut stabili o partajare federată; poate parola a fost greșită.",
