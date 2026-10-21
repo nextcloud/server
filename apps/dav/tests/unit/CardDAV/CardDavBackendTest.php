@@ -15,6 +15,7 @@ use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Sharing\Backend;
 use OCA\DAV\CardDAV\Sharing\Service;
+use OCA\DAV\CardDAV\SystemAddressbook;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
@@ -26,8 +27,10 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -1065,5 +1068,364 @@ class CardDavBackendTest extends TestCase {
 
 		// Check that no crash occurs when prune is called without current changes
 		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
+	}
+
+	/**
+	 * @param list<string> $properties vCard content lines
+	 */
+	private function createQueryCard(int $addressBookId, string $uri, array $properties): void {
+		$this->backend->createCard($addressBookId, $uri, implode("\r\n", [
+			'BEGIN:VCARD',
+			'VERSION:3.0',
+			'UID:' . $uri,
+			...$properties,
+			'END:VCARD',
+		]) . "\r\n");
+	}
+
+	private static function propFilter(string $name, array $textMatches = [], string $test = 'anyof', array $paramFilters = [], bool $isNotDefined = false): array {
+		return [
+			'name' => $name,
+			'test' => $test,
+			'is-not-defined' => $isNotDefined,
+			'param-filters' => $paramFilters,
+			'text-matches' => $textMatches,
+		];
+	}
+
+	private static function textMatch(string $value, string $matchType = 'contains', bool $negate = false, string $collation = 'i;unicode-casemap'): array {
+		return [
+			'negate-condition' => $negate,
+			'collation' => $collation,
+			'match-type' => $matchType,
+			'value' => $value,
+		];
+	}
+
+	/**
+	 * @param array{cards: list<array{name: string, continuationToken: string}>, hasMore: bool} $result
+	 * @return list<string>
+	 */
+	private static function queryNames(array $result): array {
+		return array_column($result['cards'], 'name');
+	}
+
+	/**
+	 * Walks all pages, continuing after the last card of each page
+	 *
+	 * @param callable(?string): array{cards: list<array{name: string, continuationToken: string}>, hasMore: bool} $query
+	 * @return list<string>
+	 */
+	private static function collectQueryPages(callable $query, int $limit): array {
+		$names = [];
+		$token = null;
+		$pages = 0;
+		do {
+			$page = $query($token);
+			self::assertLessThanOrEqual($limit, count($page['cards']));
+			$names = [...$names, ...self::queryNames($page)];
+			if ($page['hasMore']) {
+				self::assertNotEmpty($page['cards']);
+				$token = $page['cards'][array_key_last($page['cards'])]['continuationToken'];
+			}
+			self::assertLessThan(100, ++$pages, 'Pagination does not terminate');
+		} while ($page['hasMore']);
+		return $names;
+	}
+
+	public function testQueryCardsOrdersByFnCaseInsensitively(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$otherBookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Other', []);
+		$this->createQueryCard($bookId, 'charlie.vcf', ['FN:CHARLIE']);
+		$this->createQueryCard($bookId, 'nofn1.vcf', ['N:Nobody;;;;']);
+		$this->createQueryCard($bookId, 'alpha.vcf', ['FN:Alpha']);
+		$this->createQueryCard($bookId, 'multi.vcf', ['FN:Zulu', 'FN:able']);
+		$this->createQueryCard($bookId, 'bravo.vcf', ['FN:bravo']);
+		$this->createQueryCard($bookId, 'nofn2.vcf', ['EMAIL:nobody@example.com']);
+		$this->createQueryCard($otherBookId, 'other.vcf', ['FN:Aaron']);
+
+		$result = $this->backend->queryCards($bookId, [], 'anyof', null, null);
+
+		self::assertSame(['multi.vcf', 'alpha.vcf', 'bravo.vcf', 'charlie.vcf', 'nofn1.vcf', 'nofn2.vcf'], self::queryNames($result));
+		self::assertFalse($result['hasMore']);
+	}
+
+	public static function providesQueryCardsPageSizes(): array {
+		return [[1], [2], [3], [7], [8], [9]];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesQueryCardsPageSizes')]
+	public function testQueryCardsPagesCompleteTheResult(int $limit): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		// Equal sort keys and cards without FN make the card id decide the order
+		$this->createQueryCard($bookId, 'doe1.vcf', ['FN:Doe']);
+		$this->createQueryCard($bookId, 'nofn1.vcf', ['N:Nobody;;;;']);
+		$this->createQueryCard($bookId, 'doe2.vcf', ['FN:doe']);
+		$this->createQueryCard($bookId, 'adams.vcf', ['FN:Adams']);
+		$this->createQueryCard($bookId, 'doe3.vcf', ['FN:DOE']);
+		$this->createQueryCard($bookId, 'nofn2.vcf', ['N:Nobody;;;;']);
+		$this->createQueryCard($bookId, 'multi.vcf', ['FN:Miller', 'FN:Baker']);
+		$this->createQueryCard($bookId, 'zimmer.vcf', ['FN:Zimmer']);
+
+		$all = self::queryNames($this->backend->queryCards($bookId, [], 'anyof', null, null));
+		self::assertSame(['adams.vcf', 'multi.vcf', 'doe1.vcf', 'doe2.vcf', 'doe3.vcf', 'zimmer.vcf', 'nofn1.vcf', 'nofn2.vcf'], $all);
+
+		$paged = self::collectQueryPages(fn (?string $token) => $this->backend->queryCards($bookId, [], 'anyof', $limit, $token), $limit);
+
+		self::assertSame($all, $paged);
+	}
+
+	public function testQueryCardsContinuesAfterEveryCard(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->createQueryCard($bookId, 'b1.vcf', ['FN:B']);
+		$this->createQueryCard($bookId, 'nofn1.vcf', ['N:Nobody;;;;']);
+		$this->createQueryCard($bookId, 'a.vcf', ['FN:a']);
+		$this->createQueryCard($bookId, 'b2.vcf', ['FN:b']);
+		$this->createQueryCard($bookId, 'nofn2.vcf', ['N:Nobody;;;;']);
+
+		$cards = $this->backend->queryCards($bookId, [], 'anyof', null, null)['cards'];
+		$names = array_column($cards, 'name');
+		self::assertSame(['a.vcf', 'b1.vcf', 'b2.vcf', 'nofn1.vcf', 'nofn2.vcf'], $names);
+
+		foreach ($cards as $index => $card) {
+			$rest = $this->backend->queryCards($bookId, [], 'anyof', null, $card['continuationToken']);
+			self::assertSame(array_slice($names, $index + 1), self::queryNames($rest), 'Continuing after ' . $card['name']);
+			self::assertFalse($rest['hasMore']);
+		}
+	}
+
+	public function testQueryCardsHasMoreOnlyWhenMoreCardsExist(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->createQueryCard($bookId, 'a.vcf', ['FN:A']);
+		$this->createQueryCard($bookId, 'b.vcf', ['FN:B']);
+		$this->createQueryCard($bookId, 'c.vcf', ['FN:C']);
+
+		$complete = $this->backend->queryCards($bookId, [], 'anyof', 3, null);
+		self::assertSame(['a.vcf', 'b.vcf', 'c.vcf'], self::queryNames($complete));
+		self::assertFalse($complete['hasMore']);
+
+		$first = $this->backend->queryCards($bookId, [], 'anyof', 2, null);
+		self::assertSame(['a.vcf', 'b.vcf'], self::queryNames($first));
+		self::assertTrue($first['hasMore']);
+		$last = $this->backend->queryCards($bookId, [], 'anyof', 2, $first['cards'][1]['continuationToken']);
+		self::assertSame(['c.vcf'], self::queryNames($last));
+		self::assertFalse($last['hasMore']);
+		// A token without a limit continues to the end
+		self::assertSame(['c.vcf'], self::queryNames($this->backend->queryCards($bookId, [], 'anyof', null, $first['cards'][1]['continuationToken'])));
+		// The token of the last card continues to an empty result
+		self::assertSame(['cards' => [], 'hasMore' => false], $this->backend->queryCards($bookId, [], 'anyof', 2, $last['cards'][0]['continuationToken']));
+	}
+
+	public function testQueryCardsWithZeroLimit(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		self::assertSame(['cards' => [], 'hasMore' => false], $this->backend->queryCards($bookId, [], 'anyof', 0, null));
+
+		$this->createQueryCard($bookId, 'a.vcf', ['FN:A']);
+		$this->createQueryCard($bookId, 'b.vcf', ['FN:B']);
+
+		self::assertSame(['cards' => [], 'hasMore' => true], $this->backend->queryCards($bookId, [], 'anyof', 0, null));
+	}
+
+	public function testQueryCardsPagesWithFilter(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->createQueryCard($bookId, 'doe1.vcf', ['FN:John Doe']);
+		$this->createQueryCard($bookId, 'roe.vcf', ['FN:Richard Roe']);
+		$this->createQueryCard($bookId, 'doe2.vcf', ['FN:Jane Doe']);
+		$this->createQueryCard($bookId, 'doe3.vcf', ['FN:Doe']);
+		$filters = [self::propFilter('FN', [self::textMatch('doe')])];
+
+		$paged = self::collectQueryPages(fn (?string $token) => $this->backend->queryCards($bookId, $filters, 'anyof', 1, $token), 1);
+
+		self::assertSame(['doe3.vcf', 'doe2.vcf', 'doe1.vcf'], $paged);
+	}
+
+	public static function providesInvalidQueryContinuationTokens(): array {
+		$encode = static fn (string $json): string => rtrim(strtr(base64_encode($json), '+/', '-_'), '=');
+		return [
+			'empty' => [''],
+			'not base64url' => ['a+b/c='],
+			'padded' => [$encode('["a",1]') . '=='],
+			'not json' => [$encode('not json')],
+			'object' => [$encode('{"0":"a","1":1}')],
+			'one element' => [$encode('["a"]')],
+			'three elements' => [$encode('["a",1,2]')],
+			'numeric sort key' => [$encode('[1,1]')],
+			'nested sort key' => [$encode('[["a"],1]')],
+			'string id' => [$encode('["a","1"]')],
+			'float id' => [$encode('["a",1.5]')],
+			'negative id' => [$encode('["a",-1]')],
+			'non-canonical json' => [$encode('[ "a", 1 ]')],
+			'too long' => [str_repeat('A', 5000)],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesInvalidQueryContinuationTokens')]
+	public function testQueryCardsRejectsInvalidContinuationToken(string $token): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+
+		$this->expectException(BadRequest::class);
+
+		$this->backend->queryCards($bookId, [], 'anyof', 10, $token);
+	}
+
+	public function testQueryCasemapAsciiSourcesAreComplete(): void {
+		$expected = [];
+		for ($codePoint = 0x80; $codePoint <= 0x10FFFF; $codePoint++) {
+			if ($codePoint >= 0xD800 && $codePoint <= 0xDFFF) {
+				continue;
+			}
+			$character = mb_chr($codePoint, 'UTF-8');
+			preg_match_all('/[\x00-\x7F]/', mb_strtoupper($character, 'UTF-8'), $matches);
+			foreach (array_unique(array_map('strtoupper', $matches[0])) as $ascii) {
+				$expected[$ascii][] = $character;
+			}
+		}
+		ksort($expected);
+
+		$actual = (new \ReflectionClassConstant(CardDavBackend::class, 'QUERY_CASEMAP_ASCII_SOURCES'))->getValue();
+		ksort($actual);
+
+		self::assertSame($expected, $actual);
+	}
+
+	public static function providesQueryCardsFilters(): array {
+		$all = ['anna.vcf', 'bob.vcf', 'carl.vcf', 'dora.vcf', 'eve.vcf', 'fran.vcf', 'gus.vcf'];
+		$fnBecker = self::propFilter('FN', [self::textMatch('becker')]);
+		$emailExampleCom = self::propFilter('EMAIL', [self::textMatch('example.com')]);
+		$typeParamFilter = ['name' => 'TYPE', 'is-not-defined' => false, 'text-match' => null];
+		return [
+			'no filters' => [[], 'anyof', $all],
+			'contains' => [[$fnBecker], 'anyof', ['bob.vcf']],
+			'equals' => [[self::propFilter('FN', [self::textMatch('Bob Becker', 'equals')])], 'anyof', ['bob.vcf']],
+			'starts-with' => [[self::propFilter('FN', [self::textMatch('BOB', 'starts-with')])], 'anyof', ['bob.vcf']],
+			'ends-with' => [[self::propFilter('FN', [self::textMatch('ecker', 'ends-with')])], 'anyof', ['bob.vcf']],
+			'lower case property name' => [[self::propFilter('fn', [self::textMatch('becker')])], 'anyof', ['bob.vcf']],
+			'octet collation' => [[self::propFilter('FN', [self::textMatch('Becker', 'contains', false, 'i;octet')])], 'anyof', ['bob.vcf']],
+			'ascii-casemap collation' => [[self::propFilter('FN', [self::textMatch('BECKER', 'contains', false, 'i;ascii-casemap')])], 'anyof', ['bob.vcf']],
+			'negated text-match is not narrowed' => [[self::propFilter('FN', [self::textMatch('becker', 'contains', true)])], 'anyof', $all],
+			'non-indexed property is not narrowed' => [[self::propFilter('X-CUSTOM', [self::textMatch('secret')])], 'anyof', $all],
+			'is-not-defined is not narrowed' => [[self::propFilter('EMAIL', [], 'anyof', [], true)], 'anyof', $all],
+			'anyof' => [[$fnBecker, $emailExampleCom], 'anyof', ['anna.vcf', 'bob.vcf']],
+			'allof' => [[$fnBecker, $emailExampleCom], 'allof', []],
+			'anyof with a non-narrowable prop-filter' => [[$fnBecker, self::propFilter('X-CUSTOM', [self::textMatch('bob')])], 'anyof', $all],
+			'allof with a non-narrowable prop-filter' => [[$fnBecker, self::propFilter('X-CUSTOM', [self::textMatch('bob')])], 'allof', ['bob.vcf']],
+			'property defined' => [[self::propFilter('EMAIL')], 'anyof', ['anna.vcf', 'bob.vcf']],
+			'param-filter with anyof only requires the property' => [[self::propFilter('EMAIL', [self::textMatch('nomatch')], 'anyof', [$typeParamFilter])], 'anyof', ['anna.vcf', 'bob.vcf']],
+			'param-filter with allof keeps the text-match' => [[self::propFilter('EMAIL', [self::textMatch('example.com')], 'allof', [$typeParamFilter])], 'anyof', ['anna.vcf']],
+			'text-matches anyof' => [[self::propFilter('EMAIL', [self::textMatch('bob@'), self::textMatch('.com')])], 'anyof', ['anna.vcf', 'bob.vcf']],
+			'text-matches allof' => [[self::propFilter('EMAIL', [self::textMatch('bob@'), self::textMatch('example')], 'allof')], 'anyof', ['bob.vcf']],
+			'text-matches anyof with a negated one' => [[self::propFilter('EMAIL', [self::textMatch('bob@'), self::textMatch('bob@', 'contains', true)])], 'anyof', ['anna.vcf', 'bob.vcf']],
+			'empty needle only requires the property' => [[self::propFilter('NOTE', [self::textMatch('')])], 'anyof', ['bob.vcf', 'dora.vcf']],
+			'needle in the truncated part of a value' => [[self::propFilter('NOTE', [self::textMatch('needle')])], 'anyof', ['dora.vcf']],
+			'unicode case mapping of ß' => [[self::propFilter('FN', [self::textMatch('STRASSE')])], 'anyof', ['carl.vcf', 'fran.vcf']],
+			'unicode case mapping of ſ' => [[self::propFilter('FN', [self::textMatch('wasser')])], 'anyof', ['carl.vcf', 'fran.vcf']],
+			'unicode case mapping of ı' => [[self::propFilter('FN', [self::textMatch('tim')])], 'anyof', ['gus.vcf']],
+			'ascii needle excludes other cards' => [[self::propFilter('FN', [self::textMatch('Anna')])], 'anyof', ['anna.vcf']],
+			'non-ascii needle characters are wildcards' => [[self::propFilter('FN', [self::textMatch('MÜLLER')])], 'anyof', ['anna.vcf']],
+			'non-ascii needle characters in the same case' => [[self::propFilter('FN', [self::textMatch('Müller')])], 'anyof', ['anna.vcf']],
+			'like wildcard is escaped' => [[self::propFilter('FN', [self::textMatch('100%')])], 'anyof', ['eve.vcf']],
+			'like single character wildcard is escaped' => [[self::propFilter('FN', [self::textMatch('b_b')])], 'anyof', []],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesQueryCardsFilters')]
+	public function testQueryCardsFilters(array $filters, string $test, array $expected): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->createQueryCard($bookId, 'carl.vcf', ['FN:Carl Straße', 'X-CUSTOM:secret']);
+		$this->createQueryCard($bookId, 'anna.vcf', ['FN:Anna Müller', 'EMAIL;TYPE=WORK:anna@example.com', 'TEL:+49 123']);
+		$this->createQueryCard($bookId, 'eve.vcf', ['FN:Eve 100%', 'X-CUSTOM:bob']);
+		$this->createQueryCard($bookId, 'bob.vcf', ['FN:Bob Becker', 'EMAIL:bob@example.org', 'NOTE:likes coffee']);
+		$this->createQueryCard($bookId, 'dora.vcf', ['FN:Dora', 'NOTE:' . str_repeat('x', 300) . 'needle']);
+		$this->createQueryCard($bookId, 'gus.vcf', ['FN:Gus Tım']);
+		$this->createQueryCard($bookId, 'fran.vcf', ['FN:Fran Waſſer']);
+
+		$result = self::queryNames($this->backend->queryCards($bookId, $filters, $test, null, null));
+
+		self::assertSame($expected, $result);
+		// Never miss a card that the CardDAV plugin considers a match
+		$plugin = new \Sabre\CardDAV\Plugin();
+		foreach (['anna.vcf', 'bob.vcf', 'carl.vcf', 'dora.vcf', 'eve.vcf', 'fran.vcf', 'gus.vcf'] as $uri) {
+			if ($plugin->validateFilters($this->backend->getCard($bookId, $uri)['carddata'], $filters, $test)) {
+				self::assertContains($uri, $result);
+			}
+		}
+	}
+
+	public function testQueryCardsRestrictsUris(): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->createQueryCard($bookId, 'Database:a.vcf', ['FN:A']);
+		$this->createQueryCard($bookId, 'Guests:g.vcf', ['FN:G']);
+		$this->createQueryCard($bookId, 'Database:c.vcf', ['FN:C']);
+		$this->createQueryCard($bookId, 'Database:b.vcf', ['FN:B']);
+		// More URIs than fit into a single IN list
+		$uris = array_map(static fn (int $i): string => 'Database:missing' . $i . '.vcf', range(1, 1500));
+		$uris[] = 'Guests:g.vcf';
+		$uris[] = 'Database:c.vcf';
+
+		self::assertSame(['Database:c.vcf', 'Guests:g.vcf'], self::queryNames($this->backend->queryCards($bookId, [], 'anyof', null, null, $uris)));
+		self::assertSame(['cards' => [], 'hasMore' => false], $this->backend->queryCards($bookId, [], 'anyof', null, null, []));
+		self::assertSame(['Database:a.vcf', 'Database:b.vcf', 'Database:c.vcf'], self::queryNames($this->backend->queryCards($bookId, [], 'anyof', null, null, null, 'Guests:')));
+	}
+
+	public static function providesSystemAddressBookEnumerationSettings(): array {
+		return [
+			'full enumeration' => ['yes', 'no', 'no', 'Database', ['Database:alice.vcf', 'Database:bob.vcf', 'Database:carol.vcf']],
+			'no enumeration' => ['no', 'no', 'no', 'Database', ['Database:alice.vcf']],
+			'phone number restriction' => ['yes', 'no', 'yes', 'Database', ['Database:alice.vcf']],
+			'group restriction' => ['yes', 'yes', 'no', 'Database', ['Database:alice.vcf', 'Database:bob.vcf']],
+			'group and phone number restriction' => ['yes', 'yes', 'yes', 'Database', ['Database:alice.vcf', 'Database:bob.vcf']],
+			'guest' => ['yes', 'no', 'no', 'Guests', ['Guests:alice.vcf']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesSystemAddressBookEnumerationSettings')]
+	public function testSystemAddressBookQueryMatchesChildren(string $enumeration, string $groupRestriction, string $phoneRestriction, string $userBackend, array $expected): void {
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'System', []);
+		foreach (['Database:alice', 'Guests:alice', 'Database:bob', 'Database:carol', 'Guests:gina'] as $index => $name) {
+			$this->createQueryCard($bookId, $name . '.vcf', ['FN:' . $name, 'EMAIL:user' . $index . '@example.com']);
+		}
+		$config = $this->createMock(IConfig::class);
+		$config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', $enumeration],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', $groupRestriction],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', $phoneRestriction],
+			]);
+		$createUser = function (string $backend, string $uid): IUser {
+			$user = $this->createMock(IUser::class);
+			$user->method('getUID')->willReturn($uid);
+			$user->method('getBackendClassName')->willReturn($backend);
+			return $user;
+		};
+		$user = $createUser($userBackend, 'alice');
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')->willReturn($user);
+		$group = $this->createMock(IGroup::class);
+		$group->method('getUsers')->willReturn([$user, $createUser('Database', 'bob'), $createUser('Guests', 'gina')]);
+		$groupManager = $this->createMock(IGroupManager::class);
+		$groupManager->method('getUserGroups')->with($user)->willReturn([$group]);
+		$addressBook = new SystemAddressbook(
+			$this->backend,
+			['id' => $bookId, 'uri' => 'system', '{DAV:}displayname' => 'Accounts', 'principaluri' => 'principals/system/system'],
+			$this->createMock(IL10N::class),
+			$config,
+			$userSession,
+			null,
+			null,
+			$groupManager,
+		);
+
+		$children = array_map(static fn ($child): string => $child->getName(), $addressBook->getChildren());
+		sort($children);
+		self::assertSame($expected, $children);
+
+		$names = self::queryNames($addressBook->addressBookQuery([], 'anyof', null, null));
+		sort($names);
+		self::assertSame($expected, $names);
+
+		$filters = [self::propFilter('EMAIL', [self::textMatch('@example.com')])];
+		$paged = self::collectQueryPages(fn (?string $token) => $addressBook->addressBookQuery($filters, 'anyof', 1, $token), 1);
+		sort($paged);
+		self::assertSame($expected, $paged);
 	}
 }

@@ -23,6 +23,7 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Exception\UidConflict;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -48,6 +49,27 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
+
+	/** Indexed property values are stored cut to this many bytes */
+	private const int INDEXED_VALUE_MAX_BYTES = 254;
+
+	/**
+	 * Non-ASCII characters whose mb_strtoupper() contains the ASCII letter, e.g. "ß" → "SS",
+	 * "ı" → "I", "ſ" → "S", "ﬁ" → "FI", "ǰ" → "J̌", "ŉ" → "ʼN"
+	 */
+	private const array QUERY_CASEMAP_ASCII_SOURCES = [
+		'A' => ["\u{1E9A}"],
+		'F' => ["\u{FB00}", "\u{FB01}", "\u{FB02}", "\u{FB03}", "\u{FB04}"],
+		'H' => ["\u{1E96}"],
+		'I' => ["\u{0131}", "\u{FB01}", "\u{FB03}"],
+		'J' => ["\u{01F0}"],
+		'L' => ["\u{FB02}", "\u{FB04}"],
+		'N' => ["\u{0149}"],
+		'S' => ["\u{00DF}", "\u{017F}", "\u{FB05}", "\u{FB06}"],
+		'T' => ["\u{1E97}", "\u{FB05}", "\u{FB06}"],
+		'W' => ["\u{1E98}"],
+		'Y' => ["\u{1E99}"],
+	];
 
 	/**
 	 * @var string[] Map of uid => display name
@@ -474,27 +496,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * This may speed up certain requests, especially with large cards.
 	 *
 	 * @param mixed $addressbookId
-	 * @param int|null $offset
-	 * @param int|null $limit
 	 * @return array
 	 */
 	#[\Override]
-	public function getCards($addressbookId, $offset = null, $limit = null) {
+	public function getCards($addressbookId) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['c.id', 'c.addressbookid', 'c.uri', 'c.lastmodified', 'c.etag', 'c.size', 'c.carddata', 'c.uid'])
-			->from($this->dbCardsTable, 'c')
-			->join('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'))
-			->where($query->expr()->eq('c.addressbookid', $query->createNamedParameter($addressbookId)))
-			->andWhere($query->expr()->eq('cp.name', $query->createNamedParameter('FN')));
-
-		if (isset($offset)) {
-			$query->orderBy('cp.value');
-			$query->setFirstResult($offset);
-		}
-
-		if (isset($limit)) {
-			$query->setMaxResults($limit);
-		}
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
 
 		return $this->getCardsFromQuery($query);
 	}
@@ -635,6 +644,292 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$result->closeCursor();
 		}
 		return $cards;
+	}
+
+	/**
+	 * Returns the URIs of the cards of an address book that may match the prop-filters of an
+	 * addressbook-query, ordered case-insensitively by FN and then by card id, starting after
+	 * the card of $continuationToken. Cards without FN come last.
+	 *
+	 * The filters are only evaluated in the database as far as the result is guaranteed to
+	 * contain every matching card, so non-matching cards may be returned and must be validated
+	 * by the caller.
+	 *
+	 * @param array $filters prop-filters as parsed by \Sabre\CardDAV\Xml\Request\AddressBookQueryReport
+	 * @param string $test 'anyof' or 'allof'
+	 * @param int|null $limit maximum number of cards to return, null for no limit
+	 * @param string|null $continuationToken token of a previously returned card to continue after
+	 * @param list<string>|null $uris only consider the cards with these URIs, null for all cards
+	 * @param string|null $excludedUriPrefix skip the cards whose URI starts with this prefix
+	 * @return array{cards: list<array{name: string, continuationToken: string}>, hasMore: bool}
+	 *                                                                                           every card carries the token continuing directly after it; hasMore tells whether
+	 *                                                                                           there are further cards after the last returned one
+	 * @throws BadRequest when the continuation token is invalid
+	 */
+	public function queryCards(
+		int $addressBookId,
+		array $filters,
+		string $test,
+		?int $limit,
+		?string $continuationToken,
+		?array $uris = null,
+		?string $excludedUriPrefix = null,
+	): array {
+		if ($limit !== null && $limit < 0) {
+			throw new \InvalidArgumentException('The limit must not be negative');
+		}
+		$position = $continuationToken === null ? null : $this->decodeQueryContinuationToken($continuationToken);
+		if ($uris === []) {
+			return ['cards' => [], 'hasMore' => false];
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$sortKey = $query->func()->min($query->func()->lower('fn.value'));
+		$query->select('c.id', 'c.uri')
+			->selectAlias($sortKey, 'sortkey')
+			->from($this->dbCardsTable, 'c')
+			->leftJoin('c', $this->dbCardsPropertiesTable, 'fn', $query->expr()->andX(
+				$query->expr()->eq('fn.cardid', 'c.id'),
+				$query->expr()->eq('fn.name', $query->createNamedParameter('FN')),
+			))
+			->where($query->expr()->eq('c.addressbookid', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->groupBy('c.id', 'c.uri')
+			// Explicit NULL placement, as the default differs between databases
+			->orderBy($query->createFunction('CASE WHEN ' . $query->expr()->isNull($sortKey) . ' THEN 1 ELSE 0 END'))
+			->addOrderBy($sortKey)
+			->addOrderBy('c.id');
+
+		$filterCondition = $this->buildQueryFilterCondition($query, $addressBookId, $filters, $test);
+		if ($filterCondition !== null) {
+			$query->andWhere($filterCondition);
+		}
+		if ($uris !== null) {
+			$uriConditions = [];
+			foreach (array_chunk($uris, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+				$uriConditions[] = $query->expr()->in('c.uri', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY));
+			}
+			$query->andWhere($query->expr()->orX(...$uriConditions));
+		}
+		if ($excludedUriPrefix !== null && $excludedUriPrefix !== '') {
+			// SUBSTR instead of NOT LIKE, which doesn't honor LIKE escaping on every database
+			$query->andWhere($query->expr()->neq(
+				$query->func()->substring(
+					'c.uri',
+					$query->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+					$query->createNamedParameter(mb_strlen($excludedUriPrefix), IQueryBuilder::PARAM_INT),
+				),
+				$query->createNamedParameter($excludedUriPrefix),
+			));
+		}
+
+		if ($position !== null) {
+			[$positionKey, $positionId] = $position;
+			if ($positionKey === null) {
+				$query->having($query->expr()->andX(
+					$query->expr()->isNull($sortKey),
+					$query->expr()->gt('c.id', $query->createNamedParameter($positionId, IQueryBuilder::PARAM_INT)),
+				));
+			} else {
+				$query->having($query->expr()->orX(
+					$query->expr()->gt($sortKey, $query->createNamedParameter($positionKey)),
+					$query->expr()->andX(
+						$query->expr()->eq($sortKey, $query->createNamedParameter($positionKey)),
+						$query->expr()->gt('c.id', $query->createNamedParameter($positionId, IQueryBuilder::PARAM_INT)),
+					),
+					$query->expr()->isNull($sortKey),
+				));
+			}
+		}
+		if ($limit !== null) {
+			// The additional row tells whether there are further candidates
+			$query->setMaxResults($limit + 1);
+		}
+
+		$result = $query->executeQuery();
+		$rows = $result->fetchAllAssociative();
+		$result->closeCursor();
+
+		$hasMore = false;
+		if ($limit !== null && count($rows) > $limit) {
+			$hasMore = true;
+			$rows = array_slice($rows, 0, $limit);
+		}
+
+		return [
+			'cards' => array_map(fn (array $row): array => [
+				'name' => (string)$row['uri'],
+				'continuationToken' => $this->encodeQueryContinuationToken(
+					$row['sortkey'] === null ? null : (string)$row['sortkey'],
+					(int)$row['id'],
+				),
+			], $rows),
+			'hasMore' => $hasMore,
+		];
+	}
+
+	private function encodeQueryContinuationToken(?string $sortKey, int $cardId): string {
+		$json = json_encode([$sortKey, $cardId], JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		return rtrim(strtr(base64_encode($json), '+/', '-_'), '=');
+	}
+
+	/**
+	 * @return array{0: ?string, 1: int} sort key and id of the last card before the position
+	 * @throws BadRequest
+	 */
+	private function decodeQueryContinuationToken(string $token): array {
+		if (strlen($token) > 4096 || preg_match('/^[A-Za-z0-9_-]+$/', $token) !== 1) {
+			throw new BadRequest('Invalid continuation token');
+		}
+		$json = base64_decode(strtr($token, '-_', '+/'), true);
+		if ($json === false) {
+			throw new BadRequest('Invalid continuation token');
+		}
+		try {
+			$data = json_decode($json, true, 2, JSON_THROW_ON_ERROR);
+		} catch (\JsonException $e) {
+			throw new BadRequest('Invalid continuation token', 0, $e);
+		}
+		if (!is_array($data) || !array_is_list($data) || count($data) !== 2
+			|| ($data[0] !== null && !is_string($data[0]))
+			|| !is_int($data[1]) || $data[1] < 0) {
+			throw new BadRequest('Invalid continuation token');
+		}
+		// Only accept the canonical encoding
+		if ($this->encodeQueryContinuationToken($data[0], $data[1]) !== $token) {
+			throw new BadRequest('Invalid continuation token');
+		}
+		return [$data[0], $data[1]];
+	}
+
+	/**
+	 * Builds a condition that every card matching the prop-filters satisfies, or null when the
+	 * filters can't be narrowed down in the database.
+	 */
+	private function buildQueryFilterCondition(IQueryBuilder $query, int $addressBookId, array $filters, string $test): ?ICompositeExpression {
+		if ($filters === [] || ($test !== 'anyof' && $test !== 'allof')) {
+			return null;
+		}
+
+		$conditions = [];
+		foreach ($filters as $filter) {
+			$condition = is_array($filter) ? $this->buildQueryPropFilterCondition($query, $addressBookId, $filter) : null;
+			if ($condition !== null) {
+				$conditions[] = $condition;
+			} elseif ($test === 'anyof') {
+				// One unrestricted alternative leaves the whole disjunction unrestricted
+				return null;
+			}
+		}
+		if ($conditions === []) {
+			return null;
+		}
+		return $test === 'anyof' ? $query->expr()->orX(...$conditions) : $query->expr()->andX(...$conditions);
+	}
+
+	/**
+	 * Mirrors \Sabre\CardDAV\Plugin::validateFilters() for a single prop-filter: apart from
+	 * is-not-defined, every prop-filter requires the property to be present, and the text-matches
+	 * are only conclusive when they can't be outweighed by param-filters.
+	 */
+	private function buildQueryPropFilterCondition(IQueryBuilder $query, int $addressBookId, array $filter): ?ICompositeExpression {
+		$name = $filter['name'] ?? null;
+		if (!is_string($name) || !empty($filter['is-not-defined'])) {
+			return null;
+		}
+		$name = strtoupper($name);
+		if (!in_array($name, self::INDEXED_PROPERTIES, true)) {
+			return null;
+		}
+
+		$propertyTest = ($filter['test'] ?? 'anyof') === 'allof' ? 'allof' : 'anyof';
+		$textMatches = is_array($filter['text-matches'] ?? null) ? $filter['text-matches'] : [];
+		$hasParamFilters = !empty($filter['param-filters']);
+		$valueConditions = [];
+		if ($textMatches !== [] && (!$hasParamFilters || $propertyTest === 'allof')) {
+			$textConditions = array_map(fn (mixed $textMatch): ?ICompositeExpression => is_array($textMatch) ? $this->buildQueryTextMatchCondition($query, $textMatch) : null, $textMatches);
+			if ($propertyTest === 'anyof') {
+				// Any property value matching any text-match, as long as every text-match can be narrowed
+				if (!in_array(null, $textConditions, true)) {
+					$valueConditions[] = $query->expr()->orX(...$textConditions);
+				}
+			} else {
+				// Each text-match matching any property value, possibly a different one
+				$valueConditions = array_values(array_filter($textConditions, static fn (?ICompositeExpression $condition): bool => $condition !== null));
+			}
+		}
+		if ($valueConditions === []) {
+			return $query->expr()->andX($this->buildQueryPropertyCondition($query, $addressBookId, $name, null));
+		}
+		return $query->expr()->andX(...array_map(
+			fn (ICompositeExpression $valueCondition) => $this->buildQueryPropertyCondition($query, $addressBookId, $name, $valueCondition),
+			$valueConditions,
+		));
+	}
+
+	/**
+	 * Matches the cards that have a property $name with a value satisfying $valueCondition
+	 */
+	private function buildQueryPropertyCondition(IQueryBuilder $query, int $addressBookId, string $name, ?ICompositeExpression $valueCondition): string {
+		// Parameters are bound to the outer query, which executes the subquery's SQL
+		$subQuery = $this->db->getQueryBuilder();
+		$subQuery->select('cp.cardid')
+			->from($this->dbCardsPropertiesTable, 'cp')
+			->where($subQuery->expr()->eq('cp.addressbookid', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->andWhere($subQuery->expr()->eq('cp.name', $query->createNamedParameter($name)));
+		if ($valueCondition !== null) {
+			$subQuery->andWhere($valueCondition);
+		}
+		return $query->expr()->in('c.id', $query->createFunction($subQuery->getSQL()));
+	}
+
+	/**
+	 * Returns a condition that holds for at least every property value the text-match matches
+	 * with any match-type, or null when values can't be narrowed down.
+	 *
+	 * Non-ASCII needle characters become wildcards, as the database's case folding of them is
+	 * unreliable (e.g. sqlite's LOWER() only folds ASCII). Unless the value contains a non-ASCII
+	 * character whose mb_strtoupper() contains an ASCII letter of the needle (e.g. "ß" → "SS"),
+	 * every ASCII character of the uppercased needle aligns with an ASCII character of the
+	 * value, which ILIKE folds on every database. Values with such characters are accepted, too.
+	 */
+	private function buildQueryTextMatchCondition(IQueryBuilder $query, array $textMatch): ?ICompositeExpression {
+		$needle = $textMatch['value'] ?? '';
+		if (!empty($textMatch['negate-condition']) || !is_string($needle)) {
+			return null;
+		}
+		$collation = $textMatch['collation'] ?? 'i;unicode-casemap';
+		if ($collation === 'i;octet') {
+			$fragments = [$needle];
+		} elseif ($collation === 'i;ascii-casemap' || $collation === 'i;unicode-casemap') {
+			$fragments = preg_split('/[^\x00-\x7F]+/', $needle);
+		} else {
+			return null;
+		}
+		$fragments = array_values(array_filter($fragments, static fn (string $fragment): bool => $fragment !== ''));
+		if ($fragments === []) {
+			return null;
+		}
+
+		$pattern = '%' . implode('%', array_map(fn (string $fragment): string => $this->db->escapeLikeParameter($fragment), $fragments)) . '%';
+		$conditions = [$query->expr()->iLike('cp.value', $query->createNamedParameter($pattern))];
+		if ($collation === 'i;unicode-casemap') {
+			$sources = [];
+			foreach (str_split(strtoupper(implode('', $fragments))) as $character) {
+				foreach (self::QUERY_CASEMAP_ASCII_SOURCES[$character] ?? [] as $source) {
+					$sources[$source] = true;
+				}
+			}
+			foreach (array_keys($sources) as $source) {
+				$conditions[] = $query->expr()->like('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($source) . '%'));
+			}
+		}
+		// Values are stored cut on a character boundary, i.e. at most 3 bytes short of the
+		// limit, so a long value may match in its missing part
+		$conditions[] = $query->expr()->gte(
+			$query->func()->octetLength('cp.value'),
+			$query->createNamedParameter(self::INDEXED_VALUE_MAX_BYTES - 3, IQueryBuilder::PARAM_INT),
+		);
+		return $query->expr()->orX(...$conditions);
 	}
 
 	/**
@@ -1465,7 +1760,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					}
 				}
 				$query->setParameter('name', $property->name);
-				$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
+				$query->setParameter('value', mb_strcut($property->getValue(), 0, self::INDEXED_VALUE_MAX_BYTES));
 				$query->setParameter('preferred', $preferred);
 				$query->executeStatement();
 			}
