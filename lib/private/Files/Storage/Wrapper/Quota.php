@@ -100,8 +100,14 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		}
+
+		$size = strlen($data);
+		if ($this->getWrapperStorage()->file_exists($path)) {
+			$size -= $this->getSize($path);
+		}
+
 		$free = $this->free_space($path);
-		if ($free < 0 || strlen($data) < $free) {
+		if ($free < 0 || $size <= $free) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		} else {
 			return false;
@@ -113,8 +119,14 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copy($source, $target);
 		}
+
+		$size = $this->getSize($source);
+		if ($this->getWrapperStorage()->file_exists($target)) {
+			$size -= $this->getSize($target);
+		}
+
 		$free = $this->free_space($target);
-		if ($free < 0 || $this->getSize($source) < $free) {
+		if ($free < 0 || $size <= $free) {
 			return $this->getWrapperStorage()->copy($source, $target);
 		} else {
 			return false;
@@ -168,8 +180,14 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
+
+		$size = $this->getSize($sourceInternalPath, $sourceStorage);
+		if ($this->getWrapperStorage()->file_exists($targetInternalPath)) {
+			$size -= $this->getSize($targetInternalPath);
+		}
+
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || $size <= $free) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
@@ -181,8 +199,14 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
+
+		$size = $this->getSize($sourceInternalPath, $sourceStorage);
+		if ($this->getWrapperStorage()->file_exists($targetInternalPath)) {
+			$size -= $this->getSize($targetInternalPath);
+		}
+
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || $size <= $free) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
