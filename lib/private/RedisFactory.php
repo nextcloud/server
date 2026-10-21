@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,148 +17,241 @@ class RedisFactory {
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
 	private \Redis|\RedisCluster|null $instance = null;
+	private bool $clusterConfigInitialized = false;
+	private bool $clusterConfigured = false;
+	private bool $redisCapabilitiesInitialized = false;
+	private bool $redisAvailable = false;
+	private bool $connectionParametersSupported = false;
+	private ?string $redisVersion = null;
 
 	public function __construct(
-		private SystemConfig $config,
-		private IEventLogger $eventLogger,
+		private readonly SystemConfig $config,
+		private readonly IEventLogger $eventLogger,
 	) {
 	}
 
 	private function create(): void {
-		$isCluster = in_array('redis.cluster', $this->config->getKeys(), true);
-		$config = $isCluster
-			? $this->config->getValue('redis.cluster', [])
-			: $this->config->getValue('redis', []);
-
-		if ($isCluster && !class_exists('RedisCluster')) {
-			throw new \Exception('Redis Cluster support is not available');
-		}
-
-		$timeout = $config['timeout'] ?? 0.0;
-		$readTimeout = $config['read_timeout'] ?? 0.0;
-
-		$auth = null;
-		if (isset($config['password']) && (string)$config['password'] !== '') {
-			if (isset($config['user']) && (string)$config['user'] !== '') {
-				$auth = [$config['user'], $config['password']];
-			} else {
-				$auth = $config['password'];
-			}
-		}
-
-		// # TLS support
-		// # https://github.com/phpredis/phpredis/issues/1600
-		$connectionParameters = $this->getSslContext($config);
+		$connectionConfig = $this->getConnectionConfig();
+		$timeout = (float)($connectionConfig['timeout'] ?? 0.0);
+		$readTimeout = (float)($connectionConfig['read_timeout'] ?? 0.0);
+		$auth = $this->buildAuth($connectionConfig);
+		// redis.persistent is supported but not documented in config.sample.php
 		$persistent = $this->config->getValue('redis.persistent', true);
+		// TLS support, see https://github.com/phpredis/phpredis/issues/1600
+		$sslConfig = $this->getSslContext($connectionConfig);
 
-		// cluster config
-		if ($isCluster) {
-			if (!isset($config['seeds'])) {
-				throw new \Exception('Redis cluster config is missing the "seeds" attribute');
+		if ($this->isClusterConfigured()) {
+			$clusterArgs = [
+				null,
+				$connectionConfig['seeds'],
+				$timeout,
+				$readTimeout,
+				$persistent,
+				$auth,
+			];
+
+			if ($sslConfig !== null) {
+				$clusterArgs[] = $sslConfig;
 			}
 
-			// Support for older phpredis versions not supporting connectionParameters
-			if ($connectionParameters !== null) {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth, $connectionParameters);
-			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth);
+			$this->instance = new \RedisCluster(...$clusterArgs);
+
+			if (isset($connectionConfig['failover_mode'])) {
+				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $connectionConfig['failover_mode']);
 			}
 
-			if (isset($config['failover_mode'])) {
-				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
-			}
-		} else {
-			$this->instance = new \Redis();
-
-			$host = $config['host'] ?? '127.0.0.1';
-			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : 0);
-
-			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
-			// Support for older phpredis versions not supporting connectionParameters
-			if ($connectionParameters !== null) {
-				// Non-clustered redis requires connection parameters to be wrapped inside `stream`
-				$connectionParameters = [
-					'stream' => $this->getSslContext($config)
-				];
-				if ($persistent) {
-					/**
-					 * even though the stubs and documentation don't want you to know this,
-					 * pconnect does have the same $connectionParameters argument connect has
-					 *
-					 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
-					 *
-					 * @psalm-suppress TooManyArguments
-					 */
-					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
-				} else {
-					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
-				}
-			} else {
-				if ($persistent) {
-					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
-				} else {
-					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
-				}
-			}
-
-			// Auth if configured
-			if ($auth !== null) {
-				$this->instance->auth($auth);
-			}
-
-			if (isset($config['dbindex'])) {
-				$this->instance->select($config['dbindex']);
-			}
-			$this->eventLogger->end('connect:redis');
+			return;
 		}
+
+		$this->connectStandalone($connectionConfig, $timeout, $readTimeout, $persistent, $auth, $sslConfig);
 	}
 
 	/**
-	 * Get the ssl context config
-	 *
-	 * @param array $config the current config
-	 * @throws \UnexpectedValueException
+	 * Establishes a standalone Redis connection and applies authentication and DB selection.
 	 */
-	private function getSslContext(array $config): ?array {
-		if (isset($config['ssl_context'])) {
-			if (!$this->isConnectionParametersSupported()) {
-				throw new \UnexpectedValueException(\sprintf(
-					'php-redis extension must be version %s or higher to support ssl context',
-					self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION
-				));
-			}
-			return $config['ssl_context'];
+	private function connectStandalone(
+		array $connectionConfig,
+		float $timeout,
+		float $readTimeout,
+		bool $persistent,
+		array|string|null $auth,
+		?array $sslConfig,
+	): void {
+		$this->eventLogger->start('connect:redis', 'Connect to redis (standalone) and send AUTH, SELECT');
+
+		$this->instance = new \Redis();
+
+		$host = $connectionConfig['host'] ?? '127.0.0.1';
+		$port = $connectionConfig['port'] ?? ($host[0] !== '/' ? 6379 : 0);
+		$connectMethod = $persistent ? 'pconnect' : 'connect';
+		$connectArgs = [$host, $port, $timeout, null, 0, $readTimeout];
+
+		if ($sslConfig !== null) {
+			// Redis standalone requires connection parameters to be wrapped inside `stream`
+			$connectArgs[] = ['stream' => $sslConfig];
 		}
-		return null;
+
+		$this->instance->$connectMethod(...$connectArgs);
+
+		if ($auth !== null) {
+			$this->instance->auth($auth);
+		}
+
+		if (isset($connectionConfig['dbindex'])) {
+			$this->instance->select($connectionConfig['dbindex']);
+		}
+
+		$this->eventLogger->end('connect:redis');
+	}
+
+	/**
+	 * Builds the auth argument expected by phpredis from the configured user/password.
+	 */
+	private function buildAuth(array $connectionConfig): array|string|null {
+		$password = (string)($connectionConfig['password'] ?? '');
+		$user = (string)($connectionConfig['user'] ?? '');
+
+		if ($password === '') {
+			return null;
+		}
+
+		if ($user === '') {
+			return $password;
+		}
+
+		return [$user, $password];
+	}
+
+	/**
+	 * Returns the effective Redis connection configuration.
+	 *
+	 * If both redis.cluster and redis standalone configurations are present,
+	 * redis.cluster takes precedence.
+	 *
+	 * @throws \Exception if Redis cluster support is required but unavailable
+	 * @throws \UnexpectedValueException if the Redis cluster configuration is invalid
+	 */
+	private function getConnectionConfig(): array {
+		if (!$this->isClusterConfigured()) {
+			return $this->config->getValue('redis', []);
+		}
+
+		$clusterConfig = $this->config->getValue('redis.cluster', []);
+
+		if (!class_exists('RedisCluster')) {
+			throw new \Exception('Redis support is not available: Redis Cluster is configured but RedisCluster support is missing');
+		}
+
+		if (!isset($clusterConfig['seeds'])) {
+			throw new \UnexpectedValueException('Redis cluster config is missing the "seeds" attribute');
+		}
+
+		return $clusterConfig;
+	}
+
+	/**
+	 * Returns the SSL context configuration for the current Redis connection.
+	 *
+	 * @throws \UnexpectedValueException if ssl_context is configured but unsupported
+	 */
+	private function getSslContext(array $connectionConfig): ?array {
+		if (!isset($connectionConfig['ssl_context'])) {
+			return null;
+		}
+
+		if (!$this->isConnectionParametersSupported()) {
+			throw new \UnexpectedValueException(\sprintf(
+				'Redis support is not available: php-redis extension version %s or higher is required for ssl_context; %s',
+				self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION,
+				$this->getRedisVersionDescription(),
+			));
+		}
+
+		return $connectionConfig['ssl_context'];
 	}
 
 	public function getInstance(): \Redis|\RedisCluster {
+		if ($this->instance !== null) {
+			return $this->instance;
+		}
+
+		if (!$this->isAvailable()) {
+			throw new \Exception(\sprintf(
+				'Redis support is not available: php-redis extension version %s or higher is required; %s',
+				self::REDIS_MINIMAL_VERSION,
+				$this->getRedisVersionDescription(),
+			));
+		}
+
+		$this->create();
+
+		// Should never happen; if create() fails, it will usually throw earlier so this is merely defensive
 		if ($this->instance === null) {
-			if (!$this->isAvailable()) {
-				throw new \Exception('Redis support is not available');
-			}
-			$this->create();
-			if ($this->instance === null) {
-				throw new \Exception('Redis support is not available');
-			}
+			throw new \LogicException('Failed to initialize a Redis instance although redis support is available');
 		}
 
 		return $this->instance;
 	}
 
+	private function initializeRedisCapabilities(): void {
+		if ($this->redisCapabilitiesInitialized) {
+			return;
+		}
+
+		if (!\extension_loaded('redis')) {
+			$this->redisVersion = null;
+			$this->redisAvailable = false;
+			$this->connectionParametersSupported = false;
+			$this->redisCapabilitiesInitialized = true;
+			return;
+		}
+
+		$this->redisVersion = \phpversion('redis') ?: null;
+		$this->redisAvailable = $this->redisVersion !== null
+			&& \version_compare($this->redisVersion, self::REDIS_MINIMAL_VERSION, '>=');
+
+		// phpredis supports configurable extra parameters since version 5.3.0
+		// required for ssl_context support.
+		// see: https://github.com/phpredis/phpredis#connect-open.
+		$this->connectionParametersSupported = $this->redisVersion !== null
+			&& \version_compare($this->redisVersion, self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
+
+		$this->redisCapabilitiesInitialized = true;
+	}
+
 	public function isAvailable(): bool {
-		return \extension_loaded('redis')
-			&& \version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
+		$this->initializeRedisCapabilities();
+		return $this->redisAvailable;
 	}
 
 	/**
-	 * Php redis does support configurable extra parameters since version 5.3.0, see: https://github.com/phpredis/phpredis#connect-open.
-	 * We need to check if the current version supports extra connection parameters, otherwise the connect method will throw an exception
-	 *
-	 * @return boolean
+	 * Returns whether the installed phpredis version supports extra connection parameters,
+	 * which are required for features such as ssl_context support.
 	 */
 	private function isConnectionParametersSupported(): bool {
-		return \extension_loaded('redis')
-			&& \version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
+		$this->initializeRedisCapabilities();
+		return $this->connectionParametersSupported;
+	}
+
+	private function isClusterConfigured(): bool {
+		if ($this->clusterConfigInitialized) {
+			return $this->clusterConfigured;
+		}
+
+		$this->clusterConfigured = $this->config->getValue('redis.cluster', null) !== null;
+		$this->clusterConfigInitialized = true;
+
+		return $this->clusterConfigured;
+	}
+
+	/**
+	 * Returns a human-readable description of the installed phpredis version state.
+	 */
+	private function getRedisVersionDescription(): string {
+		$this->initializeRedisCapabilities();
+
+		return $this->redisVersion === null
+			? 'php-redis extension is not installed'
+			: \sprintf('detected %s', $this->redisVersion);
 	}
 }
