@@ -9,9 +9,10 @@ import type { Grant, Preset, Selection } from '../utils/accessLevel.ts'
 import { t } from '@nextcloud/l10n'
 import { computed, useTemplateRef, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, setGrant } from '../utils/accessLevel.ts'
+import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, SERVICES, setGrant } from '../utils/accessLevel.ts'
 
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
@@ -64,31 +65,46 @@ function toggle(grant: Grant, on: boolean) {
 			</NcCheckboxRadioSwitch>
 		</NcRadioGroup>
 
-		<div
-			v-if="preset === 'custom'"
-			ref="areas"
-			class="access-picker__areas"
-			role="group"
-			:aria-label="t('settings', 'Custom access')">
-			<template v-for="area in AREAS" :key="area">
-				<!-- Mixed counts as unticked, so a click grants the whole area -->
-				<NcCheckboxRadioSwitch
-					:modelValue="areaState(selection.grants, area) === 'all'"
-					:indeterminate="areaState(selection.grants, area) === 'partial'"
-					@update:modelValue="toggle(area, $event)">
-					{{ GRANT_LABELS[area] }}
-				</NcCheckboxRadioSwitch>
-				<div class="access-picker__options">
+		<template v-if="preset === 'custom'">
+			<div
+				ref="areas"
+				class="access-picker__areas"
+				role="group"
+				:aria-label="t('settings', 'Custom access')">
+				<template v-for="area in AREAS" :key="area">
+					<!-- Mixed counts as unticked, so a click grants the whole area -->
 					<NcCheckboxRadioSwitch
-						v-for="option in AREA_OPTIONS[area]"
-						:key="option"
-						:modelValue="selection.grants.includes(option)"
-						@update:modelValue="toggle(option, $event)">
-						{{ GRANT_LABELS[option] }}
+						:modelValue="areaState(selection.grants, area) === 'all'"
+						:indeterminate="areaState(selection.grants, area) === 'partial'"
+						@update:modelValue="toggle(area, $event)">
+						{{ GRANT_LABELS[area] }}
 					</NcCheckboxRadioSwitch>
-				</div>
-			</template>
-		</div>
+					<div class="access-picker__options">
+						<NcCheckboxRadioSwitch
+							v-for="option in AREA_OPTIONS[area]"
+							:key="option"
+							:modelValue="selection.grants.includes(option)"
+							@update:modelValue="toggle(option, $event)">
+							{{ GRANT_LABELS[option] }}
+						</NcCheckboxRadioSwitch>
+					</div>
+				</template>
+			</div>
+
+			<NcFormGroup
+				class="access-picker__services"
+				noGap
+				:label="t('settings', 'Shared services')"
+				:description="t('settings', 'These include data from all your apps, not only the ones ticked above.')">
+				<NcCheckboxRadioSwitch
+					v-for="service in SERVICES"
+					:key="service"
+					:modelValue="selection.grants.includes(service)"
+					@update:modelValue="toggle(service, $event)">
+					{{ GRANT_LABELS[service] }}
+				</NcCheckboxRadioSwitch>
+			</NcFormGroup>
+		</template>
 
 		<NcNoteCard v-if="kept.length > 0" type="info">
 			{{ t('settings', 'This app password also has access set outside of Settings. It stays when you save.') }}
@@ -108,6 +124,10 @@ function toggle(grant: Grant, on: boolean) {
 
 	&__options {
 		padding-inline-start: calc(8 * var(--default-grid-baseline));
+	}
+
+	&__services {
+		padding-inline-start: calc(4 * var(--default-grid-baseline));
 	}
 }
 </style>

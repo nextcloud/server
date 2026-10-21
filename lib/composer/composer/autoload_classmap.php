@@ -1776,6 +1776,7 @@ return array(
     'OC\\Core\\Sharing\\Recipient\\TeamShareRecipientType' => $baseDir . '/core/Sharing/Recipient/TeamShareRecipientType.php',
     'OC\\Core\\Sharing\\Recipient\\TokenShareRecipientType' => $baseDir . '/core/Sharing/Recipient/TokenShareRecipientType.php',
     'OC\\Core\\Sharing\\Recipient\\UserShareRecipientType' => $baseDir . '/core/Sharing/Recipient/UserShareRecipientType.php',
+    'OC\\Core\\TokenScopes' => $baseDir . '/core/TokenScopes.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
     'OC\\DB\\AdapterMySQL' => $baseDir . '/lib/private/DB/AdapterMySQL.php',
     'OC\\DB\\AdapterOCI8' => $baseDir . '/lib/private/DB/AdapterOCI8.php',

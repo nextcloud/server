@@ -1817,6 +1817,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Sharing\\Recipient\\TeamShareRecipientType' => __DIR__ . '/../../..' . '/core/Sharing/Recipient/TeamShareRecipientType.php',
         'OC\\Core\\Sharing\\Recipient\\TokenShareRecipientType' => __DIR__ . '/../../..' . '/core/Sharing/Recipient/TokenShareRecipientType.php',
         'OC\\Core\\Sharing\\Recipient\\UserShareRecipientType' => __DIR__ . '/../../..' . '/core/Sharing/Recipient/UserShareRecipientType.php',
+        'OC\\Core\\TokenScopes' => __DIR__ . '/../../..' . '/core/TokenScopes.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
         'OC\\DB\\AdapterMySQL' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterMySQL.php',
         'OC\\DB\\AdapterOCI8' => __DIR__ . '/../../..' . '/lib/private/DB/AdapterOCI8.php',
