@@ -5,6 +5,7 @@ namespace Test\AppFramework\Middleware\Security\Mock;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
+use OCP\Share\Exceptions\ShareNotFound;
 
 class RateLimitingMiddlewareController extends Controller {
 	/**
@@ -30,5 +31,9 @@ class RateLimitingMiddlewareController extends Controller {
 
 	#[AnonRateLimit(limit: 10, period: 100)]
 	public function testMethodWithAttributesFallback() {
+	}
+
+	#[AnonRateLimit(limit: 10, period: 100, exceptions: [ShareNotFound::class])]
+	public function testMethodWithExceptionRateLimit() {
 	}
 }

@@ -36,6 +36,7 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
+use OCA\Files_Sharing\Reference\PublicShareReferenceProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -94,6 +95,8 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleWare(ShareInfoMiddleware::class);
 
 		$context->registerCapability(Capabilities::class);
+
+		$context->registerReferenceProvider(PublicShareReferenceProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
