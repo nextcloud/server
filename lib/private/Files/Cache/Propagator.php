@@ -138,7 +138,8 @@ class Propagator implements IPropagator {
 				}
 				break;
 			} catch (DbalException $e) {
-				if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+				// a failed commit already ended the transaction, so only roll back an open one
+				if ($this->connection->inTransaction()) {
 					$this->connection->rollBack();
 				}
 				if (!$e->isRetryable()) {
@@ -292,7 +293,9 @@ class Propagator implements IPropagator {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			$this->connection->rollback();
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollback();
+			}
 			throw $e;
 		}
 	}
