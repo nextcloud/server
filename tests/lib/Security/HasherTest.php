@@ -12,6 +12,7 @@ namespace Test\Security;
 
 use OC\Security\Hasher;
 use OCP\IConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class HasherTest
@@ -250,12 +251,20 @@ class HasherTest extends \Test\TestCase {
 		$this->assertEquals(PASSWORD_BCRYPT, $info['algo']);
 	}
 
-	public function testValidHash(): void {
-		$hash = '3|$argon2id$v=19$m=65536,t=4,p=1$czFCSjk3LklVdXppZ2VCWA$li0NgdXe2/jwSRxgteGQPWlzJU0E0xdtfHbCbrpych0';
+	public static function validateHashData(): array {
+		return [
+			'valid-v3' => ['3|$argon2id$v=19$m=65536,t=4,p=1$czFCSjk3LklVdXppZ2VCWA$li0NgdXe2/jwSRxgteGQPWlzJU0E0xdtfHbCbrpych0', true],
+			'invalid-v3' => ['3|$boop', false],
+			'valid-legacy' => ['$2a$08$emCpDEl.V.QwPWt5gPrqrOhdpH6ailBmkj2Hd2vD5U8qIy20HBe7.', true],
+			'invalid-legacy' => ['$boop', false],
+		];
+	}
 
+	#[DataProvider('validateHashData')]
+	public function testValidateHash(string $hash, bool $valid): void {
 		$isValid = $this->hasher->validate($hash);
 
-		$this->assertTrue($isValid);
+		$this->assertEquals($valid, $isValid);
 	}
 
 	public function testValidGeneratedHash(): void {
