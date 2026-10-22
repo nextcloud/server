@@ -7,9 +7,11 @@
 
 use Rector\DeadCode\Rector\ClassMethod\RemoveDuplicatedReturnSelfDocblockRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeTypeRector;
+use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
+use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 
 $nextcloudDir = dirname(__DIR__);
 
@@ -63,6 +65,14 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/SystemReport',
 		$nextcloudDir . '/lib/private/SystemReport',
 		$nextcloudDir . '/tests/lib/SystemReport',
+		$nextcloudDir . '/apps/files/lib/Controller/ResumableUploadController.php',
+		$nextcloudDir . '/apps/files/lib/Db/ResumableUpload.php',
+		$nextcloudDir . '/apps/files/lib/Db/ResumableUploadMapper.php',
+		$nextcloudDir . '/apps/files/lib/Migration/Version2003Date20241126094807.php',
+		$nextcloudDir . '/apps/files/lib/Response/AProblemResponse.php',
+		$nextcloudDir . '/apps/files/lib/Response/CompleteUploadResponse.php',
+		$nextcloudDir . '/apps/files/lib/Response/MismatchingOffsetResponse.php',
+		$nextcloudDir . '/apps/files/tests/Controller/ResumableUploadControllerTest.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
@@ -97,6 +107,12 @@ return (require __DIR__ . '/rector-shared.php')
 		RemoveReturnTagIncompatibleWithNativeTypeRector::class => [
 			$nextcloudDir . '/lib/unstable/Sharing/Property/ISharePropertyType.php',
 			$nextcloudDir . '/lib/unstable/Sharing/Property/ShareProperty.php',
+		],
+		RemoveUnusedPrivatePropertyRector::class => [
+			$nextcloudDir . '/apps/files/lib/Db/ResumableUpload.php',
+		],
+		PrivatizeFinalClassPropertyRector::class => [
+			$nextcloudDir . '/apps/files/lib/Db/ResumableUpload.php',
 		],
 		// `@return $this` is more specific than the native `: self` on a
 		// non-final type; removing it breaks psalm's
