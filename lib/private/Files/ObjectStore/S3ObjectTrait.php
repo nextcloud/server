@@ -35,6 +35,7 @@ trait S3ObjectTrait {
 	abstract protected function getCertificateBundlePath(): ?string;
 	abstract protected function getSSECParameters(bool $copy = false): array;
 	abstract protected function getServerSideEncryptionParameters(bool $copy = false): array;
+	abstract protected function getReadServerSideEncryptionParameters(bool $copySource = false): array;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -49,7 +50,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			] + $this->getServerSideEncryptionParameters());
+			] + $this->getReadServerSideEncryptionParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -271,14 +272,14 @@ trait S3ObjectTrait {
 	 * @throws S3Exception|\Exception if there is an unhandled exception
 	 */
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExistV2($this->bucket, $urn, false, $this->getServerSideEncryptionParameters());
+		return $this->getConnection()->doesObjectExistV2($this->bucket, $urn, false, $this->getReadServerSideEncryptionParameters());
 	}
 
 	public function copyObject($from, $to, array $options = []) {
 		$sourceMetadata = $this->getConnection()->headObject([
 			'Bucket' => $this->getBucket(),
 			'Key' => $from,
-		] + $this->getServerSideEncryptionParameters());
+		] + $this->getReadServerSideEncryptionParameters());
 
 		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
 
@@ -290,13 +291,13 @@ trait S3ObjectTrait {
 				'bucket' => $this->getBucket(),
 				'key' => $to,
 				'acl' => 'private',
-				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getReadServerSideEncryptionParameters(true),
 				'source_metadata' => $sourceMetadata
 			], $options));
 			$copy->copy();
 		} else {
 			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getReadServerSideEncryptionParameters(true),
 				'mup_threshold' => PHP_INT_MAX,
 			], $options));
 		}
