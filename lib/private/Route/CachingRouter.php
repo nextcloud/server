@@ -54,7 +54,13 @@ class CachingRouter extends Router {
 		$name = $this->fixLegacyRootName(strtolower($name));
 		ksort($parameters, SORT_STRING);
 
-		$paramHash = sha1(json_encode($parameters, JSON_THROW_ON_ERROR));
+		try {
+			$paramHash = sha1(json_encode($parameters, JSON_THROW_ON_ERROR));
+		} catch (\JsonException) {
+			// Parameters that cannot be JSON-encoded may still produce valid URLs, so bypass caching.
+			return parent::generate($name, $parameters, $absolute);
+		}
+
 		$key = sprintf(
 			'%s#%s#%s#%s#%s#%s#%d',
 			'generate',
