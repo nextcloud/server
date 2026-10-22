@@ -61,11 +61,55 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($instance->file_put_contents('files/foo', 'foobar'));
 	}
 
+	public function testFilePutContentsExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(6);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+	}
+
 	public function testCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(6, $instance->file_put_contents('files/foo', 'foobar'));
 		$instance->getScanner()->scan('');
 		$this->assertFalse($instance->copy('files/foo', 'files/bar'));
+	}
+
+	public function testCopyExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(12);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$this->assertTrue($instance->copy('files/foo', 'files/bar'));
+	}
+
+	public function testCopyFromStorageExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(12);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$this->assertTrue($instance->copyFromStorage(
+			$instance->getWrapperStorage(),
+			'files/foo',
+			'files/bar',
+		));
+	}
+
+	public function testMoveFromStorageExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(12);
+		$this->assertSame(6, $instance->file_put_contents('files/existing', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$sourcePath = $this->tmpDir . '/source';
+		mkdir($sourcePath);
+		$sourceStorage = new Local(['datadir' => $sourcePath]);
+		$sourceStorage->mkdir('files');
+		$this->assertSame(6, $sourceStorage->file_put_contents('files/foo', 'foobar'));
+		$sourceStorage->getScanner()->scan('');
+
+		$this->assertTrue($instance->moveFromStorage(
+			$sourceStorage,
+			'files/foo',
+			'files/moved',
+		));
 	}
 
 	public function testFreeSpace(): void {
@@ -113,6 +157,17 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(3, fwrite($stream, 'qwerty'));
 		fclose($stream);
 		$this->assertEquals('foobarqwe', $instance->file_get_contents('files/foo'));
+	}
+
+	public function testFWriteChunksExactlyFillQuota(): void {
+		$instance = $this->getLimitedStorage(6);
+		$stream = $instance->fopen('files/foo', 'w+');
+
+		$this->assertSame(2, fwrite($stream, 'fo'));
+		$this->assertSame(4, fwrite($stream, 'obar'));
+		fclose($stream);
+
+		$this->assertSame('foobar', $instance->file_get_contents('files/foo'));
 	}
 
 	public function testStreamCopyWithEnoughSpace(): void {
@@ -250,6 +305,24 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		rewind($stream);
 		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	public function testWriteStreamWithKnownSizeExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(6);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+
+		$this->assertSame(6, $instance->writeStream('files/test.txt', $stream, 6));
+	}
+
+	public function testWriteStreamWithoutKnownSizeExactlyFillsQuota(): void {
+		$instance = $this->getLimitedStorage(6);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+
+		$this->assertSame(6, $instance->writeStream('files/test.txt', $stream));
 	}
 
 	public function testWriteStreamAllowsUploadPathWithUnlimitedFreeSpace(): void {
