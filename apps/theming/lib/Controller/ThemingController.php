@@ -9,6 +9,7 @@ namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
@@ -385,6 +386,18 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * The color scheme a theme declares through its color-scheme meta, if any
+	 */
+	private function getColorScheme(ITheme $theme): ?string {
+		foreach ($theme->getMeta() as $meta) {
+			if (($meta['name'] ?? null) === 'color-scheme' && isset($meta['content'])) {
+				return $meta['content'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -415,6 +428,13 @@ class ThemingController extends Controller {
 			$variables .= "$variable:$value; ";
 		};
 
+		// Color themes also set the native color scheme, so form controls,
+		// scrollbars and light-dark() follow the theme instead of the OS
+		$colorScheme = $this->getColorScheme($theme);
+		if ($colorScheme !== null) {
+			$variables .= "color-scheme:$colorScheme; ";
+		}
+
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
 			$css = ":root { $variables } " . $customCss;
@@ -431,6 +451,12 @@ class ThemingController extends Controller {
 			$scopedCss = preg_replace('/(@[^{]+{(?:[^{}]*|(?R))*})/', '', $customCssWithoutComments);
 
 			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss }";
+
+			// The theme attributes are on the body, but the viewport (page scrollbar
+			// and background) follows the root element
+			if ($colorScheme !== null) {
+				$css .= " :root:has(> body[data-theme-$themeId]) { color-scheme:$colorScheme; }";
+			}
 		}
 
 		try {
