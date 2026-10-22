@@ -13,19 +13,22 @@ use InvalidArgumentException;
 use JsonSerializable;
 use NCU\Governance\Actor\Actor;
 use NCU\Governance\Actor\Principal;
-use OCP\IUserSession;
-use RuntimeException;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * Who is asking Governance about labels, and why. Required on every
- * ILabelManager call; there is deliberately no implicit default.
+ * Who is asking Governance about labels, and why.
  *
  * This only describes the request. Whether it is allowed is decided by the
- * label policy over (actor, purpose, node, old label, new label).
+ * label policy over (actor, purpose, resource, old label, new label).
  *
  * @psalm-immutable
+ * @experimental 36.0.0
  */
+#[Consumable(since: '36.0.0')]
 final class Context implements JsonSerializable {
+	/**
+	 * @experimental 36.0.0
+	 */
 	public const MAX_JUSTIFICATION_LENGTH = 1000;
 
 	private function __construct(
@@ -43,20 +46,30 @@ final class Context implements JsonSerializable {
 		}
 	}
 
-	public static function forUser(string $uid, Purpose $purpose): self {
-		return new self(Actor::of(Principal::user($uid)), $purpose);
+	/**
+	 * @experimental 36.0.0
+	 */
+	public static function forUser(string $id, Purpose $purpose): self {
+		return new self(Actor::of(Principal::user($id)), $purpose);
 	}
 
-	public static function forFederatedUser(string $userId, string $remote, Purpose $purpose): self {
-		return new self(Actor::of(Principal::federated($userId, $remote)), $purpose);
+	/**
+	 * @experimental 36.0.0
+	 */
+	public static function forFederatedUser(string $id, string $remote, Purpose $purpose): self {
+		return new self(Actor::of(Principal::federated($id, $remote)), $purpose);
 	}
 
-	public static function forGuest(string $guestId, ?string $token, Purpose $purpose): self {
-		return new self(Actor::of(Principal::guest($guestId, $token)), $purpose);
+	/**
+	 * @experimental 36.0.0
+	 */
+	public static function forGuest(string $id, ?string $token, Purpose $purpose): self {
+		return new self(Actor::of(Principal::guest($id, $token)), $purpose);
 	}
 
 	/**
 	 * @param string $component e.g. "governance.retention", "governance.autolabel"
+	 * @experimental 36.0.0
 	 */
 	public static function forSystem(string $component, Purpose $purpose): self {
 		return new self(Actor::of(Principal::system($component)), $purpose);
@@ -68,41 +81,43 @@ final class Context implements JsonSerializable {
 	 *
 	 * The caller must already have verified that the bot is enabled for this
 	 * user/conversation (e.g. Talk when dispatching to the bot).
+	 *
+	 * @experimental 36.0.0
 	 */
-	public static function forBot(string $botId, string $onBehalfOfUid, Purpose $purpose): self {
-		$actor = Actor::of(Principal::bot($botId))
+	public static function forBot(string $id, string $onBehalfOfUid, Purpose $purpose): self {
+		$actor = Actor::of(Principal::bot($id))
 			->actFor(Principal::user($onBehalfOfUid));
 		return new self($actor, $purpose);
 	}
 
 	/**
-	 * Convenience for plain UI/API requests. Throws instead of silently
-	 * falling back to some other identity when there is no logged-in user.
+	 * For actors coming from the delegation layer or a rehydrated job payload.
 	 *
-	 * @throws RuntimeException
+	 * @experimental 36.0.0
 	 */
-	public static function fromSession(IUserSession $session, Purpose $purpose): self {
-		$user = $session->getUser();
-		if ($user === null) {
-			throw new RuntimeException('No user in session; build the LabelRequest explicitly');
-		}
-		return self::forUser($user->getUID(), $purpose);
-	}
-
-	/** For actors coming from the delegation layer or a rehydrated job payload. */
 	public static function fromActor(Actor $actor, Purpose $purpose): self {
 		return new self($actor, $purpose);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function withJustification(string $justification): self {
 		return new self($this->actor, $this->purpose, $justification);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function hasJustification(): bool {
 		return $this->justification !== null;
 	}
 
-	/** For the audit log: full chain, purpose and justification. */
+	/**
+	 * For the audit log: full chain, purpose and justification.
+	 *
+	 * @experimental 36.0.0
+	 */
 	public function jsonSerialize(): array {
 		return [
 			'actor' => $this->actor,

@@ -9,24 +9,58 @@ declare(strict_types=1);
 
 namespace NCU\Governance\Context;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Why labels are being read or changed. Changes the answer, not just the
  * permission: enforcement sees hidden/inherited labels, display does not.
+ *
+ * todo: check if this is really needed for some use-cases and drop it if not
+ *
+ * @experimental 36.0.0
  */
+#[Consumable(since: '36.0.0')]
 enum Purpose: string {
-	/** Show labels in the UI: only what the principal may see */
+	/**
+	 * Show labels in the UI: only what the principal may see
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Display = 'display';
-	/** DLP decision (may this share/download happen?): full effective labels */
+	/**
+	 * DLP decision (may this share/download happen?): full effective labels
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Enforcement = 'enforcement';
-	/** Lifecycle/retention processing */
+	/**
+	 * Lifecycle/retention processing
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Retention = 'retention';
-	/** eDiscovery / legal hold search */
+	/**
+	 * Legal hold search
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Discovery = 'discovery';
-	/** Apply, change or remove labels manually */
+	/**
+	 * Apply, change or remove labels manually
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Management = 'management';
-	/** Classifier or policy applying labels automatically */
+	/**
+	 * Classifier or policy applying labels automatically
+	 *
+	 * @experimental 36.0.0
+	 */
 	case AutoLabel = 'auto_label';
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function changesLabels(): bool {
 		return match ($this) {
 			self::Management, self::AutoLabel => true,

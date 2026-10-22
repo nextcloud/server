@@ -11,6 +11,7 @@ namespace NCU\Governance\Actor;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Identity only: who, and where that identity lives.
@@ -20,7 +21,9 @@ use JsonSerializable;
  * keeps this trivially serializable for jobs and audit logs.
  *
  * @psalm-immutable
+ * @experimental 36.0.0
  */
+#[Consumable(since: '36.0.0')]
 final class Principal implements JsonSerializable {
 	private function __construct(
 		public readonly PrincipalType $type,
@@ -46,18 +49,30 @@ final class Principal implements JsonSerializable {
 		}
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public static function user(string $uid): self {
 		return new self(PrincipalType::User, $uid);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public static function federated(string $userId, string $remote): self {
 		return new self(PrincipalType::Federated, $userId, $remote);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public static function guest(string $guestId, ?string $token = null): self {
 		return new self(PrincipalType::Guest, $guestId, $token);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public static function bot(string $botId): self {
 		return new self(PrincipalType::Bot, $botId);
 	}
@@ -65,27 +80,42 @@ final class Principal implements JsonSerializable {
 	/**
 	 * Identifies a component, e.g. "governance.retention". This is only an
 	 * identity: it grants nothing until an Actor is minted for it.
+	 *
+	 * @experimental 36.0.0
 	 */
 	public static function system(string $component): self {
 		return new self(PrincipalType::System, $component);
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function is(PrincipalType $type): bool {
 		return $this->type === $type;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function equals(self $other): bool {
 		return $this->type === $other->type
 			&& $this->id === $other->id
 			&& $this->origin === $other->origin;
 	}
 
-	/** Stable key for logs, cache keys and cycle detection, e.g. "federated:bob@cloud.example" */
+	/**
+	 * Stable key for logs, cache keys and cycle detection, e.g. "federated:bob@cloud.example"
+	 *
+	 * @experimental 36.0.0
+	 */
 	public function key(): string {
 		return $this->type->value . ':' . $this->id . ($this->origin !== null ? '@' . $this->origin : '');
 	}
 
-	/** @return array{type: string, id: string, origin: ?string} */
+	/**
+	 * @return array{type: string, id: string, origin: ?string}
+	 * @experimental 36.0.0
+	 */
 	public function jsonSerialize(): array {
 		return ['type' => $this->type->value, 'id' => $this->id, 'origin' => $this->origin];
 	}
@@ -93,6 +123,7 @@ final class Principal implements JsonSerializable {
 	/**
 	 * @param array{type: string, id: string, origin?: ?string} $data
 	 * @throws InvalidArgumentException
+	 * @experimental 36.0.0
 	 */
 	public static function fromArray(array $data): self {
 		return new self(
