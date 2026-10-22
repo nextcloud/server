@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\QueryException;
 use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
@@ -18,7 +19,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCP\AppFramework\QueryException;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;

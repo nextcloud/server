@@ -9,7 +9,7 @@
 namespace OC\AppFramework\Utility;
 
 use Closure;
-use OCP\AppFramework\QueryException;
+use OC\AppFramework\QueryException;
 use OCP\IContainer;
 use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;

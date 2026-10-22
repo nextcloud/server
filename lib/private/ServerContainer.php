@@ -11,8 +11,8 @@ namespace OC;
 
 use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OC\AppFramework\QueryException;
 use OC\AppFramework\Utility\SimpleContainer;
-use OCP\AppFramework\QueryException;
 use Psr\Container\ContainerExceptionInterface;
 use function explode;
 use function strtolower;
