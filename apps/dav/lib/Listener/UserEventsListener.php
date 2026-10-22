@@ -27,6 +27,7 @@ use OCP\IUserManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserConfigChangedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
@@ -34,7 +35,7 @@ use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent|BeforeGroupDeletedEvent|GroupDeletedEvent> */
+/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent|UserConfigChangedEvent|BeforeGroupDeletedEvent|GroupDeletedEvent> */
 class UserEventsListener implements IEventListener {
 
 	/** @var IUser[] */
@@ -80,6 +81,8 @@ class UserEventsListener implements IEventListener {
 			$this->firstLogin($event->getUser());
 		} elseif ($event instanceof UserUpdatedEvent) {
 			$this->updateUser($event->getUser());
+		} elseif ($event instanceof UserConfigChangedEvent) {
+			$this->changeUserConfig($event->getUserId(), $event->getAppId(), $event->getKey());
 		} elseif ($event instanceof GroupDeletedEvent) {
 			$this->postDeleteGroup($event->getGroup()->getGID());
 		}
@@ -91,6 +94,20 @@ class UserEventsListener implements IEventListener {
 
 	public function updateUser(IUser $user): void {
 		$this->syncService->updateUser($user);
+	}
+
+	/**
+	 * The system address book card carries the language (LANG) and the timezone (TZ)
+	 */
+	public function changeUserConfig(string $userId, string $appId, string $key): void {
+		if ($appId !== 'core' || !in_array($key, ['lang', 'timezone'], true)) {
+			return;
+		}
+
+		$user = $this->userManager->get($userId);
+		if ($user !== null) {
+			$this->syncService->updateUser($user);
+		}
 	}
 
 	public function preDeleteUser(IUser $user): void {
