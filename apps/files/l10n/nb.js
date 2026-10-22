@@ -122,6 +122,7 @@ OC.L10N.register(
     "Last 30 days" : "Siste 30 dager",
     "This year ({year})" : "I år ({year})",
     "Last year ({year})" : "I fjor ({year})",
+    "Custom range" : "Egendefinert område",
     "Custom date range" : "Egendefinert datoperiode",
     "Search everywhere" : "Søk overalt",
     "Documents" : "Dokumenter",
