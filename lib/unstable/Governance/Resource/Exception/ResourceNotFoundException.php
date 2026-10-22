@@ -13,9 +13,7 @@ use OCP\AppFramework\Attribute\Catchable;
 use OCP\AppFramework\Attribute\Throwable;
 
 /**
- * The resource does not exist, or exists but the actor cannot see it. The two
- * cases deliberately collapse together, so existence never leaks to an actor
- * without access.
+ * The resource does not exist, or exists but the actor cannot see it.
  *
  * @experimental 36.0.0
  */

@@ -1,50 +1,59 @@
 <?php
 
-declare(strict_types=1);
-
-/**
+/*
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+declare(strict_types=1);
+
 namespace NCU\Governance\Resource;
 
 use NCU\Governance\LabelType;
-use NCU\Governance\ResourceCapability\Type\ICapabilityType;
+use NCU\Governance\Resource\Exception\ResourceUnavailableException;
 use OCP\AppFramework\Attribute\Implementable;
 
 /**
- * Names a kind of resource an API or function call can be about: a Talk room,
- * a Tables row, a file version. Resource types are open - every app defines
- * its own.
+ * A resource Governance knows about, returned by
+ * {@see IGovernanceResourceProvider::getResources()}.
  *
  * @experimental 36.0.0
  */
 #[Implementable(since: '36.0.0')]
 interface IGovernanceResource {
 	/**
-	 * TODO: something like appId.getIdentifier
+	 * Whether the resource exists.
 	 *
-	 * A stable url-safe name identifier for the resource in governance: this identifier
-	 * will be persisted and used as part of URLs and will be considered a
-	 * valid scope/entity-type parameter in all Governance APIs.
-	 *
-	 * Note: governance will register the providing class as owner of the identifier and further registrations with a different FQCN will fail.
-	 * // todo: for registration, add a result object
-	 * @since 36.0.0
+	 * @throws ResourceUnavailableException when an answer can't be determined at the moment of the call
+	 * @experimental 36.0.0
 	 */
-	public function getIdentifier(): string;
+	public function exists(): bool;
 
 	/**
-	 * @since 36.0.0
+	 * Whether the resource is readable by the actor the resource was requested for.
+	 * If the resource does not exist, this method should also return false.
+	 *
+	 * @throws ResourceUnavailableException when an answer can't be determined at the moment of the call
+	 * @experimental 36.0.0
 	 */
-	public function getAdapter(): IGovernanceResourceAdapter;
+	public function isReadable(): bool;
 
 	/**
-	 * A dictionary of the supported capabilities per label type.
+	 * Whether the resource is updateable by the actor the resource was requested for.
+	 * Governance may use this to determine whether the actor is allowed to
+	 * assign/change a label or not.
 	 *
-	 * @return array<value-of<LabelType>, list<class-string<ICapabilityType>>>
-	 * @since 36.0.0
+	 * @throws ResourceUnavailableException when an answer can't be determined at the moment of the call
+	 * @experimental 36.0.0
 	 */
-	public function getSupportedCapabilities(): array;
+	public function isUpdatable(): bool;
+
+	/**
+	 * Whether this specific resource can carry $labelType at all — e.g.
+	 * for Files, a Sensitivity label applies to a File but not to a Folder.
+	 *
+	 * @throws ResourceUnavailableException when an answer can't be determined at the moment of the call
+	 * @experimental 36.0.0
+	 */
+	public function supportsLabelType(LabelType $labelType): bool;
 }
