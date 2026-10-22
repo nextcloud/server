@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use NCU\Governance\IGovernanceResourceProviderRegistry;
 use NCU\Sharing\ISharingRegistry;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
@@ -26,6 +27,7 @@ use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Governance\GovernanceNodeResourceProvider;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
@@ -132,6 +134,8 @@ class Application extends App implements IBootstrap {
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeDownloadSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, ViewSharePermissionPreset::class);
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, EditSharePermissionPreset::class);
+
+		Server::get(IGovernanceResourceProviderRegistry::class)->registerResourceProvider(self::APP_ID, GovernanceNodeResourceProvider::class);
 	}
 
 	#[\Override]
