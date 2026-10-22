@@ -40,27 +40,49 @@ class CachingRouter extends Router {
 	}
 
 	/**
-	 * Generate url based on $name and $parameters
+	 * Generate a route URL, using the cache when available.
 	 *
-	 * @param string $name Name of the route to use.
-	 * @param array $parameters Parameters for the route
-	 * @param bool $absolute
-	 * @return string
+	 * The route name and parameter ordering are normalized to improve cache hits.
+	 *
+	 * @param string $name The route name
+	 * @param array $parameters The route parameters
+	 * @param bool $absolute Whether to generate an absolute URL
+	 * @return string The generated URL
 	 */
 	#[\Override]
 	public function generate($name, $parameters = [], $absolute = false) {
-		asort($parameters);
-		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . $name . sha1(json_encode($parameters)) . (int)$absolute;
-		$cachedKey = $this->cache->get($key);
-		if ($cachedKey) {
-			return $cachedKey;
-		} else {
-			$url = parent::generate($name, $parameters, $absolute);
-			if ($url) {
-				$this->cache->set($key, $url, 3600);
-			}
-			return $url;
+		$name = $this->fixLegacyRootName(strtolower($name));
+		ksort($parameters, SORT_STRING);
+
+		try {
+			$paramHash = sha1(json_encode($parameters, JSON_THROW_ON_ERROR));
+		} catch (\JsonException) {
+			// Parameters that cannot be JSON-encoded may still produce valid URLs, so bypass caching.
+			return parent::generate($name, $parameters, $absolute);
 		}
+
+		$key = sprintf(
+			'%s#%s#%s#%s#%s#%s#%d',
+			'generate',
+			$this->context->getScheme(),
+			$this->context->getHost(),
+			$this->context->getBaseUrl(),
+			$name,
+			$paramHash,
+			(int)$absolute,
+		);
+
+		$cachedUrl = $this->cache->get($key);
+		if ($cachedUrl) {
+			return $cachedUrl;
+		}
+
+		$url = parent::generate($name, $parameters, $absolute);
+		if ($url) {
+			$this->cache->set($key, $url, 3600);
+		}
+
+		return $url;
 	}
 
 	private function serializeRouteCollection(RouteCollection $collection): array {
