@@ -1,0 +1,11 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: sortablejs developers
+
+This file is generated from multiple sources. Included packages:
+- @vueuse/integrations
+	- version: 15.0.0
+	- license: MIT
+- sortablejs
+	- version: 1.15.7
+	- license: MIT
