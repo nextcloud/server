@@ -11,12 +11,12 @@ namespace OC\Http\WellKnown;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
-use OCP\AppFramework\QueryException;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -85,7 +85,7 @@ class RequestManager {
 					}
 
 					return $handler;
-				} catch (QueryException $e) {
+				} catch (ContainerExceptionInterface $e) {
 					$this->logger->error("Could not load well known handler $class", [
 						'exception' => $e,
 						'app' => $registration->getAppId(),

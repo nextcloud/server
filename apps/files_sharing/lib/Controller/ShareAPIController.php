@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use OC\AppFramework\QueryException;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
@@ -32,7 +33,6 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -1826,23 +1826,6 @@ class ShareAPIController extends OCSController {
 		}
 
 		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
-	}
-
-	/**
-	 * Returns the helper of ShareAPIHelper for sciencemesh shares.
-	 *
-	 * If the sciencemesh application is not enabled or the helper is not available
-	 * a ContainerExceptionInterface is thrown instead.
-	 *
-	 * @return ShareAPIHelper
-	 * @throws ContainerExceptionInterface
-	 */
-	private function getSciencemeshShareHelper() {
-		if (!$this->appManager->isEnabledForUser('sciencemesh')) {
-			throw new QueryException();
-		}
-
-		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
 	}
 
 	/**

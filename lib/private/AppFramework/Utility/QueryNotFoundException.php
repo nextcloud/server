@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Utility;
 
-use OCP\AppFramework\QueryException;
+use OC\AppFramework\QueryException;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
