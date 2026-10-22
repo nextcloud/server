@@ -40,6 +40,7 @@
 			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
 			:loading="loadingRenameGroup"
 			:menu-open="openGroupMenu"
+			@click="$emit('select')"
 			@update:menuOpen="handleGroupMenuOpen">
 			<template #icon>
 				<AccountGroup :size="20" />
@@ -140,6 +141,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['select'],
 
 	data() {
 		return {
