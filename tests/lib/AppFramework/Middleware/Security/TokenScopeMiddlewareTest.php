@@ -122,6 +122,10 @@ class TokenScopeMiddlewareTest extends TestCase {
 			'app requires its own scope' => [['deck:boards:read'], TokenScopeTestController::class, 'deck', true, 'deck'],
 			'app requires another app\'s scope' => [[...self::FILES, SharingTokenScopes::SHARES_WRITE], TokenScopeTestController::class, 'share', false, 'deck'],
 			'app opens itself to every token' => [[], TokenScopeTestController::class, 'anyToken', false, 'deck'],
+			'whole app, unannotated' => [['deck'], TokenScopeTestController::class, 'unannotated', true, 'deck'],
+			'whole app, annotated' => [['deck'], TokenScopeTestController::class, 'deck', true, 'deck'],
+			'whole app of another app' => [['notes'], TokenScopeTestController::class, 'unannotated', false, 'deck'],
+			'whole app, admin only' => [['deck'], TokenScopeTestController::class, 'adminOnly', false, 'deck'],
 		];
 	}
 

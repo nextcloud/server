@@ -11,6 +11,7 @@ namespace Test\Settings\Controller;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\GrantableApps;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
@@ -49,6 +50,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private RemoteWipe&MockObject $remoteWipe;
 	private IConfig&MockObject $serverConfig;
 	private IL10N&MockObject $l;
+	private GrantableApps&MockObject $grantableApps;
 	private string $uid = 'jane';
 	private AuthSettingsController $controller;
 
@@ -68,6 +70,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$this->l = $this->createMock(IL10N::class);
 
+		$this->grantableApps = $this->createMock(GrantableApps::class);
+		$this->grantableApps->method('get')->willReturn(['deck']);
 		$this->controller = new AuthSettingsController(
 			'core',
 			$this->request,
@@ -83,6 +87,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->serverConfig,
 			$this->l,
 			new TokenScopes(),
+			$this->grantableApps,
 		);
 	}
 
@@ -144,6 +149,7 @@ class AuthSettingsControllerTest extends TestCase {
 		return [
 			'files' => [$files, [TokenScopes::KEY => $sorted, IToken::SCOPE_FILESYSTEM => true]],
 			'calendar' => [['dav:calendar:read'], [TokenScopes::KEY => ['dav:calendar:read'], IToken::SCOPE_FILESYSTEM => false]],
+			'whole app' => [['deck'], [TokenScopes::KEY => ['deck'], IToken::SCOPE_FILESYSTEM => false]],
 		];
 	}
 

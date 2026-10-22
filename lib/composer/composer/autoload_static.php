@@ -1387,6 +1387,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Login\\UserDisabledCheckCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/UserDisabledCheckCommand.php',
         'OC\\Authentication\\Login\\WebAuthnChain' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/WebAuthnChain.php',
         'OC\\Authentication\\Notifications\\Notifier' => __DIR__ . '/../../..' . '/lib/private/Authentication/Notifications/Notifier.php',
+        'OC\\Authentication\\Token\\GrantableApps' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/GrantableApps.php',
         'OC\\Authentication\\Token\\INamedToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/INamedToken.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
         'OC\\Authentication\\Token\\IToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IToken.php',
