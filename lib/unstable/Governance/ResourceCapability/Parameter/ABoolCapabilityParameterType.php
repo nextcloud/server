@@ -10,9 +10,7 @@ declare(strict_types=1);
 namespace NCU\Governance\ResourceCapability\Parameter;
 
 use NCU\Governance\ResourceCapability\Capability;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\L10N\IFactory;
 
 /**
  * Boolean parameter type.
@@ -25,12 +23,12 @@ abstract class ABoolCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, Capability $capability, mixed $value): true|string {
+	public function validateValue(Capability $capability, mixed $value): true|string {
 		if (is_bool($value)) {
 			return true;
 		}
 
-		return $l10nFactory->get(Application::APP_ID)->t('%s must be true or false', [$this->getName()]);
+		return $this->l10nFactory->get('core')->t('%s must be true or false', [$this->getName()]);
 	}
 
 	/**
@@ -38,7 +36,7 @@ abstract class ABoolCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function format(IFactory $l10nFactory): array {
-		return parent::format($l10nFactory) + ['type' => 'bool'];
+	public function format(): array {
+		return parent::format() + ['type' => 'bool'];
 	}
 }

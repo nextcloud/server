@@ -11,7 +11,6 @@ namespace NCU\Governance\ResourceCapability\Parameter;
 
 use NCU\Governance\ResourceCapability\Capability;
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\L10N\IFactory;
 
 /**
  * One value that can be configured on a capability: what it is called, whether
@@ -41,14 +40,14 @@ interface ICapabilityParameterType {
 	 *
 	 * @experimental 36.0.0
 	 */
-	public function getDisplayName(IFactory $l10nFactory): string;
+	public function getDisplayName(): string;
 
 	/**
 	 * An optional explanation shown alongside {@see self::getDisplayName()}.
 	 *
 	 * @experimental 36.0.0
 	 */
-	public function getHint(IFactory $l10nFactory): ?string;
+	public function getHint(): ?string;
 
 	/**
 	 * Whether the parameter is required or not, the answer may depend on values
@@ -65,7 +64,7 @@ interface ICapabilityParameterType {
 	 *
 	 * @experimental 36.0.0
 	 */
-	public function validateValue(IFactory $l10nFactory, Capability $capability, mixed $value): true|string;
+	public function validateValue(Capability $capability, mixed $value): true|string;
 
 	/**
 	 * The parameter and its constraints, for a client to render an input and
@@ -74,5 +73,5 @@ interface ICapabilityParameterType {
 	 * @return array<string, mixed>
 	 * @experimental 36.0.0
 	 */
-	public function format(IFactory $l10nFactory): array;
+	public function format(): array;
 }

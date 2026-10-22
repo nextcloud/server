@@ -12,7 +12,6 @@ namespace NCU\Governance\ResourceCapability\Type;
 use NCU\Governance\ResourceCapability\Capability;
 use NCU\Governance\ResourceCapability\SemanticType;
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\L10N\IFactory;
 use Override;
 
 /**
@@ -21,29 +20,20 @@ use Override;
  * @experimental 36.0.0
  */
 #[Implementable(since: '36.0.0')]
-abstract class AGrantCapabilityType extends ACapabilityType implements IGrantCapabilityType {
+abstract class AGrantCapabilityType extends ACapabilityType {
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
 	final public function getSemanticType(): string {
 		return SemanticType::Grant->value;
 	}
 
-	#[Override]
-	public function format(IFactory $l10nFactory): array {
-		return [
-			...parent::format($l10nFactory),
-			'meaning' => $this->getMeaning(),
-		];
-	}
-
 	/**
-	 * @return list<class-string<AGrantCapabilityType>>
+	 * @experimental 36.0.0
 	 */
 	#[Override]
-	public function getRequires(): array {
-		return parent::getRequires();
-	}
-
-	public function validate(IFactory $l10nFactory, Capability $capability): true|string {
+	public function validate(Capability $capability): true|string {
 		return true;
 	}
 }

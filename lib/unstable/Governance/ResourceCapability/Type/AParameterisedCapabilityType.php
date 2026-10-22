@@ -11,23 +11,30 @@ namespace NCU\Governance\ResourceCapability\Type;
 
 use NCU\Governance\ResourceCapability\Capability;
 use NCU\Governance\ResourceCapability\Parameter\ICapabilityParameterType;
-use NCU\Governance\ResourceCapability\SemanticType;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Implementable;
 use OCP\L10N\IFactory;
 use Override;
 
 /**
- * A capability that with parameters.
+ * Abstract capability with parameters.
  *
  * @experimental 36.0.0
  */
 #[Implementable(since: '36.0.0')]
-abstract class AParameterisedCapabilityType extends ACapabilityType implements IParameterisedCapability {
-	#[Override]
-	final public function getSemanticType(): string {
-		return SemanticType::Grant->value;
+abstract class AParameterisedCapabilityType extends ACapabilityType {
+	/**
+	 * @experimental 36.0.0
+	 */
+	public function __construct(
+		protected readonly IFactory $l10nFactory,
+	) {
 	}
+
+	/**
+	 * @return list<ICapabilityParameterType>
+	 * @experimental 36.0.0
+	 */
+	abstract public function getParameters(): array;
 
 	/**
 	 * Each declared parameter is checked: present when required, and acceptable
@@ -37,8 +44,8 @@ abstract class AParameterisedCapabilityType extends ACapabilityType implements I
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function validate(IFactory $l10nFactory, Capability $capability): true|string {
-		$l = $l10nFactory->get(Application::APP_ID);
+	public function validate(Capability $capability): true|string {
+		$l = $this->l10nFactory->get('core');
 		$declared = [];
 
 		foreach ($this->getParameters() as $parameter) {
@@ -52,7 +59,7 @@ abstract class AParameterisedCapabilityType extends ACapabilityType implements I
 				continue;
 			}
 
-			$result = $parameter->validateValue($l10nFactory, $capability, $capability->get($name));
+			$result = $parameter->validateValue($capability, $capability->get($name));
 			if ($result !== true) {
 				return $result;
 			}
@@ -67,11 +74,13 @@ abstract class AParameterisedCapabilityType extends ACapabilityType implements I
 		return true;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
-	public function format(IFactory $l10nFactory): array {
+	protected function getAdditionalFormatValues(): array {
 		return [
-			...parent::format($l10nFactory),
-			'parameters' => array_map(static fn (ICapabilityParameterType $parameter): array => $parameter->format($l10nFactory),
+			'parameters' => array_map(static fn (ICapabilityParameterType $parameter): array => $parameter->format(),
 				$this->getParameters(), ),
 		];
 	}

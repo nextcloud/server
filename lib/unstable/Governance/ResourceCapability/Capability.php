@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace NCU\Governance\ResourceCapability;
 
 use NCU\Governance\Resource\IGovernanceResourceManager;
-use NCU\Governance\ResourceCapability\Type\ICapabilityType;
+use NCU\Governance\ResourceCapability\Type\ACapabilityType;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * One capability: a type from the registered vocabulary and the values
  * configured for it.
  *
- * Can be handed to {@see ICapabilityType::validate()} for validation, and is what
+ * Can be handed to {@see ACapabilityType::validate()} for validation, and is what
  * {@see IGovernanceResourceManager} answers with.
  *
  * @experimental 36.0.0
@@ -26,7 +26,7 @@ use OCP\AppFramework\Attribute\Consumable;
 final readonly class Capability {
 	/**
 	 * @param string $identifier the capability's identifier, as returned by
-	 *                           {@see ICapabilityType::getIdentifier()}
+	 *                           {@see ACapabilityType::getIdentifier()}
 	 * @param array<string, mixed> $parameters values by parameter name
 	 * @experimental 36.0.0
 	 */

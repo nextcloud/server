@@ -9,8 +9,23 @@ declare(strict_types=1);
 
 namespace NCU\Governance\ResourceCapability;
 
+use OCP\AppFramework\Attribute\Consumable;
+
+/**
+ * @experimental 36.0.0
+ */
+#[Consumable(since: '36.0.0')]
 enum SemanticType: string {
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Grant = 'grant';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Retention = 'retention';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Watermark = 'watermark';
 }

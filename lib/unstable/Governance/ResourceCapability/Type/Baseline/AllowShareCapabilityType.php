@@ -11,7 +11,6 @@ namespace NCU\Governance\ResourceCapability\Type\Baseline;
 
 use NCU\Governance\ResourceCapability\CanonicalAction;
 use NCU\Governance\ResourceCapability\Type\AGrantCapabilityType;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\L10N\IFactory;
 use Override;
@@ -19,17 +18,22 @@ use Override;
 /**
  * Grants passing access on to someone else.
  *
- * Final while the API is experimental, so nothing inherits from a class that may
- * still change.
- *
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
-final class AllowShareCapabilityType extends AGrantCapabilityType {
+class AllowShareCapabilityType extends AGrantCapabilityType {
 	/**
 	 * @experimental 36.0.0
 	 */
-	final public const string TYPE = 'ALLOW_SHARE';
+	final public const string TYPE = 'allow_share';
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	public function __construct(
+		private readonly IFactory $l10nFactory,
+	) {
+	}
 
 	/**
 	 * @experimental 36.0.0
@@ -43,15 +47,22 @@ final class AllowShareCapabilityType extends AGrantCapabilityType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function getDisplayName(IFactory $l10nFactory): string {
-		return $l10nFactory->get(Application::APP_ID)->t('Share');
+	public function getDisplayName(): string {
+		return $this->l10nFactory->get('core')->t('Share');
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
 	public function getVersion(): int {
 		return 1;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
+	#[Override]
 	final public function getMeaning(): string {
 		return CanonicalAction::Share->value;
 	}

@@ -10,9 +10,7 @@ declare(strict_types=1);
 namespace NCU\Governance\ResourceCapability\Parameter;
 
 use NCU\Governance\ResourceCapability\Capability;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\L10N\IFactory;
 
 /**
  * A whole number, optionally bounded.
@@ -35,8 +33,8 @@ abstract class AIntCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, Capability $capability, mixed $value): true|string {
-		$l = $l10nFactory->get(Application::APP_ID);
+	public function validateValue(Capability $capability, mixed $value): true|string {
+		$l = $this->l10nFactory->get('core');
 		if (!is_int($value)) {
 			return $l->t('%s must be a whole number', [$this->getName()]);
 		}
@@ -57,8 +55,8 @@ abstract class AIntCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function format(IFactory $l10nFactory): array {
-		return parent::format($l10nFactory) + [
+	public function format(): array {
+		return parent::format() + [
 			'type' => 'int',
 			'min' => $this->getMin(),
 			'max' => $this->getMax(),

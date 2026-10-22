@@ -11,7 +11,6 @@ namespace NCU\Governance\ResourceCapability\Type\Baseline;
 
 use NCU\Governance\ResourceCapability\CanonicalPermission;
 use NCU\Governance\ResourceCapability\Type\AGrantCapabilityType;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\L10N\IFactory;
 use Override;
@@ -19,17 +18,22 @@ use Override;
 /**
  * Grants creating a new resource.
  *
- * Final while the API is experimental, so nothing inherits from a class that may
- * still change.
- *
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
-final class AllowCreateCapabilityType extends AGrantCapabilityType {
+class AllowCreateCapabilityType extends AGrantCapabilityType {
 	/**
 	 * @experimental 36.0.0
 	 */
-	final public const string TYPE = 'ALLOW_CREATE';
+	final public const string TYPE = 'allow_create';
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	public function __construct(
+		private readonly IFactory $l10nFactory,
+	) {
+	}
 
 	/**
 	 * @experimental 36.0.0
@@ -43,15 +47,21 @@ final class AllowCreateCapabilityType extends AGrantCapabilityType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function getDisplayName(IFactory $l10nFactory): string {
-		return $l10nFactory->get(Application::APP_ID)->t('Create');
+	public function getDisplayName(): string {
+		return $this->l10nFactory->get('core')->t('Create');
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
 	public function getVersion(): int {
 		return 1;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
 	final public function getMeaning(): string {
 		return CanonicalPermission::Create->value;

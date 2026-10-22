@@ -24,8 +24,16 @@ abstract class ACapabilityParameterType implements ICapabilityParameterType {
 	/**
 	 * @experimental 36.0.0
 	 */
+	public function __construct(
+		protected readonly IFactory $l10nFactory,
+	) {
+	}
+
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(): ?string {
 		return null;
 	}
 
@@ -42,11 +50,11 @@ abstract class ACapabilityParameterType implements ICapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function format(IFactory $l10nFactory): array {
+	public function format(): array {
 		return [
 			'name' => $this->getName(),
-			'displayName' => $this->getDisplayName($l10nFactory),
-			'hint' => $this->getHint($l10nFactory),
+			'displayName' => $this->getDisplayName(),
+			'hint' => $this->getHint(),
 		];
 	}
 }

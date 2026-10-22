@@ -9,9 +9,27 @@ declare(strict_types=1);
 
 namespace NCU\Governance\ResourceCapability;
 
+use OCP\AppFramework\Attribute\Consumable;
+
+/**
+ * @experimental 36.0.0
+ */
+#[Consumable(since: '36.0.0')]
 enum CanonicalPermission: string {
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Read = 'core.permission.read';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Update = 'core.permission.update';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Create = 'core.permission.create';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Delete = 'core.permission.delete';
 }

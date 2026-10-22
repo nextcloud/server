@@ -10,9 +10,8 @@ declare(strict_types=1);
 namespace NCU\Governance\ResourceCapability\Type\Baseline;
 
 use NCU\Governance\ResourceCapability\CanonicalAction;
+use NCU\Governance\ResourceCapability\Type\ACapabilityType;
 use NCU\Governance\ResourceCapability\Type\AGrantCapabilityType;
-use NCU\Governance\ResourceCapability\Type\ICapabilityType;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\L10N\IFactory;
 use Override;
@@ -20,17 +19,22 @@ use Override;
 /**
  * Grants downloading a copy of a resource.
  *
- * Final while the API is experimental, so nothing inherits from a class that may
- * still change.
- *
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
-final class AllowDownloadCapabilityType extends AGrantCapabilityType {
+class AllowDownloadCapabilityType extends AGrantCapabilityType {
 	/**
 	 * @experimental 36.0.0
 	 */
-	final public const string TYPE = 'ALLOW_DOWNLOAD';
+	final public const string TYPE = 'allow_download';
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	public function __construct(
+		private readonly IFactory $l10nFactory,
+	) {
+	}
 
 	/**
 	 * @experimental 36.0.0
@@ -44,26 +48,33 @@ final class AllowDownloadCapabilityType extends AGrantCapabilityType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function getDisplayName(IFactory $l10nFactory): string {
-		return $l10nFactory->get(Application::APP_ID)->t('Download');
+	public function getDisplayName(): string {
+		return $this->l10nFactory->get('core')->t('Download');
 	}
 
 	/**
-	 * @return list<class-string<ICapabilityType>>
+	 * @return list<non-empty-lowercase-string> {@see ACapabilityType::getIdentifier()}
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
 	public function getRequires(): array {
 		return [
-			AllowReadCapabilityType::class,
+			AllowReadCapabilityType::TYPE,
 		];
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	#[Override]
 	public function getVersion(): int {
 		return 1;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
+	#[Override]
 	final public function getMeaning(): string {
 		return CanonicalAction::Download->value;
 	}

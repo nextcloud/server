@@ -10,9 +10,7 @@ declare(strict_types=1);
 namespace NCU\Governance\ResourceCapability\Parameter;
 
 use NCU\Governance\ResourceCapability\Capability;
-use OC\Core\AppInfo\Application;
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\L10N\IFactory;
 
 /**
  * Free text, optionally bounded in length.
@@ -35,8 +33,8 @@ abstract class AStringCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, Capability $capability, mixed $value): true|string {
-		$l = $l10nFactory->get(Application::APP_ID);
+	public function validateValue(Capability $capability, mixed $value): true|string {
+		$l = $this->l10nFactory->get('core');
 		if (!is_string($value)) {
 			return $l->t('%s must be text', [$this->getName()]);
 		}
@@ -57,8 +55,8 @@ abstract class AStringCapabilityParameterType extends ACapabilityParameterType {
 	 * @experimental 36.0.0
 	 */
 	#[\Override]
-	public function format(IFactory $l10nFactory): array {
-		return parent::format($l10nFactory) + [
+	public function format(): array {
+		return parent::format() + [
 			'type' => 'string',
 			'minLength' => $this->getMinLength(),
 			'maxLength' => $this->getMaxLength(),
