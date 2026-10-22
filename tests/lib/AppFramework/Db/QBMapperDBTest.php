@@ -127,6 +127,40 @@ class QBMapperDBTest extends TestCase {
 		$this->assertEquals($datetime->format('Y-m-d H:i:s'), $dbEntity->getDatetime()->format('Y-m-d H:i:s'));
 	}
 
+	public function testInsertIgnoreConflict(): void {
+		$mapper = new QBDBTestMapper($this->connection);
+
+		$entity = new class extends Entity {
+			protected ?string $datetime = null;
+		};
+		$entity->setId(200001);
+		$entity->setDatetime('2000-01-01 23:45:00');
+		$this->assertSame(1, $mapper->insertIgnoreConflict($entity));
+
+		$conflicting = clone $entity;
+		$conflicting->setDatetime('2010-05-05 05:05:05');
+		$this->assertSame(0, $mapper->insertIgnoreConflict($conflicting));
+
+		// the conflicting insert must not have modified the existing row
+		$dbEntity = $mapper->getById(200001);
+		$this->assertEquals('2000-01-01 23:45:00', $dbEntity->getDatetime()->format('Y-m-d H:i:s'));
+	}
+
+	public function testInsertIgnoreConflictWithShardKeyHint(): void {
+		$mapper = new QBDBTestMapper($this->connection);
+
+		$entity = new class extends Entity {
+			protected ?string $datetime = null;
+		};
+		$entity->setId(200002);
+		$entity->setDatetime('2000-01-01 23:45:00');
+		$this->assertSame(1, $mapper->insertIgnoreConflict($entity, ['column' => 'storage', 'value' => 42]));
+
+		$conflicting = clone $entity;
+		$conflicting->setDatetime('2010-05-05 05:05:05');
+		$this->assertSame(0, $mapper->insertIgnoreConflict($conflicting, ['column' => 'storage', 'value' => 42]));
+	}
+
 	protected function prepareTestingTable(): void {
 		if ($this->schemaSetup) {
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();

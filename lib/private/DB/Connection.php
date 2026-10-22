@@ -31,6 +31,7 @@ use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\InvalidShardedQueryException;
 use OC\DB\QueryBuilder\Sharded\RoundRobinShardMapper;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
@@ -566,8 +567,34 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
-	public function insertIgnoreConflict(string $table, array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int {
 		try {
+			if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+				foreach ($this->shards as $shardDefinition) {
+					if (!$shardDefinition->hasTable($table)) {
+						continue;
+					}
+					if ($hintShardKey['column'] !== $shardDefinition->shardKey) {
+						throw new InvalidShardedQueryException("Can't insert without shard key");
+					}
+					$shard = $shardDefinition->getShardForKey((int)$hintShardKey['value']);
+					$connection = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+					// mirror the primary key generation done by the sharding aware query builder
+					if ($shardDefinition->table === $table) {
+						$hasKey = false;
+						foreach ($values as $column => $value) {
+							if ($shardDefinition->isKey($column)) {
+								$hasKey = true;
+								break;
+							}
+						}
+						if (!$hasKey) {
+							$values[$shardDefinition->primaryKey] = $this->autoIncrementHandler->getNextPrimaryKey($shardDefinition, $shard);
+						}
+					}
+					return $connection->insertIgnoreConflict($table, $values);
+				}
+			}
 			return $this->adapter->insertIgnoreConflict($table, $values);
 		} catch (\Exception $e) {
 			$this->logDatabaseException($e);

@@ -154,6 +154,43 @@ abstract class QBMapper {
 	}
 
 	/**
+	 * Creates a new entry in the db from an entity, ignoring conflicts on
+	 * unique constraints
+	 *
+	 * @param Entity $entity the entity that should be created
+	 * @psalm-param T $entity the entity that should be created
+	 * @param array{column: string, value: mixed, overwrite?: bool}|array{} $hintShardKey An array representing the shard key to hint
+	 * @return int number of inserted rows (0 if a conflicting row already exists)
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	public function insertIgnoreConflict(Entity $entity, array $hintShardKey = []): int {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+		}
+
+		// get updated fields to save, fields have to be set using a setter to
+		// be saved
+		$properties = $entity->getUpdatedFields();
+
+		$values = [];
+
+		// build the fields
+		foreach ($properties as $property => $updated) {
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
+
+			$column = $entity->propertyToColumn($property);
+			$getter = 'get' . ucfirst($property);
+			$values[$column] = $entity->$getter();
+		}
+
+		return $this->db->insertIgnoreConflict($this->tableName, $values, $hintShardKey);
+	}
+
+	/**
 	 * Updates an entry in the db from an entity
 	 *
 	 * @param Entity $entity the entity that should be created

@@ -9,6 +9,7 @@ namespace Test\AppFramework\Db;
 
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Db\SnowflakeAwareEntity;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
@@ -210,6 +211,90 @@ class QBMapperTest extends \Test\TestCase {
 			->with($this->equalTo('id'), $this->equalTo($idParam));
 
 		$this->mapper->update($entity);
+	}
+
+	public function testInsertIgnoreConflictEntityValueMapping(): void {
+		$entity = new QBTestEntity();
+		$entity->setIntProp(123);
+		$entity->setBoolProp(true);
+		$entity->setStringProp('string');
+		$entity->setIntegerProp(456);
+		$entity->setBooleanProp(false);
+
+		$this->db->expects($this->never())->method('getQueryBuilder');
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', [
+				'int_prop' => 123,
+				'bool_prop' => true,
+				'string_prop' => 'string',
+				'integer_prop' => 456,
+				'boolean_prop' => false,
+			], [])
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
+	}
+
+	public function testInsertIgnoreConflictReturnsZero(): void {
+		$entity = new QBTestEntity();
+		$entity->setId(123);
+		$entity->setStringProp('string');
+
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', ['id' => 123, 'string_prop' => 'string'], [])
+			->willReturn(0);
+
+		$this->assertSame(0, $this->mapper->insertIgnoreConflict($entity));
+	}
+
+	public function testInsertIgnoreConflictSkipsNullId(): void {
+		$entity = new QBTestEntity();
+		$entity->setId(123);
+		$entity->setId(null);
+		$entity->setStringProp('string');
+
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', ['string_prop' => 'string'], [])
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
+	}
+
+	public function testInsertIgnoreConflictGeneratesSnowflakeId(): void {
+		$entity = new class extends SnowflakeAwareEntity {
+			#[\Override]
+			public function generateId(): void {
+				$this->id = '123';
+				$this->markFieldUpdated('id');
+			}
+		};
+
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', ['id' => '123'], [])
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
+		$this->assertSame('123', $entity->getId());
+	}
+
+	public function testInsertIgnoreConflictWithShardKeyHint(): void {
+		$entity = new QBTestEntity();
+		$entity->setIntProp(123);
+		$entity->setStringProp('string');
+
+		$this->db->expects($this->once())
+			->method('insertIgnoreConflict')
+			->with('table', [
+				'int_prop' => 123,
+				'string_prop' => 'string',
+			], ['column' => 'storage', 'value' => 42])
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity, ['column' => 'storage', 'value' => 42]));
 	}
 
 	public function testGetParameterTypeForProperty(): void {
