@@ -56,7 +56,6 @@ use OCP\Share\IShare;
  * @package OCA\Files_Sharing\Controllers
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ShareController extends AuthPublicShareController {
 	protected ?IShare $share = null;
 
@@ -332,6 +331,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
 		$this->userSession->setIncognitoMode(true);
 

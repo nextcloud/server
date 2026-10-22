@@ -8,7 +8,6 @@
 
 namespace OCA\Files\Controller;
 
-use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application;
@@ -18,7 +17,6 @@ use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
-use OCA\Files\TokenScopes;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -48,7 +46,6 @@ use OCP\Util;
  * @package OCA\Files\Controller
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ViewController extends Controller {
 
 	public function __construct(
