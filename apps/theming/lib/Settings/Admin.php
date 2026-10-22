@@ -78,6 +78,8 @@ class Admin implements IDelegatedSettings {
 			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
 			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
+			'customLinkText' => $this->themingDefaults->getCustomLinkText(),
+			'customLinkUrl' => $this->themingDefaults->getCustomLinkUrl(),
 			'disableUserTheming' => $this->themingDefaults->isUserThemingDisabled(),
 			'defaultApps' => $this->navigationManager->getDefaultEntryIds(),
 		]);

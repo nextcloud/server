@@ -10,6 +10,8 @@ export interface AdminThemingParameters {
 	backgroundMime: string
 	backgroundURL: string
 	backgroundColor: string
+	customLinkText: string
+	customLinkUrl: string
 	faviconMime: string
 	legalNoticeUrl: string
 	logoheaderMime: string

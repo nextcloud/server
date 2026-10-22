@@ -118,6 +118,8 @@ class Capabilities implements IPublicCapability {
 				'url' => $this->theming->getBaseUrl(),
 				'imprintUrl' => $this->theming->getImprintUrl(),
 				'privacyUrl' => $this->theming->getPrivacyUrl(),
+				'customLinkText' => $this->theming->getCustomLinkText(),
+				'customLinkUrl' => $this->theming->getCustomLinkUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $color,
 				'color-text' => $colorText,

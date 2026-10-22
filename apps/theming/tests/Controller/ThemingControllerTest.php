@@ -96,6 +96,8 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '#0082C9', 'Saved'],
 			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['customLinkText', str_repeat('a', 500), 'Saved'],
+			['customLinkUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 
@@ -129,6 +131,7 @@ class ThemingControllerTest extends TestCase {
 			'url' => 'web address',
 			'imprintUrl' => 'legal notice address',
 			'privacyUrl' => 'privacy policy address',
+			'customLinkUrl' => 'custom link address',
 		];
 
 		$urlTests = [];
@@ -144,6 +147,7 @@ class ThemingControllerTest extends TestCase {
 		return [
 			['name', str_repeat('a', 251), 'The given name is too long'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
+			['customLinkText', str_repeat('a', 501), 'The given custom link text is too long'],
 			['primary_color', '0082C9', 'The given color is invalid'],
 			['primary_color', '#0082Z9', 'The given color is invalid'],
 			['primary_color', 'Nextcloud', 'The given color is invalid'],
