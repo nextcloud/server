@@ -294,12 +294,13 @@ class TaskMapper extends QBMapper {
 	 * @param int|null $status
 	 * @param int|null $scheduleAfter
 	 * @param int|null $endedBefore
+	 * @param int|null $limit
 	 * @return list<Task>
 	 * @throws Exception
 	 */
 	public function findTasks(
 		?string $userId, ?string $taskType = null, ?string $appId = null, ?string $customId = null,
-		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null, ?int $limit = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::COLUMNS)
 			->from($this->tableName);
@@ -327,6 +328,9 @@ class TaskMapper extends QBMapper {
 		if ($endedBefore !== null) {
 			$qb->andWhere($qb->expr()->isNotNull('ended_at'));
 			$qb->andWhere($qb->expr()->lt('ended_at', $qb->createPositionalParameter($endedBefore, IQueryBuilder::PARAM_INT)));
+		}
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
 		}
 		return $this->findEntities($qb);
 	}
