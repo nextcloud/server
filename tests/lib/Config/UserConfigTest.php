@@ -21,6 +21,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Server;
+use OCP\User\Events\UserConfigChangedEvent;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -1125,6 +1126,32 @@ class UserConfigTest extends TestCase {
 
 		$actual = $userConfig->getValueMixed('user1', 'settings', 'email');
 		$this->assertEquals('mixed.case@nextcloud.com', $actual);
+	}
+
+	public static function providerListenerReadsNewValue(): array {
+		return [
+			'existing fast value' => ['fast_string', false],
+			'existing lazy value' => ['lazy_string', true],
+			'new value' => ['new_key', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerListenerReadsNewValue')]
+	public function testListenerReadsNewValue(string $key, bool $lazy): void {
+		$userConfig = $this->generateUserConfig(['user1']);
+		$read = null;
+		$listener = function (UserConfigChangedEvent $event) use ($userConfig, &$read): void {
+			$read = $userConfig->getValueString($event->getUserId(), $event->getAppId(), $event->getKey(), lazy: true);
+		};
+
+		$this->dispatcher->addListener(UserConfigChangedEvent::class, $listener);
+		try {
+			$userConfig->setValueString('user1', 'app1', $key, 'updated', $lazy);
+		} finally {
+			$this->dispatcher->removeListener(UserConfigChangedEvent::class, $listener);
+		}
+
+		$this->assertSame('updated', $read);
 	}
 
 	public static function providerSetValueString(): array {
