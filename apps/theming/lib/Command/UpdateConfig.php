@@ -86,7 +86,8 @@ class UpdateConfig extends Command {
 		}
 
 		if ($value === null) {
-			$value = $this->config->getAppValue('theming', $key, '');
+			$storageKey = in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true) ? $key . 'Mime' : $key;
+			$value = $this->config->getAppValue('theming', $storageKey, '');
 			if ($value !== '') {
 				$output->writeln('<info>' . $key . ' is currently set to ' . $value . '</info>');
 			} else {
