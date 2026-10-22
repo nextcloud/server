@@ -39,6 +39,7 @@ class TokenScopeMiddleware extends Middleware {
 			return;
 		}
 
+		// Admin-only routes stay closed to app passwords with scopes, even for admins
 		if (!$this->reflector->hasAnnotationOrAttribute('PublicPage', PublicPage::class)
 			&& !$this->reflector->hasAnnotationOrAttribute('NoAdminRequired', NoAdminRequired::class)
 			&& !$this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)) {
@@ -49,6 +50,7 @@ class TokenScopeMiddleware extends Middleware {
 		if ($attribute instanceof NoTokenScopeRequired && $this->isShipped()) {
 			return;
 		}
+		// The route must name a scope its app is allowed to require, and the token must hold it
 		if (!$attribute instanceof TokenScope
 			|| !$this->mayRequire($attribute->scope)
 			|| !$this->lockdownManager->hasScope($attribute->scope)) {
@@ -69,7 +71,7 @@ class TokenScopeMiddleware extends Middleware {
 	}
 
 	/**
-	 * The method's attribute, else its class's
+	 * A method's attribute replaces its class's, it doesn't add to it
 	 */
 	private function tokenScope(Controller $controller): TokenScope|NoTokenScopeRequired|null {
 		$attribute = $this->reflector->getAttribute(TokenScope::class)
