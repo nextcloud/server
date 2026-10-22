@@ -9,21 +9,25 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
+#[Dispatchable(since: '18.0.0')]
 class UserLoggedInEvent extends Event {
 	/**
 	 * @since 18.0.0
 	 */
 	public function __construct(
-		private IUser $user,
-		private string $loginName,
-		private ?string $password,
-		private bool $isTokenLogin,
+		private readonly IUser $user,
+		private readonly string $loginName,
+		private readonly ?string $password,
+		private readonly bool $isTokenLogin,
 	) {
 		parent::__construct();
 	}
