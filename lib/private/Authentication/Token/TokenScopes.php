@@ -38,9 +38,10 @@ class TokenScopes {
 	 * Only `filesystem` and `scopes` are taken from `$requested`. Omitted `scopes` stay as stored,
 	 * `null` means full access, and scoped tokens get `filesystem` derived from their scopes.
 	 *
+	 * @param list<string> $grantableApps
 	 * @throws \InvalidArgumentException
 	 */
-	public function updateScope(array $stored, array $requested): array {
+	public function updateScope(array $stored, array $requested, array $grantableApps): array {
 		$blob = $stored;
 
 		if (array_key_exists(self::KEY, $requested)) {
@@ -54,7 +55,9 @@ class TokenScopes {
 				if (!is_array($requestedScopes)) {
 					throw new \InvalidArgumentException('scopes must be an array');
 				}
-				$blob[self::KEY] = $this->validate($requestedScopes);
+				// Grants already stored stay, so an app that left the navigation doesn't block saving
+				$appGrants = [...$grantableApps, ...($this->fromBlob($stored) ?? [])];
+				$blob[self::KEY] = $this->validate($requestedScopes, $appGrants);
 			}
 		}
 
@@ -74,15 +77,20 @@ class TokenScopes {
 	}
 
 	/**
+	 * @param list<string> $appGrants app ids allowed as whole-app grants
 	 * @return list<string>
 	 * @throws \InvalidArgumentException
 	 */
-	private function validate(array $scopes): array {
+	private function validate(array $scopes, array $appGrants): array {
 		if (count($scopes) > self::MAX_SCOPES) {
 			throw new \InvalidArgumentException('Too many scopes');
 		}
 		foreach ($scopes as $scope) {
 			if (!is_string($scope) || $scope === '' || strlen($scope) > self::MAX_SCOPE_LENGTH) {
+				throw new \InvalidArgumentException('Invalid scope');
+			}
+			// A scope without a colon grants a whole app
+			if (!str_contains($scope, ':') && !in_array($scope, $appGrants, true)) {
 				throw new \InvalidArgumentException('Invalid scope');
 			}
 		}
