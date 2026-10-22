@@ -87,11 +87,31 @@ jobs:
       - name: PHPUnit database tests
         run: composer run test:db -- --log-junit junit.xml
 
+      - name: Slowest tests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/junit-analyzer.php junit.xml 30
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
       - name: Upload test results
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
         with:
           flags: phpunit-sqlite
+
+      - name: Outgoing HTTP requests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/http-analyzer.php http-requests.log 20
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
       - name: Print logs
         if: always()
