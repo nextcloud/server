@@ -261,7 +261,7 @@ OC.L10N.register(
     "Failed to write file contents: %1$s" : "Scrierea conținutului fișierului a eșuat: %1$s",
     "File not found: %1$s" : "Fișierul nu a fost găsit: %1$s",
     "Insufficient space" : "Spațiu insuficient",
-    "Invalid target path" : "Cale țintă invalidă",
+    "Invalid target path" : "Cale țintă nevalidă",
     "System is in maintenance mode." : "Sistemul este în modul de întreținere.",
     "Upgrade needed" : "Este necesară actualizarea",
     "%1$s created \"%2$s\" on your behalf" : "%1$s a creat „%2$s” în numele tău",
