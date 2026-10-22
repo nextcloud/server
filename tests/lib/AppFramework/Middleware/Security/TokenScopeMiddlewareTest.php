@@ -24,8 +24,11 @@ use OCA\Files\Controller\ConversionApiController;
 use OCA\Files\Controller\DirectEditingController;
 use OCA\Files\Controller\DirectEditingViewController;
 use OCA\Files\Controller\TemplateController;
+use OCA\Files\Controller\ViewController;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\Controller\AcceptController;
 use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCP\App\IAppManager;
@@ -167,6 +170,26 @@ class TokenScopeMiddlewareTest extends TestCase {
 		$attribute = (new \ReflectionMethod($class, $method))->getAttributes(TokenScope::class)[0]
 			?? (new \ReflectionClass($class))->getAttributes(TokenScope::class)[0];
 		$this->assertSame($scope, $attribute->newInstance()->scope);
+	}
+
+	/**
+	 * Page renders are refused anyway, so they must not run for a scoped token first
+	 */
+	public static function pages(): array {
+		return [
+			[ViewController::class, 'index'],
+			[ViewController::class, 'indexView'],
+			[ViewController::class, 'indexViewFileid'],
+			[ViewController::class, 'showFile'],
+			[ShareController::class, 'showShare'],
+			[AcceptController::class, 'showAccept'],
+		];
+	}
+
+	#[DataProvider('pages')]
+	public function testPagesHaveNoScope(string $class, string $method): void {
+		$this->assertSame([], (new \ReflectionMethod($class, $method))->getAttributes(TokenScope::class));
+		$this->assertSame([], (new \ReflectionClass($class))->getAttributes(TokenScope::class));
 	}
 
 	/**

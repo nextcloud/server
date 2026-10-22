@@ -32,7 +32,6 @@ use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class AcceptController extends Controller {
 
 	public function __construct(
@@ -81,6 +80,7 @@ class AcceptController extends Controller {
 	}
 
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 	public function accept(string $shareId): Response {
 		try {
 			$share = $this->shareManager->getShareById($shareId);
