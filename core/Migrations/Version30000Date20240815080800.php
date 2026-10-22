@@ -25,7 +25,9 @@ class Version30000Date20240815080800 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('webauthn');
-		$table->addColumn('user_verification', Types::BOOLEAN, ['notnull' => false, 'default' => false]);
+		if (!$table->hasColumn('user_verification')) {
+			$table->addColumn('user_verification', Types::BOOLEAN, ['notnull' => false, 'default' => false]);
+		}
 		return $schema;
 	}
 }
