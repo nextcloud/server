@@ -5,7 +5,7 @@ OC.L10N.register(
     "Client name cannot be empty." : "Názov klienta nemôže byť prázdny.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Vaša URL pre presmerovanie musí byť úplná. Napríklad: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
-    "Allows OAuth2 compatible authentication from other web applications." : "Povoliť overenie kompatibilné s OAuth2 iných webových aplikácií.",
+    "Allows OAuth2 compatible authentication from other web applications." : "Povoliť overenie kompatibilné s OAuth2 z iných webových aplikácií.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikácia OAuth2 umožňuje správcom nakonfigurovať vstavaný postup overovania tak, aby povolil autentifikáciu kompatibilnú s protokolom OAuth2 aj z iných webových aplikácií.",
     "Secret key" : "Tajný kľúč",
     "Delete" : "Zmazať",
@@ -21,6 +21,6 @@ OC.L10N.register(
     "Add" : "Pridať",
     "Client Identifier" : "Identifikátor klienta",
     "Show client secret" : "Zobraziť tajomstvo klienta",
-    "Hide client secret" : "Skryť klienta"
+    "Hide client secret" : "Skryť tajný kľúč klienta"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

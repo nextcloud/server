@@ -57,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "基本使用者樹",
     "Optional; one attribute per line" : "選填；一行一項特性",
     "User Search Attributes" : "使用者搜尋特性",
+    "User Active/Inactive Attribute" : "使用 Active/Inactive 屬性",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "使用者屬性，用以標示使用者是否為活躍狀態；若為活躍狀態，應設為 `TRUE`；若非活躍狀態，則設為 `FALSE`。",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "開啟後，從 LDAP 匯入但隨後消失的使用者將被停用",
     "Disable users missing from LDAP" : "停用 LDAP 中沒有的使用者",
     "Group Display Name Field" : "群組顯示名稱欄位",

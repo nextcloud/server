@@ -12,7 +12,6 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Security\RateLimiting;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\Plugin;
-use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\BadRequest;
@@ -35,9 +34,8 @@ class PluginTest extends TestCase {
 		$authBackend->method('isDavAuthenticated')->willReturn(true);
 
 		$request = $this->createMock(IRequest::class);
-		$config = $this->createMock(IConfig::class);
 		$this->rateLimiting = $this->createMock(RateLimiting::class);
-		$this->plugin = new Plugin($authBackend, $request, $config, $this->rateLimiting);
+		$this->plugin = new Plugin($authBackend, $request, $this->rateLimiting);
 
 		$root = new SimpleCollection('root');
 		$this->server = new Server($root);
