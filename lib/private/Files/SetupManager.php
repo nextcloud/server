@@ -307,8 +307,10 @@ class SetupManager implements ISetupManager {
 
 	/**
 	 * Part of the user setup that is run only once per user.
+	 *
+	 * @param ICachedMountInfo|null $cachedHomeMount the home mount from the mount cache, if already loaded
 	 */
-	private function oneTimeUserSetup(IUser $user): void {
+	private function oneTimeUserSetup(IUser $user, ?ICachedMountInfo $cachedHomeMount = null): void {
 		if ($this->isSetupStarted($user)) {
 			return;
 		}
@@ -348,7 +350,11 @@ class SetupManager implements ISetupManager {
 			$homeMount = $this->mountProviderCollection->getHomeMountForUser($user);
 			$this->mountManager->addMount($homeMount);
 
-			if ($homeMount->getStorageRootId() === -1) {
+			// A cached home mount of the same storage has a root, which spares the query for it
+			$isHomeScanned = $cachedHomeMount !== null
+				&& $cachedHomeMount->getStorageId() === $homeMount->getNumericStorageId()
+				&& $cachedHomeMount->getRootId() > 0;
+			if (!$isHomeScanned && $homeMount->getStorageRootId() === -1) {
 				$this->eventLogger->start('fs:setup:user:home:scan', 'Scan home filesystem for user');
 				$homeMount->getStorage()->mkdir('');
 				$homeMount->getStorage()->getScanner()->scan('');
@@ -525,7 +531,7 @@ class SetupManager implements ISetupManager {
 			return;
 		}
 
-		$this->oneTimeUserSetup($user);
+		$this->oneTimeUserSetup($user, $cachedMount->getMountPoint() === '/' . $user->getUID() . '/' ? $cachedMount : null);
 
 		$this->eventLogger->start('fs:setup:user:path', "Setup $path filesystem for user");
 		$this->eventLogger->start('fs:setup:user:path:find', "Find mountpoint for $path");
