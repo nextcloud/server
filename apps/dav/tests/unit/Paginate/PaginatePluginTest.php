@@ -13,6 +13,7 @@ use OCA\DAV\Paginate\PaginateCache;
 use OCA\DAV\Paginate\PaginatePlugin;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
+use Sabre\DAV\Xml\Element\Response;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\Xml\Service;
@@ -111,6 +112,69 @@ class PaginatePluginTest extends TestCase {
 		// items for the page
 		$items = iterator_to_array($fileProperties, false);
 		$this->assertCount(2, $items);
+	}
+
+	public function testOnMultiStatusPassesPrebuiltResponsesThrough(): void {
+		$this->initializePlugin();
+
+		$insufficientStorage = new Response('addressbooks/users/admin/contacts/', [], '507');
+		$fileProperties = [
+			[
+				'href' => '/file1',
+				200 => [
+					'{DAV:}displayname' => 'File 1',
+					'{DAV:}resourcetype' => null
+				],
+			],
+			[
+				'href' => '/file2',
+				200 => [
+					'{DAV:}displayname' => 'File 2',
+					'{DAV:}resourcetype' => null
+				],
+			],
+			$insufficientStorage,
+		];
+
+		$this->request->expects(self::exactly(2))
+			->method('hasHeader')
+			->willReturnMap([
+				[PaginatePlugin::PAGINATE_HEADER, true],
+				[PaginatePlugin::PAGINATE_TOKEN_HEADER, false],
+			]);
+		$this->request->expects(self::once())
+			->method('getUrl')
+			->willReturn('url');
+		$this->request->expects(self::exactly(2))
+			->method('getHeader')
+			->willReturnMap([
+				[PaginatePlugin::PAGINATE_COUNT_HEADER, 2],
+				[PaginatePlugin::PAGINATE_OFFSET_HEADER, 0],
+			]);
+
+		$this->cache->expects(self::once())
+			->method('store')
+			->with(
+				'url',
+				$this->callback(function ($generator) {
+					$items = iterator_to_array($generator);
+					self::assertCount(3, $items);
+					self::assertStringContainsString($this->getResponseXmlForFile('/dav/file1', 'File 1'), $items[0]);
+					self::assertStringContainsString($this->getResponseXmlForFile('/dav/file2', 'File 2'), $items[1]);
+					self::assertStringContainsString('<d:href>/dav/addressbooks/users/admin/contacts/</d:href>', $items[2]);
+					self::assertStringContainsString('<d:status>HTTP/1.1 507 Insufficient Storage</d:status>', $items[2]);
+					return true;
+				}),
+			)
+			->willReturn([
+				'token' => 'token',
+				'count' => 3,
+			]);
+
+		$this->plugin->onMultiStatus($fileProperties);
+
+		self::assertInstanceOf(\Iterator::class, $fileProperties);
+		self::assertCount(2, iterator_to_array($fileProperties, false));
 	}
 
 	private function initializePlugin(): void {
