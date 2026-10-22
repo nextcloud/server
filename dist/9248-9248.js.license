@@ -19,6 +19,7 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Shuhei Kagawa
 SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -118,6 +119,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 4.1.0
 	- license: AGPL-3.0-or-later
@@ -140,7 +144,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/viewer
-	- version: 2.0.0-beta.18
+	- version: 2.0.0-beta.19
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 14.4.0
@@ -231,4 +235,7 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 3.5.43
+	- license: MIT
+- webdav
+	- version: 5.11.0
 	- license: MIT
