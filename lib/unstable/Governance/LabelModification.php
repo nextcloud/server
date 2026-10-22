@@ -24,13 +24,13 @@ enum LabelModification: string {
 	/**
 	 * @experimental 36.0.0
 	 */
-	case NO = 'no';
+	case No = 'no';
 	/**
 	 * @experimental 36.0.0
 	 */
-	case YES = 'yes';
+	case Yes = 'yes';
 	/**
 	 * @experimental 36.0.0
 	 */
-	case WITH_REASON = 'with-reason';
+	case WithReason = 'with-reason';
 }

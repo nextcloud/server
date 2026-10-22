@@ -10,19 +10,28 @@ declare(strict_types=1);
 namespace NCU\Governance;
 
 use NCU\Governance\Resource\IGovernanceResourceManager;
+use OCP\AppFramework\Attribute\Implementable;
 
 /**
  * Backend implemented by the Governance app.
  *
  * @experimental 36.0.0
  */
+#[Implementable(since: '36.0.0')]
 interface IGovernanceBackend {
 
-	public function isAvailable(): bool;
-
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getRegistry(): IGovernanceRegistry;
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getLabelManager(): IGovernanceLabelManager;
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getResourceManager(): IGovernanceResourceManager;
 }

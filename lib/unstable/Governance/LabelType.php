@@ -15,10 +15,10 @@ use OCP\AppFramework\Attribute\Consumable;
  * The three kinds of governance label. They differ in what they express, not
  * only in name:
  *
- * - SENSITIVITY: what may be done with a resource. Single-assignment.
- * - RETENTION: how long a resource must or should be kept, and what happens
+ * - Sensitivity: what may be done with a resource. Single-assignment.
+ * - Retention: how long a resource must or should be kept, and what happens
  *   at the end of that period.
- * - HOLD: a legal freeze. While one applies, changes are denied regardless of
+ * - Hold: a legal freeze. While one applies, changes are denied regardless of
  *   any other label, and it is only ever released manually.
  *
  * @experimental 36.0.0
@@ -28,13 +28,13 @@ enum LabelType: string {
 	/**
 	 * @experimental 36.0.0
 	 */
-	case SENSITIVITY = 'SENSITIVITY';
+	case Sensitivity = 'sensitivity';
 	/**
 	 * @experimental 36.0.0
 	 */
-	case RETENTION = 'RETENTION';
+	case Retention = 'retention';
 	/**
 	 * @experimental 36.0.0
 	 */
-	case HOLD = 'HOLD';
+	case Hold = 'hold';
 }

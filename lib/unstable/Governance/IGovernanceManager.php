@@ -23,22 +23,23 @@ interface IGovernanceManager {
 	/**
 	 * Whether governance is available and enabled.
 	 *
-	 * @since 36.0.0
+	 * @experimental 36.0.0
+	 * @throws \RuntimeException if called during app registration.
 	 */
 	public function isAvailable(): bool;
 
 	/**
-	 * Registry to register, list and retrieve resources and their capabilities.
+	 * Registry to list and retrieve resources and their capabilities.
 	 *
 	 * @throws GovernanceUnavailableException when Governance is not available.
-	 * @since 36.0.0
+	 * @experimental 36.0.0
 	 */
 	public function getRegistry(): IGovernanceRegistry;
 
 	/**
 	 * A manager to list/add/change/remove labels from resources.
 	 *
-	 * @since 36.0.0
+	 * @experimental 36.0.0
 	 * @throws GovernanceUnavailableException when Governance is not available.
 	 */
 	public function getLabelManager(): IGovernanceLabelManager;
@@ -46,7 +47,7 @@ interface IGovernanceManager {
 	/**
 	 * A manager to query the capabilities for a specific resource.
 	 *
-	 * @since 36.0.0
+	 * @experimental 36.0.0
 	 * @throws GovernanceUnavailableException when Governance is not available.
 	 */
 	public function getResourceManager(): IGovernanceResourceManager;
