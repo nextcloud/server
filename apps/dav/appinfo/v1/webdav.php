@@ -79,7 +79,7 @@ $server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin
 	return Filesystem::getView();
 });
 // The legacy tree is the user's files root
-$server->addPlugin(new TokenScopePlugin(Server::get(LockdownManager::class), 'files/'));
+$server->addPlugin(new TokenScopePlugin(Server::get(LockdownManager::class), prefix: 'files/'));
 
 // allow setup of additional plugins
 $event = new SabrePluginEvent($server);

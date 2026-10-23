@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Lockdown\LockdownManager;
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\TokenScopes;
-use OCA\Files\TokenScopes as FilesTokenScopes;
 use Sabre\CardDAV\Plugin as CardDAVPlugin;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
@@ -27,16 +27,17 @@ use Sabre\HTTP\RequestInterface;
 class TokenScopePlugin extends ServerPlugin {
 	private const READ_METHODS = ['GET', 'HEAD', 'OPTIONS', 'PROPFIND', 'REPORT', 'SEARCH'];
 
-	/** Collections for files and their tags, plus bulk upload. Writes are guarded by the mount permissions */
-	private const FILES_COLLECTIONS = ['files', 'uploads', 'bulk', 'trashbin', 'versions', 'groupfolders', 'systemtags', 'systemtags-relations', 'systemtags-assigned'];
+	private const FILES_COLLECTIONS = ['files', 'uploads', 'bulk'];
 
 	private Server $server;
 
 	/**
+	 * @param PluginManager|null $pluginManager null for servers without app collections
 	 * @param string $prefix prepended to every path, for servers whose tree is a single collection
 	 */
 	public function __construct(
 		private LockdownManager $lockdownManager,
+		private ?PluginManager $pluginManager = null,
 		private string $prefix = '',
 	) {
 	}
@@ -85,8 +86,17 @@ class TokenScopePlugin extends ServerPlugin {
 				? !in_array(end($segments), ['calendar-proxy-read', 'calendar-proxy-write'], true) && $this->lockdownManager->hasScope(TokenScopes::CALENDAR_WRITE)
 				: $this->lockdownManager->hasScope(TokenScopes::CALENDAR_READ) || $this->lockdownManager->hasScope(TokenScopes::CONTACTS_READ),
 			'avatars' => $method === 'GET' || $method === 'HEAD',
-			default => in_array($segments[0], self::FILES_COLLECTIONS, true) && $this->lockdownManager->hasScope(FilesTokenScopes::FILES_READ),
+			default => $this->allowsAppCollection($segments[0], $write),
 		};
+	}
+
+	/**
+	 * Collections need their app's own DAV scopes. Apps register theirs in info.xml
+	 */
+	private function allowsAppCollection(string $name, bool $write): bool {
+		$app = in_array($name, self::FILES_COLLECTIONS, true) ? 'files' : $this->pluginManager?->getCollectionApp($name);
+		return $app !== null
+			&& ($this->lockdownManager->hasScope($app) || $this->lockdownManager->hasScope($app . ':dav:' . ($write ? 'write' : 'read')));
 	}
 
 	/**
