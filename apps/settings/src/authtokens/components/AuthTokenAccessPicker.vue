@@ -9,7 +9,6 @@ import type { Grant, Preset, Selection } from '../utils/accessLevel.ts'
 import { t } from '@nextcloud/l10n'
 import { computed, useTemplateRef, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, SERVICES, setGrant } from '../utils/accessLevel.ts'
@@ -89,13 +88,6 @@ function toggle(grant: Grant, on: boolean) {
 						</NcCheckboxRadioSwitch>
 					</div>
 				</template>
-			</div>
-
-			<NcFormGroup
-				class="access-picker__services"
-				noGap
-				:label="t('settings', 'Shared services')"
-				:description="t('settings', 'These include data from all your apps, not only the ones ticked above.')">
 				<NcCheckboxRadioSwitch
 					v-for="service in SERVICES"
 					:key="service"
@@ -103,7 +95,7 @@ function toggle(grant: Grant, on: boolean) {
 					@update:modelValue="toggle(service, $event)">
 					{{ GRANT_LABELS[service] }}
 				</NcCheckboxRadioSwitch>
-			</NcFormGroup>
+			</div>
 		</template>
 
 		<NcNoteCard v-if="kept.length > 0" type="info">
@@ -124,10 +116,6 @@ function toggle(grant: Grant, on: boolean) {
 
 	&__options {
 		padding-inline-start: calc(8 * var(--default-grid-baseline));
-	}
-
-	&__services {
-		padding-inline-start: calc(4 * var(--default-grid-baseline));
 	}
 }
 </style>
