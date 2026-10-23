@@ -48,6 +48,11 @@ class DirPermissionsMask extends PermissionsMask {
 	}
 
 	#[\Override]
+	protected function canWrite(string $path): bool {
+		return !$this->checkPath($path) || parent::canWrite($path);
+	}
+
+	#[\Override]
 	public function isUpdatable($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::isUpdatable($path);
