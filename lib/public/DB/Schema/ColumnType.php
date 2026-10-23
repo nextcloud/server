@@ -174,6 +174,22 @@ enum ColumnType: string {
 	case Guid = 'guid';
 
 	/**
+	 * Tiny int
+	 * It is recommended for small values like status
+	 *
+	 * @since 36.0.0
+	 */
+	case TinyInt = 'tinyint';
+
+	/**
+	 * Unix timestamp returned as DateTimeImmutable
+	 * It is recommended for dates that fits into a timestamp
+	 *
+	 * @since 36.0.0
+	 */
+	case TimestampImmutable = 'timestamp_immutable';
+
+	/**
 	 * @since 35.0.0
 	 */
 	public function getName(): string {
