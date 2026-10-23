@@ -8,6 +8,8 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\BackgroundJob\ExternalShareScanJob;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;
@@ -24,6 +26,7 @@ use RuntimeException;
  *
  * @package OCA\Files_Sharing\Controller
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ExternalSharesController extends Controller {
 	public function __construct(
 		string $appName,

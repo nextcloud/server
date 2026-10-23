@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -62,6 +64,7 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -105,6 +108,7 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreviewByFileId(
 		int $fileId,
 		int $x = 32,
