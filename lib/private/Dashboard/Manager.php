@@ -11,8 +11,11 @@ namespace OC\Dashboard;
 
 use InvalidArgumentException;
 use OCP\App\IAppManager;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
+use OCP\Dashboard\ITeamWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
@@ -28,6 +31,8 @@ class Manager implements IManager {
 	private array $widgets = [];
 
 	private ?IAppManager $appManager = null;
+
+	private array $loadedWidgets = [];
 
 	public function __construct(
 		private ContainerInterface $serverContainer,
@@ -99,6 +104,14 @@ class Manager implements IManager {
 				continue;
 			}
 
+		}
+		$this->lazyWidgets = [];
+
+		foreach ($this->widgets as $widget) {
+			if (isset($this->loadedWidgets[$widget->getId()])) {
+				continue;
+			}
+			$this->loadedWidgets[$widget->getId()] = true;
 			try {
 				$startTime = microtime(true);
 				$widget->load();
@@ -121,7 +134,11 @@ class Manager implements IManager {
 				continue;
 			}
 		}
-		$this->lazyWidgets = [];
+	}
+
+	private function getPersonalWidgets(): array {
+		return array_filter($this->widgets, static fn (IWidget $widget): bool => !($widget instanceof ITeamWidget)
+			|| $widget instanceof IAPIWidget || $widget instanceof IAPIWidgetV2);
 	}
 
 	/**
@@ -130,6 +147,12 @@ class Manager implements IManager {
 	#[\Override]
 	public function getWidgets(): array {
 		$this->loadLazyPanels();
-		return $this->widgets;
+		return $this->getPersonalWidgets();
+	}
+
+	#[\Override]
+	public function getTeamWidgets(): array {
+		$this->loadLazyPanels();
+		return array_filter($this->widgets, static fn (IWidget $widget): bool => $widget instanceof ITeamWidget);
 	}
 }

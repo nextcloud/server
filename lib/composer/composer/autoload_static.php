@@ -457,6 +457,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Dashboard\\IManager' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IManager.php',
         'OCP\\Dashboard\\IOptionWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IOptionWidget.php',
         'OCP\\Dashboard\\IReloadableWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IReloadableWidget.php',
+        'OCP\\Dashboard\\ITeamWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/ITeamWidget.php',
         'OCP\\Dashboard\\IWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IWidget.php',
         'OCP\\Dashboard\\Model\\WidgetButton' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetButton.php',
         'OCP\\Dashboard\\Model\\WidgetItem' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetItem.php',
