@@ -59,4 +59,14 @@ class ApplicationTest extends TestCase {
 	public function testContainerQuery(string $service, string $expected): void {
 		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
+
+	public function testMiddlewareDispatcherIncludesSubadminMiddleware(): void {
+		$middlewares = $this->container->get('MiddlewareDispatcher')->getMiddlewares();
+		foreach ($middlewares as $middleware) {
+			if ($middleware instanceof SubadminMiddleware) {
+				return;
+			}
+		}
+		self::fail('Middleware dispatcher must include SubadminMiddleware');
+	}
 }
