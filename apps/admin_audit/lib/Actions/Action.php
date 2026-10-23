@@ -55,6 +55,7 @@ class Action {
 		}
 
 		$replaceArray = [];
+		$structuredParams = [];
 		$context = $baseContext;
 		foreach ($elements as $element) {
 			$value = $params[$element];
@@ -62,10 +63,15 @@ class Action {
 				$value = $value->format('Y-m-d H:i:s');
 			}
 			$replaceArray[] = $value;
+			$structuredParams[$element] = $value;
 			// Named {placeholders} are interpolated by the logger
 			if (str_contains($text, '{' . $element . '}')) {
 				$context[$element] = $value;
 			}
+		}
+
+		if (!$obfuscateParameters && $structuredParams !== [] && !isset($context['params'])) {
+			$context['params'] = $structuredParams;
 		}
 
 		$this->logger->info(

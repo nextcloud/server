@@ -28,29 +28,29 @@ class AppManagementEventListenerTest extends TestCase {
 		$this->listener = new AppManagementEventListener($this->logger);
 	}
 
-	private function expectInfo(string $message, string $operation): void {
+	private function expectInfo(string $message, string $operation, array $params): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($message, ['app' => 'admin_audit', 'operation' => $operation]);
+			->with($message, ['app' => 'admin_audit', 'operation' => $operation, 'params' => $params]);
 	}
 
 	public function testAppEnabled(): void {
-		$this->expectInfo('App "files" enabled', 'apps.app.enabled');
+		$this->expectInfo('App "files" enabled', 'apps.app.enabled', ['app' => 'files']);
 		$this->listener->handle(new AppEnableEvent('files'));
 	}
 
 	public function testAppEnabledForGroups(): void {
-		$this->expectInfo('App "files" enabled for groups: admin, staff', 'apps.app.enabled');
+		$this->expectInfo('App "files" enabled for groups: admin, staff', 'apps.app.enabled', ['app' => 'files', 'groups' => 'admin, staff']);
 		$this->listener->handle(new AppEnableEvent('files', ['admin', 'staff']));
 	}
 
 	public function testAppDisabled(): void {
-		$this->expectInfo('App "files" disabled', 'apps.app.disabled');
+		$this->expectInfo('App "files" disabled', 'apps.app.disabled', ['app' => 'files']);
 		$this->listener->handle(new AppDisableEvent('files'));
 	}
 
 	public function testAppUpdated(): void {
-		$this->expectInfo('App "files" updated', 'apps.app.updated');
+		$this->expectInfo('App "files" updated', 'apps.app.updated', ['app' => 'files']);
 		$this->listener->handle(new AppUpdateEvent('files'));
 	}
 }
