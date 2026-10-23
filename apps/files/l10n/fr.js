@@ -352,7 +352,7 @@ OC.L10N.register(
     "Retry and close" : "Réessayer et fermer",
     "Open online" : "Ouvrir en ligne",
     "Details" : "Détails",
-    "Open the details sidebar" : "Ouvrir le panneau latérale des détails",
+    "Open the details sidebar" : "Ouvrir le panneau latéral des détails",
     "Unfavorite" : "Retirer des favoris",
     "View in folder" : "Afficher dans le dossier",
     "Upload from device" : "Téléverser depuis l’appareil",
