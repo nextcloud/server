@@ -1609,6 +1609,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Up to $limit cards of an address book with an id above $afterId, oldest
+	 * first, to go through a large address book in batches.
+	 *
+	 * @return array[]
+	 */
+	public function getCardsAfter(int $addressBookId, int $afterId, int $limit): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->gt('id', $query->createNamedParameter($afterId, IQueryBuilder::PARAM_INT)))
+			->orderBy('id', 'ASC')
+			->setMaxResults($limit);
+
+		return $this->getCardsFromQuery($query);
+	}
+
+	/**
 	 * Mark all cards in an address book as needing to be validated
 	 *
 	 * This is done by setting the modified date to `null`, once a sync runs

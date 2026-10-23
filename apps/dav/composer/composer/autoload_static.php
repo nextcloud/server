@@ -41,6 +41,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\BackgroundJob\\PruneOutdatedSyncTokensJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/PruneOutdatedSyncTokensJob.php',
         'OCA\\DAV\\BackgroundJob\\RefreshWebcalJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RefreshWebcalJob.php',
         'OCA\\DAV\\BackgroundJob\\RegisterRegenerateBirthdayCalendars' => __DIR__ . '/..' . '/../lib/BackgroundJob/RegisterRegenerateBirthdayCalendars.php',
+        'OCA\\DAV\\BackgroundJob\\SyncSystemAddressBookJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/SyncSystemAddressBookJob.php',
         'OCA\\DAV\\BackgroundJob\\UpdateCalendarResourcesRoomsBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/UpdateCalendarResourcesRoomsBackgroundJob.php',
         'OCA\\DAV\\BackgroundJob\\UploadCleanup' => __DIR__ . '/..' . '/../lib/BackgroundJob/UploadCleanup.php',
         'OCA\\DAV\\BackgroundJob\\UserStatusAutomation' => __DIR__ . '/..' . '/../lib/BackgroundJob/UserStatusAutomation.php',

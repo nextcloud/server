@@ -496,6 +496,25 @@ END:VCARD';
 		$ss->updateUser($user);
 	}
 
+	public function testUpdateSystemAddressBookBatchSaysWhereToGoOn(): void {
+		$alice = $this->createMock(IUser::class);
+		$this->userManager->method('get')->willReturnMap([['alice', $alice], ['gone', null]]);
+		$this->backend->method('getCardsAfter')->willReturnMap([
+			[1, 0, 2, [['id' => 4, 'uid' => 'alice'], ['id' => 7, 'uid' => 'gone']]],
+			[1, 7, 2, [['id' => 9, 'uid' => 'alice']]],
+		]);
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([$this->createMock(IClientService::class), $this->config, $this->backend, $this->userManager, $this->dbConnection, $this->logger, $this->converter])
+			->onlyMethods(['updateUser', 'getLocalSystemAddressBook'])
+			->getMock();
+		$service->method('getLocalSystemAddressBook')->willReturn(['id' => 1]);
+		// A card whose user is gone is skipped
+		$service->expects($this->exactly(2))->method('updateUser')->with($alice);
+
+		$this->assertSame(7, $service->updateSystemAddressBookBatch(0, 2));
+		$this->assertNull($service->updateSystemAddressBookBatch(7, 2));
+	}
+
 	public function testSyncInstance(): void {
 		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
