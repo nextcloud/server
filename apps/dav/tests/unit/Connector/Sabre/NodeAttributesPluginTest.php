@@ -17,6 +17,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\NodeAttributeListXml;
 use OCA\DAV\Connector\Sabre\NodeAttributesPlugin;
+use OCA\DAV\Files\NodeAttributes\IFolderListingPreload;
 use OCP\Files\Folder;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -101,6 +102,26 @@ class NodeAttributesPluginTest extends TestCase {
 			$this->server->emit('propFind', [$nodePropFind, $node]);
 			self::assertSame(0, $nodePropFind->get(self::FAVORITE));
 		}
+	}
+
+	public function testListingAwareProvidersGetTheListing(): void {
+		$provider = $this->createMock(IFolderListingPreload::class);
+		$this->registry = $this->createMock(NodeAttributeRegistry::class);
+		$this->registry->method('getAttributeNames')->willReturn([self::SHARE_TYPES]);
+		$this->registry->method('getProvidersFor')->willReturn([['provider' => $provider, 'attributes' => [self::SHARE_TYPES]]]);
+		$server = new Server();
+		$server->addPlugin(new NodeAttributesPlugin($this->registry, fn (): ?NodeAttributeContext => $this->context));
+
+		$child = $this->davNode(File::class, 51);
+		$directory = $this->davNode(Directory::class, 50);
+		$directory->method('getChildren')->willReturn([$child]);
+
+		$provider->expects(self::once())
+			->method('preloadListing')
+			->with($this->context, $directory->getNode(), [$child->getNode()], [self::SHARE_TYPES]);
+		$provider->expects(self::never())->method('preload');
+
+		$server->emit('preloadCollection', [new PropFind('/dir', [self::SHARE_TYPES], 1), $directory]);
 	}
 
 	public function testSearchResultsArePreloaded(): void {

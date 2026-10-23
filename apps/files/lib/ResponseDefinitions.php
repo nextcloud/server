@@ -71,6 +71,21 @@ namespace OCA\Files;
  *     children: list<array{}>,
  * }>
  *
+ * @psalm-type FilesNode = array{
+ *     id: int,
+ *     source: string,
+ *     root: string,
+ *     owner: ?string,
+ *     mime: string,
+ *     mtime: int,
+ *     crtime: ?int,
+ *     size: int|float,
+ *     permissions: int,
+ *     displayname: string,
+ *     type: 'file'|'folder',
+ *     attributes: array<string, mixed>,
+ * }
+ *
  */
 class ResponseDefinitions {
 }

@@ -29,7 +29,6 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use RuntimeException;
 use Sabre\DAV\Exception;
@@ -287,26 +286,6 @@ abstract class Node implements INode {
 		}
 
 		return $permissions;
-	}
-
-	public function getShareAttributes(): array {
-		try {
-			$storage = $this->node->getStorage();
-		} catch (NotFoundException) {
-			return [];
-		}
-
-		$attributes = [];
-		if ($storage->instanceOfStorage(ISharedStorage::class)) {
-			$attributes = $storage->getShare()->getAttributes();
-			if (!$attributes instanceof IAttributes) {
-				return [];
-			}
-
-			return $attributes->toArray();
-		}
-
-		return $attributes;
 	}
 
 	public function getNoteFromShare(?string $user): ?string {
