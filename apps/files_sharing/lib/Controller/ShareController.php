@@ -331,7 +331,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
-	#[TokenScope(scope: TokenScopes::FILES_WRITE)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
 		$this->userSession->setIncognitoMode(true);
 
