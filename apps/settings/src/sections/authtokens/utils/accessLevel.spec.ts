@@ -8,12 +8,13 @@ import type { Selection } from './accessLevel.ts'
 import { describe, expect, it } from 'vitest'
 import { accessLabel, areaState, fromScopes, setGrant, toScopes } from './accessLevel.ts'
 
-const files = ['files:files:read', 'files:files:write', 'files_sharing:shares:write']
+const files = ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write', 'files_sharing:shares:write']
 const calendarContacts = ['dav:calendar:read', 'dav:calendar:write', 'dav:contacts:read', 'dav:contacts:write']
 
 describe('accessLevel', () => {
 	it.each<[string, Selection]>([
 		['files', { preset: 'files', grants: ['files', 'filesShare'] }],
+		['files with trash and versions', { preset: 'custom', grants: ['files', 'filesShare', 'filesTrash', 'filesVersions'] }],
 		['calendar and contacts', { preset: 'calendarContacts', grants: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'] }],
 		['files without sharing', { preset: 'custom', grants: ['files'] }],
 		['read-only calendar', { preset: 'custom', grants: ['calendar'] }],
@@ -63,7 +64,8 @@ describe('accessLevel', () => {
 		[{ filesystem: true }, 'All access'],
 		[{ filesystem: false }, 'All access without files'],
 		[{ filesystem: true, scopes: files }, 'Files'],
-		[{ filesystem: true, scopes: ['files:files:read', 'files:files:write'] }, 'Files'],
+		[{ filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write'] }, 'Files'],
+		[{ filesystem: true, scopes: ['files:files:read', 'files:files:write'] }, 'Other access'],
 		[{ filesystem: false, scopes: calendarContacts }, 'Calendar and Contacts'],
 		[{ filesystem: false, scopes: ['dav:calendar:read'] }, 'Calendar (read only)'],
 		[{ filesystem: false, scopes: ['app:deck'] }, 'Other access'],

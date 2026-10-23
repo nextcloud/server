@@ -8,7 +8,7 @@ import type { ITokenScope } from '../store/authtoken.ts'
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
-export type Grant = Area | 'filesShare' | 'calendarWrite' | 'contactsWrite'
+export type Grant = Area | 'filesShare' | 'filesTrash' | 'filesVersions' | 'calendarWrite' | 'contactsWrite'
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
 type AreaState = 'all' | 'partial' | 'none'
 
@@ -20,8 +20,10 @@ export interface Selection {
 
 /** Must match the scope names the server checks */
 const GRANT_SCOPES: Record<Grant, string[]> = {
-	files: ['files:files:read', 'files:files:write'],
+	files: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write'],
 	filesShare: ['files_sharing:shares:write'],
+	filesTrash: ['files_trashbin:dav:read', 'files_trashbin:dav:write'],
+	filesVersions: ['files_versions:dav:read', 'files_versions:dav:write'],
 	calendar: ['dav:calendar:read'],
 	calendarWrite: ['dav:calendar:write'],
 	contacts: ['dav:contacts:read'],
@@ -29,7 +31,7 @@ const GRANT_SCOPES: Record<Grant, string[]> = {
 }
 
 export const AREA_OPTIONS: Record<Area, Grant[]> = {
-	files: ['filesShare'],
+	files: ['filesShare', 'filesTrash', 'filesVersions'],
 	calendar: ['calendarWrite'],
 	contacts: ['contactsWrite'],
 }
@@ -44,6 +46,8 @@ export const AREAS = Object.keys(AREA_OPTIONS) as Area[]
 export const GRANT_LABELS: Record<Grant, string> = {
 	files: t('settings', 'Files'),
 	filesShare: t('settings', 'Can create shares and public links'),
+	filesTrash: t('settings', 'Can restore deleted files'),
+	filesVersions: t('settings', 'Can restore older versions'),
 	calendar: t('settings', 'Calendar'),
 	calendarWrite: t('settings', 'Can edit calendars'),
 	contacts: t('settings', 'Contacts'),
