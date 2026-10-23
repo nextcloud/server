@@ -162,6 +162,7 @@ class TokenScopeMiddlewareTest extends TestCase {
 			'direct link' => [DirectController::class, 'getUrl', SharingTokenScopes::SHARES_WRITE],
 			'preview' => [PreviewController::class, 'getPreview', FilesTokenScopes::FILES_READ],
 			'preview by file id' => [PreviewController::class, 'getPreviewByFileId', FilesTokenScopes::FILES_READ],
+			'public share download' => [ShareController::class, 'downloadShare', FilesTokenScopes::FILES_READ],
 		];
 	}
 
