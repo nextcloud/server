@@ -37,6 +37,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IMailer;
 use OCP\PreConditionNotMetException;
 use OCP\Security\VerificationToken\InvalidTokenException;
@@ -283,6 +284,13 @@ class LostController extends Controller {
 			// Log the exception and continue
 			$this->logger->error($e->getMessage(), ['app' => 'core', 'exception' => $e]);
 		}
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Password reset was requested for user "%s"',
+			['userId' => $user->getUID()],
+			false,
+			'auth.password_reset.requested',
+		));
 	}
 
 	/**

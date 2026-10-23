@@ -97,11 +97,13 @@ final class RestrictInteractionEventTest extends TestCase {
 					? 'Interaction %s from user %s on %s to %s is restricted: my restriction message'
 					: 'Interaction %s from user %s on %s to %s is allowed.',
 				[
-					$action::class,
-					'my-uid',
-					'my-resource1, my-resource2',
-					'my-receiver1, my-receiver2',
+					'action' => $action::class,
+					'userId' => 'my-uid',
+					'resources' => 'my-resource1, my-resource2',
+					'receivers' => 'my-receiver1, my-receiver2',
 				],
+				false,
+				$isRestricted ? 'users.interaction.restricted' : 'users.interaction.allowed',
 			),
 		], $auditEvents);
 
