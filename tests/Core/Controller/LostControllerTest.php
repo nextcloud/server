@@ -28,6 +28,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Security\Events\PasswordResetRequestedEvent;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -384,6 +385,40 @@ class LostControllerTest extends TestCase {
 			->with($message);
 
 		$response = $this->lostController->email('test@example.com');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEmailDispatchesRequestedEvent(): void {
+		$this->userManager->method('getByEmail')
+			->willReturn([]);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (PasswordResetRequestedEvent $event): bool => $event->getInput() === 'NonExistingUser'));
+
+		$response = $this->lostController->email('NonExistingUser');
+
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEmailPreventedByListener(): void {
+		$this->userManager->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(static function (PasswordResetRequestedEvent $event): void {
+				$event->preventEmail();
+			});
+		$this->verificationToken->expects($this->never())
+			->method('create');
+		$this->mailer->expects($this->never())
+			->method('send');
+
+		$response = $this->lostController->email('ExistingUser');
+
 		$expectedResponse = new JSONResponse(['status' => 'success']);
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
