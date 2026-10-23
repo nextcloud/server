@@ -80,6 +80,7 @@
 	"background-jobs": [],
 	"two-factor-providers": [],
 	"commands": [],
+	"message-handlers": [],
 	"activity": {
 		"filters": [],
 		"settings": [],

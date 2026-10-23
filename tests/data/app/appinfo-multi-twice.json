@@ -135,6 +135,7 @@
         "OCA\\MultiTwice\\Command\\MigrateOne",
         "OCA\\MultiTwice\\Command\\MigrateTwo"
     ],
+    "message-handlers": [],
     "settings": {
         "admin": [
             "OCA\\MultiTwice\\Settings\\AdminOne",

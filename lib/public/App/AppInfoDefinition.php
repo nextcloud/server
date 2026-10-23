@@ -248,6 +248,7 @@ namespace OCP\App;
  *     'repair-steps'?: AppInfoFieldTypeRepairSteps,
  *     'two-factor-providers'?: list<class-string>,
  *     'commands'?: list<class-string>,
+ *     'message-handlers'?: list<class-string>,
  *     'settings'?: AppInfoFieldTypeSettings,
  *     'activity'?: AppInfoFieldTypeActivity,
  *     'dashboard'?: AppInfoFieldTypeDashboard,
