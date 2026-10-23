@@ -10,10 +10,12 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\LegacyPublicAuth;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -28,6 +30,7 @@ class LegacyPublicAuthTest extends TestCase {
 	private IManager&MockObject $shareManager;
 	private IThrottler&MockObject $throttler;
 	private IUserSession&MockObject $userSession;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private LegacyPublicAuth $auth;
 	private string|false $oldUser;
 
@@ -39,6 +42,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->auth = new LegacyPublicAuth(
 			$this->request,
@@ -46,6 +50,7 @@ class LegacyPublicAuthTest extends TestCase {
 			$this->session,
 			$this->throttler,
 			$this->userSession,
+			$this->eventDispatcher,
 		);
 
 		// Store current user
@@ -68,6 +73,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->willThrowException(new ShareNotFound());
+		$this->expectFailureEvent('username', null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -133,6 +139,7 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo($share),
 				$this->equalTo('password')
 			)->willReturn(true);
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -154,6 +161,7 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo($share),
 				$this->equalTo('password')
 			)->willReturn(true);
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -204,6 +212,7 @@ class LegacyPublicAuthTest extends TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
+		$this->expectFailureEvent('username', $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -229,9 +238,18 @@ class LegacyPublicAuthTest extends TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
+		$this->expectFailureEvent('username', $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
+	}
+
+	private function expectFailureEvent(string $token, ?IShare $share, string $reason): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (ShareLinkAccessFailedEvent $event): bool => $event->getToken() === $token
+				&& $event->getShare() === $share
+				&& $event->getReason() === $reason));
 	}
 }
