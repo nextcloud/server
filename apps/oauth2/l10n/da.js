@@ -1,7 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
-    "Your client is not authorized to connect. Please inform the administrator of your client." : "Din klient er ikke autoriseret til at oprette forbindelse. Informer venligst din klients administrator.",
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Din klient har ikke tilladelse til at oprette forbindelse. Giv din klients administrator besked.",
     "Client name cannot be empty." : "Klientnavnet må ikke være tomt.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Din omdirigerings-URL skal være en fuld URL, for eksempel: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",

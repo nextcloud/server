@@ -109,7 +109,7 @@ OC.L10N.register(
     "is not" : "er ikke",
     "File name" : "Filnavn",
     "File MIME type" : "Fil MIME type",
-    "File size (upload)" : "Filstørrelse (upload)",
+    "File size (upload)" : "Filstørrelse (overførsel)",
     "less" : "mindre",
     "less or equals" : "mindre eller lig med",
     "greater or equals" : "større eller lig med",
