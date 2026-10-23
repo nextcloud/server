@@ -36,7 +36,8 @@ class Files extends Action {
 			$params = [
 				'id' => $node instanceof NonExistingFile ? 'not-yet-assigned' : $node->getId(),
 				'path' => $node->getPath(),
-			];
+			] + $this->getRealPathParam('realPath', $node)
+				+ $this->getOwnerPathParam('ownerPath', $node);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file read: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -45,7 +46,7 @@ class Files extends Action {
 		}
 		$this->log(
 			Operation::FileRead,
-			'File with id "%s" accessed: "%s"',
+			$this->appendRealPathText('File with id "%s" accessed: "%s"', $params),
 			$params,
 			array_keys($params)
 		);
@@ -62,7 +63,10 @@ class Files extends Action {
 				'newid' => $target->getId(),
 				'oldpath' => $source->getPath(),
 				'newpath' => $target->getPath(),
-			];
+			] + $this->getRealPathParam('oldRealPath', $source)
+				+ $this->getRealPathParam('newRealPath', $target)
+				+ $this->getOwnerPathParam('oldOwnerPath', $source)
+				+ $this->getOwnerPathParam('newOwnerPath', $target);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -72,7 +76,7 @@ class Files extends Action {
 
 		$this->log(
 			Operation::FileRenamed,
-			'File renamed with id "%s" from "%s" to "%s"',
+			$this->appendRealPathText('File renamed with id "%s" from "%s" to "%s"', $params),
 			$params,
 			array_keys($params)
 		);
@@ -87,7 +91,8 @@ class Files extends Action {
 			$params = [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
-			];
+			] + $this->getRealPathParam('realPath', $node)
+				+ $this->getOwnerPathParam('ownerPath', $node);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file create: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -99,7 +104,7 @@ class Files extends Action {
 		}
 		$this->log(
 			Operation::FileCreated,
-			'File with id "%s" created: "%s"',
+			$this->appendRealPathText('File with id "%s" created: "%s"', $params),
 			$params,
 			array_keys($params)
 		);
@@ -117,7 +122,10 @@ class Files extends Action {
 				'newid' => $target->getId(),
 				'oldpath' => $source->getPath(),
 				'newpath' => $target->getPath(),
-			];
+			] + $this->getRealPathParam('oldRealPath', $source)
+				+ $this->getRealPathParam('newRealPath', $target)
+				+ $this->getOwnerPathParam('oldOwnerPath', $source)
+				+ $this->getOwnerPathParam('newOwnerPath', $target);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file copy: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -126,7 +134,7 @@ class Files extends Action {
 		}
 		$this->log(
 			Operation::FileCopied,
-			'File id copied from: "%s" to "%s", path from "%s" to "%s"',
+			$this->appendRealPathText('File id copied from: "%s" to "%s", path from "%s" to "%s"', $params),
 			$params,
 			array_keys($params)
 		);
@@ -141,7 +149,8 @@ class Files extends Action {
 			$params = [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
-			];
+			] + $this->getRealPathParam('realPath', $node)
+				+ $this->getOwnerPathParam('ownerPath', $node);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file write: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -154,7 +163,7 @@ class Files extends Action {
 
 		$this->log(
 			Operation::FileWritten,
-			'File with id "%s" written to: "%s"',
+			$this->appendRealPathText('File with id "%s" written to: "%s"', $params),
 			$params,
 			array_keys($params)
 		);
@@ -169,7 +178,8 @@ class Files extends Action {
 			$params = [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
-			];
+			] + $this->getRealPathParam('realPath', $node)
+				+ $this->getOwnerPathParam('ownerPath', $node);
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file delete: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
@@ -178,7 +188,7 @@ class Files extends Action {
 		}
 		$this->log(
 			Operation::FileDeleted,
-			'File with id "%s" deleted: "%s"',
+			$this->appendRealPathText('File with id "%s" deleted: "%s"', $params),
 			$params,
 			array_keys($params)
 		);
