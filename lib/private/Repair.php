@@ -16,6 +16,7 @@ use OC\Repair\AddCleanupLoginTokens;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddMovePreviewJob;
+use OC\Repair\AddMoveUsersJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
 use OC\Repair\CleanUpAbandonedApps;
@@ -199,6 +200,7 @@ class Repair implements IOutput {
 			Server::get(AddCleanupLoginTokens::class),
 			Server::get(SanitizeAccountProperties::class),
 			Server::get(AddMovePreviewJob::class),
+			Server::get(AddMoveUsersJob::class),
 			Server::get(ConfigKeyMigration::class),
 			Server::get(AddCleanupBackgroundJobsJob::class),
 			Server::get(AddCheckCodeIntegrityJob::class),

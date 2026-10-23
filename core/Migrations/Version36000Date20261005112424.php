@@ -14,9 +14,11 @@ use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use OC\User\DatabaseBackend;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Schema\ColumnType;
 use OCP\DB\Types;
+use OCP\IDBConnection;
 use OCP\Migration\Attributes\CreateTable;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -46,6 +48,11 @@ use Override;
 	description: 'List of users from all backends',
 )]
 class Version36000Date20261005112424 extends SimpleMigrationStep {
+	public function __construct(
+		private readonly IDBConnection $connection,
+	) {
+	}
+
 	#[Override]
 	public function name(): string {
 		return 'Create unified user table';
@@ -138,5 +145,15 @@ class Version36000Date20261005112424 extends SimpleMigrationStep {
 		}
 
 		return $changed ? $schema : null;
+	}
+
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		$qb = $this->connection->getQueryBuilder();
+		$qb
+			->insert('user_backends')
+			->setValue('backend_id', 0)
+			->setValue('backend_name', $qb->createNamedParameter('Database'))
+			->setValue('backend_class', $qb->createNamedParameter(DatabaseBackend::class))
+			->executeStatement();
 	}
 }

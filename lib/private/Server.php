@@ -9,6 +9,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use NCU\User\IUserBackendManager;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
@@ -154,6 +155,7 @@ use OC\Template\JSCombiner;
 use OC\Template\LoadViewerListener;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
+use OC\User\BackendManager;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
@@ -418,6 +420,7 @@ class Server extends ServerContainer {
 		$this->registerDeprecatedAlias(Folder::class, IUserFolder::class);
 
 		$this->registerAlias(IUserManager::class, \OC\User\Manager::class);
+		$this->registerAlias(IUserBackendManager::class, BackendManager::class);
 
 		$this->registerService(DisplayNameCache::class, static function (ContainerInterface $c) {
 			return $c->get(\OC\User\Manager::class)->getDisplayNameCache();
