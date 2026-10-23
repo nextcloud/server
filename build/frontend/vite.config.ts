@@ -4,7 +4,13 @@
  */
 
 import { createAppConfig } from '@nextcloud/vite-config'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+
+// Chunks and assets are loaded without the `?v=` cache buster, so the server version is part of their file names
+const serverVersion = readFileSync(resolve(import.meta.dirname, '../..', 'version.php'), 'utf-8')
+	.match(/\$OC_VersionString = '([^']+)';/)![1]
+	.replaceAll(/[^\w.-]/g, '-')
 
 const modules = {
 	appstore: {
@@ -167,12 +173,12 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 			rollupOptions: {
 				output: {
 					entryFileNames: '[name].mjs',
-					chunkFileNames: '[name]-[hash].chunk.mjs',
+					chunkFileNames: `[name]-${serverVersion}-[hash].chunk.mjs`,
 					assetFileNames({ originalFileNames }) {
 						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
 							.filter(Boolean)
 						const appId = apps.length === 1 ? apps[0] : 'common'
-						return `${appId}-[name]-[hash][extname]`
+						return `${appId}-[name]-${serverVersion}-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:
