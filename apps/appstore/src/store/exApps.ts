@@ -81,8 +81,8 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		app.loading = true
 		try {
 			if (dockerDaemons.value.length === 1 && app.needsDownload) {
-				exAppApi.enableExApp(app, dockerDaemons[0])
-				app.daemon = dockerDaemons[0]
+				await exAppApi.enableExApp(app, dockerDaemons.value[0])
+				app.daemon = dockerDaemons.value[0]
 			} else if (app.needsDownload) {
 				const daemon = await spawnDialog(DaemonSelectionDialog, { app })
 				if (!daemon) {
