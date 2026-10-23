@@ -91,7 +91,7 @@ class TokenScopes {
 			}
 			// A scope without a colon grants a whole app
 			if (!str_contains($scope, ':') && !in_array($scope, $appGrants, true)) {
-				throw new \InvalidArgumentException('Invalid scope');
+				throw new \InvalidArgumentException('Only apps in your navigation can be granted as a whole. Files, calendars and contacts have scopes of their own');
 			}
 		}
 		// Matched by app id: files_sharing can be disabled, and its classes don't load then

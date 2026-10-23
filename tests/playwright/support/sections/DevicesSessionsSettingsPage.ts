@@ -73,12 +73,16 @@ export class DevicesSessionsSettingsPage {
 	/**
 	 * @param name - Name of the new app password
 	 * @param access - Label of the access preset to pick
+	 * @param options - Labels of the boxes to tick, with the Custom preset
 	 */
-	async createAppPassword(name: string, access: string): Promise<void> {
+	async createAppPassword(name: string, access: string, options: string[] = []): Promise<void> {
 		await this.page.getByRole('button', { name: 'Create new app password' }).click()
 		const dialog = this.accessDialog('Create new app password')
 		await dialog.getByRole('textbox', { name: 'App name' }).fill(name)
 		await dialog.getByRole('radio', { name: access }).check({ force: true })
+		for (const option of options) {
+			await dialog.getByRole('checkbox', { name: option, exact: true }).check({ force: true })
+		}
 
 		const created = this.page.waitForResponse((r) => r.request().method() === 'POST'
 			&& r.url().includes('/settings/personal/authtokens')
@@ -97,9 +101,7 @@ export class DevicesSessionsSettingsPage {
 	 * @param access - Label of the access preset to pick
 	 */
 	async editAccess(row: string, access: string): Promise<void> {
-		await this.tokenRow(row).getByRole('button', { name: 'Device settings' }).click()
-		await this.page.getByRole('menuitem', { name: 'Edit access' }).click()
-		const dialog = this.accessDialog('Edit access')
+		const dialog = await this.openEditAccess(row)
 		await dialog.getByRole('radio', { name: access }).check({ force: true })
 
 		const saved = this.page.waitForResponse((r) => r.request().method() === 'PUT'
@@ -108,5 +110,14 @@ export class DevicesSessionsSettingsPage {
 		await dialog.getByRole('button', { name: 'Save' }).click()
 		await awaitPasswordGuardedRequest(this.page, saved)
 		await expect(dialog).toBeHidden()
+	}
+
+	/**
+	 * @param row - Visible name of the app password
+	 */
+	async openEditAccess(row: string): Promise<Locator> {
+		await this.tokenRow(row).getByRole('button', { name: 'Device settings' }).click()
+		await this.page.getByRole('menuitem', { name: 'Edit access' }).click()
+		return this.accessDialog('Edit access')
 	}
 }
