@@ -11,10 +11,11 @@ namespace OCA\DAV\CardDAV;
 
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -35,7 +36,7 @@ class SystemAddressbook extends AddressBook {
 		BackendInterface $carddavBackend,
 		array $addressBookInfo,
 		IL10N $l10n,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IUserSession $userSession,
 		private ?IRequest $request = null,
 		private ?TrustedServers $trustedServers = null,
@@ -53,12 +54,14 @@ class SystemAddressbook extends AddressBook {
 	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users within the same groups' -> show only users in intersecting groups
 	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users based on phone number integration' -> show only the same user
 	 * 'Allow username autocompletion in share dialog' + 'Allow username autocompletion to users within the same groups' + 'Allow username autocompletion to users based on phone number integration' -> show only users in intersecting groups
+	 * 'Restrict users to only share with users in their groups' -> show only users in intersecting groups, not counting the groups excluded from that check
 	 */
 	#[\Override]
 	public function getChildren() {
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValueBool('core', 'shareapi_allow_share_dialog_user_enumeration', true);
+		$shareEnumerationGroup = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_group');
+		$shareEnumerationPhone = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_phone');
+		$restrictToOwnGroups = $this->appConfig->getValueBool('core', 'shareapi_only_share_with_group_members');
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			// Should never happen because we don't allow anonymous access
@@ -72,23 +75,12 @@ class SystemAddressbook extends AddressBook {
 				return [];
 			}
 		}
-		if ($shareEnumerationGroup) {
+		if ($shareEnumerationGroup || $restrictToOwnGroups) {
 			if ($this->groupManager === null) {
 				// Group manager is not available, so we can't determine which data is safe
 				return [];
 			}
-			$groups = $this->groupManager->getUserGroups($user);
-			$names = [];
-			foreach ($groups as $group) {
-				$users = $group->getUsers();
-				foreach ($users as $groupUser) {
-					if ($groupUser->getBackendClassName() === 'Guests') {
-						continue;
-					}
-					$names[] = SyncService::getCardUri($groupUser);
-				}
-			}
-			return parent::getMultipleChildren(array_unique($names));
+			return parent::getMultipleChildren($this->getCardsForUsersGroups($user, $restrictToOwnGroups));
 		}
 
 		$children = parent::getChildren();
@@ -105,9 +97,10 @@ class SystemAddressbook extends AddressBook {
 	 */
 	#[\Override]
 	public function getMultipleChildren($paths): array {
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValueBool('core', 'shareapi_allow_share_dialog_user_enumeration', true);
+		$shareEnumerationGroup = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_group');
+		$shareEnumerationPhone = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_phone');
+		$restrictToOwnGroups = $this->appConfig->getValueBool('core', 'shareapi_only_share_with_group_members');
 		$user = $this->userSession->getUser();
 		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			// No user or cards with no access
@@ -121,23 +114,12 @@ class SystemAddressbook extends AddressBook {
 				return [];
 			}
 		}
-		if ($shareEnumerationGroup) {
+		if ($shareEnumerationGroup || $restrictToOwnGroups) {
 			if ($this->groupManager === null || $user === null) {
 				// Group manager or user is not available, so we can't determine which data is safe
 				return [];
 			}
-			$groups = $this->groupManager->getUserGroups($user);
-			$allowedNames = [];
-			foreach ($groups as $group) {
-				$users = $group->getUsers();
-				foreach ($users as $groupUser) {
-					if ($groupUser->getBackendClassName() === 'Guests') {
-						continue;
-					}
-					$allowedNames[] = SyncService::getCardUri($groupUser);
-				}
-			}
-			return parent::getMultipleChildren(array_intersect($paths, $allowedNames));
+			return parent::getMultipleChildren(array_intersect($paths, $this->getCardsForUsersGroups($user, $restrictToOwnGroups)));
 		}
 		if (!$this->isFederation()) {
 			return parent::getMultipleChildren($paths);
@@ -170,9 +152,10 @@ class SystemAddressbook extends AddressBook {
 	#[\Override]
 	public function getChild($name): Card {
 		$user = $this->userSession->getUser();
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValueBool('core', 'shareapi_allow_share_dialog_user_enumeration', true);
+		$shareEnumerationGroup = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_group');
+		$shareEnumerationPhone = $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_phone');
+		$restrictToOwnGroups = $this->appConfig->getValueBool('core', 'shareapi_only_share_with_group_members');
 		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			$ownName = $user !== null ? SyncService::getCardUri($user) : null;
 			if ($ownName === $name) {
@@ -180,22 +163,13 @@ class SystemAddressbook extends AddressBook {
 			}
 			throw new Forbidden();
 		}
-		if ($shareEnumerationGroup) {
+		if ($shareEnumerationGroup || $restrictToOwnGroups) {
 			if ($user === null || $this->groupManager === null) {
 				// Group manager is not available, so we can't determine which data is safe
 				throw new Forbidden();
 			}
-			$groups = $this->groupManager->getUserGroups($user);
-			foreach ($groups as $group) {
-				foreach ($group->getUsers() as $groupUser) {
-					if ($groupUser->getBackendClassName() === 'Guests') {
-						continue;
-					}
-					$otherName = SyncService::getCardUri($groupUser);
-					if ($otherName === $name) {
-						return parent::getChild($name);
-					}
-				}
+			if (in_array($name, $this->getCardsForUsersGroups($user, $restrictToOwnGroups), true)) {
+				return parent::getChild($name);
 			}
 			throw new Forbidden();
 		}
@@ -288,6 +262,38 @@ class SystemAddressbook extends AddressBook {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Groups listed in 'shareapi_only_share_with_group_members_exclude_group_list'
+	 * are not considered when $ignoreExcludedGroups is set.
+	 *
+	 * @return string[] card URIs of $user and of non-guest users sharing at least one group with $user
+	 */
+	private function getCardsForUsersGroups(IUser $user, bool $ignoreExcludedGroups): array {
+		$excludedGroupIds = [];
+		if ($ignoreExcludedGroups) {
+			$excludedGroupIds = json_decode(
+				$this->appConfig->getValueString('core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]'),
+				true
+			);
+			if (!is_array($excludedGroupIds)) {
+				$excludedGroupIds = [];
+			}
+		}
+		$names = [SyncService::getCardUri($user)];
+		foreach ($this->groupManager->getUserGroups($user) as $group) {
+			if (in_array($group->getGID(), $excludedGroupIds, true)) {
+				continue;
+			}
+			foreach ($group->getUsers() as $groupUser) {
+				if ($groupUser->getBackendClassName() === 'Guests') {
+					continue;
+				}
+				$names[] = SyncService::getCardUri($groupUser);
+			}
+		}
+		return array_values(array_unique($names));
 	}
 
 	/**
