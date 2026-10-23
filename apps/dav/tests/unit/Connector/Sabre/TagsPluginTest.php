@@ -172,34 +172,13 @@ class TagsPluginTest extends \Test\TestCase {
 
 	public static function tagsGetPropertiesDataProvider(): array {
 		return [
-			// request both, receive both
-			[
-				['tag1', 'tag2', self::TAG_FAVORITE],
-				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
-				[
-					200 => [
-						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
-						self::FAVORITE_PROPERTYNAME => true,
-					]
-				]
-			],
-			// request tags alone
+			// favorites are not part of the tags
 			[
 				['tag1', 'tag2', self::TAG_FAVORITE],
 				[self::TAGS_PROPERTYNAME],
 				[
 					200 => [
 						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
-					]
-				]
-			],
-			// request fav alone
-			[
-				['tag1', 'tag2', self::TAG_FAVORITE],
-				[self::FAVORITE_PROPERTYNAME],
-				[
-					200 => [
-						self::FAVORITE_PROPERTYNAME => true,
 					]
 				]
 			],
@@ -211,14 +190,13 @@ class TagsPluginTest extends \Test\TestCase {
 					200 => []
 				],
 			],
-			// request both with none set, receive both
+			// request tags with none set
 			[
 				[],
-				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
+				[self::TAGS_PROPERTYNAME],
 				[
 					200 => [
 						self::TAGS_PROPERTYNAME => new TagList([]),
-						self::FAVORITE_PROPERTYNAME => false,
 					]
 				]
 			],
