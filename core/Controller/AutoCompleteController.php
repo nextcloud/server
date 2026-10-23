@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\AppFramework\Http\PaginationTrait;
 use OC\Core\ResponseDefinitions;
+use OC\Core\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -25,6 +27,7 @@ use OCP\Share\IShare;
 /**
  * @psalm-import-type CoreAutocompleteResult from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::PEOPLE_READ)]
 class AutoCompleteController extends OCSController {
 	use PaginationTrait;
 
