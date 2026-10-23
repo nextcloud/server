@@ -116,8 +116,8 @@ class AuthSettingsController extends Controller {
 			$type = IToken::PERMANENT_TOKEN;
 			try {
 				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes], $this->grantableApps->get());
-			} catch (\InvalidArgumentException) {
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			} catch (\InvalidArgumentException $e) {
+				return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 			}
 		}
 
@@ -258,8 +258,8 @@ class AuthSettingsController extends Controller {
 
 		try {
 			$newScope = $this->tokenScopes->updateScope($currentScope, $scope, $this->grantableApps->get());
-		} catch (\InvalidArgumentException) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($newScope !== $currentScope) {

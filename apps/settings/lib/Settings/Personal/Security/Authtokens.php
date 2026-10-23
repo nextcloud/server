@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal\Security;
 
+use OC\Authentication\Token\GrantableApps;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
@@ -33,6 +34,7 @@ class Authtokens implements ISettings {
 		private IInitialState $initialState,
 		private IConfig $serverConfig,
 		private ?string $userId,
+		private GrantableApps $grantableApps,
 	) {
 	}
 
@@ -48,6 +50,8 @@ class Authtokens implements ISettings {
 			$this->userSession->getImpersonatingUserID() === null
 			&& $this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)
 		);
+
+		$this->initialState->provideInitialState('grantable_apps', $this->grantableApps->entries());
 
 		Util::addStyle(Application::APP_ID, 'personal-security-authtokens');
 		Util::addScript(Application::APP_ID, 'personal-security-authtokens');

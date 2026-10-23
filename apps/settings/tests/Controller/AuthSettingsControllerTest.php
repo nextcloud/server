@@ -174,6 +174,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$response = $this->controller->create('Nexus 4', false, [FilesTokenScopes::FILES_WRITE]);
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertSame(['message' => 'Files scopes require ' . FilesTokenScopes::FILES_READ], $response->getData());
 	}
 
 	public function testCreateDisabledBySystemConfig(): void {
