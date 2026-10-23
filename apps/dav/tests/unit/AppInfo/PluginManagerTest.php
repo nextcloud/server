@@ -88,6 +88,8 @@ class PluginManagerTest extends TestCase {
 		$dummyCollection1 = $this->createMock(Collection::class);
 		$dummyCollection2 = $this->createMock(Collection::class);
 		$dummy2Collection1 = $this->createMock(Collection::class);
+		$dummyCollection1->method('getName')->willReturn('one');
+		$dummy2Collection1->method('getName')->willReturn('two');
 
 		$server->method('get')
 			->willReturnMap([
@@ -123,5 +125,8 @@ class PluginManagerTest extends TestCase {
 		$this->assertEquals($expectedPlugins, $pluginManager->getAppPlugins());
 		$this->assertEquals($expectedCalendarPlugins, $pluginManager->getCalendarPlugins());
 		$this->assertEquals($expectedCollections, $pluginManager->getAppCollections());
+		$this->assertSame('adavapp', $pluginManager->getCollectionApp('one'));
+		$this->assertSame('adavapp2', $pluginManager->getCollectionApp('two'));
+		$this->assertNull($pluginManager->getCollectionApp('files'));
 	}
 }

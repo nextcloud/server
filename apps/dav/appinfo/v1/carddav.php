@@ -7,6 +7,7 @@
  */
 // Backends
 use OC\KnownUser\KnownUserService;
+use OC\Lockdown\LockdownManager;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Principal\Collection as PrincipalCollection;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
@@ -93,7 +94,7 @@ $server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), Server::get(IL10nFactory::class)->get('dav')));
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
-$server->addPlugin(Server::get(TokenScopePlugin::class));
+$server->addPlugin(new TokenScopePlugin(Server::get(LockdownManager::class)));
 $server->addPlugin(new Plugin());
 
 $server->addPlugin(new LegacyDAVACL());

@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\TokenScopes as CoreTokenScopes;
 use OC\Lockdown\LockdownManager;
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Connector\Sabre\TokenScopePlugin;
 use OCA\DAV\TokenScopes;
 use OCA\Files\TokenScopes as FilesTokenScopes;
@@ -23,7 +24,7 @@ use Sabre\HTTP\Request;
 use Test\TestCase;
 
 class TokenScopePluginTest extends TestCase {
-	private const FILES = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
+	private const FILES = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, FilesTokenScopes::DAV_READ, FilesTokenScopes::DAV_WRITE];
 	private const CALENDAR = [TokenScopes::CALENDAR_READ, TokenScopes::CALENDAR_WRITE];
 	private const CALENDAR_READ = [TokenScopes::CALENDAR_READ];
 	private const CONTACTS = [TokenScopes::CONTACTS_READ, TokenScopes::CONTACTS_WRITE];
@@ -37,7 +38,14 @@ class TokenScopePluginTest extends TestCase {
 		$token = new PublicKeyToken();
 		$token->setScope($scopes === null ? [] : [CoreTokenScopes::KEY => $scopes]);
 		$lockdownManager->setToken($token);
-		return new TokenScopePlugin($lockdownManager, $prefix);
+		$pluginManager = $this->createMock(PluginManager::class);
+		$pluginManager->method('getCollectionApp')->willReturnMap([
+			['trashbin', 'files_trashbin'],
+			['versions', 'files_versions'],
+			['groupfolders', 'groupfolders'],
+			['photos', 'photos'],
+		]);
+		return new TokenScopePlugin($lockdownManager, $pluginManager, $prefix);
 	}
 
 	public static function dataAllows(): array {
@@ -45,19 +53,23 @@ class TokenScopePluginTest extends TestCase {
 			'root, any key' => ['', 'PROPFIND', [], true],
 			'root write' => ['', 'PROPPATCH', self::FILES, false],
 			'files' => ['files/user0/a.txt', 'GET', self::FILES, true],
-			'files write, mask guards it' => ['files/user0/a.txt', 'PUT', self::FILES, true],
+			'files write' => ['files/user0/a.txt', 'PUT', self::FILES, true],
+			'files write without dav write' => ['files/user0/a.txt', 'PUT', [FilesTokenScopes::DAV_READ], false],
+			'files without dav' => ['files/user0/a.txt', 'GET', [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE], false],
 			'files without files' => ['files/user0', 'PROPFIND', self::CALENDAR, false],
 			'uploads' => ['uploads/user0/1', 'MKCOL', self::FILES, true],
 			'bulk upload' => ['bulk', 'POST', self::FILES, true],
 			'bulk upload without files' => ['bulk', 'POST', self::CALENDAR, false],
-			'groupfolder trash without files' => ['trashbin/user0/trash', 'PROPFIND', self::CALENDAR, false],
-			'groupfolders' => ['groupfolders/user0', 'PROPFIND', self::FILES, true],
-			'versions' => ['versions/user0/versions/1', 'PROPFIND', self::FILES, true],
-			'tag definitions read' => ['systemtags/1', 'PROPFIND', self::FILES, true],
-			'tag definitions write' => ['systemtags/1', 'PROPPATCH', self::FILES, true],
-			'tag definitions without files' => ['systemtags/1', 'PROPFIND', self::CALENDAR, false],
-			'tag assignment' => ['systemtags-relations/files/1/2', 'PUT', self::FILES, true],
-			'assigned tags' => ['systemtags-assigned/files', 'PROPFIND', self::FILES, true],
+			'trash with files only' => ['trashbin/user0/trash', 'PROPFIND', self::FILES, false],
+			'trash' => ['trashbin/user0/trash', 'PROPFIND', [...self::FILES, 'files_trashbin:dav:read'], true],
+			'trash restore without write' => ['trashbin/user0/trash/a.txt', 'MOVE', [...self::FILES, 'files_trashbin:dav:read'], false],
+			'versions' => ['versions/user0/versions/1', 'PROPFIND', [...self::FILES, 'files_versions:dav:read'], true],
+			'groupfolders with files only' => ['groupfolders/user0', 'PROPFIND', self::FILES, false],
+			'groupfolders, whole app' => ['groupfolders/user0', 'PROPFIND', ['groupfolders'], true],
+			'another app\'s scope' => ['groupfolders/user0', 'PROPFIND', ['files_trashbin:dav:read'], false],
+			'tag definitions' => ['systemtags/1', 'PROPFIND', self::FILES, false],
+			'tag assignment' => ['systemtags-relations/files/1/2', 'PUT', self::FILES, false],
+			'assigned tags' => ['systemtags-assigned/files', 'PROPFIND', self::FILES, false],
 			'comments' => ['comments/files/1', 'PROPFIND', self::FILES, false],
 			'calendar read' => ['calendars/user0/personal', 'REPORT', self::CALENDAR_READ, true],
 			'calendar write without write' => ['calendars/user0/personal/a.ics', 'PUT', self::CALENDAR_READ, false],
@@ -86,6 +98,8 @@ class TokenScopePluginTest extends TestCase {
 			'public calendars' => ['public-calendars/abc', 'GET', self::CALENDAR, false],
 			'remote calendars' => ['remote-calendars/abc', 'PROPFIND', self::CALENDAR, false],
 			'app collection' => ['photos/user0/albums', 'PROPFIND', self::FILES, false],
+			'app collection with its scope' => ['photos/user0/albums', 'PROPFIND', ['photos:dav:read'], true],
+			'unknown collection' => ['nope/user0', 'PROPFIND', ['nope'], false],
 		];
 	}
 

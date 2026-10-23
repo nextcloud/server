@@ -86,8 +86,8 @@ class TokenScopes {
 				throw new \InvalidArgumentException('Invalid scope');
 			}
 		}
-		// Matched by prefix: files_sharing can be disabled, and its classes don't load then
-		$files = array_filter($scopes, static fn (string $scope) => str_starts_with($scope, 'files:') || str_starts_with($scope, 'files_sharing:'));
+		// Matched by app id: files_sharing can be disabled, and its classes don't load then
+		$files = array_filter($scopes, static fn (string $scope) => in_array(strstr($scope, ':', true) ?: $scope, ['files', 'files_sharing', 'files_trashbin', 'files_versions'], true));
 		// Files endpoints look nodes up by ID or path, so every files scope reads file data
 		if ($files !== [] && !in_array(FilesTokenScopes::FILES_READ, $files, true)) {
 			throw new \InvalidArgumentException('Files scopes require ' . FilesTokenScopes::FILES_READ);
