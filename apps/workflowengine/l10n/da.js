@@ -109,7 +109,7 @@ OC.L10N.register(
     "is not" : "er ikke",
     "File name" : "Filnavn",
     "File MIME type" : "Fil MIME type",
-    "File size (upload)" : "Filstørrelse (upload)",
+    "File size (upload)" : "Filstørrelse (overførsel)",
     "less" : "mindre",
     "less or equals" : "mindre eller lig med",
     "greater or equals" : "større eller lig med",
@@ -128,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "Bruger \"user agent\"",
     "Group membership" : "Gruppemedlemskab",
     "is member of" : "er medlem af",
-    "is not member of" : "er ikke medlem af",
-    "Type to search for group …" : "Skriv for at søge efter en gruppe …"
+    "is not member of" : "er ikke medlem af"
 },
 "nplurals=2; plural=(n != 1);");

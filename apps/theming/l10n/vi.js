@@ -90,19 +90,6 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Nếu bạn phát hiện bất kỳ vấn đề nào, đừng ngần ngại báo cáo chúng trên {issuetracker}trình theo dõi vấn đề của chúng tôi{linkend}. Và nếu bạn muốn tham gia, hãy tham gia {designteam}nhóm thiết kế của chúng tôi{linkend}!",
     "Themes" : "Chủ đề",
     "Fonts" : "Phông chữ",
-    "Customization has been disabled by your administrator" : "Tùy chỉnh đã bị quản trị viên của bạn vô hiệu hóa",
-    "Disable-user-theming should be true or false" : "Vô hiệu hóa chủ đề người dùng phải đúng hoặc sai",
-    "Header logo" : "Logo đầu trang",
-    "Upload new header logo" : "Tải lên logo đầu trang mới",
-    "Upload new favicon" : "Tải lên bộ Favicon mới",
-    "User settings" : "Thiết lập người dùng",
-    "Upload new logo" : "Tải lên logo mới",
-    "Upload new background and login image" : "Upload new background and login image",
-    "Background and login image" : "Hình nền và hình ảnh đăng nhập",
-    "Advanced options" : "Tùy chọn nâng cao",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt tiện ích mở rộng ImageMagick PHP có hỗ trợ hình ảnh SVG để tự động tạo favicon dựa trên logo và màu sắc đã tải lên.",
-    "No background has been selected" : "Không có nền nào được chọn",
-    "Select a custom color" : "Chọn màu tùy chỉnh",
-    "Upload" : "Tải lên"
+    "Customization has been disabled by your administrator" : "Tùy chỉnh đã bị quản trị viên của bạn vô hiệu hóa"
 },
 "nplurals=1; plural=0;");

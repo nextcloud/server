@@ -432,6 +432,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1036Date20251202000000' => __DIR__ . '/..' . '/../lib/Migration/Version1036Date20251202000000.php',
         'OCA\\DAV\\Migration\\Version1038Date20260302000000' => __DIR__ . '/..' . '/../lib/Migration/Version1038Date20260302000000.php',
         'OCA\\DAV\\Migration\\Version1039Date20260408000000' => __DIR__ . '/..' . '/../lib/Migration/Version1039Date20260408000000.php',
+        'OCA\\DAV\\Migration\\Version1039Date20260408000001' => __DIR__ . '/..' . '/../lib/Migration/Version1039Date20260408000001.php',
         'OCA\\DAV\\Migration\\Version1040Date20260805000000' => __DIR__ . '/..' . '/../lib/Migration/Version1040Date20260805000000.php',
         'OCA\\DAV\\Migration\\Version3000Date20260828000000' => __DIR__ . '/..' . '/../lib/Migration/Version3000Date20260828000000.php',
         'OCA\\DAV\\Model\\ExampleEvent' => __DIR__ . '/..' . '/../lib/Model/ExampleEvent.php',

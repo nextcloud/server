@@ -346,10 +346,6 @@ OC.L10N.register(
     "Location:" : "Eneo:",
     "Link:" : "Kiungo:",
     "Occurring:" : "Inatokea:",
-    "More options at %s" : "Machaguo zaidi katika %s",
-    "The system address book contains contact information for all users in your instance." : "Kitabu cha anwani cha mfumo kina maelezo ya mawasiliano kwa watumiaji wote katika mfano wako.",
-    "Enable System Address Book" : "Washa Kitabu cha Anwani za Mfumo",
-    "No results." : "Hakuna matokeo.",
-    "Start typing." : "Anza kuandika."
+    "More options at %s" : "Machaguo zaidi katika %s"
 },
 "nplurals=2; plural=(n != 1);");

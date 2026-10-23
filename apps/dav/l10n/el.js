@@ -353,10 +353,6 @@ OC.L10N.register(
     "Location:" : "Τοποθεσία:",
     "Link:" : "Σύνδεσμος:",
     "Occurring:" : "Συμβαίνει:",
-    "More options at %s" : "Περισσότερες επιλογές στο %s",
-    "The system address book contains contact information for all users in your instance." : "Το βιβλίο διευθύνσεων συστήματος περιέχει πληροφορίες επαφών για όλους τους χρήστες στην εγκατάστασή σας.",
-    "Enable System Address Book" : "Ενεργοποίηση Βιβλίου Διευθύνσεων Συστήματος",
-    "No results." : "Κανένα αποτέλεσμα.",
-    "Start typing." : "Ξεκινήστε να πληκτρολογείτε."
+    "More options at %s" : "Περισσότερες επιλογές στο %s"
 },
 "nplurals=2; plural=(n != 1);");

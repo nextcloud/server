@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Не удалось загрузить метки для файла",
     "Failed to set tag for file" : "Не удалось поставить метку файлу",
     "Failed to delete tag for file" : "Не удалось снять метку с файла",
-    "Collaborative tags …" : "Совместные метки…",
-    "Loading …" : "Загрузка…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} будет добавлен, а {tag2} будет удалён из 1 файла.","{tag1} будет добавлен, а {tag2} будет удалён из {count} файлов.","{tag1} будет добавлен, а {tag2} будет удалён из {count} файлов.","{tag1} будет добавлен, а {tag2} будет удалён из {count} файлов."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} будет удалён из 1 файла.","{tag} будет удалён из {count} файлов.","{tag} будет удалён из {count} файлов.","{tag} будет удалён из {count} файлов."],
-    "Loading collaborative tags …" : "Загрузка совместных меток…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} будет удалён из 1 файла.","{tag} будет удалён из {count} файлов.","{tag} будет удалён из {count} файлов.","{tag} будет удалён из {count} файлов."]
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

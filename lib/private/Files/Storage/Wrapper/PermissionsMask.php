@@ -13,6 +13,7 @@ use OC\Files\Storage\Storage;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\GenericFileException;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -41,6 +42,10 @@ class PermissionsMask extends Wrapper {
 
 	private function checkMask(int $permissions): bool {
 		return ($this->mask & $permissions) === $permissions;
+	}
+
+	protected function canWrite(string $path): bool {
+		return $this->checkMask($this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE);
 	}
 
 	#[\Override]
@@ -119,6 +124,31 @@ class PermissionsMask extends Wrapper {
 			$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
 			return $this->checkMask($permissions) ? parent::fopen($path, $mode) : false;
 		}
+	}
+
+	#[\Override]
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
+		if ($sourceStorage !== $this && !$this->canWrite($targetInternalPath)) {
+			return false;
+		}
+		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+
+	#[\Override]
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
+		if ($sourceStorage !== $this && !$this->canWrite($targetInternalPath)) {
+			return false;
+		}
+		return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+
+	#[\Override]
+	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if (!$this->canWrite($path)) {
+			fclose($stream);
+			throw new GenericFileException('Failed to open ' . $path);
+		}
+		return parent::writeStream($path, $stream, $size);
 	}
 
 	#[\Override]

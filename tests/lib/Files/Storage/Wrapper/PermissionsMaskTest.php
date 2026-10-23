@@ -13,6 +13,8 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\GenericFileException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
@@ -107,6 +109,67 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	public function testFopenNewFileNoCreate(): void {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->fopen('foo', 'w'));
+	}
+
+	public static function dataFromStorage(): array {
+		return [
+			'copy, new file' => ['copyFromStorage', false, Constants::PERMISSION_CREATE],
+			'copy, existing file' => ['copyFromStorage', true, Constants::PERMISSION_UPDATE],
+			'move, new file' => ['moveFromStorage', false, Constants::PERMISSION_CREATE],
+			'move, existing file' => ['moveFromStorage', true, Constants::PERMISSION_UPDATE],
+		];
+	}
+
+	#[DataProvider('dataFromStorage')]
+	public function testFromStorageMasked(string $method, bool $exists, int $permission): void {
+		$otherStorage = new Temporary([]);
+		$otherStorage->file_put_contents('foo', 'new');
+		if ($exists) {
+			$this->sourceStorage->file_put_contents('foo', 'old');
+		}
+
+		$denied = $this->getMaskedStorage(Constants::PERMISSION_ALL - $permission);
+		$this->assertFalse($denied->$method($otherStorage, 'foo', 'foo'));
+		$this->assertTrue($otherStorage->file_exists('foo'));
+		if ($exists) {
+			$this->assertSame('old', $this->sourceStorage->file_get_contents('foo'));
+		} else {
+			$this->assertFalse($this->sourceStorage->file_exists('foo'));
+		}
+
+		$allowed = $this->getMaskedStorage($permission);
+		$this->assertTrue($allowed->$method($otherStorage, 'foo', 'foo'));
+		$this->assertSame('new', $this->sourceStorage->file_get_contents('foo'));
+		$otherStorage->cleanUp();
+	}
+
+	public function testMoveFromStorageSameStorageKeepsRenameRules(): void {
+		$this->sourceStorage->file_put_contents('foo', 'bar');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
+		$this->assertTrue($storage->moveFromStorage($storage, 'foo', 'baz'));
+		$this->assertSame('bar', $this->sourceStorage->file_get_contents('baz'));
+	}
+
+	public function testWriteStreamNoCreate(): void {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
+		$stream = fopen('php://memory', 'r');
+		try {
+			$storage->writeStream('foo', $stream);
+			$this->fail('Expected the write to be refused');
+		} catch (GenericFileException) {
+		}
+		$this->assertFalse(is_resource($stream));
+	}
+
+	public function testWriteStreamExistingFileNoUpdate(): void {
+		$this->sourceStorage->file_put_contents('foo', 'old');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
+		try {
+			$storage->writeStream('foo', fopen('php://memory', 'r'));
+			$this->fail('Expected the write to be refused');
+		} catch (GenericFileException) {
+		}
+		$this->assertSame('old', $this->sourceStorage->file_get_contents('foo'));
 	}
 
 	public function testScanNewFiles(): void {

@@ -9,6 +9,7 @@ SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: perfect-debounce developers
+SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: atomiks
@@ -39,7 +40,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - events
 	- version: 3.3.0
@@ -159,7 +160,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.7.1
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
 - focus-trap
 	- version: 8.2.3
@@ -175,6 +176,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - nostics
 	- version: 1.2.0
+	- license: MIT
+- p-queue
+	- version: 9.3.5
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0

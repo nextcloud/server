@@ -64,8 +64,6 @@
     "Remote share" : "Eksterne drev",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vil du tilføje den eksterne deling {name} fra {owner}@{remote}?",
     "Remote share password" : "Fjerndrev adgangskode",
-    "Incoming share could not be processed" : "Indgående deling kunne ikke behandles",
-    "X (formerly Twitter)" : "X (tidligere Twitter)",
-    "formerly Twitter" : "tidligere Twitter"
+    "Incoming share could not be processed" : "Indgående deling kunne ikke behandles"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

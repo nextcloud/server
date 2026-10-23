@@ -378,10 +378,6 @@
     "Link:" : "連結：",
     "Occurring:" : "發生：",
     "More options at %s" : "%s 有更多選項",
-    "The system address book contains contact information for all users in your instance." : "系統通訊錄包含您站台中的所有聯絡人資訊。",
-    "Enable System Address Book" : "啟用系統通訊錄",
-    "No results." : "沒有結果。",
-    "Start typing." : "開始輸入。",
     "Delegate:" : "委派："
 },"pluralForm" :"nplurals=1; plural=0;"
 }

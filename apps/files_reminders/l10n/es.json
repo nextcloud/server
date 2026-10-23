@@ -26,8 +26,6 @@
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Establecer recordatorio para este fin de semana",
     "Next week" : "Próxima semana",
-    "Set reminder for next week" : "Establecer recordatorio para la próxima semana",
-    "Set reminder for \"{fileName}\"" : "Establecer recordatorio para \"{fileName}\"",
-    "We will remind you of this file" : "Le recordaremos de este archivo"
+    "Set reminder for next week" : "Establecer recordatorio para la próxima semana"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

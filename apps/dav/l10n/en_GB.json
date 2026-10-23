@@ -369,10 +369,6 @@
     "Link:" : "Link:",
     "Occurring:" : "Occurring:",
     "More options at %s" : "More options at %s",
-    "The system address book contains contact information for all users in your instance." : "The system address book contains contact information for all users in your instance.",
-    "Enable System Address Book" : "Enable System Address Book",
-    "No results." : "No results.",
-    "Start typing." : "Start typing.",
     "Delegate:" : "Delegate:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

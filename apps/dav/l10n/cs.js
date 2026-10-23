@@ -357,10 +357,6 @@ OC.L10N.register(
     "Link:" : "Odkaz:",
     "Occurring:" : "Opakuje se::",
     "More options at %s" : "Další volby viz %s",
-    "The system address book contains contact information for all users in your instance." : "Systémový adresář kontaktů obsahuje informace pro všechny uživatele ve vámi využívané instanci.",
-    "Enable System Address Book" : "Zapnout systémový adresář kontaktů",
-    "No results." : "Nic nenalezeno.",
-    "Start typing." : "Začněte psát.",
     "Delegate:" : "Delegovat:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

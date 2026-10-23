@@ -45,8 +45,10 @@
 			</div>
 		</form>
 
-		<NcEmptyContent v-if="loading" class="templates-picker__loading" icon="icon-loading">
-			{{ t('files', 'Creating file') }}
+		<NcEmptyContent v-if="loading" class="templates-picker__loading" :name="t('files', 'Creating file')">
+			<template #icon>
+				<NcLoadingIcon />
+			</template>
 		</NcEmptyContent>
 	</NcModal>
 </template>
@@ -67,6 +69,7 @@ import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { extname, join, normalize } from 'path'
 import { defineComponent } from 'vue'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import TemplateFiller from '../components/TemplateFiller.vue'
 import TemplatePreview from '../components/TemplatePreview.vue'
@@ -81,6 +84,7 @@ export default defineComponent({
 
 	components: {
 		NcEmptyContent,
+		NcLoadingIcon,
 		NcModal,
 		TemplatePreview,
 	},

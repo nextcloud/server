@@ -123,6 +123,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
+        'OCA\\Files\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

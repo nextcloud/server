@@ -29,7 +29,7 @@ class ActionTest extends TestCase {
 	public function testLogAddsOperationToContext(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('File "/a.txt" deleted', ['app' => 'admin_audit', 'operation' => 'files.file.deleted']);
+			->with('File "/a.txt" deleted', ['app' => 'admin_audit', 'operation' => 'files.file.deleted', 'params' => ['path' => '/a.txt']]);
 
 		$this->action->log(Operation::FileDeleted, 'File "%s" deleted', ['path' => '/a.txt'], ['path']);
 	}
@@ -37,7 +37,7 @@ class ActionTest extends TestCase {
 	public function testLogAcceptsOperationString(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Share "42" accepted', ['app' => 'admin_audit', 'operation' => 'federatedfilesharing.share.accepted']);
+			->with('Share "42" accepted', ['app' => 'admin_audit', 'operation' => 'federatedfilesharing.share.accepted', 'params' => ['id' => '42']]);
 
 		$this->action->log('federatedfilesharing.share.accepted', 'Share "%s" accepted', ['id' => '42'], ['id']);
 	}
@@ -45,7 +45,7 @@ class ActionTest extends TestCase {
 	public function testLogWithoutOperation(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('File "/a.txt" deleted', ['app' => 'admin_audit']);
+			->with('File "/a.txt" deleted', ['app' => 'admin_audit', 'params' => ['path' => '/a.txt']]);
 
 		$this->action->log(null, 'File "%s" deleted', ['path' => '/a.txt'], ['path']);
 	}
@@ -55,7 +55,7 @@ class ActionTest extends TestCase {
 			->method('info')
 			->with(
 				'File "{path}" deleted',
-				['app' => 'admin_audit', 'operation' => 'files.file.deleted', 'path' => '/a.txt'],
+				['app' => 'admin_audit', 'operation' => 'files.file.deleted', 'path' => '/a.txt', 'params' => ['path' => '/a.txt']],
 			);
 
 		$this->action->log(Operation::FileDeleted, 'File "{path}" deleted', ['path' => '/a.txt'], ['path']);
@@ -83,5 +83,37 @@ class ActionTest extends TestCase {
 			);
 
 		$this->action->log(Operation::LoginFailed, 'Login failed: "%s"', [], ['uid'], true);
+	}
+
+	public function testObfuscatedCallHasNoParams(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Login failed: "bob"', ['app' => 'admin_audit', 'operation' => 'auth.login.failed']);
+
+		$this->action->log(Operation::LoginFailed, 'Login failed: "%s"', ['loginName' => 'bob'], ['loginName'], true);
+	}
+
+	public function testCallWithoutParametersHasNoParams(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Logout occurred', ['app' => 'admin_audit', 'operation' => 'auth.logout.performed']);
+
+		$this->action->log(Operation::LogoutPerformed, 'Logout occurred', [], []);
+	}
+
+	public function testParamsOnlyContainListedElements(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('File "/a.txt" deleted', ['app' => 'admin_audit', 'operation' => 'files.file.deleted', 'params' => ['path' => '/a.txt']]);
+
+		$this->action->log(Operation::FileDeleted, 'File "%s" deleted', ['path' => '/a.txt', 'secret' => 'not listed'], ['path']);
+	}
+
+	public function testParamsPlaceholderTakesPrecedence(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Imported {params}', ['app' => 'admin_audit', 'params' => '3 cards']);
+
+		$this->action->log(null, 'Imported {params}', ['params' => '3 cards'], ['params']);
 	}
 }
