@@ -348,7 +348,7 @@ describe('Desktop Firefox regression tests', () => {
 
 describe('AuthToken access', () => {
 	it('shows what an app password can reach', () => {
-		const wrapper = mountAuthToken(makeToken({ scope: { filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files_sharing:shares:write'] } }))
+		const wrapper = mountAuthToken(makeToken({ scope: { filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write', 'files_sharing:shares:write'] } }))
 
 		expect(wrapper.find('.auth-token__access').text()).toBe('Files')
 	})
