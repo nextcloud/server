@@ -5,7 +5,14 @@
 
 import type { Selection } from './accessLevel.ts'
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+vi.mock('@nextcloud/initial-state', () => ({
+	loadState: () => [
+		{ id: 'spreed', name: 'Talk', icon: '', acrossApps: false },
+		{ id: 'activity', name: 'Activity', icon: '', acrossApps: true },
+	],
+}))
+
 import { accessLabel, areaState, fromScopes, setGrant, toScopes } from './accessLevel.ts'
 
 const files = ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write', 'files_sharing:shares:write']
@@ -13,21 +20,32 @@ const calendarContacts = ['dav:calendar:read', 'dav:calendar:write', 'dav:contac
 
 describe('accessLevel', () => {
 	it.each<[string, Selection]>([
-		['files', { preset: 'files', grants: ['files', 'filesShare'] }],
-		['files with trash and versions', { preset: 'custom', grants: ['files', 'filesShare', 'filesTrash', 'filesVersions'] }],
-		['calendar and contacts', { preset: 'calendarContacts', grants: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'] }],
-		['files without sharing', { preset: 'custom', grants: ['files'] }],
-		['read-only calendar', { preset: 'custom', grants: ['calendar'] }],
-		['files with search', { preset: 'custom', grants: ['files', 'filesShare', 'search'] }],
-		['people lookup alone', { preset: 'custom', grants: ['people'] }],
+		['files', { preset: 'files', grants: ['files', 'filesShare'], apps: [] }],
+		['files with trash and versions', { preset: 'custom', grants: ['files', 'filesShare', 'filesTrash', 'filesVersions'], apps: [] }],
+		['calendar and contacts', { preset: 'calendarContacts', grants: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'], apps: [] }],
+		['files without sharing', { preset: 'custom', grants: ['files'], apps: [] }],
+		['read-only calendar', { preset: 'custom', grants: ['calendar'], apps: [] }],
+		['files with search', { preset: 'custom', grants: ['files', 'filesShare', 'search'], apps: [] }],
+		['people lookup alone', { preset: 'custom', grants: ['people'], apps: [] }],
 	])('round-trips %s', (_, selection) => {
 		const scopes = toScopes(selection, [])!
 		expect(fromScopes(scopes)).toEqual({ selection, kept: [] })
 	})
 
+	it('reads app ids as ticked apps and keeps unknown ones', () => {
+		const { selection, kept } = fromScopes(['spreed', 'deck'])
+		expect(selection).toEqual({ preset: 'custom', grants: [], apps: ['spreed'] })
+		expect(kept).toEqual(['deck'])
+		expect(toScopes(selection, kept)).toEqual(['spreed', 'deck'])
+	})
+
+	it('labels apps, with the ones that show other apps\' data marked', () => {
+		expect(accessLabel({ filesystem: true, scopes: [...files, 'spreed', 'activity'] })).toBe('Files, Talk, and Activity across all apps')
+	})
+
 	it('reads a token without scopes as all access', () => {
 		expect(fromScopes(undefined).selection.preset).toBe('all')
-		expect(toScopes({ preset: 'all', grants: ['files'] }, [])).toBeNull()
+		expect(toScopes({ preset: 'all', grants: ['files'], apps: [] }, [])).toBeNull()
 	})
 
 	it('matches presets regardless of order', () => {
@@ -38,9 +56,9 @@ describe('accessLevel', () => {
 		const { selection, kept } = fromScopes([...files, 'app:deck', 'dav:calendar:write'])
 
 		// Write without read is possible through the API, the picker never creates it
-		expect(selection).toEqual({ preset: 'custom', grants: ['files', 'filesShare'] })
+		expect(selection).toEqual({ preset: 'custom', grants: ['files', 'filesShare'], apps: [] })
 		expect(kept).toEqual(['app:deck', 'dav:calendar:write'])
-		expect(toScopes({ preset: 'custom', grants: ['contacts'] }, kept))
+		expect(toScopes({ preset: 'custom', grants: ['contacts'], apps: [] }, kept))
 			.toEqual(['dav:contacts:read', 'app:deck', 'dav:calendar:write'])
 	})
 
