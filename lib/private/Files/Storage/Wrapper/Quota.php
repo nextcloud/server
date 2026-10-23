@@ -76,23 +76,62 @@ class Quota extends Wrapper {
 
 	#[\Override]
 	public function free_space(string $path): int|float|false {
-		if (!$this->hasQuota()) {
-			return $this->getWrapperStorage()->free_space($path);
+		return $this->calculateFreeSpace($path);
+	}
+
+	/**
+	 * Calculate free space constrained by quota and physical storage capacity.
+	 *
+	 * This helper exists so the available space calculation can, optionally, be
+	 * influenced for an operation that may replace a file.
+	 *
+	 * When specified, credit the size of the pre-existing file against quota usage,
+	 * but not against the wrapped storage's physical free space. This is conservative
+	 * because overwriting a file may not immediately reclaim physical space on every
+	 * storage backend. Targets outside the quota scope or with unknown sizes are not
+	 * credited.
+	 *
+	 * @param string $path Path to check
+	 * @param bool $creditExistingTarget Whether to credit an eligible existing file at the path
+	 */
+	private function calculateFreeSpace(string $path, bool $creditExistingTarget = false): int|float|false {
+		$storage = $this->getWrapperStorage();
+
+		if (!$this->hasQuota()
+			|| $this->getQuota() < 0
+			|| str_starts_with($path, 'cache')
+			|| str_starts_with($path, 'uploads')
+		) {
+			return $storage->free_space($path);
 		}
-		if ($this->getQuota() < 0 || str_starts_with($path, 'cache') || str_starts_with($path, 'uploads')) {
-			return $this->getWrapperStorage()->free_space($path);
-		} else {
-			$used = $this->getSize($this->sizeRoot);
-			if ($used < 0) {
-				return FileInfo::SPACE_NOT_COMPUTED;
-			} else {
-				$free = $this->getWrapperStorage()->free_space($path);
-				$quotaFree = max($this->getQuota() - $used, 0);
-				// if free space is known
-				$free = $free >= 0 ? min($free, $quotaFree) : $quotaFree;
-				return $free;
+
+		$used = $this->getSize($this->sizeRoot);
+		if ($used < 0) {
+			return FileInfo::SPACE_NOT_COMPUTED;
+		}
+
+		if ($creditExistingTarget
+			&& !$this->quotaIncludeExternalStorage
+			&& $this->shouldApplyQuota($path)
+			&& $storage->is_file($path)
+		) {
+			$root = trim($this->sizeRoot, '/');
+			$target = trim($path, '/');
+			$isWithinRoot = $root === ''
+				|| $target === $root
+				|| str_starts_with($target, $root . '/');
+
+			if ($isWithinRoot) {
+				$existingSize = $this->getSize($path);
+				if ($existingSize >= 0) {
+					$used = max(0, $used - $existingSize);
+				}
 			}
 		}
+
+		$quotaFree = max($this->getQuota() - $used, 0);
+		$diskFree = $storage->free_space($path);
+		return $diskFree >= 0 ? min($diskFree, $quotaFree) : $quotaFree;
 	}
 
 	#[\Override]
@@ -100,7 +139,8 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		}
-		$free = $this->free_space($path);
+
+		$free = $this->calculateFreeSpace($path, creditExistingTarget: true);
 		if ($free < 0 || strlen($data) <= $free) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		} else {
@@ -113,7 +153,8 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copy($source, $target);
 		}
-		$free = $this->free_space($target);
+
+		$free = $this->calculateFreeSpace($target, creditExistingTarget: true);
 		if ($free < 0 || $this->getSize($source) <= $free) {
 			return $this->getWrapperStorage()->copy($source, $target);
 		} else {
@@ -127,7 +168,7 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
-		$free = $this->free_space($path);
+		$free = $this->calculateFreeSpace($path, creditExistingTarget: str_starts_with($mode, 'w'));
 		// treat a failed free_space() the same as no free space
 		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			return false;
@@ -168,7 +209,8 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
-		$free = $this->free_space($targetInternalPath);
+
+		$free = $this->calculateFreeSpace($targetInternalPath, creditExistingTarget: true);
 		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) <= $free) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
@@ -181,7 +223,12 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
-		$free = $this->free_space($targetInternalPath);
+
+		// Credit a known, in-scope target, but require room for the full source because it
+		// may be outside this quota's scope.
+		// Note: This can reject moves when the source is already included in this quota's usage.
+		// TODO: Account for the source's removal when it is known to be included in this quota.
+		$free = $this->calculateFreeSpace($targetInternalPath, creditExistingTarget: true);
 		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) <= $free) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
@@ -194,6 +241,7 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->mkdir($path);
 		}
+
 		$free = $this->free_space($path);
 		// treat a failed free_space() the same as no free space
 		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
@@ -208,6 +256,7 @@ class Quota extends Wrapper {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->touch($path, $mtime);
 		}
+
 		$free = $this->free_space($path);
 		// treat a failed free_space() the same as no free space
 		if ($free === 0 || $free === 0.0 || $free === false) {
@@ -227,7 +276,7 @@ class Quota extends Wrapper {
 			return parent::writeStream($path, $stream, $size);
 		}
 
-		$free = $this->free_space($path);
+		$free = $this->calculateFreeSpace($path, creditExistingTarget: true);
 		// treat a failed free_space() the same as no free space
 		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			throw new NotEnoughSpaceException();
