@@ -78,7 +78,7 @@ describe('accessLevel', () => {
 		[{ filesystem: false, scopes: ['app:deck'] }, 'Other access'],
 		[{ filesystem: true, scopes: [...files, 'app:deck'] }, 'Files and other access'],
 		[{ filesystem: false, scopes: [] }, 'No access'],
-		[{ filesystem: true, scopes: [...files, 'core:search:read', 'core:people:read'] }, 'Files, Search, and People lookup'],
+		[{ filesystem: true, scopes: [...files, 'core:search:read', 'core:people:read'] }, 'Files, Search across all apps, and People lookup across all apps'],
 	])('labels %o as %s', (scope, label) => {
 		expect(accessLabel(scope)).toBe(label)
 	})

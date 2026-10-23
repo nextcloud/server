@@ -57,9 +57,8 @@ export const GRANT_LABELS: Record<Grant, string> = {
 	calendarWrite: t('settings', 'Can edit calendars'),
 	contacts: t('settings', 'Contacts'),
 	contactsWrite: t('settings', 'Can edit contacts'),
-	// TRANSLATORS Noun: the unified search across all apps, an option an app password can be given
-	search: t('settings', 'Search'),
-	people: t('settings', 'People lookup'),
+	search: t('settings', 'Search across all apps'),
+	people: t('settings', 'People lookup across all apps'),
 }
 const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
