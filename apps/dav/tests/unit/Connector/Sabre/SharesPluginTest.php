@@ -264,6 +264,41 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
+	public function testGetPropertiesReturnsListWithRepeatedShareTypes(): void {
+		$sabreNode = $this->createMock(Node::class);
+		$sabreNode->method('getId')->willReturn(123);
+		$sabreNode->method('getPath')->willReturn('/subdir');
+		$sabreNode->method('getNode')->willReturn($this->createMock(Folder::class));
+
+		// Two user shares and one link share on the same node
+		$shareOfType = function (int $type): IShare {
+			$share = $this->createMock(IShare::class);
+			$share->method('getShareType')->willReturn($type);
+			return $share;
+		};
+		$this->shareManager->method('getSharesBy')
+			->willReturnCallback(fn ($userId, int $requestedShareType) => match ($requestedShareType) {
+				IShare::TYPE_USER => [$shareOfType(IShare::TYPE_USER), $shareOfType(IShare::TYPE_USER)],
+				IShare::TYPE_LINK => [$shareOfType(IShare::TYPE_LINK)],
+				default => [],
+			});
+		$this->shareManager->method('getSharedWith')->willReturn([]);
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[self::SHARETYPES_PROPERTYNAME],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertSame([IShare::TYPE_USER, IShare::TYPE_LINK], $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
+	}
+
 	public static function sharesGetPropertiesDataProvider(): array {
 		return [
 			[[]],
