@@ -17,6 +17,7 @@ use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -248,5 +249,57 @@ class RootTest extends \Test\TestCase {
 			);
 
 		$root->getUserFolder('NotExistingUser');
+	}
+
+	private function getRootWithCachedPath(string $cachedPath): Root&MockObject {
+		$cache = new ArrayCache();
+		$cache->set('user::42', $cachedPath);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturn($cache);
+		$this->user->method('getUID')
+			->willReturn('user');
+
+		return $this->getMockBuilder(Root::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->getRootViewMock(),
+				$this->user,
+				$this->userMountCache,
+				$this->logger,
+				$this->userManager,
+				$this->eventDispatcher,
+				$cacheFactory,
+				$this->appConfig,
+			])
+			->onlyMethods(['get', 'getByIdInPath'])
+			->getMock();
+	}
+
+	public function testGetFirstNodeByIdInPathIgnoresCachedPathOutsidePath(): void {
+		$root = $this->getRootWithCachedPath('/user/files_trashbin/files/a.txt.d123');
+		$root->expects($this->never())
+			->method('get');
+		$root->expects($this->once())
+			->method('getByIdInPath')
+			->with(42, '/user/files')
+			->willReturn([]);
+
+		$this->assertNull($root->getFirstNodeByIdInPath(42, '/user/files'));
+	}
+
+	public function testGetFirstNodeByIdInPathUsesCachedPathInsidePath(): void {
+		$node = $this->createMock(File::class);
+		$node->method('getId')
+			->willReturn(42);
+		$root = $this->getRootWithCachedPath('/user/files/a.txt');
+		$root->expects($this->once())
+			->method('get')
+			->with('/user/files/a.txt')
+			->willReturn($node);
+		$root->expects($this->never())
+			->method('getByIdInPath');
+
+		$this->assertSame($node, $root->getFirstNodeByIdInPath(42, '/user/files'));
 	}
 }
