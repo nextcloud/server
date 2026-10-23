@@ -8,7 +8,6 @@
 
 namespace Test\Files\Storage\Wrapper;
 
-//ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
@@ -20,7 +19,6 @@ use OCP\Server;
 
 /**
  * Class QuotaTest
- *
  *
  * @package Test\Files\Storage\Wrapper
  */
@@ -66,11 +64,52 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
 	}
 
+	public function testFilePutContentsCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(10);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$this->assertSame(10, $instance->file_put_contents('files/foo', '0123456789'));
+	}
+
+	public function testFopenWriteCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(6);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$stream = $instance->fopen('files/foo', 'w+');
+		$this->assertNotFalse($stream);
+		$this->assertSame(6, fwrite($stream, 'qwerty'));
+		fclose($stream);
+	}
+
+	public function testWriteStreamCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(6);
+		$this->assertSame(6, $instance->file_put_contents('files/foo', 'foobar'));
+		$instance->getScanner()->scan('');
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'qwerty');
+		rewind($stream);
+
+		$this->assertSame(6, $instance->writeStream('files/foo', $stream, 6));
+	}
+
 	public function testCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(6, $instance->file_put_contents('files/foo', 'foobar'));
 		$instance->getScanner()->scan('');
 		$this->assertFalse($instance->copy('files/foo', 'files/bar'));
+	}
+
+	public function testCopyCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(12);
+		$this->assertSame(6, $instance->file_put_contents('files/source', 'source'));
+		$this->assertSame(6, $instance->file_put_contents('files/target', 'target'));
+		$instance->getScanner()->scan('');
+
+		$this->assertTrue($instance->copy('files/source', 'files/target'));
+		$this->assertSame('source', $instance->file_get_contents('files/target'));
 	}
 
 	public function testCopyExactlyFillsQuota(): void {
@@ -93,6 +132,26 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		));
 	}
 
+	public function testCopyFromStorageCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(6);
+		$this->assertSame(6, $instance->file_put_contents('files/target', 'target'));
+		$instance->getScanner()->scan('');
+
+		$sourcePath = $this->tmpDir . '/source';
+		mkdir($sourcePath);
+		$sourceStorage = new Local(['datadir' => $sourcePath]);
+		$sourceStorage->mkdir('files');
+		$this->assertSame(6, $sourceStorage->file_put_contents('files/source', 'source'));
+		$sourceStorage->getScanner()->scan('');
+
+		$this->assertTrue($instance->copyFromStorage(
+			$sourceStorage,
+			'files/source',
+			'files/target',
+		));
+		$this->assertSame('source', $instance->file_get_contents('files/target'));
+	}
+
 	public function testMoveFromStorageExactlyFillsQuota(): void {
 		$instance = $this->getLimitedStorage(12);
 		$this->assertSame(6, $instance->file_put_contents('files/existing', 'foobar'));
@@ -109,6 +168,39 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			$sourceStorage,
 			'files/foo',
 			'files/moved',
+		));
+	}
+
+	public function testMoveFromStorageCreditsExistingTargetSize(): void {
+		$instance = $this->getLimitedStorage(12);
+		$this->assertSame(6, $instance->file_put_contents('files/target', 'target'));
+		$instance->getScanner()->scan('');
+
+		$sourcePath = $this->tmpDir . '/source';
+		mkdir($sourcePath);
+		$sourceStorage = new Local(['datadir' => $sourcePath]);
+		$sourceStorage->mkdir('files');
+		$this->assertSame(12, $sourceStorage->file_put_contents('files/source', 'source-data'));
+		$sourceStorage->getScanner()->scan('');
+
+		$this->assertTrue($instance->moveFromStorage(
+			$sourceStorage,
+			'files/source',
+			'files/target',
+		));
+		$this->assertSame('source-data', $instance->file_get_contents('files/target'));
+	}
+
+	public function testMoveFromStorageDoesNotCreditSourceAlreadyInQuota(): void {
+		$instance = $this->getLimitedStorage(10);
+		$this->assertSame(6, $instance->file_put_contents('files/source', 'source'));
+		$this->assertSame(6, $instance->file_put_contents('files/target', 'target'));
+		$instance->getScanner()->scan('');
+
+		$this->assertFalse($instance->moveFromStorage(
+			$instance->getWrapperStorage(),
+			'files/source',
+			'files/target',
 		));
 	}
 
