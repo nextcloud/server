@@ -187,7 +187,7 @@ function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemE
 export async function createDirectoryIfNotExists(path: string, destination?: IFolder) {
 	const davUrl = destination?.source ?? join(defaultRemoteURL, defaultRootPath)
 	const davRoot = destination?.root ?? defaultRootPath
-	const davClient = getClient(davUrl)
+	const davClient = getClient(destination?.encodedSource ?? davUrl)
 	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
 		logger.debug('Directory does not exist, creating it', { path, davUrl })
