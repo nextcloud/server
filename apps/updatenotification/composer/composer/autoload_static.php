@@ -37,6 +37,7 @@ class ComposerStaticInitUpdateNotification
         'OCA\\UpdateNotification\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\UpdateNotification\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\UpdateNotification\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
+        'OCA\\UpdateNotification\\SetupChecks\\AppUpdatesAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/AppUpdatesAvailable.php',
         'OCA\\UpdateNotification\\UpdateChecker' => __DIR__ . '/..' . '/../lib/UpdateChecker.php',
     );
 

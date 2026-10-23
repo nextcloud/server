@@ -22,5 +22,6 @@ return array(
     'OCA\\UpdateNotification\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\UpdateNotification\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\UpdateNotification\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
+    'OCA\\UpdateNotification\\SetupChecks\\AppUpdatesAvailable' => $baseDir . '/../lib/SetupChecks/AppUpdatesAvailable.php',
     'OCA\\UpdateNotification\\UpdateChecker' => $baseDir . '/../lib/UpdateChecker.php',
 );

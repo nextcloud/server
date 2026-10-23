@@ -13,6 +13,7 @@ use OCA\UpdateNotification\Listener\AppUpdateEventListener;
 use OCA\UpdateNotification\Listener\BeforeTemplateRenderedEventListener;
 use OCA\UpdateNotification\Notification\AppUpdateNotifier;
 use OCA\UpdateNotification\Notification\Notifier;
+use OCA\UpdateNotification\SetupChecks\AppUpdatesAvailable;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
@@ -44,6 +45,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(AppUpdateEvent::class, AppUpdateEventListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedEventListener::class);
+
+		$context->registerSetupCheck(AppUpdatesAvailable::class);
 	}
 
 	#[\Override]
