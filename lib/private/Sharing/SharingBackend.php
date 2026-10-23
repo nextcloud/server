@@ -75,7 +75,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				'owner_user_id' => $qb->createNamedParameter($owner->userId),
 				'owner_instance' => $qb->createNamedParameter($owner->instance),
 				'last_updated' => $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated)),
-				'state' => $qb->createNamedParameter(ShareState::Draft->value),
+				'state_id' => $qb->createNamedParameter(ShareState::Draft->encode(), IQueryBuilder::PARAM_INT),
 			])
 			->executeStatement();
 	}
@@ -119,7 +119,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share')
-			->set('state', $qb->createNamedParameter($state->value))
+			->set('state_id', $qb->createNamedParameter($state->encode(), IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->executeStatement();
 		if ($rowCount === 0) {
@@ -134,7 +134,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_user_status')
-			->set('status', $qb->createNamedParameter($userStatus->value))
+			->set('status_id', $qb->createNamedParameter($userStatus->encode(), IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
 			->executeStatement();
@@ -145,7 +145,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
 					'user_id' => $qb->createNamedParameter($userId),
-					'status' => $qb->createNamedParameter($userStatus->value),
+					'status_id' => $qb->createNamedParameter($userStatus->encode(), IQueryBuilder::PARAM_INT),
 				])
 				->executeStatement();
 		}
@@ -695,7 +695,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
 					's', 'sharing_share_recipients', 'sr', $qb->expr()->andX(
-						$qb->expr()->eq('s.state', $qb->createNamedParameter(ShareState::Active->value)),
+						$qb->expr()->eq('s.state_id', $qb->createNamedParameter(ShareState::Active->encode())),
 						$qb->expr()->eq('s.id', 'sr.share_id'),
 					)
 				);
@@ -721,7 +721,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
 					's', 'sharing_share_recipients', 'sr', $qb->expr()->andX(
-						$qb->expr()->eq('s.state', $qb->createNamedParameter(ShareState::Active->value)),
+						$qb->expr()->eq('s.state_id', $qb->createNamedParameter(ShareState::Active->encode())),
 						$qb->expr()->eq('s.id', 'sr.share_id'),
 						$qb->expr()->eq('sr.recipient_secret', $qb->createNamedParameter($accessContext->secret)),
 					)
@@ -741,7 +741,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					's.owner_user_id',
 					's.owner_instance',
 					's.last_updated',
-					's.state',
+					's.state_id',
 				)
 				->from('sharing_share', 's')
 				->orderBy('s.id', 'ASC');
@@ -766,7 +766,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 
 			if ($filterState instanceof \NCU\Sharing\ShareState) {
-				$qb->andWhere($qb->expr()->eq('s.state', $qb->createNamedParameter($filterState->value)));
+				$qb->andWhere($qb->expr()->eq('s.state_id', $qb->createNamedParameter($filterState->encode())));
 			}
 
 			if ($lastShareID !== null) {
@@ -796,13 +796,12 @@ final readonly class SharingBackend implements ISharingBackend {
 				$shareId = (string)$row['id'];
 				/** @var numeric-string $lastUpdated */
 				$lastUpdated = (string)$row['last_updated'];
-				/** @var string $state */
-				$state = $row['state'];
+				$state = (int)$row['state_id'];
 				$shares[$shareId] ??= [
 					'id' => $shareId,
 					'owner' => new ShareUser($ownerUserId, $ownerInstance),
 					'last_updated' => $lastUpdated,
-					'state' => ShareState::from($state),
+					'state' => ShareState::decode($state),
 					'user_status' => null,
 					'sources' => [],
 					'recipients' => [],
@@ -831,18 +830,18 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				$qb = $this->connection->getQueryBuilder();
 				$qb
-					->select('share_id', 'status')
+					->select('share_id', 'status_id')
 					->from('sharing_share_user_status')
 					->where($qb->expr()->eq('user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())))
 					->andWhere($qb->expr()->in('share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 				$result = $qb->executeQuery();
-				/** @var list<array{share_id: int|string, status: string}> $rows */
+				/** @var list<array{share_id: int|string, status_id: int|string}> $rows */
 				$rows = $result->fetchAll();
 				foreach ($rows as $row) {
 					$id = $row['share_id'];
-					$userStatus = $row['status'];
-					$shares[$id]['user_status'] = ShareUserStatus::from($userStatus);
+					$userStatus = (int)$row['status_id'];
+					$shares[$id]['user_status'] = ShareUserStatus::decode($userStatus);
 				}
 
 				foreach ($chunk as $id) {
