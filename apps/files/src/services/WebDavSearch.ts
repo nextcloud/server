@@ -7,8 +7,7 @@ import type { INode } from '@nextcloud/files'
 import type { ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { defaultRootPath, getDavNameSpaces, getDavProperties, resultToNode } from '@nextcloud/files/dav'
-import { getBaseUrl } from '@nextcloud/router'
+import { getDavNameSpaces, getDavProperties, resultToNode } from '@nextcloud/files/dav'
 import escapeHTML from 'escape-html'
 import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
@@ -80,5 +79,5 @@ export async function searchNodes(query: string, { dir, signal }: SearchNodesOpt
 	}
 
 	// otherwise return the result mapped to Nextcloud nodes
-	return data.results.map((result) => resultToNode(result, defaultRootPath, getBaseUrl()))
+	return data.results.map((result) => resultToNode(result))
 }
