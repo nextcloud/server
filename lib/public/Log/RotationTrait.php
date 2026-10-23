@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,45 +9,58 @@
 namespace OCP\Log;
 
 /**
- * Trait RotationTrait
- *
- *
  * @since 14.0.0
  */
 trait RotationTrait {
 	/**
-	 * @var string
+	 * @since 36.0.0
+	 */
+	protected const DEFAULT_ROTATION_INTERVAL = 60 * 60;
+	/**
+	 * @since 36.0.0
+	 */
+	protected const DEFAULT_MAX_SIZE = 100 * 1024 * 1024;
+	/**
 	 * @since 14.0.0
 	 */
-	protected $filePath;
+	protected string $filePath = '';
 
 	/**
-	 * @var int
 	 * @since 14.0.0
 	 */
-	protected $maxSize;
+	protected int $maxSize = 0;
 
 	/**
 	 * @return string the resulting new filepath
 	 * @since 14.0.0
 	 */
-	protected function rotate():string {
+	protected function rotate(): string {
 		$rotatedFile = $this->filePath . '.1';
-		rename($this->filePath, $rotatedFile);
+		if (!@rename($this->filePath, $rotatedFile)) {
+			throw new \RuntimeException(sprintf(
+				'Failed to rotate log file "%s" to "%s".',
+				$this->filePath,
+				$rotatedFile,
+			));
+		}
+
 		return $rotatedFile;
 	}
 
 	/**
-	 * @return bool
 	 * @since 14.0.0
 	 */
-	protected function shouldRotateBySize():bool {
-		if ((int)$this->maxSize > 0 && file_exists($this->filePath)) {
-			$filesize = @filesize($this->filePath);
-			if ($filesize >= (int)$this->maxSize) {
-				return true;
-			}
+	protected function shouldRotateBySize(): bool {
+		if ($this->maxSize <= 0 || !file_exists($this->filePath)) {
+			return false;
 		}
-		return false;
+
+		$fileSize = @filesize($this->filePath);
+
+		if ($fileSize === false || $fileSize < $this->maxSize) {
+			return false;
+		}
+
+		return true;
 	}
 }
