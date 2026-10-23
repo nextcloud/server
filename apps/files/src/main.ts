@@ -7,7 +7,8 @@ import { isPublicShare } from '@nextcloud/sharing/public'
 import { createApp } from 'vue'
 import FilesApp from './FilesApp.vue'
 import SettingsModel from './models/Setting.ts'
-import { router } from './router/router.ts'
+import { getFilesAppRouter } from './router/router.ts'
+import { renderFilesView } from './services/renderFilesView.ts'
 import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
 import { setSidebarDataProvider } from './sidebar/provider.ts'
@@ -21,11 +22,20 @@ import 'vite/modulepreload-polyfill'
 window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
 
-// Expose router
-if (!window.OCP.Files.Router) {
-	const Router = new RouterService(router)
+// Other apps load this same script to get `OCP.Files.renderFilesApp()`.
+// Only take over `#content` when we are actually on the Files app's own
+// page - identifiable by the app-specific class core's layout adds to it.
+const contentEl = document.getElementById('content')
+const isFilesAppPage = contentEl?.classList.contains('app-files') ?? false
+
+// Expose router, foreign pages get one per embedded file list
+if (isFilesAppPage && !window.OCP.Files.Router) {
+	const Router = new RouterService(getFilesAppRouter())
 	Object.assign(window.OCP.Files, { Router })
 }
+
+// Expose the ability to render the Files UI on a foreign page
+window.OCP.Files.renderFilesApp ??= renderFilesView
 
 // The files app renders the sidebar itself, so it also provides the sidebar data.
 // Same condition as for rendering it in `FilesApp.vue`.
@@ -39,7 +49,9 @@ const Settings = new SettingsService()
 Object.assign(window.OCA.Files, { Settings })
 Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
-const app = createApp(FilesApp)
-app.use(pinia)
-app.use((window.OCP.Files.Router as RouterService)._router)
-app.mount('#content')
+if (isFilesAppPage) {
+	const app = createApp(FilesApp)
+	app.use(pinia)
+	app.use((window.OCP.Files.Router as RouterService)._router)
+	app.mount(contentEl!)
+}
