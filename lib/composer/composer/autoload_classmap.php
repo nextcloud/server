@@ -2184,6 +2184,7 @@ return array(
     'OC\\Preview\\MarkDown' => $baseDir . '/lib/private/Preview/MarkDown.php',
     'OC\\Preview\\MimeIconProvider' => $baseDir . '/lib/private/Preview/MimeIconProvider.php',
     'OC\\Preview\\Movie' => $baseDir . '/lib/private/Preview/Movie.php',
+    'OC\\Preview\\MovieRemote' => $baseDir . '/lib/private/Preview/MovieRemote.php',
     'OC\\Preview\\Office' => $baseDir . '/lib/private/Preview/Office.php',
     'OC\\Preview\\OpenDocument' => $baseDir . '/lib/private/Preview/OpenDocument.php',
     'OC\\Preview\\PDF' => $baseDir . '/lib/private/Preview/PDF.php',
