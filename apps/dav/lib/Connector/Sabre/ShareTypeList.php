@@ -21,7 +21,7 @@ class ShareTypeList implements Element {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
-	 * @param int[] $shareTypes
+	 * @param list<int> $shareTypes
 	 */
 	public function __construct(
 		/**
@@ -34,7 +34,7 @@ class ShareTypeList implements Element {
 	/**
 	 * Returns the share types
 	 *
-	 * @return int[]
+	 * @return list<int>
 	 */
 	public function getShareTypes() {
 		return $this->shareTypes;
