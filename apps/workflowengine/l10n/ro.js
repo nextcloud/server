@@ -79,7 +79,7 @@ OC.L10N.register(
     "Select a user agent" : "Selectează un agent utilizator",
     "Select groups" : "Selectează grupuri",
     "Groups" : "Grupuri",
-    "Type to search for group …" : "Scrie pentru a căuta un grup…",
+    "Type to search for group …" : "Scrie pentru a căuta un grup …",
     "Select a trigger" : "Selectează un declanșator",
     "At least one event must be selected" : "Trebuie selectat cel puțin un eveniment",
     "Trigger" : "Declanșator",
