@@ -194,7 +194,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - core-js
-	- version: 3.50.0
+	- version: 3.51.0
 	- license: MIT
 - crypt
 	- version: 0.0.2
