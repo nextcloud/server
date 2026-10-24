@@ -22,6 +22,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -127,6 +128,9 @@ if ($sendInvitations) {
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
 $server->addPlugin(Server::get(RateLimitingPlugin::class));
 $server->addPlugin(Server::get(CalDavValidatePlugin::class));
+
+// allow setup of additional plugins
+$dispatcher->dispatchTyped(new SabrePluginAddEvent($server));
 
 // And off we go!
 $server->start();
