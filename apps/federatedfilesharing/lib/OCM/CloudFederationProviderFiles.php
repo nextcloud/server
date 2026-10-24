@@ -209,18 +209,25 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 					}
 				}
 
+				$autoAccept = $this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true;
+				// Auto-accepted shares show up in "Shared with you", the others wait in "Pending shares"
+				$link = $this->urlGenerator->linkToRouteAbsolute('files.view.indexView', [
+					'view' => $autoAccept ? 'sharingin' : 'pendingshares',
+				]);
+
 				if ($shareType === IShare::TYPE_USER) {
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
 						->setType('remote_share')
 						->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 						->setAffectedUser($shareWith)
+						->setLink($link)
 						->setObject('remote_share', (string)$externalShare->getId(), $name);
 					Server::get(IActivityManager::class)->publish($event);
 					$this->notifyAboutNewShare($shareWith, (string)$externalShare->getId(), $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 					// If auto-accept is enabled, accept the share
-					if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
+					if ($autoAccept) {
 						$this->externalShareManager->acceptShare($externalShare, $user);
 					}
 				} else {
@@ -231,12 +238,13 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 							->setType('remote_share')
 							->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 							->setAffectedUser($user->getUID())
+							->setLink($link)
 							->setObject('remote_share', (string)$externalShare->getId(), $name);
 						Server::get(IActivityManager::class)->publish($event);
 						$this->notifyAboutNewShare($user->getUID(), (string)$externalShare->getId(), $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 						// If auto-accept is enabled, accept the share
-						if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
+						if ($autoAccept) {
 							$this->externalShareManager->acceptShare($externalShare, $user);
 						}
 					}
