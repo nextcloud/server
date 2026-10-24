@@ -6,7 +6,7 @@ OC.L10N.register(
     "Profile" : "Profil",
     "This application provides the profile" : "Această aplicație oferă profilul",
     "Provides a customizable user profile interface." : "Oferă o interfață de profil de utilizator personalizabilă.",
-    "Searching …" : "Se caută…",
+    "Searching …" : "Se caută …",
     "Not found" : "Nu a fost găsit",
     "Search for a user profile" : "Caută un profil de utilizator",
     "Search for a user profile. Start typing" : "Caută un profil de utilizator. Începe să tastezi",
