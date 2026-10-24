@@ -242,14 +242,17 @@ interface IManager {
 	 * @param int|null $status The task status
 	 * @param int|null $scheduleAfter Minimum schedule time filter
 	 * @param int|null $endedBefore Maximum ending time filter
+	 * @param int|null $limit Maximum number of tasks to return, null for no limit
 	 * @return list<Task>
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 30.0.0
+	 * @since 36.0.0 Added the `limit` parameter
 	 */
 	public function getTasks(
 		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
 		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null,
+		?int $limit = null,
 	): array;
 
 	/**

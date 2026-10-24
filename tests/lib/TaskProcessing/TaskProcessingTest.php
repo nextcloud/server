@@ -1432,6 +1432,37 @@ class TaskProcessingTest extends \Test\TestCase {
 		}
 	}
 
+	public function testGetTasksWithLimit(): void {
+		// Far in the future, so that tasks of other tests are outside of the window
+		$now = time() + 365 * 24 * 3600;
+		$window = $now - 7200;
+		$entities = [];
+
+		try {
+			for ($i = 0; $i < 3; $i++) {
+				$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3540);
+			}
+			for ($i = 0; $i < 2; $i++) {
+				$entities[] = $this->insertTask(Task::STATUS_FAILED, $now - 3600, $now - 3540);
+			}
+
+			self::assertCount(5, $this->manager->getTasks('', scheduleAfter: $window));
+			// The limit is applied when retrieving the tasks from the database
+			self::assertCount(3, $this->manager->getTasks('', scheduleAfter: $window, limit: 3));
+			// A limit larger than the number of matching tasks does not fail
+			self::assertCount(5, $this->manager->getTasks('', scheduleAfter: $window, limit: 100));
+			// The limit caps the filtered result set, not the unfiltered one
+			self::assertCount(2, $this->manager->getTasks('', status: Task::STATUS_FAILED, scheduleAfter: $window));
+			self::assertCount(1, $this->manager->getTasks('', status: Task::STATUS_FAILED, scheduleAfter: $window, limit: 1));
+			// No limit keeps returning everything
+			self::assertCount(5, $this->manager->getTasks('', scheduleAfter: $window, limit: null));
+		} finally {
+			foreach ($entities as $entity) {
+				$this->taskMapper->delete($entity);
+			}
+		}
+	}
+
 	public function testOldTasksShouldBeCleanedUp(): void {
 		$currentTime = new \DateTime('now');
 		$timeFactory = $this->createMock(ITimeFactory::class);
