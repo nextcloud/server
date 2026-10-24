@@ -73,7 +73,7 @@
     "@nextcloud/stylelint-config": "^3.2.2",
     "@nextcloud/typings": "^1.10.0",
     "@nextcloud/vite-config": "^2.5.4",
-    "@playwright/test": "^1.64.0",
+    "@playwright/test": "^1.64.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^4.0.2",
