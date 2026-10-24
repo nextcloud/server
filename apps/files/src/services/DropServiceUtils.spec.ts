@@ -196,7 +196,7 @@ describe('DropService dataTransferToFileTree', () => {
 		expect(logger.warn).not.toBeCalled()
 	})
 
-	it('Should return a RootDirectory with legacy File API keeping unknown types', async () => {
+	it('Should return a RootDirectory with legacy File API ignoring recursive directories', async () => {
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 		vi.spyOn(logger, 'warn').mockImplementation(() => vi.fn())
 
@@ -206,9 +206,7 @@ describe('DropService dataTransferToFileTree', () => {
 
 		expect(fileTree.name).toBe('root')
 		expect(fileTree).toBeInstanceOf(Directory)
-		// file0.txt plus the two directories as empty files: unknown types are
-		// kept on purpose, the server detects their mime type on upload
-		expect(fileTree.contents).toHaveLength(3)
+		expect(fileTree.contents).toHaveLength(1)
 
 		// The file tree should be recursive when using the Filesystem API
 		expect(fileTree.contents[0]).not.toBeInstanceOf(Directory)
@@ -217,8 +215,9 @@ describe('DropService dataTransferToFileTree', () => {
 		expect(logger.error).not.toBeCalled()
 		expect(logger.warn).toHaveBeenNthCalledWith(1, 'Could not get FilesystemEntry of item, falling back to file')
 		expect(logger.warn).toHaveBeenNthCalledWith(2, 'Could not get FilesystemEntry of item, falling back to file')
-		expect(logger.warn).toHaveBeenNthCalledWith(3, 'Could not get FilesystemEntry of item, falling back to file')
-		expect(logger.warn).toHaveBeenCalledTimes(3)
+		expect(logger.warn).toHaveBeenNthCalledWith(3, 'Browser does not support Filesystem API. Directories will not be uploaded')
+		expect(logger.warn).toHaveBeenNthCalledWith(4, 'Could not get FilesystemEntry of item, falling back to file')
+		expect(logger.warn).toHaveBeenCalledTimes(4)
 	})
 
 	it('Should keep files with an unknown mime type for server-side detection', async () => {
