@@ -214,66 +214,58 @@ class OC {
 
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
+		if ($configFileWritable) {
+			return;
+		}
+
 		$configReadOnly = Server::get(IConfig::class)->getSystemValueBool('config_is_read_only');
 		$needUpgrade = \OCP\Util::needUpgrade();
 
-		// Upgrades require a writable config.php even when config_is_read_only is set
-		if (!$configFileWritable && $needUpgrade) {
-			$urlGenerator = Server::get(IURLGenerator::class);
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			$docs = $urlGenerator->linkToDocs('admin-config');
-
-			if (self::$CLI) {
-				echo $l->t('Cannot write into "config" directory!') . "\n";
-				if ($configReadOnly) {
-					echo $l->t('Your Nextcloud instance needs an update, but config.php is configured as read-only via "config_is_read_only".') . "\n";
-					echo $l->t('Temporarily set "config_is_read_only" to false and make sure the config directory is writable for the web server, run the upgrade, then restore read-only mode.') . "\n";
-				} else {
-					echo $l->t('Your Nextcloud instance needs an update, but the config directory is not writable.') . "\n";
-					echo $l->t('This can usually be fixed by giving the web server write access to the config directory.') . "\n";
-				}
-				echo $l->t('See %s', [ $docs ]) . "\n";
-				exit;
-			}
-
-			if ($configReadOnly) {
-				$hint = $l->t('Your Nextcloud instance needs an update, but config.php is configured as read-only via "config_is_read_only".') . ' '
-					. $l->t('Temporarily set "config_is_read_only" to false and make sure the config directory is writable for the web server, run the upgrade, then restore read-only mode.') . ' '
-					. $l->t('See %s', [ $docs ]);
-			} else {
-				$hint = $l->t('Your Nextcloud instance needs an update, but the config directory is not writable.') . ' '
-					. $l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
-					. $l->t('See %s', [ $docs ]);
-			}
-			Server::get(ITemplateManager::class)->printErrorPage(
-				$l->t('Cannot write into "config" directory!'),
-				$hint,
-				503
-			);
+		// Admin intentionally froze config.php and no upgrade is pending: nothing to warn about.
+		if ($configReadOnly && !$needUpgrade) {
+			return;
 		}
 
-		// Not writable and not intentionally read-only: permission / setup hint
-		if (!$configFileWritable && !$configReadOnly) {
-			$urlGenerator = Server::get(IURLGenerator::class);
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+		$docs = $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]);
 
-			if (self::$CLI) {
-				echo $l->t('Cannot write into "config" directory!') . "\n";
-				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.') . "\n";
-				echo "\n";
-				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . "\n";
-				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]) . "\n";
-				exit;
-			} else {
-				Server::get(ITemplateManager::class)->printErrorPage(
-					$l->t('Cannot write into "config" directory!'),
-					$l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
-					. $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . ' '
-					. $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]),
-					503
-				);
-			}
+		if ($needUpgrade && $configReadOnly) {
+			// Upgrades require a writable config.php even when config_is_read_only is set
+			$lines = [
+				$l->t('Your Nextcloud instance needs an update, but config.php is configured as read-only via "config_is_read_only".'),
+				$l->t('Temporarily set "config_is_read_only" to false and make sure the config directory is writable for the web server, run the upgrade, then restore read-only mode.'),
+				$docs,
+			];
+		} elseif ($needUpgrade) {
+			$lines = [
+				$l->t('Your Nextcloud instance needs an update, but the config directory is not writable.'),
+				$l->t('This can usually be fixed by giving the web server write access to the config directory.'),
+				$docs,
+			];
+		} else {
+			$lines = [
+				$l->t('This can usually be fixed by giving the web server write access to the config directory.'),
+				$l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.'),
+				$docs,
+			];
 		}
+
+		$title = $l->t('Cannot write into "config" directory!');
+
+		if (self::$CLI) {
+			echo $title . "\n";
+			foreach ($lines as $line) {
+				echo $line . "\n";
+			}
+			exit;
+		}
+
+		Server::get(ITemplateManager::class)->printErrorPage(
+			$title,
+			implode(' ', $lines),
+			503
+		);
 	}
 
 	public static function checkInstalled(\OC\SystemConfig $systemConfig): void {
