@@ -2886,6 +2886,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				return null;
 			}
 
+			if (!$initialSync && $this->isSyncTokenOutdated((int)$calendarId, $calendarType, (int)$syncToken, (int)$currentToken)) {
+				return null;
+			}
+
 			// evaluate if this is a initial sync and construct appropriate command
 			if ($initialSync) {
 				$qb = $this->db->getQueryBuilder();
@@ -3312,6 +3316,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	protected function addChanges(int $calendarId, array $objectUris, int $operation, int $calendarType = self::CALENDAR_TYPE_CALENDAR): void {
+		if ($objectUris === []) {
+			// Bumping the sync token without a change record would leave a gap that
+			// looks like pruned history to isSyncTokenOutdated()
+			return;
+		}
+
 		$this->cachedObjects = [];
 		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
 
@@ -3345,6 +3355,32 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->where($query->expr()->eq('id', $query->createNamedParameter($calendarId)))
 				->executeStatement();
 		}, $this->db);
+	}
+
+	/**
+	 * Checks whether changes after the given sync token were already removed by
+	 * pruneOutdatedSyncTokens(). A delta sync from such a token would silently
+	 * miss those changes, so the client has to do a full sync instead.
+	 */
+	private function isSyncTokenOutdated(int $calendarId, int $calendarType, int $syncToken, int $currentToken): bool {
+		// Sync tokens start at 1, a token of 0 describes the same (empty) state
+		$syncToken = max($syncToken, 1);
+		if ($syncToken >= $currentToken) {
+			return false;
+		}
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->min('synctoken'))
+			->from('calendarchanges')
+			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$oldestSyncToken = $result->fetchOne();
+		$result->closeCursor();
+
+		// Every change bumps the sync token by one (see addChanges), so the history
+		// is only complete if the oldest change at most is the client's sync token
+		return $oldestSyncToken === null || $oldestSyncToken === false || (int)$oldestSyncToken > $syncToken;
 	}
 
 	public function restoreChanges(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR): void {

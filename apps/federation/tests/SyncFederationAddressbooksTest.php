@@ -11,6 +11,7 @@ namespace OCA\Federation\Tests;
 
 use OC\OCS\DiscoveryService;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Exception\InvalidSyncTokenException;
 use OCA\Federation\DbHandler;
 use OCA\Federation\SyncFederationAddressBooks;
 use OCA\Federation\TrustedServers;
@@ -53,6 +54,49 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$s->syncThemAll(function ($url, $ex): void {
 			$this->callBacks[] = [$url, $ex];
 		});
+		$this->assertCount(1, $this->callBacks);
+	}
+
+	public function testFullSyncWhenSyncTokenIsRejected(): void {
+		/** @var DbHandler&MockObject $dbHandler */
+		$dbHandler = $this->createMock(DbHandler::class);
+		$dbHandler->method('getAllServer')
+			->willReturn([
+				[
+					'url' => 'https://cloud.example.org',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'ilovenextcloud',
+					'sync_token' => 'http://sabre.io/ns/sync/30996077'
+				]
+			]);
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.example.org', TrustedServers::STATUS_OK, 'http://sabre.io/ns/sync/31000000');
+		$syncService = $this->createMock(SyncService::class);
+		$syncService->method('ensureSystemAddressBookExists')
+			->willReturn(['id' => 42]);
+		$calls = [];
+		$syncService->expects($this->exactly(3))->method('syncRemoteAddressBook')
+			->willReturnCallback(function (string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken) use (&$calls) {
+				$calls[] = $syncToken;
+				return match (count($calls)) {
+					1 => throw new InvalidSyncTokenException(),
+					2 => ['http://sabre.io/ns/sync/init_100_31000000', true],
+					3 => ['http://sabre.io/ns/sync/31000000', false],
+				};
+			});
+		$syncService->expects($this->once())->method('markCardsAsPending')->with(42);
+		$syncService->expects($this->once())->method('deletePendingCards')->with(42);
+
+		/** @var SyncService $syncService */
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s->syncThemAll(function ($url, $ex): void {
+			$this->callBacks[] = [$url, $ex];
+		});
+		$this->assertSame([
+			'http://sabre.io/ns/sync/30996077',
+			null,
+			'http://sabre.io/ns/sync/init_100_31000000',
+		], $calls);
 		$this->assertCount(1, $this->callBacks);
 	}
 

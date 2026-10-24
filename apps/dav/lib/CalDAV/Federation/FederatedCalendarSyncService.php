@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Exception\InvalidSyncTokenException;
 use OCA\DAV\Service\ASyncService;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
@@ -64,15 +65,33 @@ class FederatedCalendarSyncService extends ASyncService {
 	 */
 	public function syncOne(FederatedCalendarEntity $calendar): int {
 		$credentials = $this->getCredentials($calendar);
-		$syncToken = $calendar->getSyncTokenForSabre();
+		// Never synced before: request an initial sync instead of replaying the remote's
+		// change history from the start, which might have been pruned already
+		$syncToken = $calendar->getSyncToken() === 0 ? null : $calendar->getSyncTokenForSabre();
+		$fullSync = $syncToken === null;
 
 		try {
-			$response = $this->requestSyncReport(
-				$credentials['remoteUrl'],
-				$credentials['username'],
-				$credentials['token'],
-				$syncToken,
-			);
+			try {
+				$response = $this->requestSyncReport(
+					$credentials['remoteUrl'],
+					$credentials['username'],
+					$credentials['token'],
+					$syncToken,
+				);
+			} catch (InvalidSyncTokenException $e) {
+				// The remote no longer has the changes since our sync token, e.g. because it pruned them.
+				// A delta sync would leave us with an incomplete calendar, so start over.
+				$this->logger->warning("Sync token for {$credentials['remoteUrl']} was rejected by the remote server, performing a full sync", [
+					'exception' => $e,
+				]);
+				$fullSync = true;
+				$response = $this->requestSyncReport(
+					$credentials['remoteUrl'],
+					$credentials['username'],
+					$credentials['token'],
+					null,
+				);
+			}
 		} catch (ClientExceptionInterface $ex) {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// Remote server revoked access to the calendar => remove it
@@ -88,8 +107,10 @@ class FederatedCalendarSyncService extends ASyncService {
 
 		// Process changes from remote
 		$downloadedEvents = 0;
+		$remoteObjectUris = [];
 		foreach ($response['response'] as $resource => $status) {
 			$objectUri = basename($resource);
+			$remoteObjectUris[$objectUri] = true;
 			if (isset($status[200])) {
 				// Object created or updated
 				$absoluteUrl = $this->prepareUri($credentials['remoteUrl'], $resource);
@@ -125,6 +146,21 @@ class FederatedCalendarSyncService extends ASyncService {
 					CalDavBackend::CALENDAR_TYPE_FEDERATED,
 					true
 				);
+			}
+		}
+
+		if ($fullSync) {
+			// A full sync only lists existing objects, so drop everything the remote does not have anymore
+			$localObjects = $this->backend->getCalendarObjects($calendar->getId(), CalDavBackend::CALENDAR_TYPE_FEDERATED);
+			foreach ($localObjects as $localObject) {
+				if (!isset($remoteObjectUris[$localObject['uri']])) {
+					$this->backend->deleteCalendarObject(
+						$calendar->getId(),
+						$localObject['uri'],
+						CalDavBackend::CALENDAR_TYPE_FEDERATED,
+						true
+					);
+				}
 			}
 		}
 

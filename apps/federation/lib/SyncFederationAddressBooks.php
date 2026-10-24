@@ -9,6 +9,7 @@
 namespace OCA\Federation;
 
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Exception\InvalidSyncTokenException;
 use OCP\AppFramework\Http;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -48,28 +49,27 @@ class SyncFederationAddressBooks {
 			];
 
 			try {
-				$syncToken = $full ? null : $oldSyncToken;
+				$sync = fn (bool $fullSync): ?string => $this->syncAddressBook(
+					$fullSync,
+					$fullSync ? null : $oldSyncToken,
+					$url,
+					$cardDavUser,
+					$addressBookUrl,
+					$sharedSecret,
+					$targetBookId,
+					$targetPrincipal,
+					$targetBookProperties
+				);
 
-				$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
-				if ($full) {
-					$this->syncService->markCardsAsPending($book['id']);
-				}
-
-				do {
-					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
-						$url,
-						$cardDavUser,
-						$addressBookUrl,
-						$sharedSecret,
-						$syncToken,
-						$targetBookId,
-						$targetPrincipal,
-						$targetBookProperties
-					);
-				} while ($truncated);
-
-				if ($full) {
-					$this->syncService->deletePendingCards($book['id']);
+				try {
+					$syncToken = $sync($full);
+				} catch (InvalidSyncTokenException $e) {
+					// The remote no longer has the changes since our sync token, e.g. because it pruned them.
+					// A delta sync would leave us with an incomplete address book, so start over.
+					$this->logger->warning("Sync token for $url was rejected by the remote server, performing a full sync", [
+						'exception' => $e,
+					]);
+					$syncToken = $sync(true);
 				}
 
 				if ($syncToken !== $oldSyncToken) {
@@ -96,5 +96,45 @@ class SyncFederationAddressBooks {
 				$callback($url, $ex);
 			}
 		}
+	}
+
+	/**
+	 * @return ?string The new sync token
+	 * @throws \Exception
+	 */
+	private function syncAddressBook(
+		bool $full,
+		?string $syncToken,
+		string $url,
+		string $cardDavUser,
+		string $addressBookUrl,
+		string $sharedSecret,
+		string $targetBookId,
+		string $targetPrincipal,
+		array $targetBookProperties,
+	): ?string {
+		$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
+		if ($full) {
+			$this->syncService->markCardsAsPending($book['id']);
+		}
+
+		do {
+			[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
+				$url,
+				$cardDavUser,
+				$addressBookUrl,
+				$sharedSecret,
+				$syncToken,
+				$targetBookId,
+				$targetPrincipal,
+				$targetBookProperties
+			);
+		} while ($truncated);
+
+		if ($full) {
+			$this->syncService->deletePendingCards($book['id']);
+		}
+
+		return $syncToken;
 	}
 }
