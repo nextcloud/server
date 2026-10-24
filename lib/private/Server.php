@@ -1037,6 +1037,7 @@ class Server extends ServerContainer {
 			$session = $c->get(IUserSession::class);
 			return $session->getSession();
 		}, false);
+		$this->registerAlias(\OCP\Session\ISessionIdRenewer::class, \OC\Session\SessionIdRenewer::class);
 
 		$this->registerAlias(IShareHelper::class, ShareHelper::class);
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
