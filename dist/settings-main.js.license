@@ -40,6 +40,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
@@ -169,6 +170,9 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.4
 	- license: MIT
 - @floating-ui/core
 	- version: 0.3.1
