@@ -8,17 +8,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
-SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
-SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: moment developers
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
@@ -128,9 +125,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.8.2
 	- license: AGPL-3.0-or-later
-- @vue/devtools-shared
-	- version: 8.1.2
-	- license: MIT
 - @vueuse/core
 	- version: 14.3.0
 	- license: MIT
@@ -139,15 +133,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 8.2.1
-	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
-	- license: MIT
-- @vue/devtools-api
-	- version: 8.1.2
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.1.2
 	- license: MIT
 - vue-router
 	- version: 5.1.0
@@ -182,15 +167,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.2.1
-	- license: MIT
 - @vue/reactivity
 	- version: 3.5.44
 	- license: MIT
@@ -211,9 +187,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 8.2.3
-	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
 	- license: MIT
 - vue-router
 	- version: 5.4.0
@@ -304,9 +277,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- birpc
-	- version: 2.9.0
 	- license: MIT
 - blurhash
 	- version: 2.0.5
@@ -424,9 +394,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - hast-util-whitespace
 	- version: 2.0.1
-	- license: MIT
-- hookable
-	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1
