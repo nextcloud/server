@@ -223,6 +223,24 @@ class SyncService extends ASyncService {
 		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
 	}
 
+	/**
+	 * Rewrites up to $limit system address book cards with an id above $afterId,
+	 * so a large instance can be done in batches.
+	 *
+	 * @return int|null the id to go on after, null once the last card is done
+	 */
+	public function updateSystemAddressBookBatch(int $afterId, int $limit): ?int {
+		$cards = $this->backend->getCardsAfter((int)$this->getLocalSystemAddressBook()['id'], $afterId, $limit);
+		foreach ($cards as $card) {
+			$user = $this->userManager->get($card['uid']);
+			if ($user !== null) {
+				$this->updateUser($user);
+			}
+			$afterId = (int)$card['id'];
+		}
+		return count($cards) < $limit ? null : $afterId;
+	}
+
 	public function markCardsAsPending(int $addressBookId): void {
 		$this->backend->markCardsAsPending($addressBookId);
 	}

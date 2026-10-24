@@ -582,6 +582,23 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($this->backend->getPendingCards($bookId));
 	}
 
+	public function testGetCardsAfterGoesThroughAnAddressBookInBatches(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Other', []);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
+		$bookId = (int)$books[0]['id'];
+		foreach ([$this->vcardTest0, $this->vcardTest1, $this->vcardTest2] as $vcard) {
+			$this->backend->createCard($bookId, $this->getUniqueID('card'), $vcard);
+		}
+		$this->backend->createCard((int)$books[1]['id'], $this->getUniqueID('card'), $this->vcardTest0);
+
+		$first = $this->backend->getCardsAfter($bookId, 0, 2);
+		$rest = $this->backend->getCardsAfter($bookId, (int)$first[1]['id'], 2);
+
+		$this->assertSame(['Test', 'Test2'], array_column($first, 'uid'));
+		$this->assertSame(['Test3'], array_column($rest, 'uid'));
+	}
+
 	public function testSyncSupport(): void {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend, $this->config])
