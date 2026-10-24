@@ -74,10 +74,11 @@ class Hasher implements IHasher {
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
-		$version = match ($alg) {
-			PASSWORD_ARGON2ID => 3,
-			PASSWORD_ARGON2I => 2,
-			PASSWORD_BCRYPT => 1,
+		$version = match (true) {
+			\defined('PASSWORD_ARGON2ID') && $alg === PASSWORD_ARGON2ID => 3,
+			\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I => 2,
+			$alg === PASSWORD_BCRYPT => 1,
+			default => 1,
 		};
 
 		return $version . '|' . password_hash($message, $alg, $this->options);
@@ -218,3 +219,4 @@ class Hasher implements IHasher {
 		return $algoName !== 'unknown';
 	}
 }
+
