@@ -5,12 +5,9 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
-SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
-SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
@@ -63,9 +60,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.1.5
-	- license: MIT
 - @vueuse/shared
 	- version: 14.4.0
 	- license: MIT
@@ -120,12 +114,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.41.0
 	- license: AGPL-3.0-or-later
-- @vue/devtools-kit
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.2.1
-	- license: MIT
 - @vue/reactivity
 	- version: 3.5.41
 	- license: MIT
@@ -153,9 +141,6 @@ This file is generated from multiple sources. Included packages:
 - base64-js
 	- version: 1.5.1
 	- license: MIT
-- birpc
-	- version: 2.9.0
-	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
@@ -176,9 +161,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 8.2.3
-	- license: MIT
-- hookable
-	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -203,9 +185,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - path
 	- version: 0.12.7
-	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -238,7 +217,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.11.0
 	- license: MIT
 - webpack
-	- version: 5.111.1
+	- version: 5.112.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
