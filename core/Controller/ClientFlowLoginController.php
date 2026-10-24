@@ -39,6 +39,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -337,6 +338,12 @@ class ClientFlowLoginController extends Controller {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new RedirectResponse($redirectUri);
 	}
