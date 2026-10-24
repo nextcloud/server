@@ -54,7 +54,7 @@
     "@vueuse/components": "^11.3.0",
     "@vueuse/core": "^11.3.0",
     "cancelable-promise": "^4.3.1",
-    "core-js": "^3.50.0",
+    "core-js": "^3.51.0",
     "debounce": "^3.0.0",
     "escape-html": "^1.0.3",
     "is-svg": "^6.1.0",
