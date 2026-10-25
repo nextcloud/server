@@ -97,7 +97,7 @@
     "sass": "^1.106.0",
     "terser-webpack-plugin": "^5.6.1",
     "typescript": "^5.9.2",
-    "vite": "^7.3.7",
+    "vite": "^8.3.4",
     "vitest": "^5.0.0",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
