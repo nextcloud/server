@@ -135,16 +135,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/shared
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - axios
 	- version: 1.20.0
@@ -159,7 +159,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.4.0
 	- license: MIT
 - vue
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
