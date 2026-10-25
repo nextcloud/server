@@ -76,9 +76,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.2.1
-	- license: MIT
 - @vueuse/shared
 	- version: 14.4.0
 	- license: MIT
@@ -308,7 +305,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.11.0
 	- license: MIT
 - webpack
-	- version: 5.111.1
+	- version: 5.112.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
