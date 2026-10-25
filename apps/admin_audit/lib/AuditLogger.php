@@ -37,7 +37,7 @@ class AuditLogger implements IAuditLogger {
 			$logFile = $appConfig->getAppValueString('logfile', $default);
 		}
 
-		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
+		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag, true);
 	}
 
 	#[\Override]

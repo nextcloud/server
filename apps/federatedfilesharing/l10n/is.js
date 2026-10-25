@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Fjartengd sameign",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
-    "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
-    "X (formerly Twitter)" : "X (fyrrum Twitter)",
-    "formerly Twitter" : "fyrrum Twitter"
+    "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

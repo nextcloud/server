@@ -99,6 +99,20 @@ describe('LegacyUnifiedSearch results', () => {
 		expect(wrapper.vm.reached.files).toBe(true)
 	})
 
+	it('flags a provider as loading while its next page is fetched', async () => {
+		respondWith({
+			files: [{ entries: entries(2), cursor: 2, isPaginated: true }, { entries: entries(2, 'more'), cursor: 4, isPaginated: true }],
+			mail: [{ entries: [] }],
+		})
+		const wrapper = await searchFor('file')
+
+		const loaded = wrapper.vm.loadMore('files')
+		expect(wrapper.vm.loading.files).toBe(true)
+
+		await loaded
+		expect(wrapper.vm.loading.files).toBe(false)
+	})
+
 	it('reveals the results of a provider without pagination in steps of the limit', async () => {
 		respondWith({ files: [{ entries: entries(5) }], mail: [{ entries: [] }] })
 		const wrapper = await searchFor('file')

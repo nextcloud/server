@@ -225,11 +225,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Груповото споделяне е спряно от администратора",
     "Public link sharing is disabled by the administrator" : "Публичното споделяне на линкове е спряно от администратора",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделянето %1$s не бе успешно, защото вътрешния сървър не позволява споделяния от тип %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението ScienceMesh",
     "Public upload disabled by the administrator" : "Публичното качване е е спряно от администратора",
-    "Via “{folder}”" : "Чрез “{folder}”",
-    "Name or email …" : "Име или имейл",
-    "Name, email, or Federated Cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
-    "Searching …" : "Търсене ..."
+    "Via “{folder}”" : "Чрез “{folder}”"
 },
 "nplurals=2; plural=(n != 1);");

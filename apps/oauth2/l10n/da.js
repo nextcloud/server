@@ -1,7 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
-    "Your client is not authorized to connect. Please inform the administrator of your client." : "Din klient er ikke autoriseret til at oprette forbindelse. Informer venligst din klients administrator.",
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Din klient har ikke tilladelse til at oprette forbindelse. Giv din klients administrator besked.",
     "Client name cannot be empty." : "Klientnavnet må ikke være tomt.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Din omdirigerings-URL skal være en fuld URL, for eksempel: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Slet klient",
     "Make sure you store the secret key, it cannot be recovered." : "Sørg for at gemme den hemmelige nøgle, den kan ikke gendannes.",
     "Add client" : "Tilføj klient",
-    "Add" : "Tilføj",
-    "Client Identifier" : "Klient ID",
-    "Show client secret" : "Vis klient hemmelighed",
-    "Hide client secret" : "Skjul klient hemmelighed"
+    "Add" : "Tilføj"
 },
 "nplurals=2; plural=(n != 1);");

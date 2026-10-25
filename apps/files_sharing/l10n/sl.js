@@ -249,11 +249,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Public link sharing is disabled by the administrator" : "Souporaba z uporabo javne povezave je skrbniško onemogočena",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe ScienceMesh",
     "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
-    "Via “{folder}”" : "Prek mape »{folder}«",
-    "Name or email …" : "Ime ali elektronski naslov ...",
-    "Name, email, or Federated Cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
-    "Searching …" : "Poteka iskanje ..."
+    "Via “{folder}”" : "Prek mape »{folder}«"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

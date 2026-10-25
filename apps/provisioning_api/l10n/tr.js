@@ -27,7 +27,7 @@ OC.L10N.register(
     "Invalid quota value: %1$s" : "Kota değeri geçersiz: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Kota değeri geçersiz. %1$s en fazla kota değerini aşıyor",
     "Unlimited quota is forbidden on this instance" : "Bu kopyada sınırsız kota kullanılamaz",
-    "Setting the password is not supported by the users backend" : "Kullanıcı arka yüzünden parola ayarlanamaz",
+    "Setting the password is not supported by the users backend" : "Kullanıcı arka ucundan parola ayarlanamaz",
     "Invalid locale" : "Yerel ayar geçersiz",
     "Invalid timezone" : "Saat dilimi geçersiz",
     "Invalid first day of week" : "Haftanın ilk günü geçersiz",

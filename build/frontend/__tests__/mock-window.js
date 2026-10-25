@@ -39,3 +39,13 @@ if (!('innerText' in HTMLElement.prototype)) {
 		},
 	})
 }
+
+// p-queue 10 extends the global `EventTarget` and then calls Node's
+// `events.setMaxListeners()` on itself, which rejects jsdom's `EventTarget`
+// class and makes every `new PQueue()` throw under this environment.
+// Node identifies its own event target classes by this symbol on the
+// constructor, so flagging jsdom's class makes the check pass.
+// @see https://github.com/sindresorhus/p-queue/issues/257
+if (!EventTarget[Symbol.for('nodejs.event_target')]) {
+	EventTarget[Symbol.for('nodejs.event_target')] = true
+}

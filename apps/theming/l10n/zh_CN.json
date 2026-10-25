@@ -122,21 +122,6 @@
     "Misc accessibility options" : "其他辅助功能选项",
     "Enable blur background filter (may increase GPU load)" : "启用模糊背景滤镜（可能会增加 GPU 负载）",
     "Customization has been disabled by your administrator" : "管理员已禁用自定义功能",
-    "Disable-user-theming should be true or false" : "Disable-user-theming 应该是 true 或者 false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "主要颜色用于突出显示重要按钮等元素。根据当前颜色方案，它可能会有轻微调整。",
-    "Header logo" : "顶栏图标",
-    "Upload new header logo" : "上传新的顶栏图标",
-    "Upload new favicon" : "上传新图标",
-    "User settings" : "用户设置",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "您也可以配置纯色背景，而不是背景图像。如果您使用背景图像，更改此颜色将影响应用程序菜单图标的颜色。",
-    "Upload new logo" : "上传新的图标",
-    "Upload new background and login image" : "上传新的登录界面与背景图片",
-    "Background and login image" : "登录界面与背景图片",
-    "Advanced options" : "高级选项",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 ImageMagick，以根据上传的 logo 和颜色自动生成图标。",
-    "Unable to apply the setting." : "无法应用设置。",
-    "No background has been selected" : "未选择背景",
-    "Select a custom color" : "自定义颜色",
-    "Upload" : "上传"
+    "Unable to apply the setting." : "无法应用设置。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

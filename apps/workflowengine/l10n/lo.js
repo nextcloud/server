@@ -124,7 +124,6 @@ OC.L10N.register(
     "Request user agent" : "User agent ຂອງການຮ້ອງຂໍ",
     "Group membership" : "ສະມາຊິກກຸ່ມ",
     "is member of" : "ເປັນສະມາຊິກຂອງ",
-    "is not member of" : "ບໍ່ແມ່ນສະມາຊິກຂອງ",
-    "Type to search for group …" : "ພິມເພື່ອຄົ້ນຫາກຸ່ມ..."
+    "is not member of" : "ບໍ່ແມ່ນສະມາຊິກຂອງ"
 },
 "nplurals=1; plural=0;");

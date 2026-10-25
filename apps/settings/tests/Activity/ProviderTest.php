@@ -95,6 +95,25 @@ class ProviderTest extends TestCase {
 		$this->provider->parse('en', $event);
 	}
 
+	public function testParseScopesChanged(): void {
+		$event = $this->createMock(IEvent::class);
+		$event->method('getApp')->willReturn('settings');
+		$event->method('getSubject')->willReturn(Provider::APP_TOKEN_SCOPES_CHANGED);
+		$event->method('getSubjectParameters')->willReturn(['name' => 'Thunderbird']);
+		$event->method('getObjectId')->willReturn(42);
+
+		$this->l->expects($this->once())
+			->method('t')
+			->with('You changed the access of app password "{token}"')
+			->willReturn('parsed subject');
+
+		$event->expects($this->once())
+			->method('setRichSubject')
+			->with('parsed subject', ['token' => ['type' => 'highlight', 'id' => '42', 'name' => 'Thunderbird']]);
+
+		$this->provider->parse('en', $event);
+	}
+
 	public function testParseRevokedAllWithoutCountParameter(): void {
 		$event = $this->createMock(IEvent::class);
 		$event->method('getApp')->willReturn('settings');

@@ -411,6 +411,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "„{owner}“ jagas seda sinuga ja vestlusega „{conversation}“",
     "Shared with you in a conversation by {owner}" : "„{owner}“ jagas seda sinuga vestluses",
     "Shared with you by {owner}" : "Jagatud sinuga {owner} poolt",
+    "Originally as {name}" : "Algselt kui „{name}“",
     "%1$s shared %2$s with you" : "%1$s jagas sinuga: %2$s",
     "Do you want to accept this share?" : "Kas soovid seda jagamist kasutada?",
     "Share not found" : "Jagamist ei leidu",
@@ -419,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Grupiga jagamine on administraatori poolt keelatud",
     "Public link sharing is disabled by the administrator" : "Avaliku lingiga jagamine on administraatori poolt keelatud",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "„%1$s“ jagamine ei õnnestunud, sest server ei luba „%2$s“ tüüpi jagamisi",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "„%s“ jagamine ei õnnestunud, sest taustateenus ei toeta ScienceMeshi meedia jagamist",
     "Public upload disabled by the administrator" : "Avalik üleslaadimine on administraatori poolt keelatud",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tunnuslubades peab olema vähemalt 1 tähemärk ning võib olla vaid tähti, numbreid ja sisekriipse",
     "Via “{folder}”" : "„{folder}“ kausta kaudu",
-    "Name or email …" : "Nimi või e-posti aadress…",
-    "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
-    "Searching …" : "Otsin...",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sisesta avaliku jagamislingi jaoks midagi lihtsalt meeldejäetavat või genereeri uus tunnusluba. Kui link viitab delikaatsetele andmetele, siis palun ära kasuta kergesti aimatavaid tunnuslube."
 },
 "nplurals=2; plural=(n != 1);");

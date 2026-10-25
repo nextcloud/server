@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Не удалось удалить доверенный сервер. Повторите попытку позже.",
     "Delete" : "Удалить",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Федерация связывает ваш сервер с другими доверенными серверами для обмена каталогом учётных записей — например, для автодополнения внешних учётных записей при межсерверном общем доступе. Чтобы создать межсерверный общий ресурс, добавлять сервер в доверенные не обязательно.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Серверы должны проверить друг друга. Это может занять несколько циклов cron.",
-    "External documentation for Federated Cloud Sharing" : "Внешняя документация по межсерверному общему доступу",
-    "+ Add trusted server" : "+ Добавить доверенный сервер",
-    "Trusted server" : "Доверенный сервер"
+    "Each server must validate the other. This process may require a few cron cycles." : "Серверы должны проверить друг друга. Это может занять несколько циклов cron."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

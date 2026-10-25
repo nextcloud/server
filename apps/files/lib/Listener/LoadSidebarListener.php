@@ -24,5 +24,6 @@ class LoadSidebarListener implements IEventListener {
 		}
 
 		Util::addScript(Application::APP_ID, 'sidebar');
+		Util::addStyle(Application::APP_ID, 'sidebar');
 	}
 }

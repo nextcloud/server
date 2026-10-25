@@ -28,7 +28,7 @@ class TrashbinTest extends TestCase {
 	public function testDelete(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('File "/a.txt.d1700000000" deleted from trash bin.', ['app' => 'admin_audit', 'operation' => 'trashbin.file.deleted']);
+			->with('File "/a.txt.d1700000000" deleted from trash bin.', ['app' => 'admin_audit', 'operation' => 'trashbin.file.deleted', 'params' => ['path' => '/a.txt.d1700000000']]);
 
 		$this->trashbin->delete(['path' => '/a.txt.d1700000000']);
 	}
@@ -36,7 +36,7 @@ class TrashbinTest extends TestCase {
 	public function testRestore(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('File "/a.txt" restored from trash bin.', ['app' => 'admin_audit', 'operation' => 'trashbin.file.restored']);
+			->with('File "/a.txt" restored from trash bin.', ['app' => 'admin_audit', 'operation' => 'trashbin.file.restored', 'params' => ['path' => '/a.txt']]);
 
 		$this->trashbin->restore(['filePath' => '/a.txt', 'trashPath' => '/a.txt.d1700000000']);
 	}

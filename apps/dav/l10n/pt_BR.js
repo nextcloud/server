@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Link:",
     "Occurring:" : "Ocorrendo:",
     "More options at %s" : "Mais opções em %s",
-    "The system address book contains contact information for all users in your instance." : "O catálogo de endereços do sistema contém informações de contato de todos os usuários da sua instância.",
-    "Enable System Address Book" : "Ativar Catálogo de Endereços do Sistema",
-    "No results." : "Nenhum resultado.",
-    "Start typing." : "Comece a digitar.",
     "Delegate:" : "Delegar:"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -8,8 +8,6 @@
 namespace OC\Log;
 
 use OC\SystemConfig;
-use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\Session;
 use OCP\HintException;
 
 class ExceptionSerializer {

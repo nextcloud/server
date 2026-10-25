@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Kliens törlése",
     "Make sure you store the secret key, it cannot be recovered." : "Győződjön meg róla tárolja a titkos kulcsot, mert nem nyerhető vissza.",
     "Add client" : "Kliens hozzáadása",
-    "Add" : "Hozzáadás",
-    "Client Identifier" : "Ügyfélazonosító",
-    "Show client secret" : "Klienstitok megjelenítése",
-    "Hide client secret" : "Klienstitok elrejtése"
+    "Add" : "Hozzáadás"
 },
 "nplurals=2; plural=(n != 1);");

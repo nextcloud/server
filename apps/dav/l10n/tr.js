@@ -380,10 +380,6 @@ OC.L10N.register(
     "Link:" : "Bağlantı:",
     "Occurring:" : "Başlangıç:",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
-    "The system address book contains contact information for all users in your instance." : "Sistem adres defterinde, kopyanızdaki tüm kullanıcıların iletişim bilgileri bulunur.",
-    "Enable System Address Book" : "Sistem adres defteri kullanılsın",
-    "No results." : "Herhangi bir sonuç bulunamadı.",
-    "Start typing." : "Yazmaya başlayın.",
-    "Delegate:" : "Yetkiyi devret:"
+    "Delegate:" : "Yetki ver:"
 },
 "nplurals=2; plural=(n > 1);");

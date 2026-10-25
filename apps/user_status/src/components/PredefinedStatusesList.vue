@@ -21,18 +21,20 @@
 	<div
 		v-else
 		class="predefined-statuses-list">
-		<div class="icon icon-loading-small" />
+		<NcLoadingIcon :size="16" />
 	</div>
 </template>
 
 <script>
 import { t } from '@nextcloud/l10n'
 import { mapGetters, mapState } from 'vuex'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import PredefinedStatus from './PredefinedStatus.vue'
 
 export default {
 	name: 'PredefinedStatusesList',
 	components: {
+		NcLoadingIcon,
 		PredefinedStatus,
 	},
 
