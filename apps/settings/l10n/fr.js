@@ -27,6 +27,7 @@ OC.L10N.register(
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Vous avez renommé le mot de passe d’application « {token} » en « {newToken} »",
     "You granted filesystem access to app password \"{token}\"" : "Vous avez autorisé le mot de passe d’application « {token} » à accéder au système de fichiers",
     "You revoked filesystem access from app password \"{token}\"" : "Vous avez retiré au mot de passe d’application « {token} » l’accès au système de fichiers",
+    "You changed the access of app password \"{token}\"" : "Vous avez modifié l'accès du mot de passe d'application « {token} »",
     "Security" : "Sécurité",
     "You successfully logged in using two-factor authentication (%1$s)" : "Vous avez réussi à vous connecter en utilisant l'authentification à deux facteurs (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Une tentative de connexion utilisant l'authentification à deux facteurs a échoué (%1$s)",
