@@ -94,7 +94,7 @@
     "vue-frag": "^1.4.3",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^5.3.1",
+    "vue-material-design-icons": "^5.4.0",
     "vue-router": "^3.6.5",
     "vue2-teleport": "^1.2.2",
     "vuedraggable": "^2.24.3",
