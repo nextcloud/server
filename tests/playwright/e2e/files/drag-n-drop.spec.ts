@@ -6,6 +6,7 @@
 import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { createFileDataTransfer, dropFilesOn } from '../../support/utils/drag-drop.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 test.describe('files: Drag and Drop', () => {
 	test.beforeEach(async ({ filesListPage }) => {
@@ -56,7 +57,7 @@ test.describe('files: Drag and Drop', () => {
 
 		await dropFilesOn(filesListPage.getDropArea(), dataTransfer)
 
-		await expect(page.locator('.toast-warning')).toBeVisible()
+		await expect(getToast(page, 'Your browser does not support the Filesystem API')).toBeVisible()
 		await expect(filesListPage.getRowForFile('first.txt')).toBeVisible()
 		await expect(filesListPage.getRowForFile('second.txt')).toBeVisible()
 		await expect(filesListPage.getRowForFile('Foo')).toHaveCount(0)

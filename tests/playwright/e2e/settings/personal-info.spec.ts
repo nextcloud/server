@@ -80,7 +80,7 @@ test.describe('Settings: Change personal information', () => {
 
 		await page.goto('/settings/user')
 		const saved1 = waitForSave(page)
-		await page.getByRole('checkbox', { name: 'Enable profile' }).uncheck({ force: true })
+		await page.getByRole('switch', { name: 'Enable profile' }).uncheck({ force: true })
 		await handlePasswordConfirmation(page, user.password)
 		await saved1
 
@@ -91,7 +91,7 @@ test.describe('Settings: Change personal information', () => {
 		// Re-enable the profile
 		await page.goto('/settings/user')
 		const saved2 = waitForSave(page)
-		await page.getByRole('checkbox', { name: 'Enable profile' }).check({ force: true })
+		await page.getByRole('switch', { name: 'Enable profile' }).check({ force: true })
 		await handlePasswordConfirmation(page, user.password)
 		await saved2
 

@@ -9,6 +9,7 @@ import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 test.describe('Settings: Change user properties', () => {
 	test('can change the display name', async ({ page, user }) => {
@@ -21,7 +22,7 @@ test.describe('Settings: Change user properties', () => {
 
 		await settingsPage.submitInlineTextField(user.userId, 'displayname', 'John Doe')
 
-		await expect(page.getByText(/Display name was successfully changed/i)).toBeVisible()
+		await expect(getToast(page, /Display name was successfully changed/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -39,7 +40,7 @@ test.describe('Settings: Change user properties', () => {
 
 		await settingsPage.submitInlineTextField(user.userId, 'password', 'newpassword123')
 
-		await expect(page.getByText(/Password was successfully changed/i)).toBeVisible()
+		await expect(getToast(page, /Password was successfully changed/i)).toBeVisible()
 		// The password input is emptied once the change went through
 		await expect(cell.locator('input')).toHaveValue('')
 
@@ -59,7 +60,7 @@ test.describe('Settings: Change user properties', () => {
 
 		await settingsPage.submitInlineTextField(user.userId, 'email', 'mymail@example.com')
 
-		await expect(page.getByText(/Email was successfully changed/i)).toBeVisible()
+		await expect(getToast(page, /Email was successfully changed/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])

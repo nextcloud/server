@@ -9,6 +9,13 @@ import { test as randomUserTest } from './random-user.ts'
 /**
  * Extends the random-user fixture with a `page` logged in as that user.
  * The page runs in an isolated browser context — no admin session leaks in.
+ *
+ * The page (and with it the context `browser.newPage()` created for it) is
+ * closed in teardown: the runner only closes contexts of the built-in `context`
+ * fixture, so a page left open here would keep living in the worker's browser
+ * for every following test — each one still polling the server — and the
+ * failure snapshot Playwright attaches is taken from the oldest open context,
+ * i.e. from some earlier test's page instead of the failing one.
  */
 export const test = randomUserTest.extend({
 	page: async ({ browser, user }, use) => {
@@ -21,5 +28,6 @@ export const test = randomUserTest.extend({
 			await login(page.request, user)
 		}
 		await use(page)
+		await page.close()
 	},
 })
