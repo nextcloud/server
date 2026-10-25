@@ -74,7 +74,7 @@
     "focus-trap": "^8.2.2",
     "marked": "^18.1.1",
     "moment": "^2.31.0",
-    "p-queue": "^9.3.5",
+    "p-queue": "^10.0.0",
     "pinia": "^4.0.3",
     "qrcode": "^1.5.4",
     "sortablejs": "^1.15.7",
