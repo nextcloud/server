@@ -12,6 +12,7 @@ use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\IConfig;
 use OCP\IContainer;
 use OCP\Share\IShare;
 use Test\TestCase;
@@ -28,7 +29,7 @@ class SearchTest extends TestCase {
 
 		$this->container = $this->createMock(IContainer::class);
 
-		$this->search = new Search($this->container);
+		$this->search = new Search($this->container, $this->createMock(IConfig::class));
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
