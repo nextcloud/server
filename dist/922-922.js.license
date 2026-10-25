@@ -73,7 +73,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.44
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - date-fns
 	- version: 4.1.0
