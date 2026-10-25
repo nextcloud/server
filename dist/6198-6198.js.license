@@ -147,7 +147,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - focus-trap
-	- version: 8.2.2
+	- version: 8.2.3
 	- license: MIT
 - hast-util-is-element
 	- version: 3.0.0
