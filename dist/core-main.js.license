@@ -162,7 +162,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.44
 	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 6.2.0
+	- version: 6.2.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 3.1.0
