@@ -512,6 +512,7 @@ class ApiController extends OCSController {
 			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {
 				$groups = $enabledValue;
 			}
+
 			if ($this->appManager->isEnabledForAnyone($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
