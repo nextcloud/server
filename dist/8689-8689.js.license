@@ -137,7 +137,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - p-queue
-	- version: 9.3.3
+	- version: 9.3.5
 	- license: MIT
 - process
 	- version: 0.11.10
