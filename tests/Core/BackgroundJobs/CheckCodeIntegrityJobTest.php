@@ -283,7 +283,7 @@ class CheckCodeIntegrityJobTest extends TestCase {
 			'unverified only' => [['files' => 0, 'unverified' => ['core']], ['The signature of core is missing or invalid, so it could not be verified.']],
 			'both' => [['files' => 1, 'unverified' => ['core', 'files']], [
 				'1 file does not match the signed release. It may have been modified or added without authorization.',
-				'The signatures of core, files are missing or invalid, so they could not be verified.',
+				'The 2 signatures of core, files are missing or invalid, so they could not be verified.',
 			]],
 			'missing parameters' => [[], []],
 		];
