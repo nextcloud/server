@@ -4,10 +4,11 @@
  */
 
 import type { INode } from '@nextcloud/files'
+import type { ComponentPublicInstance } from 'vue'
 
 import moment from '@nextcloud/moment'
 import { createPinia, PiniaVuePlugin } from 'pinia'
-import Vue, { type ComponentPublicInstance } from 'vue'
+import Vue from 'vue'
 import logger from './logger.js'
 import { getComments } from './services/GetComments.js'
 
