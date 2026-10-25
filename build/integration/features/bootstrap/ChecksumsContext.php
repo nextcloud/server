@@ -7,6 +7,11 @@
  */
 require __DIR__ . '/autoload.php';
 
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -26,12 +31,12 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function setUpScenario() {
 		$this->client = new Client();
 	}
 
-	/** @AfterScenario */
+	#[AfterScenario]
 	public function tearDownScenario() {
 	}
 
@@ -47,12 +52,12 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When user :user uploads file :source to :destination with checksum :checksum
 	 * @param string $user
 	 * @param string $source
 	 * @param string $destination
 	 * @param string $checksum
 	 */
+	#[When('user :user uploads file :source to :destination with checksum :checksum')]
 	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 		try {
@@ -76,10 +81,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The webdav response should have a status code :statusCode
 	 * @param int $statusCode
 	 * @throws \Exception
 	 */
+	#[Then('The webdav response should have a status code :statusCode')]
 	public function theWebdavResponseShouldHaveAStatusCode($statusCode) {
 		if ((int)$statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception("Expected $statusCode, got " . $this->response->getStatusCode());
@@ -87,10 +92,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When user :user request the checksum of :path via propfind
 	 * @param string $user
 	 * @param string $path
 	 */
+	#[When('user :user request the checksum of :path via propfind')]
 	public function userRequestTheChecksumOfViaPropfind($user, $path) {
 		$this->response = $this->client->request(
 			'PROPFIND',
@@ -111,10 +116,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The webdav checksum should match :checksum
 	 * @param string $checksum
 	 * @throws \Exception
 	 */
+	#[Then('The webdav checksum should match :checksum')]
 	public function theWebdavChecksumShouldMatch($checksum) {
 		$service = new Sabre\Xml\Service();
 		$parsed = $service->parse($this->response->getBody()->getContents());
@@ -131,10 +136,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When user :user downloads the file :path
 	 * @param string $user
 	 * @param string $path
 	 */
+	#[When('user :user downloads the file :path')]
 	public function userDownloadsTheFile($user, $path) {
 		$this->response = $this->client->get(
 			$this->baseUrl . '/remote.php/webdav' . $path,
@@ -148,10 +153,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The header checksum should match :checksum
 	 * @param string $checksum
 	 * @throws \Exception
 	 */
+	#[Then('The header checksum should match :checksum')]
 	public function theHeaderChecksumShouldMatch($checksum) {
 		if ($this->response->getHeader('OC-Checksum')[0] !== $checksum) {
 			throw new \Exception("Expected $checksum, got " . $this->response->getHeader('OC-Checksum')[0]);
@@ -159,11 +164,11 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Given User :user copied file :source to :destination
 	 * @param string $user
 	 * @param string $source
 	 * @param string $destination
 	 */
+	#[Given('User :user copied file :source to :destination')]
 	public function userCopiedFileTo($user, $source, $destination) {
 		$this->response = $this->client->request(
 			'MOVE',
@@ -180,9 +185,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		);
 	}
 
-	/**
-	 * @Then The webdav checksum should be empty
-	 */
+	#[Then('The webdav checksum should be empty')]
 	public function theWebdavChecksumShouldBeEmpty() {
 		$service = new Sabre\Xml\Service();
 		$parsed = $service->parse($this->response->getBody()->getContents());
@@ -198,9 +201,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @Then The OC-Checksum header should not be there
-	 */
+	#[Then('The OC-Checksum header should not be there')]
 	public function theOcChecksumHeaderShouldNotBeThere() {
 		if ($this->response->hasHeader('OC-Checksum')) {
 			throw new \Exception('Expected no checksum header but got ' . $this->response->getHeader('OC-Checksum')[0]);

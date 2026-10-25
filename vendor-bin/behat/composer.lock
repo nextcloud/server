@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8c2341be0abc68b5a780a54cf5c105a",
+    "content-hash": "834b766d718f11ddb1b27319895342c5",
     "packages": [],
     "packages-dev": [
         {
@@ -194,6 +194,79 @@
                 }
             ],
             "time": "2026-09-25T21:26:10+00:00"
+        },
+        {
+            "name": "behat/phpunit-assertions-extension",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/PHPUnitAssertionsExtension.git",
+                "reference": "055f263f4d59c7d424dabf3765be1e99cc0a7ddd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/PHPUnitAssertionsExtension/zipball/055f263f4d59c7d424dabf3765be1e99cc0a7ddd",
+                "reference": "055f263f4d59c7d424dabf3765be1e99cc0a7ddd",
+                "shasum": ""
+            },
+            "require": {
+                "behat/behat": "^3.33 || ^4.0@alpha",
+                "php": ">=8.2 <8.6",
+                "phpunit/phpunit": "^8.5 || ^9.6 || ^10.5 || ^11.5 || ^12.5 || ^13.3",
+                "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "composer-runtime-api": "*",
+                "php-cs-fixer/shim": "^3.89",
+                "phpstan/phpstan": "2.1.46",
+                "rector/rector": "2.3.9",
+                "sebastian/diff": ">=3.0.6 <10",
+                "symfony/filesystem": "^5.4 || ^6.4 || ^7.0 || ^8.0",
+                "symfony/process": "^5.4 || ^6.4 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Behat\\PHPUnitAssertionsExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Behat contributors",
+                    "homepage": "https://behat.org"
+                }
+            ],
+            "description": "Behat extension to support PHPUnit assertions in step definitions. NOTE: Not recommended for new projects",
+            "homepage": "https://docs.behat.org/en/latest/useful_resources.html#assertion-tools",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "documentation",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/Behat/PHPUnitAssertionsExtension/issues",
+                "source": "https://github.com/Behat/PHPUnitAssertionsExtension/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/acoulton",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/carlos-granados",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/stof",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-09-21T20:20:17+00:00"
         },
         {
             "name": "composer/pcre",

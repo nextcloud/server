@@ -7,6 +7,11 @@
  */
 require __DIR__ . '/autoload.php';
 
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
@@ -32,13 +37,13 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function setUpScenario() {
 		$this->client = new Client();
 		$this->responseXml = '';
 	}
 
-	/** @AfterScenario */
+	#[AfterScenario]
 	public function afterScenario() {
 		foreach (['MyCalendar', 'MyCalendar2'] as $calendarName) {
 			try {
@@ -54,7 +59,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/** @AfterScenario @caldav-delegation */
+	#[AfterScenario('@caldav-delegation')]
 	public function afterDelegationScenario() {
 		foreach (['calendar-proxy-read', 'calendar-proxy-write'] as $proxyType) {
 			try {
@@ -77,11 +82,11 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When :user requests calendar :calendar on the endpoint :endpoint
 	 * @param string $user
 	 * @param string $calendar
 	 * @param string $endpoint
 	 */
+	#[When(':user requests calendar :calendar on the endpoint :endpoint')]
 	public function requestsCalendar($user, $calendar, $endpoint) {
 		$davUrl = $this->baseUrl . $endpoint . $calendar;
 
@@ -102,9 +107,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @When :user requests principal :principal on the endpoint :endpoint
-	 */
+	#[When(':user requests principal :principal on the endpoint :endpoint')]
 	public function requestsPrincipal(string $user, string $principal, string $endpoint): void {
 		$davUrl = $this->baseUrl . $endpoint . $principal;
 
@@ -131,9 +134,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The CalDAV response should contain a property :key
 	 * @throws \Exception
 	 */
+	#[Then('The CalDAV response should contain a property :key')]
 	public function theCaldavResponseShouldContainAProperty(string $key): void {
 		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
 		$multiStatus = $this->responseXml['value'];
@@ -160,9 +163,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The CalDAV response should contain a property :key with a href value :value
 	 * @throws \Exception
 	 */
+	#[Then('The CalDAV response should contain a property :key with a href value :value')]
 	public function theCaldavResponseShouldContainAPropertyWithHrefValue(
 		string $key,
 		string $value,
@@ -191,9 +194,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The CalDAV response should contain an href :href
 	 * @throws \Exception
 	 */
+	#[Then('The CalDAV response should contain an href :href')]
 	public function theCaldavResponseShouldContainAnHref(string $href): void {
 		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
 		$multiStatus = $this->responseXml['value'];
@@ -211,9 +214,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The CalDAV response should be multi status
 	 * @throws \Exception
 	 */
+	#[Then('The CalDAV response should be multi status')]
 	public function theCaldavResponseShouldBeMultiStatus(): void {
 		if ($this->response->getStatusCode() !== 207) {
 			throw new \Exception(
@@ -236,10 +239,10 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The CalDAV HTTP status code should be :code
 	 * @param int $code
 	 * @throws \Exception
 	 */
+	#[Then('The CalDAV HTTP status code should be :code')]
 	public function theCaldavHttpStatusCodeShouldBe($code) {
 		if ((int)$code !== $this->response->getStatusCode()) {
 			throw new \Exception(
@@ -260,10 +263,10 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The exception is :message
 	 * @param string $message
 	 * @throws \Exception
 	 */
+	#[Then('The exception is :message')]
 	public function theExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
 
@@ -279,10 +282,10 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then The error message is :message
 	 * @param string $message
 	 * @throws \Exception
 	 */
+	#[Then('The error message is :message')]
 	public function theErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
 
@@ -298,10 +301,10 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Given :user creates a calendar named :name
 	 * @param string $user
 	 * @param string $name
 	 */
+	#[Given(':user creates a calendar named :name')]
 	public function createsACalendarNamed($user, $name) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
@@ -320,11 +323,11 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then :user publicly shares the calendar named :name
 	 *
 	 * @param string $user
 	 * @param string $name
 	 */
+	#[Then(':user publicly shares the calendar named :name')]
 	public function publiclySharesTheCalendarNamed($user, $name) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
@@ -346,10 +349,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then There should be :amount calendars in the response body
-	 *
 	 * @param string $amount
 	 */
+	#[Then('There should be :amount calendars in the response body')]
 	public function t($amount) {
 		$jsonEncoded = json_encode($this->responseXml);
 		$arrayElement = json_decode($jsonEncoded, true);
@@ -365,9 +367,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @When :user sends a create calendar request to :calendar on the endpoint :endpoint
-	 */
+	#[When(':user sends a create calendar request to :calendar on the endpoint :endpoint')]
 	public function sendsCreateCalendarRequest(string $user, string $calendar, string $endpoint) {
 		$davUrl = $this->baseUrl . $endpoint . $calendar;
 		$password = ($user === 'admin') ? 'admin' : '123456';
@@ -389,9 +389,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @Given :user updates property :key to href :value of principal :principal on the endpoint :endpoint
-	 */
+	#[Given(':user updates property :key to href :value of principal :principal on the endpoint :endpoint')]
 	public function updatesHrefPropertyOfPrincipal(
 		string $user,
 		string $key,
