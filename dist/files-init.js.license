@@ -402,7 +402,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.1
 	- license: MIT
 - p-queue
-	- version: 9.3.3
+	- version: 9.3.5
 	- license: MIT
 - inherits
 	- version: 2.0.3
