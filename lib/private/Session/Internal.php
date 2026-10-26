@@ -18,7 +18,6 @@ use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function call_user_func_array;
-use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -32,12 +31,27 @@ class Internal extends Session {
 	use TLogSlowOperation;
 
 	/**
+	 * Marks a session whose id was replaced by regenerateId()
+	 */
+	public const SUPERSEDED_AT = 'superseded_at';
+
+	/**
+	 * Seconds after a regeneration in which requests on the old id get no cookie, as the browser may hold the new id
+	 */
+	public const SUPERSEDED_GRACE_PERIOD = 60;
+
+	/**
+	 * False while the browser may hold a newer id than this request, see leaveSupersededSession()
+	 */
+	private bool $cookieAllowed = true;
+
+	/**
 	 * @param string $name
 	 * @throws \Exception
 	 */
 	public function __construct(
 		string $name,
-		private ?LoggerInterface $logger,
+		private readonly LoggerInterface $logger,
 	) {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
@@ -51,6 +65,7 @@ class Internal extends Session {
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
+		$this->leaveSupersededSession(atRequestStart: true);
 	}
 
 	/**
@@ -102,8 +117,6 @@ class Internal extends Session {
 		$this->reopen();
 		$this->invoke('session_unset');
 		$this->regenerateId();
-		$this->invoke('session_write_close');
-		$this->startSession(true);
 		$_SESSION = [];
 	}
 
@@ -116,32 +129,21 @@ class Internal extends Session {
 	/**
 	 * Wrapper around session_regenerate_id
 	 *
-	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @param bool $deleteOldSession Whether to delete the old id, or replace its data with the superseded marker if the client sent it
 	 * @param bool $updateToken Whether to update the associated auth token
 	 * @return void
 	 */
 	#[\Override]
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
-		$this->reopen();
-		$oldId = null;
-
-		if ($updateToken) {
-			// Get the old id to update the token
-			try {
-				$oldId = $this->getId();
-			} catch (SessionNotAvailableException $e) {
-				// We can't update a token if there is no previous id
-				$updateToken = false;
-			}
+		$oldId = (string)$this->invoke('session_id', [], true);
+		if (!$this->switchToNewId($oldId, $deleteOldSession)) {
+			$this->logger->warning('Could not regenerate the session id');
+			return;
 		}
+		// The browser gets the new id from this request, so it needs a replacement of it as well
+		$this->cookieAllowed = true;
 
-		try {
-			@session_regenerate_id($deleteOldSession);
-		} catch (\Error $e) {
-			$this->trapError($e->getCode(), $e->getMessage());
-		}
-
-		if ($updateToken) {
+		if ($updateToken && $oldId !== '') {
 			// Get the new id to update the token
 			$newId = $this->getId();
 
@@ -179,8 +181,14 @@ class Internal extends Session {
 	#[\Override]
 	public function reopen(): bool {
 		if ($this->sessionClosed) {
-			$this->startSession(false, false);
+			$id = $this->invoke('session_id', [], true);
+			$this->startSession(readAndClose: false, sendCookie: false);
+			if ($this->cookieAllowed && $this->invoke('session_id', [], true) !== $id) {
+				// Strict mode replaced an id that is no longer stored, the browser needs the new one
+				$this->restartWithCookie();
+			}
 			$this->sessionClosed = false;
+			$this->leaveSupersededSession(atRequestStart: false);
 			return true;
 		}
 
@@ -208,7 +216,7 @@ class Internal extends Session {
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
 			return $this->monitorAndLog(
-				$this->logger ?? logger('core'),
+				$this->logger,
 				$functionName,
 				function () use ($silence, $functionName, $parameters) {
 					if ($silence) {
@@ -223,11 +231,80 @@ class Internal extends Session {
 		}
 	}
 
-	private function startSession(bool $silence = false, bool $readAndClose = true) {
-		$sessionParams = ['cookie_samesite' => 'Lax'];
+	/**
+	 * @param bool $sendCookie Whether PHP may send the session cookie, which can replace a newer id the browser holds
+	 */
+	private function startSession(bool $readAndClose = true, bool $sendCookie = true) {
+		$sessionParams = [
+			'cookie_samesite' => 'Lax',
+			'use_cookies' => $sendCookie,
+		];
 		if (\OC::hasSessionRelaxedExpiry()) {
 			$sessionParams['read_and_close'] = $readAndClose;
 		}
-		$this->invoke('session_start', [$sessionParams], $silence);
+		$this->invoke('session_start', [$sessionParams]);
+	}
+
+	private function restartWithCookie(): void {
+		$this->invoke('session_write_close', [], true);
+		$this->startSession(readAndClose: false);
+	}
+
+	private function isActive(): bool {
+		return session_status() === PHP_SESSION_ACTIVE;
+	}
+
+	/**
+	 * @return bool Whether the session moved to a new id. If not, it stays on $oldId with its data.
+	 */
+	private function switchToNewId(string $oldId, bool $deleteOldSession): bool {
+		// session_regenerate_id() needs an active session that may send cookies, reopen() starts it without.
+		// Also within the grace period: a login or logout on a replaced id has to reach the browser.
+		if (!$this->isActive() || !ini_get('session.use_cookies')) {
+			$this->restartWithCookie();
+		}
+
+		$data = $_SESSION;
+		// The restart may have read the marker of a concurrent regeneration
+		unset($data[self::SUPERSEDED_AT]);
+		// Only an id the client sent can come back in another request
+		$markOldId = $deleteOldSession && ($_COOKIE[session_name()] ?? null) === $oldId;
+		if ($markOldId) {
+			// The old id keeps the marker instead of the data, so session_regenerate_id() must not delete it
+			$_SESSION = [self::SUPERSEDED_AT => time()];
+		}
+
+		$regenerated = $this->invoke('session_regenerate_id', [$deleteOldSession && !$markOldId], true) === true;
+		if (!$regenerated && $oldId !== '' && !$this->isActive()) {
+			// Continue on the old id
+			$this->invoke('session_id', [$oldId], true);
+			$this->startSession(readAndClose: false, sendCookie: false);
+		}
+		$_SESSION = $data;
+		$this->sessionClosed = !$this->isActive();
+		return $regenerated;
+	}
+
+	/**
+	 * Move a request on an id replaced by regenerateId() to a fresh session, so the old id can't log in again.
+	 * It gets a cookie only if the request starts after the grace period, see SUPERSEDED_GRACE_PERIOD.
+	 */
+	private function leaveSupersededSession(bool $atRequestStart): void {
+		if (!isset($_SESSION[self::SUPERSEDED_AT])) {
+			return;
+		}
+
+		$supersededAt = (int)$_SESSION[self::SUPERSEDED_AT];
+		$this->logger->debug('Request uses a session id that was replaced at {supersededAt}', [
+			'supersededAt' => $supersededAt,
+		]);
+		$this->invoke('session_abort', [], true);
+		$_SESSION = [];
+		$this->cookieAllowed = $atRequestStart && time() - $supersededAt >= self::SUPERSEDED_GRACE_PERIOD;
+		$freshId = $this->invoke('session_create_id', [], true);
+		if (is_string($freshId) && $this->invoke('session_id', [$freshId], true) !== false) {
+			$this->startSession(readAndClose: $atRequestStart, sendCookie: $this->cookieAllowed);
+		}
+		$this->sessionClosed = !$this->isActive();
 	}
 }
