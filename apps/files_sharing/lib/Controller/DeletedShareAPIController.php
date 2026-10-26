@@ -139,6 +139,7 @@ class DeletedShareAPIController extends OCSController {
 	 * 200: Deleted shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
 		$teamShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);

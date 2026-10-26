@@ -62,6 +62,7 @@ class RemoteController extends OCSController {
 	 * 200: Pending remote shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getOpenShares(): DataResponse {
 		$shares = $this->externalManager->getOpenShares($this->getUser());
 		$shares = array_map($this->extendShareInfo(...), $shares);
@@ -152,6 +153,7 @@ class RemoteController extends OCSController {
 	 * 200: Accepted remote shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getShares(): DataResponse {
 		$shares = $this->externalManager->getAcceptedShares($this->getUser());
 		$shares = array_map(fn (ExternalShare $share) => $this->extendShareInfo($share), $shares);
@@ -168,6 +170,7 @@ class RemoteController extends OCSController {
 	 * 200: Share returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getShare(string $id): DataResponse {
 		$shareInfo = $this->externalManager->getShare($id, $this->getUser());
 
