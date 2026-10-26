@@ -66,6 +66,10 @@ class SyncFederationAddressBooks {
 						$targetPrincipal,
 						$targetBookProperties
 					);
+					if ($truncated && $syncToken !== null) {
+						// Keep the progress of completed pages in case a later page fails
+						$this->dbHandler->setServerSyncToken($url, $syncToken);
+					}
 				} while ($truncated);
 
 				if ($full) {
