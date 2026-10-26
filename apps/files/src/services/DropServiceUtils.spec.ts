@@ -175,6 +175,10 @@ describe('DropService dataTransferToFileTree', () => {
 		window.DataTransferItem = DataTransferItemMock
 	})
 
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
 	it('Should return a RootDirectory with Filesystem API', async () => {
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 		vi.spyOn(logger, 'warn').mockImplementation(() => vi.fn())
