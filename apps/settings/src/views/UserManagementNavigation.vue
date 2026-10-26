@@ -94,7 +94,7 @@
 			</NcAppNavigationItem>
 		</NcAppNavigationList>
 
-		<AppNavigationGroupList />
+		<AppNavigationGroupList @select="clearSearch" />
 
 		<template #footer>
 			<NcButton
@@ -145,6 +145,13 @@ const commitSearch = debounce((query: string) => {
 watch(searchInput, (value) => commitSearch(value))
 
 onBeforeUnmount(() => commitSearch.clear())
+
+/** Clear the shared account and group search before changing groups. */
+function clearSearch() {
+	searchInput.value = ''
+	commitSearch.clear()
+	store.commit('setSearchQuery', '')
+}
 
 // Intercept Ctrl/Cmd+F to focus the local search. useHotKey ignores the
 // event when an input/textarea is already focused, so a second press falls
