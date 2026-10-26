@@ -26,13 +26,18 @@ use OC\Core\TokenScopes as CoreTokenScopes;
 use OC\Lockdown\LockdownManager;
 use OCA\DAV\Controller\DirectController;
 use OCA\DAV\TokenScopes as DavTokenScopes;
+use OCA\Files\Controller\ApiController;
 use OCA\Files\Controller\ConversionApiController;
 use OCA\Files\Controller\DirectEditingController;
 use OCA\Files\Controller\DirectEditingViewController;
 use OCA\Files\Controller\TemplateController;
+use OCA\Files\Controller\TransferOwnershipController;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Files_Sharing\Controller\AcceptController;
+use OCA\Files_Sharing\Controller\DeletedShareAPIController;
+use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\Controller\RemoteController;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
@@ -176,6 +181,47 @@ class TokenScopeMiddlewareTest extends TestCase {
 		];
 	}
 
+	public static function filesReads(): array {
+		return array_map(static fn (array $method) => [...$method, FilesTokenScopes::FILES_READ], [
+			'thumbnail' => [ApiController::class, 'getThumbnail'],
+			'recent files' => [ApiController::class, 'getRecentFiles'],
+			'folder tree' => [ApiController::class, 'getFolderTree'],
+			'storage stats' => [ApiController::class, 'getStorageStats'],
+			'view configs' => [ApiController::class, 'getViewConfigs'],
+			'configs' => [ApiController::class, 'getConfigs'],
+			'grid view' => [ApiController::class, 'getGridView'],
+			'share' => [ShareAPIController::class, 'getShare'],
+			'shares' => [ShareAPIController::class, 'getShares'],
+			'inherited shares' => [ShareAPIController::class, 'getInheritedShares'],
+			'pending shares' => [ShareAPIController::class, 'pendingShares'],
+			'open federated shares' => [RemoteController::class, 'getOpenShares'],
+			'federated shares' => [RemoteController::class, 'getShares'],
+			'federated share' => [RemoteController::class, 'getShare'],
+			'external shares' => [ExternalSharesController::class, 'index'],
+			'deleted shares' => [DeletedShareAPIController::class, 'index'],
+		]);
+	}
+
+	/**
+	 * Read-only keys must stay refused here
+	 */
+	public static function filesWrites(): array {
+		return array_map(static fn (array $method) => [...$method, FilesTokenScopes::FILES_WRITE], [
+			'transfer ownership' => [TransferOwnershipController::class, 'transfer'],
+			'accept ownership transfer' => [TransferOwnershipController::class, 'accept'],
+			'reject ownership transfer' => [TransferOwnershipController::class, 'reject'],
+			'accept share' => [ShareAPIController::class, 'acceptShare'],
+			'accept share link' => [AcceptController::class, 'accept'],
+			'undelete share' => [DeletedShareAPIController::class, 'undelete'],
+			'accept federated share' => [RemoteController::class, 'acceptShare'],
+			'decline federated share' => [RemoteController::class, 'declineShare'],
+			'leave federated share' => [RemoteController::class, 'unshare'],
+			'create external share' => [ExternalSharesController::class, 'create'],
+			'remove external share' => [ExternalSharesController::class, 'destroy'],
+			'file tags' => [ApiController::class, 'updateFileTags'],
+		]);
+	}
+
 	public static function sharedServices(): array {
 		return [
 			'unified search' => [UnifiedSearchController::class, 'search', CoreTokenScopes::SEARCH_READ],
@@ -188,6 +234,8 @@ class TokenScopeMiddlewareTest extends TestCase {
 
 	#[DataProvider('pinnedScopes')]
 	#[DataProvider('sharedServices')]
+	#[DataProvider('filesReads')]
+	#[DataProvider('filesWrites')]
 	public function testPinnedScopes(string $class, string $method, string $scope): void {
 		$attribute = (new \ReflectionMethod($class, $method))->getAttributes(TokenScope::class)[0]
 			?? (new \ReflectionClass($class))->getAttributes(TokenScope::class)[0];
