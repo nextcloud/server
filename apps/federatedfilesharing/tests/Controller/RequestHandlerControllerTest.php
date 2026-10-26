@@ -12,6 +12,7 @@ namespace OCA\FederatedFileSharing\Tests;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
@@ -113,6 +114,19 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, '1', $this->user1CloudId, $this->ownerCloudId);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
+	}
+
+	public function testUpdatePermissions(): void {
+		$this->cloudFederationProviderManager->expects($this->once())
+			->method('getCloudFederationProvider')->with('file')->willReturn($this->cloudFederationProvider);
+		$this->cloudFederationProvider->expects($this->once())
+			->method('notificationReceived')
+			->with('RESHARE_CHANGE_PERMISSION', '42', [
+				'sharedSecret' => 'token',
+				'permission' => ['share', 'read', 'write'],
+			]);
+
+		$this->assertInstanceOf(DataResponse::class, $this->requestHandler->updatePermissions('42', 'token', Constants::PERMISSION_ALL));
 	}
 
 	public function testDeclineShare(): void {

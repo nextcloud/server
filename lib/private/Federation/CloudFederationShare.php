@@ -7,7 +7,9 @@
 
 namespace OC\Federation;
 
+use OCP\Constants;
 use OCP\Federation\ICloudFederationShare;
+use OCP\OCM\Permissions;
 use OCP\Share\IShare;
 
 class CloudFederationShare implements ICloudFederationShare {
@@ -41,8 +43,9 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param string $resourceType ('file', 'calendar',...)
 	 * @param string $sharedSecret
-	 * @param bool $useExchangeToken whether to use exchange-token protocol (new way) or sharedSecret (old way)
-	 * @param string|null $remoteDomain remote domain for constructing webdav URI
+	 * @param bool $useProtocolObject whether to use protocol-specific properties instead of legacy options
+	 * @param string $webdavUri
+	 * @param int $permissions Nextcloud permission bitmask
 	 */
 	public function __construct($shareWith = '',
 		$name = '',
@@ -55,8 +58,9 @@ class CloudFederationShare implements ICloudFederationShare {
 		$shareType = '',
 		$resourceType = '',
 		$sharedSecret = '',
-		$useExchangeToken = false,
-		$remoteDomain = null,
+		$useProtocolObject = false,
+		$webdavUri = '',
+		int $permissions = Constants::PERMISSION_READ,
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -67,14 +71,13 @@ class CloudFederationShare implements ICloudFederationShare {
 		$this->setSharedBy($sharedBy);
 		$this->setSharedByDisplayName($sharedByDisplayName);
 
-		if ($useExchangeToken) {
-			$webdavUri = $remoteDomain ? 'https://' . $remoteDomain . '/public.php/webdav/' : '';
+		if ($useProtocolObject) {
 			$this->setProtocol([
 				'name' => 'webdav',
 				'webdav' => [
 					'uri' => $webdavUri,
 					'sharedSecret' => $sharedSecret,
-					'permissions' => ['{http://open-cloud-mesh.org/ns}share-permissions']
+					'permissions' => Permissions::fromNextcloud($permissions)
 				]
 			]);
 		} else {
