@@ -59,6 +59,7 @@ class SyncFederationAddressBooks {
 				}
 
 				do {
+					$previousSyncToken = $syncToken;
 					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
 						$url,
 						$cardDavUser,
@@ -69,6 +70,15 @@ class SyncFederationAddressBooks {
 						$targetPrincipal,
 						$targetBookProperties
 					);
+					if ($truncated && ($syncToken === null || $syncToken === $previousSyncToken)) {
+						throw new \RuntimeException("Truncated sync response from $url did not advance the sync token");
+					}
+					if (!$full && $truncated && $syncToken !== null) {
+						// Keep the progress of completed pages in case a later page fails.
+						// A full sync must restart from scratch so pending cards get deleted.
+						$this->dbHandler->setServerSyncToken($url, $syncToken);
+						$oldSyncToken = $syncToken;
+					}
 				} while ($truncated);
 
 				if ($full) {
