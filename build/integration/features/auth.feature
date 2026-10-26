@@ -234,3 +234,9 @@ Feature: auth
 		Given a new client token limited to "files:files:read files:dav:read files:dav:write" is added
 		When requesting "/remote.php/dav/files/user0/read-only" with "MKCOL" using scoped basic token auth
 		Then the HTTP status code should be "403"
+
+	Scenario: a read-only files token gets previews
+		Given user "user0" uploads file "data/green-square-256.png" to "/read-only-preview.png"
+		And a new client token limited to "files:files:read files:dav:read" is added
+		When requesting "/index.php/core/preview.png?file=/read-only-preview.png&x=32&y=32" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"

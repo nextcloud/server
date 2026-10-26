@@ -34,6 +34,7 @@ use OCA\Files\Controller\TemplateController;
 use OCA\Files\Controller\TransferOwnershipController;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_External\Controller\UserStoragesController;
 use OCA\Files_Sharing\Controller\AcceptController;
 use OCA\Files_Sharing\Controller\DeletedShareAPIController;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
@@ -273,6 +274,7 @@ class TokenScopeMiddlewareTest extends TestCase {
 			[DirectEditingController::class],
 			[DirectEditingViewController::class],
 			[ConversionApiController::class],
+			[UserStoragesController::class],
 		];
 	}
 
