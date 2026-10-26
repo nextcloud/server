@@ -153,7 +153,7 @@ test.describe('Files: Live photos', () => {
 			await filesListPage.triggerActionForFile(`${livePhoto.fileName}.jpg`, 'delete')
 			await filesListPage.open('trashbin')
 
-			await filesListPage.triggerInlineActionForFileId(livePhoto.jpgFileId, 'restore')
+			await filesListPage.triggerActionForFileId(livePhoto.jpgFileId, 'restore')
 			// The clicked file leaves the trashbin reactively; the linked .mov is
 			// restored server-side, so reload to see the cascaded removal
 			await expect(filesListPage.getRowForFileId(livePhoto.jpgFileId)).toHaveCount(0)
@@ -170,7 +170,7 @@ test.describe('Files: Live photos', () => {
 			await filesListPage.triggerActionForFile(`${livePhoto.fileName}.jpg`, 'delete')
 			await filesListPage.open('trashbin')
 
-			await filesListPage.triggerInlineActionForFileId(livePhoto.movFileId, 'restore')
+			await filesListPage.triggerActionForFileId(livePhoto.movFileId, 'restore')
 			await filesListPage.reloadCurrentFolder()
 
 			// Restoring the video alone is not allowed: both stay in the trashbin
