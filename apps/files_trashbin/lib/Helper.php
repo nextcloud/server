@@ -12,6 +12,7 @@ use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\FileInfo as IFileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Server;
@@ -21,12 +22,10 @@ class Helper {
 	/**
 	 * Sort the given file info array.
 	 *
-	 * @param FileInfo[] $files
-	 * @param string $sortAttribute
-	 * @param bool $sortDescending
-	 * @return FileInfo[]
+	 * @param list<IFileInfo> $files
+	 * @return list<IFileInfo>
 	 */
-	public static function sortFiles($files, $sortAttribute = 'name', $sortDescending = false) {
+	public static function sortFiles(array $files, string $sortAttribute = 'name', bool $sortDescending = false): array {
 		$sortFunc = 'compareFileNames';
 		if ($sortAttribute === 'mtime') {
 			$sortFunc = 'compareTimestamp';
@@ -40,7 +39,7 @@ class Helper {
 		return $files;
 	}
 
-	private static function compareFileNames(FileInfo $a, FileInfo $b) {
+	private static function compareFileNames(IFileInfo $a, IFileInfo $b): int {
 		$aType = $a->getType();
 		$bType = $b->getType();
 		if ($aType === 'dir' && $bType !== 'dir') {
@@ -51,11 +50,11 @@ class Helper {
 		return Util::naturalSortCompare($a->getName(), $b->getName());
 	}
 
-	private static function compareTimestamp(FileInfo $a, FileInfo $b) {
+	private static function compareTimestamp(IFileInfo $a, IFileInfo $b): int {
 		return ($a->getMTime() < $b->getMTime()) ? -1 : 1;
 	}
 
-	private static function compareSize(FileInfo $a, FileInfo $b) {
+	private static function compareSize(IFileInfo $a, IFileInfo $b): int {
 		return ($a->getSize() < $b->getSize()) ? -1 : 1;
 	}
 
