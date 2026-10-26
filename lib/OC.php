@@ -494,7 +494,7 @@ class OC {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
 			}
-			Server::get(IUserSession::class)->logout();
+			Server::get(\OC\User\Session::class)->endInactiveSession();
 		}
 
 		if (!self::hasSessionRelaxedExpiry()) {
@@ -1298,10 +1298,13 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
-		if (isset($_COOKIE['nc_username'])
-			&& isset($_COOKIE['nc_token'])
-			&& isset($_COOKIE['nc_session_id'])
-			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
+		// Read from $_COOKIE, where a logout or the Apache auth earlier in this request removes them. Clients can send
+		// the cookies as arrays.
+		$username = $_COOKIE['nc_username'] ?? null;
+		$token = $_COOKIE['nc_token'] ?? null;
+		$sessionId = $_COOKIE['nc_session_id'] ?? null;
+		if (is_string($username) && is_string($token) && is_string($sessionId)
+			&& $userSession->loginWithCookie($username, $token, $sessionId)) {
 			return true;
 		}
 		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {

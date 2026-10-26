@@ -35,6 +35,7 @@ use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -1271,6 +1272,7 @@ class SessionTest extends TestCase {
 			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
 			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
 			'no remember-me cookies' => [[], false],
+			'remember-me token cookie is an array' => [['nc_username' => 'u', 'nc_token' => ['t'], 'nc_session_id' => 'old'], false],
 		];
 	}
 
@@ -1285,6 +1287,213 @@ class SessionTest extends TestCase {
 		$this->overwriteService(IRequest::class, $request);
 
 		$this->userSession->renewMagicSessionId('old');
+	}
+
+	public static function endInactiveSessionData(): array {
+		$cookies = ['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'];
+		return [
+			'remembered login' => [
+				'cookies' => $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => true,
+			],
+			'username in another case' => [
+				'cookies' => ['nc_username' => 'FOO'] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'login without remember me' => [
+				'cookies' => $cookies,
+				'remember' => IToken::DO_NOT_REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'no remember-me cookies' => [
+				'cookies' => [],
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'cookies point at another session' => [
+				'cookies' => ['nc_session_id' => 'other'] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'cookies of another user' => [
+				'cookies' => ['nc_username' => 'bar', 'nc_token' => 'barToken'] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'remember-me token of another user' => [
+				'cookies' => ['nc_token' => 'barToken'] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'remember-me token is not stored' => [
+				'cookies' => ['nc_token' => 'guessed'] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'remember-me token cookie is an array' => [
+				'cookies' => ['nc_token' => ['fooToken']] + $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+			],
+			'session token is an app password' => [
+				'cookies' => $cookies,
+				'remember' => IToken::REMEMBER,
+				'keepsSessionToken' => false,
+				'type' => IToken::PERMANENT_TOKEN,
+			],
+			'session token missing' => [
+				'cookies' => $cookies,
+				'remember' => null,
+				'keepsSessionToken' => false,
+			],
+		];
+	}
+
+	#[DataProvider(methodName: 'endInactiveSessionData')]
+	public function testEndInactiveSession(array $cookies, ?int $remember, bool $keepsSessionToken, int $type = IToken::TEMPORARY_TOKEN): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$sessionId = 'sess123';
+		$this->session->method('getId')->willReturnCallback(function () use (&$sessionId): string {
+			return $sessionId;
+		});
+		$this->session->expects($this->once())
+			->method('clear')
+			->willReturnCallback(function () use (&$sessionId): void {
+				$sessionId = 'sess456';
+			});
+		$this->mockRememberedLogin($cookies, $remember, $type);
+
+		$this->tokenProvider->expects($keepsSessionToken ? $this->once() : $this->never())
+			->method('renewSessionToken')
+			->with('sess123', 'sess456');
+		$userSession->expects($keepsSessionToken ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with($cookies['nc_username'] ?? null, 'fooToken');
+		$this->tokenProvider->expects($keepsSessionToken ? $this->never() : $this->once())
+			->method('invalidateToken')
+			->with('sess123');
+		$userSession->expects($keepsSessionToken ? $this->never() : $this->once())
+			->method('unsetMagicInCookie');
+		$this->dispatcher->expects($keepsSessionToken ? $this->never() : $this->atLeastOnce())
+			->method('dispatchTyped');
+
+		$userSession->endInactiveSession();
+	}
+
+	public static function endInactiveSessionWithoutTokenLookupData(): array {
+		return [
+			'no token provider' => ['hasTokenProvider' => false, 'hasSessionId' => true],
+			'no session id' => ['hasTokenProvider' => true, 'hasSessionId' => false],
+		];
+	}
+
+	#[DataProvider(methodName: 'endInactiveSessionWithoutTokenLookupData')]
+	public function testEndInactiveSessionWithoutTokenLookupLogsOut(bool $hasTokenProvider, bool $hasSessionId): void {
+		$userSession = $this->createUserSessionForTimeout($hasTokenProvider ? $this->tokenProvider : null, ['getUser']);
+		$userSession->method('getUser')->willReturn(null);
+		if ($hasSessionId) {
+			$this->session->method('getId')->willReturn('sess123');
+		} else {
+			$this->session->method('getId')->willThrowException(new SessionNotAvailableException());
+		}
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER);
+
+		$userSession->expects($this->once())
+			->method('unsetMagicInCookie');
+		$this->session->expects($this->once())
+			->method('clear');
+
+		$userSession->endInactiveSession();
+	}
+
+	public function testEndInactiveSessionForgetsTheActiveUser(): void {
+		$user = $this->createMock(IUser::class);
+		$this->manager->method('get')->with('foo')->willReturn($user);
+		$sessionData = ['user_id' => 'foo'];
+		$this->session->method('get')->willReturnCallback(function (string $key) use (&$sessionData) {
+			return $sessionData[$key] ?? null;
+		});
+		$this->session->method('clear')->willReturnCallback(function () use (&$sessionData): void {
+			$sessionData = [];
+		});
+		$this->session->method('getId')->willReturn('sess123');
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER);
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['validateSession']);
+		$this->assertSame($user, $userSession->getUser());
+
+		$userSession->endInactiveSession();
+
+		$this->assertNull($userSession->getUser());
+	}
+
+	public function testEndInactiveSessionWithAVanishedSessionToken(): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$this->session->method('getId')->willReturn('sess123');
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER);
+		$this->tokenProvider->method('renewSessionToken')->willThrowException(new InvalidTokenException());
+
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+
+		$userSession->endInactiveSession();
+	}
+
+	public function testEndInactiveSessionWithoutANewSessionId(): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$lookups = 0;
+		$this->session->method('getId')->willReturnCallback(function () use (&$lookups): string {
+			// The cleared session has no id to move the token to
+			if (++$lookups > 2) {
+				throw new SessionNotAvailableException();
+			}
+			return 'sess123';
+		});
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER);
+
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+
+		$userSession->endInactiveSession();
+	}
+
+	/**
+	 * A user session whose cookie handling and $mockedMethods are mocked
+	 */
+	private function createUserSessionForTimeout(?IProvider $tokenProvider, array $mockedMethods): Session&MockObject {
+		return $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$this->manager, $this->session, $this->timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['unsetMagicInCookie', 'setMagicInCookie', ...$mockedMethods])
+			->getMock();
+	}
+
+	/**
+	 * Remember-me tokens fooToken for user foo and barToken for user bar, a session token sess123 of foo with the
+	 * remember flag $remember (missing if null) and the type $type, and a request with $cookies. The user manager
+	 * knows no user, as no user backend is set up yet when a session times out.
+	 */
+	private function mockRememberedLogin(array $cookies, ?int $remember, int $type = IToken::TEMPORARY_TOKEN): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+		$storedTokens = ['foo' => ['fooToken'], 'bar' => ['barToken']];
+		$this->config->method('getUserKeys')
+			->willReturnCallback(fn (string $uid, string $app) => $app === 'login_token' ? ($storedTokens[$uid] ?? []) : []);
+		if ($remember === null) {
+			$this->tokenProvider->method('getToken')->willThrowException(new InvalidTokenException());
+			return;
+		}
+		$token = new PublicKeyToken();
+		$token->setUid('foo');
+		$token->setRemember($remember);
+		$token->setType($type);
+		$this->tokenProvider->method('getToken')->with('sess123')->willReturn($token);
 	}
 
 	public function testTryBasicAuthLoginValid(): void {
