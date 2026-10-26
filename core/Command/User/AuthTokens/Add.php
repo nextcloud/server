@@ -11,6 +11,7 @@ namespace OC\Core\Command\User\AuthTokens;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -61,6 +62,19 @@ class Add extends Command {
 				InputOption::VALUE_REQUIRED,
 				'Optional login-name, defaults to UID'
 			)
+			->addOption(
+				'length',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Optional length of the generated app password (minimum: ' . PublicKeyTokenProvider::TOKEN_MIN_LENGTH . ')',
+				72
+			)
+			->addOption(
+				'app-password-from-env',
+				null,
+				InputOption::VALUE_NONE,
+				'Use the app password from environment variable NC_APP_PASS instead of generating one (minimum length: ' . PublicKeyTokenProvider::TOKEN_MIN_LENGTH . ')'
+			)
 		;
 	}
 
@@ -99,7 +113,21 @@ class Add extends Command {
 
 		$tokenName = $input->getOption('name') ?: 'cli';
 
-		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		if ($input->getOption('app-password-from-env')) {
+			$token = getenv('NC_APP_PASS');
+			if ($token === false || strlen($token) < PublicKeyTokenProvider::TOKEN_MIN_LENGTH) {
+				$output->writeln('<error>NC_APP_PASS must be set and at least ' . PublicKeyTokenProvider::TOKEN_MIN_LENGTH . 'characters long</error>');
+				return 1;
+			}
+		} else {
+			$length = (int)$input->getOption('length');
+			if ($length < PublicKeyTokenProvider::TOKEN_MIN_LENGTH) {
+				$output->writeln('<error>--length must be at least ' . PublicKeyTokenProvider::TOKEN_MIN_LENGTH . '</error>');
+				return 1;
+			}
+			$token = $this->random->generate($length,ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		}
+		
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
