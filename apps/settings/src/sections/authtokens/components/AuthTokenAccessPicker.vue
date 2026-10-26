@@ -24,6 +24,8 @@ const props = defineProps<{
 const areas = useTemplateRef('areas')
 
 const filesDescription = t('settings', 'Most apps need this for attachments and other file features.')
+// TRANSLATORS Preset for app passwords that can view and download files, but not change them
+const readOnlyLabel = t('settings', 'Read-only files')
 
 const preset = computed({
 	get: () => selection.value.preset,
@@ -66,6 +68,9 @@ function toggleApp(app: string, on: boolean) {
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch value="files" :description="t('settings', 'Read, edit and share files.')">
 				{{ t('settings', 'Files only') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch value="readOnly" :description="t('settings', 'View and download files, without changing or sharing them.')">
+				{{ readOnlyLabel }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch value="calendarContacts" :description="t('settings', 'Read and edit calendars and contacts.')">
 				{{ t('settings', 'Calendar and contacts') }}

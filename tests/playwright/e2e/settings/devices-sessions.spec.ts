@@ -78,6 +78,16 @@ test.describe('Settings: Devices & sessions', () => {
 		await expect(devicesSessionsPage.tokenRow('Thunderbird')).toContainText('Calendar and Contacts')
 	})
 
+	test('creates a read-only files app password', async ({ devicesSessionsPage }) => {
+		await devicesSessionsPage.open()
+
+		await devicesSessionsPage.createAppPassword('Backup reader', 'Read-only files')
+		await expect(devicesSessionsPage.tokenRow('Backup reader')).toContainText('Files (read only)')
+
+		const dialog = await devicesSessionsPage.openEditAccess('Backup reader')
+		await expect(dialog.getByRole('radio', { name: 'Read-only files' })).toBeChecked()
+	})
+
 	test('limits an app password to picked areas and apps', async ({ devicesSessionsPage }) => {
 		await devicesSessionsPage.open()
 
