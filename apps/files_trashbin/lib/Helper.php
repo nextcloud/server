@@ -15,8 +15,50 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Server;
+use OCP\Util;
 
 class Helper {
+	/**
+	 * Sort the given file info array.
+	 *
+	 * @param FileInfo[] $files
+	 * @param string $sortAttribute
+	 * @param bool $sortDescending
+	 * @return FileInfo[]
+	 */
+	public static function sortFiles($files, $sortAttribute = 'name', $sortDescending = false) {
+		$sortFunc = 'compareFileNames';
+		if ($sortAttribute === 'mtime') {
+			$sortFunc = 'compareTimestamp';
+		} elseif ($sortAttribute === 'size') {
+			$sortFunc = 'compareSize';
+		}
+		usort($files, [self::class, $sortFunc]);
+		if ($sortDescending) {
+			$files = array_reverse($files);
+		}
+		return $files;
+	}
+
+	private static function compareFileNames(FileInfo $a, FileInfo $b) {
+		$aType = $a->getType();
+		$bType = $b->getType();
+		if ($aType === 'dir' && $bType !== 'dir') {
+			return -1;
+		} elseif ($aType !== 'dir' && $bType === 'dir') {
+			return 1;
+		}
+		return Util::naturalSortCompare($a->getName(), $b->getName());
+	}
+
+	private static function compareTimestamp(FileInfo $a, FileInfo $b) {
+		return ($a->getMTime() < $b->getMTime()) ? -1 : 1;
+	}
+
+	private static function compareSize(FileInfo $a, FileInfo $b) {
+		return ($a->getSize() < $b->getSize()) ? -1 : 1;
+	}
+
 	/**
 	 * Retrieves the contents of a trash bin directory.
 	 *
@@ -48,7 +90,7 @@ class Helper {
 		}
 
 		if ($sortAttribute !== '') {
-			return \OCA\Files\Helper::sortFiles($result, $sortAttribute, $sortDescending);
+			return self::sortFiles($result, $sortAttribute, $sortDescending);
 		}
 		return $result;
 	}
