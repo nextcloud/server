@@ -30,6 +30,7 @@ use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -56,6 +57,7 @@ class GroupsController extends AUserDataOCSController {
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		GroupDisplayNameCache $groupDisplayNameCache,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -190,14 +192,15 @@ class GroupsController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
+	 * @param bool|null $enabled Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{Link?: string}>
 	 * @throws OCSException
 	 *
 	 * 200: Group users details returned
 	 */
 	#[NoAdminRequired]
-	public function getGroupUsersDetails(string $groupId, string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupUsersDetails(string $groupId, string $search = '', ?int $limit = null, int $offset = 0, ?bool $enabled = null): DataResponse {
 		$groupId = urldecode($groupId);
 		$currentUser = $this->userSession->getUser();
 
@@ -213,7 +216,18 @@ class GroupsController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($currentUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
-			$users = $group->searchUsers($search, $limit, $offset);
+			$hasMore = null;
+			$nextOffset = null;
+			if ($enabled !== null) {
+				[$users, $nextOffset, $hasMore] = $this->searchFilteredUsers(
+					fn (?int $limit, int $offset): array => $group->searchUsers($search, $limit, $offset),
+					$limit,
+					$offset,
+					enabled: $enabled,
+				);
+			} else {
+				$users = $group->searchUsers($search, $limit, $offset);
+			}
 
 			// Extract required number
 			$usersDetails = [];
@@ -234,10 +248,15 @@ class GroupsController extends AUserDataOCSController {
 					// continue if a users ceased to exist.
 				}
 			}
+			$params = [
+				'search' => $search,
+				'enabled' => $enabled
+			];
+			$headers = $this->buildOffsetNextPageLinkHeader($this->urlGenerator, $hasMore ?? $users, $params, $limit, $offset, $nextOffset);
 			return new DataResponse([
 				'users' => $usersDetails,
 				'groups' => $this->findGroupsWithDisplayname($usersDetails),
-			]);
+			], headers: $headers);
 		}
 
 		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);

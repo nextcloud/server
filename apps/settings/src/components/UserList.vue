@@ -223,6 +223,7 @@ async function loadUsers() {
 				offset: usersOffset.value,
 				limit: usersLimit.value,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		} else {
 			await store.dispatch('getUsers', {
@@ -230,6 +231,7 @@ async function loadUsers() {
 				limit: usersLimit.value,
 				group: props.selectedGroup,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		}
 		logger.debug(`${users.value.length} total user(s) loaded`)
