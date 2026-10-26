@@ -409,6 +409,7 @@
     "Shared with you and the conversation {conversation} by {owner}" : "Shared with you and the conversation {conversation} by {owner}",
     "Shared with you in a conversation by {owner}" : "Shared with you in a conversation by {owner}",
     "Shared with you by {owner}" : "Shared with you by {owner}",
+    "Originally as {name}" : "Originally as {name}",
     "%1$s shared %2$s with you" : "%1$s shared %2$s with you",
     "Do you want to accept this share?" : "Do you want to accept this share?",
     "Share not found" : "Share not found",
