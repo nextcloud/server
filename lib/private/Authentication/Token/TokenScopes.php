@@ -100,10 +100,6 @@ class TokenScopes {
 		if ($files !== [] && !in_array(FilesTokenScopes::FILES_READ, $files, true)) {
 			throw new \InvalidArgumentException('Files scopes require ' . FilesTokenScopes::FILES_READ);
 		}
-		// Read-only files need a permissions mask on the mounts, which does not exist yet
-		if ($files !== [] && !in_array(FilesTokenScopes::FILES_WRITE, $files, true)) {
-			throw new \InvalidArgumentException(FilesTokenScopes::FILES_READ . ' requires ' . FilesTokenScopes::FILES_WRITE);
-		}
 
 		$scopes = array_unique($scopes);
 		sort($scopes);

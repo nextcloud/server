@@ -10,6 +10,7 @@ namespace OC\Lockdown;
 use OC\Authentication\Token\TokenScopes;
 use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCP\Authentication\Token\IToken;
+use OCP\Constants;
 use OCP\ISession;
 use OCP\Lockdown\ILockdownManager;
 
@@ -89,6 +90,25 @@ class LockdownManager implements ILockdownManager {
 	public function hasScope(string $scope): bool {
 		$scopes = $this->scopes();
 		return $scopes === null || in_array($scope, $scopes, true);
+	}
+
+	/**
+	 * Permissions the token leaves on file mounts
+	 */
+	public function filePermissions(): int {
+		$scopes = $this->scopes();
+		$permissions = Constants::PERMISSION_ALL;
+		if ($scopes === null) {
+			return $permissions;
+		}
+		if (!in_array(FilesTokenScopes::FILES_WRITE, $scopes, true)) {
+			$permissions &= ~(Constants::PERMISSION_UPDATE | Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
+		}
+		// By name: files_sharing can be disabled, and its classes don't load then
+		if (!in_array('files_sharing:shares:write', $scopes, true)) {
+			$permissions &= ~Constants::PERMISSION_SHARE;
+		}
+		return $permissions;
 	}
 
 	/**
