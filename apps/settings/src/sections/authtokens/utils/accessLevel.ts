@@ -12,8 +12,8 @@ export type Area = 'files' | 'calendar' | 'contacts'
 /** Services that mix every app's data */
 export const SERVICES = ['search', 'people'] as const
 export type Service = typeof SERVICES[number]
-export type Grant = Area | Service | 'filesShare' | 'filesTrash' | 'filesVersions' | 'calendarWrite' | 'contactsWrite'
-export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
+export type Grant = Area | Service | 'filesEdit' | 'filesShare' | 'filesTrash' | 'filesVersions' | 'calendarWrite' | 'contactsWrite'
+export type Preset = 'all' | 'files' | 'readOnly' | 'calendarContacts' | 'custom'
 type AreaState = 'all' | 'partial' | 'none'
 
 export interface IGrantableApp {
@@ -36,7 +36,8 @@ export interface Selection {
 
 /** Must match the scope names the server checks */
 const GRANT_SCOPES: Record<Grant, string[]> = {
-	files: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write'],
+	files: ['files:files:read', 'files:dav:read'],
+	filesEdit: ['files:files:write', 'files:dav:write'],
 	filesShare: ['files_sharing:shares:write'],
 	filesTrash: ['files_trashbin:dav:read', 'files_trashbin:dav:write'],
 	filesVersions: ['files_versions:dav:read', 'files_versions:dav:write'],
@@ -49,20 +50,28 @@ const GRANT_SCOPES: Record<Grant, string[]> = {
 }
 
 export const AREA_OPTIONS: Record<Area, Grant[]> = {
-	files: ['filesShare', 'filesTrash', 'filesVersions'],
+	files: ['filesEdit', 'filesShare', 'filesTrash', 'filesVersions'],
 	calendar: ['calendarWrite'],
 	contacts: ['contactsWrite'],
 }
 
-export const PRESET_GRANTS: Record<'files' | 'calendarContacts', Grant[]> = {
-	files: ['files', 'filesShare'],
+export const PRESET_GRANTS: Record<'files' | 'readOnly' | 'calendarContacts', Grant[]> = {
+	files: ['files', 'filesEdit', 'filesShare'],
+	readOnly: ['files'],
 	calendarContacts: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'],
 }
 
 export const AREAS = Object.keys(AREA_OPTIONS) as Area[]
 
+/** Restoring writes into the files, so it only works with editing */
+const NEEDS: Partial<Record<Grant, Grant>> = {
+	filesTrash: 'filesEdit',
+	filesVersions: 'filesEdit',
+}
+
 export const GRANT_LABELS: Record<Grant, string> = {
 	files: t('settings', 'Files'),
+	filesEdit: t('settings', 'Can edit files'),
 	filesShare: t('settings', 'Can create shares and public links'),
 	filesTrash: t('settings', 'Can restore deleted files'),
 	filesVersions: t('settings', 'Can restore older versions'),
@@ -72,6 +81,12 @@ export const GRANT_LABELS: Record<Grant, string> = {
 	contactsWrite: t('settings', 'Can edit contacts'),
 	search: t('settings', 'Search across all apps'),
 	people: t('settings', 'People lookup across all apps'),
+}
+/** An area is read only without its write grant */
+const READ_ONLY: Record<Area, { write: Grant, label: string }> = {
+	files: { write: 'filesEdit', label: t('settings', 'Files (read only)') },
+	calendar: { write: 'calendarWrite', label: t('settings', 'Calendar (read only)') },
+	contacts: { write: 'contactsWrite', label: t('settings', 'Contacts (read only)') },
 }
 const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
@@ -123,7 +138,8 @@ export function areaState(grants: Grant[], area: Area): AreaState {
 }
 
 /**
- * Tick or untick a grant. An area takes its sub-options with it, a sub-option brings its area.
+ * Tick or untick a grant. An area takes its sub-options with it, a sub-option brings its area
+ * and what it needs, and unticking a sub-option also unticks what needs it.
  *
  * @param grants Ticked grants
  * @param grant Grant to change
@@ -132,9 +148,9 @@ export function areaState(grants: Grant[], area: Area): AreaState {
 export function setGrant(grants: Grant[], grant: Grant, on: boolean): Grant[] {
 	const changed = grant in AREA_OPTIONS ? [grant, ...AREA_OPTIONS[grant as Area]] : [grant]
 	if (!on) {
-		return grants.filter((held) => !changed.includes(held))
+		return grants.filter((held) => !changed.includes(held) && !changed.includes(NEEDS[held] ?? held))
 	}
-	return [...new Set([...grants, parentOf(grant), ...changed])]
+	return [...new Set([...grants, parentOf(grant), NEEDS[grant] ?? grant, ...changed])]
 }
 
 /**
@@ -150,17 +166,11 @@ export function accessLabel(scope: ITokenScope): string {
 	}
 
 	const { selection, kept } = fromScopes(scope.scopes)
-	// Files without sharing keeps its plain name
-	const readOnly: Partial<Record<Area, string>> = {
-		calendar: t('settings', 'Calendar (read only)'),
-		contacts: t('settings', 'Contacts (read only)'),
-	}
 	const parts = AREAS.flatMap((area) => {
-		const state = areaState(selection.grants, area)
-		if (state === 'none') {
+		if (!selection.grants.includes(area)) {
 			return []
 		}
-		return [(state === 'partial' && readOnly[area]) || GRANT_LABELS[area]]
+		return [selection.grants.includes(READ_ONLY[area].write) ? GRANT_LABELS[area] : READ_ONLY[area].label]
 	})
 	parts.push(...SERVICES.filter((service) => selection.grants.includes(service)).map((service) => GRANT_LABELS[service]))
 	parts.push(...GRANTABLE_APPS.filter((app) => selection.apps.includes(app.id)).map(appLabel))

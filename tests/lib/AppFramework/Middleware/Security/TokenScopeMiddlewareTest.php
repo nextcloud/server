@@ -202,9 +202,6 @@ class TokenScopeMiddlewareTest extends TestCase {
 		]);
 	}
 
-	/**
-	 * Read-only keys must stay refused here
-	 */
 	public static function filesWrites(): array {
 		return array_map(static fn (array $method) => [...$method, FilesTokenScopes::FILES_WRITE], [
 			'transfer ownership' => [TransferOwnershipController::class, 'transfer'],
