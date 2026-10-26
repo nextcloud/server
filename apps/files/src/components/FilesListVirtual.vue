@@ -61,18 +61,6 @@
 					<div class="files-list__skeleton-icon" />
 					<!-- Name skeleton -->
 					<div class="files-list__skeleton-name" />
-					<!-- Additional columns skeleton -->
-					<template>
-						<div
-							v-if="isMimeAvailable"
-							class="files-list__skeleton-column" />
-						<div
-							v-if="isMtimeAvailable"
-							class="files-list__skeleton-column" />
-						<div
-							v-if="isSizeAvailable"
-							class="files-list__skeleton-column" />
-					</template>
 				</div>
 			</div>
 		</template>
@@ -637,12 +625,12 @@ export default defineComponent({
 			border-radius: 4px;
 			background: linear-gradient(
 				90deg,
-				var(--color-background-hover),
-				var(--color-main-background),
-				var(--color-background-hover)
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
 			);
 			background-size: 200% 100%;
-			animation: skeleton-loading 1.5s infinite;
+			animation: skeleton-loading 3.5s infinite;
 			flex-shrink: 0;
 		}
 
@@ -652,12 +640,12 @@ export default defineComponent({
 			border-radius: 4px;
 			background: linear-gradient(
 				90deg,
-				var(--color-background-hover),
-				var(--color-main-background),
-				var(--color-background-hover)
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
 			);
 			background-size: 200% 100%;
-			animation: skeleton-loading 1.5s infinite;
+			animation: skeleton-loading 3.5s infinite;
 			flex-shrink: 0;
 		}
 
@@ -667,28 +655,13 @@ export default defineComponent({
 			border-radius: 4px;
 			background: linear-gradient(
 				90deg,
-				var(--color-background-hover),
-				var(--color-main-background),
-				var(--color-background-hover)
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
 			);
 			background-size: 200% 100%;
-			animation: skeleton-loading 1.5s infinite;
+			animation: skeleton-loading 3.5s infinite;
 			min-width: 100px;
-		}
-
-		.files-list__skeleton-column {
-			width: calc(var(--row-height) * 1.5);
-			height: 20px;
-			border-radius: 4px;
-			background: linear-gradient(
-				90deg,
-				var(--color-background-hover),
-				var(--color-main-background),
-				var(--color-background-hover)
-			);
-			background-size: 200% 100%;
-			animation: skeleton-loading 1.5s infinite;
-			flex-shrink: 0;
 		}
 
 		@keyframes skeleton-loading {
