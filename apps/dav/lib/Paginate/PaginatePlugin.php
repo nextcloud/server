@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Paginate;
 
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Xml\Element\Response;
@@ -51,7 +52,7 @@ class PaginatePlugin extends ServerPlugin {
 		$url = $request->getUrl();
 		if (
 			$request->hasHeader(self::PAGINATE_HEADER)
-			&& (!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER)))
+			&& (!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER), $this->getCacheContext()))
 		) {
 			$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
@@ -77,8 +78,7 @@ class PaginatePlugin extends ServerPlugin {
 	 */
 	private function getXmlRendererGenerator(iterable $fileProperties): \Generator {
 		$writer = $this->server->xml->getWriter();
-		$prefer = $this->server->getHTTPPrefer();
-		$minimal = $prefer['return'] === 'minimal';
+		$minimal = $this->isMinimal();
 		$writer->contextUri = $this->server->getBaseUri();
 
 		$writer->openMemory();
@@ -109,18 +109,34 @@ class PaginatePlugin extends ServerPlugin {
 		}
 	}
 
+	private function isMinimal(): bool {
+		return $this->server->getHTTPPrefer()['return'] === 'minimal';
+	}
+
+	/**
+	 * @return array{principal: ?string, minimal: bool}
+	 */
+	private function getCacheContext(): array {
+		$authPlugin = $this->server->getPlugin('auth');
+		return [
+			'principal' => $authPlugin instanceof AuthPlugin ? $authPlugin->getCurrentPrincipal() : null,
+			'minimal' => $this->isMinimal(),
+		];
+	}
+
 	public function onMethod(RequestInterface $request, ResponseInterface $response) {
 		$url = $this->server->httpRequest->getUrl();
+		$context = $this->getCacheContext();
 		if (
 			$request->hasHeader(self::PAGINATE_TOKEN_HEADER)
 			&& $request->hasHeader(self::PAGINATE_OFFSET_HEADER)
-			&& $this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
+			&& $this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER), $context)
 		) {
 			$token = $request->getHeader(self::PAGINATE_TOKEN_HEADER);
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
 			$count = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 
-			$items = $this->cache->get($url, $token, $offset, $count);
+			$items = $this->cache->get($url, $token, $offset, $count, $context);
 
 			$response->setStatus(207);
 			$response->addHeader(self::PAGINATE_HEADER, 'true');
