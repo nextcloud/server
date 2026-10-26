@@ -18,23 +18,17 @@
 		</div>
 
 		<div
-			v-if="navigating"
-			class="files-list__navigating">
-			<slot name="navigating" />
-		</div>
-
-		<div
-			v-else-if="dataSources.length === 0"
+			v-if="!navigating && dataSources.length === 0"
 			class="files-list__empty">
 			<slot name="empty" />
 		</div>
 
 		<table
-			:aria-hidden="navigating || dataSources.length === 0"
-			:inert="navigating || dataSources.length === 0"
+			:aria-hidden="dataSources.length === 0 && !navigating"
+			:inert="dataSources.length === 0 && !navigating"
 			class="files-list__table"
 			:class="{
-				'files-list__table--hidden': navigating || dataSources.length === 0,
+				'files-list__table--hidden': dataSources.length === 0 && !navigating,
 			}">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
@@ -48,6 +42,7 @@
 
 			<!-- Body -->
 			<tbody
+				v-if="!navigating"
 				:style="tbodyStyle"
 				class="files-list__tbody"
 				data-cy-files-list-tbody>
@@ -62,12 +57,19 @@
 
 			<!-- Footer -->
 			<tfoot
+				v-if="!navigating"
 				ref="footer"
 				class="files-list__tfoot"
 				data-cy-files-list-tfoot>
 				<slot name="footer" />
 			</tfoot>
 		</table>
+
+		<div
+			v-if="navigating"
+			class="files-list__navigating">
+			<slot name="navigating" />
+		</div>
 	</div>
 </template>
 
