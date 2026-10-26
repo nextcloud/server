@@ -149,8 +149,81 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		];
 	}
 
-	#[DataProvider(methodName: 'provideExistingObjectData')]
-	public function testSyncOneWithChangedObject(?array $existingObject, int $createCalls, int $updateCalls): void {
+	/**
+	 * @param list<string> $changedHrefs Hrefs reported as created or updated by the sync report
+	 * @param array<string, string> $calendarObjects Calendar data keyed by href, as stored on the remote
+	 * @return \ArrayObject Requests sent to the remote: hrefs of each multiget under 'multiGets', downloaded URLs under 'gets'
+	 */
+	private function mockRemote(array $changedHrefs, array $calendarObjects, bool $multiGetSupported): \ArrayObject {
+		$requests = new \ArrayObject(['multiGets' => [], 'gets' => []]);
+
+		$syncResponses = '';
+		foreach ($changedHrefs as $href) {
+			$syncResponses .= "<d:response><d:href>$href</d:href><d:propstat><d:prop><d:getetag>\"abc\"</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>";
+		}
+		$syncBody = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:">' . $syncResponses . '<d:sync-token>http://sabre.io/ns/sync/101</d:sync-token></d:multistatus>';
+		$reports = $multiGetSupported
+			? '<d:supported-report><d:report><d:sync-collection/></d:report></d:supported-report><d:supported-report><d:report><cal:calendar-multiget/></d:report></d:supported-report>'
+			: '<d:supported-report><d:report><d:sync-collection/></d:report></d:supported-report>';
+		$propFindBody = '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:" xmlns:cal="urn:ietf:params:xml:ns:caldav"><d:response><d:href>/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/</d:href><d:propstat><d:prop><d:supported-report-set>' . $reports . '</d:supported-report-set></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>';
+
+		$client = $this->createMock(IClient::class);
+		$client->method('request')
+			->willReturnCallback(function (string $method, string $uri, array $options) use ($requests, $syncBody, $propFindBody, $calendarObjects) {
+				$this->assertSame('https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', $uri);
+				$response = $this->createMock(IResponse::class);
+				if ($method === 'PROPFIND') {
+					$this->assertSame('0', $options['headers']['Depth']);
+					$response->method('getBody')->willReturn($propFindBody);
+					return $response;
+				}
+				if (!str_contains($options['body'], 'calendar-multiget')) {
+					$response->method('getBody')->willReturn($syncBody);
+					return $response;
+				}
+
+				$request = new \DOMDocument();
+				$request->loadXML($options['body']);
+				$this->assertSame('urn:ietf:params:xml:ns:caldav', $request->documentElement->namespaceURI);
+				$this->assertSame(1, $request->getElementsByTagNameNS('urn:ietf:params:xml:ns:caldav', 'calendar-data')->length);
+				$hrefs = [];
+				foreach ($request->getElementsByTagNameNS('DAV:', 'href') as $hrefElement) {
+					$hrefs[] = $hrefElement->textContent;
+				}
+				$multiGets = $requests['multiGets'];
+				$multiGets[] = $hrefs;
+				$requests['multiGets'] = $multiGets;
+
+				$objectResponses = '';
+				foreach (array_intersect_key($calendarObjects, array_flip($hrefs)) as $href => $calendarData) {
+					$objectResponses .= "<d:response><d:href>$href</d:href><d:propstat><d:prop><d:getetag>\"abc\"</d:getetag>"
+						. '<cal:calendar-data>' . str_replace("\r", '&#13;', htmlspecialchars($calendarData, ENT_XML1)) . '</cal:calendar-data>'
+						. '</d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response>';
+				}
+				$response->method('getBody')->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:" xmlns:cal="urn:ietf:params:xml:ns:caldav">' . $objectResponses . '</d:multistatus>');
+				return $response;
+			});
+		$client->method('get')
+			->willReturnCallback(function (string $uri) use ($requests, $calendarObjects) {
+				$gets = $requests['gets'];
+				$gets[] = $uri;
+				$requests['gets'] = $gets;
+				$response = $this->createMock(IResponse::class);
+				$response->method('getBody')->willReturn($calendarObjects[parse_url($uri, PHP_URL_PATH)]);
+				return $response;
+			});
+
+		$this->clientService->method('newClient')
+			->willReturn($client);
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
+
+		return $requests;
+	}
+
+	private function createSyncedCalendar(): FederatedCalendarEntity {
 		$calendar = new FederatedCalendarEntity();
 		$calendar->setId(1);
 		$calendar->setPrincipaluri('principals/users/user1');
@@ -161,36 +234,19 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		$cloudId = $this->createMock(ICloudId::class);
 		$cloudId->method('getId')
 			->willReturn('user1@nextcloud.testing');
-		$this->cloudIdManager->expects(self::once())
-			->method('getCloudId')
+		$this->cloudIdManager->method('getCloudId')
 			->with('user1')
 			->willReturn($cloudId);
 
-		$client = $this->createMock(IClient::class);
-		$reportResponse = $this->createMock(IResponse::class);
-		$reportResponse->method('getBody')
-			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:response><d:href>/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics</d:href><d:propstat><d:prop><d:getetag>"abc"</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:sync-token>http://sabre.io/ns/sync/101</d:sync-token></d:multistatus>');
-		$client->expects(self::once())
-			->method('request')
-			->with('REPORT', 'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', self::anything())
-			->willReturn($reportResponse);
+		return $calendar;
+	}
 
+	#[DataProvider(methodName: 'provideExistingObjectData')]
+	public function testSyncOneWithChangedObject(?array $existingObject, int $createCalls, int $updateCalls): void {
+		$calendar = $this->createSyncedCalendar();
+		$href = '/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics';
 		$calendarData = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nEND:VCALENDAR\r\n";
-		$getResponse = $this->createMock(IResponse::class);
-		$getResponse->method('getBody')
-			->willReturn($calendarData);
-		$client->expects(self::once())
-			->method('get')
-			->with('https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics', self::anything())
-			->willReturn($getResponse);
-
-		$this->clientService->method('newClient')
-			->willReturn($client);
-
-		$this->config->method('getSystemValueInt')
-			->willReturn(30);
-		$this->config->method('getSystemValue')
-			->willReturn(false);
+		$requests = $this->mockRemote([$href], [$href => $calendarData], true);
 
 		$this->backend->expects(self::once())
 			->method('getCalendarObject')
@@ -208,6 +264,89 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			->with(1, 101);
 
 		$this->assertEquals(1, $this->federatedCalendarSyncService->syncOne($calendar));
+		$this->assertSame([[$href]], $requests['multiGets']);
+		$this->assertSame([], $requests['gets']);
+	}
+
+	public function testSyncOneFetchesChangedObjectsInBatches(): void {
+		$calendar = $this->createSyncedCalendar();
+		$calendarObjects = [];
+		for ($i = 0; $i < 101; $i++) {
+			$calendarObjects["/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event$i.ics"] = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nUID:event$i\r\nSUMMARY:A & <B>\r\nEND:VCALENDAR\r\n";
+		}
+		$hrefs = array_keys($calendarObjects);
+		// The remote no longer returns the last object, e.g. because it was deleted in the meantime
+		$missingHref = array_key_last($calendarObjects);
+		unset($calendarObjects[$missingHref]);
+		$requests = $this->mockRemote($hrefs, $calendarObjects, true);
+
+		$createdObjects = [];
+		$this->backend->method('getCalendarObject')
+			->willReturn(null);
+		$this->backend->expects(self::exactly(100))
+			->method('createCalendarObject')
+			->willReturnCallback(function (int $calendarId, string $objectUri, string $calendarData) use (&$createdObjects): void {
+				$createdObjects[$objectUri] = $calendarData;
+			});
+
+		$this->assertEquals(100, $this->federatedCalendarSyncService->syncOne($calendar));
+		$this->assertCount(2, $requests['multiGets']);
+		$this->assertCount(100, $requests['multiGets'][0]);
+		$this->assertSame([$missingHref], $requests['multiGets'][1]);
+		$this->assertSame([], $requests['gets']);
+		$this->assertArrayNotHasKey(basename($missingHref), $createdObjects);
+		$this->assertSame($calendarObjects["/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event0.ics"], $createdObjects['event0.ics']);
+	}
+
+	public function testSyncOneDownloadsObjectsWhenMultiGetIsNotSupported(): void {
+		$calendar = $this->createSyncedCalendar();
+		$hrefs = [
+			'/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics',
+			'/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event2.ics',
+		];
+		$calendarObjects = [
+			$hrefs[0] => "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nUID:event1\r\nEND:VCALENDAR\r\n",
+			$hrefs[1] => "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nUID:event2\r\nEND:VCALENDAR\r\n",
+		];
+		$requests = $this->mockRemote($hrefs, $calendarObjects, false);
+
+		$this->backend->method('getCalendarObject')
+			->willReturn(null);
+		$this->backend->expects(self::exactly(2))
+			->method('createCalendarObject');
+
+		$this->assertEquals(2, $this->federatedCalendarSyncService->syncOne($calendar));
+		$this->assertSame([], $requests['multiGets']);
+		$this->assertSame([
+			'https://remote.tld' . $hrefs[0],
+			'https://remote.tld' . $hrefs[1],
+		], $requests['gets']);
+	}
+
+	public function testSyncOneWithoutChangedObjectsSkipsSupportCheck(): void {
+		$calendar = $this->createSyncedCalendar();
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$response->method('getBody')
+			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:response><d:href>/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics</d:href><d:status>HTTP/1.1 404 Not Found</d:status></d:response><d:sync-token>http://sabre.io/ns/sync/101</d:sync-token></d:multistatus>');
+		$client->expects(self::once())
+			->method('request')
+			->with('REPORT', self::anything(), self::anything())
+			->willReturn($response);
+		$client->expects(self::never())
+			->method('get');
+		$this->clientService->method('newClient')
+			->willReturn($client);
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
+
+		$this->backend->expects(self::once())
+			->method('deleteCalendarObject')
+			->with(1, 'event1.ics', CalDavBackend::CALENDAR_TYPE_FEDERATED, true);
+
+		$this->assertEquals(0, $this->federatedCalendarSyncService->syncOne($calendar));
 	}
 
 	public static function provideUnexpectedSyncTokenData(): array {
