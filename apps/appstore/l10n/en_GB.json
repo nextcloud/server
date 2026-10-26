@@ -152,10 +152,15 @@
     "Best security: documents never leave your server" : "Best security: documents never leave your server",
     "Best ODF compatibility" : "Best ODF compatibility",
     "Best support for legacy files" : "Best support for legacy files",
+    "Enabling following apps: {apps}" : "Enabling following apps: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Updating %n app.","Updating %n apps."],
     "Could not load app categories. Please try again later." : "Could not load app categories. Please try again later.",
     "Could not load apps list. Please try again later." : "Could not load apps list. Please try again later.",
     "Could not update the app. Please try again later." : "Could not update the app. Please try again later.",
     "An error occurred during the request. Unable to proceed." : "An error occurred during the request. Unable to proceed.",
+    "Could not update an exApp. Please try again later." : "Could not update an exApp. Please try again later.",
+    "Could not update {app}. Please try again later." : "Could not update {app}. Please try again later.",
+    "Could not update an app. Please try again later." : "Could not update an app. Please try again later.",
     "Failed to update app {appName}" : "Failed to update app {appName}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

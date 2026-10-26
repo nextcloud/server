@@ -25,6 +25,7 @@
     "You renamed app password \"{token}\" to \"{newToken}\"" : "\"{token}\" olan uygulama parolasını \"{newToken}\" olarak yeniden adlandırdınız",
     "You granted filesystem access to app password \"{token}\"" : "\"{token}\" uygulama parolasına dosya sistemi erişme izni verdiniz",
     "You revoked filesystem access from app password \"{token}\"" : "\"{token}\" uygulama parolasından dosya sistemi erişme iznini geçersiz kıldınız",
+    "You changed the access of app password \"{token}\"" : "\"{token}\" uygulama parolasının erişimini değiştirdiniz",
     "Security" : "Güvenlik",
     "You successfully logged in using two-factor authentication (%1$s)" : "İki adımlı doğrulama ile oturum açtınız (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "İki adımlı doğrulama ile oturum açma girişimi reddedildi (%1$s)",
