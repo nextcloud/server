@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Files;
 
 use OC\Files\Cache\FileAccess;
+use OC\Lockdown\LockdownManager;
 use OC\Share20\ShareDisableChecker;
 use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
@@ -22,7 +23,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Lockdown\ILockdownManager;
 use Psr\Log\LoggerInterface;
 
 class SetupManagerFactory {
@@ -34,7 +34,7 @@ class SetupManagerFactory {
 		private IUserManager $userManager,
 		private IEventDispatcher $eventDispatcher,
 		private IUserMountCache $userMountCache,
-		private ILockdownManager $lockdownManager,
+		private LockdownManager $lockdownManager,
 		private IUserSession $userSession,
 		private ICacheFactory $cacheFactory,
 		private LoggerInterface $logger,

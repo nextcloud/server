@@ -19,6 +19,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\Lockdown\LockdownManager;
 use OC\ServerNotAvailableException;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
@@ -58,7 +59,6 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use Override;
 use Psr\Log\LoggerInterface;
@@ -105,7 +105,7 @@ class SetupManager implements ISetupManager {
 		private IUserManager $userManager,
 		private IEventDispatcher $eventDispatcher,
 		private IUserMountCache $userMountCache,
-		private ILockdownManager $lockdownManager,
+		private LockdownManager $lockdownManager,
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		private LoggerInterface $logger,
@@ -222,6 +222,21 @@ class SetupManager implements ISetupManager {
 				]);
 			}
 			return $storage;
+		}, 50, $existingMounts);
+
+		$this->storageFactory->addStorageWrapper('token_scope', function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
+			// The root mount holds appdata, which reading also writes to (previews)
+			if ($mountPoint === '/') {
+				return $storage;
+			}
+			$permissions = $this->lockdownManager->filePermissions();
+			if ($permissions === Constants::PERMISSION_ALL) {
+				return $storage;
+			}
+			return new PermissionsMask([
+				'storage' => $storage,
+				'mask' => $permissions,
+			]);
 		}, 50, $existingMounts);
 	}
 
