@@ -38,6 +38,17 @@ class ServerTest extends \Test\TestCase {
 			'principals' => ['principals/users/admin', ['caldav', 'oc-resource-sharing', 'carddav']],
 			'calendars' => ['calendars/admin', ['caldav', 'oc-resource-sharing']],
 			'addressbooks' => ['addressbooks/admin', ['carddav', 'oc-resource-sharing']],
+			'remote-calendars' => ['remote-calendars/abcdef123/cal1_shared_by_user2', ['caldav']],
 		];
+	}
+
+	public function testRemoteCalendarsDoNotLoadOtherCalendarPlugins(): void {
+		/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject $r */
+		$r = $this->createMock(IRequest::class);
+		$r->expects($this->any())->method('getRequestUri')->willReturn('remote-calendars/abcdef123/cal1_shared_by_user2');
+		$this->loginAsUser('admin');
+		$s = new Server($r, '/');
+		$this->assertNull($s->server->getPlugin('caldav-schedule'));
+		$this->assertNull($s->server->getPlugin('oc-resource-sharing'));
 	}
 }
