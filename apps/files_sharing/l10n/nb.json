@@ -260,6 +260,7 @@
     "Allow download and sync" : "Tillat nedlasting og synkronisering",
     "Note to recipient" : "Melding til mottaker",
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
+    "Show files in grid view" : "Vis filer i rutenettvisning",
     "Others with access" : "Andre med tilgang",
     "No other accounts with access found" : "Ingen andre kontoer med tilgang funnet",
     "Toggle list of others with access to this directory" : "Endre liste over andre brukere med tilgang til denne mappen",

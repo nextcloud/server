@@ -81,6 +81,7 @@ OC.L10N.register(
     "Checksum" : "Hundi",
     "Shared with" : "Imeshirikiwa na",
     "Tags" : "Maoni",
+    "Content" : "Maudhui",
     "in %s" : "Katika %s",
     "Transferred from %1$s on %2$s" : "Imehamishwa kutoka %1$skatika%2$s",
     "Delete files" : "Futa faili",

@@ -370,6 +370,7 @@ OC.L10N.register(
     "Account name" : "Nombre de la cuenta",
     "Save" : "Guardar",
     "Email" : "Correo electrónico",
+    "Display name" : "Nombre para mostrar",
     "Quota" : "Cuota",
     "Avatar" : "Avatar",
     "Group admin for" : "Administrador del grupo para",
