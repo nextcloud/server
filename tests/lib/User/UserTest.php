@@ -9,24 +9,29 @@
 namespace Test\User;
 
 use OC\AllConfig;
+use OC\Avatar\AvatarManager;
 use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Hooks\PublicEmitter;
 use OC\User\Database;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Security\ICredentialsManager;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
+use Test\Util\User\Dummy;
 
 #[Group('DB')]
 class UserTest extends TestCase {
@@ -429,6 +434,8 @@ class UserTest extends TestCase {
 
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
+		$avatarManager = $this->createMock(AvatarManager::class);
+		$credentialsManager = $this->createMock(ICredentialsManager::class);
 
 		if ($result) {
 			$config->expects($this->atLeastOnce())
@@ -453,6 +460,13 @@ class UserTest extends TestCase {
 			$notificationManager->expects($this->once())
 				->method('markProcessed')
 				->with($notification);
+
+			$avatarManager->expects($this->once())
+				->method('deleteUserAvatar')
+				->with('foo');
+			$credentialsManager->expects($this->once())
+				->method('erase')
+				->with('foo');
 		} else {
 			$config->expects($this->never())
 				->method('deleteAllUserValues');
@@ -466,9 +480,16 @@ class UserTest extends TestCase {
 				->method('createNotification');
 			$notificationManager->expects($this->never())
 				->method('markProcessed');
+
+			$avatarManager->expects($this->never())
+				->method('deleteUserAvatar');
+			$credentialsManager->expects($this->never())
+				->method('erase');
 		}
 
 		$this->overwriteService(INotificationManager::class, $notificationManager);
+		$this->overwriteService(AvatarManager::class, $avatarManager);
+		$this->overwriteService(ICredentialsManager::class, $credentialsManager);
 		$this->overwriteService(ICommentsManager::class, $commentsManager);
 
 		$this->assertSame($result, $user->delete());
@@ -476,8 +497,42 @@ class UserTest extends TestCase {
 		$this->restoreService(AllConfig::class);
 		$this->restoreService(ICommentsManager::class);
 		$this->restoreService(INotificationManager::class);
+		$this->restoreService(AvatarManager::class);
+		$this->restoreService(ICredentialsManager::class);
 
 		$this->assertEquals($expectedHooks, $hooksCalled);
+	}
+
+	public function testDeleteRefusedByBackendKeepsAvatarAndCredentials(): void {
+		$backend = new class extends Dummy {
+			#[\Override]
+			public function deleteUser($uid): bool {
+				return false;
+			}
+		};
+		$uid = $this->getUniqueID('user');
+		$backend->createUser($uid, 'password');
+
+		$userManager = Server::get(IUserManager::class);
+		$userManager->registerBackend($backend);
+		$avatarManager = Server::get(AvatarManager::class);
+		$credentialsManager = Server::get(ICredentialsManager::class);
+
+		try {
+			$user = $userManager->get($uid);
+			$avatarManager->getAvatar($uid)->set(file_get_contents(\OC::$SERVERROOT . '/tests/data/testavatar.png'));
+			$credentialsManager->store($uid, 'test', ['password' => 'secret']);
+
+			$this->assertFalse($user->delete());
+
+			$this->assertTrue($avatarManager->getAvatar($uid)->exists());
+			$this->assertSame(['password' => 'secret'], $credentialsManager->retrieve($uid, 'test'));
+		} finally {
+			$avatarManager->deleteUserAvatar($uid);
+			$credentialsManager->erase($uid);
+			Server::get(IUserConfig::class)->deleteAllUserConfig($uid);
+			$userManager->removeBackend($backend);
+		}
 	}
 
 	public function testDeleteRecoverState() {
