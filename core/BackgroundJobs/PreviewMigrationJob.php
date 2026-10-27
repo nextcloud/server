@@ -9,13 +9,16 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\PreviewMigrationService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -32,6 +35,7 @@ class PreviewMigrationJob extends TimedJob {
 		private readonly PreviewMigrationService $migrationService,
 		private readonly IJobList $jobList,
 		private readonly LoggerInterface $logger,
+		private readonly IDBConnection $connection,
 	) {
 		parent::__construct($time);
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
@@ -49,6 +53,15 @@ class PreviewMigrationJob extends TimedJob {
 		$partition = (int)($argument['partition'] ?? 0);
 		if ($partition < 0 || $partition >= self::PARTITIONS) {
 			$this->jobList->removeById($this->getId());
+			return;
+		}
+
+		$maxParallelJobs = $this->appConfig->getValueInt('core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS);
+		if ($maxParallelJobs > 0 && $this->countOtherRunningJobs() >= $maxParallelJobs) {
+			$this->logger->debug('Preview migration of partition {partition} postponed: {max} jobs are already running.', [
+				'partition' => $partition,
+				'max' => $maxParallelJobs,
+			]);
 			return;
 		}
 
@@ -128,6 +141,23 @@ class PreviewMigrationJob extends TimedJob {
 		$this->migrationService->deleteEmptyFolders($emptyFolders);
 
 		return true;
+	}
+
+	/**
+	 * Count the other preview migration jobs currently reserved by a cron worker,
+	 * using the same staleness window as {@see \OCP\BackgroundJob\IJobList::hasReservedJob()}.
+	 */
+	private function countOtherRunningJobs(): int {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select($qb->func()->count('*'))
+			->from('jobs')
+			->where($qb->expr()->eq('class', $qb->createNamedParameter(self::class)))
+			->andWhere($qb->expr()->gt('reserved_at', $qb->createNamedParameter($this->time->getTime() - 6 * 3600, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter((int)$this->getId(), IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
 	}
 
 	private function belongsToPartition(string $folderName, int $partition): bool {
