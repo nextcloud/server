@@ -779,6 +779,7 @@ class OC {
 		self::handleAuthHeaders();
 
 		// setup the basic server
+		/** @psalm-suppress RedundantPropertyInitializationCheck The server is first initialized here */
 		if (!isset(self::$server)) {
 			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		} else {
