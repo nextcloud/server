@@ -64,6 +64,11 @@ class Mail implements IDelegatedSettings {
 			$smtpPassword = '********';
 		}
 
+		$smimePassphrase = $this->config->getSystemValue('mail_smime_passphrase', '');
+		if ($smimePassphrase !== '') {
+			$smimePassphrase = '********';
+		}
+
 		$smtpMode = $this->config->getSystemValue('mail_smtpmode', '');
 		if ($smtpMode === '' || $smtpMode === 'php') {
 			$smtpMode = 'smtp';
@@ -81,6 +86,10 @@ class Mail implements IDelegatedSettings {
 			'mail_smtpname' => $this->config->getSystemValue('mail_smtpname', ''),
 			'mail_smtppassword' => $smtpPassword,
 			'mail_sendmailmode' => $this->config->getSystemValue('mail_sendmailmode', 'smtp'),
+			'mail_smime_certificate' => $this->config->getSystemValue('mail_smime_certificate', ''),
+			'mail_smime_key' => $this->config->getSystemValue('mail_smime_key', ''),
+			'mail_smime_chain' => $this->config->getSystemValue('mail_smime_chain', ''),
+			'mail_smime_passphrase' => $smimePassphrase,
 
 			'mail_noverify' => $smtpOptions['ssl']['allow_self_signed'] ?? false,
 		]);

@@ -19,6 +19,7 @@ return [
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST' , 'root' => ''],
+		['name' => 'MailSettings#storeSmimeKeyPassphrase', 'url' => '/settings/admin/mailsettings/smimepassphrase', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST' , 'root' => ''],

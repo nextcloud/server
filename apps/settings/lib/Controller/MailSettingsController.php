@@ -61,8 +61,28 @@ class MailSettingsController extends Controller {
 		string $mail_smtpport,
 		string $mail_sendmailmode,
 		?bool $mail_noverify = null,
+		string $mail_smime_certificate = '',
+		string $mail_smime_key = '',
+		string $mail_smime_chain = '',
 	): DataResponse {
 		$mail_smtpauth = $mail_smtpauth === true;
+
+		if ($mail_smime_certificate === '') {
+			// the certificate path is the switch: without it the other S/MIME values are cleared
+			$mail_smime_key = '';
+			$mail_smime_chain = '';
+		} elseif ($mail_smime_key === '') {
+			return new DataResponse($this->l10n->t('The S/MIME certificate requires a private key.'), Http::STATUS_BAD_REQUEST);
+		}
+		foreach ([
+			'mail_smime_certificate' => $mail_smime_certificate,
+			'mail_smime_key' => $mail_smime_key,
+			'mail_smime_chain' => $mail_smime_chain,
+		] as $key => $value) {
+			if ($value !== '' && !is_readable($value)) {
+				return new DataResponse($this->l10n->t('The file "%s" for %s does not exist or is not readable.', [$value, $key]), Http::STATUS_BAD_REQUEST);
+			}
+		}
 
 		$configs = [
 			'mail_domain' => $mail_domain,
@@ -73,6 +93,9 @@ class MailSettingsController extends Controller {
 			'mail_smtpauth' => $mail_smtpauth,
 			'mail_smtpport' => $mail_smtpport,
 			'mail_sendmailmode' => $mail_sendmailmode,
+			'mail_smime_certificate' => $mail_smime_certificate,
+			'mail_smime_key' => $mail_smime_key,
+			'mail_smime_chain' => $mail_smime_chain,
 		];
 		foreach ($configs as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
@@ -114,6 +137,24 @@ class MailSettingsController extends Controller {
 			$this->config->setSystemValue('mail_smtppassword', $mail_smtppassword);
 		}
 		$this->config->setSystemValue('mail_smtpname', $mail_smtpname);
+		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+
+		return new DataResponse();
+	}
+
+	/**
+	 * Store the passphrase of the S/MIME private key in the config
+	 */
+	#[AuthorizedAdminSetting(settings: Mail::class)]
+	#[PasswordConfirmationRequired]
+	public function storeSmimeKeyPassphrase(?string $mail_smime_passphrase): DataResponse {
+		if ($mail_smime_passphrase === '********') {
+			return new DataResponse($this->l10n->t('Invalid S/MIME key passphrase.'), Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($mail_smime_passphrase !== null) {
+			$this->config->setSystemValue('mail_smime_passphrase', $mail_smime_passphrase);
+		}
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 
 		return new DataResponse();
