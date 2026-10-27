@@ -77,6 +77,15 @@ class ProfileManager implements IProfileManager {
 		IAccountManager::PROPERTY_PRONOUNS,
 	];
 
+	/**
+	 * Array of allowed visibility values
+	 */
+	private const array ALLOWED_VISIBILITY = [
+		self::VISIBILITY_HIDE,
+		self::VISIBILITY_SHOW_USERS_ONLY,
+		self::VISIBILITY_SHOW,
+	];
+
 	public function __construct(
 		private IAccountManager $accountManager,
 		private IAppManager $appManager,
@@ -319,9 +328,16 @@ class ProfileManager implements IProfileManager {
 		}
 
 		// Construct the default config for account properties
+		$configDefaultVisibility = $this->config->getSystemValue('profile_manager.default_property_visibility', []);
 		$propertiesConfig = [];
 		foreach (self::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
-			$this->applyDefaultProfilePreset($property, $visibility);
+			if (isset($configDefaultVisibility[$property])
+				&& in_array($configDefaultVisibility[$property], self::ALLOWED_VISIBILITY, true)) {
+				$visibility = $configDefaultVisibility[$property];
+			} else {
+				$this->applyDefaultProfilePreset($property, $visibility);
+			}
+
 			$propertiesConfig[$property] = ['visibility' => $visibility];
 		}
 
