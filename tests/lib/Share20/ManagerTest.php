@@ -3171,7 +3171,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 
@@ -3301,7 +3304,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 
@@ -3687,7 +3693,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setShareOwner')
 			->with('shareOwner');
-		$share->expects($this->once())
+		$share->expects($this->exactly(2))
+			->method('getTarget')
+			->willReturn('');
+		$share->expects($this->exactly(2))
 			->method('setTarget')
 			->with('/target');
 

@@ -591,9 +591,9 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getTarget() === null) {
-				$target = $shareFolder . '/' . $share->getNode()->getName();
-				$target = Filesystem::normalizePath($target);
+			$target = $share->getTarget();
+			if (($target ?? '') === '') {
+				$target = Filesystem::normalizePath($shareFolder . '/' . $share->getNode()->getName());
 				$share->setTarget($target);
 			}
 
@@ -612,7 +612,7 @@ class Manager implements IManager {
 			$share->setNode($oldShare->getNode());
 
 			// Reset the target if it is null for the new share
-			if ($share->getTarget() === '') {
+			if (($share->getTarget() ?? '') === '') {
 				$share->setTarget($target);
 			}
 		} catch (AlreadySharedException $e) {
