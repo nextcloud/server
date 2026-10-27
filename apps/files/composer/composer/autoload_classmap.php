@@ -60,6 +60,7 @@ return array(
     'OCA\\Files\\Controller\\DirectEditingController' => $baseDir . '/../lib/Controller/DirectEditingController.php',
     'OCA\\Files\\Controller\\DirectEditingViewController' => $baseDir . '/../lib/Controller/DirectEditingViewController.php',
     'OCA\\Files\\Controller\\FilenamesController' => $baseDir . '/../lib/Controller/FilenamesController.php',
+    'OCA\\Files\\Controller\\NodesApiController' => $baseDir . '/../lib/Controller/NodesApiController.php',
     'OCA\\Files\\Controller\\OpenLocalEditorController' => $baseDir . '/../lib/Controller/OpenLocalEditorController.php',
     'OCA\\Files\\Controller\\TemplateController' => $baseDir . '/../lib/Controller/TemplateController.php',
     'OCA\\Files\\Controller\\TransferOwnershipController' => $baseDir . '/../lib/Controller/TransferOwnershipController.php',
