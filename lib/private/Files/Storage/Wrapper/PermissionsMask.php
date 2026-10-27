@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CachePermissionsMask;
-use OC\Files\Storage\Storage;
 use OCP\Constants;
 use OCP\Files\Storage\IStorage;
 
@@ -26,7 +26,7 @@ class PermissionsMask extends Wrapper {
 	protected readonly int $mask;
 
 	/**
-	 * @param array{storage: Storage, mask: int, ...} $parameters
+	 * @param array{storage: IStorage, mask: int, ...} $parameters
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants
@@ -61,13 +61,13 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function rename(string $source, string $target): bool {
-		//This is a rename of the transfer file to the original file
-		$sourceDir = dirname($source);
-		$targetDir = dirname($target);
-		if (($sourceDir === $targetDir || $sourceDir === dirname($targetDir)) && strpos($source, '.ocTransferId') > 0) {
-			return $this->checkMask(Constants::PERMISSION_CREATE) && parent::rename($source, $target);
+		$required = Constants::PERMISSION_UPDATE;
+		if ($this->isPartialFileMove($source, $target) && !$this->file_exists($target)) {
+			// This is a move/rename of a partial file to the final file
+			$required = Constants::PERMISSION_CREATE;
 		}
-		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::rename($source, $target);
+
+		return $this->checkMask($required) && parent::rename($source, $target);
 	}
 
 	public function copy(string $source, string $target): bool {
@@ -137,5 +137,12 @@ class PermissionsMask extends Wrapper {
 
 			yield $data;
 		}
+	}
+
+	/**
+	 * If source and target are compatible with a rename/move operation of a partial file into its final location
+	 */
+	protected function isPartialFileMove(string $source, string $target): bool {
+		return str_starts_with(dirname($target), dirname($source)) && preg_match('/\.ocTransferId\d+\.part$/i', $source) === 1;
 	}
 }

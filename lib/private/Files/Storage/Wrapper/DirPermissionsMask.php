@@ -88,15 +88,7 @@ class DirPermissionsMask extends PermissionsMask {
 	}
 
 	public function rename($source, $target): bool {
-		$isPartialUploadFile = dirname($source) === dirname($target)
-			&& strpos($source, '.ocTransferId') > 0;
-
-		if (
-			!($isPartialUploadFile
-				|| $this->isUpdatable($source)
-				|| $this->isDeletable($source)
-			)
-		) {
+		if (!($this->isPartialFileMove($source, $target) || $this->isUpdatable($source) || $this->isDeletable($source))) {
 			return false;
 		}
 
@@ -143,10 +135,10 @@ class DirPermissionsMask extends PermissionsMask {
 
 	public function touch($path, $mtime = null): bool {
 		if ($this->checkPath($path)) {
-			return parent::touch($path);
+			return parent::touch($path, $mtime);
 		}
 
-		return $this->storage->touch($path);
+		return $this->storage->touch($path, $mtime);
 	}
 
 	public function mkdir($path): bool {
