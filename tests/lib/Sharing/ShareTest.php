@@ -203,7 +203,7 @@ final class ShareTest extends TestCase {
 
 		$this->assertEquals(
 			$enabled
-			? [TestSharePermissionType1::class => new SharePermission(TestSharePermissionType1::class, true)]
+			? [TestSharePermissionType1::class]
 			: [],
 			$share->getEffectiveEnabledPermissions(new ShareAccessContext($this->user1)),
 		);

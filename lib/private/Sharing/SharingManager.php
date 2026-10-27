@@ -732,11 +732,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$this->validateReshareOperation($accessContext, $share, $recipient);
 		}
 
-		if ($permission->enabled) {
-			$enabledPermissions = $share->getEffectiveEnabledPermissions($accessContext);
-			if (!isset($enabledPermissions[$permission->class])) {
-				throw new ShareOperationForbiddenException();
-			}
+		if ($permission->enabled && !in_array($permission->class, $share->getEffectiveEnabledPermissions($accessContext), true)) {
+			throw new ShareOperationForbiddenException();
 		}
 
 		$this->backend->updateShareRecipientPermission($share->id, $recipient, $permission);
@@ -930,7 +927,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 * @throws ShareOperationForbiddenException
 	 */
 	private function validatePermission(ShareAccessContext $accessContext, Share $share, string $permissionTypeClass): void {
-		if (!isset($share->getEffectiveEnabledPermissions($accessContext)[$permissionTypeClass])) {
+		if (!in_array($permissionTypeClass, $share->getEffectiveEnabledPermissions($accessContext), true)) {
 			throw new ShareOperationForbiddenException();
 		}
 	}
@@ -961,7 +958,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 */
 	private function validateInteraction(ShareAccessContext $accessContext, Share $share): void {
 		$action = new ShareAction(
-			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEffectiveEnabledPermissions($accessContext)))
+			null,
+			$share->getEffectiveEnabledPermissions($accessContext),
 		);
 
 		if ($share->owner->instance !== null) {
