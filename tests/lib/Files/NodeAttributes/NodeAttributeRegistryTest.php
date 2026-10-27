@@ -10,10 +10,14 @@ declare(strict_types=1);
 namespace Test\Files\NodeAttributes;
 
 use NCU\Files\NodeAttributes\INodeAttributeProvider;
+use NCU\Files\NodeAttributes\NodeAttributeContext;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\NodeAttributeProviderRegistration;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\Files\NodeAttributes\NodeAttributeRegistry;
+use OCP\Files\Node;
+use OCP\IUser;
+use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -77,6 +81,59 @@ class NodeAttributeRegistryTest extends TestCase {
 
 		// Providers are only loaded once
 		$this->registry->getProvidersFor([self::HAS_PREVIEW, self::TAGS]);
+	}
+
+	private function node(int $id): Node&MockObject {
+		$node = $this->createMock(Node::class);
+		$node->method('getId')->willReturn($id);
+		return $node;
+	}
+
+	private function userContext(string $uid): NodeAttributeContext {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		return NodeAttributeContext::forUser($user);
+	}
+
+	public function testPreloadOnlyPassesNodesNotPreloadedYet(): void {
+		$this->register(['TagsProvider' => [self::FAVORITE, self::TAGS]]);
+		$provider = $this->createMock(INodeAttributeProvider::class);
+		$this->container->method('get')->willReturn($provider);
+		[$node1, $node2, $node3] = [$this->node(1), $this->node(2), $this->node(3)];
+		$context = $this->userContext('alice');
+
+		$calls = [];
+		$provider->method('preload')->willReturnCallback(static function (NodeAttributeContext $context, array $nodes, array $attributes) use (&$calls): void {
+			$calls[] = [array_map(static fn (Node $node): int => $node->getId(), $nodes), $attributes];
+		});
+
+		$this->registry->preload($context, [$node1, $node2], [self::FAVORITE]);
+		$this->registry->preload($this->userContext('alice'), [$node1, $node2], [self::FAVORITE]);
+		$this->registry->preload($context, [$node2, $node3], [self::FAVORITE]);
+		// Another attribute of the same provider is not preloaded yet
+		$this->registry->preload($context, [$node1], [self::FAVORITE, self::TAGS]);
+
+		self::assertSame([
+			[[1, 2], [self::FAVORITE]],
+			[[3], [self::FAVORITE]],
+			[[1], [self::FAVORITE, self::TAGS]],
+		], $calls);
+	}
+
+	public function testPreloadIsTrackedPerContext(): void {
+		$this->register(['TagsProvider' => [self::FAVORITE]]);
+		$provider = $this->createMock(INodeAttributeProvider::class);
+		$this->container->method('get')->willReturn($provider);
+		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('token');
+		$node = $this->node(1);
+
+		$provider->expects(self::exactly(3))->method('preload');
+
+		$this->registry->preload($this->userContext('alice'), [$node], [self::FAVORITE]);
+		$this->registry->preload($this->userContext('bob'), [$node], [self::FAVORITE]);
+		$this->registry->preload(NodeAttributeContext::forShare($share), [$node], [self::FAVORITE]);
+		$this->registry->preload($this->userContext('alice'), [$node], [self::FAVORITE]);
 	}
 
 	public function testAttributesMustHaveUniqueLocalNames(): void {

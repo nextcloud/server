@@ -23,9 +23,6 @@ use Sabre\DAV\ServerPlugin;
  * Serves the attributes of the registered node attribute providers as WebDAV properties
  */
 class NodeAttributesPlugin extends ServerPlugin {
-	/** @var array<int, true> file ids already preloaded in this request */
-	private array $preloaded = [];
-
 	/**
 	 * @param Closure(): ?NodeAttributeContext $contextResolver context of the request, null to serve nothing
 	 */
@@ -94,9 +91,7 @@ class NodeAttributesPlugin extends ServerPlugin {
 		}
 
 		$fileNode = $node->getNode();
-		if (!isset($this->preloaded[$fileNode->getId()])) {
-			$this->preload([$fileNode], $attributes);
-		}
+		$this->registry->preload($context, [$fileNode], $attributes);
 
 		foreach ($this->registry->getProvidersFor($attributes) as $group) {
 			$values = $group['provider']->getAttributes($context, $fileNode, $group['attributes']);
@@ -129,12 +124,7 @@ class NodeAttributesPlugin extends ServerPlugin {
 			return;
 		}
 
-		foreach ($this->registry->getProvidersFor($attributes) as $group) {
-			$group['provider']->preload($context, $nodes, $group['attributes']);
-		}
-		foreach ($nodes as $node) {
-			$this->preloaded[$node->getId()] = true;
-		}
+		$this->registry->preload($context, $nodes, $attributes);
 	}
 
 	/**

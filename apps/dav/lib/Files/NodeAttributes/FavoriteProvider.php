@@ -34,14 +34,7 @@ class FavoriteProvider implements INodeAttributeProvider {
 			return;
 		}
 
-		$fileIds = array_values(array_filter(
-			array_map(static fn (Node $node): int => $node->getId(), $nodes),
-			fn (int $fileId): bool => !isset($this->favorites[$userId][$fileId]),
-		));
-		if ($fileIds === []) {
-			return;
-		}
-
+		$fileIds = array_map(static fn (Node $node): int => $node->getId(), $nodes);
 		$tags = $this->tagManager->load('files', [], false, $userId)?->getTagsForObjects($fileIds) ?: [];
 		foreach ($fileIds as $fileId) {
 			$this->favorites[$userId][$fileId] = in_array(TagsPlugin::TAG_FAVORITE, $tags[$fileId] ?? [], true);
@@ -55,13 +48,8 @@ class FavoriteProvider implements INodeAttributeProvider {
 			return [];
 		}
 
-		$fileId = $node->getId();
-		if (!isset($this->favorites[$userId][$fileId])) {
-			$this->preload($context, [$node], $attributes);
-		}
-
 		return [
-			TagsPlugin::FAVORITE_PROPERTYNAME => $this->favorites[$userId][$fileId] ? 1 : 0,
+			TagsPlugin::FAVORITE_PROPERTYNAME => ($this->favorites[$userId][$node->getId()] ?? false) ? 1 : 0,
 		];
 	}
 }

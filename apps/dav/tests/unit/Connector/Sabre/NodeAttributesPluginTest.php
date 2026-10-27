@@ -69,7 +69,9 @@ class NodeAttributesPluginTest extends TestCase {
 
 	public function testPropFindServesTypedValuesAsDavText(): void {
 		$davNode = $this->davNode(File::class, 11);
-		$this->provider->expects(self::once())->method('preload');
+		$this->registry->expects(self::once())
+			->method('preload')
+			->with($this->context, [$davNode->getNode()], [self::HAS_PREVIEW, self::FAVORITE]);
 		$this->provider->method('getAttributes')->willReturn([
 			self::HAS_PREVIEW => true,
 			self::FAVORITE => 1,
@@ -83,31 +85,25 @@ class NodeAttributesPluginTest extends TestCase {
 		self::assertNull($propFind->get('{http://example.com/ns}other'));
 	}
 
-	public function testCollectionIsPreloadedOnce(): void {
+	public function testCollectionIsPreloadedAtOnce(): void {
 		$child1 = $this->davNode(File::class, 21);
 		$child2 = $this->davNode(File::class, 22);
 		$directory = $this->davNode(Directory::class, 20);
 		$directory->method('getChildren')->willReturn([$child1, $child2]);
 
-		$this->provider->expects(self::once())
+		$this->registry->expects(self::once())
 			->method('preload')
 			->with($this->context, [$directory->getNode(), $child1->getNode(), $child2->getNode()], [self::FAVORITE]);
-		$this->provider->method('getAttributes')->willReturn([self::FAVORITE => 0]);
 
 		$propFind = new PropFind('/dir', [self::FAVORITE], 1);
 		$this->server->emit('preloadCollection', [$propFind, $directory]);
-		foreach ([$directory, $child1, $child2] as $node) {
-			$nodePropFind = new PropFind('/dir', [self::FAVORITE], 0);
-			$this->server->emit('propFind', [$nodePropFind, $node]);
-			self::assertSame(0, $nodePropFind->get(self::FAVORITE));
-		}
 	}
 
 	public function testSearchResultsArePreloaded(): void {
 		$result1 = $this->davNode(File::class, 31);
 		$result2 = $this->davNode(File::class, 32);
 
-		$this->provider->expects(self::once())
+		$this->registry->expects(self::once())
 			->method('preload')
 			->with($this->context, [$result1->getNode(), $result2->getNode()], [self::HAS_PREVIEW]);
 
@@ -125,7 +121,7 @@ class NodeAttributesPluginTest extends TestCase {
 
 	public function testNothingWithoutContext(): void {
 		$this->context = null;
-		$this->provider->expects(self::never())->method('preload');
+		$this->registry->expects(self::never())->method('preload');
 		$this->provider->expects(self::never())->method('getAttributes');
 
 		$propFind = new PropFind('/file.txt', [self::HAS_PREVIEW], 0);

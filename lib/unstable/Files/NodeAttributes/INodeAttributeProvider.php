@@ -18,9 +18,10 @@ use OCP\Files\Node;
  * along with the attributes it provides, in Clark notation like the WebDAV
  * properties, e.g. `{http://nextcloud.org/ns}has-preview`.
  *
- * `preload()` is called once with all the nodes of a response, `getAttributes()`
- * then once per node. Load everything needed in `preload()`: `getAttributes()`
- * must not query per node.
+ * `preload()` is called with all the nodes of a response before `getAttributes()`
+ * is called once per node. A node is only preloaded once per request for the
+ * same context and attributes. Load everything needed in `preload()`:
+ * `getAttributes()` must not query per node.
  *
  * @experimental 36.0.0
  */
