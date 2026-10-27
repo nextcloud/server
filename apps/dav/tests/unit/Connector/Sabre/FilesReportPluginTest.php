@@ -22,7 +22,6 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\IUserFolder;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\ITags;
@@ -51,7 +50,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 	private View&MockObject $view;
 	private IGroupManager&MockObject $groupManager;
 	private Folder&MockObject $userFolder;
-	private IPreview&MockObject $previewManager;
 	private IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
@@ -75,7 +73,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userFolder = $this->createMock(IUserFolder::class);
-		$this->previewManager = $this->createMock(IPreview::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->tagManager = $this->createMock(ISystemTagManager::class);
 		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
@@ -345,7 +342,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$this->tree,
 				$config,
 				$this->createMock(IRequest::class),
-				$this->previewManager,
 				$this->createMock(IUserSession::class),
 				$validator,
 				$accountManager,
