@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Другие параметры доступности",
     "Enable blur background filter (may increase GPU load)" : "Включить фильтр размытия фона (может увеличить нагрузку на графический процессор)",
     "Customization has been disabled by your administrator" : "Администратор запретил менять оформление.",
-    "Disable-user-theming should be true or false" : "Значение disable-user-theming должно быть true или false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Основной цвет выделяет важные элементы, например кнопки. В зависимости от цветовой схемы он может слегка меняться.",
-    "Header logo" : "Логотип в заголовке",
-    "Upload new header logo" : "Загрузить логотип заголовка",
-    "Upload new favicon" : "Загрузить значок сайта",
-    "User settings" : "Параметры пользователя",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Вместо фонового изображения можно задать однотонный цвет фона. Если фоновое изображение используется, этот цвет влияет на цвет значков меню приложений.",
-    "Upload new logo" : "Загрузить новый логотип",
-    "Upload new background and login image" : "Загрузить новый фон и изображение для страницы входа",
-    "Background and login image" : "Фон и изображение страницы входа",
-    "Advanced options" : "Дополнительные параметры",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Установите расширение PHP ImageMagick с поддержкой SVG, чтобы значки сайта (favicon) создавались автоматически по загруженному логотипу и цвету.",
-    "Unable to apply the setting." : "Не удалось применить параметр.",
-    "No background has been selected" : "Фон не выбран",
-    "Select a custom color" : "Выбрать пользовательский цвет",
-    "Upload" : "Загрузить"
+    "Unable to apply the setting." : "Не удалось применить параметр."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

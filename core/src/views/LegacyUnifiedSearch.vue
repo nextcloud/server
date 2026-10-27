@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import type { SearchResultEntry, SearchType } from '../services/LegacyUnifiedSearchService.ts'
 
-import { mdiMagnify } from '@mdi/js'
+import { mdiFilterOutline, mdiMagnify } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { n, t } from '@nextcloud/l10n'
@@ -328,20 +328,25 @@ async function loadMore(type: string) {
 		const { request, cancel } = search({ type, query: query.value, cursor: cursors.value[type] })
 		requests.push(cancel)
 
-		const { data } = await request()
-		const page = data.ocs.data
+		loading.value[type] = true
+		try {
+			const { data } = await request()
+			const page = data.ocs.data
 
-		if (page.cursor) {
-			cursors.value[type] = page.cursor
-		}
+			if (page.cursor) {
+				cursors.value[type] = page.cursor
+			}
 
-		if (page.entries.length > 0) {
-			results.value[type]!.push(...page.entries)
-		}
+			if (page.entries.length > 0) {
+				results.value[type]!.push(...page.entries)
+			}
 
-		// Check if we reached end of pagination
-		if (page.entries.length < defaultLimit) {
-			reached.value[type] = true
+			// Check if we reached end of pagination
+			if (page.entries.length < defaultLimit) {
+				reached.value[type] = true
+			}
+		} finally {
+			loading.value[type] = false
 		}
 	} else if (limits.value[type] && limits.value[type] >= 0) {
 		// Without a cursor all results are loaded already, so the next ones are only revealed
@@ -511,8 +516,10 @@ function onClickFilter(filter: string) {
 					<NcActionButton
 						v-for="filter in availableFilters"
 						:key="filter"
-						icon="icon-filter"
 						@click.stop="onClickFilter(`in:${filter}`)">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiFilterOutline" />
+						</template>
 						{{ t('core', 'Search for {name} only', { name: typesMap[filter] }) }}
 					</NcActionButton>
 				</NcActions>
@@ -568,7 +575,7 @@ function onClickFilter(filter: string) {
 							:title="loading[type]
 								? t('core', 'Loading more results …')
 								: t('core', 'Load more results')"
-							:iconClass="loading[type] ? 'icon-loading-small' : ''"
+							:loading="loading[type]"
 							@click.prevent.stop="loadMore(type)"
 							@focus="setFocusedIndex" />
 					</li>

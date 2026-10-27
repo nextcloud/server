@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Egyéb kisegítő lehetőségek",
     "Enable blur background filter (may increase GPU load)" : "Háttérelmosó szűrő engedélyezése (megnövelheti a GPU terhelést)",
     "Customization has been disabled by your administrator" : "A testreszabást letiltotta a rendszergazda",
-    "Disable-user-theming should be true or false" : "A felhasználói témázás letiltásának igaznak vagy hamisnak kell lennie",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Az elsődleges szín az elemek, például a fontos gombok kiemelésére szolgál. Az aktuális színsémától függően kissé módosulhat.",
-    "Header logo" : "Fejléc logó",
-    "Upload new header logo" : "Fejléc logó feltöltése",
-    "Upload new favicon" : "Kedvencek ikon feltöltése",
-    "User settings" : "Felhasználói beállítások",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "A háttérkép helyett sima háttérszínt is beállíthat. Ha háttérképet használ, ez a szín megváltoztatja az alkalmazásmenü ikonjainak színét.",
-    "Upload new logo" : "Új logó feltöltése",
-    "Upload new background and login image" : "Új háttér és bejelentkezőkép feltöltése",
-    "Background and login image" : "Háttér és bejelentkezőkép",
-    "Advanced options" : "Speciális beállítások",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az ImageMagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
-    "Unable to apply the setting." : "A beállítás alkalmazása sikertelen.",
-    "No background has been selected" : "Nincs kiválasztott háttér",
-    "Select a custom color" : "Válasszon egyéni színt",
-    "Upload" : "Feltöltés"
+    "Unable to apply the setting." : "A beállítás alkalmazása sikertelen."
 },
 "nplurals=2; plural=(n != 1);");

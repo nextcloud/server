@@ -5,12 +5,9 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
-SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
-SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -33,6 +30,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Borewit
 SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -43,7 +41,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - events
 	- version: 3.3.0
@@ -141,35 +139,23 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.2.1
-	- license: MIT
 - @vue/reactivity
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/shared
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - axios
 	- version: 1.20.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- birpc
-	- version: 2.9.0
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -178,13 +164,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
+- eventemitter3
+	- version: 5.0.4
+	- license: MIT
 - focus-trap
 	- version: 8.2.3
-	- license: MIT
-- hookable
-	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -195,8 +181,8 @@ This file is generated from multiple sources. Included packages:
 - nostics
 	- version: 1.2.0
 	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
+- p-timeout
+	- version: 7.0.2
 	- license: MIT
 - sax
 	- version: 1.4.1
@@ -217,7 +203,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.3.1
 	- license: MIT
 - vue
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - webdav
 	- version: 5.11.0

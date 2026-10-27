@@ -7,21 +7,25 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeFeature;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
 
 class GuestsContext implements Context {
 	public const TEST_PASSWORD = '123456';
 	protected static $lastStdOut = null;
 	protected static $lastCode = null;
 
-	#[\Behat\Hook\BeforeScenario('@Guests')]
-	#[\Behat\Hook\BeforeFeature('@Guests')]
+	#[BeforeScenario('@Guests')]
+	#[BeforeFeature('@Guests')]
 	public static function skipTestsIfGuestsIsNotInstalled() {
 		if (!self::isGuestsInstalled()) {
 			throw new Exception('Guests needs to be installed to run features or scenarios tagged with @Guests');
 		}
 	}
 
-	#[\Behat\Hook\AfterScenario('@Guests')]
+	#[AfterScenario('@Guests')]
 	public static function disableGuests() {
 		self::runOcc(['app:disable', 'guests']);
 	}
@@ -53,7 +57,7 @@ class GuestsContext implements Context {
 		return self::$lastCode;
 	}
 
-	#[\Behat\Step\Given('/^user "([^"]*)" is a guest account user$/')]
+	#[Given('/^user "([^"]*)" is a guest account user$/')]
 	public function createGuestUser(string $email): void {
 		self::runOcc([
 			'user:delete',

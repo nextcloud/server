@@ -353,11 +353,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Public link sharing is disabled by the administrator" : "Deiling opinberra sameignartengla hefur verið gerð óvirk af kerfisstjóra.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deiling %1$s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deiling %s mistókst því bakvinnslukerfið leyfir ekki ScienceMesh-sameignir",
     "Public upload disabled by the administrator" : "Opinber innsending hefur verið gerð óvirk af kerfisstjóra.",
-    "Via “{folder}”" : "Í gegnum “{folder}”",
-    "Name or email …" : "Nafn eða tölvupóstfang …",
-    "Name, email, or Federated Cloud ID …" : "Nafn, tölvupóstfang eða skýjasambandsauðkenni (Federated Cloud ID) …",
-    "Searching …" : "Leita …"
+    "Via “{folder}”" : "Í gegnum “{folder}”"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

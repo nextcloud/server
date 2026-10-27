@@ -20,6 +20,7 @@ use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntriesRemovedEvent;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
@@ -139,10 +140,13 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	}
 
 	#[\Override]
-	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata {
-		/** @var FilesMetadata $metadata */
-		$metadata = $this->getMetadata($node->getId(), $generate, $node->getMountPoint()->getNumericStorageId());
-		return $metadata;
+	public function getMetadataForNode(Node|ICacheEntry $node, bool $generate = false): IFilesMetadata {
+		if ($node instanceof Node) {
+			$storageId = $node->getData()->getStorageId();
+		} else {
+			$storageId = $node->getStorageId();
+		}
+		return $this->getMetadata($node->getId(), $generate, $storageId);
 	}
 
 	/**

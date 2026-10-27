@@ -420,13 +420,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Возможность делиться с группами отключена администратором",
     "Public link sharing is disabled by the administrator" : "Возможность предоставления общего доступа созданием общедоступных ссылок отключена администратором",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Не удалось предоставить общий доступ к «%s»: механизм обмена не поддерживает общие ресурсы ScienceMesh",
     "Public upload disabled by the administrator" : "Выгрузка в общедоступную папку запрещена администратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токен должен содержать хотя бы 1 символ и может состоять только из букв, цифр и дефисов",
     "Via “{folder}”" : "Через «{folder}»",
-    "Name or email …" : "Имя или адрес эл. почты…",
-    "Name, email, or Federated Cloud ID …" : "Имя, адрес эл. почты или идентификатор федеративного облака…",
-    "Searching …" : "Поиск…",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Задайте для общедоступной ссылки легко запоминаемый токен или создайте новый. Для общих ресурсов с конфиденциальными данными не используйте легко угадываемый токен."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

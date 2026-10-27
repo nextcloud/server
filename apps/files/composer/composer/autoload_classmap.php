@@ -108,4 +108,5 @@ return array(
     'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
+    'OCA\\Files\\TokenScopes' => $baseDir . '/../lib/TokenScopes.php',
 );

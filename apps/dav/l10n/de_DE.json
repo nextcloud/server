@@ -262,6 +262,14 @@
     "Invalid target path" : "Ungültiger Ziel-Pfad",
     "System is in maintenance mode." : "Das System befindet sich im Wartungsmodus.",
     "Upgrade needed" : "Aktualisierung erforderlich",
+    "File could not be opened (fopen). Please check the server logs for more information." : "Datei konnte nicht geöffnet werden (fopen). Die Server-Logs für weitere Informationen überprüfen.",
+    "Unable to check file for consistency check" : "Datei kann nicht auf Konsistenz geprüft werden",
+    "The archive was already finalized, stream was not a stream or was closed" : "Das Archiv war bereits fertiggestellt; der Stream war kein Stream oder wurde beendet.",
+    "Reading the file failed after %1$d of %2$d bytes." : "Das Lesen der Datei schlug nach %1$d von %2$d Bytes fehl.",
+    "Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error." : "Es wurden %d von %d Bytes aus dem Speicher gelesen. Dies deutet darauf hin, dass die Verbindung möglicherweise aufgrund eines Netzwerk- oder Speicherfehlers geschlossen wurde.",
+    "The missing part of the file was filled with empty bytes." : "Der fehlende Teil der Datei wurde mit leeren Bytes aufgefüllt.",
+    "The file is larger than its recorded size, only the first %d bytes were added." : "Die Datei ist größer als deren erfasste Größe; es wurden nur die ersten %d Bytes hinzugefügt.",
+    "File could not be added to the archive. Please check the server logs for more information." : "Die Datei konnte dem Archiv nicht hinzugefügt werden. Die Server-Logs für weitere Informationen überprüfen.",
     "%1$s created \"%2$s\" on your behalf" : "%1$s hat \"%2$s\" in Ihrem Namen erstellt",
     "%1$s created \"%2$s\" on your calendar \"%3$s\"" : "%1$s hat \"%2$s\" in Ihrem Kalender \"%3$s\" erstellt",
     "%1$s updated \"%2$s\" on your behalf" : "%1$s hat \"%2$s\" in Ihrem Namen aktualisiert",
@@ -378,10 +386,6 @@
     "Link:" : "Link:",
     "Occurring:" : "Findet statt:",
     "More options at %s" : "Weitere Optionen unter %s",
-    "The system address book contains contact information for all users in your instance." : "Das Systemadressbuch enthält Kontaktinformationen für alle Benutzer in dieser Instanz.",
-    "Enable System Address Book" : "Systemadressbuch aktivieren",
-    "No results." : "Keine Ergebnisse.",
-    "Start typing." : "Anfangen zu tippen.",
     "Delegate:" : "Delegieren:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

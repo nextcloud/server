@@ -320,11 +320,7 @@
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Public link sharing is disabled by the administrator" : "Compartir ligas públicas está deshabilitado por el administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s falló porque el servidor no permite compartir recursos del tipo %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Compartir %s falló porque el servidor no soporta recursos compartidos de ScienceMesh",
     "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
-    "Via “{folder}”" : "Vía \"{folder}\"",
-    "Name or email …" : "Nombre o correo electrónico …",
-    "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o identificador de la nube federada ...",
-    "Searching …" : "Buscando  …"
+    "Via “{folder}”" : "Vía \"{folder}\""
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

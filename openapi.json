@@ -172,7 +172,9 @@
                             "previews": {
                                 "type": "object",
                                 "required": [
-                                    "enabled_providers"
+                                    "enabled_providers",
+                                    "max_width",
+                                    "max_height"
                                 ],
                                 "properties": {
                                     "enabled_providers": {
@@ -180,6 +182,14 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "max_width": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_height": {
+                                        "type": "integer",
+                                        "format": "int64"
                                     }
                                 }
                             },
@@ -32456,6 +32466,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34203,6 +34223,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34686,6 +34716,16 @@
                             "type": "integer",
                             "format": "int64",
                             "default": 0
+                        }
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {

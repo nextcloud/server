@@ -33,6 +33,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 
@@ -104,6 +105,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token
@@ -134,6 +141,12 @@ class AppPasswordController extends OCSController {
 		}
 
 		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" was deleted',
+			['tokenId' => $token->getId()],
+			false,
+			'auth.app_password.deleted',
+		));
 		return new DataResponse();
 	}
 
@@ -242,6 +255,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token

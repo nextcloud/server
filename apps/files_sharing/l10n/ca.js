@@ -374,13 +374,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "L'administrador ha inhabilitat l'ús compartit en grup",
     "Public link sharing is disabled by the administrator" : "L'administrador ha inhabilitat l'ús compartit amb enllaç públic",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "No s'ha pogut compartir %1$s perquè el rerefons no permet elements compartits de tipus %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "No s'ha pogut compartir %s perquè el rerefons no permet elements compartits de ScienceMesh",
     "Public upload disabled by the administrator" : "L'administrador ha inhabilitat la pujada pública",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Els testimonis han de contenir almenys 1 caràcter i només poden contenir lletres, números o un guió",
     "Via “{folder}”" : "Mitjançant «{folder}»",
-    "Name or email …" : "Nom o adreça electrònica…",
-    "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
-    "Searching …" : "S'està cercant…",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Estableix el testimoni d'enllaç de compartició pública en una cosa fàcil de recordar o genera un testimoni nou. No es recomana utilitzar un testimoni endevinable per a elements compartits que continguin informació sensible."
 },
 "nplurals=2; plural=(n != 1);");

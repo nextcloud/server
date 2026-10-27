@@ -40,6 +40,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
@@ -150,7 +151,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
@@ -162,13 +163,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.5
 	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.4
 	- license: MIT
 - @floating-ui/core
 	- version: 0.3.1
@@ -375,7 +379,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.111.1
+	- version: 5.112.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -101,21 +101,6 @@
     "Fonts" : "Skrifttyper",
     "Misc accessibility options" : "Diverse tilgjengelighetsalternativer",
     "Enable blur background filter (may increase GPU load)" : "Aktiver bakgrunnsfilter for uskarphet (kan øke GPU-belastningen)",
-    "Customization has been disabled by your administrator" : "Tilpassing er deaktivert av systemansvarlig",
-    "Disable-user-theming should be true or false" : "Deaktiver-bruker-tema skal være sant eller usant",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Primærfargen brukes til å markere elementer som viktige knapper. Det kan bli litt justert avhengig av gjeldende fargeskjema.",
-    "Header logo" : "Header logo",
-    "Upload new header logo" : "Last opp ny header logo",
-    "Upload new favicon" : "Last opp nytt ikon",
-    "User settings" : "Brukerinnstillinger",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "I stedet for et bakgrunnsbilde kan du også konfigurere en vanlig bakgrunnsfarge. Hvis du bruker et bakgrunnsbilde, vil endring av denne fargen påvirke fargen på ikonene på appmenyen.",
-    "Upload new logo" : "Last opp ny logo",
-    "Upload new background and login image" : "Last opp ny bakgrunn- og påloggingsbilde",
-    "Background and login image" : "Bakgrunn og påloggingsbilde",
-    "Advanced options" : "Avanserte innstillinger",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
-    "No background has been selected" : "Ingen bakgrunn er valgt",
-    "Select a custom color" : "Velg en tilpasset farge",
-    "Upload" : "Last opp"
+    "Customization has been disabled by your administrator" : "Tilpassing er deaktivert av systemansvarlig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

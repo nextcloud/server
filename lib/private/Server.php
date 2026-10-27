@@ -23,6 +23,7 @@ use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\TokenScopes;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OC\Avatar\AvatarManager;
 use OC\BackgroundJob\JobList;
@@ -154,7 +155,6 @@ use OC\Template\LoadViewerListener;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
-use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Listeners\UserLoggedInWithCookieListener;
 use OC\User\Session;
@@ -290,7 +290,6 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
-use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -1010,7 +1009,7 @@ class Server extends ServerContainer {
 		/** @deprecated 35.0.0 */
 		$this->registerDeprecatedAlias('LockdownManager', ILockdownManager::class);
 		$this->registerService(LockdownManager::class, static function (ContainerInterface $c): LockdownManager {
-			return new LockdownManager(static fn () => $c->get(ISession::class));
+			return new LockdownManager(static fn () => $c->get(ISession::class), $c->get(TokenScopes::class));
 		});
 		$this->registerAlias(ILockdownManager::class, LockdownManager::class);
 		$this->registerAlias(IDiscoveryService::class, DiscoveryService::class);
@@ -1128,7 +1127,6 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LoadViewerListener::class);

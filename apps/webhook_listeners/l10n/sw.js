@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Webhooks" : "Viboko vya mtandao",
     "Nextcloud Webhook Support" : "Msaada wa Nextcloud Webhook",
-    "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Tuma arifa kwa huduma za nje kila jambo muhimu linapotokea, kama vile faili zinapobadilishwa au kusasishwa.",
-    "Nextcloud webhook support" : "Msaada wa viboko vya mtandao wa Nextcloud"
+    "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Tuma arifa kwa huduma za nje kila jambo muhimu linapotokea, kama vile faili zinapobadilishwa au kusasishwa."
 },
 "nplurals=2; plural=(n != 1);");

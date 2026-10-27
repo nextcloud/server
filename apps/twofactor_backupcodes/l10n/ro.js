@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Ai creat coduri de rezervă pentru autentificarea în doi pași",
+    "Second-factor backup codes" : "Coduri de rezervă pentru al doilea factor",
+    "Generate backup codes" : "Generează coduri de rezervă",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Ai activat autentificarea în doi pași, dar nu ai generat încă coduri de rezervă. Ele sunt necesare pentru a-ți recăpăta accesul la cont dacă pierzi al doilea factor.",
+    "Backup code" : "Cod de rezervă",
+    "Use backup code" : "Folosește un cod de rezervă",
+    "Two factor backup codes" : "Coduri de rezervă pentru autentificarea în doi pași",
+    "A two-factor auth backup codes provider" : "Un furnizor de coduri de rezervă pentru autentificarea în doi pași",
+    "An error occurred while generating your backup codes" : "A apărut o eroare la generarea codurilor de rezervă",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Codurile de rezervă au fost generate. Au fost folosite {used} din {total} coduri.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Acestea sunt codurile tale de rezervă. Salvează-le și/sau tipărește-le, deoarece nu le vei mai putea vedea ulterior.",
+    "List of backup codes" : "Lista codurilor de rezervă",
+    "Regenerate backup codes" : "Regenerează codurile de rezervă",
+    "Print backup codes" : "Tipărește codurile de rezervă",
+    "Save backup codes" : "Salvează codurile de rezervă",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Dacă regenerezi codurile de rezervă, codurile vechi devin automat nevalide.",
+    "{name} backup codes" : "Coduri de rezervă pentru {name}",
+    "Unable to open a new tab for printing" : "Nu s-a putut deschide o filă nouă pentru tipărire",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Folosește unul dintre codurile de rezervă salvate la configurarea autentificării în doi pași.",
+    "Submit" : "Trimite"
+},
+"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

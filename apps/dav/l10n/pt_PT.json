@@ -326,10 +326,6 @@
     "Link:" : "Ligação:",
     "Occurring:" : "Ocorrências:",
     "More options at %s" : "Mais opções em %s",
-    "The system address book contains contact information for all users in your instance." : "O livro de endereços do sistema contém informação de contacto de todos os utilizadores da sua instância.",
-    "Enable System Address Book" : "Ativar livro de endereços do sistema",
-    "No results." : "Sem resultados.",
-    "Start typing." : "Comece a escrever.",
     "Delegate:" : "Delegar:"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

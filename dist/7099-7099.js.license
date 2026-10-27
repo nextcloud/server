@@ -15,6 +15,7 @@ SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
@@ -36,6 +37,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Alkemics
@@ -94,6 +96,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/files
 	- version: 3.12.2
 	- license: AGPL-3.0-or-later
+- p-queue
+	- version: 9.3.5
+	- license: MIT
 - @nextcloud/vue-select
 	- version: 3.26.0
 	- license: MIT
@@ -134,13 +139,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.5
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.4
 	- license: MIT
 - @floating-ui/core
 	- version: 0.3.1
@@ -160,8 +168,8 @@ This file is generated from multiple sources. Included packages:
 - buffer
 	- version: 6.0.3
 	- license: MIT
-- p-queue
-	- version: 9.3.3
+- p-timeout
+	- version: 7.0.2
 	- license: MIT
 - inherits
 	- version: 2.0.3

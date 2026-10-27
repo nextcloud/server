@@ -188,6 +188,7 @@ OC.L10N.register(
     "Third Last" : "Трето од крајот",
     "Fourth Last" : "Четврто од крајот",
     "Fifth Last" : "Петто од крајот",
+    "Content" : "Содржина",
     "Owner" : "Сопственик",
     "Shared" : "Споделено",
     "Checksum" : "Контролна сума",
@@ -346,10 +347,6 @@ OC.L10N.register(
     "Location:" : "Локација:",
     "Link:" : "Линк:",
     "Occurring:" : "Се случува:",
-    "More options at %s" : "Повеќе опции на %s",
-    "The system address book contains contact information for all users in your instance." : "Системскиот адресар содржи информации за контактите на сите корисници во вашата инстанца.",
-    "Enable System Address Book" : "Овозможи системски адресар",
-    "No results." : "Нема резултати.",
-    "Start typing." : "Започни со пишување."
+    "More options at %s" : "Повеќе опции на %s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

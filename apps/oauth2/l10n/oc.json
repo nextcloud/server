@@ -8,8 +8,6 @@
     "Name" : "Nom",
     "Redirection URI" : "URI de redireccion",
     "Add client" : "Apondre un client",
-    "Add" : "Apondre",
-    "Client Identifier" : "Identificador client",
-    "Show client secret" : "Afichar lo secret del client"
+    "Add" : "Apondre"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

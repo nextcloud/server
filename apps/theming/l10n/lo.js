@@ -104,21 +104,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Misc accessibility options",
     "Enable blur background filter (may increase GPU load)" : "Enable blur background filter (may increase GPU load)",
     "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
-    "Disable-user-theming should be true or false" : "Disable-user-theming should be true or false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema.",
-    "Header logo" : "Header logo",
-    "Upload new header logo" : "Upload new header logo",
-    "Upload new favicon" : "Upload new favicon",
-    "User settings" : "User settings",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.",
-    "Upload new logo" : "Upload new logo",
-    "Upload new background and login image" : "Upload new background and login image",
-    "Background and login image" : "Background and login image",
-    "Advanced options" : "Advanced options",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
-    "Unable to apply the setting." : "Unable to apply the setting.",
-    "No background has been selected" : "No background has been selected",
-    "Select a custom color" : "Select a custom color",
-    "Upload" : "ອັບໂຫຼດ"
+    "Unable to apply the setting." : "Unable to apply the setting."
 },
 "nplurals=1; plural=0;");

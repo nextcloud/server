@@ -168,6 +168,26 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fclose($stream);
 	}
 
+	public function testFopenReadWhenQuotaExceeded(): void {
+		$instance = $this->getLimitedStorage(3);
+
+		// write foobar (6 bytes) past the quota wrapper and scan it,
+		// so the cached usage exceeds the 3 bytes quota
+		$instance->getWrapperStorage()->file_put_contents('files/foo', 'foobar');
+		$instance->getWrapperStorage()->getScanner()->scan('');
+		$this->assertEquals(0, $instance->free_space('files'));
+
+		foreach (['r', 'rb'] as $mode) {
+			$stream = $instance->fopen('files/foo', $mode);
+			$this->assertIsResource($stream);
+			$this->assertEquals('foobar', stream_get_contents($stream));
+			fclose($stream);
+		}
+
+		$this->assertFalse($instance->fopen('files/foo', 'w'));
+		$this->assertFalse($instance->fopen('files/foo', 'r+'));
+	}
+
 	public function testReturnRegularStreamWhenOutsideFiles(): void {
 		$instance = $this->getLimitedStorage(9);
 		$instance->mkdir('files_other');

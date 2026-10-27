@@ -47,10 +47,10 @@ class LogFactory implements ILogFactory {
 	}
 
 	#[\Override]
-	public function getCustomPsrLogger(string $path, string $type = 'file', string $tag = 'Nextcloud'): LoggerInterface {
+	public function getCustomPsrLogger(string $path, string $type = 'file', string $tag = 'Nextcloud', bool $structuredContext = false): LoggerInterface {
 		$log = $this->createNewLogger($type, $tag, $path);
 		return new PsrLoggerAdapter(
-			new Log($log, $this->systemConfig)
+			new Log($log, $this->systemConfig, structuredContext: $structuredContext)
 		);
 	}
 

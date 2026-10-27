@@ -402,13 +402,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Administrator je onemogućio grupno dijeljenje",
     "Public link sharing is disabled by the administrator" : "Administrator je onemogućio dijeljenje javnih poveznica",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Neuspješno dijeljenje %1$s jer pozadinski servis ne dopušta dijeljenje vrste %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Neuspješno dijeljenje %s jer pozadinski servis ne podržava ScienceMesh dijeljenje ",
     "Public upload disabled by the administrator" : "Administrator je onemogućio javno otpremanje",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni moraju sadržavati najmanje 1 znak i smiju sadržavati samo slova, brojeve ili crticu",
     "Via “{folder}”" : "Putem „{folder}“",
-    "Name or email …" : "Ime ili adresa e-pošte…",
-    "Name, email, or Federated Cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…",
-    "Searching …" : "Traženje…",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Postavite token javne poveznice za dijeljenje na nešto lako pamtljivo ili generirajte novi token. Ne preporučuje se korištenje lako pogodivog tokena za dijeljenja koja sadrže osjetljive informacije."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

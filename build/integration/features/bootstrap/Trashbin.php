@@ -6,6 +6,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -15,11 +17,10 @@ require __DIR__ . '/autoload.php';
  */
 trait Trashbin {
 	// WebDav trait is expected to be used in the class that uses this trait.
-
 	/**
-	 * @When User :user empties trashbin
 	 * @param string $user user
 	 */
+	#[When('User :user empties trashbin')]
 	public function emptyTrashbin($user) {
 		$client = $this->getSabreClient($user);
 		$response = $client->request('DELETE', $this->makeSabrePath($user, 'trash', 'trashbin'));
@@ -82,11 +83,11 @@ trait Trashbin {
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" in trash folder "([^"]*)" should have the following elements$/
 	 * @param string $user
 	 * @param string $folder
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
+	#[Then('/^user "([^"]*)" in trash folder "([^"]*)" should have the following elements$/')]
 	public function checkTrashContents($user, $folder, $expectedElements) {
 		$elementList = $this->listTrashbinFolder($user, $folder);
 		$trashContent = array_filter(array_map(function (array $item) {
@@ -105,11 +106,11 @@ trait Trashbin {
 	}
 
 	/**
-	 * @Then /^as "([^"]*)" the (file|folder) "([^"]*)" exists in trash$/
 	 * @param string $user
 	 * @param string $type
 	 * @param string $file
 	 */
+	#[Then('/^as "([^"]*)" the (file|folder) "([^"]*)" exists in trash$/')]
 	public function checkTrashContains($user, $type, $file) {
 		$parent = dirname($file);
 		if ($parent === '.') {
@@ -127,21 +128,21 @@ trait Trashbin {
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" in trash folder "([^"]*)" should have (\d+) elements?$/
 	 * @param string $user
 	 * @param string $folder
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
+	#[Then('/^user "([^"]*)" in trash folder "([^"]*)" should have (\d+) elements?$/')]
 	public function checkTrashSize($user, $folder, $expectedCount) {
 		$elementList = $this->listTrashbinFolder($user, $folder);
 		Assert::assertEquals($expectedCount, count($elementList));
 	}
 
 	/**
-	 * @When /^user "([^"]*)" in restores "([^"]*)" from trash$/
 	 * @param string $user
 	 * @param string $file
 	 */
+	#[When('/^user "([^"]*)" in restores "([^"]*)" from trash$/')]
 	public function restoreFromTrash($user, $file) {
 		$file = $this->getFullTrashPath($user, $file);
 		$url = $this->makeSabrePath($user, 'trash' . $file, 'trashbin');
