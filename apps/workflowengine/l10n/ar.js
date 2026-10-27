@@ -59,6 +59,7 @@ OC.L10N.register(
     "Custom MIME type" : "نوع MIME مخصص",
     "e.g. httpd/unix-directory" : "على سبيل المثال httpd/unix-directory",
     "Select a file type" : "اختر نوع الملف",
+    "Tag" : "وسم",
     "Start time" : "وقت البدء",
     "Please enter a valid time span" : "الرجاء إدخال نطاق زمني صالح",
     "Timezone" : "المنطقة الزمنية",
