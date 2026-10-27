@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OC\Files\NodeAttributes;
 
 use NCU\Files\NodeAttributes\INodeAttributeProvider;
+use NCU\Files\NodeAttributes\NodeAttributeContext;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\NodeAttributeProviderRegistration;
+use OCP\Files\Node;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -25,6 +27,9 @@ class NodeAttributeRegistry {
 
 	/** @var array<class-string, INodeAttributeProvider|null> */
 	private array $providers = [];
+
+	/** @var array<string, array<string, array<int, true>>> preloaded file ids by context and attribute */
+	private array $preloaded = [];
 
 	public function __construct(
 		private readonly Coordinator $coordinator,
@@ -68,6 +73,36 @@ class NodeAttributeRegistry {
 	}
 
 	/**
+	 * Preload the requested attributes of these nodes, skipping the ones already preloaded for this context
+	 *
+	 * @param list<Node> $nodes
+	 * @param list<string> $attributes in Clark notation
+	 */
+	public function preload(NodeAttributeContext $context, array $nodes, array $attributes): void {
+		$contextKey = $this->getContextKey($context);
+		foreach ($this->getProvidersFor($attributes) as $group) {
+			$missing = array_values(array_filter($nodes, function (Node $node) use ($contextKey, $group): bool {
+				foreach ($group['attributes'] as $attribute) {
+					if (!isset($this->preloaded[$contextKey][$attribute][$node->getId()])) {
+						return true;
+					}
+				}
+				return false;
+			}));
+			if ($missing === []) {
+				continue;
+			}
+
+			$group['provider']->preload($context, $missing, $group['attributes']);
+			foreach ($group['attributes'] as $attribute) {
+				foreach ($missing as $node) {
+					$this->preloaded[$contextKey][$attribute][$node->getId()] = true;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Get the local name of an attribute in Clark notation, e.g. `has-preview` for `{http://nextcloud.org/ns}has-preview`
 	 */
 	public static function getLocalName(string $attribute): string {
@@ -107,6 +142,14 @@ class NodeAttributeRegistry {
 			}
 		}
 		return $this->registrations;
+	}
+
+	private function getContextKey(NodeAttributeContext $context): string {
+		$user = $context->getUser();
+		if ($user !== null) {
+			return 'user:' . $user->getUID();
+		}
+		return 'share:' . ($context->getShare()?->getToken() ?? '');
 	}
 
 	/**

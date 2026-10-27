@@ -32,10 +32,9 @@ class NodeSerializer implements INodeSerializer {
 
 	#[\Override]
 	public function serialize(NodeAttributeContext $context, array $nodes, ?array $attributes = null): array {
-		$groups = $this->registry->getProvidersFor($attributes ?? $this->registry->getAttributeNames());
-		foreach ($groups as $group) {
-			$group['provider']->preload($context, $nodes, $group['attributes']);
-		}
+		$attributes ??= $this->registry->getAttributeNames();
+		$this->registry->preload($context, $nodes, $attributes);
+		$groups = $this->registry->getProvidersFor($attributes);
 
 		[$root, $rootPath, $remoteUrl] = $this->getRoot($context);
 		$result = [];

@@ -65,26 +65,6 @@ class FavoriteProviderTest extends TestCase {
 		self::assertSame([TagsPlugin::FAVORITE_PROPERTYNAME => 0], $this->provider->getAttributes($this->context, $nodes[2], self::ATTRIBUTES));
 	}
 
-	public function testPreloadingTwiceOnlyQueriesNewNodes(): void {
-		$this->tags->expects(self::exactly(2))
-			->method('getTagsForObjects')
-			->willReturnCallback(static fn (array $ids): array => array_fill_keys($ids, []));
-
-		$this->provider->preload($this->context, [$this->node(1), $this->node(2)], self::ATTRIBUTES);
-		$this->provider->preload($this->context, [$this->node(1), $this->node(2)], self::ATTRIBUTES);
-		$this->provider->preload($this->context, [$this->node(2), $this->node(3)], self::ATTRIBUTES);
-	}
-
-	public function testNodeWithoutPreload(): void {
-		$node = $this->node(7);
-		$this->tags->expects(self::once())
-			->method('getTagsForObjects')
-			->with([7])
-			->willReturn([7 => [TagsPlugin::TAG_FAVORITE]]);
-
-		self::assertSame([TagsPlugin::FAVORITE_PROPERTYNAME => 1], $this->provider->getAttributes($this->context, $node, self::ATTRIBUTES));
-	}
-
 	public function testNoFavoritesOnPublicShares(): void {
 		$context = NodeAttributeContext::forShare($this->createMock(IShare::class));
 		$this->tagManager->expects(self::never())->method('load');

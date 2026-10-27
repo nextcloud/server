@@ -80,9 +80,10 @@ class NodeSerializerTest extends TestCase {
 			->willReturn([['provider' => $provider, 'attributes' => [self::HAS_PREVIEW, self::SHARE_TYPES]]]);
 
 		// Everything is preloaded at once, before reading any node
-		$provider->expects(self::once())
+		$this->registry->expects(self::once())
 			->method('preload')
 			->with(self::isInstanceOf(NodeAttributeContext::class), [$file, $folder], [self::HAS_PREVIEW, self::SHARE_TYPES]);
+		$provider->expects(self::never())->method('preload');
 		$provider->method('getAttributes')->willReturnCallback(static fn (NodeAttributeContext $context, Node $node): array => [
 			self::HAS_PREVIEW => $node === $file,
 			self::SHARE_TYPES => new NodeAttributeList('share-type', [0, 3]),
