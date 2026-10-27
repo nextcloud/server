@@ -19,6 +19,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Property\Boolean;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Sabre\VObject\Property\ICalendar\DateTime;
+use Sabre\VObject\Property\ICalendar\Duration;
 use Sabre\VObject\Recur\EventIterator;
 
 class TipBroker extends Broker {
@@ -398,16 +399,7 @@ class TipBroker extends Broker {
 				}
 			}
 
-			// determine if this attendee needs to be notified of the change, based on whether
-			// a significant property changed on the event, or the set of instances they are part of changed
-			$oldAttendeeInstances = isset($oldEventInfo['attendees'][$attendee]) ? array_keys($oldEventInfo['attendees'][$attendee]['instances']) : [];
-			$newAttendeeInstances = array_keys($eventInfo['attendees'][$attendee]['instances']);
-
-			$significantChange
-				= $eventInfo['attendees'][$attendee]['forceSend'] === 'REQUEST'
-				|| count($oldAttendeeInstances) !== count($newAttendeeInstances)
-				|| count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
-				|| $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+			$significantChange = $this->isSignificantChangeForAttendee($attendee, $eventInfo, $oldEventInfo);
 
 			$messages[] = $this->generateMessage(
 				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template, $significantChange
@@ -415,6 +407,101 @@ class TipBroker extends Broker {
 		}
 
 		return $messages;
+	}
+
+	/**
+	 * Determines whether an attendee needs to be notified of a change, considering only the
+	 * occurrences the attendee takes part in before or after the change.
+	 *
+	 * A new recurrence exception that matches the occurrence it replaces, such as one created to
+	 * store another attendee's participation status, is not significant.
+	 */
+	protected function isSignificantChangeForAttendee(string $attendee, array $eventInfo, array $oldEventInfo): bool {
+		$newAttendance = $eventInfo['attendees'][$attendee]['instances'] ?? [];
+		$oldAttendance = $oldEventInfo['attendees'][$attendee]['instances'] ?? [];
+		if (($eventInfo['attendees'][$attendee]['forceSend'] ?? null) === 'REQUEST' || $oldAttendance === []) {
+			return true;
+		}
+
+		$newInstances = $eventInfo['instances'] ?? [];
+		$oldInstances = $oldEventInfo['instances'] ?? [];
+		foreach (array_keys($newInstances + $oldInstances) as $instanceId) {
+			$oldInstance = $oldInstances[$instanceId] ?? null;
+			$newInstance = $newInstances[$instanceId] ?? null;
+			// an occurrence without its own component is attended through the master
+			$wasAttending = isset($oldAttendance[$instanceId]) || ($oldInstance === null && isset($oldAttendance['master']));
+			$isAttending = isset($newAttendance[$instanceId]) || ($newInstance === null && isset($newAttendance['master']));
+			if ($wasAttending !== $isAttending) {
+				return true;
+			}
+			if ($isAttending && !$this->isSameOccurrence($oldInstance ?? $oldInstances['master'] ?? null, $newInstance ?? $newInstances['master'] ?? null)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Compares two components describing the same occurrence on their significant properties.
+	 *
+	 * When one of them is the master standing in for an occurrence without its own component,
+	 * the recurrence rules are ignored and the timing is compared as start and duration.
+	 */
+	protected function isSameOccurrence(?VEvent $old, ?VEvent $new): bool {
+		if ($old === null || $new === null) {
+			return false;
+		}
+
+		$oldIsException = isset($old->{'RECURRENCE-ID'});
+		if ($oldIsException === isset($new->{'RECURRENCE-ID'})) {
+			return $this->significantValues($old, $this->significantChangeProperties) === $this->significantValues($new, $this->significantChangeProperties);
+		}
+
+		[$exception, $master] = $oldIsException ? [$old, $new] : [$new, $old];
+		$properties = array_diff($this->significantChangeProperties, ['DTSTART', 'DTEND', 'DURATION', 'DUE', 'RRULE', 'RDATE', 'EXDATE']);
+		return $this->significantValues($exception, $properties) === $this->significantValues($master, $properties)
+			&& $this->getDateTimeValue($exception, 'DTSTART')?->getTimestamp() === $this->getRecurrenceKey($exception)
+			&& $this->getDurationInSeconds($exception) === $this->getDurationInSeconds($master);
+	}
+
+	/**
+	 * @param list<string> $propertyNames
+	 * @return array<string, list<string>>
+	 */
+	protected function significantValues(VEvent $component, array $propertyNames): array {
+		$values = [];
+		foreach ($propertyNames as $propertyName) {
+			foreach ($component->select($propertyName) as $property) {
+				$values[$propertyName][] = $property->getValue();
+			}
+		}
+		return $values;
+	}
+
+	protected function getDateTimeValue(VEvent $component, string $propertyName): ?\DateTimeImmutable {
+		foreach ($component->select($propertyName) as $property) {
+			if ($property instanceof DateTime) {
+				return $property->getDateTime();
+			}
+		}
+		return null;
+	}
+
+	protected function getDurationInSeconds(VEvent $component): ?int {
+		$start = $this->getDateTimeValue($component, 'DTSTART');
+		$end = $this->getDateTimeValue($component, 'DTEND');
+		if ($start !== null && $end === null) {
+			foreach ($component->select('DURATION') as $duration) {
+				if ($duration instanceof Duration) {
+					$end = $start->add($duration->getDateInterval());
+				}
+			}
+		}
+		if ($start === null || $end === null) {
+			return null;
+		}
+		return $end->getTimestamp() - $start->getTimestamp();
 	}
 
 	/**
