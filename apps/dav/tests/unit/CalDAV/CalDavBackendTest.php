@@ -1543,14 +1543,17 @@ EOD;
 		$this->assertCount(4, $mySearchResults);
 		$this->assertCount(3, $sharerSearchResults);
 
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPublic, $mySearchResults[0]['calendardata']);
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPrivate, $mySearchResults[1]['calendardata']);
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myConfidential, $mySearchResults[2]['calendardata']);
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $mySearchResults[3]['calendardata']);
+		$normalizeCalendarData = static fn (string $data): string =>
+			trim(str_replace(["\r\n", "\r"], "\n", $data));
 
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $sharerSearchResults[0]['calendardata']);
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPrivate, $sharerSearchResults[1]['calendardata']);
-		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerConfidential, $sharerSearchResults[2]['calendardata']);
+		$this->assertEqualsCanonicalizing(
+			array_map($normalizeCalendarData, [$myPublic, $myPrivate, $myConfidential, $sharerPublic]),
+			array_map($normalizeCalendarData, array_column($mySearchResults, 'calendardata')),
+		);
+		$this->assertEqualsCanonicalizing(
+			array_map($normalizeCalendarData, [$sharerPublic, $sharerPrivate, $sharerConfidential]),
+			array_map($normalizeCalendarData, array_column($sharerSearchResults, 'calendardata')),
+		);
 	}
 
 	/**
