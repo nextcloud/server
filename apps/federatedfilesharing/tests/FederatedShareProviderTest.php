@@ -15,6 +15,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -103,6 +104,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->gsConfig,
 			$this->cloudFederationProviderManager,
 			$this->logger,
+			Server::get(ITimeFactory::class),
 		);
 
 		$this->shareManager = Server::get(IManager::class);
@@ -473,6 +475,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					$this->gsConfig,
 					$this->cloudFederationProviderManager,
 					$this->logger,
+					Server::get(ITimeFactory::class),
 				]
 			)
 			->onlyMethods(['sendPermissionUpdate'])

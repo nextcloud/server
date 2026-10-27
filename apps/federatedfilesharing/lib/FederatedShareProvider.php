@@ -8,9 +8,11 @@
 
 namespace OCA\FederatedFileSharing;
 
+use DateTime;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OCA\Files_Sharing\External\Storage as ExternalStorage;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -62,6 +64,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		private \OCP\GlobalScale\IConfig $gsConfig,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -137,7 +140,11 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		if ($remoteShare) {
 			$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
-			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
+			$token = $share->getToken();
+			if ($token === null || $token === '') {
+				$token = 'tmp_token_' . time();
+			}
+			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, $token, $shareType, $expirationDate, $share->getShareTime() ?? \DateTime::createFromImmutable($this->timeFactory->now()));
 			[$token, $remoteId] = $this->notifications->requestReShare(
 				$remoteShare['refresh_token'],
 				$remoteShare['remote_id'],
@@ -172,7 +179,11 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share): string {
-		$token = $this->tokenHandler->generateToken();
+		$token = $share->getToken();
+		if ($token === null || $token === '') {
+			$token = $this->tokenHandler->generateToken();
+		}
+
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -182,7 +193,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			$share->getPermissions(),
 			$token,
 			$share->getShareType(),
-			$share->getExpirationDate()
+			$share->getExpirationDate(),
+			$share->getShareTime() ?? \DateTime::createFromImmutable($this->timeFactory->now()),
 		);
 
 		$failure = false;
@@ -282,7 +294,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @param int $shareType
 	 * @param \DateTime $expirationDate
 	 */
-	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate): string {
+	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate, DateTime $shareTime): string {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))
@@ -295,7 +307,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->setValue('permissions', $qb->createNamedParameter($permissions))
 			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->setValue('token', $qb->createNamedParameter($token))
-			->setValue('stime', $qb->createNamedParameter(time()));
+			->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
 
 		/*
 		 * Added to fix https://github.com/owncloud/core/issues/22215
