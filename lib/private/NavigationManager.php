@@ -282,15 +282,16 @@ class NavigationManager implements INavigationManager {
 			}
 
 			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			// Logout
-			$this->add([
-				'type' => 'settings',
-				'id' => 'logout',
-				'order' => 99999,
-				'href' => $logoutUrl,
-				'name' => $l->t('Log out'),
-				'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-			]);
+			if ($logoutUrl !== '') {
+				$this->add([
+					'type' => 'settings',
+					'id' => 'logout',
+					'order' => 99999,
+					'href' => $logoutUrl,
+					'name' => $l->t('Log out'),
+					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
+				]);
+			}
 
 			if ($this->isSubadmin()) {
 				// User management
