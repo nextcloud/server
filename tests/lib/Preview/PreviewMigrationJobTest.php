@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace lib\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
@@ -17,6 +18,7 @@ use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\FileInfo;
 use OCP\Files\IAppData;
@@ -149,6 +151,7 @@ class PreviewMigrationJobTest extends TestCase {
 			),
 			Server::get(IJobList::class),
 			$this->logger,
+			$this->db,
 		);
 	}
 
@@ -285,6 +288,55 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->invokePrivate($job, 'run', [['partition' => 5]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+	}
+
+	#[TestDox('A partition must not be migrated while the maximum number of parallel jobs are already running')]
+	public function testMigrationRespectsMaxParallelJobs(): void {
+		$this->appConfig->method('getValueInt')
+			->with('core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS)
+			->willReturn(2);
+
+		$folder = $this->previewAppData->newFolder('5');
+		$folder->newFile('64-64-crop.jpg', 'abcdefg');
+
+		$firstRunningJobId = $this->insertReservedJob();
+		$this->insertReservedJob();
+
+		try {
+			$job = $this->createJob();
+			$this->invokePrivate($job, 'run', [['partition' => 5]]);
+			$this->assertEquals(1, count($this->previewAppData->getDirectoryListing()));
+			$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+
+			Server::get(IJobList::class)->removeById($firstRunningJobId);
+
+			$this->invokePrivate($job, 'run', [['partition' => 5]]);
+			$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+			$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+		} finally {
+			Server::get(IJobList::class)->remove(PreviewMigrationJob::class);
+		}
+	}
+
+	private function insertReservedJob(): string {
+		$argument = ['partition' => $this->getUniqueID()];
+		Server::get(IJobList::class)->add(PreviewMigrationJob::class, $argument);
+
+		$argumentHash = hash('sha256', json_encode($argument));
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('jobs')
+			->set('reserved_at', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('argument_hash', $qb->createNamedParameter($argumentHash)))
+			->executeStatement();
+
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('id')
+			->from('jobs')
+			->where($qb->expr()->eq('argument_hash', $qb->createNamedParameter($argumentHash)))
+			->executeQuery();
+		$id = (string)$result->fetchOne();
+		$result->closeCursor();
+		return $id;
 	}
 
 	#[TestDox('run() must complete without error when there is nothing to migrate')]
