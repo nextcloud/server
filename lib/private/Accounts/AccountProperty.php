@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Accounts;
 
 use InvalidArgumentException;
@@ -64,7 +65,7 @@ class AccountProperty implements IAccountProperty {
 			IAccountManager::SCOPE_FEDERATED,
 			IAccountManager::SCOPE_PRIVATE,
 			IAccountManager::SCOPE_PUBLISHED
-		])) {
+		], true)) {
 			throw new InvalidArgumentException('Invalid scope');
 		}
 		$this->scope = $newScope;
@@ -152,7 +153,7 @@ class AccountProperty implements IAccountProperty {
 			IAccountManager::NOT_VERIFIED,
 			IAccountManager::VERIFICATION_IN_PROGRESS,
 			IAccountManager::VERIFIED,
-		])) {
+		], true)) {
 			throw new InvalidArgumentException('Provided verification value is invalid');
 		}
 		$this->locallyVerified = $verified;

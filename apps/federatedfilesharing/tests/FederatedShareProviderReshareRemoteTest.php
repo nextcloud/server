@@ -49,7 +49,6 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 	private LoggerInterface $logger;
 	private FederatedShareProvider $shareProvider;
 
-
 	protected function setUp(): void {
 		$this->connection = $this->createMock(IDBConnection::class);
 		$this->addressHandler = $this->createMock(AddressHandler::class);
@@ -134,7 +133,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				'share_type' => 0,
 				'remote' => 'https://origin.test/',
 				'remote_id' => '10',
-				'share_token' => 'share_token1',
+				'refresh_token' => 'share_token1',
 				'password' => '',
 				'name' => '/Share1',
 				'owner' => 'jane', // owner in share_external is the user on the remote instance
@@ -168,7 +167,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				'share_type' => 0,
 				'remote' => 'https://origin.test/',
 				'remote_id' => '10',
-				'share_token' => 'share_token2',
+				'refresh_token' => 'share_token2',
 				'password' => '',
 				'name' => '/Share1',
 				'owner' => 'jane', // owner in share_external is the user on the remote instance
@@ -247,7 +246,6 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb6->method('expr')->willReturn($expr6);
 		$qb6->method('createNamedParameter')->willReturn('');
 		$qb6->method('executeQuery')->willReturn($result6);
-
 
 		$queryBuilderMatcher = $this->exactly(7);
 		$this->connection

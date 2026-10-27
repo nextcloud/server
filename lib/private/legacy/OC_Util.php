@@ -7,28 +7,24 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
-use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\HintException;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
-use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -68,46 +64,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if a password is required for each public link
-	 *
-	 * @param bool $checkGroupMembership Check group membership exclusion
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
-	 */
-	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
-	}
-
-	/**
-	 * check if sharing is disabled for the current user
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUser|null $user
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's sharingDisabledForUser directly
-	 */
-	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		$userId = $user ? $user->getUID() : null;
-		return $shareManager->sharingDisabledForUser($userId);
-	}
-
-	/**
-	 * check if share API enforces a default expire date
-	 *
-	 * @return bool
-	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
-	 */
-	public static function isDefaultExpireDateEnforced() {
-		/** @var IManager $shareManager */
-		$shareManager = Server::get(IManager::class);
-		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
-	}
-
-	/**
 	 * copies the skeleton to the users /files
 	 *
 	 * @param string $userId
@@ -121,45 +77,7 @@ class OC_Util {
 	}
 
 	/**
-	 * copies a directory recursively by using streams
-	 *
-	 * @param string $source
-	 * @param Folder $target
-	 * @return void
-	 * @deprecated 34.0.0 Unused, if you really need this functionality, open an issue on GitHub
-	 */
-	public static function copyr($source, Folder $target) {
-		$logger = Server::get(LoggerInterface::class);
-
-		// Verify if folder exists
-		$dir = opendir($source);
-		if ($dir === false) {
-			$logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
-			return;
-		}
-
-		// Copy the files
-		while (false !== ($file = readdir($dir))) {
-			if (!Filesystem::isIgnoredDir($file)) {
-				if (is_dir($source . '/' . $file)) {
-					$child = $target->newFolder($file);
-					self::copyr($source . '/' . $file, $child);
-				} else {
-					$sourceStream = fopen($source . '/' . $file, 'r');
-					if ($sourceStream === false) {
-						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
-						closedir($dir);
-						return;
-					}
-					$target->newFile($file, $sourceStream);
-				}
-			}
-		}
-		closedir($dir);
-	}
-
-	/**
-	 * @deprecated 32.0.0 Call tearDown directly on SetupManager
+	 * @deprecated 32.0.0 Use {@see \OCP\Files\ISetupManager::tearDown()} instead.
 	 */
 	public static function tearDownFS(): void {
 		$setupManager = Server::get(SetupManager::class);
@@ -221,7 +139,7 @@ class OC_Util {
 	 */
 	private static function addExternalResource($application, $prepend, $path, $type = 'script'): void {
 		if ($type === 'style') {
-			if (!in_array($path, self::$styles)) {
+			if (!in_array($path, self::$styles, true)) {
 				if ($prepend === true) {
 					array_unshift(self::$styles, $path);
 				} else {
@@ -260,7 +178,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -314,7 +232,14 @@ class OC_Util {
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
-			} elseif (!is_writable($CONFIG_DATADIRECTORY) || !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_readable($CONFIG_DATADIRECTORY)) {
+				$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
+					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
+				$errors[] = [
+					'error' => $l->t('Your data directory is not readable.'),
+					'hint' => $permissionsHint
+				];
+			} elseif (!is_writable($CONFIG_DATADIRECTORY)) {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
@@ -440,7 +365,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) == 0);
+		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) === 0);
 
 		return $errors;
 	}
@@ -452,7 +377,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 * @internal
 	 */
-	public static function checkDataDirectoryPermissions($dataDirectory) {
+	private static function checkDataDirectoryPermissions($dataDirectory) {
 		if (!Server::get(IConfig::class)->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
@@ -463,7 +388,7 @@ class OC_Util {
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
+				$l = Server::get(IFactory::class)->get('lib');
 				return [[
 					'error' => $l->t('Your data directory is readable by other people.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
@@ -481,8 +406,8 @@ class OC_Util {
 	 * @return array errors found
 	 * @internal
 	 */
-	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = \OC::$server->getL10N('lib');
+	private static function checkDataDirectoryValidity($dataDirectory) {
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [
@@ -581,7 +506,7 @@ class OC_Util {
 	 *
 	 * @internal
 	 */
-	public static function isAnnotationsWorking(): bool {
+	private static function isAnnotationsWorking(): bool {
 		if (PHP_VERSION_ID >= 80300) {
 			/** @psalm-suppress UndefinedMethod */
 			$reflection = \ReflectionMethod::createFromMethodName(__METHOD__);
@@ -591,15 +516,6 @@ class OC_Util {
 		$docs = $reflection->getDocComment();
 
 		return (is_string($docs) && strlen($docs) > 50);
-	}
-
-	/**
-	 * Check if the PHP module fileinfo is loaded.
-	 *
-	 * @internal
-	 */
-	public static function fileInfoLoaded(): bool {
-		return function_exists('finfo_open');
 	}
 
 	/**
@@ -614,21 +530,26 @@ class OC_Util {
 	}
 
 	/**
-	 * Handles the case that there may not be a theme, then check if a "default"
-	 * theme exists and take that one
+	 * Returns the name of the active legacy theme.
 	 *
-	 * @return string the theme
+	 * This method does not verify that the configured theme directory exists. It
+	 * only applies to the legacy filesystem-based theme mechanism, not the modern
+	 * theming app.
+	 *
+	 * @return string The configured legacy theme name, `default` as a fallback if present, or an empty string if there is no active legacy theme.
 	 */
 	public static function getTheme() {
-		$theme = Server::get(SystemConfig::class)->getValue('theme', '');
+		$themeName = Server::get(SystemConfig::class)->getValue('theme', '');
 
-		if ($theme === '') {
-			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
-				$theme = 'default';
-			}
+		if ($themeName !== '') {
+			return $themeName;
 		}
 
-		return $theme;
+		if (is_dir(OC::$SERVERROOT . '/themes/default')) {
+			return 'default';
+		}
+
+		return '';
 	}
 
 	/**

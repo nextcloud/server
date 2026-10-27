@@ -4,11 +4,14 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
@@ -50,6 +53,11 @@ class FunctionBuilder implements IFunctionBuilder {
 		} else {
 			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ')');
 		}
+	}
+
+	#[\Override]
+	public function regexSubstring($input, $pattern): IQueryFunction {
+		return new QueryFunction('REGEXP_SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($pattern) . ')');
 	}
 
 	#[\Override]
@@ -116,5 +124,10 @@ class FunctionBuilder implements IFunctionBuilder {
 	#[Override]
 	public function now(): IQueryFunction {
 		return new QueryFunction('NOW()');
+	}
+
+	#[Override]
+	public function coalesce(string|ILiteral|IParameter|IQueryFunction $value, string|ILiteral|IParameter|IQueryFunction $default): IQueryFunction {
+		return new QueryFunction('COALESCE(' . $this->helper->quoteColumnName($value) . ', ' . $this->helper->quoteColumnName($default) . ')');
 	}
 }

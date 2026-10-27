@@ -9,6 +9,7 @@
 namespace Test\L10N;
 
 use DateTime;
+use DateTimeImmutable;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
 use OCP\App\IAppManager;
@@ -145,6 +146,14 @@ class L10nTest extends TestCase {
 			['13. Februar 2009', 'de', 'de_DE', 'date', new DateTime('@1234567890')],
 			["11:31:30\xE2\x80\xAFPM GMT+0", 'en', 'en_US', 'time', new DateTime('@1234567890')],
 			['23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTime('@1234567890')],
+
+			// DateTimeImmutable object
+			["February 13, 2009, 11:31:30\xE2\x80\xAFPM GMT+0", 'en', 'en_US', 'datetime', new DateTimeImmutable('@1234567890')],
+			['13. Februar 2009, 23:31:30 GMT+0', 'de', 'de_DE', 'datetime', new DateTimeImmutable('@1234567890')],
+			['February 13, 2009', 'en', 'en_US', 'date', new DateTimeImmutable('@1234567890')],
+			['13. Februar 2009', 'de', 'de_DE', 'date', new DateTimeImmutable('@1234567890')],
+			["11:31:30\xE2\x80\xAFPM GMT+0", 'en', 'en_US', 'time', new DateTimeImmutable('@1234567890')],
+			['23:31:30 GMT+0', 'de', 'de_DE', 'time', new DateTimeImmutable('@1234567890')],
 
 			// en_GB
 			['13 February 2009, 23:31:30 GMT+0', 'en_GB', 'en_GB', 'datetime', new DateTime('@1234567890')],

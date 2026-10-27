@@ -8,70 +8,70 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object\Multi;
 
-use OC\Core\Command\Base;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Users extends Base {
+#[AsCommand(
+	name: 'files:object:multi:users',
+	description: 'Get the mapping between users and object store buckets',
+	supportsOutputFormat: true,
+)]
+class Users {
 	public function __construct(
 		private readonly IUserManager $userManager,
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
-		private readonly IConfig $config,
+		private readonly IUserConfig $userConfig,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:object:multi:users')
-			->setDescription('Get the mapping between users and object store buckets')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, 'Only list users using the specified bucket')
-			->addOption('object-store', 'o', InputOption::VALUE_REQUIRED, 'Only list users using the specified object store configuration')
-			->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'Only show the mapping for the specified user, ignores all other options');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		if ($userId = $input->getOption('user')) {
-			$user = $this->userManager->get($userId);
-			if (!$user) {
-				$output->writeln("<error>User $userId not found</error>");
-				return 1;
+	public function __invoke(
+		IOutput $output,
+		#[Option(description: 'Only list users using the specified bucket', shortcut: 'b')]
+		?string $bucket = null,
+		#[Option(name: 'object-store', description: 'Only list users using the specified object store configuration', shortcut: 'o')]
+		?string $objectStore = null,
+		#[Option(description: 'Only show the mapping for the specified user, ignores all other options', shortcut: 'u')]
+		?string $user = null,
+	): ExitCode {
+		if ($user) {
+			$userObject = $this->userManager->get($user);
+			if (!$userObject) {
+				$output->writeln("<error>User $user not found</error>");
+				return ExitCode::Failure;
 			}
-			$users = new \ArrayIterator([$user]);
+			$users = new \ArrayIterator([$userObject]);
 		} else {
-			$bucket = (string)$input->getOption('bucket');
-			$objectStore = (string)$input->getOption('object-store');
+			$bucket = (string)$bucket;
+			$objectStore = (string)$objectStore;
 			if ($bucket !== '' && $objectStore === '') {
-				$users = $this->getUsers($this->config->getUsersForUserValue('homeobjectstore', 'bucket', $bucket));
+				$users = $this->getUsers($this->userConfig->searchUsersByValueString('homeobjectstore', 'bucket', $bucket));
 			} elseif ($bucket === '' && $objectStore !== '') {
-				$users = $this->getUsers($this->config->getUsersForUserValue('homeobjectstore', 'objectstore', $objectStore));
+				$users = $this->getUsers($this->userConfig->searchUsersByValueString('homeobjectstore', 'objectstore', $objectStore));
 			} elseif ($bucket) {
 				$users = $this->getUsers(array_intersect(
-					$this->config->getUsersForUserValue('homeobjectstore', 'bucket', $bucket),
-					$this->config->getUsersForUserValue('homeobjectstore', 'objectstore', $objectStore)
+					iterator_to_array($this->userConfig->searchUsersByValueString('homeobjectstore', 'bucket', $bucket)),
+					iterator_to_array($this->userConfig->searchUsersByValueString('homeobjectstore', 'objectstore', $objectStore))
 				));
 			} else {
 				$users = $this->userManager->getSeenUsers();
 			}
 		}
 
-		$this->writeStreamingTableInOutputFormat($input, $output, $this->infoForUsers($users), 100);
-		return 0;
+		$output->writeStreamingTableInOutputFormat($this->infoForUsers($users), 100);
+		return ExitCode::Success;
 	}
 
 	/**
-	 * @param string[] $userIds
+	 * @param iterable<string> $userIds
 	 * @return \Iterator<IUser>
 	 */
-	private function getUsers(array $userIds): \Iterator {
+	private function getUsers(iterable $userIds): \Iterator {
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
 			if ($user) {

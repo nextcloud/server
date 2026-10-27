@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\Db\Direct;
@@ -21,23 +22,25 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
 
 class DirectController extends OCSController {
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IRootFolder $rootFolder,
+		private IUserFolder $userFolder,
 		private string $userId,
 		private DirectMapper $mapper,
 		private ISecureRandom $random,
 		private ITimeFactory $timeFactory,
 		private IURLGenerator $urlGenerator,
 		private IEventDispatcher $eventDispatcher,
+		private IManager $shareManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -56,9 +59,11 @@ class DirectController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		if (!$this->shareManager->shareApiAllowLinks()) {
+			throw new OCSForbiddenException('Creating direct links is disabled');
+		}
 
-		$file = $userFolder->getFirstNodeById($fileId);
+		$file = $this->userFolder->getFirstNodeById($fileId);
 
 		if (!$file) {
 			throw new OCSNotFoundException();
@@ -72,7 +77,7 @@ class DirectController extends OCSController {
 			throw new OCSBadRequestException('Direct download only works for files');
 		}
 
-		$event = new BeforeDirectFileDownloadEvent($userFolder->getRelativePath($file->getPath()));
+		$event = new BeforeDirectFileDownloadEvent($this->userFolder->getRelativePath($file->getPath()));
 		$this->eventDispatcher->dispatchTyped($event);
 
 		if ($event->isSuccessful() === false) {

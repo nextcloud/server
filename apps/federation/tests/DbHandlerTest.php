@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests;
 
 use OCA\Federation\DbHandler;
@@ -104,7 +105,6 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame($id1, (int)$result[0]['id']);
 	}
-
 
 	public function testGetServerById(): void {
 		$this->dbHandler->addServer('server1');

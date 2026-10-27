@@ -41,7 +41,6 @@ class SetConfigTest extends TestCase {
 		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
 
-
 	public static function dataTest() {
 		return [
 			[['name'], 'newvalue', null, 'newvalue'],

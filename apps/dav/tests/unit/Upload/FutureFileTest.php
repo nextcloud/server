@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -56,14 +57,12 @@ class FutureFileTest extends \Test\TestCase {
 		$f->delete();
 	}
 
-
 	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$f = $this->mockFutureFile();
 		$f->put('');
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

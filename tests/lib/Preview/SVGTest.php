@@ -61,4 +61,50 @@ class SVGTest extends Provider {
 
 		self::assertNull($this->provider->getThumbnail($file, 512, 512));
 	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSVGHrefNamespace')]
+	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
+	public function testGetThumbnailSvgHrefNamespace(string $namespace): void {
+		$handle = fopen('php://temp', 'w+');
+		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:' . $namespace . '="http://www.w3.org/1999/xlink">
+  <image x="0" y="0" ' . $namespace . ':href="fxlogo.png" height="100" width="100" />
+</svg>');
+		rewind($handle);
+
+		$file = $this->createMock(File::class);
+		$file->method('fopen')
+			->willReturn($handle);
+
+		self::assertNull($this->provider->getThumbnail($file, 512, 512));
+	}
+
+	public static function dataGetThumbnailSVGHrefNamespace(): array {
+		return [
+			['xlink'],
+			['foo'],
+			['_foo'],
+			['fo_12'],
+			['foo-bar'],
+			['Fo_B1-ar'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSvgEncoded')]
+	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
+	public function testGetThumbnailSvgEncoded(string $content): void {
+		$handle = fopen('php://temp', 'w+');
+		fwrite($handle, $content);
+		rewind($handle);
+
+		$file = $this->createMock(File::class);
+		$file->method('fopen')
+			->willReturn($handle);
+		self::assertNull($this->provider->getThumbnail($file, 512, 512));
+	}
+
+	public static function dataGetThumbnailSvgEncoded(): array {
+		return [
+			'iso-2022-jp' => ["<?xml version=\"1.0\" encoding=\"ISO-2022-JP\"?>\n<svg width=\"700\" height=\"700\" xmlns=\"http://www.w3.org/2000/svg\">\n<i\x1b(Bmage width=\"700\" height=\"700\" h\x1b(Bref=\"text:/proc/cpuinfo\" />\n</svg>"],
+		];
+	}
 }

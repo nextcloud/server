@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -56,24 +57,20 @@ class CacheEntry implements ICacheEntry {
 		return $this->data['storage'];
 	}
 
-
 	#[\Override]
 	public function getPath() {
 		return (string)$this->data['path'];
 	}
-
 
 	#[\Override]
 	public function getName() {
 		return $this->data['name'];
 	}
 
-
 	#[\Override]
 	public function getMimeType(): string {
 		return $this->data['mimetype'] ?? 'application/octet-stream';
 	}
-
 
 	#[\Override]
 	public function getMimePart() {
@@ -140,7 +137,7 @@ class CacheEntry implements ICacheEntry {
 
 	#[\Override]
 	public function getUnencryptedSize(): int {
-		if ($this->data['encrypted'] && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+		if ($this->data['encrypted'] && isset($this->data['unencrypted_size'])) {
 			return $this->data['unencrypted_size'];
 		} else {
 			return $this->data['size'] ?? 0;

@@ -84,7 +84,6 @@ class EncryptAll {
 			$this->createKeyPairs();
 		}
 
-
 		// output generated encryption key passwords
 		if ($this->util->isMasterKeyEnabled() === false) {
 			//send-out or display password list and write it to a file
@@ -355,6 +354,7 @@ class EncryptAll {
 					'user' => $recipient->getUID(),
 					'password' => $password,
 				]);
+				$template->setLanguage($l->getLanguageCode());
 
 				$template->setSubject($l->t('one-time password for server-side-encryption'));
 				// 'Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>

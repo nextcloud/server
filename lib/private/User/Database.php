@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use InvalidArgumentException;
@@ -14,7 +15,6 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Server;
@@ -24,11 +24,13 @@ use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\IGetUserNameFromLoginNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
+use Override;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
@@ -43,8 +45,8 @@ class Database extends ABackend implements
 	ILimitAwareCountUsersBackend,
 	ISearchKnownUsersBackend,
 	IGetRealUIDBackend,
-	IPasswordHashBackend {
-
+	IPasswordHashBackend,
+	IGetUserNameFromLoginNameBackend {
 	private CappedMemoryCache $cache;
 	private IConfig $config;
 	private ?IDBConnection $dbConnection;
@@ -297,7 +299,7 @@ class Database extends ABackend implements
 
 		$result = $query->executeQuery();
 		$displayNames = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
 		}
 
@@ -337,7 +339,7 @@ class Database extends ABackend implements
 
 		$result = $query->executeQuery();
 		$displayNames = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
 		}
 
@@ -399,7 +401,7 @@ class Database extends ABackend implements
 				)
 			);
 		$result = $qb->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		// "uid" is primary key, so there can only be a single result
@@ -506,13 +508,8 @@ class Database extends ABackend implements
 		return (int)$result;
 	}
 
-	/**
-	 * returns the username for the given login name in the correct casing
-	 *
-	 * @param string $loginName
-	 * @return string|false
-	 */
-	public function loginName2UserName($loginName) {
+	#[Override]
+	public function getUserNameFromLoginName(string $loginName): string|false {
 		if ($this->userExists($loginName)) {
 			return $this->cache[$loginName]['uid'];
 		}
@@ -526,26 +523,8 @@ class Database extends ABackend implements
 	 * @return string the name of the backend to be shown
 	 */
 	#[\Override]
-	public function getBackendName() {
+	public function getBackendName(): string {
 		return 'Database';
-	}
-
-	public static function preLoginNameUsedAsUserName($param) {
-		if (!isset($param['uid'])) {
-			throw new \Exception('key uid is expected to be set in $param');
-		}
-
-		$backends = Server::get(IUserManager::class)->getBackends();
-		foreach ($backends as $backend) {
-			if ($backend instanceof Database) {
-				/** @var Database $backend */
-				$uid = $backend->loginName2UserName($param['uid']);
-				if ($uid !== false) {
-					$param['uid'] = $uid;
-					return;
-				}
-			}
-		}
 	}
 
 	#[\Override]

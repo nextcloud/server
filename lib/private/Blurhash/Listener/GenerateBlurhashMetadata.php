@@ -28,8 +28,8 @@ use OCP\Lock\LockedException;
  * @template-implements IEventListener<AMetadataEvent>
  */
 class GenerateBlurhashMetadata implements IEventListener {
-	private const COMPONENTS_X = 4;
-	private const COMPONENTS_Y = 3;
+	private const int COMPONENTS_X = 4;
+	private const int COMPONENTS_Y = 3;
 
 	public function __construct(
 		private IPreview $preview,

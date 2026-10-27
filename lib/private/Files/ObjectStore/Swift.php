@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -145,7 +146,7 @@ class Swift implements IObjectStore {
 		]);
 	}
 	#[\Override]
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		return null;
 	}
 }

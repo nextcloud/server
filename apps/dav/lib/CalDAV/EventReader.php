@@ -14,7 +14,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
-
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
@@ -183,7 +182,7 @@ class EventReader {
 		// evaluate if start date is floating
 		// set duration to 24 hours and calculate the end date
 		// according to the rfc any event without a end date or duration is a complete day
-		elseif ($this->baseEventStartDateFloating == true) {
+		elseif ($this->baseEventStartDateFloating === true) {
 			$this->baseEventDuration = 86400;
 			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
 				->setTimestamp($this->baseEventStartDate->getTimestamp() + $this->baseEventDuration);
@@ -372,7 +371,6 @@ class EventReader {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -397,7 +395,6 @@ class EventReader {
 		$count += (int)$this->rdateIterator?->concludesAfter();
 		// return count
 		return !empty($count) ? $count : null;
-
 	}
 
 	/**
@@ -438,7 +435,6 @@ class EventReader {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -743,6 +739,9 @@ class EventReader {
 			$nextExceptionDate = $edateDate;
 		}
 		// if the next date is part of exrule or exdate find another date
+		// loose comparison needed: DateTime value equality, not instance identity
+		// (type comes from an untyped Iterator::current(), so psalm can't verify it statically)
+		/** @psalm-suppress UnrecognizedExpression */
 		if ($nextOccurrenceDate !== null && $nextExceptionDate !== null && $nextOccurrenceDate == $nextExceptionDate) {
 			$this->recurrenceCurrentDate = $nextOccurrenceDate;
 			$this->recurrenceAdvance();

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -55,7 +56,10 @@ class Encryption implements IEncryptionModule {
 	/** @var int Current version of the file */
 	private int $version = 0;
 
-	/** @var array remember encryption signature version */
+	/**
+	 * @var array remember encryption signature version
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static $rememberVersion = [];
 
 	public function __construct(
@@ -114,7 +118,6 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->useLegacyBase64Encoding = true;
 
-
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
 		}
@@ -128,7 +131,7 @@ class Encryption implements IEncryptionModule {
 		}
 
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
-		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+		$useLegacyFileKey = ((string)($header['useLegacyFileKey'] ?? '') === 'false' ? false : null);
 
 		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
@@ -153,6 +156,14 @@ class Encryption implements IEncryptionModule {
 			// the part file
 			if (Scanner::isPartialFile($path)) {
 				$this->version = $this->version + 1;
+			}
+
+			// A file that is not in the file cache has no stored version, but its
+			// blocks were signed with version 1 - the version the first write of a
+			// file uses. This happens while a file written in this request has not
+			// been scanned yet.
+			if ($this->version === 0) {
+				$this->version = 1;
 			}
 		}
 
@@ -243,8 +254,6 @@ class Encryption implements IEncryptionModule {
 		return $result ?: '';
 	}
 
-
-
 	/**
 	 * encrypt data
 	 *
@@ -253,7 +262,11 @@ class Encryption implements IEncryptionModule {
 	 * @return string encrypted data
 	 */
 	#[\Override]
-	public function encrypt($data, $position = 0) {
+	public function encrypt(
+		#[\SensitiveParameter]
+		$data,
+		$position = 0,
+	): string {
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
 		if ($this->writeCache) {
@@ -312,7 +325,11 @@ class Encryption implements IEncryptionModule {
 	 * @throws DecryptionFailedException
 	 */
 	#[\Override]
-	public function decrypt($data, $position = 0) {
+	public function decrypt(
+		#[\SensitiveParameter]
+		$data,
+		$position = 0,
+	): string {
 		if (empty($this->fileKey)) {
 			$msg = 'Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
 			$hint = $this->l->t('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
@@ -492,7 +509,6 @@ class Encryption implements IEncryptionModule {
 		return $this->decryptAll->prepare($input, $output, $user);
 	}
 
-
 	/**
 	 * @param string $path
 	 * @return string
@@ -503,7 +519,9 @@ class Encryption implements IEncryptionModule {
 		if ($parts[2] === 'files_versions') {
 			$realPath = '/' . $parts[1] . '/files/' . implode('/', array_slice($parts, 3));
 			$length = strrpos($realPath, '.');
-			$realPath = substr($realPath, 0, $length);
+			if ($length !== false) {
+				$realPath = substr($realPath, 0, $length);
+			}
 		}
 
 		return $realPath;

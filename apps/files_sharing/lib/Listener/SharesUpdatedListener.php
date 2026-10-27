@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing\Listener;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
+use OCA\Files_Sharing\External\Manager as ExternalManager;
 use OCA\Files_Sharing\ShareRecipientUpdater;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
@@ -26,13 +27,15 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent
+ * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent|UserDeletedEvent
  * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|ShareMovedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
@@ -43,9 +46,11 @@ class SharesUpdatedListener implements IEventListener {
 	private float $cutOffMarkTime;
 
 	/**
-	 * The total amount of time we've spent so far processing updates
+	 * Timestamp marking the first time this listener was triggered, used to
+	 * determine if we should update the share date immediately or just mark the
+	 * users for refresh.
 	 */
-	private float $updatedTime = 0.0;
+	private ?float $firstRun = null;
 
 	public function __construct(
 		private readonly IManager $shareManager,
@@ -55,6 +60,7 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly LoggerInterface $logger,
 		IAppConfig $appConfig,
 		private readonly UserHomeSetupListener $homeSetupListener,
+		private readonly ExternalManager $externalManager,
 	) {
 		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
 	}
@@ -83,6 +89,10 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateOrMarkUser($event->getUser());
 		}
+		if ($event instanceof UserDeletedEvent) {
+			$this->deleteUser($event);
+		}
+
 		if ($event instanceof ShareCreatedEvent || $event instanceof ShareTransferredEvent) {
 			$share = $event->getShare();
 			$shareTarget = $share->getTarget();
@@ -128,14 +138,22 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function markOrRun(IUser $user, callable $callback): void {
-		$start = floatval($this->clock->now()->format('U.u'));
-		if ($this->cutOffMarkTime === -1.0 || $this->updatedTime < $this->cutOffMarkTime) {
-			$callback();
+		$now = (float)$this->clock->now()->format('U.u');
+		$this->firstRun ??= $now;
+		$elapsed = $now - $this->firstRun;
+
+		if ($this->cutOffMarkTime === -1.0 || $elapsed < $this->cutOffMarkTime) {
+			try {
+				$callback();
+			} catch (UserNotFoundException $e) {
+				// A share recipient may reference a user id that no backend can resolve anymore
+				// (e.g. with LazyUser::getUID()) - like remnant / incorrectly removed user.
+				// Skip this recipient instead of aborting the share operation.
+				$this->logger->debug('Skipping share mount update for unresolvable user ' . $user->getUID(), ['exception' => $e]);
+			}
 		} else {
 			$this->markUserForRefresh($user);
 		}
-		$end = floatval($this->clock->now()->format('U.u'));
-		$this->updatedTime += $end - $start;
 	}
 
 	private function updateOrMarkUser(IUser $user): void {
@@ -153,5 +171,9 @@ class SharesUpdatedListener implements IEventListener {
 
 	public function setCutOffMarkTime(float|int $cutOffMarkTime): void {
 		$this->cutOffMarkTime = (float)$cutOffMarkTime;
+	}
+
+	public function deleteUser(UserDeletedEvent $event): void {
+		$this->externalManager->removeUserShares($event->getUser());
 	}
 }

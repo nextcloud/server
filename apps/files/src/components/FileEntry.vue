@@ -22,7 +22,7 @@
 		<!-- Checkbox -->
 		<FileEntryCheckbox
 			:fileid="fileid"
-			:is-loading="isLoading"
+			:isLoading="isLoading"
 			:nodes="nodes"
 			:source="source" />
 
@@ -33,24 +33,24 @@
 				ref="preview"
 				:source="source"
 				:dragover="dragover"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 
 			<FileEntryName
 				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
 		<FileEntryActions
 			v-show="!isRenamingSmallScreen"
 			ref="actions"
+			v-model:opened="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:opened.sync="openedMenu"
 			:source="source" />
 
 		<!-- Mime -->
@@ -82,7 +82,7 @@
 			@click="openDetailsIfAvailable">
 			<NcDateTime
 				v-if="mtime"
-				ignore-seconds
+				ignoreSeconds
 				:timestamp="mtime" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
@@ -96,9 +96,9 @@
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
 			<CustomElementRender
-				:active-folder="activeFolder"
-				:active-view="activeView"
-				:render="column.render"
+				:activeFolder="activeFolder"
+				:activeView="activeView"
+				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>
 	</tr>
@@ -277,20 +277,20 @@ export default defineComponent({
 	},
 
 	created() {
-		useHotKey('Enter', this.triggerDefaultAction, {
-			stop: true,
-			prevent: true,
-		})
+		useHotKey('Enter', this.triggerDefaultAction)
 	},
 
 	methods: {
 		formatFileSize,
 
-		triggerDefaultAction() {
+		triggerDefaultAction(event?: KeyboardEvent) {
 			// Don't react to the event if the file row is not active
 			if (!this.isActive) {
 				return
 			}
+
+			event?.preventDefault()
+			event?.stopPropagation()
 
 			this.defaultFileAction?.exec({
 				nodes: [this.source],
@@ -298,6 +298,12 @@ export default defineComponent({
 				contents: this.nodes,
 				view: this.activeView!,
 			})
+		},
+
+		adaptColumnRenderToCustomElementRender(column) {
+			return ({ nodes, view }) => {
+				return column.render(nodes[0], view)
+			}
 		},
 	},
 })

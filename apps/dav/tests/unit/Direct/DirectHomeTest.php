@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Direct;
 
 use OCA\DAV\Db\Direct;
@@ -48,7 +49,6 @@ class DirectHomeTest extends TestCase {
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
-
 
 		$this->directHome = new DirectHome(
 			$this->rootFolder,

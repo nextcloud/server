@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
@@ -24,6 +25,14 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dyslexia font');
+	}
+
+	/**
+	 * Only changes the font, the color scheme comes from the color theme
+	 */
+	#[\Override]
+	public function getMeta(): array {
+		return [];
 	}
 
 	#[\Override]

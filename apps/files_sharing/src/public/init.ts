@@ -1,0 +1,76 @@
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import type { Folder } from '@nextcloud/files'
+import type { ShareAttribute } from '../sharing.d.ts'
+
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getNavigation } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import logger from '../services/logger.ts'
+import router from './router.ts'
+import registerFileDropView from './views/publicFileDrop.ts'
+import registerPublicFileShareView from './views/publicFileShare.ts'
+import registerPublicShareView from './views/publicShare.ts'
+import RouterService from '~/apps/files/src/services/RouterService.ts'
+
+registerFileDropView()
+registerPublicShareView()
+registerPublicFileShareView()
+
+// Get the current view from state and set it active
+const view = loadState<string>('files_sharing', 'view')
+const navigation = getNavigation()
+try {
+	navigation.setActive(view)
+} catch {
+	// no such view
+	navigation.setActive(null)
+}
+
+// Force our own router
+window.OCP.Files = window.OCP.Files ?? {}
+window.OCP.Files.Router = new RouterService(router)
+
+// If this is a single file share, so set the fileid as active in the URL
+const fileId = loadState<number | null>('files_sharing', 'fileId', null)
+const token = loadState<string>('files_sharing', 'sharingToken')
+if (fileId !== null) {
+	// The router lands its first navigation, to the URL the page was opened
+	// with, asynchronously: a push made before it finishes is overwritten by it,
+	// and the shared file is never opened
+	router.isReady()
+		.then(() => window.OCP.Files.Router.goToRoute(
+			'filelist',
+			{ ...window.OCP.Files.Router.params, token, fileid: String(fileId) },
+			{ ...window.OCP.Files.Router.query, openfile: 'true' },
+		))
+		.catch((error) => logger.error('Could not open the shared file', { error }))
+}
+
+// When the file list is loaded we need to apply the "userconfig" setup on the share
+subscribe('files:list:updated', loadShareConfig)
+
+/**
+ * Event handler to load the view config for the current share.
+ * This is done on the `files:list:updated` event to ensure the list and especially the config store was correctly initialized.
+ *
+ * @param context The event context
+ * @param context.folder The current folder
+ */
+function loadShareConfig({ folder }: { folder: Folder }) {
+	// Only setup config once
+	unsubscribe('files:list:updated', loadShareConfig)
+
+	// Share attributes (the same) are set on all folders of a share
+	if (folder.attributes['share-attributes']) {
+		const shareAttributes = JSON.parse(folder.attributes['share-attributes'] || '[]') as Array<ShareAttribute>
+		const gridViewAttribute = shareAttributes.find(({ scope, key }: ShareAttribute) => scope === 'config' && key === 'grid_view')
+		if (gridViewAttribute !== undefined) {
+			logger.debug('Loading share attributes', { gridViewAttribute })
+			emit('files:config:updated', { key: 'grid_view', value: gridViewAttribute.value === true })
+		}
+	}
+}

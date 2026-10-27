@@ -110,7 +110,6 @@ class ShareTargetValidator {
 		return $newMountPoint;
 	}
 
-
 	/**
 	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 */

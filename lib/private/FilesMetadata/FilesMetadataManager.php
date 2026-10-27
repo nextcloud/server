@@ -16,11 +16,11 @@ use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntriesRemovedEvent;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
@@ -44,7 +44,7 @@ use Psr\Log\LoggerInterface;
 class FilesMetadataManager implements IFilesMetadataManager {
 	public const CONFIG_KEY = 'files_metadata';
 	public const MIGRATION_DONE = 'files_metadata_installed';
-	private const JSON_MAXSIZE = 100000;
+	private const int JSON_MAXSIZE = 100000;
 
 	private ?IFilesMetadata $all = null;
 
@@ -81,11 +81,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		$storageId = $node->getStorage()->getCache()->getNumericStorageId();
 		try {
 			/** @var FilesMetadata $metadata */
-			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
+			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId(), $node->getMountPoint()->getNumericStorageId());
 		} catch (FilesMetadataNotFoundException) {
-			$metadata = new FilesMetadata($node->getId());
+			$metadata = new FilesMetadata($node->getId(), $node->getMountPoint()->getNumericStorageId());
 		}
-		$metadata->setStorageId($storageId);
 
 		// if $process is LIVE, we enforce LIVE
 		// if $process is NAMED, we go NAMED
@@ -117,6 +116,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	/**
 	 * @param int $fileId file id
 	 * @param boolean $generate Generate if metadata does not exists
+	 * @param ?int $storageId
 	 *
 	 * @inheritDoc
 	 * @return IFilesMetadata
@@ -124,16 +124,29 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	#[\Override]
-	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
+	public function getMetadata(int $fileId, bool $generate = false, ?int $storageId = null): IFilesMetadata {
+		if ($storageId === null) {
+			$storageId = $this->metadataRequestService->getStorageIdForFileId($fileId);
+		}
 		try {
-			return $this->metadataRequestService->getMetadataFromFileId($fileId);
+			return $this->metadataRequestService->getMetadataFromFileId($fileId, $storageId);
 		} catch (FilesMetadataNotFoundException $ex) {
 			if ($generate) {
-				return new FilesMetadata($fileId);
+				return new FilesMetadata($fileId, $storageId);
 			}
 
 			throw $ex;
 		}
+	}
+
+	#[\Override]
+	public function getMetadataForNode(Node|ICacheEntry $node, bool $generate = false): IFilesMetadata {
+		if ($node instanceof Node) {
+			$storageId = $node->getData()->getStorageId();
+		} else {
+			$storageId = $node->getStorageId();
+		}
+		return $this->getMetadata($node->getId(), $generate, $storageId);
 	}
 
 	/**
@@ -164,6 +177,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		$json = json_encode($filesMetadata->jsonSerialize());
+		if (!$json) {
+			$this->logger->error('Failed to json encode file metadata for ' . $filesMetadata->getFileId(), ['metadata' => $filesMetadata->jsonSerialize()]);
+			return;
+		}
 		if (strlen($json) > self::JSON_MAXSIZE) {
 			$this->logger->debug('huge metadata content detected: ' . $json);
 			throw new FilesMetadataException('json cannot exceed ' . self::JSON_MAXSIZE . ' characters long; fileId: ' . $filesMetadata->getFileId() . '; size: ' . strlen($json));
@@ -228,7 +245,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		try {
-			$this->indexRequestService->dropIndexForFiles($fileIds);
+			$this->indexRequestService->dropIndexForFiles($storage, $fileIds);
 		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}

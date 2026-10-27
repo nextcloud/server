@@ -32,7 +32,6 @@ class TopicsTaskType implements ITaskType {
 		$this->l = $l10nFactory->get('core');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 27.1.0

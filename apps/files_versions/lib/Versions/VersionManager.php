@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Versions;
 
 use OCA\Files_Versions\Db\VersionEntity;
@@ -204,7 +205,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		} catch (ManuallyLockedException $e) {
 			$owner = (string)$e->getOwner();
 			$appsThatHandleUpdates = ['text', 'richdocuments'];
-			if (!in_array($owner, $appsThatHandleUpdates)) {
+			if (!in_array($owner, $appsThatHandleUpdates, true)) {
 				throw $e;
 			}
 			// The LockWrapper in the files_lock app only compares the lock type and owner

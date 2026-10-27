@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\L10N;
 
 use OCP\IUser;
@@ -97,11 +98,10 @@ interface IFactory {
 	public function languageExists($app, $lang);
 
 	/**
-	 * @param string $locale
-	 * @return bool
 	 * @since 14.0.0
+	 * @since 35.0.0 Use typed parameter and return
 	 */
-	public function localeExists($locale);
+	public function localeExists(string $locale): bool;
 
 	/**
 	 * Return the language direction

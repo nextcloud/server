@@ -4,12 +4,9 @@
 -->
 
 <template>
-	<div
-		v-element-visibility="onVisibilityChange"
-		class="comments"
-		:class="{ 'icon-loading': isFirstLoading }">
+	<div v-element-visibility="onVisibilityChange" class="comments">
 		<!-- Editor -->
-		<Comment
+		<CommentEntry
 			v-bind="editorData"
 			editor
 			:autoComplete
@@ -30,7 +27,7 @@
 			</NcEmptyContent>
 			<ul v-else>
 				<!-- Comments -->
-				<Comment
+				<CommentEntry
 					v-for="comment in comments"
 					:key="comment.props.id"
 					v-model="comment.props.message"
@@ -45,7 +42,7 @@
 			</ul>
 
 			<!-- Loading more message -->
-			<div v-if="loading && !isFirstLoading" class="comments__info icon-loading" />
+			<NcLoadingIcon v-if="loading && !isFirstLoading" class="comments__info" :size="28" />
 
 			<div v-else-if="hasComments && done" class="comments__info">
 				{{ t('comments', 'No more messages') }}
@@ -66,6 +63,7 @@
 				</NcButton>
 			</template>
 		</template>
+		<NcLoadingIcon v-else class="comments__loading" :size="28" />
 	</div>
 </template>
 
@@ -75,10 +73,11 @@ import { translate as t } from '@nextcloud/l10n'
 import { vElementVisibility as elementVisibility } from '@vueuse/components'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
 import IconRefresh from 'vue-material-design-icons/Refresh.vue'
-import Comment from '../components/Comment.vue'
+import CommentEntry from '../components/CommentEntry.vue'
 import logger from '../logger.ts'
 import CommentView from '../mixins/CommentView.ts'
 import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
@@ -89,9 +88,10 @@ export default {
 	name: 'CommentsApp',
 
 	components: {
-		Comment,
+		CommentEntry,
 		NcEmptyContent,
 		NcButton,
+		NcLoadingIcon,
 		IconRefresh,
 		IconMessageReplyTextOutline,
 		IconAlertCircleOutline,
@@ -271,7 +271,8 @@ export default {
 	flex-direction: column;
 
 	&__empty,
-	&__error {
+	&__error,
+	&__loading {
 		flex: 1 0;
 	}
 

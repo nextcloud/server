@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Db;
 
 use JsonSerializable;
-
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 

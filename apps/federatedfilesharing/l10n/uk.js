@@ -43,7 +43,7 @@ OC.L10N.register(
     "Search global and public address book for people" : "Шукати користувачів у глобальній та публічній адресних книгах",
     "Allow people to publish their data to a global and public address book" : "Дозволити користувачам розміщувати власні дані у глобальній публічній адресній книзі",
     "Trusted federation" : "Довірені об'єднані хмари",
-    "Automatically accept shares from trusted federated accounts and groups by default" : "Стандартно автоматично приймати пропозиції спільного доступу від надійних облікових записів та груп об'єднаних хмар",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Типово автоматично приймати пропозиції спільного доступу від надійних облікових записів та груп об'єднаних хмар",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поділітися зі мною через мій #Nextcloud Federated Cloud ID, див. {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поділітися зі мною через мій #Nextcloud Federated Cloud ID",
     "Share with me via Nextcloud" : "Поділіться зі мною у Nextcloud",
@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Віддалений каталог",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
     "Remote share password" : "Пароль для віддаленого каталогу",
-    "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
-    "X (formerly Twitter)" : "X (раніше відома як Twitter)",
-    "formerly Twitter" : "раніше відома як Twitter"
+    "Incoming share could not be processed" : "Неможливо обробити вхідну частку"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

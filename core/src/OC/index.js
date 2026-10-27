@@ -25,7 +25,7 @@ import {
 	imagePath,
 	linkTo,
 } from '@nextcloud/router'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 import { isUserAdmin } from './admin.js'
 import { appConfig } from './appconfig.js'
 import appswebroots from './appswebroots.js'
@@ -177,7 +177,7 @@ export default {
 	 */
 	filePath: generateFilePath,
 	/**
-	 * @deprecated 19.0.0 use `WgenerateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	generateUrl,
 	/**

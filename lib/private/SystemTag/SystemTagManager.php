@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\SystemTag;
 
 use OCP\DB\Exception;
@@ -16,6 +17,9 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
@@ -23,6 +27,7 @@ use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUpdateForbiddenException;
+use OCP\Util;
 
 /**
  * Manager class for system tags
@@ -76,7 +81,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
 				// if a user is given, hide invisible tags
@@ -123,7 +128,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
 
@@ -142,7 +147,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
@@ -168,6 +173,8 @@ class SystemTagManager implements ISystemTagManager {
 		if (!$this->canUserCreateTag($user)) {
 			throw new TagCreationForbiddenException();
 		}
+
+		$tagName = Util::sanitizeWordsAndEmojis($tagName);
 
 		// Check if tag already exists (case-insensitive)
 		$existingTags = $this->getAllTags(null, $tagName);
@@ -213,6 +220,7 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_CREATE, new ManagerEvent(
 			ManagerEvent::EVENT_CREATE, $tag
 		));
+		$this->dispatcher->dispatchTyped(new TagCreatedEvent($tag));
 
 		return $tag;
 	}
@@ -240,8 +248,9 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$beforeUpdate = array_shift($tags);
+		$newName = Util::sanitizeWordsAndEmojis($newName);
+
 		// Length of name column is 64
-		$newName = trim($newName);
 		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
@@ -294,6 +303,7 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_UPDATE, $afterUpdate, $beforeUpdate
 		));
+		$this->dispatcher->dispatchTyped(new TagUpdatedEvent($afterUpdate, $beforeUpdate));
 	}
 
 	#[\Override]
@@ -337,6 +347,7 @@ class SystemTagManager implements ISystemTagManager {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
 				ManagerEvent::EVENT_DELETE, $tag
 			));
+			$this->dispatcher->dispatchTyped(new TagDeletedEvent($tag));
 		}
 
 		if ($tagNotFoundException !== null) {
@@ -465,7 +476,7 @@ class SystemTagManager implements ISystemTagManager {
 			->orderBy('gid');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$groupIds[] = $row['gid'];
 		}
 
@@ -473,5 +484,4 @@ class SystemTagManager implements ISystemTagManager {
 
 		return $groupIds;
 	}
-
 }

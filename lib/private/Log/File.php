@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Log;
 
 use OC\SystemConfig;
@@ -85,11 +86,12 @@ class File extends LogDetails implements IWriter, IFileBased {
 			while ($pos >= 0 && ($limit === null || $entriesCount < $limit)) {
 				fseek($handle, $pos);
 				$ch = fgetc($handle);
-				if ($ch == "\n" || $pos == 0) {
+				// treat a failed ftell() the same as start-of-file
+				if ($ch === "\n" || $pos === 0 || $pos === false) {
 					if ($line !== '') {
 						// Add the first character if at the start of the file,
 						// because it doesn't hit the else in the loop
-						if ($pos == 0) {
+						if ($pos === 0 || $pos === false) {
 							$line = $ch . $line;
 						}
 						$entry = json_decode($line);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\IConfig;
@@ -86,6 +87,8 @@ class DateTimeZone implements IDateTimeZone {
 				}
 
 				$dtOffset = $dtz->getOffset($dateTime);
+				// $dtOffset is int|false and $offset is untyped/mixed; loose comparison intentional
+				/** @psalm-suppress UnrecognizedExpression */
 				if ($dtOffset == 3600 * $offset) {
 					return $dtz;
 				}

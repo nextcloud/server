@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Calendar;
 
 use InvalidArgumentException;
@@ -62,6 +63,7 @@ final class CalendarImportOptions {
 	private bool $supersede = false;
 	private int $errors = self::ERROR_FAIL;
 	private int $validate = self::VALIDATE_SKIP;
+	private bool $counts = false;
 
 	/**
 	 * Gets the import format
@@ -152,6 +154,24 @@ final class CalendarImportOptions {
 			throw new InvalidArgumentException('Invalid validation option specified');
 		}
 		$this->validate = $value;
+	}
+
+	/**
+	 * Gets whether to include object counts as the first yielded value
+	 *
+	 * @since 35.0.0
+	 */
+	public function getCounts(): bool {
+		return $this->counts;
+	}
+
+	/**
+	 * Sets whether to include object counts as the first yielded value
+	 *
+	 * @since 35.0.0
+	 */
+	public function setCounts(bool $counts): void {
+		$this->counts = $counts;
 	}
 
 }

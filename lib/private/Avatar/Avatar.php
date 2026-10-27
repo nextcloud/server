@@ -7,10 +7,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Avatar;
 
 use Imagick;
-use OC\User\User;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
@@ -190,7 +190,7 @@ abstract class Avatar implements IAvatar {
 		$data = ob_get_contents();
 		ob_end_clean();
 
-		return $data;
+		return $data ?: '';
 	}
 
 	/**
@@ -227,7 +227,6 @@ abstract class Avatar implements IAvatar {
 
 		return [$x, $y];
 	}
-
 
 	/**
 	 * Convert a string to an integer evenly

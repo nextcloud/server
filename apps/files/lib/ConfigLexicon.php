@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const GROUP_RECENT_FILES = 'group_recent_files';
 	public const RECENT_FILES_GROUP_MIME_TYPES = 'recent_files_group_mime_types';
 	public const RECENT_FILES_GROUP_TIMESPAN_MINUTES = 'recent_files_group_timespan_minutes';
+	public const LOCAL_CLIENT_INTEGRATION = 'local_client_integration';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -69,6 +70,13 @@ class ConfigLexicon implements ILexicon {
 				ValueType::INT,
 				defaultRaw: 2,
 				definition: 'Time window in minutes to group files uploaded close together in the recent files list',
+				lazy: false,
+			),
+			new Entry(
+				self::LOCAL_CLIENT_INTEGRATION,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether to enable local client integration',
 				lazy: false,
 			),
 		];

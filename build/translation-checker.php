@@ -16,9 +16,12 @@ $txConfig = file_get_contents(__DIR__ . '/../.tx/config');
 
 $untranslatedApps = [
 	'testing',
+	// No strings of its own: the viewer's are in the @nextcloud/viewer package
+	'viewer',
 ];
 
 $txConfigAppMap = [
+	'appstore' => 'appstore-shipped-with-server',
 	'dashboard' => 'dashboard-shipped-with-server',
 	'encryption' => 'files_encryption',
 	'settings' => 'settings-1',

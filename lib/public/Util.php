@@ -24,9 +24,26 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
+	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
 	private static array $scriptsInit = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scripts = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scriptDeps = [];
+	/** @psalm-suppress ImpureStaticProperty */
+	private static ?bool $needUpgradeCache = null;
+
+	/**
+	 * Reset static vars
+	 * @since 36.0.0
+	 * @internal Only for internal use, may be removed at any point
+	 */
+	public static function resetStaticProperties(): void {
+		self::$scriptsInit = [];
+		self::$scripts = [];
+		self::$scriptDeps = [];
+		self::$needUpgradeCache = null;
+	}
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -241,9 +258,7 @@ class Util {
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
 		$urlGenerator = Server::get(IURLGenerator::class);
-		return $urlGenerator->getAbsoluteURL(
-			$urlGenerator->linkTo($app, $file, $args)
-		);
+		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo($app, $file, $args));
 	}
 
 	/**
@@ -478,7 +493,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		$case = ($case !== MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$case = $case !== MB_CASE_UPPER ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
@@ -513,7 +528,7 @@ class Util {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
-			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+			return INF > 0 ? INF : PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 		}
 	}
 
@@ -557,7 +572,8 @@ class Util {
 	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
-		return \OC_Util::isPublicLinkPasswordRequired($checkGroupMembership);
+		$shareManager = Server::get(\OCP\Share\IManager::class);
+		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
 	}
 
 	/**
@@ -568,10 +584,9 @@ class Util {
 	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		return \OC_Util::isDefaultExpireDateEnforced();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
+		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
-
-	protected static $needUpgradeCache = null;
 
 	/**
 	 * Checks whether the current version needs upgrade.
@@ -580,7 +595,7 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function needUpgrade() {
-		if (!isset(self::$needUpgradeCache)) {
+		if (self::$needUpgradeCache === null) {
 			self::$needUpgradeCache = \OC_Util::needUpgrade(Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
@@ -622,9 +637,29 @@ class Util {
 		$ini = Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
-		if (in_array($functionName, $disabled)) {
+		if (in_array($functionName, $disabled, true)) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Sanitize a name by removing unwanted characters
+	 *
+	 * This function removes any character that is not a letter, space, or symbol (including emojis).
+	 * It also normalizes spaces by replacing multiple consecutive spaces with a single space and trimming
+	 * leading and trailing spaces.
+	 *
+	 * @param string $input The input string to sanitize
+	 * @return string The sanitized string
+	 * @since 34.0.2
+	 */
+	public static function sanitizeWordsAndEmojis(string $input): string {
+		// Remove control characters and other invisible separators, but keep everything else.
+		// preg_replace returns null on a PCRE error (e.g. invalid UTF-8): keep the input untouched in that case.
+		$clean = preg_replace('/[\p{C}]+/u', '', $input) ?? $input;
+
+		// Normalize whitespace to single spaces
+		return preg_replace('/[[:space:]]+/u', ' ', trim($clean)) ?? $clean;
 	}
 }

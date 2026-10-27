@@ -1,35 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files;
 
-use OC\Hooks\Emitter;
-use OC\User\NoUserException;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
+use OCP\User\Exceptions\UserNotFoundException;
 
 /**
  * Interface IRootFolder
  *
  * @since 8.0.0
  */
-interface IRootFolder extends Folder, Emitter {
+#[Consumable(since: '8.0.0')]
+interface IRootFolder extends Folder {
 	/**
 	 * Returns a view to user's files folder
 	 *
 	 * @param string $userId user ID
-	 * @return Folder
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotPermittedException
 	 *
 	 * @since 8.2.0
+	 * @since 36.0.0 returns OCP\Files\IUserFolder instead of OCP\Files\Folder
 	 */
-	public function getUserFolder($userId);
+	public function getUserFolder(string $userId): IUserFolder;
 
 	/**
 	 * Get a file or folder by fileid, inside a parent path
@@ -61,7 +65,7 @@ interface IRootFolder extends Folder, Emitter {
 	public function getFirstNodeByIdInPath(int $id, string $path): ?Node;
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 *
 	 * @since 28.0.0
 	 */

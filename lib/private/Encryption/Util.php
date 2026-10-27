@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
@@ -95,6 +96,8 @@ class Util {
 	public function createHeader(array $headerData, IEncryptionModule $encryptionModule) {
 		$header = self::HEADER_START . ':' . self::HEADER_ENCRYPTION_MODULE_KEY . ':' . $encryptionModule->getId() . ':';
 		foreach ($headerData as $key => $value) {
+			// $headerData comes from the pluggable IEncryptionModule::begin() contract with untyped array keys
+			/** @psalm-suppress UnrecognizedExpression */
 			if (in_array($key, $this->ocHeaderKeys)) {
 				throw new EncryptionHeaderKeyExistsException($key);
 			}
@@ -275,15 +278,14 @@ class Util {
 				return true;
 			}
 
-
 			//detect system wide folders
-			if (in_array($root[1], $this->excludedPaths)) {
+			if (in_array($root[1], $this->excludedPaths, true)) {
 				return true;
 			}
 
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
-				&& in_array($root[2] ?? '', $this->excludedPaths)) {
+				&& in_array($root[2] ?? '', $this->excludedPaths, true)) {
 				return true;
 			}
 		}

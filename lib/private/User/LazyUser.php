@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,16 +9,20 @@ declare(strict_types=1);
 
 namespace OC\User;
 
+use OCP\IImage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private IUserManager $userManager,
+		/** @var ?non-empty-string $displayName */
 		private ?string $displayName = null,
 		private ?UserInterface $backend = null,
 	) {
@@ -35,7 +40,7 @@ class LazyUser implements IUser {
 		}
 
 		if ($this->user === null) {
-			throw new NoUserException('User not found in backend');
+			throw UserNotFoundException::createForUser($this->uid);
 		}
 
 		return $this->user;
@@ -47,7 +52,7 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function getDisplayName() {
+	public function getDisplayName(): string {
 		if ($this->displayName) {
 			return $this->displayName;
 		}
@@ -56,7 +61,7 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function setDisplayName($displayName) {
+	public function setDisplayName($displayName): bool {
 		return $this->getUser()->setDisplayName($displayName);
 	}
 
@@ -76,12 +81,12 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function delete() {
+	public function delete(): bool {
 		return $this->getUser()->delete();
 	}
 
 	#[\Override]
-	public function setPassword($password, $recoveryPassword = null) {
+	public function setPassword($password, $recoveryPassword = null): bool {
 		return $this->getUser()->setPassword($password, $recoveryPassword);
 	}
 
@@ -96,12 +101,12 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function getHome() {
+	public function getHome(): string {
 		return $this->getUser()->getHome();
 	}
 
 	#[\Override]
-	public function getBackendClassName() {
+	public function getBackendClassName(): string {
 		return $this->getUser()->getBackendClassName();
 	}
 
@@ -136,17 +141,17 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function isEnabled() {
+	public function isEnabled(): bool {
 		return $this->getUser()->isEnabled();
 	}
 
 	#[\Override]
-	public function setEnabled(bool $enabled = true) {
-		return $this->getUser()->setEnabled($enabled);
+	public function setEnabled(bool $enabled = true): void {
+		$this->getUser()->setEnabled($enabled);
 	}
 
 	#[\Override]
-	public function getEMailAddress() {
+	public function getEMailAddress(): ?string {
 		return $this->getUser()->getEMailAddress();
 	}
 
@@ -161,17 +166,17 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function getAvatarImage($size) {
+	public function getAvatarImage($size): ?IImage {
 		return $this->getUser()->getAvatarImage($size);
 	}
 
 	#[\Override]
-	public function getCloudId() {
+	public function getCloudId(): string {
 		return $this->getUser()->getCloudId();
 	}
 
 	#[\Override]
-	public function setEMailAddress($mailAddress) {
+	public function setEMailAddress($mailAddress): void {
 		$this->getUser()->setEMailAddress($mailAddress);
 	}
 
@@ -186,7 +191,7 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function getQuota() {
+	public function getQuota(): string {
 		return $this->getUser()->getQuota();
 	}
 
@@ -196,7 +201,7 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function setQuota($quota) {
+	public function setQuota($quota): void {
 		$this->getUser()->setQuota($quota);
 	}
 

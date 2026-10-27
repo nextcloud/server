@@ -30,7 +30,7 @@ class SMB extends Backend {
 			->setIdentifier('smb')
 			->addIdentifierAlias('\OC\Files\Storage\SMB')// legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB / CIFS (Windows network share)'))
+			->setText($l->t('SMB/CIFS (Windows network share)'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				new DefinitionParameter('share', $l->t('Share')),
@@ -70,7 +70,7 @@ class SMB extends Backend {
 
 			$smbAuth = new BasicAuth(
 				$storage->getBackendOption('user'),
-				$storage->getBackendOption('domain'),
+				$storage->getBackendOption('domain') ?: null,
 				$storage->getBackendOption('password')
 			);
 		} else {

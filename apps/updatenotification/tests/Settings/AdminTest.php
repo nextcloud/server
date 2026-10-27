@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\Settings;
 
 use OCA\UpdateNotification\AppInfo\Application;
@@ -94,7 +95,7 @@ class AdminTest extends TestCase {
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueArray')
-			->with(Application::APP_NAME, 'notify_groups', ['admin'])
+			->with(Application::APP_ID, 'notify_groups', ['admin'])
 			->willReturn(['admin']);
 		$this->config
 			->method('getSystemValue')
@@ -166,7 +167,7 @@ class AdminTest extends TestCase {
 				'hasValidSubscription' => true,
 			]);
 
-		$expected = new TemplateResponse(Application::APP_NAME, 'admin', [], '');
+		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
@@ -198,7 +199,7 @@ class AdminTest extends TestCase {
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueArray')
-			->with(Application::APP_NAME, 'notify_groups', ['admin'])
+			->with(Application::APP_ID, 'notify_groups', ['admin'])
 			->willReturn(['admin']);
 		$this->config
 			->method('getSystemValue')
@@ -265,7 +266,7 @@ class AdminTest extends TestCase {
 				'hasValidSubscription' => true,
 			]);
 
-		$expected = new TemplateResponse(Application::APP_NAME, 'admin', [], '');
+		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
@@ -297,7 +298,7 @@ class AdminTest extends TestCase {
 		$this->appConfig
 			->expects(self::once())
 			->method('getValueArray')
-			->with(Application::APP_NAME, 'notify_groups', ['admin'])
+			->with(Application::APP_ID, 'notify_groups', ['admin'])
 			->willReturn(['admin']);
 		$this->config
 			->method('getSystemValue')
@@ -364,10 +365,9 @@ class AdminTest extends TestCase {
 				'hasValidSubscription' => true,
 			]);
 
-		$expected = new TemplateResponse(Application::APP_NAME, 'admin', [], '');
+		$expected = new TemplateResponse(Application::APP_ID, 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
-
 
 	public function testGetSection(): void {
 		$this->config

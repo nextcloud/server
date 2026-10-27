@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
@@ -16,6 +17,7 @@ use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\LoadAdditionalEntriesListener;
 use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
@@ -66,6 +68,7 @@ use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\RepairSanitizeSystemTagsAvailable;
 use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\ServerIdConfig;
@@ -94,6 +97,7 @@ use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
@@ -129,6 +133,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, Hooks::class);
 		$context->registerEventListener(UserChangedEvent::class, Hooks::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 
 		// Register Mail Provider listeners
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
@@ -206,6 +211,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(RepairSanitizeSystemTagsAvailable::class);
 		$context->registerSetupCheck(SecurityHeaders::class);
 		$context->registerSetupCheck(ServerIdConfig::class);
 		$context->registerSetupCheck(SchedulingTableSize::class);

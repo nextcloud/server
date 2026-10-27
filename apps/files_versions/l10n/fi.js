@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "Sääntö puuttuu",
     "Versions" : "Versiot",
     "This application automatically maintains older versions of files that are changed." : "Tämä sovellus säilyttää automaattisesti vanhempia versioita muuttuneista tiedostoista.",
     "Current version" : "Nykyinen versio",

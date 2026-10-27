@@ -194,7 +194,6 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getProvider('deck');
 		}
 
-
 		if ($provider === null) {
 			throw new ProviderException('No share provider for share type ' . $shareType);
 		}
@@ -231,8 +230,6 @@ class ProviderFactory implements IProviderFactory {
 			}
 			$shares[] = $this->shareProviders[$instance->identifier()];
 		}
-
-
 
 		return $shares;
 	}

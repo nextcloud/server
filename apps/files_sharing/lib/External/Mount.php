@@ -5,21 +5,25 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
-use OCA\Files_Sharing\ISharedMountPoint;
+use OCP\Files\Mount\IExternalMountPoint;
 use OCP\Files\Mount\IMovableMount;
+use OCP\Files\Mount\ISharedMountPoint;
+use OCP\IUser;
 use Override;
 
-class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
+class Mount extends MountPoint implements IMovableMount, ISharedMountPoint, IExternalMountPoint {
 	public function __construct(
 		string|Storage $storage,
 		string $mountpoint,
 		array $options,
 		protected Manager $manager,
+		private readonly IUser $user,
 		?StorageFactory $loader = null,
 	) {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
@@ -27,7 +31,7 @@ class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
 
 	#[Override]
 	public function moveMount(string $target): bool {
-		$result = $this->manager->setMountPoint($this->mountPoint, $target);
+		$result = $this->manager->setMountPoint($this->user, $this->mountPoint, $target);
 		$this->setMountPoint($target);
 
 		return $result;
@@ -35,7 +39,7 @@ class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
 
 	#[Override]
 	public function removeMount(): bool {
-		return $this->manager->removeShare($this->mountPoint);
+		return $this->manager->removeShare($this->user, $this->mountPoint);
 	}
 
 	#[Override]

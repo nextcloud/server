@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -135,7 +136,6 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return false;
 	}
 
-
 	/**
 	 * Gets all storages for the user, admin, personal, global, etc
 	 *
@@ -159,7 +159,6 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		$storages = array_combine($keys, $configs);
 		return array_filter($storages, $this->validateStorage(...));
 	}
-
 
 	/**
 	 * @return StorageConfig[]

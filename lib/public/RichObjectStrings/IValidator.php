@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\RichObjectStrings;
 
 /**
@@ -27,6 +28,7 @@ namespace OCP\RichObjectStrings;
  *     mimetype?: string,
  *     'preview-available'?: 'yes'|'no',
  *     'hide-download'?: 'yes'|'no',
+ *     'can-download'?: 'yes'|'no',
  *     mtime?: string,
  *     latitude?: string,
  *     longitude?: string,

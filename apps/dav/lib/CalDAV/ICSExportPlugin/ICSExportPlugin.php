@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\ICSExportPlugin;
 
 use OCP\IConfig;
@@ -20,7 +21,7 @@ use Sabre\VObject\Property\ICalendar\Duration;
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	/** @var string */
-	private const DEFAULT_REFRESH_INTERVAL = 'PT4H';
+	private const string DEFAULT_REFRESH_INTERVAL = 'PT4H';
 
 	/**
 	 * ICSExportPlugin constructor.

@@ -6,7 +6,7 @@ OC.L10N.register(
     "{author} commented" : "{author} kommenteeris",
     "You commented on %1$s" : "Sa kommmenteerisid: %1$s",
     "You commented on {file}" : "Sa kommenteerisid „{file}“ faili",
-    "%1$s commented on %2$s" : "%1$s kommenteeris %2$s",
+    "%1$s commented on %2$s" : "%1$s kommenteeris: %2$s",
     "{author} commented on {file}" : "{author} kommenteeris „{file}“ faili",
     "<strong>Comments</strong> for files" : "Failide <strong>kommentaarid</strong> ",
     "Files" : "Failid",
@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis viga",
     "Comment deleted" : "Kommentaar on kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis viga",
-    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis viga",
-    "Write a comment …" : "Kommenteeri..."
+    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis viga"
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,13 +40,13 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import debounce from 'debounce'
 import { defineAsyncComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 import { logger } from './logger.ts'
 import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
+import { startHeartbeat } from './services/heartbeatScheduler.ts'
 import { sendHeartbeat } from './services/heartbeatService.js'
 
 export default {
@@ -75,11 +75,8 @@ export default {
 
 	data() {
 		return {
-			heartbeatInterval: null,
-			isAway: false,
 			isModalOpen: false,
-			mouseMoveListener: null,
-			setAwayTimeout: null,
+			stopHeartbeat: null,
 		}
 	},
 
@@ -91,31 +88,7 @@ export default {
 		this.$store.dispatch('loadStatusFromInitialState')
 
 		if (OC.config.session_keepalive) {
-			// Send the latest status to the server every 5 minutes
-			this.heartbeatInterval = setInterval(this._backgroundHeartbeat.bind(this), 1000 * 60 * 5)
-			this.setAwayTimeout = () => {
-				this.isAway = true
-			}
-			// Catch mouse movements, but debounce to once every 30 seconds
-			this.mouseMoveListener = debounce(() => {
-				const wasAway = this.isAway
-				this.isAway = false
-				// Reset the two minute counter
-				clearTimeout(this.setAwayTimeout)
-				// If the user did not move the mouse within two minutes,
-				// mark them as away
-				setTimeout(this.setAwayTimeout, 1000 * 60 * 2)
-
-				if (wasAway) {
-					this._backgroundHeartbeat()
-				}
-			}, 1000 * 2, { immediate: true })
-			window.addEventListener('mousemove', this.mouseMoveListener, {
-				capture: true,
-				passive: true,
-			})
-
-			this._backgroundHeartbeat()
+			this.stopHeartbeat = startHeartbeat((isAway) => this._backgroundHeartbeat(isAway))
 		}
 		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
@@ -124,8 +97,7 @@ export default {
 	 * Some housekeeping before destroying the component
 	 */
 	beforeUnmount() {
-		window.removeEventListener('mouseMove', this.mouseMoveListener)
-		clearInterval(this.heartbeatInterval)
+		this.stopHeartbeat?.()
 		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
@@ -147,12 +119,13 @@ export default {
 		/**
 		 * Sends the status heartbeat to the server
 		 *
+		 * @param {boolean} isAway Whether the user is currently away
 		 * @return {Promise<void>}
 		 * @private
 		 */
-		async _backgroundHeartbeat() {
+		async _backgroundHeartbeat(isAway) {
 			try {
-				const status = await sendHeartbeat(this.isAway)
+				const status = await sendHeartbeat(isAway)
 				if (status?.userId) {
 					this.$store.dispatch('setStatusFromHeartbeat', status)
 				} else {

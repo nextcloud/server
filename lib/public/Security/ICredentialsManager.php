@@ -6,7 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Security;
+
+use SensitiveParameter;
 
 /**
  * Store and retrieve credentials for external services
@@ -22,7 +25,12 @@ interface ICredentialsManager {
 	 * @param mixed $credentials
 	 * @since 8.2.0
 	 */
-	public function store(string $userId, string $identifier, $credentials): void;
+	public function store(
+		string $userId,
+		string $identifier,
+		#[SensitiveParameter]
+		$credentials,
+	): void;
 
 	/**
 	 * Retrieve a set of credentials

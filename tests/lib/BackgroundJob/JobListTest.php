@@ -273,6 +273,26 @@ class JobListTest extends TestCase {
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
 	}
 
+	public function testRemoveByIdWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'remove-by-id');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->removeById($job->getId());
+
+		$this->assertNull($this->instance->getById($job->getId()));
+	}
+
+	public function testResetBackgroundJobWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'reset');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->resetBackgroundJob($job);
+
+		$row = $this->instance->getDetailsById($job->getId());
+		$this->assertSame('0', (string)$row['last_run']);
+		$this->assertSame('0', (string)$row['reserved_at']);
+	}
+
 	public function testHasReservedJobs(): void {
 		$this->clearJobsList();
 

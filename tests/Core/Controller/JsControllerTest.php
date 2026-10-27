@@ -68,7 +68,6 @@ class JsControllerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
 
-
 	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')

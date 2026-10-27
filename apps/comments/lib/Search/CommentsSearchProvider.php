@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Search;
 
 use OCP\Comments\IComment;
@@ -57,10 +58,6 @@ class CommentsSearchProvider implements IProvider {
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
-		if ($userFolder === null) {
-			return SearchResult::complete($this->l10n->t('Comments'), []);
-		}
-
 		$result = [];
 		$numComments = 50;
 		$offset = 0;
@@ -108,7 +105,6 @@ class CommentsSearchProvider implements IProvider {
 			$offset += $numComments;
 			$numComments = 50 - count($result);
 		}
-
 
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),

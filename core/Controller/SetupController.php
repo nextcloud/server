@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\IntegrityCheck\Checker;
@@ -31,7 +32,10 @@ class SetupController {
 		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
 
-	public function run(array $post): void {
+	public function run(
+		#[\SensitiveParameter]
+		array $post,
+	): void {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -49,7 +53,7 @@ class SetupController {
 			return;
 		}
 
-		if (isset($post['install']) && $post['install'] == 'true') {
+		if (isset($post['install']) && $post['install'] === 'true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];
@@ -70,7 +74,10 @@ class SetupController {
 		$this->templateManager->printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display(array $post): void {
+	public function display(
+		#[\SensitiveParameter]
+		array $post,
+	): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -80,6 +87,12 @@ class SetupController {
 			'dbtablespace' => '',
 			'dbhost' => 'localhost',
 			'dbtype' => '',
+			'dbsslmode' => '',
+			'dbsslca' => '',
+			'dbsslcert' => '',
+			'dbsslkey' => '',
+			'dbsslcrl' => '',
+			'dbsslnoverify' => false,
 			'hasAutoconfig' => false,
 			'serverRoot' => \OC::$SERVERROOT,
 			'version' => implode('.', $this->serverVersion->getVersion()),
@@ -92,7 +105,9 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'install');
+		Util::addStyle('core', 'install');
 		Util::addTranslations('core');
 
 		$this->initialStateService->provideInitialState('core', 'config', $parameters);
@@ -114,6 +129,7 @@ class SetupController {
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			$this->templateManager->printGuestPage('', 'installation_incomplete');
+			return;
 		}
 
 		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
@@ -123,7 +139,10 @@ class SetupController {
 	/**
 	 * @psalm-taint-escape file we trust file path given in POST for setup
 	 */
-	public function loadAutoConfig(array $post): array {
+	public function loadAutoConfig(
+		#[\SensitiveParameter]
+		array $post,
+	): array {
 		if (file_exists($this->autoConfigFile)) {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];

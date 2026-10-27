@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\CallbackWrapper;
@@ -17,8 +18,9 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\IUserSession;
 use OCP\Server;
-use phpseclib\Net\SFTP\Stream;
+use phpseclib3\Net\SFTP\Stream;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
@@ -33,7 +35,7 @@ class SFTP extends Common {
 	private $auth = [];
 
 	/**
-	 * @var \phpseclib\Net\SFTP
+	 * @var \phpseclib3\Net\SFTP
 	 */
 	protected $client;
 	private CappedMemoryCache $knownMTimes;
@@ -64,6 +66,13 @@ class SFTP extends Common {
 	}
 
 	public function __construct(array $parameters) {
+		if (!isset($parameters['host'])) {
+			throw new \InvalidArgumentException('Invalid configuration, no host provided');
+		}
+		if (!isset($parameters['user'])) {
+			throw new \InvalidArgumentException('Invalid configuration, no user provided');
+		}
+
 		// Register sftp://
 		Stream::register();
 
@@ -105,16 +114,16 @@ class SFTP extends Common {
 	/**
 	 * Returns the connection.
 	 *
-	 * @return \phpseclib\Net\SFTP connected client instance
+	 * @return \phpseclib3\Net\SFTP connected client instance
 	 * @throws \Exception when the connection failed
 	 */
-	public function getConnection(): \phpseclib\Net\SFTP {
+	public function getConnection(): \phpseclib3\Net\SFTP {
 		if (!is_null($this->client)) {
 			return $this->client;
 		}
 
 		$hostKeys = $this->readHostKeys();
-		$this->client = new \phpseclib\Net\SFTP($this->host, $this->port);
+		$this->client = new \phpseclib3\Net\SFTP($this->host, $this->port);
 
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
@@ -129,7 +138,6 @@ class SFTP extends Common {
 
 		$login = false;
 		foreach ($this->auth as $auth) {
-			/** @psalm-suppress TooManyArguments */
 			$login = $this->client->login($this->user, $auth);
 			if ($login === true) {
 				break;
@@ -184,7 +192,8 @@ class SFTP extends Common {
 
 	private function hostKeysPath(): string|false {
 		try {
-			$userId = \OC_User::getUser();
+			$userId = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
+			;
 			if ($userId === false) {
 				return false;
 			}
@@ -337,7 +346,7 @@ class SFTP extends Common {
 				case 'wb':
 					SFTPWriteStream::register();
 					// the SFTPWriteStream doesn't go through the "normal" methods so it doesn't clear the stat cache.
-					$connection->_remove_from_stat_cache($absPath);
+					$connection->clearStatCache();
 					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$fh = fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 					if ($fh) {
@@ -486,7 +495,7 @@ class SFTP extends Common {
 			$absTarget = $this->absPath($target);
 
 			$connection = $this->getConnection();
-			$size = $connection->size($absSource);
+			$size = $connection->filesize($absSource);
 			if ($size === false) {
 				return false;
 			}
@@ -497,7 +506,7 @@ class SFTP extends Common {
 					return false;
 				}
 				/** @psalm-suppress InternalMethod */
-				if (!$connection->put($absTarget, $chunk, \phpseclib\Net\SFTP::SOURCE_STRING, $i)) {
+				if (!$connection->put($absTarget, $chunk, \phpseclib3\Net\SFTP::SOURCE_STRING, $i)) {
 					return false;
 				}
 			}

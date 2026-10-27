@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Migration;
 
 use OCP\IUser;
@@ -13,6 +14,7 @@ use OCP\IUserSession;
 class DummyUserSession implements IUserSession {
 
 	private ?IUser $user = null;
+	private bool $incognitoMode = false;
 
 	#[\Override]
 	public function login($uid, $password) {
@@ -61,5 +63,15 @@ class DummyUserSession implements IUserSession {
 	#[\Override]
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		//no OP
+	}
+
+	#[\Override]
+	public function setIncognitoMode(bool $mode): void {
+		$this->incognitoMode = $mode;
+	}
+
+	#[\Override]
+	public function isIncognitoMode(): bool {
+		return $this->incognitoMode;
 	}
 }

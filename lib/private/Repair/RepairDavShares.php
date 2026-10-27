@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\DB\Exception;
@@ -50,7 +51,7 @@ class RepairDavShares implements IRepairStep {
 			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('shareId')));
 
 		$statement = $qb->executeQuery();
-		while ($share = $statement->fetch()) {
+		while ($share = $statement->fetchAssociative()) {
 			$gid = substr($share['principaluri'], strlen(self::GROUP_PRINCIPAL_PREFIX));
 			$decodedGid = urldecode($gid);
 			$encodedGid = urlencode($gid);

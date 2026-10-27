@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Backend;
@@ -64,7 +65,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createUser('user', 'password');
 	}
 
-
 	public function testCreateUserNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements createUser in this LDAP Backend.');
@@ -95,7 +95,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setPassword('user', 'password');
 	}
 
-
 	public function testSetPasswordNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements setPassword in this LDAP Backend.');
@@ -125,7 +124,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getHome('uid');
 	}
 
-
 	public function testGetHomeNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements getHome in this LDAP Backend.');
@@ -154,7 +152,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->register($plugin);
 		$pluginManager->getDisplayName('uid');
 	}
-
 
 	public function testGetDisplayNameNotRegistered(): void {
 		$this->expectException(\Exception::class);
@@ -186,7 +183,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setDisplayName('user', 'password');
 	}
 
-
 	public function testSetDisplayNameNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements setDisplayName in this LDAP Backend.');
@@ -216,7 +212,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->canChangeAvatar('uid');
 	}
 
-
 	public function testCanChangeAvatarNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements canChangeAvatar in this LDAP Backend.');
@@ -242,7 +237,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->register($plugin);
 		$pluginManager->countUsers();
 	}
-
 
 	public function testCountUsersNotRegistered(): void {
 		$this->expectException(\Exception::class);
@@ -278,7 +272,6 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$this->assertTrue($pluginManager->canDeleteUser());
 		$pluginManager->deleteUser('uid');
 	}
-
 
 	public function testDeleteUserNotRegistered(): void {
 		$this->expectException(\Exception::class);

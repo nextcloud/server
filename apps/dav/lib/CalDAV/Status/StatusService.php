@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Status;
 
 use DateTimeImmutable;
@@ -162,7 +163,7 @@ class StatusService {
 			}
 
 			$sct = $calendarObject->getSchedulingTransparency();
-			if ($sct !== null && strtolower($sct->getValue()) == ScheduleCalendarTransp::TRANSPARENT) {
+			if ($sct !== null && strtolower($sct->getValue()) === ScheduleCalendarTransp::TRANSPARENT) {
 				// If a calendar is marked as 'transparent', it means we must
 				// ignore it for free-busy purposes.
 				continue;

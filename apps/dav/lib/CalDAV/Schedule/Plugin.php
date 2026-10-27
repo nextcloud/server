@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use DateTimeZone;
@@ -590,11 +591,9 @@ EOF;
 				'{' . self::NS_CALDAV . '}calendar-home-set',
 				'{' . self::NS_CALDAV . '}schedule-inbox-URL',
 				'{http://sabredav.org/ns}email-address',
-
 			]
 		);
 		$this->server->on('propFind', [$aclPlugin, 'propFind'], 20);
-
 
 		// Grabbing the calendar list
 		$objects = [];

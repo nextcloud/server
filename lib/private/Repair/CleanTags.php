@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -68,7 +69,7 @@ class CleanTags implements IRepairStep {
 
 		$users = [];
 		$hadResults = false;
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$hadResults = true;
 			if (!$this->userManager->userExists($row['uid'])) {
 				$users[] = $row['uid'];
@@ -151,7 +152,7 @@ class CleanTags implements IRepairStep {
 		$result = $qb->executeQuery();
 
 		$orphanItems = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$orphanItems[] = (int)$row[$deleteId];
 		}
 

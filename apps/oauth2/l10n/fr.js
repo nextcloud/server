@@ -2,10 +2,11 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Votre client n'est pas autorisé à se connecter. Veuillez en informer l'administrateur.",
+    "Client name cannot be empty." : "Le nom du client ne peut pas être vide.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Votre adresse de redirection doit être une URL complète, par exemple: https://example.com/chemin",
     "OAuth 2.0" : "OAuth 2.0",
-    "Allows OAuth2 compatible authentication from other web applications." : "Autoriser l'authentification compatible OAuth2 depuis d'autres applications web.",
-    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "L'application OAuth2 permet aux administrateurs de configurer le processus d'authentification intégré afin d'autoriser une authentification compatible OAuth2 depuis d'autres applications web.",
+    "Allows OAuth2 compatible authentication from other web applications." : "Permet l’authentification compatible avec OAuth2 depuis d’autres applications web.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "L’application OAuth2 permet aux administrateurs de configurer le processus d’authentification intégré afin d’autoriser également une authentification compatible avec OAuth2 depuis d’autres applications web.",
     "Secret key" : "Clé secrète",
     "Delete" : "Supprimer",
     "An unknown error occurred." : "Une erreur inconnue est survenue.",
@@ -15,11 +16,8 @@ OC.L10N.register(
     "Redirection URI" : "URI de redirection",
     "Client identifier" : "Identifiant du client",
     "Delete client" : "Supprimer le client",
-    "Make sure you store the secret key, it cannot be recovered." : "Assurez-vous de stocker la clé secrète, elle ne peut pas être re récupérée.",
+    "Make sure you store the secret key, it cannot be recovered." : "Veillez à conserver la clé secrète, car vous ne pourrez plus y accéder par la suite.",
     "Add client" : "Ajouter un client",
-    "Add" : "Ajouter",
-    "Client Identifier" : "Identifiant du client",
-    "Show client secret" : "Afficher le code secret du client",
-    "Hide client secret" : "Masquer le secret du client"
+    "Add" : "Ajouter"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

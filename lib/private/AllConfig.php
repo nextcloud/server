@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Config\UserConfig;
@@ -186,7 +187,6 @@ class AllConfig implements IConfig {
 	public function deleteAppValues($appName) {
 		Server::get(AppConfig::class)->deleteApp($appName);
 	}
-
 
 	/**
 	 * Set a user defined value

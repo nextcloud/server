@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\IntegrityCheck\Checker;
@@ -13,13 +14,10 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -27,13 +25,9 @@ use Test\TestCase;
  *
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\BackupStaticProperties(true)]
 class CheckSetupControllerTest extends TestCase {
 	private IRequest&MockObject $request;
-	private IConfig&MockObject $config;
 	private IURLGenerator&MockObject $urlGenerator;
-	private IL10N&MockObject $l10n;
-	private LoggerInterface&MockObject $logger;
 	private Checker&MockObject $checker;
 	private ISetupCheckManager&MockObject $setupCheckManager;
 	private CheckSetupController $checkSetupController;
@@ -42,25 +36,14 @@ class CheckSetupControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->l10n->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($message, array $replace) {
-				return vsprintf($message, $replace);
-			});
 		$this->checker = $this->createMock(Checker::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = new CheckSetupController(
 			'settings',
 			$this->request,
-			$this->config,
 			$this->urlGenerator,
-			$this->l10n,
 			$this->checker,
-			$this->logger,
 			$this->setupCheckManager,
 		);
 	}
@@ -102,7 +85,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
 	}
-
 
 	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound(): void {
 		$this->checker

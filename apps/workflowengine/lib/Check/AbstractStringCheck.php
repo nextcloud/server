@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OCP\IL10N;
@@ -67,11 +68,11 @@ abstract class AbstractStringCheck implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value): void {
-		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
+		if (!in_array($operator, ['is', '!is', 'matches', '!matches'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (in_array($operator, ['matches', '!matches'])
+		if (in_array($operator, ['matches', '!matches'], true)
 			  && @preg_match($value, '') === false) {
 			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}

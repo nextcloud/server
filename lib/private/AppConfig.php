@@ -52,12 +52,13 @@ use Psr\Log\LoggerInterface;
  * @since 29.0.0 - Supporting types and lazy loading
  */
 class AppConfig implements IAppConfig {
-	private const APP_MAX_LENGTH = 32;
-	private const KEY_MAX_LENGTH = 64;
-	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
-	private const LOCAL_CACHE_KEY = 'OC\\AppConfig';
-	private const LOCAL_CACHE_TTL = 3;
+	private const int APP_MAX_LENGTH = 32;
+	private const int KEY_MAX_LENGTH = 64;
+	private const string ENCRYPTION_PREFIX = '$AppConfigEncryption$';
+	private const int ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
+	private const string LOCAL_CACHE_KEY = 'OC\\AppConfig';
+	private const int LOCAL_CACHE_TTL = 3;
+	private const int MAX_NON_LAZY_SIZE = 128; // bytes
 
 	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -67,6 +68,16 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
+	/**
+	 * Tracks whether the NC-only columns (`type`, `lazy`) exist in the `appconfig` table.
+	 * Set to false on first load when a DBException::REASON_INVALID_FIELD_NAME is caught,
+	 * which happens during an ownCloud → Nextcloud migration before the schema steps have run.
+	 *
+	 * Every SELECT that reads those columns and every INSERT/UPDATE that writes them must
+	 * guard with `if ($this->migrationCompleted)` so they degrade gracefully.
+	 * If you add a new query that touches NC-only columns, add the same guard.
+	 */
+	private bool $migrationCompleted = true;
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
@@ -230,7 +241,6 @@ class AppConfig implements IAppConfig {
 		throw new AppConfigUnknownKeyException('unknown config key');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -256,6 +266,13 @@ class AppConfig implements IAppConfig {
 		);
 
 		if (!$filtered) {
+			foreach ($values as $key => $value) {
+				$sensitive = $this->isSensitive($app, $key, null);
+				if ($sensitive && is_string($value) && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+					$values[$key] = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+				}
+			}
+
 			return $values;
 		}
 
@@ -308,7 +325,6 @@ class AppConfig implements IAppConfig {
 
 		return $values;
 	}
-
 
 	/**
 	 * Get the config value as string.
@@ -437,8 +453,16 @@ class AppConfig implements IAppConfig {
 	 */
 	#[\Override]
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
-		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
-		return in_array($b, ['1', 'true', 'yes', 'on']);
+		// The explicit (string) cast and ?? null guard defend against a PHP OPcache bug where
+		// values passed by reference across function boundaries can have their type corrupted
+		// (e.g. bool returned as int, or null). Affects PHP 8.x with OPcache enabled; fixed
+		// upstream in https://github.com/php/php-src/pull/21973. Keep until minimum PHP version
+		// is bumped. Psalm sees the declared return type (string) and flags these as redundant.
+		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull */
+		$value = $this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL) ?? ($default ? 'true' : 'false');
+		/** @psalm-suppress RedundantCast */
+		$b = strtolower((string)$value);
+		return in_array($b, ['1', 'true', 'yes', 'on'], true);
 	}
 
 	/**
@@ -515,8 +539,15 @@ class AppConfig implements IAppConfig {
 			&& $knownType > 0
 			&& !$this->isTyped(self::VALUE_MIXED, $knownType)
 			&& !$this->isTyped($type, $knownType)) {
-			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
-			throw new AppConfigTypeConflictException('conflict with value type from database');
+			$requestedType = $storedType = null;
+			try {
+				$requestedType = $this->convertTypeToString($type);
+				$storedType = $this->convertTypeToString($knownType);
+			} catch (AppConfigIncorrectTypeException) {
+				// can be ignored, this was just needed for a better exception message.
+			}
+			$this->logger->warning('Config value {app}/{key} is stored as {storedType} but was requested as {requestedType}', ['app' => $app, 'key' => $key, 'storedType' => $storedType ?? $knownType, 'requestedType' => $requestedType ?? $type]);
+			throw new AppConfigTypeConflictException('Config value ' . $app . '/' . $key . ' is stored as ' . ($storedType ?? (string)$knownType) . ' but was requested as ' . ($requestedType ?? (string)$type));
 		}
 
 		/**
@@ -587,7 +618,6 @@ class AppConfig implements IAppConfig {
 		return $type;
 	}
 
-
 	/**
 	 * Store a config key and its value in database as VALUE_MIXED
 	 *
@@ -625,7 +655,6 @@ class AppConfig implements IAppConfig {
 			self::VALUE_MIXED | ($sensitive ? self::VALUE_SENSITIVE : 0)
 		);
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -828,6 +857,17 @@ class AppConfig implements IAppConfig {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
 		}
 
+		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {
+			$this->logger->debug(
+				'[Deprecated] App config {app}:{key} is larger than {maxSize} bytes. It should be declared as lazy.',
+				[
+					'app' => $app,
+					'key' => $key,
+					'maxSize' => self::MAX_NON_LAZY_SIZE,
+				]
+			);
+		}
+
 		if ($this->hasKey($app, $key, $lazy)) {
 			/**
 			 * no update if key is already known with set lazy status and value is
@@ -846,10 +886,12 @@ class AppConfig implements IAppConfig {
 				$insert = $this->connection->getQueryBuilder();
 				$insert->insert('appconfig')
 					->setValue('appid', $insert->createNamedParameter($app))
-					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+						->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+				}
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -909,10 +951,12 @@ class AppConfig implements IAppConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('appconfig')
 				->set('configvalue', $update->createNamedParameter($value))
-				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 				->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+			}
 
 			$update->executeStatement();
 		}
@@ -956,7 +1000,7 @@ class AppConfig implements IAppConfig {
 		$this->isLazy($app, $key); // confirm key exists
 
 		// type can only be one type
-		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
+		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY], true)) {
 			throw new AppConfigIncorrectTypeException('Unknown value type');
 		}
 
@@ -980,7 +1024,6 @@ class AppConfig implements IAppConfig {
 
 		return true;
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -1283,7 +1326,6 @@ class AppConfig implements IAppConfig {
 		$this->loadConfig(lazy: true);
 	}
 
-
 	/**
 	 * For debug purpose.
 	 * Returns the cached data.
@@ -1335,7 +1377,7 @@ class AppConfig implements IAppConfig {
 		}
 		if ($valueType > -1) {
 			$valueType &= ~self::VALUE_SENSITIVE;
-			if (!in_array($valueType, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
+			if (!in_array($valueType, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY], true)) {
 				throw new InvalidArgumentException('Unknown value type');
 			}
 		}
@@ -1375,23 +1417,39 @@ class AppConfig implements IAppConfig {
 
 		// Otherwise no cache available and we need to fetch from database
 		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig')
-			->select('appid', 'configkey', 'configvalue', 'type');
+		$qb->from('appconfig');
 
-		if ($lazy === false) {
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		if (!$this->migrationCompleted) {
+			$qb->select('appid', 'configkey', 'configvalue');
 		} else {
-			if ($loadLazyOnly) {
-				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+			$qb->select('appid', 'configkey', 'configvalue', 'type');
+
+			if ($lazy === false) {
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			} else {
+				if ($loadLazyOnly) {
+					$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+				}
+				$qb->addSelect('lazy');
 			}
-			$qb->addSelect('lazy');
 		}
 
-		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME || !$this->migrationCompleted) {
+				throw $e;
+			}
+			// columns 'type' and 'lazy' don't exist yet (ownCloud migration)
+			$this->migrationCompleted = false;
+			$this->loadConfig($app, $lazy);
+			return;
+		}
+
+		$rows = $result->fetchAllAssociative();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
-			if ($lazy && ((int)$row['lazy']) === 1) {
+			if ($this->migrationCompleted && $lazy && ((int)$row['lazy']) === 1) {
 				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
@@ -1466,7 +1524,6 @@ class AppConfig implements IAppConfig {
 		return $this->setTypedValue($app, $key, (string)$value, false, self::VALUE_MIXED);
 	}
 
-
 	/**
 	 * get multiple values, either the app or key can be used as wildcard by setting it to false
 	 *
@@ -1502,7 +1559,6 @@ class AppConfig implements IAppConfig {
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
 	}
-
 
 	/**
 	 * **Warning:** avoid default NULL value for $lazy as this will
@@ -1543,7 +1599,7 @@ class AppConfig implements IAppConfig {
 			case self::VALUE_FLOAT:
 				return (float)$value;
 			case self::VALUE_BOOL:
-				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+				return in_array(strtolower($value), ['1', 'true', 'yes', 'on'], true);
 			case self::VALUE_ARRAY:
 				try {
 					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
@@ -1569,6 +1625,9 @@ class AppConfig implements IAppConfig {
 			],
 			'call_summary_bot' => [
 				'/^secret_(.*)$/',
+			],
+			'eurooffice' => [
+				'/^jwt_secret$/',
 			],
 			'external' => [
 				'/^sites$/',
@@ -1722,7 +1781,8 @@ class AppConfig implements IAppConfig {
 				'enabled',
 				'installed_version',
 				'types',
-			])) {
+			],
+			true)) {
 			return true; // we don't break stuff for this list of config keys.
 		}
 		$configDetails = $this->getConfigDetailsFromLexicon($app);

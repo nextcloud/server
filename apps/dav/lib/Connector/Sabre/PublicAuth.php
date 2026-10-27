@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +14,7 @@ use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -36,7 +36,7 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\Connector
  */
 class PublicAuth extends AbstractBasic {
-	private const BRUTEFORCE_ACTION = 'public_dav_auth';
+	private const string BRUTEFORCE_ACTION = 'public_dav_auth';
 	public const DAV_AUTHENTICATED = 'public_link_authenticated';
 
 	private ?IShare $share = null;
@@ -48,6 +48,7 @@ class PublicAuth extends AbstractBasic {
 		private IThrottler $throttler,
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
+		private IUserSession $userSession,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -64,7 +65,7 @@ class PublicAuth extends AbstractBasic {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
-			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->getPassword() !== null) {
+			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->isPasswordProtected()) {
 				throw new PreconditionFailed('Strict cookie check failed');
 			}
 
@@ -135,7 +136,7 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		$this->share = $share;
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// If already authenticated
 		if ($this->isShareInSession($share)) {
@@ -143,7 +144,7 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		// If the share is protected but user is not authenticated
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			throw new NotAuthenticated();
 		}
@@ -174,10 +175,10 @@ class PublicAuth extends AbstractBasic {
 			return false;
 		}
 
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// check if the share is password protected
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {
@@ -195,7 +196,7 @@ class PublicAuth extends AbstractBasic {
 					return true;
 				}
 
-				if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+				if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
 					// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 					http_response_code(401);
 					header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
@@ -246,6 +247,6 @@ class PublicAuth extends AbstractBasic {
 			return false;
 		}
 
-		return in_array($share->getId(), $allowedShareIds);
+		return in_array($share->getId(), $allowedShareIds, true);
 	}
 }

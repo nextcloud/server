@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Migration;
 
 use OC\DB\Connection;
@@ -111,6 +112,8 @@ class MetadataManager {
 	private function parseMigrations(array $migrations, array $ignoreMigrations = []): array {
 		$parsed = [];
 		foreach (array_keys($migrations) as $entry) {
+			// $entry may be an int since json_decode() casts numeric-looking migration version keys to integers
+			/** @psalm-suppress UnrecognizedExpression */
 			if (in_array($entry, $ignoreMigrations)) {
 				continue;
 			}

@@ -34,7 +34,6 @@ class HideFromCollaborationTest extends TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
-
 	public function testHideFromCollaboration(): void {
 		// Arrange
 		$backend1 = $this->createMock(HideFromCollaborationBackendTest::class);

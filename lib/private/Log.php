@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Exception;
@@ -40,11 +41,17 @@ class Log implements ILogger, IDataLogger {
 	private ?IEventDispatcher $eventDispatcher = null;
 	private int $nestingLevel = 0;
 
+	/**
+	 * @param bool $structuredContext Keep array values of the context as structured data in the log entry
+	 *                                instead of encoding them to a JSON string. Values used as message
+	 *                                placeholders are always converted to strings.
+	 */
 	public function __construct(
 		private IWriter $logger,
 		private SystemConfig $config,
 		private Normalizer $normalizer = new Normalizer(),
 		private ?IRegistry $crashReporters = null,
+		private bool $structuredContext = false,
 	) {
 	}
 
@@ -143,7 +150,6 @@ class Log implements ILogger, IDataLogger {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
-
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -159,7 +165,7 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
-		$context = array_map($this->normalizer->format(...), $context);
+		$context = $this->normalizeContext($context, $message);
 
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
@@ -341,6 +347,8 @@ class Log implements ILogger, IDataLogger {
 			return;
 		}
 
+		unset($context['exception']);
+
 		$context = array_map($this->normalizer->format(...), $context);
 		$data = $context;
 		unset($data['app'], $data['level']);
@@ -373,10 +381,10 @@ class Log implements ILogger, IDataLogger {
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-		$data = array_map($this->normalizer->format(...), $data);
 
 		try {
 			if ($level >= $minLevel) {
+				$data = array_map($this->normalizer->format(...), $data);
 				$data['message'] = $message;
 				if (!$this->logger instanceof IFileBased) {
 					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
@@ -417,12 +425,35 @@ class Log implements ILogger, IDataLogger {
 		$usedContextKeys = [];
 		foreach ($context as $key => $val) {
 			$fullKey = '{' . $key . '}';
-			$replace[$fullKey] = $val;
 			if (str_contains($message, $fullKey)) {
+				$replace[$fullKey] = $val;
 				$usedContextKeys[$key] = true;
 			}
 		}
 		return array_merge(array_diff_key($context, $usedContextKeys), [$messageKey => strtr($message, $replace)]);
+	}
+
+	/**
+	 * Converts the context values to strings, except for arrays that are not message
+	 * placeholders when structured context is enabled
+	 */
+	private function normalizeContext(array $context, string $message): array {
+		foreach ($context as $key => $value) {
+			$context[$key] = $this->structuredContext && is_array($value) && !str_contains($message, '{' . $key . '}')
+				? $this->normalizeStructured($value)
+				: $this->normalizer->format($value);
+		}
+		return $context;
+	}
+
+	private function normalizeStructured(mixed $value): mixed {
+		if ($value === null || is_bool($value) || is_int($value) || is_string($value)) {
+			return $value;
+		}
+		if (is_array($value)) {
+			return array_map($this->normalizeStructured(...), $value);
+		}
+		return $this->normalizer->format($value);
 	}
 
 	/**

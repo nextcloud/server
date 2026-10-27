@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Cache\Storage;
@@ -17,12 +18,10 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
-use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
@@ -72,7 +71,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		MountConfig::$skipTest = true;
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -129,18 +127,9 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			Filesystem::CLASSNAME,
 			Filesystem::signal_delete_mount,
 			get_class($this), 'deleteHookCallback');
-
-		$containerMock = $this->createMock(IAppContainer::class);
-		$containerMock->method('query')
-			->willReturnCallback(function ($name) {
-				if ($name === 'OCA\Files_External\Service\BackendService') {
-					return $this->backendService;
-				}
-			});
 	}
 
 	protected function tearDown(): void {
-		MountConfig::$skipTest = false;
 		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
@@ -208,7 +197,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$storage->setPriority(100);
 		return $storage;
 	}
-
 
 	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import _ from 'underscore'
 import OC from './index.js'
 
 /**
@@ -142,8 +141,10 @@ export default {
 			params = OC.parseQueryString(this._decodeQuery(query))
 		}
 		// else read from query attributes
-		params = _.extend(params || {}, OC.parseQueryString(this._decodeQuery(location.search)))
-		return params || {}
+		return {
+			...(params || {}),
+			...OC.parseQueryString(this._decodeQuery(location.search)),
+		}
 	},
 
 	_onPopState(e) {
@@ -156,7 +157,7 @@ export default {
 			return
 		}
 		params = (e && e.state)
-		if (_.isString(params)) {
+		if (typeof params === 'string') {
 			params = OC.parseQueryString(params)
 		} else if (!params) {
 			params = this.parseUrlQuery() || {}

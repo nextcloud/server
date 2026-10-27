@@ -23,14 +23,12 @@ class RedirectResponseTest extends \Test\TestCase {
 		$this->response = new RedirectResponse('/url');
 	}
 
-
 	public function testHeaders(): void {
 		$headers = $this->response->getHeaders();
 		$this->assertEquals('/url', $headers['Location']);
 		$this->assertEquals(Http::STATUS_SEE_OTHER,
 			$this->response->getStatus());
 	}
-
 
 	public function testGetRedirectUrl(): void {
 		$this->assertEquals('/url', $this->response->getRedirectUrl());

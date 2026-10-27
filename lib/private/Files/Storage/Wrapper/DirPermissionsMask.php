@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheDirPermissionsMask;
-use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Storage\IStorage;
 
 /**
  * While PermissionMask can mask a whole storage this  can
@@ -30,7 +30,7 @@ class DirPermissionsMask extends PermissionsMask {
 	private readonly int $pathLength;
 
 	/**
-	 * @param array{storage: Storage, mask: int, path: string, ...} $parameters
+	 * @param array{storage: IStorage, mask: int, path: string, ...} $parameters
 	 * @psalm-suppress MoreSpecificImplementedParamType
 	 *
 	 * $storage: The storage the permissions mask should be applied on
@@ -45,6 +45,11 @@ class DirPermissionsMask extends PermissionsMask {
 
 	protected function checkPath(string $path): bool {
 		return $path === $this->path || substr($path, 0, $this->pathLength + 1) === $this->path . '/';
+	}
+
+	#[\Override]
+	protected function canWrite(string $path): bool {
+		return !$this->checkPath($path) || parent::canWrite($path);
 	}
 
 	#[\Override]
@@ -94,15 +99,7 @@ class DirPermissionsMask extends PermissionsMask {
 
 	#[\Override]
 	public function rename($source, $target): bool {
-		$isPartialUploadFile = dirname($source) === dirname($target)
-			&& strpos($source, '.ocTransferId') > 0;
-
-		if (
-			!($isPartialUploadFile
-				|| $this->isUpdatable($source)
-				|| $this->isDeletable($source)
-			)
-		) {
+		if (!($this->isPartialFileMove($source, $target) || $this->isUpdatable($source) || $this->isDeletable($source))) {
 			return false;
 		}
 
@@ -151,10 +148,10 @@ class DirPermissionsMask extends PermissionsMask {
 	#[\Override]
 	public function touch($path, $mtime = null): bool {
 		if ($this->checkPath($path)) {
-			return parent::touch($path);
+			return parent::touch($path, $mtime);
 		}
 
-		return $this->storage->touch($path);
+		return $this->storage->touch($path, $mtime);
 	}
 
 	#[\Override]

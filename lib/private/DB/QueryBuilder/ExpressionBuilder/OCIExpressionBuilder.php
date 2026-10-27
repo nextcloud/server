@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -138,5 +139,14 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	#[\Override]
 	public function iLike($x, $y, $type = null): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
+	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->notLike($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
 }

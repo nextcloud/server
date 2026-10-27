@@ -158,7 +158,6 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			[Controller::class, new JSONResponse(['message' => 'foo']), false],
 			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
 			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
-
 		];
 	}
 

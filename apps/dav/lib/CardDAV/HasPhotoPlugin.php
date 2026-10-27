@@ -6,9 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV;
 
-use Sabre\CardDAV\Card;
+use Sabre\CardDAV\ICard;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -42,7 +43,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	public function propFind(PropFind $propFind, INode $node) {
 		$ns = '{http://nextcloud.com/ns}';
 
-		if ($node instanceof Card) {
+		if ($node instanceof ICard) {
 			$propFind->handle($ns . 'has-photo', function () use ($node) {
 				$vcard = Reader::read($node->get());
 				return $vcard instanceof VCard

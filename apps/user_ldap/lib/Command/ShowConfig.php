@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OC\Core\Command\Base;
@@ -55,7 +56,7 @@ class ShowConfig extends Base {
 		$configID = $input->getArgument('configID');
 		if (!is_null($configID)) {
 			$configIDs[] = $configID;
-			if (!in_array($configIDs[0], $availableConfigs)) {
+			if (!in_array($configIDs[0], $availableConfigs, true)) {
 				$output->writeln('Invalid configID');
 				return self::FAILURE;
 			}

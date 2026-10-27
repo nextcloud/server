@@ -42,6 +42,7 @@ OC.L10N.register(
     "Tags" : "Tunnisteet",
     "All tagged %s …" : "Kaikki tunnisteella %s …",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
+    "Search tags" : "Etsi tunnisteita",
     "Public" : "Julkinen",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",
@@ -58,6 +59,7 @@ OC.L10N.register(
     "Reset" : "Palauta",
     "Loading …" : "Ladataan …",
     "Manage tags" : "Hallitse tunnisteita",
+    "Create new tag" : "Luo uusi tunniste",
     "Cancel" : "Peruuta",
     "Apply" : "Toteuta",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
@@ -67,9 +69,6 @@ OC.L10N.register(
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
-    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "Collaborative tags …" : "Yhteistyölliset tunnisteet…",
-    "Loading …" : "Ladataan…",
-    "Loading collaborative tags …" : "Ladataan yhteistyöllisiä tunnisteita…"
+    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu"
 },
 "nplurals=2; plural=(n != 1);");

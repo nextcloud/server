@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -33,7 +34,6 @@ class TextPlainResponse extends Response {
 		$this->text = $text;
 		$this->addHeader('Content-Type', 'text/plain');
 	}
-
 
 	/**
 	 * Returns the text

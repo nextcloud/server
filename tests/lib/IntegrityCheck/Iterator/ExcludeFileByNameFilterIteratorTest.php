@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\IntegrityCheck\Iterator;
 
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;

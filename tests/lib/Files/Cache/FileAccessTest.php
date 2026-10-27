@@ -48,7 +48,6 @@ class FileAccessTest extends TestCase {
 		$queryBuilder = $this->dbConnection->getQueryBuilder();
 		$queryBuilder->delete('mounts')->executeStatement();
 
-
 		$this->setUpTestDatabaseForGetDistinctMounts();
 		$this->setUpTestDatabaseForGetByAncestorInStorage();
 	}

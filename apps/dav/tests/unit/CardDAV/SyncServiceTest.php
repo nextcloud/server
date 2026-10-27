@@ -125,7 +125,6 @@ class SyncServiceTest extends TestCase {
 		$this->backend->method('getCard')
 			->willReturn(false);
 
-
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
     <d:response>
@@ -195,7 +194,6 @@ END:VCARD';
 
 		$this->backend->method('getCard')
 			->willReturn(true);
-
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -457,6 +455,45 @@ END:VCARD';
 		$ss->updateUser($user);
 
 		$ss->deleteUser($user);
+	}
+
+	public function testUpdateUserSkipsUnchangedCard(): void {
+		$vCard = new VCard();
+		$vCard->VERSION = '3.0';
+		$vCard->UID = 'test-user';
+		$vCard->FN = 'test-user';
+
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
+
+		$backend->expects($this->never())->method('createCard');
+		$backend->expects($this->never())->method('updateCard');
+		$backend->expects($this->never())->method('deleteCard');
+
+		$backend->method('getCard')->willReturn(['carddata' => $vCard->serialize()]);
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$user->method('isEnabled')->willReturn(true);
+
+		$converter = $this->createMock(Converter::class);
+		$converter->method('createCardFromUser')->willReturn($vCard);
+
+		$ss = new SyncService(
+			$this->createMock(IClientService::class),
+			$this->createMock(IConfig::class),
+			$backend,
+			$this->createMock(IUserManager::class),
+			$this->createMock(IDBConnection::class),
+			$logger,
+			$converter,
+		);
+		$ss->updateUser($user);
 	}
 
 	public function testSyncInstance(): void {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\RateLimiting\Backend;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -15,7 +16,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class DatabaseBackend implements IBackend {
-	private const TABLE_NAME = 'ratelimit_entries';
+	private const string TABLE_NAME = 'ratelimit_entries';
 
 	public function __construct(
 		private IConfig $config,

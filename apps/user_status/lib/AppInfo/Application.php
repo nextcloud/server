@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\AppInfo;
 
 use OCA\UserStatus\Capabilities;
@@ -67,7 +68,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OutOfOfficeStartedEvent::class, OutOfOfficeStatusListener::class);
 		$context->registerEventListener(OutOfOfficeEndedEvent::class, OutOfOfficeStatusListener::class);
 
-		$config = $this->getContainer()->query(IConfig::class);
+		/** @var IConfig $config */
+		$config = $this->getContainer()->get(IConfig::class);
 		$shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareeEnumerationInGroupOnly = $shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareeEnumerationPhone = $shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';

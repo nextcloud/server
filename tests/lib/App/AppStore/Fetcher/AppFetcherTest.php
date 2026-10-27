@@ -1817,7 +1817,6 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		'ETag' => '"myETag"',
 	];
 
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -1961,7 +1960,6 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 		$this->assertEquals([], $this->fetcher->get());
 	}
-
 
 	public function testNoInternet(): void {
 		$this->config

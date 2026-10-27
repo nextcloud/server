@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests;
 
 use OCA\Files_Versions\Expiration;
@@ -92,7 +93,6 @@ class ExpirationTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedResult, $actualResult);
 	}
-
 
 	private function getMockedTimeFactory(int $time): ITimeFactory&MockObject {
 		$mockedTimeFactory = $this->createMock(ITimeFactory::class);

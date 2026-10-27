@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Stream;
 
 use Icewind\Streams\File;
@@ -13,21 +14,18 @@ use Icewind\Streams\Wrapper;
  * A stream wrapper that uses http range requests to provide a seekable stream for http reading
  */
 class SeekableHttpStream implements File {
-	private const PROTOCOL = 'httpseek';
-
-	private static bool $registered = false;
+	private const string PROTOCOL = 'httpseek';
 
 	/**
 	 * Registers the stream wrapper using the `httpseek://` url scheme
 	 * $return void
 	 */
 	private static function registerIfNeeded() {
-		if (!self::$registered) {
+		if (!in_array(self::PROTOCOL, stream_get_wrappers(), true)) {
 			stream_wrapper_register(
 				self::PROTOCOL,
 				self::class
 			);
-			self::$registered = true;
 		}
 	}
 

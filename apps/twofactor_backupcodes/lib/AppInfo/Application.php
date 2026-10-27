@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\AppInfo;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
@@ -42,7 +43,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, ProviderEnabled::class);
 		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, ProviderDisabled::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeleted::class);
-
 
 		$context->registerTwoFactorProvider(BackupCodesProvider::class);
 	}

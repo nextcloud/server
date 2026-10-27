@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Service;
 
 use NCU\WorkflowEngine\RuntimeOperation;
@@ -120,6 +121,8 @@ class RuleMatcher implements IRuleMatcher {
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class)
 				+ $this->manager->getAllConfiguredScopesForRuntimeOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
+				// $scopes and $scopeCandidate are freshly built ScopeContext instances, strict comparison would compare identity instead of value
+				/** @psalm-suppress UnrecognizedExpression */
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
 					continue;
 				}
@@ -150,6 +153,8 @@ class RuleMatcher implements IRuleMatcher {
 				$checks = $this->manager->getChecks($checkIds);
 			}
 
+			// $configuredEvents may come from json_decode() of stored data with unverified element types
+			/** @psalm-suppress UnrecognizedExpression */
 			if ($this->eventName !== null && !in_array($this->eventName, $configuredEvents)) {
 				continue;
 			}

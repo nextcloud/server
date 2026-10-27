@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,30 +30,156 @@ use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerExceptionInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private QueueBus $commandBus;
 
+	/** @psalm-suppress ImpureStaticProperty For tests it's not an issue */
 	protected static ?IDBConnection $realDatabase = null;
+	/** @psalm-suppress ImpureStaticProperty */
 	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
+	/** Original values keyed by config key; null means the key was unset. */
+	private array $systemConfigValues = [];
+
+	/** @var class-string-map<T, T&MockObject> */
+	protected array $mocks = [];
+	/** @var array<string, MockObject&ICache> */
+	protected array $cacheMocks = [];
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
+	 */
+	protected function createInstanceWithMocks(string $class, array $overrides = []): object {
+		$reflection = new \ReflectionClass($class);
+		$constructor = $reflection->getConstructor();
+		if ($constructor === null) {
+			/* No constructor, return a instance directly */
+			return $reflection->newInstance();
+		}
+		$params = [];
+		foreach ($constructor->getParameters() as $parameter) {
+			if (isset($overrides[$parameter->getName()])) {
+				$params[] = $overrides[$parameter->getName()];
+				continue;
+			}
+			$type = $parameter->getType();
+			if ($type === null) {
+				$params[] = null;
+				continue;
+			}
+			if (!($type instanceof \ReflectionNamedType)) {
+				throw new \TypeError('Not supported');
+			}
+			if ($type->isBuiltin()) {
+				if ($parameter->isOptional()) {
+					$params[] = $parameter->getDefaultValue();
+					continue;
+				}
+				throw new \TypeError('Not supported, please override value');
+			}
+			$className = $type->getName();
+			if (isset($overrides[$className])) {
+				$params[] = $overrides[$className];
+				continue;
+			}
+			$params[] = $this->getAutoMock($className);
+		}
+		return $reflection->newInstanceArgs($params);
+	}
+
+	/**
+	 * @template T of object
+	 * @param class-string<T> $className
+	 * @return T&MockObject
+	 */
+	protected function getAutoMock(string $className): MockObject {
+		if (isset($this->mocks[$className])) {
+			return $this->mocks[$className];
+		} else {
+			return $this->createAutoMock($className);
+		}
+	}
+
+	/**
+	 * @template T of object
+	 * @param class-string<T> $className
+	 * @return T&MockObject
+	 */
+	protected function createAutoMock(string $className): MockObject {
+		$mock = $this->createMock($className);
+		switch ($className) {
+			case IL10N::class:
+				// Return the english string with parameters applied
+				$mock
+					->method('t')
+					->willReturnCallback(
+						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
+					);
+				$mock
+					->method('n')
+					->willReturnCallback(function (string $textSingular, string $textPlural, int $count, array $args) {
+						$text = $count === 1 ? $textSingular : $textPlural;
+						$text = str_replace('%n', (string)$count, $text);
+						return vsprintf($text, $args);
+					});
+				break;
+			case IL10NFactory::class:
+				$mock->method('get')
+					->willReturn($this->getAutoMock(IL10N::class));
+				break;
+			case ICacheFactory::class:
+				$mock->method('isAvailable')->willReturn(true);
+				$mock->method('isLocalCacheAvailable')->willReturn(true);
+				$mock->method('createLocking')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createDistributed')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createLocal')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createInMemory')->willReturnCallback(
+					fn (int $capacity): ICache => $this->getCacheAutoMock('InMemory'),
+				);
+				break;
+		}
+		$this->mocks[$className] = $mock;
+		return $mock;
+	}
+
+	/**
+	 * @return ICache&MockObject
+	 */
+	protected function getCacheAutoMock(string $prefix): MockObject {
+		if (!isset($this->cacheMocks[$prefix])) {
+			$cache = $this->createMock(ICache::class);
+			$this->cacheMocks[$prefix] = $cache;
+		}
+		return $this->cacheMocks[$prefix];
+	}
 
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
+		$this->restoreAllSystemConfig();
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
@@ -74,6 +202,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 
+		/** @psalm-suppress InternalMethod */
 		$container->registerService($name, function () use ($newService) {
 			return $newService;
 		});
@@ -90,13 +219,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$container = $container ?? \OC::$server;
 
 			if ($oldService !== false) {
+				/** @psalm-suppress InternalMethod */
 				$container->registerService($name, function () use ($oldService) {
 					return $oldService;
 				});
 			} else {
-				unset($container[$oldService]);
+				// The service was not registered before the test override.
+				// Remove the test registration so the container returns to its prior state.
+				/** @psalm-suppress InternalMethod */
+				$container->removeFromInternalContainer($name);
 			}
-
 
 			unset($this->services[$name]);
 			return true;
@@ -109,6 +241,39 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		foreach ($this->services as $name => $service) {
 			$this->restoreService($name);
 		}
+	}
+
+	/**
+	 * Sets a system config value for the duration of the test, restoring the
+	 * previous one in tearDown. System config is persisted to config.php, so a
+	 * leaked value would outlive the whole run.
+	 */
+	protected function overwriteSystemConfig(string $key, mixed $value): void {
+		$config = Server::get(IConfig::class);
+
+		if (!array_key_exists($key, $this->systemConfigValues)) {
+			$this->systemConfigValues[$key] = $config->getSystemValue($key, null);
+		}
+
+		$config->setSystemValue($key, $value);
+	}
+
+	public function restoreAllSystemConfig(): void {
+		if ($this->systemConfigValues === []) {
+			return;
+		}
+
+		$config = Server::get(IConfig::class);
+		foreach ($this->systemConfigValues as $key => $value) {
+			// null reads back as the default, so remove the key instead.
+			if ($value === null) {
+				$config->deleteSystemValue($key);
+			} else {
+				$config->setSystemValue($key, $value);
+			}
+		}
+
+		$this->systemConfigValues = [];
 	}
 
 	protected function getTestTraits(): array {
@@ -132,6 +297,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->commandBus = new QueueBus();
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 		$this->overwriteService(IBus::class, $this->commandBus);
+
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$urlGeneratorReflection = new \ReflectionClass($urlGenerator);
+		$baseUrlProp = $urlGeneratorReflection->getProperty('baseUrl');
+		$baseUrlProp->setValue($urlGenerator, 'http://localhost');
 
 		// detect database access
 		self::$wasDatabaseAllowed = true;
@@ -158,6 +328,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreAllServices();
+		$this->restoreAllSystemConfig();
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
@@ -232,7 +403,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		if ($reflection->hasMethod($methodName)) {
 			$method = $reflection->getMethod($methodName);
-			return $method->invokeArgs($object, $parameters);
+			return $method->invokeArgs((is_string($object) ? null : $object), $parameters);
 		} elseif ($reflection->hasProperty($methodName)) {
 			$property = $reflection->getProperty($methodName);
 
@@ -300,6 +471,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
 			// so we need the database again
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
@@ -322,14 +494,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Factory::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[AppFetcher::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Installer::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Updater::class]);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Factory::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(AppFetcher::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Installer::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Updater::class);
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
@@ -446,12 +618,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
-		Filesystem::tearDown();
-		\OC_User::setUserId($user);
-		$userManager = Server::get(IUserManager::class);
 		$setupManager = Server::get(SetupManager::class);
+		$setupManager->tearDown();
+		$userManager = Server::get(IUserManager::class);
+		$userSession = Server::get(IUserSession::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
+			$userSession->setUser($userObject);
 			$userObject->updateLastLoginTimestamp();
 			$setupManager->setupForUser($userObject);
 			$rootFolder = Server::get(IRootFolder::class);
@@ -534,7 +707,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 
 		$r = new \ReflectionClass($this);
-		$doc = $r->getDocComment();
+		$doc = $r->getDocComment() ?: '';
 
 		if (class_exists(Group::class)) {
 			$attributes = array_map(function (\ReflectionAttribute $attribute): string {
@@ -552,6 +725,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
-		return in_array('DB', $annotations) || in_array('SLOWDB', $annotations);
+		return in_array('DB', $annotations, true) || in_array('SLOWDB', $annotations, true);
 	}
 }

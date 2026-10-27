@@ -6,11 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\IDBConnection;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
+use SensitiveParameter;
 
 /**
  * Store and retrieve credentials for external services
@@ -33,7 +35,12 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param mixed $credentials
 	 */
 	#[\Override]
-	public function store(string $userId, string $identifier, $credentials): void {
+	public function store(
+		string $userId,
+		string $identifier,
+		#[SensitiveParameter]
+		$credentials,
+	): void {
 		$value = $this->crypto->encrypt(json_encode($credentials));
 
 		$this->dbConnection->setValues(self::DB_TABLE, [
@@ -63,7 +70,7 @@ class CredentialsManager implements ICredentialsManager {
 		}
 
 		$qResult = $qb->executeQuery();
-		$result = $qResult->fetch();
+		$result = $qResult->fetchAssociative();
 		$qResult->closeCursor();
 
 		if (!$result) {

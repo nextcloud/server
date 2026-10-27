@@ -10,47 +10,37 @@
 		<NcSelect
 			v-model="formData.language"
 			class="user-form__select"
-			:input-label="t('settings', 'Language')"
+			:inputLabel="t('settings', 'Language')"
 			:placeholder="t('settings', 'Set default language')"
 			:clearable="false"
 			:selectable="option => !option.languages"
-			:filter-by="languageFilterBy"
+			:filterBy="languageFilterBy"
 			:options="languages"
 			label="name" />
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { translate as t } from '@nextcloud/l10n'
+import { computed, inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 import { languageFilterBy } from './userFormUtils.ts'
 
-export default {
-	name: 'UserFormLanguage',
+const store = useStore()
 
-	components: {
-		NcSelect,
-	},
+const formData = inject(formDataKey)!
 
-	inject: ['formData'],
+const showConfig = computed(() => store.getters.getShowConfig)
 
-	computed: {
-		showConfig() {
-			return this.$store.getters.getShowConfig
-		},
-
-		languages() {
-			const { commonLanguages, otherLanguages } = this.$store.getters.getServerData.languages
-			return [
-				{ name: t('settings', 'Common languages'), languages: commonLanguages },
-				...commonLanguages,
-				{ name: t('settings', 'Other languages'), languages: otherLanguages },
-				...otherLanguages,
-			]
-		},
-	},
-
-	methods: {
-		languageFilterBy,
-	},
-}
+const languages = computed(() => {
+	const { commonLanguages, otherLanguages } = store.getters.getServerData.languages
+	return [
+		{ name: t('settings', 'Common languages'), languages: commonLanguages },
+		...commonLanguages,
+		{ name: t('settings', 'Other languages'), languages: otherLanguages },
+		...otherLanguages,
+	]
+})
 </script>

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 use OCP\App\AppPathNotFoundException;
@@ -286,7 +287,7 @@ class Factory implements IFactory {
 
 		// Default : use system default locale
 		$defaultLocale = $this->config->getSystemValue('default_locale', false);
-		if ($defaultLocale !== false && $this->localeExists($defaultLocale)) {
+		if (is_string($defaultLocale) && $this->localeExists($defaultLocale)) {
 			return $defaultLocale;
 		}
 
@@ -403,7 +404,7 @@ class Factory implements IFactory {
 		}
 
 		$languages = $this->findAvailableLanguages($app);
-		return in_array($lang, $languages);
+		return in_array($lang, $languages, true);
 	}
 
 	#[\Override]
@@ -462,12 +463,8 @@ class Factory implements IFactory {
 		return $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValueString('default_language', 'en');
 	}
 
-	/**
-	 * @param string $locale
-	 * @return bool
-	 */
 	#[\Override]
-	public function localeExists($locale) {
+	public function localeExists(string $locale): bool {
 		if ($locale === 'en') { //english is always available
 			return true;
 		}
@@ -601,8 +598,8 @@ class Factory implements IFactory {
 	 * @param string $app App id or empty string for core
 	 * @return string directory
 	 */
-	protected function findL10nDir($app = null) {
-		if (in_array($app, ['core', 'lib'])) {
+	protected function findL10nDir(?string $app = null): string {
+		if (in_array($app, ['core', 'lib'], true)) {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
@@ -667,7 +664,7 @@ class Factory implements IFactory {
 
 			// put appropriate languages into appropriate arrays, to print them sorted
 			// common languages -> divider -> other languages
-			if (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
+			if (in_array($lang, self::COMMON_LANGUAGE_CODES, true)) {
 				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES, true)] = $ln;
 			} else {
 				$otherLanguages[] = $ln;

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV;
 
 use OCP\Constants;
@@ -235,7 +236,6 @@ class GroupPrincipalBackend implements BackendInterface {
 		switch ($test) {
 			case 'anyof':
 				return array_values(array_unique(array_merge(...$results)));
-
 			case 'allof':
 			default:
 				return array_values(array_intersect(...$results));

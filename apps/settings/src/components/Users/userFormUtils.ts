@@ -8,17 +8,17 @@ import type { IGroup } from '../../views/user-types.d.ts'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { unlimitedQuota } from '../../utils/userUtils.ts'
 
-interface QuotaOption {
+export interface QuotaOption {
 	id: string
 	label: string
 }
 
-interface LanguageOption {
+export interface LanguageOption {
 	code: string
 	name: string
 }
 
-interface FormData {
+export interface FormData {
 	username: string
 	displayName: string
 	password: string
@@ -28,6 +28,21 @@ interface FormData {
 	quota: QuotaOption
 	language: LanguageOption
 	manager: string | { id: string, displayname?: string }
+}
+
+const UNSELECTABLE_GROUP_IDS = [
+	'__nc_internal_recent',
+	'disabled',
+	'guest_app',
+]
+
+/**
+ * Whether a group can be offered as a selectable account group option.
+ *
+ * @param group Group option
+ */
+export function isSelectableGroup(group: IGroup): boolean {
+	return !UNSELECTABLE_GROUP_IDS.includes(group.id)
 }
 
 /**
@@ -152,7 +167,7 @@ export function diffPayload(initial: FormData, current: FormData) {
  * @param fallback.label Fallback option display label
  * @return Normalized quota option with id and label
  */
-export function validateQuota(quota: string, fallback: { id: string, label: string }) {
+export function validateQuota(quota: string, fallback: QuotaOption) {
 	const parsed = parseFileSize(quota, true)
 	if (parsed !== null && parsed >= 0) {
 		const label = formatFileSize(parsed)

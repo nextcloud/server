@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -34,6 +35,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapTLS
  * @property string $turnOffCertCheck
  * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserActiveState
  * @property string $ldapUserDisplayName
  * @property string $ldapUserDisplayName2
  * @property string $ldapUserAvatarRule
@@ -138,6 +140,9 @@ class Connection extends LDAPUtility {
 	protected LoggerInterface $logger;
 	private IL10N $l10n;
 
+	/** @psalm-suppress ImpureStaticProperty This is a cache for whether php-ldap is installed, which cannot change mid-process */
+	private static bool $phpLDAPinstalled = true;
+
 	/**
 	 * Constructor
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
@@ -156,7 +161,7 @@ class Connection extends LDAPUtility {
 		}
 		$helper = Server::get(Helper::class);
 		$this->doNotValidate = !in_array($this->configPrefix,
-			$helper->getServerConfigurationPrefixes());
+			$helper->getServerConfigurationPrefixes(), true);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->l10n = Util::getL10N('user_ldap');
 	}
@@ -309,7 +314,7 @@ class Connection extends LDAPUtility {
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
 		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
-		$this->cache->set($key, $value, $ttl);
+		$this->cache->set($key, $value, (int)$ttl);
 	}
 
 	public function clearCache() {
@@ -346,7 +351,6 @@ class Connection extends LDAPUtility {
 		if (count($setParameters) > 0) {
 			$this->configured = $this->validateConfiguration($throw);
 		}
-
 
 		return $this->configured;
 	}
@@ -413,7 +417,7 @@ class Connection extends LDAPUtility {
 			} else {
 				$uuidAttributes = Access::UUID_ATTRIBUTES;
 				array_unshift($uuidAttributes, 'auto');
-				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes)
+				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes, true)
 					&& !is_null($this->configID)) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
@@ -580,7 +584,6 @@ class Connection extends LDAPUtility {
 		}
 	}
 
-
 	/**
 	 * Connects and Binds to LDAP
 	 *
@@ -590,8 +593,7 @@ class Connection extends LDAPUtility {
 		if (!$this->configuration->ldapConfigurationActive) {
 			return null;
 		}
-		static $phpLDAPinstalled = true;
-		if (!$phpLDAPinstalled) {
+		if (!static::$phpLDAPinstalled) {
 			return false;
 		}
 		if (!$this->ignoreValidation && !$this->configured) {
@@ -603,7 +605,7 @@ class Connection extends LDAPUtility {
 		}
 		if (!$this->ldapConnectionRes) {
 			if (!$this->ldap->areLDAPFunctionsAvailable()) {
-				$phpLDAPinstalled = false;
+				static::$phpLDAPinstalled = false;
 				$this->logger->error(
 					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
 					['app' => 'user_ldap']
@@ -748,7 +750,7 @@ class Connection extends LDAPUtility {
 			$errno = $this->ldap->errno($cr);
 
 			$this->logger->warning(
-				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
+				'Bind failed for ' . $this->configuration->ldapAgentName . ': ' . $errno . ': ' . $this->ldap->error($cr),
 				['app' => 'user_ldap']
 			);
 

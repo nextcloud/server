@@ -4,20 +4,20 @@
 -->
 
 <template>
-	<form class="absence" @submit.prevent="saveForm">
-		<div class="absence__dates">
+	<form :class="$style.absenceForm" @submit.prevent="saveForm">
+		<div :class="$style.absenceForm__pickerContainer">
 			<NcDateTimePickerNative
 				id="absence-first-day"
 				v-model="firstDay"
+				:class="$style.absenceForm__picker"
 				:label="t('dav', 'First day')"
-				class="absence__dates__picker"
-				:required="true" />
+				required />
 			<NcDateTimePickerNative
 				id="absence-last-day"
 				v-model="lastDay"
+				:class="$style.absenceForm__picker"
 				:label="t('dav', 'Last day (inclusive)')"
-				class="absence__dates__picker"
-				:required="true" />
+				required />
 		</div>
 		<label for="replacement-search-input">{{ t('dav', 'Out of office replacement (optional)') }}</label>
 		<NcSelectUsers
@@ -28,9 +28,17 @@
 			:options="options"
 			@search="asyncFind" />
 		<NcTextField v-model="status" :label="t('dav', 'Short absence status')" :required="true" />
-		<NcTextArea v-model="message" :label="t('dav', 'Long absence Message')" :required="true" />
+		<div :class="$style.absenceForm__longMessageContainer">
+			<NcTextArea
+				v-model="message"
+				:inputClass="$style.absenceForm__longMessage"
+				:label="t('dav', 'Long absence Message')"
+				required
+				resize="none"
+				rows="6" />
+		</div>
 
-		<div class="absence__buttons">
+		<div :class="$style.absenceForm__actions">
 			<NcButton
 				:disabled="loading || !valid"
 				variant="primary"
@@ -64,6 +72,22 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { logger } from '../service/logger.ts'
 import { formatDateAsYMD } from '../utils/date.ts'
 
+/**
+ * Adjusts a date so `NcDateTimePickerNative` shows the same date
+ * instead of shifting it to the browsers timezone.
+ *
+ * @param {Date} date - e.g., new Date("1987-12-01")
+ * @return {Date}
+ */
+function inputAdjustDate(date) {
+	// e.g., date === Mon Nov 30 1987 16:00:00 GMT-0800 (Pacific Standard Time)
+	const timezoneOffsetMilliseconds = date.getTimezoneOffset() * 60 * 1000
+	// e.g., Tue Dec 01 1987 00:00:00 GMT-0800 (Pacific Standard Time)
+	const adjustedDate = new Date(date.getTime() + timezoneOffsetMilliseconds)
+	// `NcDateTimePickerNative` will display this as 12/01/1987
+	return adjustedDate
+}
+
 export default {
 	name: 'AbsenceForm',
 	components: {
@@ -80,12 +104,15 @@ export default {
 
 	data() {
 		const { firstDay, lastDay, status, message, replacementUserId, replacementUserDisplayName } = loadState('dav', 'absence', {})
+		const firstDayDate = firstDay ? new Date(firstDay) : new Date()
+		const firstDayInputAdjusted = inputAdjustDate(firstDayDate)
+		const lastDayInputAdjusted = lastDay ? inputAdjustDate(new Date(lastDay)) : null
 		return {
 			loading: false,
 			status: status ?? '',
 			message: message ?? '',
-			firstDay: firstDay ? new Date(firstDay) : new Date(),
-			lastDay: lastDay ? new Date(lastDay) : null,
+			firstDay: firstDayInputAdjusted,
+			lastDay: lastDayInputAdjusted,
 			replacementUserId,
 			replacementUser: replacementUserId ? { user: replacementUserId, displayName: replacementUserDisplayName } : null,
 			searchLoading: false,
@@ -251,29 +278,40 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.absence {
+<style module>
+.absenceForm {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+}
 
-	&__dates {
-		display: flex;
-		gap: 10px;
-		width: 100%;
+.absenceForm__pickerContainer {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
 
-		&__picker {
-			flex: 1 auto;
+.absenceForm__picker {
+	flex: 1 auto;
 
-			:deep(.native-datetime-picker--input) {
-				margin-bottom: 0;
-			}
-		}
+	:global(.native-datetime-picker--input) {
+		margin-bottom: 0;
 	}
+}
 
-	&__buttons {
-		display: flex;
-		gap: 5px;
-	}
+.absenceForm__longMessage {
+	height: calc(var(--default-line-height) * 6 * var(--font-size-small));
+}
+
+.absenceForm__longMessageContainer {
+	height: calc(var(--default-line-height) * 6 * var(--font-size-small) + var(--default-grid-baseline) * 2);
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+}
+
+.absenceForm__actions {
+	display: flex;
+	gap: 5px;
 }
 </style>

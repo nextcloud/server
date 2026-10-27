@@ -1,10 +1,11 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OC\ServerNotAvailableException;
@@ -39,6 +40,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
@@ -77,6 +79,7 @@ class ShareController extends AuthPublicShareController {
 		protected ISecureRandom $secureRandom,
 		protected Defaults $defaults,
 		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+		private IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
 	}
@@ -175,7 +178,7 @@ class ShareController extends AuthPublicShareController {
 
 	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
 	#[\Override]
@@ -261,18 +264,6 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	private function validateShare(IShare $share) {
-		// If the owner is disabled no access to the link is granted
-		$owner = $this->userManager->get($share->getShareOwner());
-		if ($owner === null || !$owner->isEnabled()) {
-			return false;
-		}
-
-		// If the initiator of the share is disabled no access is granted
-		$initiator = $this->userManager->get($share->getSharedBy());
-		if ($initiator === null || !$initiator->isEnabled()) {
-			return false;
-		}
-
 		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
 	}
 
@@ -286,7 +277,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// Check whether share exists
 		try {
@@ -325,7 +316,6 @@ class ShareController extends AuthPublicShareController {
 			throw $e;
 		}
 
-
 		$this->emitAccessShareHook($share);
 		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);
 
@@ -340,7 +330,7 @@ class ShareController extends AuthPublicShareController {
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
 

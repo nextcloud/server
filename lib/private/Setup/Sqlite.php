@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DB\ConnectionFactory;
@@ -14,7 +15,8 @@ class Sqlite extends AbstractDatabase {
 
 	#[\Override]
 	public function validate(array $config): array {
-		return [];
+		// SQLite needs no credentials, but an encrypted connection is not a thing either
+		return $this->validateEncryptionOptions($config);
 	}
 
 	#[\Override]

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
@@ -30,7 +31,7 @@ use function substr;
 
 /** @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarShareUpdatedEvent> */
 class CalendarContactInteractionListener implements IEventListener {
-	private const URI_USERS = 'principals/users/';
+	private const string URI_USERS = 'principals/users/';
 
 	public function __construct(
 		private IEventDispatcher $dispatcher,

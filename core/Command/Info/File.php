@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
@@ -100,7 +101,7 @@ class File extends Command {
 			$childSize = array_sum(array_map(function (Node $node) {
 				return $node->getSize();
 			}, $children));
-			if ($childSize != $node->getSize()) {
+			if ((float)$childSize !== (float)$node->getSize()) {
 				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) . " but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
 				if (!$node->getStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
 					$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');

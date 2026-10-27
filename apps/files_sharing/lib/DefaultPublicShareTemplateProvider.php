@@ -11,7 +11,6 @@ namespace OCA\Files_Sharing;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
@@ -117,11 +116,6 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$attributes = $share->getAttributes();
 		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
 		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
-
-		// Load Viewer scripts
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
 
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
@@ -256,7 +250,6 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			Util::addHeader('meta', ['property' => 'og:video', 'content' => $video]);
 			Util::addHeader('meta', ['property' => 'og:video:type', 'content' => $shareNode->getMimeType()]);
 		}
-
 
 		// Twitter Support: https://developer.x.com/en/docs/x-for-websites/cards/overview/markup
 		Util::addHeader('meta', ['property' => 'twitter:title', 'content' => $title]);

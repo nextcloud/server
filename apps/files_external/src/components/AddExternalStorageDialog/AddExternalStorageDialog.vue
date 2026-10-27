@@ -21,17 +21,20 @@ import { t } from '@nextcloud/l10n'
 import { computed, ref, toRaw, watch, watchEffect } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ApplicableEntities from './ApplicableEntities.vue'
 import AuthMechanismConfiguration from './AuthMechanismConfiguration.vue'
 import BackendConfiguration from './BackendConfiguration.vue'
 import MountOptions from './MountOptions.vue'
+import { DEFAULT_MOUNT_OPTIONS } from '../../store/storages.ts'
+import { appliesToAllAccounts, pruneUnusedAuthMechanismOptions } from '../../utils/externalStorageUtils.ts'
 
 const open = defineModel<boolean>('open', { default: true })
 
 const {
-	storage = { backendOptions: {}, mountOptions: {}, type: isAdmin ? 'system' : 'personal' },
+	storage = { backendOptions: {}, mountOptions: { ...DEFAULT_MOUNT_OPTIONS }, type: isAdmin ? 'system' : 'personal' },
 } = defineProps<{
 	storage?: Partial<IStorage>
 }>()
@@ -46,6 +49,11 @@ watchEffect(() => {
 		internalStorage.value = structuredClone(toRaw(storage))
 	}
 })
+
+const isUnrestricted = computed(() => appliesToAllAccounts(
+	internalStorage.value.applicableUsers,
+	internalStorage.value.applicableGroups,
+))
 
 const backend = computed({
 	get() {
@@ -63,6 +71,14 @@ const authMechanism = computed({
 		return authMechanisms.value.find((a) => a.identifier === internalStorage.value.authMechanism)
 	},
 	set(value?: IAuthMechanism) {
+		const previous = authMechanisms.value.find((a) => a.identifier === internalStorage.value.authMechanism)
+		if (previous && previous.identifier !== value?.identifier && internalStorage.value.backendOptions) {
+			pruneUnusedAuthMechanismOptions(
+				internalStorage.value.backendOptions,
+				previous.configuration,
+				[value?.configuration, backend.value?.configuration],
+			)
+		}
 		internalStorage.value.authMechanism = value?.identifier
 	},
 })
@@ -93,21 +109,29 @@ watch(authMechanisms, () => {
 		<ApplicableEntities
 			v-if="isAdmin"
 			v-model:groups="internalStorage.applicableGroups"
-			v-model:users="internalStorage.applicableUsers" />
+			v-model:users="internalStorage.applicableUsers"
+			:class="$style.externalStorageDialog__dropdown" />
+
+		<NcNoteCard
+			v-if="isAdmin && isUnrestricted"
+			type="info"
+			:text="t('files_external', 'Without a restriction this storage is available to every account on this server.')" />
 
 		<NcSelect
 			v-model="backend"
 			:options="backends"
 			:disabled="!!(internalStorage.id && internalStorage.backend)"
 			:inputLabel="t('files_external', 'External storage')"
+			:class="$style.externalStorageDialog__dropdown"
 			label="name"
 			required />
 
 		<NcSelect
 			v-model="authMechanism"
 			:options="authMechanisms"
-			:disabled="!internalStorage.backend || authMechanisms.length <= 1 || !!(internalStorage.id && internalStorage.authMechanism)"
+			:disabled="!internalStorage.backend || authMechanisms.length <= 1"
 			:inputLabel="t('files_external', 'Authentication')"
+			:class="$style.externalStorageDialog__dropdown"
 			label="name"
 			required />
 
@@ -145,5 +169,9 @@ watch(authMechanisms, () => {
 
 .externalStorageDialog__configuration {
 	margin-block: 0.5rem;
+}
+
+.externalStorageDialog__dropdown {
+	flex: 0 0 auto;
 }
 </style>

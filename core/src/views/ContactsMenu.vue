@@ -11,7 +11,7 @@ import { getBuilder } from '@nextcloud/browser-storage'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -21,7 +21,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ContactMenuEntry from '../components/ContactsMenu/ContactMenuEntry.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 const storage = getBuilder('core:contacts')
 	.persist(true)
@@ -32,7 +32,7 @@ const user = getCurrentUser()!
 const contactsAppURL = generateUrl('/apps/contacts')
 const contactsAppMgmtURL = generateUrl('/settings/apps/social/contacts')
 
-const contactsMenuInput = ref<HTMLInputElement>()
+const contactsMenuInput = useTemplateRef('contactsMenuInput')
 
 const actions = ref(window.OC?.ContactsMenu?.actions || [])
 const contactsAppEnabled = ref(false)
@@ -45,22 +45,10 @@ const teams = ref<ITeam[]>([])
 const selectedTeam = ref<string>('$_all_$')
 const selectedTeamName = computed(() => teams.value.find((t) => t.teamId === selectedTeam.value)?.displayName)
 
-onMounted(async () => {
-	const team = storage.getItem('core:contacts:team')
-	if (team) {
-		selectedTeam.value = JSON.parse(team)
-	}
-
-	if (userTeams.length === 0) {
-		try {
-			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
-			userTeams.push(...data)
-		} catch (error) {
-			logger.error('could not load user teams', { error })
-		}
-	}
-	teams.value = [...userTeams]
-})
+const team = storage.getItem('core:contacts:team')
+if (team) {
+	selectedTeam.value = JSON.parse(team)
+}
 
 watch(selectedTeam, () => {
 	storage.setItem('core:contacts:team', JSON.stringify(selectedTeam.value))
@@ -71,7 +59,22 @@ watch(selectedTeam, () => {
  * Load contacts when opening the menu
  */
 async function onOpened() {
-	await getContacts('')
+	await Promise.all([getContacts(''), getTeams()])
+}
+
+/**
+ * Load teams for current user from the server
+ */
+async function getTeams() {
+	if (userTeams.length === 0) {
+		try {
+			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
+			userTeams.push(...data)
+		} catch (error) {
+			logger.error('could not load user teams', { error })
+		}
+	}
+	teams.value = [...userTeams]
 }
 
 /**
@@ -146,21 +149,21 @@ const userTeams: ITeam[] = []
 		id="contactsmenu"
 		class="contactsmenu"
 		:aria-label="t('core', 'Search contacts')"
-		exclude-click-outside-selectors=".v-popper__popper"
-		@open="onOpened">
+		excludeClickOutsideSelectors=".v-popper__popper"
+		@update:open="$event && onOpened()">
 		<template #trigger>
 			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__search-container">
 				<div class="contactsmenu__menu__input-wrapper">
-					<NcActions force-menu :aria-label="t('core', 'Filter by team')" variant="tertiary">
+					<NcActions forceMenu :aria-label="t('core', 'Filter by team')" variant="tertiary">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiAccountGroupOutline" />
 						</template>
 						<template #default>
 							<NcActionButton
-								:modelValue.sync="selectedTeam"
+								v-model="selectedTeam"
 								value="$_all_$"
 								type="radio">
 								{{ t('core', 'All teams') }}
@@ -168,7 +171,7 @@ const userTeams: ITeam[] = []
 							<NcActionButton
 								v-for="team of teams"
 								:key="team.teamId"
-								:modelValue.sync="selectedTeam"
+								v-model="selectedTeam"
 								:value="team.teamId"
 								type="radio">
 								{{ team.displayName }}
@@ -180,16 +183,16 @@ const userTeams: ITeam[] = []
 						ref="contactsMenuInput"
 						v-model="searchTerm"
 						class="contactsmenu__menu__search"
-						trailing-button-icon="close"
+						trailingButtonIcon="close"
 						:label="selectedTeamName
 							? t('core', 'Search contacts in team {team}', { team: selectedTeamName })
 							: t('core', 'Search contacts …')
 						"
-						:trailing-button-label="t('core', 'Reset search')"
-						:show-trailing-button="searchTerm !== ''"
+						:trailingButtonLabel="t('core', 'Reset search')"
+						:showTrailingButton="searchTerm !== ''"
 						type="search"
-						@input="onInputDebounced"
-						@trailing-button-click="onReset" />
+						@update:modelValue="onInputDebounced"
+						@trailingButtonClick="onReset" />
 				</div>
 				<NcButton
 					v-for="action in actions"

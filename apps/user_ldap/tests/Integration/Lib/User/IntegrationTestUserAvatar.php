@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
 use OC\ServerNotAvailableException;
@@ -61,7 +62,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		// also remove an possibly existing avatar
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($username);
-		\OC::$server->getUserFolder($username);
+		Server::get(IRootFolder::class)->getUserFolder($username);
 		Server::get(IConfig::class)->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
 		if (Server::get(IAvatarManager::class)->getAvatar($username)->exists()) {
 			Server::get(IAvatarManager::class)->getAvatar($username)->remove();

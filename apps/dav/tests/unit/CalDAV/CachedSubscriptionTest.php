@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CachedSubscription;
@@ -128,7 +129,6 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->propPatch($propPatch);
 	}
 
-
 	public function testGetChild(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		$this->expectExceptionMessage('Calendar object not found');
@@ -226,7 +226,6 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[0]);
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[1]);
 	}
-
 
 	public function testCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);

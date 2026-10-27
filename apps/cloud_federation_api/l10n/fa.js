@@ -1,8 +1,8 @@
 OC.L10N.register(
     "cloud_federation_api",
     {
-    "Cloud Federation API" : "API فدراسیون ابری",
-    "Enable clouds to communicate with each other and exchange data" : "ابرها را فعال کنید تا با یکدیگر ارتباط برقرار کنند و داده ها را مبادله کنند",
-    "The Cloud Federation API enables various Nextcloud instances to communicate with each other and to exchange data." : "Cloud Federation API نمونه های مختلف Nextcloud را قادر می سازد تا با یکدیگر ارتباط برقرار کرده و داده ها را مبادله کنند."
+    "Cloud Federation API" : "API اتحاد ابری",
+    "Enable clouds to communicate with each other and exchange data" : "امکان ارتباط ابر‌ها با یکدیگر و تبادل داده",
+    "The Cloud Federation API enables various Nextcloud instances to communicate with each other and to exchange data." : "API اتحاد ابری به نمونه‌های مختلف نکست‌کلود امکان می‌دهد تا با یکدیگر ارتباط برقرار کرده و داده‌ها را تبادل کنند."
 },
 "nplurals=2; plural=(n > 1);");

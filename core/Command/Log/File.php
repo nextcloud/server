@@ -5,11 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
 use OCP\Util;
-
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;

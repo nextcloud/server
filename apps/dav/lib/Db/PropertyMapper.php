@@ -18,7 +18,7 @@ use OCP\IDBConnection;
  */
 class PropertyMapper extends QBMapper {
 
-	private const TABLE_NAME = 'properties';
+	private const string TABLE_NAME = 'properties';
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME, Property::class);

@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Níl do chliant údaraithe chun nascadh. Cuir do chliant ar an eolas do riarthóir.",
+    "Client name cannot be empty." : "Ní féidir ainm an chliaint a fhágáil folamh.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Ní mór do URL athsheolaidh a bheith ina URL iomlán mar shampla: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Ceadaíonn sé fíordheimhniú comhoiriúnach OAuth2 ó fheidhmchláir ghréasáin eile.",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Scrios cliant",
     "Make sure you store the secret key, it cannot be recovered." : "Déan cinnte go stórálann tú an eochair rúnda, ní féidir í a aisghabháil.",
     "Add client" : "Cuir cliant leis",
-    "Add" : "Cuir",
-    "Client Identifier" : "Aitheantóir Cliant",
-    "Show client secret" : "Taispeáin rún an chliaint",
-    "Hide client secret" : "Folaigh rún an chliaint"
+    "Add" : "Cuir"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

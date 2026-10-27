@@ -24,6 +24,10 @@ watch(() => app.icon, async () => {
 		const response = await fetch(app.icon)
 		if (response.ok) {
 			svgIcon.value = await response.text()
+			svgIcon.value = svgIcon.value
+				.replaceAll(/(?<=[";])fill:\s?(#fff(fff)?|white)(;|(?="))/gi, '')
+				.replaceAll(/(?<=\s)fill="[^"]+"/gi, '')
+				.replaceAll(/(?<=\s)color="[^"]+"/gi, '')
 		}
 	}
 }, { immediate: true })

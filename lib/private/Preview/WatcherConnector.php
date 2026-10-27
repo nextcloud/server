@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OC\SystemConfig;
@@ -36,6 +37,7 @@ class WatcherConnector {
 	public function connectWatcher(): void {
 		// Do not connect if we are not setup yet!
 		if ($this->config->getValue('instanceid', null) !== null) {
+			/** @psalm-suppress UndefinedInterfaceMethod both Root and LazyRoot have listen */
 			$this->root->listen('\OC\Files', 'postWrite', function (Node $node): void {
 				$this->getWatcher()->postWrite($node);
 			});

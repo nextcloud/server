@@ -248,6 +248,9 @@ class Image implements IImage {
 				case 'image/webp':
 					$imageType = IMAGETYPE_WEBP;
 					break;
+				case 'image/avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
 				default:
 					throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
 			}
@@ -280,6 +283,9 @@ class Image implements IImage {
 				break;
 			case IMAGETYPE_WEBP:
 				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
+			case IMAGETYPE_AVIF:
+				$retVal = imageavif($this->resource, $filePath);
 				break;
 			default:
 				$retVal = imagepng($this->resource, $filePath);
@@ -508,7 +514,6 @@ class Image implements IImage {
 			if ($res) {
 				if (imagealphablending($res, true)) {
 					if (imagesavealpha($res, true)) {
-						imagedestroy($this->resource);
 						$this->resource = $res;
 						return true;
 					} else {
@@ -748,6 +753,19 @@ class Image implements IImage {
 					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) {
+						return false;
+					}
+					// An animated AVIF decodes to its first frame, which is the
+					// right thing for a preview, and a sequence libgd cannot read
+					// returns false and is handled below like any other failure
+					$this->resource = @imagecreatefromavif($imagePath);
+				} else {
+					$this->logger->debug('Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
 				/*
 				case IMAGETYPE_TIFF_II: // (intel byte order)
 					break;
@@ -926,7 +944,6 @@ class Image implements IImage {
 		$res = imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
 		if ($res === false) {
 			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image', ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 		return $process;
@@ -946,7 +963,7 @@ class Image implements IImage {
 		}
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
-		if ($widthOrig === $heightOrig && $size == 0) {
+		if ($widthOrig === $heightOrig && $size === 0) {
 			return true;
 		}
 		$ratioOrig = $widthOrig / $heightOrig;
@@ -988,7 +1005,6 @@ class Image implements IImage {
 			$this->logger->debug('Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
 			return false;
 		}
-		imagedestroy($this->resource);
 		$this->resource = $process;
 		return true;
 	}
@@ -1009,7 +1025,6 @@ class Image implements IImage {
 			return false;
 		}
 		$result = $this->cropNew($x, $y, $w, $h);
-		imagedestroy($this->resource);
 		$this->resource = $result;
 		return $this->valid();
 	}

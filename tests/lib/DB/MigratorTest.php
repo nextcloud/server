@@ -123,7 +123,6 @@ class MigratorTest extends \Test\TestCase {
 		return [$startSchema, $endSchema];
 	}
 
-
 	private function getSchemaConfig() {
 		$config = new SchemaConfig();
 		$config->setName($this->connection->getDatabase());
@@ -260,7 +259,6 @@ class MigratorTest extends \Test\TestCase {
 
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
-
 
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}

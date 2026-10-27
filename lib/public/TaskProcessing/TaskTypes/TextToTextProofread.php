@@ -36,7 +36,6 @@ class TextToTextProofread implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 31.0.0

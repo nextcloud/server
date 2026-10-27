@@ -44,7 +44,6 @@ class SetDefaultModuleTest extends TestCase {
 		$this->command = new SetDefaultModule($this->manager, $this->config);
 	}
 
-
 	public static function dataSetDefaultModule(): array {
 		return [
 			['ID0', 'ID0', null, null, 'already'],

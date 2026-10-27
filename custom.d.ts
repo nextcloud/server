@@ -12,7 +12,8 @@ declare module '*.svg' {
 	export default content
 }
 
-declare module '*.vue' {
-	import Vue from 'vue'
-	export default Vue
+declare module 'vue-material-design-icons/*.vue' {
+	import type { Component } from 'vue'
+	const icon: Component
+	export default icon
 }

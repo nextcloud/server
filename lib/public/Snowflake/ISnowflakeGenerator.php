@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Snowflake;
 
+use DateTimeImmutable;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
@@ -30,7 +31,7 @@ interface ISnowflakeGenerator {
 	 * Offset applied on timestamps to keep it short
 	 * Start from 2025-10-01 at 00:00:00
 	 *
-	 * @since 33.0
+	 * @since 33.0.0
 	 */
 	public const TS_OFFSET = 1759276800;
 
@@ -39,7 +40,26 @@ interface ISnowflakeGenerator {
 	 *
 	 * Each call to this method is guaranteed to return a different ID.
 	 *
-	 * @since 33.0
+	 * @param ?DateTimeImmutable $timestamp Generate the Snowflake ID for a specific time. This should only be used in very special cases.
+	 * @return non-empty-string
+	 * @throws \InvalidArgumentException if the timestamp is before 2025-10-01, as such a time cannot be represented
+	 *
+	 * @since 33.0.0
+	 * @since 35.0.2 Parameter $timestamp was added
 	 */
-	public function nextId(): string;
+	public function nextId(?DateTimeImmutable $timestamp = null): string;
+
+	/**
+	 * Return the smallest possible Snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. Examples:
+	 * - find all Snowflake IDs generated from a given $timestamp
+	 *   Look for `>= minForTimeId($timestamp)`
+	 * - delete all Snowflake IDs generated before a given $timestamp
+	 *   Delete where `id < minForTimeId($timestamp)`
+	 *
+	 * @since 34.0.1
+	 */
+	public function minForTimeId(int $timestamp): string;
 }

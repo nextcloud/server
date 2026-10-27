@@ -4,11 +4,6 @@ name: Integration sqlite
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
 
 permissions:
   contents: read
@@ -25,7 +20,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
@@ -56,7 +51,8 @@ jobs:
           - 'capabilities_features'
           - 'collaboration_features'
           - 'comments_features'
-          - 'dav_features'
+          - '--tags ~@requires-s3 dav_features'
+          - 'encryption_features'
           - 'features'
           - 'federation_features'
           - '--tags ~@large files_features'
@@ -66,7 +62,6 @@ jobs:
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'
-          - 'remoteapi_features'
           - 'routing_features'
           - 'setup_features'
           - 'sharees_features'
@@ -75,7 +70,7 @@ jobs:
           - 'videoverification_features'
           - 'guests_features'
 
-        php-versions: ['8.4']
+        php-versions: ['8.3', '8.5']
         guests-versions: ['main']
         spreed-versions: ['main']
         activity-versions: ['master']
@@ -99,14 +94,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
       - name: Checkout Talk app
         if: ${{ matrix.test-suite == 'videoverification_features' }}
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           repository: nextcloud/spreed
@@ -115,7 +110,7 @@ jobs:
 
       - name: Checkout Guests app
         if: ${{ matrix.test-suite == 'guests_features' }}
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           repository: nextcloud/guests
@@ -124,7 +119,7 @@ jobs:
 
       - name: Checkout Activity app
         if: ${{ matrix.test-suite == 'sharing_features' }}
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           repository: nextcloud/activity
@@ -132,7 +127,7 @@ jobs:
           ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -157,7 +152,7 @@ jobs:
         run: |
           mkdir data
           ./occ maintenance:install --verbose ${{ contains(matrix.test-suite,'ldap') && '--data-dir=/dev/shm/nc_int' || '' }} --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
-          ./occ config:system:set hashing_default_password --value=true --type=boolean
+          NC_debug=true ./occ testing:prepare-ci
 
       - name: Configure caching
         if: ${{ contains(matrix.test-suite,'ldap') }}

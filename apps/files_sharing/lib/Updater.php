@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
@@ -12,8 +13,10 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -38,12 +41,12 @@ class Updater {
 	 * @param string $path
 	 */
 	private static function moveShareInOrOutOfShare($path): void {
-		$userFolder = \OC::$server->getUserFolder();
-
-		// If the user folder can't be constructed (e.g. link share) just return.
-		if ($userFolder === null) {
+		$userInSession = Server::get(IUserSession::class)->getUser();
+		if (!$userInSession) {
 			return;
 		}
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($userInSession->getUID());
+
 		$user = $userFolder->getOwner();
 		if (!$user) {
 			throw new \Exception('user folder has no owner');
@@ -139,11 +142,15 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($userInSession === null) {
+			return;
+		}
+		$absNewPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $oldPath);
 
 		$mountManager = Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . $userInSession . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {

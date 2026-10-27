@@ -11,9 +11,14 @@ namespace OC\Log;
 
 use OC\SystemConfig;
 use OCP\IRequest;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 
 abstract class LogDetails {
+	/** Prevents recursion when looking up the display name causes another log entry */
+	private bool $resolvingDisplayName = false;
+
 	public function __construct(
 		private SystemConfig $config,
 	) {
@@ -28,13 +33,7 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
-		if ($time === false) {
-			$time = new \DateTime('now', $timezone);
-		} else {
-			// apply timezone if $time is created from UNIX timestamp
-			$time->setTimezone($timezone);
-		}
+		$time = new \DateTime('now', $timezone);
 		$request = Server::get(IRequest::class);
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();
@@ -43,7 +42,7 @@ abstract class LogDetails {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = $request->getMethod();
 		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ?: '--';
+			$user = Server::get(IUserSession::class)->getUser()?->getUID() ?? '--';
 		} else {
 			$user = '--';
 		}
@@ -53,12 +52,14 @@ abstract class LogDetails {
 		}
 		$version = $this->config->getValue('version', '');
 		$scriptName = $request->getScriptName();
+		$userDisplayName = $user !== '--' ? $this->getUserDisplayName($user) : null;
 		$entry = compact(
 			'reqId',
 			'level',
 			'time',
 			'remoteAddr',
 			'user',
+			'userDisplayName',
 			'app',
 			'method',
 			'url',
@@ -67,6 +68,9 @@ abstract class LogDetails {
 			'userAgent',
 			'version',
 		);
+		if ($userDisplayName === null) {
+			unset($entry['userDisplayName']);
+		}
 		$clientReqId = $request->getHeader('X-Request-Id');
 		if ($clientReqId !== '') {
 			$entry['clientReqId'] = $clientReqId;
@@ -91,6 +95,21 @@ abstract class LogDetails {
 		}
 
 		return $entry;
+	}
+
+	private function getUserDisplayName(string $userId): ?string {
+		if ($this->resolvingDisplayName) {
+			return null;
+		}
+
+		$this->resolvingDisplayName = true;
+		try {
+			return Server::get(IUserManager::class)->getDisplayName($userId);
+		} catch (\Throwable) {
+			return null;
+		} finally {
+			$this->resolvingDisplayName = false;
+		}
 	}
 
 	public function logDetailsAsJSON(string $app, string|array $message, int $level): string {

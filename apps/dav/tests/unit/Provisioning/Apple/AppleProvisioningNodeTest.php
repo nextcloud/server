@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
@@ -39,7 +40,6 @@ class AppleProvisioningNodeTest extends TestCase {
 		$this->assertEquals(null, $this->node->getLastModified());
 	}
 
-
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('apple-provisioning.mobileconfig may not be deleted');
@@ -57,7 +57,6 @@ class AppleProvisioningNodeTest extends TestCase {
 			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 GMT',
 		], $this->node->getProperties([]));
 	}
-
 
 	public function testGetPropPatch(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

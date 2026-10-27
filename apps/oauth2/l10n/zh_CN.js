@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "删除客户端",
     "Make sure you store the secret key, it cannot be recovered." : "请确保您存储了密钥，它无法恢复。",
     "Add client" : "添加客户端",
-    "Add" : "添加",
-    "Client Identifier" : "客户端标识",
-    "Show client secret" : "显示客户端密钥",
-    "Hide client secret" : "隐藏客户端密钥"
+    "Add" : "添加"
 },
 "nplurals=1; plural=0;");

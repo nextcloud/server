@@ -5,11 +5,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -633,8 +635,6 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->undo($value));
 	}
 
-
-
 	public function testGetLogoNotExistent(): void {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('logo'))
@@ -667,7 +667,6 @@ class ThemingControllerTest extends TestCase {
 		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('logo', true));
 	}
-
 
 	public function testGetLogoOriginalFile(): void {
 		$file = $this->createMock(ISimpleFile::class);
@@ -736,9 +735,9 @@ class ThemingControllerTest extends TestCase {
 	public function testGetManifest(bool $standalone): void {
 		$this->appConfig
 			->expects($this->once())
-			->method('getAppValueString')
-			->with('cachebuster', '0')
-			->willReturn('0');
+			->method('getAppValueInt')
+			->with('cachebuster')
+			->willReturn(0);
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getName')
@@ -784,5 +783,37 @@ class ThemingControllerTest extends TestCase {
 		]);
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
+	/**
+	 * @param list<array{name: string, content: string}> $meta
+	 */
+	private function getThemeStylesheet(array $meta, bool $plain): string {
+		$theme = $this->createMock(ITheme::class);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000']);
+		$theme->method('getCustomCss')->willReturn('');
+		$theme->method('getMeta')->willReturn($meta);
+		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
+
+		return $this->themingController->getThemeStylesheet('dark', $plain)->render();
+	}
+
+	public function testGetThemeStylesheetSetsColorScheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], true);
+
+		$this->assertMatchesRegularExpression('/^:root \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+	}
+
+	public function testGetThemeStylesheetSetsColorSchemeOnRootForScopedTheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], false);
+
+		$this->assertMatchesRegularExpression('/\[data-theme-dark\] \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+		$this->assertStringContainsString(':root:has(> body[data-theme-dark]) { color-scheme:dark; }', $css);
+	}
+
+	public function testGetThemeStylesheetWithoutColorScheme(): void {
+		$css = $this->getThemeStylesheet([], false);
+
+		$this->assertStringNotContainsString('color-scheme', $css);
 	}
 }

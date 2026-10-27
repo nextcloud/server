@@ -5,43 +5,42 @@
 
 <template>
 	<Fragment>
-		<NcAppNavigationCaption
-			:name="t('settings', 'Groups')"
-			:disabled="loadingAddGroup"
-			:aria-label="loadingAddGroup ? t('settings', 'Creating group…') : t('settings', 'Create group')"
-			force-menu
-			is-heading
-			:open.sync="isAddGroupOpen">
-			<template v-if="isAdminOrDelegatedAdmin" #actionsTriggerIcon>
-				<NcLoadingIcon v-if="loadingAddGroup" />
-				<NcIconSvgWrapper v-else :path="mdiPlus" />
-			</template>
-			<template v-if="isAdminOrDelegatedAdmin" #actions>
-				<NcActionText>
-					<template #icon>
-						<NcIconSvgWrapper :path="mdiAccountGroupOutline" />
-					</template>
-					{{ t('settings', 'Create group') }}
-				</NcActionText>
-				<NcActionInput
-					v-model="newGroupName"
-					:label="t('settings', 'Group name')"
-					data-cy-users-settings-new-group-name
-					:label-outside="false"
-					:disabled="loadingAddGroup"
-					:error="hasAddGroupError"
-					:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
-					@submit="createGroup" />
-			</template>
-		</NcAppNavigationCaption>
-
 		<p id="group-list-desc" class="hidden-visually">
 			{{ t('settings', 'List of groups. This list is not fully populated for performance reasons. The groups will be loaded as you navigate or search through the list.') }}
 		</p>
 		<NcAppNavigationList
 			class="account-management__group-list"
+			:aria-label="t('settings', 'Groups')"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
+			<NcAppNavigationCaption
+				:name="t('settings', 'Groups')"
+				:disabled="loadingAddGroup"
+				:aria-label="loadingAddGroup ? t('settings', 'Creating group…') : t('settings', 'Create group')"
+				force-menu
+				:open.sync="isAddGroupOpen">
+				<template v-if="isAdminOrDelegatedAdmin" #actionsTriggerIcon>
+					<NcLoadingIcon v-if="loadingAddGroup" />
+					<NcIconSvgWrapper v-else :path="mdiPlus" />
+				</template>
+				<template v-if="isAdminOrDelegatedAdmin" #actions>
+					<NcActionText>
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiAccountGroupOutline" />
+						</template>
+						{{ t('settings', 'Create group') }}
+					</NcActionText>
+					<NcActionInput
+						v-model="newGroupName"
+						:label="t('settings', 'Group name')"
+						data-cy-users-settings-new-group-name
+						:label-outside="false"
+						:disabled="loadingAddGroup"
+						:error="hasAddGroupError"
+						:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
+						@submit="createGroup" />
+				</template>
+			</NcAppNavigationCaption>
 			<GroupListItem
 				v-for="group in filteredGroups"
 				:id="group.id"
@@ -49,7 +48,8 @@
 				:key="group.id"
 				:active="selectedGroupDecoded === group.id"
 				:name="group.title"
-				:count="group.count" />
+				:count="group.count"
+				@select="emit('select')" />
 			<div v-if="loadingGroups" role="note">
 				<NcLoadingIcon :name="t('settings', 'Loading groups…')" />
 			</div>
@@ -79,6 +79,10 @@ import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
 import logger from '../logger.ts'
 import { searchGroups } from '../service/groups.ts'
 import { useStore } from '../store/index.js'
+
+const emit = defineEmits<{
+	(e: 'select'): void
+}>()
 
 const store = useStore()
 const route = useRoute()

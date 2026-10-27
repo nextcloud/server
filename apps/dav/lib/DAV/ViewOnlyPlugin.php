@@ -8,10 +8,11 @@
 
 namespace OCA\DAV\DAV;
 
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
-use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use Sabre\DAV\Exception\NotFound;
@@ -26,7 +27,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
 
 	public function __construct(
-		private ?Folder $userFolder,
+		private ?IUserFolder $userFolder,
 	) {
 	}
 
@@ -80,30 +81,37 @@ class ViewOnlyPlugin extends ServerPlugin {
 			}
 
 			$storage = $node->getStorage();
-
 			if (!$storage->instanceOfStorage(ISharedStorage::class)) {
 				return true;
 			}
 
-			// Extract extra permissions
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			if ($attributes === null) {
-				return true;
-			}
+			switch ($request->getMethod()) {
+				case 'GET':
+					// If download is disabled, but viewing is allowed, we still allow the GET method to return the file content.
+					if (!$share->canSeeContent()) {
+						throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+					}
+					break;
+				case 'COPY':
+				case 'MOVE':
+					$destinationPath = $this->server->getCopyAndMoveInfo($request)['destination'];
+					$destinationParentPath = dirname($destinationPath);
+					if ($destinationParentPath === '.') {
+						$destinationParentPath = '';
+					}
+					$destinationParent = $this->server->tree->getNodeForPath($destinationParentPath);
+					// Copy and move operations within the same storage are allowed, because the destination has the same restrictions.
+					if (($destinationParent instanceof Directory) && $destinationParent->getNode()->getStorage()->getId() === $storage->getId()) {
+						break;
+					}
 
-			// We have two options here, if download is disabled, but viewing is allowed,
-			// we still allow the GET request to return the file content.
-			$canDownload = $attributes->getAttribute('permissions', 'download');
-			if (!$share->canSeeContent()) {
-				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
-			}
-
-			// If download is disabled, we disable the COPY and MOVE methods even if the
-			// shareapi_allow_view_without_download is set to true.
-			if ($request->getMethod() !== 'GET' && ($canDownload !== null && !$canDownload)) {
-				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+					// If download is disabled, we disable the COPY and MOVE methods even if the shareapi_allow_view_without_download is set to true.
+					if (!$share->canDownload()) {
+						throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+					}
+					break;
 			}
 		} catch (NotFound $e) {
 			// File not found

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -27,9 +28,12 @@ class Provider implements IProvider {
 	public const EMAIL_CHANGED = 'email_changed';
 	public const APP_TOKEN_CREATED = 'app_token_created';
 	public const APP_TOKEN_DELETED = 'app_token_deleted';
+	public const APP_TOKEN_DELETED_WIPE_CANCELLED = 'app_token_deleted_wipe_cancelled';
+	public const APP_TOKEN_DELETED_ALL = 'app_token_deleted_all';
 	public const APP_TOKEN_RENAMED = 'app_token_renamed';
 	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
 	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
+	public const APP_TOKEN_SCOPES_CHANGED = 'app_token_scopes_changed';
 
 	/** @var IL10N */
 	protected $l;
@@ -86,12 +90,23 @@ class Provider implements IProvider {
 			}
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED_WIPE_CANCELLED) {
+			$subject = $this->l->t('You deleted app password "{token}" and cancelled its pending remote wipe');
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED_ALL) {
+			$count = (int)($event->getSubjectParameters()['count'] ?? 0);
+			$subject = $this->l->n(
+				'You revoked %n other session',
+				'You revoked %n other sessions',
+				$count,
+			);
 		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {
 			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
 			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
 			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
+		} elseif ($event->getSubject() === self::APP_TOKEN_SCOPES_CHANGED) {
+			$subject = $this->l->t('You changed the access of app password "{token}"');
 		} else {
 			throw new UnknownActivityException('Unknown subject');
 		}
@@ -117,6 +132,7 @@ class Provider implements IProvider {
 			case self::PASSWORD_RESET_SELF:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
+			case self::APP_TOKEN_DELETED_ALL:
 				return [];
 			case self::PASSWORD_CHANGED_BY:
 			case self::EMAIL_CHANGED_BY:
@@ -125,8 +141,10 @@ class Provider implements IProvider {
 				];
 			case self::APP_TOKEN_CREATED:
 			case self::APP_TOKEN_DELETED:
+			case self::APP_TOKEN_DELETED_WIPE_CANCELLED:
 			case self::APP_TOKEN_FILESYSTEM_GRANTED:
 			case self::APP_TOKEN_FILESYSTEM_REVOKED:
+			case self::APP_TOKEN_SCOPES_CHANGED:
 				return [
 					'token' => [
 						'type' => 'highlight',

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Login;
 
+use OC\Authentication\Login\ALoginCommand;
 use OC\Authentication\Login\LoginData;
 use OCP\IRequest;
 use OCP\IUser;
@@ -36,8 +37,7 @@ abstract class ALoginTestCommand extends TestCase {
 	/** @var IUser|MockObject */
 	protected $user;
 
-	/** @var ALoginTestCommand */
-	protected $cmd;
+	protected ALoginCommand $cmd;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -91,14 +91,14 @@ abstract class ALoginTestCommand extends TestCase {
 		return $data;
 	}
 
-	protected function getLoggedInLoginDataWithTimezone(): LoginData {
+	protected function getLoggedInLoginDataWithTimezone(?string $timezone = null): LoginData {
 		$data = new LoginData(
 			$this->request,
 			$this->username,
 			$this->password,
 			true,
 			null,
-			$this->timezone,
+			$timezone ?? $this->timezone,
 			$this->timeZoneOffset
 		);
 		$data->setUser($this->user);

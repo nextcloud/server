@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Seu cliente não está autorizado a conectar-se. Informe isso ao administrador.",
+    "Client name cannot be empty." : "O nome do cliente não pode ficar em branco.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "A URL de redirecionamento precisa ser completa, por exemplo: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Permite a autenticação compatível com OAuth2 de outros aplicativos da web.",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Excluir cliente",
     "Make sure you store the secret key, it cannot be recovered." : "Certifique-se de armazenar a chave secreta, ela não pode ser recuperada.",
     "Add client" : "Adicionar cliente",
-    "Add" : "Adicionar",
-    "Client Identifier" : "Identificador do Cliente",
-    "Show client secret" : "Mostra senha do cliente",
-    "Hide client secret" : "Ocultar segredo do cliente"
+    "Add" : "Adicionar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

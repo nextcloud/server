@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
@@ -23,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-	private const TEMPLATE
+	private const string TEMPLATE
 		= '<?php
 
 declare(strict_types=1);
@@ -188,7 +189,6 @@ class {{classname}} extends SimpleMigrationStep {
 		if ($schemaBody === '') {
 			$schemaBody = "\t\t" . 'return null;';
 		}
-
 
 		$placeHolders = [
 			'{{namespace}}',

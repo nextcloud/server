@@ -29,7 +29,6 @@ use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
-
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IRequest;
 
@@ -65,7 +64,7 @@ class DashboardApiController extends OCSController {
 		return array_filter(
 			$this->dashboardManager->getWidgets(),
 			static function (IWidget $widget) use ($widgetIds) {
-				return in_array($widget->getId(), $widgetIds);
+				return in_array($widget->getId(), $widgetIds, true);
 			},
 		);
 	}

@@ -15,7 +15,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Image;
 use Psr\Log\LoggerInterface;
-use Sabre\CardDAV\Card;
+use Sabre\CardDAV\ICard;
 use Sabre\VObject\Document;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\Binary;
@@ -24,8 +24,11 @@ use Sabre\VObject\Reader;
 class PhotoCache {
 	private ?IAppData $photoCacheAppData = null;
 
+	/** Maximum edge length (in pixels) for photos */
+	private const int MAX_SIZE = 2048;
+
 	/** @var array */
-	public const ALLOWED_CONTENT_TYPES = [
+	public const array ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
 		'image/gif' => 'gif',
@@ -43,7 +46,7 @@ class PhotoCache {
 	/**
 	 * @throws NotFoundException
 	 */
-	public function get(int $addressBookId, string $cardUri, int $size, Card $card): ISimpleFile {
+	public function get(int $addressBookId, string $cardUri, int $size, ICard $card): ISimpleFile {
 		$folder = $this->getFolder($addressBookId, $cardUri);
 
 		if ($this->isEmpty($folder)) {
@@ -68,7 +71,7 @@ class PhotoCache {
 	/**
 	 * @throws NotPermittedException
 	 */
-	private function init(ISimpleFolder $folder, Card $card): void {
+	private function init(ISimpleFolder $folder, ICard $card): void {
 		$data = $this->getPhoto($card);
 
 		if ($data === false || !isset($data['Content-Type'])) {
@@ -98,6 +101,9 @@ class PhotoCache {
 	private function getFile(ISimpleFolder $folder, $size): ISimpleFile {
 		$ext = $this->getExtension($folder);
 
+		// cap the size
+		$size = (int)min($size, self::MAX_SIZE);
+
 		if ($size === -1) {
 			$path = 'photo.' . $ext;
 		} else {
@@ -122,9 +128,10 @@ class PhotoCache {
 			}
 
 			$size = (int)($size * $ratio);
-			if ($size !== -1) {
-				$photo->resize($size);
-			}
+			// cap the size
+			$size = min($size, self::MAX_SIZE);
+
+			$photo->resize($size);
 
 			try {
 				$file = $folder->newFile($path);
@@ -168,10 +175,10 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param Card $node
+	 * @param ICard $node
 	 * @return false|array{body: string, Content-Type: string}
 	 */
-	private function getPhoto(Card $node) {
+	private function getPhoto(ICard $node) {
 		try {
 			$vObject = $this->readCard($node->get());
 			return $this->getPhotoFromVObject($vObject);

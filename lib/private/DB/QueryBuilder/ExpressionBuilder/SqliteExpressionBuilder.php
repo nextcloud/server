@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -24,6 +25,15 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	#[\Override]
 	public function iLike($x, $y, $type = null): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
+	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->notLike($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
 	}
 
 	/**

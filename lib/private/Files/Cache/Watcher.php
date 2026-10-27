@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
-use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
@@ -19,6 +19,7 @@ use OCP\Files\Storage\IStorage;
  */
 class Watcher implements IWatcher {
 	protected int $watchPolicy = self::CHECK_ONCE;
+	/** @var array<string, true> $checkedPaths */
 	protected array $checkedPaths = [];
 	protected ICache $cache;
 	protected IScanner $scanner;
@@ -121,8 +122,8 @@ class Watcher implements IWatcher {
 			}
 		}
 
-		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !in_array($path, $this->checkedPaths))) {
-			$this->checkedPaths[] = $path;
+		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !isset($this->checkedPaths[$path]))) {
+			$this->checkedPaths[$path] = true;
 			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
 		}
 		return false;

@@ -28,7 +28,7 @@ interface ITags {
 	/**
 	 * @since 19.0.0
 	 */
-	public const TAG_FAVORITE = '_$!<Favorite>!$_';
+	public const string TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/**
 	 * Check if any tags are saved for this type and user.
@@ -41,7 +41,7 @@ interface ITags {
 	 * ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
 	 *
 	 * @param string $id The ID of the tag that is going to be mapped
-	 * @return array|false
+	 * @return array{id: ?int, name: string, owner: string, type: string}|false
 	 * @since 8.0.0
 	 */
 	public function getTag(string $id);
@@ -53,12 +53,12 @@ interface ITags {
 	 *
 	 * ```php
 	 * [
-	 * 	['id' => 0, 'name' = 'First tag'],
-	 * 	['id' => 1, 'name' = 'Second tag'],
+	 * 	['id' => 0, 'name' = 'First tag', 'owner' => 'User A', 'type' => 'tagtype'],
+	 * 	['id' => 1, 'name' = 'Second tag', 'owner' => 'User B', 'type' => 'tagtype'],
 	 * ]
 	 * ```
 	 *
-	 * @return array<array-key, array{id: int, name: string}>
+	 * @return list<array{id: ?int, name: string, owner: string, type: string}>
 	 * @since 6.0.0
 	 */
 	public function getTags(): array;
@@ -81,7 +81,7 @@ interface ITags {
 	 *                                        of tag names as value or false if an error occurred
 	 * @since 8.0.0
 	 */
-	public function getTagsForObjects(array $objIds);
+	public function getTagsForObjects(array $objIds): array|false;
 
 	/**
 	 * Get a list of items tagged with $tag.
@@ -92,7 +92,7 @@ interface ITags {
 	 * @return array|false An array of object ids or false on error.
 	 * @since 6.0.0
 	 */
-	public function getIdsForTag($tag);
+	public function getIdsForTag(string|int $tag): array|false;
 
 	/**
 	 * Checks whether a tag is already saved.
@@ -130,19 +130,19 @@ interface ITags {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function rename($from, string $to): bool;
+	public function rename(string|int $from, string $to): bool;
 
 	/**
 	 * Add a list of new tags.
 	 *
-	 * @param string|string[] $names A string with a name or an array of strings containing
-	 *                               the name(s) of the to add.
+	 * @param string|list<string> $names A string with a name or an array of strings containing
+	 *                                   the name(s) of the tags to add.
 	 * @param bool $sync When true, save the tags
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.
 	 * @since 6.0.0
 	 */
-	public function addMultiple($names, bool $sync = false, ?int $id = null): bool;
+	public function addMultiple(string|array $names, bool $sync = false, ?int $id = null): bool;
 
 	/**
 	 * Delete tag/object relations from the db
@@ -208,9 +208,9 @@ interface ITags {
 	/**
 	 * Delete tags from the database
 	 *
-	 * @param string[]|integer[] $names An array of tags (names or IDs) to delete
+	 * @param string[]|integer[]|string|int $names An array of tags (names or IDs) to delete
 	 * @return bool Returns false on error
 	 * @since 6.0.0
 	 */
-	public function delete($names);
+	public function delete(array|string|int $names): bool;
 }

@@ -35,13 +35,12 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
-
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
 
 	/** @var string */
-	private const TABLE_NAME = 'properties';
+	private const string TABLE_NAME = 'properties';
 
 	/**
 	 * Value is stored as string.
@@ -68,12 +67,16 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const IGNORED_PROPERTIES = [
+	private const array IGNORED_PROPERTIES = [
 		'{DAV:}getcontentlength',
 		'{DAV:}getcontenttype',
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
+		'{DAV:}getlastmodified',
+		'{DAV:}creationdate',
+		'{DAV:}displayname',
+		'{http://open-collaboration-services.org/ns}share-permissions',
 	];
 
 	/**
@@ -81,7 +84,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const ALLOWED_NC_PROPERTIES = [
+	private const array ALLOWED_NC_PROPERTIES = [
 		'{http://owncloud.org/ns}calendar-enabled',
 		'{http://owncloud.org/ns}enabled',
 	];
@@ -91,7 +94,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const PUBLISHED_READ_ONLY_PROPERTIES = [
+	private const array PUBLISHED_READ_ONLY_PROPERTIES = [
 		'{urn:ietf:params:xml:ns:caldav}calendar-availability',
 		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL',
 	];
@@ -101,7 +104,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * \Sabre\DAV\Xml\Property\Complex to find a more specialized PROPERTY_TYPE_*
 	 * @var array<string, class-string>
 	 */
-	private const COMPLEX_XML_ELEMENT_MAP = [
+	private const array COMPLEX_XML_ELEMENT_MAP = [
 		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => Href::class,
 	];
 
@@ -109,7 +112,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * Map of well-known property names to default values
 	 * @var array<string, string>
 	 */
-	private const PROPERTY_DEFAULT_VALUES = [
+	private const array PROPERTY_DEFAULT_VALUES = [
 		'{http://owncloud.org/ns}calendar-enabled' => '1',
 	];
 
@@ -118,7 +121,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var class-string[]
 	 */
-	private const ALLOWED_SERIALIZED_CLASSES = [
+	private const array ALLOWED_SERIALIZED_CLASSES = [
 		\Sabre\CalDAV\Xml\Property\AllowedSharingModes::class,
 		\Sabre\CalDAV\Xml\Property\EmailAddressSet::class,
 		\Sabre\CalDAV\Xml\Property\Invite::class,
@@ -192,10 +195,11 @@ class CustomPropertiesBackend implements BackendInterface {
 				'{http://apple.com/ns/ical/}calendar-order',
 				'{http://apple.com/ns/ical/}calendar-color',
 				'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
+				'{http://nextcloud.com/ns}disable-alarm-notifications',
 			];
 
 			foreach ($customPropertiesForShares as $customPropertyForShares) {
-				if (in_array($customPropertyForShares, $allRequestedProps)) {
+				if (in_array($customPropertyForShares, $allRequestedProps, true)) {
 					$requestedProps[] = $customPropertyForShares;
 				}
 			}
@@ -273,11 +277,11 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	private function isPropertyAllowed(string $property): bool {
-		if (in_array($property, self::IGNORED_PROPERTIES)) {
+		if (in_array($property, self::IGNORED_PROPERTIES, true)) {
 			return false;
 		}
 		if (str_starts_with($property, '{http://owncloud.org/ns}') || str_starts_with($property, '{http://nextcloud.org/ns}')) {
-			return in_array($property, self::ALLOWED_NC_PROPERTIES);
+			return in_array($property, self::ALLOWED_NC_PROPERTIES, true);
 		}
 		return true;
 	}
@@ -498,7 +502,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		if (!empty($requestedProperties)) {
 			// request only a subset
 			$qb->andWhere($qb->expr()->in('propertyname', $qb->createParameter('requestedProperties')));
-			$chunks = array_chunk($requestedProperties, 1000);
+			$chunks = array_chunk($requestedProperties, IQueryBuilder::MAX_IN_PARAMETERS);
 			foreach ($chunks as $chunk) {
 				$qb->setParameter('requestedProperties', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 				$result = $qb->executeQuery();
@@ -648,7 +652,7 @@ class CustomPropertiesBackend implements BackendInterface {
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
 			} else {
-				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES)) {
+				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES, true)) {
 					throw new DavException(
 						"Property \"$name\" has an invalid value of class " . $value::class,
 					);

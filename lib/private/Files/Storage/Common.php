@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
@@ -20,7 +21,6 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
-use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
@@ -32,6 +32,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
@@ -39,6 +40,7 @@ use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -411,7 +413,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	#[\Override]
 	public function getOwner(string $path): string|false {
 		if ($this->owner === null) {
-			$this->owner = \OC_User::getUser();
+			$this->owner = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 		}
 
 		return $this->owner;
@@ -562,6 +564,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				try {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
+				} catch (NotPermittedException $e) {
+					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
+					throw new ForbiddenException($e->getMessage(), false, $e);
 				} catch (\Exception $e) {
 					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
@@ -620,7 +625,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
-			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			// keeping the source cache entry preserves the file id when leaving an object
+			// store, but between two object stores it would leave a dangling entry behind
+			$preserveCacheOnDelete = $sourceStorage->instanceOfStorage(ObjectStoreStorage::class)
+				&& !$this->instanceOfStorage(ObjectStoreStorage::class);
+			if ($preserveCacheOnDelete) {
 				/** @var ObjectStoreStorage $sourceStorage */
 				$sourceStorage->setPreserveCacheOnDelete(true);
 			}
@@ -631,7 +640,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 					$result = $sourceStorage->unlink($sourceInternalPath);
 				}
 			} finally {
-				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				if ($preserveCacheOnDelete) {
 					/** @var ObjectStoreStorage $sourceStorage */
 					$sourceStorage->setPreserveCacheOnDelete(false);
 				}

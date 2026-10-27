@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -162,7 +163,6 @@ class EnablePluginTest extends TestCase {
 
 		$this->birthdayService->expects($this->never())
 			->method('syncUser');
-
 
 		$result = $this->plugin->httpPost($this->request, $this->response);
 

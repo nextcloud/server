@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Files\Mount;
 
 use OC\Files\Mount\ObjectHomeMountProvider;
@@ -277,7 +278,7 @@ class FakeObjectStore implements IObjectStore {
 	}
 
 	#[\Override]
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		return null;
 	}
 }

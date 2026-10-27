@@ -1,0 +1,123 @@
+<?php
+
+/*
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+declare(strict_types=1);
+
+namespace Test\Sharing\Property;
+
+use DateTimeImmutable;
+use NCU\Sharing\Property\APasswordSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
+use OCP\L10N\IFactory;
+use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use OCP\Security\IHasher;
+use OCP\Server;
+use RuntimeException;
+use Test\TestCase;
+
+final class TestPasswordSharePropertyType extends APasswordSharePropertyType {
+	#[\Override]
+	public function getDisplayName(IFactory $l10nFactory): string {
+		throw new RuntimeException();
+	}
+
+	#[\Override]
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		throw new RuntimeException();
+	}
+
+	#[\Override]
+	public function getPriority(): int {
+		throw new RuntimeException();
+	}
+
+	#[\Override]
+	public function isAdvanced(): bool {
+		throw new RuntimeException();
+	}
+
+	#[\Override]
+	public function isRequired(Share $share): bool {
+		throw new RuntimeException();
+	}
+
+	#[\Override]
+	public function getDefaultValue(Share $share): ?string {
+		throw new RuntimeException();
+	}
+}
+
+final class APasswordSharePropertyTypeTest extends TestCase {
+	private APasswordSharePropertyType $propertyType;
+
+	private IEventDispatcher $eventDispatcher;
+
+	/**
+	 * @var callable(ValidatePasswordPolicyEvent):void $validatePasswordPolicyEventListener
+	 */
+	private $validatePasswordPolicyEventListener;
+
+	#[\Override]
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->propertyType = new TestPasswordSharePropertyType();
+
+		$this->eventDispatcher = Server::get(IEventDispatcher::class);
+		$this->validatePasswordPolicyEventListener = static function (ValidatePasswordPolicyEvent $event): void {
+			if ($event->getPassword() !== 'secure') {
+				throw new HintException('insecure message', 'insecure hint');
+			}
+		};
+
+		$this->eventDispatcher->addListener(ValidatePasswordPolicyEvent::class, $this->validatePasswordPolicyEventListener);
+	}
+
+	#[\Override]
+	protected function tearDown(): void {
+		$this->eventDispatcher->removeListener(ValidatePasswordPolicyEvent::class, $this->validatePasswordPolicyEventListener);
+
+		parent::tearDown();
+	}
+
+	public function testValidateValue(): void {
+		$l10nFactory = Server::get(IFactory::class);
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			new DateTimeImmutable(),
+			ShareState::Active,
+			null,
+			[],
+			[],
+			[],
+			[],
+		);
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'secure'));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, '123'));
+	}
+
+	public function testModifyValueOnFetch(): void {
+		$this->assertNull($this->propertyType->modifyValueOnLoad(null));
+		$this->assertEquals(APasswordSharePropertyType::PLACEHOLDER, $this->propertyType->modifyValueOnLoad(''));
+	}
+
+	public function testModifyValueOnSave(): void {
+		$this->assertNull($this->propertyType->modifyValueOnSave('old hash', null));
+
+		$this->assertEquals('old hash', $this->propertyType->modifyValueOnSave('old hash', APasswordSharePropertyType::PLACEHOLDER));
+
+		$newHash = $this->propertyType->modifyValueOnSave('old hash', 'password');
+		$this->assertNotNull($newHash);
+		$this->assertNotEquals('old hash', $newHash);
+		$this->assertTrue(Server::get(IHasher::class)->verify('password', $newHash));
+	}
+}

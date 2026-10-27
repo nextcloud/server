@@ -8,8 +8,23 @@ import { t } from '@nextcloud/l10n'
 export const OFFICE_SUITES = Object.freeze([
 	{
 		id: 'nextcloud-office',
-		appId: 'richdocuments',
+		appId: 'eurooffice',
 		name: 'Nextcloud Office',
+		features: [
+			t('settings', 'Powered by Euro-Office'),
+			t('settings', 'Good Nextcloud integration'),
+			t('settings', 'Open source'),
+			t('settings', 'Best performance'),
+			t('settings', 'Limited ODF compatibility'),
+			t('settings', 'Best Microsoft compatibility'),
+		],
+		learnMoreUrl: 'https://github.com/Euro-Office',
+		isPrimary: true,
+	},
+	{
+		id: 'collabora-office',
+		appId: 'richdocuments',
+		name: 'Collabora Office',
 		features: [
 			t('settings', 'Best Nextcloud integration'),
 			t('settings', 'Open source'),
@@ -19,20 +34,6 @@ export const OFFICE_SUITES = Object.freeze([
 			t('settings', 'Best support for legacy files'),
 		],
 		learnMoreUrl: 'https://nextcloud.com/collaboraonline/',
-		isPrimary: true,
-	},
-	{
-		id: 'onlyoffice',
-		appId: 'onlyoffice',
-		name: 'Onlyoffice',
-		features: [
-			t('settings', 'Good Nextcloud integration'),
-			t('settings', 'Open core'),
-			t('settings', 'Best performance'),
-			t('settings', 'Limited ODF compatibility'),
-			t('settings', 'Best Microsoft compatibility'),
-		],
-		learnMoreUrl: 'https://nextcloud.com/onlyoffice/',
 		isPrimary: false,
 	},
 ])

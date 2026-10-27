@@ -5,16 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
-use OC\Hooks\Emitter;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
@@ -26,6 +28,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Security\ICredentialsManager;
 use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
@@ -45,17 +48,16 @@ use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
-use function json_decode;
-use function json_encode;
-
 class User implements IUser {
-	private const CONFIG_KEY_MANAGERS = 'manager';
+	private const string CONFIG_KEY_MANAGERS = 'manager';
 
 	private IConfig $config;
+	private IUserConfig $userConfig;
 	private IURLGenerator $urlGenerator;
 	private IAssertion $assertion;
 	protected ?IAccountManager $accountManager = null;
 
+	/** @var ?non-empty-string $displayName */
 	private ?string $displayName = null;
 	private ?bool $enabled = null;
 	private ?string $home = null;
@@ -65,15 +67,17 @@ class User implements IUser {
 	private ?IAvatarManager $avatarManager = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,
-		private Emitter|Manager|null $emitter = null,
 		?IConfig $config = null,
+		?IUserConfig $userConfig = null,
 		?IURLGenerator $urlGenerator = null,
 		?IAssertion $assertion = null,
 	) {
 		$this->config = $config ?? Server::get(IConfig::class);
+		$this->userConfig = $userConfig ?? Server::get(IUserConfig::class);
 		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
 		$this->assertion = $assertion ?? Server::get(IAssertion::class);
 	}
@@ -108,7 +112,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * Set the displayname for the user
+	 * Set the display name for the user.
 	 *
 	 * @param string $displayName
 	 *
@@ -149,9 +153,9 @@ class User implements IUser {
 		$mailAddress = mb_strtolower(trim($mailAddress));
 
 		if ($mailAddress === '') {
-			$this->config->deleteUserValue($this->uid, 'settings', 'email');
+			$this->userConfig->deleteUserConfig($this->uid, 'settings', 'email');
 		} else {
-			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+			$this->userConfig->setValueString($this->uid, 'settings', 'email', $mailAddress);
 		}
 
 		$primaryAddress = $this->getPrimaryEMailAddress();
@@ -172,7 +176,7 @@ class User implements IUser {
 	public function setPrimaryEMailAddress(string $mailAddress): void {
 		$mailAddress = mb_strtolower(trim($mailAddress));
 		if ($mailAddress === '') {
-			$this->config->deleteUserValue($this->uid, 'settings', 'primary_email');
+			$this->userConfig->deleteUserConfig($this->uid, 'settings', 'primary_email');
 			return;
 		}
 
@@ -184,7 +188,7 @@ class User implements IUser {
 		if ($property === null || $property->getLocallyVerified() !== IAccountManager::VERIFIED) {
 			throw new InvalidArgumentException('Only verified emails can be set as primary');
 		}
-		$this->config->setUserValue($this->uid, 'settings', 'primary_email', $mailAddress);
+		$this->userConfig->setValueString($this->uid, 'settings', 'primary_email', $mailAddress);
 	}
 
 	private function ensureAccountManager() {
@@ -200,7 +204,7 @@ class User implements IUser {
 	#[\Override]
 	public function getLastLogin(): int {
 		if ($this->lastLogin === null) {
-			$this->lastLogin = (int)$this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
+			$this->lastLogin = $this->userConfig->getValueInt($this->uid, 'login', 'lastLogin');
 		}
 		return $this->lastLogin;
 	}
@@ -212,7 +216,7 @@ class User implements IUser {
 	#[\Override]
 	public function getFirstLogin(): int {
 		if ($this->firstLogin === null) {
-			$this->firstLogin = (int)$this->config->getUserValue($this->uid, 'login', 'firstLogin', 0);
+			$this->firstLogin = $this->userConfig->getValueInt($this->uid, 'login', 'firstLogin');
 		}
 		return $this->firstLogin;
 	}
@@ -229,7 +233,7 @@ class User implements IUser {
 
 		if ($now - $previousLogin > 60) {
 			$this->lastLogin = $now;
-			$this->config->setUserValue($this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+			$this->userConfig->setValueInt($this->uid, 'login', 'lastLogin', $this->lastLogin);
 		}
 
 		if ($firstLogin === 0) {
@@ -239,7 +243,7 @@ class User implements IUser {
 				/* Unknown first login, most likely was before upgrade to Nextcloud 31 */
 				$this->firstLogin = -1;
 			}
-			$this->config->setUserValue($this->uid, 'login', 'firstLogin', (string)$this->firstLogin);
+			$this->userConfig->setValueInt($this->uid, 'login', 'firstLogin', $this->firstLogin);
 		}
 
 		return $firstTimeLogin;
@@ -255,23 +259,19 @@ class User implements IUser {
 			return false;
 		}
 
-		if ($this->emitter) {
-			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
-		}
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 
 		// Set delete flag on the user - this is needed to ensure that the user data is removed if there happen any exception in the backend
 		// because we can not restore the user meaning we could not rollback to any stable state otherwise.
 		$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
 		// We also need to backup the home path as this can not be reconstructed later if the original backend uses custom home paths
-		$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
+		$this->userConfig->setValueString($this->uid, 'core', 'deleted.home-path', $this->getHome());
 
 		// Try to delete the user on the backend
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result === false) {
 			// The deletion was aborted or something else happened, we are in a defined state, so remove the delete flag
-			$this->config->deleteUserValue($this->uid, 'core', 'deleted');
+			$this->userConfig->deleteUserConfig($this->uid, 'core', 'deleted');
 			return false;
 		}
 
@@ -293,6 +293,9 @@ class User implements IUser {
 		$avatarManager = Server::get(AvatarManager::class);
 		$avatarManager->deleteUserAvatar($this->uid);
 
+		$credentialsManager = Server::get(ICredentialsManager::class);
+		$credentialsManager->erase($this->uid);
+
 		$notificationManager = Server::get(INotificationManager::class);
 		$notification = $notificationManager->createNotification();
 		$notification->setUser($this->uid);
@@ -308,10 +311,10 @@ class User implements IUser {
 			// exactly here we are in an undefined state as the data is still present but the user does not exist on the system anymore.
 			$database->beginTransaction();
 			// Remove all user settings
-			$this->config->deleteAllUserValues($this->uid);
+			$this->userConfig->deleteAllUserConfig($this->uid);
 			// But again set flag that this user is about to be deleted
 			$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
-			$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
+			$this->userConfig->setValueString($this->uid, 'core', 'deleted.home-path', $this->getHome());
 			// Commit the transaction so we are in a defined state: either the preferences are removed or an exception occurred but the delete flag is still present
 			$database->commit();
 		} catch (\Throwable $e) {
@@ -319,14 +322,10 @@ class User implements IUser {
 			throw $e;
 		}
 
-		if ($this->emitter !== null) {
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'postDelete', [$this]);
-		}
 		$this->dispatcher->dispatchTyped(new UserDeletedEvent($this));
 
 		// Finally we can unset the delete flag and all other states
-		$this->config->deleteAllUserValues($this->uid);
+		$this->userConfig->deleteAllUserConfig($this->uid);
 
 		return true;
 	}
@@ -340,9 +339,6 @@ class User implements IUser {
 	#[\Override]
 	public function setPassword($password, $recoveryPassword = null): bool {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
-		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			/** @var ISetPasswordBackend $backend */
 			$backend = $this->backend;
@@ -350,9 +346,6 @@ class User implements IUser {
 
 			if ($result !== false) {
 				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
-				}
 			}
 
 			return !($result === false);
@@ -467,8 +460,8 @@ class User implements IUser {
 	public function isEnabled(): bool {
 		$queryDatabaseValue = function (): bool {
 			if ($this->enabled === null) {
-				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-				$this->enabled = $enabled === 'true';
+				// FIXME Should we short-circuit userConfig here to avoid loading the whole config of a user to check enabled?
+				$this->enabled = $this->userConfig->getValueBool($this->uid, 'core', 'enabled', true);
 			}
 			return $this->enabled;
 		};
@@ -481,11 +474,9 @@ class User implements IUser {
 
 	/**
 	 * set the enabled status for the user
-	 *
-	 * @return void
 	 */
 	#[\Override]
-	public function setEnabled(bool $enabled = true) {
+	public function setEnabled(bool $enabled = true): void {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
@@ -499,8 +490,7 @@ class User implements IUser {
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {
-					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-					$this->enabled = $enabled === 'true';
+					$this->enabled = $this->userConfig->getValueBool($this->uid, 'core', 'enabled', true);
 				}
 				return $this->enabled;
 			};
@@ -524,21 +514,15 @@ class User implements IUser {
 		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getSystemEMailAddress(): ?string {
-		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
+		$email = $this->userConfig->getValueString($this->uid, 'settings', 'email', '');
 		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getPrimaryEMailAddress(): ?string {
-		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
+		$email = $this->userConfig->getValueString($this->uid, 'settings', 'primary_email', '');
 		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
@@ -556,7 +540,7 @@ class User implements IUser {
 		if ($overwriteQuota) {
 			$quota = $overwriteQuota;
 		} else {
-			$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
+			$quota = $this->userConfig->getValueString($this->uid, 'files', 'quota', 'default');
 		}
 		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
@@ -599,7 +583,7 @@ class User implements IUser {
 	 */
 	#[\Override]
 	public function setQuota($quota): void {
-		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
+		$oldQuota = $this->userConfig->getValueString($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' && $quota !== 'default') {
 			$bytesQuota = Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
@@ -608,31 +592,35 @@ class User implements IUser {
 			$quota = Util::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
-			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
+			$this->userConfig->setValueString($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
+
+		// Refresh the quota cache
 		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
+		$root = Server::get(IRootFolder::class);
+		$userFolder = $root->getUserFolder($this->uid);
+		$userFolder->getUserQuota(false);
 	}
 
 	#[\Override]
 	public function getManagerUids(): array {
-		$encodedUids = $this->config->getUserValue(
+		return $this->userConfig->getValueArray(
 			$this->uid,
 			'settings',
 			self::CONFIG_KEY_MANAGERS,
-			'[]'
+			[]
 		);
-		return json_decode($encodedUids, false, 512, JSON_THROW_ON_ERROR);
 	}
 
 	#[\Override]
 	public function setManagerUids(array $uids): void {
 		$oldUids = $this->getManagerUids();
-		$this->config->setUserValue(
+		$this->userConfig->setValueArray(
 			$this->uid,
 			'settings',
 			self::CONFIG_KEY_MANAGERS,
-			json_encode($uids, JSON_THROW_ON_ERROR)
+			$uids,
 		);
 		$this->triggerChange('managers', $uids, $oldUids);
 	}
@@ -685,8 +673,5 @@ class User implements IUser {
 
 	public function triggerChange($feature, $value = null, $oldValue = null): void {
 		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
-		}
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -15,12 +16,12 @@ class AdapterSqlite extends Adapter {
 	 */
 	#[\Override]
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('BEGIN EXCLUSIVE TRANSACTION');
+		$this->conn->executeStatement('BEGIN EXCLUSIVE TRANSACTION');
 	}
 
 	#[\Override]
 	public function unlockTable() {
-		$this->conn->executeUpdate('COMMIT TRANSACTION');
+		$this->conn->executeStatement('COMMIT TRANSACTION');
 	}
 
 	#[\Override]
@@ -71,7 +72,7 @@ class AdapterSqlite extends Adapter {
 		$query .= ')';
 
 		try {
-			return $this->conn->executeUpdate($query, $inserts);
+			return $this->conn->executeStatement($query, $inserts);
 		} catch (UniqueConstraintViolationException $e) {
 			// if this is thrown then a concurrent insert happened between the insert and the sub-select in the insert, that should have avoided it
 			// it's fine to ignore this then

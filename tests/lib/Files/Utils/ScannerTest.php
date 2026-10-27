@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,45 +23,35 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
+use Test\Util\User\Dummy;
 
 class TestScanner extends Scanner {
-	/**
-	 * @var MountPoint[] $mounts
-	 */
-	private $mounts = [];
+	/** @var array<string, MountPoint> $mounts */
+	private array $mounts = [];
 
-	/**
-	 * @param MountPoint $mount
-	 */
-	public function addMount($mount) {
-		$this->mounts[] = $mount;
+	public function addMount(MountPoint $mount): void {
+		$this->mounts[$mount->getMountPoint()] = $mount;
 	}
 
 	#[\Override]
-	protected function getMounts($dir) {
+	protected function getMounts(string $dir): array {
 		return $this->mounts;
 	}
 }
 
-/**
- * Class ScannerTest
- *
- *
- * @package Test\Files\Utils
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
-class ScannerTest extends \Test\TestCase {
-	/**
-	 * @var \Test\Util\User\Dummy
-	 */
-	private $userBackend;
+#[Group('DB')]
+class ScannerTest extends TestCase {
+	private Dummy $userBackend;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userBackend = new \Test\Util\User\Dummy();
+		$this->userBackend = new Dummy();
 		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 		$this->loginAsUser();
 	}
@@ -166,25 +158,14 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 	}
 
-	public static function invalidPathProvider(): array {
-		return [
-			[
-				'../',
-			],
-			[
-				'..\\',
-			],
-			[
-				'../..\\../',
-			],
-		];
+	public static function invalidPathProvider(): \Generator {
+		yield [ '../' ];
+		yield [ '..\\' ];
+		yield [ '../..\\../' ];
 	}
 
-	/**
-	 * @param string $invalidPath
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidPathProvider')]
-	public function testInvalidPathScanning($invalidPath): void {
+	#[DataProvider(methodName: 'invalidPathProvider')]
+	public function testInvalidPathScanning(string $invalidPath): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Invalid path to scan');
 
@@ -249,14 +230,14 @@ class ScannerTest extends \Test\TestCase {
 		);
 		$scanner->addMount($mount);
 
-		$scanner->scan('', $recusive = false);
+		$scanner->scan('', false);
 		$this->assertTrue($cache->inCache('folder'));
 		$this->assertFalse($cache->inCache('folder/subfolder'));
 		$this->assertTrue($cache->inCache('foo.txt'));
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
 
-		$scanner->scan('folder', $recusive = false);
+		$scanner->scan('folder', false);
 		$this->assertTrue($cache->inCache('folder'));
 		$this->assertTrue($cache->inCache('folder/subfolder'));
 		$this->assertTrue($cache->inCache('foo.txt'));

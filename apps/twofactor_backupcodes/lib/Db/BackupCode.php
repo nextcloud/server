@@ -6,26 +6,26 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Schema\ColumnType;
 
-/**
- * @method string getUserId()
- * @method void setUserId(string $userId)
- * @method string getCode()
- * @method void setCode(string $code)
- * @method int getUsed()
- * @method void setUsed(int $code)
- */
-class BackupCode extends Entity {
+#[Entity(name: 'twofactor_backupcodes')]
+final class BackupCode {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Integer, nullable: false)]
+	public ?int $id = null;
 
-	/** @var string */
-	protected $userId;
+	#[Column(name: 'user_id', type: ColumnType::String, length: 64, nullable: false)]
+	public string $userId;
 
-	/** @var string */
-	protected $code;
+	#[Column(name: 'code', type: ColumnType::String, length: 128, nullable: false)]
+	public string $code;
 
-	/** @var int */
-	protected $used;
+	#[Column(name: 'used', type: ColumnType::Smallint, nullable: false, default: 0)]
+	public int $used = 0;
 }

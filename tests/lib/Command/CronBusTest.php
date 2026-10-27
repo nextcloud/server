@@ -18,7 +18,6 @@ class CronBusTest extends AsyncBusTestCase {
 	 */
 	private $jobList;
 
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();

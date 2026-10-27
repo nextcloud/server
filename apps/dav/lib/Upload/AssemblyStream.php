@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use Sabre\DAV\IFile;
@@ -236,7 +237,6 @@ class AssemblyStream implements \Icewind\Streams\File {
 	public function stream_close() {
 		return true;
 	}
-
 
 	/**
 	 * Load the source from the stream context and return the context options

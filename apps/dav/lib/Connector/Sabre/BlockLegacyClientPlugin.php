@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Theming\ThemingDefaults;
@@ -50,7 +51,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
-		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.2.50');
+		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.3.50');
 		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '99.99.99');
 
 		// Check if the client is a desktop client

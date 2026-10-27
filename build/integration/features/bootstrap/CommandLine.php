@@ -5,64 +5,22 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use Behat\Step\Given;
+use Behat\Step\Then;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
 
 trait CommandLine {
-	/** @var int return code of last command */
-	private int $lastCode = 0;
-	/** @var string stdout of last command */
-	private string $lastStdOut = '';
-	/** @var string stderr of last command */
-	private string $lastStdErr = '';
-	protected string $ocPath = '../..';
+	use OccRunner;
 
-	/**
-	 * Invokes an OCC command
-	 *
-	 * @param string[] $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
-	 * @return int exit code
-	 */
-	public function runOcc(array $args = [], string $inputString = ''): int {
-		$args = array_map(function ($arg) {
-			return escapeshellarg($arg);
-		}, $args);
-		$args[] = '--no-ansi';
-		$args = implode(' ', $args);
-
-		$descriptor = [
-			0 => ['pipe', 'r'],
-			1 => ['pipe', 'w'],
-			2 => ['pipe', 'w'],
-		];
-		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $this->ocPath);
-		if ($inputString !== '') {
-			fwrite($pipes[0], $inputString . "\n");
-			fclose($pipes[0]);
-		}
-		$this->lastStdOut = stream_get_contents($pipes[1]);
-		$this->lastStdErr = stream_get_contents($pipes[2]);
-		$this->lastCode = proc_close($process);
-
-		// Clean opcode cache
-		$client = new GuzzleHttp\Client();
-		$client->request('GET', 'http://localhost:8080/apps/testing/clean_opcode_cache.php');
-
-		return $this->lastCode;
-	}
-
-	/**
-	 * @Given /^invoking occ with "([^"]*)"$/
-	 */
+	#[Given('/^invoking occ with "([^"]*)"$/')]
 	public function invokingTheCommand(string $cmd): void {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args);
 	}
 
-	/**
-	 * @Given /^invoking occ with "([^"]*)" with input "([^"]+)"$/
-	 */
+	#[Given('/^invoking occ with "([^"]*)" with input "([^"]+)"$/')]
 	public function invokingTheCommandWith(string $cmd, string $inputString): void {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args, $inputString);
@@ -89,9 +47,7 @@ trait CommandLine {
 		return $exceptions;
 	}
 
-	/**
-	 * @Then /^the command was successful$/
-	 */
+	#[Then('/^the command was successful$/')]
 	public function theCommandWasSuccessful(): void {
 		$exceptions = $this->findExceptions();
 		if ($this->lastCode !== 0) {
@@ -106,18 +62,14 @@ trait CommandLine {
 		}
 	}
 
-	/**
-	 * @Then /^the command failed with exit code ([0-9]+)$/
-	 */
+	#[Then('/^the command failed with exit code ([0-9]+)$/')]
 	public function theCommandFailedWithExitCode($exitCode): void {
 		if ($this->lastCode !== (int)$exitCode) {
 			throw new \Exception('The command was expected to fail with exit code ' . $exitCode . ' but got ' . $this->lastCode);
 		}
 	}
 
-	/**
-	 * @Then /^the command failed with exception text "([^"]*)"$/
-	 */
+	#[Then('/^the command failed with exception text "([^"]*)"$/')]
 	public function theCommandFailedWithException(string $exceptionText): void {
 		$exceptions = $this->findExceptions();
 		if (empty($exceptions)) {
@@ -129,23 +81,17 @@ trait CommandLine {
 		}
 	}
 
-	/**
-	 * @Then /^the command output contains the text "([^"]*)"$/
-	 */
+	#[Then('/^the command output contains the text "([^"]*)"$/')]
 	public function theCommandOutputContainsTheText(string $text): void {
 		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout.');
 	}
 
-	/**
-	 * @Then /^the command output does not contain the text "([^"]*)"$/
-	 */
+	#[Then('/^the command output does not contain the text "([^"]*)"$/')]
 	public function theCommandOutputDoesNotContainTheText(string $text): void {
 		Assert::assertStringNotContainsString($text, $this->lastStdOut, 'The command did output the not expected text on stdout.');
 	}
 
-	/**
-	 * @Then /^the command error output contains the text "([^"]*)"$/
-	 */
+	#[Then('/^the command error output contains the text "([^"]*)"$/')]
 	public function theCommandErrorOutputContainsTheText(string $text): void {
 		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr.');
 	}

@@ -90,6 +90,8 @@ class ShareByMailProviderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -134,6 +136,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**

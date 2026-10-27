@@ -5,42 +5,20 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Appstore\Tests\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Installer;
 use OCA\Appstore\Controller\PageController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IL10N;
-use OCP\INavigationManager;
-use OCP\IRequest;
-use OCP\IURLGenerator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class PageControllerTest extends TestCase {
-	private IRequest&MockObject $request;
-
-	private IL10N&MockObject $l10n;
-
-	private IConfig&MockObject $config;
-
-	private INavigationManager&MockObject $navigationManager;
-
-	private IAppManager&MockObject $appManager;
-
-	private BundleFetcher&MockObject $bundleFetcher;
-
-	private Installer&MockObject $installer;
-
-	private IURLGenerator&MockObject $urlGenerator;
-
-	private IInitialState&MockObject $initialState;
 
 	private PageController $pageController;
 
@@ -48,48 +26,21 @@ final class PageControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->l10n->expects($this->any())
-			->method('t')
-			->willReturnArgument(0);
-		$this->config = $this->createMock(IConfig::class);
-		$this->navigationManager = $this->createMock(INavigationManager::class);
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
-		$this->installer = $this->createMock(Installer::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->initialState = $this->createMock(IInitialState::class);
-
-		$this->pageController = new PageController(
-			$this->request,
-			$this->l10n,
-			$this->config,
-			$this->installer,
-			$this->appManager,
-			$this->urlGenerator,
-			$this->initialState,
-			$this->bundleFetcher,
-			$this->navigationManager,
-		);
+		$this->pageController = $this->createInstanceWithMocks(PageController::class);
 	}
 
 	public function testViewApps(): void {
-		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
-		$this->installer->expects($this->any())
+		$this->mocks[BundleFetcher::class]->expects($this->once())->method('getBundles')->willReturn([]);
+		$this->mocks[Installer::class]->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn(true);
-		$this->navigationManager
-			->expects($this->once())
-			->method('setActiveEntry')
-			->with('core_apps');
 
-		$this->initialState
+		$this->mocks[IInitialState::class]
 			->expects($this->exactly(4))
 			->method('provideInitialState');
 
@@ -108,21 +59,17 @@ final class PageControllerTest extends TestCase {
 	}
 
 	public function testViewAppsAppstoreNotEnabled(): void {
-		$this->installer->expects($this->any())
+		$this->mocks[Installer::class]->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);
-		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
-		$this->config
+		$this->mocks[BundleFetcher::class]->expects($this->once())->method('getBundles')->willReturn([]);
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn(false);
-		$this->navigationManager
-			->expects($this->once())
-			->method('setActiveEntry')
-			->with('core_apps');
 
-		$this->initialState
+		$this->mocks[IInitialState::class]
 			->expects($this->exactly(4))
 			->method('provideInitialState');
 

@@ -5,7 +5,7 @@
 <template>
 	<PublicPageMenuEntry
 		:id="id"
-		click-only
+		clickOnly
 		:icon="icon"
 		:href="href"
 		:label="label"

@@ -45,15 +45,9 @@ class InMemoryFileTest extends TestCase {
 		self::assertEquals('test', $this->testPdf->getContent());
 	}
 
-	/**
-	 * Asserts that delete() doesn't rise an exception.
-	 *
-	 * @return void
-	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDelete(): void {
 		$this->testPdf->delete();
-		// assert true, otherwise phpunit complains about not doing any assert
-		self::assertTrue(true);
 	}
 
 	/**
@@ -103,7 +97,6 @@ class InMemoryFileTest extends TestCase {
 	public function testGetMimeType(): void {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
 	}
-
 
 	/**
 	 * Ensure that read() returns a stream with the same contents than the original file.

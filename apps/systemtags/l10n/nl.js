@@ -41,6 +41,7 @@ OC.L10N.register(
     "Files" : "Bestanden",
     "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
+    "Search tags" : "Zoek in tags",
     "Public" : "Standaard",
     "Restricted" : "Beschermd",
     "Invisible" : "Verborgen",
@@ -64,7 +65,6 @@ OC.L10N.register(
     "Add tags" : "Toevoegen tags",
     "Assigned collaborative tags" : "Samenwerkingstags toewijzen",
     "Open in Files" : "Open in Bestanden",
-    "No tags found" : "Geen tags gevonden",
-    "Loading …" : "Laden …"
+    "No tags found" : "Geen tags gevonden"
 },
 "nplurals=2; plural=(n != 1);");

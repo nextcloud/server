@@ -12,109 +12,75 @@ namespace OCA\Files\Command;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files\Service\OwnershipTransferService;
 use OCA\Files_External\Config\ConfigAdapter;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class TransferOwnership extends Command {
+#[AsCommand(
+	name: 'files:transfer-ownership',
+	description: 'All files and folders are moved to another user - outgoing shares and incoming user file shares (optionally) are moved as well.',
+)]
+class TransferOwnership {
 	public function __construct(
 		private IUserManager $userManager,
 		private OwnershipTransferService $transferService,
 		private IConfig $config,
 		private IMountManager $mountManager,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:transfer-ownership')
-			->setDescription('All files and folders are moved to another user - outgoing shares and incoming user file shares (optionally) are moved as well.')
-			->addArgument(
-				'source-user',
-				InputArgument::REQUIRED,
-				'owner of files which shall be moved'
-			)
-			->addArgument(
-				'destination-user',
-				InputArgument::REQUIRED,
-				'user who will be the new owner of the files'
-			)
-			->addOption(
-				'path',
-				null,
-				InputOption::VALUE_REQUIRED,
-				'selectively provide the path to transfer. For example --path="folder_name"',
-				''
-			)->addOption(
-				'move',
-				null,
-				InputOption::VALUE_NONE,
-				'move data from source user to root directory of destination user, which must be empty'
-			)->addOption(
-				'transfer-incoming-shares',
-				null,
-				InputOption::VALUE_OPTIONAL,
-				'Incoming shares are always transferred now, so this option does not affect the ownership transfer anymore',
-				'2'
-			)->addOption(
-				'include-external-storage',
-				null,
-				InputOption::VALUE_NONE,
-				'include files on external storages, this will _not_ setup an external storage for the target user, but instead moves all the files from the external storages into the target users home directory',
-			)->addOption(
-				'force-include-external-storage',
-				null,
-				InputOption::VALUE_NONE,
-				'don\'t ask for confirmation for transferring external storages',
-			)
-			->addOption(
-				'use-user-id',
-				null,
-				InputOption::VALUE_NONE,
-				'use user ID instead of display name in the transferred folder name',
-			);
-	}
-
-	#[\Override]
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-
+	public function __invoke(
+		IOutput $output,
+		IInput $input,
+		#[Argument(name: 'source-user', description: 'owner of files which shall be moved')]
+		string $sourceUser,
+		#[Argument(name: 'destination-user', description: 'user who will be the new owner of the files')]
+		string $destinationUser,
+		#[Option(description: 'selectively provide the path to transfer. For example --path="folder_name"')]
+		string $path = '',
+		#[Option(description: 'move data from source user to root directory of destination user, which must be empty')]
+		bool $move = false,
+		#[Option(name: 'transfer-incoming-shares', description: 'Incoming shares are always transferred now, so this option does not affect the ownership transfer anymore')]
+		string|bool $transferIncomingShares = false,
+		#[Option(name: 'include-external-storage', description: 'include files on external storages, this will _not_ setup an external storage for the target user, but instead moves all the files from the external storages into the target users home directory')]
+		bool $includeExternalStorage = false,
+		#[Option(name: 'force-include-external-storage', description: "don't ask for confirmation for transferring external storages")]
+		bool $forceIncludeExternalStorage = false,
+		#[Option(name: 'use-user-id', description: 'use user ID instead of display name in the transferred folder name')]
+		bool $useUserId = false,
+	): ExitCode {
 		/**
 		 * Check if source and destination users are same. If they are same then just ignore the transfer.
 		 */
-
-		if ($input->getArgument(('source-user')) === $input->getArgument('destination-user')) {
+		if ($sourceUser === $destinationUser) {
 			$output->writeln("<error>Ownership can't be transferred when Source and Destination users are the same user. Please check your input.</error>");
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
-		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
-		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
+		$sourceUserObject = $this->userManager->get($sourceUser);
+		$destinationUserObject = $this->userManager->get($destinationUser);
 
 		if (!$sourceUserObject instanceof IUser) {
-			$output->writeln('<error>Unknown source user ' . $input->getArgument('source-user') . '</error>');
-			return self::FAILURE;
+			$output->writeln('<error>Unknown source user ' . $sourceUser . '</error>');
+			return ExitCode::Failure;
 		}
 
 		if (!$destinationUserObject instanceof IUser) {
-			$output->writeln('<error>Unknown destination user ' . $input->getArgument('destination-user') . '</error>');
-			return self::FAILURE;
+			$output->writeln('<error>Unknown destination user ' . $destinationUser . '</error>');
+			return ExitCode::Failure;
 		}
 
-		$path = ltrim($input->getOption('path'), '/');
-		$includeExternalStorage = $input->getOption('include-external-storage');
+		$normalizedPath = ltrim($path, '/');
 		if ($includeExternalStorage) {
-			$mounts = $this->mountManager->findIn('/' . rtrim($sourceUserObject->getUID() . '/files/' . $path, '/'));
+			$mounts = $this->mountManager->findIn('/' . rtrim($sourceUserObject->getUID() . '/files/' . $normalizedPath, '/'));
 			/** @var IMountPoint[] $mounts */
 			$mounts = array_filter($mounts, fn ($mount) => $mount->getMountProvider() === ConfigAdapter::class);
 			if (count($mounts) > 0) {
@@ -125,12 +91,9 @@ class TransferOwnership extends Command {
 				$output->writeln('');
 				$output->writeln('<comment>Any other users with access to these external storages will lose access to the files.</comment>');
 				$output->writeln('');
-				if (!$input->getOption('force-include-external-storage')) {
-					/** @var QuestionHelper $helper */
-					$helper = $this->getHelper('question');
-					$question = new ConfirmationQuestion('Are you sure you want to transfer external storages? (y/N) ', false);
-					if (!$helper->ask($input, $output, $question)) {
-						return self::FAILURE;
+				if (!$forceIncludeExternalStorage) {
+					if (!$input->confirm('Are you sure you want to transfer external storages? (y/N) ', false)) {
+						return ExitCode::Failure;
 					}
 				}
 			}
@@ -140,18 +103,19 @@ class TransferOwnership extends Command {
 			$this->transferService->transfer(
 				$sourceUserObject,
 				$destinationUserObject,
-				$path,
+				$normalizedPath,
 				$output,
-				$input->getOption('move') === true,
+				$move,
 				false,
 				$includeExternalStorage,
-				$input->getOption('use-user-id') === true,
+				$useUserId,
 			);
 		} catch (TransferOwnershipException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return $e->getCode() !== 0 ? $e->getCode() : self::FAILURE;
+			$exitCode = $e->getCode() !== 0 ? ExitCode::tryFrom($e->getCode()) : null;
+			return $exitCode ?? ExitCode::Failure;
 		}
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 }

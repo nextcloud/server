@@ -7,10 +7,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
+use OC\User\Session as UserSession;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -148,6 +150,7 @@ class Internal extends Session {
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
+				Server::get(UserSession::class)->renewMagicSessionId($oldId);
 			} catch (InvalidTokenException $e) {
 				// Just ignore
 			}

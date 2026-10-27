@@ -1,10 +1,11 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OCP\Constants;
@@ -15,11 +16,13 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Override;
 
 class Share implements IShare {
@@ -30,23 +33,24 @@ class Share implements IShare {
 	private $fileId;
 	/** @var string */
 	private $nodeType;
-	/** @var int */
+	/** @var IShare::TYPE_* */
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
-	/** @var string */
-	private $sharedWithDisplayName;
+	private ?string $sharedWithDisplayName = null;
+	/** @var ?callable */
+	private $sharedWithDisplayNameCallback = null;
 	/** @var string */
 	private $sharedWithAvatar;
 	/** @var string */
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
-	/** @var int */
+	/** @var int-mask-of<Constants::PERMISSION_*> */
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
-	/** @var int */
+	/** @var self::STATUS_* */
 	private $status;
 	/** @var string */
 	private $note = '';
@@ -54,11 +58,12 @@ class Share implements IShare {
 	private $expireDate;
 	/** @var string */
 	private $password;
+	private bool $isPasswordHashed = false;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
-	private $token;
+	private $token = '';
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
@@ -133,20 +138,24 @@ class Share implements IShare {
 				throw new NotFoundException();
 			}
 
-			// for federated shares the owner can be a remote user, in this
-			// case we use the initiator
-			if ($this->userManager->userExists($this->shareOwner)) {
-				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
-			} else {
-				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
-			}
+			try {
+				// for federated shares the owner can be a remote user, in this
+				// case we use the initiator
+				if ($this->userManager->userExists($this->shareOwner)) {
+					$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+				} else {
+					$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
+				}
 
-			$node = $userFolder->getFirstNodeById($this->fileId);
-			if (!$node) {
-				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
-			}
+				$node = $userFolder->getFirstNodeById($this->fileId);
+				if (!$node) {
+					throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
+				}
 
-			$this->node = $node;
+				$this->node = $node;
+			} catch (UserNotFoundException $e) {
+				throw new NotFoundException('Owner for share not found, fileid: ' . $this->fileId, previous:$e);
+			}
 		}
 
 		return $this->node;
@@ -259,11 +268,24 @@ class Share implements IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param callable(IShare):?string $callback
+	 * @return $this
 	 */
+	public function setSharedWithDisplayNameCallback(callable $callback) {
+		$this->sharedWithDisplayNameCallback = $callback;
+		return $this;
+	}
+
 	#[\Override]
 	public function getSharedWithDisplayName() {
-		return $this->sharedWithDisplayName;
+		if ($this->sharedWithDisplayNameCallback !== null) {
+			$displayName = ($this->sharedWithDisplayNameCallback)($this);
+			if ($displayName !== null) {
+				$this->sharedWithDisplayName = $displayName;
+			}
+			$this->sharedWithDisplayNameCallback = null;
+		}
+		return $this->sharedWithDisplayName ?? '';
 	}
 
 	/**
@@ -343,7 +365,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getStatus(): int {
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 
@@ -481,6 +503,18 @@ class Share implements IShare {
 	#[\Override]
 	public function setPassword($password) {
 		$this->password = $password;
+		$this->isPasswordHashed = false;
+		return $this;
+	}
+
+	#[\Override]
+	public function setPasswordHash(string $passwordHash): IShare {
+		if (!Server::get(IHasher::class)->validate($passwordHash)) {
+			throw new \InvalidArgumentException();
+		}
+
+		$this->password = $passwordHash;
+		$this->isPasswordHashed = true;
 		return $this;
 	}
 
@@ -490,6 +524,19 @@ class Share implements IShare {
 	#[\Override]
 	public function getPassword() {
 		return $this->password;
+	}
+
+	#[\Override]
+	public function isPasswordHashed(): bool {
+		return $this->isPasswordHashed;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function isPasswordProtected(): bool {
+		return $this->password !== '' && $this->password !== null;
 	}
 
 	/**

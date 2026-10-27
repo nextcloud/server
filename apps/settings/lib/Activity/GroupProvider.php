@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -22,7 +23,6 @@ class GroupProvider implements IProvider {
 
 	/** @var string[] */
 	protected $groupDisplayNames = [];
-
 
 	public function __construct(
 		private L10nFactory $l10n,

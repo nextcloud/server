@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -61,7 +62,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	) {
 	}
 
-
 	/**
 	 * Set the class of the icon to be displayed in the left panel of the
 	 * FullTextSearch navigation page, in front of the related Content Provider.
@@ -82,7 +82,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	public function getIcon(): string {
 		return $this->icon;
 	}
-
 
 	/**
 	 * Set the path of a CSS file that will be loaded when needed.
@@ -105,7 +104,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	public function getCss(): string {
 		return $this->css;
 	}
-
 
 	/**
 	 * Set the path of the file of a template that the HTML will be displayed
@@ -131,7 +129,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	public function getTemplate(): string {
 		return $this->template;
 	}
-
 
 	/**
 	 * Add an option in the Panel that is displayed when the user start a search
@@ -160,7 +157,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 		return $this->panelOptions;
 	}
 
-
 	/**
 	 * Add an option in the left panel of the FullTextSearch navigation page.
 	 *
@@ -184,7 +180,6 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	public function getNavigationOptions(): array {
 		return $this->navigationOptions;
 	}
-
 
 	/**
 	 * @since 15.0.0

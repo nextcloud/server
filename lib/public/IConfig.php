@@ -152,7 +152,6 @@ interface IConfig {
 	 */
 	public function deleteAppValues($appName);
 
-
 	/**
 	 * Set a user defined value
 	 *

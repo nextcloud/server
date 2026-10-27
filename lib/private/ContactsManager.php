@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\Constants;
@@ -151,6 +152,22 @@ class ContactsManager implements IManager {
 	public function getUserAddressBooks(): array {
 		$this->loadAddressBooks();
 		return $this->addressBooks;
+	}
+
+	#[\Override]
+	public function getAddressBooksForPrincipal(string $principalUri, array $addressBookUris = []): array {
+		$this->loadAddressBooks();
+		$result = [];
+		foreach ($this->addressBooks as $addressBook) {
+			if (!method_exists($addressBook, 'getPrincipalUri')) {
+				continue;
+			}
+
+			if ($addressBook->getPrincipalUri() === $principalUri && in_array($addressBook->getUri(), $addressBookUris, true)) {
+				$result[] = $addressBook;
+			}
+		}
+		return $result;
 	}
 
 	/**

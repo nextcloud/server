@@ -9,6 +9,7 @@ import { action as bulkSystemTagsAction } from './files_actions/bulkSystemTagsAc
 import { registerFileSidebarAction } from './files_actions/filesSidebarAction.ts'
 import { action as inlineSystemTagsAction } from './files_actions/inlineSystemTagsAction.ts'
 import { action as openInFilesAction } from './files_actions/openInFilesAction.ts'
+import { registerTagsFilter } from './files_filters/TagsFilter.ts'
 import { registerSystemTagsView } from './files_views/systemtagsView.ts'
 
 registerDavProperty('nc:system-tags')
@@ -18,3 +19,4 @@ registerFileAction(openInFilesAction)
 
 registerSystemTagsView()
 registerFileSidebarAction()
+registerTagsFilter()

@@ -37,7 +37,7 @@ $noProviders = empty($_['providers']);
 		<?php endif; ?>
 	</p>
 	<?php else: ?>
-	<ul>
+	<ul class="two-factor-providers">
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
@@ -54,7 +54,7 @@ $noProviders = empty($_['providers']);
 					$icon = image_path('core', 'actions/password-white.svg');
 				}
 		?>
-				<img src="<?php p($icon) ?>" alt="" />
+				<span class="two-factor-provider-icon"><img src="<?php p($icon) ?>" alt="" /></span>
 				<div>
 					<h3><?php p($provider->getDisplayName()) ?></h3>
 					<p><?php p($provider->getDescription()) ?></p>
@@ -64,9 +64,19 @@ $noProviders = empty($_['providers']);
 	<?php endforeach; ?>
 	</ul>
 	<?php endif ?>
-	<?php if (!is_null($_['backupProvider'])): ?>
-	<p>
-		<a class="<?php if ($noProviders): ?>button primary two-factor-primary<?php else: ?>two-factor-secondary<?php endif ?>" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
+	<?php if (!is_null($_['backupProvider']) && $noProviders): ?>
+	<a class="button primary two-factor-primary" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		[
+			'challengeProviderId' => $_['backupProvider']->getId(),
+			'redirect_url' => $_['redirect_url'],
+		]
+	)) ?>">
+		<?php p($l->t('Use backup code')) ?>
+	</a>
+	<?php endif; ?>
+	<div class="two-factor-actions">
+		<?php if (!is_null($_['backupProvider']) && !$noProviders): ?>
+		<a class="two-factor-action-backup" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $_['backupProvider']->getId(),
 				'redirect_url' => $_['redirect_url'],
@@ -74,9 +84,9 @@ $noProviders = empty($_['providers']);
 		)) ?>">
 			<?php p($l->t('Use backup code')) ?>
 		</a>
-	</p>
-	<?php endif; ?>
-	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-		<?php p($l->t('Cancel login')) ?>
-	</a></p>
+		<?php endif; ?>
+		<a id="cancel-login" href="<?php print_unescaped($_['logout_url']); ?>">
+			<?php p($l->t('Cancel login')) ?>
+		</a>
+	</div>
 </div>

@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Memcache;
 
+use OC\RedisFactory;
 use OCP\IMemcacheTTL;
 use OCP\Server;
 
@@ -35,26 +37,25 @@ class Redis extends Cache implements IMemcacheTTL {
 		],
 	];
 
-	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
+	private const int MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
-	/**
-	 * @var \Redis|\RedisCluster $cache
-	 */
-	private static $cache = null;
+	/** Number of keys to request per SCAN iteration in {@see self::clear()} (only a hint to Redis) */
+	private const int SCAN_COUNT = 1000;
+
+	private \Redis|\RedisCluster|null $cache = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
 	}
 
 	/**
-	 * @return \Redis|\RedisCluster|null
 	 * @throws \Exception
 	 */
-	public function getCache() {
-		if (is_null(self::$cache)) {
-			self::$cache = Server::get('RedisFactory')->getInstance();
+	public function getCache(): \Redis|\RedisCluster {
+		if ($this->cache === null) {
+			$this->cache = Server::get(RedisFactory::class)->getInstance();
 		}
-		return self::$cache;
+		return $this->cache;
 	}
 
 	#[\Override]
@@ -94,12 +95,45 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public function clear($prefix = '') {
-		// TODO: this is slow and would fail with Redis cluster
-		$prefix = $this->getPrefix() . $prefix . '*';
-		$keys = $this->getCache()->keys($prefix);
-		$deleted = $this->getCache()->del($keys);
+		$pattern = $this->getPrefix() . $prefix . '*';
+		$cache = $this->getCache();
 
-		return (is_array($keys) && (count($keys) === $deleted));
+		// Iterate with SCAN and remove with UNLINK rather than KEYS + DEL:
+		// KEYS walks the whole keyspace and blocks the server, while a
+		// multi-key DEL/UNLINK is not cluster-safe (keys spanning hash slots
+		// raise a CROSSSLOT error). SCAN is non-blocking and UNLINK reclaims
+		// memory in the background.
+		if ($cache instanceof \RedisCluster) {
+			// On a cluster SCAN must be run against each master node, and keys
+			// are unlinked one at a time so each command stays within a slot.
+			foreach ($cache->_masters() as $master) {
+				$iterator = null;
+				do {
+					/** @psalm-suppress NullArgument, PossiblyNullArgument the SCAN cursor must start as null (the phpredis stub types it as int) */
+					$keys = $cache->scan($iterator, $master, $pattern, self::SCAN_COUNT);
+					if ($keys === false) {
+						break;
+					}
+					foreach ($keys as $key) {
+						$cache->unlink($key);
+					}
+				} while ($iterator > 0);
+			}
+		} else {
+			$iterator = null;
+			do {
+				/** @psalm-suppress NullArgument, PossiblyNullArgument the SCAN cursor must start as null (the phpredis stub types it as int) */
+				$keys = $cache->scan($iterator, $pattern, self::SCAN_COUNT);
+				if ($keys === false) {
+					break;
+				}
+				if ($keys !== []) {
+					$cache->unlink($keys);
+				}
+			} while ($iterator > 0);
+		}
+
+		return true;
 	}
 
 	/**
@@ -212,7 +246,7 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public static function isAvailable(): bool {
-		return Server::get('RedisFactory')->isAvailable();
+		return Server::get(RedisFactory::class)->isAvailable();
 	}
 
 	protected function evalLua(string $scriptName, array $keys, array $args) {

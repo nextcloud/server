@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Recovery;
@@ -28,7 +29,13 @@ class RecoveryController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	public function adminRecovery(string $recoveryPassword, string $confirmPassword, bool $adminEnableRecovery): DataResponse {
+	public function adminRecovery(
+		#[\SensitiveParameter]
+		string $recoveryPassword,
+		#[\SensitiveParameter]
+		string $confirmPassword,
+		bool $adminEnableRecovery,
+	): DataResponse {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
 			$errorMessage = $this->l->t('Missing recovery key password');
@@ -69,7 +76,14 @@ class RecoveryController extends Controller {
 		}
 	}
 
-	public function changeRecoveryPassword(string $newPassword, string $oldPassword, string $confirmPassword): DataResponse {
+	public function changeRecoveryPassword(
+		#[\SensitiveParameter]
+		string $newPassword,
+		#[\SensitiveParameter]
+		string $oldPassword,
+		#[\SensitiveParameter]
+		string $confirmPassword,
+	): DataResponse {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
 			$errorMessage = $this->l->t('Please provide the old recovery password');
@@ -117,37 +131,31 @@ class RecoveryController extends Controller {
 		}
 	}
 
-	/**
-	 * @param string $userEnableRecovery
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
-	public function userSetRecovery($userEnableRecovery) {
-		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
-			$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
+	public function userSetRecovery(bool $userEnableRecovery): DataResponse {
+		$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
 
-			if ($result) {
-				if ($userEnableRecovery === '0') {
-					return new DataResponse(
-						[
-							'data' => [
-								'message' => $this->l->t('Recovery Key disabled')]
-						]
-					);
-				}
+		if ($result) {
+			if (!$userEnableRecovery) {
 				return new DataResponse(
 					[
 						'data' => [
-							'message' => $this->l->t('Recovery Key enabled')]
+							'message' => $this->l->t('Recovery Key disabled')]
 					]
 				);
 			}
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => $this->l->t('Recovery Key enabled')]
+				]
+			);
 		}
+
 		return new DataResponse(
 			[
 				'data' => [
-					'message' => $this->l->t('Could not enable the recovery key, please try again or contact your administrator')
-				]
+					'message' => $this->l->t('Could not enable the recovery key, please try again or contact your administrator')]
 			], Http::STATUS_BAD_REQUEST);
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,26 +11,21 @@ namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\Search;
 use OC\Collaboration\Collaborators\SearchResult;
-use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
+use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
 use OCP\Share\IShare;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
-	protected $container;
-	/** @var ISearch */
-	protected $search;
+	protected Search $search;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->container = $this->createMock(IContainer::class);
-
-		$this->search = new Search($this->container);
+		$this->search = $this->createInstanceWithMocks(Search::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
@@ -49,7 +46,7 @@ class SearchTest extends TestCase {
 		$userPlugin = $this->createMock(ISearchPlugin::class);
 		$userPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function () use ($searchResult, $mockedUserResult, $expectedMoreResults) {
+			->willReturnCallback(function (string $search, int $limit, int $offset, ISearchResult $searchResult) use ($mockedUserResult, $expectedMoreResults) {
 				$type = new SearchResultType('users');
 				$searchResult->addResultSet($type, $mockedUserResult);
 				return $expectedMoreResults;
@@ -58,7 +55,7 @@ class SearchTest extends TestCase {
 		$groupPlugin = $this->createMock(ISearchPlugin::class);
 		$groupPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function () use ($searchResult, $mockedGroupsResult, $expectedMoreResults) {
+			->willReturnCallback(function (string $search, int $limit, int $offset, ISearchResult $searchResult) use ($mockedGroupsResult, $expectedMoreResults) {
 				$type = new SearchResultType('groups');
 				$searchResult->addResultSet($type, $mockedGroupsResult);
 				return $expectedMoreResults;
@@ -67,7 +64,7 @@ class SearchTest extends TestCase {
 		$remotePlugin = $this->createMock(ISearchPlugin::class);
 		$remotePlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function () use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
+			->willReturnCallback(function (string $search, int $limit, int $offset, ISearchResult $searchResult) use ($mockedRemotesResult, $expectedMoreResults) {
 				if ($mockedRemotesResult !== null) {
 					$type = new SearchResultType('remotes');
 					$searchResult->addResultSet($type, $mockedRemotesResult['results'], $mockedRemotesResult['exact']);
@@ -81,18 +78,16 @@ class SearchTest extends TestCase {
 		$mailPlugin = $this->createMock(ISearchPlugin::class);
 		$mailPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function () use ($searchResult, $mockedMailResult, $expectedMoreResults) {
+			->willReturnCallback(function (string $search, int $limit, int $offset, ISearchResult $searchResult) use ($mockedMailResult, $expectedMoreResults) {
 				$type = new SearchResultType('emails');
 				$searchResult->addResultSet($type, $mockedMailResult);
 				return $expectedMoreResults;
 			});
 
-		$this->container->expects($this->any())
-			->method('resolve')
-			->willReturnCallback(function ($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
-				if ($class === SearchResult::class) {
-					return $searchResult;
-				} elseif ($class === 'user') {
+		$this->getAutoMock(IContainer::class)->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($class) use ($userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
+				if ($class === 'user') {
 					return $userPlugin;
 				} elseif ($class === 'group') {
 					return $groupPlugin;

@@ -29,7 +29,7 @@ export const entry: NewMenuEntry = {
 	},
 
 	async handler(context: IFolder, content: INode[]) {
-		const name = await newNodeName(t('files', 'New folder'), content)
+		const name = await newNodeName(t('files', 'New folder'), content, { isFolder: true })
 		if (name === null) {
 			return
 		}
@@ -49,6 +49,7 @@ export const entry: NewMenuEntry = {
 					'mount-type': context.attributes?.['mount-type'],
 					'owner-id': context.attributes?.['owner-id'],
 					'owner-display-name': context.attributes?.['owner-display-name'],
+					'hide-download': context.attributes?.['hide-download'],
 				},
 			})
 

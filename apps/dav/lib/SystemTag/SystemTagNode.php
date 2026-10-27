@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -100,18 +101,10 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
-				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
-			}
 
-			// only admin is able to change permissions, regular users can only rename
+			// only admin is able to update system tags
 			if (!$this->isAdmin) {
-				// only renaming is allowed for regular users
-				if ($userVisible !== $this->tag->isUserVisible()
-					|| $userAssignable !== $this->tag->isUserAssignable()
-				) {
-					throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
-				}
+				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
 			}
 
 			// Make sure color is a proper hex
@@ -195,7 +188,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	#[\Override]
 	public function childExists($name) {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
-		return in_array($name, $objectTypes);
+		return in_array($name, $objectTypes, true);
 	}
 
 	#[\Override]

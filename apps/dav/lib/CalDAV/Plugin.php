@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {

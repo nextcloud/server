@@ -4,6 +4,9 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use Behat\Hook\AfterScenario;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -12,7 +15,7 @@ trait Avatar {
 	/** @var string * */
 	private $lastAvatar;
 
-	/** @AfterScenario **/
+	#[AfterScenario]
 	public function cleanupLastAvatar() {
 		$this->lastAvatar = null;
 	}
@@ -28,22 +31,22 @@ trait Avatar {
 	}
 
 	/**
-	 * @When user :user gets avatar for user :userAvatar
 	 *
 	 * @param string $user
 	 * @param string $userAvatar
 	 */
+	#[When('user :user gets avatar for user :userAvatar')]
 	public function userGetsAvatarForUser(string $user, string $userAvatar) {
 		$this->userGetsAvatarForUserWithSize($user, $userAvatar, '128');
 	}
 
 	/**
-	 * @When user :user gets avatar for user :userAvatar with size :size
 	 *
 	 * @param string $user
 	 * @param string $userAvatar
 	 * @param string $size
 	 */
+	#[When('user :user gets avatar for user :userAvatar with size :size')]
 	public function userGetsAvatarForUserWithSize(string $user, string $userAvatar, string $size) {
 		$this->asAn($user);
 		$this->sendingToDirectUrl('GET', '/index.php/avatar/' . $userAvatar . '/' . $size);
@@ -53,11 +56,11 @@ trait Avatar {
 	}
 
 	/**
-	 * @When user :user gets avatar for guest :guestAvatar
 	 *
 	 * @param string $user
 	 * @param string $guestAvatar
 	 */
+	#[When('user :user gets avatar for guest :guestAvatar')]
 	public function userGetsAvatarForGuest(string $user, string $guestAvatar) {
 		$this->asAn($user);
 		$this->sendingToDirectUrl('GET', '/index.php/avatar/guest/' . $guestAvatar . '/128');
@@ -67,10 +70,9 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user posts avatar from file :source
-	 *
 	 * @param string $source
 	 */
+	#[When('logged in user posts avatar from file :source')]
 	public function loggedInUserPostsAvatarFromFile(string $source) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 
@@ -87,28 +89,24 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user posts avatar from internal path :path
-	 *
 	 * @param string $path
 	 */
+	#[When('logged in user posts avatar from internal path :path')]
 	public function loggedInUserPostsAvatarFromInternalPath(string $path) {
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar?path=' . $path);
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
-	/**
-	 * @When logged in user deletes the user avatar
-	 */
+	#[When('logged in user deletes the user avatar')]
 	public function loggedInUserDeletesTheUserAvatar() {
 		$this->sendingAToWithRequesttoken('DELETE', '/index.php/avatar');
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
 	/**
-	 * @Then last avatar is a square of size :size
-	 *
 	 * @param string size
 	 */
+	#[Then('last avatar is a square of size :size')]
 	public function lastAvatarIsASquareOfSize(string $size) {
 		[$width, $height] = getimagesizefromstring($this->lastAvatar);
 
@@ -116,28 +114,24 @@ trait Avatar {
 		Assert::assertEquals($size, $width);
 	}
 
-	/**
-	 * @Then last avatar is not a square
-	 */
+	#[Then('last avatar is not a square')]
 	public function lastAvatarIsNotASquare() {
 		[$width, $height] = getimagesizefromstring($this->lastAvatar);
 
 		Assert::assertNotEquals($width, $height, 'Expected avatar to not be a square');
 	}
 
-	/**
-	 * @Then last avatar is not a single color
-	 */
+	#[Then('last avatar is not a single color')]
 	public function lastAvatarIsNotASingleColor() {
 		Assert::assertEquals(null, $this->getColorFromLastAvatar());
 	}
 
 	/**
-	 * @Then last avatar is a single :color color
 	 *
 	 * @param string $color
 	 * @param string $size
 	 */
+	#[Then('last avatar is a single :color color')]
 	public function lastAvatarIsASingleColor(string $color) {
 		$expectedColor = $this->hexStringToRgbColor($color);
 		$colorFromLastAvatar = $this->getColorFromLastAvatar();
@@ -183,14 +177,10 @@ trait Avatar {
 				// on solid color images the resizing can cause some small
 				// artifacts that slightly modify the color of certain pixels.
 				if (!$this->isSameColor($firstPixelColor, $currentPixelColor)) {
-					imagedestroy($image);
-
 					return null;
 				}
 			}
 		}
-
-		imagedestroy($image);
 
 		return $firstPixelColor;
 	}

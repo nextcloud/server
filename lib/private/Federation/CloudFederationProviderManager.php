@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Federation;
 
 use OC\AppFramework\Http;
@@ -51,7 +52,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		private LoggerInterface $logger,
 	) {
 	}
-
 
 	/**
 	 * Registers an callback function which must return an cloud federation provider

@@ -8,7 +8,7 @@
 		<NcSelectUsers
 			:modelValue="managerModel"
 			class="user-form__select"
-			:input-label="t('settings', 'Manager')"
+			:inputLabel="t('settings', 'Manager')"
 			:placeholder="t('settings', 'Search for a manager…')"
 			:options="managerOptions"
 			:loading="loading"
@@ -17,93 +17,89 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers'
+
+import { translate as t } from '@nextcloud/l10n'
+import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import logger from '../../logger.ts'
+import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 
-export default {
-	name: 'UserFormManager',
+const store = useStore()
 
-	components: {
-		NcSelectUsers,
-	},
+const formData = inject(formDataKey)!
 
-	inject: ['formData'],
+const possibleManagers = ref<Array<{ id: string, displayname?: string, email?: string }>>([])
+const loading = ref(false)
+let searchTimeout: ReturnType<typeof setTimeout> | undefined
+let managerModelCache: NcSelectUsersModel | undefined
 
-	data() {
-		return {
-			possibleManagers: [],
-			loading: false,
-			searchTimeout: null,
-		}
-	},
+// Cache by value so NcSelectUsers keeps a stable modelValue reference across re-renders.
+const managerModel = computed<NcSelectUsersModel | undefined>(() => {
+	const m = formData.manager
+	if (!m) {
+		return undefined
+	}
+	const id = typeof m === 'object' ? m.id : m
+	const displayName = typeof m === 'object' ? (m.displayname ?? m.id) : m
+	if (managerModelCache?.id === id && managerModelCache?.displayName === displayName) {
+		return managerModelCache
+	}
+	managerModelCache = { id, displayName }
+	return managerModelCache
+})
 
-	computed: {
-		/**
-		 * Map internal formData.manager to NcSelectUsersModel shape.
-		 * Cached to keep object identity stable across reads, so NcSelectUsers
-		 * doesn't see a fresh :modelValue on every parent re-render.
-		 */
+const managerOptions = computed<NcSelectUsersModel[]>(() => possibleManagers.value.map((u) => ({
+	id: u.id,
+	displayName: u.displayname ?? u.id,
+	subname: u.email ?? '',
+})))
 
-		managerModel() {
-			const m = this.formData.manager
-			if (!m) {
-				return null
-			}
-			const id = typeof m === 'object' ? m.id : m
-			const displayName = typeof m === 'object' ? (m.displayname ?? m.id) : m
-			if (this._managerModelCache?.id === id && this._managerModelCache?.displayName === displayName) {
-				return this._managerModelCache
-			}
-			// eslint-disable-next-line vue/no-side-effects-in-computed-properties
-			this._managerModelCache = { id, displayName }
-			return this._managerModelCache
-		},
+onBeforeUnmount(() => clearTimeout(searchTimeout))
 
-		/** Map API users to NcSelectUsersModel shape */
-		managerOptions() {
-			return this.possibleManagers.map((u) => ({
-				id: u.id,
-				displayName: u.displayname ?? u.id,
-				subname: u.email ?? '',
-			}))
-		},
-	},
+/**
+ * Write the selected manager back to formData.
+ *
+ * @param value The selected model, or null when cleared
+ */
+function onManagerChange(value: NcSelectUsersModel | NcSelectUsersModel[] | null) {
+	const manager = Array.isArray(value) ? value[0] : value
+	formData.manager = manager
+		? { id: manager.id, displayname: manager.displayName }
+		: ''
+}
 
-	beforeUnmount() {
-		clearTimeout(this.searchTimeout)
-	},
+/**
+ * Debounce the search so a 10-char query produces 1-2 requests, not 10.
+ *
+ * @param query The current search string
+ */
+function searchUserManager(query: string) {
+	clearTimeout(searchTimeout)
+	searchTimeout = setTimeout(() => fetchManagers(query), 200)
+}
 
-	methods: {
-		/** Map NcSelectUsersModel back to internal formData shape */
-		onManagerChange(value) {
-			this.formData.manager = value
-				? { id: value.id, displayname: value.displayName }
-				: ''
-		},
-
-		/** Debounce keystrokes so a 10-char query produces 1-2 requests, not 10. */
-		searchUserManager(query) {
-			clearTimeout(this.searchTimeout)
-			this.searchTimeout = setTimeout(() => this.fetchManagers(query), 200)
-		},
-
-		async fetchManagers(query) {
-			this.loading = true
-			try {
-				const response = await this.$store.dispatch('searchUsers', {
-					offset: 0,
-					limit: 10,
-					search: query,
-				})
-				const users = response?.data ? Object.values(response.data.ocs.data.users) : []
-				this.possibleManagers = users
-			} catch (error) {
-				logger.error('Failed to search user managers', { error })
-			} finally {
-				this.loading = false
-			}
-		},
-	},
+/**
+ * Fetch matching users to populate the manager dropdown.
+ *
+ * @param query The current search string
+ */
+async function fetchManagers(query: string) {
+	loading.value = true
+	try {
+		const response = await store.dispatch('searchUsers', {
+			offset: 0,
+			limit: 10,
+			search: query,
+		})
+		const users = response?.data ? Object.values(response.data.ocs.data.users) : []
+		possibleManagers.value = users as typeof possibleManagers.value
+	} catch (error) {
+		logger.error('Failed to search user managers', { error })
+	} finally {
+		loading.value = false
+	}
 }
 </script>

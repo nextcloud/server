@@ -39,9 +39,10 @@ export default class Share {
 		}
 		ocsData.attributes = ocsData.attributes ?? []
 
-		// Pre-declared so Vue 2 makes newPassword reactive at observation time,
+		// Pre-declared so Vue 2 makes these reactive at observation time,
 		// avoiding $set's property-addition path which races with async setters.
 		ocsData.newPassword = ocsData.newPassword ?? undefined
+		ocsData.send_password_by_talk = ocsData.send_password_by_talk ?? false
 
 		// store state
 		this._share = ocsData
@@ -372,6 +373,14 @@ export default class Share {
 	}
 
 	/**
+	 * Source name when this received share was renamed.
+	 * Empty when the recipient still sees the source name.
+	 */
+	get originalDisplayName(): string {
+		return this._share.original_displayname || ''
+	}
+
+	/**
 	 * Get the parent folder id if any
 	 */
 	get fileParent(): number {
@@ -422,7 +431,7 @@ export default class Share {
 		const hasDisabledDownload = (attribute) => {
 			return attribute.scope === 'permissions' && attribute.key === 'download' && attribute.value === false
 		}
-		return this.attributes.some(hasDisabledDownload)
+		return !this.attributes.some(hasDisabledDownload)
 	}
 
 	/**

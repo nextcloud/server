@@ -11,7 +11,6 @@ namespace OC\Core\Migrations;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\DB\Types;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -49,7 +48,6 @@ class Version27000Date20230309104325 extends SimpleMigrationStep {
 		// return $schema;
 		return null;
 	}
-
 
 	/**
 	 * @param IOutput $output

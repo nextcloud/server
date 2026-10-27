@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
@@ -38,6 +39,9 @@ use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_ADMINISTRATION)]
 class ApiController extends OCSController {
+	private const int SUPPORTED_APP_LEVEL = 300;
+
+	private const int OFFICIAL_APP_LEVEL = 200;
 
 	/** @var array */
 	private $allApps = [];
@@ -55,6 +59,7 @@ class ApiController extends OCSController {
 		private readonly Installer $installer,
 		private readonly IRegistry $subscriptionRegistry,
 		private readonly LoggerInterface $logger,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -129,11 +134,11 @@ class ApiController extends OCSController {
 
 			$appData['groups'] = $groups;
 			// analyze dependencies
-			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
+			$ignoreMax = in_array($appData['id'], $ignoreMaxApps, true);
 			$missing = $this->dependencyAnalyzer->analyze($appData, $ignoreMax);
 			$appData['missingDependencies'] = $missing;
 			$appData['isCompatible'] = $this->dependencyAnalyzer->isMarkedCompatible($appData);
-			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps());
+			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps(), true);
 
 			return $appData;
 		}, $apps);
@@ -310,27 +315,95 @@ class ApiController extends OCSController {
 	}
 
 	private function fetchApps(): void {
-		$appClass = new \OC_App();
-		$apps = $appClass->listAllApps();
-		foreach ($apps as $app) {
-			$app['installed'] = true;
+		$installedApps = $this->appManager->getAllAppsInAppsFolders();
+		//we don't want to show configuration for these
+		$alwaysEnabled = $this->appManager->getAlwaysEnabledApps();
+		$langCode = $this->l10nFactory->findLanguage();
+		$supportedApps = $this->subscriptionRegistry->delegateGetSupportedApps();
 
-			if (isset($app['screenshot'][0])) {
-				$appScreenshot = $app['screenshot'][0] ?? null;
+		foreach ($installedApps as $app) {
+			if (in_array($app, $alwaysEnabled, true)) {
+				continue;
+			}
+
+			$info = $this->appManager->getAppInfo($app, false, $langCode);
+			if (!is_array($info)) {
+				$this->logger->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
+				continue;
+			}
+
+			if (!isset($info['name'])) {
+				$this->logger->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
+				continue;
+			}
+
+			$enabled = $this->appConfig->getValueString($app, 'enabled', 'no');
+			$info['groups'] = null;
+			if ($enabled === 'yes') {
+				$active = true;
+			} elseif ($enabled === 'no') {
+				$active = false;
+			} else {
+				$active = true;
+				$info['groups'] = $enabled;
+			}
+
+			$info['active'] = $active;
+
+			if ($this->appManager->isShipped($app)) {
+				$info['internal'] = true;
+				$info['level'] = self::OFFICIAL_APP_LEVEL;
+				$info['removable'] = false;
+			} else {
+				$info['internal'] = false;
+				$info['removable'] = true;
+			}
+
+			if (in_array($app, $supportedApps, true)) {
+				$info['level'] = self::SUPPORTED_APP_LEVEL;
+			}
+
+			$info['icon'] = $this->appManager->getAppIcon($app, dark: true)
+				?? $this->appManager->getAppIcon($app);
+
+			// fix documentation
+			if (isset($info['documentation']) && is_array($info['documentation'])) {
+				foreach ($info['documentation'] as $key => $url) {
+					// If it is not an absolute URL we assume it is a key
+					// i.e. admin-ldap will get converted to go.php?to=admin-ldap
+					if (stripos($url, 'https://') !== 0 && stripos($url, 'http://') !== 0) {
+						$url = $this->urlGenerator->linkToDocs($url);
+					}
+
+					$info['documentation'][$key] = $url;
+				}
+			}
+
+			$info['license'] = $info['licence'];
+			$info['version'] = $this->appManager->getAppVersion($app);
+			$info['installed'] = true;
+
+			if (isset($info['screenshot'][0])) {
+				$appScreenshot = $info['screenshot'][0];
 				if (is_array($appScreenshot)) {
 					// Screenshot with thumbnail
 					$appScreenshot = $appScreenshot['@value'];
 				}
 
-				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
+				$info['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
 			}
 
-			$this->allApps[$app['id']] = $app;
+			$this->allApps[$info['id']] = $info;
 		}
 
 		$apps = $this->getAppsForCategory('');
-		$supportedApps = $this->subscriptionRegistry->delegateGetSupportedApps();
 		foreach ($apps as $app) {
+			if (in_array($app['id'], $alwaysEnabled, true)) {
+				// shipped apps are no longer published on the appstore
+				// so skip them to avoid confusion with outdated data
+				continue;
+			}
+
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
@@ -338,8 +411,8 @@ class ApiController extends OCSController {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
 			}
 
-			if (in_array($app['id'], $supportedApps)) {
-				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
+			if (in_array($app['id'], $supportedApps, true)) {
+				$this->allApps[$app['id']]['level'] = self::SUPPORTED_APP_LEVEL;
 			}
 		}
 
@@ -440,7 +513,6 @@ class ApiController extends OCSController {
 				$groups = $enabledValue;
 			}
 
-			$currentVersion = '';
 			if ($this->appManager->isEnabledForAnyone($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
@@ -456,7 +528,7 @@ class ApiController extends OCSController {
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => $this->appManager->isShipped($app['id']),
-				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps()),
+				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps(), true),
 				'version' => $currentVersion,
 				'types' => [],
 				'documentation' => [

@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\ConnectionActivityMiddleware;
 use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
@@ -145,9 +147,12 @@ class ConnectionFactory {
 				break;
 		}
 		$configuration = new Configuration();
+		$activityMiddleware = new ConnectionActivityMiddleware();
 		$configuration->setMiddlewares([
 			new UtcTimezoneMiddleware(),
+			$activityMiddleware,
 		]);
+		$connectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
@@ -205,7 +210,7 @@ class ConnectionFactory {
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
-			$connectionParams['driverOptions'] = $driverOptions;
+			$connectionParams['driverOptions'] = $driverOptions + ($connectionParams['driverOptions'] ?? []);
 		}
 
 		// set default table creation options

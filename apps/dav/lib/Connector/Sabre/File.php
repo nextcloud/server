@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
@@ -29,8 +29,10 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -206,8 +208,15 @@ class File extends Node implements IFile {
 				}
 			}
 
-			$lengthHeader = $this->request->getHeader('content-length');
-			$expected = $lengthHeader !== '' ? (int)$lengthHeader : null;
+			// Methods other than PUT carry no Content-Length describing the data written
+			// here: the chunked upload assembly is a MOVE or COPY with no body of its own.
+			$expected = null;
+			if ($this->request->getMethod() === 'PUT') {
+				$lengthHeader = $this->request->getHeader('content-length');
+				if ($lengthHeader !== '') {
+					$expected = (int)$lengthHeader;
+				}
+			}
 
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
@@ -263,7 +272,6 @@ class File extends Node implements IFile {
 			// compare expected and actual size
 			if ($expected !== null
 				&& $expected !== $count
-				&& $this->request->getMethod() === 'PUT'
 			) {
 				throw new BadRequest(
 					$this->l10n->t(
@@ -320,7 +328,14 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
+						Server::get(LoggerInterface::class)
+							->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', [
+								'app' => 'webdav',
+								'source_storage' => $partStorage->getId(),
+								'target_storage' => $storage->getId(),
+								'source_internal_path' => $internalPartPath,
+								'target_internal_path' => $internalPath,
+							]);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
@@ -334,56 +349,64 @@ class File extends Node implements IFile {
 				}
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
-
-			try {
-				$this->changeLock(ILockingProvider::LOCK_SHARED);
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-			}
-
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
-					$this->header('X-OC-MTime: accepted');
-				}
-			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
-
-			// allow sync clients to send the creation time along in a header
-			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
-			if ($ctimeHeader) {
-				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdate['creation_time'] = $ctime;
-				$this->header('X-OC-CTime: accepted');
-			}
-
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
-
-			if ($view) {
-				$this->emitPostHooks($exists);
-			}
-
-			$this->refreshInfo();
-
-			$checksumHeader = $this->request->getHeader('oc-checksum');
-			if ($checksumHeader) {
-				$checksum = trim($checksumHeader);
-				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->setChecksum('');
-			}
+			$this->finalizeUpload($storage, $internalPath, $exists, $view);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to check file size: %1$s', [$e->getMessage()]), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function finalizeUpload(IStorage $storage, string $internalPath, bool $exists, ?View $view): void {
+		// Since we skipped the view for the final publish step, finalize the file
+		// state explicitly here: update cache/bookkeeping, persist metadata, then
+		// downgrade to a shared lock before emitting post-write hooks so listeners
+		// can still access the file.
+		$storage->getUpdater()->update($internalPath);
+
+		$fileInfoUpdate = [
+			'upload_time' => time(),
+		];
+
+		// allow sync clients to send the mtime along in a header
+		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+		if ($mtimeHeader !== '') {
+			$mtime = $this->sanitizeMtime($mtimeHeader);
+			if ($this->fileView->touch($this->path, $mtime)) {
+				$this->header('X-OC-MTime: accepted');
+			}
+		}
+
+		// allow sync clients to send the creation time along in a header
+		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+		if ($ctimeHeader !== '') {
+			$ctime = $this->sanitizeMtime($ctimeHeader);
+			$fileInfoUpdate['creation_time'] = $ctime;
+			$this->header('X-OC-CTime: accepted');
+		}
+
+		// Persist checksum before post hooks so observers see fully finalized metadata.
+		$checksumHeader = $this->request->getHeader('oc-checksum');
+		if ($checksumHeader) {
+			$fileInfoUpdate['checksum'] = trim($checksumHeader);
+		} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			$fileInfoUpdate['checksum'] = '';
+		}
+
+		$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+		$this->refreshInfo();
+
+		// Downgrade to shared lock before post hooks so legacy hook consumers can
+		// still access the file during post_write.
+		try {
+			$this->changeLock(ILockingProvider::LOCK_SHARED);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+
+		if ($view) {
+			$this->emitPostHooks($exists);
+		}
 	}
 
 	private function getPartFileBasePath($path) {
@@ -621,7 +644,7 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
-		if ($e instanceof Files\NotEnoughSpaceException) {
+		if ($e instanceof NotEnoughSpaceException) {
 			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
 		}
 

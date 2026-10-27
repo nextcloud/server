@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -19,38 +17,39 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Preview\IProviderV2;
 
 /**
- * This class provides functions to render and show thumbnails and previews of files
+ * Public interface for discovering preview providers and generating file previews.
+ *
+ * ProviderClosure lazily resolves a preview provider and may return false if it
+ * cannot be loaded.
+ *
  * @since 6.0.0
  * @psalm-type ProviderClosure = Closure():(IProviderV2|false)
  */
 #[Consumable(since: '6.0.0')]
 interface IPreview {
 	/**
+	 * Preview scaling mode that fills the requested dimensions.
+	 *
 	 * @since 11.0.0
 	 */
 	public const MODE_FILL = 'fill';
 
 	/**
+	 * Preview scaling mode that covers the requested dimensions.
+	 *
 	 * @since 11.0.0
 	 */
 	public const MODE_COVER = 'cover';
 
 	/**
-	 * In order to improve lazy loading a closure can be registered which will be
-	 * called in case preview providers are actually requested
+	 * Returns the registered preview providers grouped by supported mime-type regex.
 	 *
-	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
-	 * @param ProviderClosure $callable
-	 * @since 8.1.0
-	 * @see \OCP\AppFramework\Bootstrap\IRegistrationContext::registerPreviewProvider
+	 * Each value is a list of closures that create preview providers when invoked,
+	 * not a list of already instantiated provider objects.
 	 *
-	 * @deprecated 23.0.0 Register your provider via the IRegistrationContext when booting the app
-	 */
-	public function registerProvider(string $mimeTypeRegex, Closure $callable): void;
-
-	/**
-	 * Get all providers
-	 * @return array<string, list<ProviderClosure>>
+	 * The provider list is built on demand and is empty when previews are disabled.
+	 *
+	 * @return array<string, list<ProviderClosure>> Map of mime-type regex to provider-creating closures
 	 * @since 8.1.0
 	 */
 	public function getProviders(): array;
@@ -79,17 +78,25 @@ interface IPreview {
 	public function getPreview(File $file, int $width = -1, int $height = -1, bool $crop = false, string $mode = IPreview::MODE_FILL, ?string $mimeType = null, bool $cacheResult = true): ISimpleFile;
 
 	/**
-	 * Returns true if the passed mime type is supported
-	 * @param string $mimeType A glob
+	 * Returns whether any registered preview provider supports the given mime type.
+	 *
+	 * This checks the mime type against the providers' registered mime-type regexes.
+	 * It does not guarantee that preview generation will succeed for a specific file.
+	 *
+	 * @param string $mimeType Mime type string to test, for example "image/png"
 	 * @since 6.0.0
 	 */
 	public function isMimeSupported(string $mimeType = '*'): bool;
 
 	/**
-	 * Check if a preview can be generated for a file
+	 * Returns whether a preview can currently be generated for the given file.
+	 *
+	 * This checks whether the effective mime type is supported, whether previews
+	 * are allowed on the file's mount, and whether at least one matching provider is
+	 * available for the file in the current environment.
 	 *
 	 * @param FileInfo $file
-	 * @param string|null $mimeType To force a given mimetype for the file
+	 * @param string|null $mimeType Optional mime type override to use instead of $file->getMimeType()
 	 * @since 8.0.0
 	 * @since 32.0.0 - isAvailable($mimeType) added the $mimeType argument to the signature
 	 */

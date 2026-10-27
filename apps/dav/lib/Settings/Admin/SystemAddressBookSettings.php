@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Settings\Admin;
 
 use OCP\IL10N;
@@ -27,12 +28,12 @@ class SystemAddressBookSettings implements IDeclarativeSettingsForm {
 			'section_id' => 'groupware',
 			'storage_type' => DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL,
 			'title' => $this->l->t('System Address Book'),
-			'description' => $this->l->t('The system address book contains contact information for all users in your instance.'),
+			'description' => $this->l->t('The system address book contains contact information for all users in your instance. The system address book is required for the searching and auto-completion of users.'),
 
 			'fields' => [
 				[
 					'id' => 'system_addressbook_enabled',
-					'title' => $this->l->t('Enable System Address Book'),
+					'title' => $this->l->t('Enable System Address Book in DAV clients'),
 					'type' => DeclarativeSettingsTypes::CHECKBOX,
 					'default' => false,
 					'options' => [],

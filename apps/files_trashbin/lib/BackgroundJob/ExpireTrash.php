@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\BackgroundJob;
 
 use OCA\Files_Trashbin\AppInfo\Application;
@@ -26,8 +27,8 @@ use Psr\Log\LoggerInterface;
 class ExpireTrash extends TimedJob {
 	public const TOGGLE_CONFIG_KEY_NAME = 'background_job_expire_trash';
 	public const OFFSET_CONFIG_KEY_NAME = 'background_job_expire_trash_offset';
-	private const THIRTY_MINUTES = 30 * 60;
-	private const USER_BATCH_SIZE = 10;
+	private const int THIRTY_MINUTES = 30 * 60;
+	private const int USER_BATCH_SIZE = 10;
 
 	public function __construct(
 		private readonly IAppConfig $appConfig,
@@ -89,7 +90,7 @@ class ExpireTrash extends TimedJob {
 		$this->setupManager->tearDown();
 		$this->setupManager->setupForUser($user);
 
-		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->getOrCreateFolder('files_trashbin');
 		if (!$folder instanceof Folder) {
 			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
 		}

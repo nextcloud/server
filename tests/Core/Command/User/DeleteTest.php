@@ -40,7 +40,6 @@ class DeleteTest extends TestCase {
 		$this->command = new Delete($userManager);
 	}
 
-
 	public static function validUserLastSeen(): array {
 		return [
 			[true, 'The specified user was deleted'],

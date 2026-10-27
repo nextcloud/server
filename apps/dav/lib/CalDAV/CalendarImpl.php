@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use Generator;
@@ -28,9 +29,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\ParseException;
-use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled, ICalendarIsPublic {
@@ -42,8 +41,8 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	) {
 	}
 
-	private const DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
-	private const DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
+	private const string DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
+	private const string DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
 
 	/**
 	 * @return string defining the technical unique key
@@ -68,6 +67,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 */
 	public function getPrincipalUri(): string {
 		return $this->calendarInfo['principaluri'];
+	}
+
+	/**
+	 * The principal URI of the calendar owner, which for a calendar shared with a principal is not
+	 * that principal.
+	 */
+	public function getOwnerPrincipalUri(): string {
+		return $this->calendar->getOwner() ?? $this->getPrincipalUri();
 	}
 
 	/**

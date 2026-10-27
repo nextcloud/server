@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Entity;
 
 use OC\Files\Config\UserMountCache;
@@ -32,7 +33,7 @@ use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
 class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
-	private const EVENT_NAMESPACE = '\OCP\Files::';
+	private const string EVENT_NAMESPACE = '\OCP\Files::';
 	protected ?string $eventName = null;
 	protected ?Event $event = null;
 	private ?Node $node = null;

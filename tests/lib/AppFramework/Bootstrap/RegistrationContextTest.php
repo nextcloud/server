@@ -11,39 +11,33 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
-	private LoggerInterface&MockObject $logger;
 	private RegistrationContext $context;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->context = new RegistrationContext(
-			$this->logger
-		);
+		$this->context = $this->createInstanceWithMocks(RegistrationContext::class);
 	}
 
 	public function testRegisterCapability(): void {
 		$app = $this->createMock(App::class);
 		$name = 'abc';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
 			->method('registerCapability')
 			->with($name);
-		$this->logger->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerCapability($name);
@@ -59,7 +53,7 @@ class RegistrationContextTest extends TestCase {
 		$dispatcher->expects($this->once())
 			->method('addServiceListener')
 			->with($event, $service, 0);
-		$this->logger->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerEventListener($event, $service);
@@ -73,13 +67,13 @@ class RegistrationContextTest extends TestCase {
 		$factory = function () {
 			return 'def';
 		};
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
 			->method('registerService')
 			->with($service, $factory, $shared);
-		$this->logger->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerService($service, $factory, $shared);
@@ -92,13 +86,13 @@ class RegistrationContextTest extends TestCase {
 		$app = $this->createMock(App::class);
 		$alias = 'abc';
 		$target = 'def';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
 			->method('registerAlias')
 			->with($alias, $target);
-		$this->logger->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerServiceAlias($alias, $target);
@@ -111,13 +105,13 @@ class RegistrationContextTest extends TestCase {
 		$app = $this->createMock(App::class);
 		$name = 'abc';
 		$value = 'def';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
 			->method('registerParameter')
 			->with($name, $value);
-		$this->logger->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerParameter($name, $value);

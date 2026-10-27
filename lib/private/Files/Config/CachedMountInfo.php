@@ -5,12 +5,15 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Config;
 
 use OC\Files\Filesystem;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUser;
+use OCP\Server;
 
 class CachedMountInfo implements ICachedMountInfo {
 	protected string $key;
@@ -58,8 +61,8 @@ class CachedMountInfo implements ICachedMountInfo {
 	public function getMountPointNode(): ?Node {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
-		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());
-		return $userNode->getParent()->getFirstNodeById($this->getRootId());
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->getUser()->getUID());
+		return $userFolder->getParent()->getFirstNodeById($this->getRootId());
 	}
 
 	/**

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Mail;
 
 use OCP\Defaults;
@@ -211,7 +212,7 @@ class Mailer implements IMailer {
 		try {
 			$mailer->send($message->getSymfonyEmail());
 		} catch (TransportExceptionInterface $e) {
-			$logMessage = sprintf('Sending mail to "%s" with subject "%s" failed', print_r($message->getTo(), true), $message->getSubject());
+			$logMessage = sprintf('Sending mail to "%s" with subject "%s" failed', json_encode($message->getTo()), $message->getSubject());
 			$this->logger->error($logMessage, ['app' => 'core', 'exception' => $e]);
 			if ($debugMode) {
 				$this->logger->debug($e->getDebug(), ['app' => 'core']);
@@ -231,7 +232,7 @@ class Mailer implements IMailer {
 		}
 
 		// Debugging logging
-		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
+		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', json_encode($message->getTo()), $message->getSubject());
 		$this->logger->debug($logMessage, ['app' => 'core']);
 
 		return [];

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\SystemTags\Search;
 
 use OC\Files\Search\SearchComparison;
@@ -102,7 +103,7 @@ class TagSearchProvider implements IProvider {
 			$thumbnailUrl = '';
 			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
 				'view' => 'tags',
-			]) . '?dir=' . $tag->getId();
+			]) . '?dir=/' . $tag->getId();
 			$searchResultEntry = new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),

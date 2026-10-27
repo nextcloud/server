@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Mail\Message;
@@ -156,6 +157,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l->method('getLanguageCode')->willReturn('de');
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -175,6 +177,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$this->mailer
 			->expects($this->once())
 			->method('createEMailTemplate')

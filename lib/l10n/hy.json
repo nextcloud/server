@@ -5,9 +5,6 @@
     "today" : "այսօր",
     "seconds ago" : "վրկ. առաջ",
     "__language_name__" : "Հայերեն",
-    "Settings" : "կարգավորումներ",
-    "Log out" : "Դուրս գալ",
-    "Accounts" : "Accounts",
     "Email" : "Էլ․փոստ",
     "Address" : "Հասցե",
     "About" : "էջի վերաբերյալ",
@@ -56,6 +53,9 @@
     "Oct." : "Հոկ.",
     "Nov." : "Նոյ.",
     "Dec." : "Դեկ.",
-    "Translate" : "Թարգմանել"
+    "Translate" : "Թարգմանել",
+    "Settings" : "կարգավորումներ",
+    "Log out" : "Դուրս գալ",
+    "Accounts" : "Accounts"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

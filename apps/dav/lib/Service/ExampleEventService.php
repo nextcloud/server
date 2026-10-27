@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Exception\ExampleEventException;
 use OCA\DAV\Model\ExampleEvent;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -24,9 +25,9 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 
 class ExampleEventService {
-	private const FOLDER_NAME = 'example_event';
-	private const FILE_NAME = 'example_event.ics';
-	private const ENABLE_CONFIG_KEY = 'create_example_event';
+	private const string FOLDER_NAME = 'example_event';
+	private const string FILE_NAME = 'example_event.ics';
+	private const string ENABLE_CONFIG_KEY = 'create_example_event';
 
 	public function __construct(
 		private readonly CalDavBackend $calDavBackend,
@@ -105,7 +106,7 @@ EOF);
 
 		try {
 			return $icsFile->getContent();
-		} catch (NotFoundException|NotPermittedException $e) {
+		} catch (NotFoundException|NotPermittedException|GenericFileException $e) {
 			throw new ExampleEventException(
 				'Failed to read custom example event',
 				0,

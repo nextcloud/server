@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
@@ -59,7 +60,6 @@ class CalendarImplTest extends \Test\TestCase {
 			'RSVP' => 'TRUE'
 		]);
 	}
-
 
 	public function testGetKey(): void {
 		$this->assertEquals($this->calendarImpl->getKey(), '123');

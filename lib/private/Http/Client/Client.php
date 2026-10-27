@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -209,7 +210,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function get(string $uri, array $options = []): IResponse {
+	public function get(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
@@ -241,7 +247,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function head(string $uri, array $options = []): IResponse {
+	public function head(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -277,7 +288,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function post(string $uri, array $options = []): IResponse {
+	public function post(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 
 		if (isset($options['body']) && is_array($options['body'])) {
@@ -319,7 +335,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function put(string $uri, array $options = []): IResponse {
+	public function put(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -355,7 +376,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function patch(string $uri, array $options = []): IResponse {
+	public function patch(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('patch', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -391,7 +417,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function delete(string $uri, array $options = []): IResponse {
+	public function delete(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -427,7 +458,12 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function options(string $uri, array $options = []): IResponse {
+	public function options(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
@@ -481,7 +517,13 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	#[\Override]
-	public function request(string $method, string $uri, array $options = []): IResponse {
+	public function request(
+		string $method,
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
@@ -530,7 +572,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function getAsync(string $uri, array $options = []): IPromise {
+	public function getAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('get', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -560,7 +607,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function headAsync(string $uri, array $options = []): IPromise {
+	public function headAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('head', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -595,7 +647,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function postAsync(string $uri, array $options = []): IPromise {
+	public function postAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 
 		if (isset($options['body']) && is_array($options['body'])) {
@@ -635,7 +692,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function putAsync(string $uri, array $options = []): IPromise {
+	public function putAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('put', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -670,7 +732,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function deleteAsync(string $uri, array $options = []): IPromise {
+	public function deleteAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('delete', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
@@ -705,7 +772,12 @@ class Client implements IClient {
 	 * @return IPromise
 	 */
 	#[\Override]
-	public function optionsAsync(string $uri, array $options = []): IPromise {
+	public function optionsAsync(
+		#[\SensitiveParameter]
+		string $uri,
+		#[\SensitiveParameter]
+		array $options = [],
+	): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('options', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);

@@ -10,7 +10,7 @@ SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
-path = ["img/app.svg"]
+path = ["img/app.svg", "img/app-dark.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2018-2024 Google LLC"
 SPDX-License-Identifier = "Apache-2.0"

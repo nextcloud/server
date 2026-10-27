@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
 
 class ExporterManager {
 	private array $skippedClasses;
-	private const XML_ENTRY = 'openmetrics';
+	private const string XML_ENTRY = 'openmetrics';
 
 	public function __construct(
 		private IAppManager $appManager,

@@ -12,7 +12,6 @@ namespace OC\Preview\Storage;
 
 use Icewind\Streams\CountWrapper;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\Files\NotPermittedException;
@@ -57,6 +56,10 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			$store->writeObject($urn, $countStream);
 		} catch (\Exception $exception) {
 			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
+		} finally {
+			if (is_resource($countStream)) {
+				fclose($countStream);
+			}
 		}
 		return $size;
 	}
@@ -95,10 +98,17 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		// Just set the Preview::bucket and Preview::objectStore
-		$this->getObjectStoreInfoForNewPreview($preview, migration: true);
-		$this->previewMapper->update($preview);
+	public function migratePreviews(array $previews): void {
+		// The objects keep their urn, only the location of the previews has to be set.
+		$locationIds = [];
+		foreach ($previews as $preview) {
+			[$objectStoreName, $config] = $this->getConfigForNewPreview($preview, migration: true);
+			$bucketName = $config['arguments']['bucket'];
+			$locationIds[$objectStoreName][$bucketName] ??= $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+			$preview->setLocationId($locationIds[$objectStoreName][$bucketName]);
+			$preview->setObjectStoreName($objectStoreName);
+			$preview->setBucketName($bucketName);
+		}
 	}
 
 	/**
@@ -123,7 +133,27 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	/**
 	 * @return ObjectStoreDefinition
 	 */
-	private function getObjectStoreInfoForNewPreview(Preview $preview, bool $migration = false): array {
+	private function getObjectStoreInfoForNewPreview(Preview $preview): array {
+		[$objectStoreName, $config] = $this->getConfigForNewPreview($preview);
+		$bucketName = $config['arguments']['bucket'];
+
+		// Get the locationId corresponding to the bucketName and objectStoreName, this will create
+		// a new one, if no matching location is found in the DB.
+		$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+		$preview->setLocationId($locationId);
+		$preview->setObjectStoreName($objectStoreName);
+		$preview->setBucketName($bucketName);
+
+		return [
+			'urn' => $this->getUrn($preview, $config),
+			'store' => $this->getObjectStore($objectStoreName, $config),
+		];
+	}
+
+	/**
+	 * @return array{0: string, 1: ObjectStoreConfig} the object store name and its configuration with the bucket of the preview
+	 */
+	private function getConfigForNewPreview(Preview $preview, bool $migration = false): array {
 		// When migrating old previews, use the 'root' object store configuration
 		$config = $this->objectStoreConfig->getObjectStoreConfiguration($migration ? 'root' : 'preview');
 		$objectStoreName = $this->objectStoreConfig->resolveAlias($migration ? 'root' : 'preview');
@@ -142,17 +172,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		}
 		$config['arguments']['bucket'] = $bucketName;
 
-		// Get the locationId corresponding to the bucketName and objectStoreName, this will create
-		// a new one, if no matching location is found in the DB.
-		$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
-		$preview->setLocationId($locationId);
-		$preview->setObjectStoreName($objectStoreName);
-		$preview->setBucketName($bucketName);
-
-		return [
-			'urn' => $this->getUrn($preview, $config),
-			'store' => $this->getObjectStore($objectStoreName, $config),
-		];
+		return [$objectStoreName, $config];
 	}
 
 	private function getObjectStore(string $objectStoreName, array $config): IObjectStore {
@@ -166,6 +186,13 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		}
 
 		return $this->objectStoreCache[$objectStoreName][$bucketName];
+	}
+
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		// The urn embeds the preview id, so this object belongs to this entity
+		// alone and can be removed safely.
+		$this->deletePreview($preview);
 	}
 
 	public function getUrn(Preview $preview, array $config): string {

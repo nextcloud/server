@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OC\Comments\Comment;
@@ -137,7 +138,6 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-
 	public function testCreateCommentInvalidObject(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -218,7 +218,6 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$this->plugin->httpPost($request, $response);
 	}
-
 
 	public function testCreateCommentInvalidActor(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
@@ -307,7 +306,6 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-
 	public function testCreateCommentUnsupportedMediaType(): void {
 		$this->expectException(\Sabre\DAV\Exception\UnsupportedMediaType::class);
 
@@ -394,7 +392,6 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$this->plugin->httpPost($request, $response);
 	}
-
 
 	public function testCreateCommentInvalidPayload(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
@@ -489,7 +486,6 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-
 	public function testCreateCommentMessageTooLong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
@@ -583,7 +579,6 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-
 	public function testOnReportInvalidNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);
 
@@ -605,7 +600,6 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, [], '/' . $path);
 	}
-
 
 	public function testOnReportInvalidReportName(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC;
 
 use Closure;
@@ -23,7 +24,6 @@ class InitialStateService implements IInitialStateService {
 
 	/** @var Closure[][] */
 	private array $lazyStates = [];
-
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -94,7 +94,7 @@ class InitialStateService implements IInitialStateService {
 		$initialStates = $context->getInitialStates();
 		foreach ($initialStates as $initialState) {
 			try {
-				$provider = $this->container->query($initialState->getService());
+				$provider = $this->container->get($initialState->getService());
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
 				$this->logger->error('Could not load initial state provider dynamically: ' . $e->getMessage(), [

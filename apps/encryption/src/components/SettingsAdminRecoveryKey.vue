@@ -66,8 +66,8 @@ async function onSubmit() {
 <template>
 	<form ref="form" @submit.prevent="onSubmit">
 		<NcFormGroup
-			:label="recoveryEnabled ? t('encryption', 'Disable recovery key') : t('encryption', 'Enable recovery key')"
-			:description="t('encryption', 'The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten.')">
+			:label="recoveryEnabled ? t('encryption', 'Disable administrator recovery key') : t('encryption', 'Enable administrator recovery key')"
+			:description="t('encryption', 'Controls whether the administrator recovery key is available to help restore access to encrypted files if an account login password is lost. Each account must also opt in to recovery separately in its personal settings.')">
 			<NcPasswordField
 				v-model="password"
 				required
@@ -82,7 +82,7 @@ async function onSubmit() {
 				:label="t('encryption', 'Repeat recovery key password')" />
 
 			<NcButton type="submit" :variant="recoveryEnabled ? 'error' : 'primary'">
-				{{ recoveryEnabled ? t('encryption', 'Disable recovery key') : t('encryption', 'Enable recovery key') }}
+				{{ recoveryEnabled ? t('encryption', 'Disable administrator recovery key') : t('encryption', 'Enable administrator recovery key') }}
 			</NcButton>
 
 			<NcNoteCard v-if="hasError" type="error">

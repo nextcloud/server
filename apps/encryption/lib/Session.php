@@ -87,14 +87,21 @@ class Session {
 	 *
 	 * @note this should only be set on login
 	 */
-	public function setPrivateKey(string $key): void {
+	public function setPrivateKey(
+		#[\SensitiveParameter]
+		string $key,
+	): void {
 		$this->session->set('privateKey', $key);
 	}
 
 	/**
 	 * store data needed for the decrypt all operation in the session
 	 */
-	public function prepareDecryptAll(string $user, string $key): void {
+	public function prepareDecryptAll(
+		string $user,
+		#[\SensitiveParameter]
+		string $key,
+	): void {
 		$this->session->set('decryptAll', true);
 		$this->session->set('decryptAllKey', $key);
 		$this->session->set('decryptAllUid', $user);

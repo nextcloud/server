@@ -6,11 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -40,13 +42,9 @@ class HelpController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @return TemplateResponse
-	 *
-	 * @NoSubAdminRequired
-	 */
 	#[NoCSRFRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function help(string $mode = 'user'): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');
 		$pageTitle = $this->l10n->t('Administrator documentation');

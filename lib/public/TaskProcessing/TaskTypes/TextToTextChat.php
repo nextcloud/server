@@ -37,7 +37,6 @@ class TextToTextChat implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 30.0.0

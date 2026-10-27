@@ -37,7 +37,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function find(int $id): Task {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		return $this->findEntity($qb);
@@ -53,7 +53,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findByIdAndUser(int $id, ?string $userId): Task {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		if ($userId === null) {
@@ -73,7 +73,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)))
 			->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));

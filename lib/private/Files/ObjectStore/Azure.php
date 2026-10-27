@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -125,7 +126,7 @@ class Azure implements IObjectStore {
 	}
 
 	#[\Override]
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		return null;
 	}
 }

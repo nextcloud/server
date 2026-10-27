@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCA\Comments\Listener;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
@@ -61,7 +60,7 @@ class CommentsEventListener implements IEventListener {
 			CommentsEvent::EVENT_UPDATE,
 			CommentsEvent::EVENT_DELETE,
 		];
-		if (in_array($eventType, $applicableEvents)) {
+		if (in_array($eventType, $applicableEvents, true)) {
 			$this->notificationHandler($event);
 			return;
 		}

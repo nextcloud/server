@@ -99,7 +99,8 @@
                             "webdav-root",
                             "reference-api",
                             "reference-regex",
-                            "mod-rewrite-working"
+                            "mod-rewrite-working",
+                            "previews"
                         ],
                         "properties": {
                             "pollinterval": {
@@ -117,6 +118,30 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "previews": {
+                                "type": "object",
+                                "required": [
+                                    "enabled_providers",
+                                    "max_width",
+                                    "max_height"
+                                ],
+                                "properties": {
+                                    "enabled_providers": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "max_width": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_height": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
                             },
                             "user": {
                                 "type": "object",
@@ -263,7 +288,63 @@
                         "type": "string"
                     },
                     "type": {
+                        "type": "string",
+                        "enum": [
+                            "link"
+                        ]
+                    },
+                    "name": {
                         "type": "string"
+                    },
+                    "app": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "classes": {
+                        "type": "string"
+                    },
+                    "unread": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "NavigationSettingsEntry": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "href",
+                    "icon",
+                    "type",
+                    "name",
+                    "active",
+                    "classes",
+                    "unread"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "href": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "settings"
+                        ]
                     },
                     "name": {
                         "type": "string"
@@ -664,7 +745,8 @@
                     "endedAt",
                     "allowCleanup",
                     "includeWatermark",
-                    "userFacingErrorMessage"
+                    "userFacingErrorMessage",
+                    "preferStreaming"
                 ],
                 "properties": {
                     "id": {
@@ -745,6 +827,9 @@
                     "userFacingErrorMessage": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "preferStreaming": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -1639,7 +1724,8 @@
                                 "properties": {
                                     "password": {
                                         "type": "string",
-                                        "description": "The password of the user"
+                                        "description": "The password of the user",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -1687,7 +1773,8 @@
                                                     "properties": {
                                                         "lastLogin": {
                                                             "type": "integer",
-                                                            "format": "int64"
+                                                            "format": "int64",
+                                                            "minimum": 1
                                                         }
                                                     }
                                                 }
@@ -1761,7 +1848,6 @@
             "get": {
                 "operationId": "app_password-get-app-password-with-one-time-password",
                 "summary": "Get app password with one-time password",
-                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_password"
                 ],
@@ -1820,7 +1906,8 @@
                                                     ],
                                                     "properties": {
                                                         "apppassword": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "minLength": 1
                                                         }
                                                     }
                                                 }
@@ -1936,7 +2023,7 @@
                     {
                         "name": "sorter",
                         "in": "query",
-                        "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\"",
+                        "description": "can be piped, top priority first, e.g.: \"commenters|share-recipients\"",
                         "schema": {
                             "type": "string",
                             "nullable": true,
@@ -1952,7 +2039,8 @@
                             "default": [],
                             "items": {
                                 "type": "integer",
-                                "format": "int64"
+                                "format": "int64",
+                                "minimum": 0
                             }
                         }
                     },
@@ -1963,7 +2051,19 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 10
+                            "default": 10,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0,
+                            "minimum": 0
                         }
                     },
                     {
@@ -1980,6 +2080,13 @@
                 "responses": {
                     "200": {
                         "description": "Autocomplete results returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3503,7 +3610,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/NavigationEntry"
+                                                        "$ref": "#/components/schemas/NavigationSettingsEntry"
                                                     }
                                                 }
                                             }
@@ -5094,6 +5201,11 @@
                                         "type": "boolean",
                                         "default": true,
                                         "description": "Whether to include a watermark in the output file or not"
+                                    },
+                                    "preferStreaming": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to prefer getting a progressive output from the provider or not"
                                     }
                                 }
                             }
@@ -6246,6 +6358,220 @@
                     },
                     "404": {
                         "description": "Task not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/taskprocessing/tasks/{taskId}/queue_position": {
+            "get": {
+                "operationId": "task_processing_api-get-task-queue-position",
+                "summary": "Get a task's position in the queue",
+                "tags": [
+                    "task_processing_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "The id of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The position was found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Task not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "412": {
+                        "description": "The task is not scheduled",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9025,7 +9351,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -9049,6 +9376,15 @@
                         "schema": {
                             "type": "boolean",
                             "default": false
+                        }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     }
                 ],
@@ -9128,7 +9464,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -9152,6 +9489,15 @@
                         "schema": {
                             "type": "boolean",
                             "default": false
+                        }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     }
                 ],
@@ -9755,7 +10101,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -9765,7 +10112,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -9896,10 +10244,11 @@
                         "name": "fileId",
                         "in": "query",
                         "description": "ID of the file",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": -1
+                            "minimum": 1
                         }
                     },
                     {
@@ -9909,7 +10258,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -9919,7 +10269,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -10453,6 +10804,11 @@
                                         "type": "boolean",
                                         "default": true,
                                         "description": "Whether to include a watermark in the output file or not"
+                                    },
+                                    "preferStreaming": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to prefer getting a progressive output from the provider or not"
                                     }
                                 }
                             }
@@ -11815,6 +12171,240 @@
                                         "nullable": true,
                                         "default": null,
                                         "description": "An error message that will be shown to the user"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "description": "The id of the task",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Result updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "task"
+                                                    ],
+                                                    "properties": {
+                                                        "task": {
+                                                            "$ref": "#/components/schemas/TaskProcessingTask"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Task not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Logged in account must be an admin",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/taskprocessing/tasks_provider/{taskId}/stream-result": {
+            "post": {
+                "operationId": "task_processing_api-set-intermediate-result",
+                "summary": "Sets the task intermediate result while it is running",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "task_processing_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "output"
+                                ],
+                                "properties": {
+                                    "output": {
+                                        "type": "object",
+                                        "description": "The intermediate task output, files are represented by their IDs",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
                                     }
                                 }
                             }

@@ -6,7 +6,6 @@
 import type { FileSource, SelectionStore } from '../types.ts'
 
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export const useSelectionStore = defineStore('selection', {
 	state: () => ({
@@ -22,7 +21,7 @@ export const useSelectionStore = defineStore('selection', {
 		 * @param selection
 		 */
 		set(selection = [] as FileSource[]) {
-			Vue.set(this, 'selected', [...new Set(selection)])
+			this.selected = [...new Set(selection)]
 		},
 
 		/**
@@ -32,17 +31,17 @@ export const useSelectionStore = defineStore('selection', {
 		 */
 		setLastIndex(lastSelectedIndex = null as number | null) {
 			// Update the last selection if we provided a new selection starting point
-			Vue.set(this, 'lastSelection', lastSelectedIndex ? this.selected : [])
-			Vue.set(this, 'lastSelectedIndex', lastSelectedIndex)
+			this.lastSelection = lastSelectedIndex ? this.selected : []
+			this.lastSelectedIndex = lastSelectedIndex
 		},
 
 		/**
 		 * Reset the selection
 		 */
 		reset() {
-			Vue.set(this, 'selected', [])
-			Vue.set(this, 'lastSelection', [])
-			Vue.set(this, 'lastSelectedIndex', null)
+			this.selected = []
+			this.lastSelection = []
+			this.lastSelectedIndex = null
 		},
 	},
 })

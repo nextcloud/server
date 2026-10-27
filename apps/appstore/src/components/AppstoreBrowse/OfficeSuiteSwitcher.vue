@@ -32,7 +32,7 @@ function getInitialSuite() {
 			return suite.id
 		}
 	}
-	return null
+	return OFFICE_SUITES.find((s) => s.isPrimary)?.id ?? null
 }
 
 /**

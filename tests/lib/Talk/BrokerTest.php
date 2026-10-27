@@ -23,27 +23,13 @@ use RuntimeException;
 use Test\TestCase;
 
 class BrokerTest extends TestCase {
-	private Coordinator $coordinator;
-
-	private ContainerInterface $container;
-
-	private LoggerInterface $logger;
-
 	private Broker $broker;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(ContainerInterface::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->broker = new Broker(
-			$this->coordinator,
-			$this->container,
-			$this->logger,
-		);
+		$this->broker = $this->createInstanceWithMocks(Broker::class);
 	}
 
 	public function testHasNoBackendCalledTooEarly(): void {
@@ -53,7 +39,7 @@ class BrokerTest extends TestCase {
 	}
 
 	public function testHasNoBackend(): void {
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($this->createMock(RegistrationContext::class));
 
@@ -65,16 +51,16 @@ class BrokerTest extends TestCase {
 	public function testHasFaultyBackend(): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->willThrowException(new QueryException());
-		$this->logger->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 
 		self::assertFalse(
@@ -85,14 +71,14 @@ class BrokerTest extends TestCase {
 	public function testHasBackend(): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$talkService = $this->createMock(ITalkBackend::class);
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with($fakeTalkServiceClass)
 			->willReturn($talkService);
@@ -103,23 +89,22 @@ class BrokerTest extends TestCase {
 	}
 
 	public function testNewConversationOptions(): void {
-		$this->broker->newConversationOptions();
+		$options = $this->broker->newConversationOptions();
 
-		// Nothing to assert
-		$this->addToAssertionCount(1);
+		$this->assertInstanceOf(IConversationOptions::class, $options);
 	}
 
 	public function testCreateConversation(): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$talkService = $this->createMock(ITalkBackend::class);
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with($fakeTalkServiceClass)
 			->willReturn($talkService);
@@ -136,7 +121,7 @@ class BrokerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserNoBackend(): void {
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($this->createMock(RegistrationContext::class));
 
@@ -156,14 +141,14 @@ class BrokerTest extends TestCase {
 	public function testIsEnabledForUser(bool $enabled): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$talkService = $this->createMock(ITalkBackend::class);
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with($fakeTalkServiceClass)
 			->willReturn($talkService);
@@ -178,7 +163,7 @@ class BrokerTest extends TestCase {
 	}
 
 	public function testIsAllowedToCreateConversationsNoBackend(): void {
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($this->createMock(RegistrationContext::class));
 
@@ -190,14 +175,14 @@ class BrokerTest extends TestCase {
 	public function testIsAllowedToCreateConversationsBackendDisabled(): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$talkService = $this->createMock(ITalkBackend::class);
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with($fakeTalkServiceClass)
 			->willReturn($talkService);
@@ -223,14 +208,14 @@ class BrokerTest extends TestCase {
 	public function testIsAllowedToCreateConversations(bool $allowed): void {
 		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects($this->once())
 			->method('getTalkBackendRegistration')
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$talkService = $this->createMock(ITalkBackend::class);
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with($fakeTalkServiceClass)
 			->willReturn($talkService);

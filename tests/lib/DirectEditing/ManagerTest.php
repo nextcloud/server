@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\DirectEditing;
 
 use OC\DirectEditing\Manager;
@@ -17,9 +18,12 @@ use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -65,7 +69,6 @@ class Editor implements IEditor {
 		return [ 'text/plain' ];
 	}
 
-
 	#[\Override]
 	public function getMimetypesOptional(): array {
 		return [];
@@ -82,7 +85,6 @@ class Editor implements IEditor {
 	public function isSecure(): bool {
 		return false;
 	}
-
 
 	#[\Override]
 	public function open(IToken $token): Response {
@@ -118,10 +120,7 @@ class ManagerTest extends TestCase {
 	 * @var MockObject|IRootFolder
 	 */
 	private $rootFolder;
-	/**
-	 * @var MockObject|Folder
-	 */
-	private $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	/**
 	 * @var MockObject|IL10N
 	 */
@@ -130,6 +129,9 @@ class ManagerTest extends TestCase {
 	 * @var MockObject|IManager
 	 */
 	private $encryptionManager;
+
+	private IUserManager&MockObject $userManager;
+	private ISession&MockObject $session;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -141,15 +143,16 @@ class ManagerTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->session = $this->createMock(ISession::class);
 
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->expects($this->once())
 			->method('get')
 			->willReturn($this->l10n);
-
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -164,7 +167,14 @@ class ManagerTest extends TestCase {
 			->willReturn($user);
 
 		$this->manager = new Manager(
-			$this->random, $this->connection, $this->userSession, $this->rootFolder, $l10nFactory, $this->encryptionManager
+			$this->random,
+			$this->connection,
+			$this->userSession,
+			$this->rootFolder,
+			$l10nFactory,
+			$this->encryptionManager,
+			$this->userManager,
+			$this->session,
 		);
 
 		$this->manager->registerDirectEditor($this->editor);
@@ -173,7 +183,6 @@ class ManagerTest extends TestCase {
 	public function testEditorRegistration(): void {
 		$this->assertEquals($this->manager->getEditors(), ['testeditor' => $this->editor]);
 	}
-
 
 	public function testCreateToken(): void {
 		$expectedToken = 'TOKEN' . time();

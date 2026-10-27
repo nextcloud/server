@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Helper;
@@ -170,7 +171,7 @@ class CheckUser extends Command {
 			foreach ($result[0] as $attribute => $valueSet) {
 				$output->writeln('  ' . $attribute . ': ');
 				foreach ($valueSet as $value) {
-					if (in_array($attribute, $avatarAttributes)) {
+					if (in_array($attribute, $avatarAttributes, true)) {
 						$value = '{ImageData}';
 					}
 					$output->writeln('    ' . $value);

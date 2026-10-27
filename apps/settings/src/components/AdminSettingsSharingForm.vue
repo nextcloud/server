@@ -59,15 +59,20 @@
 				<NcCheckboxRadioSwitch v-model="settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Always ask for a password') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-model="settings.enforceLinksPassword" :disabled="!settings.enableLinkPasswordByDefault">
+				<NcCheckboxRadioSwitch
+					v-show="settings.enableLinkPasswordByDefault"
+					v-model="settings.enforceLinksPassword">
 					{{ t('settings', 'Enforce password protection') }}
 				</NcCheckboxRadioSwitch>
-				<label v-if="settings.enforceLinksPasswordExcludedGroupsEnabled" class="sharing__labeled-entry sharing__input">
+				<label
+					v-if="settings.enforceLinksPasswordExcludedGroupsEnabled"
+					v-show="settings.enableLinkPasswordByDefault"
+					class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
 					<NcSettingsSelectGroup
 						v-model="settings.enforceLinksPasswordExcludedGroups"
 						style="width: 100%"
-						:disabled="!settings.enforceLinksPassword || !settings.enableLinkPasswordByDefault" />
+						:disabled="!settings.enforceLinksPassword" />
 				</label>
 				<label class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from creating link shares') }}</span>
@@ -115,7 +120,7 @@
 					value="yes"
 					type="radio"
 					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Exclude some groups') }}
+					{{ t('settings', 'Exclude some groups (block list)') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch
 					v-model="settings.excludeGroups"
@@ -123,7 +128,7 @@
 					value="allow"
 					type="radio"
 					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Allow some groups') }}
+					{{ t('settings', 'Allow some groups only (allow list)') }}
 				</NcCheckboxRadioSwitch>
 				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
 					<NcSettingsSelectGroup
@@ -133,7 +138,15 @@
 						:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
 						:disabled="settings.excludeGroups === 'no'"
 						style="width: 100%" />
-					<em id="settings-sharing-excluded-groups-desc">{{ t('settings', 'Not allowed groups will still be able to receive shares, but not to initiate them.') }}</em>
+					<em id="settings-sharing-excluded-groups-desc">
+						<template v-if="settings.excludeGroups === 'allow'">
+							{{ t('settings', 'Only members of at least one of these groups will be able to initiate shares.') }}
+							{{ t('settings', 'Others will be blocked, but are still able to receive shares.') }}
+						</template>
+						<template v-else>
+							{{ t('settings', 'A member of at least one of these groups will not be able to initiate new shares, but will still be able to receive shares.') }}
+						</template>
+					</em>
 				</div>
 			</div>
 

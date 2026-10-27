@@ -25,16 +25,18 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenApi::SCOPE_IGNORE)]
-class UpdateController extends \OCP\AppFramework\OCSController {
+class UpdateController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -44,6 +46,7 @@ class UpdateController extends \OCP\AppFramework\OCSController {
 		private readonly Updater $updater,
 		private readonly IEventDispatcher $dispatcher,
 		private readonly LoggerInterface $logger,
+		private readonly IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -82,10 +85,9 @@ class UpdateController extends \OCP\AppFramework\OCSController {
 
 		// if a user is currently logged in, their session must be ignored to
 		// avoid side effects
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		$incompatibleApps = [];
-		$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 		$this->dispatcher->addListener(
 			MigratorExecuteSqlEvent::class,
@@ -126,8 +128,10 @@ class UpdateController extends \OCP\AppFramework\OCSController {
 		$this->updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource): void {
 			$eventSource->send('success', $this->l->t('Updated "%1$s" to %2$s', [$app, $version]));
 		});
-		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites): void {
-			if (!in_array($app, $incompatibleOverwrites)) {
+		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps): void {
+			// Read per event, the overwrites are cleared during a major upgrade
+			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
+			if (!in_array($app, $incompatibleOverwrites, true)) {
 				$incompatibleApps[] = $app;
 			}
 		});

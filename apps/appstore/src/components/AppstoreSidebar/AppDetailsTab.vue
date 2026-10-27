@@ -18,6 +18,7 @@ import BadgeAppLevel from '../BadgeAppLevel.vue'
 import BadgeAppScore from '../BadgeAppScore.vue'
 import { useLimitedGroups } from '../../composables/useLimitedGroups.ts'
 import { useAppsStore } from '../../store/apps.ts'
+import { canLimitToGroups } from '../../utils/appStatus.ts'
 
 const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
 
@@ -98,6 +99,10 @@ const appCategories = computed(() => {
 		.join(', ')
 })
 
+const cannotLimitToGroups = computed(() => {
+	return app.active && !canLimitToGroups(app)
+})
+
 /**
  * Get the author name from the XML node
  *
@@ -136,6 +141,10 @@ function authorName(xmlNode): string {
 						{{ dep }}
 					</li>
 				</ul>
+			</NcNoteCard>
+
+			<NcNoteCard v-if="cannotLimitToGroups" type="info">
+				{{ t('appstore', 'This app cannot be limited to groups because it provides functionality that is executed before group membership is determined.') }}
 			</NcNoteCard>
 
 			<div v-if="groupsAppIsLimitedTo.length" :class="$style.appstoreDetailsTab__section">

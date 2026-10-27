@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security\CSP;
 
 /**
@@ -130,7 +131,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	public function setAllowedFormActionDomains(array $allowedFormActionDomains): void {
 		$this->allowedFormActionDomains = $allowedFormActionDomains;
 	}
-
 
 	public function getReportTo(): array {
 		return $this->reportTo;

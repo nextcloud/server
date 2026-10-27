@@ -650,6 +650,7 @@ Feature: provisioning
       | provisioning_api |
       | settings |
       | sharebymail |
+      | sharing |
       | systemtags |
       | testing |
       | theming |

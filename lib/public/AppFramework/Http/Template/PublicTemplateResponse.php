@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http\Template;
 
 use InvalidArgumentException;
@@ -45,7 +46,9 @@ class PublicTemplateResponse extends TemplateResponse {
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
 		\OCP\Util::addScript('core', 'public-page-menu');
+		\OCP\Util::addStyle('core', 'public-page-menu');
 		\OCP\Util::addScript('core', 'public-page-user-menu');
+		\OCP\Util::addStyle('core', 'public-page-user-menu');
 
 		$state = \OCP\Server::get(IInitialStateService::class);
 		$state->provideLazyInitialState('core', 'public-page-menu', function () {

@@ -7,10 +7,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
-
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;

@@ -85,12 +85,12 @@ class CrossShardMoveHelper {
 			->from($table)
 			->where($query->expr()->in($primaryColumn, $query->createParameter('keys')));
 
-		$chunks = array_chunk($primaryKeys, 1000);
+		$chunks = array_chunk($primaryKeys, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		$results = [];
 		foreach ($chunks as $chunk) {
 			$query->setParameter('keys', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$results = array_merge($results, $query->executeQuery()->fetchAll());
+			$results = array_merge($results, $query->executeQuery()->fetchAllAssociative());
 		}
 
 		return $results;
@@ -138,7 +138,7 @@ class CrossShardMoveHelper {
 		$query->update($table)
 			->set($shardColumn, $query->createNamedParameter($targetShardKey, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->in($primaryColumn, $query->createNamedParameter($primaryKeys, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->executeQuery()->fetchAll();
+		$query->executeQuery()->fetchAllAssociative();
 	}
 
 	/**
@@ -152,7 +152,7 @@ class CrossShardMoveHelper {
 		$query = $connection->getQueryBuilder();
 		$query->delete($table)
 			->where($query->expr()->in($primaryColumn, $query->createParameter('keys')));
-		$chunks = array_chunk($primaryKeys, 1000);
+		$chunks = array_chunk($primaryKeys, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		foreach ($chunks as $chunk) {
 			$query->setParameter('keys', $chunk, IQueryBuilder::PARAM_INT_ARRAY);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\BuildReminderIndexBackgroundJob;
@@ -23,7 +24,7 @@ use OCP\Migration\IRepairStep;
 class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 
 	/** @var string */
-	private const CONFIG_KEY = 'buildCalendarReminderIndex';
+	private const string CONFIG_KEY = 'buildCalendarReminderIndex';
 
 	/**
 	 * @param IDBConnection $db

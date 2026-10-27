@@ -11,10 +11,18 @@ namespace OCA\DAV\CalDAV;
 
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Broker;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Parameter;
+use Sabre\VObject\Property;
+use Sabre\VObject\Property\Boolean;
+use Sabre\VObject\Property\ICalendar\CalAddress;
+use Sabre\VObject\Property\ICalendar\DateTime;
+use Sabre\VObject\Recur\EventIterator;
 
 class TipBroker extends Broker {
+	public const INVITATION_FORWARDING_PROPERTY = 'X-NC-INVITATION-FORWARDING';
 
 	public $significantChangeProperties = [
 		'DTSTART',
@@ -79,6 +87,181 @@ class TipBroker extends Broker {
 		return $existingObject;
 	}
 
+	#[\Override]
+	protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null) {
+		// A reply can only be processed based on an existing object.
+		// If the object is not available, the reply is ignored.
+		if ($existingObject === null) {
+			return null;
+		}
+		$instances = [];
+		$requestStatus = '2.0';
+
+		/** @var list<VEvent> $vevents */
+		$vevents = $itipMessage->message->select('VEVENT');
+
+		// Finding all the instances the attendee replied to.
+		foreach ($vevents as $vevent) {
+			// Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
+			// The Unix timestamp will be the same for an event, even if the reply from the attendee
+			// used a different format/timezone to express the event date-time.
+			$recurId = $this->getRecurrenceKey($vevent);
+			$attendee = $this->getFirstAttendee($vevent);
+			if ($attendee === null) {
+				continue;
+			}
+			$partstat = $attendee->offsetGet('PARTSTAT');
+			if (!$partstat instanceof Parameter) {
+				continue;
+			}
+			$instances[$recurId] = $partstat->getValue();
+			if (isset($vevent->{'REQUEST-STATUS'})) {
+				$requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
+				[$requestStatus] = explode(';', $requestStatus);
+			}
+		}
+
+		// Now we need to loop through the original organizer event, to find
+		// all the instances where we have a reply for.
+		/** @var VEvent|null $masterObject */
+		$masterObject = $existingObject->getBaseComponent('VEVENT');
+		$masterAllowInvitationForwarding = $masterObject === null || $this->allowInvitationForwarding($masterObject);
+
+		/** @var list<VEvent> $vevents */
+		$vevents = $existingObject->select('VEVENT');
+
+		foreach ($vevents as $vevent) {
+			// Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
+			$recurId = $this->getRecurrenceKey($vevent);
+			if (isset($instances[$recurId])) {
+				$allowInvitationForwarding = $this->allowInvitationForwarding($vevent);
+				$attendeeFound = false;
+				if (isset($vevent->ATTENDEE)) {
+					foreach ($vevent->ATTENDEE as $attendee) {
+						if ($attendee->getValue() === $itipMessage->sender) {
+							$attendeeFound = true;
+							$attendee['PARTSTAT'] = $instances[$recurId];
+							$attendee['SCHEDULE-STATUS'] = $requestStatus;
+							// Un-setting the RSVP status, because we now know
+							// that the attendee already replied.
+							unset($attendee['RSVP']);
+							break;
+						}
+					}
+				}
+				if (!$attendeeFound && $allowInvitationForwarding) {
+					// Adding a new attendee. The iTip documentation calls this
+					// a party crasher.
+					$parameters = [
+						'PARTSTAT' => $instances[$recurId],
+					];
+					if ($itipMessage->senderName) {
+						$parameters['CN'] = $itipMessage->senderName;
+					}
+					$vevent->add('ATTENDEE', $itipMessage->sender, $parameters);
+				}
+				unset($instances[$recurId]);
+			}
+		}
+
+		if ($masterObject === null) {
+			// No master object, we can't add new instances.
+			return null;
+		}
+		// If we got replies to instances that did not exist in the
+		// original list, it means that new exceptions must be created.
+		foreach ($instances as $recurId => $partstat) {
+			$recurrenceIterator = new EventIterator($existingObject, $itipMessage->uid);
+			$found = false;
+			$iterations = 1000;
+			do {
+				$newObject = $recurrenceIterator->getEventObject();
+				$recurrenceIterator->next();
+
+				// Compare the Unix timestamp returned by getTimestamp with the previously calculated timestamp.
+				// If they are the same, then this is a matching recurrence, even though its date-time may have
+				// been expressed in a different format/timezone.
+				if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() === $recurId) {
+					$found = true;
+				}
+				--$iterations;
+			} while ($recurrenceIterator->valid() && !$found && $iterations);
+
+			// Invalid recurrence id. Skipping this object.
+			if (!$found) {
+				continue;
+			}
+
+			$newObject->remove('RRULE');
+			$newObject->remove('EXDATE');
+			$newObject->remove('RDATE');
+
+			$attendeeFound = false;
+			if (isset($newObject->ATTENDEE)) {
+				foreach ($newObject->ATTENDEE as $attendee) {
+					if ($attendee->getValue() === $itipMessage->sender) {
+						$attendeeFound = true;
+						$attendee['PARTSTAT'] = $partstat;
+						$attendee['SCHEDULE-STATUS'] = $requestStatus;
+						unset($attendee['RSVP']);
+						break;
+					}
+				}
+			}
+			if (!$attendeeFound && !$masterAllowInvitationForwarding) {
+				continue;
+			}
+			if (!$attendeeFound) {
+				// Adding a new attendee
+				$parameters = [
+					'PARTSTAT' => $partstat,
+				];
+				if ($itipMessage->senderName) {
+					$parameters['CN'] = $itipMessage->senderName;
+				}
+				$newObject->add('ATTENDEE', $itipMessage->sender, $parameters);
+			}
+			$existingObject->add($newObject);
+		}
+
+		return $existingObject;
+	}
+
+	/**
+	 * @return int|'master'
+	 */
+	protected function getRecurrenceKey(VEvent $vevent): int|string {
+		/** @var list<Property> $recurrenceIds */
+		$recurrenceIds = $vevent->select('RECURRENCE-ID');
+		foreach ($recurrenceIds as $recurrenceId) {
+			if ($recurrenceId instanceof DateTime) {
+				return $recurrenceId->getDateTime()->getTimestamp();
+			}
+		}
+		return 'master';
+	}
+
+	protected function getFirstAttendee(VEvent $vevent): ?CalAddress {
+		/** @var list<Property> $attendees */
+		$attendees = $vevent->select('ATTENDEE');
+		foreach ($attendees as $attendee) {
+			if ($attendee instanceof CalAddress) {
+				return $attendee;
+			}
+		}
+		return null;
+	}
+
+	protected function allowInvitationForwarding(VEvent $vevent): bool {
+		$properties = $vevent->select(self::INVITATION_FORWARDING_PROPERTY);
+		foreach ($properties as $property) {
+			if ($property instanceof Boolean) {
+				return $property->getValue() === 'TRUE';
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * This method is used in cases where an event got updated, and we
 	 * potentially need to send emails to attendees to let them know of updates
@@ -122,7 +305,7 @@ class TipBroker extends Broker {
 		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances']) > 0) {
 			foreach ($oldEventInfo['attendees'] as $attendee) {
 				$messages[] = $this->generateMessage(
-					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 			}
 			return $messages;
@@ -131,7 +314,7 @@ class TipBroker extends Broker {
 		if ($eventInfo['instances']['master']?->STATUS?->getValue() === 'CANCELLED' && $oldEventInfo['instances']['master']?->STATUS?->getValue() !== 'CANCELLED') {
 			foreach ($eventInfo['attendees'] as $attendee) {
 				$messages[] = $this->generateMessage(
-					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 			}
 			return $messages;
@@ -145,7 +328,7 @@ class TipBroker extends Broker {
 					$cancelledNewInstances[] = $id;
 					foreach ($eventInfo['attendees'] as $attendee) {
 						$messages[] = $this->generateMessage(
-							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 						);
 					}
 				}
@@ -176,7 +359,7 @@ class TipBroker extends Broker {
 				//get all instances of the attendee was removed from.
 				$instances = array_intersect_key($oldEventInfo['instances'], array_flip(array_keys($oldEventInfo['attendees'][$attendee]['instances'])));
 				$messages[] = $this->generateMessage(
-					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 				continue;
 			}
@@ -215,8 +398,19 @@ class TipBroker extends Broker {
 				}
 			}
 
+			// determine if this attendee needs to be notified of the change, based on whether
+			// a significant property changed on the event, or the set of instances they are part of changed
+			$oldAttendeeInstances = isset($oldEventInfo['attendees'][$attendee]) ? array_keys($oldEventInfo['attendees'][$attendee]['instances']) : [];
+			$newAttendeeInstances = array_keys($eventInfo['attendees'][$attendee]['instances']);
+
+			$significantChange
+				= $eventInfo['attendees'][$attendee]['forceSend'] === 'REQUEST'
+				|| count($oldAttendeeInstances) !== count($newAttendeeInstances)
+				|| count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
+				|| $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+
 			$messages[] = $this->generateMessage(
-				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
+				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template, $significantChange
 			);
 		}
 
@@ -241,6 +435,8 @@ class TipBroker extends Broker {
 	 * @param int $objectSequence The sequence number of the event
 	 * @param string $method The iTip method ('REQUEST', 'CANCEL', 'REPLY', etc.)
 	 * @param VCalendar $template The template calendar object (without event components)
+	 * @param bool $significantChange Whether a property listed in $significantChangeProperties changed,
+	 *                                or the attendee's set of instances changed
 	 * @return Message The generated iTip message ready to be sent
 	 */
 	protected function generateMessage(
@@ -253,6 +449,7 @@ class TipBroker extends Broker {
 		int $objectSequence,
 		string $method,
 		VCalendar $template,
+		bool $significantChange,
 	): Message {
 
 		$recipientAddress = $attendee['href'] ?? '';
@@ -277,11 +474,10 @@ class TipBroker extends Broker {
 		$message->senderName = $organizerName;
 		$message->recipient = $recipientAddress;
 		$message->recipientName = $recipientName;
-		$message->significantChange = true;
+		$message->significantChange = $significantChange;
 		$message->message = $vObject;
 
 		return $message;
-
 	}
 
 	protected function componentSanitizeScheduling(Component $component): Component {

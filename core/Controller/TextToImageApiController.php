@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -212,7 +211,6 @@ class TextToImageApiController extends OCSController {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 	/**
 	 * This endpoint returns a list of tasks of a user that are related

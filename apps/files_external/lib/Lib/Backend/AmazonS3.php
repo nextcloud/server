@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
@@ -25,6 +26,7 @@ class AmazonS3 extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
 			->setText($l->t('S3-Compatible Object Storage'))
 			->addParameters([
+				// TRANSLATORS Technical term for an Amazon S3 storage container
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
@@ -32,6 +34,7 @@ class AmazonS3 extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('proxy', $l->t('Proxy')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				// TRANSLATORS Technical term for an Amazon S3 geographical region
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('storageClass', $l->t('Storage Class')))

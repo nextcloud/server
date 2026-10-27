@@ -12,7 +12,7 @@
  * Time: 13:01
  */
 
-namespace Tests\Authentication\TwoFactorAuth;
+namespace Test\Authentication\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\EnforcementState;
 use Test\TestCase;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\Memcache\Memcached;
@@ -41,7 +42,7 @@ class MemcacheConfigured implements ISetupCheck {
 		$memcacheLockingClass = $this->config->getSystemValue('memcache.locking', null);
 		$memcacheLocalClass = $this->config->getSystemValue('memcache.local', null);
 		$caches = array_filter([$memcacheDistributedClass,$memcacheLockingClass,$memcacheLocalClass]);
-		if (in_array(Memcached::class, array_map(fn (string $class) => ltrim($class, '\\'), $caches))) {
+		if (in_array(Memcached::class, array_map(fn (string $class) => ltrim($class, '\\'), $caches), true)) {
 			// wrong PHP module is installed
 			if (extension_loaded('memcache') && !extension_loaded('memcached')) {
 				return SetupResult::warning(

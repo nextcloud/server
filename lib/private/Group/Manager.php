@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
@@ -23,6 +24,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -52,7 +54,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private array $cachedUserGroups = [];
 	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
-	private const MAX_GROUP_LENGTH = 255;
+	private const int MAX_GROUP_LENGTH = 255;
 
 	public function __construct(
 		private \OC\User\Manager $userManager,
@@ -60,6 +62,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		private LoggerInterface $logger,
 		ICacheFactory $cacheFactory,
 		private IRemoteAddress $remoteAddress,
+		private IUserSession $userSession,
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
@@ -104,6 +107,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	#[\Override]
+	public function removeBackend(GroupInterface $backend): void {
+		$this->clearCaches();
+		if (($i = array_search($backend, $this->backends)) !== false) {
+			unset($this->backends[$i]);
+		}
+	}
+
+	#[\Override]
 	public function clearBackends() {
 		$this->backends = [];
 		$this->clearCaches();
@@ -118,7 +129,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function getBackends() {
 		return $this->backends;
 	}
-
 
 	protected function clearCaches() {
 		$this->cachedGroups = [];
@@ -173,7 +183,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
 	 * @return array<string, IGroup>
 	 */
-	protected function getGroupsObjects(array $gids, array $displayNames = []): array {
+	public function getGroupsObjects(array $gids, array $displayNames = []): array {
 		$backends = [];
 		$groups = [];
 		foreach ($gids as $gid) {
@@ -302,18 +312,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return array<string, IGroup>
 	 */
 	public function getUserIdGroups(string $uid): array {
-		$groups = [];
-
-		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
-			$aGroup = $this->get($groupId);
-			if ($aGroup instanceof IGroup) {
-				$groups[$groupId] = $aGroup;
-			} else {
-				$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
-			}
-		}
-
-		return $groups;
+		$groupIds = $this->getUserIdGroupIds($uid);
+		return $this->getGroupsObjects($groupIds);
 	}
 
 	/**
@@ -324,7 +324,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	#[\Override]
 	public function isAdmin($userId) {
-		if (!$this->remoteAddress->allowsAdminActions()) {
+		if (!$this->remoteAddress->allowsAdminActions()
+			&& ($userId === $this->userSession->getUser()?->getUID())) {
 			return false;
 		}
 
@@ -358,7 +359,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	#[\Override]
 	public function isInGroup($userId, $group) {
-		return in_array($group, $this->getUserIdGroupIds($userId));
+		return in_array($group, $this->getUserIdGroupIds($userId), true);
 	}
 
 	#[\Override]
@@ -444,7 +445,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[(string)$groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}

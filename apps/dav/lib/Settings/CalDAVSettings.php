@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
@@ -19,7 +20,7 @@ use OCP\Util;
 
 class CalDAVSettings implements IDelegatedSettings {
 
-	private const defaults = [
+	private const array defaults = [
 		'sendInvitations' => 'yes',
 		'generateBirthdayCalendar' => 'yes',
 		'sendEventReminders' => 'yes',
@@ -79,7 +80,7 @@ class CalDAVSettings implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'dav' => ['/(' . implode('|', array_keys(self::defaults)) . ')/']
+			'dav' => array_keys(self::defaults),
 		];
 	}
 }

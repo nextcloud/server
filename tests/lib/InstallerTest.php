@@ -30,7 +30,6 @@ use Psr\Log\LoggerInterface;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class InstallerTest extends TestCase {
 	private static $appid = 'testapp';
-	private $appstore;
 	private AppFetcher&MockObject $appFetcher;
 	private IClientService&MockObject $clientService;
 	private ITempManager&MockObject $tempManager;
@@ -51,11 +50,14 @@ class InstallerTest extends TestCase {
 		$this->appManager = $this->createMock(AppManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 
-		$config = Server::get(IConfig::class);
-		$this->appstore = $config->setSystemValue('appstoreenabled', true);
-		$config->setSystemValue('appstoreenabled', true);
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
+	}
+
+	private static function getAppVersionByPath(string $path): string {
+		$infoFile = $path . '/appinfo/info.xml';
+		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
+		return $appData['version'] ?? '';
 	}
 
 	protected function getInstaller() {
@@ -75,7 +77,6 @@ class InstallerTest extends TestCase {
 	protected function tearDown(): void {
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
-		Server::get(IConfig::class)->setSystemValue('appstoreenabled', $this->appstore);
 
 		parent::tearDown();
 	}
@@ -153,7 +154,6 @@ class InstallerTest extends TestCase {
 		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'), 'Cached result should be returned and fetcher should be only called once');
 	}
 
-
 	public function testDownloadAppWithRevokedCertificate(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate "4112" has been revoked');
@@ -192,11 +192,9 @@ gLgK8d8sKL60JMmKHN3boHrsThKBVA==
 			->method('get')
 			->willReturn($appArray);
 
-
 		$installer = $this->getInstaller();
 		$installer->downloadApp('news');
 	}
-
 
 	public function testDownloadAppWithNotNextcloudCertificate(): void {
 		$this->expectException(\Exception::class);
@@ -240,7 +238,6 @@ YSu356M=
 		$installer->downloadApp('news');
 	}
 
-
 	public function testDownloadAppWithDifferentCN(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App with id news has a cert issued to passman');
@@ -282,7 +279,6 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$installer = $this->getInstaller();
 		$installer->downloadApp('news');
 	}
-
 
 	public function testDownloadAppWithInvalidSignature(): void {
 		$this->expectException(\Exception::class);
@@ -350,7 +346,6 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$installer = $this->getInstaller();
 		$installer->downloadApp('passman');
 	}
-
 
 	public function testDownloadAppWithMoreThanOneFolderDownloaded(): void {
 		$this->expectException(\Exception::class);
@@ -434,7 +429,6 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');
 	}
-
 
 	public function testDownloadAppWithMismatchingIdentifier(): void {
 		$this->expectException(\Exception::class);
@@ -597,9 +591,8 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$installer->downloadApp('testapp');
 
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.9', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
-
 
 	public function testDownloadAppWithDowngrade(): void {
 		// Use previous test to download the application in version 0.9
@@ -687,7 +680,7 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->method('newClient')
 			->willReturn($client);
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.9', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 
 		$this->appManager
 			->expects($this->once())
@@ -697,6 +690,6 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
-		$this->assertEquals('0.8', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+		$this->assertEquals('0.8', self::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 }

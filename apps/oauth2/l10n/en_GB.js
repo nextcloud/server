@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Your client is not authorised to connect. Please inform the administrator of your client.",
+    "Client name cannot be empty." : "Client name cannot be empty.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Allows OAuth2 compatible authentication from other web applications.",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Delete client",
     "Make sure you store the secret key, it cannot be recovered." : "Make sure you store the secret key, it cannot be recovered.",
     "Add client" : "Add client",
-    "Add" : "Add",
-    "Client Identifier" : "Client Identifier",
-    "Show client secret" : "Show client secret",
-    "Hide client secret" : "Hide client secret"
+    "Add" : "Add"
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,5 +28,11 @@ return [
 			'url' => '/api/v1/token',
 			'verb' => 'POST'
 		],
+		[
+			/** @see \OCA\OAuth2\Controller\OauthApiController::pushToken() */
+			'name' => 'OauthApi#pushToken',
+			'url' => '/api/v1/pushtoken',
+			'verb' => 'POST'
+		],
 	],
 ];

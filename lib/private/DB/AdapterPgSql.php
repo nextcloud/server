@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 class AdapterPgSql extends Adapter {
@@ -35,6 +36,6 @@ class AdapterPgSql extends Adapter {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
 		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
+		return $this->conn->executeStatement($queryString, $builder->getParameters(), $builder->getParameterTypes());
 	}
 }

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OC\Migration\NullOutput;
@@ -322,7 +323,6 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
-
 	/**
 	 * @throws Exception
 	 * @since 31.0.0
@@ -369,6 +369,30 @@ class RepairMimeTypes implements IRepairStep {
 		$updatedMimetypes = [
 			'ovpn' => 'application/x-openvpn-profile',
 			'toml' => 'application/toml',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	private function introduceAvifType(): IResult|int|null {
+		$updatedMimetypes = [
+			'avif' => 'image/avif',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	private function introduceJxlType(): IResult|int|null {
+		$updatedMimetypes = [
+			'jxl' => 'image/jxl',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
@@ -495,6 +519,14 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '33.0.0.0', '<') && $this->introduceTomlAndOvpnType()) {
 			$output->info('Fixed toml and ovpn mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '36.0.0.0', '<') && $this->introduceAvifType()) {
+			$output->info('Fixed avif mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '36.0.0.0', '<') && $this->introduceJxlType()) {
+			$output->info('Fixed jxl mime type');
 		}
 
 		if (!$this->dryRun) {

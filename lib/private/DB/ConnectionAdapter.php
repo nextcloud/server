@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
@@ -64,7 +65,7 @@ class ConnectionAdapter implements IDBConnection {
 	#[\Override]
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
 		try {
-			return $this->inner->executeUpdate($sql, $params, $types);
+			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e, '', $sql);
 		}

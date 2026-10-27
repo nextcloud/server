@@ -13,6 +13,7 @@ use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\IStatelessProvider;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderDisabled;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
@@ -20,22 +21,16 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-	private ProviderUserAssignmentDao&MockObject $dao;
-	private IEventDispatcher&MockObject $dispatcher;
 	private Registry $registry;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dao = $this->createMock(ProviderUserAssignmentDao::class);
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-
-		$this->registry = new Registry($this->dao, $this->dispatcher);
+		$this->registry = $this->createInstanceWithMocks(Registry::class);
 	}
 
 	public function testGetProviderStates(): void {
@@ -44,7 +39,7 @@ class RegistryTest extends TestCase {
 		$state = [
 			'twofactor_totp' => true,
 		];
-		$this->dao->expects($this->once())->method('getState')->willReturn($state);
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->once())->method('getState')->willReturn($state);
 
 		$actual = $this->registry->getProviderStates($user);
 
@@ -56,10 +51,10 @@ class RegistryTest extends TestCase {
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
-		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->once())->method('persist')->with('p1', 'user123',
 			true);
 
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_ENABLED),
@@ -67,7 +62,7 @@ class RegistryTest extends TestCase {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->with(new TwoFactorProviderForUserRegistered(
 				$user,
@@ -77,16 +72,27 @@ class RegistryTest extends TestCase {
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
+	public function testEnableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->never())->method('persist');
+
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())->method('dispatch');
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())->method('dispatchTyped');
+
+		$this->registry->enableProviderFor($provider, $user);
+	}
+
 	public function testDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
-		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
 
-
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_DISABLED),
@@ -94,7 +100,7 @@ class RegistryTest extends TestCase {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
-		$this->dispatcher->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->with(new TwoFactorProviderForUserUnregistered(
 				$user,
@@ -104,10 +110,22 @@ class RegistryTest extends TestCase {
 		$this->registry->disableProviderFor($provider, $user);
 	}
 
+	public function testDisableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->never())->method('persist');
+
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())->method('dispatch');
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())->method('dispatchTyped');
+
+		$this->registry->disableProviderFor($provider, $user);
+	}
+
 	public function testDeleteUserData(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
-		$this->dao->expects($this->once())
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->once())
 			->method('deleteByUser')
 			->with('user123')
 			->willReturn([
@@ -120,7 +138,7 @@ class RegistryTest extends TestCase {
 			[new TwoFactorProviderDisabled('twofactor_u2f')],
 			[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
 		];
-		$this->dispatcher->expects($this->exactly(2))
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
@@ -131,7 +149,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testCleanUp(): void {
-		$this->dao->expects($this->once())
+		$this->getAutoMock(ProviderUserAssignmentDao::class)->expects($this->once())
 			->method('deleteAll')
 			->with('twofactor_u2f');
 

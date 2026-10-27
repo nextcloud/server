@@ -23,7 +23,9 @@
 .pre-commit-config.yaml
 .tag
 .tx
+AGENTS.md
 CHANGELOG.md
+CLAUDE.md
 CODE_OF_CONDUCT.md
 COPYING-README
 DESIGN.md
@@ -34,12 +36,11 @@ codecov.yml
 cs-fixer
 csfixer
 custom.d.ts
-cypress
-cypress.config.ts
 eslint.config.js
 flake.lock
 flake.nix
 openapi-extractor
+playwright.config.ts
 phpunit
 psalm
 psalm*.xml
@@ -63,3 +64,4 @@ window.d.ts
 /data
 /openapi.json
 /vendor-bin
+/Caddyfile

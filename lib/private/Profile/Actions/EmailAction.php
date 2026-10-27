@@ -58,7 +58,7 @@ class EmailAction implements ILinkAction {
 
 	#[\Override]
 	public function getIcon(): string {
-		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
+		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail-outline.svg'));
 	}
 
 	#[\Override]

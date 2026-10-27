@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Appstore\Search;
 
 use OCA\Appstore\AppInfo\Application;
@@ -36,7 +37,7 @@ final readonly class AppSearch implements IProvider {
 
 	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
-		return $route === 'appstore.Page.viewApps' ? -50 : 100;
+		return -50;
 	}
 
 	#[\Override]
@@ -73,7 +74,8 @@ final readonly class AppSearch implements IProvider {
 				$entry['name'],
 				'',
 				$entry['href'],
-				'icon-confirm'
+				$entry['icon'],
+				true,
 			);
 		}
 

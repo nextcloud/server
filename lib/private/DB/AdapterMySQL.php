@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 class AdapterMySQL extends Adapter {
@@ -16,12 +17,12 @@ class AdapterMySQL extends Adapter {
 	 */
 	#[\Override]
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('LOCK TABLES `' . $tableName . '` WRITE');
+		$this->conn->executeStatement('LOCK TABLES `' . $tableName . '` WRITE');
 	}
 
 	#[\Override]
 	public function unlockTable() {
-		$this->conn->executeUpdate('UNLOCK TABLES');
+		$this->conn->executeStatement('UNLOCK TABLES');
 	}
 
 	#[\Override]

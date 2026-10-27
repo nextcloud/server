@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
@@ -104,9 +105,8 @@ class ImageManagerTest extends TestCase {
 			->method('getAppValueInt')
 			->with('cachebuster')
 			->willReturn(0);
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('image/png');
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -119,9 +119,8 @@ class ImageManagerTest extends TestCase {
 			->method('getAppValueInt')
 			->with('cachebuster')
 			->willReturn(0);
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('');
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
@@ -136,9 +135,8 @@ class ImageManagerTest extends TestCase {
 			->method('getAppValueInt')
 			->with('cachebuster')
 			->willReturn(0);
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('');
 		$this->urlGenerator->expects($this->any())
 			->method('getAbsoluteUrl')
@@ -147,8 +145,8 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function testGetImage(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('image/png');
 		$file = $this->createMock(ISimpleFile::class);
 		$this->mockGetImage('logo', $file);
@@ -156,8 +154,8 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function testGetImageSvgToSvg(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('image/svg+xml');
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -178,8 +176,8 @@ class ImageManagerTest extends TestCase {
 
 	public function testGetImageSvgToPng(): void {
 		$this->checkImagick();
-		$this->config->expects($this->once())
-			->method('getAppValue')->with('theming', 'logoMime', '')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
 			->willReturn('image/svg+xml');
 		$folder = $this->createMock(ISimpleFolder::class);
 		$svgFile = $this->createMock(ISimpleFile::class);
@@ -210,13 +208,12 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($pngFile, $this->imageManager->getImage('logo', false));
 	}
 
-
 	public function testGetImageUnset(): void {
 		$this->expectException(NotFoundException::class);
 
-		$this->config->expects($this->once())
-			->method('getAppValue')->with('theming', 'logoMime', false)
-			->willReturn(false);
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')->with('logoMime', '')
+			->willReturn('');
 		$this->imageManager->getImage('logo');
 	}
 
@@ -264,7 +261,6 @@ class ImageManagerTest extends TestCase {
 			->willReturn($expected);
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
-
 
 	public function testGetCachedImageNotFound(): void {
 		$this->expectException(NotFoundException::class);
@@ -351,7 +347,6 @@ class ImageManagerTest extends TestCase {
 			->willReturn($folders[2]);
 		$this->imageManager->cleanup();
 	}
-
 
 	public static function dataUpdateImage(): array {
 		return [

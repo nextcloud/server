@@ -74,13 +74,11 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-
 	public function testValidateBackend(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
-
 
 	public function testValidateTimezone(): void {
 		$this->expectException(\Exception::class);
@@ -108,7 +106,6 @@ class ManageTest extends TestCase {
 		);
 	}
 
-
 	public function testConvertLevelStringInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -131,7 +128,6 @@ class ManageTest extends TestCase {
 			self::invokePrivate($this->command, 'convertLevelNumber', [$levelNum])
 		);
 	}
-
 
 	public function testConvertLevelNumberInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);

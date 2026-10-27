@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\BackgroundJobs;
 
 use OCP\Accounts\IAccountManager;
@@ -14,6 +15,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -37,6 +39,7 @@ class VerifyUserData extends Job {
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
 		private IConfig $config,
+		private GlobalScaleConfig $globalScaleConfig,
 	) {
 		parent::__construct($timeFactory);
 
@@ -123,7 +126,7 @@ class VerifyUserData extends Job {
 
 	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
 		// TODO: Consider to enable for non-global-scale setups by checking 'files_sharing', 'lookupServerUploadEnabled'
-		if (!$this->config->getSystemValueBool('gs.enabled', false)
+		if (!$this->globalScaleConfig->isGlobalScaleEnabled()
 			|| empty($this->lookupServerUrl)
 			|| $this->config->getSystemValue('has_internet_connection', true) === false
 		) {
@@ -224,7 +227,6 @@ class VerifyUserData extends Job {
 		$lastRun = (int)$argument['lastRun'];
 		return ((time() - $lastRun) > $this->interval);
 	}
-
 
 	/**
 	 * reset verification state after max tries are reached

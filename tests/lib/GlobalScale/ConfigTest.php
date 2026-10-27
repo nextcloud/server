@@ -47,7 +47,6 @@ class ConfigTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-
 	/**
 	 *
 	 * @param bool $gsEnabled

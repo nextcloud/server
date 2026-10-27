@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\AppInfo;
 
 use OCA\Settings\AppInfo\Application;
@@ -16,8 +17,8 @@ use OCA\Settings\Controller\MailSettingsController;
 use OCA\Settings\Controller\UsersController;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 /**
@@ -28,7 +29,7 @@ use Test\TestCase;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
 	protected Application $app;
-	protected IAppContainer $container;
+	protected ContainerInterface $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,6 +57,6 @@ class ApplicationTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
 	public function testContainerQuery(string $service, string $expected): void {
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
 }

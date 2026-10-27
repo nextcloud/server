@@ -19,6 +19,8 @@ class APCuTest extends ISequenceBase {
 
 	#[\Override]
 	public function setUp():void {
+		parent::setUp();
+
 		$this->sequence = new APCuSequence();
 	}
 }

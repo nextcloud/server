@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;
@@ -148,9 +149,11 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $mount['options']);
 
 		$this->dbConfig->setOption($id, 'foo2', 'bar2');
+		$this->dbConfig->setOption($id, 'disabled', false);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2'], $mount['options']);
+		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2', 'disabled' => false], $mount['options']);
+		$this->assertSame(false, $mount['options']['disabled']);
 	}
 
 	public function testSetOptionOverwrite(): void {

@@ -6,9 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Capabilities;
+use OCA\Theming\ConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
@@ -21,7 +24,7 @@ class BeforePreferenceListener implements IEventListener {
 	/**
 	 * @var string[]
 	 */
-	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color'];
+	private const array ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color', ConfigLexicon::TOAST_TIMEOUT];
 
 	public function __construct(
 		private IAppManager $appManager,
@@ -45,7 +48,7 @@ class BeforePreferenceListener implements IEventListener {
 	}
 
 	private function handleThemingValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
-		if (!in_array($event->getConfigKey(), self::ALLOWED_KEYS)) {
+		if (!in_array($event->getConfigKey(), self::ALLOWED_KEYS, true)) {
 			// Not allowed config key
 			return;
 		}
@@ -60,6 +63,10 @@ class BeforePreferenceListener implements IEventListener {
 					break;
 				case 'primary_color':
 					$event->setValid(preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $event->getConfigValue()) === 1);
+					break;
+				case ConfigLexicon::TOAST_TIMEOUT:
+					$value = filter_var($event->getConfigValue(), FILTER_VALIDATE_INT);
+					$event->setValid($value !== false && in_array($value, Capabilities::TOAST_TIMEOUT_VALUES, true));
 					break;
 				default:
 					$event->setValid(false);

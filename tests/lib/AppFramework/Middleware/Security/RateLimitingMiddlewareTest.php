@@ -150,7 +150,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAnnotation', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAnnotation');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotation');
 	}
@@ -166,7 +165,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())
@@ -226,7 +224,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAttributes', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAttributes');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributes');
 	}
@@ -242,7 +239,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())

@@ -5,18 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
  * Class Manager
  *
  * Hooks available in scope \OC\User:
- * - preSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - postSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - preDelete(\OC\User\User $user)
- * - postDelete(\OC\User\User $user)
- * - preCreateUser(string $uid, string $password)
- * - postCreateUser(\OC\User\User $user, string $password)
  * - assignedUserId(string $uid)
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
@@ -69,25 +64,26 @@ interface IUserManager {
 	 * @return \OCP\IUser|null Either the user or null if the specified user does not exist
 	 * @since 8.0.0
 	 */
-	public function get($uid);
+	public function get($uid): ?\OCP\IUser;
 
 	/**
 	 * Get the display name of a user
 	 *
 	 * @param string $uid
-	 * @return string|null
+	 * @return non-empty-string|null
 	 * @since 25.0.0
 	 */
 	public function getDisplayName(string $uid): ?string;
 
 	/**
-	 * check if a user exists
+	 * Check if a user exists.
 	 *
 	 * @param string $uid
+	 * @param list<string> $excludeBackends A list of IUserBackend::getBackendName() that need to be excluded from the search.
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function userExists($uid);
+	public function userExists(string $uid, array $excludeBackends = []): bool;
 
 	/**
 	 * Check if the password is valid for the user
@@ -266,4 +262,36 @@ interface IUserManager {
 	 * @since 33.0.0
 	 */
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
+
+	/**
+	 * @param 64|512 $size
+	 * @return non-empty-string
+	 * @since 34.0.0
+	 */
+	public function getAvatarUrlLight(string $userId, int $size): string;
+
+	/**
+	 * @param 64|512 $size
+	 * @return non-empty-string
+	 * @since 34.0.0
+	 */
+	public function getAvatarUrlDark(string $userId, int $size): string;
+
+	/**
+	 * Get a read-only user from a cloud ID for showing the display name of a remote
+	 * federation user (e.g. the "deleted by" user of a federated share) that has no
+	 * local account.
+	 *
+	 * @param \OCP\Federation\ICloudId $federatedUserId A cloud ID of the federated user
+	 * @return IUser
+	 * @since 35.0.0
+	 */
+	public function getFederatedUser(\OCP\Federation\ICloudId $cloudId): IUser;
+
+	/**
+	 * Get the username of a user based on its login name.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getUserNameFromLoginName(string $loginName): string;
 }

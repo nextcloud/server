@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Files;
 
-use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Server;
@@ -38,9 +38,6 @@ class RootCollection extends AbstractPrincipalCollection {
 			return new SimpleCollection($name);
 		}
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($user->getUID());
-		if (!($userFolder instanceof FileInfo)) {
-			throw new \Exception('Home does not exist');
-		}
 		return new FilesHome($principalInfo, $userFolder);
 	}
 

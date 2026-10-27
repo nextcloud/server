@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Avatar;
 
 use OC\NotSquareException;
 use OC\User\User;
+use OCP\Config\IUserConfig;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -31,6 +33,7 @@ class UserAvatar extends Avatar {
 		protected User $user,
 		LoggerInterface $logger,
 		IConfig $config,
+		private IUserConfig $userConfig,
 	) {
 		parent::__construct($config, $logger);
 	}
@@ -156,8 +159,9 @@ class UserAvatar extends Avatar {
 	public function remove(bool $silent = false): void {
 		$avatars = $this->folder->getDirectoryListing();
 
-		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
-			(string)((int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', '0') + 1));
+		$userId = $this->user->getUID();
+		$this->userConfig->setValueInt($userId, 'avatar', 'version',
+			$this->userConfig->getValueInt($userId, 'avatar', 'version') + 1);
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();
@@ -257,8 +261,8 @@ class UserAvatar extends Avatar {
 				$file = $this->folder->newFile($path);
 				$file->putContent($data);
 			} catch (NotPermittedException $e) {
-				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
-				throw new NotFoundException();
+				$this->logger->error('Failed to save avatar for ' . $this->user->getUID(), ['exception' => $e]);
+				throw new NotFoundException(previous: $e);
 			}
 		}
 

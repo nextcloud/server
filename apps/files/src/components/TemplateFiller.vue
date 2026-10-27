@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcModal label-id="template-field-modal__label">
+	<NcModal labelId="template-field-modal__label">
 		<div class="template-field-modal__content">
 			<form>
 				<h3 id="template-field-modal__label">

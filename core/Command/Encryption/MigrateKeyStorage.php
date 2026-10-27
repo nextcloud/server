@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Encryption;
 
-use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\View;
 use OCP\IConfig;
@@ -160,7 +160,6 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-
 	/**
 	 * setup file system for the given user
 	 */
@@ -168,7 +167,6 @@ class MigrateKeyStorage extends Command {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
-
 
 	/**
 	 * iterate over each user and move the keys to the new storage

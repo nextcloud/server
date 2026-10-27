@@ -16,6 +16,8 @@ class TimeFactoryTest extends \Test\TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->timeFactory = new TimeFactory();
 	}
 

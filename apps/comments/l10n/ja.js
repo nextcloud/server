@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "コメント編集中にエラーが発生しました",
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
-    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "Write a comment …" : "コメントを書く..."
+    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました"
 },
 "nplurals=1; plural=0;");

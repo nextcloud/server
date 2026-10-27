@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Exception\InvalidShare;
@@ -105,7 +106,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			throw new \Exception($message_t);
 		}
 
-
 		// don't allow federated shares if source and target server are the same
 		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
 		$currentServer = $this->addressHandler->generateRemoteURL();
@@ -137,7 +137,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
 			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
 			[$token, $remoteId] = $this->notifications->requestReShare(
-				$remoteShare['share_token'],
+				$remoteShare['refresh_token'],
 				$remoteShare['remote_id'],
 				$shareId,
 				$remoteShare['remote'],
@@ -201,7 +201,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 				$ownerCloudId->getId(),
 				$share->getSharedBy(),
 				$sharedByFederatedId,
-				$share->getShareType()
+				$share->getShareType(),
+				$share->getPermissions()
 			);
 
 			if ($send === false) {
@@ -341,7 +342,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		}
 		$this->notifications->sendPermissionChange($remote, $remoteId, $share->getToken(), $share->getPermissions());
 	}
-
 
 	/**
 	 * Update successful reShare with the correct token.
@@ -499,7 +499,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	public function restore(IShare $share, string $recipient): IShare {
 		throw new GenericShareException('not implemented');
 	}
-
 
 	#[\Override]
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
@@ -708,7 +707,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		}
 		$cursor->closeCursor();
 
-
 		return $shares;
 	}
 
@@ -723,7 +721,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->executeQuery();
 
 		$data = $cursor->fetchAssociative();
-
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
@@ -926,7 +923,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		return $result === 'yes';
 	}
 
-
 	/**
 	 * Check if users from other Nextcloud instances are allowed to send federated group shares
 	 */
@@ -969,7 +965,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		// return $result;
 		return false;
 	}
-
 
 	/**
 	 * Check if it is allowed to publish user specific data to the lookup server

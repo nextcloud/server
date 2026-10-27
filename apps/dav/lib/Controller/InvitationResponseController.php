@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
@@ -115,6 +116,8 @@ class InvitationResponseController extends Controller {
 		$partstat = $this->request->getParam('partStat');
 
 		$row = $this->getTokenInformation($token);
+		// $partstat comes from IRequest::getParam(), which is untyped
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!$row || !\in_array($partstat, ['ACCEPTED', 'DECLINED', 'TENTATIVE'])) {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}

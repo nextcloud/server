@@ -36,7 +36,6 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @since 33.0.0
 	 */

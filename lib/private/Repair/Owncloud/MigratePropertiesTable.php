@@ -9,10 +9,9 @@ declare(strict_types=1);
 
 namespace OC\Repair\Owncloud;
 
-use Doctrine\DBAL\Types\StringType;
-use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -39,8 +38,8 @@ class MigratePropertiesTable implements IRepairStep {
 		$output->info('Update the oc_properties table schema.');
 		$table = $schema->getTable('oc_properties');
 		$column = $table->getColumn('propertyvalue');
-		if ($column->getType() instanceof StringType) {
-			$column->setType(Type::getType('text'));
+		if ($column->getType()->getName() === Types::STRING) {
+			$column->setType(Types::TEXT);
 			$column->setLength(null);
 		}
 

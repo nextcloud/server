@@ -15,53 +15,17 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Resource\Manager;
 use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\Calendar\Resource\IBackend;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	private Coordinator&MockObject $coordinator;
-	private ContainerInterface&MockObject $server;
-	private ResourcesRoomsUpdater&MockObject $resourcesRoomsUpdater;
 	private Manager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->server = $this->createMock(ContainerInterface::class);
-		$this->resourcesRoomsUpdater = $this->createMock(ResourcesRoomsUpdater::class);
-
-		$this->manager = new Manager(
-			$this->coordinator,
-			$this->server,
-			$this->resourcesRoomsUpdater,
-		);
-	}
-
-	public function testRegisterUnregisterBackend(): void {
-		$backend1 = $this->createMock(IBackend::class);
-		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$backend2 = $this->createMock(IBackend::class);
-		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects(self::exactly(2))
-			->method('get')
-			->willReturnMap([
-				['calendar_resource_backend1', $backend1,],
-				['calendar_resource_backend2', $backend2,],
-			]);
-
-		$this->manager->registerBackend('calendar_resource_backend1');
-		$this->manager->registerBackend('calendar_resource_backend2');
-
-		self::assertEquals([
-			$backend1, $backend2
-		], $this->manager->getBackends());
-		$this->manager->unregisterBackend('calendar_resource_backend1');
-		self::assertEquals([
-			$backend2
-		], $this->manager->getBackends());
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testGetBackendFromBootstrapRegistration(): void {
@@ -69,7 +33,7 @@ class ManagerTest extends TestCase {
 		$backend = $this->createMock(IBackend::class);
 		$backend->method('getBackendIdentifier')->willReturn('from_bootstrap');
 		$context = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects(self::once())
+		$this->getAutoMock(Coordinator::class)->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($context);
 		$context->expects(self::once())
@@ -77,7 +41,7 @@ class ManagerTest extends TestCase {
 			->willReturn([
 				new ServiceRegistration('calendar_resource_foo', $backendClass)
 			]);
-		$this->server->expects(self::once())
+		$this->getAutoMock(ContainerInterface::class)->expects(self::once())
 			->method('get')
 			->with($backendClass)
 			->willReturn($backend);
@@ -85,51 +49,8 @@ class ManagerTest extends TestCase {
 		self::assertEquals($backend, $this->manager->getBackend('from_bootstrap'));
 	}
 
-	public function testGetBackend(): void {
-		$backend1 = $this->createMock(IBackend::class);
-		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$backend2 = $this->createMock(IBackend::class);
-		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects(self::exactly(2))
-			->method('get')
-			->willReturnMap([
-				['calendar_resource_backend1', $backend1,],
-				['calendar_resource_backend2', $backend2,],
-			]);
-
-		$this->manager->registerBackend('calendar_resource_backend1');
-		$this->manager->registerBackend('calendar_resource_backend2');
-
-		self::assertEquals($backend1, $this->manager->getBackend('backend_1'));
-		self::assertEquals($backend2, $this->manager->getBackend('backend_2'));
-	}
-
-	public function testClear(): void {
-		$backend1 = $this->createMock(IBackend::class);
-		$backend1->method('getBackendIdentifier')->willReturn('backend_1');
-		$backend2 = $this->createMock(IBackend::class);
-		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
-		$this->server->expects(self::exactly(2))
-			->method('get')
-			->willReturnMap([
-				['calendar_resource_backend1', $backend1,],
-				['calendar_resource_backend2', $backend2,],
-			]);
-
-		$this->manager->registerBackend('calendar_resource_backend1');
-		$this->manager->registerBackend('calendar_resource_backend2');
-
-		self::assertEquals([
-			$backend1, $backend2
-		], $this->manager->getBackends());
-
-		$this->manager->clear();
-
-		self::assertEquals([], $this->manager->getBackends());
-	}
-
 	public function testUpdate(): void {
-		$this->resourcesRoomsUpdater->expects(self::once())
+		$this->getAutoMock(ResourcesRoomsUpdater::class)->expects(self::once())
 			->method('updateResources');
 
 		$this->manager->update();

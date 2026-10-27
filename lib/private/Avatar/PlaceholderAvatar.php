@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Avatar;
 
 use OC\NotSquareException;
 use OC\User\User;
+use OCP\Config\IUserConfig;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -31,6 +33,7 @@ class PlaceholderAvatar extends Avatar {
 		private User $user,
 		IConfig $config,
 		LoggerInterface $logger,
+		private IUserConfig $userConfig,
 	) {
 		parent::__construct($config, $logger);
 	}
@@ -62,6 +65,10 @@ class PlaceholderAvatar extends Avatar {
 	#[\Override]
 	public function remove(bool $silent = false): void {
 		$avatars = $this->folder->getDirectoryListing();
+
+		$userId = $this->user->getUID();
+		$this->userConfig->setValueInt($userId, 'avatar', 'version',
+			$this->userConfig->getValueInt($userId, 'avatar', 'version') + 1);
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();

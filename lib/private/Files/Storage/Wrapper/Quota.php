@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
@@ -55,7 +56,7 @@ class Quota extends Wrapper {
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
-	protected function getSize(string $path, ?IStorage $storage = null): int|float {
+	public function getSize(string $path, ?IStorage $storage = null): int|float {
 		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
@@ -122,17 +123,22 @@ class Quota extends Wrapper {
 
 	#[\Override]
 	public function fopen(string $path, string $mode) {
-		if (!$this->hasQuota() || $this->isPartFile($path)) {
+		// reading doesn't consume quota, so it should not be restricted by it
+		$isReadMode = $mode === 'r' || $mode === 'rb';
+		if ($isReadMode || !$this->hasQuota() || $this->isPartFile($path)) {
 			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			return false;
 		}
 
 		$source = $this->getWrapperStorage()->fopen($path, $mode);
-		if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+		// writing past the remaining free space fails. Negative values mean the free
+		// space is unknown or unlimited (FileInfo::SPACE_*), so no limit is applied
+		if ($source && (is_int($free) || is_float($free)) && $free >= 0) {
 			// only apply quota for files, not metadata, trash or others
 			if ($this->shouldApplyQuota($path)) {
 				return \OC\Files\Stream\Quota::wrap($source, $free);
@@ -193,7 +199,8 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->mkdir($path);
 		}
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			return false;
 		}
 
@@ -206,7 +213,8 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->touch($path, $mtime);
 		}
 		$free = $this->free_space($path);
-		if ($free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($free === 0 || $free === 0.0 || $free === false) {
 			return false;
 		}
 
@@ -224,12 +232,13 @@ class Quota extends Wrapper {
 		}
 
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			throw new NotEnoughSpaceException();
 		}
 
 		if ($size !== null) {
-			if ($size < $free) {
+			if ($free < 0 || $size < $free) {
 				return parent::writeStream($path, $stream, $size);
 			} else {
 				throw new NotEnoughSpaceException();

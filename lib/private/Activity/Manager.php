@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
@@ -151,7 +152,6 @@ class Manager implements IManager {
 			}
 		}
 	}
-
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -306,7 +306,6 @@ class Manager implements IManager {
 
 		throw new SettingNotFoundException($id);
 	}
-
 
 	/**
 	 * @param string $type

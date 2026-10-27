@@ -194,6 +194,18 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
+	public function testILike(): void {
+		// iLike is implemented using lower() on both sides, so we just verify it returns a string
+		$result = $this->expressionBuilder->iLike('test', 'value');
+		$this->assertIsString($result);
+	}
+
+	public function testNotILike(): void {
+		// notILike is implemented using notLike with lower() on both sides, so we just verify it returns a string
+		$result = $this->expressionBuilder->notILike('test', 'value');
+		$this->assertIsString($result);
+	}
+
 	public static function dataIn(): array {
 		return [
 			['value', false],
@@ -294,6 +306,10 @@ class ExpressionBuilderTest extends TestCase {
 			['like', 'under\_%', IQueryBuilder::PARAM_STR, false, 1],
 			['notLike', '%5%', IQueryBuilder::PARAM_STR, false, 8],
 			['notLike', '%5%', IQueryBuilder::PARAM_STR, true, 6],
+			['iLike', '%5%', IQueryBuilder::PARAM_STR, false, 3],
+			['iLike', '%5%', IQueryBuilder::PARAM_STR, true, 1],
+			['notILike', '%5%', IQueryBuilder::PARAM_STR, false, 8],
+			['notILike', '%5%', IQueryBuilder::PARAM_STR, true, 6],
 			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 3],
 			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 1],
 			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 8],

@@ -55,6 +55,7 @@ OC.L10N.register(
     "a safe home for all your data" : "een veilige plek voor al je gegevens",
     "Legal notice link" : "Link naar juridische bepalingen",
     "Privacy policy link" : "Privacybeleid link",
+    "Background color" : "Achtergrondkleur",
     "Remove background image" : "Achtergrond beeld verwijderen",
     "Favicon" : "Favicon",
     "Logo" : "Logo",
@@ -71,16 +72,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Schakel alle sneltoetsen uit",
     "Reset to default" : "Herstellen naar standaard",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Als je problemen tegenkomt, aarzel dan niet om deze te rapporteren op {issuetracker}onze issue tracker{linkend}. En als je betrokken wilt raken, word dan lid van {designteam}ons designteam{linkend}!",
-    "Customization has been disabled by your administrator" : "Maatwerk is uitgeschakeld door uw beheerder",
-    "Disable-user-theming should be true or false" : "Uitschakelen-gebruiker-thema's moet waar of onwaar zijn",
-    "Header logo" : "Top logo",
-    "Upload new header logo" : "Upload een nieuwe top afbeelding",
-    "Upload new favicon" : "Nieuw favicon uploaden",
-    "User settings" : "Instellingen gebruiker",
-    "Upload new logo" : "Upload nieuw logo",
-    "Background and login image" : "Achtergrond en aanmeld afbeelding",
-    "Advanced options" : "Geavanceerde opties",
-    "Select a custom color" : "Selecteer een aangepaste kleur",
-    "Upload" : "Uploaden"
+    "Themes" : "Thema's",
+    "Fonts" : "Lettertypen",
+    "Customization has been disabled by your administrator" : "Maatwerk is uitgeschakeld door uw beheerder"
 },
 "nplurals=2; plural=(n != 1);");

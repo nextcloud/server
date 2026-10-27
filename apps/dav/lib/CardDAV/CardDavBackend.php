@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OC\Search\Filter\DateTimeFilter;
@@ -19,6 +20,7 @@ use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardMovedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Exception\UidConflict;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -42,7 +44,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	private string $dbCardsPropertiesTable = 'cards_properties';
 
 	/** @var array properties to index */
-	private const INDEXED_PROPERTIES = [
+	private const array INDEXED_PROPERTIES = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
@@ -139,7 +141,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->from('dav_shares', 'd')
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(\OCA\DAV\CardDAV\Sharing\Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
-
 
 			$select->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.access'])
 				->from('dav_shares', 's')
@@ -273,7 +274,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
-
 		];
 
 		// system address books are always read only
@@ -547,6 +547,37 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Returns a card that already has a given UID in an address book collection.
+	 *
+	 * @param int $addressBookId
+	 * @param string $uid
+	 * @return array|null The existing card, or null when the UID is free
+	 */
+	public function getCardByUid(int $addressBookId, string $uid): ?array {
+		$q = $this->db->getQueryBuilder();
+		$q->select('*')
+			->from($this->dbCardsTable)
+			->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid, IQueryBuilder::PARAM_STR)))
+			->setMaxResults(1);
+		$result = $q->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+		if ($row === false) {
+			return null;
+		}
+
+		$row['etag'] = '"' . $row['etag'] . '"';
+		$modified = false;
+		$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+		if ($modified) {
+			$row['size'] = strlen($row['carddata']);
+		}
+
+		return $row;
+	}
+
+	/**
 	 * Returns a list of cards.
 	 *
 	 * This method should work identical to getCard, but instead return all the
@@ -616,26 +647,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
-	 * @param bool $checkAlreadyExists
+	 * @param bool $checkUidConflict
 	 * @return string
 	 */
 	#[\Override]
-	public function createCard($addressBookId, $cardUri, $cardData, bool $checkAlreadyExists = true) {
+	public function createCard($addressBookId, $cardUri, $cardData, bool $checkUidConflict = true) {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
-		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkAlreadyExists, $etag, $uid) {
-			if ($checkAlreadyExists) {
-				$q = $this->db->getQueryBuilder();
-				$q->select('uid')
-					->from($this->dbCardsTable)
-					->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId)))
-					->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
-					->setMaxResults(1);
-				$result = $q->executeQuery();
-				$count = (bool)$result->fetchOne();
-				$result->closeCursor();
-				if ($count) {
-					throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
+		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkUidConflict, $etag, $uid) {
+			// Try to detect duplicate uids in the target collection
+			if ($checkUidConflict) {
+				$existing = $this->getCardByUid($addressBookId, $uid);
+				if ($existing !== null) {
+					// RFC 6352 no-uid-conflict (409) reporting the existing object's href.
+					throw UidConflict::forAddressBook($existing['uri']);
 				}
 			}
 
@@ -706,6 +731,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				return '"' . $etag . '"';
 			}
 
+			$storedEtag = $this->getCardEtag($addressBookId, $cardUri);
+
 			$query->update($this->dbCardsTable)
 				->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 				->set('lastmodified', $query->createNamedParameter(time()))
@@ -718,8 +745,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$this->etagCache[$etagCacheKey] = $etag;
 
-			$this->addChange($addressBookId, $cardUri, 2);
 			$this->updateProperties($addressBookId, $cardUri, $cardData);
+
+			if ($storedEtag === $etag) {
+				return '"' . $etag . '"';
+			}
+
+			$this->addChange($addressBookId, $cardUri, 2);
 
 			$addressBookData = $this->getAddressBookById($addressBookId);
 			$shares = $this->getShares($addressBookId);
@@ -739,6 +771,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				return false;
 			}
 			$sourceObjectId = (int)$card['id'];
+
+			// Try to detect duplicate uids in the target collection
+			$existing = $this->getCardByUid($targetAddressBookId, $card['uid']);
+			if ($existing !== null) {
+				throw UidConflict::forAddressBook($existing['uri']);
+			}
 
 			$query = $this->db->getQueryBuilder();
 			$query->update('cards')
@@ -798,9 +836,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 				->executeStatement();
 
-			$this->addChange($addressBookId, $cardUri, 3);
-
 			if ($ret === 1) {
+				$this->addChange($addressBookId, $cardUri, 3);
+
 				if ($cardId !== null) {
 					$this->dispatcher->dispatchTyped(new CardDeletedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 					$this->purgeProperties($addressBookId, $cardId);
@@ -1269,7 +1307,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from($this->dbCardsTable, 'c')
 			->where($query->expr()->in('c.id', $query->createParameter('matches')));
 
-		foreach (array_chunk($matches, 1000) as $matchesChunk) {
+		foreach (array_chunk($matches, IQueryBuilder::MAX_IN_PARAMETERS) as $matchesChunk) {
 			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$result = $query->executeQuery();
 			$cardResults[] = $result->fetchAllAssociative();
@@ -1403,7 +1441,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				);
 
 			foreach ($vCard->children() as $property) {
-				if (!in_array($property->name, self::INDEXED_PROPERTIES)) {
+				if (!in_array($property->name, self::INDEXED_PROPERTIES, true)) {
 					continue;
 				}
 				$preferred = 0;
@@ -1466,6 +1504,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Get the etag currently stored for a contact, or null if there is none
+	 */
+	protected function getCardEtag(int $addressBookId, string $uri): ?string {
+		$query = $this->db->getQueryBuilder();
+		$query->select('etag')->from($this->dbCardsTable)
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+
+		$result = $query->executeQuery();
+		$etag = $result->fetchOne();
+		$result->closeCursor();
+
+		return $etag === false ? null : (string)$etag;
+	}
+
+	/**
 	 * For shared address books the sharee is set in the ACL of the address book
 	 *
 	 * @param int $addressBookId
@@ -1496,11 +1550,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return 0;
 		}
 
+		$cutoff = max(0, time() - $retention);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
 			->where(
 				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+				$query->expr()->lte('created_at', $query->createNamedParameter($cutoff, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 			);
 		return $query->executeStatement();
 	}

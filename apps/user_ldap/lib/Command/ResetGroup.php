@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
@@ -54,7 +55,7 @@ class ResetGroup extends Command {
 				throw new \Exception('Group not found');
 			}
 			$backends = $group->getBackendNames();
-			if (!in_array('LDAP', $backends)) {
+			if (!in_array('LDAP', $backends, true)) {
 				throw new \Exception('The given group is not a recognized LDAP group.');
 			}
 			if ($input->getOption('yes') === false) {

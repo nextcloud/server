@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Search;
 
 use OCP\IGroupManager;
@@ -120,17 +121,18 @@ class SectionSearch implements IProvider {
 					continue;
 				}
 
-				/**
-				 * We can't use the icon URL at the moment as they don't invert correctly for dark theme
-				 * $iconUrl = $section->getIcon();
-				 */
+				// The section's own icon, or a generic cog fallback.
+				$icon = $section->getIcon();
+				if ($icon === '') {
+					$icon = $this->urlGenerator->imagePath('settings', 'settings.svg');
+				}
 
 				$result[] = new SearchResultEntry(
 					'',
 					$section->getName(),
 					$subline,
 					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
-					'icon-settings-dark'
+					$icon,
 				);
 			}
 		}

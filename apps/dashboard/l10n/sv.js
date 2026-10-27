@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-app",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Börja din dag informerad\n\nNextcloud Dashboard är din startpunkt för dagen och ger dig en översikt över dina kommande möten, brådskande e-postmeddelanden, chattmeddelanden, inkommande ärenden, senaste tweets och mycket mer! Användare kan lägga till widgetar de gillar och anpassa bakgrunden efter deras tycke.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Börja dagen välinformerad\n\nNextcloud Dashboard är dagens startpunkt och ger dig en översikt över kommande möten, brådskande e-postmeddelanden, chattmeddelanden, inkommande ärenden, de senaste inläggen och mycket mer. Användare kan lägga till valfria widgetar och anpassa bakgrunden.",
     "Weather" : "Väder",
     "Status" : "Status",
     "Good morning" : "God morgon",
@@ -18,11 +18,11 @@ OC.L10N.register(
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Grattis på födelsedagen, {name} 🥳🤩🎂🎉",
     "Customize" : "Anpassa",
     "Edit widgets" : "Ändra widgetar",
-    "Get more widgets from the App Store" : "Hämta fler widgetar från Appstore",
+    "Get more widgets from the App Store" : "Hämta fler widgetar från appbutiken",
     "Weather service" : "Vädertjänst",
     "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "För din integritet begär din {productName}-server väderdata å dina vägnar, så vädertjänsten får ingen personlig information.",
     "Weather data from Met.no" : "Väderdata från Met.no",
-    "geocoding with Nominatim" : "geokodning med Nominatim",
-    "elevation data from OpenTopoData" : "höjddata från OpenTopoData"
+    "geocoding with Nominatim" : "Geokodning med Nominatim",
+    "elevation data from OpenTopoData" : "Höjddata från OpenTopoData"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use DateTime;
@@ -156,7 +157,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-	private const CALENDAR_DATA_ONE_TIME = <<<EOD
+	private const string CALENDAR_DATA_ONE_TIME = <<<EOD
 BEGIN:VCALENDAR
 PRODID:-//IDN nextcloud.com//Calendar app 4.3.0-alpha.0//EN
 CALSCALE:GREGORIAN
@@ -196,7 +197,7 @@ END:VTIMEZONE
 END:VCALENDAR
 EOD;
 
-	private const CALENDAR_DATA_ALL_DAY = <<<EOD
+	private const string CALENDAR_DATA_ALL_DAY = <<<EOD
 BEGIN:VCALENDAR
 PRODID:-//IDN nextcloud.com//Calendar app 4.3.0-alpha.0//EN
 CALSCALE:GREGORIAN
@@ -219,7 +220,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-	private const PAGO_PAGO_VTIMEZONE_ICS = <<<ICS
+	private const string PAGO_PAGO_VTIMEZONE_ICS = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VTIMEZONE
 TZID:Pacific/Pago_Pago
@@ -752,7 +753,6 @@ EOD;
 				$this->assertEquals($expected, func_get_args());
 			});
 
-
 		$insertReminderCalls = [
 			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
 			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true],
@@ -771,6 +771,57 @@ EOD;
 
 		$this->timeFactory->method('getDateTime')
 			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+
+		$this->reminderService->processReminders();
+	}
+
+	public function testProcessRemindersSkipsMutedRecipient():void {
+		$reminder = [
+			'id' => 1,
+			'calendar_id' => 1337,
+			'object_id' => 42,
+			'uid' => 'wej2z68l9h',
+			'is_recurring' => false,
+			'recurrence_id' => 1465430400,
+			'is_recurrence_exception' => false,
+			'event_hash' => '5c70531aab15c92b52518ae10a2f78a4',
+			'alarm_hash' => 'de919af7429d3b5c11e8b9d289b411a6',
+			'type' => 'EMAIL',
+			'is_relative' => true,
+			'notification_date' => 1465429500,
+			'is_repeat_based' => false,
+			'calendardata' => self::CALENDAR_DATA,
+			'displayname' => 'Displayname 123',
+			'principaluri' => 'principals/users/user001',
+		];
+
+		$this->backend->expects($this->once())
+			->method('getRemindersToProcess')
+			->willReturn([$reminder]);
+
+		$this->notificationProviderManager->expects($this->once())
+			->method('hasProvider')
+			->with('EMAIL')
+			->willReturn(true);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user001')
+			->willReturn($user);
+
+		$this->backend->expects($this->once())
+			->method('isReminderMutedForPrincipal')
+			->with($reminder, 'principals/users/user001')
+			->willReturn(true);
+
+		$this->notificationProviderManager->expects($this->never())
+			->method('getProvider');
+
+		$this->backend->expects($this->once())
+			->method('removeReminder')
+			->with(1);
 
 		$this->reminderService->processReminders();
 	}

@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "Всички маркирани %s ...",
     "tagged %s" : "маркиран %s",
     "Collaborative tags" : "Съвместни етикети",
+    "Search tags" : "Търсене на етикети",
     "Public" : "Публичен",
     "Restricted" : "Ограничен",
     "Invisible" : "Невидим",
@@ -64,8 +65,6 @@ OC.L10N.register(
     "Open in Files" : "Отворете във Файлове",
     "No tags found" : "Не са открити етикети",
     "Failed to load last used tags" : "Неуспешно зареждане на последно използвани етикети",
-    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/.",
-    "Collaborative tags …" : "Съвместни етикети ...",
-    "Loading …" : "Зареждане …"
+    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/."
 },
 "nplurals=2; plural=(n != 1);");

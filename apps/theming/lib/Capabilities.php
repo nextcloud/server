@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
@@ -22,6 +23,13 @@ use OCP\IUserSession;
  * @package OCA\Theming
  */
 class Capabilities implements IPublicCapability {
+
+	/**
+	 * Allowed toast timeout values in milliseconds.
+	 *
+	 * @var list<int>
+	 */
+	public const array TOAST_TIMEOUT_VALUES = [ConfigLexicon::TOAST_TIMEOUT_DEFAULT, 15000, 30000, -1];
 
 	public function __construct(
 		protected ThemingDefaults $theming,
@@ -64,6 +72,8 @@ class Capabilities implements IPublicCapability {
 	 *         inverted: bool,
 	 *         cacheBuster: string,
 	 *         enabledThemes: list<string>,
+	 *         toastTimeout: int,
+	 *         toastTimeoutValues: list<int>,
 	 *     },
 	 * }
 	 */
@@ -128,7 +138,26 @@ class Capabilities implements IPublicCapability {
 				'inverted' => $this->util->invertTextColor($color),
 				'cacheBuster' => $this->util->getCacheBuster(),
 				'enabledThemes' => $this->themesService->getEnabledThemes(),
+				'toastTimeout' => $this->getToastTimeout($user),
+				'toastTimeoutValues' => self::TOAST_TIMEOUT_VALUES,
 			],
 		];
+	}
+
+	/**
+	 * Resolve the effective toast timeout for the given user.
+	 *
+	 * Uses the config lexicon default and falls back when an invalid value is stored.
+	 */
+	private function getToastTimeout(?IUser $user): int {
+		if ($user instanceof IUser) {
+			// Config lexicon provides the default when the preference is unset.
+			$value = $this->userConfig->getValueInt($user->getUID(), Application::APP_ID, ConfigLexicon::TOAST_TIMEOUT);
+			if (in_array($value, self::TOAST_TIMEOUT_VALUES, true)) {
+				return $value;
+			}
+		}
+
+		return ConfigLexicon::TOAST_TIMEOUT_DEFAULT;
 	}
 }

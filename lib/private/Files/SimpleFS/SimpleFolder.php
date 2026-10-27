@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
@@ -88,4 +89,11 @@ class SimpleFolder implements ISimpleFolder {
 		$folder = $this->folder->newFolder($path);
 		return new SimpleFolder($folder);
 	}
+
+	#[\Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): ISimpleFolder {
+		$folder = $this->folder->getOrCreateFolder($path, $maxRetries);
+		return new SimpleFolder($folder);
+	}
+
 }

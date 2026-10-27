@@ -231,6 +231,38 @@ export const useAppsStore = defineStore('apps', () => {
 		}
 	}
 
+	// initialize store
+	initialize()
+
+	return {
+		apps,
+		bundles,
+		categories,
+		isLoadingApps,
+		isLoadingCategories,
+
+		disableApp,
+		enableApp,
+		uninstallApp,
+		enableBundle,
+
+		getAppById,
+		getAppsByCategory,
+		getCategoryById,
+		limitAppToGroups,
+	}
+
+	/**
+	 * Initialize the store
+	 */
+	async function initialize() {
+		await Promise.allSettled([
+			loadApps(),
+			loadCategories(),
+			exApps.isEnabled ? exApps.initialize() : Promise.resolve(),
+		])
+	}
+
 	/**
 	 * Load the app categories from the backend
 	 */
@@ -259,27 +291,5 @@ export const useAppsStore = defineStore('apps', () => {
 		} finally {
 			isLoadingApps.value = false
 		}
-	}
-
-	// initialize store
-	loadApps()
-	loadCategories()
-
-	return {
-		apps,
-		bundles,
-		categories,
-		isLoadingApps,
-		isLoadingCategories,
-
-		disableApp,
-		enableApp,
-		uninstallApp,
-		enableBundle,
-
-		getAppById,
-		getAppsByCategory,
-		getCategoryById,
-		limitAppToGroups,
 	}
 })

@@ -205,7 +205,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->assertEquals(2, $hooksRun);
 	}
 
-
 	public function testDeleteNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -221,7 +220,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->delete();
 	}
-
 
 	public function testStat(): void {
 		$this->root->expects($this->any())
@@ -270,7 +268,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-
 
 		$stat = $this->getFileInfo([
 			'fileid' => 1,
@@ -370,7 +367,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 			->with('/bar/foo')
 			->willReturn($this->getFileInfo([], 'foo'));
 
-
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals('foo', $node->getInternalPath());
 	}
@@ -454,7 +450,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->assertEquals(2, $hooksRun);
 	}
 
-
 	public function testTouchNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -470,7 +465,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->touch(100);
 	}
-
 
 	public function testInvalidPath(): void {
 		$this->expectException(InvalidPathException::class);
@@ -504,7 +498,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->assertEquals(3, $target->getId());
 	}
 
-
 	public function testCopyNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -535,7 +528,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$node->copy('/bar/asd');
 	}
 
-
 	public function testCopyNoParent(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -551,7 +543,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 
 		$node->copy('/bar/asd/foo');
 	}
-
 
 	public function testCopyParentIsFile(): void {
 		$this->expectException(NotPermittedException::class);
@@ -675,7 +666,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->assertEquals(4, $hooksRun);
 	}
 
-
 	public function testMoveNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -696,7 +686,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 
 		$node->move('/bar/asd');
 	}
-
 
 	public function testMoveNoParent(): void {
 		$this->expectException(NotFoundException::class);
@@ -719,7 +708,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
-
 	public function testMoveParentIsFile(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -736,7 +724,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 
 		$node->move('/bar/asd');
 	}
-
 
 	public function testMoveFailed(): void {
 		$this->expectException(NotPermittedException::class);
@@ -759,7 +746,6 @@ abstract class NodeTestCase extends \Test\TestCase {
 
 		$node->move('/bar/asd');
 	}
-
 
 	public function testCopyFailed(): void {
 		$this->expectException(NotPermittedException::class);

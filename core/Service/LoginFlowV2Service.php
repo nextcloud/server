@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Service;
 
 use OC\Authentication\Exceptions\PasswordlessTokenException;
@@ -20,7 +21,9 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -34,6 +37,7 @@ class LoginFlowV2Service {
 		private ICrypto $crypto,
 		private LoggerInterface $logger,
 		private IProvider $tokenProvider,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -152,7 +156,7 @@ class LoginFlowV2Service {
 		}
 
 		$appPassword = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$appPassword,
 			$userId,
 			$loginName,
@@ -161,6 +165,12 @@ class LoginFlowV2Service {
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		$data->setLoginName($loginName);
 		$data->setServer($server);

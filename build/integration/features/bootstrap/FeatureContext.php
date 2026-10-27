@@ -8,15 +8,15 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 
 require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext {
+class FeatureContext implements Context {
 	use AppConfiguration;
+	use OccRunner;
 	use ContactsMenu;
 	use ExternalStorage;
 	use Search;
@@ -29,5 +29,6 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('bruteforcesettings', 'apply_allowlist_to_ratelimit');
 		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
 		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
+		$this->deleteServerConfig('dav', 'system_addressbook_exposed');
 	}
 }

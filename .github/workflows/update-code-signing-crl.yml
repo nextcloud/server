@@ -16,9 +16,11 @@ jobs:
 
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         branches:
           - ${{ github.event.repository.default_branch }}
+          - 'stable35'
           - 'stable34'
           - 'stable33'
           - 'stable32'
@@ -36,7 +38,7 @@ jobs:
     name: update-code-signing-crl-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           ref: ${{ matrix.branches }}
@@ -52,7 +54,10 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: 'fix(security): Update code signing revocation list'
+          commit-message: |
+            fix(security): Update code signing revocation list
+
+            [skip ci]
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true

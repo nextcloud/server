@@ -17,8 +17,7 @@ const appVersion = readFileSync(path.join(__dirname, '../../version.php')).toStr
 const isDev = process.env.NODE_ENV === 'development'
 
 /**
- *
- * @param modules
+ * @param {Record<string, Record<string, string>>} modules - The modules object from webpack.modules.cjs
  */
 function formatOutputFromModules(modules) {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -76,14 +75,6 @@ const config = {
 
 	module: {
 		rules: [
-			{
-				test: /davclient/,
-				loader: 'exports-loader',
-				options: {
-					type: 'commonjs',
-					exports: 'dav',
-				},
-			},
 			{
 				test: /\.css$/,
 				oneOf: [
@@ -163,10 +154,6 @@ const config = {
 			{
 				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
 				type: 'asset/inline',
-			},
-			{
-				test: /\.handlebars/,
-				loader: 'handlebars-loader',
 			},
 			{
 				resourceQuery: /raw/,
@@ -253,8 +240,8 @@ const config = {
 	},
 	resolve: {
 		alias: {
-			// make sure to use the handlebar runtime when importing
-			handlebars: 'handlebars/runtime',
+			// allow to import from root (cross reference already migrated apps)
+			'~*': path.resolve(__dirname, '../../*'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
 		extensionAlias: {

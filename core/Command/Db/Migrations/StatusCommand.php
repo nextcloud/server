@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
@@ -84,10 +85,11 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	public function getMigrationsInfos(MigrationService $ms) {
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
-		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
+		$executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
-		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
+		$numNewMigrations = count(array_diff($availableMigrations, $executedMigrations));
+
 		$pending = $ms->describeMigrationStep();
 
 		$infos = [

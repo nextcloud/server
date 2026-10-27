@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\S3\Exception\S3Exception;
@@ -19,6 +20,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\NotPermittedException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ITempManager;
@@ -68,6 +70,11 @@ class AmazonS3 extends Common {
 
 	private function isRoot(string $path): bool {
 		return $path === '.';
+	}
+
+	private function getCachePath(string $path): string {
+		// normalizePath() converts '' to '.' for S3 object keys, but filecache stores the root as ''
+		return $this->isRoot($path) ? '' : $path;
 	}
 
 	private function cleanKey(string $path): string {
@@ -179,7 +186,6 @@ class AmazonS3 extends Common {
 			throw $e;
 		}
 
-
 		$this->directoryCache[$path] = false;
 		return false;
 	}
@@ -230,7 +236,6 @@ class AmazonS3 extends Common {
 	public function file_exists(string $path): bool {
 		return $this->filetype($path) !== false;
 	}
-
 
 	#[\Override]
 	public function rmdir(string $path): bool {
@@ -324,6 +329,28 @@ class AmazonS3 extends Common {
 		$stat['atime'] = time();
 
 		return $stat;
+	}
+
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		$data = parent::getMetaData($path);
+		if ($data !== null && $data['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+			// Common::getMetaData sets storage_mtime = mtime, but for S3 virtual directories
+			// mtime may have been updated by mtime propagation while storage_mtime should
+			// reflect the actual last storage change. Without this override the scanner sees
+			// data['storage_mtime'] != cacheData['storage_mtime'] and re-writes the cache,
+			// causing View::getCacheEntry to trigger propagateChange on every read.
+			$path = $this->normalizePath($path);
+			$cacheEntry = $this->getCache()->get($this->getCachePath($path));
+			if ($cacheEntry instanceof CacheEntry) {
+				$data['storage_mtime'] = $cacheEntry->getStorageMTime();
+			} elseif (!$this->isRoot($path) && $directoryMarker = $this->headObject($path . '/')) {
+				if (isset($directoryMarker['LastModified'])) {
+					$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+				}
+			}
+		}
+		return $data;
 	}
 
 	#[\Override]
@@ -531,7 +558,12 @@ class AmazonS3 extends Common {
 			foreach ($this->getDirectoryContent($source) as $item) {
 				$childSource = $source . '/' . $item['name'];
 				$childTarget = $target . '/' . $item['name'];
-				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
+				// Propagate copy failure
+				if ($this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER) === false) {
+					// Cache is stale because the target was already partially written
+					$this->invalidateCache($target);
+					return false;
+				}
 			}
 		}
 
@@ -649,12 +681,14 @@ class AmazonS3 extends Common {
 	}
 
 	private function objectToMetaData(array $object): array {
+		$mtime = isset($object['LastModified']) ? strtotime($object['LastModified']) : time();
+		$etag = isset($object['ETag']) ? trim($object['ETag'], '"') : '';
 		return [
 			'name' => basename($object['Key']),
 			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
-			'mtime' => strtotime($object['LastModified']),
-			'storage_mtime' => strtotime($object['LastModified']),
-			'etag' => trim($object['ETag'], '"'),
+			'mtime' => $mtime,
+			'storage_mtime' => $mtime,
+			'etag' => $etag,
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
 		];
@@ -667,7 +701,7 @@ class AmazonS3 extends Common {
 		if ($this->versioningEnabled() && !$this->doesDirectoryExist($path)) {
 			return null;
 		}
-		$cacheEntry = $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($this->getCachePath($path));
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
@@ -744,7 +778,15 @@ class AmazonS3 extends Common {
 		}
 
 		$path = $this->normalizePath($path);
-		$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		try {
+			$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		} catch (S3Exception $exception) {
+			$this->logger->error($exception->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $exception,
+			]);
+			throw new NotPermittedException($exception->getMessage(), $exception->getCode(), $exception);
+		}
 		$this->invalidateCache($path);
 
 		return $size;
@@ -759,6 +801,7 @@ class AmazonS3 extends Common {
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $path,
+			'ResponseContentDisposition' => $this->attachmentContentDisposition(basename($path)),
 		]);
 		$expiration = new \DateTimeImmutable('+60 minutes');
 

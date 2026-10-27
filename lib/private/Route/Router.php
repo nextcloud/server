@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Route;
 
 use DirectoryIterator;
@@ -223,7 +224,6 @@ class Router implements IRouter {
 		return $this->collectionName;
 	}
 
-
 	/**
 	 * Create a \OC\Route\Route.
 	 *
@@ -342,7 +342,7 @@ class Router implements IRouter {
 		unset($param['_route']);
 		$_GET = array_merge($_GET, $param);
 		unset($param);
-		require_once $parameters['file'];
+		require $parameters['file'];
 	}
 
 	/**
@@ -526,7 +526,6 @@ class Router implements IRouter {
 	protected function requireRouteFile(string $file, string $appName): void {
 		$this->setupRoutes(include $file, $appName);
 	}
-
 
 	/**
 	 * If a routes.php file returns an array, try to set up the application and

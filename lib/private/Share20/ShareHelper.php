@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Share20;
 
 use OCP\Files\InvalidPathException;
@@ -103,7 +104,7 @@ class ShareHelper implements IShareHelper {
 			try {
 				$item = $item->getParent();
 
-				if ($byId[$item->getId()] !== []) {
+				if (isset($byId[$item->getId()]) && $byId[$item->getId()] !== []) {
 					foreach ($byId[$item->getId()] as $uid => $path) {
 						$results[$uid] = $path . $appendix;
 					}
@@ -160,7 +161,7 @@ class ShareHelper implements IShareHelper {
 		$item = $node;
 		while (!empty($byId)) {
 			try {
-				if ($byId[$item->getId()] !== []) {
+				if (isset($byId[$item->getId()]) && $byId[$item->getId()] !== []) {
 					$path = $this->getMountedPath($item);
 					foreach ($byId[$item->getId()] as $uid => $token) {
 						$results[$uid] = [

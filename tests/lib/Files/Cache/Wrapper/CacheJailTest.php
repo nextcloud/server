@@ -89,7 +89,6 @@ class CacheJailTest extends CacheTest {
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
 
-
 		$this->sourceCache->insert('folder', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->sourceCache->put($file1, $data1);
 		$this->sourceCache->put($file2, $data1);

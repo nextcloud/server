@@ -15,8 +15,10 @@ export interface INavigationEntry {
 	href: string
 	/** The icon used for the naviation entry */
 	icon: string
-	/** Type of the navigation entry ('link' vs 'settings') */
-	type: 'link' | 'settings'
+	/** CSS color of the action indicator, only used by entries of type 'action' */
+	color?: string
+	/** Type of the navigation entry ('link' vs 'settings' vs 'action') */
+	type: 'link' | 'settings' | 'action'
 	/** Localized name of the navigation entry */
 	name: string
 	/** Whether this is the default app */

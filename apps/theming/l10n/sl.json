@@ -80,19 +80,8 @@
     "Reset primary color" : "Ponastavi prvo barvo",
     "Reset to default" : "Ponastavi na privzeto",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Če naletite na težave, ne odlašajte in takoj pošljite poročilo na {issuetracker}sledilnik{linkend}, če želite sodelovati, pa se pridružite {designteam}skupini oblikovalcev{linkend}!",
-    "Customization has been disabled by your administrator" : "Prilagajanje je skrbniško onemogočeno.",
-    "Disable-user-theming should be true or false" : "Možnost za omogočanje uporabniške teme mora biti prav ali napak.",
-    "Header logo" : "Logotip glave",
-    "Upload new header logo" : "Pošlji nov logotip glave",
-    "Upload new favicon" : "Pošli novo ikono zaznamka",
-    "User settings" : "Uporabniške nastavitve",
-    "Upload new logo" : "Pošlji nov logotip",
-    "Upload new background and login image" : "Pošlji novo sliko ozadja in prijavno sliko",
-    "Background and login image" : "Ozadje in prijavna slika",
-    "Advanced options" : "Napredne možnosti",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve ImageMagick PHP s podporo za zapis SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve.",
-    "No background has been selected" : "Ni izbranega ozadja",
-    "Select a custom color" : "Izbor barve po meri",
-    "Upload" : "Pošlji"
+    "Themes" : "Teme",
+    "Fonts" : "Pisave",
+    "Customization has been disabled by your administrator" : "Prilagajanje je skrbniško onemogočeno."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

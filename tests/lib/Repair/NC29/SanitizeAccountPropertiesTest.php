@@ -6,23 +6,22 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC29;
 
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SanitizeAccountPropertiesTest extends TestCase {
 
-	private IJobList&MockObject $jobList;
 	private SanitizeAccountProperties $repairStep;
 
 	#[\Override]
 	protected function setUp(): void {
-		$this->jobList = $this->createMock(IJobList::class);
+		parent::setUp();
 
-		$this->repairStep = new SanitizeAccountProperties($this->jobList);
+		$this->repairStep = $this->createInstanceWithMocks(SanitizeAccountProperties::class);
 	}
 
 	public function testGetName(): void {
@@ -30,7 +29,7 @@ class SanitizeAccountPropertiesTest extends TestCase {
 	}
 
 	public function testRun(): void {
-		$this->jobList->expects(self::once())
+		$this->getAutoMock(IJobList::class)->expects(self::once())
 			->method('add')
 			->with(SanitizeAccountPropertiesJob::class, null);
 

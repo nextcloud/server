@@ -18,7 +18,6 @@ class MemoryTest extends Session {
 		$this->instance = new Memory();
 	}
 
-
 	public function testThrowsExceptionOnGetId(): void {
 		$this->expectException(SessionNotAvailableException::class);
 

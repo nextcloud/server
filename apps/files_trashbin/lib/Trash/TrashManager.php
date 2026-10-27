@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\Storage\IStorage;
@@ -36,6 +37,17 @@ class TrashManager implements ITrashManager {
 			return $b->getDeletedTime() - $a->getDeletedTime();
 		});
 		return $items;
+	}
+
+	#[\Override]
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
+		foreach ($this->getBackends() as $backend) {
+			$item = $backend->getTrashRootItem($user, $name);
+			if ($item !== null) {
+				return $item;
+			}
+		}
+		return null;
 	}
 
 	private function getBackendForItem(ITrashItem $item) {
@@ -88,12 +100,18 @@ class TrashManager implements ITrashManager {
 		}
 		try {
 			$backend = $this->getBackendForStorage($storage);
-			$this->trashPaused = true;
-			$result = $backend->moveToTrash($storage, $internalPath);
-			$this->trashPaused = false;
-			return $result;
-		} catch (BackendNotFoundException $e) {
+		} catch (BackendNotFoundException) {
 			return false;
+		}
+
+		// pausing prevents the backend from recursing into the trash logic again,
+		// it has to be released even when the move fails or the trash bin would
+		// stay disabled for the rest of the request
+		$this->trashPaused = true;
+		try {
+			return $backend->moveToTrash($storage, $internalPath);
+		} finally {
+			$this->trashPaused = false;
 		}
 	}
 

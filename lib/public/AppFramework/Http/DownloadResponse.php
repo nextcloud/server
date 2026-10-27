@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 /**
  * Prompts the user to download the a file
@@ -31,9 +33,7 @@ class DownloadResponse extends Response {
 		parent::__construct($status, $headers);
 
 		$sanitized = str_replace(['/', '\\'], '-', $filename);
-		$fallback = @iconv('UTF-8', 'ASCII//TRANSLIT', $sanitized) ?: $sanitized;
-		$fallback = preg_replace('/[^\x20-\x7e]/', '', $fallback);
-		$fallback = str_replace('%', '', $fallback);
+		$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
 		$this->addHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$this->addHeader('Content-Type', $contentType);
 	}

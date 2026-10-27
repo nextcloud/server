@@ -97,25 +97,12 @@
     "Reset to default" : "Berezarri balio lehenetsira",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala oso gai garrantzitsua da guretzat. Web estandarrak betetzen ditugu eta egiaztatzen dugu dena erabilgarri izan dadin sagurik gabe ere, eta laguntza-softwarea, hala nola pantaila-irakurleak. {linkstart} web edukien irisgarritasun jarraibideen{linkend} AAko 2.1 maila betetzea helburu dugu kontraste handiko gaiarekin baita AAA maila.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazoren bat aurkitzen baduzu, ez izan zalantzarik eta jakinarazi {issuetracker}gure arazoen jarraipena{linkend} zerbitzuan. Eta parte hartu nahi baduzu, etorri {designteam}gure diseinu taldera{linkend}!",
-    "Unable to apply the setting." : "Ezin izan da ezarpena aplikatu,",
     "Appearance and accessibility settings" : "Itxura eta irisgarritasun ezarpenak",
+    "Themes" : "Gaiak",
+    "Fonts" : "Letra motak",
     "Misc accessibility options" : "Irisgarritasun-aukera desberdinak",
     "Enable blur background filter (may increase GPU load)" : "Gaitu atzeko planoa lausotzeko iragazkia (baliteke GPUaren karga handitzea)",
     "Customization has been disabled by your administrator" : "Zure administratzaileak pertsonalizazioa desgaitu du",
-    "Disable-user-theming should be true or false" : "Desgaitu-erabiltzailea-gaiak egia ala faltsua izan behar du",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Kolore nagusia botoi garrantzitsuak bezalako elementuak nabarmentzeko erabiltzen da. Baliteke apur bat doitzea uneko kolore-eskemaren arabera.",
-    "Header logo" : "Goiburuaren logoa",
-    "Upload new header logo" : "Igo goiburuaren logo berria",
-    "Upload new favicon" : "Igo gogoko-ikono berria",
-    "User settings" : "Erabiltzaile ezarpenak",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Atzeko planoko irudi baten ordez atzeko planoko kolore arrunta ezar dezakezu. Atzeko planoko irudi bat erabiltzen baduzu kolore hori aldatzeak aplikazioen menuko ikonoen kolorean eragina izango du.",
-    "Upload new logo" : "Igo logo berria",
-    "Upload new background and login image" : "Igo atzeko planoa eta saioa hasteko irudi berria",
-    "Background and login image" : "Atzeko planoa eta saioa hasteko irudia",
-    "Advanced options" : "Ezarpen aurreratuak",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu ImageMagick PHP luzapena SVG irudietarako laguntzarekin automatikoki sortzeko igotako logotipo eta kolorean oinarritutako gogoko-ikonoak.",
-    "No background has been selected" : "Ez da atzeko planorik hautatu",
-    "Select a custom color" : "Hautatu kolore pertsonalizatu bat",
-    "Upload" : "Igo"
+    "Unable to apply the setting." : "Ezin izan da ezarpena aplikatu,"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

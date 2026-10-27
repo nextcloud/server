@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -292,20 +293,18 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function orderBy($sort, $order = null);
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function addOrderBy($sort, $order = null);
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * @inheritDoc

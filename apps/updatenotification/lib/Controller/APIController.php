@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\Controller;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -42,6 +43,7 @@ class APIController extends OCSController {
 		'twofactor_nextcloud_notification' => 30,
 		'app_api' => 30,
 		'files_lock' => 34,
+		'office' => 34,
 	];
 
 	public function __construct(

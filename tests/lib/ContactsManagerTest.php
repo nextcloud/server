@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test;
 
 use OC\ContactsManager;
@@ -100,7 +101,6 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('getKey')
 			->willReturn('simple:2');
 
-
 		$this->cm->registerAddressBook($addressbook1);
 		$this->cm->registerAddressBook($addressbook2);
 		$result = $this->cm->search('');
@@ -142,7 +142,6 @@ class ContactsManagerTest extends \Test\TestCase {
 		$result = $this->cm->search('');
 		$this->assertEquals($search1, $result);
 	}
-
 
 	public function testDeleteHavePermission(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBookEnabled $addressbook */

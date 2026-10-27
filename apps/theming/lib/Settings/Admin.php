@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Settings;
 
 use OCA\Theming\AppInfo\Application;
@@ -114,7 +115,7 @@ class Admin implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			Application::APP_ID => '/.*/',
+			Application::APP_ID => '/^.*$/',
 		];
 	}
 }

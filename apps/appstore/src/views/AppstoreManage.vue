@@ -4,8 +4,10 @@
 -->
 
 <script setup lang="ts">
+import { mdiUpdate } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
-import { computed } from 'vue'
+import { NcIconSvgWrapper, spawnDialog } from '@nextcloud/vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
@@ -15,10 +17,14 @@ import AppTable from '../components/AppTable/AppTable.vue'
 import AppToolbar from '../components/AppToolbar.vue'
 import { useFilteredApps } from '../composables/useFilteredApps.ts'
 import { useAppsStore } from '../store/apps.ts'
+import { useUpdatesStore } from '../store/updates.ts'
 import { useUserSettingsStore } from '../store/userSettings.ts'
+
+const UpdateAllDialog = defineAsyncComponent(() => import('../components/UpdateAllDialog.vue'))
 
 const route = useRoute()
 const store = useAppsStore()
+const updatesStore = useUpdatesStore()
 const userSettings = useUserSettingsStore()
 
 const currentCategory = computed(() => route.params!.category as 'enabled' | 'installed' | 'disabled' | 'updates')
@@ -30,15 +36,35 @@ const apps = computed(() => {
 	} else if (currentCategory.value === 'disabled') {
 		return store.apps.filter((app) => app.installed && !app.active)
 	} else if (currentCategory.value === 'updates') {
-		return store.apps.filter((app) => app.update)
+		return store.apps.filter((app) => app.active && app.update)
 	}
 	return []
 })
 const visibleApps = useFilteredApps(apps)
+
+/**
+ * Handle update all apps
+ */
+async function onUpdateAll() {
+	await spawnDialog(UpdateAllDialog, {
+		apps: visibleApps.value,
+	})
+}
 </script>
 
 <template>
 	<AppToolbar />
+
+	<NcButton
+		v-if="currentCategory === 'updates' && updatesStore.updateCount > 0"
+		:class="$style.appstoreManage__updateAllButton"
+		variant="primary"
+		@click="onUpdateAll">
+		<template #icon>
+			<NcIconSvgWrapper :path="mdiUpdate" />
+		</template>
+		{{ t('appstore', 'Update all applications') }}
+	</NcButton>
 
 	<!-- Apps list -->
 	<NcEmptyContent
@@ -68,5 +94,10 @@ const visibleApps = useFilteredApps(apps)
 <style module>
 .appstoreManage {
 	margin-bottom: var(--body-container-margin);
+}
+
+.appstoreManage__updateAllButton {
+	margin-inline: var(--app-navigation-padding);
+	margin-block: calc(3 * var(--default-grid-baseline));
 }
 </style>

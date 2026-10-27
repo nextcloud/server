@@ -195,6 +195,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -208,7 +209,7 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/1')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
@@ -227,6 +228,7 @@ describe('Reject share action execute tests', () => {
 			attributes: {
 				remote: 3,
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -240,7 +242,7 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/1')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
@@ -258,6 +260,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -270,6 +273,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '2',
 			},
 			root: '/files/admin',
 		})
@@ -283,8 +287,8 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)
-		expect(axios.delete).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
-		expect(axios.delete).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/456')
+		expect(axios.delete).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/1')
+		expect(axios.delete).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/2')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
@@ -304,6 +308,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -317,7 +322,7 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(false)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/1')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})

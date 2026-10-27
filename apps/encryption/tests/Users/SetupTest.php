@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Users;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -45,7 +46,6 @@ class SetupTest extends TestCase {
 			$cacheFactory,
 		);
 	}
-
 
 	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');

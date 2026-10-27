@@ -39,7 +39,6 @@ class ShareTargetValidatorTest extends TestCase {
 
 		$this->filename = '/share-api-storage.txt';
 
-
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder2);
 
@@ -62,7 +61,6 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->user2->method('getUID')
 			->willReturn(self::TEST_FILES_SHARING_API_USER2);
 	}
-
 
 	/**
 	 * test if the mount point moves up if the parent folder no longer exists
@@ -156,7 +154,6 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 		$this->view->unlink($this->folder);
 	}
-
 
 	/**
 	 * test if the parent folder is created if asked for

@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -17,7 +19,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
@@ -28,8 +29,8 @@ use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\OCM\Permissions;
 use OCP\Server;
-use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
@@ -69,6 +70,7 @@ class RequestHandlerController extends OCSController {
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function createShare(
 		?string $remote = null,
 		?string $token = null,
@@ -169,7 +171,6 @@ class RequestHandlerController extends OCSController {
 
 		throw new OCSBadRequestException();
 	}
-
 
 	/**
 	 * accept server-to-server share
@@ -274,7 +275,6 @@ class RequestHandlerController extends OCSController {
 		return rtrim($remote, '/');
 	}
 
-
 	/**
 	 * federated share was revoked, either by the owner or the re-sharer
 	 *
@@ -334,7 +334,7 @@ class RequestHandlerController extends OCSController {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
-			$ocmPermissions = $this->ncPermissions2ocmPermissions((int)$ncPermissions);
+			$ocmPermissions = Permissions::fromNextcloud((int)$ncPermissions);
 			$notification = ['sharedSecret' => $token, 'permission' => $ocmPermissions];
 			$provider->notificationReceived('RESHARE_CHANGE_PERMISSION', $id, $notification);
 			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" has updated permissions "%s"', [$id, implode(', ', $ocmPermissions)]));
@@ -344,31 +344,6 @@ class RequestHandlerController extends OCSController {
 		}
 
 		return new DataResponse();
-	}
-
-	/**
-	 * translate Nextcloud permissions to OCM Permissions
-	 *
-	 * @param $ncPermissions
-	 * @return array
-	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions) {
-		$ocmPermissions = [];
-
-		if ($ncPermissions & Constants::PERMISSION_SHARE) {
-			$ocmPermissions[] = 'share';
-		}
-
-		if ($ncPermissions & Constants::PERMISSION_READ) {
-			$ocmPermissions[] = 'read';
-		}
-
-		if (($ncPermissions & Constants::PERMISSION_CREATE)
-			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
-			$ocmPermissions[] = 'write';
-		}
-
-		return $ocmPermissions;
 	}
 
 	/**
@@ -399,7 +374,7 @@ class RequestHandlerController extends OCSController {
 			->set('owner', $qb->createNamedParameter($cloudId->getUser()))
 			->set('remote_id', $qb->createNamedParameter($newRemoteId))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('share_token', $qb->createNamedParameter($token)));
+			->andWhere($qb->expr()->eq('refresh_token', $qb->createNamedParameter($token)));
 		$affected = $query->executeStatement();
 
 		if ($affected > 0) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -88,6 +89,10 @@ class RateLimitingMiddleware extends Middleware {
 			);
 
 			if ($rateLimit !== null) {
+				if (!$rateLimit->shouldApply($this->request)) {
+					return;
+				}
+
 				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
 					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
 					return;
@@ -114,6 +119,10 @@ class RateLimitingMiddleware extends Middleware {
 		);
 
 		if ($rateLimit !== null) {
+			if (!$rateLimit->shouldApply($this->request)) {
+				return;
+			}
+
 			$this->limiter->registerAnonRequest(
 				$rateLimitIdentifier,
 				$rateLimit->getLimit(),
@@ -130,6 +139,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param string $annotationName
 	 * @param class-string<T> $attributeClass
+	 * @param string $overwriteKey
 	 * @return ?ARateLimit
 	 */
 	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass, string $overwriteKey): ?ARateLimit {
@@ -172,7 +182,7 @@ class RateLimitingMiddleware extends Middleware {
 		}
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		$attributes = $reflectionMethod->getAttributes($attributeClass);
+		$attributes = $reflectionMethod->getAttributes($attributeClass, \ReflectionAttribute::IS_INSTANCEOF);
 		$attribute = current($attributes);
 
 		if ($attribute !== false) {

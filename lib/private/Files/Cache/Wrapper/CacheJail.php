@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
@@ -101,7 +102,12 @@ class CacheJail extends CacheWrapper {
 	#[\Override]
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
-			$entry['path'] = $this->getJailedPath($entry['path']);
+			$jailedPath = $this->getJailedPath($entry['path']);
+			if ($jailedPath !== null) {
+				$entry['path'] = $jailedPath;
+			} else {
+				return false;
+			}
 		}
 		return $entry;
 	}

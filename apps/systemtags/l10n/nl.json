@@ -39,6 +39,7 @@
     "Files" : "Bestanden",
     "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
+    "Search tags" : "Zoek in tags",
     "Public" : "Standaard",
     "Restricted" : "Beschermd",
     "Invisible" : "Verborgen",
@@ -62,7 +63,6 @@
     "Add tags" : "Toevoegen tags",
     "Assigned collaborative tags" : "Samenwerkingstags toewijzen",
     "Open in Files" : "Open in Bestanden",
-    "No tags found" : "Geen tags gevonden",
-    "Loading …" : "Laden …"
+    "No tags found" : "Geen tags gevonden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

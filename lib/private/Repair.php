@@ -5,10 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCheckCodeIntegrityJob;
+use OC\Repair\AddCleanupBackgroundJobsJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
+use OC\Repair\AddCleanupLoginTokens;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddMovePreviewJob;
@@ -56,6 +60,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\RepairSanitizeSystemTags;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -133,14 +138,14 @@ class Repair implements IOutput {
 				}
 			}
 
-			if (!($s instanceof IRepairStep)) {
+			if (!$s instanceof IRepairStep) {
 				throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 			}
 
 			$repairStep = $s;
 		}
 
-		if (($repairStep instanceof IRepairStepExpensive) && !$includeExpensive) {
+		if ($repairStep instanceof IRepairStepExpensive && !$includeExpensive) {
 			$this->debug("Skipping expensive repair step '" . $repairStep::class . "'");
 		} else {
 			$this->repairSteps[] = $repairStep;
@@ -191,9 +196,12 @@ class Repair implements IOutput {
 			Server::get(RepairLogoDimension::class),
 			Server::get(RemoveLegacyDatadirFile::class),
 			Server::get(AddCleanupDeletedUsersBackgroundJob::class),
+			Server::get(AddCleanupLoginTokens::class),
 			Server::get(SanitizeAccountProperties::class),
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
+			Server::get(AddCleanupBackgroundJobsJob::class),
+			Server::get(AddCheckCodeIntegrityJob::class),
 		];
 
 		if ($includeExpensive) {
@@ -201,6 +209,7 @@ class Repair implements IOutput {
 				Server::get(OldGroupMembershipShares::class),
 				Server::get(RemoveBrokenProperties::class),
 				Server::get(RepairMimeTypes::class),
+				Server::get(RepairSanitizeSystemTags::class),
 			];
 			$repairSteps = array_merge($repairSteps, $expensiveSteps);
 		}

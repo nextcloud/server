@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Utils\PathHelper;
@@ -124,11 +125,16 @@ class Directory extends Node implements
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			$this->fileView->lockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 
-			$result = $node->put($data);
-
-			$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
-			$node->releaseLock(ILockingProvider::LOCK_SHARED);
-			return $result;
+			try {
+				return $node->put($data);
+			} finally {
+				// Always release the locks, even when the upload failed or was
+				// interrupted. Otherwise a failed attempt leaves the exclusive
+				// part-file lock behind and every later upload to the same path
+				// keeps getting rejected with 423 until the lock TTL expires.
+				$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+				$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			}
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
@@ -401,7 +407,6 @@ class Directory extends Node implements
 
 		$destinationPath = $this->getPath() . '/' . $targetName;
 
-
 		$targetNodeExists = $this->childExists($targetName);
 
 		// at getNodeForPath we also check the path for isForbiddenFileOrDir
@@ -465,7 +470,6 @@ class Directory extends Node implements
 
 		return true;
 	}
-
 
 	#[\Override]
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
@@ -535,7 +539,7 @@ class Directory extends Node implements
 			$info = $this->getNode()->get($path);
 		} catch (NotFoundException $e) {
 			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $destinationPath
-				. ' could not be located');
+				. ' could not be located', previous: $e);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (NotPermittedException $ex) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OC\AppFramework\Http\Request;
@@ -72,7 +73,11 @@ class DefaultTheme implements ITheme {
 
 	#[\Override]
 	public function getMeta(): array {
-		return [];
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'light',
+		]];
 	}
 
 	#[\Override]
@@ -213,7 +218,7 @@ class DefaultTheme implements ITheme {
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
-			'--animation-slow' => '300ms',
+			'--animation-slow' => '200ms',
 
 			// Default variables --------------------------------------------
 			// Border width for input elements such as text fields and selects
@@ -239,8 +244,8 @@ class DefaultTheme implements ITheme {
 			'--default-grid-baseline' => '4px',
 
 			// header / navigation bar
-			'--header-height' => '50px',
-			'--header-menu-item-height' => '44px',
+			'--header-height' => '44px',
+			'--header-menu-item-height' => '34px',
 			/* An alpha mask to be applied to all icons on the navigation bar (header menu).
 			 * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
 			 * for better gradient we must at first begin at those 2px (10% of height) as start and stop positions.

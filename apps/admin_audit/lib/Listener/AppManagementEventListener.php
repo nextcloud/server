@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\Events\AppUpdateEvent;
@@ -33,12 +34,12 @@ class AppManagementEventListener extends Action implements IEventListener {
 
 	private function appEnable(AppEnableEvent $event): void {
 		if (empty($event->getGroupIds())) {
-			$this->log('App "%s" enabled',
+			$this->log(Operation::AppEnabled, 'App "%s" enabled',
 				['app' => $event->getAppId()],
 				['app']
 			);
 		} else {
-			$this->log('App "%1$s" enabled for groups: %2$s',
+			$this->log(Operation::AppEnabled, 'App "%1$s" enabled for groups: %2$s',
 				['app' => $event->getAppId(), 'groups' => implode(', ', $event->getGroupIds())],
 				['app', 'groups']
 			);
@@ -46,14 +47,14 @@ class AppManagementEventListener extends Action implements IEventListener {
 	}
 
 	private function appDisable(AppDisableEvent $event): void {
-		$this->log('App "%s" disabled',
+		$this->log(Operation::AppDisabled, 'App "%s" disabled',
 			['app' => $event->getAppId()],
 			['app']
 		);
 	}
 
 	private function appUpdate(AppUpdateEvent $event): void {
-		$this->log('App "%s" updated',
+		$this->log(Operation::AppUpdated, 'App "%s" updated',
 			['app' => $event->getAppId()],
 			['app']
 		);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Migration;
 
 use OCP\Migration\IOutput;

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Bestanden",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Je werd genoemd op \"{file}\", in een reactie van een account dat intussen is verwijderd",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} noemde jou in een reactie op \"{file}\"",
+    "Go to file" : "Naar bestand gaan",
     "Files app plugin to add comments to files" : "Bestanden app plugin om reacties aan bestanden toe te voegen",
     "Edit comment" : "Reactie bewerken",
     "Delete comment" : "Reactie verwijderen",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Er is een fout opgetreden bij het bewerken van de reactie",
     "Comment deleted" : "Reactie verwijderd",
     "An error occurred while trying to delete the comment" : "Er is een fout opgetreden bij het verwijderen van de reactie",
-    "An error occurred while trying to create the comment" : "Er is een fout opgetreden bij het aanmaken van de reactie",
-    "Write a comment …" : "Schrijf een reactie…"
+    "An error occurred while trying to create the comment" : "Er is een fout opgetreden bij het aanmaken van de reactie"
 },
 "nplurals=2; plural=(n != 1);");

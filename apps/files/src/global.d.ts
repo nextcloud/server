@@ -6,6 +6,7 @@
 import type { ISidebar } from '@nextcloud/files'
 import type { Pinia } from 'pinia'
 import type Router from './services/RouterService.ts'
+import type { SidebarSharedState } from './sidebar/sharedState.ts'
 
 declare global {
 	interface Window {
@@ -22,7 +23,15 @@ declare global {
 		OCA: Record<string, unknown> & {
 			Files?: {
 				/** private implementation of the sidebar to be proxied by `@nextcloud/files` */
-				_sidebar?: () => Omit<ISidebar, 'available' | 'registerTab' | 'registerAction' | 'registerAction'>
+				_sidebar?: () => Omit<ISidebar, 'available' | 'mount' | 'registerTab' | 'registerAction'>
+
+				/** private implementation of rendering the sidebar, proxied by `@nextcloud/files` */
+				_mountSidebar?: (target: HTMLElement) => void
+
+				Sidebar?: {
+					/** private sidebar state shared between the entry points (needed with Webpack) */
+					_sharedState?: SidebarSharedState
+				}
 			}
 		}
 	}

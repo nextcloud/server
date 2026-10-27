@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -55,5 +56,16 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, 'ILIKE', $y);
+	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->comparison($x, 'NOT ILIKE', $y);
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -13,7 +14,6 @@ use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Profiler\IProfiler;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {

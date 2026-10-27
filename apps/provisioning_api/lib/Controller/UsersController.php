@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
+use OC\AppFramework\Http\PaginationTrait;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Group;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -25,6 +27,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
@@ -57,8 +60,10 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class UsersController extends AUserDataOCSController {
+	use PaginationTrait;
 
 	private IL10N $l10n;
 
@@ -83,6 +88,7 @@ class UsersController extends AUserDataOCSController {
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
 		private IAppConfig $appConfig,
+		GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct(
 			$appName,
@@ -95,6 +101,7 @@ class UsersController extends AUserDataOCSController {
 			$subAdminManager,
 			$l10nFactory,
 			$rootFolder,
+			$groupDisplayNameCache,
 		);
 
 		$this->l10n = $l10nFactory->get($appName);
@@ -106,7 +113,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: list<string>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: list<string>}, array{Link?: string}>
 	 *
 	 * 200: Users returned
 	 */
@@ -137,9 +144,12 @@ class UsersController extends AUserDataOCSController {
 		/** @var list<string> $users */
 		$users = array_keys($users);
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $users
-		]);
+		], headers: $headers);
 	}
 
 	/**
@@ -148,14 +158,17 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @param bool|null $enabled Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned
 	 */
 	#[NoAdminRequired]
-	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, ?bool $enabled = null): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
+		$hasMore = null;
+		$nextOffset = null;
 
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
@@ -163,19 +176,47 @@ class UsersController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($uid);
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
 		if ($isAdmin || $isDelegatedAdmin) {
-			$users = $this->userManager->search($search, $limit, $offset);
-			$users = array_keys($users);
+			$searchUsers = fn (?int $limit, int $offset): array => $this->userManager->search($search, $limit, $offset);
+			if ($enabled !== null) {
+				[$users, $nextOffset, $hasMore] = $this->searchFilteredUsers(
+					$searchUsers,
+					$limit,
+					$offset,
+					enabled: $enabled,
+				);
+				$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+			} else {
+				$users = $searchUsers($limit, $offset);
+				$users = array_keys($users);
+			}
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
-			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
-			foreach ($subAdminOfGroups as $key => $group) {
-				$subAdminOfGroups[$key] = $group->getGID();
-			}
+			if ($enabled !== null) {
+				$users = [];
+				/* The groups are searched together, so offset and limit are applied to the combined list */
+				$tempLimit = ($limit === null ? null : $limit + $offset);
+				foreach ($subAdminManager->getSubAdminsGroups($currentUser) as $group) {
+					foreach ($group->searchUsers($search) as $user) {
+						if ($user->isEnabled() === $enabled) {
+							$users[$user->getUID()] = $user->getUID();
+						}
+					}
+					if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+						break;
+					}
+				}
+				$users = array_slice(array_values($users), $offset, $limit);
+			} else {
+				$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+				foreach ($subAdminOfGroups as $key => $group) {
+					$subAdminOfGroups[$key] = $group->getGID();
+				}
 
-			$users = [];
-			foreach ($subAdminOfGroups as $group) {
-				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				$users = [];
+				foreach ($subAdminOfGroups as $group) {
+					$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				}
+				$users = array_merge(...$users);
 			}
-			$users = array_merge(...$users);
 		}
 
 		$usersDetails = [];
@@ -199,9 +240,15 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$params = [
+			'search' => $search,
+			'enabled' => $enabled
+		];
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMore ?? $users, $params, $limit, $offset, $nextOffset);
 		return new DataResponse([
-			'users' => $usersDetails
-		]);
+			'users' => $usersDetails,
+			'groups' => $this->findGroupsWithDisplayname($usersDetails),
+		], headers: $headers);
 	}
 
 	/**
@@ -210,7 +257,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{Link?: string}>
 	 *
 	 * 200: Disabled users details returned
 	 */
@@ -281,9 +328,12 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails
-		]);
+		], headers: $headers);
 	}
 
 	/**
@@ -292,7 +342,8 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @param bool|null $enabled Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned based on last logged in information
 	 */
@@ -301,6 +352,7 @@ class UsersController extends AUserDataOCSController {
 		string $search = '',
 		?int $limit = null,
 		int $offset = 0,
+		?bool $enabled = null,
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
@@ -314,9 +366,24 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		$users = [];
+		$hasMore = null;
+		$nextOffset = null;
 
 		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
-		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+		if ($enabled !== null) {
+			[$users, $nextOffset, $hasMore] = $this->searchFilteredUsers(
+				fn (?int $limit, int $offset): array => array_map(
+					fn (string $userId): ?IUser => $this->userManager->get($userId),
+					$this->userManager->getLastLoggedInUsers($limit, $offset, $search),
+				),
+				$limit,
+				$offset,
+				enabled: $enabled,
+			);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} else {
+			$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+		}
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
@@ -338,16 +405,17 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$params = [
+			'search' => $search,
+			'enabled' => $enabled
+		];
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMore ?? $users, $params, $limit, $offset, $nextOffset);
 		return new DataResponse([
 			'users' => $usersDetails
-		]);
+		], headers: $headers);
 	}
 
-
-
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Search users by their phone numbers
 	 *
 	 * @param string $location Location of the phone number (for country code)
@@ -357,6 +425,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users returned
 	 * 400: Invalid location
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
 		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
@@ -594,7 +663,7 @@ class UsersController extends AUserDataOCSController {
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
 				$newUser->setSystemEMailAddress($email);
-				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				if ($this->appConfig->getValueBool('core', 'newUser.sendEmail', true)) {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 						$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
@@ -653,8 +722,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get the details of a user
 	 *
 	 * @param string $userId ID of the user
@@ -664,6 +731,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: User returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
 		$currentUser = $this->userSession->getUser();
@@ -680,8 +748,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get the details of the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
@@ -690,6 +756,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Current user returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
@@ -702,8 +769,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of fields that are editable for the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<string>, array{}>
@@ -712,6 +777,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Editable fields returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -735,8 +801,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of fields that are editable for a user
 	 *
 	 * @param string $userId ID of the user
@@ -746,6 +810,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Editable fields for user returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -791,8 +856,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update multiple values of the user's details
 	 *
 	 * @param string $userId ID of the user
@@ -806,6 +869,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 5, period: 60)]
 	public function editUserMultiValue(
 		string $userId,
@@ -837,7 +901,7 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
-			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) {
+			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			} else {
@@ -847,7 +911,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		// Check if permitted to edit this field
-		if (!in_array($collectionName, $permittedFields)) {
+		if (!in_array($collectionName, $permittedFields, true)) {
 			throw new OCSException('', 103);
 		}
 
@@ -961,6 +1025,18 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSForbiddenException('Insufficient permissions to edit this user');
 		}
 
+		// Sub-admins are limited to the groups they administer, so their group changes are
+		// checked against that list instead of the blanket admin one. Both lists are read
+		// once here and reused by the validation and the apply phase below.
+		$canChangeAllGroups = $isAdmin || $isDelegatedAdmin;
+		$currentGroupIds = $groups === null ? [] : $this->groupManager->getUserGroupIds($targetUser);
+		$subAdminGids = $groups === null || $canChangeAllGroups
+			? []
+			: array_map(
+				fn (IGroup $group): string => $group->getGID(),
+				$subAdminManager->getSubAdminsGroups($currentLoggedInUser),
+			);
+
 		// Validate all submitted fields — collect errors before applying anything
 		$errors = [];
 
@@ -1009,14 +1085,29 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			if (!$isAdmin && !$isDelegatedAdmin) {
+			if (!$canChangeAllGroups && !$isSubAdminAccessible) {
 				$errors['groups'] = $this->l10n->t('Insufficient permissions to change groups');
 			} else {
+				// Only the added groups are checked against the caller's sub-admin groups:
+				// the request repeats the memberships it did not touch, and those may well
+				// be in groups the caller does not administer.
+				$addedGids = $canChangeAllGroups ? [] : array_diff($groups, $currentGroupIds);
+
 				foreach ($groups as $gid) {
 					if (!$this->groupManager->groupExists($gid)) {
 						$errors['groups'] = $this->l10n->t('Group %s does not exist', [$gid]);
 						break;
 					}
+					if (in_array($gid, $addedGids, true) && !in_array($gid, $subAdminGids, true)) {
+						$errors['groups'] = $this->l10n->t('Insufficient privileges for group %1$s', [$gid]);
+						break;
+					}
+				}
+
+				// The account has to stay in at least one group the caller administers,
+				// otherwise the sub-admin loses access to it (same rule as removeFromGroup).
+				if (!$canChangeAllGroups && !isset($errors['groups']) && array_intersect($groups, $subAdminGids) === []) {
+					$errors['groups'] = $this->l10n->t('Not viable to remove user from the last group you are sub-admin of');
 				}
 			}
 		}
@@ -1077,9 +1168,12 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			$currentGroups = $this->groupManager->getUserGroups($targetUser);
-			$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
 			foreach (array_diff($currentGroupIds, $groups) as $gid) {
+				// A sub-admin only gets to see part of the group list, so a group missing
+				// from their request is not an intent to remove it.
+				if (!$canChangeAllGroups && !in_array($gid, $subAdminGids, true)) {
+					continue;
+				}
 				$this->groupManager->get($gid)?->removeUser($targetUser);
 			}
 			foreach (array_diff($groups, $currentGroupIds) as $gid) {
@@ -1171,8 +1265,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update a value of the user's details
 	 *
 	 * @param string $userId ID of the user
@@ -1185,6 +1277,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 50, period: 600)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1245,7 +1338,7 @@ class UsersController extends AUserDataOCSController {
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isAdmin($targetUser->getUID())
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
@@ -1284,7 +1377,7 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 		// Check if permitted to edit this field
-		if (!in_array($key, $permittedFields)) {
+		if (!in_array($key, $permittedFields, true)) {
 			throw new OCSException('', 113);
 		}
 		// Process the edit
@@ -1331,7 +1424,8 @@ class UsersController extends AUserDataOCSController {
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case self::USER_FIELD_TIMEZONE:
-				if (!in_array($value, \DateTimeZone::listIdentifiers())) {
+				// Older browsers still report deprecated aliases like Europe/Kiev.
+				if (!in_array($value, \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC), true)) {
 					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);
@@ -1502,7 +1596,7 @@ class UsersController extends AUserDataOCSController {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1539,7 +1633,7 @@ class UsersController extends AUserDataOCSController {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1599,7 +1693,7 @@ class UsersController extends AUserDataOCSController {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1609,8 +1703,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of groups the user belongs to
 	 *
 	 * @param string $userId ID of the user
@@ -1620,6 +1712,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1654,8 +1747,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of groups with details
 	 *
 	 * @param string $userId ID of the user
@@ -1665,6 +1756,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUsersGroupsDetails(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1731,8 +1823,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of the groups the user is a subadmin of, with details
 	 *
 	 * @param string $userId ID of the user
@@ -1742,6 +1832,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users subadmin groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUserSubAdminGroupsDetails(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 

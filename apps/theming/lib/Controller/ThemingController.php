@@ -4,10 +4,12 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
@@ -129,7 +131,7 @@ class ThemingController extends Controller {
 				break;
 			case 'disableUserTheming':
 			case 'disable-user-theming':
-				if (!in_array($value, ['yes', 'true', 'no', 'false'])) {
+				if (!in_array($value, ['yes', 'true', 'no', 'false'], true)) {
 					$error = $this->l10n->t('%1$s should be true or false', ['disable-user-theming']);
 				} else {
 					$this->appConfig->setAppValueBool('disable-user-theming', $value === 'yes' || $value === 'true');
@@ -384,6 +386,18 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * The color scheme a theme declares through its color-scheme meta, if any
+	 */
+	private function getColorScheme(ITheme $theme): ?string {
+		foreach ($theme->getMeta() as $meta) {
+			if (($meta['name'] ?? null) === 'color-scheme' && isset($meta['content'])) {
+				return $meta['content'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -401,7 +415,7 @@ class ThemingController extends Controller {
 	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
-		if (!in_array($themeId, array_keys($themes))) {
+		if (!in_array($themeId, array_keys($themes), true)) {
 			return new NotFoundResponse();
 		}
 
@@ -413,6 +427,13 @@ class ThemingController extends Controller {
 		foreach ($theme->getCSSVariables() as $variable => $value) {
 			$variables .= "$variable:$value; ";
 		};
+
+		// Color themes also set the native color scheme, so form controls,
+		// scrollbars and light-dark() follow the theme instead of the OS
+		$colorScheme = $this->getColorScheme($theme);
+		if ($colorScheme !== null) {
+			$variables .= "color-scheme:$colorScheme; ";
+		}
 
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
@@ -430,6 +451,12 @@ class ThemingController extends Controller {
 			$scopedCss = preg_replace('/(@[^{]+{(?:[^{}]*|(?R))*})/', '', $customCssWithoutComments);
 
 			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss }";
+
+			// The theme attributes are on the body, but the viewport (page scrollbar
+			// and background) follows the root element
+			if ($colorScheme !== null) {
+				$css .= " :root:has(> body[data-theme-$themeId]) { color-scheme:$colorScheme; }";
+			}
 		}
 
 		try {
@@ -456,7 +483,7 @@ class ThemingController extends Controller {
 	#[BruteForceProtection(action: 'manifest')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getManifest(string $app): JSONResponse {
-		$cacheBusterValue = $this->appConfig->getAppValueString('cachebuster', '0');
+		$cacheBusterValue = (string)$this->appConfig->getAppValueInt('cachebuster');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();

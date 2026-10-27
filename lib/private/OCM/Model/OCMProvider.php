@@ -13,6 +13,7 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\OCM\OCMCapabilities;
 use OCP\Security\Signature\Model\Signatory;
 
 /**
@@ -20,10 +21,14 @@ use OCP\Security\Signature\Model\Signatory;
  */
 class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
+	private bool $removePublicKey = false;
+	private bool $removeVersion = false;
 	private string $apiVersion = '';
 	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
 	private string $endPoint = '';
+	private string $tokenEndPoint = '';
+	private string $jwksUri = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
@@ -120,6 +125,49 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
+	 * @param string $tokenEndPoint
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setTokenEndPoint(string $endPoint): static {
+		$this->tokenEndPoint = $endPoint;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getTokenEndPoint(): string {
+		if (in_array('exchange-token', $this->capabilities, true)) {
+			return $this->tokenEndPoint;
+		}
+		return '';
+	}
+
+	/**
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setJwksUri(string $jwksUri): static {
+		$this->jwksUri = $jwksUri;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getJwksUri(): string {
+		return $this->jwksUri;
+	}
+
+	/**
 	 * @return string
 	 */
 	#[\Override]
@@ -141,12 +189,9 @@ class OCMProvider implements IOCMProvider {
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
 	#[\Override]
-	public function getCapabilities(): array {
-		return $this->capabilities;
+	public function getCapabilities(): OCMCapabilities {
+		return new OCMCapabilities($this->capabilities);
 	}
 
 	/**
@@ -179,6 +224,21 @@ class OCMProvider implements IOCMProvider {
 	 */
 	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
+		foreach ($this->resourceTypes as $existing) {
+			if ($existing->getName() === $resource->getName()) {
+				$existing->setShareTypes(array_values(array_unique(
+					array_merge(
+						$existing->getShareTypes(),
+						$resource->getShareTypes()
+					)
+				)));
+				$existing->setProtocols(array_merge(
+					$existing->getProtocols(),
+					$resource->getProtocols()
+				));
+				return $this;
+			}
+		}
 		$this->resourceTypes[] = $resource;
 
 		return $this;
@@ -268,6 +328,15 @@ class OCMProvider implements IOCMProvider {
 				$this->setSignatory($signatory);
 			}
 		}
+		if (isset($data['capabilities'])) {
+			$this->setCapabilities($data['capabilities']);
+		}
+		if (isset($data['tokenEndPoint'])) {
+			$this->setTokenEndPoint($data['tokenEndPoint']);
+		}
+		if (is_string($data['jwksUri'] ?? null)) {
+			$this->setJwksUri($data['jwksUri']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -276,12 +345,27 @@ class OCMProvider implements IOCMProvider {
 		return $this;
 	}
 
-
 	/**
 	 * @return bool
 	 */
 	private function looksValid(): bool {
 		return ($this->getApiVersion() !== '' && $this->getEndPoint() !== '');
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function removePublicKey(): void {
+		$this->removePublicKey = true;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function removeVersion(): void {
+		$this->removeVersion = true;
 	}
 
 	/**
@@ -304,15 +388,30 @@ class OCMProvider implements IOCMProvider {
 			'resourceTypes' => $resourceTypes
 		];
 
-		$capabilities = $this->getCapabilities();
-		if ($capabilities) {
-			$response['capabilities'] = $capabilities;
+		if ($this->removeVersion) {
+			$response['apiVersion'] = $this->getApiVersion();
+			unset($response['version']);
+		}
+
+		if ($this->removePublicKey) {
+			unset($response['publicKey']);
+		}
+
+		if ($this->capabilities !== []) {
+			$response['capabilities'] = $this->capabilities;
+		}
+		$tokenEndpoint = $this->getTokenEndPoint();
+		if ($tokenEndpoint) {
+			$response['tokenEndPoint'] = $tokenEndpoint;
 		}
 		$inviteAcceptDialog = $this->getInviteAcceptDialog();
 		if ($inviteAcceptDialog !== '') {
 			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
 		}
+		$jwksUri = $this->getJwksUri();
+		if ($jwksUri !== '') {
+			$response['jwksUri'] = $jwksUri;
+		}
 		return $response;
-
 	}
 }

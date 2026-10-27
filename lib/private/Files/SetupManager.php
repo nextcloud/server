@@ -22,12 +22,9 @@ use OC\Lockdown\Filesystem\NullStorage;
 use OC\ServerNotAvailableException;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
-use OCA\Files_External\Config\ExternalMountPoint;
-use OCA\Files_Sharing\External\Mount;
-use OCA\Files_Sharing\ISharedMountPoint;
-use OCA\Files_Sharing\SharedMount;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IAuthoritativeMountProvider;
@@ -44,10 +41,13 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
+use OCP\Files\Mount\IExternalMountPoint;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\HintException;
@@ -93,8 +93,8 @@ class SetupManager implements ISetupManager {
 	private bool $setupBuiltinWrappersDone = false;
 	private bool $forceFullSetup;
 	private bool $optimizeAuthoritativeProviders;
-	private const SETUP_WITH_CHILDREN = 1;
-	private const SETUP_WITHOUT_CHILDREN = 0;
+	private const int SETUP_WITH_CHILDREN = 1;
+	private const int SETUP_WITHOUT_CHILDREN = 0;
 
 	private bool $updatingProviders = false;
 
@@ -114,6 +114,7 @@ class SetupManager implements ISetupManager {
 		private IAppManager $appManager,
 		private FileAccess $fileAccess,
 		private IAppConfig $appConfig,
+		private IStorageFactory $storageFactory,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -153,7 +154,10 @@ class SetupManager implements ISetupManager {
 		return false;
 	}
 
-	private function setupBuiltinWrappers(): void {
+	/**
+	 * @param IMountPoint[] $existingMounts
+	 */
+	private function setupBuiltinWrappers(array $existingMounts): void {
 		if ($this->setupBuiltinWrappersDone) {
 			return;
 		}
@@ -161,20 +165,19 @@ class SetupManager implements ISetupManager {
 
 		// load all filesystem apps before, so no setup-hook gets lost
 		$this->appManager->loadApps(['filesystem']);
-		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
-		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+		$this->storageFactory->addStorageWrapper('mount_options', function (string $mountPoint, IStorage $storage, IMountPoint $mount): IStorage {
 			if ($storage->instanceOfStorage(Common::class)) {
 				$options = array_merge($mount->getOptions(), ['mount_point' => $mountPoint]);
 				$storage->setMountOptions($options);
 			}
 			return $storage;
-		});
+		}, 50, $existingMounts);
 
 		$reSharingEnabled = $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true);
 		$user = $this->userSession->getUser();
 		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
-		Filesystem::addStorageWrapper(
+		$this->storageFactory->addStorageWrapper(
 			'sharing_mask',
 			function ($mountPoint, IStorage $storage, IMountPoint $mount) use ($reSharingEnabled, $sharingEnabledForUser) {
 				$sharingEnabledForMount = $mount->getOption('enable_sharing', true);
@@ -186,40 +189,25 @@ class SetupManager implements ISetupManager {
 					]);
 				}
 				return $storage;
-			}
-		);
+			}, 50, $existingMounts);
 
 		// install storage availability wrapper, before most other wrappers
-		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			$externalMount = $mount instanceof ExternalMountPoint || $mount instanceof Mount;
+		$this->storageFactory->addStorageWrapper(Availability::class, function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
+			$externalMount = $mount instanceof IExternalMountPoint;
 			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
 			return $storage;
-		});
+		}, 50, $existingMounts);
 
-		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
+		$this->storageFactory->addStorageWrapper(Encoding::class, function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof ISharedMountPoint) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
-		});
+		}, 50, $existingMounts);
 
-		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-			if ($mount instanceof HomeMountPoint) {
-				$user = $mount->getUser();
-				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return $user->getQuotaBytes();
-				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-			}
-
-			return $storage;
-		});
-
-		Filesystem::addStorageWrapper('readonly', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+		$this->storageFactory->addStorageWrapper('readonly', function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
 			/*
 			 * Do not allow any operations that modify the storage
 			 */
@@ -234,9 +222,29 @@ class SetupManager implements ISetupManager {
 				]);
 			}
 			return $storage;
-		});
+		}, 50, $existingMounts);
+	}
 
-		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
+	/**
+	 * Some wrapper are inited after BeforeFileSystemSetupEvent, to permit
+	 * custom apps to preventively register their own handler
+	 *
+	 * @param IMountPoint[] $existingMounts
+	 */
+	private function setupCustomizableWrappers(array $existingMounts): void {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
+			// set up quota for home storages, even for other users
+			// which can happen when using sharing
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return $user->getQuotaBytes();
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
+			}
+
+			return $storage;
+		}, 50, $existingMounts);
 	}
 
 	/**
@@ -288,7 +296,7 @@ class SetupManager implements ISetupManager {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
-				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()], true);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
@@ -298,7 +306,7 @@ class SetupManager implements ISetupManager {
 	/**
 	 * Part of the user setup that is run only once per user.
 	 */
-	private function oneTimeUserSetup(IUser $user) {
+	private function oneTimeUserSetup(IUser $user): void {
 		if ($this->isSetupStarted($user)) {
 			return;
 		}
@@ -308,17 +316,25 @@ class SetupManager implements ISetupManager {
 
 		$this->eventLogger->start('fs:setup:user:onetime', 'Onetime filesystem for user');
 
-		$this->setupBuiltinWrappers();
-
-		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
+		$mounts = $this->mountManager->getAll();
+		$this->setupBuiltinWrappers($mounts);
 
 		// TODO remove hook
+		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
 
 		$event = new BeforeFileSystemSetupEvent($user);
 		$this->eventDispatcher->dispatchTyped($event);
-
 		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
+
+		$storageWrappers = $event->getStorageWrappers();
+		if ($storageWrappers !== []) {
+			foreach ($storageWrappers as $wrapperName => $wrapper) {
+				$this->storageFactory->addStorageWrapper($wrapperName, $wrapper['callable'], $wrapper['priority'], $mounts);
+			}
+		}
+
+		$this->setupCustomizableWrappers($mounts);
 
 		$userDir = '/' . $user->getUID() . '/files';
 
@@ -376,7 +392,7 @@ class SetupManager implements ISetupManager {
 		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
-			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
+			return !in_array($mount->getMountProvider(), $previouslySetupProviders, true);
 		});
 		$this->registerMounts($user, $mounts, $newProviders);
 
@@ -425,7 +441,8 @@ class SetupManager implements ISetupManager {
 			return;
 		}
 
-		$this->setupBuiltinWrappers();
+		$mounts = $this->mountManager->getAll();
+		$this->setupBuiltinWrappers($mounts);
 
 		$this->rootSetup = true;
 
@@ -516,7 +533,7 @@ class SetupManager implements ISetupManager {
 
 		$mountProvider = $cachedMount->getMountProvider();
 		$mountPoint = $cachedMount->getMountPoint();
-		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
+		$isMountProviderSetup = in_array($mountProvider, $setupProviders, true);
 		$isPathSetupAsAuthoritative = $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
@@ -575,7 +592,7 @@ class SetupManager implements ISetupManager {
 				$mountProvider = $cachedMount->getMountProvider();
 
 				// skip setup for already set up providers
-				if (in_array($mountProvider, $setupProviders)) {
+				if (in_array($mountProvider, $setupProviders, true)) {
 					continue;
 				}
 
@@ -605,7 +622,7 @@ class SetupManager implements ISetupManager {
 				);
 
 				$rootsMetadata = [];
-				foreach (array_chunk($rootIds, 1000) as $chunk) {
+				foreach (array_chunk($rootIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 					foreach ($this->fileAccess->getByFileIds($chunk) as $id => $fileMetadata) {
 						$rootsMetadata[$id] = $fileMetadata;
 					}
@@ -711,7 +728,7 @@ class SetupManager implements ISetupManager {
 			return !is_subclass_of($provider, IHomeMountProvider::class);
 		});
 
-		if (in_array('', $providers)) {
+		if (in_array('', $providers, true)) {
 			$this->setupForUser($user);
 			return;
 		}
@@ -771,7 +788,7 @@ class SetupManager implements ISetupManager {
 		}
 	}
 
-	private function setupListeners() {
+	private function setupListeners(): void {
 		// note that this event handling is intentionally pessimistic
 		// clearing the cache to often is better than not enough
 

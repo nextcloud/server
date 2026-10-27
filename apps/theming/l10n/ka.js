@@ -88,19 +88,6 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Disable all keyboard shortcuts",
     "Reset to default" : "Reset to default",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!",
-    "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
-    "Disable-user-theming should be true or false" : "Disable-user-theming should be true or false",
-    "Header logo" : "Header logo",
-    "Upload new header logo" : "Upload new header logo",
-    "Upload new favicon" : "Upload new favicon",
-    "User settings" : "User settings",
-    "Upload new logo" : "Upload new logo",
-    "Upload new background and login image" : "Upload new background and login image",
-    "Background and login image" : "Background and login image",
-    "Advanced options" : "Advanced options",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
-    "No background has been selected" : "No background has been selected",
-    "Select a custom color" : "Select a custom color",
-    "Upload" : "Upload"
+    "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator"
 },
 "nplurals=2; plural=(n!=1);");

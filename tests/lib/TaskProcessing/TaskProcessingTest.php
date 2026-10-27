@@ -4,11 +4,13 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\TaskProcessing\Db\Task as DbTask;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -31,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\IRemoteHostValidator;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -42,6 +45,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -231,8 +235,6 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 	}
 }
 
-
-
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
 	#[\Override]
@@ -304,7 +306,6 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 		return [];
 	}
 }
-
 
 class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
@@ -596,7 +597,6 @@ class ExternalProvider implements IProvider {
 	}
 }
 
-
 class ExternalTriggerableProvider implements ITriggerableProvider {
 	public const ID = 'event:external:provider:triggerable';
 	public const TASK_TYPE_ID = TextToText::ID;
@@ -770,6 +770,12 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IJobList&MockObject $jobList;
 	private IUserMountCache&MockObject $userMountCache;
 	private RegistrationContext&MockObject $registrationContext;
+	private IRemoteHostValidator&MockObject $remoteHostValidator;
+
+	/** @var list<string> hosts the mocked IRemoteHostValidator rejects */
+	private array $invalidRemoteHosts = [];
+	/** Makes the mocked IRemoteHostValidator reject every host */
+	private bool $rejectAllRemoteHosts = false;
 
 	/** @var array<class-string, IProvider> */
 	private array $providers;
@@ -838,6 +844,11 @@ class TaskProcessingTest extends \Test\TestCase {
 		);
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
+		$this->invalidRemoteHosts = [];
+		$this->rejectAllRemoteHosts = false;
+		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
+		$this->remoteHostValidator->expects($this->any())->method('isValid')
+			->willReturnCallback(fn (string $host): bool => !$this->rejectAllRemoteHosts && !in_array($host, $this->invalidRemoteHosts, true));
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->manager = new Manager(
@@ -858,6 +869,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
+			$this->remoteHostValidator,
 		);
 	}
 
@@ -893,7 +906,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
-
 	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
 		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
@@ -908,6 +920,106 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask($task);
 	}
 
+	public static function invalidWebhookDataProvider(): array {
+		return [
+			'uri without method' => ['https://example.com/hook', null],
+			'method without uri' => [null, 'HTTP:POST'],
+			'empty uri with method' => ['', 'HTTP:POST'],
+			'uri with empty method' => ['https://example.com/hook', ''],
+			'unknown method prefix' => ['https://example.com/hook', 'FTP:GET'],
+			'unknown http verb' => ['https://example.com/hook', 'HTTP:PATCH'],
+			'lowercase http verb' => ['https://example.com/hook', 'HTTP:post'],
+			'unsupported uri scheme' => ['file:///etc/passwd', 'HTTP:GET'],
+			'relative uri for http method' => ['/some/path', 'HTTP:POST'],
+			'malformed uri' => ['https://', 'HTTP:POST'],
+			'appapi method without exapp id' => ['/some/path', 'AppAPI:POST'],
+			'appapi method with too many parts' => ['/some/path', 'AppAPI:my_app:POST:extra'],
+			'appapi method with invalid exapp id' => ['/some/path', 'AppAPI:My App:POST'],
+			'appapi method with unknown http verb' => ['/some/path', 'AppAPI:my_app:PATCH'],
+			'absolute uri for appapi method' => ['https://example.com/hook', 'AppAPI:my_app:POST'],
+			'uri too long' => ['https://example.com/' . str_repeat('a', 4000), 'HTTP:POST'],
+			'method too long' => ['/some/path', 'AppAPI:' . str_repeat('a', 64) . ':POST'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookFailValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public static function validWebhookDataProvider(): array {
+		return [
+			'no webhook' => [null, null],
+			'empty webhook' => ['', ''],
+			'http get' => ['http://example.com/hook', 'HTTP:GET'],
+			'https post' => ['https://example.com/hook?foo=bar', 'HTTP:POST'],
+			'https put' => ['https://example.com/hook', 'HTTP:PUT'],
+			'https delete' => ['https://example.com/hook', 'HTTP:DELETE'],
+			'appapi post' => ['/some/path', 'AppAPI:my_app:POST'],
+			'appapi get' => ['/', 'AppAPI:my-app2:GET'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('validWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookPassValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
+	}
+
+	public static function localWebhookHostDataProvider(): array {
+		return [
+			'localhost' => ['http://localhost/hook', 'localhost'],
+			'ipv4 loopback' => ['http://127.0.0.1:8080/hook', '127.0.0.1'],
+			'ipv6 loopback' => ['http://[::1]/hook', '[::1]'],
+			'private network' => ['https://192.168.1.1/hook', '192.168.1.1'],
+			'local hostname' => ['https://server.local/hook', 'server.local'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('localWebhookHostDataProvider')]
+	public function testProviderShouldBeRegisteredAndLocalWebhookHostFailValidation(string $webhookUri, string $host): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$this->invalidRemoteHosts = [$host];
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod('HTTP:POST');
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public function testProviderShouldBeRegisteredAndAppApiWebhookSkipsHostValidation(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		// AppAPI webhooks use an absolute path, so no remote host is involved
+		$this->rejectAllRemoteHosts = true;
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri('/some/path');
+		$task->setWebhookMethod('AppAPI:my_app:POST');
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
+	}
+
 	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
@@ -916,7 +1028,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
 		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())->method('getUID')->willReturn(null);
+		$user->expects($this->any())->method('getUID')->willReturn('uid');
 		$mount = $this->createMock(ICachedMountInfo::class);
 		$mount->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
@@ -1158,6 +1270,62 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals('World', $node->getContent());
 	}
 
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileShapedData(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('testuser');
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
+
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+		self::assertCount(1, $this->manager->getAvailableTaskTypeIds());
+
+		self::assertTrue($this->manager->hasProviders());
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', 'testuser');
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		// Task object retrieved from db is up-to-date
+		$task2 = $this->manager->getTask($task->getId());
+		self::assertEquals($task->getId(), $task2->getId());
+		self::assertEquals(['audio' => $audioId], $task2->getInput());
+		self::assertNull($task2->getOutput());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task2->getStatus());
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
+
+		$this->manager->setTaskProgress($task2->getId(), 0.1);
+		$input = $this->manager->prepareInputData($task2);
+		self::assertTrue(isset($input['audio']));
+		self::assertInstanceOf(File::class, $input['audio']);
+		self::assertEquals($audioId, $input['audio']->getId());
+
+		// Provider returns the raw file contents wrapped in a FileShaped object, including a file extension
+		$this->manager->setTaskResult($task2->getId(), null, ['spectrogram' => new FileShaped(EShapeType::Image, 'World', 'png')]);
+
+		$task = $this->manager->getTask($task->getId());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus());
+		self::assertEquals(1, $task->getProgress());
+		self::assertTrue(isset($task->getOutput()['spectrogram']));
+		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+		self::assertNotNull($node);
+		self::assertInstanceOf(File::class, $node);
+		self::assertEquals('World', $node->getContent());
+		// The extension carried by the FileShaped object is applied to the stored file name
+		self::assertStringEndsWith('.png', $node->getName());
+	}
+
 	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
@@ -1214,6 +1382,54 @@ class TaskProcessingTest extends \Test\TestCase {
 	public function testNonexistentTask(): void {
 		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
+	}
+
+	/**
+	 * Insert a task without going through a provider, to control its timestamps and status.
+	 */
+	private function insertTask(int $status, ?int $scheduledAt, ?int $startedAt): DbTask {
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setStatus($status);
+		$task->setScheduledAt($scheduledAt);
+		$task->setStartedAt($startedAt);
+		/** @var DbTask $entity */
+		$entity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
+		return $entity;
+	}
+
+	public function testCountTasks(): void {
+		// Far in the future, so that tasks of other tests are outside of the window
+		$now = time() + 365 * 24 * 3600;
+		$window = $now - 7200;
+		$totalBefore = $this->manager->countTasks();
+		$entities = [];
+
+		try {
+			// Scheduled within the window, picked up after 1 minute
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3540);
+			// Scheduled within the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3000);
+			// Scheduled within the window, picked up after 10 minutes, but failed
+			$entities[] = $this->insertTask(Task::STATUS_FAILED, $now - 3600, $now - 3000);
+			// Scheduled within the window, never picked up
+			$entities[] = $this->insertTask(Task::STATUS_CANCELLED, $now - 3600, null);
+			// Scheduled before the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 90000, $now - 89400);
+
+			self::assertEquals($totalBefore + 5, $this->manager->countTasks());
+			self::assertEquals(4, $this->manager->countTasks(scheduleAfter: $window));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_FAILED, scheduleAfter: $window));
+			// Tasks that were never picked up are not counted as slow
+			self::assertEquals(2, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_SUCCESSFUL, scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(0, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 20));
+			self::assertEquals(4, $this->manager->countTasks(taskTypeIds: [TextToText::ID], scheduleAfter: $window));
+			self::assertEquals(0, $this->manager->countTasks(taskTypeIds: [TextToImage::ID], scheduleAfter: $window));
+		} finally {
+			foreach ($entities as $entity) {
+				$this->taskMapper->delete($entity);
+			}
+		}
 	}
 
 	public function testOldTasksShouldBeCleanedUp(): void {
@@ -1426,7 +1642,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
 		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
 
-
 		$externalProvider = new ExternalProvider();
 		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
 		$this->manager = $this->createManagerInstance(); // Create manager with configured mocks
@@ -1600,6 +1815,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
+			$this->remoteHostValidator,
 		);
 	}
 
@@ -1622,5 +1839,167 @@ class TaskProcessingTest extends \Test\TestCase {
 					}
 				}
 			});
+	}
+
+	/**
+	 * Register a single synchronous provider for TextToText so tasks can be scheduled.
+	 *
+	 * The integration suite shares one database across tests and does not truncate
+	 * between them, so we clear the tasks table first to make the oldest-scheduled
+	 * ordering of the claim deterministic for these focused tests.
+	 */
+	private function registerTextToTextProvider(): void {
+		$db = Server::get(IDBConnection::class);
+		$db->getQueryBuilder()->delete('taskprocessing_tasks')->executeStatement();
+
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		self::assertTrue($this->manager->hasProviders());
+	}
+
+	public function testClaimReturnsNullWhenNoScheduledTask(): void {
+		$this->registerTextToTextProvider();
+
+		// No task scheduled => nothing to claim.
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+		self::assertNull($this->manager->claimNextScheduledTask());
+	}
+
+	public function testClaimReturnsTaskAndSetsItRunning(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		$scheduledId = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+		self::assertEquals($scheduledId, $claimed->getId());
+		// The returned task object reports RUNNING ...
+		self::assertEquals(Task::STATUS_RUNNING, $claimed->getStatus());
+		// ... and the change is persisted in the database.
+		$persisted = $this->manager->getTask($scheduledId);
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+	}
+
+	public function testClaimNeverReturnsTheSameTaskTwice(): void {
+		// No-duplicate invariant. We cannot run two truly concurrent DB transactions
+		// inside one PHPUnit process, but the structural guarantee is the same: once a
+		// task is claimed it is RUNNING (no longer SCHEDULED), so a second claim can
+		// never return it again. Under real concurrency, FOR UPDATE SKIP LOCKED enforces
+		// the same property by skipping rows another transaction has locked; that path
+		// is additionally validated live on nc-ai.
+		$this->registerTextToTextProvider();
+
+		$taskA = new Task(TextToText::ID, ['input' => 'A'], 'test', null);
+		$this->manager->scheduleTask($taskA);
+		$taskB = new Task(TextToText::ID, ['input' => 'B'], 'test', null);
+		$this->manager->scheduleTask($taskB);
+
+		$firstClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$secondClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+
+		self::assertNotNull($firstClaim);
+		self::assertNotNull($secondClaim);
+		// Two distinct tasks were handed out, never the same one twice.
+		self::assertNotEquals($firstClaim->getId(), $secondClaim->getId());
+		self::assertEqualsCanonicalizing(
+			[$taskA->getId(), $taskB->getId()],
+			[$firstClaim->getId(), $secondClaim->getId()],
+		);
+
+		// Both are now RUNNING and the queue is drained.
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskA->getId())->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskB->getId())->getStatus());
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+	}
+
+	public function testClaimNeverMarksTaskFailed(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+
+		// Claiming only ever transitions SCHEDULED -> RUNNING, never to FAILED/CANCELLED.
+		self::assertNotEquals(Task::STATUS_FAILED, $claimed->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $claimed->getStatus());
+		$persisted = $this->manager->getTask($id);
+		self::assertNotEquals(Task::STATUS_FAILED, $persisted->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $persisted->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+		self::assertNull($persisted->getErrorMessage());
+	}
+
+	public function testClaimRespectsTaskTypeFilter(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+
+		// A type that does not match the only scheduled task must not be claimed.
+		self::assertNull($this->manager->claimNextScheduledTask(['some:other:tasktype']));
+		// The task is still SCHEDULED and claimable without a filter.
+		self::assertEquals(Task::STATUS_SCHEDULED, $this->manager->getTask($task->getId())->getStatus());
+		$claimed = $this->manager->claimNextScheduledTask();
+		self::assertNotNull($claimed);
+		self::assertEquals($task->getId(), $claimed->getId());
+	}
+
+	public function testClaimRecordsStartedAt(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		// A scheduled task has not started yet.
+		self::assertNull($this->manager->getTask($task->getId())->getStartedAt());
+
+		$before = time();
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$after = time();
+
+		self::assertNotNull($claimed);
+		// started_at is recorded at claim time on the returned task ...
+		self::assertNotNull($claimed->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $claimed->getStartedAt());
+		self::assertLessThanOrEqual($after, $claimed->getStartedAt());
+		// ... and persisted in the database (since the worker receives the task already
+		// RUNNING, the later setTaskStatus SCHEDULED -> RUNNING edge is skipped and would
+		// otherwise never write started_at).
+		$persisted = $this->manager->getTask($task->getId());
+		self::assertNotNull($persisted->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $persisted->getStartedAt());
+		self::assertLessThanOrEqual($after, $persisted->getStartedAt());
+	}
+
+	public function testLockTaskDoesNotResurrectFinishedTask(): void {
+		// Regression guard for the lockTask claim path (used by the SQLite fallback and the
+		// external-provider API claim). lockTask must only ever transition SCHEDULED -> RUNNING.
+		// If another worker finished a task (SUCCESSFUL/FAILED) between the SELECT and this
+		// UPDATE, lockTask must NOT flip it back to RUNNING -- otherwise a completed task is
+		// resurrected and processed twice. (The previous `status != RUNNING` guard let a
+		// SUCCESSFUL/FAILED row be re-locked.)
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		// Simulate another worker having already finished the task.
+		$entity = $this->taskMapper->find($id);
+		$entity->setStatus(Task::STATUS_SUCCESSFUL);
+		$this->taskMapper->update($entity);
+
+		// Attempting to claim the (now SUCCESSFUL) task must be a no-op.
+		$affected = $this->taskMapper->lockTask($this->taskMapper->find($id));
+
+		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
 	}
 }

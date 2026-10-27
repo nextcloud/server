@@ -5,10 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Node;
 
+use OC\Hooks\Emitter;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 
@@ -20,7 +23,7 @@ use OCP\Files\Node as INode;
  *
  * @package OC\Files\Node
  */
-class LazyRoot extends LazyFolder implements IRootFolder {
+class LazyRoot extends LazyFolder implements IRootFolder, Emitter {
 	public function __construct(\Closure $folderClosure, array $data = []) {
 		parent::__construct($this, $folderClosure, $data);
 	}
@@ -35,7 +38,7 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 	}
 
 	#[\Override]
-	public function getUserFolder($userId) {
+	public function getUserFolder(string $userId): IUserFolder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -57,5 +60,19 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 	#[\Override]
 	public function getAppDataDirectoryName(): string {
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function emit($scope, $method, $arguments = []) {
+		$this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[\Override]
+	public function listen($scope, $method, callable $callback) {
+		$this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[\Override]
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
+		$this->__call(__FUNCTION__, func_get_args());
 	}
 }

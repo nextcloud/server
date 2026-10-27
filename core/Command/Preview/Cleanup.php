@@ -39,11 +39,11 @@ class Cleanup extends Base {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->deletePreviewFromPreviewTable($output) !== 0) {
+		if ($this->deletePreviewFromFileCacheTable($output) !== 0) {
 			return 1;
 		}
 
-		return $this->deletePreviewFromFileCacheTable($output);
+		return $this->deletePreviewFromPreviewTable($output);
 	}
 
 	/**
@@ -77,9 +77,8 @@ class Cleanup extends Base {
 			$previewFolder = $appDataFolder->get('preview');
 
 		} catch (NotFoundException $e) {
-			$this->logger->error("Previews can't be removed: appdata folder can't be found", ['exception' => $e]);
-			$output->writeln("Previews can't be removed: preview folder isn't deletable");
-			return 1;
+			$this->logger->info("Legacy previews can't be removed: appdata folder can't be found", ['exception' => $e]);
+			return 0;
 		}
 
 		if (!$previewFolder->isDeletable()) {
@@ -99,16 +98,6 @@ class Cleanup extends Base {
 		} catch (NotPermittedException $e) {
 			$output->writeln("Previews weren't deleted: you don't have the permission to delete preview folder");
 			$this->logger->error("Previews weren't deleted: you don't have the permission to delete preview folder", ['exception' => $e]);
-			return 1;
-		}
-
-		try {
-			$appDataFolder->newFolder('preview');
-			$this->logger->debug('Preview folder recreated');
-			$output->writeln('Preview folder recreated', OutputInterface::VERBOSITY_VERBOSE);
-		} catch (NotPermittedException $e) {
-			$output->writeln("Preview folder was deleted, but you don't have the permission to create preview folder");
-			$this->logger->error("Preview folder was deleted, but you don't have the permission to create preview folder", ['exception' => $e]);
 			return 1;
 		}
 

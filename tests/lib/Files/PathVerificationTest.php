@@ -33,7 +33,6 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view = new View();
 	}
 
-
 	public function testPathVerificationFileNameTooLong(): void {
 		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Filename is too long');
@@ -41,7 +40,6 @@ class PathVerificationTest extends \Test\TestCase {
 		$fileName = str_repeat('a', 500);
 		$this->view->verifyPath('', $fileName);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesEmptyFiles')]
 	public function testPathVerificationEmptyFileName($fileName): void {
@@ -61,7 +59,7 @@ class PathVerificationTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesDotFiles')]
 	public function testPathVerificationDotFiles($fileName): void {
 		$this->expectException(InvalidPathException::class);
-		$this->expectExceptionMessage('Dot files are not allowed');
+		$this->expectExceptionMessage('Filenames that begin with a dot are not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}

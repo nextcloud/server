@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -29,7 +30,7 @@ class CacheEventListener extends Action implements IEventListener {
 	}
 
 	private function entryInserted(CacheEntryInsertedEvent $event): void {
-		$this->log('Cache entry inserted for fileid "%1$d", path "%2$s" on storageid "%3$d"',
+		$this->log(Operation::CacheEntryInserted, 'Cache entry inserted for fileid "%1$d", path "%2$s" on storageid "%3$d"',
 			[
 				'fileid' => $event->getFileId(),
 				'path' => $event->getPath(),
@@ -40,7 +41,7 @@ class CacheEventListener extends Action implements IEventListener {
 	}
 
 	private function entryRemoved(CacheEntryRemovedEvent $event): void {
-		$this->log('Cache entry removed for fileid "%1$d", path "%2$s" on storageid "%3$d"',
+		$this->log(Operation::CacheEntryRemoved, 'Cache entry removed for fileid "%1$d", path "%2$s" on storageid "%3$d"',
 			[
 				'fileid' => $event->getFileId(),
 				'path' => $event->getPath(),

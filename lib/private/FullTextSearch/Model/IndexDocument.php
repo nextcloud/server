@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -64,7 +65,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 	protected int $contentEncoded = 0;
 
-
 	/**
 	 * IIndexDocument constructor.
 	 *
@@ -79,7 +79,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	) {
 	}
 
-
 	/**
 	 * Returns the Id of the original document.
 	 *
@@ -90,7 +89,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->id;
 	}
 
-
 	/**
 	 * Returns the Id of the provider.
 	 *
@@ -100,7 +98,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function getProviderId(): string {
 		return $this->providerId;
 	}
-
 
 	/**
 	 * Set the Index related to the IIndexDocument.
@@ -173,7 +170,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return ($this->modifiedTime < $time);
 	}
 
-
 	/**
 	 * Set the read rights of the original document using a IDocumentAccess.
 	 *
@@ -197,7 +193,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function getAccess(): IDocumentAccess {
 		return $this->access;
 	}
-
 
 	/**
 	 * Add a tag to the list.
@@ -233,7 +228,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->tags;
 	}
 
-
 	/**
 	 * Add a meta tag to the list.
 	 *
@@ -268,7 +262,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->metaTags;
 	}
 
-
 	/**
 	 * Add a sub tag to the list.
 	 *
@@ -284,7 +277,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * Set the list of sub tags assigned to the original document.
@@ -323,7 +315,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $subTags;
 	}
 
-
 	/**
 	 * Set the source of the original document.
 	 *
@@ -346,7 +337,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->source;
 	}
 
-
 	/**
 	 * Set the title of the original document.
 	 *
@@ -368,7 +358,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function getTitle(): string {
 		return $this->title;
 	}
-
 
 	/**
 	 * Set the content of the document.
@@ -415,7 +404,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return strlen($this->getContent());
 	}
 
-
 	/**
 	 * Generate a hash, based on the content of the original document.
 	 *
@@ -454,7 +442,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->hash;
 	}
 
-
 	/**
 	 * Add a part, identified by a string, and its content.
 	 *
@@ -492,7 +479,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->parts;
 	}
 
-
 	/**
 	 * Add a link, usable by the frontend.
 	 *
@@ -514,7 +500,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function getLink(): string {
 		return $this->link;
 	}
-
 
 	/**
 	 * Set more information that couldn't be set using other method.
@@ -538,7 +523,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $this->more;
 	}
 
-
 	/**
 	 * Add some excerpt of the content of the original document, usually based
 	 * on the search request.
@@ -555,7 +539,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * Set all excerpts of the content of the original document.
@@ -603,7 +586,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 		return $excerpt;
 	}
 
-
 	/**
 	 * Set the score to the result assigned to this document during a search
 	 * request.
@@ -626,7 +608,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function getScore(): string {
 		return $this->score;
 	}
-
 
 	/**
 	 * Set some information about the original document that will be available
@@ -766,7 +747,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 		return $info;
 	}
-
 
 	/**
 	 * @since 15.0.0

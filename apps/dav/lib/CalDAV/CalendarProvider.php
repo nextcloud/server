@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
@@ -36,11 +37,11 @@ class CalendarProvider implements ICalendarProvider {
 
 		if (!empty($calendarUris)) {
 			$calendarInfos = array_filter($calendarInfos, function ($calendar) use ($calendarUris) {
-				return in_array($calendar['uri'], $calendarUris);
+				return in_array($calendar['uri'], $calendarUris, true);
 			});
 
 			$federatedCalendarInfos = array_filter($federatedCalendarInfos, function ($federatedCalendar) use ($calendarUris) {
-				return in_array($federatedCalendar['uri'], $calendarUris);
+				return in_array($federatedCalendar['uri'], $calendarUris, true);
 			});
 		}
 

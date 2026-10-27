@@ -61,9 +61,9 @@ class SyncLivePhotosListener implements IEventListener {
 			$peerFileId = null;
 
 			if ($event instanceof BeforeNodeRenamedEvent) {
-				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource()->getId());
+				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource());
 			} elseif ($event instanceof BeforeNodeDeletedEvent) {
-				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getNode()->getId());
+				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getNode());
 			} elseif ($event instanceof CacheEntriesRemovedEvent) {
 				$this->handleCacheEntriesRemovedEvent($event);
 			}
@@ -102,7 +102,7 @@ class SyncLivePhotosListener implements IEventListener {
 			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
 
 			if ($peerFile === null) {
-				return; // Peer file not found.
+				continue; // Peer file not found.
 			}
 			$peerFile->delete();
 		}
@@ -149,7 +149,7 @@ class SyncLivePhotosListener implements IEventListener {
 		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
 		// in case the rename was initiated from this listener, we stop right now
-		if (in_array($peerFile->getId(), $this->pendingRenames)) {
+		if (in_array($peerFile->getId(), $this->pendingRenames, true)) {
 			return;
 		}
 
@@ -162,7 +162,6 @@ class SyncLivePhotosListener implements IEventListener {
 
 		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId()]);
 	}
-
 
 	/**
 	 * handle copy, we already know if it is doable from BeforeNodeCopiedEvent, so we just copy the linked file
@@ -183,13 +182,11 @@ class SyncLivePhotosListener implements IEventListener {
 		}
 
 		/** @var FilesMetadata $targetMetadata */
-		$targetMetadata = $this->filesMetadataManager->getMetadata($targetFile->getId(), true);
-		$targetMetadata->setStorageId($targetFile->getStorage()->getCache()->getNumericStorageId());
+		$targetMetadata = $this->filesMetadataManager->getMetadataForNode($targetFile, true);
 		$targetMetadata->setString('files-live-photo', (string)$targetPeerFile->getId());
 		$this->filesMetadataManager->saveMetadata($targetMetadata);
 		/** @var FilesMetadata $peerMetadata */
-		$peerMetadata = $this->filesMetadataManager->getMetadata($targetPeerFile->getId(), true);
-		$peerMetadata->setStorageId($targetPeerFile->getStorage()->getCache()->getNumericStorageId());
+		$peerMetadata = $this->filesMetadataManager->getMetadataForNode($targetPeerFile, true);
 		$peerMetadata->setString('files-live-photo', (string)$targetFile->getId());
 		$this->filesMetadataManager->saveMetadata($peerMetadata);
 	}
@@ -246,11 +243,11 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 		} elseif ($sourceNode instanceof File && $targetNode instanceof File) {
 			// in case the copy was initiated from this listener, we stop right now
-			if (in_array($sourceNode->getId(), $this->pendingCopies)) {
+			if (in_array($sourceNode->getId(), $this->pendingCopies, true)) {
 				return;
 			}
 
-			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($sourceNode->getId());
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($sourceNode);
 			if ($peerFileId === null) {
 				return;
 			}

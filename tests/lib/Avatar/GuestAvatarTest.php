@@ -12,7 +12,6 @@ namespace Test\Avatar;
 use OC\Avatar\GuestAvatar;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -45,7 +44,6 @@ class GuestAvatarTest extends TestCase {
 	 * the generated image is compared with an expected one.
 	 */
 	public function testGet(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
 		$expectedFile = file_get_contents(

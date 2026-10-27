@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OCA\WorkflowEngine\Entity\File;
@@ -50,7 +51,7 @@ class FileSize implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value): void {
-		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
+		if (!in_array($operator, ['less', '!less', 'greater', '!greater'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 

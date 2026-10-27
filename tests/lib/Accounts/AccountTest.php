@@ -101,7 +101,6 @@ class AccountTest extends TestCase {
 		$col->addProperty($additionalProperty2);
 		$account->setPropertyCollection($col);
 
-
 		$this->assertEquals(
 			[
 				IAccountManager::PROPERTY_WEBSITE => $properties[IAccountManager::PROPERTY_WEBSITE],

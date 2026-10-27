@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
@@ -88,10 +89,8 @@ class UtilTest extends TestCase {
 		];
 	}
 
-
 	public function testCreateHeaderFailed(): void {
 		$this->expectException(EncryptionHeaderKeyExistsException::class);
-
 
 		$header = ['header1' => 1, 'header2' => 2, 'oc_encryption_module' => 'foo'];
 
@@ -127,7 +126,6 @@ class UtilTest extends TestCase {
 			['/keyStorage/user1/files/foo.txt', 'keyStorage', true],
 			['/keyStorage/files_encryption', '/keyStorage', true],
 			['keyStorage/user1/files_encryption', '/keyStorage/', true],
-
 		];
 	}
 

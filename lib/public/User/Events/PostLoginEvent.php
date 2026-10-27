@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
@@ -13,6 +14,7 @@ use OCP\IUser;
 
 /**
  * @since 18.0.0
+ * @deprecated 36.0.0 Use UserLoggedInEvent instead
  */
 class PostLoginEvent extends Event {
 	/** @var IUser */

@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "모두 %s(으)로 태그됨 ...",
     "tagged %s" : "%s(으)로 태그됨",
     "Collaborative tags" : "협업 태그",
+    "Search tags" : "태그 검색",
     "Public" : "공개",
     "Restricted" : "제한됨",
     "Invisible" : "숨겨짐",
@@ -79,9 +80,6 @@ OC.L10N.register(
     "Failed to load last used tags" : "최근 사용된 태그 불러오기 실패",
     "Failed to load tags for file" : "파일에 대한 태그 불러오기 실패",
     "Failed to set tag for file" : "파일에 태그 지정하기 실패",
-    "Failed to delete tag for file" : "파일에 태그 지정 해제하기 실패",
-    "Collaborative tags …" : "협업 태그",
-    "Loading …" : "불러오는 중 ...",
-    "Loading collaborative tags …" : "협업 태그를 불러오는 중 ..."
+    "Failed to delete tag for file" : "파일에 태그 지정 해제하기 실패"
 },
 "nplurals=1; plural=0;");

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Search;
 
 use OCP\Files\Search\ISearchOperator;
@@ -16,6 +17,7 @@ use OCP\IUser;
 class SearchQuery implements ISearchQuery {
 	/**
 	 * @param ISearchOrder[] $order
+	 * @param list<string> $selectFields
 	 */
 	public function __construct(
 		private ISearchOperator $searchOperation,
@@ -24,6 +26,7 @@ class SearchQuery implements ISearchQuery {
 		private array $order,
 		private ?IUser $user = null,
 		private bool $limitToHome = false,
+		private array $selectFields = [],
 	) {
 	}
 
@@ -58,5 +61,10 @@ class SearchQuery implements ISearchQuery {
 	#[\Override]
 	public function limitToHome(): bool {
 		return $this->limitToHome;
+	}
+
+	#[\Override]
+	public function getSelectFields(): array {
+		return $this->selectFields;
 	}
 }

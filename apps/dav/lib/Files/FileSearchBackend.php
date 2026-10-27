@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -112,13 +113,12 @@ class FileSearchBackend implements ISearchBackend {
 		return array_merge($props, $this->getPropertyDefinitionsForMetadata());
 	}
 
-
 	private function getPropertyDefinitionsForMetadata(): array {
 		$metadataProps = [];
 		$metadata = $this->filesMetadataManager->getKnownMetadata();
 		$indexes = $metadata->getIndexes();
 		foreach ($metadata->getKeys() as $key) {
-			$isIndex = in_array($key, $indexes);
+			$isIndex = in_array($key, $indexes, true);
 			$type = match ($metadata->getType($key)) {
 				IMetadataValueWrapper::TYPE_INT => SearchPropertyDefinition::DATATYPE_INTEGER,
 				IMetadataValueWrapper::TYPE_FLOAT => SearchPropertyDefinition::DATATYPE_DECIMAL,
@@ -249,7 +249,6 @@ class FileSearchBackend implements ISearchBackend {
 			$v1 = $this->getSearchResultProperty($a, $order->property);
 			$v2 = $this->getSearchResultProperty($b, $order->property);
 
-
 			if ($v1 === null && $v2 === null) {
 				continue;
 			}
@@ -347,6 +346,15 @@ class FileSearchBackend implements ISearchBackend {
 			}
 		}, $query->orderBy);
 
+		$selectFields = [];
+		foreach ($query->select as $searchProperty) {
+			try {
+				$selectFields[] = $this->mapPropertyNameToColumn($searchProperty);
+			} catch (\InvalidArgumentException) {
+				// property does not represent a column on DB
+			}
+		}
+
 		$limit = $query->limit;
 		$maxResults = $limit->maxResults !== 0 ? (int)$limit->maxResults : 100;
 		$offset = $limit->firstResult;
@@ -380,7 +388,8 @@ class FileSearchBackend implements ISearchBackend {
 			$offset,
 			$orders,
 			$this->user,
-			$limitHome
+			$limitHome,
+			$selectFields
 		);
 	}
 
@@ -447,6 +456,23 @@ class FileSearchBackend implements ISearchBackend {
 					$castedValue = $this->castValue($property, $value ?? '');
 				} catch (\Error $e) {
 					throw new \InvalidArgumentException('Invalid property value for ' . $property->name, previous: $e);
+				}
+
+				if ($field === 'name') {
+					return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+						new SearchComparison(
+							$trimmedType,
+							$field,
+							$castedValue,
+							$extra ?? ''
+						),
+						new SearchComparison(
+							$trimmedType,
+							'mount_point_name',
+							$castedValue,
+							$extra ?? ''
+						)
+					]);
 				}
 
 				return new SearchComparison(

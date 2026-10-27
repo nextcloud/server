@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
@@ -44,12 +45,22 @@ class PreparedStatement implements IPreparedStatement {
 
 	#[\Override]
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
-		return $this->getResult()->fetch($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->getResult()->fetchAssociative(),
+			PDO::FETCH_NUM => $this->getResult()->fetchNumeric(),
+			PDO::FETCH_COLUMN => $this->getResult()->fetchOne(),
+			default => $this->getResult()->fetch($fetchMode),
+		};
 	}
 
 	#[\Override]
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
-		return $this->getResult()->fetchAll($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->getResult()->fetchAllAssociative(),
+			PDO::FETCH_NUM => $this->getResult()->fetchAllNumeric(),
+			PDO::FETCH_COLUMN => $this->getResult()->fetchFirstColumn(),
+			default => $this->getResult()->fetchAll($fetchMode),
+		};
 	}
 
 	#[\Override]

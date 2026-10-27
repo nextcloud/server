@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch;
 
 use OCP\FullTextSearch\Model\IIndex;
@@ -61,7 +62,6 @@ interface IFullTextSearchManager {
 	 */
 	public function isAvailable(): bool;
 
-
 	/**
 	 * Add the Javascript API in the navigation page of an app.
 	 * Needed to replace the default search.
@@ -69,7 +69,6 @@ interface IFullTextSearchManager {
 	 * @since 15.0.0
 	 */
 	public function addJavascriptAPI();
-
 
 	/**
 	 * Check if the provider $providerId is already indexed.
@@ -81,7 +80,6 @@ interface IFullTextSearchManager {
 	 * @return bool
 	 */
 	public function isProviderIndexed(string $providerId): bool;
-
 
 	/**
 	 * Retrieve an Index from the database, based on the Id of the Provider
@@ -95,7 +93,6 @@ interface IFullTextSearchManager {
 	 * @return IIndex
 	 */
 	public function getIndex(string $providerId, string $documentId): IIndex;
-
 
 	/**
 	 * Create a new Index.
@@ -113,7 +110,6 @@ interface IFullTextSearchManager {
 	 */
 	public function createIndex(string $providerId, string $documentId, string $userId, int $status = 0): IIndex;
 
-
 	/**
 	 * Update the status of an Index. status is a bitflag, setting $reset to
 	 * true will reset the status to the value defined in the parameter.
@@ -126,7 +122,6 @@ interface IFullTextSearchManager {
 	 * @param bool $reset
 	 */
 	public function updateIndexStatus(string $providerId, string $documentId, int $status, bool $reset = false);
-
 
 	/**
 	 * Update the status of an array of Index. status is a bit flag, setting $reset to

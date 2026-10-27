@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -43,7 +44,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 
 	private array $links = [];
 
-
 	/**
 	 * Owner of the document can be set at the init of the object.
 	 *
@@ -54,7 +54,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	public function __construct(string $ownerId = '') {
 		$this->setOwnerId($ownerId);
 	}
-
 
 	/**
 	 * Set the Owner of the document.
@@ -78,7 +77,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 		return $this->ownerId;
 	}
 
-
 	/**
 	 * Set the viewer of the document.
 	 *
@@ -100,7 +98,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	public function getViewerId(): string {
 		return $this->viewerId;
 	}
-
 
 	/**
 	 * Set the list of users that have read access to the document.
@@ -149,7 +146,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 		return $this->users;
 	}
 
-
 	/**
 	 * Set the list of groups that have read access to the document.
 	 *
@@ -196,7 +192,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	public function getGroups(): array {
 		return $this->groups;
 	}
-
 
 	/**
 	 * Set the list of circles that have read access to the document.
@@ -245,7 +240,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 		return $this->circles;
 	}
 
-
 	/**
 	 * Set the list of links that have read access to the document.
 	 *
@@ -267,7 +261,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	public function getLinks(): array {
 		return $this->links;
 	}
-
 
 	/**
 	 * @since 16.0.0

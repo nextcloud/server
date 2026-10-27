@@ -10,12 +10,12 @@ declare(strict_types=1);
 
 namespace Test\Security;
 
-use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Security\Certificate;
 use OC\Security\CertificateManager;
 use OCP\Files\InvalidPathException;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -45,9 +45,8 @@ class CertificateManagerTest extends \Test\TestCase {
 		$storage = new Temporary();
 		$this->registerMount($this->username, $storage, '/' . $this->username . '/');
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId($this->username);
-		Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
 		$config = $this->createMock(IConfig::class);
@@ -102,7 +101,6 @@ class CertificateManagerTest extends \Test\TestCase {
 		$certificateStore[] = new Certificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), 'ExpiredCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 	}
-
 
 	public function testAddInvalidCertificate(): void {
 		$this->expectException(\Exception::class);
@@ -174,7 +172,6 @@ class CertificateManagerTest extends \Test\TestCase {
 			->with('targetBundlePath')
 			->willReturn($targetBundleExists);
 
-
 		$view->expects($this->any())->method('filemtime')
 			->willReturnCallback(function ($path) use ($targetBundleMtime) {
 				if ($path === 'targetBundlePath') {
@@ -182,7 +179,6 @@ class CertificateManagerTest extends \Test\TestCase {
 				}
 				throw new \Exception('unexpected path');
 			});
-
 
 		$this->assertSame($expected,
 			$this->invokePrivate($certificateManager, 'needsRebundling')

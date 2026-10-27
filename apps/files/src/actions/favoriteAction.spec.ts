@@ -7,7 +7,7 @@ import type { IFolder, IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { logger } from '../utils/logger.ts'
 import { action } from './favoriteAction.ts'
@@ -25,6 +25,20 @@ const favoriteView = {
 	id: 'favorites',
 	name: 'Favorites',
 } as IView
+
+const favoritesRootFolder = new Folder({
+	id: 0,
+	source: 'http://localhost/remote.php/dav/files/admin',
+	owner: 'admin',
+	root: '/files/admin',
+})
+
+const nestedFolder = new Folder({
+	id: 2,
+	source: 'http://localhost/remote.php/dav/files/admin/Foo/Bar',
+	owner: 'admin',
+	root: '/files/admin',
+})
 
 // Mock webroot variable
 beforeAll(() => {
@@ -272,7 +286,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: favoriteView,
-			folder: {} as IFolder,
+			folder: favoritesRootFolder,
 			contents: [],
 		})
 
@@ -285,6 +299,38 @@ describe('Favorite action execute tests', () => {
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
 		expect(eventBus.emit).toHaveBeenCalled()
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
+	})
+
+	test('Favorite triggers node removal if favorite view root even for nested files', async () => {
+		vi.spyOn(axios, 'post')
+		vi.spyOn(eventBus, 'emit')
+
+		const file = new File({
+			id: 1,
+			source: 'http://localhost/remote.php/dav/files/admin/Foo/Bar/foobar.txt',
+			root: '/files/admin',
+			owner: 'admin',
+			mime: 'text/plain',
+			attributes: {
+				favorite: 1,
+			},
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view: favoriteView,
+			folder: favoritesRootFolder,
+			contents: [],
+		})
+
+		expect(exec).toBe(true)
+
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('/index.php/apps/files/api/v1/files/Foo/Bar/foobar.txt', { tags: [] })
+
+		expect(file.attributes.favorite).toBe(0)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
 	})
@@ -307,7 +353,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: favoriteView,
-			folder: {} as IFolder,
+			folder: nestedFolder,
 			contents: [],
 		})
 
@@ -321,6 +367,7 @@ describe('Favorite action execute tests', () => {
 		expect(file.attributes.favorite).toBe(0)
 		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
+		expect(eventBus.emit).not.toHaveBeenCalledWith('files:node:deleted', file)
 	})
 
 	test('Favorite fails and show error', async () => {

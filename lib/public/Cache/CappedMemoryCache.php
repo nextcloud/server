@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Cache;
 
 use OCP\ICache;
@@ -16,7 +19,7 @@ use OCP\ICache;
  *
  * @since 25.0.0
  * @template T
- * @template-implements \ArrayAccess<string,T>
+ * @template-implements \ArrayAccess<array-key,T>
  */
 class CappedMemoryCache implements ICache, \ArrayAccess {
 	private int $capacity;
@@ -36,7 +39,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @since 25.0.0
 	 */
 	#[\Override]
-	public function hasKey($key): bool {
+	public function hasKey(string|int $key): bool {
 		return isset($this->cache[$key]);
 	}
 
@@ -45,25 +48,18 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @since 25.0.0
 	 */
 	#[\Override]
-	public function get($key) {
+	public function get(string|int $key) {
 		return $this->cache[$key] ?? null;
 	}
 
 	/**
 	 * @inheritdoc
-	 * @param string $key
 	 * @param T $value
-	 * @param int $ttl
 	 * @since 25.0.0
-	 * @return bool
 	 */
 	#[\Override]
-	public function set($key, $value, $ttl = 0): bool {
-		if (is_null($key)) {
-			$this->cache[] = $value;
-		} else {
-			$this->cache[$key] = $value;
-		}
+	public function set(string|int $key, $value, int $ttl = 0): bool {
+		$this->cache[$key] = $value;
 		$this->garbageCollect();
 		return true;
 	}
@@ -72,7 +68,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @since 25.0.0
 	 */
 	#[\Override]
-	public function remove($key): bool {
+	public function remove(string|int $key): bool {
 		unset($this->cache[$key]);
 		return true;
 	}
@@ -82,7 +78,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @since 25.0.0
 	 */
 	#[\Override]
-	public function clear($prefix = ''): bool {
+	public function clear(string $prefix = ''): bool {
 		$this->cache = [];
 		return true;
 	}
@@ -133,7 +129,6 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	public function getData(): array {
 		return $this->cache;
 	}
-
 
 	/**
 	 * @since 25.0.0

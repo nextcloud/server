@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -20,7 +21,6 @@ use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
 final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonSerializable {
 	private array $values = [];
 
-
 	/**
 	 * SearchRequestQuery constructor.
 	 *
@@ -32,7 +32,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	) {
 	}
 
-
 	/**
 	 * Get the compare type of the query
 	 *
@@ -42,7 +41,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	public function getType(): int {
 		return $this->type;
 	}
-
 
 	/**
 	 * Get the field to apply query
@@ -66,7 +64,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 		return $this;
 	}
 
-
 	/**
 	 * Get the value to compare (string)
 	 *
@@ -76,7 +73,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	public function getValues(): array {
 		return $this->values;
 	}
-
 
 	/**
 	 * Add value to compare (string)
@@ -125,7 +121,6 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 
 		return $this;
 	}
-
 
 	/**
 	 * @since 17.0.0

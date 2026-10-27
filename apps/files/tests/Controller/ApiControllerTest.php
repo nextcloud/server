@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OCA\Files\Service\TagService;
@@ -16,8 +17,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\ISharedStorage;
@@ -49,7 +50,7 @@ class ApiControllerTest extends TestCase {
 	private ApiController $apiController;
 	private IManager $shareManager;
 	private IConfig&MockObject $config;
-	private Folder&MockObject $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;
 	private IL10N&MockObject $l10n;
@@ -72,7 +73,7 @@ class ApiControllerTest extends TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->preview = $this->createMock(IPreview::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);

@@ -13,3 +13,39 @@ window.OCA = { ...window.OCA }
 window.OCP = { ...window.OCP }
 
 window._oc_webroot = ''
+
+// jsdom does not implement `ResizeObserver`, but it is used at module scope by
+// composables like `useFileListWidth`, so importing them would throw.
+// Specs that assert on resizing replace this with a full mock (`mockResizeObserver`).
+if (!('ResizeObserver' in window)) {
+	window.ResizeObserver = class ResizeObserver {
+		observe() {}
+		unobserve() {}
+		disconnect() {}
+	}
+}
+
+// jsdom does not implement `innerText` at all, while the specification defines it
+// to fall back to `textContent` for elements that are not being rendered.
+// @see https://github.com/jsdom/jsdom/issues/1245
+if (!('innerText' in HTMLElement.prototype)) {
+	Object.defineProperty(HTMLElement.prototype, 'innerText', {
+		configurable: true,
+		get() {
+			return this.textContent
+		},
+		set(value) {
+			this.textContent = value
+		},
+	})
+}
+
+// p-queue 10 extends the global `EventTarget` and then calls Node's
+// `events.setMaxListeners()` on itself, which rejects jsdom's `EventTarget`
+// class and makes every `new PQueue()` throw under this environment.
+// Node identifies its own event target classes by this symbol on the
+// constructor, so flagging jsdom's class makes the check pass.
+// @see https://github.com/sindresorhus/p-queue/issues/257
+if (!EventTarget[Symbol.for('nodejs.event_target')]) {
+	EventTarget[Symbol.for('nodejs.event_target')] = true
+}

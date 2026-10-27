@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Contacts\ContactsMenu\Providers;
+namespace Test\Contacts\ContactsMenu\Providers;
 
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OCP\Contacts\ContactsMenu\IActionFactory;

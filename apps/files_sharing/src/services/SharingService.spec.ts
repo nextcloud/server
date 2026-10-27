@@ -214,6 +214,7 @@ describe('SharingService share to Node mapping', () => {
 		file_source: 530936,
 		file_parent: 419336,
 		file_target: '/document.md',
+		original_displayname: 'Notes.md',
 		item_size: 123,
 		item_mtime: 1688721600,
 		share_with: 'user00',
@@ -376,6 +377,7 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes['has-preview']).toBe(true)
+		expect(file.attributes['original-displayname']).toBe('Notes.md')
 		expect(file.attributes.sharees).toEqual({
 			sharee: {
 				id: 'user00',
@@ -533,6 +535,34 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes.favorite).toBe(0)
+	})
+
+	test('Pending share has no permissions', async () => {
+		axios.get
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [shareFile] } },
+			}))
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [] } },
+			}))
+
+		const shares = await getContents(false, false, true, false)
+
+		expect(axios.get).toHaveBeenCalledTimes(2)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
+	})
+
+	test('Deleted share has no permissions', async () => {
+		axios.get.mockReturnValueOnce(Promise.resolve({
+			data: { ocs: { data: [shareFolder] } },
+		}))
+
+		const shares = await getContents(false, false, false, true)
+
+		expect(axios.get).toHaveBeenCalledTimes(1)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
 	})
 
 	test('Empty', async () => {

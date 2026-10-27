@@ -6,14 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Direct;
 
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Direct\DirectFile;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Test\TestCase;
@@ -21,7 +22,7 @@ use Test\TestCase;
 class DirectFileTest extends TestCase {
 	private Direct $direct;
 	private IRootFolder&MockObject $rootFolder;
-	private Folder&MockObject $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	private File&MockObject $file;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private DirectFile $directFile;
@@ -37,7 +38,7 @@ class DirectFileTest extends TestCase {
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('directUser')
 			->willReturn($this->userFolder);

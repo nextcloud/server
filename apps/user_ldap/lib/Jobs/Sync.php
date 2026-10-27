@@ -12,7 +12,6 @@ use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -161,7 +160,7 @@ class Sync extends TimedJob {
 
 		if (
 			$cycleData['prefix'] !== 'none'
-			&& in_array($cycleData['prefix'], $prefixes)
+			&& in_array($cycleData['prefix'], $prefixes, true)
 		) {
 			return $cycleData;
 		}

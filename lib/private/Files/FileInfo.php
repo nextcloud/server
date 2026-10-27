@@ -5,14 +5,15 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files;
 
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Mount\HomeMountPoint;
-use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\IUser;
 
 /**
@@ -58,11 +59,32 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		private ?IUser $owner = null,
 	) {
 		$this->mount = $mount;
-		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {
+		if (self::hasPlaintextSize($this->data)) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
 		}
+	}
+
+	/**
+	 * Whether `unencrypted_size` holds the plaintext size of a cache entry.
+	 *
+	 * Server side encryption only marks files as encrypted, so on a folder the `encrypted`
+	 * flag comes from end-to-end encryption, which does not maintain `unencrypted_size`.
+	 * There the propagated value is only meaningful once a child entry contributed one.
+	 *
+	 * @param array|ICacheEntry $data
+	 */
+	private static function hasPlaintextSize($data): bool {
+		if (empty($data['encrypted']) || !isset($data['unencrypted_size'])) {
+			return false;
+		}
+
+		if (($data['mimetype'] ?? null) === self::MIMETYPE_FOLDER) {
+			return $data['unencrypted_size'] > 0;
+		}
+
+		return true;
 	}
 
 	#[\Override]
@@ -173,7 +195,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if ($includeMounts) {
 			$this->updateEntryFromSubMounts();
 
-			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+			if (self::hasPlaintextSize($this->data)) {
 				return $this->data['unencrypted_size'];
 			} else {
 				return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
@@ -285,13 +307,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->checkPermissions(Constants::PERMISSION_SHARE);
 	}
 
-	/**
-	 * Check if a file or folder is shared
-	 *
-	 * @return bool
-	 */
 	#[\Override]
-	public function isShared() {
+	public function isShared(): bool {
 		return $this->mount instanceof ISharedMountPoint;
 	}
 
@@ -355,7 +372,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (!$data) {
 			return;
 		}
-		$hasUnencryptedSize = isset($data['unencrypted_size']) && $data['unencrypted_size'] > 0;
+		$hasUnencryptedSize = self::hasPlaintextSize($data);
 		if ($hasUnencryptedSize) {
 			$subSize = $data['unencrypted_size'];
 		} else {
@@ -382,7 +399,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	#[\Override]
 	public function getChecksum() {
-		return $this->data['checksum'];
+		return $this->data['checksum'] ?? '';
 	}
 
 	#[\Override]

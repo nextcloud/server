@@ -4,12 +4,13 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Sabre;
 
-use OC\User\NoUserException;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -26,8 +27,8 @@ class VersionHome implements ICollection {
 	private function getUser() {
 		[, $name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		$user = $this->userManager->get($name);
-		if (!$user) {
-			throw new NoUserException();
+		if ($user === null) {
+			throw UserNotFoundException::createForUser($name);
 		}
 		return $user;
 	}

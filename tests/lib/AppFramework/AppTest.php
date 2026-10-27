@@ -27,7 +27,6 @@ function rrmdir($directory) {
 	return rmdir($directory);
 }
 
-
 class AppTest extends \Test\TestCase {
 	private DIContainer $container;
 	private $io;
@@ -55,10 +54,10 @@ class AppTest extends \Test\TestCase {
 		$this->controllerName = 'Controller';
 		$this->controllerMethod = 'method';
 
-		$this->container[$this->controllerName] = $this->controller;
-		$this->container[Dispatcher::class] = $this->dispatcher;
-		$this->container[IOutput::class] = $this->io;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		$this->container->setInInternalContainer($this->controllerName, $this->controller);
+		$this->container->setInInternalContainer(Dispatcher::class, $this->dispatcher);
+		$this->container->setInInternalContainer(IOutput::class, $this->io);
+		$this->container->registerParameter('urlParams', ['_route' => 'not-profiler']);
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
 		$infoXmlPath = $this->appPath . '/appinfo/info.xml';
@@ -71,7 +70,6 @@ class AppTest extends \Test\TestCase {
 		. '</info>';
 		file_put_contents($infoXmlPath, $xml);
 	}
-
 
 	public function testControllerNameAndMethodAreBeingPassed(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
@@ -88,31 +86,26 @@ class AppTest extends \Test\TestCase {
 			$this->container);
 	}
 
-
 	public function testBuildAppNamespace(): void {
 		$ns = App::buildAppNamespace('someapp');
 		$this->assertEquals('OCA\Someapp', $ns);
 	}
-
 
 	public function testBuildAppNamespaceCore(): void {
 		$ns = App::buildAppNamespace('someapp', 'OC\\');
 		$this->assertEquals('OC\Someapp', $ns);
 	}
 
-
 	public function testBuildAppNamespaceInfoXml(): void {
 		$ns = App::buildAppNamespace('namespacetestapp', 'OCA\\');
 		$this->assertEquals('OCA\NameSpaceTestApp', $ns);
 	}
-
 
 	#[\Override]
 	protected function tearDown(): void {
 		rrmdir($this->appPath);
 		parent::tearDown();
 	}
-
 
 	public function testOutputIsPrinted(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
@@ -150,7 +143,6 @@ class AppTest extends \Test\TestCase {
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
-
 	public function testCallbackIsCalled(): void {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
 			->getMock();
@@ -167,9 +159,9 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testCoreApp(): void {
-		$this->container['appName'] = 'core';
-		$this->container['OC\Core\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		self::invokePrivate($this->container, 'appName', ['core']);
+		$this->container->setInInternalContainer('OC\Core\Controller\Foo', $this->controller);
+		$this->container->registerParameter('urlParams', ['_route' => 'not-profiler']);
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -185,9 +177,9 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testSettingsApp(): void {
-		$this->container['appName'] = 'settings';
-		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		self::invokePrivate($this->container, 'appName', ['settings']);
+		$this->container->setInInternalContainer('OCA\Settings\Controller\Foo', $this->controller);
+		$this->container->registerParameter('urlParams', ['_route' => 'not-profiler']);
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -203,9 +195,9 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testApp(): void {
-		$this->container['appName'] = 'bar';
-		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		self::invokePrivate($this->container, 'appName', ['bar']);
+		$this->container->setInInternalContainer('OCA\Bar\Controller\Foo', $this->controller);
+		$this->container->registerParameter('urlParams', ['_route' => 'not-profiler']);
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())

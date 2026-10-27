@@ -25,7 +25,7 @@ use OCP\IDBConnection;
 class WebhookListenerMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_listeners';
 
-	private const EVENTS_CACHE_KEY_PREFIX = 'eventsUsedInWebhooks';
+	private const string EVENTS_CACHE_KEY_PREFIX = 'eventsUsedInWebhooks';
 
 	private ?ICache $cache = null;
 
@@ -230,7 +230,6 @@ class WebhookListenerMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)));
-
 
 		if ($userId === '' || $userId === null) {
 			$qb->andWhere($qb->expr()->emptyString('user_id_filter'));

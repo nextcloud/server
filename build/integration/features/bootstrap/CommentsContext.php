@@ -5,6 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use Behat\Hook\AfterScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
+
 require __DIR__ . '/autoload.php';
 
 class CommentsContext implements \Behat\Behat\Context\Context {
@@ -57,7 +63,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		return null;
 	}
 
-	/** @AfterScenario */
+	#[AfterScenario]
 	public function teardownScenario() {
 		$client = new \GuzzleHttp\Client();
 		try {
@@ -103,13 +109,13 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When :user posts a comment with content :content on the file named :fileName it should return :statusCode
 	 * @param string $user
 	 * @param string $content
 	 * @param string $fileName
 	 * @param int $statusCode
 	 * @throws \Exception
 	 */
+	#[When(':user posts a comment with content :content on the file named :fileName it should return :statusCode')]
 	public function postsACommentWithContentOnTheFileNamedItShouldReturn($user, $content, $fileName, $statusCode) {
 		$fileId = $this->getFileIdForPath($fileName);
 		$this->fileId = (int)$fileId;
@@ -139,14 +145,13 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-
 	/**
-	 * @Then As :user load all the comments of the file named :fileName it should return :statusCode
 	 * @param string $user
 	 * @param string $fileName
 	 * @param int $statusCode
 	 * @throws \Exception
 	 */
+	#[Then('As :user load all the comments of the file named :fileName it should return :statusCode')]
 	public function asLoadloadAllTheCommentsOfTheFileNamedItShouldReturn($user, $fileName, $statusCode) {
 		$fileId = $this->getFileIdForPath($fileName);
 		$url = $this->baseUrl . '/remote.php/dav/comments/files/' . $fileId . '/';
@@ -188,13 +193,13 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Given As :user sending :verb to :url with
 	 * @param string $user
 	 * @param string $verb
 	 * @param string $url
 	 * @param \Behat\Gherkin\Node\TableNode $body
 	 * @throws \Exception
 	 */
+	#[Given('As :user sending :verb to :url with')]
 	public function asUserSendingToWith($user, $verb, $url, \Behat\Gherkin\Node\TableNode $body) {
 		$client = new \GuzzleHttp\Client();
 		$options = [];
@@ -208,11 +213,11 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then As :user delete the created comment it should return :statusCode
 	 * @param string $user
 	 * @param int $statusCode
 	 * @throws \Exception
 	 */
+	#[Then('As :user delete the created comment it should return :statusCode')]
 	public function asDeleteTheCreatedCommentItShouldReturn($user, $statusCode) {
 		$url = $this->baseUrl . '/remote.php/dav/comments/files/' . $this->fileId . '/' . $this->commentId;
 
@@ -240,11 +245,11 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then the response should contain a property :key with value :value
 	 * @param string $key
 	 * @param string $value
 	 * @throws \Exception
 	 */
+	#[Then('the response should contain a property :key with value :value')]
 	public function theResponseShouldContainAPropertyWithValue($key, $value) {
 		//		$keys = $this->response[0]['value'][1]['value'][0]['value'];
 		$keys = $this->getValueFromNamedEntries('{DAV:}response {DAV:}propstat {DAV:}prop', $this->response);
@@ -262,10 +267,10 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then the response should contain only :number comments
 	 * @param int $number
 	 * @throws \Exception
 	 */
+	#[Then('the response should contain only :number comments')]
 	public function theResponseShouldContainOnlyComments($number) {
 		$count = 0;
 		if ($this->response !== null) {
@@ -277,12 +282,12 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @Then As :user edit the last created comment and set text to :text it should return :statusCode
 	 * @param string $user
 	 * @param string $text
 	 * @param int $statusCode
 	 * @throws \Exception
 	 */
+	#[Then('As :user edit the last created comment and set text to :text it should return :statusCode')]
 	public function asEditTheLastCreatedCommentAndSetTextToItShouldReturn($user, $text, $statusCode) {
 		$client = new \GuzzleHttp\Client();
 		$options = [];

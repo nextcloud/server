@@ -159,7 +159,6 @@ interface IDBConnection {
 	 */
 	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
 
-
 	/**
 	 *
 	 * Insert a row if the row does not exist. Eventual conflicts during insert will be ignored.

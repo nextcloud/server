@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
@@ -37,6 +38,11 @@ interface IGroupManager {
 	 * @since 8.0.0
 	 */
 	public function addBackend($backend);
+
+	/**
+	 * @since 34.0.0
+	 */
+	public function removeBackend(GroupInterface $backend): void;
 
 	/**
 	 * @since 8.0.0

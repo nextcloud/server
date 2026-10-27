@@ -5,12 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
-
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Forbidden;

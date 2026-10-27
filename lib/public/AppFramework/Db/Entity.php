@@ -5,10 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Db;
 
+use OCP\DB\Schema\ColumnType;
 use OCP\DB\Types;
-
 use function lcfirst;
 use function substr;
 
@@ -23,8 +24,8 @@ abstract class Entity {
 	public $id;
 	/** @var array<string, true> $_updatedFields */
 	private array $_updatedFields = [];
-	/** @var array<string, Types::*> $_fieldTypes */
-	protected array $_fieldTypes = ['id' => 'integer'];
+	/** @var array<string, ColumnType> $_fieldTypes */
+	protected array $_fieldTypes = ['id' => ColumnType::Integer];
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -61,15 +62,13 @@ abstract class Entity {
 		return $instance;
 	}
 
-
 	/**
 	 * @return array<string, Types::*> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
-		return $this->_fieldTypes;
+		return array_map(fn (ColumnType $type) => $type->value, $this->_fieldTypes);
 	}
-
 
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
@@ -100,47 +99,47 @@ abstract class Entity {
 		// if type definition exists, cast to correct type
 		if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
 			$type = $this->_fieldTypes[$name];
-			if ($type === Types::BLOB) {
+			if ($type === ColumnType::Blob) {
 				// (B)LOB is treated as string when we read from the DB
 				if (is_resource($args[0])) {
 					$args[0] = stream_get_contents($args[0]);
 				}
-				$type = Types::STRING;
+				$type = ColumnType::String;
 			}
 
 			switch ($type) {
-				case Types::BIGINT:
-				case Types::SMALLINT:
+				case ColumnType::Bigint:
+				case ColumnType::Smallint:
 					settype($args[0], Types::INTEGER);
 					break;
-				case Types::BINARY:
-				case Types::DECIMAL:
-				case Types::TEXT:
+				case ColumnType::Binary:
+				case ColumnType::Decimal:
+				case ColumnType::Text:
 					settype($args[0], Types::STRING);
 					break;
-				case Types::TIME:
-				case Types::DATE:
-				case Types::DATETIME:
-				case Types::DATETIME_TZ:
+				case ColumnType::Time:
+				case ColumnType::Date:
+				case ColumnType::Datetime:
+				case ColumnType::DatetimeTz:
 					if (!$args[0] instanceof \DateTime) {
 						$args[0] = new \DateTime($args[0]);
 					}
 					break;
-				case Types::TIME_IMMUTABLE:
-				case Types::DATE_IMMUTABLE:
-				case Types::DATETIME_IMMUTABLE:
-				case Types::DATETIME_TZ_IMMUTABLE:
+				case ColumnType::TimeImmutable:
+				case ColumnType::DateImmutable:
+				case ColumnType::DatetimeImmutable:
+				case ColumnType::DatetimeTzImmutable:
 					if (!$args[0] instanceof \DateTimeImmutable) {
 						$args[0] = new \DateTimeImmutable($args[0]);
 					}
 					break;
-				case Types::JSON:
+				case ColumnType::Json:
 					if (!is_array($args[0])) {
 						$args[0] = json_decode($args[0], true);
 					}
 					break;
 				default:
-					settype($args[0], $type);
+					settype($args[0], $type->value);
 			}
 		}
 		$this->$name = $args[0];
@@ -160,7 +159,6 @@ abstract class Entity {
 				. ' is not a valid attribute');
 		}
 	}
-
 
 	/**
 	 * Each time a setter is called, push the part after set
@@ -190,7 +188,7 @@ abstract class Entity {
 	protected function isGetterForBoolProperty(string $methodName): bool {
 		if (str_starts_with($methodName, 'is')) {
 			$fieldName = lcfirst(substr($methodName, 2));
-			return isset($this->_fieldTypes[$fieldName]) && str_starts_with($this->_fieldTypes[$fieldName], 'bool');
+			return isset($this->_fieldTypes[$fieldName]) && str_starts_with($this->_fieldTypes[$fieldName]->value, 'bool');
 		}
 		return false;
 	}
@@ -203,7 +201,6 @@ abstract class Entity {
 	protected function markFieldUpdated(string $attribute): void {
 		$this->_updatedFields[$attribute] = true;
 	}
-
 
 	/**
 	 * Transform a database columnname to a property
@@ -227,7 +224,6 @@ abstract class Entity {
 		return $property;
 	}
 
-
 	/**
 	 * Transform a property to a database column name
 	 *
@@ -250,7 +246,6 @@ abstract class Entity {
 		return $column;
 	}
 
-
 	/**
 	 * @return array<string, true> array of updated fields for update query
 	 * @since 7.0.0
@@ -259,32 +254,35 @@ abstract class Entity {
 		return $this->_updatedFields;
 	}
 
-
 	/**
 	 * Adds type information for a field so that it's automatically cast to
 	 * that value once its being returned from the database
 	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param Types::* $type the type which will be used to match a cast
+	 * @param Types::*|ColumnType $type the type which will be used to match a cast
 	 * @since 31.0.0 Parameter $type is now restricted to {@see Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
+	 * @since 35.0.0 Parameter $type now prefers using one of the {@see ColumnType} enum values.
 	 * @since 7.0.0
 	 */
-	protected function addType(string $fieldName, string $type): void {
+	protected function addType(string $fieldName, string|ColumnType $type): void {
 		/** @psalm-suppress TypeDoesNotContainType */
 		if (in_array($type, ['bool', 'double', 'int', 'array', 'object'], true)) {
 			// Mapping legacy strings to the actual types
 			$type = match ($type) {
-				'int' => Types::INTEGER,
-				'bool' => Types::BOOLEAN,
-				'double' => Types::FLOAT,
+				'int' => ColumnType::Integer,
+				'bool' => ColumnType::Boolean,
+				'double' => ColumnType::Float,
 				'array',
-				'object' => Types::STRING,
+				'object' => ColumnType::String,
 			};
+		}
+
+		if (is_string($type)) {
+			$type = ColumnType::from($type);
 		}
 
 		$this->_fieldTypes[$fieldName] = $type;
 	}
-
 
 	/**
 	 * Slugify the value of a given attribute

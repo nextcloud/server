@@ -56,10 +56,17 @@ class OCMRequestController extends Controller {
 			throw new OCMArgumentException('path is not UTF-8');
 		}
 
+		$ocmAddress = null;
+		$params = $this->request->getParams();
+		foreach (['owner', 'sender', 'sharedBy'] as $field) {
+			if (is_string($params[$field] ?? null) && $params[$field] !== '') {
+				$ocmAddress = $params[$field];
+				break;
+			}
+		}
+
 		try {
-			// if request is signed and well signed, no exceptions are thrown
-			// if request is not signed and host is known for not supporting signed request, no exceptions are thrown
-			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
+			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($ocmAddress);
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('incoming ocm request exception', ['exception' => $e]);
 			$response = new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
@@ -88,7 +89,7 @@ class Size extends Base {
 				$userHumanSize = Util::humanFileSize($userSize);
 			}
 
-			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln($userHumanSize);
 			} else {
 				$userValue = ($userSize < 0) ? 'default' : $userSize;
@@ -106,7 +107,7 @@ class Size extends Base {
 			});
 			$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);
 
-			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln("Default size: $globalHumanSize");
 				$output->writeln('');
 				if (count($userValues)) {

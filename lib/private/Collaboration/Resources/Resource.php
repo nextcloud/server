@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\ICollection;
@@ -108,7 +109,7 @@ class Resource implements IResource {
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($this->getId())));
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$collections[] = $this->manager->getCollection((int)$row['collection_id']);
 		}
 		$result->closeCursor();

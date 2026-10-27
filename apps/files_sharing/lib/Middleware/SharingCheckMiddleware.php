@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
@@ -48,7 +49,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @throws S2SException
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName): void {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
 		}
@@ -69,7 +70,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if (is_a($exception, NotFoundException::class)) {
 			return new NotFoundResponse();
 		}

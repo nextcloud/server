@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\OCS;
 
 use OCP\AppFramework\Http;
@@ -32,7 +33,6 @@ class DiscoveryService implements IDiscoveryService {
 		$this->cache = $cacheFactory->createDistributed('ocs-discovery');
 		$this->client = $clientService->newClient();
 	}
-
 
 	/**
 	 * Discover OCS end-points

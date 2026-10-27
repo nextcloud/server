@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -31,5 +32,10 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('string_agg(' . $castedExpression . ', ' . $separator . ')');
+	}
+
+	#[\Override]
+	public function regexSubstring($input, $pattern): IQueryFunction {
+		return new QueryFunction('substring(' . $this->helper->quoteColumnName($input) . ' from ' . $this->helper->quoteColumnName($pattern) . ')');
 	}
 }

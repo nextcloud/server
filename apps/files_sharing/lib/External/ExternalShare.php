@@ -26,10 +26,14 @@ use OCP\Share\IShare;
  * @method void setRemote(string $remote)
  * @method string getRemoteId()
  * @method void setRemoteId(string $remoteId)
- * @method string getShareToken()
- * @method void setShareToken(string $shareToken)
+ * @method string getRefreshToken()
+ * @method void setRefreshToken(string $refreshToken)
  * @method string|null getPassword()
  * @method void setPassword(?string $password)
+ * @method string|null getAccessToken()
+ * @method void setAccessToken(?string $accessToken)
+ * @method int|null getAccessTokenExpires()
+ * @method void setAccessTokenExpires(?int $accessTokenExpires)
  * @method string getName()
  * @method string getOwner()
  * @method void setOwner(string $owner)
@@ -48,8 +52,10 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 	protected ?int $shareType = null;
 	protected ?string $remote = null;
 	protected ?string $remoteId = null;
-	protected ?string $shareToken = null;
+	protected ?string $refreshToken = null;
 	protected ?string $password = null;
+	protected ?string $accessToken = null;
+	protected ?int $accessTokenExpires = null;
 	protected ?string $name = null;
 	protected ?string $owner = null;
 	protected ?string $user = null;
@@ -63,8 +69,10 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 		$this->addType('shareType', Types::INTEGER);
 		$this->addType('remote', Types::STRING);
 		$this->addType('remoteId', Types::STRING);
-		$this->addType('shareToken', Types::STRING);
+		$this->addType('refreshToken', Types::STRING);
 		$this->addType('password', Types::STRING);
+		$this->addType('accessToken', Types::STRING);
+		$this->addType('accessTokenExpires', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('owner', Types::STRING);
 		$this->addType('user', Types::STRING);
@@ -99,7 +107,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 			'share_type' => $this->getShareType() ?? IShare::TYPE_USER, // unfortunately nullable on the DB level, but never null.
 			'remote' => $this->getRemote(),
 			'remote_id' => $this->getRemoteId(),
-			'share_token' => $this->getShareToken(),
+			'refresh_token' => $this->getRefreshToken(),
 			'name' => $this->getName(),
 			'owner' => $this->getOwner(),
 			'user' => $this->getUser(),
@@ -126,7 +134,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 		$newShare->setShareType($this->getShareType());
 		$newShare->setRemote($this->getRemote());
 		$newShare->setRemoteId($this->getRemoteId());
-		$newShare->setShareToken($this->getShareToken());
+		$newShare->setRefreshToken($this->getRefreshToken());
 		$newShare->setPassword($this->getPassword());
 		$newShare->setName($this->getName());
 		$newShare->setOwner($this->getOwner());

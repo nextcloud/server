@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OCA\Files_External\Lib\StorageConfig;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Option extends Config {
@@ -28,7 +30,12 @@ class Option extends Config {
 			)->addArgument(
 				'value',
 				InputArgument::OPTIONAL,
-				'value to set the mount option to, when no value is provided the existing value will be printed'
+				'value to set the config option to; when omitted, the existing value is printed; with --value-from-file, this is treated as a file pat'
+			)->addOption(
+				'value-from-file',
+				null,
+				InputOption::VALUE_NONE,
+				'treat the value argument as a file path and read the config value from that file'
 			);
 	}
 

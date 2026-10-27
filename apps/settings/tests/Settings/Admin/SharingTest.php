@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Sharing;
@@ -61,6 +62,7 @@ class SharingTest extends TestCase {
 			->willReturnMap([
 				['core', 'shareapi_allow_federation_on_public_shares', true],
 				['core', 'shareapi_enable_link_password_by_default', true],
+				['core', 'shareapi_enforce_links_password', false],
 				['core', 'shareapi_default_expire_date', false],
 				['core', 'shareapi_enforce_expire_date', false],
 			]);
@@ -162,6 +164,16 @@ class SharingTest extends TestCase {
 	}
 
 	public function testGetFormWithExcludedGroups(): void {
+		$this->appConfig
+			->method('getValueBool')
+			->willReturnMap([
+				['core', 'shareapi_allow_federation_on_public_shares', true],
+				['core', 'shareapi_enable_link_password_by_default', true],
+				['core', 'shareapi_enforce_links_password', false],
+				['core', 'shareapi_default_expire_date', false],
+				['core', 'shareapi_enforce_expire_date', false],
+			]);
+
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([

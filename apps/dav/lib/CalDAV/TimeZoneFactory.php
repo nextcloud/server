@@ -23,7 +23,7 @@ class TimeZoneFactory {
 	 *
 	 * @var array<string,string> MS2IANA
 	 */
-	private const MS2IANA = [
+	private const array MS2IANA = [
 		'AUS Central Standard Time' => 'Australia/Darwin',
 		'Aus Central W. Standard Time' => 'Australia/Eucla',
 		'AUS Eastern Standard Time' => 'Australia/Sydney',

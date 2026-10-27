@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\CalDAV\Calendar;
@@ -27,7 +28,7 @@ use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends TestCase {
-	private const BASE_URI = '/remote.php/dav/';
+	private const string BASE_URI = '/remote.php/dav/';
 
 	private Server&MockObject $server;
 	private Tree&MockObject $tree;

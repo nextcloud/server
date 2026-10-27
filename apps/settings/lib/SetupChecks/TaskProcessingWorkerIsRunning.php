@@ -12,6 +12,7 @@ namespace OCA\Settings\SetupChecks;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
@@ -26,6 +27,7 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 		private readonly IManager $taskProcessingManager,
 		private readonly ITimeFactory $timeFactory,
 		private readonly IAppConfig $appConfig,
+		private readonly IURLGenerator $url,
 	) {
 	}
 
@@ -42,8 +44,7 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 	#[\Override]
 	public function run(): SetupResult {
 		$lastNDays = self::HAS_TASKS_IN_LAST_X_DAYS;
-		$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
-		$taskCount = count($tasks);
+		$taskCount = $this->taskProcessingManager->countTasks(scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
 		if ($taskCount === 0) {
 			// In case taskprocessing is not used at all
 			return SetupResult::success(
@@ -57,18 +58,20 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 		$lastIteration = (int)$this->appConfig->getValueString('core', 'ai.taskprocessing_worker_last_iteration', lazy: true);
 		if ($lastIteration > $this->timeFactory->now()->getTimestamp() - (60 * self::IS_RUNNING_IN_LAST_X_MINUTES)) {
 			return SetupResult::success(
-				$this->l10n->n('The Task Processing worker has run in the last minute.', 'The Task Processing worker has run in the last %n minutes.', self::IS_RUNNING_IN_LAST_X_MINUTES)
+				$this->l10n->n('The Task Processing worker has run in the last %n minute.', 'The Task Processing worker has run in the last %n minutes.', self::IS_RUNNING_IN_LAST_X_MINUTES)
 			);
 		}
 
 		if ($lastIteration > 0) {
 			return SetupResult::warning(
-				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)])
+				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)]),
+				linkToDoc: $this->url->linkToDocs('admin-ai-pickup-speed'),
 			);
 		}
 
 		return SetupResult::warning(
-			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.')
+			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.'),
+			linkToDoc: $this->url->linkToDocs('admin-ai-pickup-speed'),
 		);
 	}
 }

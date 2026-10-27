@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -23,43 +22,33 @@ use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
-use OCP\ICertificateManager;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
-use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class Manager {
-	private ?IUser $user;
-
 	public function __construct(
-		private IDBConnection $connection,
-		private \OC\Files\Mount\Manager $mountManager,
-		private IStorageFactory $storageLoader,
-		private IClientService $clientService,
-		private IManager $notificationManager,
-		private IDiscoveryService $discoveryService,
-		private ICloudFederationProviderManager $cloudFederationProviderManager,
-		private ICloudFederationFactory $cloudFederationFactory,
-		private IGroupManager $groupManager,
-		IUserSession $userSession,
-		private IEventDispatcher $eventDispatcher,
-		private LoggerInterface $logger,
-		private IRootFolder $rootFolder,
-		private ISetupManager $setupManager,
-		private ICertificateManager $certificateManager,
-		private ExternalShareMapper $externalShareMapper,
-		private IConfig $config,
+		private readonly IDBConnection $connection,
+		private readonly \OC\Files\Mount\Manager $mountManager,
+		private readonly IClientService $clientService,
+		private readonly IManager $notificationManager,
+		private readonly IDiscoveryService $discoveryService,
+		private readonly ICloudFederationProviderManager $cloudFederationProviderManager,
+		private readonly ICloudFederationFactory $cloudFederationFactory,
+		private readonly IGroupManager $groupManager,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
+		private readonly IRootFolder $rootFolder,
+		private readonly ISetupManager $setupManager,
+		private readonly ExternalShareMapper $externalShareMapper,
 	) {
-		$this->user = $userSession->getUser();
 	}
 
 	/**
@@ -67,61 +56,34 @@ class Manager {
 	 *
 	 * @throws Exception
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
-	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
-		$shareWith = $shareWith ?? $this->user;
+	public function addShare(ExternalShare $externalShare, IUser|IGroup $shareWith): void {
+		// To avoid conflicts with the mount point generation later,
+		// we only use a temporary mount point name here. The real
+		// mount point name will be generated when accepting the share,
+		// using the original share item name.
+		$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
+		$externalShare->setMountpoint($tmpMountPointName);
+		$externalShare->setShareWith($shareWith);
 
-		if ($externalShare->getAccepted() !== IShare::STATUS_ACCEPTED) {
-			// To avoid conflicts with the mount point generation later,
-			// we only use a temporary mount point name here. The real
-			// mount point name will be generated when accepting the share,
-			// using the original share item name.
-			$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
-			$externalShare->setMountpoint($tmpMountPointName);
-			$externalShare->setShareWith($shareWith);
-
-			$i = 1;
-			while (true) {
-				try {
-					$this->externalShareMapper->insert($externalShare);
-					break;
-				} catch (Exception $e) {
-					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-						$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
-						$i++;
-					} else {
-						throw $e;
-					}
+		$i = 1;
+		while (true) {
+			try {
+				$this->externalShareMapper->insert($externalShare);
+				break;
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
+					$i++;
+				} else {
+					throw $e;
 				}
 			}
-
-			return null;
 		}
-
-		$user = $shareWith instanceof IUser ? $shareWith : $this->user;
-
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$mountPoint = $userFolder->getNonExistingName($externalShare->getName());
-
-		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
-		$externalShare->setMountpoint($mountPoint);
-		$externalShare->setShareWith($user);
-		$this->externalShareMapper->insert($externalShare);
-
-		$options = [
-			'remote' => $externalShare->getRemote(),
-			'token' => $externalShare->getShareToken(),
-			'password' => $externalShare->getPassword(),
-			'mountpoint' => $externalShare->getMountpoint(),
-			'owner' => $externalShare->getOwner(),
-			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
-		];
-		return $this->mountShare($options, $user);
 	}
 
-	public function getShare(string $id, ?IUser $user = null): ExternalShare|false {
-		$user = $user ?? $this->user;
+	public function getShare(string $id, IUser $user): ExternalShare|false {
 		try {
 			$externalShare = $this->externalShareMapper->getById($id);
 		} catch (DoesNotExistException $e) {
@@ -190,6 +152,7 @@ class Manager {
 				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
+				$subShare->setAccessToken($externalShare->getAccessToken());
 				$subShare->setName($externalShare->getName());
 				$subShare->setOwner($externalShare->getOwner());
 				$subShare->setUser($user->getUID());
@@ -198,7 +161,7 @@ class Manager {
 				$subShare->setRemoteId($externalShare->getRemoteId());
 				$subShare->setParent((string)$externalShare->getId());
 				$subShare->setShareType($externalShare->getShareType());
-				$subShare->setShareToken($externalShare->getShareToken());
+				$subShare->setRefreshToken($externalShare->getRefreshToken());
 				$this->externalShareMapper->insert($subShare);
 			}
 		}
@@ -219,16 +182,7 @@ class Manager {
 	 *
 	 * @return bool True if the share could be accepted, false otherwise
 	 */
-	public function acceptShare(ExternalShare $externalShare, ?IUser $user = null): bool {
-		// If we're auto-accepting a share, we need to know the user id
-		// as there is no session available while processing the share
-		// from the remote server request.
-		$user = $user ?? $this->user;
-		if ($user === null) {
-			$this->logger->error('No user specified for accepting share');
-			return false;
-		}
-
+	public function acceptShare(ExternalShare $externalShare, IUser $user): bool {
 		$result = false;
 		$this->setupManager->setupForUser($user);
 		$folder = $this->rootFolder->getUserFolder($user->getUID());
@@ -276,13 +230,7 @@ class Manager {
 	 *
 	 * @return bool True if the share could be declined, false otherwise
 	 */
-	public function declineShare(ExternalShare $externalShare, ?Iuser $user = null): bool {
-		$user = $user ?? $this->user;
-		if ($user === null) {
-			$this->logger->error('No user specified for declining share');
-			return false;
-		}
-
+	public function declineShare(ExternalShare $externalShare, Iuser $user): bool {
 		$result = false;
 
 		if ($externalShare->getShareType() === IShare::TYPE_USER) {
@@ -308,13 +256,7 @@ class Manager {
 		return $result;
 	}
 
-	public function processNotification(ExternalShare $remoteShare, ?IUser $user = null): void {
-		$user = $user ?? $this->user;
-		if ($user === null) {
-			$this->logger->error('No user specified for processing notification');
-			return;
-		}
-
+	public function processNotification(ExternalShare $remoteShare, IUser $user): void {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($user->getUID())
@@ -337,7 +279,7 @@ class Manager {
 		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
 		$url = rtrim($externalShare->getRemote(), '/') . $endpoint . '/' . $externalShare->getRemoteId() . '/' . $feedback . '?format=json';
-		$fields = ['token' => $externalShare->getShareToken()];
+		$fields = ['token' => $externalShare->getRefreshToken()];
 
 		$client = $this->clientService->newClient();
 
@@ -373,10 +315,9 @@ class Manager {
 					'file',
 					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $externalShare->getShareToken(),
+						'sharedSecret' => $externalShare->getRefreshToken(),
 						'message' => 'Recipient accept the share'
 					]
-
 				);
 				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 			case 'decline':
@@ -386,7 +327,7 @@ class Manager {
 					'file',
 					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $externalShare->getShareToken(),
+						'sharedSecret' => $externalShare->getRefreshToken(),
 						'message' => 'Recipient declined the share'
 					]
 				);
@@ -398,33 +339,18 @@ class Manager {
 	/**
 	 * remove '/user/files' from the path and trailing slashes
 	 */
-	protected function stripPath(string $path): string {
-		$prefix = '/' . $this->user->getUID() . '/files';
+	protected function stripPath(IUser $user, string $path): string {
+		$prefix = '/' . $user->getUID() . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
-	}
-
-	public function getMount(array $data, ?IUser $user = null): Mount {
-		$user = $user ?? $this->user;
-		$data['manager'] = $this;
-		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
-		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = $this->certificateManager;
-		return new Mount(Storage::class, $mountPoint, $data, $this, $this->storageLoader);
-	}
-
-	protected function mountShare(array $data, ?IUser $user = null): Mount {
-		$mount = $this->getMount($data, $user);
-		$this->mountManager->addMount($mount);
-		return $mount;
 	}
 
 	public function getMountManager(): \OC\Files\Mount\Manager {
 		return $this->mountManager;
 	}
 
-	public function setMountPoint(string $source, string $target): bool {
-		$source = $this->stripPath($source);
-		$target = $this->stripPath($target);
+	public function setMountPoint(IUser $user, string $source, string $target): bool {
+		$source = $this->stripPath($user, $source);
+		$target = $this->stripPath($user, $target);
 		$sourceHash = md5($source);
 		$targetHash = md5($target);
 
@@ -433,16 +359,16 @@ class Manager {
 			->set('mountpoint', $qb->createNamedParameter($target))
 			->set('mountpoint_hash', $qb->createNamedParameter($targetHash))
 			->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($sourceHash)))
-			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->user->getUID())));
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($user->getUID())));
 
 		$result = (bool)$qb->executeStatement();
 
-		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($user));
 
 		return $result;
 	}
 
-	public function removeShare(string $mountPoint): bool {
+	public function removeShare(IUser $user, string $mountPoint): bool {
 		try {
 			$mountPointObj = $this->mountManager->find($mountPoint);
 		} catch (NotFoundException $e) {
@@ -455,11 +381,11 @@ class Manager {
 		}
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
-		$mountPoint = $this->stripPath($mountPoint);
+		$mountPoint = $this->stripPath($user, $mountPoint);
 
 		try {
 			try {
-				$externalShare = $this->externalShareMapper->getByMountPointAndUser($mountPoint, $this->user);
+				$externalShare = $this->externalShareMapper->getByMountPointAndUser($mountPoint, $user);
 			} catch (DoesNotExistException $e) {
 				// ignore
 				$this->removeReShares((string)$id);
@@ -544,9 +470,9 @@ class Manager {
 	 *
 	 * @return list<ExternalShare> list of open server-to-server shares
 	 */
-	public function getOpenShares(): array {
+	public function getOpenShares(IUser $user): array {
 		try {
-			return $this->externalShareMapper->getShares($this->user, IShare::STATUS_PENDING);
+			return $this->externalShareMapper->getShares($user, IShare::STATUS_PENDING);
 		} catch (Exception $e) {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
@@ -558,12 +484,32 @@ class Manager {
 	 *
 	 * @return list<ExternalShare> list of accepted server-to-server shares
 	 */
-	public function getAcceptedShares(): array {
+	public function getAcceptedShares(IUser $user): array {
 		try {
-			return $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
+			return $this->externalShareMapper->getShares($user, IShare::STATUS_ACCEPTED);
 		} catch (Exception $e) {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
+		}
+	}
+
+	/**
+	 * Update the access token for a share.
+	 *
+	 * @param string $refreshToken The refresh token to identify the share
+	 * @param string $accessToken The new access token to store
+	 */
+	public function updateAccessToken(string $refreshToken, string $accessToken, int $expiresAt): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($refreshToken);
+			$share->setAccessToken($accessToken);
+			$share->setAccessTokenExpires($expiresAt);
+			$this->externalShareMapper->update($share);
+			$this->logger->debug('Updated access token for share', ['shareId' => $share->getId()]);
+		} catch (DoesNotExistException $e) {
+			$this->logger->warning('Could not find share to update access token', ['exception' => $e]);
+		} catch (Exception $e) {
+			$this->logger->error('Failed to update access token', ['exception' => $e]);
 		}
 	}
 }

@@ -11,6 +11,8 @@ use OC\Collaboration\Collaborators\Search;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IContainer;
 use Test\TestCase;
 
@@ -26,7 +28,7 @@ class SearchResultTest extends TestCase {
 
 		$this->container = $this->createMock(IContainer::class);
 
-		$this->search = new Search($this->container);
+		$this->search = new Search($this->container, $this->createMock(IEventDispatcher::class), $this->createMock(IConfig::class));
 	}
 
 	public static function dataAddResultSet(): array {
@@ -63,7 +65,6 @@ class SearchResultTest extends TestCase {
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l1', true],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l2', false],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'groups', 'l1', false],
-
 		];
 	}
 

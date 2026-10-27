@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -54,11 +55,11 @@ class GetConfig extends Base {
 		$configName = array_shift($configNames);
 		$defaultValue = $input->getOption('default-value');
 
-		if (!in_array($configName, $this->systemConfig->getKeys()) && !$input->hasParameterOption('--default-value')) {
+		if (!in_array($configName, $this->systemConfig->getKeys(), true) && !$input->hasParameterOption('--default-value')) {
 			return 1;
 		}
 
-		if (!in_array($configName, $this->systemConfig->getKeys())) {
+		if (!in_array($configName, $this->systemConfig->getKeys(), true)) {
 			$configValue = $defaultValue;
 		} else {
 			$configValue = $this->systemConfig->getValue($configName);

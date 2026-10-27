@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine;
 
 use NCU\WorkflowEngine\Events\RegisterRuntimeOperationsEvent;
@@ -122,12 +123,15 @@ class Manager implements IManager {
 		}
 
 		$query = $this->connection->getQueryBuilder();
-
-		$query->select('class', 'entity')
-			->selectAlias($query->expr()->castColumn('events', IQueryBuilder::PARAM_STR), 'events')
+		$subQuery = $this->connection->getQueryBuilder();
+		$subQuery->select('class', 'entity')
+			->selectAlias($subQuery->expr()->castColumn('events', IQueryBuilder::PARAM_STR), 'events')
 			->from('flow_operations')
-			->where($query->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR))
-			->groupBy('class', 'entity', $query->expr()->castColumn('events', IQueryBuilder::PARAM_STR));
+			->where($subQuery->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR));
+
+		$query->select('class', 'entity', 'events')
+			->from($query->createFunction('(' . $subQuery->getSQL() . ')'), 'sub')
+			->groupBy('class', 'entity', 'events');
 
 		$result = $query->executeQuery();
 		$operations = [];
@@ -607,9 +611,10 @@ class Manager implements IManager {
 	 * @param array $events
 	 */
 	protected function validateEvents(string $entity, array $events, IOperation $operation): void {
-		/** @psalm-suppress TaintedCallable newInstance is not called */
+		/** @psalm-taint-escape callable */
+		$entity = $entity;
 		$reflection = new \ReflectionClass($entity);
-		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames())) {
+		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames(), true)) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
 		}
 
@@ -649,9 +654,10 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
 		}
 
-		/** @psalm-suppress TaintedCallable newInstance is not called */
+		/** @psalm-taint-escape callable */
+		$class = $class;
 		$reflection = new \ReflectionClass($class);
-		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames())) {
+		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames(), true)) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]) . join(', ', $reflection->getInterfaceNames()));
 		}
 
@@ -683,20 +689,22 @@ class Manager implements IManager {
 				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 
-			$reflection = new \ReflectionClass($check['class']);
-			if ($check['class'] !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames())) {
+			/** @psalm-taint-escape callable */
+			$checkClass = $check['class'];
+			$reflection = new \ReflectionClass($checkClass);
+			if ($checkClass !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames(), true)) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
 			try {
 				/** @var ICheck $instance */
-				$instance = $this->container->get($check['class']);
+				$instance = $this->container->get($checkClass);
 			} catch (ContainerExceptionInterface) {
 				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
 
 			if (!empty($instance->supportedEntities())
-				&& !in_array($entity, $instance->supportedEntities())
+				&& !in_array($entity, $instance->supportedEntities(), true)
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
 			}
@@ -807,7 +815,6 @@ class Manager implements IManager {
 		]);
 		$insertQuery->executeStatement();
 	}
-
 
 	/**
 	 * @param array{class: class-string<\OCP\WorkflowEngine\IOperation>, entity: class-string<\OCP\WorkflowEngine\IEntity>, checks: string, events: string, id: int, name: string, operation: string} $operation

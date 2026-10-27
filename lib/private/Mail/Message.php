@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Mail;
 
 use OCP\Mail\Headers\AutoSubmitted;
@@ -290,7 +291,14 @@ class Message implements IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
 		if (!$this->plainTextOnly) {
-			$this->setHtmlBody($emailTemplate->renderHtml());
+			if ($emailTemplate instanceof EMailTemplate) {
+				$this->setHtmlBody($emailTemplate->renderHtmlWithInlineImages());
+				foreach ($emailTemplate->getInlineImages() as $image) {
+					$this->attachInline($image['content'], $image['name'], $image['mimeType']);
+				}
+			} else {
+				$this->setHtmlBody($emailTemplate->renderHtml());
+			}
 		}
 		return $this;
 	}

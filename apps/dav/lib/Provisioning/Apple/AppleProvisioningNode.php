@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -33,7 +34,6 @@ class AppleProvisioningNode implements INode, IProperties {
 	public function getName() {
 		return self::FILENAME;
 	}
-
 
 	#[\Override]
 	public function setName($name) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use OC\Files\Cache\Cache;
@@ -13,6 +14,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Storage\IStorage;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -25,6 +27,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 
 	public function __construct(
 		private IMountProviderCollection $mountProviderCollection,
+		private IUserMountCache $userMountCache,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -69,6 +72,9 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			} else {
 				throw new \Exception('Home storage has invalid cache');
 			}
+
+			// Once files are deleted we can remove the mounts
+			$this->userMountCache->removeUserMounts($event->getUser());
 		}
 	}
 }

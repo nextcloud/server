@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\Command;
 
 use OC\App\AppManager;
@@ -43,7 +44,6 @@ class Check extends Command {
 			$output->writeln($r['updateVersionString'] . ' is available. Get more information on how to update at ' . $r['updateLink'] . '.');
 			$updatesAvailableCount += 1;
 		}
-
 
 		// Apps
 		$apps = $this->appManager->getEnabledApps();

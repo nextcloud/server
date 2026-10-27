@@ -7,8 +7,8 @@
 		data-cy-files-new-node-dialog
 		:name="name"
 		:open="open"
-		close-on-click-outside
-		out-transition
+		closeOnClickOutside
+		outTransition
 		@update:open="emit('close', null)">
 		<template #actions>
 			<NcButton
@@ -16,7 +16,7 @@
 				variant="primary"
 				:disabled="validity !== ''"
 				@click="submit">
-				{{ t('files', 'Create') }}
+				{{ submitLabel }}
 			</NcButton>
 		</template>
 		<form
@@ -28,7 +28,7 @@
 				v-model="localDefaultName"
 				data-cy-files-new-node-dialog-input
 				:error="validity !== ''"
-				:helper-text="validity"
+				:helperText="validity"
 				:label="label" />
 
 			<!-- Hidden file warning -->
@@ -89,6 +89,22 @@ const props = defineProps({
 		type: String,
 		default: t('files', 'Folder name'),
 	},
+
+	/**
+	 * Label of the submit button
+	 */
+	submitLabel: {
+		type: String,
+		default: t('files', 'Create'),
+	},
+
+	/**
+	 * Whether the name is for a folder, which affects the validation of the name. Defaults to false.
+	 */
+	isFolder: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits<{
@@ -142,7 +158,7 @@ watchEffect(() => {
 	if (props.otherNames.includes(localDefaultName.value.trim())) {
 		validity.value = t('files', 'This name is already in use.')
 	} else {
-		validity.value = getFilenameValidity(localDefaultName.value.trim())
+		validity.value = getFilenameValidity(localDefaultName.value.trim(), false, props.isFolder)
 	}
 	const input = nameInput.value?.$el.querySelector('input')
 	if (input) {

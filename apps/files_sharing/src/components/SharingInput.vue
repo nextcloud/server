@@ -512,6 +512,7 @@ export default {
 				isNoUser: result.value.shareType !== ShareType.User,
 				displayName,
 				subname,
+				url: result.avatar,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				...this.shareTypeToIcon(result.value.shareType),
 			}

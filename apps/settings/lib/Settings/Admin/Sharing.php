@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -59,7 +60,7 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationFullMatchDisplayname' => $this->shareManager->matchDisplayName(),
 			'restrictUserEnumerationFullMatchEmail' => $this->shareManager->matchEmail(),
 			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->shareManager->ignoreSecondDisplayName(),
-			'enforceLinksPassword' => $this->shareManager->shareApiLinkEnforcePassword(false),
+			'enforceLinksPassword' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED),
 			'enforceLinksPasswordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
 			'enforceLinksPasswordExcludedGroupsEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
@@ -120,7 +121,7 @@ class Sharing implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'core' => ['/shareapi_.*/'],
+			'core' => ['/^shareapi_.*$/'],
 		];
 	}
 

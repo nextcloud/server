@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\App;
 
 use OC\AppConfig;
@@ -23,6 +24,7 @@ use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
@@ -36,6 +38,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
@@ -59,6 +62,7 @@ class AppManager implements IAppManager {
 
 	/** @var string[] $appId => $enabled */
 	private array $enabledAppsCache = [];
+	private CappedMemoryCache $enabledAppsForUserCache;
 
 	/** @var array<string, array{path: string, url: string}> $appId => approot information */
 	private array $appsDirCache = [];
@@ -81,6 +85,8 @@ class AppManager implements IAppManager {
 
 	/** @var array<string, true> */
 	private array $loadedApps = [];
+	/** @var array<string, true> */
+	private array $registeredApps = [];
 
 	/** @var string[] */
 	private $namespaceCache = [];
@@ -104,6 +110,7 @@ class AppManager implements IAppManager {
 		private ConfigManager $configManager,
 		private DependencyAnalyzer $dependencyAnalyzer,
 	) {
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 	}
 
 	private function getNavigationManager(): INavigationManager {
@@ -237,11 +244,15 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function getEnabledAppsForUser(IUser $user) {
+		$uid = $user->getUID();
+		if (isset($this->enabledAppsForUserCache[$uid])) {
+			return $this->enabledAppsForUserCache[$uid];
+		}
 		$apps = $this->getEnabledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
 			return $this->checkAppForUser($enabled, $user);
 		});
-		return array_keys($appsForUser);
+		return $this->enabledAppsForUserCache[$uid] = array_keys($appsForUser);
 	}
 
 	#[\Override]
@@ -265,22 +276,12 @@ class AppManager implements IAppManager {
 
 		// Load the enabled apps here
 		$apps = $this->getEnabledApps();
-
-		// Add each apps' folder as allowed class path
-		foreach ($apps as $app) {
+		$appsToRegister = array_filter(
+			$apps,
 			// If the app is already loaded then autoloading it makes no sense
-			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
-				try {
-					$path = $this->getAppPath($app);
-					\OC_App::registerAutoloading($app, $path);
-				} catch (AppPathNotFoundException $e) {
-					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
-						'exception' => $e,
-						'app' => $app,
-					]);
-				}
-			}
-		}
+			fn (string $app) => (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))),
+		);
+		$this->registerAppsAutoloading($appsToRegister);
 
 		// prevent app loading from printing output
 		ob_start();
@@ -423,7 +424,7 @@ class AppManager implements IAppManager {
 				return false;
 			}
 
-			return in_array($group->getGID(), $groupIds);
+			return in_array($group->getGID(), $groupIds, true);
 		}
 	}
 
@@ -485,7 +486,7 @@ class AppManager implements IAppManager {
 		$eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
 
 		// in case someone calls loadApp() directly
-		\OC_App::registerAutoloading($app, $appPath);
+		$this->registerAppsAutoloading([$app]);
 
 		if (is_file($appPath . '/appinfo/app.php')) {
 			$this->logger->error('/appinfo/app.php is not supported anymore, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
@@ -521,32 +522,32 @@ class AppManager implements IAppManager {
 			$settingsManager = Server::get(ISettingsManager::class);
 			if (!empty($info['settings']['admin'])) {
 				foreach ($info['settings']['admin'] as $setting) {
-					$settingsManager->registerSetting('admin', $setting);
+					$settingsManager->registerSetting('admin', $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-section'])) {
 				foreach ($info['settings']['admin-section'] as $section) {
-					$settingsManager->registerSection('admin', $section);
+					$settingsManager->registerSection('admin', $section, $app);
 				}
 			}
 			if (!empty($info['settings']['personal'])) {
 				foreach ($info['settings']['personal'] as $setting) {
-					$settingsManager->registerSetting('personal', $setting);
+					$settingsManager->registerSetting('personal', $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['personal-section'])) {
 				foreach ($info['settings']['personal-section'] as $section) {
-					$settingsManager->registerSection('personal', $section);
+					$settingsManager->registerSection('personal', $section, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-delegation'])) {
 				foreach ($info['settings']['admin-delegation'] as $setting) {
-					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting);
+					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-delegation-section'])) {
 				foreach ($info['settings']['admin-delegation-section'] as $section) {
-					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section);
+					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section, $app);
 				}
 			}
 		}
@@ -574,6 +575,52 @@ class AppManager implements IAppManager {
 		$eventLogger->end("bootstrap:load_app:$app:info");
 
 		$eventLogger->end("bootstrap:load_app:$app");
+	}
+
+	/**
+	 * @internal
+	 */
+	public function registerAppsAutoloading(array $apps): void {
+		foreach ($apps as $app) {
+			if (!isset($this->registeredApps[$app])) {
+				try {
+					$path = $this->getAppPath($app);
+					$this->registerAutoloading($app, $path);
+				} catch (AppPathNotFoundException $e) {
+					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public function registerAutoloading(string $app, string $path, bool $force = false): void {
+		if (!$force && isset($this->registeredApps[$app])) {
+			return;
+		}
+
+		$this->registeredApps[$app] = true;
+
+		// Register on PSR-4 composer autoloader
+		$appNamespace = $this->getAppNamespace($app);
+		\OC::$server->registerNamespace($app, $appNamespace);
+
+		if (file_exists($path . '/composer/autoload.php')) {
+			require_once $path . '/composer/autoload.php';
+		} elseif (is_dir($path . '/lib')) {
+			// autoloader crashes on non-existing dir
+			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+		}
+
+		// Register Test namespace only when testing
+		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
+			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+		}
 	}
 
 	/**
@@ -608,6 +655,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->enabledAppsCache[$appId] = 'yes';
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
@@ -635,11 +683,6 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * Enable an app only for specific groups
-	 *
-	 * @param string $appId
-	 * @param IGroup[] $groups
-	 * @param bool $forceEnable
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
 	 */
@@ -661,15 +704,15 @@ class AppManager implements IAppManager {
 			$this->overwriteNextcloudRequirement($appId);
 		}
 
-		/** @var string[] $groupIds */
-		$groupIds = array_map(function ($group) {
-			/** @var IGroup $group */
+		/** @var list<string> $groupIds */
+		$groupIds = array_map(function (IGroup|string $group): string {
 			return ($group instanceof IGroup)
 				? $group->getGID()
 				: $group;
 		}, $groups);
 
 		$this->enabledAppsCache[$appId] = json_encode($groupIds);
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
@@ -702,6 +745,7 @@ class AppManager implements IAppManager {
 		}
 
 		unset($this->enabledAppsCache[$appId]);
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', 'no');
 
 		// run uninstall steps
@@ -973,7 +1017,7 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function isDefaultEnabled(string $appId): bool {
-		return (in_array($appId, $this->getDefaultEnabledApps()));
+		return (in_array($appId, $this->getDefaultEnabledApps(), true));
 	}
 
 	/**
@@ -1111,7 +1155,7 @@ class AppManager implements IAppManager {
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
 		$this->checkAppDependencies($appId, $ignoreMax);
 
-		\OC_App::registerAutoloading($appId, $appPath, true);
+		$this->registerAutoloading($appId, $appPath, true);
 		$this->executeRepairSteps($appId, $appInfo['repair-steps']['pre-migration']);
 
 		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
@@ -1167,7 +1211,7 @@ class AppManager implements IAppManager {
 		if ($currentVersion && isset($versions[$appId])) {
 			$installedVersion = $versions[$appId];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
-				$this->logger->info('{appId} needs and upgrade from {from} to {to}',
+				$this->logger->info('{appId} needs an upgrade from {from} to {to}',
 					[
 						'appId' => $appId,
 						'from' => $installedVersion,
@@ -1187,8 +1231,11 @@ class AppManager implements IAppManager {
 
 	#[\Override]
 	public function getAppNamespace(string $appId): string {
-		$topNamespace = 'OCA\\';
+		if ($appId === 'core') {
+			return 'OC\\Core';
+		}
 
+		$topNamespace = 'OCA\\';
 		// Hit the cache!
 		if (isset($this->namespaceCache[$appId])) {
 			return $topNamespace . $this->namespaceCache[$appId];
@@ -1240,7 +1287,7 @@ class AppManager implements IAppManager {
 
 		$missing = $this->dependencyAnalyzer->analyze($info, $ignoreMax);
 		if ($missing !== []) {
-			$l = \OCP\Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$l = Server::get(IFactory::class)->get('core');
 			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
 				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',

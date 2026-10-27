@@ -6,6 +6,7 @@
  */
 
 \OCP\Util::addScript('core', 'recommendedapps', 'core');
+\OCP\Util::addStyle('core', 'recommendedapps');
 
 ?>
 

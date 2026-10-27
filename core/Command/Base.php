@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OC\Core\Command\User\ListCommand;
@@ -133,7 +134,7 @@ class Base extends Command implements CompletionAwareInterface {
 		for ($i = 0; $iterator->valid(); $i++) {
 			$chunk[] = $iterator->current();
 			$iterator->next();
-			if (count($chunk) == $count) {
+			if (count($chunk) === $count) {
 				// Got a full chunk, yield and start a new one
 				yield $chunk;
 				$chunk = [];
@@ -145,7 +146,6 @@ class Base extends Command implements CompletionAwareInterface {
 			yield $chunk;
 		}
 	}
-
 
 	/**
 	 * @param mixed $item

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
@@ -315,6 +316,26 @@ class ExpressionBuilder implements IExpressionBuilder {
 	}
 
 	/**
+	 * Creates a NOT ILIKE() comparison expression with the given arguments.
+	 *
+	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT ILIKE() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $y Argument to be used in NOT ILIKE() comparison.
+	 * @param int|string|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                              required when comparing text fields for oci compatibility
+	 *
+	 * @return string
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->expressionBuilder->notLike((string)$this->functionBuilder->lower($x), (string)$this->functionBuilder->lower($y));
+	}
+
+	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.
@@ -439,5 +460,15 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 */
 	protected function prepareColumn($column, $type) {
 		return $this->helper->quoteColumnNames($column);
+	}
+
+	#[\Override]
+	public function exists(IQueryBuilder $subQuery): IQueryFunction {
+		return new QueryFunction('EXISTS (' . $subQuery->getSQL() . ')');
+	}
+
+	#[\Override]
+	public function notExists(IQueryBuilder $subQuery): IQueryFunction {
+		return new QueryFunction('NOT EXISTS (' . $subQuery->getSQL() . ')');
 	}
 }

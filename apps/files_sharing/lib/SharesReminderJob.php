@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -21,6 +22,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -33,8 +35,7 @@ use Psr\Log\LoggerInterface;
  * Send a reminder via email to the sharee(s) if the folder is still empty a predefined time before the expiration date
  */
 class SharesReminderJob extends TimedJob {
-	private const SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
-	private const CHUNK_SIZE = 1000;
+	private const int SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
 	private int $folderMimeTypeId;
 
 	public function __construct(
@@ -53,7 +54,6 @@ class SharesReminderJob extends TimedJob {
 		$this->setInterval(60 * 60);
 		$this->folderMimeTypeId = $mimeTypeLoader->getId(ICacheEntry::DIRECTORY_MIMETYPE);
 	}
-
 
 	/**
 	 * Makes the background job do its work
@@ -131,7 +131,7 @@ class SharesReminderJob extends TimedJob {
 					$qb->expr()->isNull('f.fileid')
 				)
 			)
-			->setMaxResults(SharesReminderJob::CHUNK_SIZE);
+			->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
 
 		$shares = $qb->executeQuery()->fetchAllAssociative();
 		return array_map(fn ($share): array => [
@@ -178,7 +178,7 @@ class SharesReminderJob extends TimedJob {
 			'share_type' => (int)$share['share_type'],
 			'file_source' => (int)$share['file_source'],
 		], $shares);
-		return $this->filterSharesWithEmptyFolders($shares, self::CHUNK_SIZE);
+		return $this->filterSharesWithEmptyFolders($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 	}
 
 	/**
@@ -193,7 +193,7 @@ class SharesReminderJob extends TimedJob {
 			->where($query->expr()->eq('size', $query->createNamedParameter(0), IQueryBuilder::PARAM_INT_ARRAY))
 			->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($this->folderMimeTypeId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->in('fileid', $query->createParameter('fileids')));
-		$chunks = array_chunk($shares, SharesReminderJob::CHUNK_SIZE);
+		$chunks = array_chunk($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 		$results = [];
 		foreach ($chunks as $chunk) {
 			$chunkFileIds = array_map(fn ($share): int => $share['file_source'], $chunk);
@@ -220,7 +220,7 @@ class SharesReminderJob extends TimedJob {
 	private function prepareReminder(IShare $share): ?array {
 		$sharedWith = $share->getSharedWith();
 		$reminderInfo = [];
-		if ($share->getShareType() == IShare::TYPE_USER) {
+		if ((int)$share->getShareType() === IShare::TYPE_USER) {
 			$user = $this->userManager->get($sharedWith);
 			if ($user === null) {
 				return null;
@@ -246,6 +246,7 @@ class SharesReminderJob extends TimedJob {
 			$id = $share->getFullId();
 			$this->logger->error("File by share ID $id not found.");
 		}
+		$reminderInfo['expiration'] = $share->getExpirationDate();
 		$share->setReminderSent(true);
 		$this->shareManager->updateShare($share);
 		return $reminderInfo;
@@ -262,7 +263,7 @@ class SharesReminderJob extends TimedJob {
 		$from = [Util::getDefaultEmailAddress($instanceName) => $instanceName];
 		$l = $this->l10nFactory->get('files_sharing', $reminderInfo['userLang'] ?? null);
 		$emailTemplate = $this->generateEMailTemplate($l, [
-			'link' => $reminderInfo['folderLink'], 'name' => $reminderInfo['folderName']
+			'link' => $reminderInfo['folderLink'], 'name' => $reminderInfo['folderName'], 'expiration' => $reminderInfo['expiration']
 		]);
 
 		$message = $this->mailer->createMessage();
@@ -291,6 +292,7 @@ class SharesReminderJob extends TimedJob {
 		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.SharesReminder', [
 			'folder' => $folder,
 		]);
+		$emailTemplate->setLanguage($l->getLanguageCode());
 		$emailTemplate->addHeader();
 		$emailTemplate->setSubject(
 			$l->t('Remember to upload the files to %s', [$folder['name']])
@@ -298,6 +300,11 @@ class SharesReminderJob extends TimedJob {
 		$emailTemplate->addBodyText($l->t(
 			'We would like to kindly remind you that you have not yet uploaded any files to the shared folder.'
 		));
+		$details = new EMailDetails($folder['name']);
+		if ($folder['expiration'] !== null) {
+			$details->addRow($l->t('Valid until'))->text((string)$l->l('date', $folder['expiration'], ['width' => 'medium']));
+		}
+		$emailTemplate->addBodyDetails($details);
 		$emailTemplate->addBodyButton(
 			$l->t('Open "%s"', [$folder['name']]),
 			$folder['link']

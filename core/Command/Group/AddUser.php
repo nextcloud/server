@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
@@ -35,8 +36,8 @@ class AddUser extends Base {
 				'group to add the user to'
 			)->addArgument(
 				'user',
-				InputArgument::REQUIRED,
-				'user to add to the group'
+				InputArgument::REQUIRED + InputArgument::IS_ARRAY,
+				'users to add to the group',
 			);
 	}
 
@@ -45,15 +46,35 @@ class AddUser extends Base {
 		$group = $this->groupManager->get($input->getArgument('group'));
 		if (is_null($group)) {
 			$output->writeln('<error>group not found</error>');
-			return 1;
+			return Base::FAILURE;
 		}
-		$user = $this->userManager->get($input->getArgument('user'));
-		if (is_null($user)) {
-			$output->writeln('<error>user not found</error>');
-			return 1;
+
+		$allUsersFound = true;
+		$noUserFound = true;
+		$users = (array)$input->getArgument('user');
+		foreach ($users as $userId) {
+			$user = $this->userManager->get($userId);
+			if (is_null($user)) {
+				$output->writeln('<error>user ' . $userId . ' not found</error>');
+				$allUsersFound = false;
+				continue;
+			}
+			$noUserFound = false;
+			$group->addUser($user);
+			unset($user);
+			$output->writeln('<info>user ' . $userId . ' added</info>');
 		}
-		$group->addUser($user);
-		return 0;
+
+		if (!$allUsersFound && !$noUserFound) {
+			$output->writeln('<error>Some users were not found, all others where added to the group.</error>');
+			return Base::FAILURE;
+		}
+
+		if ($noUserFound) {
+			return Base::FAILURE;
+		}
+
+		return Base::SUCCESS;
 	}
 
 	/**

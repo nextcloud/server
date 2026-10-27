@@ -26,6 +26,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
@@ -53,6 +54,7 @@ class LostControllerTest extends TestCase {
 	private $defaults;
 	/** @var IConfig | MockObject */
 	private $config;
+	private string $lostPasswordLink = '';
 	/** @var IMailer | MockObject */
 	private $mailer;
 	/** @var IManager|MockObject */
@@ -93,11 +95,13 @@ class LostControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->willReturnMap([
-				['secret', null, 'SECRET'],
-				['secret', '', 'SECRET'],
-				['lost_password_link', '', ''],
-			]);
+			->willReturnCallback(function (string $key, $default = '') {
+				return match ($key) {
+					'secret' => 'SECRET',
+					'lost_password_link' => $this->lostPasswordLink,
+					default => $default,
+				};
+			});
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -105,8 +109,12 @@ class LostControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l10n->method('getLanguageCode')->willReturn('de');
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -162,6 +170,29 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testResetFormTokenErrorWithDisabledLink(): void {
+		$this->lostPasswordLink = 'disabled';
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+		$this->verificationToken->expects($this->once())
+			->method('check')
+			->with('12345:MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_NOT_FOUND));
+
+		$response = $this->lostController->resetform('12345:MySecretToken', 'ValidTokenUser');
+		$expectedResponse = new TemplateResponse('core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Password reset is disabled'],
+				]
+			],
+			'guest');
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	public function testResetFormValidToken(): void {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
@@ -208,6 +239,8 @@ class LostControllerTest extends TestCase {
 
 		$this->logger->expects($this->exactly(0))
 			->method('error');
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 		$this->logger->expects($this->exactly(2))
 			->method('warning');
 
@@ -263,6 +296,9 @@ class LostControllerTest extends TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
 			->willReturn('HTML body');
@@ -287,6 +323,12 @@ class LostControllerTest extends TestCase {
 			->expects($this->once())
 			->method('send')
 			->with($message);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.password_reset.requested'
+				&& $event->getParameters() === ['userId' => 'ExistingUser']
+				&& $event->getLogMessage() === 'Password reset was requested for user "%s"'));
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -675,7 +717,6 @@ class LostControllerTest extends TestCase {
 
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 
 	/**
 	 * @return array

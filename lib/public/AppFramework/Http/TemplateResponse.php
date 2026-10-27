@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -96,7 +95,6 @@ class TemplateResponse extends Response {
 		$this->setFeaturePolicy(new FeaturePolicy());
 	}
 
-
 	/**
 	 * Sets template parameters
 	 * @param array $params an array with key => value structure which sets template
@@ -110,7 +108,6 @@ class TemplateResponse extends Response {
 		return $this;
 	}
 
-
 	/**
 	 * Used for accessing the set parameters
 	 * @return array the params
@@ -120,7 +117,6 @@ class TemplateResponse extends Response {
 		return $this->params;
 	}
 
-
 	/**
 	 * @return string the app id of the used template
 	 * @since 25.0.0
@@ -128,7 +124,6 @@ class TemplateResponse extends Response {
 	public function getApp(): string {
 		return $this->appName;
 	}
-
 
 	/**
 	 * Used for accessing the name of the set template
@@ -138,7 +133,6 @@ class TemplateResponse extends Response {
 	public function getTemplateName() {
 		return $this->templateName;
 	}
-
 
 	/**
 	 * Sets the template page
@@ -155,7 +149,6 @@ class TemplateResponse extends Response {
 		return $this;
 	}
 
-
 	/**
 	 * Returns the set renderAs
 	 * @return string the renderAs value
@@ -164,7 +157,6 @@ class TemplateResponse extends Response {
 	public function getRenderAs() {
 		return $this->renderAs;
 	}
-
 
 	/**
 	 * Returns the rendered html

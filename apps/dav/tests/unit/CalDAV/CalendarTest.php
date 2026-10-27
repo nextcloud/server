@@ -6,16 +6,20 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Server;
+use Sabre\DAV\SimpleCollection;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
@@ -54,7 +58,6 @@ class CalendarTest extends TestCase {
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$c->delete();
 	}
-
 
 	public function testDeleteFromGroup(): void {
 		/** @var CalDavBackend&MockObject $backend */
@@ -222,6 +225,11 @@ class CalendarTest extends TestCase {
 				'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
 				'protected' => true
 			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write-acl',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
+			];
 		}
 
 		$expectedAcl[] = [
@@ -236,16 +244,36 @@ class CalendarTest extends TestCase {
 				'principal' => 'user2',
 				'protected' => true
 			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-read',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-write',
+				'protected' => true
+			];
 			if ($expectsWrite) {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => 'user2',
 					'protected' => true
 				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => 'user2/calendar-proxy-write',
+					'protected' => true
+				];
 			} else {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write-properties',
 					'principal' => 'user2',
+					'protected' => true
+				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => 'user2/calendar-proxy-write',
 					'protected' => true
 				];
 			}
@@ -263,6 +291,57 @@ class CalendarTest extends TestCase {
 			'read-only property is false and no owner' => [true, false, false],
 			'read-only property is true and no owner' => [false, true, false],
 			'birthday calendar' => [false, false, false, BirthdayService::BIRTHDAY_CALENDAR_URI]
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesSharingPrivileges')]
+	public function testOnlyOwnerHoldsWriteAcl(string $principal, bool $readOnly, bool $expectsWrite, bool $expectsWriteAcl): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->method('applyShareAcl')->willReturnArgument(1);
+		$calendarInfo = [
+			'{DAV:}displayname' => 'Test',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{http://owncloud.org/ns}read-only' => $readOnly,
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+		$calendar = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$aclPlugin = new class($principal) extends DavAclPlugin {
+			public function __construct(
+				private string $principal,
+			) {
+				parent::__construct();
+			}
+
+			#[\Override]
+			public function getCurrentUserPrincipal() {
+				return $this->principal;
+			}
+
+			#[\Override]
+			public function getPrincipalMembership($mainPrincipal) {
+				return [];
+			}
+		};
+		$server = new Server(new SimpleCollection('root'));
+		$server->addPlugin($aclPlugin);
+
+		$privileges = $aclPlugin->getCurrentUserPrivilegeSet($calendar);
+
+		$this->assertSame($expectsWrite, in_array('{DAV:}write', $privileges, true));
+		$this->assertSame($expectsWriteAcl, in_array('{DAV:}write-acl', $privileges, true));
+	}
+
+	public static function providesSharingPrivileges(): array {
+		return [
+			'owner' => ['user1', false, true, true],
+			'owner of read-only share' => ['user1', true, true, true],
+			'owner write proxy' => ['user1/calendar-proxy-write', false, true, false],
+			'read-write sharee' => ['user2', false, true, false],
+			'read-only sharee' => ['user2', true, false, false],
 		];
 	}
 
@@ -517,8 +596,6 @@ END:VCALENDAR
 
 EOD;
 
-
-
 		$publicObject = ['uri' => 'event-0',
 			'classification' => CalDavBackend::CLASSIFICATION_PUBLIC,
 			'calendardata' => $publicObjectData];
@@ -544,10 +621,8 @@ EOD;
 				switch ($uri) {
 					case 'event-0':
 						return $publicObject;
-
 					case 'event-1':
 						return $confidentialObject;
-
 					default:
 						throw new \Exception('unexpected uri');
 				}

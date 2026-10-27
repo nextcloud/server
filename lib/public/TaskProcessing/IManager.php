@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCP\TaskProcessing;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -70,7 +69,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
@@ -83,7 +82,7 @@ interface IManager {
 	 * @param Task $task The task to run
 	 * @return Task The result task
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
@@ -144,6 +143,19 @@ interface IManager {
 	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void;
 
 	/**
+	 * Set the task intermediate output.
+	 * If notify_push is available, the output will be pushed to the user and the task will be updated in the DB every 2 seconds at most.
+	 *
+	 * @param int $id The id of the task
+	 * @param array $output The intermediate output
+	 * @return bool `true` if the task should still be running; `false` if the task has been cancelled in the meantime
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 35.0.0
+	 */
+	public function setTaskIntermediateOutput(int $id, array $output): bool;
+
+	/**
 	 * @param int $id
 	 * @param float $progress
 	 * @return bool `true` if the task should still be running; `false` if the task has been cancelled in the meantime
@@ -173,6 +185,33 @@ interface IManager {
 	 * @since 33.0.0
 	 */
 	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array;
+
+	/**
+	 * Atomically claim the oldest scheduled task of the given task types and mark it RUNNING.
+	 *
+	 * Unlike {@see getNextScheduledTask} (which only fetches) this both selects and
+	 * locks the task in one step, so concurrent workers never claim the same task.
+	 * On databases supporting it this uses SELECT ... FOR UPDATE SKIP LOCKED; on
+	 * SQLite it falls back to a bounded lock-and-retry. The task is only ever
+	 * transitioned SCHEDULED -> RUNNING; it is never marked FAILED by claiming.
+	 *
+	 * @param list<string> $taskTypeIds When non-empty, only tasks of these task type IDs are considered.
+	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
+	 * @throws Exception If the query failed
+	 * @since 35.0.0
+	 */
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task;
+
+	/**
+	 * @param int $id The id of the task
+	 * @param string|null $userId The user id that scheduled the task
+	 * @return int
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @throws PreConditionNotMetException If the task is not scheduled
+	 * @since 35.0.0
+	 */
+	public function getTaskQueuePosition(int $id, ?string $userId): int;
 
 	/**
 	 * @param int $id The id of the task
@@ -259,15 +298,20 @@ interface IManager {
 	public function setTaskStatus(Task $task, int $status): void;
 
 	/**
-	 * Get the count of tasks filtered by status and optionally by task type(s)
+	 * Get the count of tasks matching the given filters, without loading them
 	 *
-	 * @param int $status The task status to filter by
+	 * @param ?int $status The task status to filter by, or null to count tasks in any status
 	 * @param list<string> $taskTypeIds Optional list of task type IDs to filter by
+	 * @param ?int $scheduleAfter Only count tasks that were scheduled after this timestamp
+	 * @param ?int $minPickupDelay Only count tasks that took more than this many seconds to be picked up by a worker
 	 * @return int The count of matching tasks
 	 * @throws Exception If the query failed
 	 * @since 34.0.0
+	 * @since 36.0.0 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
 	 */
-	public function countTasks(int $status, array $taskTypeIds = []): int;
+	public function countTasks(
+		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,
+	): int;
 
 	/**
 	 * Extract all input and output file IDs from a task

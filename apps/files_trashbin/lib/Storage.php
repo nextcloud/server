@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
@@ -158,7 +159,7 @@ class Storage extends Wrapper {
 		$rootFolder = Server::get(IRootFolder::class);
 		$request = Server::get(IRequest::class);
 		Filesystem::addStorageWrapper(
-			'oc_trashbin',
+			Storage::class,
 			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder, $request) {
 				return new Storage(
 					['storage' => $storage, 'mountPoint' => $mountPoint],

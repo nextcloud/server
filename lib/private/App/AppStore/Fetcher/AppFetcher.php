@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Version\VersionParser;
@@ -164,7 +165,7 @@ class AppFetcher extends Fetcher {
 		// If the admin specified a allow list, filter apps from the appstore
 		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
 			return array_values(array_filter($apps, function (array $app) use ($allowList) {
-				return in_array($app['id'], $allowList);
+				return in_array($app['id'], $allowList, true);
 			}));
 		}
 

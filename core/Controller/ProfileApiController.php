@@ -16,6 +16,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
@@ -49,8 +50,6 @@ class ProfileApiController extends OCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update the visibility of a parameter
 	 *
 	 * @param string $targetUserId ID of the user
@@ -63,6 +62,7 @@ class ProfileApiController extends OCSController {
 	 *
 	 * 200: Visibility updated successfully
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[UserRateLimit(limit: 40, period: 600)]

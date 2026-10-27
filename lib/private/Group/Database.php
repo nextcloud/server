@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OC\User\LazyUser;
@@ -149,7 +150,7 @@ class Database extends ABackend implements
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->executeQuery();
 
-		$result = $cursor->fetch();
+		$result = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		return $result ? true : false;
@@ -227,7 +228,7 @@ class Database extends ABackend implements
 			->executeQuery();
 
 		$groups = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$groups[] = $row['gid'];
 			$this->groupCache[$row['gid']] = [
 				'gid' => $row['gid'],
@@ -275,7 +276,7 @@ class Database extends ABackend implements
 		$result = $query->executeQuery();
 
 		$groups = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$this->groupCache[$row['gid']] = [
 				'displayname' => $row['displayname'],
 				'gid' => $row['gid'],
@@ -306,7 +307,7 @@ class Database extends ABackend implements
 			->from('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->executeQuery();
-		$result = $cursor->fetch();
+		$result = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($result !== false) {
@@ -341,10 +342,10 @@ class Database extends ABackend implements
 		$qb->select('gid', 'displayname')
 			->from('groups')
 			->where($qb->expr()->in('gid', $qb->createParameter('ids')));
-		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+		foreach (array_chunk($notFoundGids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$this->groupCache[(string)$row['gid']] = [
 					'displayname' => (string)$row['displayname'],
 					'gid' => (string)$row['gid'],
@@ -412,7 +413,6 @@ class Database extends ABackend implements
 				->orderBy('g.uid', 'ASC');
 		}
 
-
 		if ($limit !== -1) {
 			$query->setMaxResults($limit);
 		}
@@ -424,7 +424,7 @@ class Database extends ABackend implements
 
 		$users = [];
 		$userManager = Server::get(IUserManager::class);
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
@@ -553,14 +553,14 @@ class Database extends ABackend implements
 			}
 		}
 
-		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+		foreach (array_chunk($notFoundGids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query = $this->dbConn->getQueryBuilder();
 			$query->select('gid', 'displayname')
 				->from('groups')
 				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
 				$this->groupCache[(string)$row['gid']] = [
 					'displayname' => (string)$row['displayname'],

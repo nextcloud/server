@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OCP\GroupInterface;
@@ -69,7 +70,7 @@ abstract class Backend implements GroupInterface {
 	 */
 	#[\Override]
 	public function inGroup($uid, $gid) {
-		return in_array($gid, $this->getUserGroups($uid));
+		return in_array($gid, $this->getUserGroups($uid), true);
 	}
 
 	/**
@@ -107,7 +108,7 @@ abstract class Backend implements GroupInterface {
 	 */
 	#[\Override]
 	public function groupExists($gid) {
-		return in_array($gid, $this->getGroups($gid, 1));
+		return in_array($gid, $this->getGroups($gid, 1), true);
 	}
 
 	/**

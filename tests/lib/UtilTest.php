@@ -76,11 +76,6 @@ class UtilTest extends \Test\TestCase {
 		setlocale(LC_CTYPE, $locale);
 	}
 
-	public function testFileInfoLoaded(): void {
-		$expected = function_exists('finfo_open');
-		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
-	}
-
 	/**
 	 * Host is "localhost" this is a valid for emails,
 	 * but not for default strict email verification that requires a top level domain.
@@ -154,17 +149,17 @@ class UtilTest extends \Test\TestCase {
 	public function testCheckDataDirectoryValidity(): void {
 		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		touch($dataDir . '/.ncdata');
-		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$dataDir]);
 		$this->assertEmpty($errors);
 		Files::rmdirr($dataDir);
 
 		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		// no touch
-		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$dataDir]);
 		$this->assertNotEmpty($errors);
 		Files::rmdirr($dataDir);
 
-		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
+		$errors = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', ['relative/path']);
 		$this->assertNotEmpty($errors);
 	}
 
@@ -396,5 +391,55 @@ class UtilTest extends \Test\TestCase {
 		$result = Util::mb_array_change_key_case($arrayStart, MB_CASE_UPPER);
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
+	}
+
+	public static function sanitizeProvider(): array {
+		return [
+			// Basic spaces and line controls
+			['Hello World', 'Hello World'],
+			['  Hello   World  ', 'Hello World'],
+			["Hello\t World \nAgain", 'Hello World Again'],
+			["Hello\rWorld", 'HelloWorld'],
+			["Hello\r\nWorld", 'HelloWorld'],
+			["Hello\u{200B}World", 'HelloWorld'], // zero-width space removed
+			["Hello\t\n\r  World", 'Hello World'],
+
+			// Unicode, emoji, and CJK
+			['テスト 😃 💬', 'テスト 😃 💬'],
+			['中文測試 ✅', '中文測試 ✅'],
+			['Русский текст 😁', 'Русский текст 😁'],
+			['Café crème ☕', 'Café crème ☕'],
+
+			// Punctuation and filename-like
+			['Hello-World_123.', 'Hello-World_123.'],
+			['File.name, with commas', 'File.name, with commas'],
+			['Smile — dash', 'Smile — dash'],
+			['Invalid:/\\?%*|<>name', 'Invalid:/\\?%*|<>name'], // kept as is
+			['test@example.com', 'test@example.com'],
+
+			// Control and invisible chars
+			["Bad\0Name", 'BadName'],
+			["Hello\u{0007}World", 'HelloWorld'],
+			["Line\r\nbreaks", 'Linebreaks'],
+			["\x1F Hidden control", 'Hidden control'],
+
+			// Whitespace and normalization
+			[" Multiple   spaces\t and \nnewlines ", 'Multiple spaces and newlines'],
+			["No-break\u{00A0}space", 'No-break space'], // NBSP normalized
+			["Zero\u{2003}width\u{2009}spaces", 'Zero width spaces'], // various spaces
+
+			// Complex mixes
+			['テスト 💬.png', 'テスト 💬.png'],
+			['  Mix 😎 emojis 🎉 and 123 numbers  ', 'Mix 😎 emojis 🎉 and 123 numbers'],
+			["Hello   \u{200B}\n   World", 'Hello World'],
+			['Path ../etc/passwd', 'Path ../etc/passwd'],
+			['Symbols! @ # % ^ & * ( )', 'Symbols! @ # % ^ & * ( )'],
+			['Special chars <script>', 'Special chars <script>'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('sanitizeProvider')]
+	public function testSanitizeWordsAndEmojis(string $input, string $expected): void {
+		$this->assertSame($expected, Util::sanitizeWordsAndEmojis($input));
 	}
 }

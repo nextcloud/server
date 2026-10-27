@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -118,6 +119,14 @@ interface IQueryBuilder {
 	 * database server.
 	 */
 	public const MAX_ROW_DELETION = 100000;
+
+	/**
+	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
+	 * with Oracle database server.
+	 *
+	 * Mostly useful as magic value to give to array_chunk
+	 */
+	public const MAX_IN_PARAMETERS = 1000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
@@ -848,7 +857,7 @@ interface IQueryBuilder {
 	 * Replaces any previously specified orderings, if any.
 	 *
 	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -856,13 +865,13 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function orderBy($sort, $order = null);
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * Adds an ordering to the query results.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -870,7 +879,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function addOrderBy($sort, $order = null);
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * Gets a query part by its name.
