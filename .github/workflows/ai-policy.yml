@@ -140,6 +140,9 @@ jobs:
 
       - name: Label PR as AI assisted
         if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
+        # Fork-triggered runs only get a read-only token, so labelling fails with HTTP 403.
+        # The label is informational; the checks below must still decide the job result.
+        continue-on-error: true
         env:
           # Fall back to the default token when the PAT is unavailable
           # (e.g. Dependabot- or fork-triggered runs don't receive Actions secrets)
