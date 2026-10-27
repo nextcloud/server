@@ -39,6 +39,7 @@ class ConfigLexicon implements ILexicon {
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
+	public const PREVIEW_MIGRATION_MAX_PARALLEL_JOBS = 'preview_migration_max_parallel_jobs';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
