@@ -32,8 +32,8 @@ class Redis extends Cache implements IMemcacheTTL {
 			'75526f8048b13ce94a41b58eee59c664b4990ab2',
 		],
 		'caSetTtl' => [
-			'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("expire", KEYS[1], ARGV[2]) return 1 else return 0 end',
-			'fa4acbc946d23ef41d7d3910880b60e6e4972d72',
+			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("expire", KEYS[1], ARGV[2]) else return 0 end',
+			'94eac401502554c02b811e3199baddde62d976d4',
 		],
 	];
 
@@ -68,14 +68,23 @@ class Redis extends Cache implements IMemcacheTTL {
 		return self::decodeValue($result);
 	}
 
+	private static function normalizeTtl(int $ttl): int {
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			return self::DEFAULT_TTL;
+		}
+
+		if ($ttl > 0) {
+			return min($ttl, self::MAX_TTL);
+		}
+
+		return $ttl;
+	}
+	
 	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
+		$ttl = self::normalizeTtl((int)$ttl);
 		return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
@@ -147,11 +156,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
+		$ttl = self::normalizeTtl((int)$ttl);
 
 		$args = ['nx'];
 		$args['ex'] = $ttl;
@@ -223,11 +228,7 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public function setTTL($key, $ttl) {
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
+		$ttl = self::normalizeTtl((int)$ttl);
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
 	}
 
@@ -240,6 +241,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	#[\Override]
 	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
 		$value = self::encodeValue($value);
+		$ttl = self::normalizeTtl($ttl);
 
 		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
 	}

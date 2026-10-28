@@ -9,34 +9,45 @@
 namespace OCP;
 
 /**
- * Interface for memcache backends that support setting ttl after the value is set
+ * Interface for memcache backends that can update and retrieve the TTL of an
+ * existing cache entry.
  *
  * @since 8.2.2
  */
 interface IMemcacheTTL extends IMemcache {
 	/**
-	 * Set the ttl for an existing value
+	 * Update the TTL of an existing cache entry.
 	 *
-	 * @param string $key
-	 * @param int $ttl time to live in seconds
+	 * Implementations may treat a non-positive TTL as immediate expiry.
+	 *
+	 * @param string $key Cache key
+	 * @param int $ttl TTL in seconds. 0 uses the backend default TTL, negative
+	 *     values expire the entry immediately.
 	 * @since 8.2.2
 	 */
 	public function setTTL(string $key, int $ttl);
 
 	/**
-	 * Get the ttl for an existing value, in seconds till expiry
+	 * Get the remaining TTL of an existing cache entry.
 	 *
-	 * @return int|false
-	 * @since 27
+	 * @param string $key Cache key
+	 * @return int Remaining TTL in whole seconds, or false if the key has no
+	 *     positive remaining TTL or does not exist
+	 * @since 27.0.0
 	 */
 	public function getTTL(string $key): int|false;
+
 	/**
-	 * Set the ttl for an existing value if the value matches
+	 * Atomically update the TTL if the existing value matches.
 	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl time to live in seconds
-	 * @since 27
+	 * Implementations may treat a non-positive TTL as immediate expiry.
+	 *
+	 * @param string $key Cache key
+	 * @param mixed $value Expected current value
+	 * @param int $ttl TTL in seconds.  uses the backend default TTL, negative
+	 *     values expire the entry immediately.
+	 * @return bool True if the value matched and the TTL was updated, false otherwise
+	 * @since 27.0.0
 	 */
-	public function compareSetTTL(string $key, $value, int $ttl): bool;
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool;
 }
