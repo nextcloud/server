@@ -7,6 +7,10 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'NCU\\Actor\\Actor' => $baseDir . '/lib/unstable/Actor/Actor.php',
+    'NCU\\Actor\\DelegationKind' => $baseDir . '/lib/unstable/Actor/DelegationKind.php',
+    'NCU\\Actor\\Principal' => $baseDir . '/lib/unstable/Actor/Principal.php',
+    'NCU\\Actor\\PrincipalType' => $baseDir . '/lib/unstable/Actor/PrincipalType.php',
     'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
     'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
     'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',

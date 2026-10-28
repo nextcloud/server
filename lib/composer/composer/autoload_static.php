@@ -48,6 +48,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\Actor\\Actor' => __DIR__ . '/../../..' . '/lib/unstable/Actor/Actor.php',
+        'NCU\\Actor\\DelegationKind' => __DIR__ . '/../../..' . '/lib/unstable/Actor/DelegationKind.php',
+        'NCU\\Actor\\Principal' => __DIR__ . '/../../..' . '/lib/unstable/Actor/Principal.php',
+        'NCU\\Actor\\PrincipalType' => __DIR__ . '/../../..' . '/lib/unstable/Actor/PrincipalType.php',
         'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
         'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
         'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
