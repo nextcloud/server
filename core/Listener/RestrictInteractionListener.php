@@ -55,6 +55,10 @@ final class RestrictInteractionListener implements IEventListener {
 			}
 
 			foreach ($event->receivers as $receiver) {
+				if ($receiver instanceof UserReceiver && !$receiver->getUser()->isEnabled()) {
+					throw new InteractionRestrictedException('Sharing with a disabled account is not allowed.', $this->l10n->t('Cannot share with a disabled account.'));
+				}
+
 				if ($this->manager->shareWithGroupMembersOnly()) {
 					if ($receiver instanceof UserReceiver) {
 						$groups = array_intersect(
