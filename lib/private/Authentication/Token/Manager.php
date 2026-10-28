@@ -171,6 +171,16 @@ class Manager implements IProvider, OCPIProvider {
 		}
 	}
 
+	#[\Override]
+	public function copySessionToken(
+		#[\SensitiveParameter]
+		string $sourceSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): OCPIToken {
+		return $this->publicKeyTokenProvider->copySessionToken($sourceSessionId, $sessionId);
+	}
+
 	/**
 	 * @param OCPIToken $savedToken
 	 * @param string $tokenId session token

@@ -439,6 +439,65 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
 
+	public function testCopySessionTokenKeepsTheSourceToken(): void {
+		$uid = 'user';
+		$user = 'User';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+		$sourceToken = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', $uid, $user, 'password', $name, IToken::TEMPORARY_TOKEN, IToken::REMEMBER, null, 1792600000);
+
+		$this->mapper
+			->expects($this->once())
+			->method('getToken')
+			->with(hash('sha512', 'sourceIdtokentokentokentoken' . '1f4h9s'))
+			->willReturn($sourceToken);
+		$this->mapper
+			->expects($this->once())
+			->method('insert')
+			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name): bool {
+				return $token->getUID() === $uid
+					&& $token->getLoginName() === $user
+					&& $token->getName() === $name
+					&& $token->getType() === IToken::TEMPORARY_TOKEN
+					&& $token->getRemember() === IToken::REMEMBER
+					&& $token->getExpires() === 1792600000
+					&& $this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password';
+			}));
+		// The session of the source token keeps its token
+		$this->mapper
+			->expects($this->never())
+			->method('delete');
+
+		$this->tokenProvider->copySessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testCopySessionTokenKeepsTheScope(): void {
+		$sourceToken = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER, [IToken::SCOPE_FILESYSTEM => false]);
+		$this->mapper->method('getToken')->willReturn($sourceToken);
+
+		$token = $this->tokenProvider->copySessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+
+		$this->assertSame([IToken::SCOPE_FILESYSTEM => false], $token->getScopeAsArray());
+	}
+
+	public function testCopySessionTokenOfAnotherTokenTypeFails(): void {
+		$tokenProvider = $this->getMockBuilder(PublicKeyTokenProvider::class)
+			->setConstructorArgs([$this->mapper, $this->crypto, $this->config, $this->db, $this->logger, $this->timeFactory, $this->hasher, $this->cacheFactory, $this->eventDispatcher])
+			->onlyMethods(['getToken'])
+			->getMock();
+		$tokenProvider->method('getToken')->willReturn($this->createMock(IToken::class));
+
+		$this->mapper->expects($this->never())
+			->method('insert');
+		$this->expectException(InvalidTokenException::class);
+
+		$tokenProvider->copySessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
 	public function testGetToken(): void {
 		$token = new PublicKeyToken();
 		$token->setToken('token');

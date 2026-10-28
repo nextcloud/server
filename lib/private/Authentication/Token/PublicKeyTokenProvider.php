@@ -218,31 +218,62 @@ class PublicKeyTokenProvider implements IProvider {
 				throw new InvalidTokenException('Invalid token type');
 			}
 
-			$password = null;
-			if (!is_null($token->getPassword())) {
-				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
-				$password = $this->decryptPassword($token->getPassword(), $privateKey);
-			}
-
-			$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
-			$newToken = $this->generateToken(
-				$sessionId,
-				$token->getUID(),
-				$token->getLoginName(),
-				$password,
-				$token->getName(),
-				OCPIToken::TEMPORARY_TOKEN,
-				$token->getRemember(),
-				$scope,
-				$token->getExpires(),
-			);
-			$this->cacheToken($newToken);
+			$newToken = $this->copyToSession($token, $oldSessionId, $sessionId);
 
 			$this->cacheInvalidHash($token->getToken());
 			$this->mapper->delete($token);
 
 			return $newToken;
 		}, $this->db);
+	}
+
+	#[\Override]
+	public function copySessionToken(
+		#[\SensitiveParameter]
+		string $sourceSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): OCPIToken {
+		$token = $this->getToken($sourceSessionId);
+
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException('Invalid token type');
+		}
+
+		return $this->copyToSession($token, $sourceSessionId, $sessionId);
+	}
+
+	/**
+	 * A temporary token for $sessionId with the login data of $token, the session token of $sourceSessionId
+	 */
+	private function copyToSession(
+		PublicKeyToken $token,
+		#[\SensitiveParameter]
+		string $sourceSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): OCPIToken {
+		$password = null;
+		if (!is_null($token->getPassword())) {
+			$privateKey = $this->decrypt($token->getPrivateKey(), $sourceSessionId);
+			$password = $this->decryptPassword($token->getPassword(), $privateKey);
+		}
+
+		$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
+		$newToken = $this->generateToken(
+			$sessionId,
+			$token->getUID(),
+			$token->getLoginName(),
+			$password,
+			$token->getName(),
+			OCPIToken::TEMPORARY_TOKEN,
+			$token->getRemember(),
+			$scope,
+			$token->getExpires(),
+		);
+		$this->cacheToken($newToken);
+
+		return $newToken;
 	}
 
 	#[\Override]

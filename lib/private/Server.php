@@ -23,6 +23,7 @@ use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\RememberMeTokenGrace;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OC\Avatar\AvatarManager;
 use OC\BackgroundJob\JobList;
@@ -461,6 +462,8 @@ class Server extends ServerContainer {
 				$c->get(ILockdownManager::class),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
+				$c->get(RememberMeTokenGrace::class),
+				$c->get(IUserConfig::class),
 			);
 
 			return $userSession;

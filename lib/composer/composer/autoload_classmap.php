@@ -1350,6 +1350,7 @@ return array(
     'OC\\Authentication\\Token\\PublicKeyToken' => $baseDir . '/lib/private/Authentication/Token/PublicKeyToken.php',
     'OC\\Authentication\\Token\\PublicKeyTokenMapper' => $baseDir . '/lib/private/Authentication/Token/PublicKeyTokenMapper.php',
     'OC\\Authentication\\Token\\PublicKeyTokenProvider' => $baseDir . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
+    'OC\\Authentication\\Token\\RememberMeTokenGrace' => $baseDir . '/lib/private/Authentication/Token/RememberMeTokenGrace.php',
     'OC\\Authentication\\Token\\RemoteWipe' => $baseDir . '/lib/private/Authentication/Token/RemoteWipe.php',
     'OC\\Authentication\\Token\\TokenCleanupJob' => $baseDir . '/lib/private/Authentication/Token/TokenCleanupJob.php',
     'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',

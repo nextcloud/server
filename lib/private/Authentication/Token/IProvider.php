@@ -75,6 +75,15 @@ interface IProvider {
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken;
 
 	/**
+	 * Give $sessionId a session token with the login data of the session token of $sourceSessionId, which stays valid
+	 *
+	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * @return OCPIToken The new token
+	 */
+	public function copySessionToken(string $sourceSessionId, string $sessionId): OCPIToken;
+
+	/**
 	 * Invalidate (delete) the given session token
 	 *
 	 * @param string $token

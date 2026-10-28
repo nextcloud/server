@@ -14,6 +14,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\PublicKeyToken;
+use OC\Authentication\Token\RememberMeTokenGrace;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Session\Memory;
 use OC\User\LoginException;
@@ -24,6 +25,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
@@ -61,6 +63,8 @@ class SessionTest extends TestCase {
 	private ILockdownManager&MockObject $lockdownManager;
 	private LoggerInterface&MockObject $logger;
 	private IEventDispatcher&MockObject $dispatcher;
+	private RememberMeTokenGrace&MockObject $rememberMeTokenGrace;
+	private IUserConfig&MockObject $userConfig;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -82,6 +86,8 @@ class SessionTest extends TestCase {
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->rememberMeTokenGrace = $this->createMock(RememberMeTokenGrace::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([
 				$this->manager,
@@ -93,6 +99,8 @@ class SessionTest extends TestCase {
 				$this->lockdownManager,
 				$this->logger,
 				$this->dispatcher,
+				$this->rememberMeTokenGrace,
+				$this->userConfig,
 			])
 			->onlyMethods([
 				'setMagicInCookie',
@@ -114,7 +122,7 @@ class SessionTest extends TestCase {
 		$manager = $this->createMock(Manager::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods([
 				'getUser'
 			])
@@ -139,7 +147,7 @@ class SessionTest extends TestCase {
 			->method('getUID')
 			->willReturn('foo');
 
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 		$userSession->setUser($user);
 	}
 
@@ -186,7 +194,7 @@ class SessionTest extends TestCase {
 			->willReturn($user);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods([
 				'prepareUserLogin'
 			])
@@ -249,7 +257,7 @@ class SessionTest extends TestCase {
 		$this->dispatcher->expects($this->never())
 			->method('dispatch');
 
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -267,7 +275,7 @@ class SessionTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$user = $this->createMock(IUser::class);
 
@@ -310,7 +318,7 @@ class SessionTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('foo');
@@ -354,7 +362,7 @@ class SessionTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('foo');
@@ -387,7 +395,7 @@ class SessionTest extends TestCase {
 	public function testLoginNonExisting(): void {
 		$session = $this->createMock(Memory::class);
 		$manager = $this->createMock(Manager::class);
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$session->expects($this->never())
 			->method('set');
@@ -414,7 +422,7 @@ class SessionTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
@@ -472,7 +480,7 @@ class SessionTest extends TestCase {
 
 		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
@@ -497,7 +505,7 @@ class SessionTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
@@ -538,7 +546,7 @@ class SessionTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'isTwoFactorEnforced'])
 			->getMock();
 
@@ -752,7 +760,7 @@ class SessionTest extends TestCase {
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->onlyMethods(['setMagicInCookie', 'setLoginName'])
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->getMock();
 
 		$user = $this->createMock(IUser::class);
@@ -766,19 +774,19 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
+		$this->userConfig->expects($this->once())
+			->method('getKeys')
 			->with('foo', 'login_token')
 			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
+		$this->userConfig->expects($this->once())
+			->method('deleteUserConfig')
 			->with('foo', 'login_token', $token);
 		$this->random->expects($this->once())
 			->method('generate')
 			->with(32)
 			->willReturn('abcdefg123456');
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with('foo', 'login_token', 'abcdefg123456', 10000);
 
 		$tokenObject = $this->createMock(IToken::class);
@@ -831,6 +839,336 @@ class SessionTest extends TestCase {
 		$this->assertTrue($granted);
 	}
 
+	public function testRememberLoginRemembersTheRotation(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['goodToken']);
+		$this->random->method('generate')->with(32)->willReturn('newToken');
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo());
+
+		$calls = [];
+		$this->session->method('regenerateId')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'regenerateId';
+			});
+		$this->tokenProvider->method('renewSessionToken')
+			->willReturnCallback(function () use (&$calls) {
+				$calls[] = 'renewSessionToken';
+				return $this->createTokenOfFoo();
+			});
+		$this->rememberMeTokenGrace->expects($this->once())
+			->method('remember')
+			->with('goodToken', 'sess321', 'newToken', 'sess123')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'remember';
+			});
+		$this->userConfig->method('setValueString')
+			->willReturnCallback(function () use (&$calls): bool {
+				$calls[] = 'setValueString';
+				return true;
+			});
+		$this->userConfig->method('deleteUserConfig')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'deleteUserConfig';
+			});
+
+		$this->assertTrue($userSession->loginWithCookie('foo', 'goodToken', 'sess321'));
+		// Only the request that renewed the session token publishes, once the successor is stored and before the
+		// old token is gone, so a concurrent request always finds one of the two
+		$this->assertSame(['regenerateId', 'renewSessionToken', 'setValueString', 'remember', 'deleteUserConfig'], $calls);
+	}
+
+	public function testRememberLoginUsesTheUserIdForTheTokens(): void {
+		// The user manager resolves the username of the cookie to the user id
+		$userSession = $this->createUserSessionForCookieLogin('FOO');
+		$this->random->method('generate')->with(32)->willReturn('newToken');
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo());
+		$this->tokenProvider->method('renewSessionToken')->willReturn($this->createTokenOfFoo());
+
+		$this->userConfig->expects($this->once())
+			->method('getKeys')
+			->with('foo', 'login_token')
+			->willReturn(['goodToken']);
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
+			->with('foo', 'login_token', 'newToken', $this->anything());
+		$this->userConfig->expects($this->once())
+			->method('deleteUserConfig')
+			->with('foo', 'login_token', 'goodToken');
+
+		$this->assertTrue($userSession->loginWithCookie('FOO', 'goodToken', 'sess321'));
+	}
+
+	public static function sessionTokenOfAnotherUserData(): array {
+		return [
+			'username of the user id' => ['cookieUsername' => 'foo'],
+			'username resolved by the user manager' => ['cookieUsername' => 'FOO'],
+		];
+	}
+
+	#[DataProvider(methodName: 'sessionTokenOfAnotherUserData')]
+	public function testRememberLoginWithTheSessionTokenOfAnotherUserFails(string $cookieUsername): void {
+		$userSession = $this->createUserSessionForCookieLogin($cookieUsername);
+		$this->userConfig->method('getKeys')->with('foo', 'login_token')->willReturn(['goodToken']);
+		$tokenOfBar = $this->createMock(PublicKeyToken::class);
+		$tokenOfBar->method('getUID')->willReturn('bar');
+		$this->tokenProvider->method('getToken')->with('sess321')->willReturn($tokenOfBar);
+
+		$this->session->expects($this->never())
+			->method('regenerateId');
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$this->tokenProvider->expects($this->never())
+			->method('copySessionToken');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
+		$this->userConfig->expects($this->never())
+			->method('deleteUserConfig');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with('Tried to renew a session token belonging to a different user', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie($cookieUsername, 'goodToken', 'sess321'));
+	}
+
+	public function testRememberLoginWithinGracePeriodUsesTheSuccessor(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		// The token was rotated away by a concurrent request
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')
+			->with('sessOfTheConcurrentRequest')
+			->willReturn($this->createTokenOfFoo());
+
+		// The session token of the concurrent request stays valid, only this session gets one of its own
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$calls = [];
+		$this->session->method('regenerateId')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'regenerateId';
+			});
+		$this->tokenProvider->expects($this->once())
+			->method('copySessionToken')
+			->with('sessOfTheConcurrentRequest', 'sess123')
+			->willReturnCallback(function () use (&$calls): IToken {
+				$calls[] = 'copySessionToken';
+				return $this->createTokenOfFoo();
+			});
+		// The successor is not rotated again, both requests hand the browser the same cookies
+		$this->userConfig->expects($this->never())
+			->method('deleteUserConfig');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
+		$this->rememberMeTokenGrace->expects($this->never())
+			->method('remember');
+		$userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('foo', 'newToken');
+
+		$this->assertTrue($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+		$this->assertSame(['regenerateId', 'copySessionToken'], $calls);
+	}
+
+	public function testRememberLoginUsesTheSuccessorWhenTheSessionTokenIsGone(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		// The remember-me token is still stored, but a concurrent request renewed the session token and stored its
+		// successor after this request read the keys
+		$this->userConfig->method('getKeys')->willReturnOnConsecutiveCalls(['goodToken'], ['goodToken', 'newToken']);
+		$this->userConfig->expects($this->once())
+			->method('clearCache')
+			->with('foo');
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')
+			->willReturnCallback(function (string $sessionId) {
+				if ($sessionId !== 'sessOfTheConcurrentRequest') {
+					throw new InvalidTokenException();
+				}
+				return $this->createTokenOfFoo();
+			});
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('goodToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$this->tokenProvider->expects($this->once())
+			->method('copySessionToken')
+			->with('sessOfTheConcurrentRequest', 'sess123')
+			->willReturn($this->createTokenOfFoo());
+		$userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('foo', 'newToken');
+
+		$this->assertTrue($userSession->loginWithCookie('foo', 'goodToken', 'sess321'));
+	}
+
+	public function testRememberLoginAdoptsTheSuccessorWhenTheRenewalLosesTheRace(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['goodToken', 'newToken']);
+		$this->random->method('generate')->with(32)->willReturn('ownToken');
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo());
+		// A concurrent request renewed the session token first
+		$this->tokenProvider->method('renewSessionToken')->willThrowException(new InvalidTokenException());
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('goodToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		$deleted = [];
+		$this->userConfig->method('deleteUserConfig')
+			->willReturnCallback(function (string $uid, string $app, string $key) use (&$deleted): void {
+				$deleted[] = $key;
+			});
+
+		$this->tokenProvider->expects($this->once())
+			->method('copySessionToken')
+			->with('sessOfTheConcurrentRequest', 'sess123')
+			->willReturn($this->createTokenOfFoo());
+		$userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('foo', 'newToken');
+
+		$this->assertTrue($userSession->loginWithCookie('foo', 'goodToken', 'sess321'));
+		// A request that loses the race rotates nothing, so it leaves no token behind
+		$this->assertSame([], $deleted);
+	}
+
+	public function testRememberLoginWithoutTheSuccessorSessionFails(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		// The session token of the concurrent request was revoked, for example by a remote wipe
+		$this->tokenProvider->method('getToken')->willThrowException(new InvalidTokenException());
+
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Tried to log in but could not verify token', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+	}
+
+	public function testRememberLoginWithASuccessorDeletedByALogoutFails(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn([]);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		// The session token of the request that rotated is still valid, the browser logged out with a copy of it
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo());
+
+		$this->tokenProvider->expects($this->never())
+			->method('copySessionToken');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Tried to log in but could not verify token', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+	}
+
+	public function testRememberLoginWithASuccessorThatIsNotRememberedFails(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo(IToken::DO_NOT_REMEMBER));
+
+		$this->tokenProvider->expects($this->never())
+			->method('copySessionToken');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Tried to log in but could not verify token', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+	}
+
+	public function testRememberLoginFailsWhenTheSuccessorCannotBeCopied(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfTheConcurrentRequest']);
+		$this->session->method('getId')->willReturn('sess123');
+		$this->tokenProvider->method('getToken')->willReturn($this->createTokenOfFoo());
+		// The session token of the concurrent request was revoked after it was checked
+		$this->tokenProvider->method('copySessionToken')->willThrowException(new InvalidTokenException());
+
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$this->logger->expects($this->once())
+			->method('error')
+			->with($this->stringStartsWith('Renewing session token failed'), $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+		$this->assertNull($userSession->getUser());
+	}
+
+	public function testRememberLoginWithASuccessorOfAnotherUserFails(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(['token' => 'newToken', 'sessionId' => 'sessOfAnotherUser']);
+		$foreignToken = $this->createMock(PublicKeyToken::class);
+		$foreignToken->method('getUID')->willReturn('bar');
+		$this->tokenProvider->method('getToken')->willReturn($foreignToken);
+
+		$this->tokenProvider->expects($this->never())
+			->method('copySessionToken');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Tried to log in but could not verify token', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+	}
+
+	public function testRememberLoginAfterTheGracePeriodFails(): void {
+		$userSession = $this->createUserSessionForCookieLogin();
+		$this->userConfig->method('getKeys')->willReturn(['newToken']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('rotatedToken', 'sess321')
+			->willReturn(null);
+
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Tried to log in but could not verify token', $this->anything());
+
+		$this->assertFalse($userSession->loginWithCookie('foo', 'rotatedToken', 'sess321'));
+	}
+
+	/**
+	 * A user session of user foo, whose username in the cookie is $cookieUsername, with the cookie handling mocked
+	 */
+	private function createUserSessionForCookieLogin(string $cookieUsername = 'foo'): Session&MockObject {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$this->manager->method('get')->with($cookieUsername)->willReturn($user);
+
+		return $this->getMockBuilder(Session::class)
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$this->manager, $this->session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
+			->getMock();
+	}
+
+	private function createTokenOfFoo(int $remember = IToken::REMEMBER): PublicKeyToken&MockObject {
+		$token = $this->createMock(PublicKeyToken::class);
+		$token->method('getUID')->willReturn('foo');
+		$token->method('getType')->willReturn(IToken::TEMPORARY_TOKEN);
+		$token->method('getRemember')->willReturn($remember);
+
+		return $token;
+	}
+
 	public function testRememberLoginInvalidSessionToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
@@ -848,7 +1186,7 @@ class SessionTest extends TestCase {
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->onlyMethods(['setMagicInCookie'])
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->getMock();
 
 		$user = $this->createMock(IUser::class);
@@ -862,15 +1200,15 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
+		$this->userConfig->expects($this->once())
+			->method('getKeys')
 			->with('foo', 'login_token')
 			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
-		$this->config->expects($this->once())
-			->method('setUserValue'); // TODO: mock new random value
+		// A login that cannot renew the session token keeps the remember-me token it was given
+		$this->userConfig->expects($this->never())
+			->method('deleteUserConfig');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 
 		$session->expects($this->once())
 			->method('getId')
@@ -900,6 +1238,10 @@ class SessionTest extends TestCase {
 			->method('set')
 			->with('user_id', 'foo');
 
+		$this->logger->expects($this->once())
+			->method('error')
+			->with($this->stringStartsWith('Renewing session token failed'), $this->anything());
+
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
 		$this->assertFalse($granted);
@@ -922,10 +1264,11 @@ class SessionTest extends TestCase {
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->onlyMethods(['setMagicInCookie'])
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->getMock();
 
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
@@ -935,8 +1278,8 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
+		$this->userConfig->expects($this->once())
+			->method('getKeys')
 			->with('foo', 'login_token')
 			->willReturn([$token]);
 		$this->tokenProvider->expects($this->once())
@@ -944,8 +1287,8 @@ class SessionTest extends TestCase {
 			->with($oldSessionId)
 			->willThrowException(new InvalidTokenException());
 
-		$this->config->expects($this->never())
-			->method('deleteUserValue');
+		$this->userConfig->expects($this->never())
+			->method('deleteUserConfig');
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
 		$userSession->expects($this->never())
@@ -953,6 +1296,10 @@ class SessionTest extends TestCase {
 		$session->expects($this->never())
 			->method('set')
 			->with('user_id', 'foo');
+
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Could not find the session token to renew', $this->anything());
 
 		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
 
@@ -976,10 +1323,11 @@ class SessionTest extends TestCase {
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->onlyMethods(['setMagicInCookie'])
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->getMock();
 
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
@@ -989,12 +1337,12 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
+		$this->userConfig->expects($this->once())
+			->method('getKeys')
 			->with('foo', 'login_token')
 			->willReturn(['anothertoken']);
-		$this->config->expects($this->never())
-			->method('deleteUserValue')
+		$this->userConfig->expects($this->never())
+			->method('deleteUserConfig')
 			->with('foo', 'login_token', $token);
 
 		$this->tokenProvider->expects($this->never())
@@ -1029,7 +1377,7 @@ class SessionTest extends TestCase {
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
 			->onlyMethods(['setMagicInCookie'])
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->getMock();
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
@@ -1040,8 +1388,8 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn(null);
-		$this->config->expects($this->never())
-			->method('getUserKeys')
+		$this->userConfig->expects($this->never())
+			->method('getKeys')
 			->with('foo', 'login_token')
 			->willReturn(['anothertoken']);
 
@@ -1077,7 +1425,7 @@ class SessionTest extends TestCase {
 		$session = new Memory();
 		$session->set('user_id', 'foo');
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods([
 				'validateSession'
 			])
@@ -1097,7 +1445,7 @@ class SessionTest extends TestCase {
 		$manager = $this->createMock(Manager::class);
 		$session = $this->createMock(ISession::class);
 		$user = $this->createMock(IUser::class);
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$requestId = $this->createMock(IRequestId::class);
 		$config = $this->createMock(IConfig::class);
@@ -1138,7 +1486,7 @@ class SessionTest extends TestCase {
 		$manager = $this->createMock(Manager::class);
 		$session = $this->createMock(ISession::class);
 		$user = $this->createMock(IUser::class);
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$requestId = $this->createMock(IRequestId::class);
 		$config = $this->createMock(IConfig::class);
@@ -1182,7 +1530,7 @@ class SessionTest extends TestCase {
 		$session = $this->createMock(ISession::class);
 		$token = $this->createMock(IToken::class);
 		$user = $this->createMock(IUser::class);
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 
 		$requestId = $this->createMock(IRequestId::class);
 		$config = $this->createMock(IConfig::class);
@@ -1229,7 +1577,7 @@ class SessionTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$session = $this->createMock(ISession::class);
-		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig);
 		$request = $this->createMock(IRequest::class);
 
 		$uid = 'user123';
@@ -1255,9 +1603,9 @@ class SessionTest extends TestCase {
 			->method('generate')
 			->with(32)
 			->willReturn('LongRandomToken');
-		$this->config
+		$this->userConfig
 			->expects($this->once())
-			->method('setUserValue')
+			->method('setValueString')
 			->with('UserUid', 'login_token', 'LongRandomToken', 10000);
 		$this->userSession
 			->expects($this->once())
@@ -1268,23 +1616,56 @@ class SessionTest extends TestCase {
 	}
 
 	public static function renewMagicSessionIdData(): array {
+		$cookies = ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'];
 		return [
-			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
-			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
-			'no remember-me cookies' => [[], false],
-			'remember-me token cookie is an array' => [['nc_username' => 'u', 'nc_token' => ['t'], 'nc_session_id' => 'old'], false],
+			'cookie holds the old session id' => ['cookies' => $cookies, 'expectRenewal' => true, 'expectPublish' => true],
+			'cookie holds another session id' => ['cookies' => ['nc_session_id' => 'other'] + $cookies, 'expectRenewal' => false, 'expectPublish' => false],
+			'no remember-me cookies' => ['cookies' => [], 'expectRenewal' => false, 'expectPublish' => false],
+			'remember-me token cookie is an array' => ['cookies' => ['nc_token' => ['t']] + $cookies, 'expectRenewal' => false, 'expectPublish' => false],
+			'remember-me token is not stored' => ['cookies' => ['nc_token' => 'stale'] + $cookies, 'expectRenewal' => true, 'expectPublish' => false],
+			'username of another user' => ['cookies' => ['nc_username' => 'v'] + $cookies, 'expectRenewal' => true, 'expectPublish' => false],
+			'session token was not renewed' => ['cookies' => $cookies, 'expectRenewal' => true, 'expectPublish' => false, 'renewed' => false],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
-	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal, bool $expectPublish, bool $renewed = true): void {
+		$this->userConfig->method('getKeys')
+			->willReturnCallback(fn (string $uid, string $app) => $uid === 'u' && $app === 'login_token' ? ['t'] : []);
+		$token = new PublicKeyToken();
+		$token->setUid('u');
+		$token->setRemember(IToken::REMEMBER);
+		$token->setType(IToken::TEMPORARY_TOKEN);
+		$this->tokenProvider->method('getToken')
+			->willReturnCallback(fn (string $sessionId): PublicKeyToken => $renewed && $sessionId === 'new' ? $token : throw new InvalidTokenException());
+		$this->session->method('getId')->willReturn('new');
 		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
 			->method('setMagicInCookie')
-			->with('u', 't');
+			->with($cookies['nc_username'] ?? null, $cookies['nc_token'] ?? null);
+		// Requests that still send the old session id continue with the renewed one
+		$this->rememberMeTokenGrace->expects($expectPublish ? $this->once() : $this->never())
+			->method('remember')
+			->with('t', 'old', 't', 'new');
 
 		$request = $this->createMock(IRequest::class);
 		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
 		$this->overwriteService(IRequest::class, $request);
+
+		$this->userSession->renewMagicSessionId('old');
+	}
+
+	public function testRenewMagicSessionIdWithoutASessionIdStillRenewsTheCookie(): void {
+		$this->session->method('getId')->willThrowException(new SessionNotAvailableException());
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')
+			->willReturnCallback(fn (string $key) => ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'][$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->rememberMeTokenGrace->expects($this->never())
+			->method('remember');
+		$this->userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('u', 't');
 
 		$this->userSession->renewMagicSessionId('old');
 	}
@@ -1429,6 +1810,27 @@ class SessionTest extends TestCase {
 		$this->assertNull($userSession->getUser());
 	}
 
+	public function testEndInactiveSessionPublishesTheMovedSessionToken(): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$sessionId = 'sess123';
+		$this->session->method('getId')->willReturnCallback(function () use (&$sessionId): string {
+			return $sessionId;
+		});
+		$this->session->method('clear')->willReturnCallback(function () use (&$sessionId): void {
+			$sessionId = 'sess456';
+		});
+		// The session token is looked up at sess123 before and at sess456 after it moved
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER, sessionTokenIds: ['sess123', 'sess456']);
+
+		// Requests that still send the old session id continue with the moved session token
+		$this->rememberMeTokenGrace->expects($this->once())
+			->method('remember')
+			->with('fooToken', 'sess123', 'fooToken', 'sess456');
+
+		$userSession->endInactiveSession();
+	}
+
 	public function testEndInactiveSessionWithAVanishedSessionToken(): void {
 		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
 		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
@@ -1463,27 +1865,65 @@ class SessionTest extends TestCase {
 		$userSession->endInactiveSession();
 	}
 
+	public static function endInactiveSessionAfterAConcurrentTimeoutData(): array {
+		return [
+			'successor is a remembered session' => ['successor' => ['token' => 'fooToken', 'sessionId' => 'sess789'], 'keepsLogin' => true],
+			'successor session token is gone' => ['successor' => ['token' => 'fooToken', 'sessionId' => 'sess000'], 'keepsLogin' => false],
+			'successor remember-me token is gone' => ['successor' => ['token' => 'loggedOut', 'sessionId' => 'sess789'], 'keepsLogin' => false],
+			'no successor' => ['successor' => null, 'keepsLogin' => false],
+		];
+	}
+
+	#[DataProvider(methodName: 'endInactiveSessionAfterAConcurrentTimeoutData')]
+	public function testEndInactiveSessionAfterAConcurrentTimeout(?array $successor, bool $keepsLogin): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$sessionId = 'sess123';
+		$this->session->method('getId')->willReturnCallback(function () use (&$sessionId): string {
+			return $sessionId;
+		});
+		$this->session->expects($this->once())
+			->method('clear')
+			->willReturnCallback(function () use (&$sessionId): void {
+				$sessionId = 'sess456';
+			});
+		// The concurrent request already moved the session token from sess123 to sess789
+		$this->mockRememberedLogin(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER, sessionTokenIds: ['sess789']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->with('fooToken', 'sess123')
+			->willReturn($successor);
+		$this->tokenProvider->method('renewSessionToken')->willThrowException(new InvalidTokenException());
+
+		// The cookies of the concurrent request stay, so the remember-me login continues with its successor
+		$userSession->expects($keepsLogin ? $this->never() : $this->once())
+			->method('unsetMagicInCookie');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+
+		$userSession->endInactiveSession();
+	}
+
 	/**
 	 * A user session whose cookie handling and $mockedMethods are mocked
 	 */
 	private function createUserSessionForTimeout(?IProvider $tokenProvider, array $mockedMethods): Session&MockObject {
 		return $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$this->manager, $this->session, $this->timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$this->manager, $this->session, $this->timeFactory, $tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['unsetMagicInCookie', 'setMagicInCookie', ...$mockedMethods])
 			->getMock();
 	}
 
 	/**
-	 * Remember-me tokens fooToken for user foo and barToken for user bar, a session token sess123 of foo with the
-	 * remember flag $remember (missing if null) and the type $type, and a request with $cookies. The user manager
-	 * knows no user, as no user backend is set up yet when a session times out.
+	 * Remember-me tokens fooToken for user foo and barToken for user bar, a session token of foo at each of
+	 * $sessionTokenIds with the remember flag $remember (missing if null) and the type $type, and a request with
+	 * $cookies. The user manager knows no user, as no user backend is set up yet when a session times out.
 	 */
-	private function mockRememberedLogin(array $cookies, ?int $remember, int $type = IToken::TEMPORARY_TOKEN): void {
+	private function mockRememberedLogin(array $cookies, ?int $remember, int $type = IToken::TEMPORARY_TOKEN, array $sessionTokenIds = ['sess123']): void {
 		$request = $this->createMock(IRequest::class);
 		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
 		$this->overwriteService(IRequest::class, $request);
 		$storedTokens = ['foo' => ['fooToken'], 'bar' => ['barToken']];
-		$this->config->method('getUserKeys')
+		$this->userConfig->method('getKeys')
 			->willReturnCallback(fn (string $uid, string $app) => $app === 'login_token' ? ($storedTokens[$uid] ?? []) : []);
 		if ($remember === null) {
 			$this->tokenProvider->method('getToken')->willThrowException(new InvalidTokenException());
@@ -1493,7 +1933,8 @@ class SessionTest extends TestCase {
 		$token->setUid('foo');
 		$token->setRemember($remember);
 		$token->setType($type);
-		$this->tokenProvider->method('getToken')->with('sess123')->willReturn($token);
+		$this->tokenProvider->method('getToken')
+			->willReturnCallback(fn (string $sessionId): PublicKeyToken => in_array($sessionId, $sessionTokenIds, true) ? $token : throw new InvalidTokenException());
 	}
 
 	public function testTryBasicAuthLoginValid(): void {
@@ -1532,7 +1973,9 @@ class SessionTest extends TestCase {
 				$this->random,
 				$this->lockdownManager,
 				$this->logger,
-				$this->dispatcher
+				$this->dispatcher,
+				$this->rememberMeTokenGrace,
+				$this->userConfig,
 			])
 			->onlyMethods([
 				'logClientIn',
@@ -1583,7 +2026,9 @@ class SessionTest extends TestCase {
 				$this->random,
 				$this->lockdownManager,
 				$this->logger,
-				$this->dispatcher
+				$this->dispatcher,
+				$this->rememberMeTokenGrace,
+				$this->userConfig,
 			])
 			->onlyMethods([
 				'logClientIn',
@@ -1610,7 +2055,7 @@ class SessionTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
@@ -1669,7 +2114,7 @@ class SessionTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 
 		$userSession = $this->getMockBuilder(Session::class)
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher, $this->rememberMeTokenGrace, $this->userConfig])
 			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 

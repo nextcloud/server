@@ -268,6 +268,16 @@ class ManagerTest extends TestCase {
 		$this->manager->renewSessionToken('oldId', 'newId');
 	}
 
+	public function testCopySessionTokenPublicKey(): void {
+		$token = $this->createMock(IToken::class);
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('copySessionToken')
+			->with('sourceId', 'newId')
+			->willReturn($token);
+
+		$this->assertSame($token, $this->manager->copySessionToken('sourceId', 'newId'));
+	}
+
 	public function testGetTokenByIdPublicKey(): void {
 		$token = $this->createMock(IToken::class);
 
