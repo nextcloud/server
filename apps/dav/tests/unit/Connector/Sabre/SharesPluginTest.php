@@ -306,7 +306,7 @@ class SharesPluginTest extends \Test\TestCase {
 		return $share;
 	}
 
-	private function mockStorage(?IShare $share = null): (IStorage&MockObject)|(ISharedStorage&MockObject) {
+	private function mockStorage(?IShare $share = null): IStorage&MockObject {
 		$storage = $this->createMock($share === null ? IStorage::class : ISharedStorage::class);
 
 		if ($share !== null) {
@@ -386,6 +386,8 @@ class SharesPluginTest extends \Test\TestCase {
 				->willReturn($parent);
 			$folder->method('getMountPoint')
 				->willReturn($mountPoint);
+			$folder->method('isSubNode')
+				->willReturnCallback(static fn (FileNode $node): bool => str_starts_with($node->getPath(), $currentPath . '/'));
 			$parent = $folder;
 		}
 
@@ -537,36 +539,41 @@ class SharesPluginTest extends \Test\TestCase {
 	}
 
 	public static function validateMoveOrCopyFromOwnerlessMountProvider(): array {
-		// source parent, target, target mount point, target mount is share-ownerless, share ids by path,
-		// received share ids by path, paths whose shares must not be looked up, allowed
+		// source parent, target folder, target mount point, target mount is share-ownerless, share ids by path,
+		// received share ids by path, paths whose shares must not be looked up, allowed,
+		// target is an existing file inside the target folder
 		return [
 			'target below the same shares' => [
 				'/user1/files/GF/A/B', '/user1/files/GF/A/C', self::GROUP_FOLDER_MOUNT, true,
-				['/user1/files/GF/A' => ['1']], [], ['/user1/files/GF/A'], true,
+				['/user1/files/GF/A' => ['1']], [], ['/user1/files/GF/A'], true, false,
+			],
+			'existing target file below the same shares' => [
+				'/user1/files/GF/A/B', '/user1/files/GF/A/C', self::GROUP_FOLDER_MOUNT, true,
+				['/user1/files/GF/A' => ['1']], [], ['/user1/files/GF/A'], true, true,
 			],
 			'target is a new share' => [
 				'/user1/files/GF/B', '/user1/files/GF/A', self::GROUP_FOLDER_MOUNT, true,
-				['/user1/files/GF/A' => ['1']], [], [], false,
+				['/user1/files/GF/A' => ['1']], [], [], false, false,
 			],
 			'target below a new share' => [
 				'/user1/files/GF/B', '/user1/files/GF/A/L/deeper', self::GROUP_FOLDER_MOUNT, true,
-				['/user1/files/GF/A' => ['1']], [], [], false,
+				['/user1/files/GF/A' => ['1']], [], [], false, false,
 			],
 			'share above the target mount' => [
 				'/user1/files/GF/B', '/user1/files/Projects/ext/sub', '/user1/files/Projects/ext/', true,
-				['/user1/files/Projects' => ['1']], [], ['/user1/files/Projects'], true,
+				['/user1/files/Projects' => ['1']], [], ['/user1/files/Projects'], true, false,
 			],
 			'shared folder on another mount' => [
 				'/user1/files/GF/B', '/user1/files/Public/sub', '/user1/', false,
-				['/user1/files/Public' => ['1']], [], [], false,
+				['/user1/files/Public' => ['1']], [], [], false, false,
 			],
 			'received share' => [
 				'/user1/files/GF/B', '/user1/files/Received', '/user1/files/Received/', false,
-				[], ['/user1/files/Received' => ['1']], [], false,
+				[], ['/user1/files/Received' => ['1']], [], false, false,
 			],
 			'below a received share' => [
 				'/user1/files/GF/B', '/user1/files/Received/sub', '/user1/files/Received/', false,
-				[], ['/user1/files/Received' => ['1']], [], false,
+				[], ['/user1/files/Received' => ['1']], [], false, false,
 			],
 		];
 	}
@@ -581,6 +588,7 @@ class SharesPluginTest extends \Test\TestCase {
 		array $receivedIdsByPath,
 		array $notLookedUp,
 		bool $allowed,
+		bool $targetIsExistingFile,
 	): void {
 		$this->mockSharesByPath($shareIdsByPath, $receivedIdsByPath);
 
@@ -599,16 +607,36 @@ class SharesPluginTest extends \Test\TestCase {
 
 		$davSource = 'files/user1' . substr($sourceParentPath, strlen(self::USER_ROOT)) . '/source.txt';
 		$davTargetParent = 'files/user1' . substr($targetPath, strlen(self::USER_ROOT));
+		$targetFolder = $this->mockFolder($targetPath, $targetMount);
+
+		$existingTargetNodePath = $davTargetParent;
+		$finalTargetPath = $davTargetParent . '/source.txt';
+		$existingTargetNode = $targetFolder;
+		$missing = [$finalTargetPath];
+
+		if ($targetIsExistingFile) {
+			$targetFile = $this->createMock(\OCP\Files\File::class);
+			$targetFile->method('getPath')
+				->willReturn($targetPath . '/source.txt');
+			$targetFile->method('getParent')
+				->willReturn($targetFolder);
+			$targetFile->method('getMountPoint')
+				->willReturn($targetMount);
+
+			$existingTargetNode = $targetFile;
+			$existingTargetNodePath = $finalTargetPath;
+			$missing = [];
+		}
+
 		$this->mockTree(
 			[
 				$davSource => $sourceNode,
-				$davTargetParent => $this->mockFolder($targetPath, $targetMount),
+				$existingTargetNodePath => $existingTargetNode,
 			],
-			[$davTargetParent . '/source.txt'],
+			$missing,
 		);
 
-		$result = $this->plugin->validateMoveOrCopy($davSource, $davTargetParent . '/source.txt');
-
+		$result = $this->plugin->validateMoveOrCopy($davSource, $finalTargetPath);
 		$this->assertTrue($result);
 
 		foreach ($notLookedUp as $path) {
