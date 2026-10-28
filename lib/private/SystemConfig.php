@@ -77,6 +77,10 @@ class SystemConfig {
 				'key' => true,
 				'secret' => true,
 				'sse_c_key' => true,
+				// SSE-KMS encryption context may carry tenant identifiers and is marked
+				// sensitive by the AWS SDK itself (visible in CloudTrail, but not a secret
+				// we want dumped in support requests)
+				'sse_kms_encryption_context' => true,
 				// Swift v2
 				'username' => true,
 				'password' => true,
@@ -98,6 +102,8 @@ class SystemConfig {
 				// S3
 				'key' => true,
 				'secret' => true,
+				'sse_c_key' => true,
+				'sse_kms_encryption_context' => true,
 				// Swift v2
 				'username' => true,
 				'password' => true,
