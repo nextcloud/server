@@ -55,6 +55,18 @@ const ADMIN_INFO = loadState<AdminThemingInfo>('theming', 'adminThemingInfo')
 				type="url"
 				placeholder="https://…"
 				maxlength="500" />
+			<TextField
+				name="customLinkText"
+				:label="t('theming', 'Custom link text')"
+				defaultValue=""
+				maxlength="500" />
+			<TextField
+				name="customLinkUrl"
+				:label="t('theming', 'Custom link')"
+				defaultValue=""
+				type="url"
+				placeholder="https://…"
+				maxlength="500" />
 		</div>
 	</NcSettingsSection>
 </template>
