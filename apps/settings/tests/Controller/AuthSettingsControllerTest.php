@@ -25,7 +25,9 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -48,6 +50,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private RemoteWipe&MockObject $remoteWipe;
 	private IConfig&MockObject $serverConfig;
 	private IL10N&MockObject $l;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private string $uid = 'jane';
 	private AuthSettingsController $controller;
 
@@ -66,6 +69,7 @@ class AuthSettingsControllerTest extends TestCase {
 		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 		$this->l = $this->createMock(IL10N::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new AuthSettingsController(
 			'core',
@@ -82,6 +86,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->serverConfig,
 			$this->l,
 			new TokenScopes(),
+			$this->eventDispatcher,
 		);
 	}
 
@@ -124,7 +129,9 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('jsonSerialize')
 			->willReturn(['dummy' => 'dummy', 'canDelete' => true]);
 
-		$this->mockActivityManager();
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (AppPasswordCreatedEvent $event): bool => $event->getToken() === $deviceToken));
 
 		$expected = [
 			'token' => $newToken,

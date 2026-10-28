@@ -20,6 +20,7 @@ use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\AppPasswordCreatedEvent;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -179,6 +180,7 @@ class LoginFlowV2Service {
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
 		$this->mapper->update($data);
+		$this->eventDispatcher->dispatchTyped(new AppPasswordCreatedEvent($generatedToken));
 		return true;
 	}
 
