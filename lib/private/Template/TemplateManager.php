@@ -69,7 +69,7 @@ class TemplateManager implements ITemplateManager {
 		}
 		$errors = [['error' => $error_msg, 'hint' => $hint]];
 
-		http_response_code($statusCode);
+		$this->setStatusCode($statusCode);
 		try {
 			// Try rendering themed html error page
 			$response = new TemplateResponse(
@@ -115,7 +115,7 @@ class TemplateManager implements ITemplateManager {
 	#[\Override]
 	public function printExceptionErrorPage(\Throwable $exception, int $statusCode = 503): never {
 		$debug = false;
-		http_response_code($statusCode);
+		$this->setStatusCode($statusCode);
 		try {
 			$debug = (bool)Server::get(SystemConfig::class)->getValue('debug', false);
 			$serverLogsDocumentation = Server::get(SystemConfig::class)->getValue('documentation_url.server_logs', '');
@@ -148,6 +148,15 @@ class TemplateManager implements ITemplateManager {
 			$this->printPlainErrorPage($e, $debug);
 		}
 		die();
+	}
+
+	/**
+	 * Setting the status code once output has started only triggers a warning
+	 */
+	private function setStatusCode(int $statusCode): void {
+		if (!headers_sent()) {
+			http_response_code($statusCode);
+		}
 	}
 
 	/**
