@@ -40,6 +40,7 @@ class ConfigLexicon implements ILexicon {
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
+	public const PREVIEW_MIGRATION_MAX_PARALLEL_JOBS = 'preview_migration_max_parallel_jobs';
 
 	public const APPSTORE_LINK_SHOWN = 'appstore_link_shown';
 
@@ -106,6 +107,12 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: true,
 				definition: 'Whether on demand preview migration is enabled.'
+			),
+			new Entry(
+				key: self::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS,
+				type: ValueType::INT,
+				defaultRaw: 0,
+				definition: 'Maximum number of preview migration background jobs running in parallel, 0 for no limit.',
 			),
 			new Entry(
 				key: self::APPSTORE_LINK_SHOWN,
