@@ -31,6 +31,7 @@ use OC\Preview\JPEG;
 use OC\Preview\Krita;
 use OC\Preview\MarkDown;
 use OC\Preview\Movie;
+use OC\Preview\MovieRemote;
 use OC\Preview\MP3;
 use OC\Preview\MSOffice2003;
 use OC\Preview\MSOffice2007;
@@ -375,6 +376,7 @@ class PreviewManager implements IPreview {
 				$this->registerCoreProvider(Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
+		$this->registerCoreProvider(MovieRemote::class, '/video\/.*/');
 	}
 
 	private function registerCoreProvidersOffice(): void {
