@@ -332,10 +332,17 @@ export default defineComponent({
 				// Move to the last page
 				this.currentStep = STEP.LAST
 			} catch (error) {
-				const errorMessage = (error as AxiosError<OCSResponse>)?.response?.data?.ocs?.meta?.message
-				showError(errorMessage
-					? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage })
-					: t('files_sharing', 'Error creating the share'))
+				const axiosError = error as AxiosError<OCSResponse>
+				let errorMessage: string
+				if (axiosError?.response?.status === 429) {
+					errorMessage = t('files_sharing', 'Share creation is temporarily rate limited. Please wait a few minutes before creating more shares.')
+				} else {
+					const message = axiosError?.response?.data?.ocs?.meta?.message
+					errorMessage = message
+						? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage: message })
+						: t('files_sharing', 'Error creating the share')
+				}
+				showError(errorMessage)
 				logger.error('Error while creating share', { error, errorMessage })
 				throw error
 			} finally {
