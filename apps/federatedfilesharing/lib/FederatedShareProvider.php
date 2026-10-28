@@ -8,6 +8,7 @@
 
 namespace OCA\FederatedFileSharing;
 
+use DateTime;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OCP\Constants;
@@ -135,7 +136,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		if ($remoteShare) {
 			$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
-			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
+			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, $share->getToken() ?? ('tmp_token_' . time()), $shareType, $expirationDate, $share->getShareTime());
 			[$token, $remoteId] = $this->notifications->requestReShare(
 				$remoteShare['refresh_token'],
 				$remoteShare['remote_id'],
@@ -170,7 +171,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share): string {
-		$token = $this->tokenHandler->generateToken();
+		$token = $share->getToken() ?? $this->tokenHandler->generateToken();
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -180,7 +181,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			$share->getPermissions(),
 			$token,
 			$share->getShareType(),
-			$share->getExpirationDate()
+			$share->getExpirationDate(),
+			$share->getShareTime(),
 		);
 
 		$failure = false;
@@ -261,7 +263,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @param int $shareType
 	 * @param \DateTime $expirationDate
 	 */
-	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate): string {
+	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate, DateTime $shareTime): string {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))
@@ -274,7 +276,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->setValue('permissions', $qb->createNamedParameter($permissions))
 			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->setValue('token', $qb->createNamedParameter($token))
-			->setValue('stime', $qb->createNamedParameter(time()));
+			->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
 
 		/*
 		 * Added to fix https://github.com/owncloud/core/issues/22215

@@ -232,4 +232,11 @@ interface ISharingBackend {
 		int $count = 5,
 		int $offset = 0,
 	): array;
+
+	/**
+	 * @param list<string> $userIds
+	 * @return array<string, ShareUserStatus>
+	 * @experimental 35.0.0
+	 */
+	public function getUserStatuses(string $id, array $userIds): array;
 }

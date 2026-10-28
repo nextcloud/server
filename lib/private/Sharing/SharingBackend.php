@@ -1141,12 +1141,6 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				/** @var ?string $value */
 				$value = $row['property_value'];
-
-				$propertyType = $registryPropertyTypes[$propertyTypeClass];
-				if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-					$value = $propertyType->modifyValueOnLoad($value);
-				}
-
 				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
@@ -1314,9 +1308,6 @@ final readonly class SharingBackend implements ISharingBackend {
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
 		$value = $this->updateShareProperty($share->id, $property);
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
-		}
 
 		$property = new ShareProperty(
 			$property->class,
@@ -1465,7 +1456,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}, $rows)));
 	}
 
-	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
+	public static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
 		if (method_exists(\DateTimeImmutable::class, 'createFromTimestamp')) {
 			// with php 8.3 the method doesn't exist and psalm doesn't know the return type
 			/** @psalm-suppress MixedReturnStatement */
@@ -1490,5 +1481,28 @@ final readonly class SharingBackend implements ISharingBackend {
 		return ($value === null)
 			? $query->expr()->isNull($field)
 			: $query->expr()->eq($field, $query->createNamedParameter($value));
+	}
+
+	#[\Override]
+	public function getUserStatuses(string $id, array $userIds): array {
+		$this->assertInTransaction();
+
+		$userStatuses = [];
+		foreach (array_chunk($userIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$result = $qb
+				->select('user_id', 'status_id')
+				->from('sharing_share_user_status')
+				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+				->andWhere($qb->expr()->in('user_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->executeQuery();
+			/** @var list<array{user_id: string, status_id: int}> */
+			$rows = $result->fetchAll();
+			foreach ($rows as $row) {
+				$userStatuses[$row['user_id']] = ShareUserStatus::decode($row['status_id']);
+			}
+		}
+
+		return $userStatuses;
 	}
 }

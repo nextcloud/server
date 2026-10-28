@@ -45,6 +45,11 @@ final class EmailShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		if ($instance !== null) {
 			// An email is always remote and can never have an instance.

@@ -1047,7 +1047,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
 			->setNote($data['note'])
-			->setToken($data['token']);
+			->setToken($data['token'])
+			->setStatus((int)$data['accepted']);
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);
@@ -1253,7 +1254,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	}
 
 	#[\Override]
-	public function getAllShares(): iterable {
+	public function getAllShares(bool $withUserGroup = false): iterable {
+		if ($withUserGroup) {
+			throw new RuntimeException('Unintended usage.');
+		}
+
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		$qb->select('*')
