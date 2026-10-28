@@ -479,21 +479,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, false, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminAndAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, true, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequired')]
@@ -515,7 +515,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequiredPublicPage')]
@@ -532,7 +531,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequired')]
