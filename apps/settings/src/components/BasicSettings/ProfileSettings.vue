@@ -19,8 +19,12 @@
 			v-model="initialProfileEnabledByDefault"
 			type="switch"
 			@update:modelValue="onProfileDefaultChange">
-			{{ t('settings', 'Enable') }}
+			{{ t('settings', 'Enable by default') }}
 		</NcCheckboxRadioSwitch>
+
+		<NcNoteCard type="info">
+			{{ t('settings', 'Enable or disable the profile picker in the Smart Picker and the profile link previews.') }}
+		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
 			v-model="initialProfilePickerEnabled"
@@ -29,9 +33,12 @@
 			{{ t('settings', 'Enable the profile picker') }}
 		</NcCheckboxRadioSwitch>
 
-		<NcNoteCard type="info">
-			{{ t('settings', 'Enable or disable the profile picker in the Smart Picker and the profile link previews.') }}
-		</NcNoteCard>
+		<NcCheckboxRadioSwitch
+			v-model="initialProfilePrivate"
+			type="switch"
+			@update:modelValue="onProfilePrivateChange">
+			{{ t('settings', 'Prevent unauthenticated users from seeing user profiles') }}
+		</NcCheckboxRadioSwitch>
 	</div>
 </template>
 
@@ -41,11 +48,12 @@ import { loadState } from '@nextcloud/initial-state'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import logger from '../../logger.ts'
-import { saveProfileDefault, saveProfilePicker } from '../../service/ProfileService.js'
+import { saveProfileDefault, saveProfilePicker, saveProfilePrivate } from '../../service/ProfileService.js'
 import { validateBoolean } from '../../utils/validate.js'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
 const profilePickerEnabled = loadState('settings', 'profilePickerEnabled', true)
+const profilePrivate = loadState('settings', 'profilePrivate', true)
 
 export default {
 	name: 'ProfileSettings',
@@ -59,6 +67,7 @@ export default {
 		return {
 			initialProfileEnabledByDefault: profileEnabledByDefault,
 			initialProfilePickerEnabled: profilePickerEnabled,
+			initialProfilePrivate: profilePrivate,
 		}
 	},
 
@@ -102,6 +111,28 @@ export default {
 			} catch (e) {
 				this.handleResponse({
 					errorMessage: t('settings', 'Unable to update profile picker setting'),
+					error: e,
+				})
+			}
+		},
+
+		async onProfilePrivateChange(isEnabled) {
+			if (validateBoolean(isEnabled)) {
+				await this.updateProfilePrivate(isEnabled)
+			}
+		},
+
+		async updateProfilePrivate(isEnabled) {
+			try {
+				const responseData = await saveProfilePrivate(isEnabled)
+				this.handleResponse({
+					isEnabled,
+					key: 'initialProfilePrivate',
+					status: responseData.ocs?.meta?.status,
+				})
+			} catch (e) {
+				this.handleResponse({
+					errorMessage: t('settings', 'Unable to update profile private setting'),
 					error: e,
 				})
 			}
