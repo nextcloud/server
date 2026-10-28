@@ -258,6 +258,31 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('foo3', array_shift($result)->getUID());
 	}
 
+	public function testSearchDisplayNameTwoBackendsSameUser(): void {
+		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend1->expects($this->once())
+			->method('getDisplayNames')
+			->with($this->equalTo(''), $this->equalTo(3), $this->equalTo(0))
+			->willReturn(['foo1' => 'Foo One', 'foo2' => 'Foo Two']);
+
+		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend2->expects($this->once())
+			->method('getDisplayNames')
+			->with($this->equalTo(''), $this->equalTo(3), $this->equalTo(0))
+			->willReturn(['foo2' => 'Foo Two (other)', 'foo3' => 'Foo Three']);
+
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
+
+		$result = $this->manager->searchDisplayName('', 3, 0);
+		$this->assertCount(3, $result);
+		$this->assertEquals('foo1', $result[0]->getUID());
+		$this->assertEquals('foo3', $result[1]->getUID());
+		$this->assertEquals('foo2', $result[2]->getUID());
+		$this->assertEquals('Foo Two', $result[2]->getDisplayName());
+		$this->assertSame($backend1, $result[2]->getBackend());
+	}
+
 	public static function dataCreateUserInvalid(): array {
 		return [
 			['te?st', 'foo', 'Only the following characters are allowed in a username:'
