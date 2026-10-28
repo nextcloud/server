@@ -18,7 +18,7 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Mementoul pentru „{fileName}” a fost șters",
     "Failed to clear reminder" : "Eroare la ștergerea mementoului",
     "Reminder at custom date & time" : "Memento la o dată și oră personalizate",
-    "Cancel" : "Anulare",
+    "Cancel" : "Anulează",
     "Clear reminder" : "Șterge mementoul",
     "Set reminder" : "Setează un memento",
     "Set reminder for " : "Setează un memento pentru ",
