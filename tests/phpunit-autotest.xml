@@ -12,14 +12,16 @@
 		 timeoutForMediumTests="300"
 		 timeoutForLargeTests="600"
 		 cacheDirectory=".phpunit.cache"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd">
 	<testsuite name="Nextcloud Server">
 		<directory>lib/</directory>
 		<directory>Core/</directory>
 		<directory>../apps/</directory>
 		<exclude>../apps/user_ldap/tests/Integration</exclude>
 	</testsuite>
-	<source>
+	<!-- Classifying issues as first- or third-party maps every file below, which
+	     means walking the whole server root. Needs PHPUnit >= 11.5.51. -->
+	<source identifyIssueTrigger="false">
 		<include>
 			<directory>..</directory>
 		</include>
