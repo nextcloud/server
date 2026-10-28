@@ -10,11 +10,13 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -37,6 +39,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IURLGenerator&MockObject $urlGenerator;
 	private IUserSession&MockObject $userSession;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private PublicAuth $auth;
 
 	private bool|string $oldUser;
@@ -51,6 +54,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->auth = new PublicAuth(
 			$this->request,
@@ -60,6 +64,7 @@ class PublicAuthTest extends \Test\TestCase {
 			$this->logger,
 			$this->urlGenerator,
 			$this->userSession,
+			$this->eventDispatcher,
 		);
 
 		// Store current user
@@ -121,6 +126,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
 			->willThrowException(new ShareNotFound());
+		$this->expectFailureEvent('GX9HSGQrGE', null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND);
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		self::invokePrivate($this->auth, 'checkToken');
@@ -194,6 +200,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
 			->willThrowException(new ShareNotFound());
+		$this->expectFailureEvent('GX9HSGQrGE', null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND);
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -275,6 +282,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo($share),
 				$this->equalTo('password')
 			)->willReturn(true);
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -300,6 +308,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo($share),
 				$this->equalTo('password')
 			)->willReturn(true);
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -360,6 +369,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->expectFailureEvent('GX9HSGQrGE', $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD);
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -390,9 +400,18 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->expectFailureEvent('GX9HSGQrGE', $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD);
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
+	}
+
+	private function expectFailureEvent(string $token, ?IShare $share, string $reason): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (ShareLinkAccessFailedEvent $event): bool => $event->getToken() === $token
+				&& $event->getShare() === $share
+				&& $event->getReason() === $reason));
 	}
 }
