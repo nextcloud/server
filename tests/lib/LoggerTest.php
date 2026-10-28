@@ -188,6 +188,110 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals(['1 info level message'], $this->getLogs());
 	}
 
+	public static function dataNonMatchingCondition(): array {
+		return [
+			'app mismatch' => [
+				['app' => 'files'],
+				'Matching message',
+				[
+					'users' => ['test-user'],
+					'apps' => ['dav'],
+					'message' => 'Matching',
+				],
+			],
+			'message mismatch' => [
+				['app' => 'dav'],
+				'Non-matching message',
+				[
+					'users' => ['test-user'],
+					'apps' => ['dav'],
+					'message' => 'Matching',
+				],
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNonMatchingCondition')]
+	public function testNonMatchingConditionDoesNotResolveUser(
+		array $context,
+		string $message,
+		array $condition,
+	): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['matches' => [$condition]]],
+			]);
+
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->expects($this->never())
+			->method('getUser');
+		$this->overwriteService(IUserSession::class, $userSession);
+
+		$this->assertSame(
+			ILogger::WARN,
+			$this->logger->getLogLevel($context, $message),
+		);
+	}
+
+	public function testMatchingUserConditionsResolveUserOnlyOnce(): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['matches' => [
+					[
+						'users' => ['other-user'],
+						'apps' => ['files'],
+					],
+					[
+						'users' => ['test-user'],
+						'apps' => ['files'],
+					],
+				]]],
+			]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('test-user');
+
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->overwriteService(IUserSession::class, $userSession);
+
+		$this->assertSame(
+			ILogger::DEBUG,
+			$this->logger->getLogLevel(['app' => 'files'], 'Test message'),
+		);
+	}
+
+	public function testFirstMatchingConditionDeterminesLogLevel(): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['matches' => [
+					[
+						'message' => 'matching message',
+						'loglevel' => ILogger::INFO,
+					],
+					[
+						'message' => 'matching message',
+						'loglevel' => ILogger::DEBUG,
+					],
+				]]],
+			]);
+
+		$this->assertSame(
+			ILogger::INFO,
+			$this->logger->getLogLevel([], 'A matching message'),
+		);
+	}
+
 	public function testLoggingWithDataArray(): void {
 		$this->mockDefaultLogLevel();
 		/** @var IWriter&MockObject */
