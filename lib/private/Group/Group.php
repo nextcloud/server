@@ -40,6 +40,8 @@ class Group implements IGroup {
 	/** @var User[] */
 	private array $users = [];
 	private bool $usersLoaded = false;
+	/** @var list<string>|null */
+	private ?array $userIds = null;
 
 	public function __construct(
 		/** @var non-empty-string $gid */
@@ -104,6 +106,28 @@ class Group implements IGroup {
 			return $this->users;
 		}
 
+		$this->users = $this->getVerifiedUsers($this->getUserIds());
+		$this->usersLoaded = true;
+		return $this->users;
+	}
+
+	/**
+	 * Get the ids of all users in the group
+	 *
+	 * Unlike {@see self::getUsers()} the ids are not checked against the user
+	 * backends, so they can contain users that no longer exist.
+	 *
+	 * @return list<string>
+	 * @internal
+	 */
+	public function getUserIds(): array {
+		return $this->userIds ??= $this->getBackendUserIds();
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private function getBackendUserIds(): array {
 		$userIds = [];
 		foreach ($this->backends as $backend) {
 			$diff = array_diff(
@@ -114,10 +138,7 @@ class Group implements IGroup {
 				$userIds = array_merge($userIds, $diff);
 			}
 		}
-
-		$this->users = $this->getVerifiedUsers($userIds);
-		$this->usersLoaded = true;
-		return $this->users;
+		return $userIds;
 	}
 
 	/**
@@ -161,6 +182,9 @@ class Group implements IGroup {
 				/** @var IAddToGroupBackend $backend */
 				$backend->addToGroup($user->getUID(), $this->gid);
 				$this->users[$user->getUID()] = $user;
+				if ($this->userIds !== null && !in_array($user->getUID(), $this->userIds, true)) {
+					$this->userIds[] = $user->getUID();
+				}
 
 				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
 
@@ -193,6 +217,9 @@ class Group implements IGroup {
 			$this->dispatcher->dispatchTyped(new UserRemovedEvent($this, $user));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\Group', 'postRemoveUser', [$this, $user]);
+			}
+			if ($this->userIds !== null) {
+				$this->userIds = array_values(array_diff($this->userIds, [$user->getUID()]));
 			}
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
