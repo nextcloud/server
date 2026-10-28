@@ -884,6 +884,7 @@ return array(
     'OCP\\Security\\Bruteforce\\MaxDelayReached' => $baseDir . '/lib/public/Security/Bruteforce/MaxDelayReached.php',
     'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => $baseDir . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
     'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => $baseDir . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',
+    'OCP\\Security\\Events\\PasswordResetRequestedEvent' => $baseDir . '/lib/public/Security/Events/PasswordResetRequestedEvent.php',
     'OCP\\Security\\Events\\ValidatePasswordPolicyEvent' => $baseDir . '/lib/public/Security/Events/ValidatePasswordPolicyEvent.php',
     'OCP\\Security\\FeaturePolicy\\AddFeaturePolicyEvent' => $baseDir . '/lib/public/Security/FeaturePolicy/AddFeaturePolicyEvent.php',
     'OCP\\Security\\IContentSecurityPolicyManager' => $baseDir . '/lib/public/Security/IContentSecurityPolicyManager.php',
