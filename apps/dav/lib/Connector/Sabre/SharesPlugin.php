@@ -229,7 +229,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode): ShareTypeList {
 			$shares = $this->getShares($sabreNode);
-			$shareTypes = array_unique(array_map(static fn (IShare $share): int => $share->getShareType(), $shares));
+			$shareTypes = array_values(array_unique(array_map(static fn (IShare $share): int => $share->getShareType(), $shares)));
 
 			return new ShareTypeList($shareTypes);
 		});
