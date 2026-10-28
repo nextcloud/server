@@ -27,6 +27,7 @@ OC.L10N.register(
     "You renamed app password \"{token}\" to \"{newToken}\"" : "您已將應用程式密碼「{token}」重新命名為「{newToken}」",
     "You granted filesystem access to app password \"{token}\"" : "您授予了應用程式密碼「{token}」檔案系統的存取權",
     "You revoked filesystem access from app password \"{token}\"" : "您撤銷了應用程式密碼「{token}」檔案系統的存取權",
+    "You changed the access of app password \"{token}\"" : "您已變更應用程式密碼「{token}」的存取權",
     "Security" : "安全性",
     "You successfully logged in using two-factor authentication (%1$s)" : "您已成功使用兩階段認證登入 (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "使用兩階段認證登入失敗 (%1$s)",
