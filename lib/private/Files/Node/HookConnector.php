@@ -214,15 +214,36 @@ class HookConnector {
 				$info = null;
 			}
 			if ($isDir || Filesystem::is_dir($path)) {
-				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
+				$node = new NonExistingFolder($this->root, $this->view, $fullPath, $info);
 			} else {
-				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
+				$node = new NonExistingFile($this->root, $this->view, $fullPath, $info);
+			}
+		} else {
+			if ($info->getType() === FileInfo::TYPE_FILE) {
+				$node = new File($this->root, $this->view, $info->getPath(), $info);
+			} else {
+				$node = new Folder($this->root, $this->view, $info->getPath(), $info);
 			}
 		}
-		if ($info->getType() === FileInfo::TYPE_FILE) {
-			return new File($this->root, $this->view, $info->getPath(), $info);
-		} else {
-			return new Folder($this->root, $this->view, $info->getPath(), $info);
+		if ($node->getPath() === null) {
+			$e = new \Exception("null path when trying to get node for hook");
+			$data = [
+				'exception' => $e,
+				'original_path' => $path,
+				'view_root' => Filesystem::getView()->getRoot(),
+			];
+			if ($info) {
+				$data = $data + [
+						'mount_point' => $info->getMountPoint()->getMountPoint(),
+						'mount_provider_class' => $info->getMountPoint()->getMountProvider(),
+						'storage' => $info->getStorage()->getId(),
+						'file_id' => $info->getId(),
+					];
+			} else {
+				$data['info'] = 'not-found';
+			}
+			$this->logger->error($e->getMessage(), $data);
 		}
+		return $node;
 	}
 }
