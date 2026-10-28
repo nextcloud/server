@@ -10,13 +10,15 @@ declare(strict_types=1);
 namespace OCP\Authentication\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
  * Emitted when the authentication fails
  *
  * @since 26.0.0
+ * @since 36.0.0 Implements IWebhookCompatibleEvent
  */
-class AnyLoginFailedEvent extends Event {
+class AnyLoginFailedEvent extends Event implements IWebhookCompatibleEvent {
 	private string $loginName;
 	private ?string $password;
 
@@ -50,5 +52,17 @@ class AnyLoginFailedEvent extends Event {
 	 */
 	public function getPassword(): ?string {
 		return $this->password;
+	}
+
+	/**
+	 * The attempted password is never part of the payload.
+	 *
+	 * @since 36.0.0
+	 */
+	#[\Override]
+	public function getWebhookSerializable(): array {
+		return [
+			'loginName' => $this->loginName,
+		];
 	}
 }
