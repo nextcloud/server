@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "{app} kullanımını belirtilen grupların üyeleriyle sınırlar.",
     "Reset limitation" : "Sınırlamayı sıfırla",
     "Save" : "Kaydet",
-    "Failed to update app {appName}" : "{appName} uygulaması güncellenemedi",
     "Update all apps" : "Tüm uygulamaları güncelle",
     "Are you sure you want to update all apps?" : "Tüm uygulamaları güncellemek istediğinize emin misiniz?",
     "Update done" : "Güncelleme tamamlandı",
@@ -155,9 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "En iyi güvenlik: Belgeler asla sunucunuzdan ayrılmaz",
     "Best ODF compatibility" : "En iyi ODF uyumluluğu",
     "Best support for legacy files" : "Eski dosyalar için en iyi destek",
+    "Enabling following apps: {apps}" : "Şu uygulamalar kullanıma alınıyor: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["%n uygulama güncelleniyor","%n uygulama güncelleniyor"],
     "Could not load app categories. Please try again later." : "Uygulama kategorileri yüklenemedi. Bir süre sonra yeniden deneyin.",
     "Could not load apps list. Please try again later." : "Uygulama listesi yüklenemedi. Bir süre sonra yeniden deneyin.",
     "Could not update the app. Please try again later." : "Uygulama güncellenemedi. Bir süre sonra yeniden deneyin.",
-    "An error occurred during the request. Unable to proceed." : "İstek yapılırken bir sorun çıktı. İşlem sürdürülemiyor."
+    "An error occurred during the request. Unable to proceed." : "İstek yapılırken bir sorun çıktı. İşlem sürdürülemiyor.",
+    "Could not update an exApp. Please try again later." : "Bir exApp güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
+    "Could not update {app}. Please try again later." : "{app} güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
+    "Could not update an app. Please try again later." : "Bir uygulama güncellenemedi. Lütfen bir süre sonra yeniden deneyin.",
+    "Failed to update app {appName}" : "{appName} uygulaması güncellenemedi"
 },
 "nplurals=2; plural=(n > 1);");

@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\Connector;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -26,6 +27,7 @@ class LegacyPublicAuthTest extends TestCase {
 	private IRequest&MockObject $request;
 	private IManager&MockObject $shareManager;
 	private IThrottler&MockObject $throttler;
+	private IUserSession&MockObject $userSession;
 	private LegacyPublicAuth $auth;
 	private string|false $oldUser;
 
@@ -36,12 +38,14 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->auth = new LegacyPublicAuth(
 			$this->request,
 			$this->shareManager,
 			$this->session,
-			$this->throttler
+			$this->throttler,
+			$this->userSession,
 		);
 
 		// Store current user
@@ -174,7 +178,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -199,7 +203,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -224,7 +228,7 @@ class LegacyPublicAuthTest extends TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 

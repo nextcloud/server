@@ -15,9 +15,6 @@ OC.L10N.register(
     "Delete client" : "Client verwijderen",
     "Make sure you store the secret key, it cannot be recovered." : "Zorg ervoor dat je de geheime sleutel opslaat, deze kan niet worden hersteld.",
     "Add client" : "Voeg client toe",
-    "Add" : "Toevoegen",
-    "Client Identifier" : "Client identificatie",
-    "Show client secret" : "Geheime sleutel van cliënt weergeven",
-    "Hide client secret" : "Geheime sleutel van cliënt verbergen"
+    "Add" : "Toevoegen"
 },
 "nplurals=2; plural=(n != 1);");

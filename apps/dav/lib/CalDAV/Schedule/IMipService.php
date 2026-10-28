@@ -70,6 +70,13 @@ class IMipService {
 		return $this->l10n->t('%1$s via %2$s', [$senderName, $default]);
 	}
 
+	/**
+	 * Language of the attendee the email is written for
+	 */
+	public function getLanguageCode(): string {
+		return $this->l10n->getLanguageCode();
+	}
+
 	public static function readPropertyWithDefault(VEvent $vevent, string $property, string $default) {
 		if (isset($vevent->$property)) {
 			$value = $vevent->$property->getValue();

@@ -308,7 +308,6 @@
     "Unable to load the shares list" : "Nedaří se načíst seznam sdílení",
     "Expires {relativetime}" : "Platnost končí {relativetime}",
     "this share just expired." : "platnost tohoto sdílení právě skončila.",
-    "Shared with you by {owner}" : "S vámi sdílí {owner}",
     "Internal shares" : "Vnitřní sdílení",
     "Internal shares explanation" : "Vysvětlení vnitřních sdílení",
     "External shares" : "Externí sdílení",
@@ -393,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "Sdíleno s vámi a {circle} od {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} sdílí vám a konverzaci {conversation}",
     "Shared with you in a conversation by {owner}" : " {owner} vám sdílí v konverzaci",
+    "Shared with you by {owner}" : "S vámi sdílí {owner}",
     "%1$s shared %2$s with you" : "%1$s vám nasdílel(a) %2$s",
     "Share not found" : "Sdílení nenalezeno",
     "Back to %s" : "Zpět na %s",
@@ -400,13 +400,9 @@
     "Group sharing is disabled by the administrator" : "Skupinové sdílení bylo zakázáno správcem",
     "Public link sharing is disabled by the administrator" : "Sdílení veřejným odkazem je zakázáno správcem",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sdílení %1$s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje ScienceMesh sdílení",
     "Public upload disabled by the administrator" : "Nahrávání veřejností zakázáno správcem",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Je třeba, aby tokeny obsahovaly alespoň jeden znak a mohou se skládat pouze z písmen, číslic a ještě pomlčky",
     "Via “{folder}”" : "Prostřednictvím „{folder}“",
-    "Name or email …" : "Jméno nebo e-mail …",
-    "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
-    "Searching …" : "Hledání …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token veřejného odkazu na sdílení na něco snadno zapamatovatelného nebo vytvořte nový token. Není doporučeno používat uhodnutelné tokeny pro sdílení, která obsahují citlivé informace."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

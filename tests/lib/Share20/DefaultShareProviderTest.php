@@ -39,6 +39,7 @@ use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -1062,6 +1063,19 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
+	}
+
+	#[TestWith([[], 0])]
+	#[TestWith([['group1', 'group2'], 1])]
+	public function testGetSharedWithGroupWithoutGroupShares(array $groups, int $expectedQueries): void {
+		$this->groupManager->method('getUserGroupIds')->willReturn($groups);
+		$connection = $this->dbConn->getInner();
+
+		$queriesBefore = $connection->getStats()['executed'];
+		$shares = $this->provider->getSharedWithByPath('sharedWith', IShare::TYPE_GROUP, '/sharedWith/files/target', false, -1, 0);
+
+		$this->assertSame([], $shares);
+		$this->assertSame($expectedQueries, $connection->getStats()['executed'] - $queriesBefore);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
@@ -3163,6 +3177,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
 		$l->method('l')->with('date', $this->isInstanceOf(\DateTime::class), ['width' => 'medium'])->willReturn('Oct 6, 2026');
+		$l->method('getLanguageCode')->willReturn('de');
 		return $l;
 	}
 
@@ -3179,6 +3194,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($template);
 		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
 
+		$template->expects($this->once())->method('setLanguage')->with('de');
 		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
 		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', false);
 		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
@@ -3260,6 +3276,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($template);
 		$this->mailer->expects($this->once())->method('send')->with($message);
 
+		$template->expects($this->once())->method('setLanguage')->with('de');
 		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
 		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you');
 		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');

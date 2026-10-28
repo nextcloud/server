@@ -449,7 +449,7 @@ class Encryption extends Wrapper {
 	 * @param int $size size of the physical file
 	 * @param int $unencryptedSize size of the unencrypted file
 	 */
-	protected function fixUnencryptedSize(string $path, int $size, int $unencryptedSize): int|float {
+	protected function fixUnencryptedSize(string $path, int $size, int $unencryptedSize): int {
 		$headerSize = $this->getHeaderSize($path);
 		$header = $this->getHeader($path);
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -476,14 +476,15 @@ class Encryption extends Wrapper {
 			return 0;
 		}
 
+		// the block size depends on the encoding the module reads from the header
+		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
 
 		// calculate last chunk nr
 		// next highest is end of chunks, one subtracted is last one
 		// we have to read the last chunk, we can't just calculate it (because of padding etc)
-
-		$lastChunkNr = ceil($size / $blockSize) - 1;
+		$lastChunkNr = (int)ceil($size / $blockSize) - 1;
 		// calculate last chunk position
 		$lastChunkPos = ($lastChunkNr * $blockSize);
 		// try to fseek to the last chunk, if it fails we have to read the whole file
@@ -508,7 +509,6 @@ class Encryption extends Wrapper {
 		fclose($stream);
 
 		// we have to decrypt the last chunk to get it actual size
-		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$decryptedLastChunk = $encryptionModule->decrypt($lastChunkContentEncrypted, $lastChunkNr . 'end');
 		$decryptedLastChunk .= $encryptionModule->end($this->getFullPath($path), $lastChunkNr . 'end');
 

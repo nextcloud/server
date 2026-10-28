@@ -107,6 +107,7 @@ class Hooks implements IEventListener {
 				'instanceUrl' => $instanceUrl,
 				'event' => $handle,
 			]);
+			$template->setLanguage($l->getLanguageCode());
 
 			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
@@ -177,6 +178,7 @@ class Hooks implements IEventListener {
 				'oldEMailAddress' => $oldMailAddress,
 				'instanceUrl' => $instanceUrl,
 			]);
+			$template->setLanguage($l->getLanguageCode());
 
 			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();

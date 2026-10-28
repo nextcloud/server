@@ -152,7 +152,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		if ($unverified !== []) {
 			$sentences[] = $l->n(
 				'The signature of %s is missing or invalid, so it could not be verified.',
-				'The signatures of %s are missing or invalid, so they could not be verified.',
+				'The %n signatures of %s are missing or invalid, so they could not be verified.',
 				count($unverified),
 				[implode(', ', $unverified)],
 			);
@@ -194,6 +194,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		$l = $this->l10nFactory->get('core', $this->l10nFactory->getUserLanguage($admin));
 
 		$template = $this->mailer->createEMailTemplate('core.CodeIntegrityChanged', $summary);
+		$template->setLanguage($l->getLanguageCode());
 		$template->setSubject($l->t('The code integrity check result has changed'));
 		$template->addHeader();
 		$template->addHeading($l->t('The code integrity check result has changed'));

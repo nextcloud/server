@@ -12,11 +12,13 @@ use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Accounts\IAccountManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
@@ -28,6 +30,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OCM\Permissions;
 use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
@@ -71,6 +74,7 @@ class FilesPlugin extends ServerPlugin {
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const LAST_ACTIVITY_PROPERTYNAME = '{http://nextcloud.org/ns}last_activity';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
+	public const ORIGINAL_DISPLAYNAME_PROPERTYNAME = '{http://nextcloud.org/ns}original-displayname';
 	public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = '{http://nextcloud.org/ns}hide-download';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
@@ -134,6 +138,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
+		$server->protectedProperties[] = self::ORIGINAL_DISPLAYNAME_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -345,7 +350,7 @@ class FilesPlugin extends ServerPlugin {
 				$ncPermissions = $node->getSharePermissions(
 					$user->getUID()
 				);
-				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
+				$ocmPermissions = Permissions::fromNextcloud($ncPermissions);
 				return json_encode($ocmPermissions, JSON_THROW_ON_ERROR);
 			});
 
@@ -422,6 +427,26 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getNoteFromShare(
 					$user?->getUID()
 				);
+			});
+
+			$propFind->handle(self::ORIGINAL_DISPLAYNAME_PROPERTYNAME, function () use ($node): ?string {
+				if ($this->isPublic) {
+					return null;
+				}
+
+				try {
+					$file = $node->getNode();
+					$storage = $file->getStorage();
+				} catch (NotFoundException|StorageNotAvailableException) {
+					return null;
+				}
+
+				if ($file->getInternalPath() !== '' || !$storage->instanceOfStorage(SharedStorage::class)) {
+					return null;
+				}
+
+				/** @var SharedStorage $storage */
+				return $storage->getOriginalDisplayName();
 			});
 
 			$propFind->handle(self::SHARE_HIDE_DOWNLOAD_PROPERTYNAME, function () use ($node) {
@@ -545,31 +570,6 @@ class FilesPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * translate Nextcloud permissions to OCM Permissions
-	 *
-	 * @param $ncPermissions
-	 * @return array
-	 */
-	protected function ncPermissions2ocmPermissions($ncPermissions) {
-		$ocmPermissions = [];
-
-		if ($ncPermissions & Constants::PERMISSION_SHARE) {
-			$ocmPermissions[] = 'share';
-		}
-
-		if ($ncPermissions & Constants::PERMISSION_READ) {
-			$ocmPermissions[] = 'read';
-		}
-
-		if (($ncPermissions & Constants::PERMISSION_CREATE)
-			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
-			$ocmPermissions[] = 'write';
-		}
-
-		return $ocmPermissions;
-	}
-
-	/**
 	 * Update ownCloud-specific properties
 	 *
 	 * @param string $path
@@ -658,8 +658,7 @@ class FilesPlugin extends ServerPlugin {
 				$mutation,
 				function (mixed $value) use ($accessRight, $knownMetadata, $node, $mutation, $filesMetadataManager): bool {
 					/** @var FilesMetadata $metadata */
-					$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
-					$metadata->setStorageId($node->getNode()->getStorage()->getCache()->getNumericStorageId());
+					$metadata = $filesMetadataManager->getMetadataForNode($node->getNode(), true);
 					$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
 
 					// confirm metadata key is editable via PROPPATCH

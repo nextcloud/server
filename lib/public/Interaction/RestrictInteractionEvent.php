@@ -69,10 +69,10 @@ final class RestrictInteractionEvent extends Event {
 		$eventDispatcher = Server::get(IEventDispatcher::class);
 
 		$params = [
-			$this->action instanceof InteractionAction ? $this->action::class : '?',
-			$this->userId,
-			$this->resources === [] ? '?' : implode(', ', array_map(static fn (InteractionResource $resource): string => $resource->getID(), $this->resources)),
-			$this->receivers === [] ? '?' : implode(', ', array_map(static fn (InteractionReceiver $receiver): string => $receiver->getID() ?? $receiver::class, $this->receivers)),
+			'action' => $this->action instanceof InteractionAction ? $this->action::class : '?',
+			'userId' => $this->userId,
+			'resources' => $this->resources === [] ? '?' : implode(', ', array_map(static fn (InteractionResource $resource): string => $resource->getID(), $this->resources)),
+			'receivers' => $this->receivers === [] ? '?' : implode(', ', array_map(static fn (InteractionReceiver $receiver): string => $receiver->getID() ?? $receiver::class, $this->receivers)),
 		];
 
 		try {
@@ -81,6 +81,8 @@ final class RestrictInteractionEvent extends Event {
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 				'Interaction %s from user %s on %s to %s is allowed.',
 				$params,
+				false,
+				'users.interaction.allowed',
 			));
 
 			return false;
@@ -88,6 +90,8 @@ final class RestrictInteractionEvent extends Event {
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 				'Interaction %s from user %s on %s to %s is restricted: ' . $interactionRestrictedException->getMessage(),
 				$params,
+				false,
+				'users.interaction.restricted',
 			));
 
 			return $interactionRestrictedException->getHint();

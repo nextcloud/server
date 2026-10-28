@@ -129,21 +129,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Різні налаштування доступності",
     "Enable blur background filter (may increase GPU load)" : "Увімкнути фільтр розмиття тла (матиме додаткове навантаження на GPU)",
     "Customization has been disabled by your administrator" : "Налаштування персоналізації вимкнено адміністатором.",
-    "Disable-user-theming should be true or false" : "Вимкнення можливості користувачів змінювати оформлення має мати значення так або ні",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Основний колір використовується для підсвічування елементів, напр., важливих кнопок. Цей колір підлаштовується під вибрану схему кольорів.",
-    "Header logo" : "Логотип заголовка",
-    "Upload new header logo" : "Завантажити новий логотип заголовка",
-    "Upload new favicon" : "Завантажити новий значок",
-    "User settings" : "Налаштування користувача",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Замість зображень тла ви можете вибрати просту заливку кольором. Якщо ви використовуватимете зображення, то зміна кольору автоматично вплине на колір значків застосунків у меню.",
-    "Upload new logo" : "Завантажити новий логотип",
-    "Upload new background and login image" : "Завантажити нове зображення тла та логотип сторінки авторизації",
-    "Background and login image" : "Зображення тла та логотипу організації на сторінці авторизації",
-    "Advanced options" : "Розширені налаштування",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення  ImageMagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки на основі завантаженого логотипа і кольору.",
-    "Unable to apply the setting." : "Не вдалося застосувати налаштування.",
-    "No background has been selected" : "Не вибрано тло",
-    "Select a custom color" : "Виберіть власний колір",
-    "Upload" : "Завантажити"
+    "Unable to apply the setting." : "Не вдалося застосувати налаштування."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -187,7 +187,6 @@ OC.L10N.register(
     "Unable to load the shares list" : " Списъкът за споделяне не може да се зареди",
     "Expires {relativetime}" : "Изтича {relativetime}",
     "this share just expired." : "Това споделяне току-що изтече.",
-    "Shared with you by {owner}" : "Споделено с Вас от {owner}.",
     "Link to a file" : "Линк към файл",
     "Open in Files" : "Отворете във Файлове",
     "Shared" : "Споделен",
@@ -218,6 +217,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Споделено с вас и {circle} от {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Споделено с вас и разговора {conversation} от {owner}",
     "Shared with you in a conversation by {owner}" : "Споделено с вас в разговор от {owner}",
+    "Shared with you by {owner}" : "Споделено с Вас от {owner}.",
     "%1$s shared %2$s with you" : "%1$s сподели %2$s с вас",
     "Share not found" : "Споделянето не е открито",
     "Back to %s" : "Обратно към %s",
@@ -225,11 +225,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Груповото споделяне е спряно от администратора",
     "Public link sharing is disabled by the administrator" : "Публичното споделяне на линкове е спряно от администратора",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделянето %1$s не бе успешно, защото вътрешния сървър не позволява споделяния от тип %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението ScienceMesh",
     "Public upload disabled by the administrator" : "Публичното качване е е спряно от администратора",
-    "Via “{folder}”" : "Чрез “{folder}”",
-    "Name or email …" : "Име или имейл",
-    "Name, email, or Federated Cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
-    "Searching …" : "Търсене ..."
+    "Via “{folder}”" : "Чрез “{folder}”"
 },
 "nplurals=2; plural=(n != 1);");

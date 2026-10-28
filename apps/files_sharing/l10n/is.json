@@ -271,7 +271,6 @@
     "Unable to load the shares list" : "Mistókst aði hlaða inn lista yfir sameignir",
     "Expires {relativetime}" : "Rennur út {relativetime}",
     "this share just expired." : "Þessi sameign var að renna út.",
-    "Shared with you by {owner}" : "Deilt með þér af {owner}",
     "Internal shares" : "Innri sameignir",
     "Internal shares explanation" : "Útskýring á innri sameignum",
     "External shares" : "Utanaðkomandi sameignir",
@@ -344,6 +343,7 @@
     "Shared with you and {circle} by {owner}" : "Deilt með þér og {circle} af {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Deilt með þér og samtalinu {conversation} af {owner}",
     "Shared with you in a conversation by {owner}" : "Deilt með þér í samtali af {owner}",
+    "Shared with you by {owner}" : "Deilt með þér af {owner}",
     "%1$s shared %2$s with you" : "%1$s deildi %2$s með þér",
     "Share not found" : "Sameign fannst ekki",
     "Back to %s" : "Til baka í %s",
@@ -351,11 +351,7 @@
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Public link sharing is disabled by the administrator" : "Deiling opinberra sameignartengla hefur verið gerð óvirk af kerfisstjóra.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deiling %1$s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deiling %s mistókst því bakvinnslukerfið leyfir ekki ScienceMesh-sameignir",
     "Public upload disabled by the administrator" : "Opinber innsending hefur verið gerð óvirk af kerfisstjóra.",
-    "Via “{folder}”" : "Í gegnum “{folder}”",
-    "Name or email …" : "Nafn eða tölvupóstfang …",
-    "Name, email, or Federated Cloud ID …" : "Nafn, tölvupóstfang eða skýjasambandsauðkenni (Federated Cloud ID) …",
-    "Searching …" : "Leita …"
+    "Via “{folder}”" : "Í gegnum “{folder}”"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -535,6 +535,7 @@ class DefaultShareProvider implements
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
+				'attributes' => $qb->createNamedParameter($this->formatShareAttributes($share->getAttributes())),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->executeStatement();
 
@@ -1071,6 +1072,9 @@ class DefaultShareProvider implements
 			/*
 			 * Resolve all group shares to user specific shares
 			 */
+			if ($shares2 === []) {
+				return [];
+			}
 			$shares = $this->resolveGroupShares($shares2, $userId, $path, $forChildren);
 		} else {
 			throw new BackendError('Invalid backend');
@@ -1178,7 +1182,7 @@ class DefaultShareProvider implements
 	/**
 	 * Update the data from group shares with any per-user modifications
 	 *
-	 * @param array<int, Share> $shareMap shares indexed by share id
+	 * @param non-empty-array<int, Share> $shareMap shares indexed by share id
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
@@ -1626,6 +1630,7 @@ class DefaultShareProvider implements
 			'expiration' => $expiration,
 			'shareWith' => $shareWith,
 		]);
+		$emailTemplate->setLanguage($l->getLanguageCode());
 
 		$emailTemplate->setSubject($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
@@ -1714,6 +1719,7 @@ class DefaultShareProvider implements
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
+			$emailTemplate->setLanguage($l->getLanguageCode());
 
 			$emailTemplate->setSubject($l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 			$emailTemplate->addHeader();

@@ -12,11 +12,13 @@ use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Sabre\DAV\Exception\NotAuthenticated;
 
 /**
  * Class PublicAuth
@@ -33,6 +35,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		private IManager $shareManager,
 		private ISession $session,
 		private IThrottler $throttler,
+		private IUserSession $userSession,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -64,29 +67,36 @@ class LegacyPublicAuth extends AbstractBasic {
 
 		$this->share = $share;
 
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// check if the share is password protected
 		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {
+				// Validate password if provided
 				if ($this->shareManager->checkPassword($share, $password)) {
-					return true;
-				} elseif ($this->session->exists(PublicAuth::DAV_AUTHENTICATED)
-					&& $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()) {
-					return true;
-				} else {
-					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
-						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
-						http_response_code(401);
-						header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
-						throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
+					// If not set, set authenticated session cookie
+					if (!$this->isShareInSession($share)) {
+						$this->addShareToSession($share);
 					}
-
-					$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
-					return false;
+					return true;
 				}
+
+				// We are already authenticated for this share in the session
+				if ($this->isShareInSession($share)) {
+					return true;
+				}
+
+				if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
+					// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
+					http_response_code(401);
+					header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
+					throw new NotAuthenticated('Cannot authenticate over ajax calls');
+				}
+
+				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+				return false;
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			} else {
@@ -95,6 +105,29 @@ class LegacyPublicAuth extends AbstractBasic {
 			}
 		}
 		return true;
+	}
+
+	private function addShareToSession(IShare $share): void {
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED) ?? [];
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$allowedShareIds[] = $share->getId();
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $allowedShareIds);
+	}
+
+	private function isShareInSession(IShare $share): bool {
+		if (!$this->session->exists(PublicAuth::DAV_AUTHENTICATED)) {
+			return false;
+		}
+
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			return false;
+		}
+
+		return in_array($share->getId(), $allowedShareIds, true);
 	}
 
 	public function getShare(): ?IShare {

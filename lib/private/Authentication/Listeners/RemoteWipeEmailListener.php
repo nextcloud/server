@@ -93,6 +93,7 @@ class RemoteWipeEmailListener implements IEventListener {
 	private function getWipingStartedMessage(RemoteWipeStarted $event, IUser $user): IMessage {
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate('auth.RemoteWipeStarted');
+		$emailTemplate->setLanguage($this->l10n->getLanguageCode());
 		$plainHeading = $this->l10n->t('Wiping of device %s has started', [$event->getToken()->getName()]);
 		$htmlHeading = $this->l10n->t('Wiping of device »%s« has started', [$event->getToken()->getName()]);
 		$emailTemplate->setSubject(
@@ -123,6 +124,7 @@ class RemoteWipeEmailListener implements IEventListener {
 	private function getWipingFinishedMessage(RemoteWipeFinished $event, IUser $user): IMessage {
 		$message = $this->mailer->createMessage();
 		$emailTemplate = $this->mailer->createEMailTemplate('auth.RemoteWipeFinished');
+		$emailTemplate->setLanguage($this->l10n->getLanguageCode());
 		$plainHeading = $this->l10n->t('Wiping of device %s has finished', [$event->getToken()->getName()]);
 		$htmlHeading = $this->l10n->t('Wiping of device »%s« has finished', [$event->getToken()->getName()]);
 		$emailTemplate->setSubject(

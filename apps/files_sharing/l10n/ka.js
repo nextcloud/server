@@ -191,7 +191,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Unable to load the shares list",
     "Expires {relativetime}" : "Expires {relativetime}",
     "this share just expired." : "this share just expired.",
-    "Shared with you by {owner}" : "Shared with you by {owner}",
     "Link to a file" : "Link to a file",
     "_Accept share_::_Accept shares_" : ["Accept share","Accept shares"],
     "Open in Files" : "Open in Files",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Shared with you and {circle} by {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Shared with you and the conversation {conversation} by {owner}",
     "Shared with you in a conversation by {owner}" : "Shared with you in a conversation by {owner}",
+    "Shared with you by {owner}" : "Shared with you by {owner}",
     "%1$s shared %2$s with you" : "%1$s shared %2$s with you",
     "Share not found" : "Share not found",
     "Back to %s" : "Back to %s",
@@ -240,11 +240,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Public link sharing is disabled by the administrator" : "Public link sharing is disabled by the administrator",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sharing %1$s failed because the back end does not allow shares from type %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sharing %s failed because the back end does not support ScienceMesh shares",
     "Public upload disabled by the administrator" : "Public upload disabled by the administrator",
-    "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Name or email …",
-    "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
-    "Searching …" : "Searching …"
+    "Via “{folder}”" : "Via “{folder}”"
 },
 "nplurals=2; plural=(n!=1);");

@@ -262,6 +262,7 @@ OC.L10N.register(
     "Allow download and sync" : "Tillat nedlasting og synkronisering",
     "Note to recipient" : "Melding til mottaker",
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
+    "Show files in grid view" : "Vis filer i rutenettvisning",
     "Others with access" : "Andre med tilgang",
     "No other accounts with access found" : "Ingen andre kontoer med tilgang funnet",
     "Toggle list of others with access to this directory" : "Endre liste over andre brukere med tilgang til denne mappen",
@@ -271,7 +272,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Kan ikke laste listen over delinger",
     "Expires {relativetime}" : "Utløper {relativetime}",
     "this share just expired." : "denne delingen utløp akkurat.",
-    "Shared with you by {owner}" : "Delt med deg av {owner}",
     "Internal shares" : "Interne delinger",
     "Link to a file" : "Lenke til en fil",
     "_Accept share_::_Accept shares_" : ["Aksepter delt ressurs","Aksepter delte ressurser"],
@@ -331,6 +331,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Delt med deg og {circle} av {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Delt med deg og samtalen {conversation} av {owner}",
     "Shared with you in a conversation by {owner}" : "Delt md deg i samtale med  {owner}",
+    "Shared with you by {owner}" : "Delt med deg av {owner}",
     "%1$s shared %2$s with you" : "%1$s delte %2$s med deg",
     "Share not found" : "Deling ikke funnet",
     "Back to %s" : "Tilbake til %s",
@@ -338,11 +339,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Public link sharing is disabled by the administrator" : "Administratoren har skrudd av offentlig lenkedeling",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deling av %s feilet fordi backend-en ikke støtter ScienceMesh-delinger",
     "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
-    "Via “{folder}”" : "Via “{folder}”",
-    "Name or email …" : "Navn eller epost ...",
-    "Name, email, or Federated Cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
-    "Searching …" : "Søker ..."
+    "Via “{folder}”" : "Via “{folder}”"
 },
 "nplurals=2; plural=(n != 1);");

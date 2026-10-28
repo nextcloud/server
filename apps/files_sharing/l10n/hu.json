@@ -229,7 +229,6 @@
     "Unable to load the shares list" : "A megosztások listájának betöltése sikertelen",
     "Expires {relativetime}" : "Lejárat: {relativetime}",
     "this share just expired." : "ez a megosztás épp most járt le.",
-    "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "Internal shares" : "Belső megosztások",
     "External shares" : "Külső megosztások",
     "Additional shares" : "További megosztások",
@@ -286,6 +285,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} megosztotta Önnel és a(z) {circle} körrel",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} megosztotta Önnel és a(z) {conversation} beszélgetéssel",
     "Shared with you in a conversation by {owner}" : "{owner} megosztotta Önnel egy beszélgetésben",
+    "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "%1$s shared %2$s with you" : "%1$s megosztotta ezt Önnel: %2$s",
     "Share not found" : "A megosztás nem található",
     "Back to %s" : "Vissza ide: %s",
@@ -293,11 +293,7 @@
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a ScienceMesh megosztásokat",
     "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda",
-    "Via “{folder}”" : "A(z) „{folder}” mappán keretül",
-    "Name or email …" : "Név vagy e-mail-cím…",
-    "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
-    "Searching …" : "Keresés…"
+    "Via “{folder}”" : "A(z) „{folder}” mappán keretül"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

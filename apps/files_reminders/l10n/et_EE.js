@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "See nädalavahetus",
     "Set reminder for this weekend" : "Lisa meeldetuletus selleks nädalavahetuseks",
     "Next week" : "Järgmine nädal",
-    "Set reminder for next week" : "Lisa meeldetuletus järgmiseks nädalaks",
-    "Set reminder for \"{fileName}\"" : "Lisa meeldetuletus: „{fileName}“",
-    "We will remind you of this file" : "Me anname sulle selle faili või kausta osas märku"
+    "Set reminder for next week" : "Lisa meeldetuletus järgmiseks nädalaks"
 },
 "nplurals=2; plural=(n != 1);");

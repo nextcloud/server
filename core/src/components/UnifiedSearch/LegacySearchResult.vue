@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import NcHighlight from '@nextcloud/vue/components/NcHighlight'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 const props = withDefaults(defineProps<{
 	title: string
@@ -12,6 +13,8 @@ const props = withDefaults(defineProps<{
 	subline?: string | null
 	resourceUrl?: string | null
 	icon?: string
+	/** Show a spinner instead of the icon */
+	loading?: boolean
 	rounded?: boolean
 	query?: string
 	/**
@@ -25,6 +28,7 @@ const props = withDefaults(defineProps<{
 	subline: null,
 	resourceUrl: null,
 	icon: '',
+	loading: false,
 	rounded: false,
 	query: '',
 	focused: false,
@@ -96,6 +100,7 @@ function onLoad() {
 			:style="{
 				backgroundImage: isIconUrl ? `url(${icon})` : '',
 			}">
+			<NcLoadingIcon v-if="loading" :size="16" />
 
 			<img
 				v-if="hasValidThumbnail"
@@ -146,6 +151,9 @@ $margin: 10px;
 	}
 
 	&-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		overflow: hidden;
 		width: $clickable-area;
 		height: $clickable-area;

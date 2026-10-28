@@ -218,7 +218,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Nun ye posible cargar la llista d'elementos compartíos",
     "Expires {relativetime}" : "Caduca: {relativetime}",
     "this share just expired." : "esta compartición ta acabante de caducar.",
-    "Shared with you by {owner}" : "{owner} compartió l'elementu contigo",
     "Link to a file" : "Enllaciar a un ficheru",
     "_Accept share_::_Accept shares_" : ["Aceptar l'elementu compartíu","Aceptar los elementos compartíos"],
     "Open in Files" : "Abrir en Ficheros",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} compartió l'elementu contigo y con «{circle}»",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} compartió l'elementu contigo y cola conversación «{conversation}»",
     "Shared with you in a conversation by {owner}" : "{owner} compartió l'elementu contigo nuna conversación",
+    "Shared with you by {owner}" : "{owner} compartió l'elementu contigo",
     "%1$s shared %2$s with you" : "%1$s compartió «%2$s» contigo",
     "Share not found" : "Nun s'atopó la compartición",
     "Back to %s" : "Volver a «%s»",
@@ -268,11 +268,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "L'alministración desactivó la compartición grupal",
     "Public link sharing is disabled by the administrator" : "L'alministración desactivó al compartición d'enllaces públicos",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Nun se pudo compartir «%1$s» porque'l backend nun permite los elementos compartíos del tipu «%2$s»",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Nun se pudo compartir «%s» porque nun ye compatible coles comparticiones de ScienceMesh",
     "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública",
-    "Via “{folder}”" : "Per «{folder}»",
-    "Name or email …" : "Nome o direición de corréu electrónicu…",
-    "Name, email, or Federated Cloud ID …" : "Nome, direición de corréu electrónicu o ID de nube federada…",
-    "Searching …" : "Buscando…"
+    "Via “{folder}”" : "Per «{folder}»"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,7 +45,10 @@ class UserEventsListener implements IEventListener {
 	}
 
 	#[\Override]
-	public function handle(Event $event): void {
+	public function handle(
+		#[\SensitiveParameter]
+		Event $event,
+	): void {
 		if ($event instanceof UserCreatedEvent) {
 			$this->onUserCreated($event->getUid(), $event->getPassword());
 		} elseif ($event instanceof UserDeletedEvent) {
@@ -68,7 +71,11 @@ class UserEventsListener implements IEventListener {
 	/**
 	 * Startup encryption backend upon user login
 	 */
-	private function onUserLogin(IUser $user, ?string $password): void {
+	private function onUserLogin(
+		IUser $user,
+		#[\SensitiveParameter]
+		?string $password,
+	): void {
 		// Do not try to setup filesystem if the current request does not have permissions to access it
 		if (!$this->lockdownManager->canAccessFilesystem()) {
 			return;
@@ -100,7 +107,11 @@ class UserEventsListener implements IEventListener {
 	 *
 	 * This method should never be called for users using client side encryption
 	 */
-	protected function onUserCreated(string $userId, string $password): void {
+	protected function onUserCreated(
+		string $userId,
+		#[\SensitiveParameter]
+		string $password,
+	): void {
 		$this->userSetup->setupUser($userId, $password);
 	}
 
@@ -116,7 +127,13 @@ class UserEventsListener implements IEventListener {
 	/**
 	 * If the password can't be changed within Nextcloud, than update the key password in advance.
 	 */
-	public function onBeforePasswordUpdated(IUser $user, string $password, ?string $recoveryPassword = null): void {
+	public function onBeforePasswordUpdated(
+		IUser $user,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		?string $recoveryPassword = null,
+	): void {
 		if (!$user->canChangePassword()) {
 			$this->passphraseService->setPassphraseForUser($user->getUID(), $password, $recoveryPassword);
 		}
@@ -125,7 +142,13 @@ class UserEventsListener implements IEventListener {
 	/**
 	 * Change a user's encryption passphrase
 	 */
-	public function onPasswordUpdated(string $userId, string $password, ?string $recoveryPassword): void {
+	public function onPasswordUpdated(
+		string $userId,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		?string $recoveryPassword,
+	): void {
 		$this->passphraseService->setPassphraseForUser($userId, $password, $recoveryPassword);
 	}
 
@@ -139,7 +162,11 @@ class UserEventsListener implements IEventListener {
 	/**
 	 * Create new encryption keys on password reset and backup the old one
 	 */
-	public function onPasswordReset(string $userId, string $password): void {
+	public function onPasswordReset(
+		string $userId,
+		#[\SensitiveParameter]
+		string $password,
+	): void {
 		$this->keyManager->backupUserKeys('passwordReset', $userId);
 		$this->keyManager->deleteUserKeys($userId);
 		$this->userSetup->setupUser($userId, $password);

@@ -536,6 +536,7 @@ class Manager implements IManager {
 			}
 		}
 
+		$plainTextPassword = null;
 		try {
 			// Verify share type
 			if ($share->getShareType() === IShare::TYPE_USER) {
@@ -569,7 +570,8 @@ class Manager implements IManager {
 
 				// If a password is set. Hash it!
 				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
-					$share->setPasswordHash($this->hasher->hash($share->getPassword()));
+					$plainTextPassword = $share->getPassword();
+					$share->setPasswordHash($this->hasher->hash($plainTextPassword));
 				}
 			}
 
@@ -641,7 +643,13 @@ class Manager implements IManager {
 			if ($share->getMailSend()) {
 				$provider = $this->factory->getProviderForType($share->getShareType());
 				if ($provider instanceof IShareProviderWithNotification) {
-					$provider->sendMailNotification($share);
+					$notifiedShare = $share;
+					if ($plainTextPassword !== null) {
+						// The share only holds the hash, the mail needs the clear password given by the caller
+						$notifiedShare = clone $share;
+						$notifiedShare->setPassword($plainTextPassword);
+					}
+					$provider->sendMailNotification($notifiedShare);
 				} else {
 					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}

@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Αποτυχία διαγραφής έμπιστου διακομιστή. Παρακαλούμε δοκιμάστε ξανά αργότερα.",
     "Delete" : "Διαγραφή",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Η ομοσπονδία σας επιτρέπει να συνδέεστε με άλλους έμπιστους διακομιστές για ανταλλαγή καταλόγου λογαριασμών. Για παράδειγμα, χρησιμοποιείται για την αυτομάτη συμπλήρωση εξωτερικών λογαριασμών κατά τη συνένωση κοινής χρήσης. Δεν είναι απαραίτητο να προσθέσετε έναν διακομιστή ως έμπιστο για τη δημιουργία μιας συνενωμένης κοινής χρήσης.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Κάθε διακομιστής πρέπει να επικυρώσει τον άλλο. Αυτή η διαδικασία μπορεί να απαιτήσει μερικούς κύκλους cron.",
-    "External documentation for Federated Cloud Sharing" : "Εξωτερική τεκμηρίωση για τον διαμοιρασμό σε ομοσπονδοποιημένο υπολογιστικό νέφος",
-    "+ Add trusted server" : "+Προσθήκη έμπιστων διακομιστών",
-    "Trusted server" : "Έμπιστοι διακομιστές"
+    "Each server must validate the other. This process may require a few cron cycles." : "Κάθε διακομιστής πρέπει να επικυρώσει τον άλλο. Αυτή η διαδικασία μπορεί να απαιτήσει μερικούς κύκλους cron."
 },
 "nplurals=2; plural=(n != 1);");

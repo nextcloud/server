@@ -18,6 +18,7 @@
     "Failed to send share by email" : "Freigabe konnte nicht per E-Mail gesendet werden",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit dir geteilt",
     "Note" : "Notiz",
+    "Valid until" : "Gültig bis",
     "Password" : "Passwort",
     "Required" : "Erforderlich",
     "Open shared item" : "Geteiltes Element öffnen",

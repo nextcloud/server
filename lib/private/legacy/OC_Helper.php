@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-use bantu\IniGetWrapper\IniGetWrapper;
-use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Home;
@@ -50,76 +48,6 @@ class OC_Helper {
 	public static function reset(): void {
 		self::$cacheFactory = null;
 		self::$quotaIncludeExternalStorage = null;
-	}
-
-	/**
-	 * Recursive copying of folders
-	 * @param string $src source folder
-	 * @param string $dest target folder
-	 * @return void
-	 * @deprecated 32.0.0 - use \OCP\Files\Folder::copy
-	 */
-	public static function copyr($src, $dest) {
-		if (!file_exists($src)) {
-			return;
-		}
-
-		if (is_dir($src)) {
-			if (!is_dir($dest)) {
-				mkdir($dest);
-			}
-			$files = scandir($src);
-			foreach ($files as $file) {
-				if ($file !== '.' && $file !== '..') {
-					self::copyr("$src/$file", "$dest/$file");
-				}
-			}
-		} else {
-			$validator = Server::get(FilenameValidator::class);
-			if (!$validator->isForbidden($src)) {
-				copy($src, $dest);
-			}
-		}
-	}
-
-	/**
-	 * detect if a given program is found in the search PATH
-	 *
-	 * @param string $name
-	 * @param bool $path
-	 * @internal param string $program name
-	 * @internal param string $optional search path, defaults to $PATH
-	 * @return bool true if executable program found in path
-	 * @deprecated 32.0.0 use the \OCP\IBinaryFinder
-	 */
-	public static function canExecute($name, $path = false) {
-		// path defaults to PATH from environment if not set
-		if ($path === false) {
-			$path = getenv('PATH');
-		}
-		// we look for an executable file of that name
-		$exts = [''];
-		$check_fn = 'is_executable';
-		// Default check will be done with $path directories :
-		$dirs = explode(PATH_SEPARATOR, (string)$path);
-		// WARNING : We have to check if open_basedir is enabled :
-		$obd = Server::get(IniGetWrapper::class)->getString('open_basedir');
-		if ($obd !== 'none') {
-			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if (count($obd_values) > 0 && $obd_values[0]) {
-				// open_basedir is in effect !
-				// We need to check if the program is in one of these dirs :
-				$dirs = $obd_values;
-			}
-		}
-		foreach ($dirs as $dir) {
-			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name" . $ext)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -340,14 +268,5 @@ class OC_Helper {
 		$cacheKeyPrefix = Filesystem::normalizePath($absolutePath) . '::';
 		$memcache->remove($cacheKeyPrefix . 'include');
 		$memcache->remove($cacheKeyPrefix . 'exclude');
-	}
-
-	/**
-	 * Returns whether the config file is set manually to read-only
-	 * @return bool
-	 * @deprecated 32.0.0 use the `config_is_read_only` system config directly
-	 */
-	public static function isReadOnlyConfigEnabled() {
-		return Server::get(IConfig::class)->getSystemValueBool('config_is_read_only', false);
 	}
 }

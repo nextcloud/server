@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Srian a chur le húsáid {app} do bhaill de na grúpaí seo a leanas.",
     "Reset limitation" : "Athshocraigh an teorainn",
     "Save" : "Sábháil",
-    "Failed to update app {appName}" : "Theip ar an aip {appName} a nuashonrú",
     "Update all apps" : "Nuashonraigh gach aip",
     "Are you sure you want to update all apps?" : "An bhfuil tú cinnte gur mhaith leat na haipeanna go léir a nuashonrú?",
     "Update done" : "Nuashonrú déanta",
@@ -155,9 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "An tslándáil is fearr: ní fhágann doiciméid do fhreastalaí choíche",
     "Best ODF compatibility" : "Comhoiriúnacht OF is fearr",
     "Best support for legacy files" : "An tacaíocht is fearr do chomhaid oidhreachta",
+    "Enabling following apps: {apps}" : "Ag cumasú na n-aipeanna seo a leanas: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip.","Ag nuashonrú %n aip."],
     "Could not load app categories. Please try again later." : "Níorbh fhéidir catagóirí aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not load apps list. Please try again later." : "Níorbh fhéidir liosta na n-aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not update the app. Please try again later." : "Níorbh fhéidir an aip a nuashonrú. Déan iarracht arís ar ball.",
-    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh."
+    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh.",
+    "Could not update an exApp. Please try again later." : "Níorbh fhéidir exApp a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
+    "Could not update {app}. Please try again later." : "Níorbh fhéidir {app} a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
+    "Could not update an app. Please try again later." : "Níorbh fhéidir aip a nuashonrú. Bain triail as arís níos déanaí, le do thoil.",
+    "Failed to update app {appName}" : "Theip ar an aip {appName} a nuashonrú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

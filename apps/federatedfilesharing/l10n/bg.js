@@ -39,7 +39,6 @@ OC.L10N.register(
     "Add remote share" : "Добави отдалечено споделяне",
     "Remote share" : "Отдалечено споделяне",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
-    "Remote share password" : "Парола за отдалечено споделяне",
-    "X (formerly Twitter)" : "X (преди Twitter)"
+    "Remote share password" : "Парола за отдалечено споделяне"
 },
 "nplurals=2; plural=(n != 1);");

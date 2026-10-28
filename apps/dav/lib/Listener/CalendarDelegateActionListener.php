@@ -169,6 +169,7 @@ class CalendarDelegateActionListener implements IEventListener {
 			'calendar' => $calendarName,
 			'event' => $summary,
 		]);
+		$template->setLanguage($l->getLanguageCode());
 		$template->addHeader();
 		$template->setSubject($subject);
 		$template->addBodySender($actorName, $actor->getEMailAddress() ?? '');

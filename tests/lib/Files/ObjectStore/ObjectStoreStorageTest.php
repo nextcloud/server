@@ -261,4 +261,19 @@ class ObjectStoreStorageTest extends Storage {
 
 		$this->assertEquals(3, $cache->get('target')->getSize());
 	}
+
+	public function testFopenWriteInDottedDirectoryWithoutExtension(): void {
+		$dir = '0. Folder.With.Dots/Subfolder';
+		$this->instance->mkdir($dir);
+
+		$filePath = $dir . '/extensionlessfile';
+		$handle = $this->instance->fopen($filePath, 'w');
+		$this->assertIsResource($handle);
+
+		fwrite($handle, 'sample content');
+		fclose($handle);
+
+		$this->assertTrue($this->instance->file_exists($filePath));
+		$this->assertEquals('sample content', $this->instance->file_get_contents($filePath));
+	}
 }

@@ -308,7 +308,6 @@
     "Unable to load the shares list" : "ບໍ່ສາມາດໂຫຼດລາຍການແບ່ງປັນໄດ້",
     "Expires {relativetime}" : "ໝົດອາຍຸ {relativetime}",
     "this share just expired." : "ການແບ່ງປັນນີ້ຫາກໍໝົດອາຍຸ.",
-    "Shared with you by {owner}" : "ແບ່ງປັນກັບທ່ານໂດຍ {owner}",
     "Internal shares" : "ການແບ່ງປັນພາຍໃນ",
     "Internal shares explanation" : "ຄຳອະທິບາຍການແບ່ງປັນພາຍໃນ",
     "External shares" : "ການແບ່ງປັນພາຍນອກ",
@@ -393,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "ແບ່ງປັນກັບທ່ານ ແລະ {circle} ໂດຍ {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "ແບ່ງປັນກັບທ່ານ ແລະ ການສົນທະນາ {conversation} ໂດຍ {owner}",
     "Shared with you in a conversation by {owner}" : "ແບ່ງປັນກັບທ່ານໃນການສົນທະນາໂດຍ {owner}",
+    "Shared with you by {owner}" : "ແບ່ງປັນກັບທ່ານໂດຍ {owner}",
     "%1$s shared %2$s with you" : "%1$s ໄດ້ແບ່ງປັນ %2$s ໃຫ້ທ່ານ",
     "Share not found" : "ບໍ່ພົບການແບ່ງປັນ",
     "Back to %s" : "ກັບໄປທີ່ %s",
@@ -400,13 +400,9 @@
     "Group sharing is disabled by the administrator" : "ການແບ່ງປັນໃຫ້ກຸ່ມຖືກປິດການໃຊ້ງານໂດຍຜູ້ເບິ່ງແຍງລະບົບ",
     "Public link sharing is disabled by the administrator" : "ການແບ່ງປັນລິງສາທາລະນະຖືກປິດການໃຊ້ງານໂດຍຜູ້ເບິ່ງແຍງລະບົບ",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "ການແບ່ງປັນ %1$s ລົ້ມເຫຼວ ເນື່ອງຈາກລະບົບຫຼັງບ້ານບໍ່ອະນຸຍາດໃຫ້ແບ່ງປັນປະເພດ %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "ການແບ່ງປັນ %s ລົ້ມເຫຼວ ເນື່ອງຈາກລະບົບຫຼັງບ້ານບໍ່ຮອງຮັບການແບ່ງປັນ ScienceMesh",
     "Public upload disabled by the administrator" : "ການອັບໂຫຼດສາທາລະນະຖືກປິດການໃຊ້ງານໂດຍຜູ້ເບິ່ງແຍງລະບົບ",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "ໂທເຄັນຕ້ອງມີຢ່າງໜ້ອຍ 1 ຕົວອັກສອນ ແລະ ສາມາດປະກອບດ້ວຍຕົວໜັງສື, ຕົວເລກ ຫຼື ຂີດຕໍ່ເທົ່ານັ້ນ",
     "Via “{folder}”" : "ຜ່ານ “{folder}”",
-    "Name or email …" : "ຊື່ ຫຼື ອິເມວ...",
-    "Name, email, or Federated Cloud ID …" : "ຊື່, ອິເມວ, ຫຼື ໄອດີຄລາວແບບລວມສູນ...",
-    "Searching …" : "ກຳລັງຄົ້ນຫາ...",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ກຳນົດໂທເຄັນລິ້ງແບ່ງປັນສາທາລະນະໃຫ້ເປັນສິ່ງທີ່ຈື່ງ່າຍ ຫຼື ສ້າງໂທເຄັນໃໝ່. ບໍ່ແນະນຳໃຫ້ໃຊ້ໂທເຄັນທີ່ຄາດເດົາໄດ້ສຳລັບການແບ່ງປັນທີ່ມີຂໍ້ມູນທີ່ລະອຽດອ່ອນ."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

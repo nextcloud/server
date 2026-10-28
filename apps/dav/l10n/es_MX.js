@@ -124,6 +124,12 @@ OC.L10N.register(
     "Second Last" : "Penúltimo",
     "Third Last" : "Antepenúltimo",
     "Fourth Last" : "Ante antepenúltimo",
+    "Content" : "Contenido",
+    "Owner" : "Propietario",
+    "Shared" : "Compartido",
+    "Starts" : "Comienza",
+    "Ends" : "Termina",
+    "Location" : "Ubicación",
     "Contacts" : "Contactos",
     "{actor} created address book {addressbook}" : "{actor} creó la libreta de direcciones {addressbook}",
     "You created address book {addressbook}" : "Ha creado la libreta de direcciones {addressbook}",
@@ -149,6 +155,10 @@ OC.L10N.register(
     "{actor} updated contact {card} in address book {addressbook}" : "{actor} actualizó el contacto {card} en la libreta de direcciones {addressbook}",
     "You updated contact {card} in address book {addressbook}" : "Ha actualizado el contacto {card} en la libreta de direcciones {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "Se modificó un <strong>contacto</strong> o una  <strong>libreta de direcciones</strong> ",
+    "Name" : "Nombre",
+    "Modified" : "Modificado",
+    "Organisation" : "Organización",
+    "Categories" : "Categorías",
     "Accounts" : "Cuentas",
     "System address book which holds all accounts" : "Libreta de direcciones del sistema que contiene todas las cuentas",
     "File is not updatable: %1$s" : "No se puede actualizar el archivo: %1$s",
@@ -245,8 +255,6 @@ OC.L10N.register(
     "Location:" : "Ubicación:",
     "Link:" : "Enlace:",
     "Occurring:" : "Ocurriendo:",
-    "More options at %s" : "Más opciones en %s",
-    "No results." : "Sin resultados.",
-    "Start typing." : "Empezar a escribir."
+    "More options at %s" : "Más opciones en %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -382,6 +382,12 @@ class Definitions {
 					'description' => 'Whether the download option should be hidden. If not set to `yes` the option can be shown',
 					'example' => 'yes',
 				],
+				'can-download' => [
+					'since' => '36.0.0',
+					'required' => false,
+					'description' => 'Whether the user may download the file. If `no` it comes from a share that does not allow downloading, which `hide-download` also says',
+					'example' => 'no',
+				],
 			],
 		],
 		'forms-form' => [

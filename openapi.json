@@ -172,7 +172,9 @@
                             "previews": {
                                 "type": "object",
                                 "required": [
-                                    "enabled_providers"
+                                    "enabled_providers",
+                                    "max_width",
+                                    "max_height"
                                 ],
                                 "properties": {
                                     "enabled_providers": {
@@ -180,6 +182,14 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "max_width": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_height": {
+                                        "type": "integer",
+                                        "format": "int64"
                                     }
                                 }
                             },
@@ -2762,6 +2772,7 @@
                     "mimetype",
                     "mount-type",
                     "note",
+                    "original_displayname",
                     "parent",
                     "path",
                     "permissions",
@@ -2875,6 +2886,10 @@
                     },
                     "note": {
                         "type": "string"
+                    },
+                    "original_displayname": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "parent": {
                         "nullable": true
@@ -32451,6 +32466,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34198,6 +34223,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34681,6 +34716,16 @@
                             "type": "integer",
                             "format": "int64",
                             "default": 0
+                        }
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -45181,6 +45226,189 @@
                                                             "maxItems": 0
                                                         }
                                                     ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/viewer/api/v1/config/{key}": {
+            "put": {
+                "operationId": "viewer-config-set-config",
+                "summary": "Set one of the user's viewer settings",
+                "tags": [
+                    "viewer/config"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "value"
+                                ],
+                                "properties": {
+                                    "value": {
+                                        "description": "Its new value: a number for a setting with a range, true or false for a toggle",
+                                        "oneOf": [
+                                            {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            {
+                                                "type": "boolean"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "The setting to change",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Setting saved",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "key",
+                                                        "value"
+                                                    ],
+                                                    "properties": {
+                                                        "key": {
+                                                            "type": "string"
+                                                        },
+                                                        "value": {
+                                                            "oneOf": [
+                                                                {
+                                                                    "type": "integer",
+                                                                    "format": "int64"
+                                                                },
+                                                                {
+                                                                    "type": "boolean"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unknown setting, or a value it does not accept",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }

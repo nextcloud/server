@@ -36,10 +36,14 @@ class EMailTemplate implements IEMailTemplate {
 	protected bool $bodyListOpened = false;
 	/** indicated if the footer is added */
 	protected bool $footerAdded = false;
+	/** language of the recipient, set by setLanguage */
+	protected ?string $language = null;
 	/** name of the person the email is sent on behalf of, set by addBodySender */
 	protected ?string $senderName = null;
 	/** @var array<array{name: string, content: string, mimeType: string}> images to embed inline, referenced via cid: */
 	protected array $inlineImages = [];
+	/** absolute URL of the logo, if added to the body, will be replaced with cid: if logo is to be attached to the email */
+	private string $logoUrl = '';
 
 	protected string $head = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -54,6 +58,7 @@ class EMailTemplate implements IEMailTemplate {
 		:root{color-scheme:light dark;supported-color-schemes:light dark}
 		body{margin:0;padding:0;width:100%!important}
 		@media only screen and (max-width:640px){
+			.nc-page-pad{padding:0!important}
 			.nc-card{border-radius:0!important;width:100%!important}
 			.nc-pad{padding-left:20px!important;padding-right:20px!important}
 			.nc-button{display:block!important;margin:0 0 12px 0!important}
@@ -75,7 +80,7 @@ class EMailTemplate implements IEMailTemplate {
 <body class="nc-page" style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f4f4f5;box-sizing:border-box;margin:0;min-width:100%;padding:0;width:100%!important">
 <table role="presentation" class="nc-page" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;border-collapse:collapse;border-spacing:0;width:100%">
 	<tr>
-		<td align="center" style="padding:32px 0">
+		<td class="nc-page-pad" align="center" style="padding:32px 0">
 			<table role="presentation" class="nc-card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-collapse:separate;border-radius:16px;border-spacing:0;max-width:600px;overflow:hidden;text-align:left;width:600px">
 EOF;
 
@@ -295,20 +300,48 @@ EOF;
 			$logoSizeDimensions = ' width="' . $this->logoWidth . '" height="' . $this->logoHeight . '"';
 		}
 
-		$logoImage = $this->themingDefaults->getLogoImage();
-		if ($logoImage !== null) {
-			// Embed the logo directly in the message instead of linking to it, so mail
-			// clients don't have to fetch it from the internet (some (e.g. gmail) block that).
-			$logoSrc = 'cid:logo';
-			$this->inlineImages[] = ['name' => 'logo'] + $logoImage;
-		} else {
-			$logoSrc = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
+		$this->logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $this->logoUrl, $this->themingDefaults->getName(), $logoSizeDimensions]);
+	}
+
+	/**
+	 * Renders the HTML email with the logo embedded instead of linked, so mail
+	 * clients don't have to fetch it from the internet (some (e.g. gmail) block that).
+	 *
+	 * The caller must attach the images returned by getInlineImages() afterwards.
+	 */
+	public function renderHtmlWithInlineImages(): string {
+		$html = $this->renderHtml();
+		$this->inlineImages = [];
+		if ($this->logoUrl === '') {
+			return $html;
 		}
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoSrc, $this->themingDefaults->getName(), $logoSizeDimensions]);
+
+		$logoSrc = 'src="' . $this->logoUrl . '"';
+		$position = strpos($html, $logoSrc);
+		if ($position === false) {
+			return $html;
+		}
+
+		$logoImage = $this->themingDefaults->getLogoImage();
+		if ($logoImage === null) {
+			return $html;
+		}
+		$this->inlineImages[] = ['name' => 'logo'] + $logoImage;
+
+		return substr_replace($html, 'src="cid:logo"', $position, strlen($logoSrc));
+	}
+
+	#[\Override]
+	public function setLanguage(string $language): void {
+		if ($language !== '') {
+			$this->language = $language;
+		}
 	}
 
 	/**
 	 * Images that must be embedded inline in the message, referenced via `cid:<name>` in the HTML body
+	 * returned by the last renderHtmlWithInlineImages() call
 	 *
 	 * @return array<array{name: string, content: string, mimeType: string}>
 	 */
@@ -745,6 +778,7 @@ EOF;
 	 */
 	#[\Override]
 	public function addFooter(string $text = '', ?string $lang = null): void {
+		$lang ??= $this->language;
 		$plainText = null;
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
@@ -796,7 +830,28 @@ EOF;
 			$this->ensureBodyIsClosed();
 			$this->htmlBody .= $this->tail;
 		}
-		return $this->htmlBody;
+		if ($this->language === null) {
+			return $this->htmlBody;
+		}
+
+		$direction = $this->l10nFactory->getLanguageDirection($this->language);
+		$lang = htmlspecialchars(str_replace('_', '-', $this->language));
+		$html = str_replace('lang="en" xml:lang="en"', 'lang="' . $lang . '" xml:lang="' . $lang . '" dir="' . $direction . '"', $this->htmlBody);
+		return $direction === 'rtl' ? $this->mirrorStyles($html) : $html;
+	}
+
+	/**
+	 * Swap left and right in the template's own styles: the style attributes
+	 * and the style element. Text content is never touched.
+	 */
+	protected function mirrorStyles(string $html): string {
+		$mirror = static function (array $match): string {
+			// 4-value margin and padding shorthands are top, right, bottom, left
+			$css = preg_replace('/\\b(margin|padding):([^\\s;"!]+) ([^\\s;"!]+) ([^\\s;"!]+) ([^\\s;"!]+)/', '$1:$2 $5 $4 $3', $match[2]) ?? $match[2];
+			return $match[1] . strtr($css, ['left' => 'right', 'right' => 'left']) . $match[3];
+		};
+		$html = preg_replace_callback('/(style=")([^"]*)(")/', $mirror, $html) ?? $html;
+		return preg_replace_callback('/(<style[^>]*>)(.*?)(<\\/style>)/s', $mirror, $html) ?? $html;
 	}
 
 	/**

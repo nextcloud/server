@@ -51,4 +51,18 @@ class CoreCapabilitiesTest extends TestCase {
 
 		$this->assertSame([], $capabilities['core']['previews']['enabled_providers']);
 	}
+
+	public function testLargestPreviewIsReported(): void {
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([
+				['pollinterval', 60, 60],
+				['preview_max_x', 4096, 512],
+				['preview_max_y', 4096, 384],
+			]);
+
+		$capabilities = $this->capabilities->getCapabilities();
+
+		$this->assertSame(512, $capabilities['core']['previews']['max_width']);
+		$this->assertSame(384, $capabilities['core']['previews']['max_height']);
+	}
 }

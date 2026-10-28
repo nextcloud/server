@@ -221,6 +221,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->setLanguage($this->imipService->getLanguageCode());
 		$template->addHeader();
 		$template->addBodySender($data['invitee_name'], $senderName !== null ? $sender : '');
 

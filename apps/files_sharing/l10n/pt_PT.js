@@ -252,7 +252,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Não foi possível carregar a lista de compartilhamentos",
     "Expires {relativetime}" : "Expira {relativetime}",
     "this share just expired." : "esse compartilhamento acabou de expirar.",
-    "Shared with you by {owner}" : "Partilhado consigo por {owner}",
     "Internal shares" : "Partilhas internas",
     "Internal shares explanation" : "Explicação das partilhas internas",
     "External shares" : "Partilhas externas",
@@ -324,6 +323,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Partilhado consigo e com {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Partilhado consigo e com a conversação {conversation} por {owner}",
     "Shared with you in a conversation by {owner}" : "Partilhado consigo numa conversação por {owner}",
+    "Shared with you by {owner}" : "Partilhado consigo por {owner}",
     "%1$s shared %2$s with you" : "%1$s partilhou %2$s consigo",
     "Share not found" : "Partilha não encontrada",
     "Back to %s" : "Voltar a %s",
@@ -332,8 +332,6 @@ OC.L10N.register(
     "Public link sharing is disabled by the administrator" : "A partilha da hiperligação pública está desativada pelo administrador",
     "Public upload disabled by the administrator" : "Envio público desativado pelo administrador",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Os tokens devem conter pelo menos 1 caractere e podem incluir apenas letras, números ou um hífen",
-    "Name or email …" : "Nome ou e-mail...",
-    "Searching …" : "À procura …",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público para algo fácil de lembrar ou gere um novo token. Não é recomendado usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

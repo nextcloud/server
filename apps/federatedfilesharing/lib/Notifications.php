@@ -47,11 +47,12 @@ class Notifications {
 	 * @param string $sharedBy
 	 * @param string $sharedByFederatedId
 	 * @param int $shareType (can be a remote user or group share)
+	 * @param int $permissions Nextcloud permission bitmask
 	 * @return bool
 	 * @throws HintException
 	 * @throws ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
+	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType, int $permissions) {
 		[$user, $remote] = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
@@ -67,7 +68,8 @@ class Notifications {
 				'sharedBy' => $sharedBy,
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
-				'shareType' => $shareType
+				'shareType' => $shareType,
+				'permissions' => $permissions,
 			];
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
@@ -308,6 +310,10 @@ class Notifications {
 			return $result;
 		}
 
+		if ($action === 'share') {
+			unset($fields['permissions']);
+		}
+
 		return $this->tryLegacyEndPoint($remoteDomain, $urlSuffix, $fields);
 	}
 
@@ -373,7 +379,8 @@ class Notifications {
 					$fields['sharedBy'],
 					$fields['token'],
 					$fields['shareType'],
-					'file'
+					'file',
+					$fields['permissions']
 				);
 				return $this->federationProviderManager->sendShare($share);
 			case 'reshare':

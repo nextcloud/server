@@ -35,6 +35,7 @@ namespace OCA\Files_Sharing;
  *     mimetype: string,
  *     mount-type: string,
  *     note: string,
+ *     original_displayname: ?string,
  *     parent: null,
  *     password?: null|string,
  *     password_expiration_time?: ?string,

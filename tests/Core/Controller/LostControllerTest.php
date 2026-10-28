@@ -26,6 +26,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
@@ -108,6 +109,7 @@ class LostControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l10n->method('getLanguageCode')->willReturn('de');
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userManager
@@ -237,6 +239,8 @@ class LostControllerTest extends TestCase {
 
 		$this->logger->expects($this->exactly(0))
 			->method('error');
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 		$this->logger->expects($this->exactly(2))
 			->method('warning');
 
@@ -292,6 +296,9 @@ class LostControllerTest extends TestCase {
 			->with(['lostpassword-noreply@localhost' => null]);
 
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$emailTemplate->expects($this->any())
 			->method('renderHtml')
 			->willReturn('HTML body');
@@ -316,6 +323,12 @@ class LostControllerTest extends TestCase {
 			->expects($this->once())
 			->method('send')
 			->with($message);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.password_reset.requested'
+				&& $event->getParameters() === ['userId' => 'ExistingUser']
+				&& $event->getLogMessage() === 'Password reset was requested for user "%s"'));
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);

@@ -103,21 +103,6 @@
     "Misc accessibility options" : "خيارات متفرقة للوصول",
     "Enable blur background filter (may increase GPU load)" : "تمكين فلتر تضبيب الخلفية (يمكن أن يتسبب في زيادة العبء على المعالج الرسومي  GPU)",
     "Customization has been disabled by your administrator" : "التخصيص معطل من قبل المسؤول",
-    "Disable-user-theming should be true or false" : "\"إيقاف سمات المستخدم\" Disable-user-theming يجب أن تكون إمّا صح أو خطأ",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "يستعمل اللون الأساسي لإبراز بعض العناصر مثل الأزرار الهامة. و قد يتم ضبطه قليلاً اعتماداً على مخطط الألوان الحالي.",
-    "Header logo" : "شعار رأس الصفحة",
-    "Upload new header logo" : "تحميل شعار رأسية جديد",
-    "Upload new favicon" : "تحميل أيقونة Favicon جديدة",
-    "User settings" : "إعدادات المستخدم",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "بدلاً من صورة الخلفية، يمكنك أيضًا تكوين لون خلفية عادي. إذا كنت تستخدم صورة خلفية، فإن تغيير هذا اللون سيؤثر على لون أيقونات قائمة التطبيقات.",
-    "Upload new logo" : "رفع شعار جديد",
-    "Upload new background and login image" : "إرفع صورة جديدة للخلفية و لتسجيل الدخول",
-    "Background and login image" : "صورة الخلفية و تسجيل الدخول",
-    "Advanced options" : "الخيارات المتقدمة",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "قم بتثبيت ImageMagick و التي هي امتداد لـ PHP مع دعم صور SVG لإنشاء الرموز المفضلة تلقائيًا بناءً على الشعار واللون اللذيْن تمّ تحميلهما.",
-    "Unable to apply the setting." : "يتعذّر تطبيق الإعدادات.",
-    "No background has been selected" : "لم يتم اختيار أي خلفية بعد",
-    "Select a custom color" : "إختر لوناً مُخصّصاً",
-    "Upload" : "تحميل"
+    "Unable to apply the setting." : "يتعذّر تطبيق الإعدادات."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

@@ -12,8 +12,6 @@ OC.L10N.register(
     "Name" : "Tên",
     "Redirection URI" : "Liên kết chuyển tiếp",
     "Add client" : "Thêm kết nối",
-    "Add" : "Thêm",
-    "Client Identifier" : "Mã định danh ứng dụng khách",
-    "Show client secret" : "Hiện bí mật ứng dụng khách"
+    "Add" : "Thêm"
 },
 "nplurals=1; plural=0;");

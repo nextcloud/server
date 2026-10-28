@@ -16,7 +16,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
-            'OCA\\Viewer\\' => 11,
         ),
         'N' =>
         array (
@@ -36,10 +35,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
-        ),
-        'OCA\\Viewer\\' =>
-        array (
-            0 => __DIR__ . '/../../..' . '/apps/viewer/lib',
         ),
         'NCU\\' =>
         array (
@@ -130,7 +125,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\WorkflowEngine\\Events\\RegisterRuntimeOperationsEvent' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/Events/RegisterRuntimeOperationsEvent.php',
         'NCU\\WorkflowEngine\\RuntimeOperation' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeOperation.php',
         'NCU\\WorkflowEngine\\RuntimeScope' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeScope.php',
-        'OCA\\Viewer\\Event\\LoadViewer' => __DIR__ . '/../../..' . '/apps/viewer/lib/Event/LoadViewer.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -621,10 +615,12 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Lock\\LockContext' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/LockContext.php',
         'OCP\\Files\\Lock\\NoLockProviderException' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/NoLockProviderException.php',
         'OCP\\Files\\Lock\\OwnerLockedException' => __DIR__ . '/../../..' . '/lib/public/Files/Lock/OwnerLockedException.php',
+        'OCP\\Files\\Mount\\IExternalMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IExternalMountPoint.php',
         'OCP\\Files\\Mount\\IMountManager' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountManager.php',
         'OCP\\Files\\Mount\\IMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountPoint.php',
         'OCP\\Files\\Mount\\IMovableMount' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMovableMount.php',
         'OCP\\Files\\Mount\\IShareOwnerlessMount' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IShareOwnerlessMount.php',
+        'OCP\\Files\\Mount\\ISharedMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/ISharedMountPoint.php',
         'OCP\\Files\\Mount\\ISystemMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/ISystemMountPoint.php',
         'OCP\\Files\\Node' => __DIR__ . '/../../..' . '/lib/public/Files/Node.php',
         'OCP\\Files\\NotEnoughSpaceException' => __DIR__ . '/../../..' . '/lib/public/Files/NotEnoughSpaceException.php',
@@ -890,6 +886,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\OCM\\IOCMProvider' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMProvider.php',
         'OCP\\OCM\\IOCMResource' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMResource.php',
         'OCP\\OCM\\OCMCapabilities' => __DIR__ . '/../../..' . '/lib/public/OCM/OCMCapabilities.php',
+        'OCP\\OCM\\Permissions' => __DIR__ . '/../../..' . '/lib/public/OCM/Permissions.php',
         'OCP\\OCS\\IDiscoveryService' => __DIR__ . '/../../..' . '/lib/public/OCS/IDiscoveryService.php',
         'OCP\\OpenMetrics\\IMetricFamily' => __DIR__ . '/../../..' . '/lib/public/OpenMetrics/IMetricFamily.php',
         'OCP\\OpenMetrics\\Metric' => __DIR__ . '/../../..' . '/lib/public/OpenMetrics/Metric.php',
@@ -1399,6 +1396,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Token\\PublicKeyTokenProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
         'OC\\Authentication\\Token\\RemoteWipe' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/RemoteWipe.php',
         'OC\\Authentication\\Token\\TokenCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/TokenCleanupJob.php',
+        'OC\\Authentication\\Token\\TokenScopes' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/TokenScopes.php',
         'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',
         'OC\\Authentication\\TwoFactorAuth\\EnforcementState' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/EnforcementState.php',
         'OC\\Authentication\\TwoFactorAuth\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
@@ -1620,6 +1618,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\TaskProcessing\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/ListCommand.php',
         'OC\\Core\\Command\\TaskProcessing\\Statistics' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/Statistics.php',
         'OC\\Core\\Command\\TaskProcessing\\WorkerCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/WorkerCommand.php',
+        'OC\\Core\\Command\\Testing\\PrepareCi' => __DIR__ . '/../../..' . '/core/Command/Testing/PrepareCi.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Base' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Base.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Cleanup.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Disable' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Disable.php',
@@ -2507,7 +2506,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\User\\DisplayNameCache' => __DIR__ . '/../../..' . '/lib/private/User/DisplayNameCache.php',
         'OC\\User\\LastInteractiveLogin' => __DIR__ . '/../../..' . '/lib/private/User/LastInteractiveLogin.php',
         'OC\\User\\LazyUser' => __DIR__ . '/../../..' . '/lib/private/User/LazyUser.php',
-        'OC\\User\\Listeners\\BeforeUserDeletedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
         'OC\\User\\Listeners\\UserChangedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/UserChangedListener.php',
         'OC\\User\\Listeners\\UserLoggedInWithCookieListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/UserLoggedInWithCookieListener.php',
         'OC\\User\\LoginException' => __DIR__ . '/../../..' . '/lib/private/User/LoginException.php',

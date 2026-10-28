@@ -212,7 +212,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Ni mogoče naložiti seznama predmetov v souporabi",
     "Expires {relativetime}" : "Preteče {relativetime}",
     "this share just expired." : "to mesto souporabe je ravnokar preteklo.",
-    "Shared with you by {owner}" : "Souporabo omogoča {owner}",
     "Link to a file" : "Povezava do datoteke",
     "Open in Files" : "Odpri v mapi",
     "Shared" : "V souporabi",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} omogoči souporabo vam in članom kroga {circle}.",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} omogoči souporabo vam in udeležencem pogovora {conversation}.",
     "Shared with you in a conversation by {owner}" : "{owner} vam omogoči souporabo v pogovoru.",
+    "Shared with you by {owner}" : "Souporabo omogoča {owner}",
     "%1$s shared %2$s with you" : "%1$s vam omogoči souporabo %2$s",
     "Share not found" : "Mesta souporabe ni mogoče najti.",
     "Back to %s" : "Nazaj na %s",
@@ -249,11 +249,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Public link sharing is disabled by the administrator" : "Souporaba z uporabo javne povezave je skrbniško onemogočena",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe ScienceMesh",
     "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
-    "Via “{folder}”" : "Prek mape »{folder}«",
-    "Name or email …" : "Ime ali elektronski naslov ...",
-    "Name, email, or Federated Cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
-    "Searching …" : "Poteka iskanje ..."
+    "Via “{folder}”" : "Prek mape »{folder}«"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

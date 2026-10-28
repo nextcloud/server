@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import type { IToken } from '../store/authtoken.ts'
 
-import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiTablet, mdiWeb } from '@mdi/js'
+import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
 import { showConfirmation } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { computed, nextTick, ref, useTemplateRef } from 'vue'
@@ -279,8 +279,10 @@ async function wipe() {
 				<!-- TODO: add text/longtext with some description -->
 				<NcActionButton
 					v-if="token.canRename"
-					icon="icon-rename"
 					@click.stop.prevent="startRename">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiPencilOutline" />
+					</template>
 					{{ t('settings', 'Rename') }}
 				</NcActionButton>
 
@@ -289,21 +291,27 @@ async function wipe() {
 					<template v-if="token.type !== TokenType.WIPING_TOKEN">
 						<!-- TODO: add text/longtext with some description -->
 						<NcActionButton
-							icon="icon-delete"
 							@click.stop.prevent="revoke">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+							</template>
 							{{ t('settings', 'Revoke') }}
 						</NcActionButton>
 						<NcActionButton
-							icon="icon-delete"
 							@click.stop.prevent="wipe">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+							</template>
 							{{ t('settings', 'Wipe device') }}
 						</NcActionButton>
 					</template>
 					<NcActionButton
 						v-else
-						icon="icon-delete"
 						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+						</template>
 						{{ t('settings', 'Revoking this token might prevent the wiping of your device if it has not started the wipe yet.') }}
 					</NcActionButton>
 				</template>

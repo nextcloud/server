@@ -292,6 +292,7 @@ class SharesReminderJob extends TimedJob {
 		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.SharesReminder', [
 			'folder' => $folder,
 		]);
+		$emailTemplate->setLanguage($l->getLanguageCode());
 		$emailTemplate->addHeader();
 		$emailTemplate->setSubject(
 			$l->t('Remember to upload the files to %s', [$folder['name']])

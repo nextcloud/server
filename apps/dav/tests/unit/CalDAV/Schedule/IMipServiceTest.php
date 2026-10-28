@@ -164,6 +164,12 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetLanguageCode(): void {
+		$this->l10n->method('getLanguageCode')->willReturn('ar');
+
+		$this->assertEquals('ar', $this->service->getLanguageCode());
+	}
+
 	public function testIsSystemUserWhenUserExists(): void {
 		$email = 'user@example.com';
 		$user = $this->createMock(IUser::class);
@@ -2527,6 +2533,31 @@ class IMipServiceTest extends TestCase {
 			static fn (EMailDetailsRow $row): array => [$row->getLabel(), $row->getParts()],
 			$details->getRows(),
 		);
+	}
+
+	public function testAddEventDetailsPutsDescriptionAfterCard(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+		$order = [];
+		$template->method('addBodyNote')->willReturnCallback(function (string $text, string $label) use (&$order): void {
+			$order[] = 'note:' . $label;
+		});
+		$template->method('addBodyDetails')->willReturnCallback(function () use (&$order): void {
+			$order[] = 'details';
+		});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => 'Title',
+			'meeting_when' => 'Monday',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+			'meeting_occurring' => '',
+		]);
+
+		$this->assertSame(['details', 'note:Description', 'note:Previous description'], $order);
 	}
 
 	public function testAddEventDetails(): void {
