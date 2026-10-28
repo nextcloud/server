@@ -210,6 +210,11 @@ class Manager implements IProvider, OCPIProvider {
 		$this->publicKeyTokenProvider->invalidateLastUsedBefore($uid, $before);
 	}
 
+	#[\Override]
+	public function invalidateTokensOfUserExcept(string $uid, ?int $exceptTokenId): array {
+		return $this->publicKeyTokenProvider->invalidateTokensOfUserExcept($uid, $exceptTokenId);
+	}
+
 	/**
 	 * @param OCPIToken $token
 	 * @param string $oldTokenId

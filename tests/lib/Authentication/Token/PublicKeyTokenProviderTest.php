@@ -362,6 +362,32 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateLastUsedBefore('user', 946684800);
 	}
 
+	public static function dataInvalidateTokensOfUserExcept(): array {
+		return [
+			'keeps the except id' => [[1 => IToken::PERMANENT_TOKEN, 2 => IToken::PERMANENT_TOKEN, 3 => IToken::PERMANENT_TOKEN], 2, [1, 3]],
+			'keeps wipe-pending tokens' => [[1 => IToken::PERMANENT_TOKEN, 2 => IToken::WIPE_TOKEN], null, [1]],
+			'nothing to do' => [[7 => IToken::PERMANENT_TOKEN], 7, []],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidateTokensOfUserExcept')]
+	public function testInvalidateTokensOfUserExcept(array $types, ?int $exceptTokenId, array $expected): void {
+		$tokens = [];
+		foreach ($types as $id => $type) {
+			$token = new PublicKeyToken();
+			$token->setId($id);
+			$token->setUid('user');
+			$token->setType($type);
+			$token->setToken('hash' . $id);
+			$tokens[] = $token;
+		}
+		$this->mapper->method('getTokenByUser')->with('user')->willReturn($tokens);
+
+		$this->mapper->expects($this->exactly(count($expected)))->method('invalidate');
+
+		$this->assertSame($expected, $this->tokenProvider->invalidateTokensOfUserExcept('user', $exceptTokenId));
+	}
+
 	public function testRenewSessionTokenWithoutPassword(): void {
 		$token = 'oldIdtokentokentokentoken';
 		$uid = 'user';
