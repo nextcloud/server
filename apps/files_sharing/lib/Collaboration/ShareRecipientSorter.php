@@ -28,7 +28,7 @@ class ShareRecipientSorter implements ISorter {
 	}
 
 	#[\Override]
-	public function sort(array &$sortArray, array $context) {
+	public function sort(array &$sortArray, array $context): void {
 		// let's be tolerant. Comments  uses "files" by default, other usages are often singular
 		if ($context['itemType'] !== 'files' && $context['itemType'] !== 'file') {
 			return;
@@ -50,33 +50,13 @@ class ShareRecipientSorter implements ISorter {
 				continue;
 			}
 
-			// at least on PHP 5.6 usort turned out to be not stable. So we add
-			// the current index to the value and compare it on a draw
-			$i = 0;
-			$workArray = array_map(function ($element) use (&$i) {
-				return [$i++, $element];
-			}, $byType);
-
-			usort($workArray, function ($a, $b) use ($al, $type) {
-				$result = $this->compare($a[1], $b[1], $al[$type]);
-				if ($result === 0) {
-					$result = $a[0] - $b[0];
-				}
-				return $result;
+			usort($byType, function ($a, $b) use ($al, $type) {
+				return $this->compare($a, $b, $al[$type]);
 			});
-
-			// and remove the index values again
-			$byType = array_column($workArray, 1);
 		}
 	}
 
-	/**
-	 * @param array $a
-	 * @param array $b
-	 * @param array $al
-	 * @return int
-	 */
-	protected function compare(array $a, array $b, array $al) {
+	protected function compare(array $a, array $b, array $al): int {
 		$a = $a['value']['shareWith'];
 		$b = $b['value']['shareWith'];
 
