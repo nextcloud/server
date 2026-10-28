@@ -348,6 +348,7 @@ class Log implements ILogger, IDataLogger {
 		}
 
 		unset($context['exception']);
+		unset($context['trace']);
 
 		$context = array_map($this->normalizer->format(...), $context);
 		$data = $context;
