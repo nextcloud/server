@@ -100,6 +100,11 @@ class TrashItem implements ITrashItem {
 	}
 
 	#[\Override]
+	public function getStorageId(): int {
+		return $this->fileInfo->getStorageId();
+	}
+
+	#[\Override]
 	public function getId() {
 		return $this->fileInfo->getId();
 	}
