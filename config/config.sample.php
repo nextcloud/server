@@ -3130,6 +3130,31 @@ $CONFIG = [
 	'unified_search.enabled' => false,
 
 	/**
+	 * Opt in to bounded, date-sorted Files name searches on MariaDB 10.11.
+	 * Enable this setting, then run ``occ db:add-missing-indices`` to install
+	 * the optional covering indexes. Index creation can take time on a large
+	 * file cache and adds storage and write overhead. Disabling this setting
+	 * does not remove the indexes. Other database versions and unsupported
+	 * query shapes retain native search.
+	 *
+	 * Eligible date-sorted requests use descending file IDs to break equal
+	 * modification-time ties, including when the database capability declines.
+	 * Defaults to ``false``.
+	 */
+	'files_search_bounded_name' => false,
+
+	/**
+	 * Required budgets for bounded Files name searches. Without a valid record,
+	 * the database capability declines. Values must be integers: statement and
+	 * lock seconds in 1..10, total seconds in 2..30, with lock <= statement < total.
+	 * Initial connection negotiation is not bounded by these session settings.
+	 *
+	 * For example: ``['statement_seconds' => 2, 'lock_seconds' => 1, 'total_seconds' => 5]``.
+	 * Defaults to ``null``; no numeric budget is chosen automatically.
+	 */
+	'files_search_bounded_name_limits' => null,
+
+	/**
 	 * Enable features that do not yet comply with accessibility standards.
 	 *
 	 * Defaults to ``true``
