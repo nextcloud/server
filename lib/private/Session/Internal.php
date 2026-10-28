@@ -108,7 +108,8 @@ class Internal extends Session {
 	 * @param bool $updateToken Whether to update the associated auth token
 	 * @return void
 	 */
-	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+	public function regenerateId(bool $deleteOldSession = false, bool $updateToken = false) {
+		$deleteOldSession = false; // force it off intentionally
 		$this->reopen();
 		$oldId = null;
 
