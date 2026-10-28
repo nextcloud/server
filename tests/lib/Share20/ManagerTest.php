@@ -1284,8 +1284,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->userManager->method('userExists')->willReturnCallBack(fn (string $userId) => $userId === 'user0' || $userId === 'user1');
 
 		$this->userManager->method('get')->willReturnMap([
-			['user0', $this->createMock(IUser::class)],
-			['user1', $this->createMock(IUser::class)],
+			['user0', $this->createEnabledUser(true)],
+			['user1', $this->createEnabledUser(true)],
 		]);
 
 		$this->groupManager->method('groupExists')->willReturnMap([
@@ -1365,8 +1365,8 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->userManager->method('get')->willReturnMap([
-			['user0', $this->createMock(IUser::class)],
-			['user1', $this->createMock(IUser::class)],
+			['user0', $this->createEnabledUser(true)],
+			['user1', $this->createEnabledUser(true)],
 		]);
 
 		$userFolder = $this->createMock(IUserFolder::class);
@@ -2044,8 +2044,8 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions(Constants::PERMISSION_ALL);
 
-		$sharedBy = $this->createMock(IUser::class);
-		$sharedWith = $this->createMock(IUser::class);
+		$sharedBy = $this->createEnabledUser(true);
+		$sharedWith = $this->createEnabledUser(true);
 
 		$this->groupManager
 			->method('getUserGroupIds')
@@ -2111,11 +2111,11 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions(Constants::PERMISSION_ALL);
 
-		$sharedBy = $this->createMock(IUser::class);
+		$sharedBy = $this->createEnabledUser(true);
 		$sharedBy
 			->method('getUID')
 			->willReturn('sharedBy');
-		$sharedWith = $this->createMock(IUser::class);
+		$sharedWith = $this->createEnabledUser(true);
 
 		$this->groupManager
 			->method('getUserGroupIds')
@@ -2299,8 +2299,8 @@ class ManagerTest extends \Test\TestCase {
 			->setProviderId('foo')
 			->setId('bar');
 
-		$sharedWith = $this->createMock(IUser::class);
-		$sharedBy = $this->createMock(IUser::class);
+		$sharedWith = $this->createEnabledUser(true);
+		$sharedBy = $this->createEnabledUser(true);
 		$sharedBy
 			->method('getUID')
 			->willReturn('sharedBy');
@@ -3101,15 +3101,17 @@ class ManagerTest extends \Test\TestCase {
 			->with('user1')
 			->willReturn($userFolder);
 
-		$user1 = $this->createMock(IUser::class);
+		$user1 = $this->createEnabledUser(true);
 		$user1
 			->method('getUID')
 			->willReturn('user1');
 
 		$this->userManager
 			->method('get')
-			->with('user1')
-			->willReturn($user1);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $this->createEnabledUser(true)],
+			]);
 
 		$share = $this->manager->newShare()
 			->setShareType(IShare::TYPE_USER)
