@@ -1,6 +1,5 @@
 { "translations": {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n fichier ne correspond pas à la version signée. Il peut avoir été modifié ou ajouté sans autorisation.","%n fichiers ne correspondent pas à la version signée. Ils peuvent avoir été modifiés ou ajoutés sans autorisation.","%n fichiers ne correspondent pas à la version signée. Ils peuvent avoir été modifiés ou ajoutés sans autorisation."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["La signature de %s est manquante ou non valide, ils n'a donc pas pu être vérifié.","Les signatures de %s sont manquantes ou non valides, ils n'ont donc pas pu être vérifiés.","Les signatures de %s sont manquantes ou non valides, ils n'ont donc pas pu être vérifiés."],
     "The code integrity check result has changed" : "Le résultat de la vérification d'intégrité du code a changé",
     "Review integrity check results" : "Examiner les résultats de la vérification d'intégrité",
     "Please select a file." : "Veuillez sélectionner un fichier.",

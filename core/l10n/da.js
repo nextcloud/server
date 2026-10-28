@@ -2,7 +2,6 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n fil svarer ikke til den signerede udgivelse. Den kan være ændret eller tilføjet uden tilladelse.","%n filer svarer ikke til den signerede udgivelse. De kan være ændret eller tilføjet uden tilladelse."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Signaturen for %s mangler eller er ugyldig, så den kunne ikke kontrolleres.","Signaturerne for %s mangler eller er ugyldige, så de kunne ikke kontrolleres."],
     "The code integrity check result has changed" : "Resultatet af integritetskontrollen er ændret",
     "Review integrity check results" : "Gennemse resultaterne af integritetskontrollen",
     "Please select a file." : "Vælg en fil.",
@@ -443,7 +442,7 @@ OC.L10N.register(
     "Database configuration" : "Databasekonfiguration",
     "Database type" : "Databasetype",
     "Only {firstAndOnlyDatabase} is available." : "Kun {firstAndOnlyDatabase} er tilgængelig.",
-    "Install and activate additional PHP modules to choose other database types." : "Installer og aktiver yderligere PHP-moduler for at vælge andre databasetyper.",
+    "Install and activate additional PHP modules to choose other database types." : "Installer og aktivér yderligere PHP-moduler for at vælge andre databasetyper.",
     "For more details check out the documentation." : "Se dokumentationen for at få flere oplysninger.",
     "Performance warning" : "Ydelsesadvarsel",
     "You chose SQLite as database." : "Du valgte SQLite som database.",

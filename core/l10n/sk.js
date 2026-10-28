@@ -2,7 +2,6 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n súbor nezodpovedá podpísanej verzii. Mohol byť upravený alebo pridaný bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Podpis %s chýba alebo je neplatný, takže ho nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť."],
     "The code integrity check result has changed" : "Výsledok kontroly integrity kódu sa zmenil",
     "Review integrity check results" : "Skontrolovať výsledky kontroly integrity",
     "Please select a file." : "Prosím, vyberte súbor.",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n 個のファイルが、署名付きリリースと一致しません。これらは、許可なく変更または追加された可能性があります。"],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["%sの署名が見つからないか、無効であるため、検証できませんでした。"],
     "The code integrity check result has changed" : "コードの整合性チェックの結果が変更されました",
     "Review integrity check results" : "整合性チェックの結果を確認する",
     "Please select a file." : "ファイルを選択してください。",
