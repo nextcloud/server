@@ -359,6 +359,16 @@ class DBConfigService {
 		$query->executeStatement();
 	}
 
+	public function setPriority(int $mountId, int $priority): void {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->update('external_mounts')
+			->set('priority', $builder->createNamedParameter($priority, IQueryBuilder::PARAM_INT))
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
+
+		$query->executeStatement();
+	}
+
 	public function setConfig(int $mountId, string $key, string $value): void {
 		if ($key === 'password') {
 			$value = $this->encryptValue($value);
