@@ -2249,4 +2249,92 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(count($apps), 1);
 		$this->assertEquals($apps[0]['id'], 'contacts');
 	}
+
+	public function testGetAppliesAllowlistToStaleCachedData(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config
+			->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config
+			->method('getSystemValue')
+			->willReturnCallback(function (string $key, mixed $default = null): mixed {
+				if ($key === 'appsallowlist') {
+					return ['allowed_app'];
+				}
+
+				return $default;
+			});
+
+		$this->config
+			->method('getAppValue')
+			->willReturnCallback(function (string $app, string $key, string $default): string {
+				if ($key === 'appstore-fetcher-lastFailure') {
+					return (string)time();
+				}
+
+				return $default;
+			});
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with('apps.json')
+			->willReturn($file);
+
+		$now = time();
+
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([
+				'timestamp' => $now - 3601,
+				'data' => [
+					[
+						'id' => 'allowed_app',
+					],
+					[
+						'id' => 'blocked_app',
+					],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturn($now);
+
+		$this->clientService
+			->expects($this->never())
+			->method('newClient');
+
+		$this->registry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
+		$this->assertSame([
+			[
+				'id' => 'allowed_app',
+			],
+		], $this->fetcher->get());
+	}
 }

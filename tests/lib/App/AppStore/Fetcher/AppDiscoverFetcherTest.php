@@ -115,4 +115,84 @@ class AppDiscoverFetcherTest extends FetcherBase {
 			'numeric etag' => ['132', false, '{ "ETag": 132 }'],
 		];
 	}
+
+	public function testGetFiltersExpiredEntriesFromStaleCachedData(): void {
+		$this->config
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config
+			->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnCallback(function (string $app, string $key, string $default): string {
+				if ($key === 'appstore-fetcher-lastFailure') {
+					return (string)time();
+				}
+
+				return $default;
+			});
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with('discover.json')
+			->willReturn($file);
+
+		$now = time();
+
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([
+				'timestamp' => $now - 3601,
+				'data' => [
+					[
+						'type' => 'post',
+						'id' => 'active-entry',
+						'expiryDate' => date('c', $now + 3600),
+					],
+					[
+						'type' => 'post',
+						'id' => 'expired-entry',
+						'expiryDate' => date('c', $now - 3600),
+					],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturn($now);
+
+		$this->clientService
+			->expects($this->never())
+			->method('newClient');
+
+		$this->assertSame([
+			[
+				'type' => 'post',
+				'id' => 'active-entry',
+				'expiryDate' => date('c', $now + 3600),
+			],
+		], $this->fetcher->get());
+	}
 }
