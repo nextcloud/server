@@ -39,9 +39,8 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 		 */
 		try {
 			$uid = $event->getUser()->getUID();
-			$tokens = $this->manager->getTokenByUser($uid);
-			foreach ($tokens as $token) {
-				$this->manager->invalidateTokenById($uid, $token->getId());
+			foreach (array_keys($this->manager->getLoginsOfUser($uid)) as $loginId) {
+				$this->manager->invalidateTokenById($uid, $loginId);
 			}
 		} catch (Throwable $e) {
 			$this->logger->error('Could not clean up auth tokens after user deletion: ' . $e->getMessage(), [

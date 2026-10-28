@@ -64,18 +64,19 @@ interface IProvider {
 	public function getTokenById(int $tokenId): OCPIToken;
 
 	/**
-	 * Duplicate an existing session token
+	 * Move the session token of $oldSessionId to $sessionId. The new token belongs to the same login.
 	 *
 	 * @param string $oldSessionId
 	 * @param string $sessionId
-	 * @throws InvalidTokenException
+	 * @throws InvalidTokenException also when a concurrent request renewed or invalidated the token first
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 * @return OCPIToken The new token
 	 */
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken;
 
 	/**
-	 * Give $sessionId a session token with the login data of the session token of $sourceSessionId, which stays valid
+	 * Give $sessionId a session token with the login data of the remembered session token of $sourceSessionId,
+	 * which stays valid. The new token belongs to the same login.
 	 *
 	 * @throws InvalidTokenException
 	 * @throws \RuntimeException when OpenSSL reports a problem
@@ -84,19 +85,72 @@ interface IProvider {
 	public function copySessionToken(string $sourceSessionId, string $sessionId): OCPIToken;
 
 	/**
-	 * Invalidate (delete) the given session token
+	 * Invalidate (delete) the given token and the other tokens of its login
 	 *
 	 * @param string $token
 	 */
 	public function invalidateToken(string $token);
 
 	/**
-	 * Invalidate (delete) the given token
+	 * Invalidate (delete) the given token and the other tokens of its login. $id may also be the id of a login
+	 * whose first token is gone.
 	 *
 	 * @param string $uid
 	 * @param int $id
 	 */
 	public function invalidateTokenById(string $uid, int $id);
+
+	/**
+	 * Invalidate (delete) the other tokens of the login the given token belongs to
+	 *
+	 * @throws InvalidTokenException
+	 */
+	public function invalidateOtherTokensOfLogin(OCPIToken $token): void;
+
+	/**
+	 * Get the tokens of a login of $uid, the most recently used first. $loginId may also be the id of any token of
+	 * that login.
+	 *
+	 * A login starts with the token created by logging in. Renewing or copying a session token keeps its login, so
+	 * one browser login is one login, whichever session id it currently uses.
+	 *
+	 * @return list<OCPIToken> Empty when $uid has no such login
+	 */
+	public function getTokensOfLogin(string $uid, int $loginId): array;
+
+	/**
+	 * Get all tokens of a user, grouped by their login
+	 *
+	 * The provider may limit the number of tokens in case of an abuse
+	 * where a high number of (session) tokens is generated
+	 *
+	 * @return array<int, non-empty-list<OCPIToken>> The tokens of each login, the most recently used first,
+	 *                                               keyed by the id of the login
+	 */
+	public function getLoginsOfUser(string $uid): array;
+
+	/**
+	 * Set the name and scope of every token of a login of $uid, also of those a concurrent request is storing.
+	 * $loginId may also be the id of any token of that login.
+	 *
+	 * @param ?string $name The new name, null to keep it
+	 * @param ?array $scope The new scope, null to keep it
+	 */
+	public function updateLogin(string $uid, int $loginId, ?string $name, ?array $scope): void;
+
+	/**
+	 * Get the id of the login the given token belongs to
+	 *
+	 * @throws InvalidTokenException
+	 */
+	public function getLoginId(OCPIToken $token): int;
+
+	/**
+	 * Mark the given token and the other tokens of its login for remote wipe
+	 *
+	 * @throws InvalidTokenException
+	 */
+	public function markForWipe(OCPIToken $token): void;
 
 	/**
 	 * Invalidate (delete) old session tokens

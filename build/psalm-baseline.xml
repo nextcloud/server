@@ -2252,9 +2252,6 @@
     <DeprecatedClass>
       <code><![CDATA[IToken::WIPE_TOKEN]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[IToken]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/settings/lib/Settings/Personal/Security/WebAuthn.php">
     <DeprecatedInterface>

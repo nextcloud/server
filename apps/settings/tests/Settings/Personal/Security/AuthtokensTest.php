@@ -55,10 +55,6 @@ class AuthtokensTest extends TestCase {
 		$token1->setId(100);
 		$token2 = new PublicKeyToken();
 		$token2->setId(200);
-		$tokens = [
-			$token1,
-			$token2,
-		];
 		$sessionToken = new PublicKeyToken();
 		$sessionToken->setId(100);
 
@@ -66,9 +62,9 @@ class AuthtokensTest extends TestCase {
 			->with('auth_can_create_app_token', true)
 			->willReturn(true);
 		$this->authTokenProvider->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with($this->uid)
-			->willReturn($tokens);
+			->willReturn([100 => [$token1], 200 => [$token2]]);
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('session123');
@@ -76,6 +72,9 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
+		$this->authTokenProvider->method('getLoginId')
+			->with($sessionToken)
+			->willReturn(100);
 
 		$calls = [
 			[
@@ -114,5 +113,67 @@ class AuthtokensTest extends TestCase {
 
 		$expected = new TemplateResponse('settings', 'settings/personal/security/authtokens');
 		$this->assertEquals($expected, $form);
+	}
+
+	public function testGetFormShowsOneEntryPerLogin(): void {
+		// A browser login whose session token was renewed to 101 and copied to 102 for a concurrent request
+		$renewed = $this->sessionToken(101, 'Firefox', 1000);
+		$copy = $this->sessionToken(102, 'Firefox', 1500);
+		$otherLogin = $this->sessionToken(200, 'Chrome', 900);
+
+		$this->serverConfig->method('getSystemValueBool')
+			->willReturn(true);
+		$this->authTokenProvider->method('getLoginsOfUser')
+			->with($this->uid)
+			->willReturn([100 => [$copy, $renewed], 200 => [$otherLogin]]);
+		$this->session->method('getId')
+			->willReturn('session123');
+		$this->authTokenProvider->method('getToken')
+			->with('session123')
+			->willReturn($renewed);
+		$this->authTokenProvider->method('getLoginId')
+			->with($renewed)
+			->willReturn(100);
+
+		$appTokens = null;
+		$this->initialState->method('provideInitialState')
+			->willReturnCallback(function (string $key, $data) use (&$appTokens): void {
+				if ($key === 'app_tokens') {
+					$appTokens = $data;
+				}
+			});
+
+		$this->section->getForm();
+
+		$this->assertEquals([
+			[
+				'id' => 100,
+				'name' => 'Firefox',
+				'lastActivity' => 1500,
+				'type' => IToken::TEMPORARY_TOKEN,
+				'scope' => [IToken::SCOPE_FILESYSTEM => true],
+				'canDelete' => false,
+				'canRename' => false,
+				'current' => true,
+			],
+			[
+				'id' => 200,
+				'name' => 'Chrome',
+				'lastActivity' => 900,
+				'type' => IToken::TEMPORARY_TOKEN,
+				'scope' => [IToken::SCOPE_FILESYSTEM => true],
+				'canDelete' => true,
+				'canRename' => true,
+			],
+		], $appTokens);
+	}
+
+	private function sessionToken(int $id, string $name, int $lastActivity): PublicKeyToken {
+		$token = new PublicKeyToken();
+		$token->setId($id);
+		$token->setName($name);
+		$token->setLastActivity($lastActivity);
+		$token->setType(IToken::TEMPORARY_TOKEN);
+		return $token;
 	}
 }

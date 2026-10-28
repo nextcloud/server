@@ -16,7 +16,6 @@ use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
-use function array_filter;
 
 class RemoteWipe {
 	public function __construct(
@@ -27,6 +26,8 @@ class RemoteWipe {
 	}
 
 	/**
+	 * Mark the token and the other tokens of its login for remote wipe
+	 *
 	 * @param IToken $token
 	 * @return bool
 	 *
@@ -38,10 +39,23 @@ class RemoteWipe {
 			return false;
 		}
 
-		$token->wipe();
-		$this->tokenProvider->updateToken($token);
+		$this->tokenProvider->markForWipe($token);
 
 		return true;
+	}
+
+	/**
+	 * Whether a wipe is pending for the login of $tokens. Its tokens are marked together.
+	 *
+	 * @param list<IToken> $tokens The tokens of one login
+	 */
+	public function isWipePending(array $tokens): bool {
+		foreach ($tokens as $token) {
+			if ($token->getType() === IToken::WIPE_TOKEN) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -50,23 +64,16 @@ class RemoteWipe {
 	 * @return bool true if any tokens have been marked for remote wipe
 	 */
 	public function markAllTokensForWipe(IUser $user): bool {
-		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
-
-		/** @var IWipeableToken[] $wipeable */
-		$wipeable = array_filter($tokens, function (IToken $token) {
-			return $token instanceof IWipeableToken;
-		});
-
-		if (empty($wipeable)) {
-			return false;
+		$marked = false;
+		foreach ($this->tokenProvider->getLoginsOfUser($user->getUID()) as $tokens) {
+			if ($tokens[0] instanceof IWipeableToken) {
+				// Marks the other tokens of the login too, also those a concurrent request is storing
+				$this->tokenProvider->markForWipe($tokens[0]);
+				$marked = true;
+			}
 		}
 
-		foreach ($wipeable as $token) {
-			$token->wipe();
-			$this->tokenProvider->updateToken($token);
-		}
-
-		return true;
+		return $marked;
 	}
 
 	/**

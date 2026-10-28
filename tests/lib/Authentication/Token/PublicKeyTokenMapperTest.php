@@ -258,4 +258,76 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
+
+	public function testGetTokensOfLogin(): void {
+		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$renewed = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+		$copy = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+		$this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$this->insertToken('user1', IToken::PERMANENT_TOKEN, null);
+		// Only the tokens of the user count, whatever they name as their login
+		$this->insertToken('user2', IToken::TEMPORARY_TOKEN, $first);
+
+		$this->assertSame([$first, $renewed, $copy], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
+		$this->assertSame([], $this->mapper->getTokensOfLogin('user2', $renewed));
+
+		$this->mapper->deleteSessionToken($first);
+		$this->assertSame([$renewed, $copy], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
+	}
+
+	public function testGetTokensOfLoginForUpdate(): void {
+		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$copy = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+
+		$this->dbConnection->beginTransaction();
+		try {
+			$this->assertSame([$first, $copy], $this->getIds($this->mapper->getTokensOfLogin('user1', $first, true)));
+			$this->assertSame($copy, $this->mapper->getTokenById($copy, true)->getId());
+		} finally {
+			$this->dbConnection->rollBack();
+		}
+	}
+
+	public function testDeleteSessionToken(): void {
+		$sessionToken = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$appPassword = $this->insertToken('user1', IToken::PERMANENT_TOKEN, null);
+
+		$this->assertTrue($this->mapper->deleteSessionToken($sessionToken));
+		// A concurrent request deleted it first
+		$this->assertFalse($this->mapper->deleteSessionToken($sessionToken));
+		$this->assertFalse($this->mapper->deleteSessionToken($appPassword));
+		$this->assertSame($appPassword, $this->mapper->getTokenById($appPassword)->getId());
+	}
+
+	/**
+	 * Store a token of $uid that belongs to the login $loginId, or starts its own login if null
+	 *
+	 * @return int The id of the token
+	 */
+	private function insertToken(string $uid, int $type, ?int $loginId): int {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->insert('authtoken')->values([
+			'uid' => $qb->createNamedParameter($uid),
+			'login_name' => $qb->createNamedParameter($uid),
+			'name' => $qb->createNamedParameter('Firefox on Linux'),
+			'token' => $qb->createNamedParameter(bin2hex(random_bytes(32))),
+			'type' => $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT),
+			'remember' => $qb->createNamedParameter($type === IToken::TEMPORARY_TOKEN ? IToken::REMEMBER : IToken::DO_NOT_REMEMBER, IQueryBuilder::PARAM_INT),
+			'last_activity' => $qb->createNamedParameter($this->time, IQueryBuilder::PARAM_INT),
+			'last_check' => $qb->createNamedParameter($this->time, IQueryBuilder::PARAM_INT),
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
+			'login_id' => $qb->createNamedParameter($loginId, $loginId === null ? IQueryBuilder::PARAM_NULL : IQueryBuilder::PARAM_INT),
+		])->executeStatement();
+		return $qb->getLastInsertId();
+	}
+
+	/**
+	 * @param list<PublicKeyToken> $tokens
+	 * @return list<int>
+	 */
+	private function getIds(array $tokens): array {
+		return array_map(fn (PublicKeyToken $token): int => $token->getId(), $tokens);
+	}
 }

@@ -1615,7 +1615,7 @@ class SessionTest extends TestCase {
 		$this->userSession->createRememberMeToken($user);
 	}
 
-	public static function renewMagicSessionIdData(): array {
+	public static function moveSessionTokenData(): array {
 		$cookies = ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'];
 		return [
 			'cookie holds the old session id' => ['cookies' => $cookies, 'expectRenewal' => true, 'expectPublish' => true],
@@ -1625,20 +1625,27 @@ class SessionTest extends TestCase {
 			'remember-me token is not stored' => ['cookies' => ['nc_token' => 'stale'] + $cookies, 'expectRenewal' => true, 'expectPublish' => false],
 			'username of another user' => ['cookies' => ['nc_username' => 'v'] + $cookies, 'expectRenewal' => true, 'expectPublish' => false],
 			'session token was not renewed' => ['cookies' => $cookies, 'expectRenewal' => true, 'expectPublish' => false, 'renewed' => false],
+			'username that cannot be a user id' => ['cookies' => ['nc_username' => ''] + $cookies, 'expectRenewal' => true, 'expectPublish' => false],
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
-	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal, bool $expectPublish, bool $renewed = true): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveSessionTokenData')]
+	public function testMoveSessionToken(array $cookies, bool $expectRenewal, bool $expectPublish, bool $renewed = true): void {
 		$this->userConfig->method('getKeys')
-			->willReturnCallback(fn (string $uid, string $app) => $uid === 'u' && $app === 'login_token' ? ['t'] : []);
+			->willReturnCallback(fn (string $uid, string $app) => $this->isUserId($uid) && $uid === 'u' && $app === 'login_token' ? ['t'] : []);
 		$token = new PublicKeyToken();
 		$token->setUid('u');
 		$token->setRemember(IToken::REMEMBER);
 		$token->setType(IToken::TEMPORARY_TOKEN);
 		$this->tokenProvider->method('getToken')
 			->willReturnCallback(fn (string $sessionId): PublicKeyToken => $renewed && $sessionId === 'new' ? $token : throw new InvalidTokenException());
-		$this->session->method('getId')->willReturn('new');
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->tokenProvider->expects($this->once())
+			->method('renewSessionToken')
+			->with('old', 'new');
 		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
 			->method('setMagicInCookie')
 			->with($cookies['nc_username'] ?? null, $cookies['nc_token'] ?? null);
@@ -1647,27 +1654,7 @@ class SessionTest extends TestCase {
 			->method('remember')
 			->with('t', 'old', 't', 'new');
 
-		$request = $this->createMock(IRequest::class);
-		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
-		$this->overwriteService(IRequest::class, $request);
-
-		$this->userSession->renewMagicSessionId('old');
-	}
-
-	public function testRenewMagicSessionIdWithoutASessionIdStillRenewsTheCookie(): void {
-		$this->session->method('getId')->willThrowException(new SessionNotAvailableException());
-		$request = $this->createMock(IRequest::class);
-		$request->method('getCookie')
-			->willReturnCallback(fn (string $key) => ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'][$key] ?? null);
-		$this->overwriteService(IRequest::class, $request);
-
-		$this->rememberMeTokenGrace->expects($this->never())
-			->method('remember');
-		$this->userSession->expects($this->once())
-			->method('setMagicInCookie')
-			->with('u', 't');
-
-		$this->userSession->renewMagicSessionId('old');
+		$this->userSession->moveSessionToken('old', 'new');
 	}
 
 	public static function endInactiveSessionData(): array {
@@ -1831,6 +1818,30 @@ class SessionTest extends TestCase {
 		$userSession->endInactiveSession();
 	}
 
+	public static function usernameThatCannotBeAUserIdData(): array {
+		return [
+			'empty' => ['username' => ''],
+			'too long' => ['username' => str_repeat('f', 65)],
+		];
+	}
+
+	#[DataProvider(methodName: 'usernameThatCannotBeAUserIdData')]
+	public function testEndInactiveSessionWithAUsernameThatCannotBeAUserId(string $username): void {
+		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
+		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
+		$this->session->method('getId')->willReturn('sess123');
+		$this->mockRememberedLogin(['nc_username' => $username, 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'], IToken::REMEMBER, sessionTokenIds: ['sess123', 'sess789']);
+		$this->rememberMeTokenGrace->method('resolve')
+			->willReturn(['token' => 'fooToken', 'sessionId' => 'sess789']);
+
+		$this->userConfig->expects($this->never())
+			->method('clearCache');
+		$userSession->expects($this->once())
+			->method('unsetMagicInCookie');
+
+		$userSession->endInactiveSession();
+	}
+
 	public function testEndInactiveSessionWithAVanishedSessionToken(): void {
 		$userSession = $this->createUserSessionForTimeout($this->tokenProvider, ['getUser']);
 		$userSession->method('getUser')->willReturn($this->createMock(IUser::class));
@@ -1892,7 +1903,9 @@ class SessionTest extends TestCase {
 		$this->rememberMeTokenGrace->method('resolve')
 			->with('fooToken', 'sess123')
 			->willReturn($successor);
-		$this->tokenProvider->method('renewSessionToken')->willThrowException(new InvalidTokenException());
+		// The session token is gone, so there is nothing left to move
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
 
 		// The cookies of the concurrent request stay, so the remember-me login continues with its successor
 		$userSession->expects($keepsLogin ? $this->never() : $this->once())
@@ -1924,7 +1937,7 @@ class SessionTest extends TestCase {
 		$this->overwriteService(IRequest::class, $request);
 		$storedTokens = ['foo' => ['fooToken'], 'bar' => ['barToken']];
 		$this->userConfig->method('getKeys')
-			->willReturnCallback(fn (string $uid, string $app) => $app === 'login_token' ? ($storedTokens[$uid] ?? []) : []);
+			->willReturnCallback(fn (string $uid, string $app) => $this->isUserId($uid) && $app === 'login_token' ? ($storedTokens[$uid] ?? []) : []);
 		if ($remember === null) {
 			$this->tokenProvider->method('getToken')->willThrowException(new InvalidTokenException());
 			return;
@@ -1935,6 +1948,16 @@ class SessionTest extends TestCase {
 		$token->setType($type);
 		$this->tokenProvider->method('getToken')
 			->willReturnCallback(fn (string $sessionId): PublicKeyToken => in_array($sessionId, $sessionTokenIds, true) ? $token : throw new InvalidTokenException());
+	}
+
+	/**
+	 * Whether the user config accepts $uid as a user id, it throws for anything else
+	 */
+	private function isUserId(string $uid): bool {
+		if ($uid === '' || strlen($uid) > 64) {
+			throw new \InvalidArgumentException('Not a user id: ' . $uid);
+		}
+		return true;
 	}
 
 	public function testTryBasicAuthLoginValid(): void {

@@ -44,7 +44,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$event = new UserDeletedEvent($user);
 		$exception = new Exception('nope');
 		$this->getAutoMock(Manager::class)->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('user123')
 			->willThrowException($exception);
 		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
@@ -63,21 +63,20 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$token2->method('getId')->willReturn(2);
 		$token3 = $this->createMock(IToken::class);
 		$token3->method('getId')->willReturn(3);
+		// The login of token 1 also holds token 3, which goes along with it
 		$this->getAutoMock(Manager::class)->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('user123')
 			->willReturn([
-				$token1,
-				$token2,
-				$token3,
+				1 => [$token1, $token3],
+				2 => [$token2],
 			]);
 
 		$calls = [
 			['user123', 1],
 			['user123', 2],
-			['user123', 3],
 		];
-		$this->getAutoMock(Manager::class)->expects($this->exactly(3))
+		$this->getAutoMock(Manager::class)->expects($this->exactly(2))
 			->method('invalidateTokenById')
 			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);

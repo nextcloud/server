@@ -22,7 +22,6 @@ use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
 use OCP\Util;
-use function array_map;
 
 class Authtokens implements ISettings {
 
@@ -65,8 +64,11 @@ class Authtokens implements ISettings {
 		return 100;
 	}
 
+	/**
+	 * One entry per login, so a browser keeps one entry with the same id while it renews or copies its session token
+	 */
 	private function getAppTokens(): array {
-		$tokens = $this->tokenProvider->getTokenByUser($this->userId);
+		$logins = $this->tokenProvider->getLoginsOfUser($this->userId);
 
 		try {
 			$sessionId = $this->session->getId();
@@ -74,21 +76,27 @@ class Authtokens implements ISettings {
 			return [];
 		}
 		try {
-			$sessionToken = $this->tokenProvider->getToken($sessionId);
+			$currentLoginId = $this->tokenProvider->getLoginId($this->tokenProvider->getToken($sessionId));
 		} catch (InvalidTokenException $ex) {
 			return [];
 		}
 
-		return array_map(function (IToken $token) use ($sessionToken) {
+		$entries = [];
+		foreach ($logins as $loginId => $tokens) {
+			// The most recently used token of the login
+			$token = $tokens[0];
+
 			$data = $token->jsonSerialize();
+			$data['id'] = $loginId;
 			$data['canDelete'] = true;
 			$data['canRename'] = $token instanceof INamedToken && $data['type'] !== IToken::WIPE_TOKEN;
-			if ($sessionToken->getId() === $token->getId()) {
+			if ($loginId === $currentLoginId) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;
 				$data['current'] = true;
 			}
-			return $data;
-		}, $tokens);
+			$entries[] = $data;
+		}
+		return $entries;
 	}
 }

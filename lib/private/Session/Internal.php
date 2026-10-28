@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
-use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OC\User\Session as UserSession;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -145,12 +144,8 @@ class Internal extends Session {
 			// Get the new id to update the token
 			$newId = $this->getId();
 
-			/** @var IProvider $tokenProvider */
-			$tokenProvider = Server::get(IProvider::class);
-
 			try {
-				$tokenProvider->renewSessionToken($oldId, $newId);
-				Server::get(UserSession::class)->renewMagicSessionId($oldId);
+				Server::get(UserSession::class)->moveSessionToken($oldId, $newId);
 			} catch (InvalidTokenException $e) {
 				// Just ignore
 			}

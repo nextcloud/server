@@ -26,7 +26,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -170,29 +169,27 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$subject = Provider::APP_TOKEN_DELETED;
 		try {
-			$token = $this->findTokenByIdAndUser($id);
-		} catch (WipeTokenException $e) {
-			// Deleting a wipe-pending token cancels the pending wipe; the device
-			// may already be uninstalled so we allow it, but record it under a
-			// distinct subject so the audit trail captures the consequence.
-			$token = $e->getToken();
-			$subject = Provider::APP_TOKEN_DELETED_WIPE_CANCELLED;
+			$tokens = $this->findLoginOfUser($id);
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
+		// Deleting a wipe-pending token cancels the pending wipe; the device
+		// may already be uninstalled so we allow it, but record it under a
+		// distinct subject so the audit trail captures the consequence.
+		$subject = $this->remoteWipe->isWipePending($tokens) ? Provider::APP_TOKEN_DELETED_WIPE_CANCELLED : Provider::APP_TOKEN_DELETED;
+
+		$this->tokenProvider->invalidateTokenById($this->userId, $id);
+		$this->publishActivity($subject, $id, ['name' => $tokens[0]->getName()]);
 		return new JSONResponse([]);
 	}
 
 	/**
-	 * Revoke the tokens of the current user other than the session's own.
+	 * Revoke the logins of the current user other than the session's own.
 	 *
-	 * Wipe-pending tokens are kept too: revoking one cancels its pending wipe, so
-	 * that stays a per-token decision.
+	 * Wipe-pending logins are kept too: revoking one cancels its pending wipe, so
+	 * that stays a per-login decision.
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
@@ -207,23 +204,26 @@ class AuthSettingsController extends Controller {
 		}
 
 		try {
-			$currentTokenId = $this->tokenProvider->getToken($this->session->getId())->getId();
+			$currentToken = $this->tokenProvider->getToken($this->session->getId());
+			$currentLoginId = $this->tokenProvider->getLoginId($currentToken);
 		} catch (SessionNotAvailableException|InvalidTokenException) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
 		$revoked = [];
-		foreach ($this->tokenProvider->getTokenByUser($this->userId) as $token) {
-			if ($token->getId() === $currentTokenId || $token->getType() === IToken::WIPE_TOKEN) {
+		foreach ($this->tokenProvider->getLoginsOfUser($this->userId) as $loginId => $tokens) {
+			if ($loginId === $currentLoginId || $this->remoteWipe->isWipePending($tokens)) {
 				continue;
 			}
 
-			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-			$revoked[] = $token->getId();
+			$this->tokenProvider->invalidateTokenById($this->userId, $loginId);
+			$revoked[] = $loginId;
 		}
+		// The other session tokens of this browser login
+		$this->tokenProvider->invalidateOtherTokensOfLogin($currentToken);
 
 		if ($revoked !== []) {
-			// One aggregate entry rather than one per token, so a bulk revoke does not bury the feed.
+			// One aggregate entry rather than one per login, so a bulk revoke does not bury the feed.
 			$this->publishActivity(Provider::APP_TOKEN_DELETED_ALL, null, ['count' => count($revoked)]);
 		}
 
@@ -239,33 +239,40 @@ class AuthSettingsController extends Controller {
 		}
 
 		try {
-			$token = $this->findTokenByIdAndUser($id);
+			$tokens = $this->findLoginOfUser($id);
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
+		if ($this->remoteWipe->isWipePending($tokens)) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
 
-		$currentName = $token->getName();
+		$currentName = $tokens[0]->getName();
 
-		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
-			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		$newScope = null;
+		if ($scope !== $tokens[0]->getScopeAsArray()) {
+			$newScope = [IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]];
+			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $id, ['name' => $currentName]);
 		}
 
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
 
-		if ($token instanceof INamedToken && $name !== $currentName) {
-			$token->setName($name);
-			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $token->getId(), ['name' => $currentName, 'newName' => $name]);
+		$newName = null;
+		if ($tokens[0] instanceof INamedToken && $name !== $currentName) {
+			$newName = $name;
+			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $id, ['name' => $currentName, 'newName' => $name]);
 		}
 
-		$this->tokenProvider->updateToken($token);
+		if ($newName !== null || $newScope !== null) {
+			$this->tokenProvider->updateLogin($this->userId, $id, $newName, $newScope);
+		}
 		return new JSONResponse([]);
 	}
 
 	/**
-	 * @param int|null $id Token the event is about, or null for events that span several tokens
+	 * @param int|null $id Login the event is about, or null for events that span several logins
 	 */
 	private function publishActivity(string $subject, ?int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
@@ -287,21 +294,18 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * Find a token by given id and check if uid for current session belongs to this token
+	 * Find the tokens of the login $id of the current user, the most recently used first
 	 *
+	 * @return non-empty-list<IToken>
 	 * @throws InvalidTokenException
 	 */
-	private function findTokenByIdAndUser(int $id): IToken {
-		try {
-			$token = $this->tokenProvider->getTokenById($id);
-		} catch (ExpiredTokenException $e) {
-			$token = $e->getToken();
-		}
-		if ($token->getUID() !== $this->userId) {
+	private function findLoginOfUser(int $id): array {
+		$tokens = $this->tokenProvider->getTokensOfLogin($this->userId, $id);
+		if ($tokens === []) {
 			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 			throw new OcInvalidTokenException('This token does not belong to you!');
 		}
-		return $token;
+		return $tokens;
 	}
 
 	/**
@@ -317,12 +321,15 @@ class AuthSettingsController extends Controller {
 		}
 
 		try {
-			$token = $this->findTokenByIdAndUser($id);
+			$tokens = $this->findLoginOfUser($id);
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
+		if ($this->remoteWipe->isWipePending($tokens)) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
 
-		if (!$this->remoteWipe->markTokenForWipe($token)) {
+		if (!$this->remoteWipe->markTokenForWipe($tokens[0])) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

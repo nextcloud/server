@@ -8,9 +8,11 @@
 namespace Tests\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Core\Command\User\AuthTokens\Delete;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +41,7 @@ class DeleteTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\Authentication\Token\IProvider $tokenProvider */
-		$this->command = new Delete($tokenProvider);
+		$this->command = new Delete($tokenProvider, new RemoteWipe($tokenProvider, $this->createMock(IEventDispatcher::class), $this->createMock(LoggerInterface::class)));
 	}
 
 	/**
@@ -174,11 +176,13 @@ class DeleteTest extends TestCase {
 
 		$this->mockOptions();
 
+		// Any token of the login counts, as they are deleted together
 		$wipeToken = $this->createMock(IToken::class);
+		$wipeToken->method('getType')->willReturn(IToken::WIPE_TOKEN);
 		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with(42)
-			->willThrowException(new WipeTokenException($wipeToken));
+			->method('getTokensOfLogin')
+			->with('user', 42)
+			->willReturn([$this->createMock(IToken::class), $wipeToken]);
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
@@ -201,8 +205,8 @@ class DeleteTest extends TestCase {
 		$this->mockOptions(null, true);
 
 		// With --cancel-wipe, the wipe-state pre-check is skipped entirely
-		// (the operator has already opted in), so getTokenById should not run.
-		$this->tokenProvider->expects($this->never())->method('getTokenById');
+		// (the operator has already opted in), so getTokensOfLogin should not run.
+		$this->tokenProvider->expects($this->never())->method('getTokensOfLogin');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')

@@ -86,16 +86,20 @@ class PublicKeyTokenMapper extends QBMapper {
 	/**
 	 * Get the token for $id
 	 *
+	 * @param bool $forUpdate Lock the row until the end of the transaction
 	 * @throws DoesNotExistException
 	 */
-	public function getTokenById(int $id): PublicKeyToken {
+	public function getTokenById(int $id, bool $forUpdate = false): PublicKeyToken {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('*')
+		$qb->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->executeQuery();
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		if ($forUpdate) {
+			$this->lockRows($qb);
+		}
+		$result = $qb->executeQuery();
 
 		$data = $result->fetchAssociative();
 		$result->closeCursor();
@@ -131,6 +135,58 @@ class PublicKeyTokenMapper extends QBMapper {
 		}, $data);
 
 		return $entities;
+	}
+
+	/**
+	 * Get the tokens of the login $loginId of $uid: the token with that id and every token that names it as its login
+	 *
+	 * @param bool $forUpdate Lock the rows until the end of the transaction
+	 * @return list<PublicKeyToken>
+	 */
+	public function getTokensOfLogin(string $uid, int $loginId, bool $forUpdate = false): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('id', $qb->createNamedParameter($loginId, IQueryBuilder::PARAM_INT)),
+				$qb->expr()->eq('login_id', $qb->createNamedParameter($loginId, IQueryBuilder::PARAM_INT)),
+			))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
+			// The same order for every caller, so concurrent locking scans can't deadlock
+			->orderBy('id');
+		if ($forUpdate) {
+			$this->lockRows($qb);
+		}
+		$result = $qb->executeQuery();
+		$data = $result->fetchAllAssociative();
+		$result->closeCursor();
+
+		return array_map(static fn (array $row): PublicKeyToken => PublicKeyToken::fromRow($row), $data);
+	}
+
+	/**
+	 * Delete the session token $id
+	 *
+	 * @return bool Whether this call deleted it
+	 */
+	public function deleteSessionToken(int $id): bool {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement() === 1;
+	}
+
+	/**
+	 * Lock the selected rows until the end of the transaction. SQLite has no row locks and allows only one writer at
+	 * a time.
+	 */
+	private function lockRows(IQueryBuilder $qb): void {
+		if ($this->db->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+			$qb->forUpdate();
+		}
 	}
 
 	public function getTokenByUserAndId(string $uid, int $id): ?string {

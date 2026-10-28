@@ -9,9 +9,8 @@ namespace OC\Core\Command\User\AuthTokens;
 
 use DateTimeImmutable;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Core\Command\Base;
-use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,6 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Delete extends Base {
 	public function __construct(
 		protected IProvider $tokenProvider,
+		private RemoteWipe $remoteWipe,
 	) {
 		parent::__construct();
 	}
@@ -39,7 +39,7 @@ class Delete extends Base {
 			->addArgument(
 				'id',
 				InputArgument::OPTIONAL,
-				'ID of the auth token to delete'
+				'ID of the auth token to delete, along with the other tokens of its login'
 			)
 			->addOption(
 				'last-used-before',
@@ -74,16 +74,10 @@ class Delete extends Base {
 			throw new RuntimeException('Not enough arguments. Specify the token <id> or use the --last-used-before option.');
 		}
 
-		if (!$cancelWipe) {
-			try {
-				$this->tokenProvider->getTokenById($id);
-			} catch (WipeTokenException $e) {
-				$output->writeln('<error>Token ' . $id . ' is marked for remote wipe. Pass --cancel-wipe to delete it anyway; the pending wipe will not run.</error>');
-				return Command::FAILURE;
-			} catch (InvalidTokenException $e) {
-				// Token doesn't exist, has expired, or is otherwise unusable.
-				// Defer to invalidateTokenById, which handles the no-op case.
-			}
+		// The other tokens of its login are deleted along with it
+		if (!$cancelWipe && $this->remoteWipe->isWipePending($this->tokenProvider->getTokensOfLogin($uid, $id))) {
+			$output->writeln('<error>Token ' . $id . ' is marked for remote wipe. Pass --cancel-wipe to delete it anyway; the pending wipe will not run.</error>');
+			return Command::FAILURE;
 		}
 
 		return $this->deleteById($uid, $id);

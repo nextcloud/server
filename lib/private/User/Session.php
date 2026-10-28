@@ -1016,18 +1016,20 @@ class Session implements IUserSession, Emitter {
 		string $sessionId,
 	): array {
 		try {
-			$sessionToken = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			// A concurrent renewal of the same session token waits until this one has published the successor
+			$login = $this->atomic(fn (): array => [
+				'sessionToken' => $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId),
+				'rememberMeToken' => $this->rotateRememberMeToken($userId, $currentToken, $oldSessionId, $sessionId),
+			], Server::get(IDBConnection::class));
 		} catch (InvalidTokenException $ex) {
 			$successor = $this->adoptSuccessor($userId, $currentToken, $oldSessionId) ?? throw $ex;
 			return $this->continueWithSuccessor($successor, $sessionId);
 		}
-		// Until the successor is published, a concurrent request finds neither the old session token nor a successor
-		$rememberMeToken = $this->rotateRememberMeToken($userId, $currentToken, $oldSessionId, $sessionId);
 		$this->logger->debug('Session token replaced', [
 			'app' => 'core',
 			'user' => $userId,
 		]);
-		return ['sessionToken' => $sessionToken, 'rememberMeToken' => $rememberMeToken];
+		return $login;
 	}
 
 	/**
@@ -1066,8 +1068,6 @@ class Session implements IUserSession, Emitter {
 	): string {
 		$newToken = $this->random->generate(32);
 		$this->userConfig->setValueString($userId, 'login_token', $newToken, (string)$this->timeFactory->getTime());
-		// Published once the successor is stored and before the old token is gone, so a concurrent request always
-		// finds one of the two remember-me tokens
 		$this->rememberMeTokenGrace->remember($currentToken, $oldSessionId, $newToken, $sessionId);
 		$this->userConfig->deleteUserConfig($userId, 'login_token', $currentToken);
 		$this->logger->debug('Remember-me token replaced', [
@@ -1094,11 +1094,13 @@ class Session implements IUserSession, Emitter {
 		if ($successor === null) {
 			return null;
 		}
+		// Revoking or wiping the login, or a password change in another session, invalidates the successor's session token
+		if (!$this->isRememberedSessionTokenOf($userId, $successor['sessionId'])) {
+			return null;
+		}
 		// A logout deletes the successor. The keys cached by this request may be older than the successor itself.
 		$this->userConfig->clearCache($userId);
-		// Revoking the session, a remote wipe or a password change in the personal settings invalidates the session
-		// token of the successor, which revokes the successor as well
-		if (!$this->isRememberedSession($userId, $successor['token'], $successor['sessionId'])) {
+		if (!$this->isStoredRememberMeToken($userId, $successor['token'])) {
 			return null;
 		}
 
@@ -1120,9 +1122,19 @@ class Session implements IUserSession, Emitter {
 		#[\SensitiveParameter]
 		string $sessionId,
 	): bool {
-		if (!$this->isStoredRememberMeToken($userId, $rememberMeToken)) {
-			return false;
-		}
+		// Checked first, so only the id of an existing user reaches the user config
+		return $this->isRememberedSessionTokenOf($userId, $sessionId)
+			&& $this->isStoredRememberMeToken($userId, $rememberMeToken);
+	}
+
+	/**
+	 * Whether the session token of $sessionId is a remembered browser session of $userId
+	 */
+	private function isRememberedSessionTokenOf(
+		string $userId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): bool {
 		try {
 			$sessionToken = $this->tokenProvider->getToken($sessionId);
 		} catch (InvalidTokenException) {
@@ -1175,33 +1187,37 @@ class Session implements IUserSession, Emitter {
 	 * login only loses its session data: its session token moves to the new session id.
 	 */
 	public function endInactiveSession(): void {
-		$cookies = $this->rememberedLoginCookies(Server::get(IRequest::class));
-		if ($cookies === null) {
+		$login = $this->rememberedLogin(Server::get(IRequest::class));
+		if ($login === null) {
 			$this->logout();
 			return;
 		}
 
 		$this->logger->debug('Ending inactive session, keeping the remembered login', [
 			'app' => 'core',
-			'user' => $cookies['username'],
+			'user' => $login['username'],
 		]);
 		try {
 			$oldSessionId = $this->session->getId();
 			$this->setVolatileActiveUser(null);
 			$this->session->clear();
-			$this->tokenProvider->renewSessionToken($oldSessionId, $this->session->getId());
-			$this->renewMagicSessionId($oldSessionId);
+			// Otherwise the remember-me login continues where a concurrent request moved the session token to
+			if (!$login['moved']) {
+				$this->moveSessionToken($oldSessionId, $this->session->getId());
+			}
 		} catch (InvalidTokenException|SessionNotAvailableException) {
 			// Without the session token the request continues as an anonymous one
 		}
 	}
 
 	/**
-	 * The cookies of a request that proves a remembered login for the session token of the current session
+	 * The remembered login a request proves for the session token of the current session
 	 *
-	 * @return ?array{username: string, token: string}
+	 * @return ?array{username: string, token: string, moved: bool} The remember-me cookies, and whether a concurrent
+	 *                                                              request that ended the same session already moved
+	 *                                                              its session token
 	 */
-	private function rememberedLoginCookies(IRequest $request): ?array {
+	private function rememberedLogin(IRequest $request): ?array {
 		if ($this->tokenProvider === null) {
 			return null;
 		}
@@ -1214,13 +1230,14 @@ class Session implements IUserSession, Emitter {
 		if ($cookies === null) {
 			return null;
 		}
-		// No user backend is set up yet when a session times out, so the session token tells whose session it is.
-		// A concurrent request that ended the same session may have moved its session token already.
-		if (!$this->isRememberedSession($cookies['username'], $cookies['token'], $sessionId)
-			&& $this->adoptSuccessor($cookies['username'], $cookies['token'], $sessionId) === null) {
-			return null;
+		// No user backend is set up yet when a session times out, so the session token tells whose session it is
+		if ($this->isRememberedSession($cookies['username'], $cookies['token'], $sessionId)) {
+			return $cookies + ['moved' => false];
 		}
-		return $cookies;
+		if ($this->adoptSuccessor($cookies['username'], $cookies['token'], $sessionId) !== null) {
+			return $cookies + ['moved' => true];
+		}
+		return null;
 	}
 
 	/**
@@ -1275,20 +1292,44 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Move the session token of the regenerated session $oldSessionId to $sessionId, and point the remember-me
+	 * cookies of the request at it
+	 *
+	 * @throws InvalidTokenException
+	 */
+	public function moveSessionToken(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): void {
+		// A concurrent renewal of the same session token waits until this one has published where it moved to
+		$this->atomic(function () use ($oldSessionId, $sessionId): void {
+			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$this->renewMagicSessionId($oldSessionId, $sessionId);
+		}, Server::get(IDBConnection::class));
+	}
+
+	/**
 	 * Point the remember-me cookie at the regenerated session id, so cookie
 	 * login can still find the token that was renewed along with it.
 	 */
-	public function renewMagicSessionId(string $oldSessionId): void {
+	private function renewMagicSessionId(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): void {
 		$cookies = $this->rememberMeCookiesFor(Server::get(IRequest::class), $oldSessionId);
 		if ($cookies === null) {
 			return;
 		}
-		$this->publishMovedSessionToken($cookies, $oldSessionId);
+		$this->publishMovedSessionToken($cookies, $oldSessionId, $sessionId);
 		$this->setMagicInCookie($cookies['username'], $cookies['token']);
 	}
 
 	/**
-	 * Let requests that still send the old session id continue with the renewed session token
+	 * Let requests that still send the old session id continue with the session token of $sessionId
 	 *
 	 * @param array{username: string, token: string} $cookies
 	 */
@@ -1297,15 +1338,10 @@ class Session implements IUserSession, Emitter {
 		array $cookies,
 		#[\SensitiveParameter]
 		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
 	): void {
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException) {
-			// Without a session id there is no renewed session token to continue with
-			return;
-		}
-		// Only a session token that a request with the old cookies can continue with. No user backend is set up yet
-		// when a session times out, so the session token tells whose session it is.
+		// Only a session token that a request with the old cookies can continue with
 		if ($this->isRememberedSession($cookies['username'], $cookies['token'], $sessionId)) {
 			$this->rememberMeTokenGrace->remember($cookies['token'], $oldSessionId, $cookies['token'], $sessionId);
 		}
