@@ -4,8 +4,10 @@
 -->
 
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
+
 import { generateUrl } from '@nextcloud/router'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
 export interface ISettingsSection {
@@ -20,6 +22,15 @@ const props = defineProps<{
 	type: 'admin' | 'personal'
 }>()
 
+const navigationItem = ref<ComponentPublicInstance | null>(null)
+
+onMounted(() => {
+	if (props.section.active) {
+		const element = navigationItem.value?.$el as HTMLElement | undefined
+		element?.scrollIntoView({ block: 'nearest' })
+	}
+})
+
 const href = computed(() => generateUrl('/settings/{type}/{section}', {
 	type: props.type === 'personal' ? 'user' : 'admin',
 	section: props.section.id,
@@ -28,6 +39,7 @@ const href = computed(() => generateUrl('/settings/{type}/{section}', {
 
 <template>
 	<NcAppNavigationItem
+		ref="navigationItem"
 		:name="section.name"
 		:active="section.active"
 		:href="href">
