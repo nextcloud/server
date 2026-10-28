@@ -28,7 +28,11 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
+use OCP\Files\Storage\IStorage;
 use OCP\Group\ISubAdmin;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -5370,5 +5374,60 @@ class UsersControllerTest extends TestCase {
 		$this->accountManager->expects($this->any())->method('getAccount')
 			->with($targetUser)
 			->willReturn($account);
+	}
+
+	public function testFillStorageInfoCountsOnlyUserFiles(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$user->method('getQuota')->willReturn('10 MB');
+
+		$rootEntry = $this->createMock(ICacheEntry::class);
+		$rootEntry->method('getSize')->willReturn(10485760);
+		$filesEntry = $this->createMock(ICacheEntry::class);
+		$filesEntry->method('getSize')->willReturn(3145728);
+		// On object store the home root also includes trashbin, versions and uploads
+		$cache = $this->createMock(ICache::class);
+		$cache->method('get')->willReturnMap([
+			['', $rootEntry],
+			['files', $filesEntry],
+		]);
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('getCache')->willReturn($cache);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getStorage')->willReturn($storage);
+		$userFolder->method('getInternalPath')->willReturn('files');
+		$this->rootFolder->method('getUserFolder')->with('alice')->willReturn($userFolder);
+
+		$api = new UsersController(
+			'provisioning_api',
+			$this->request,
+			$this->userManager,
+			$this->config,
+			$this->groupManager,
+			$this->userSession,
+			$this->accountManager,
+			$this->subAdminManager,
+			$this->l10nFactory,
+			$this->rootFolder,
+			$this->urlGenerator,
+			$this->logger,
+			$this->newUserMailHelper,
+			$this->secureRandom,
+			$this->remoteWipe,
+			$this->knownUserService,
+			$this->eventDispatcher,
+			$this->phoneNumberUtil,
+			$this->appManager,
+			$this->appConfig,
+			$this->groupDisplayNameCache,
+		);
+
+		$this->assertSame([
+			'free' => 7340032,
+			'used' => 3145728,
+			'total' => 10485760,
+			'relative' => 30.0,
+			'quota' => 10485760,
+		], self::invokePrivate($api, 'fillStorageInfo', [$user]));
 	}
 }
