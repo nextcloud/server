@@ -27,6 +27,15 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/** @var IFile[] */
 	private $nodes;
 
+	/**
+	 * Node sizes as of stream_open: reading a node can change the size it reports,
+	 * because Sabre\File::get() repairs a filecache entry that disagrees with the
+	 * storage, which would otherwise hide a short chunk.
+	 *
+	 * @var int[]
+	 */
+	private array $nodeSizes = [];
+
 	/** @var int */
 	private $pos = 0;
 
@@ -58,9 +67,10 @@ class AssemblyStream implements \Icewind\Streams\File {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
-		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
-			return $size + $file->getSize();
-		}, 0);
+		$this->nodeSizes = array_map(function (IFile $file) {
+			return $file->getSize();
+		}, $this->nodes);
+		$this->size = array_sum($this->nodeSizes);
 
 		return true;
 	}
@@ -92,12 +102,11 @@ class AssemblyStream implements \Icewind\Streams\File {
 			if (!isset($this->nodes[$nodeIndex + 1])) {
 				break;
 			}
-			$node = $this->nodes[$nodeIndex];
-			if ($nodeStart + $node->getSize() > $offset) {
+			if ($nodeStart + $this->nodeSizes[$nodeIndex] > $offset) {
 				break;
 			}
+			$nodeStart += $this->nodeSizes[$nodeIndex];
 			$nodeIndex++;
-			$nodeStart += $node->getSize();
 		}
 
 		$stream = $this->getStream($this->nodes[$nodeIndex]);
@@ -147,7 +156,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 			if (feof($this->currentStream)) {
 				fclose($this->currentStream);
-				$currentNodeSize = $this->nodes[$this->currentNode]->getSize();
+				$currentNodeSize = $this->nodeSizes[$this->currentNode];
 				if ($this->currentNodeRead < $currentNodeSize) {
 					throw new \Exception('Stream from assembly node shorter than expected, got ' . $this->currentNodeRead . ' bytes, expected ' . $currentNodeSize);
 				}
