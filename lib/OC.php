@@ -463,15 +463,10 @@ class OC {
 		$sessionName = OC_Util::getInstanceId();
 
 		try {
-			$logger = null;
-			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
-				$logger = logger('core');
-			}
-
 			// set the session name to the instance id - which is unique
 			$session = new \OC\Session\Internal(
 				$sessionName,
-				$logger,
+				logger('core'),
 			);
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
