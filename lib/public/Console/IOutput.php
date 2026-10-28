@@ -91,7 +91,7 @@ interface IOutput {
 	 * as-is. For JSON, this is the nested structure itself, wrapped under $root when it is not empty.
 	 *
 	 * @param iterable<string, iterable|string> $nodes
-	 * @since 36.0.0
+	 * @since 35.0.2
 	 */
 	public function writeTree(iterable $nodes, string $root = ''): void;
 
