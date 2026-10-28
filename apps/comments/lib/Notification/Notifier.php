@@ -88,14 +88,23 @@ class Notifier implements INotifier {
 				if ($parameters[0] !== 'files') {
 					throw new UnknownNotificationException('Unsupported comment object');
 				}
-				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
+				$userId = $notification->getUser();
+				$user = $this->userManager->get($userId);
+				if ($user !== null) {
+					$readMark = $this->commentsManager->getReadMark($parameters[0], $parameters[1], $user);
+					if ($readMark !== null && $readMark >= $comment->getCreationDateTime()) {
+						throw new AlreadyProcessedException();
+					}
+				}
+
+				$userFolder = $this->rootFolder->getUserFolder($userId);
 				$node = $userFolder->getFirstNodeById((int)$parameters[1]);
 				if ($node === null) {
 					throw new AlreadyProcessedException();
 				}
 
 				$path = rtrim($node->getPath(), '/');
-				if (str_starts_with($path, '/' . $notification->getUser() . '/files/')) {
+				if (str_starts_with($path, '/' . $userId . '/files/')) {
 					// Remove /user/files/...
 					$fullPath = $path;
 					[,,, $path] = explode('/', $fullPath, 4);
