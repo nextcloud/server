@@ -36,35 +36,35 @@ class Update extends Command {
 	protected function configure(): void {
 		$this
 			->setName('app:update')
-			->setDescription('update an app or all apps')
+			->setDescription('Update an app, or all apps, from the app store')
 			->addArgument(
 				'app-id',
 				InputArgument::OPTIONAL,
-				'update the specified app'
+				'the ID of the app to update'
 			)
 			->addOption(
 				'all',
 				null,
 				InputOption::VALUE_NONE,
-				'update all updatable apps'
+				'update all apps that have an available update'
 			)
 			->addOption(
 				'showonly',
 				null,
 				InputOption::VALUE_NONE,
-				'show update(s) without updating'
+				'only list available updates, without installing them'
 			)
 			->addOption(
 				'showcurrent',
 				null,
 				InputOption::VALUE_NONE,
-				'show currently installed version'
+				'also show the currently installed version alongside the available update (implies --showonly)'
 			)
 			->addOption(
 				'allow-unstable',
 				null,
 				InputOption::VALUE_NONE,
-				'allow updating to unstable releases'
+				'allow updating to unstable (e.g. beta) releases'
 			)
 		;
 	}
@@ -73,75 +73,100 @@ class Update extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appStoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		if ($appStoreEnabled === false) {
-			$output->writeln('App store access is disabled');
+			$output->writeln('App store access is disabled by the administrator; cannot check for updates');
 			return 1;
 		}
 
 		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
 		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
 		if ($internetAvailable === false && $isDefaultAppStore === true) {
-			$output->writeln('Internet connection is disabled, and therefore the default public App store is not reachable');
+			$output->writeln('The default app store is configured, but Internet access is disabled, so the app store cannot be reached');
 			return 1;
 		}
 
 		$singleAppId = $input->getArgument('app-id');
 		$updateFound = false;
+		$checkFailed = false;
 		$showOnly = $input->getOption('showonly') || $input->getOption('showcurrent');
 
 		if ($singleAppId) {
 			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
-			} catch (AppPathNotFoundException $e) {
-				$output->writeln($singleAppId . ' not installed');
+			} catch (AppPathNotFoundException) {
+				$output->writeln('App "' . $singleAppId . '" is not installed');
 				return 1;
 			}
 		} elseif ($input->getOption('all') || $showOnly) {
 			$apps = $this->manager->getAllAppsInAppsFolders();
 		} else {
-			$output->writeln('<error>Please specify an app to update or "--all" to update all updatable apps"</error>');
+			$output->writeln('<error>Please specify an app ID to update, or use "--all" to update all apps</error>');
 			return 1;
 		}
 
 		$return = 0;
 		foreach ($apps as $appId) {
-			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
-			if ($newVersion) {
+			try {
+				$newVersion = $this->installer->isUpdateAvailable(
+					$appId,
+					$input->getOption('allow-unstable'),
+				);
+			} catch (\Exception $e) {
+				// Handles installer/app-manager failures that escape the app-store fetcher.
+				$this->logger->error('Failure while checking for an update of app "' . $appId . '"', [
+					'app' => 'app:update',
+					'exception' => $e,
+				]);
+				$output->writeln('App "' . $appId . '" could not be checked for updates: ' . $e->getMessage());
+				$checkFailed = true;
+				$return = 1;
+				continue;
+			}
+
+			if ($newVersion !== false) {
 				$updateFound = true;
-				$message = $appId . ' new version available: ' . $newVersion;
 				if ($input->getOption('showcurrent')) {
-					$message .= ' (current version: ' . $this->manager->getAppVersion($appId) . ')';
+					$message = 'App "' . $appId . '": ' . $this->manager->getAppVersion($appId) . ' → ' . $newVersion . ' available';
+				} else {
+					$message = 'App "' . $appId . '": update available (' . $newVersion . ')';
 				}
 				$output->writeln($message);
 
 				if (!$showOnly) {
 					try {
-						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
+						$result = $this->installer->updateAppstoreApp(
+							$appId,
+							$input->getOption('allow-unstable'),
+						);
 					} catch (\Exception $e) {
 						$this->logger->error('Failure during update of app "' . $appId . '"', [
 							'app' => 'app:update',
 							'exception' => $e,
 						]);
-						$output->writeln('Error: ' . $e->getMessage());
-						$result = false;
+						$output->writeln('App "' . $appId . '" could not be updated: ' . $e->getMessage());
 						$return = 1;
+						continue;
 					}
 
 					if ($result === false) {
-						$output->writeln($appId . ' couldn\'t be updated');
+						$output->writeln('App "' . $appId . '" could not be updated');
 						$return = 1;
 					} else {
-						$output->writeln($appId . ' updated');
+						$output->writeln('App "' . $appId . '" updated successfully');
 					}
 				}
 			}
 		}
 
 		if (!$updateFound) {
-			if ($singleAppId) {
-				$output->writeln($singleAppId . ' is up-to-date or no updates could be found');
+			if ($checkFailed) {
+				if (!$singleAppId) {
+					$output->writeln('Some apps could not be checked for updates; the rest are up to date');
+				}
+			} elseif ($singleAppId) {
+				$output->writeln('App "' . $singleAppId . '" is already up to date');
 			} else {
-				$output->writeln('All apps are up-to-date or no updates could be found');
+				$output->writeln('All apps are up to date');
 			}
 		}
 
