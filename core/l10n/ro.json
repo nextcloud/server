@@ -1,6 +1,5 @@
 { "translations": {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n fișier nu corespunde versiunii semnate. Este posibil să fi fost modificat sau adăugat fără autorizare.","%n fișiere nu corespund versiunii semnate. Este posibil să fi fost modificate sau adăugate fără autorizare.","%n de fișiere nu corespund versiunii semnate. Este posibil să fi fost modificate sau adăugate fără autorizare."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Semnătura pentru %s lipsește sau este invalidă, deci nu a putut fi verificată.","Semnăturile pentru %s lipsesc sau sunt invalide, deci nu au putut fi verificate.","Semnăturile pentru %s lipsesc sau sunt nevalide, deci nu au putut fi verificate."],
     "The code integrity check result has changed" : "Rezultatul verificării integrității codului s-a schimbat",
     "Review integrity check results" : "Verifică rezultatele verificării integrității",
     "Please select a file." : "Te rugăm să alegi un fișier.",
