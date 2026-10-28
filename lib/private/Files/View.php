@@ -241,31 +241,63 @@ class View {
 	 * @param string $path relative to data/
 	 */
 	protected function removeMount($mount, $path): bool {
-		if ($mount instanceof IMovableMount) {
-			// cut of /user/files to get the relative path to data/user/files
-			$pathParts = explode('/', $path, 4);
-			$relPath = '/' . $pathParts[3];
-			$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
+		if (!$mount instanceof IMovableMount) {
+			// do not allow deleting the storage's root / the mount point
+			// because for some storages it might delete the whole contents
+			// but isn't supposed to work that way
+			return false;
+		}
+
+		// cut of /user/files to get the relative path to data/user/files
+		$pathParts = explode('/', $path, 4);
+		$relPath = '/' . $pathParts[3];
+
+		$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
+		$lockType = ILockingProvider::LOCK_SHARED;
+
+		$operationException = null;
+
+		try {
 			\OC_Hook::emit(
 				Filesystem::CLASSNAME, 'umount',
-				[Filesystem::signal_param_path => $relPath]
+				[Filesystem::signal_param_path => $relPath],
 			);
+
 			$this->changeLock($relPath, ILockingProvider::LOCK_EXCLUSIVE, true);
+			$lockType = ILockingProvider::LOCK_EXCLUSIVE;
+
 			$result = $mount->removeMount();
+
 			$this->changeLock($relPath, ILockingProvider::LOCK_SHARED, true);
+			$lockType = ILockingProvider::LOCK_SHARED;
+
 			if ($result) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, 'post_umount',
 					[Filesystem::signal_param_path => $relPath]
 				);
 			}
-			$this->unlockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			return $result;
-		} else {
-			// do not allow deleting the storage's root / the mount point
-			// because for some storages it might delete the whole contents
-			// but isn't supposed to work that way
-			return false;
+		} catch (\Throwable $e) {
+			$operationException = $e;
+			throw $e;
+		} finally {
+			try {
+				$this->unlockFile($relPath, $lockType, true);
+			} catch (\Throwable $unlockException) {
+				if ($operationException === null) {
+					throw $unlockException;
+				}
+
+				$this->logger->error(
+					'Failed to release mount-point lock while handling a mount removal failure',
+					[
+						'app' => 'core',
+						'exception' => $unlockException,
+						'operationException' => $operationException,
+					]
+				);
+			}
 		}
 	}
 
