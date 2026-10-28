@@ -266,6 +266,50 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
+	public function testUpdatePropertiesHandlesFourByteIndexedParameters(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+		$calendarId = $this->createTestCalendar();
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+UID:indexed-parameter-four-byte-test
+DTSTAMP:20240101T000000Z
+DTSTART:20240101T100000Z
+DTEND:20240101T110000Z
+ATTENDEE;CN=Attendee 🙈:mailto:attendee@example.com
+ORGANIZER;CN=Organizer 🙈:mailto:organizer@example.com
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+		$object = $this->backend->getCalendarObject($calendarId, $uri);
+		self::assertNotNull($object);
+
+		$supported = $this->db->supports4ByteText();
+		$expectedValues = [
+			'ATTENDEE' => 'Attendee ' . ($supported ? '🙈' : "\u{FFFD}"),
+			'ORGANIZER' => 'Organizer ' . ($supported ? '🙈' : "\u{FFFD}"),
+		];
+
+		foreach ($expectedValues as $property => $expectedValue) {
+			$query = $this->db->getQueryBuilder();
+			$result = $query->select('value')
+				->from('calendarobjects_props')
+				->where($query->expr()->eq('objectid', $query->createNamedParameter((int)$object['id'])))
+				->andWhere($query->expr()->eq('name', $query->createNamedParameter($property)))
+				->andWhere($query->expr()->eq('parameter', $query->createNamedParameter('CN')))
+				->setMaxResults(1)
+				->executeQuery();
+			$indexedValue = $result->fetchOne();
+			$result->closeCursor();
+
+			self::assertSame($expectedValue, $indexedValue, "$property CN index value");
+		}
+	}
+
 	public function testMultipleCalendarObjectsWithSameUID(): void {
 		$this->expectException(UidConflict::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
