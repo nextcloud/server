@@ -905,7 +905,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $oldSessionId
 	 * @return bool
 	 */
-	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
+	public function loginWithCookie(string $uid, string $currentToken, string $oldSessionId) {
 		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -913,10 +913,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
+		if (!$this->isStoredRememberMeToken($uid, $currentToken)) {
 			$this->logger->info('Tried to log in but could not verify token', [
 				'app' => 'core',
 				'user' => $uid,
@@ -1036,6 +1033,66 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * End a session that was inactive for longer than session_lifetime. A request that proves a remembered
+	 * login only loses its session data: its session token moves to the new session id.
+	 */
+	public function endInactiveSession(): void {
+		$cookies = $this->rememberedLoginCookies(Server::get(IRequest::class));
+		if ($cookies === null) {
+			$this->logout();
+			return;
+		}
+
+		$this->logger->debug('Ending inactive session, keeping the remembered login', [
+			'app' => 'core',
+			'user' => $cookies['username'],
+		]);
+		try {
+			$oldSessionId = $this->session->getId();
+			$this->setVolatileActiveUser(null);
+			$this->session->clear();
+			$this->tokenProvider->renewSessionToken($oldSessionId, $this->session->getId());
+			$this->renewMagicSessionId($oldSessionId);
+		} catch (InvalidTokenException|SessionNotAvailableException) {
+			// Without the session token the request continues as an anonymous one
+		}
+	}
+
+	/**
+	 * The cookies of a request that proves a remembered login for the session token of the current session
+	 *
+	 * @return ?array{username: string, token: string}
+	 */
+	private function rememberedLoginCookies(IRequest $request): ?array {
+		if ($this->tokenProvider === null) {
+			return null;
+		}
+		try {
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException) {
+			return null;
+		}
+		$cookies = $this->rememberMeCookiesFor($request, $sessionId);
+		if ($cookies === null) {
+			return null;
+		}
+
+		try {
+			$token = $this->tokenProvider->getToken($sessionId);
+		} catch (InvalidTokenException) {
+			return null;
+		}
+		// No user backend is set up yet when a session times out, so the session token tells whose session it is
+		if ($token->getType() !== IToken::TEMPORARY_TOKEN
+			|| $token->getRemember() !== IToken::REMEMBER
+			|| $token->getUID() !== $cookies['username']
+			|| !$this->isStoredRememberMeToken($token->getUID(), $cookies['token'])) {
+			return null;
+		}
+		return $cookies;
+	}
+
+	/**
 	 * Set cookie value to use in next page load
 	 *
 	 * @param string $username username to be set
@@ -1091,14 +1148,29 @@ class Session implements IUserSession, Emitter {
 	 * login can still find the token that was renewed along with it.
 	 */
 	public function renewMagicSessionId(string $oldSessionId): void {
-		$request = Server::get(IRequest::class);
-		$username = $request->getCookie('nc_username');
-		$token = $request->getCookie('nc_token');
-		$sessionId = $request->getCookie('nc_session_id');
-		if ($username === null || $token === null || $sessionId !== $oldSessionId) {
+		$cookies = $this->rememberMeCookiesFor(Server::get(IRequest::class), $oldSessionId);
+		if ($cookies === null) {
 			return;
 		}
-		$this->setMagicInCookie($username, $token);
+		$this->setMagicInCookie($cookies['username'], $cookies['token']);
+	}
+
+	private function isStoredRememberMeToken(string $uid, string $token): bool {
+		return in_array($token, $this->config->getUserKeys($uid, 'login_token'), true);
+	}
+
+	/**
+	 * The remember-me cookies of a request, if they point at the session $sessionId
+	 *
+	 * @return ?array{username: string, token: string}
+	 */
+	private function rememberMeCookiesFor(IRequest $request, string $sessionId): ?array {
+		$username = $request->getCookie('nc_username');
+		$token = $request->getCookie('nc_token');
+		if (!is_string($username) || !is_string($token) || $request->getCookie('nc_session_id') !== $sessionId) {
+			return null;
+		}
+		return ['username' => $username, 'token' => $token];
 	}
 
 	/**
