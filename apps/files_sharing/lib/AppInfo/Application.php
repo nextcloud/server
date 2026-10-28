@@ -55,7 +55,6 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -65,7 +64,6 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
