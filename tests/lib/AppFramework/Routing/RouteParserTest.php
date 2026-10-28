@@ -50,6 +50,24 @@ class RouteParserTest extends \Test\TestCase {
 		$this->assertSimpleRoute('/{folderId}/create', 'POST', 'FoldersController', 'create', app: 'core', route: $collection->get('core.folders.create'));
 	}
 
+	public function testParseCirclesRootRoute(): void {
+		$routes = ['routes' => [
+			['name' => 'page#teamLink', 'url' => '/t/{teamId}', 'verb' => 'GET', 'root' => ''],
+		]];
+
+		$collection = $this->parser->parseDefaultRoutes($routes, 'circles');
+		$this->assertSimpleRoute('/t/{teamId}', 'GET', 'PageController', 'teamLink', app: 'circles', route: $collection->get('circles.page.teamlink'));
+	}
+
+	public function testParseRootRouteForUnlistedApp(): void {
+		$routes = ['routes' => [
+			['name' => 'page#teamLink', 'url' => '/t/{teamId}', 'verb' => 'GET', 'root' => ''],
+		]];
+
+		$collection = $this->parser->parseDefaultRoutes($routes, 'app1');
+		$this->assertSimpleRoute('/apps/app1/t/{teamId}', 'GET', 'PageController', 'teamLink', route: $collection->get('app1.page.teamlink'));
+	}
+
 	public function testParseRoutesWithResources(): void {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/{folderId}/open', 'verb' => 'GET'],

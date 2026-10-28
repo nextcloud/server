@@ -18,6 +18,7 @@ class RouteParser {
 
 	private const array rootUrlApps = [
 		'appstore',
+		'circles',
 		'cloud_federation_api',
 		'core',
 		'files_sharing_raw',
