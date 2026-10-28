@@ -1686,7 +1686,7 @@ EOD;
 		self::assertSame(0, $deleted);
 	}
 
-	public function testSearchAndExpandRecurrences(): void {
+	public function testSearchAndExpandDailyAllDayRecurrences(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
@@ -1748,6 +1748,73 @@ EOD;
 					$end->getTimestamp(),
 					$object['DTSTART'][0]->getTimestamp(),
 					'Recurrence starting after requested end',
+				);
+			}
+		}
+	}
+
+	public function testSearchAndExpandWeeklyCountRecurrences(): void {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nextcloud//CalDAV Expand Test//EN
+BEGIN:VEVENT
+UID:weekly-count-3@example.test
+DTSTART:20250727T010000Z
+DTEND:20250727T020000Z
+SUMMARY:Weekly event
+RRULE:FREQ=WEEKLY;COUNT=3
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject(
+			$calendarId,
+			static::getUniqueID('weekly-count-3'),
+			$calData,
+		);
+
+		$start = new DateTimeImmutable('2025-07-26T00:00:00Z');
+		$end = new DateTimeImmutable('2025-08-11T00:00:00Z');
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			['timerange' => ['start' => $start, 'end' => $end]],
+			null,
+			null,
+		);
+
+		self::assertCount(1, $results);
+		$occurrences = $results[0]['objects'];
+		self::assertCount(3, $occurrences);
+
+		$expectedStarts = [
+			new DateTimeImmutable('2025-07-27T01:00:00Z'),
+			new DateTimeImmutable('2025-08-03T01:00:00Z'),
+			new DateTimeImmutable('2025-08-10T01:00:00Z'),
+		];
+
+		foreach ($occurrences as $index => $occurrence) {
+			self::assertSame(
+				$expectedStarts[$index]->getTimestamp(),
+				$occurrence['DTSTART'][0]->getTimestamp(),
+			);
+			self::assertArrayNotHasKey('RRULE', $occurrence);
+
+			// RFC 4791 permits RECURRENCE-ID to be omitted on the initial instance.
+			if ($index > 0) {
+				self::assertArrayHasKey('RECURRENCE-ID', $occurrence);
+				self::assertSame(
+					$expectedStarts[$index]->getTimestamp(),
+					$occurrence['RECURRENCE-ID'][0]->getTimestamp(),
 				);
 			}
 		}
