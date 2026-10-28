@@ -14,6 +14,7 @@ use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
+use OC\Security\Ip\Factory as IpFactory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -73,6 +74,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			'user',
 			$this->l,
 			$this->initialState,
+			new IpFactory(),
 		);
 	}
 
@@ -278,6 +280,49 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->grantPage('stateToken');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public static function dataGrantPageInitiatorAddress(): array {
+		return [
+			'not recorded' => [null, '203.0.113.5', null],
+			'same IPv4 network' => ['203.0.113.77', '203.0.113.5', null],
+			'other IPv4 network' => ['198.51.100.7', '203.0.113.5', '198.51.100.7'],
+			'same IPv6 network' => ['2001:db8:1:2::abcd', '2001:db8:1:2::1', null],
+			'other IPv6 network' => ['2001:db8:9:9::1', '2001:db8:1:2::1', '2001:db8:9:9::1'],
+			'dual stack' => ['198.51.100.7', '2001:db8:1:2::1', null],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGrantPageInitiatorAddress')]
+	public function testGrantPageInitiatorAddress(?string $initiatorIp, string $currentIp, ?string $expected): void {
+		$this->session->method('get')
+			->willReturnCallback(static fn (string $name): ?string => match ($name) {
+				'client.flow.v2.state.token' => 'stateToken',
+				'client.flow.v2.login.token' => 'loginToken',
+				default => null,
+			});
+		$this->userSession->method('getUser')
+			->willReturn($this->createMock(IUser::class));
+		$this->request->method('getRemoteAddress')
+			->willReturn($currentIp);
+
+		$flow = new LoginFlowV2();
+		$flow->setInitiatorIp($initiatorIp);
+		$this->loginFlowV2Service->method('getByLoginToken')
+			->with('loginToken')
+			->willReturn($flow);
+
+		$grantState = null;
+		$this->initialState->method('provideInitialState')
+			->willReturnCallback(static function (string $key, mixed $data) use (&$grantState): void {
+				if ($key === 'loginFlowGrant') {
+					$grantState = $data;
+				}
+			});
+
+		$this->controller->grantPage('stateToken');
+
+		$this->assertSame($expected, $grantState['initiatorAddress']);
 	}
 
 	public function testGenerateAppPasswordInvalidStateToken(): void {
