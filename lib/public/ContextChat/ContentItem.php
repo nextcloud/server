@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace OCP\ContextChat;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @since 32.0.0
  */
+#[Implementable(since: '32.0.0')]
 class ContentItem {
 	/**
 	 * @param string $itemId

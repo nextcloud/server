@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace OCP\ContextChat;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 interface IContentManager {
 	/**
 	 * Checks if the context chat app is enabled or not
