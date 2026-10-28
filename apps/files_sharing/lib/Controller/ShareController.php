@@ -49,6 +49,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
+use OCP\Util;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -391,7 +392,7 @@ class ShareController extends AuthPublicShareController {
 
 		$davPath = '';
 		if ($node !== $share->getNode()) {
-			$davPath = substr($node->getPath(), strlen($share->getNode()->getPath()));
+			$davPath = Util::encodePath(substr($node->getPath(), strlen($share->getNode()->getPath())));
 		}
 
 		$params = [];
