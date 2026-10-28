@@ -343,9 +343,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return false;
 		}
 
-		// Check if the user as admin delegation for users listing
-		$authorizedGroupMapper = Server::get(AuthorizedGroupMapper::class);
 		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			return false;
+		}
+
+		// Check whether the user has delegation for user administration
+		$authorizedGroupMapper = Server::get(AuthorizedGroupMapper::class);
 		$authorizedClasses = $authorizedGroupMapper->findAllClassesForUser($user);
 		return in_array(Users::class, $authorizedClasses, true);
 	}
