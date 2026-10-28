@@ -39,6 +39,7 @@
   "commands": {
     "command": "OCA\\Activity\\Command\\SendEmails"
   },
+  "message-handlers": [],
   "settings": {
     "admin": [
       "OCA\\Activity\\Settings\\Admin"
