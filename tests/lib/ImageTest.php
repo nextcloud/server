@@ -387,13 +387,25 @@ class ImageTest extends \Test\TestCase {
 	 * or null if there is none.
 	 */
 	private static function iccProfileOfJpeg(string $data): ?string {
+		if (!str_starts_with($data, "\xFF\xD8")) {
+			throw new \UnexpectedValueException('Not a JPEG');
+		}
 		$chunks = [];
-		$offset = 0;
-		while (($pos = strpos($data, "ICC_PROFILE\x00", $offset)) !== false) {
-			$length = (ord($data[$pos - 2]) << 8) | ord($data[$pos - 1]);
-			$sequence = ord($data[$pos + 12]);
-			$chunks[$sequence] = substr($data, $pos + 14, $length - 2 - 12 - 2);
-			$offset = $pos + 14;
+		$pos = 2;
+		while (true) {
+			if ($pos + 4 > strlen($data) || $data[$pos] !== "\xFF") {
+				throw new \UnexpectedValueException('Malformed JPEG segment at ' . $pos);
+			}
+			$marker = ord($data[$pos + 1]);
+			if ($marker === 0xDA) {
+				break;
+			}
+			$length = unpack('n', $data, $pos + 2)[1];
+			$payload = substr($data, $pos + 4, $length - 2);
+			if ($marker === 0xE2 && str_starts_with($payload, "ICC_PROFILE\x00")) {
+				$chunks[ord($payload[12])] = substr($payload, 14);
+			}
+			$pos += 2 + $length;
 		}
 		if ($chunks === []) {
 			return null;
@@ -406,14 +418,27 @@ class ImageTest extends \Test\TestCase {
 	 * Returns the ICC profile from the iCCP chunk of a PNG, or null if there is none.
 	 */
 	private static function iccProfileOfPng(string $data): ?string {
-		$pos = strpos($data, 'iCCP');
-		if ($pos === false) {
-			return null;
+		if (!str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
+			throw new \UnexpectedValueException('Not a PNG');
 		}
-		$length = unpack('N', substr($data, $pos - 4, 4))[1];
-		$chunk = substr($data, $pos + 4, $length);
-		$separator = strpos($chunk, "\x00");
-		return gzuncompress(substr($chunk, $separator + 2)) ?: null;
+		$pos = 8;
+		while ($pos + 12 <= strlen($data)) {
+			$length = unpack('N', $data, $pos)[1];
+			$type = substr($data, $pos + 4, 4);
+			if ($type === 'IDAT') {
+				break;
+			}
+			if ($type === 'iCCP') {
+				$chunk = substr($data, $pos + 8, $length);
+				if (unpack('N', $data, $pos + 8 + $length)[1] !== crc32($type . $chunk)) {
+					throw new \UnexpectedValueException('Invalid iCCP checksum');
+				}
+				$separator = strpos($chunk, "\x00");
+				return gzuncompress(substr($chunk, $separator + 2));
+			}
+			$pos += 12 + $length;
+		}
+		return null;
 	}
 
 	public function testIccProfilePreservedInJpeg(): void {
