@@ -483,6 +483,67 @@ class ImageTest extends \Test\TestCase {
 		$this->assertNull(self::iccProfileOfJpeg($img->data()));
 	}
 
+	/**
+	 * Returns a structurally valid RGB ICC profile of the given size.
+	 */
+	private static function rgbIccProfile(int $size): string {
+		$header = pack('N', $size) . str_repeat("\x00", 12) . 'RGB XYZ ' . str_repeat("\x00", 12) . 'acsp';
+		return str_pad($header, $size, "\x00");
+	}
+
+	/**
+	 * Inserts the profile as APP2 segments right after the SOI marker of a JPEG.
+	 */
+	private static function jpegWithIccProfile(string $jpeg, string $profile): string {
+		$chunks = str_split($profile, 65519);
+		$segments = '';
+		foreach ($chunks as $index => $chunk) {
+			$payload = "ICC_PROFILE\x00" . chr($index + 1) . chr(count($chunks)) . $chunk;
+			$segments .= "\xFF\xE2" . pack('n', strlen($payload) + 2) . $payload;
+		}
+		return substr($jpeg, 0, 2) . $segments . substr($jpeg, 2);
+	}
+
+	public function testOversizedIccProfileNotPreserved(): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, self::rgbIccProfile(1024)));
+		$this->assertNotNull(self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, self::rgbIccProfile(100 * 1024)));
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testIccProfileWithWrongDeclaredSizeNotPreserved(): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$profile = substr_replace(self::rgbIccProfile(1024), pack('N', 2048), 0, 4);
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, $profile));
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testCompressedIccProfileBombNotInflated(): void {
+		ob_start();
+		imagepng(imagecreatetruecolor(4, 4));
+		$png = ob_get_clean();
+		$chunkData = "ICC profile\x00\x00" . gzcompress(str_repeat("\x00", 16 * 1024 * 1024), 9);
+		$chunk = pack('N', strlen($chunkData)) . 'iCCP' . $chunkData . pack('N', crc32('iCCP' . $chunkData));
+		$png = substr($png, 0, 33) . $chunk . substr($png, 33);
+
+		$memoryBefore = memory_get_usage();
+		memory_reset_peak_usage();
+		$img = new Image();
+		$img->loadFromData($png);
+		$this->assertLessThan(4 * 1024 * 1024, memory_get_peak_usage() - $memoryBefore);
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfPng($img->data()));
+	}
+
 	public function testNonRgbIccProfileNotPreserved(): void {
 		// GD converts CMYK pixel data to RGB on load, the source profile no longer applies
 		$img = new Image();

@@ -40,6 +40,9 @@ class Image implements IImage {
 	// ICC profiles precede the image data, so the scan can stop early
 	private const ICC_SCAN_BYTE_LIMIT = 8 * 1024 * 1024;
 
+	// Upper bound for carried ICC profiles, display profiles are a few KiB at most
+	private const ICC_MAX_PROFILE_SIZE = 64 * 1024;
+
 	// tmp resource.
 	protected GdImage|false $resource = false;
 	// Default to png if file type isn't evident.
@@ -439,6 +442,8 @@ class Image implements IImage {
 
 	private static function isUsableRgbProfile(string $profile): bool {
 		return strlen($profile) >= 132 // ICC header plus tag count
+			&& strlen($profile) <= self::ICC_MAX_PROFILE_SIZE
+			&& unpack('N', $profile)[1] === strlen($profile) // declared profile size
 			&& substr($profile, 36, 4) === 'acsp' // ICC profile signature
 			&& substr($profile, 16, 4) === 'RGB '; // data colour space
 	}
@@ -449,6 +454,7 @@ class Image implements IImage {
 		$pos = 2;
 		$chunks = [];
 		$chunkCount = null;
+		$profileSize = 0;
 		while ($pos + 4 <= $len) {
 			if ($data[$pos] !== "\xFF") {
 				return null;
@@ -482,6 +488,10 @@ class Image implements IImage {
 					}
 					$chunkCount = $total;
 					$chunks[$sequence] = substr($payload, $identifierLength + 2);
+					$profileSize += strlen($chunks[$sequence]);
+					if ($profileSize > self::ICC_MAX_PROFILE_SIZE) {
+						return null;
+					}
 				}
 			}
 			$pos += 2 + $segmentLength;
@@ -507,7 +517,7 @@ class Image implements IImage {
 				break;
 			}
 			if ($type === 'iCCP') {
-				if ($pos + 8 + $chunkLength > $len) {
+				if ($chunkLength > self::ICC_MAX_PROFILE_SIZE || $pos + 8 + $chunkLength > $len) {
 					return null;
 				}
 				$chunk = substr($data, $pos + 8, $chunkLength);
@@ -519,7 +529,7 @@ class Image implements IImage {
 					// unknown compression method
 					return null;
 				}
-				$profile = @gzuncompress(substr($chunk, $separator + 2));
+				$profile = @gzuncompress(substr($chunk, $separator + 2), self::ICC_MAX_PROFILE_SIZE);
 				return $profile === false ? null : $profile;
 			}
 			$pos += 12 + $chunkLength;
