@@ -162,5 +162,26 @@ describe('Files app sidebar data provider', () => {
 			provider.onOpenStateChanged!(false)
 			expect(router.goToRoute).not.toHaveBeenCalled()
 		})
+
+		test('closes when the "opendetails" parameter is removed, also for a later router', () => {
+			const createVueRouter = () => ({ afterEach: vi.fn() })
+			const firstRouter = createVueRouter()
+			const secondRouter = createVueRouter()
+
+			Object.assign(router, { _router: firstRouter })
+			emit('files:list:updated', {} as never)
+			emit('files:list:updated', {} as never)
+			expect(firstRouter.afterEach).toHaveBeenCalledOnce()
+
+			// e.g. a file list embedded again into another app
+			Object.assign(router, { _router: secondRouter })
+			emit('files:list:updated', {} as never)
+			expect(secondRouter.afterEach).toHaveBeenCalledOnce()
+
+			useSidebarStore(pinia).open(node)
+			const hook = secondRouter.afterEach.mock.calls[0][0]
+			hook({ query: {} }, { query: { opendetails: 'true' } })
+			expect(useSidebarStore(pinia).isOpen).toBe(false)
+		})
 	})
 })

@@ -77,16 +77,18 @@ export function createFilesStoreDataProvider(pinia: Pinia = filesPinia): ISideba
 		}
 	}
 
-	let routerHookRegistered = false
+	let hookedRouter: unknown
 	// close the sidebar when the `opendetails` parameter is removed from the URL,
 	// the router is only available once the files app is mounted
+	// and embedded file lists bring their own router
 	subscribe('files:list:updated', () => {
-		if (routerHookRegistered) {
+		const router = window.OCP.Files.Router._router
+		if (hookedRouter === router) {
 			return
 		}
 
-		routerHookRegistered = true
-		window.OCP.Files.Router._router.afterEach((to, from) => {
+		hookedRouter = router
+		router.afterEach((to, from) => {
 			if ((from.query && ('opendetails' in from.query))
 				&& (to.query && !('opendetails' in to.query))) {
 				logger.debug('sidebar: closing because "opendetails" query parameter was removed from URL.')

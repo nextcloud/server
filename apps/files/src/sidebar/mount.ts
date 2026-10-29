@@ -53,3 +53,18 @@ export function mountSidebar(target: HTMLElement): boolean {
 	logger.debug('sidebar: rendered within the current app')
 	return true
 }
+
+/**
+ * Remove the sidebar from the page, if it is rendered.
+ */
+export function unmountSidebar(): void {
+	const state = getSidebarSharedState()
+	if (state.instance === undefined) {
+		return
+	}
+
+	state.instance.app.unmount()
+	state.instance.mountpoint.remove()
+	state.instance = undefined
+	logger.debug('sidebar: removed from the current app')
+}
