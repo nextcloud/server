@@ -21,7 +21,6 @@ use OCP\Security\ISecureRandom;
 class PaginateCache {
 	public const TTL = 60 * 60;
 	private const string CACHE_COUNT_SUFFIX = 'count';
-	private const string CACHE_CONTEXT_SUFFIX = 'context';
 
 	private ICache $cache;
 
@@ -41,8 +40,7 @@ class PaginateCache {
 	 */
 	public function store(string $uri, \Iterator $items, array $context): array {
 		$token = $this->random->generate(32);
-		$cacheKey = $this->buildCacheKey($uri, $token);
-		$this->cache->set($cacheKey . self::CACHE_CONTEXT_SUFFIX, $context, self::TTL + 60);
+		$cacheKey = $this->buildCacheKey($uri, $token, $context);
 
 		$count = 0;
 		foreach ($items as $item) {
@@ -60,11 +58,7 @@ class PaginateCache {
 	 * @return Generator<mixed>
 	 */
 	public function get(string $uri, string $token, int $offset, int $count, array $context): Generator {
-		$cacheKey = $this->buildCacheKey($uri, $token);
-		if (!$this->matchesContext($cacheKey, $context)) {
-			return [];
-		}
-
+		$cacheKey = $this->buildCacheKey($uri, $token, $context);
 		$nbItems = $this->cache->get($cacheKey . self::CACHE_COUNT_SUFFIX);
 		if (!$nbItems || $offset > $nbItems) {
 			return [];
@@ -80,19 +74,13 @@ class PaginateCache {
 	 * @param PaginateContext $context
 	 */
 	public function exists(string $uri, string $token, array $context): bool {
-		$cacheKey = $this->buildCacheKey($uri, $token);
-		return $this->matchesContext($cacheKey, $context)
-			&& $this->cache->get($cacheKey . self::CACHE_COUNT_SUFFIX) > 0;
+		return $this->cache->get($this->buildCacheKey($uri, $token, $context) . self::CACHE_COUNT_SUFFIX) > 0;
 	}
 
 	/**
 	 * @param PaginateContext $context
 	 */
-	private function matchesContext(string $cacheKey, array $context): bool {
-		return $this->cache->get($cacheKey . self::CACHE_CONTEXT_SUFFIX) === $context;
-	}
-
-	private function buildCacheKey(string $uri, string $token): string {
-		return $token . '_' . crc32($uri) . '_';
+	private function buildCacheKey(string $uri, string $token, array $context): string {
+		return $token . '_' . crc32($uri) . '_' . hash('sha256', json_encode($context, JSON_THROW_ON_ERROR)) . '_';
 	}
 }
