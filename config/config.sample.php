@@ -1112,6 +1112,19 @@ $CONFIG = [
 	'check_for_working_wellknown_setup' => true,
 
 	/**
+	 * Content served at ``https://example.tld/.well-known/security.txt``
+	 * (see RFC 9116). The value is delivered as plain text, exactly as given.
+	 *
+	 * Set this to your own security contact information. The ``Expires`` field is
+	 * required by RFC 9116 and has to be kept up to date by the administrator.
+	 *
+	 * If empty, the default Nextcloud security.txt is served.
+	 *
+	 * Defaults to an empty string
+	 */
+	'security_txt' => '',
+
+	/**
 	 * This is a crucial security check on Apache servers that should always be set
 	 * to ``true``. This verifies that the ``.htaccess`` file is writable and works.
 	 * If it is not, then any options controlled by ``.htaccess``, such as large
