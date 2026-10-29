@@ -89,3 +89,25 @@ Feature: live photos
     And as "user0" the file "/local_storage/live-photos/IMG.jpg" exists
     And as "user0" the file "/IMG.jpg" does not exist
     And User "user0" deletes folder "/local_storage/live-photos"
+
+  Scenario: Renaming a live photo also renames its peer
+    Given User "user0" uploads file with content "photo" to "/photo.jpg"
+    And User "user0" uploads file with content "video" to "/photo.mov"
+    And User "user0" links "/photo.jpg" as live photo to "/photo.mov"
+    And User "user0" links "/photo.mov" as live photo to "/photo.jpg"
+    When User "user0" moves file "/photo.jpg" to "/renamed.jpg"
+    Then as "user0" the file "/renamed.jpg" exists
+    And as "user0" the file "/renamed.mov" exists
+    And as "user0" the file "/photo.mov" does not exist
+
+  Scenario: Renaming a live photo does not move its peer out of a read-only share
+    Given user "user1" exists
+    And User "user0" created a folder "/handbook"
+    And User "user0" uploads file with content "chapter one" to "/handbook/chapter.txt"
+    And folder "/handbook" of user "user0" is shared with user "user1" with permissions 1
+    And User "user1" uploads file with content "photo" to "/photo.jpg"
+    And User "user1" links "/photo.jpg" as live photo to "/handbook/chapter.txt"
+    When User "user1" moves file "/photo.jpg" to "/mine.jpg"
+    Then as "user0" the file "/handbook/chapter.txt" exists
+    And as "user1" the file "/handbook/chapter.txt" exists
+    And as "user1" the file "/mine.txt" does not exist
