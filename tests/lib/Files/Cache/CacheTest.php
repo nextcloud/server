@@ -14,6 +14,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
 use OC\SystemConfig;
@@ -25,6 +26,7 @@ use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
@@ -631,6 +633,24 @@ class CacheTest extends \Test\TestCase {
 			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'size', 100), 10, 0, [], $user)));
 		$this->assertCount(2, $this->cache->searchQuery(new SearchQuery(
 			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', 100), 10, 0, [], $user)));
+	}
+
+	public function testSearchOrderedByLastActivity(): void {
+		$this->cache->put('folder', ['size' => 0, 'mtime' => 10, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$this->cache->put('folder/edited', ['size' => 1, 'mtime' => 300, 'mimetype' => 'foo/file']);
+		// Uploaded last, keeping an older mtime from the uploader's device
+		$this->cache->put('folder/uploaded', ['size' => 1, 'mtime' => 100, 'upload_time' => 400, 'mimetype' => 'foo/file']);
+		$this->cache->put('folder/old', ['size' => 1, 'mtime' => 200, 'mimetype' => 'foo/file']);
+
+		$results = $this->cache->searchQuery(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'foo/file'),
+			10,
+			0,
+			[new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'last_activity')],
+			$this->createMock(IUser::class),
+		));
+
+		$this->assertSame(['uploaded', 'edited', 'old'], array_map(fn (ICacheEntry $entry): string => $entry->getName(), $results));
 	}
 
 	public static function movePathProvider(): array {
