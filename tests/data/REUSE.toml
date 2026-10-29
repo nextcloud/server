@@ -34,10 +34,16 @@ SPDX-FileCopyrightText = "2012 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = ["testavatar.png", "testimage.avif", "testimage.gif", "testimage.jp2", "testimage.jpg", "testimage.png", "testimage-icc-p3.jpg", "testimage-icc-cmyk.jpg"]
+path = ["testavatar.png", "testimage.avif", "testimage.gif", "testimage.jp2", "testimage.jpg", "testimage.png"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2013 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["testimage-icc-cmyk.jpg", "testimage-icc-p3.jpg", "testimage-icc-p3.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2026 Nextcloud GmbH and Nextcloud contributors", "Clinton Ingram <https://github.com/saucecontrol/Compact-ICC-Profiles>"]
+SPDX-License-Identifier = "AGPL-3.0-or-later AND CC0-1.0"
 
 [[annotations]]
 path = ["lorem-big.txt", "strängé**filename**(duplicate**#2).txt"]

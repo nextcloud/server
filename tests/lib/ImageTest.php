@@ -465,6 +465,17 @@ class ImageTest extends \Test\TestCase {
 		unlink($tempFile);
 	}
 
+	public function testIccProfilePreservedFromPngSource(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.png');
+		$sourceProfile = self::iccProfileOfPng($source);
+		$this->assertNotNull($sourceProfile);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.png');
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfPng($img->data()));
+	}
+
 	public function testIccProfileNotInventedForUntaggedImage(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage.jpg');
