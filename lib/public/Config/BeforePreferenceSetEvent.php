@@ -11,6 +11,11 @@ namespace OCP\Config;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
+/**
+ * Dispatched before a user preference is set via the preferences API; the change is rejected unless a listener marks it valid.
+ *
+ * @since 25.0.0
+ */
 #[Listenable(since: '25.0.0')]
 class BeforePreferenceSetEvent extends Event {
 	protected string $userId;
