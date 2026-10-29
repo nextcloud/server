@@ -192,12 +192,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			];
 		}
 
-		$acl[] = [
-			'privilege' => '{DAV:}write-properties',
-			'principal' => $this->getOwner() . '/calendar-proxy-read',
-			'protected' => true,
-		];
-
 		if (!$this->isShared()) {
 			return $acl;
 		}
