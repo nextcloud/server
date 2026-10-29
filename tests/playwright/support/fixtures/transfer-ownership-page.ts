@@ -10,6 +10,7 @@ import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { FilesListPage } from '../sections/FilesListPage.ts'
 import { TransferOwnershipPage } from '../sections/TransferOwnershipPage.ts'
+import { retryWithBackoff } from '../utils/retry.ts'
 import { test as filesTest } from './files-page.ts'
 
 type TransferOwnershipFixtures = {
@@ -36,14 +37,7 @@ type TransferOwnershipFixtures = {
  */
 export const test = filesTest.extend<TransferOwnershipFixtures>({
 	recipient: async ({}, use) => {
-		let recipient: User
-		try {
-			recipient = await createRandomUser()
-		} catch {
-			// Retry once on transient failure, as the `user` fixture does
-			await new Promise((resolve) => setTimeout(resolve, 800))
-			recipient = await createRandomUser()
-		}
+		const recipient = await retryWithBackoff('Creating the recipient', () => createRandomUser())
 		await use(recipient)
 		await runOcc(['user:delete', recipient.userId], { failOnError: false })
 	},
@@ -62,14 +56,7 @@ export const test = filesTest.extend<TransferOwnershipFixtures>({
 	recipientPage: async ({ browser, recipient }, use) => {
 		const context = await browser.newContext()
 		const recipientPage = await context.newPage()
-		try {
-			await login(recipientPage.request, recipient)
-		} catch (error) {
-			// Same transient failure the session of `user` is retried for
-			console.info('Failed to authenticate as recipient, retrying', error)
-			await new Promise((resolve) => setTimeout(resolve, 800))
-			await login(recipientPage.request, recipient)
-		}
+		await retryWithBackoff('Authenticating as recipient', () => login(recipientPage.request, recipient))
 		await use(recipientPage)
 		await context.close()
 	},
