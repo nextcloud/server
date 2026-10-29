@@ -39,7 +39,8 @@ final class OpenedController extends OCSController {
 	 *
 	 * Clients call this when the user actually opens a node, not when they
 	 * read its content (sync, previews, downloads). Apps can listen to it to
-	 * know what the user works with.
+	 * know what the user works with. It is for statistics only: clients send it
+	 * when they choose to, so it must not be relied on for access or auditing.
 	 *
 	 * @param int $fileId ID of the opened file or folder
 	 *
