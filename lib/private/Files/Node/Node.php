@@ -13,8 +13,10 @@ use OC\Files\Utils\PathHelper;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
+use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -442,6 +444,17 @@ class Node implements INode {
 				)
 			)
 		) {
+			if (dirname($this->path) === dirname($targetPath)) {
+				$canMove = $this->canRename($parent);
+			} else {
+				// the source is removed from its folder, so it needs to be deletable unless it is a movable mount point
+				$canMove = $this->isDeletable()
+					|| ($this->getInternalPath() === '' && $this->getMountPoint() instanceof IMovableMount);
+			}
+			if (!$canMove) {
+				throw new NotPermittedException('No permission to move ' . $this->path);
+			}
+
 			$nonExisting = $this->createNonExistingNode($targetPath);
 			$this->sendHooks(['preRename'], [$this, $nonExisting]);
 			$this->sendHooks(['preWrite'], [$nonExisting]);
@@ -465,6 +478,28 @@ class Node implements INode {
 		} else {
 			throw new NotPermittedException('No permission to move to path ' . $targetPath);
 		}
+	}
+
+	/**
+	 * A rename within the same folder needs update permissions,
+	 * or delete permissions on the node and create permissions on the parent
+	 */
+	private function canRename(Folder $parent): bool {
+		// the root of a movable mount point can be renamed regardless of the file permissions
+		if ($this->getInternalPath() === '' && $this->getMountPoint() instanceof IMovableMount) {
+			return true;
+		}
+
+		if ($this->isUpdateable()) {
+			return true;
+		}
+
+		// the home folder of a user can not be renamed
+		if ($this->getStorage() instanceof IHomeStorage && $this->getInternalPath() === 'files') {
+			return false;
+		}
+
+		return $this->isDeletable() && $parent->isCreatable();
 	}
 
 	public function getCreationTime(): int {
