@@ -400,7 +400,7 @@ class Image implements IImage {
 		if ($data === false) {
 			return null;
 		}
-		return $this->embedIccProfile($data);
+		return self::embedIccProfile($data, $this->iccProfile);
 	}
 
 	/**
@@ -419,7 +419,7 @@ class Image implements IImage {
 		if (!$res || $data === false) {
 			return false;
 		}
-		$data = $this->embedIccProfile($data);
+		$data = self::embedIccProfile($data, $this->iccProfile);
 		if ($filePath === null || $filePath === '') {
 			echo $data;
 			return true;
@@ -428,24 +428,49 @@ class Image implements IImage {
 	}
 
 	/**
-	 * Remembers the source ICC profile for re-embedding into generated output.
+	 * Returns the ICC profile of an encoded JPEG or PNG image that has to be
+	 * carried into images derived from it, or null if there is none.
 	 *
 	 * Only RGB profiles are kept: GD converts CMYK and grayscale sources to RGB
 	 * pixel data on load, so their source profiles no longer describe the image.
 	 */
-	private function rememberIccProfile(\Closure $read): void {
-		$this->iccProfile = null;
+	public static function getIccProfile(string $data): ?string {
+		return self::readIccProfile(self::stringReader($data));
+	}
+
+	/**
+	 * Embeds the ICC profile into an encoded JPEG or PNG image without a profile.
+	 * Other image formats are returned unchanged.
+	 */
+	public static function embedIccProfile(string $data, ?string $profile): string {
+		if ($profile === null) {
+			return $data;
+		}
+		if (str_starts_with($data, "\xFF\xD8")) {
+			return self::embedIccProfileInJpeg($data, $profile);
+		}
+		if (str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
+			return self::embedIccProfileInPng($data, $profile);
+		}
+		return $data;
+	}
+
+	/**
+	 * @param \Closure(int, int): string $read
+	 */
+	private static function readIccProfile(\Closure $read): ?string {
 		$signature = $read(0, 8);
 		if (str_starts_with($signature, "\xFF\xD8")) {
 			$profile = self::extractIccProfileFromJpeg($read);
 		} elseif ($signature === "\x89PNG\r\n\x1a\n") {
 			$profile = self::extractIccProfileFromPng($read);
 		} else {
-			return;
+			return null;
 		}
-		if ($profile !== null && self::isUsableRgbProfile($profile) && !self::isSrgbProfile($profile)) {
-			$this->iccProfile = $profile;
+		if ($profile === null || !self::isUsableRgbProfile($profile) || self::isSrgbProfile($profile)) {
+			return null;
 		}
+		return $profile;
 	}
 
 	/**
@@ -672,25 +697,9 @@ class Image implements IImage {
 		return null;
 	}
 
-	private function embedIccProfile(string $data): string {
-		if ($this->iccProfile === null) {
-			return $data;
-		}
-		if (str_starts_with($data, "\xFF\xD8")) {
-			return $this->embedIccProfileInJpeg($data);
-		}
-		if (str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
-			return $this->embedIccProfileInPng($data);
-		}
-		return $data;
-	}
-
-	private function embedIccProfileInJpeg(string $data): string {
-		$chunks = str_split($this->iccProfile, self::JPEG_ICC_MAX_CHUNK_SIZE);
+	private static function embedIccProfileInJpeg(string $data, string $profile): string {
+		$chunks = str_split($profile, self::JPEG_ICC_MAX_CHUNK_SIZE);
 		$total = count($chunks);
-		if ($total > 255) {
-			return $data;
-		}
 		// APP2 segments belong before the image data, after the APP0/APP1
 		// (JFIF/EXIF) segments the encoder may have written
 		$len = strlen($data);
@@ -712,13 +721,13 @@ class Image implements IImage {
 		return substr($data, 0, $pos) . $segments . substr($data, $pos);
 	}
 
-	private function embedIccProfileInPng(string $data): string {
+	private static function embedIccProfileInPng(string $data, string $profile): string {
 		// IHDR is required to be first and has a fixed size; iCCP belongs before PLTE and IDAT
 		$ihdrEnd = 8 + 8 + 13 + 4;
 		if (strlen($data) < $ihdrEnd || substr($data, 12, 4) !== 'IHDR') {
 			return $data;
 		}
-		$chunkData = "ICC profile\x00\x00" . gzcompress($this->iccProfile);
+		$chunkData = "ICC profile\x00\x00" . gzcompress($profile);
 		$payload = 'iCCP' . $chunkData;
 		$chunk = pack('N', strlen($chunkData)) . $payload . pack('N', crc32($payload));
 		return substr($data, 0, $ihdrEnd) . $chunk . substr($data, $ihdrEnd);
@@ -1160,10 +1169,11 @@ class Image implements IImage {
 			$this->imageType = $iType;
 			$this->mimeType = image_type_to_mime_type($iType);
 			$this->filePath = $imagePath;
+			$this->iccProfile = null;
 			if ($iType === IMAGETYPE_JPEG || $iType === IMAGETYPE_PNG) {
 				$handle = @fopen($imagePath, 'rb');
 				if ($handle !== false) {
-					$this->rememberIccProfile(self::streamReader($handle));
+					$this->iccProfile = self::readIccProfile(self::streamReader($handle));
 					fclose($handle);
 				}
 			}
@@ -1186,7 +1196,7 @@ class Image implements IImage {
 		if ($this->valid()) {
 			imagealphablending($this->resource, false);
 			imagesavealpha($this->resource, true);
-			$this->rememberIccProfile(self::stringReader($str));
+			$this->iccProfile = self::getIccProfile($str);
 		}
 
 		if (!$this->resource) {
@@ -1216,7 +1226,7 @@ class Image implements IImage {
 				$this->logger->debug('Image->loadFromBase64, could not load', ['app' => 'core']);
 				return false;
 			}
-			$this->rememberIccProfile(self::stringReader($data));
+			$this->iccProfile = self::getIccProfile($data);
 			return $this->resource;
 		} else {
 			return false;
