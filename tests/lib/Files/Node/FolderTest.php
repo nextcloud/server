@@ -820,6 +820,59 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals([$id1, $id2, $id3], $ids);
 	}
 
+	public function testRecentIncludesUploads(): void {
+		$manager = $this->createMock(Manager::class);
+		$view = $this->getRootViewMock();
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
+		$root = $this->getMockBuilder(Root::class)
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
+			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
+			->getMock();
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
+		$folderInfo = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()->getMock();
+
+		$baseTime = time();
+		$storage = new Temporary();
+		$mount = new MountPoint($storage, '');
+
+		$folderInfo->method('getMountPoint')->willReturn($mount);
+		$root->method('getMount')->willReturn($mount);
+		$root->method('getMountsIn')->willReturn([]);
+
+		$cache = $storage->getCache();
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$cache->insert('bar', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$edited = $cache->put('bar/edited.txt', [
+			'storage_mtime' => $baseTime - 100,
+			'mtime' => $baseTime - 100,
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'permissions' => Constants::PERMISSION_ALL,
+		]);
+		// Uploaded just now, keeping the mtime it had on the uploader's device
+		$uploaded = $cache->put('bar/uploaded.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime - 30 * 24 * 60 * 60,
+			'upload_time' => $baseTime,
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'permissions' => Constants::PERMISSION_ALL,
+		]);
+		$cache->put('bar/old.txt', [
+			'storage_mtime' => $baseTime - 30 * 24 * 60 * 60,
+			'mtime' => $baseTime - 30 * 24 * 60 * 60,
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'permissions' => Constants::PERMISSION_ALL,
+		]);
+
+		$node = new Folder($root, $view, '/bar', $folderInfo);
+
+		$ids = array_map(fn (Node $node): int => (int)$node->getId(), $node->getRecent(5));
+		$this->assertEquals([$uploaded, $edited], $ids);
+	}
+
 	public function testRecentFolder(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
