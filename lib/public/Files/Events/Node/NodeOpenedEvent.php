@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Files\Events\Node;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\JsonSerializer;
 use OCP\Files\Node;
 use OCP\IUser;
@@ -22,6 +23,7 @@ use OCP\IUser;
  *
  * @since 36.0.0
  */
+#[Listenable(since: '36.0.0')]
 class NodeOpenedEvent extends AbstractNodeEvent {
 	/**
 	 * @since 36.0.0
