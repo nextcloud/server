@@ -659,6 +659,11 @@ class Local extends Common {
 	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
+			// check before resolving the jail, as that also drops any permission mask of the source
+			if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+				return false;
+			}
+
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
