@@ -130,9 +130,9 @@ export interface PredefinedValue {
 	/** The value that gets stored */
 	id: string
 	label: string
-	/** A global icon class */
-	icon?: string
-	/** An image to show instead of an icon class */
+	/** An SVG path, e.g. from `@mdi/js` */
+	iconPath?: string
+	/** An image to show instead of an SVG path */
 	iconUrl?: string
 }
 
