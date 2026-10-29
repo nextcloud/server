@@ -227,7 +227,7 @@ final class OauthApiController extends Controller {
 				$code,
 				$newCode,
 				$newEncryptedToken,
-				$grant_type === 'authorization_code',
+				$grant_type,
 			);
 
 			if ($updatedRows !== 1) {
