@@ -247,7 +247,7 @@ class ImageManagerTest extends TestCase {
 			->with('0')
 			->willReturn($folder);
 		$this->rootFolder->expects($this->once())
-			->method('getDirectoryListing')
+			->method('getFolderListing')
 			->willReturn([]);
 		$this->assertEquals($folder, $this->imageManager->getCacheFolder());
 	}
@@ -339,7 +339,7 @@ class ImageManagerTest extends TestCase {
 			->with('cachebuster')
 			->willReturn(2);
 		$this->rootFolder->expects($this->once())
-			->method('getDirectoryListing')
+			->method('getFolderListing')
 			->willReturn($folders);
 		$this->rootFolder->expects($this->once())
 			->method('getFolder')
