@@ -11,9 +11,11 @@ declare(strict_types=1);
 namespace Test\Activity;
 
 use OC\Activity\Manager;
+use OC\Import\ImportScope;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
+use OCP\Activity\ISetting;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -34,6 +36,7 @@ class ManagerTest extends TestCase {
 	protected IValidator&MockObject $validator;
 	protected IRichTextFormatter&MockObject $richTextFormatter;
 	private ITimeFactory&MockObject $time;
+	private ImportScope $importScope;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -45,6 +48,7 @@ class ManagerTest extends TestCase {
 		$this->validator = $this->createMock(IValidator::class);
 		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 		$this->time = $this->createMock(ITimeFactory::class);
+		$this->importScope = new ImportScope();
 
 		$this->activityManager = new Manager(
 			$this->request,
@@ -54,6 +58,7 @@ class ManagerTest extends TestCase {
 			$this->richTextFormatter,
 			$this->createMock(IL10N::class),
 			$this->time,
+			$this->importScope,
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));
@@ -286,6 +291,45 @@ class ManagerTest extends TestCase {
 		});
 
 		$this->activityManager->publish($event);
+	}
+
+	private function generateCompleteEvent(): IEvent {
+		return $this->activityManager->generateEvent()
+			->setApp('test_app')
+			->setType('test_type')
+			->setAffectedUser('test_affected')
+			->setAuthor('test_author')
+			->setTimestamp(1337)
+			->setSubject('test_subject', [])
+			->setObject('file', 42);
+	}
+
+	private function registerConsumerReceiving(int $times): void {
+		$consumer = $this->createMock(IConsumer::class);
+		$consumer->expects($this->exactly($times))
+			->method('receive');
+		$this->activityManager->registerConsumer(fn () => $consumer);
+	}
+
+	public function testPublishDuringImport(): void {
+		$this->registerConsumerReceiving(1);
+
+		$this->importScope->run(fn () => $this->activityManager->publish($this->generateCompleteEvent()));
+		$this->activityManager->publish($this->generateCompleteEvent());
+	}
+
+	public function testPublishDuringImportStillValidates(): void {
+		$this->expectException(IncompleteActivityException::class);
+
+		$this->importScope->run(fn () => $this->activityManager->publish($this->activityManager->generateEvent()));
+	}
+
+	public function testBulkPublishDuringImport(): void {
+		$this->registerConsumerReceiving(2);
+		$setting = $this->createMock(ISetting::class);
+
+		$this->importScope->run(fn () => $this->activityManager->bulkPublish($this->generateCompleteEvent(), ['alice', 'bob'], $setting));
+		$this->activityManager->bulkPublish($this->generateCompleteEvent(), ['alice', 'bob'], $setting);
 	}
 }
 

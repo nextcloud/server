@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Notifications\App;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\Import\IImportScope;
 use OCP\IUserManager;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IApp;
@@ -62,6 +63,7 @@ class Manager implements IManager {
 		protected LoggerInterface $logger,
 		private Coordinator $coordinator,
 		private IRichTextFormatter $richTextFormatter,
+		private IImportScope $importScope,
 	) {
 		$this->cache = $cacheFactory->createDistributed('notifications');
 
@@ -303,6 +305,10 @@ class Manager implements IManager {
 	public function notify(INotification $notification): void {
 		if (!$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
+		}
+
+		if ($this->importScope->isActive()) {
+			return;
 		}
 
 		$apps = $this->getApps();

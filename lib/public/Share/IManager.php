@@ -28,6 +28,7 @@ interface IManager {
 	 *
 	 * @throws \Exception
 	 * @since 9.0.0
+	 * @since 36.0.0 sends no share mail while an import runs ({@see \OCP\Import\IImportScope})
 	 */
 	public function createShare(IShare $share): IShare;
 
