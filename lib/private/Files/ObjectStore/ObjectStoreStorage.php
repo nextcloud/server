@@ -82,7 +82,13 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
-			$this->logger->warning("Tried to create an object store folder that already exists: $path");
+			// The storage root is created on the fly by getMetaData() whenever the
+			// cache has no entry for it, so a caller that only wants to make sure the
+			// root exists would be warned about a folder this storage just created
+			// itself. An existing root is never an error, so say nothing about it.
+			if ($path !== '') {
+				$this->logger->warning("Tried to create an object store folder that already exists: '$path'");
+			}
 			return false;
 		}
 
@@ -304,8 +310,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
-		if (strrpos($path, '.') !== false) {
-			$ext = substr($path, strrpos($path, '.'));
+		$baseName = basename($path);
+		if (strrpos($baseName, '.') !== false) {
+			$ext = substr($baseName, strrpos($baseName, '.'));
 		} else {
 			$ext = '';
 		}
@@ -366,6 +373,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				}
 
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
+				if ($tmpFile === false) {
+					return false;
+				}
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
@@ -380,6 +390,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			case 'c':
 			case 'c+':
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
+				if ($tmpFile === false) {
+					return false;
+				}
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
@@ -933,7 +946,10 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	#[Override]
 	public function getDirectDownloadById(string $fileId): array|false {
 		$expiration = new \DateTimeImmutable('+60 minutes');
-		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration);
+		$cacheEntry = $this->getCache()->get((int)$fileId);
+		$name = $cacheEntry ? $cacheEntry->getName() : null;
+		$filename = is_string($name) && $name !== '' ? $name : null;
+		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration, $filename);
 		return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
 	}
 

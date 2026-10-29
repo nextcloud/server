@@ -89,7 +89,6 @@ class InvitationResponseServer {
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 		$this->server->addPlugin(new PublishPlugin(
-			Server::get(IConfig::class),
 			Server::get(IURLGenerator::class)
 		));
 

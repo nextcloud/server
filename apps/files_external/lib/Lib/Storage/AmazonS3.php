@@ -801,6 +801,7 @@ class AmazonS3 extends Common {
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $path,
+			'ResponseContentDisposition' => $this->attachmentContentDisposition(basename($path)),
 		]);
 		$expiration = new \DateTimeImmutable('+60 minutes');
 

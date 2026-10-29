@@ -21,6 +21,7 @@ use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\AddMissingIndicesListener;
 use OC\Core\Listener\AddMissingPrimaryKeyListener;
+use OC\Core\Listener\AvatarVersionListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
@@ -42,6 +43,7 @@ use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDir
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -104,6 +106,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class, -10);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, PasswordUpdatedListener::class);
+		$context->registerEventListener(UserUpdatedEvent::class, AvatarVersionListener::class);
+		$context->registerEventListener(UserChangedEvent::class, AvatarVersionListener::class);
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dashboard",
     {
     "Dashboard" : "Infopanel",
-    "Dashboard app" : "Aplikácia Infopanel",
+    "Dashboard app" : "Aplikácia Nástenka",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Začnite svoj deň informovaní\n\nNextcloud Infopanel je vaším východiskovým bodom dňa, ktorý vám poskytne prehľad o vašich nadchádzajúcich stretnutiach, naliehavých e-mailoch, správach, prijatých lístkoch, najnovších tweetoch a mnohom ďalšom! Ľudia si môžu pridať rozšírenia, ktoré sa im páčia, a zmeniť si pozadie podľa svojich predstáv.",
     "Weather" : "Počasie",
     "Status" : "Stav",

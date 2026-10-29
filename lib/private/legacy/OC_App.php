@@ -10,17 +10,13 @@ declare(strict_types=1);
 
 use OC\App\AppManager;
 use OC\Installer;
-use OC\NeedsUpdateException;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IL10N;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -32,32 +28,17 @@ use Psr\Log\LoggerInterface;
  * This class manages the apps. It allows them to register and integrate in the
  * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
+ * @deprecated 36.0.0 There are no more non-deprecated methods in there
  */
 class OC_App {
-	private static array $alreadyRegistered = [];
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
 	public const supportedApp = 300;
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
 	public const officialApp = 200;
-
-	/**
-	 * @internal
-	 */
-	public static function reset(): void {
-		self::$alreadyRegistered = [];
-	}
-
-	/**
-	 * clean the appId
-	 *
-	 * @psalm-taint-escape file
-	 * @psalm-taint-escape include
-	 * @psalm-taint-escape html
-	 * @psalm-taint-escape has_quotes
-	 *
-	 * @deprecated 31.0.0 use IAppManager::cleanAppId
-	 */
-	public static function cleanAppId(string $app): string {
-		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
-	}
 
 	/**
 	 * Check if an app is loaded
@@ -97,15 +78,6 @@ class OC_App {
 	 */
 	public static function loadApp(string $app): void {
 		Server::get(IAppManager::class)->loadApp($app);
-	}
-
-	/**
-	 * Check if an app is of a specific type
-	 *
-	 * @deprecated 27.0.0 use IAppManager::isType
-	 */
-	public static function isType(string $app, array $types): bool {
-		return Server::get(IAppManager::class)->isType($app, $types);
 	}
 
 	/**
@@ -181,72 +153,6 @@ class OC_App {
 	}
 
 	/**
-	 * Find the apps root for an app id.
-	 *
-	 * If multiple copies are found, the apps root the latest version is returned.
-	 *
-	 * @param bool $ignoreCache ignore cache and rebuild it
-	 * @return false|array{path: string, url: string} the apps root shape
-	 * @deprecated 32.0.0 internal, use getAppPath or getAppWebPath
-	 */
-	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
-		return Server::get(AppManager::class)->findAppInDirectories($appId, $ignoreCache);
-	}
-
-	/**
-	 * get app's version based on it's path
-	 *
-	 * @deprecated 32.0.0 use Server::get(IAppManager)->getAppInfoByPath() with the path to info.xml directly
-	 */
-	public static function getAppVersionByPath(string $path): string {
-		$infoFile = $path . '/appinfo/info.xml';
-		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
-		return $appData['version'] ?? '';
-	}
-
-	/**
-	 * get the id of loaded app
-	 * @deprecated 34.0.0 Don’t do that
-	 */
-	public static function getCurrentApp(): string {
-		if (\OC::$CLI) {
-			return '';
-		}
-
-		$request = Server::get(IRequest::class);
-		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
-		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
-		if (empty($topFolder)) {
-			try {
-				$path_info = $request->getPathInfo();
-			} catch (Exception $e) {
-				// Can happen from unit tests because the script name is `./vendor/bin/phpunit` or something a like then.
-				Server::get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
-				return '';
-			}
-			if ($path_info) {
-				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
-			}
-		}
-		if ($topFolder === 'apps') {
-			$length = strlen($topFolder);
-			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1) ?: '';
-		} else {
-			return $topFolder;
-		}
-	}
-
-	/**
-	 * get a list of all apps in the apps folder
-	 *
-	 * @return string[] an array of app names (string IDs)
-	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
-	 */
-	public static function getAllApps(): array {
-		return Server::get(IAppManager::class)->getAllAppsInAppsFolders();
-	}
-
-	/**
 	 * List all supported apps
 	 *
 	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
@@ -259,6 +165,7 @@ class OC_App {
 
 	/**
 	 * List all apps, this is used in apps.php
+	 * @deprecated 36.0.0 Use your own logic around IAppManager, this is legacy specific formatting
 	 */
 	public function listAllApps(): array {
 		$appManager = Server::get(IAppManager::class);
@@ -336,34 +243,6 @@ class OC_App {
 	}
 
 	/**
-	 * @deprecated 32.0.0 Use IAppManager::isUpgradeRequired instead
-	 */
-	public static function shouldUpgrade(string $app): bool {
-		return Server::get(IAppManager::class)->isUpgradeRequired($app);
-	}
-
-	/**
-	 * Check whether the current Nextcloud version matches the given
-	 * application's version requirements.
-	 *
-	 * The comparison is made based on the number of parts that the
-	 * app info version has. For example for ownCloud 6.0.3 if the
-	 * app info version is expecting version 6.0, the comparison is
-	 * made on the first two parts of the ownCloud version.
-	 * This means that it's possible to specify "requiremin" => 6
-	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
-	 *
-	 * @param string $ocVersion Nextcloud version to check against
-	 * @param array $appInfo app info (from xml)
-	 *
-	 * @return bool true if compatible, otherwise false
-	 * @deprecated 32.0.0 Use IAppManager::isAppCompatible instead
-	 */
-	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
-		return Server::get(IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
-	}
-
-	/**
 	 * get the installed version of all apps
 	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions or IAppConfig::getAppInstalledVersions instead
 	 */
@@ -382,33 +261,5 @@ class OC_App {
 		} catch (AppPathNotFoundException $e) {
 			return false;
 		}
-	}
-
-	/**
-	 * @param string $appId
-	 * @param string[] $steps
-	 * @throws NeedsUpdateException
-	 * @deprecated 34.0.0 Use {@see \OC\App\AppManager::executeRepairSteps}
-	 */
-	public static function executeRepairSteps(string $appId, array $steps) {
-		Server::get(AppManager::class)->executeRepairSteps($appId, $steps);
-	}
-
-	/**
-	 * @deprecated 32.0.0 Use the IJobList directly instead
-	 */
-	public static function setupBackgroundJobs(array $jobs): void {
-		$queue = Server::get(IJobList::class);
-		foreach ($jobs as $job) {
-			$queue->add($job);
-		}
-	}
-
-	/**
-	 * @throws \Exception
-	 * @deprecated 34.0.0 Use {@see \OC\App\AppManager::checkAppDependencies} instead
-	 */
-	public static function checkAppDependencies(IConfig $config, IL10N $l, array $info, bool $ignoreMax): void {
-		Server::get(AppManager::class)->checkAppDependencies($info['id'], $ignoreMax);
 	}
 }

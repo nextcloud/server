@@ -9,7 +9,7 @@ import SearchableList from '../../components/UnifiedSearch/SearchableList.vue'
 
 function factory() {
 	return shallowMount(SearchableList, {
-		propsData: { searchList: [], emptyContentText: 'Nothing found' },
+		props: { searchList: [], emptyContentText: 'Nothing found' },
 		global: { mocks: { t: (_: string, s: string) => s } },
 	})
 }
@@ -23,19 +23,16 @@ describe('SearchableList', () => {
 		expect(factory().findComponent(NcPopover).props('noFocusTrap')).not.toBe(true)
 	})
 
-	// Vue 2.7 does not normalize v-on names, so these must match the modal's
-	// kebab-case @item-selected / @search-term-change listeners exactly, or picking a
-	// person and typing in the search silently do nothing.
-	it('emits item-selected when an item is picked', () => {
+	it('emits itemSelected when an item is picked', () => {
 		const wrapper = factory()
 		const person = { id: 'u1', user: 'alice', displayName: 'Alice' }
 		wrapper.vm.itemSelected(person)
-		expect(wrapper.emitted('item-selected')?.[0]).toEqual([person])
+		expect(wrapper.emitted('itemSelected')?.[0]).toEqual([person])
 	})
 
-	it('emits search-term-change when the search term changes', () => {
+	it('emits searchTermChange when the search term changes', () => {
 		const wrapper = factory()
 		wrapper.vm.searchTermChanged('bob')
-		expect(wrapper.emitted('search-term-change')?.[0]).toEqual(['bob'])
+		expect(wrapper.emitted('searchTermChange')?.[0]).toEqual(['bob'])
 	})
 })

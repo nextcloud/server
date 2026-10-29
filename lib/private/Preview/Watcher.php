@@ -50,6 +50,10 @@ class Watcher {
 		}
 
 		[$node->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$nodeId]);
+		if ($previews === []) {
+			return;
+		}
+
 		$this->connection->beginTransaction();
 		try {
 			foreach ($previews as $preview) {

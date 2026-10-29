@@ -10,6 +10,7 @@ import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import DeleteSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { getNavigation, View } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
@@ -80,22 +81,25 @@ export default () => {
 		}))
 	}
 
-	Navigation.register(new View({
-		id: sharingByLinksViewId,
-		name: t('files_sharing', 'Shared by link'),
-		caption: t('files_sharing', 'List of files that are shared by link.'),
+	// Don't show this view if sharing by link is disabled.
+	if (getCapabilities().files_sharing?.public.enabled) {
+		Navigation.register(new View({
+			id: sharingByLinksViewId,
+			name: t('files_sharing', 'Shared by link'),
+			caption: t('files_sharing', 'List of files that are shared by link.'),
 
-		emptyTitle: t('files_sharing', 'No shared links'),
-		emptyCaption: t('files_sharing', 'Files and folders you shared by link will show up here'),
+			emptyTitle: t('files_sharing', 'No shared links'),
+			emptyCaption: t('files_sharing', 'Files and folders you shared by link will show up here'),
 
-		icon: LinkSvg,
-		order: 3,
-		parent: sharesViewId,
+			icon: LinkSvg,
+			order: 3,
+			parent: sharesViewId,
 
-		columns: [],
+			columns: [],
 
-		getContents: () => getContents(false, true, false, false, [ShareType.Link]),
-	}))
+			getContents: () => getContents(false, true, false, false, [ShareType.Link]),
+		}))
+	}
 
 	Navigation.register(new View({
 		id: fileRequestViewId,

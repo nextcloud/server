@@ -16,10 +16,10 @@ use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\Core\BackgroundJobs\CheckCodeIntegrityJob;
 use OC\Core\BackgroundJobs\CleanupBackgroundJobsJob;
 use OC\Core\BackgroundJobs\ExpirePreviewsJob;
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
-use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Setup\AbstractDatabase;
@@ -317,7 +317,11 @@ class Setup {
 	/**
 	 * @return array<string|array> errors
 	 */
-	public function install(array $options, ?IOutput $output = null): array {
+	public function install(
+		#[\SensitiveParameter]
+		array $options,
+		?IOutput $output = null,
+	): array {
 		$l = $this->l10n;
 
 		$error = [];
@@ -533,9 +537,9 @@ class Setup {
 		$jobList->add(CleanupDeletedUsers::class);
 		$jobList->add(CleanupLoginTokens::class);
 		$jobList->add(GenerateMetadataJob::class);
-		$jobList->add(PreviewMigrationJob::class);
 		$jobList->add(ExpirePreviewsJob::class);
 		$jobList->add(CleanupBackgroundJobsJob::class);
+		$jobList->add(CheckCodeIntegrityJob::class);
 	}
 
 	/**

@@ -41,7 +41,7 @@ interface IGroup {
 	/**
 	 * get all users in the group
 	 *
-	 * @return IUser[]
+	 * @return array<string, IUser>
 	 * @since 8.0.0
 	 */
 	public function getUsers(): array;

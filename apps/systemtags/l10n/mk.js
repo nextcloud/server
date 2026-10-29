@@ -110,10 +110,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Неуспешно вчитување на ознаки за датотека",
     "Failed to set tag for file" : "Неуспешно поставување на ознака за датотека",
     "Failed to delete tag for file" : "Неуспешно бришење ознака за датотека",
-    "Collaborative tags …" : "Колаборативни ознаки ...",
-    "Loading …" : "Се вчитува…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ќе се постави а {tag2} ќе се острани од една датотека.","{tag1} ќе се постави а {tag2} ќе се отстрани од {count} датотеки."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ќе се острани од една датотека.","{tag} ќе се отстрани од {count} датотеки."],
-    "Loading collaborative tags …" : "Вчитување на колаборативни ознаки"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ќе се острани од една датотека.","{tag} ќе се отстрани од {count} датотеки."]
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

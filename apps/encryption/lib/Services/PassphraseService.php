@@ -47,7 +47,13 @@ class PassphraseService {
 	/**
 	 * Change a user's encryption passphrase
 	 */
-	public function setPassphraseForUser(string $userId, string $password, ?string $recoveryPassword = null): bool {
+	public function setPassphraseForUser(
+		string $userId,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		?string $recoveryPassword = null,
+	): bool {
 		// if we are in the process to resetting a user password, we have nothing
 		// to do here
 		if (isset($this->passwordResetUsers[$userId])) {

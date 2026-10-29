@@ -12,7 +12,7 @@
 			<NcCheckboxRadioSwitch
 				v-bind="selectAllBind"
 				data-cy-files-list-selection-checkbox
-				@update:model-value="onToggleAll" />
+				@update:modelValue="onToggleAll" />
 
 			<!-- Batch selection UI lives in the select-all cell so column headers
 			     stay valid and Tab order stays in document flow
@@ -22,8 +22,8 @@
 					{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
 				</span>
 				<FilesListTableHeaderActions
-					:current-view="currentView"
-					:selected-nodes="selectedNodes" />
+					:currentView="currentView"
+					:selectedNodes="selectedNodes" />
 			</template>
 		</th>
 
@@ -118,9 +118,9 @@ import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useFilesSorting } from '../composables/filesSorting.ts'
+import { useFileListLayout } from '../composables/useFileListLayout.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -134,10 +134,6 @@ export default defineComponent({
 		FilesListTableHeaderButton,
 		NcCheckboxRadioSwitch,
 	},
-
-	mixins: [
-		filesSortingMixin,
-	],
 
 	props: {
 		currentView: {
@@ -172,7 +168,7 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const { directory } = useRouteParameters()
 
-		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 
 		return {
 			activeStore,
@@ -180,17 +176,15 @@ export default defineComponent({
 			selectionStore,
 
 			directory,
-			isNarrow,
+			layout,
+
+			...useFilesSorting(),
 		}
 	},
 
 	computed: {
 		columns() {
-			// Hide columns if the list is too small
-			if (this.isNarrow) {
-				return []
-			}
-			return this.activeStore.activeView?.columns || []
+			return this.layout.columns
 		},
 
 		dir() {
@@ -202,8 +196,8 @@ export default defineComponent({
 			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
-				checked: this.isAllSelected,
 				indeterminate: this.isSomeSelected,
+				modelValue: this.isAllSelected,
 				title: label,
 			}
 		},

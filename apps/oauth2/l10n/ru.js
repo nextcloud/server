@@ -1,7 +1,8 @@
 OC.L10N.register(
     "oauth2",
     {
-    "Your client is not authorized to connect. Please inform the administrator of your client." : "Ваш клиент не имеет разрешения на подключение. Сообщите об этом администратору вашего клиента.",
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Клиенту не разрешено подключаться. Сообщите об этом администратору клиента.",
+    "Client name cannot be empty." : "Имя клиента не может быть пустым.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL перенаправления должен быть полным URL, например: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Позволяет другим веб-приложениям выполнять аутентификацию, совместимую с OAuth2.",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Удалить клиента",
     "Make sure you store the secret key, it cannot be recovered." : "Обязательно сохраните секретный ключ: восстановить его будет невозможно.",
     "Add client" : "Добавить клиента",
-    "Add" : "Добавить",
-    "Client Identifier" : "Идентификатор клиента",
-    "Show client secret" : "Показать секретный ключ клиента",
-    "Hide client secret" : "Скрыть секретный ключ клиента"
+    "Add" : "Добавить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

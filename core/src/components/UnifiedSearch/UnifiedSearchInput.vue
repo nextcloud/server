@@ -127,7 +127,7 @@ const emit = defineEmits<{
 	/** Open the currently selected result (Enter). */
 	activate: []
 	/** Reveal the popover filters from the pre-typing funnel. */
-	'open-filters': []
+	openFilters: []
 	/** Dismiss the search from the trailing X on an already-empty field. */
 	close: []
 }>()
@@ -206,7 +206,7 @@ function onInput(event: Event) {
  */
 function openFilters() {
 	inputRef.value?.focus()
-	emit('open-filters')
+	emit('openFilters')
 }
 
 /**

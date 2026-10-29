@@ -39,6 +39,7 @@ class IndexRequestService {
 	 */
 	public function updateIndex(IFilesMetadata $filesMetadata, string $key): void {
 		$fileId = $filesMetadata->getFileId();
+		$storageId = $filesMetadata->getStorageId();
 		try {
 			$metadataType = $filesMetadata->getType($key);
 		} catch (FilesMetadataNotFoundException $e) {
@@ -56,11 +57,11 @@ class IndexRequestService {
 		try {
 			$this->dropIndex($fileId, $key);
 			match ($metadataType) {
-				IMetadataValueWrapper::TYPE_STRING => $this->insertIndexString($fileId, $key, $filesMetadata->getString($key)),
-				IMetadataValueWrapper::TYPE_INT => $this->insertIndexInt($fileId, $key, $filesMetadata->getInt($key)),
-				IMetadataValueWrapper::TYPE_BOOL => $this->insertIndexBool($fileId, $key, $filesMetadata->getBool($key)),
-				IMetadataValueWrapper::TYPE_STRING_LIST => $this->insertIndexStringList($fileId, $key, $filesMetadata->getStringList($key)),
-				IMetadataValueWrapper::TYPE_INT_LIST => $this->insertIndexIntList($fileId, $key, $filesMetadata->getIntList($key))
+				IMetadataValueWrapper::TYPE_STRING => $this->insertIndexString($fileId, $storageId, $key, $filesMetadata->getString($key)),
+				IMetadataValueWrapper::TYPE_INT => $this->insertIndexInt($fileId, $storageId, $key, $filesMetadata->getInt($key)),
+				IMetadataValueWrapper::TYPE_BOOL => $this->insertIndexBool($fileId, $storageId, $key, $filesMetadata->getBool($key)),
+				IMetadataValueWrapper::TYPE_STRING_LIST => $this->insertIndexStringList($fileId, $storageId, $key, $filesMetadata->getStringList($key)),
+				IMetadataValueWrapper::TYPE_INT_LIST => $this->insertIndexIntList($fileId, $storageId, $key, $filesMetadata->getIntList($key))
 			};
 		} catch (FilesMetadataNotFoundException|FilesMetadataTypeException|DbException $e) {
 			$this->dbConnection->rollBack();
@@ -79,12 +80,13 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	private function insertIndexString(int $fileId, string $key, string $value): void {
+	private function insertIndexString(int $fileId, int $storageId, string $key, string $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
 			->setValue('meta_key', $qb->createNamedParameter($key))
 			->setValue('meta_value_string', $qb->createNamedParameter($value))
-			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT))
+			->hintShardKey('storage', $storageId);
 		$qb->executeStatement();
 	}
 
@@ -97,12 +99,13 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	public function insertIndexInt(int $fileId, string $key, int $value): void {
+	public function insertIndexInt(int $fileId, int $storageId, string $key, int $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
 			->setValue('meta_key', $qb->createNamedParameter($key))
 			->setValue('meta_value_int', $qb->createNamedParameter($value, IQueryBuilder::PARAM_INT))
-			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT))
+			->hintShardKey('storage', $storageId);
 		$qb->executeStatement();
 	}
 
@@ -115,12 +118,13 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	public function insertIndexBool(int $fileId, string $key, bool $value): void {
+	public function insertIndexBool(int $fileId, int $storageId, string $key, bool $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
 			->setValue('meta_key', $qb->createNamedParameter($key))
 			->setValue('meta_value_int', $qb->createNamedParameter(($value) ? '1' : '0', IQueryBuilder::PARAM_INT))
-			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT))
+			->hintShardKey('storage', $storageId);
 		$qb->executeStatement();
 	}
 
@@ -133,9 +137,9 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	public function insertIndexStringList(int $fileId, string $key, array $values): void {
+	public function insertIndexStringList(int $fileId, int $storageId, string $key, array $values): void {
 		foreach ($values as $value) {
-			$this->insertIndexString($fileId, $key, $value);
+			$this->insertIndexString($fileId, $storageId, $key, $value);
 		}
 	}
 
@@ -148,9 +152,9 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	public function insertIndexIntList(int $fileId, string $key, array $values): void {
+	public function insertIndexIntList(int $fileId, int $storageId, string $key, array $values): void {
 		foreach ($values as $value) {
-			$this->insertIndexInt($fileId, $key, $value);
+			$this->insertIndexInt($fileId, $storageId, $key, $value);
 		}
 	}
 
@@ -185,14 +189,15 @@ class IndexRequestService {
 	 *
 	 * @throws DbException
 	 */
-	public function dropIndexForFiles(array $fileIds, string $key = ''): void {
+	public function dropIndexForFiles(int $storageId, array $fileIds, string $key = ''): void {
 		$chunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$expr = $qb->expr();
 			$qb->delete(self::TABLE_METADATA_INDEX)
-				->where($expr->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($expr->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $storageId);
 
 			if ($key !== '') {
 				$qb->andWhere($expr->eq('meta_key', $qb->createNamedParameter($key)));

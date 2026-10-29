@@ -23,6 +23,7 @@ use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\TokenScopes;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OC\Avatar\AvatarManager;
 use OC\BackgroundJob\JobList;
@@ -108,6 +109,7 @@ use OC\RichObjectStrings\RichTextFormatter;
 use OC\RichObjectStrings\Validator;
 use OC\Route\CachingRouter;
 use OC\Route\Router;
+use OC\Search\AccountScopedSearchProviderRegistry;
 use OC\Security\Bruteforce\Capabilities;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
@@ -149,13 +151,13 @@ use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
 use OC\Teams\TeamManager;
 use OC\Template\JSCombiner;
+use OC\Template\LoadViewerListener;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
-use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
+use OC\User\Listeners\UserLoggedInWithCookieListener;
 use OC\User\Session;
-use OC\User\User;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
@@ -163,6 +165,7 @@ use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
@@ -287,7 +290,6 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
-use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -304,12 +306,28 @@ use Psr\Log\LoggerInterface;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer {
+	private array $shutdownFunctions = [];
+
 	public function __construct(
 		private string $webRoot,
-		Config $config,
+		private Config $config,
 	) {
 		parent::__construct();
+		$this->runInitialRegistrations();
 
+		register_shutdown_function($this->shutdown(...));
+	}
+
+	/**
+	 * Empty container and re-run initial registration
+	 */
+	public function reset(): void {
+		$this->shutdown();
+		parent::__construct();
+		$this->runInitialRegistrations();
+	}
+
+	public function runInitialRegistrations(): void {
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
 		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
@@ -459,16 +477,6 @@ class Server extends ServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
 			);
-			$dispatcher = $this->get(IEventDispatcher::class);
-			$dispatcher->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'loginName' => $event->getLoginName(), 'password' => $event->getPassword(), 'isTokenLogin' => $event->isTokenLogin()]);
-			});
-
-			$dispatcher->addListener(UserLoggedInWithCookieEvent::class, function (UserLoggedInWithCookieEvent $event): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'password' => $event->getPassword()]);
-			});
 
 			return $userSession;
 		});
@@ -480,7 +488,7 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(IConfig::class, AllConfig::class);
 
-		$this->registerService(SystemConfig::class, static fn ($c) => new SystemConfig($config));
+		$this->registerService(SystemConfig::class, fn ($c) => new SystemConfig($this->config));
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, UserConfig::class);
@@ -561,7 +569,8 @@ class Server extends ServerContainer {
 				$c->get(IConfig::class),
 				$c->get(IAccountManager::class),
 				$c->get(KnownUserService::class),
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(IUserConfig::class),
 			);
 		});
 
@@ -851,7 +860,7 @@ class Server extends ServerContainer {
 		$this->registerService(CapabilitiesManager::class, static function (ContainerInterface $c) {
 			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
 			$manager->registerCapability(static function () use ($c) {
-				return new CoreCapabilities($c->get(IConfig::class));
+				return new CoreCapabilities($c->get(IConfig::class), $c->get(IPreview::class));
 			});
 			$manager->registerCapability(static function () use ($c) {
 				return $c->get(Capabilities::class);
@@ -988,7 +997,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 
 		$this->registerService(ISearch::class, static function (Server $c): ISearch {
-			$instance = new Search($c, $c->get(IEventDispatcher::class));
+			$instance = new Search($c, $c->get(IEventDispatcher::class), $c->get(IConfig::class));
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => IShare::TYPE_USER, 'class' => UserPlugin::class]);
@@ -1016,7 +1025,7 @@ class Server extends ServerContainer {
 		/** @deprecated 35.0.0 */
 		$this->registerDeprecatedAlias('LockdownManager', ILockdownManager::class);
 		$this->registerService(LockdownManager::class, static function (ContainerInterface $c): LockdownManager {
-			return new LockdownManager(static fn () => $c->get(ISession::class));
+			return new LockdownManager(static fn () => $c->get(ISession::class), $c->get(TokenScopes::class));
 		});
 		$this->registerAlias(ILockdownManager::class, LockdownManager::class);
 		$this->registerAlias(IDiscoveryService::class, DiscoveryService::class);
@@ -1104,6 +1113,8 @@ class Server extends ServerContainer {
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
 		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, SharingBackend::class);
 
+		$this->registerAlias(\NCU\Search\IAccountScopedSearchProviderRegistry::class, AccountScopedSearchProviderRegistry::class);
+
 		$this->registerService(IGlobalScaleService::class, static function (ContainerInterface $c): IGlobalScaleService {
 			/** @var Coordinator $coordinator */
 			$coordinator = $c->get(Coordinator::class);
@@ -1132,9 +1143,10 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LoadViewerListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserLoggedInWithCookieListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
@@ -1148,5 +1160,16 @@ class Server extends ServerContainer {
 
 	public function getWebRoot(): string {
 		return $this->webRoot;
+	}
+
+	public function registerShutdownFunction(callable $function): void {
+		$this->shutdownFunctions[] = $function;
+	}
+
+	public function shutdown(): void {
+		foreach ($this->shutdownFunctions as $shutdownFunction) {
+			$shutdownFunction();
+		}
+		$this->shutdownFunctions = [];
 	}
 }

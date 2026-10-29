@@ -22,10 +22,6 @@ use OC\Lockdown\Filesystem\NullStorage;
 use OC\ServerNotAvailableException;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
-use OCA\Files_External\Config\ExternalMountPoint;
-use OCA\Files_Sharing\External\Mount;
-use OCA\Files_Sharing\ISharedMountPoint;
-use OCA\Files_Sharing\SharedMount;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -45,8 +41,10 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
+use OCP\Files\Mount\IExternalMountPoint;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
@@ -195,7 +193,7 @@ class SetupManager implements ISetupManager {
 
 		// install storage availability wrapper, before most other wrappers
 		$this->storageFactory->addStorageWrapper(Availability::class, function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
-			$externalMount = $mount instanceof ExternalMountPoint || $mount instanceof Mount;
+			$externalMount = $mount instanceof IExternalMountPoint;
 			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
@@ -203,23 +201,9 @@ class SetupManager implements ISetupManager {
 		}, 50, $existingMounts);
 
 		$this->storageFactory->addStorageWrapper(Encoding::class, function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof ISharedMountPoint) {
 				return new Encoding(['storage' => $storage]);
 			}
-			return $storage;
-		}, 50, $existingMounts);
-
-		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-			if ($mount instanceof HomeMountPoint) {
-				$user = $mount->getUser();
-				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return $user->getQuotaBytes();
-				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-			}
-
 			return $storage;
 		}, 50, $existingMounts);
 
@@ -237,6 +221,28 @@ class SetupManager implements ISetupManager {
 					),
 				]);
 			}
+			return $storage;
+		}, 50, $existingMounts);
+	}
+
+	/**
+	 * Some wrapper are inited after BeforeFileSystemSetupEvent, to permit
+	 * custom apps to preventively register their own handler
+	 *
+	 * @param IMountPoint[] $existingMounts
+	 */
+	private function setupCustomizableWrappers(array $existingMounts): void {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
+			// set up quota for home storages, even for other users
+			// which can happen when using sharing
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return $user->getQuotaBytes();
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
+			}
+
 			return $storage;
 		}, 50, $existingMounts);
 	}
@@ -327,6 +333,8 @@ class SetupManager implements ISetupManager {
 				$this->storageFactory->addStorageWrapper($wrapperName, $wrapper['callable'], $wrapper['priority'], $mounts);
 			}
 		}
+
+		$this->setupCustomizableWrappers($mounts);
 
 		$userDir = '/' . $user->getUID() . '/files';
 

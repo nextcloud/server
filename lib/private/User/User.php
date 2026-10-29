@@ -28,6 +28,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Security\ICredentialsManager;
 use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
@@ -291,6 +292,9 @@ class User implements IUser {
 
 		$avatarManager = Server::get(AvatarManager::class);
 		$avatarManager->deleteUserAvatar($this->uid);
+
+		$credentialsManager = Server::get(ICredentialsManager::class);
+		$credentialsManager->erase($this->uid);
 
 		$notificationManager = Server::get(INotificationManager::class);
 		$notification = $notificationManager->createNotification();

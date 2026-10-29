@@ -161,6 +161,16 @@ class SearchBuilder {
 		array $operatorMap,
 		?IMetadataQuery $metadataQuery = null,
 	) {
+		if ($comparison->getType() === ISearchComparison::COMPARE_IN && $comparison->getValue() === []) {
+			if (!$comparison->getExtra()) {
+				$this->validateComparison($comparison);
+			}
+			// an empty set matches nothing, so its negation matches everything
+			$matches = $operatorMap === self::SEARCH_OPERATOR_NEGATIVE_MAP;
+			$expr = $builder->expr();
+			return $expr->eq($expr->literal(1, IQueryBuilder::PARAM_INT), $expr->literal($matches ? 1 : 0, IQueryBuilder::PARAM_INT));
+		}
+
 		if ($comparison->getExtra()) {
 			[$field, $value, $type, $paramType] = $this->getExtraOperatorField($comparison, $metadataQuery);
 		} else {

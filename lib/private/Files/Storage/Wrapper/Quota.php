@@ -56,7 +56,7 @@ class Quota extends Wrapper {
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
-	protected function getSize(string $path, ?IStorage $storage = null): int|float {
+	public function getSize(string $path, ?IStorage $storage = null): int|float {
 		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
@@ -123,7 +123,9 @@ class Quota extends Wrapper {
 
 	#[\Override]
 	public function fopen(string $path, string $mode) {
-		if (!$this->hasQuota() || $this->isPartFile($path)) {
+		// reading doesn't consume quota, so it should not be restricted by it
+		$isReadMode = $mode === 'r' || $mode === 'rb';
+		if ($isReadMode || !$this->hasQuota() || $this->isPartFile($path)) {
 			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
@@ -134,7 +136,9 @@ class Quota extends Wrapper {
 		}
 
 		$source = $this->getWrapperStorage()->fopen($path, $mode);
-		if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+		// writing past the remaining free space fails. Negative values mean the free
+		// space is unknown or unlimited (FileInfo::SPACE_*), so no limit is applied
+		if ($source && (is_int($free) || is_float($free)) && $free >= 0) {
 			// only apply quota for files, not metadata, trash or others
 			if ($this->shouldApplyQuota($path)) {
 				return \OC\Files\Stream\Quota::wrap($source, $free);

@@ -5,12 +5,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Hook\AfterScenario;
+use Behat\Step\Given;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
 
-class RoutingContext implements Context, SnippetAcceptingContext {
+class RoutingContext implements Context {
 	use Provisioning;
 	use AppConfiguration;
 	use CommandLine;
@@ -18,16 +19,12 @@ class RoutingContext implements Context, SnippetAcceptingContext {
 	protected function resetAppConfigs(): void {
 	}
 
-	/**
-	 * @AfterScenario
-	 */
+	#[AfterScenario]
 	public function deleteMemcacheSetting(): void {
 		$this->invokingTheCommand('config:system:delete memcache.local');
 	}
 
-	/**
-	 * @Given /^route "([^"]*)" of app "([^"]*)" is defined in routes.php$/
-	 */
+	#[Given('/^route "([^"]*)" of app "([^"]*)" is defined in routes.php$/')]
 	public function routeOfAppIsDefinedInRoutesPhP(string $route, string $app): void {
 		$previousUser = $this->currentUser;
 		$this->currentUser = 'admin';

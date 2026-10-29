@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Trash;
 
-use OCP\IUser;
-
 interface ITrashManager extends ITrashBackend {
 	/**
 	 * Add a backend for the trashbin
@@ -20,25 +18,6 @@ interface ITrashManager extends ITrashBackend {
 	 * @since 15.0.0
 	 */
 	public function registerBackend(string $storageType, ITrashBackend $backend);
-
-	/**
-	 * List all trash items in the root of the trashbin
-	 *
-	 * @param IUser $user
-	 * @return ITrashItem[]
-	 * @since 15.0.0
-	 */
-	#[\Override]
-	public function listTrashRoot(IUser $user): array;
-
-	/**
-	 * Get a specific item in the root of the trashbin
-	 *
-	 * @param IUser $user
-	 * @return ?ITrashItem
-	 * @since 35.0.0
-	 */
-	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
 
 	/**
 	 * Temporally prevent files from being moved to the trash

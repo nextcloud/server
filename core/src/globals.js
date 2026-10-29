@@ -4,7 +4,7 @@
  */
 
 import { n, t } from '@nextcloud/l10n'
-import { initCore } from './init.js'
+import { initCore } from './init.ts'
 import OC from './OC/index.js'
 import OCA from './OCA/index.js'
 import OCP from './OCP/index.js'

@@ -36,15 +36,21 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 	}
 
 	/**
-	 * @return IShare::TYPE_*
+	 * @return list<IShare::TYPE_*>
 	 * @experimental 35.0.0
 	 */
-	abstract public function getCollaboratorType(): int;
+	abstract public function getCollaboratorTypes(): array;
+
+	/**
+	 * @return list<string>
+	 * @experimental 35.0.0
+	 */
+	abstract public function getCollaboratorKeys(): array;
 
 	/**
 	 * @experimental 35.0.0
 	 */
-	abstract public function getCollaboratorKey(): string;
+	abstract public function splitRemoteInstance(): bool;
 
 	/**
 	 * Search for recipients.
@@ -66,9 +72,8 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 			return [];
 		}
 
-		// TODO: Maybe enable lookup?
 		// TODO: Maybe merge search requests from different recipient types backed by the collaborators API.
-		[$searchResults] = $this->getSearch()->filteredSearch($query, [$this->getCollaboratorType()], false, 'unified-sharing', null, $limit, $offset);
+		[$searchResults] = $this->getSearch()->filteredSearch($query, $this->getCollaboratorTypes(), true, 'unified-sharing', null, $limit, $offset);
 
 		$results = [];
 		if (($exactResults = $searchResults['exact']) !== null) {
@@ -76,21 +81,25 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 				throw new RuntimeException('The exact results are not an array.');
 			}
 
-			if (($exactCollaboratorResults = $exactResults[$this->getCollaboratorKey()] ?? null) !== null) {
-				if (!is_array($exactCollaboratorResults) || !array_is_list($exactCollaboratorResults)) {
-					throw new RuntimeException('The exact collaborator results are not an array.');
-				}
+			foreach ($this->getCollaboratorKeys() as $collaboratorKey) {
+				if (($exactCollaboratorResults = $exactResults[$collaboratorKey] ?? null) !== null) {
+					if (!is_array($exactCollaboratorResults) || !array_is_list($exactCollaboratorResults)) {
+						throw new RuntimeException('The exact collaborator results are not an array.');
+					}
 
-				$results[] = $exactCollaboratorResults;
+					$results[] = $exactCollaboratorResults;
+				}
 			}
 		}
 
-		if (($collaboratorResults = $searchResults[$this->getCollaboratorKey()] ?? null) !== null) {
-			if (!is_array($collaboratorResults) || !array_is_list($collaboratorResults)) {
-				throw new RuntimeException('The collaborator results are not an array.');
-			}
+		foreach ($this->getCollaboratorKeys() as $collaboratorKey) {
+			if (($collaboratorResults = $searchResults[$collaboratorKey] ?? null) !== null) {
+				if (!is_array($collaboratorResults) || !array_is_list($collaboratorResults)) {
+					throw new RuntimeException('The collaborator results are not an array.');
+				}
 
-			$results[] = $collaboratorResults;
+				$results[] = $collaboratorResults;
+			}
 		}
 
 		if ($results === []) {
@@ -110,19 +119,38 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 				throw new RuntimeException('The shareWith is missing.');
 			}
 
-			if (!is_string($result['value']['shareWith'])) {
+			$shareWith = $result['value']['shareWith'];
+			if (!is_string($shareWith)) {
 				throw new RuntimeException('The shareWith is not a string.');
 			}
 
-			if ($result['value']['shareWith'] === '') {
+			if ($shareWith === '') {
 				throw new RuntimeException('The shareWith is empty.');
+			}
+
+			$value = $shareWith;
+			$instance = null;
+			if ($this->splitRemoteInstance()) {
+				$parts = explode('@', $shareWith, 2);
+				$value = $parts[0];
+				if (count($parts) > 1) {
+					$instance = $parts[1];
+				}
+			}
+
+			if ($value === '') {
+				throw new RuntimeException('The value is empty.');
+			}
+
+			if ($instance === '') {
+				throw new RuntimeException('The instance is empty.');
 			}
 
 			return new ShareRecipient(
 				// Must be $this and not self, so the inheriting class is used.
 				static::class,
-				$result['value']['shareWith'],
-				null,
+				$value,
+				$instance,
 			);
 		}, array_merge(...$results));
 	}

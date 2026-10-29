@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\AVIF;
 use OC\Preview\AVIFImagick;
 use OC\Preview\BMP;
+use OC\Preview\CDR;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\EMF;
 use OC\Preview\Font;
@@ -57,6 +58,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
 use OCP\IBinaryFinder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\Preview\IProviderV2;
@@ -154,12 +156,13 @@ class PreviewManager implements IPreview {
 				$this->config,
 				$this->container->get(IAppConfig::class),
 				$this,
-				new GeneratorHelper(),
+				$this->helper,
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
 				$this->container->get(PreviewMigrationService::class),
+				$this->container->get(ICacheFactory::class),
 			);
 		}
 		return $this->generator;
@@ -274,6 +277,7 @@ class PreviewManager implements IPreview {
 			XBitmap::class,
 			Krita::class,
 			WebP::class,
+			CDR::class,
 			AVIF::class,
 		];
 
@@ -321,6 +325,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(WebP::class, '/image\/webp/');
+		$this->registerCoreProvider(CDR::class, '/application\/coreldraw/');
 		$this->registerCoreProvider(AVIF::class, '/image\/avif/');
 		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');

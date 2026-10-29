@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
     "Failed to delete tag for file" : "Failed to delete tag for file",
-    "Collaborative tags …" : "Collaborative tags …",
-    "Loading …" : "Loading …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from 1 file.","{tag1} will be set and {tag2} will be removed from {count} files."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} will be removed from {count} files."],
-    "Loading collaborative tags …" : "Loading collaborative tags …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} will be removed from {count} files."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -35,9 +35,7 @@ describe('DialogConfirmFileHidden', () => {
 		const component = render(DialogConfirmFileHidden, {
 			props: {
 				filename: '.filename.txt',
-			},
-			listeners: {
-				close: onclose,
+				onClose: onclose,
 			},
 			global: {
 				plugins: [createTestingPinia({
@@ -56,9 +54,7 @@ describe('DialogConfirmFileHidden', () => {
 		const component = render(DialogConfirmFileHidden, {
 			props: {
 				filename: '.filename.txt',
-			},
-			listeners: {
-				close: onclose,
+				onClose: onclose,
 			},
 			global: {
 				plugins: [createTestingPinia({

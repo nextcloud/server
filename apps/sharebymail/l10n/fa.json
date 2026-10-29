@@ -17,9 +17,10 @@
     "Failed to send share by email. Got an invalid email address" : "ارسال اشتراک از طریق ایمیل ناموفق بود. آدرس ایمیل نامعتبر دریافت شد",
     "Failed to send share by email" : "ارسال اشتراک از طریق ایمیل ناموفق بود",
     "%1$s shared %2$s with you" : "%1$s فایل %2$s را با شما به اشتراک گذاشت",
-    "Note:" : "یادداشت:",
-    "This share is valid until %s at midnight" : "این اشتراک تا %s در نیمه‌شب معتبر است",
-    "Expiration:" : "انقضا:",
+    "Note" : "یادداشت",
+    "Valid until" : "معتبر تا",
+    "Password" : "رمز عبور",
+    "Required" : "اجباری",
     "Open shared item" : "باز کردن آیتم به اشتراک‌گذاشته شده",
     "%1$s via %2$s" : "%1$s از طریق %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s فایل %2$s را با شما به اشتراک گذاشت. باید قبلاً یک ایمیل جداگانه با لینک دسترسی دریافت کرده باشید.",
@@ -27,8 +28,6 @@
     "Password to access %s" : "رمز عبور برای دسترسی به %s",
     "It is protected with the following password:" : "با رمز عبور زیر محافظت می‌شود:",
     "This password will expire at %s" : "این رمز عبور در %s منقضی می‌شود",
-    "%1$s shared %2$s with you and wants to add:" : "%1$s فایل %2$s را با شما به اشتراک گذاشت و می‌خواهد اضافه کند:",
-    "%1$s shared %2$s with you and wants to add" : "%1$s فایل %2$s را با شما به اشتراک گذاشت و می‌خواهد اضافه کند",
     "%s added a note to a file shared with you" : "%s یک یادداشت به فایلی که با شما به اشتراک گذاشته شده اضافه کرد",
     "You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "شما به تازگی %1$s را با %2$s به اشتراک گذاشتید. اشتراک قبلاً برای گیرنده ارسال شده است. با توجه به سیاست‌های امنیتی تعریف شده توسط مدیر %3$s، هر اشتراک باید با رمز عبور محافظت شود و ارسال مستقیم رمز عبور به گیرنده مجاز نیست. بنابراین باید رمز عبور را به صورت دستی به گیرنده ارسال کنید.",
     "Password to access %1$s shared by you with %2$s" : "رمز عبور برای دسترسی به %1$s که توسط شما با %2$s به اشتراک گذاشته شده است",
@@ -39,6 +38,11 @@
     "Unable to update share by mail config" : "به‌روزرسانی تنظیمات اشتراک از طریق ایمیل امکان‌پذیر نیست",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "به افراد امکان می‌دهد با وارد کردن آدرس ایمیل، لینک شخصی‌سازی شده به یک فایل یا پوشه را به اشتراک بگذارند.",
     "Send password by mail" : "ارسال رمز عبور از طریق ایمیل",
-    "Reply to initiator" : "پاسخ به آغازگر"
+    "Reply to initiator" : "پاسخ به آغازگر",
+    "Note:" : "یادداشت:",
+    "This share is valid until %s at midnight" : "این اشتراک تا %s در نیمه‌شب معتبر است",
+    "Expiration:" : "انقضا:",
+    "%1$s shared %2$s with you and wants to add:" : "%1$s فایل %2$s را با شما به اشتراک گذاشت و می‌خواهد اضافه کند:",
+    "%1$s shared %2$s with you and wants to add" : "%1$s فایل %2$s را با شما به اشتراک گذاشت و می‌خواهد اضافه کند"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

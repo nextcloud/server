@@ -3,7 +3,7 @@
     "info": {
         "title": "sharing",
         "version": "0.0.1",
-        "description": "TODO",
+        "description": "This app provides APIs and occ commands to manage shares.",
         "license": {
             "name": "AGPL-3.0-or-later"
         }

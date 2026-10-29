@@ -156,6 +156,7 @@ class ConfigAPIController extends OCSController {
 	 *     <ldapTLS>1</ldapTLS>
 	 *     <turnOffCertCheck>0</turnOffCertCheck>
 	 *     <ldapIgnoreNamingRules/>
+	 *     <ldapUserActiveState>active</ldapUserActiveState>
 	 *     <ldapUserDisplayName>displayname</ldapUserDisplayName>
 	 *     <ldapUserDisplayName2>uid</ldapUserDisplayName2>
 	 *     <ldapUserFilterObjectclass>inetOrgPerson</ldapUserFilterObjectclass>

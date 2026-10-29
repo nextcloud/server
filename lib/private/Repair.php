@@ -9,6 +9,7 @@
 namespace OC;
 
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCheckCodeIntegrityJob;
 use OC\Repair\AddCleanupBackgroundJobsJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupLoginTokens;
@@ -200,6 +201,7 @@ class Repair implements IOutput {
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
 			Server::get(AddCleanupBackgroundJobsJob::class),
+			Server::get(AddCheckCodeIntegrityJob::class),
 		];
 
 		if ($includeExpensive) {

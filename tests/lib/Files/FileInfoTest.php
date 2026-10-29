@@ -47,6 +47,30 @@ class FileInfoTest extends TestCase {
 		$this->assertSame(5000, $info->getSize(false));
 	}
 
+	public function testGetSizeEncryptedFolderWithoutPlaintextSize(): void {
+		// End-to-end encrypted folders carry the `encrypted` flag but never a plaintext size,
+		// so the propagated `size` has to be reported instead of the unset `unencrypted_size`
+		$info = $this->makeFileInfo([
+			'encrypted' => true,
+			'mimetype' => FileInfo::MIMETYPE_FOLDER,
+			'size' => 8192,
+			'unencrypted_size' => 0,
+		]);
+		$this->assertSame(8192, $info->getSize(true));
+		$this->assertSame(8192, $info->getSize(false));
+	}
+
+	public function testGetSizeEncryptedFolderWithPlaintextSize(): void {
+		$info = $this->makeFileInfo([
+			'encrypted' => true,
+			'mimetype' => FileInfo::MIMETYPE_FOLDER,
+			'size' => 8192,
+			'unencrypted_size' => 5000,
+		]);
+		$this->assertSame(5000, $info->getSize(true));
+		$this->assertSame(5000, $info->getSize(false));
+	}
+
 	public function testGetSizeNonEncrypted(): void {
 		$info = $this->makeFileInfo(['encrypted' => false, 'size' => 100]);
 		$this->assertSame(100, $info->getSize(true));

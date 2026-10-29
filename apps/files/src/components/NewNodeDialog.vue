@@ -7,8 +7,8 @@
 		data-cy-files-new-node-dialog
 		:name="name"
 		:open="open"
-		close-on-click-outside
-		out-transition
+		closeOnClickOutside
+		outTransition
 		@update:open="emit('close', null)">
 		<template #actions>
 			<NcButton
@@ -28,7 +28,7 @@
 				v-model="localDefaultName"
 				data-cy-files-new-node-dialog-input
 				:error="validity !== ''"
-				:helper-text="validity"
+				:helperText="validity"
 				:label="label" />
 
 			<!-- Hidden file warning -->

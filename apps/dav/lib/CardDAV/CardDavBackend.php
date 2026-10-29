@@ -731,6 +731,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				return '"' . $etag . '"';
 			}
 
+			$storedEtag = $this->getCardEtag($addressBookId, $cardUri);
+
 			$query->update($this->dbCardsTable)
 				->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 				->set('lastmodified', $query->createNamedParameter(time()))
@@ -743,8 +745,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$this->etagCache[$etagCacheKey] = $etag;
 
-			$this->addChange($addressBookId, $cardUri, 2);
 			$this->updateProperties($addressBookId, $cardUri, $cardData);
+
+			if ($storedEtag === $etag) {
+				return '"' . $etag . '"';
+			}
+
+			$this->addChange($addressBookId, $cardUri, 2);
 
 			$addressBookData = $this->getAddressBookById($addressBookId);
 			$shares = $this->getShares($addressBookId);
@@ -829,9 +836,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 				->executeStatement();
 
-			$this->addChange($addressBookId, $cardUri, 3);
-
 			if ($ret === 1) {
+				$this->addChange($addressBookId, $cardUri, 3);
+
 				if ($cardId !== null) {
 					$this->dispatcher->dispatchTyped(new CardDeletedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 					$this->purgeProperties($addressBookId, $cardId);
@@ -1494,6 +1501,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		return (int)$cardIds['id'];
+	}
+
+	/**
+	 * Get the etag currently stored for a contact, or null if there is none
+	 */
+	protected function getCardEtag(int $addressBookId, string $uri): ?string {
+		$query = $this->db->getQueryBuilder();
+		$query->select('etag')->from($this->dbCardsTable)
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+
+		$result = $query->executeQuery();
+		$etag = $result->fetchOne();
+		$result->closeCursor();
+
+		return $etag === false ? null : (string)$etag;
 	}
 
 	/**

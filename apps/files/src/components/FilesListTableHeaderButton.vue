@@ -21,43 +21,28 @@
 	</NcButton>
 </template>
 
-<script lang="ts">
-import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import NcButton from '@nextcloud/vue/components/NcButton'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import filesSortingMixin from '../mixins/filesSorting.ts'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 
-export default defineComponent({
-	name: 'FilesListTableHeaderButton',
+defineProps<{
+	/**
+	 * The display name of the column this button represents.
+	 */
+	name: string
+	/**
+	 * The sorting mode this button represents.
+	 */
+	mode: string
+}>()
 
-	components: {
-		MenuDown,
-		MenuUp,
-		NcButton,
-	},
-
-	mixins: [
-		filesSortingMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-
-		mode: {
-			type: String,
-			required: true,
-		},
-	},
-
-	methods: {
-		t: translate,
-	},
-})
+const {
+	sortingMode,
+	isAscSorting,
+	toggleSortBy,
+} = useFilesSorting()
 </script>
 
 <style scoped lang="scss">

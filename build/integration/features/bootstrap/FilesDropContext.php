@@ -5,17 +5,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 
 require __DIR__ . '/autoload.php';
 
-class FilesDropContext implements Context, SnippetAcceptingContext {
+class FilesDropContext implements Context {
 	use WebDav;
 
-	/**
-	 * @When Dropping file :path with :content
-	 */
+	#[When('Dropping file :path with :content')]
 	public function droppingFileWith($path, $content, $nickname = null) {
 		$client = new Client();
 		$options = [];
@@ -45,16 +43,12 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
-	/**
-	 * @When Dropping file :path with :content as :nickName
-	 */
+	#[When('Dropping file :path with :content as :nickName')]
 	public function droppingFileWithAs($path, $content, $nickname) {
 		$this->droppingFileWith($path, $content, $nickname);
 	}
 
-	/**
-	 * @When Creating folder :folder in drop
-	 */
+	#[When('Creating folder :folder in drop')]
 	public function creatingFolderInDrop($folder, $nickname = null) {
 		$client = new Client();
 		$options = [];
@@ -82,9 +76,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
-	/**
-	 * @When Creating folder :folder in drop as :nickName
-	 */
+	#[When('Creating folder :folder in drop as :nickName')]
 	public function creatingFolderInDropWithNickname($folder, $nickname) {
 		return $this->creatingFolderInDrop($folder, $nickname);
 	}

@@ -98,11 +98,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * get all users in the group
-	 *
-	 * @return array<string, IUser>
-	 */
 	#[\Override]
 	public function getUsers(): array {
 		if ($this->usersLoaded) {

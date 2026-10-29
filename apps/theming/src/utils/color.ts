@@ -3,6 +3,22 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import Color from 'color'
+
+/**
+ * Check if two colors are the same, regardless of their notation
+ *
+ * @param color1 - The first color, e.g. `#0082c9` or `rgb(0, 130, 201)`
+ * @param color2 - The second color
+ */
+export function isSameColor(color1: string, color2: string): boolean {
+	try {
+		return Color(color1).hexa() === Color(color2).hexa()
+	} catch {
+		return false
+	}
+}
+
 /**
  * Get the text color for a given background color
  *

@@ -29,8 +29,10 @@ class UserLoggedInListener implements IEventListener {
 			return;
 		}
 
+		$password = $event->getPassword();
+
 		// prevent setting an empty pw as result of pw-less-login
-		if ($event->getPassword() === '') {
+		if ($password === null || $password === '') {
 			return;
 		}
 
@@ -39,6 +41,6 @@ class UserLoggedInListener implements IEventListener {
 			return;
 		}
 
-		$this->manager->updatePasswords($event->getUser()->getUID(), $event->getPassword());
+		$this->manager->updatePasswords($event->getUser()->getUID(), $password);
 	}
 }

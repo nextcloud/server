@@ -27,7 +27,11 @@ interface IApacheBackend {
 	/**
 	 * Gets the current logout URL
 	 *
-	 * @return non-empty-string
+	 * Can return an empty string when the backend has no logout URL to
+	 * offer (e.g. Kerberos/SPNEGO where logging out client-side has no
+	 * effect since the browser will just re-authenticate transparently).
+	 *
+	 * @return string
 	 * @since 12.0.3
 	 */
 	public function getLogoutUrl(): string;

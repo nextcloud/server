@@ -11,7 +11,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import { ref, set } from 'vue'
+import { ref } from 'vue'
 
 const initialViewConfig = loadState('files', 'viewConfigs', {}) as ViewConfigs
 
@@ -36,9 +36,9 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 	 */
 	function onUpdate(viewId: ViewId, key: string, value: string | number | boolean): void {
 		if (!(viewId in viewConfigs.value)) {
-			set(viewConfigs.value, viewId, {})
+			viewConfigs.value[viewId] = {}
 		}
-		set(viewConfigs.value[viewId], key, value)
+		viewConfigs.value[viewId][key] = value
 	}
 
 	/**

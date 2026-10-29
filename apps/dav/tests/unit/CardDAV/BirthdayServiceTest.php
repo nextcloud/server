@@ -233,7 +233,7 @@ class BirthdayServiceTest extends TestCase {
 			->getMock();
 
 		if ($expectedOp === 'delete') {
-			$this->calDav->expects($this->exactly(3))->method('getCalendarObject')->willReturn('');
+			$this->calDav->expects($this->exactly(3))->method('getCalendarObject')->willReturn(['calendardata' => '']);
 			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn(null);
 
 			$calls = [

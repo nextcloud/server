@@ -41,15 +41,5 @@
     "vue/no-mutating-props": {
       "count": 1
     }
-  },
-  "core/src/components/UnifiedSearch/UnifiedSearchModal.vue": {
-    "vue/custom-event-name-casing": {
-      "count": 1
-    }
-  },
-  "core/src/views/Login.vue": {
-    "vue/multi-word-component-names": {
-      "count": 1
-    }
   }
 }

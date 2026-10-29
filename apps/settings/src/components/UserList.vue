@@ -72,7 +72,7 @@ import type { IUser } from '../views/user-types.d.ts'
 import type { FormData } from './Users/userFormUtils.ts'
 
 import { mdiAccountGroupOutline } from '@mdi/js'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, reactive, ref, watch } from 'vue'
 import { Fragment } from 'vue-frag'
@@ -223,6 +223,7 @@ async function loadUsers() {
 				offset: usersOffset.value,
 				limit: usersLimit.value,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		} else {
 			await store.dispatch('getUsers', {
@@ -230,6 +231,7 @@ async function loadUsers() {
 				limit: usersLimit.value,
 				group: props.selectedGroup,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		}
 		logger.debug(`${users.value.length} total user(s) loaded`)
@@ -328,7 +330,7 @@ async function redirectIfDisabled() {
 loadUsers()
 
 if (!settings.value.canChangePassword) {
-	window.OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
+	showWarning(t('settings', 'Password change is disabled because the master key is disabled'))
 }
 initForm()
 redirectIfDisabled()

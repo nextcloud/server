@@ -787,6 +787,48 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
+	public function testActivateUser(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(true);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('TRUE');
+	}
+
+	public function testDeactivateUserCorrect(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('FALSE');
+	}
+
+	public function testDeactivateUserFallback(): void {
+		$coreUser = $this->createMock(IUser::class);
+		$coreUser->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->willReturn($coreUser);
+
+		$this->user->updateUserActiveState('weird');
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'extStorageHomeDataProvider')]
 	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true): void {
 		if ($valueFromLDAP === null) {

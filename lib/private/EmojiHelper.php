@@ -13,6 +13,11 @@ use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 
 class EmojiHelper implements IEmojiHelper {
+	// ICU UProperty values, not exposed as IntlChar::PROPERTY_* constants
+	private const UCHAR_EMOJI = 57;
+	private const UCHAR_EMOJI_COMPONENT = 61;
+	private const UCHAR_EXTENDED_PICTOGRAPHIC = 64;
+
 	public function __construct(
 		private IDBConnection $db,
 	) {
@@ -38,42 +43,25 @@ class EmojiHelper implements IEmojiHelper {
 			return false;
 		}
 
+		// Plain ASCII (digits, '#', '*') has the Emoji property, but is not an emoji on its own
+		if (strlen($emoji) < 2) {
+			return false;
+		}
+
 		$codePointIterator = \IntlBreakIterator::createCodePointInstance();
 		$codePointIterator->setText($emoji);
 
 		foreach ($codePointIterator->getPartsIterator() as $codePoint) {
-			$codePointType = \IntlChar::charType($codePoint);
-
-			// Unicode chars need 2 or more chars
-			// The characterCount before this loop already validate if is a single emoji
-			// This condition is to don't continue if non emoji chars
-			if (strlen($emoji) >= 2) {
-				// If the current code-point is an emoji or a modifier (like a skin-tone)
-				// just continue and check the next character
-				if ($codePointType === \IntlChar::CHAR_CATEGORY_MODIFIER_SYMBOL
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_MODIFIER_LETTER
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_OTHER_SYMBOL
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_FORMAT_CHAR          // i.e. 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🏴󠁧󠁢󠁳󠁣󠁴󠁿
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_OTHER_PUNCTUATION    // i.e. ‼️ ⁉️ #⃣
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_LOWERCASE_LETTER     // i.e. ℹ️
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_MATH_SYMBOL          // i.e. ↔️ ◻️ ⤴️ ⤵️
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_ENCLOSING_MARK       // i.e. 0⃣..9⃣
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_DECIMAL_DIGIT_NUMBER // i.e. 0⃣..9⃣
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_DASH_PUNCTUATION     // i.e. 〰️
-					|| $codePointType === \IntlChar::CHAR_CATEGORY_GENERAL_OTHER_TYPES
-				) {
-					continue;
-				}
-			}
-
-			// If it's neither a modifier nor an emoji, we only allow
-			// a zero-width-joiner or a variation selector 16
 			$codePointValue = \IntlChar::ord($codePoint);
-			if ($codePointValue === 8205 || $codePointValue === 65039) {
-				continue;
-			}
 
-			return false;
+			// Every code-point must be an emoji, a component (ZWJ, VS16, keycap, tag, skin-tone)
+			// or a pictographic (includes code-points reserved for future emoji)
+			if (!\IntlChar::hasBinaryProperty($codePointValue, self::UCHAR_EMOJI)
+				&& !\IntlChar::hasBinaryProperty($codePointValue, self::UCHAR_EMOJI_COMPONENT)
+				&& !\IntlChar::hasBinaryProperty($codePointValue, self::UCHAR_EXTENDED_PICTOGRAPHIC)
+			) {
+				return false;
+			}
 		}
 
 		return true;

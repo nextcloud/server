@@ -4,6 +4,10 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+use Behat\Hook\AfterScenario;
+use Behat\Step\Given;
+
 trait Mail {
 	// OccRunner trait is expected to be used in the class that uses this
 	// trait.
@@ -13,9 +17,7 @@ trait Mail {
 	 */
 	private $fakeSmtpServerPid;
 
-	/**
-	 * @AfterScenario
-	 */
+	#[AfterScenario]
 	public function killDummyMailServer() {
 		if (!$this->fakeSmtpServerPid) {
 			return;
@@ -26,9 +28,7 @@ trait Mail {
 		$this->runOcc(['config:system:delete', 'mail_smtpport']);
 	}
 
-	/**
-	 * @Given /^dummy mail server is listening$/
-	 */
+	#[Given('/^dummy mail server is listening$/')]
 	public function dummyMailServerIsListening() {
 		// Default smtpport (25) is restricted for regular users, so the
 		// FakeSMTP uses 2525 instead.

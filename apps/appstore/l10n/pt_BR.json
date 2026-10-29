@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "Restringir o uso de {app} aos membros dos seguintes grupos.",
     "Reset limitation" : "Redefinir limitação",
     "Save" : "Salvar",
-    "Failed to update app {appName}" : "Falha ao atualizar o aplicativo {appName}",
     "Update all apps" : "Atualizar todos os aplicativos",
     "Are you sure you want to update all apps?" : "Você tem certeza de que deseja atualizar todos os aplicativos?",
     "Update done" : "Atualização concluída",
@@ -153,9 +152,15 @@
     "Best security: documents never leave your server" : "Melhor segurança: os documentos nunca saem do seu servidor",
     "Best ODF compatibility" : "Melhor compatibilidade com ODF",
     "Best support for legacy files" : "Melhor suporte para arquivos antigos",
+    "Enabling following apps: {apps}" : "Ativando os seguintes aplicativos: {apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["Atualizando %n aplicativo.","Atualizando %n de aplicativos.","Atualizando %n aplicativos."],
     "Could not load app categories. Please try again later." : "Não foi possível carregar as categorias de aplicativos. Tente novamente mais tarde.",
     "Could not load apps list. Please try again later." : "Não foi possível carregar a lista de aplicativos. Tente novamente mais tarde.",
     "Could not update the app. Please try again later." : "Não foi possível atualizar o aplicativo. Tente novamente mais tarde.",
-    "An error occurred during the request. Unable to proceed." : "Ocorreu um erro durante a solicitação. Não é possível prosseguir."
+    "An error occurred during the request. Unable to proceed." : "Ocorreu um erro durante a solicitação. Não é possível prosseguir.",
+    "Could not update an exApp. Please try again later." : "Não foi possível atualizar o exApp. Por favor, tente novamente mais tarde.",
+    "Could not update {app}. Please try again later." : "Não foi possível atualizar {app}. Por favor, tente novamente mais tarde.",
+    "Could not update an app. Please try again later." : "Não foi possível atualizar um aplicativo. Por favor, tente novamente mais tarde.",
+    "Failed to update app {appName}" : "Falha ao atualizar o aplicativo {appName}"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

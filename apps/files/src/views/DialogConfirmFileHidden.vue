@@ -41,7 +41,7 @@ function closeDialog(value: boolean) {
 
 <template>
 	<NcDialog
-		no-close
+		noClose
 		:open="open"
 		:name="t('files', 'Rename file to hidden')"
 		size="small">

@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 import SearchResultSkeleton from '../../components/UnifiedSearch/SearchResultSkeleton.vue'
 
 function factory(rows = 3) {
-	return mount(SearchResultSkeleton, { propsData: { rows } })
+	return mount(SearchResultSkeleton, { props: { rows } })
 }
 
 describe('SearchResultSkeleton', () => {

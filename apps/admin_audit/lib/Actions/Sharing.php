@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Actions;
 
+use OCA\AdminAudit\Operation;
+
 /**
  * Class Sharing logs the sharing actions
  *
@@ -22,6 +24,7 @@ class Sharing extends Action {
 	 */
 	public function updatePermissions(array $params): void {
 		$this->log(
+			Operation::SharePermissionsUpdated,
 			'The permissions of the shared %s "%s" with ID "%s" have been changed to "%s"',
 			$params,
 			[
@@ -40,6 +43,7 @@ class Sharing extends Action {
 	 */
 	public function updatePassword(array $params): void {
 		$this->log(
+			Operation::SharePasswordUpdated,
 			'The password of the publicly shared %s "%s" with ID "%s" has been changed',
 			$params,
 			[
@@ -58,6 +62,7 @@ class Sharing extends Action {
 	public function updateExpirationDate(array $params): void {
 		if ($params['date'] === null) {
 			$this->log(
+				Operation::ShareExpirationRemoved,
 				'The expiration date of the publicly shared %s with ID "%s" has been removed',
 				$params,
 				[
@@ -67,6 +72,7 @@ class Sharing extends Action {
 			);
 		} else {
 			$this->log(
+				Operation::ShareExpirationUpdated,
 				'The expiration date of the publicly shared %s with ID "%s" has been changed to "%s"',
 				$params,
 				[
@@ -85,6 +91,7 @@ class Sharing extends Action {
 	 */
 	public function shareAccessed(array $params): void {
 		$this->log(
+			Operation::ShareLinkAccessed,
 			'The shared %s with the token "%s" by "%s" has been accessed.',
 			$params,
 			[

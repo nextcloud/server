@@ -3,6 +3,6 @@ OC.L10N.register(
     {
     "The owner does not exist: %s" : "Sahip bulunamadı: %s",
     "Sharing" : "Paylaşım",
-    "TODO" : "Yapılacak iş"
+    "This app provides APIs and occ commands to manage shares." : "Bu uygulama, paylaşımları yönetmek için API ve occ komutları sağlar."
 },
 "nplurals=2; plural=(n > 1);");

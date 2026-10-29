@@ -62,7 +62,7 @@ async function onSubmit() {
 	<form ref="form" @submit.prevent="onSubmit">
 		<NcFormGroup
 			:label="t('encryption', 'Update private key password')"
-			:description="t('encryption', 'Your private key password no longer matches your log-in password. Set your old private key password to your current log-in password.')">
+			:description="t('encryption', 'Your private encryption key could not be unlocked. If your login password has changed, try entering your previous login password to unlock your key, then your current password to update your key and restore access.')">
 			<NcNoteCard v-if="recoveryEnabledForUser">
 				{{ t('encryption', 'If you do not remember your old password you can ask your administrator to recover your files.') }}
 			</NcNoteCard>
@@ -71,12 +71,12 @@ async function onSubmit() {
 				v-model="oldPrivateKeyPassword"
 				required
 				name="oldPassword"
-				:label="t('encryption', 'Old log-in password')" />
+				:label="t('encryption', 'Previous login password')" />
 			<NcPasswordField
 				v-model="newPrivateKeyPassword"
 				required
 				name="newPassword"
-				:label="t('encryption', 'Current log-in password')" />
+				:label="t('encryption', 'Current login password')" />
 
 			<NcButton
 				type="submit"

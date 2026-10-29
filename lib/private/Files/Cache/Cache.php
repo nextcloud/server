@@ -1062,7 +1062,8 @@ class Cache implements ICache {
 		if (is_null($entry) || !isset($entry['fileid'])) {
 			$entry = $this->get($path);
 		}
-		if (isset($entry['mimetype']) && $entry['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+		// partial entries are not stored in the database yet and have no fileid
+		if (isset($entry['mimetype'], $entry['fileid']) && $entry['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();

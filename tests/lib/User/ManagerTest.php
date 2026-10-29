@@ -16,7 +16,6 @@ use OC\User\User;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudId;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -30,27 +29,13 @@ use Test\TestCase;
 
 #[Group('DB')]
 class ManagerTest extends TestCase {
-	private IConfig&MockObject $config;
-	private IEventDispatcher&MockObject $eventDispatcher;
-	private ICacheFactory&MockObject $cacheFactory;
-	private ICache&MockObject $cache;
-	private LoggerInterface&MockObject $logger;
 	private IUserManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->cacheFactory->method('createDistributed')
-			->willReturn($this->cache);
-
-		$this->manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testGetBackends(): void {
@@ -667,7 +652,7 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$this->manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = new Manager($config, $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class));
 		$backend = new \Test\Util\User\Dummy();
 
 		$this->manager->registerBackend($backend);
@@ -692,7 +677,7 @@ class ManagerTest extends TestCase {
 			});
 
 		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([$this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->getAutoMock(IConfig::class), $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class)])
 			->onlyMethods(['getUserConfig', 'get'])
 			->getMock();
 		$this->manager->method('getUserConfig')->willReturn($userConfig);

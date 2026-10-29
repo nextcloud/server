@@ -35,6 +35,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapTLS
  * @property string $turnOffCertCheck
  * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserActiveState
  * @property string $ldapUserDisplayName
  * @property string $ldapUserDisplayName2
  * @property string $ldapUserAvatarRule

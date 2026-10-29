@@ -103,6 +103,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
+        'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FileAccountScopedSearchProvider.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
         'OCA\\Files\\Service\\ChunkedUploadConfig' => __DIR__ . '/..' . '/../lib/Service/ChunkedUploadConfig.php',
         'OCA\\Files\\Service\\DirectEditingService' => __DIR__ . '/..' . '/../lib/Service/DirectEditingService.php',
@@ -122,6 +123,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
+        'OCA\\Files\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

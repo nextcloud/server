@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Snowflake;
 
+use DateTimeImmutable;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IServerInfo;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -31,13 +32,19 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	}
 
 	#[Override]
-	public function nextId(): string {
+	public function nextId(?DateTimeImmutable $timestamp = null): string {
+		$timestamp ??= $this->timeFactory->now();
+
 		// Relative time
-		[$seconds, $milliseconds] = $this->getCurrentTime();
+		$seconds = $timestamp->getTimestamp() - self::TS_OFFSET;
+		if ($seconds < 0) {
+			throw new \InvalidArgumentException('Snowflake IDs cannot be generated for a time before ' . date(DATE_ATOM, self::TS_OFFSET));
+		}
+		$milliseconds = (int)$timestamp->format('v');
 
 		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
-		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
+		$sequenceId = $this->sequenceGenerator->nextId($serverId, $seconds, $milliseconds); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
 			// Throttle a bit, wait for next millisecond
 			usleep(1000);
@@ -122,14 +129,6 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 		}
 
 		return $digits;
-	}
-
-	private function getCurrentTime(): array {
-		$time = $this->timeFactory->now();
-		return [
-			$time->getTimestamp() - self::TS_OFFSET,
-			(int)$time->format('v'),
-		];
 	}
 
 	private function isCli(): bool {

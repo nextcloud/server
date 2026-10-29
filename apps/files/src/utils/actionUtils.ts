@@ -7,7 +7,6 @@ import type { ActionContextSingle, IFileAction } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
 import { useActiveStore } from '../store/active.ts'
 import { logger } from '../utils/logger.ts'
 
@@ -70,7 +69,7 @@ export async function executeAction(action: IFileAction, trigger?: ActionTrigger
 
 	try {
 		// Set the loading marker
-		Vue.set(currentNode, 'status', NodeStatus.LOADING)
+		currentNode.status = NodeStatus.LOADING
 		activeStore.activeAction = action
 
 		const success = await action.exec(context)
@@ -90,7 +89,7 @@ export async function executeAction(action: IFileAction, trigger?: ActionTrigger
 		showError(t('files', '{displayName}: failed', { displayName }))
 	} finally {
 		// Reset the loading marker
-		Vue.set(currentNode, 'status', undefined)
+		currentNode.status = undefined
 		activeStore.activeAction = undefined
 	}
 }

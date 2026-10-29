@@ -38,7 +38,7 @@
 				<NcTextArea
 					v-model="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helperText="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName }, { escape: false })" />
 			</div>
 			<div v-else>
 				<label>{{ t('user_ldap', 'LDAP Filter:') }}</label>

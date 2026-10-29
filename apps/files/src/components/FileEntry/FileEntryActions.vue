@@ -11,8 +11,8 @@
 			v-for="action in enabledRenderActions"
 			:key="action.id"
 			:class="'files-list__row-action-' + action.id"
-			:active-folder="activeStore.activeFolder"
-			:active-view="activeStore.activeView"
+			:activeFolder="activeStore.activeFolder"
+			:activeView="activeStore.activeView"
 			:render="action.renderInline"
 			:source="source"
 			class="files-list__row-action--inline" />
@@ -20,11 +20,11 @@
 		<!-- Menu actions -->
 		<NcActions
 			ref="actionsMenu"
-			:boundaries-element="getBoundariesElement"
+			:boundariesElement="getBoundariesElement"
 			:container="getBoundariesElement"
-			:force-name="true"
+			:forceName="true"
 			variant="tertiary"
-			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
+			:forceMenu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open="openedMenu"
 			@close="onMenuClose"
@@ -41,9 +41,9 @@
 					'files-list__row-action--inline': index < enabledInlineActions.length,
 					'files-list__row-action--menu': isValidMenu(action),
 				}"
-				:close-after-click="!isValidMenu(action)"
+				:closeAfterClick="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
-				:is-menu="isValidMenu(action)"
+				:isMenu="isValidMenu(action)"
 				:aria-label="action.title?.(actionContext)"
 				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
@@ -70,9 +70,9 @@
 						'files-list__row-action--inline': index < enabledInlineActions.length,
 						'files-list__row-action--menu': isValidMenu(action),
 					}"
-					:close-after-click="!isValidMenu(action)"
+					:closeAfterClick="!isValidMenu(action)"
 					:data-cy-files-list-row-action="action.id"
-					:is-menu="isValidMenu(action)"
+					:isMenu="isValidMenu(action)"
 					:aria-label="action.title?.(actionContext)"
 					:title="action.title?.(actionContext)"
 					@click="onActionClick(action)">
@@ -104,7 +104,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					close-after-click
+					closeAfterClick
 					:data-cy-files-list-row-action="action.id"
 					:aria-label="action.title?.(actionContext)"
 					:title="action.title?.(actionContext)"
@@ -135,7 +135,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
-import { useFileListWidth } from '../../composables/useFileListWidth.ts'
+import { INLINE_ACTION_WIDTH, reportInlineActionsWidth, useFileListLayout } from '../../composables/useFileListLayout.ts'
 import actionsMixins from '../../mixins/actionsMixin.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { executeAction } from '../../utils/actionUtils.ts'
@@ -178,13 +178,19 @@ export default defineComponent({
 	setup() {
 		// The file list is guaranteed to be  shown with active view - thus we can set the `loaded` flag
 		const activeStore = useActiveStore()
-		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 		const enabledFileActions = inject<IFileAction[]>('enabledFileActions', [])
 		return {
 			activeStore,
 			enabledFileActions,
-			isNarrow,
+			layout,
 			t,
+		}
+	},
+
+	data() {
+		return {
+			resizeObserver: null as ResizeObserver | null,
 		}
 	},
 
@@ -206,9 +212,9 @@ export default defineComponent({
 			}
 		},
 
-		// Enabled action that are displayed inline
-		enabledInlineActions() {
-			if (this.isNarrow || this.gridMode) {
+		// Enabled actions that can be displayed inline
+		inlineCapableActions() {
+			if (this.gridMode) {
 				return []
 			}
 			return this.enabledFileActions.filter((action) => {
@@ -221,9 +227,17 @@ export default defineComponent({
 			})
 		},
 
+		// Enabled actions that are displayed inline
+		enabledInlineActions() {
+			if (!this.layout.inlineActions) {
+				return []
+			}
+			return this.inlineCapableActions
+		},
+
 		// Enabled action that are displayed inline with a custom render function
 		enabledRenderActions() {
-			if (this.gridMode) {
+			if (!this.layout.inlineActions || this.gridMode) {
 				return []
 			}
 			return this.enabledFileActions.filter((action) => typeof action.renderInline === 'function')
@@ -287,6 +301,10 @@ export default defineComponent({
 		openedMenu() {
 			this.openedSubmenu = null
 		},
+
+		inlineCapableActions() {
+			this.reportInlineActionsWidth()
+		},
 	},
 
 	created() {
@@ -301,10 +319,39 @@ export default defineComponent({
 		})
 	},
 
+	mounted() {
+		if (this.gridMode) {
+			return
+		}
+		// Inline rendered actions (e.g. tags) are rendered asynchronously and change the cell size
+		this.resizeObserver = new ResizeObserver(() => this.reportInlineActionsWidth())
+		this.resizeObserver.observe(this.$el)
+		this.reportInlineActionsWidth()
+	},
+
+	beforeUnmount() {
+		this.resizeObserver?.disconnect()
+	},
+
 	methods: {
+		/**
+		 * Report the width needed by the inline actions of this row to the files list layout
+		 */
+		reportInlineActionsWidth() {
+			if (this.gridMode || !this.$el) {
+				return
+			}
+
+			const renderActionsWidth = [...this.$el.querySelectorAll<HTMLElement>(':scope > .files-list__row-action--inline')]
+				.filter((element) => element.offsetWidth > 0)
+				.reduce((total, element) => total + element.offsetWidth + parseFloat(getComputedStyle(element).marginInlineEnd || '0'), 0)
+
+			reportInlineActionsWidth(this.inlineCapableActions.length * INLINE_ACTION_WIDTH + renderActionsWidth)
+		},
+
 		actionDisplayName(action: IFileAction) {
 			try {
-				if ((this.gridMode || (this.isNarrow && action.inline)) && typeof action.title === 'function') {
+				if ((this.gridMode || (!this.layout.inlineActions && action.inline)) && typeof action.title === 'function') {
 					// if an inline action is rendered in the menu for
 					// lack of space we use the title first if defined
 					const title = action.title(this.actionContext)

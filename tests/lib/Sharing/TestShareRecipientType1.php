@@ -55,12 +55,16 @@ class TestShareRecipientType1 implements IShareRecipientType, IShareRecipientTyp
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
+		if ($instance !== null) {
+			return null;
+		}
+
 		return $this->validRecipients[$recipient];
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL {
 		return match ($recipient) {
 			'url' => new ShareIconURL('https://example.com/light.png', 'https://example.com/dark.png'),
 			default => new ShareIconSVG('<svg/>'),

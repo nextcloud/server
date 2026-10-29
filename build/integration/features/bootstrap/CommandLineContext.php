@@ -9,6 +9,10 @@ require __DIR__ . '/autoload.php';
 
 use Behat\Behat\Context\Exception\ContextNotFoundException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 class CommandLineContext implements \Behat\Behat\Context\Context {
@@ -25,21 +29,17 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		$this->ocPath = rtrim($ocPath, '/') . '/';
 	}
 
-	/**
-	 * @Given Maintenance mode is enabled
-	 */
+	#[Given('Maintenance mode is enabled')]
 	public function maintenanceModeIsEnabled() {
 		$this->runOcc(['maintenance:mode', '--on']);
 	}
 
-	/**
-	 * @Then Maintenance mode is disabled
-	 */
+	#[Then('Maintenance mode is disabled')]
 	public function maintenanceModeIsDisabled() {
 		$this->runOcc(['maintenance:mode', '--off']);
 	}
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
 		// this should really be "WebDavContext"
@@ -83,9 +83,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		return substr($foundPath, strlen($davPath) + 1);
 	}
 
-	/**
-	 * @When /^transferring ownership from "([^"]+)" to "([^"]+)"$/
-	 */
+	#[When('/^transferring ownership from "([^"]+)" to "([^"]+)"$/')]
 	public function transferringOwnership($user1, $user2) {
 		if ($this->runOcc(['files:transfer-ownership', $user1, $user2]) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
@@ -95,9 +93,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"$/
-	 */
+	#[When('/^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"$/')]
 	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
 		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
@@ -108,18 +104,14 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-	/**
-	 * @When /^using received transfer folder of "([^"]+)" as dav path$/
-	 */
+	#[When('/^using received transfer folder of "([^"]+)" as dav path$/')]
 	public function usingTransferFolderAsDavPath($user) {
 		$davPath = $this->featureContext->getDavFilesPath($user);
 		$davPath = rtrim($davPath, '/') . $this->lastTransferPath;
 		$this->featureContext->usingDavPath($davPath);
 	}
 
-	/**
-	 * @Then /^transfer folder name contains "([^"]+)"$/
-	 */
+	#[Then('/^transfer folder name contains "([^"]+)"$/')]
 	public function transferFolderNameContains($text) {
 		Assert::assertStringContainsString($text, $this->lastTransferPath);
 	}

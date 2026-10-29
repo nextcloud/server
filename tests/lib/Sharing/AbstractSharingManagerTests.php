@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\ISharingBackend;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
@@ -32,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
@@ -244,9 +246,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	#[\Override]
 	protected function tearDown(): void {
+		$openTransaction = false;
 		if ($this->dbConnection->inTransaction()) {
 			$this->dbConnection->rollBack();
-			$this->fail('Open transaction was not committed.');
+			$openTransaction = true;
 		}
 
 		$accessContext = new ShareAccessContext(overrideChecks: true);
@@ -257,11 +260,13 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			$this->manager->deleteShare($accessContext, $share);
 		}
 
+		$this->dbConnection->commit();
+
 		$this->owner->delete();
 		$this->user1->delete();
 		$this->user2->delete();
 
-		$this->dbConnection->commit();
+		$this->registry->clear();
 
 		foreach ([
 			'sharing_share',
@@ -279,9 +284,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			$this->assertEquals(0, $qb->executeQuery()->fetchOne(), $table);
 		}
 
-		$this->registry->clear();
-
 		parent::tearDown();
+
+		if ($openTransaction) {
+			$this->fail('Open transaction was not committed.');
+		}
 	}
 
 	private function reloadShare(ShareAccessContext $accessContext, Share $share): Share {
@@ -732,6 +739,49 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $share);
 	}
 
+	public function testCreateShareRemoteOwner(): void {
+		$accessContext = new ShareAccessContext(overrideChecks: true);
+
+		$before = $this->manager->getTime();
+		$id = Server::get(ISnowflakeGenerator::class)->nextId();
+		$this->dbConnection->beginTransaction();
+		Server::get(ISharingBackend::class)->createShare($id, new ShareUser('owner', 'https://example.com'), $this->manager->getTime());
+		$this->dbConnection->commit();
+		$share = $this->getShare($accessContext, $id);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
+		unset($share['last_updated']);
+		$this->assertEquals([
+			'id' => $id,
+			'owner' => [
+				'user_id' => 'owner',
+				'instance' => 'https://example.com',
+				'display_name' => 'owner',
+				'icon' => [
+					'light' => 'http://localhost/index.php/avatar/owner@https%253A%2F%2Fexample.com/64',
+					'dark' => 'http://localhost/index.php/avatar/owner@https%253A%2F%2Fexample.com/64/dark',
+				],
+			],
+			'state' => ShareState::Draft->value,
+			'user_status' => null,
+			'sources' => [],
+			'recipients' => [],
+			'properties' => [],
+			'permissions' => [
+				[
+					'class' => ReshareSharePermissionType::class,
+					'source_class' => null,
+					'display_name' => 'Share with others',
+					'hint' => null,
+					'presets' => [],
+					'enabled' => false,
+					'priority' => 90,
+				],
+			],
+			'permission_preset' => null,
+		], $share);
+	}
+
 	/**
 	 * @return list<array{list<ShareSource>, list<ShareRecipient>, list<ShareProperty>, list<SharePermission>, ?string}>
 	 */
@@ -956,7 +1006,40 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([], $formatted['sources']);
 	}
 
-	public function testAddShareRecipient(): void {
+	/**
+	 * @return list<array{ShareRecipient, non-empty-string}>
+	 */
+	public static function dataRecipient1(): array {
+		return [
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null), 'Recipient 1'],
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', 'https://example.com'), 'recipient1'],
+		];
+	}
+
+	/**
+	 * @return list<array{ShareRecipient, non-empty-string}>
+	 */
+	public static function dataRecipient2(): array {
+		return [
+			[new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null), 'Recipient 2'],
+			[new ShareRecipient(TestShareRecipientType2::class, 'recipient2', 'https://example.org'), 'recipient2'],
+		];
+	}
+
+	/**
+	 * @return list<array{ShareRecipient, non-empty-string, ShareRecipient, non-empty-string}>
+	 */
+	public static function dataRecipient12(): array {
+		return [
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null), 'Recipient 1', new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null), 'Recipient 2'],
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', 'https://example.com'), 'recipient1', new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null), 'Recipient 2'],
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null), 'Recipient 1', new ShareRecipient(TestShareRecipientType2::class, 'recipient2', 'https://example.org'), 'recipient2'],
+			[new ShareRecipient(TestShareRecipientType1::class, 'recipient1', 'https://example.com'), 'recipient1', new ShareRecipient(TestShareRecipientType2::class, 'recipient2', 'https://example.org'), 'recipient2'],
+		];
+	}
+
+	#[DataProvider(methodName: 'dataRecipient1')]
+	public function testAddShareRecipient(ShareRecipient $recipient1, string $recipient1DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
@@ -964,15 +1047,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$formatted = $this->addShareRecipient($accessContext, $share, $recipient1);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
-				'value' => 'recipient1',
-				'instance' => null,
-				'display_name' => 'Recipient 1',
+				'value' => $recipient1->value,
+				'instance' => $recipient1->instance,
+				'display_name' => $recipient1DisplayName,
 				'icon' => [
 					'svg' => '<svg/>',
 				],
@@ -993,7 +1076,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['recipients']);
 	}
 
-	public function testAddShareRecipientInteractionRestricted(): void {
+	#[DataProvider(methodName: 'dataRecipient1')]
+	public function testAddShareRecipientInteractionRestricted(ShareRecipient $recipient1, string $recipient1DisplayName): void {
 		$listener = function (RestrictInteractionEvent $event): void {
 			foreach ($event->receivers as $receiver) {
 				if ($receiver instanceof TestInteractionReceiver && $receiver->getID() === 'recipient1') {
@@ -1013,7 +1097,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		try {
-			$this->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+			$this->addShareRecipient($accessContext, $share, $recipient1);
 			$this->fail('Interaction not restricted.');
 		} catch (HintException $hintException) {
 			$this->assertEquals('You are not allowed to add this recipient.', $hintException->getHint());
@@ -1022,7 +1106,45 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$eventDispatcher->removeListener(RestrictInteractionEvent::class, $listener);
 	}
 
-	public function testAddChildShareRecipientWithoutResharePermission(): void {
+	public function testAddShareRecipientByRemoteInitiator(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$before = $this->manager->getTime();
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		Server::get(ISharingBackend::class)->addShareRecipient($share->id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null, $this->manager->generateSecret(), new ShareUser('initiator', 'https://example.com')));
+		$this->dbConnection->commit();
+		$after = $this->manager->getTime();
+		$formatted = $this->getShare($accessContext, $share->id);
+		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'initiator',
+					'instance' => 'https://example.com',
+					'display_name' => 'initiator',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/initiator@https%253A%2F%2Fexample.com/64',
+						'dark' => 'http://localhost/index.php/avatar/initiator@https%253A%2F%2Fexample.com/64/dark',
+					],
+				],
+				'permissions' => [],
+			],
+		], $formatted['recipients']);
+	}
+
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testAddChildShareRecipientWithoutResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
@@ -1037,14 +1159,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		try {
-			$this->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+			$this->addShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 			$this->fail('Able to add child recipient without reshare permission.');
 		} catch (HintException $hintException) {
 			$this->assertEquals('You are not allowed to edit this share.', $hintException->getHint());
 		}
 	}
 
-	public function testAddChildShareRecipientWithResharePermission(): void {
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testAddChildShareRecipientWithResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
@@ -1065,9 +1188,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->addShareRecipient(
-			$accessContext2, $share2, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
-		);
+		$formatted = $this->addShareRecipient($accessContext2, $share2, $recipient2);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
@@ -1095,9 +1216,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 			[
 				'class' => TestShareRecipientType2::class,
-				'value' => 'recipient2',
-				'instance' => null,
-				'display_name' => 'Recipient 2',
+				'value' => $recipient2->value,
+				'instance' => $recipient2->instance,
+				'display_name' => $recipient2DisplayName,
 				'icon' => [
 					'svg' => '<svg/>',
 				],
@@ -1118,14 +1239,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['recipients']);
 	}
 
-	public function testRemoveShareRecipient(): void {
+	#[DataProvider(methodName: 'dataRecipient12')]
+	public function testRemoveShareRecipient(ShareRecipient $recipient1, string $recipient1DisplayName, ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
 		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient($accessContext, $share, $recipient1);
+		$share = $this->manager->addShareRecipient($accessContext, $share, $recipient2);
 
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
@@ -1134,7 +1256,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->removeShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$formatted = $this->removeShareRecipient($accessContext, $share, $recipient1);
 		$share = $this->reloadShare($accessContext, $share);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
@@ -1142,9 +1264,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType2::class,
-				'value' => 'recipient2',
-				'instance' => null,
-				'display_name' => 'Recipient 2',
+				'value' => $recipient2->value,
+				'instance' => $recipient2->instance,
+				'display_name' => $recipient2DisplayName,
 				'icon' => [
 					'svg' => '<svg/>',
 				],
@@ -1165,7 +1287,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['recipients']);
 
 		$before = $this->manager->getTime();
-		$formatted = $this->removeShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$formatted = $this->removeShareRecipient($accessContext, $share, $recipient2);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $formatted['state']);
@@ -1216,7 +1338,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		}
 	}
 
-	public function testRemoveChildShareRecipientWithoutResharePermission(): void {
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testRemoveChildShareRecipientWithoutResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
@@ -1228,22 +1351,21 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(
-			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
-		);
+		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, false));
 
 		$this->dbConnection->commit();
 
 		try {
-			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 			$this->fail('Able to remove child recipient without reshare permission.');
 		} catch (HintException $hintException) {
 			$this->assertEquals('You are not allowed to edit this share.', $hintException->getHint());
 		}
 	}
 
-	public function testRemoveChildShareRecipientWithResharePermission(): void {
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testRemoveChildShareRecipientWithResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
@@ -1254,9 +1376,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(
-			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
-		);
+		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 
 		$this->dbConnection->commit();
 
@@ -1267,9 +1387,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->removeShareRecipient(
-			$accessContext2, $share2, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
-		);
+		$formatted = $this->removeShareRecipient($accessContext2, $share2, $recipient2);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
@@ -1298,14 +1416,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['recipients']);
 	}
 
-	public function testRemoveSiblingShareRecipientWithoutResharePermission(): void {
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testRemoveSiblingShareRecipientWithoutResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
 		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
 		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient($accessContext, $share, $recipient2);
 
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
@@ -1314,21 +1433,22 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		try {
-			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 			$this->fail('Able to remove sibling recipient.');
 		} catch (HintException $hintException) {
 			$this->assertEquals('You are not allowed to edit this share.', $hintException->getHint());
 		}
 	}
 
-	public function testRemoveSiblingShareRecipientWithResharePermission(): void {
+	#[DataProvider(methodName: 'dataRecipient2')]
+	public function testRemoveSiblingShareRecipientWithResharePermission(ShareRecipient $recipient2, string $recipient2DisplayName): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
 		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
 		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient($accessContext, $share, $recipient2);
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
@@ -1336,7 +1456,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		try {
-			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+			$this->removeShareRecipient(new ShareAccessContext($this->user1), $share, $recipient2);
 			$this->fail('Able to remove sibling recipient.');
 		} catch (HintException $hintException) {
 			$this->assertEquals('You are not allowed to edit this share.', $hintException->getHint());

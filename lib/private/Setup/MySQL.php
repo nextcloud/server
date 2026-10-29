@@ -88,16 +88,15 @@ class MySQL extends AbstractDatabase {
 
 	#[\Override]
 	protected function getEncryptionConfig(array $config): array {
-		$attributes = $this->getSslAttributes();
-
+		// The attributes only exist with the MySQL driver, so only look them up when needed.
 		$driverOptions = [];
 		foreach (['dbsslca' => 'ca', 'dbsslcert' => 'cert', 'dbsslkey' => 'key'] as $option => $attribute) {
 			if (!empty($config[$option])) {
-				$driverOptions[$attributes[$attribute]] = (string)$config[$option];
+				$driverOptions[$this->getSslAttributes()[$attribute]] = (string)$config[$option];
 			}
 		}
 		if (!empty($config['dbsslnoverify'])) {
-			$driverOptions[$attributes['verify']] = false;
+			$driverOptions[$this->getSslAttributes()['verify']] = false;
 		}
 
 		return $driverOptions === [] ? [] : ['dbdriveroptions' => $driverOptions];

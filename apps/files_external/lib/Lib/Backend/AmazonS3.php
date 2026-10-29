@@ -26,6 +26,7 @@ class AmazonS3 extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
 			->setText($l->t('S3-Compatible Object Storage'))
 			->addParameters([
+				// TRANSLATORS Technical term for an Amazon S3 storage container
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
@@ -33,6 +34,7 @@ class AmazonS3 extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('proxy', $l->t('Proxy')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				// TRANSLATORS Technical term for an Amazon S3 geographical region
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('storageClass', $l->t('Storage Class')))

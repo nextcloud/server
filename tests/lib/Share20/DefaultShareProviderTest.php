@@ -30,11 +30,16 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
+use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -407,12 +412,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByIdLinkShare(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -442,7 +449,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(IShare::TYPE_LINK, $share->getShareType());
 		$this->assertNull($share->getSharedWith());
-		$this->assertEquals('password', $share->getPassword());
+		$this->assertTrue($share->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share->getPassword());
 		$this->assertEquals(true, $share->getSendPasswordByTalk());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -834,6 +842,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateLinkShare(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$share = new Share($this->rootFolder, $this->userManager);
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -864,7 +874,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
-		$share->setPassword('password');
+		$share->setPasswordHash($passwordHash);
 		$share->setSendPasswordByTalk(true);
 		$share->setToken('token');
 		$expireDate = new \DateTime();
@@ -882,19 +892,22 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
-		$this->assertSame('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertSame($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('token', $share2->getToken());
 		$this->assertEquals($expireDate->getTimestamp(), $share2->getExpirationDate()->getTimestamp());
 	}
 
 	public function testGetShareByToken(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -919,7 +932,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame('secrettoken', $share->getToken());
-		$this->assertSame('password', $share->getPassword());
+		$this->assertTrue($share->isPasswordHashed());
+		$this->assertSame($passwordHash, $share->getPassword());
 		$this->assertSame('the label', $share->getLabel());
 		$this->assertSame(true, $share->getSendPasswordByTalk());
 		$this->assertSame(null, $share->getSharedWith());
@@ -930,12 +944,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * as types on IShare, a string and not null
 	 */
 	public function testGetShareByTokenNullLabel(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1047,6 +1063,19 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
+	}
+
+	#[TestWith([[], 0])]
+	#[TestWith([['group1', 'group2'], 1])]
+	public function testGetSharedWithGroupWithoutGroupShares(array $groups, int $expectedQueries): void {
+		$this->groupManager->method('getUserGroupIds')->willReturn($groups);
+		$connection = $this->dbConn->getInner();
+
+		$queriesBefore = $connection->getStats()['executed'];
+		$shares = $this->provider->getSharedWithByPath('sharedWith', IShare::TYPE_GROUP, '/sharedWith/files/target', false, -1, 0);
+
+		$this->assertSame([], $shares);
+		$this->assertSame($expectedQueries, $connection->getStats()['executed'] - $queriesBefore);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
@@ -1924,6 +1953,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLink(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$id = $this->addShareToDB(IShare::TYPE_LINK, null, 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
@@ -1957,7 +1988,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setPassword('password');
+		$share->setPasswordHash($passwordHash);
 		$share->setSendPasswordByTalk(true);
 		$share->setSharedBy('user4');
 		$share->setShareOwner('user5');
@@ -1967,7 +1998,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->update($share);
 
 		$this->assertEquals($id, $share2->getId());
-		$this->assertEquals('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -1976,7 +2008,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share2->getId());
-		$this->assertEquals('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -1984,13 +2017,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLinkRemovePassword(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$id = $this->addShareToDB(IShare::TYPE_LINK, 'foo', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->update('share');
 		$qb->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
-		$qb->set('password', $qb->createNamedParameter('password'));
+		$qb->set('password', $qb->createNamedParameter($passwordHash));
 		$this->assertEquals(1, $qb->executeStatement());
 
 		$users = [];
@@ -2032,6 +2067,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->update($share);
 
 		$this->assertEquals($id, $share2->getId());
+		$this->assertFalse($share2->isPasswordHashed());
 		$this->assertEquals(null, $share2->getPassword());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -2040,6 +2076,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share2->getId());
+		$this->assertFalse($share2->isPasswordHashed());
 		$this->assertEquals(null, $share2->getPassword());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -3134,5 +3171,119 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id3, $shares[2]->getId());
 		$this->assertEquals(IShare::TYPE_LINK, $shares[2]->getShareType());
+	}
+
+	private function createMailL10n(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$l->method('l')->with('date', $this->isInstanceOf(\DateTime::class), ['width' => 'medium'])->willReturn('Oct 6, 2026');
+		$l->method('getLanguageCode')->willReturn('de');
+		return $l;
+	}
+
+	public function testSendUserShareMail(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('setLanguage')->with('de');
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', false);
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(function (EMailDetails $details): bool {
+			$rows = $details->getRows();
+			return $details->getTitle() === 'file.txt'
+				&& count($rows) === 1
+				&& $rows[0]->getLabel() === 'Valid until'
+				&& $rows[0]->getParts()[0]['text'] === 'Oct 6, 2026';
+		}));
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setReplyTo')->with(['sharer@example.com' => 'Sharer']);
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+			new \DateTime('2026-10-06'),
+			'A note & more',
+		]);
+	}
+
+	public function testSendUserShareMailWithoutNoteAndExpiration(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn(null);
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', '');
+		$template->expects($this->never())->method('addBodyNote');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(
+			fn (EMailDetails $details): bool => $details->getTitle() === 'file.txt' && $details->getRows() === []
+		));
+		$message->expects($this->never())->method('setReplyTo');
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+		]);
+	}
+
+	public function testSendNote(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$recipient = $this->createMock(IUser::class);
+		$recipient->method('getEMailAddress')->willReturn('recipient@example.com');
+		$recipient->method('getDisplayName')->willReturn('Recipient');
+		$this->l10nFactory->method('getUserLanguage')->with($recipient)->willReturn('en');
+		$this->l10nFactory->method('get')->with('lib', 'en')->willReturn($this->createMailL10n());
+		$this->defaults->method('getName')->willReturn('Cloud');
+		$this->urlGenerator->method('linkToRouteAbsolute')->willReturn('https://example.com/link');
+
+		$node = $this->createMock(File::class);
+		$node->method('getName')->willReturn('file.txt');
+		$node->method('getId')->willReturn(42);
+		$share = $this->createMock(IShare::class);
+		$share->method('getNode')->willReturn($node);
+		$share->method('getSharedBy')->willReturn('sharer');
+		$share->method('getNote')->willReturn('A note & more');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$template->expects($this->once())->method('setLanguage')->with('de');
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you');
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setTo')->with(['recipient@example.com' => 'Recipient']);
+
+		self::invokePrivate($this->provider, 'sendNote', [[$recipient], $share]);
 	}
 }

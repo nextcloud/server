@@ -33,6 +33,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -46,6 +47,7 @@ use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use function str_starts_with;
 use function strlen;
 
@@ -110,7 +112,10 @@ class DefaultShareProvider implements
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
-			$qb->setValue('accepted', $qb->createNamedParameter(IShare::STATUS_PENDING));
+			if ($share->getStatus() === null) {
+				$share->setStatus(IShare::STATUS_PENDING);
+			}
+			$qb->setValue('accepted', $qb->createNamedParameter($share->getStatus()));
 
 			//If an expiration date is set store it
 			if ($expirationDate !== null) {
@@ -133,8 +138,11 @@ class DefaultShareProvider implements
 			$qb->setValue('token', $qb->createNamedParameter($share->getToken()));
 
 			//If a password is set store it
-			if ($share->getPassword() !== null) {
-				$qb->setValue('password', $qb->createNamedParameter($share->getPassword()));
+			if (($password = $share->getPassword()) !== null) {
+				if (!$share->isPasswordHashed()) {
+					throw new RuntimeException('The password must be hashed already.');
+				}
+				$qb->setValue('password', $qb->createNamedParameter($password));
 			}
 
 			$qb->setValue('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL));
@@ -185,9 +193,9 @@ class DefaultShareProvider implements
 			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
 		}
 
-		// Set the time this share was created
-		$shareTime = $this->timeFactory->now();
+		$shareTime = $share->getShareTime() ?? \DateTime::createFromImmutable($this->timeFactory->now());
 		$qb->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
+		$share->setShareTime($shareTime);
 
 		// insert the data and fetch the id of the share
 		$qb->executeStatement();
@@ -196,8 +204,6 @@ class DefaultShareProvider implements
 		$id = $qb->getLastInsertId();
 		$share->setId((string)$id);
 		$share->setProviderId($this->identifier());
-
-		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
 
 		$mailSendValue = $share->getMailSend();
 		$share->setMailSend(($mailSendValue === null) ? true : $mailSendValue);
@@ -287,10 +293,15 @@ class DefaultShareProvider implements
 				->set('attributes', $qb->createNamedParameter($shareAttributes))
 				->executeStatement();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			$password = $share->getPassword();
+			if ($password !== null && !$share->isPasswordHashed()) {
+				throw new RuntimeException('The password must be hashed already.');
+			}
+
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-				->set('password', $qb->createNamedParameter($share->getPassword()))
+				->set('password', $qb->createNamedParameter($password))
 				->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
@@ -524,6 +535,7 @@ class DefaultShareProvider implements
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
+				'attributes' => $qb->createNamedParameter($this->formatShareAttributes($share->getAttributes())),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->executeStatement();
 
@@ -1060,6 +1072,9 @@ class DefaultShareProvider implements
 			/*
 			 * Resolve all group shares to user specific shares
 			 */
+			if ($shares2 === []) {
+				return [];
+			}
 			$shares = $this->resolveGroupShares($shares2, $userId, $path, $forChildren);
 		} else {
 			throw new BackendError('Invalid backend');
@@ -1129,7 +1144,9 @@ class DefaultShareProvider implements
 			$share->setSharedWith($data['share_with']);
 			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->groupManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
-			$share->setPassword($data['password']);
+			if (($password = $data['password']) !== null) {
+				$share->setPasswordHash($password);
+			}
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 			$share->setToken($data['token']);
 		}
@@ -1165,7 +1182,7 @@ class DefaultShareProvider implements
 	/**
 	 * Update the data from group shares with any per-user modifications
 	 *
-	 * @param array<int, Share> $shareMap shares indexed by share id
+	 * @param non-empty-array<int, Share> $shareMap shares indexed by share id
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
@@ -1602,6 +1619,7 @@ class DefaultShareProvider implements
 		$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$initiatorEmail = $initiatorUser?->getEMailAddress();
 
 		$message = $this->mailer->createMessage();
 
@@ -1612,14 +1630,22 @@ class DefaultShareProvider implements
 			'expiration' => $expiration,
 			'shareWith' => $shareWith,
 		]);
+		$emailTemplate->setLanguage($l->getLanguageCode());
 
 		$emailTemplate->setSubject($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
+		$emailTemplate->addBodySender($initiatorDisplayName, $initiatorEmail ?? '');
 		$emailTemplate->addHeading($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]), false);
 
 		if ($note !== '') {
-			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+			$emailTemplate->addBodyNote($note, $l->t('Note'));
 		}
+
+		$details = new EMailDetails($filename);
+		if ($expiration !== null) {
+			$details->addRow($l->t('Valid until'))->text((string)$l->l('date', $expiration, ['width' => 'medium']));
+		}
+		$emailTemplate->addBodyDetails($details);
 
 		$emailTemplate->addBodyButton(
 			$l->t('Open %s', [$filename]),
@@ -1640,18 +1666,10 @@ class DefaultShareProvider implements
 		$message->setFrom([Util::getDefaultEmailAddress('noreply') => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
-		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser) {
-			$initiatorEmail = $initiatorUser->getEMailAddress();
-			if ($initiatorEmail !== null) {
-				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
-			} else {
-				$emailTemplate->addFooter();
-			}
-		} else {
-			$emailTemplate->addFooter();
+		if ($initiatorEmail !== null) {
+			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
 		}
+		$emailTemplate->addFooter();
 
 		$message->useTemplate($emailTemplate);
 		$failedRecipients = $this->mailer->send($message);
@@ -1697,16 +1715,17 @@ class DefaultShareProvider implements
 			$initiatorUser = $this->userManager->get($initiator);
 			$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 			$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
-			$plainHeading = $l->t('%1$s shared %2$s with you and wants to add:', [$initiatorDisplayName, $filename]);
-			$htmlHeading = $l->t('%1$s shared %2$s with you and wants to add', [$initiatorDisplayName, $filename]);
+			$heading = $l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]);
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
+			$emailTemplate->setLanguage($l->getLanguageCode());
 
 			$emailTemplate->setSubject($l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 			$emailTemplate->addHeader();
-			$emailTemplate->addHeading($htmlHeading, $plainHeading);
-			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+			$emailTemplate->addBodySender($initiatorDisplayName, $initiatorEmailAddress ?? '');
+			$emailTemplate->addHeading($heading);
+			$emailTemplate->addBodyNote($note, $l->t('Note'));
 
 			$link = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
 			$emailTemplate->addBodyButton(
@@ -1726,10 +1745,8 @@ class DefaultShareProvider implements
 			$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
 			if ($initiatorEmailAddress !== null) {
 				$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
-				$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
-			} else {
-				$emailTemplate->addFooter();
 			}
+			$emailTemplate->addFooter();
 
 			if (count($toList) === 1) {
 				$message->setTo($toList);

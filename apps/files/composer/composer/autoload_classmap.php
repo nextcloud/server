@@ -88,6 +88,7 @@ return array(
     'OCA\\Files\\Migration\\Version2003Date20241021095629' => $baseDir . '/../lib/Migration/Version2003Date20241021095629.php',
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
+    'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => $baseDir . '/../lib/Search/FileAccountScopedSearchProvider.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
     'OCA\\Files\\Service\\ChunkedUploadConfig' => $baseDir . '/../lib/Service/ChunkedUploadConfig.php',
     'OCA\\Files\\Service\\DirectEditingService' => $baseDir . '/../lib/Service/DirectEditingService.php',
@@ -107,4 +108,5 @@ return array(
     'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
+    'OCA\\Files\\TokenScopes' => $baseDir . '/../lib/TokenScopes.php',
 );

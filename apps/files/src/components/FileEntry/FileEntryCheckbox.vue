@@ -10,7 +10,7 @@
 		<NcCheckboxRadioSwitch
 			v-else
 			:aria-label="ariaLabel"
-			:model-value="isSelected"
+			:modelValue="isSelected"
 			data-cy-files-list-row-checkbox
 			@update:modelValue="onSelectionChange" />
 	</td>

@@ -4,7 +4,7 @@
  */
 
 import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
-import type { Upload } from '@nextcloud/upload'
+import type { IUpload } from '@nextcloud/files/upload'
 
 // Global definitions
 export type Service = string
@@ -102,7 +102,7 @@ export interface RenamingStore {
 
 // Uploader store
 export interface UploaderStore {
-	queue: Upload[]
+	queue: IUpload[]
 }
 
 // Drag and drop store
