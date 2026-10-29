@@ -94,7 +94,7 @@ SPDX-FileCopyrightText = "2018 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["integritycheck/mimetypeListModified/core/js/mimetypelist.js", "integritycheck/mimetypeListModified/core/signature.json", "guest_avatar_einstein_32.png", "guest_avatar_einstein_32.svg", "test.pdf"]
+path = ["integritycheck/mimetypeListModified/core/js/mimetypelist.js", "integritycheck/mimetypeListModified/core/signature.json", "test.pdf"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
