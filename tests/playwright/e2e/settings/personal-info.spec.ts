@@ -12,16 +12,10 @@ test.describe('Settings: Change personal information', () => {
 	test.beforeAll(async () => {
 		// Prevent the Fediverse section from making outbound HTTP requests
 		await runOcc(['config:system:set', 'has_internet_connection', '--type', 'bool', '--value', 'false'])
-		// Let each user choose their own language and locale
-		await runOcc(['config:system:delete', 'force_language'])
-		await runOcc(['config:system:delete', 'force_locale'])
 	})
 
 	test.afterAll(async () => {
 		await runOcc(['config:system:delete', 'has_internet_connection'])
-		// Restore English defaults so other test suites are unaffected
-		await runOcc(['config:system:set', 'force_language', '--value', 'en'])
-		await runOcc(['config:system:set', 'force_locale', '--value', 'en_US'])
 	})
 
 	// ── Profile ───────────────────────────────────────────────────────────────
@@ -343,11 +337,20 @@ test.describe('Settings: Change personal information', () => {
 	// ── Language & locale ─────────────────────────────────────────────────────
 
 	test.describe('Language & locale', () => {
-		test.beforeEach(async () => {
-			// The section is read-only while a language or locale is enforced, and a
-			// parallel worker may have restored the defaults of this suite already
+		// The section is read-only while a language or locale is enforced. Lifting
+		// the instance-wide enforcement must happen in a single worker, otherwise
+		// one worker's cleanup re-enforces it while another is still testing.
+		test.describe.configure({ mode: 'serial' })
+
+		test.beforeAll(async () => {
 			await runOcc(['config:system:delete', 'force_language'])
 			await runOcc(['config:system:delete', 'force_locale'])
+		})
+
+		test.afterAll(async () => {
+			// Restore the test server's English defaults for the other suites
+			await runOcc(['config:system:set', 'force_language', '--value', 'en'])
+			await runOcc(['config:system:set', 'force_locale', '--value', 'en_US'])
 		})
 
 		test('can change language', async ({ page, languageLocalePage }) => {
