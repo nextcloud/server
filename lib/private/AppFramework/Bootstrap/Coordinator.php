@@ -15,7 +15,6 @@ use OC\Support\CrashReport\Registry;
 use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
-use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -165,7 +164,7 @@ class Coordinator {
 				$context = new BootContext($this->serverContainer, $application->getContainer());
 				$application->boot($context);
 			}
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->logger->error("Could not boot $appId: " . $e->getMessage(), [
 				'exception' => $e,
 			]);

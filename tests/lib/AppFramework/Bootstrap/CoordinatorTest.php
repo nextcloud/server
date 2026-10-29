@@ -17,7 +17,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -40,7 +40,7 @@ class CoordinatorTest extends TestCase {
 		$this->getAutoMock(Server::class)->expects($this->once())
 			->method('get')
 			->with(Application::class)
-			->willThrowException(new QueryException(''));
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 

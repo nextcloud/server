@@ -1304,6 +1304,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\ORM\\EntityInfo' => __DIR__ . '/../../..' . '/lib/private/AppFramework/ORM/EntityInfo.php',
         'OC\\AppFramework\\ORM\\EntityManager' => __DIR__ . '/../../..' . '/lib/private/AppFramework/ORM/EntityManager.php',
         'OC\\AppFramework\\ORM\\PropertyAttributes' => __DIR__ . '/../../..' . '/lib/private/AppFramework/ORM/PropertyAttributes.php',
+        'OC\\AppFramework\\QueryException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/QueryException.php',
         'OC\\AppFramework\\Routing\\RouteActionHandler' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Routing/RouteActionHandler.php',
         'OC\\AppFramework\\Routing\\RouteParser' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Routing/RouteParser.php',
         'OC\\AppFramework\\ScopedPsrLogger' => __DIR__ . '/../../..' . '/lib/private/AppFramework/ScopedPsrLogger.php',

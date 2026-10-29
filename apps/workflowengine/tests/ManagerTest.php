@@ -12,7 +12,6 @@ use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -37,6 +36,7 @@ use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -327,7 +327,7 @@ class ManagerTest extends TestCase {
 					case 'OCA\WFE\TestOp':
 						return $operation;
 					case 'OCA\WFE\OtherTestOp':
-						throw new QueryException();
+						throw $this->createMock(ContainerExceptionInterface::class);
 				}
 			});
 

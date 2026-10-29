@@ -1263,6 +1263,7 @@ return array(
     'OC\\AppFramework\\ORM\\EntityInfo' => $baseDir . '/lib/private/AppFramework/ORM/EntityInfo.php',
     'OC\\AppFramework\\ORM\\EntityManager' => $baseDir . '/lib/private/AppFramework/ORM/EntityManager.php',
     'OC\\AppFramework\\ORM\\PropertyAttributes' => $baseDir . '/lib/private/AppFramework/ORM/PropertyAttributes.php',
+    'OC\\AppFramework\\QueryException' => $baseDir . '/lib/private/AppFramework/QueryException.php',
     'OC\\AppFramework\\Routing\\RouteActionHandler' => $baseDir . '/lib/private/AppFramework/Routing/RouteActionHandler.php',
     'OC\\AppFramework\\Routing\\RouteParser' => $baseDir . '/lib/private/AppFramework/Routing/RouteParser.php',
     'OC\\AppFramework\\ScopedPsrLogger' => $baseDir . '/lib/private/AppFramework/ScopedPsrLogger.php',

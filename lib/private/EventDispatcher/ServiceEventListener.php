@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OC\EventDispatcher;
 
-use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use function sprintf;
@@ -39,7 +39,7 @@ final class ServiceEventListener {
 				//       parameters and aliases won't be resolved.
 				//       See https://github.com/nextcloud/server/issues/27793 for details.
 				$this->service = $this->container->get($this->class);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				$this->logger->error(
 					sprintf(
 						'Could not load event listener service %s: %s. Make sure the class is auto-loadable by the Nextcloud server container',

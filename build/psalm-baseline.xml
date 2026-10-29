@@ -1542,12 +1542,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">
-    <DeprecatedClass>
-      <code><![CDATA[new QueryException()]]></code>
-      <code><![CDATA[new QueryException()]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_sharing/lib/Controller/SettingsController.php">
     <DeprecatedMethod>
       <code><![CDATA[deleteUserValue]]></code>
@@ -1556,11 +1550,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
-    <DeprecatedClass>
-      <code><![CDATA[new QueryException()]]></code>
-      <code><![CDATA[new QueryException()]]></code>
-      <code><![CDATA[new QueryException()]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>

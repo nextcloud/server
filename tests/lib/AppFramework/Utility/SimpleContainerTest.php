@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
@@ -83,9 +83,9 @@ class SimpleContainerTest extends \Test\TestCase {
 				'query',
 				['something really hard', false]
 			);
-			$this->fail('Expected `QueryException` exception was not thrown');
+			$this->fail('Expected `ContainerExceptionInterface` exception was not thrown');
 		} catch (\Throwable $exception) {
-			$this->assertInstanceOf(QueryException::class, $exception);
+			$this->assertInstanceOf(ContainerExceptionInterface::class, $exception);
 			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
 		}
 	}
@@ -96,15 +96,15 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testNothingRegistered_autoload(): void {
 		try {
 			$this->container->get('something really hard');
-			$this->fail('Expected `QueryException` exception was not thrown');
+			$this->fail('Expected `ContainerExceptionInterface` exception was not thrown');
 		} catch (\Throwable $exception) {
-			$this->assertInstanceOf(QueryException::class, $exception);
+			$this->assertInstanceOf(ContainerExceptionInterface::class, $exception);
 			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
 		}
 	}
 
 	public function testNotAClass(): void {
-		$this->expectException(QueryException::class);
+		$this->expectException(ContainerExceptionInterface::class);
 
 		$this->container->get('Test\AppFramework\Utility\TestInterface');
 	}
@@ -205,7 +205,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testConstructorComplexNoTestParameterFound(): void {
-		$this->expectException(QueryException::class);
+		$this->expectException(ContainerExceptionInterface::class);
 
 		$object = $this->container->get(
 			'Test\AppFramework\Utility\ClassComplexConstructor'
@@ -236,7 +236,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testQueryUntypedNullable(): void {
-		$this->expectException(QueryException::class);
+		$this->expectException(ContainerExceptionInterface::class);
 
 		$object = $this->container->get(
 			ClassNullableUntypedConstructorArg::class

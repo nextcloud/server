@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace OC;
 
-use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
 use OCP\ILogger;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
@@ -44,7 +44,7 @@ class CapabilitiesManager {
 		foreach ($this->capabilities as $capability) {
 			try {
 				$c = $capability();
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				$this->logger->error('CapabilitiesManager', [
 					'exception' => $e,
 				]);
