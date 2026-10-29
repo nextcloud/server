@@ -66,15 +66,20 @@ export const action: IFileAction = {
  * @param contents - The folder the file is in, so the viewer can navigate
  */
 async function attemptOpenLocalClient(node: INode, contents: ActionContextSingle['contents']) {
-	await openLocalClient(node.path)
+	let redirected = await openLocalClient(node.path)
 	const result = await confirmLocalEditDialog()
 	if (result === 'local') {
-		await openLocalClient(node.path)
+		redirected = await openLocalClient(node.path) || redirected
 	} else if (result === 'online') {
 		// The listing carries the folders too, and the viewer pages through
-		// files alone
+		// files alone. The viewer reports the open itself.
 		const files = contents.filter((entry): entry is IFile => entry.type === FileType.File)
 		await getViewer().open(files, node as IFile)
+		return
+	}
+
+	if (redirected) {
+		await reportOpened(node)
 	}
 }
 
@@ -83,8 +88,9 @@ async function attemptOpenLocalClient(node: INode, contents: ActionContextSingle
  * There is no way to get notified if this action was successful.
  *
  * @param path - Path to open
+ * @return Whether the client was asked to open it
  */
-async function openLocalClient(path: string): Promise<void> {
+async function openLocalClient(path: string): Promise<boolean> {
 	const link = generateOcsUrl('apps/files/api/v1') + '/openlocaleditor?format=json'
 
 	try {
@@ -94,9 +100,25 @@ async function openLocalClient(path: string): Promise<void> {
 		url += '?token=' + result.data.ocs.data.token
 
 		window.open(url, '_self')
+		return true
 	} catch (error) {
 		showError(t('files', 'Failed to redirect to client'))
 		logger.error('Failed to redirect to client', { error })
+		return false
+	}
+}
+
+/**
+ * Tell the server the user opened the file, so apps know what they work with.
+ * We cannot know whether the client did open it, only that it was asked to.
+ *
+ * @param node - The file opened
+ */
+async function reportOpened(node: INode): Promise<void> {
+	try {
+		await axios.post(generateOcsUrl('apps/files/api/v1/opened'), { fileId: node.fileid })
+	} catch (error) {
+		logger.error('Failed to report the file as opened', { error })
 	}
 }
 
