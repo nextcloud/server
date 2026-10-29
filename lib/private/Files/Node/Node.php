@@ -15,6 +15,7 @@ use OCP\Constants;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -461,6 +462,17 @@ class Node implements INode {
 				)
 			)
 		) {
+			if (dirname($this->path) === dirname($targetPath)) {
+				$canMove = DavUtil::canRename($this, $parent);
+			} else {
+				// the source is removed from its folder, so it needs to be deletable unless it is a movable mount point
+				$canMove = $this->isDeletable()
+					|| ($this->getInternalPath() === '' && $this->getMountPoint() instanceof IMovableMount);
+			}
+			if (!$canMove) {
+				throw new NotPermittedException('No permission to move ' . $this->path);
+			}
+
 			$nonExisting = $this->createNonExistingNode($targetPath);
 			$this->sendHooks(['preRename'], [$this, $nonExisting]);
 			$this->sendHooks(['preWrite'], [$nonExisting]);
