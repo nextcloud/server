@@ -366,7 +366,7 @@ class SearchBuilder {
 					}
 
 					if ($field === 'last_activity') {
-						$field = $query->func()->greatest('file.mtime', $query->createFunction('COALESCE(fe.upload_time, 0)'));
+						$field = $query->func()->greatest('file.mtime', $query->func()->coalesce('fe.upload_time', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 					}
 			}
 			$query->addOrderBy($field, $order->getDirection());
