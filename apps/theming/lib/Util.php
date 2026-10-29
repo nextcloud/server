@@ -247,12 +247,16 @@ class Util {
 	 */
 	public function getAppImage($app, $image) {
 		$app = $this->appManager->cleanAppId($app);
+		if (str_contains($image, '..') || str_contains($image, '\\') || str_contains($image, "\0")) {
+			return false;
+		}
+
 		/**
 		 * @psalm-taint-escape file
 		 */
-		$image = str_replace(['\0', '\\', '..'], '', $image);
+		$imagePath = '/img/' . $image;
 		if ($app === 'core') {
-			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
+			$icon = \OC::$SERVERROOT . '/core' . $imagePath;
 			if (file_exists($icon)) {
 				return $icon;
 			}
@@ -264,23 +268,7 @@ class Util {
 			return false;
 		}
 
-		$icon = $appPath . '/img/' . $image;
-		if (file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.svg';
-		if (file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.png';
-		if (file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.gif';
-		if (file_exists($icon)) {
-			return $icon;
-		}
-		$icon = $appPath . '/img/' . $image . '.jpg';
+		$icon = $appPath . $imagePath;
 		if (file_exists($icon)) {
 			return $icon;
 		}
