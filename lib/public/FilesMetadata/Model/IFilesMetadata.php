@@ -49,7 +49,7 @@ interface IFilesMetadata extends JsonSerializable {
 	 * returns the storage id linked to this metadata
 	 *
 	 * @return int
-	 * @since 36.0.0
+	 * @since 34.0.6
 	 */
 	public function getStorageId(): int;
 

@@ -186,7 +186,7 @@ interface IManager {
 	 * @param list<string> $taskTypeIds When non-empty, only tasks of these task type IDs are considered.
 	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
 	 * @throws Exception If the query failed
-	 * @since 35.0.0
+	 * @since 34.0.1
 	 */
 	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task;
 
@@ -284,7 +284,7 @@ interface IManager {
 	 * @return int The count of matching tasks
 	 * @throws Exception If the query failed
 	 * @since 34.0.0
-	 * @since 36.0.0 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
+	 * @since 34.0.5 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
 	 */
 	public function countTasks(
 		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,

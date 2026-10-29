@@ -13,29 +13,29 @@ use InvalidArgumentException;
 /**
  * Contacts Import Options
  *
- * @since 35.0.0
+ * @since 34.0.5
  */
 final class ContactsImportOptions {
 
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const FORMATS = ['vcf', 'jcf', 'xcf'];
 
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const VALIDATE_NONE = 0;
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const VALIDATE_SKIP = 1;
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const VALIDATE_FAIL = 2;
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const VALIDATE_OPTIONS = [
 		self::VALIDATE_NONE,
@@ -43,15 +43,15 @@ final class ContactsImportOptions {
 		self::VALIDATE_FAIL,
 	];
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const ERROR_CONTINUE = 0;
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const ERROR_FAIL = 1;
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public const ERROR_OPTIONS = [
 		self::ERROR_CONTINUE,
@@ -69,7 +69,7 @@ final class ContactsImportOptions {
 	 * Gets the import format
 	 *
 	 * @return 'vcf'|'jcf'|'xcf' (defaults to vcf)
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -79,7 +79,7 @@ final class ContactsImportOptions {
 	 * Sets the import format
 	 *
 	 * @param 'vcf'|'jcf'|'xcf' $value
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setFormat(string $value): void {
 		if (!in_array($value, self::FORMATS, true)) {
@@ -91,7 +91,7 @@ final class ContactsImportOptions {
 	/**
 	 * Gets whether to supersede existing objects
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getSupersede(): bool {
 		return $this->supersede;
@@ -100,7 +100,7 @@ final class ContactsImportOptions {
 	/**
 	 * Sets whether to supersede existing objects
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setSupersede(bool $supersede): void {
 		$this->supersede = $supersede;
@@ -110,7 +110,7 @@ final class ContactsImportOptions {
 	 * Gets how to handle object errors
 	 *
 	 * @return int 0 - continue, 1 - fail
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getErrors(): int {
 		return $this->errors;
@@ -122,7 +122,7 @@ final class ContactsImportOptions {
 	 * @param int $value 0 - continue, 1 - fail
 	 *
 	 * @template $value of self::ERROR_*
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setErrors(int $value): void {
 		if (!in_array($value, self::ERROR_OPTIONS, true)) {
@@ -135,7 +135,7 @@ final class ContactsImportOptions {
 	 * Gets how to handle object validation
 	 *
 	 * @return int 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getValidate(): int {
 		return $this->validate;
@@ -147,7 +147,7 @@ final class ContactsImportOptions {
 	 * @param int $value 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
 	 *
 	 * @template $value of self::VALIDATE_*
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setValidate(int $value): void {
 		if (!in_array($value, self::VALIDATE_OPTIONS, true)) {
@@ -159,7 +159,7 @@ final class ContactsImportOptions {
 	/**
 	 * Gets whether to include object counts as the first yielded value
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getCounts(): bool {
 		return $this->counts;
@@ -168,7 +168,7 @@ final class ContactsImportOptions {
 	/**
 	 * Sets whether to include object counts as the first yielded value
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setCounts(bool $counts): void {
 		$this->counts = $counts;

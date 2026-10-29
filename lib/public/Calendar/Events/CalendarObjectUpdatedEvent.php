@@ -36,7 +36,7 @@ class CalendarObjectUpdatedEvent extends AbstractCalendarObjectEvent {
 	 * Returns the object data as it was before the update.
 	 *
 	 * @return array
-	 * @since 35.0.0
+	 * @since 34.0.0
 	 */
 	public function getOldObjectData(): array {
 		return $this->oldObjectData;

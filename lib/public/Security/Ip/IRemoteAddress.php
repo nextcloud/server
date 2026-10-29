@@ -22,7 +22,7 @@ interface IRemoteAddress {
 
 	/**
 	 * Check if the current remote address is allowed to bypass the password confirmation.
-	 * @since 35.0.0
+	 * @since 34.0.3
 	 */
 	public function allowsBypassPasswordConfirmation(): bool;
 }

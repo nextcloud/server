@@ -43,7 +43,7 @@ interface IRoomMetadata {
 	 * building from BUILDING_ADDRESS, which only works for backends that
 	 * happen to put the building name first.
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.4
 	 */
 	public const BUILDING_NAME = '{http://nextcloud.com/ns}room-building-name';
 
