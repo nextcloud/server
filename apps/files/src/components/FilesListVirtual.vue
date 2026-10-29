@@ -8,6 +8,7 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
+		:navigating="navigating"
 		:gridMode="userConfig.grid_view"
 		:extraProps="{
 			isMimeAvailable,
@@ -45,6 +46,24 @@
 		<!-- Body replacement if no files are available -->
 		<template #empty>
 			<slot name="empty" />
+		</template>
+
+		<!-- Loading skeleton while navigating -->
+		<template #navigating>
+			<div class="files-list__loading-skeleton">
+				<!-- Skeleton rows -->
+				<div
+					v-for="index in 5"
+					:key="`skeleton-${index}`"
+					class="files-list__skeleton-row">
+					<!-- Checkbox skeleton -->
+					<div class="files-list__skeleton-checkbox" />
+					<!-- Icon skeleton -->
+					<div class="files-list__skeleton-icon" />
+					<!-- Name skeleton -->
+					<div class="files-list__skeleton-name" />
+				</div>
+			</div>
 		</template>
 
 		<!-- Tfoot-->
@@ -118,6 +137,11 @@ export default defineComponent({
 		summary: {
 			type: String,
 			required: true,
+		},
+
+		navigating: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -582,6 +606,78 @@ export default defineComponent({
 			justify-content: center;
 			width: 100%;
 			height: 100%;
+		}
+
+		// Loading skeleton
+		.files-list__loading-skeleton {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.files-list__skeleton-row {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: var(--row-height);
+			border-block-end: 1px solid var(--color-border);
+			box-sizing: border-box;
+			gap: 8px;
+			padding: 0 8px;
+		}
+
+		.files-list__skeleton-checkbox {
+			width: var(--checkbox-size);
+			height: var(--checkbox-size);
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-icon {
+			width: 24px;
+			height: 24px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-name {
+			flex: 1 1 auto;
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			min-width: 100px;
+		}
+
+		@keyframes skeleton-loading {
+			0% {
+				background-position: 200% 0;
+			}
+			100% {
+				background-position: -200% 0;
+			}
 		}
 
 		tr {
