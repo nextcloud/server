@@ -597,6 +597,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		$sourceCache = $sourceStorage->getCache();
 		if (
 			$sourceStorage->instanceOfStorage(ObjectStoreStorage::class) &&

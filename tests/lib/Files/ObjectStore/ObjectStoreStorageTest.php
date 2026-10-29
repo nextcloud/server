@@ -10,6 +10,8 @@ namespace Test\Files\ObjectStore;
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OCP\Constants;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\Storage;
 
@@ -224,6 +226,28 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertEquals('2', $this->instance->file_get_contents('b/target/sub/2.txt'));
 		$this->assertEquals('3', $this->instance->file_get_contents('b/target/sub/3.txt'));
 	}
+
+	public function testMoveFromNonDeletableJail(): void {
+		$this->instance->mkdir('a');
+		$this->instance->mkdir('b');
+		$this->instance->file_put_contents('a/1.txt', '1');
+		$jailA = new Jail([
+			'storage' => new PermissionsMask([
+				'storage' => $this->instance,
+				'mask' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_DELETE,
+			]),
+			'root' => 'a'
+		]);
+		$jailB = new Jail([
+			'storage' => $this->instance,
+			'root' => 'b'
+		]);
+
+		$this->assertFalse($jailB->moveFromStorage($jailA, '1.txt', '1.txt'));
+		$this->assertEquals('1', $this->instance->file_get_contents('a/1.txt'));
+		$this->assertFalse($this->instance->file_exists('b/1.txt'));
+	}
+
 	public function testCopyGrantsPermissions(): void {
 		$config['objectstore'] = $this->objectStorage;
 		$instance = new ObjectStoreStorageOverwrite($config);
