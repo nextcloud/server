@@ -114,7 +114,40 @@ VCF;
 		self::assertCount(1, $children);
 	}
 
-	public function testGetFilteredChildForFederation(): void {
+	public static function providesFederatedCards(): array {
+		return [
+			'vCard 3.0' => [<<<VCF
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.4.2//EN
+UID:admin
+FN;X-NC-SCOPE=v2-federated:admin
+N;X-NC-SCOPE=v2-federated:admin;;;;
+ADR;TYPE=OTHER;X-NC-SCOPE=v2-local:Testing test test test;;;;;;
+EMAIL;TYPE=OTHER;X-NC-SCOPE=v2-federated:miau_lalala@gmx.net
+TEL;TYPE=OTHER;X-NC-SCOPE=v2-local:+435454454544
+CLOUD:admin@http://localhost
+END:VCARD
+VCF, []],
+			'vCard 4.0' => [<<<VCF
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+UID:admin
+FN;X-NC-SCOPE=v2-federated:admin
+N;X-NC-SCOPE=v2-federated:admin;;;;
+EMAIL;TYPE=OTHER;X-NC-SCOPE=v2-federated:miau_lalala@gmx.net
+PHOTO;VALUE=URI;X-NC-SCOPE=v2-federated:data:image/png;base64\\,YWJj
+LANG;X-NC-SCOPE=v2-local:de-DE
+TZ;X-NC-SCOPE=v2-local:Europe/Berlin
+CLOUD:admin@http://localhost
+END:VCARD
+VCF, ['PHOTO']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesFederatedCards')]
+	public function testGetFilteredChildForFederation(string $vcfWithScopes, array $expectedProperties): void {
 		$this->config->expects(self::exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
@@ -129,19 +162,6 @@ VCF;
 					'shared_secret' => 'shared123',
 				],
 			]);
-		$vcfWithScopes = <<<VCF
-BEGIN:VCARD
-VERSION:3.0
-PRODID:-//Sabre//Sabre VObject 4.4.2//EN
-UID:admin
-FN;X-NC-SCOPE=v2-federated:admin
-N;X-NC-SCOPE=v2-federated:admin;;;;
-ADR;TYPE=OTHER;X-NC-SCOPE=v2-local:Testing test test test;;;;;;
-EMAIL;TYPE=OTHER;X-NC-SCOPE=v2-federated:miau_lalala@gmx.net
-TEL;TYPE=OTHER;X-NC-SCOPE=v2-local:+435454454544
-CLOUD:admin@http://localhost
-END:VCARD
-VCF;
 		$originalCard = [
 			'carddata' => $vcfWithScopes,
 		];
@@ -160,6 +180,11 @@ VCF;
 				self::assertNotEquals(IAccountManager::SCOPE_PRIVATE, $scope->getValue());
 				self::assertNotEquals(IAccountManager::SCOPE_LOCAL, $scope->getValue());
 			}
+		}
+		self::assertNull($vCard->LANG);
+		self::assertNull($vCard->TZ);
+		foreach ($expectedProperties as $name) {
+			self::assertNotNull($vCard->$name, $name . ' should be kept for trusted servers');
 		}
 	}
 
