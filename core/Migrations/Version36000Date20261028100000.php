@@ -31,7 +31,7 @@ class Version36000Date20261028100000 extends SimpleMigrationStep {
 
 		$table = $schema->getTable('bruteforce_attempts');
 
-		// Index added in Version13000Date20170718121200
+		// Index was created by Version13000Date20170718121200 on older instances
 		if ($table->hasIndex('bruteforce_attempts_ip')) {
 			$table->dropIndex('bruteforce_attempts_ip');
 			return $schema;
