@@ -1,5 +1,6 @@
 { "translations": {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n súbor nezodpovedá podpísanej verzii. Mohol byť upravený alebo pridaný bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The %n signatures of %s are missing or invalid, so they could not be verified._" : ["Podpis %s chýba alebo je neplatný, preto ho nebolo možné overiť.","%n podpisy %s chýbajú alebo sú neplatné, preto ich nebolo možné overiť.","Podpisy %s (%n) chýbajú alebo sú neplatné, preto ich nebolo možné overiť.","%n podpisov %s sa nepodarilo overiť, pretože chýbajú alebo sú neplatné."],
     "The code integrity check result has changed" : "Výsledok kontroly integrity kódu sa zmenil",
     "Review integrity check results" : "Skontrolovať výsledky kontroly integrity",
     "Please select a file." : "Prosím, vyberte súbor.",
