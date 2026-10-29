@@ -40,6 +40,13 @@ class TeamManager implements ITeamManager {
 	}
 
 	#[\Override]
+	public function isMemberOfTeam(string $teamId, string $userId): bool {
+		$probe = new CircleProbe();
+		$probe->mustBeMember();
+		return $this->getTeamInternal($teamId, $userId, $probe) !== null;
+	}
+
+	#[\Override]
 	public function getProviders(): array {
 		if (!$this->hasTeamSupport()) {
 			return [];

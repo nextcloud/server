@@ -417,6 +417,7 @@ return array(
     'OCP\\Dashboard\\IManager' => $baseDir . '/lib/public/Dashboard/IManager.php',
     'OCP\\Dashboard\\IOptionWidget' => $baseDir . '/lib/public/Dashboard/IOptionWidget.php',
     'OCP\\Dashboard\\IReloadableWidget' => $baseDir . '/lib/public/Dashboard/IReloadableWidget.php',
+    'OCP\\Dashboard\\ITeamWidget' => $baseDir . '/lib/public/Dashboard/ITeamWidget.php',
     'OCP\\Dashboard\\IWidget' => $baseDir . '/lib/public/Dashboard/IWidget.php',
     'OCP\\Dashboard\\Model\\WidgetButton' => $baseDir . '/lib/public/Dashboard/Model/WidgetButton.php',
     'OCP\\Dashboard\\Model\\WidgetItem' => $baseDir . '/lib/public/Dashboard/Model/WidgetItem.php',
