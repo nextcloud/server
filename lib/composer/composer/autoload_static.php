@@ -586,6 +586,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Events\\Node\\NodeCopiedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeCopiedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeCreatedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeDeletedEvent.php',
+        'OCP\\Files\\Events\\Node\\NodeOpenedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeOpenedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeRenamedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeRenamedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeTouchedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeTouchedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeWrittenEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeWrittenEvent.php',

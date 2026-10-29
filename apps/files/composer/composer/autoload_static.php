@@ -76,6 +76,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\DirectEditingViewController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingViewController.php',
         'OCA\\Files\\Controller\\FilenamesController' => __DIR__ . '/..' . '/../lib/Controller/FilenamesController.php',
         'OCA\\Files\\Controller\\OpenLocalEditorController' => __DIR__ . '/..' . '/../lib/Controller/OpenLocalEditorController.php',
+        'OCA\\Files\\Controller\\OpenedController' => __DIR__ . '/..' . '/../lib/Controller/OpenedController.php',
         'OCA\\Files\\Controller\\TemplateController' => __DIR__ . '/..' . '/../lib/Controller/TemplateController.php',
         'OCA\\Files\\Controller\\TransferOwnershipController' => __DIR__ . '/..' . '/../lib/Controller/TransferOwnershipController.php',
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',

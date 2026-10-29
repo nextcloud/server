@@ -545,6 +545,7 @@ return array(
     'OCP\\Files\\Events\\Node\\NodeCopiedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeCopiedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeCreatedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeCreatedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeDeletedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeDeletedEvent.php',
+    'OCP\\Files\\Events\\Node\\NodeOpenedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeOpenedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeRenamedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeRenamedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeTouchedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeTouchedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeWrittenEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeWrittenEvent.php',
