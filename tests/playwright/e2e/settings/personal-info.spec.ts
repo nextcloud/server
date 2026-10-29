@@ -30,7 +30,7 @@ test.describe('Settings: Change personal information', () => {
 		await profileContactPage.setProfileEnabled(false)
 
 		// Profile is disabled: the public profile page shows a "not found" heading
-		await page.goto(`/u/${user.userId}`, { waitUntil: 'networkidle' })
+		await page.goto(`/u/${user.userId}`)
 		await expect(page.getByRole('heading', { name: /Profile not found/i })).toBeVisible()
 
 		// Re-enable the profile
@@ -368,10 +368,10 @@ test.describe('Settings: Change personal information', () => {
 			// The example is rendered in the active locale, US English by default
 			await expect(languageLocalePage.localeExample()).toContainText(/Example: \d{2}\/\d{2}\/\d{4}/)
 
-			await languageLocalePage.selectLocale('German (Germany)', 'German')
-
 			// Locale change triggers a full page reload
-			await page.waitForLoadState('networkidle')
+			const reloaded = page.waitForEvent('load')
+			await languageLocalePage.selectLocale('German (Germany)', 'German')
+			await reloaded
 			await languageLocalePage.expectSelected(languageLocalePage.localeSelect(), 'German (Germany)')
 			// The example now uses the German date format
 			await expect(languageLocalePage.localeExample()).toContainText(/Example: \d{2}\.\d{2}\.\d{4}/)
