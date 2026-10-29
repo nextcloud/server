@@ -88,6 +88,7 @@ return array(
     'OCA\\Files\\Migration\\Version12101Date20221011153334' => $baseDir . '/../lib/Migration/Version12101Date20221011153334.php',
     'OCA\\Files\\Migration\\Version2003Date20241021095629' => $baseDir . '/../lib/Migration/Version2003Date20241021095629.php',
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
+    'OCA\\Files\\PublicCapabilities' => $baseDir . '/../lib/PublicCapabilities.php',
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => $baseDir . '/../lib/Search/FileAccountScopedSearchProvider.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
