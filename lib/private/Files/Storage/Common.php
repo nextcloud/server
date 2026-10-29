@@ -602,6 +602,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
+		// check before resolving the jail, as that also drops any permission mask of the source
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		if (
 			!$sourceStorage->instanceOfStorage(Encryption::class)
 			&& $this->isSameStorage($sourceStorage)
@@ -616,10 +621,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			}
 
 			return $this->rename($sourceInternalPath, $targetInternalPath);
-		}
-
-		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
-			return false;
 		}
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
