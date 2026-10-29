@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Share\ShareReview\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -67,7 +67,7 @@ use OCP\EventDispatcher\Event;
  *
  * @since 34.0.2
  */
-#[Consumable(since: '34.0.2')]
+#[Listenable(since: '34.0.2')]
 class ShareReviewAccessCheckEvent extends Event {
 
 	private bool $handled = false;

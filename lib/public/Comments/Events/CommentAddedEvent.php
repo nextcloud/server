@@ -8,7 +8,7 @@
 
 namespace OCP\Comments\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 
@@ -17,7 +17,7 @@ use OCP\Comments\IComment;
  *
  * @since 33.0.0
  */
-#[Consumable(since: '33.0.0')]
+#[Listenable(since: '33.0.0')]
 final class CommentAddedEvent extends CommentsEvent {
 	/**
 	 * CommentAddedEvent constructor.
