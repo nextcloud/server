@@ -377,16 +377,16 @@ export class FilesListPage {
 	}
 
 	async selectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().check({ force: true })
 	}
 
 	/**
 	 * Clear the current selection via the master checkbox. It is a toggle, so it
-	 * clicks the same control as {@link selectAll}; call it while rows are
+	 * uses the same control as {@link selectAll}; call it while all rows are
 	 * selected to deselect them all.
 	 */
 	async deselectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().uncheck({ force: true })
 	}
 
 	/**
