@@ -1,4 +1,8 @@
 { "translations": {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n fail ei vasta sellele, mis antud versiooni allkirjastatud variandis peaks olema. See võib ilma loata olla muudetud või lisatud.","%n faili ei vasta sellele, mis antud versiooni allkirjastatud variandis peaks olema. Neid võib ilma loata olla muudetud või lisatud."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The %n signatures of %s are missing or invalid, so they could not be verified._" : ["„%s“ paketi allkiri on puudu või vigane ja selle õigsuse kontrollimine polnud võimalik.","„%s“ paketi %n allkirja on puudu või vigased ja nende õigsuse kontrollimine polnud võimalik."],
+    "The code integrity check result has changed" : "Koodi tervikluse kontrollimise tulemus on muutunud",
+    "Review integrity check results" : "Vaata üle koodi tervikluse kontrollimise tulemused",
     "Please select a file." : "Palun vali fail.",
     "File is too big" : "Fail on liiga suur",
     "The selected file is not an image." : "Valitud fail ei ole pilt.",
