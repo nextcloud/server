@@ -80,6 +80,75 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$this->assertCount(2, $this->callBacks);
 	}
 
+	public function testTruncatedSyncPersistsTokenAfterEachPage(): void {
+		/** @var DbHandler&MockObject $dbHandler */
+		$dbHandler = $this->createMock(DbHandler::class);
+		$dbHandler->method('getAllServer')
+			->willReturn([
+				[
+					'url' => 'https://cloud.example.org',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'ilovenextcloud',
+					'sync_token' => null
+				]
+			]);
+		$tokenCalls = [];
+		$dbHandler->expects($this->exactly(2))->method('setServerSyncToken')
+			->willReturnCallback(function (string $url, string $token) use (&$tokenCalls): void {
+				$tokenCalls[] = [$url, $token];
+			});
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.example.org', TrustedServers::STATUS_OK, '5');
+		$syncService = $this->createMock(SyncService::class);
+		$syncService->expects($this->exactly(3))->method('syncRemoteAddressBook')
+			->willReturnOnConsecutiveCalls(['init_1_5', true], ['init_2_5', true], ['5', false]);
+
+		/** @var SyncService $syncService */
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s->syncThemAll(function ($url, $ex): void {
+			$this->callBacks[] = [$url, $ex];
+		});
+		$this->assertCount(1, $this->callBacks);
+		$this->assertSame([
+			['https://cloud.example.org', 'init_1_5'],
+			['https://cloud.example.org', 'init_2_5'],
+		], $tokenCalls);
+	}
+
+	public function testFailedPageKeepsTokenOfCompletedPages(): void {
+		/** @var DbHandler&MockObject $dbHandler */
+		$dbHandler = $this->createMock(DbHandler::class);
+		$dbHandler->method('getAllServer')
+			->willReturn([
+				[
+					'url' => 'https://cloud.example.org',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'ilovenextcloud',
+					'sync_token' => null
+				]
+			]);
+		$dbHandler->expects($this->once())->method('setServerSyncToken')
+			->with('https://cloud.example.org', 'init_1_5');
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.example.org', TrustedServers::STATUS_FAILURE);
+		$page = 0;
+		$syncService = $this->createMock(SyncService::class);
+		$syncService->expects($this->exactly(2))->method('syncRemoteAddressBook')
+			->willReturnCallback(function () use (&$page) {
+				if ($page++ === 0) {
+					return ['init_1_5', true];
+				}
+				throw new \Exception('something did not work out');
+			});
+
+		/** @var SyncService $syncService */
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s->syncThemAll(function ($url, $ex): void {
+			$this->callBacks[] = [$url, $ex];
+		});
+		$this->assertCount(2, $this->callBacks);
+	}
+
 	public function testSuccessfulSyncWithoutChangesAfterFailure(): void {
 		/** @var DbHandler&MockObject $dbHandler */
 		$dbHandler = $this->createMock(DbHandler::class);

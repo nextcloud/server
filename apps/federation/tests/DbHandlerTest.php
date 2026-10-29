@@ -215,6 +215,17 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(TrustedServers::STATUS_OK, (int)$result[0]['status']);
 	}
 
+	public function testSetServerSyncToken(): void {
+		$this->dbHandler->addServer('server1');
+		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_FAILURE);
+
+		$this->dbHandler->setServerSyncToken('http://server1', 'token1234567890');
+
+		$servers = $this->dbHandler->getAllServer();
+		$this->assertSame('token1234567890', $servers[0]['sync_token']);
+		$this->assertSame(TrustedServers::STATUS_FAILURE, (int)$servers[0]['status']);
+	}
+
 	public function testGetServerStatus(): void {
 		$this->dbHandler->addServer('server1');
 		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);

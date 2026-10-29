@@ -211,6 +211,18 @@ class DbHandler {
 	}
 
 	/**
+	 * Set server sync token without changing the server status
+	 */
+	public function setServerSyncToken(string $url, string $token): void {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->update($this->dbTable)
+			->set('sync_token', $query->createNamedParameter($token))
+			->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+		$query->executeStatement();
+	}
+
+	/**
 	 * Get server status
 	 */
 	public function getServerStatus(string $url): int {
