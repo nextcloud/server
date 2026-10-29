@@ -163,7 +163,7 @@ interface IRegistrationContext {
 	 *
 	 * @return void
 	 *
-	 * @since 36.0.0
+	 * @since 35.0.2
 	 */
 	public function registerAccountScopedSearchProvider(string $class): void;
 
