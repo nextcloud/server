@@ -5,18 +5,15 @@
 
 import { expect, test } from '../../support/fixtures/systemtags-files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
-import { clearTags } from '../../support/utils/systemtags.ts'
 
 test.describe('Systemtags: Files integration', () => {
-	test.afterAll(async () => await clearTags())
-
 	test.beforeEach(async ({ page, user, filesListPage }) => {
 		await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', '/file.txt')
 		await filesListPage.open()
 	})
 
-	test('See first assigned tag in the file list', async ({ page, filesListPage }) => {
-		const tag = crypto.randomUUID()
+	test('See first assigned tag in the file list', async ({ page, filesListPage, tagName }) => {
+		const tag = tagName()
 
 		await filesListPage.openTagPickerForFile('file.txt')
 		await filesListPage.createNewTagInPicker(tag)
@@ -29,9 +26,9 @@ test.describe('Systemtags: Files integration', () => {
 		await expect(tagList.getByRole('listitem')).toContainText(tag)
 	})
 
-	test('See two assigned tags are also shown in the file list', async ({ page, filesListPage }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
+	test('See two assigned tags are also shown in the file list', async ({ page, filesListPage, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
 
 		await filesListPage.openTagPickerForFile('file.txt')
 		await filesListPage.createNewTagInPicker(tag1)
@@ -46,10 +43,10 @@ test.describe('Systemtags: Files integration', () => {
 		await expect(tagList).toContainText(tag2)
 	})
 
-	test('See three assigned tags result in overflow entry', async ({ page, filesListPage }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
-		const tag3 = crypto.randomUUID()
+	test('See three assigned tags result in overflow entry', async ({ page, filesListPage, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
+		const tag3 = tagName()
 
 		await filesListPage.openTagPickerForFile('file.txt')
 		await filesListPage.createNewTagInPicker(tag1)
