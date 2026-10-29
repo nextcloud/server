@@ -43,6 +43,16 @@ class Image implements IImage {
 	// Upper bound for carried ICC profiles, display profiles are a few KiB at most
 	private const ICC_MAX_PROFILE_SIZE = 64 * 1024;
 
+	// D50 adapted sRGB primaries as stored in the colorant tags of ICC profiles
+	private const SRGB_COLORANTS = [
+		'rXYZ' => [0.4361, 0.2225, 0.0139],
+		'gXYZ' => [0.3851, 0.7169, 0.0971],
+		'bXYZ' => [0.1431, 0.0606, 0.7141],
+	];
+
+	// Output of the sRGB tone curve for an input of 0.5
+	private const SRGB_TRC_MIDPOINT = 0.2140;
+
 	// tmp resource.
 	protected GdImage|false $resource = false;
 	// Default to png if file type isn't evident.
@@ -435,9 +445,110 @@ class Image implements IImage {
 		} else {
 			return;
 		}
-		if ($profile !== null && self::isUsableRgbProfile($profile)) {
+		if ($profile !== null && self::isUsableRgbProfile($profile) && !self::isSrgbProfile($profile)) {
 			$this->iccProfile = $profile;
 		}
+	}
+
+	/**
+	 * Whether the profile describes sRGB, which is what untagged images are
+	 * displayed as anyway, so embedding it would only grow the output.
+	 */
+	private static function isSrgbProfile(string $profile): bool {
+		$tags = self::iccTags($profile);
+		foreach (self::SRGB_COLORANTS as $signature => $expected) {
+			if (!isset($tags[$signature]) || substr($profile, $tags[$signature], 4) !== 'XYZ ') {
+				return false;
+			}
+			foreach ($expected as $index => $value) {
+				$actual = self::iccS15Fixed16($profile, $tags[$signature] + 8 + 4 * $index);
+				if ($actual === null || abs($actual - $value) > 0.002) {
+					return false;
+				}
+			}
+		}
+		foreach (['rTRC', 'gTRC', 'bTRC'] as $signature) {
+			$midpoint = isset($tags[$signature]) ? self::iccCurveMidpoint($profile, $tags[$signature]) : null;
+			if ($midpoint === null || abs($midpoint - self::SRGB_TRC_MIDPOINT) > 0.01) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @return array<string, int> offsets of the tag data by tag signature
+	 */
+	private static function iccTags(string $profile): array {
+		$length = strlen($profile);
+		$count = unpack('N', $profile, 128)[1];
+		if (132 + 12 * $count > $length) {
+			return [];
+		}
+		$tags = [];
+		for ($i = 0; $i < $count; $i++) {
+			['offset' => $offset, 'size' => $size] = unpack('Noffset/Nsize', $profile, 132 + 12 * $i + 4);
+			if ($offset + $size <= $length) {
+				$tags[substr($profile, 132 + 12 * $i, 4)] = $offset;
+			}
+		}
+		return $tags;
+	}
+
+	private static function iccS15Fixed16(string $profile, int $offset): ?float {
+		if ($offset + 4 > strlen($profile)) {
+			return null;
+		}
+		$value = unpack('N', $profile, $offset)[1];
+		return ($value >= 0x80000000 ? $value - 0x100000000 : $value) / 65536;
+	}
+
+	/**
+	 * Evaluates a 'curv' or 'para' tone curve tag at an input of 0.5.
+	 */
+	private static function iccCurveMidpoint(string $profile, int $offset): ?float {
+		$type = substr($profile, $offset, 4);
+		if ($type === 'curv') {
+			$count = unpack('N', $profile, $offset + 8)[1];
+			if ($count === 0) {
+				return 0.5;
+			}
+			if ($offset + 12 + 2 * $count > strlen($profile)) {
+				return null;
+			}
+			if ($count === 1) {
+				return 0.5 ** (unpack('n', $profile, $offset + 12)[1] / 256);
+			}
+			$position = ($count - 1) / 2;
+			$low = unpack('n', $profile, $offset + 12 + 2 * (int)floor($position))[1];
+			$high = unpack('n', $profile, $offset + 12 + 2 * (int)ceil($position))[1];
+			return ($low + $high) / 2 / 65535;
+		}
+		if ($type === 'para') {
+			$function = unpack('n', $profile, $offset + 8)[1];
+			$parameterCount = [1, 3, 4, 5, 7][$function] ?? null;
+			if ($parameterCount === null) {
+				return null;
+			}
+			$parameters = [];
+			for ($i = 0; $i < $parameterCount; $i++) {
+				$parameters[] = self::iccS15Fixed16($profile, $offset + 12 + 4 * $i);
+			}
+			if (in_array(null, $parameters, true)) {
+				return null;
+			}
+			[$g, $a, $b, $c, $d, $e, $f] = array_pad($parameters, 7, 0.0);
+			$x = 0.5;
+			return match ($function) {
+				0 => $x ** $g,
+				1 => ($a * $x + $b >= 0) ? ($a * $x + $b) ** $g : 0.0,
+				2 => ($a * $x + $b >= 0) ? ($a * $x + $b) ** $g + $c : $c,
+				3 => $x >= $d ? ($a * $x + $b) ** $g : $c * $x,
+				4 => $x >= $d ? ($a * $x + $b) ** $g + $e : $c * $x + $f,
+				default => null,
+			};
+		}
+		return null;
 	}
 
 	private static function isUsableRgbProfile(string $profile): bool {

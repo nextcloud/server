@@ -544,6 +544,63 @@ class ImageTest extends \Test\TestCase {
 		$this->assertNull(self::iccProfileOfPng($img->data()));
 	}
 
+	public function testSrgbIccProfileNotEmbedded(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-srgb.jpg');
+		$this->assertNotNull(self::iccProfileOfJpeg($source));
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-srgb.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	/**
+	 * Returns a matrix/TRC RGB ICC profile with the given colorants and a pure gamma tone curve.
+	 *
+	 * @param list<list<float>> $colorants red, green and blue XYZ values
+	 */
+	private static function matrixIccProfile(array $colorants, float $gamma): string {
+		$tags = [];
+		foreach (['rXYZ', 'gXYZ', 'bXYZ'] as $index => $signature) {
+			$tags[$signature] = 'XYZ ' . str_repeat("\x00", 4)
+				. implode('', array_map(fn (float $value) => pack('N', (int)round($value * 65536) & 0xFFFFFFFF), $colorants[$index]));
+		}
+		foreach (['rTRC', 'gTRC', 'bTRC'] as $signature) {
+			$tags[$signature] = 'curv' . str_repeat("\x00", 4) . pack('N', 1) . pack('n', (int)round($gamma * 256)) . "\x00\x00";
+		}
+		$offset = 132 + 12 * count($tags);
+		$table = pack('N', count($tags));
+		$data = '';
+		foreach ($tags as $signature => $tag) {
+			$table .= $signature . pack('NN', $offset + strlen($data), strlen($tag));
+			$data .= $tag;
+		}
+		$size = $offset + strlen($data);
+		$header = pack('N', $size) . str_repeat("\x00", 12) . 'RGB XYZ ' . str_repeat("\x00", 12) . 'acsp';
+		return str_pad($header, 128, "\x00") . $table . $data;
+	}
+
+	public static function dataMatrixIccProfiles(): array {
+		$srgb = [[0.4361, 0.2225, 0.0139], [0.3851, 0.7169, 0.0971], [0.1431, 0.0606, 0.7141]];
+		$displayP3 = [[0.5151, 0.2412, -0.0011], [0.2920, 0.6922, 0.0419], [0.1571, 0.0666, 0.7841]];
+		return [
+			'sRGB primaries with gamma 2.2' => [$srgb, 2.2, false],
+			'linear sRGB' => [$srgb, 1.0, true],
+			'Display P3 primaries' => [$displayP3, 2.2, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatrixIccProfiles')]
+	public function testOnlyNonSrgbIccProfilesEmbedded(array $colorants, float $gamma, bool $embedded): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$profile = self::matrixIccProfile($colorants, $gamma);
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, $profile));
+		$this->assertTrue($img->valid());
+		$this->assertSame($embedded ? $profile : null, self::iccProfileOfJpeg($img->data()));
+	}
+
 	public function testNonRgbIccProfileNotPreserved(): void {
 		// GD converts CMYK pixel data to RGB on load, the source profile no longer applies
 		$img = new Image();

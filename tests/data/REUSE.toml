@@ -40,7 +40,7 @@ SPDX-FileCopyrightText = "2013 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = ["testimage-icc-cmyk.jpg", "testimage-icc-p3.jpg", "testimage-icc-p3.png"]
+path = ["testimage-icc-cmyk.jpg", "testimage-icc-p3.jpg", "testimage-icc-p3.png", "testimage-icc-srgb.jpg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["2026 Nextcloud GmbH and Nextcloud contributors", "Clinton Ingram <https://github.com/saucecontrol/Compact-ICC-Profiles>"]
 SPDX-License-Identifier = "AGPL-3.0-or-later AND CC0-1.0"
