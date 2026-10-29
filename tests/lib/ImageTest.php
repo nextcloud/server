@@ -527,6 +527,20 @@ class ImageTest extends \Test\TestCase {
 		$this->assertNull(self::iccProfileOfJpeg($img->data()));
 	}
 
+	public function testIccProfileReadFromFileAfterLargeMetadata(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+		$padding = str_repeat("\xFF\xE1" . pack('n', 65535) . str_repeat("\x00", 65533), 140);
+		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
+		file_put_contents($tempFile, substr($source, 0, 2) . $padding . substr($source, 2));
+
+		$img = new Image();
+		$img->loadFromFile($tempFile);
+		unlink($tempFile);
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+	}
+
 	public function testCompressedIccProfileBombNotInflated(): void {
 		ob_start();
 		imagepng(imagecreatetruecolor(4, 4));

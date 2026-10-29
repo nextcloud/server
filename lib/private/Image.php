@@ -37,9 +37,6 @@ class Image implements IImage {
 	// Max ICC bytes per APP2 segment: 0xFFFF - 2 (length) - 12 (marker) - 2 (index and count)
 	private const JPEG_ICC_MAX_CHUNK_SIZE = 65519;
 
-	// ICC profiles precede the image data, so the scan can stop early
-	private const ICC_SCAN_BYTE_LIMIT = 8 * 1024 * 1024;
-
 	// Upper bound for carried ICC profiles, display profiles are a few KiB at most
 	private const ICC_MAX_PROFILE_SIZE = 64 * 1024;
 
@@ -436,18 +433,39 @@ class Image implements IImage {
 	 * Only RGB profiles are kept: GD converts CMYK and grayscale sources to RGB
 	 * pixel data on load, so their source profiles no longer describe the image.
 	 */
-	private function rememberIccProfile(string $data): void {
+	private function rememberIccProfile(\Closure $read): void {
 		$this->iccProfile = null;
-		if (str_starts_with($data, "\xFF\xD8")) {
-			$profile = self::extractIccProfileFromJpeg($data);
-		} elseif (str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
-			$profile = self::extractIccProfileFromPng($data);
+		$signature = $read(0, 8);
+		if (str_starts_with($signature, "\xFF\xD8")) {
+			$profile = self::extractIccProfileFromJpeg($read);
+		} elseif ($signature === "\x89PNG\r\n\x1a\n") {
+			$profile = self::extractIccProfileFromPng($read);
 		} else {
 			return;
 		}
 		if ($profile !== null && self::isUsableRgbProfile($profile) && !self::isSrgbProfile($profile)) {
 			$this->iccProfile = $profile;
 		}
+	}
+
+	/**
+	 * @return \Closure(int, int): string reads up to $length bytes at $offset of $data
+	 */
+	private static function stringReader(string $data): \Closure {
+		return static fn (int $offset, int $length): string => substr($data, $offset, $length);
+	}
+
+	/**
+	 * @param resource $handle seekable stream
+	 * @return \Closure(int, int): string reads up to $length bytes at $offset of the stream
+	 */
+	private static function streamReader($handle): \Closure {
+		return static function (int $offset, int $length) use ($handle): string {
+			if ($length < 1 || fseek($handle, $offset) !== 0) {
+				return '';
+			}
+			return (string)fread($handle, $length);
+		};
 	}
 
 	/**
@@ -559,18 +577,20 @@ class Image implements IImage {
 			&& substr($profile, 16, 4) === 'RGB '; // data colour space
 	}
 
-	private static function extractIccProfileFromJpeg(string $data): ?string {
-		$len = strlen($data);
+	/**
+	 * @param \Closure(int, int): string $read
+	 */
+	private static function extractIccProfileFromJpeg(\Closure $read): ?string {
 		$identifierLength = strlen(self::JPEG_ICC_IDENTIFIER);
 		$pos = 2;
 		$chunks = [];
 		$chunkCount = null;
 		$profileSize = 0;
-		while ($pos + 4 <= $len) {
-			if ($data[$pos] !== "\xFF") {
+		while (strlen($header = $read($pos, 4)) === 4) {
+			if ($header[0] !== "\xFF") {
 				return null;
 			}
-			$marker = ord($data[$pos + 1]);
+			$marker = ord($header[1]);
 			if ($marker === 0xFF) {
 				// fill byte before a marker
 				$pos++;
@@ -585,12 +605,15 @@ class Image implements IImage {
 				// start of scan or end of image: no more metadata segments
 				break;
 			}
-			$segmentLength = (ord($data[$pos + 2]) << 8) | ord($data[$pos + 3]);
-			if ($segmentLength < 2 || $pos + 2 + $segmentLength > $len) {
+			$segmentLength = unpack('n', $header, 2)[1];
+			if ($segmentLength < 2) {
 				return null;
 			}
 			if ($marker === 0xE2 && $segmentLength >= 2 + $identifierLength + 2) {
-				$payload = substr($data, $pos + 4, $segmentLength - 2);
+				$payload = $read($pos + 4, $segmentLength - 2);
+				if (strlen($payload) !== $segmentLength - 2) {
+					return null;
+				}
 				if (str_starts_with($payload, self::JPEG_ICC_IDENTIFIER)) {
 					$sequence = ord($payload[$identifierLength]);
 					$total = ord($payload[$identifierLength + 1]);
@@ -614,24 +637,25 @@ class Image implements IImage {
 		return implode('', $chunks);
 	}
 
-	private static function extractIccProfileFromPng(string $data): ?string {
-		$len = strlen($data);
+	/**
+	 * @param \Closure(int, int): string $read
+	 */
+	private static function extractIccProfileFromPng(\Closure $read): ?string {
 		$pos = 8;
-		while ($pos + 8 <= $len) {
-			$header = unpack('NchunkLength', $data, $pos);
-			if ($header === false) {
-				return null;
-			}
-			$chunkLength = $header['chunkLength'];
-			$type = substr($data, $pos + 4, 4);
+		while (strlen($header = $read($pos, 8)) === 8) {
+			$chunkLength = unpack('N', $header)[1];
+			$type = substr($header, 4, 4);
 			if ($type === 'IDAT' || $type === 'IEND') {
 				break;
 			}
 			if ($type === 'iCCP') {
-				if ($chunkLength > self::ICC_MAX_PROFILE_SIZE || $pos + 8 + $chunkLength > $len) {
+				if ($chunkLength > self::ICC_MAX_PROFILE_SIZE) {
 					return null;
 				}
-				$chunk = substr($data, $pos + 8, $chunkLength);
+				$chunk = $read($pos + 8, $chunkLength);
+				if (strlen($chunk) !== $chunkLength) {
+					return null;
+				}
 				$separator = strpos($chunk, "\x00");
 				if ($separator === false || $separator < 1 || $separator > 79 || strlen($chunk) < $separator + 2) {
 					return null;
@@ -1137,9 +1161,10 @@ class Image implements IImage {
 			$this->mimeType = image_type_to_mime_type($iType);
 			$this->filePath = $imagePath;
 			if ($iType === IMAGETYPE_JPEG || $iType === IMAGETYPE_PNG) {
-				$header = @file_get_contents($imagePath, false, null, 0, self::ICC_SCAN_BYTE_LIMIT);
-				if ($header !== false) {
-					$this->rememberIccProfile($header);
+				$handle = @fopen($imagePath, 'rb');
+				if ($handle !== false) {
+					$this->rememberIccProfile(self::streamReader($handle));
+					fclose($handle);
 				}
 			}
 		}
@@ -1161,7 +1186,7 @@ class Image implements IImage {
 		if ($this->valid()) {
 			imagealphablending($this->resource, false);
 			imagesavealpha($this->resource, true);
-			$this->rememberIccProfile($str);
+			$this->rememberIccProfile(self::stringReader($str));
 		}
 
 		if (!$this->resource) {
@@ -1191,7 +1216,7 @@ class Image implements IImage {
 				$this->logger->debug('Image->loadFromBase64, could not load', ['app' => 'core']);
 				return false;
 			}
-			$this->rememberIccProfile($data);
+			$this->rememberIccProfile(self::stringReader($data));
 			return $this->resource;
 		} else {
 			return false;
