@@ -125,6 +125,8 @@ class SFTPReadStream implements File {
 		$this->internalPosition = $offset;
 		$this->readPosition = $offset;
 		$this->buffer = '';
+		// a previous read may have reached the end of the file, reading from the new position has to work again
+		$this->eof = false;
 		$this->request_chunk(256 * 1024);
 	}
 
