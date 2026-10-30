@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Plugin;
 use OCA\DAV\Service\ASyncService;
 use OCP\AppFramework\Http;
 use OCP\Federation\ICloudIdManager;
@@ -82,13 +83,26 @@ class FederatedCalendarSyncService extends ASyncService {
 		}
 
 		// Process changes from remote
-		$downloadedEvents = 0;
+		$changedResources = [];
 		foreach ($response['response'] as $resource => $status) {
-			$objectUri = basename($resource);
 			if (isset($status[200])) {
 				// Object created or updated
-				$absoluteUrl = $this->prepareUri($credentials['remoteUrl'], $resource);
-				$calendarData = $this->requestGet($absoluteUrl, $credentials['username'], $credentials['token']);
+				$changedResources[] = $resource;
+			} else {
+				// Object deleted
+				$this->backend->deleteCalendarObject(
+					$calendar->getId(),
+					basename($resource),
+					CalDavBackend::CALENDAR_TYPE_FEDERATED,
+					true
+				);
+			}
+		}
+
+		$downloadedEvents = 0;
+		if ($changedResources !== []) {
+			foreach ($this->fetchCalendarObjects($credentials, $changedResources) as $resource => $calendarData) {
+				$objectUri = basename($resource);
 				$existingObject = $this->backend->getCalendarObject(
 					$calendar->getId(),
 					$objectUri,
@@ -110,14 +124,6 @@ class FederatedCalendarSyncService extends ASyncService {
 					);
 				}
 				$downloadedEvents++;
-			} else {
-				// Object deleted
-				$this->backend->deleteCalendarObject(
-					$calendar->getId(),
-					$objectUri,
-					CalDavBackend::CALENDAR_TYPE_FEDERATED,
-					true
-				);
 			}
 		}
 
@@ -145,6 +151,39 @@ class FederatedCalendarSyncService extends ASyncService {
 		}
 
 		return $downloadedEvents;
+	}
+
+	/**
+	 * Download the calendar data of the given resources, using calendar-multiget when the remote supports it.
+	 *
+	 * @param array{username: string, remoteUrl: string, token: string} $credentials
+	 * @param list<string> $hrefs
+	 * @return \Generator<string, string> Calendar data keyed by href
+	 *
+	 * @throws ClientExceptionInterface If a remote request fails.
+	 */
+	private function fetchCalendarObjects(array $credentials, array $hrefs): \Generator {
+		$reportName = '{' . Plugin::NS_CALDAV . '}calendar-multiget';
+		// Older remotes do not support calendar-multiget for federated calendars and
+		// would log the rejected report as an error, so ask before sending it
+		if (!$this->requestReportSupport($credentials['remoteUrl'], $credentials['username'], $credentials['token'], $reportName)) {
+			foreach ($hrefs as $href) {
+				$absoluteUrl = $this->prepareUri($credentials['remoteUrl'], $href);
+				yield $href => $this->requestGet($absoluteUrl, $credentials['username'], $credentials['token']);
+			}
+			return;
+		}
+
+		foreach (array_chunk($hrefs, self::MULTIGET_BATCH_SIZE) as $batch) {
+			yield from $this->requestMultiGet(
+				$credentials['remoteUrl'],
+				$credentials['username'],
+				$credentials['token'],
+				$batch,
+				$reportName,
+				'{' . Plugin::NS_CALDAV . '}calendar-data',
+			);
+		}
 	}
 
 	/**
