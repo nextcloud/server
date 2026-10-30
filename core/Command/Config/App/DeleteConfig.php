@@ -39,6 +39,12 @@ class DeleteConfig extends Base {
 				InputOption::VALUE_NONE,
 				'Checks whether the config exists before deleting it'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'Delete the value even if the app rejects it',
+			)
 		;
 	}
 
@@ -55,8 +61,11 @@ class DeleteConfig extends Base {
 		$event = new BeforeAppConfigDeletedEvent($appName, $configName);
 		$this->eventDispatcher->dispatchTyped($event);
 		if ($event->isRejected()) {
-			$output->writeln('<error>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected</error>');
-			return 1;
+			if (!$input->getOption('force')) {
+				$output->writeln('<error>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected, use --force to delete it anyway</error>');
+				return 1;
+			}
+			$output->writeln('<comment>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected, deleting it anyway</comment>');
 		}
 
 		$this->appConfig->deleteKey($appName, $configName);

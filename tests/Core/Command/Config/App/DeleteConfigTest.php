@@ -115,4 +115,27 @@ class DeleteConfigTest extends TestCase {
 
 		$this->assertSame(1, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
+
+	public function testDeleteRejectedForced(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$event->setValid(false);
+			});
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
+			->method('deleteKey')
+			->with('app-name', 'name');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleInput->method('getOption')
+			->willReturnMap([
+				['force', true],
+			]);
+
+		$this->assertSame(0, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
 }

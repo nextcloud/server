@@ -75,6 +75,12 @@ class SetConfig extends Base {
 				InputOption::VALUE_NONE,
 				'Only updates the value, if it is not set before, it is not being added'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'Set the value even if the app rejects it',
+			)
 		;
 	}
 
@@ -129,8 +135,11 @@ class SetConfig extends Base {
 			$event = new BeforeAppConfigSetEvent($appName, $configName, $value);
 			$this->eventDispatcher->dispatchTyped($event);
 			if ($event->isRejected()) {
-				$output->writeln('<error>The value was rejected for config ' . $configName . ' of app ' . $appName . '</error>');
-				return self::FAILURE;
+				if (!$input->getOption('force')) {
+					$output->writeln('<error>The value was rejected for config ' . $configName . ' of app ' . $appName . ', use --force to set it anyway</error>');
+					return self::FAILURE;
+				}
+				$output->writeln('<comment>The value was rejected for config ' . $configName . ' of app ' . $appName . ', setting it anyway</comment>');
 			}
 
 			/**

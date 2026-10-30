@@ -142,4 +142,39 @@ class SetConfigTest extends TestCase {
 
 		$this->assertSame(1, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
+
+	public function testSetRejectedForced(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigSetEvent $event): void {
+				$event->setValid(false);
+			});
+		$this->getAutoMock(AppConfig::class)->method('getValueType')
+			->willReturn(IAppConfig::VALUE_MIXED);
+		$this->getAutoMock(AppConfig::class)->expects($this->once())
+			->method('setValueMixed')
+			->with('app-name', 'name', 'newvalue')
+			->willReturn(true);
+		$this->getAutoMock(AppConfig::class)->method('getDetails')
+			->willReturn(['sensitive' => false, 'value' => 'newvalue', 'typeString' => 'mixed', 'lazy' => false]);
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleInput->method('getOption')
+			->willReturnMap([
+				['value', 'newvalue'],
+				['force', true],
+			]);
+		$this->consoleInput->method('hasParameterOption')
+			->willReturnMap([
+				['--update-only', false, false],
+				['--type', false, false],
+				['--value', false, true],
+			]);
+
+		$this->assertSame(0, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
 }
