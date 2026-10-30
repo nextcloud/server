@@ -42,13 +42,24 @@ defineEmits<{
 }>()
 
 onMounted(() => {
-	const anchor = document.getElementById(`${props.id}--link`) as HTMLAnchorElement
-	// Make the `<a>` a menuitem
-	anchor.role = 'menuitem'
-	// Prevent native click handling if required
-	if (props.clickOnly) {
-		anchor.onclick = (event) => event.preventDefault()
+	let attempts = 0
+	const trySetRole = () => {
+		const anchor = document.getElementById(`${props.id}--link`) as HTMLAnchorElement | null
+		if (anchor) {
+			// Make the `<a>` a menuitem
+			anchor.role = 'menuitem'
+			// Prevent native click handling if required
+			if (props.clickOnly) {
+				anchor.onclick = (event) => event.preventDefault()
+			}
+			return
+		}
+		if (attempts < 10) {
+			attempts++
+			requestAnimationFrame(trySetRole)
+		}
 	}
+	requestAnimationFrame(trySetRole)
 })
 </script>
 

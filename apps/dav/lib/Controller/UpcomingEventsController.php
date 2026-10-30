@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\UpcomingEvent;
 use OCA\DAV\CalDAV\UpcomingEventsService;
 use OCA\DAV\ResponseDefinitions;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -41,6 +43,7 @@ class UpcomingEventsController extends OCSController {
 	 * 401: When not authenticated
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function getEvents(?string $location = null): DataResponse {
 		if ($this->userId === null) {
 			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);

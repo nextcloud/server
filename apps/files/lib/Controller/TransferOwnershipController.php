@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\BackgroundJob\TransferOwnership;
 use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -26,6 +28,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as NotificationManager;
 
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 final class TransferOwnershipController extends OCSController {
 
 	public function __construct(

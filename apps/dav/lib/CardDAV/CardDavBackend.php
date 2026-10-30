@@ -976,7 +976,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				// Fetching all changes
 				$stmt = $qb->executeQuery();
-				$rowCount = $stmt->rowCount();
+				// rowCount() is not reliable for SELECT statements on all databases
+				$rowCount = 0;
 
 				$changes = [];
 				$highestSyncToken = 0;
@@ -984,6 +985,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				// This loop ensures that any duplicates are overwritten, only the
 				// last change on a node is relevant.
 				while ($row = $stmt->fetchAssociative()) {
+					$rowCount++;
 					$changes[$row['uri']] = $row['operation'];
 					$highestSyncToken = $row['synctoken'];
 				}

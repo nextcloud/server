@@ -7,6 +7,8 @@
 
 namespace OCA\Files_Versions\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -24,6 +26,7 @@ use OCP\IUserSession;
 use OCP\Preview\IMimeIconProvider;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+#[TokenScope(scope: TokenScopes::FILES_READ)]
 class PreviewController extends Controller {
 
 	public function __construct(
