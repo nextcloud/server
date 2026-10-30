@@ -8,6 +8,7 @@ import type { User } from '@nextcloud/e2e-test-server'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest } from '@playwright/test'
+import { retryWithBackoff } from '../utils/retry.ts'
 
 /**
  * Extends the base test with a freshly-created random `user`.
@@ -15,14 +16,7 @@ import { test as baseTest } from '@playwright/test'
  */
 export const test = baseTest.extend<{ user: User }>({
 	user: async ({}, use) => {
-		let user: User
-		try {
-			user = await createRandomUser()
-		} catch {
-			// Retry once on transient failure
-			await new Promise((resolve) => setTimeout(resolve, 800))
-			user = await createRandomUser()
-		}
+		const user = await retryWithBackoff('Creating a random user', () => createRandomUser())
 		await use(user)
 		await runOcc(['user:delete', user.userId], { failOnError: false })
 	},

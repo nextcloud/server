@@ -5,8 +5,6 @@
 
 import type { Locator, Page } from '@playwright/test'
 
-import { expect } from '@playwright/test'
-
 /**
  * The fixed per-item heights the files virtual list renders with, mirroring the
  * `itemHeight` getter in `apps/files/src/components/VirtualList.vue`. Using the
@@ -54,12 +52,15 @@ export async function fitFilesListToRows(page: Page, rows: number, gridMode = fa
  * Whether the locator's box lies fully within the current viewport (top-to-bottom
  * and left-to-right). Playwright's `toBeVisible` only checks the DOM/paint state,
  * not the scroll position, so this is what tells a scrolled-off buffered row from
- * a genuinely on-screen one.
+ * a genuinely on-screen one. An element that is not rendered at all, like a row
+ * the virtual list dropped, is not in the viewport either.
  *
  * @param locator - The element to test
  */
 export async function isFullyInViewport(locator: Locator): Promise<boolean> {
-	await expect(locator).toHaveCount(1) // ensure the locator resolves to a single element
+	if (await locator.count() === 0) {
+		return false
+	}
 
 	const box = await locator.boundingBox()
 	if (!box) {
