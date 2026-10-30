@@ -11,6 +11,7 @@ namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -22,6 +23,8 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
@@ -284,6 +287,26 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		// get numeric id for later check
 		$numericId = $storageCache->getNumericId();
 
+		$path = $this->getUniqueID('file');
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$qb->insert('filecache')
+			->values([
+				'storage' => $qb->createNamedParameter($numericId, IQueryBuilder::PARAM_INT),
+				'path' => $qb->createNamedParameter($path),
+				'path_hash' => $qb->createNamedParameter(md5($path)),
+				'parent' => $qb->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
+				'name' => $qb->createNamedParameter($path),
+			])
+			->executeStatement();
+
+		// listeners of StorageDeletedEvent clear the mount cache, like MountCacheService does
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use ($mountCache, $user): void {
+				if ($event instanceof StorageDeletedEvent) {
+					$mountCache->removeMount('dummy', $user);
+				}
+			});
+
 		$this->service->removeStorage($id);
 
 		$caught = false;
@@ -305,6 +328,16 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$storages = $result->fetchAll();
 		$result->closeCursor();
 		$this->assertCount(0, $storages, 'expected 0 storages, got ' . json_encode($storages));
+
+		// filecache entries of the storage were removed
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$result = $qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->eq('storage', $qb->createNamedParameter($numericId, IQueryBuilder::PARAM_INT)))
+			->executeQuery();
+		$fileIds = $result->fetchFirstColumn();
+		$result->closeCursor();
+		$this->assertCount(0, $fileIds, 'expected 0 filecache entries, got ' . json_encode($fileIds));
 	}
 
 	protected function actualDeletedUnexistingStorageTest() {
