@@ -9,6 +9,9 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -22,6 +25,7 @@ class Setting extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IConfig $config,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
@@ -154,6 +158,13 @@ class Setting extends Base {
 					return 1;
 				}
 
+				$event = new BeforePreferenceSetEvent($uid, $app, $key, $input->getArgument('value'));
+				$this->eventDispatcher->dispatchTyped($event);
+				if ($event->isRejected()) {
+					$output->writeln('<error>The value was rejected for setting "' . $key . '" of app "' . $app . '".</error>');
+					return 1;
+				}
+
 				if ($app === 'settings' && in_array($key, ['email', 'display_name'], true)) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
@@ -184,6 +195,13 @@ class Setting extends Base {
 			} elseif ($input->hasParameterOption('--delete')) {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+					return 1;
+				}
+
+				$event = new BeforePreferenceDeletedEvent($uid, $app, $key);
+				$this->eventDispatcher->dispatchTyped($event);
+				if ($event->isRejected()) {
+					$output->writeln('<error>Deleting setting "' . $key . '" of app "' . $app . '" was rejected.</error>');
 					return 1;
 				}
 
