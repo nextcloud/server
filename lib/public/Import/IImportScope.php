@@ -19,7 +19,8 @@ use OCP\AppFramework\Attribute\Consumable;
  * Users don't need to be told about content they already know, and an import
  * can write millions of files and shares. While an import runs, components
  * that inform users about changes skip doing so for the changes it makes:
- * no activity entries, no notifications, no share mails and no push events.
+ * no activity entries, no notifications, no share mails, no push events and
+ * no "recently contacted" entries.
  * Everything else (events, hooks, file cache, versions, …) works as usual.
  *
  * @since 36.0.0
