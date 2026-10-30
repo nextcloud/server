@@ -11,6 +11,8 @@ namespace Tests\Core\Command\Config\App;
 
 use OC\AppConfig;
 use OC\Core\Command\Config\App\SetConfig;
+use OCP\Config\BeforeAppConfigSetEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -103,5 +105,41 @@ class SetConfigTest extends TestCase {
 			->with($this->stringContains($expectedMessage));
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+	}
+
+	public function testSetRejected(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigSetEvent $event): void {
+				$this->assertSame('app-name', $event->getAppId());
+				$this->assertSame('name', $event->getConfigKey());
+				$this->assertSame('newvalue', $event->getConfigValue());
+				$event->setValid(false);
+			});
+		$this->getAutoMock(AppConfig::class)->expects($this->never())
+			->method('updateType');
+		$this->getAutoMock(AppConfig::class)->expects($this->never())
+			->method('setValueMixed');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleInput->method('getOption')
+			->willReturnMap([
+				['value', 'newvalue'],
+			]);
+		$this->consoleInput->method('hasParameterOption')
+			->willReturnMap([
+				['--update-only', false, false],
+				['--type', false, false],
+				['--value', false, true],
+			]);
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($this->stringContains('error'));
+
+		$this->assertSame(1, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }

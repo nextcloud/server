@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Config\App;
 
+use OCP\Config\BeforeAppConfigDeletedEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -48,6 +49,13 @@ class DeleteConfig extends Base {
 
 		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->appConfig->getKeys($appName), true)) {
 			$output->writeln('<error>Config ' . $configName . ' of app ' . $appName . ' could not be deleted because it did not exist</error>');
+			return 1;
+		}
+
+		$event = new BeforeAppConfigDeletedEvent($appName, $configName);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isRejected()) {
+			$output->writeln('<error>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected</error>');
 			return 1;
 		}
 

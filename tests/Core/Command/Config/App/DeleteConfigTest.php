@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Tests\Core\Command\Config\App;
 
 use OC\Core\Command\Config\App\DeleteConfig;
+use OCP\Config\BeforeAppConfigDeletedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
@@ -89,5 +91,28 @@ class DeleteConfigTest extends TestCase {
 			->with($this->stringContains($expectedMessage));
 
 		$this->assertSame($expectedReturn, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testDeleteRejected(): void {
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$this->assertSame('app-name', $event->getAppId());
+				$this->assertSame('name', $event->getConfigKey());
+				$event->setValid(false);
+			});
+		$this->getAutoMock(IAppConfig::class)->expects($this->never())
+			->method('deleteKey');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['app', 'app-name'],
+				['name', 'name'],
+			]);
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($this->stringContains('error'));
+
+		$this->assertSame(1, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }

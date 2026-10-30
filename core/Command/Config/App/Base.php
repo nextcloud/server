@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Config\App;
 
 use OC\Config\ConfigManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 
@@ -16,6 +17,7 @@ abstract class Base extends \OC\Core\Command\Base {
 	public function __construct(
 		protected IAppConfig $appConfig,
 		protected readonly ConfigManager $configManager,
+		protected readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
