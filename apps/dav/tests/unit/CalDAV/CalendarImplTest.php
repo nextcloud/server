@@ -73,6 +73,16 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals($this->calendarImpl->getDisplayColor(), '#AABBCC');
 	}
 
+	public function testGetDisplayPropertiesWhenMissing(): void {
+		$calendarInfo = $this->calendarInfo;
+		unset($calendarInfo['{DAV:}displayname']);
+		unset($calendarInfo['{http://apple.com/ns/ical/}calendar-color']);
+		$calendarImpl = new CalendarImpl($this->calendar, $calendarInfo, $this->backend);
+
+		$this->assertNull($calendarImpl->getDisplayName());
+		$this->assertNull($calendarImpl->getDisplayColor());
+	}
+
 	public function testGetPublicToken(): void {
 		$publicToken = $this->calendar->setPublishStatus(true);
 
