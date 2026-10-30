@@ -2,9 +2,11 @@ OC.L10N.register(
     "profile",
     {
     "View profile" : "Прегледај профил",
+    "Profile picker" : "Избирач на профили",
     "Profile" : "Профил",
     "Searching …" : "Пребарување …",
     "Not found" : "Не е пронајдено",
+    "Search for a user profile. Start typing" : "Пребарајте кориснички профил. Почнете со пишување",
     "You have not added any info yet" : "Сè уште немате додадено никакви информации",
     "{user} has not added any info yet" : "{user} нема додадено никакви информации",
     "Edit profile" : "Уреди профил",

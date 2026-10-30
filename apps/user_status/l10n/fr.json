@@ -1,17 +1,17 @@
 { "translations": {
     "Recent statuses" : "Statuts récents",
-    "No recent status changes" : "Aucun changement de statut récent",
+    "No recent status changes" : "Aucun changement récent de statut",
     "In a meeting" : "En réunion",
-    "Commuting" : "Trajets quotidiens",
-    "Out sick" : "En congé de maladie",
-    "Vacationing" : "En vacances",
-    "Out of office" : "Absent du bureau",
-    "Working remotely" : "Travail à distance",
+    "Commuting" : "En trajet domicile-travail",
+    "Out sick" : "En arrêt maladie",
+    "Vacationing" : "En congé",
+    "Out of office" : "À l'extérieur du bureau",
+    "Working remotely" : "En télétravail",
     "In a call" : "En communication",
     "Be right back" : "Je reviens tout de suite",
     "User status" : "Statut utilisateur",
     "Clear status after" : "Effacer le statut après",
-    "Emoji for your status message" : "Emoji pour votre message de statut",
+    "Emoji for your status message" : "Émoji pour votre message de statut",
     "What is your status?" : "Quel est votre statut ?",
     "Predefined statuses" : "Statuts prédéfinis",
     "Previously set" : "Précédemment défini",
@@ -31,7 +31,7 @@
     "Set status message" : "Enregistrer le message de statut",
     "Online" : "En ligne",
     "Away" : "Absent·e",
-    "Busy" : "Occupé",
+    "Busy" : "Occupé·e",
     "Do not disturb" : "Ne pas déranger",
     "Invisible" : "Invisible",
     "Offline" : "Hors-ligne",
@@ -44,6 +44,6 @@
     "Today" : "Aujourd'hui",
     "This week" : "Cette semaine",
     "Mute all notifications" : "Désactiver les notifications",
-    "Appear offline" : "Apparaitre hors-ligne"
+    "Appear offline" : "Apparaître hors ligne"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

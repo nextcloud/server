@@ -2,7 +2,7 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n Datei stimmt nicht mit der signierten Version überein. Möglicherweise wurde sie ohne Genehmigung geändert oder hinzugefügt.","%n Dateien stimmen nicht mit der signierten Version überein. Möglicherweise wurden sie ohne Genehmigung geändert oder hinzugefügt."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Bei %s fehlt die Signatur oder ist ungültig, sodass sie nicht überprüft werden konnte.","Bei %s fehlen die Signaturen oder sind ungültig, sodass sie nicht überprüft werden konnten."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The %n signatures of %s are missing or invalid, so they could not be verified._" : ["Die Signatur von %s fehlt oder ist ungültig, sodass sie nicht überprüft werden konnte.","Die %n Signaturen von %s fehlen oder sind ungültig, sodass sie nicht überprüft werden konnten."],
     "The code integrity check result has changed" : "Ergebnis der Code-Integritätsprüfung hat sich geändert",
     "Review integrity check results" : "Ergebnisse der Integritätsprüfung überprüfen",
     "Please select a file." : "Bitte eine Datei auswählen.",

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -78,6 +80,7 @@ class AcceptController extends Controller {
 	}
 
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 	public function accept(string $shareId): Response {
 		try {
 			$share = $this->shareManager->getShareById($shareId);

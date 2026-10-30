@@ -1,6 +1,5 @@
 { "translations": {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n файл гарын үсэгтэй хувилбартай тохирохгүй байна. Үүнийг зөвшөөрөлгүйгээр өөрчилсөн эсвэл нэмсэн байж магадгүй.","%n файл гарын үсэгтэй хувилбартай тохирохгүй байна. Эдгээрийг зөвшөөрөлгүйгээр өөрчилсөн эсвэл нэмсэн байж магадгүй."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["%s-ийн гарын үсэг байхгүй эсвэл хүчингүй тул баталгаажуулж чадсангүй.","%s-ийн гарын үсгүүд байхгүй эсвэл хүчингүй тул баталгаажуулж чадсангүй."],
     "The code integrity check result has changed" : "Кодын бүрэн бүтэн байдлын шалгалтын үр дүн өөрчлөгдсөн",
     "Review integrity check results" : "Бүрэн бүтэн байдлын шалгалтын үр дүнг хянах",
     "Please select a file." : "Файл сонгоно уу.",

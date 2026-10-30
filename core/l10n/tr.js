@@ -2,7 +2,7 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n dosya imzalanmış sürümle eşleşmiyor. İzinsiz olarak değiştirilmiş veya eklenmiş olabilir.","%n dosya imzalanmış sürümle eşleşmiyor. İzinsiz olarak değiştirilmiş veya eklenmiş olabilirler."],
-    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["%s imza eksik veya geçersiz, bu nedenle doğrulanamadı.","%s imza eksik veya geçersiz, bu nedenle doğrulanamadılar."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The %n signatures of %s are missing or invalid, so they could not be verified._" : ["%s imza eksik ya da geçersiz olduğundan doğrulanamadı.","%n / %s imza eksik ya da geçersiz olduğundan doğrulanamadı."],
     "The code integrity check result has changed" : "Kod bütünlüğü denetimi sonucu değişti",
     "Review integrity check results" : "Bütünlük denetimi sonuçlarını gözden geçirin",
     "Please select a file." : "Lütfen bir dosya seçin.",

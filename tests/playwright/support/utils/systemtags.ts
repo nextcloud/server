@@ -42,13 +42,30 @@ export async function listTags(): Promise<OccSystemTag[]> {
 }
 
 /**
- * Delete all existing tags via OCC.
+ * Delete the tags with the given names via OCC, leaving all other tags untouched.
+ *
+ * @param names - The names of the tags to delete
  */
-export async function clearTags(): Promise<void> {
+export async function deleteTagsByName(names: string[]): Promise<void> {
 	const tags = await listTags()
-	for (const tag of tags) {
+	for (const tag of tags.filter(({ name }) => names.includes(name))) {
 		await deleteTag(tag.id, true)
 	}
+}
+
+/**
+ * Fixture providing a generator for unique tag names. Tags are server-global,
+ * so every tag created under one of these names is deleted after the test
+ * instead of wiping all tags, which would break tests running in parallel.
+ */
+export async function tagNameFixture({}, use: (generate: () => string) => Promise<void>): Promise<void> {
+	const names: string[] = []
+	await use(() => {
+		const name = crypto.randomUUID()
+		names.push(name)
+		return name
+	})
+	await deleteTagsByName(names)
 }
 
 /**

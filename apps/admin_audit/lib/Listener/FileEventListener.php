@@ -46,10 +46,11 @@ class FileEventListener extends Action implements IEventListener {
 				'crop' => $event->isCrop(),
 				'mode' => $event->getMode(),
 				'path' => $file->getPath(),
-			];
+			] + $this->getRealPathParam('realPath', $file)
+				+ $this->getOwnerPathParam('ownerPath', $file);
 			$this->log(
 				Operation::PreviewAccessed,
-				'Preview accessed: (id: "%s", width: "%s", height: "%s" crop: "%s", mode: "%s", path: "%s")',
+				$this->appendRealPathText('Preview accessed: (id: "%s", width: "%s", height: "%s" crop: "%s", mode: "%s", path: "%s")', $params),
 				$params,
 				array_keys($params)
 			);

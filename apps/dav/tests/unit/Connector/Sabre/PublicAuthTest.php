@@ -79,7 +79,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testGetToken(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$result = self::invokePrivate($this->auth, 'getToken');
@@ -87,8 +87,44 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertSame('GX9HSGQrGE', $result);
 	}
 
+	public static function dataGetTokenNormalizesPath(): array {
+		return [
+			'parent segment' => ['/dav/uploads/tokenA/../tokenB/upload-id/1', 'tokenB'],
+			'nested parent segments' => ['/dav/files/tokenA/../../uploads/tokenB/upload-id/1', 'tokenB'],
+			'current segment' => ['/dav/uploads/./tokenB/upload-id/1', 'tokenB'],
+			'encoded dots are not a parent segment' => ['/dav/uploads/%2e%2e/tokenB', '..'],
+			'encoded token' => ['/dav/files/token%41', 'tokenA'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetTokenNormalizesPath')]
+	public function testGetTokenNormalizesPath(string $rawPath, string $expected): void {
+		$this->request->method('getRawPathInfo')
+			->willReturn($rawPath);
+
+		$this->assertSame($expected, self::invokePrivate($this->auth, 'getToken'));
+	}
+
+	public function testCheckTokenUsesNormalizedToken(): void {
+		$this->request->method('getRawPathInfo')
+			->willReturn('/dav/uploads/tokenA/../tokenB/upload-id/1');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('isPasswordProtected')->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->with('tokenB')
+			->willReturn($share);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
+
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		self::invokePrivate($this->auth, 'checkToken');
+	}
+
 	public function testGetTokenInvalid(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files');
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -96,7 +132,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenValidShare(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -113,7 +149,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenInvalidShare(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$this->shareManager
@@ -127,7 +163,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenAlreadyAuthenticated(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -146,7 +182,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenPasswordNotAuthenticated(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -166,7 +202,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenPasswordAuthenticatedWrongShare(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -187,7 +223,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testNoShare(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
@@ -201,7 +237,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testShareNoPassword(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -219,7 +255,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordFancyShareType(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -238,7 +274,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordRemote(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -257,7 +293,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidPassword(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -282,7 +318,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordMailValidPassword(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -307,7 +343,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testInvalidSharePasswordLinkValidSession(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -337,7 +373,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkInvalidSession(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -367,7 +403,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordMailInvalidSession(): void {
-		$this->request->method('getPathInfo')
+		$this->request->method('getRawPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);

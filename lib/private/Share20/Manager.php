@@ -717,6 +717,16 @@ class Manager implements IManager {
 			$plainTextPassword = $share->getPassword();
 			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
 
+			if ($share->getToken() !== '') {
+				try {
+					$shareFound = $this->getShareByToken($share->getToken());
+					if ($share->getId() !== $shareFound->getId()) {
+						throw new ShareTokenException('Unable to update share. Share token already exists');
+					}
+				} catch (ShareNotFound $e) {
+				}
+			}
+
 			/**
 			 * Cannot enable the getSendPasswordByTalk if there is no password set
 			 */
