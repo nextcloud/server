@@ -16,6 +16,7 @@ use SensitiveParameter;
 /**
  * Event to request a secure password to be generated
  * @since 18.0.0
+ * @since 31.0.0 Provides ``getContext`` to apply different rules per password context, e.g. account or share passwords.
  */
 class GenerateSecurePasswordEvent extends Event {
 	private ?string $password;
