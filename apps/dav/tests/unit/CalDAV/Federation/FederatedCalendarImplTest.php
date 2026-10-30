@@ -30,6 +30,11 @@ class FederatedCalendarImplTest extends TestCase {
 		);
 	}
 
+	public function testGetDisplayPropertiesWhenMissing(): void {
+		$this->assertNull($this->federatedCalendarImpl->getDisplayName());
+		$this->assertNull($this->federatedCalendarImpl->getDisplayColor());
+	}
+
 	public function testGetPermissions(): void {
 		$this->assertEquals(1, $this->federatedCalendarImpl->getPermissions());
 	}
