@@ -196,5 +196,13 @@ interface IFunctionBuilder {
 	 * @return IQueryFunction
 	 * @since 35.0.0
 	 */
-	public function coalesce(string|ILiteral|IParameter|IQueryFunction $value, string|ILiteral|IParameter|IQueryFunction $default): IQueryFunction;
+	public function coalesce(
+		string|ILiteral|IParameter|IQueryFunction $value,
+		string|ILiteral|IParameter|IQueryFunction $default,
+	): IQueryFunction;
+
+	/**
+	 * @since 36.0.0
+	 */
+	public function fromUnixtime(int|string $timestamp): IQueryFunction;
 }
