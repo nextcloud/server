@@ -105,7 +105,8 @@ class PublicAuth extends AbstractBasic {
 	 * @throws NotFound
 	 */
 	private function getToken(): string {
-		$path = $this->request->getPathInfo() ?: '';
+		// Normalized the same way as Sabre resolves the requested node
+		$path = \Sabre\Uri\normalize($this->request->getRawPathInfo());
 		// ['', 'dav', 'files', 'token']
 		$splittedPath = explode('/', $path);
 
@@ -113,7 +114,7 @@ class PublicAuth extends AbstractBasic {
 			throw new NotFound();
 		}
 
-		return $splittedPath[3];
+		return rawurldecode($splittedPath[3]);
 	}
 
 	/**
