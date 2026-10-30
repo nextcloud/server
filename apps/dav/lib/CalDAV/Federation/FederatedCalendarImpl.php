@@ -35,12 +35,12 @@ class FederatedCalendarImpl implements ICalendar, ICalendarIsShared, ICalendarIs
 
 	#[\Override]
 	public function getDisplayName(): ?string {
-		return $this->calendarInfo['{DAV:}displayname'];
+		return $this->calendarInfo['{DAV:}displayname'] ?? null;
 	}
 
 	#[\Override]
 	public function getDisplayColor(): ?string {
-		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
+		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'] ?? null;
 	}
 
 	#[\Override]
