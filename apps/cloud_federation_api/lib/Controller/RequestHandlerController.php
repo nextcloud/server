@@ -8,6 +8,7 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use OC\AppFramework\Http\Attributes\FederationRateLimit;
+use OC\Federation\SenderDomainAwareCloudFederationNotification;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
@@ -283,24 +284,37 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 * Send a notification about an existing share
+	 * Send a notification about a known share or resource
 	 *
 	 * @param string $notificationType Notification type, e.g. SHARE_ACCEPTED
-	 * @param string $resourceType calendar, file, contact,...
+	 * @param string|null $resourceType calendar, file, contact,...
 	 * @param string|null $providerId ID of the share
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
+	 * @param string|null $senderDomain Domain of the sending server
+	 * @param string|null $shareType Type of the recipient the notification is about, e.g. user
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 *
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed
-	 * 501: The resource type is not supported
+	 * 501: The resource type or the notification type is not supported
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
-	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
+	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification, $senderDomain, $shareType) {
+		// Notifications with senderDomain field (OCM 1.5+) are handled only by listeners of
+		// OCMNotificationReceivedEvent, which provide the response sent back to the sender.
+		// See https://github.com/cs3org/OCM-API/blob/v1.5.0/IETF-OCM.md#notifications
+		if ($senderDomain !== null) {
+			return $this->receiveSenderDomainNotification($notificationType, $resourceType, $providerId, $notification, $senderDomain, $shareType);
+		}
+
+		// Notifications without senderDomain field (before OCM 1.5) are handled by the
+		// ICloudFederationProvider of the resource type, which provides the response.
+		// OCMNotificationReceivedEvent is dispatched afterwards, but its listener results are ignored.
+
 		// check if all required parameters are set
 		if (
 			$notificationType === null
@@ -333,6 +347,83 @@ class RequestHandlerController extends Controller {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			$result = $provider->notificationReceived($notificationType, $providerId, $notification);
+		} catch (\Exception $e) {
+			return $this->notificationExceptionResponse($e);
+		}
+
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'A federated %s notification was received for the %s share with provider ID "%s"',
+			[
+				'notificationType' => $notificationType,
+				'resourceType' => $resourceType,
+				'providerId' => $providerId,
+			],
+			false,
+			'cloud_federation_api.notification.received',
+		));
+
+		try {
+			$notificationObject = $this->factory->getCloudFederationNotification();
+			$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification);
+			$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
+			$this->dispatcher->dispatchTyped($notificationEvent);
+		} catch (\Exception $e) {
+			$this->logger->warning('error while dispatching OCM notification received event', ['exception' => $e]);
+		}
+
+		return new JSONResponse($result, Http::STATUS_CREATED);
+	}
+
+	/**
+	 * Send a notification with senderDomain field to listeners of {@see OCMNotificationReceivedEvent}
+	 *
+	 * @param array<string, mixed>|null $notification
+	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 */
+	private function receiveSenderDomainNotification(?string $notificationType, ?string $resourceType, ?string $providerId, ?array $notification, string $senderDomain, ?string $shareType): JSONResponse {
+		// check if all required parameters are set
+		if (
+			$notificationType === null
+			|| $senderDomain === ''
+			|| ($resourceType === null && $shareType === null)
+		) {
+			return new JSONResponse(
+				[
+					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		try {
+			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequestFromDomain($senderDomain);
+		} catch (IncomingRequestException $e) {
+			$this->logger->warning('incoming request exception', ['exception' => $e]);
+			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			$notificationObject = new SenderDomainAwareCloudFederationNotification($signedRequest->getOrigin(), $shareType);
+			$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification ?? []);
+			$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
+			$this->dispatcher->dispatchTyped($notificationEvent);
+			$result = $notificationEvent->getResult() ?? throw new ActionNotSupportedException($notificationType);
+		} catch (\Exception $e) {
+			return $this->notificationExceptionResponse($e);
+		}
+
+		return new JSONResponse($result, Http::STATUS_CREATED);
+	}
+
+	/**
+	 * Map an exception thrown while handling a notification to its response
+	 *
+	 * @return JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 */
+	private function notificationExceptionResponse(\Exception $e): JSONResponse {
+		try {
+			throw $e;
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				[
@@ -372,28 +463,6 @@ class RequestHandlerController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		}
-
-		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
-			'A federated %s notification was received for the %s share with provider ID "%s"',
-			[
-				'notificationType' => $notificationType,
-				'resourceType' => $resourceType,
-				'providerId' => $providerId,
-			],
-			false,
-			'cloud_federation_api.notification.received',
-		));
-
-		try {
-			$notificationObject = $this->factory->getCloudFederationNotification();
-			$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification);
-			$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
-			$this->dispatcher->dispatchTyped($notificationEvent);
-		} catch (\Exception $e) {
-			$this->logger->warning('error while dispatching OCM notification received event', ['exception' => $e]);
-		}
-
-		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**
