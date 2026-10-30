@@ -386,6 +386,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Comments\\MessageTooLongException' => __DIR__ . '/../../..' . '/lib/public/Comments/MessageTooLongException.php',
         'OCP\\Comments\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Comments/NotFoundException.php',
         'OCP\\Common\\Exception\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Common/Exception/NotFoundException.php',
+        'OCP\\Config\\BeforeAppConfigDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforeAppConfigDeletedEvent.php',
+        'OCP\\Config\\BeforeAppConfigSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforeAppConfigSetEvent.php',
         'OCP\\Config\\BeforePreferenceDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
         'OCP\\Config\\BeforePreferenceSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceSetEvent.php',
         'OCP\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/public/Config/Exceptions/IncorrectTypeException.php',
