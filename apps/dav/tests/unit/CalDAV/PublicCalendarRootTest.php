@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
@@ -145,12 +146,20 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertSame([], $calendarResults);
 	}
 
-	public function testGetChildHidesCalendarOfDisabledUser(): void {
+	public static function dataHidingScopes(): array {
+		return [
+			['all'],
+			['external'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataHidingScopes')]
+	public function testGetChildHidesCalendarOfDisabledUser(string $scope): void {
 		$calendar = $this->createPublicCalendar(self::DISABLED_USER_PRINCIPAL);
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->setHideDisabledUserShares(true);
+		$this->setHideDisabledUserSharesScope($scope);
 
 		$this->expectException(NotFound::class);
 		$this->publicCalendarRoot->getChild($publicUri);
@@ -161,7 +170,7 @@ class PublicCalendarRootTest extends TestCase {
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->setHideDisabledUserShares(false);
+		$this->setHideDisabledUserSharesScope('none');
 
 		$calendarResult = $this->publicCalendarRoot->getChild($publicUri);
 		$this->assertEquals($calendar, $calendarResult);
@@ -188,9 +197,9 @@ class PublicCalendarRootTest extends TestCase {
 			->willReturn($disabledUser);
 	}
 
-	private function setHideDisabledUserShares(bool $hide): void {
-		$this->appConfig->method('getValueBool')
-			->with('files_sharing', 'hide_disabled_user_shares', 'yes')
-			->willReturn($hide);
+	private function setHideDisabledUserSharesScope(string $scope): void {
+		$this->appConfig->method('getValueString')
+			->with('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE)
+			->willReturn($scope);
 	}
 }

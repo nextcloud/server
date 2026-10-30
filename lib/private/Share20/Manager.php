@@ -1163,7 +1163,7 @@ class Manager implements IManager {
 			return [];
 		}
 
-		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+		if ($onlyValid && $this->hidesDisabledUserSharesOfType($shareType)) {
 			/*
 			 * If shares from disabled users are hidden, check user status first to avoid useless work.
 			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
@@ -1416,6 +1416,29 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Whether shares of the given type are hidden when one of the accounts involved
+	 * in them is disabled.
+	 */
+	private function hidesDisabledUserSharesOfType(?int $shareType): bool {
+		$scope = $this->appConfig->getValueString('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE);
+		if ($scope === 'all') {
+			return true;
+		}
+		if ($scope === 'none') {
+			return false;
+		}
+
+		// only shares limited to accounts of this instance stay visible, any other share type is handled as external
+		return !in_array($shareType, [
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_USERGROUP,
+			IShare::TYPE_DECK,
+			IShare::TYPE_DECK_USER,
+		], true);
+	}
+
+	/**
 	 * Whether a share has to be hidden because one of the accounts involved in it
 	 * is disabled.
 	 *
@@ -1425,7 +1448,7 @@ class Manager implements IManager {
 	 * @param ?string $viewer Account the share is checked for, if known
 	 */
 	private function isHiddenDisabledUserShare(IShare $share, ?string $viewer = null): bool {
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') !== 'yes') {
+		if (!$this->hidesDisabledUserSharesOfType($share->getShareType())) {
 			return false;
 		}
 
