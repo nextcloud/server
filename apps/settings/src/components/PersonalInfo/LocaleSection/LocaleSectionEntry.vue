@@ -25,8 +25,8 @@
 
 <script>
 import { useNow } from '@vueuse/core'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useFormatTime } from '@nextcloud/vue/composables/useFormatDateTime'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
