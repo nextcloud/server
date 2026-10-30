@@ -177,7 +177,7 @@ class Defaults {
 	 * Raw logo image data (raster) for embedding directly into emails
 	 *
 	 * @return array{content: string, mimeType: string}|null null when unavailable
-	 * @since 35.0.0
+	 * @since 34.0.4
 	 */
 	public function getLogoImage(): ?array {
 		return $this->defaults->getLogoImage();

@@ -60,7 +60,7 @@ class LocalOCMDiscoveryEvent extends Event {
 	 *
 	 * @return IOCMProvider
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.4
 	 */
 	public function getProvider(): IOCMProvider {
 		return $this->provider;

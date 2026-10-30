@@ -76,7 +76,7 @@ interface IFilesMetadataManager {
 	 *
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
-	 * @since 36.0.0
+	 * @since 34.0.6
 	 */
 	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata;
 

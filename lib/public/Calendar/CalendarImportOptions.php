@@ -158,7 +158,7 @@ final class CalendarImportOptions {
 	/**
 	 * Gets whether to include object counts as the first yielded value
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function getCounts(): bool {
 		return $this->counts;
@@ -167,7 +167,7 @@ final class CalendarImportOptions {
 	/**
 	 * Sets whether to include object counts as the first yielded value
 	 *
-	 * @since 35.0.0
+	 * @since 34.0.5
 	 */
 	public function setCounts(bool $counts): void {
 		$this->counts = $counts;

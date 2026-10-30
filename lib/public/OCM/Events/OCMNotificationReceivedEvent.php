@@ -13,12 +13,12 @@ use OCP\EventDispatcher\Event;
 use OCP\Federation\ICloudFederationNotification;
 
 /**
- * @since 35.0.0
+ * @since 34.0.1
  */
-#[Listenable(since: '35.0.0')]
+#[Listenable(since: '34.0.1')]
 class OCMNotificationReceivedEvent extends Event {
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.1
 	 */
 	public function __construct(
 		private readonly ICloudFederationNotification $notification,
@@ -27,7 +27,7 @@ class OCMNotificationReceivedEvent extends Event {
 	}
 
 	/**
-	 * @since 35.0.0
+	 * @since 34.0.1
 	 */
 	public function getNotification(): ICloudFederationNotification {
 		return $this->notification;
