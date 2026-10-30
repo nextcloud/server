@@ -91,7 +91,7 @@ class AppConfigControllerTest extends TestCase {
 					$this->settingManager,
 					$this->appManager,
 					$this->configManager,
-				$this->eventDispatcher,
+					$this->eventDispatcher,
 				])
 				->onlyMethods($methods)
 				->getMock();
