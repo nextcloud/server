@@ -103,6 +103,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	$share = $authBackend->getShare();
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
+	$isUpload = str_starts_with($server->httpRequest->getPath(), 'uploads/');
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 	/** @psalm-suppress InternalMethod */
@@ -114,7 +115,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 
 		// For chunked uploads it is necessary to have read and delete permission,
 		// so the temporary directory, chunks and destination file can be read and delete after the assembly.
-		if (str_starts_with(substr($requestUri, strlen($baseuri) - 1), '/uploads/')) {
+		if ($isUpload) {
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
