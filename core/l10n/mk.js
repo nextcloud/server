@@ -83,6 +83,7 @@ OC.L10N.register(
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Внеси го твојот клуч за претплата во апликацијата за поддршка за да го зголемиш лимитот на сметката. Ова исто така ти ги овозможува сите дополнителни бенефиции што ги нуди Nextcloud Enterprise и е силно препорачано за користење во компании.",
     "Learn more ↗" : "Научи повеќе ↗",
     "Can edit" : "Може да уредува",
+    "Can view" : "Може да гледа",
     "Expiration date" : "Рок на траење",
     "Label" : "Ознака",
     "Password" : "Лозинка",
