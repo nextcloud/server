@@ -10,6 +10,7 @@ return array(
     'OCA\\Federation\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Federation\\BackgroundJob\\GetSharedSecret' => $baseDir . '/../lib/BackgroundJob/GetSharedSecret.php',
     'OCA\\Federation\\BackgroundJob\\RequestSharedSecret' => $baseDir . '/../lib/BackgroundJob/RequestSharedSecret.php',
+    'OCA\\Federation\\Command\\ManageTrustedServers' => $baseDir . '/../lib/Command/ManageTrustedServers.php',
     'OCA\\Federation\\Command\\SyncFederationAddressBooks' => $baseDir . '/../lib/Command/SyncFederationAddressBooks.php',
     'OCA\\Federation\\Command\\SyncFederationCalendars' => $baseDir . '/../lib/Command/SyncFederationCalendars.php',
     'OCA\\Federation\\Controller\\OCSAuthAPIController' => $baseDir . '/../lib/Controller/OCSAuthAPIController.php',
