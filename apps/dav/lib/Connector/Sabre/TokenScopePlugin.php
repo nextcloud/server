@@ -81,11 +81,8 @@ class TokenScopePlugin extends ServerPlugin {
 			'' => !$write,
 			CalDAVPlugin::CALENDAR_ROOT, CalDAVPlugin::SYSTEM_CALENDAR_ROOT => $this->allowsGroupware($segments, $method, $write, TokenScopes::CALENDAR_READ, TokenScopes::CALENDAR_WRITE),
 			CardDAVPlugin::ADDRESSBOOK_ROOT => $this->allowsGroupware($segments, $method, $write, TokenScopes::CONTACTS_READ, TokenScopes::CONTACTS_WRITE),
-			'principals' => $write
-				// Proxy membership grants access to all calendars, which counts as sharing
-				? !in_array(end($segments), ['calendar-proxy-read', 'calendar-proxy-write'], true) && $this->lockdownManager->hasScope(TokenScopes::CALENDAR_WRITE)
-				: $this->lockdownManager->hasScope(TokenScopes::CALENDAR_READ) || $this->lockdownManager->hasScope(TokenScopes::CONTACTS_READ),
-			'avatars' => $method === 'GET' || $method === 'HEAD',
+			// Calendar and contacts clients read the principal to find their calendars and address books
+			'principals' => !$write && ($this->lockdownManager->hasScope(TokenScopes::CALENDAR_READ) || $this->lockdownManager->hasScope(TokenScopes::CONTACTS_READ)),
 			default => $this->allowsAppCollection($segments[0], $write),
 		};
 	}
