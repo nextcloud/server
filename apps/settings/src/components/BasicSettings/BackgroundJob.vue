@@ -76,6 +76,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import logger from '../../logger.ts'
+import { useFormatRelativeTime } from '@nextcloud/vue/composables/useFormatDateTime'
 
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
@@ -93,6 +94,13 @@ export default {
 		NcNoteCard,
 	},
 
+	setup() {
+		return {
+			relativeTime: useFormatRelativeTime(lastCron * 1000),
+			maxAgeRelativeTime: useFormatRelativeTime(cronMaxAge * 1000),
+		}
+	},
+
 	data() {
 		return {
 			lastCron,
@@ -101,8 +109,6 @@ export default {
 			cliBasedCronPossible,
 			cliBasedCronUser,
 			backgroundJobsDocUrl,
-			relativeTime: moment(lastCron * 1000).fromNow(),
-			maxAgeRelativeTime: moment(cronMaxAge * 1000).fromNow(),
 		}
 	},
 
