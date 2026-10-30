@@ -68,6 +68,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 				'mail_smtpauth' => 1,
 				'mail_smtpport' => '25',
 				'mail_sendmailmode' => 'smtp',
+				'mail_smime_certificate' => null,
+				'mail_smime_key' => null,
+				'mail_smime_chain' => null,
 			]],
 			[[
 				'mail_domain' => 'nextcloud.com',
@@ -80,6 +83,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 				'mail_smtpname' => null,
 				'mail_smtppassword' => null,
 				'mail_sendmailmode' => 'smtp',
+				'mail_smime_certificate' => null,
+				'mail_smime_key' => null,
+				'mail_smime_chain' => null,
 			]],
 		];
 		$this->config->expects($this->exactly(2))
@@ -186,5 +192,147 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->willReturn($emailTemplate);
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testSetMailSettingsWithSmime(): void {
+		$certificate = tempnam(sys_get_temp_dir(), 'smime_cert');
+		$key = tempnam(sys_get_temp_dir(), 'smime_key');
+		$chain = tempnam(sys_get_temp_dir(), 'smime_chain');
+
+		$this->config
+			->expects($this->once())
+			->method('setSystemValues')
+			->with(self::callback(function (array $values) use ($certificate, $key, $chain): bool {
+				return $values['mail_smime_certificate'] === $certificate
+					&& $values['mail_smime_key'] === $key
+					&& $values['mail_smime_chain'] === $chain;
+			}));
+
+		$response = $this->mailController->setMailSettings(
+			'nextcloud.com',
+			'demo@nextcloud.com',
+			'smtp',
+			'ssl',
+			'mx.nextcloud.org',
+			true,
+			'25',
+			'smtp',
+			null,
+			$certificate,
+			$key,
+			$chain,
+		);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+
+		unlink($certificate);
+		unlink($key);
+		unlink($chain);
+	}
+
+	public function testSetMailSettingsSmimeCertificateWithoutKey(): void {
+		$certificate = tempnam(sys_get_temp_dir(), 'smime_cert');
+
+		$this->config
+			->expects($this->never())
+			->method('setSystemValues');
+
+		$response = $this->mailController->setMailSettings(
+			'nextcloud.com',
+			'demo@nextcloud.com',
+			'smtp',
+			'ssl',
+			'mx.nextcloud.org',
+			true,
+			'25',
+			'smtp',
+			null,
+			$certificate,
+		);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+
+		unlink($certificate);
+	}
+
+	public function testSetMailSettingsSmimeFileNotReadable(): void {
+		$this->config
+			->expects($this->never())
+			->method('setSystemValues');
+
+		$response = $this->mailController->setMailSettings(
+			'nextcloud.com',
+			'demo@nextcloud.com',
+			'smtp',
+			'ssl',
+			'mx.nextcloud.org',
+			true,
+			'25',
+			'smtp',
+			null,
+			'/nonexistent/cert.pem',
+			'/nonexistent/key.pem',
+		);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+	}
+
+	public function testSetMailSettingsSmimeClearedWhenCertificateEmpty(): void {
+		$this->config
+			->expects($this->once())
+			->method('setSystemValues')
+			->with(self::callback(function (array $values): bool {
+				return $values['mail_smime_certificate'] === null
+					&& $values['mail_smime_key'] === null
+					&& $values['mail_smime_chain'] === null;
+			}));
+
+		// without a certificate the remaining S/MIME values are cleared
+		$response = $this->mailController->setMailSettings(
+			'nextcloud.com',
+			'demo@nextcloud.com',
+			'smtp',
+			'ssl',
+			'mx.nextcloud.org',
+			true,
+			'25',
+			'smtp',
+			null,
+			'',
+			'/etc/ssl/private/mail.key',
+			'/etc/ssl/certs/mail-chain.pem',
+		);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testStoreSmimeKeyPassphrase(): void {
+		$calls = [];
+		$this->config
+			->expects($this->exactly(1))
+			->method('setSystemValue')
+			->willReturnCallback(function (string $key, ?string $value) use (&$calls): void {
+				$calls[] = [$key, $value];
+			});
+
+		$response = $this->mailController->storeSmimeKeyPassphrase('secret');
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		self::assertEqualsCanonicalizing([
+			['mail_smime_passphrase', 'secret'],
+		], $calls);
+	}
+
+	public function testStoreSmimeKeyPassphraseUnchanged(): void {
+		$this->config
+			->expects($this->never())
+			->method('setSystemValue');
+
+		$response = $this->mailController->storeSmimeKeyPassphrase(null);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testStoreSmimeKeyPassphraseMasked(): void {
+		$this->config
+			->expects($this->never())
+			->method('setSystemValue');
+
+		$response = $this->mailController->storeSmimeKeyPassphrase('********');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 }

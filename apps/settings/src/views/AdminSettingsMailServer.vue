@@ -39,7 +39,10 @@ const initialConfig = loadState<{
 	mail_smtpname: string
 	mail_smtppassword: string
 	mail_sendmailmode: string
-
+	mail_smime_certificate: string
+	mail_smime_key: string
+	mail_smime_chain: string
+	mail_smime_passphrase: string
 	mail_noverify: boolean
 }>('settings', 'settingsAdminMailConfig')
 const mailConfig = ref({ ...initialConfig })
@@ -71,6 +74,8 @@ const smtpSendmailMode = computed({
 
 const hasPasswordChanges = computed(() => mailConfig.value.mail_smtppassword !== '********')
 const hasCredentialChanges = computed(() => hasPasswordChanges.value || mailConfig.value.mail_smtpname !== initialConfig.mail_smtpname)
+
+const hasPassphraseChanges = computed(() => mailConfig.value.mail_smime_passphrase !== '********')
 
 const isSaving = ref(false)
 const isSendingTestEmail = ref(false)
@@ -112,9 +117,16 @@ async function onSubmit() {
 			})
 		}
 
+		if (hasPassphraseChanges.value) {
+			await axios.post(generateUrl('/settings/admin/mailsettings/smimepassphrase'), {
+				mail_smime_passphrase: mailConfig.value.mail_smime_passphrase,
+			})
+		}
+
 		const config: Record<string, string | boolean> = { ...mailConfig.value }
 		delete config.mail_smtppassword
 		delete config.mail_smtpname
+		delete config.mail_smime_passphrase
 		await axios.post(generateUrl('/settings/admin/mailsettings'), config)
 
 		testEmailError.value = ''
@@ -218,6 +230,28 @@ async function onSubmit() {
 						:show-trailing-button="hasPasswordChanges"
 						name="mail_smtppassword" />
 				</NcFormBox>
+			</NcFormGroup>
+
+			<NcFormGroup
+				:description="t('settings', 'Optionally sign all outgoing emails with S/MIME. The certificate and private key must be PEM files readable by the web server. Leaving the certificate empty disables signing.')"
+				:label="t('settings', 'S/MIME signing')">
+				<NcTextField
+					v-model="mailConfig.mail_smime_certificate"
+					:label="t('settings', 'Certificate (PEM path)')"
+					name="mail_smime_certificate" />
+				<NcTextField
+					v-model="mailConfig.mail_smime_key"
+					:label="t('settings', 'Private key (PEM path)')"
+					name="mail_smime_key" />
+				<NcTextField
+					v-model="mailConfig.mail_smime_chain"
+					:label="t('settings', 'Certificate chain (PEM path, optional)')"
+					name="mail_smime_chain" />
+				<NcPasswordField
+					v-model="mailConfig.mail_smime_passphrase"
+					:label="t('settings', 'Key passphrase')"
+					:show-trailing-button="hasPassphraseChanges"
+					name="mail_smime_passphrase" />
 			</NcFormGroup>
 
 			<div :class="$style.adminSettingsMailServer__formAction">

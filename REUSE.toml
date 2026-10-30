@@ -356,3 +356,14 @@ path = "core/img/libreoffice.svg"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2011-2026 The Document Foundation"
 SPDX-License-Identifier = "LicenseRef-TheDocumentFoundationTrademarks"
+
+[[annotations]]
+path = [
+    "tests/lib/Mail/data/smime/cert.pem",
+    "tests/lib/Mail/data/smime/cert_enc.pem",
+    "tests/lib/Mail/data/smime/key.pem",
+    "tests/lib/Mail/data/smime/key_enc.pem",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "MIT"

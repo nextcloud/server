@@ -120,10 +120,12 @@ class MailerTest extends TestCase {
 
 	public function testEventForNullTransport(): void {
 		$this->config
-			->expects($this->exactly(1))
+			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->with('mail_smtpmode', 'smtp')
-			->willReturn('null');
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'null'],
+				['mail_smime_certificate', '', ''],
+			]);
 
 		$message = $this->createMock(Message::class);
 		$message->expects($this->once())
@@ -337,5 +339,86 @@ class MailerTest extends TestCase {
 		$symfonyMailer1 = self::invokePrivate($this->mailer, 'getInstance');
 		$symfonyMailer2 = self::invokePrivate($this->mailer, 'getInstance');
 		self::assertSame($symfonyMailer1, $symfonyMailer2);
+	}
+
+	public function testSignMessageWithoutSmimeConfig(): void {
+		$this->config
+			->method('getSystemValueString')
+			->with('mail_smime_certificate', '')
+			->willReturn('');
+
+		$email = (new Email())->to('user@example.com')->from('nc@example.com')->subject('Hi')->text('Hello');
+		$result = self::invokePrivate($this->mailer, 'signMessage', [$email]);
+
+		$this->assertSame($email, $result);
+	}
+
+	public function testSignMessageWithSmimeConfig(): void {
+		$fixture = __DIR__ . '/data/smime';
+		$this->config
+			->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smime_certificate', '', $fixture . '/cert.pem'],
+				['mail_smime_key', '', $fixture . '/key.pem'],
+				['mail_smime_passphrase', '', ''],
+				['mail_smime_chain', '', ''],
+			]);
+
+		$email = (new Email())->to('user@example.com')->from('nc@example.com')->subject('Hi')->text('Hello');
+		$result = self::invokePrivate($this->mailer, 'signMessage', [$email]);
+
+		$this->assertNotSame($email, $result);
+		$this->assertInstanceOf(\Symfony\Component\Mime\Message::class, $result);
+		$this->assertStringContainsString('multipart/signed', $result->toString());
+	}
+
+	public function testSignMessageWithSmimeKeyPassphrase(): void {
+		$fixture = __DIR__ . '/data/smime';
+		$this->config
+			->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smime_certificate', '', $fixture . '/cert_enc.pem'],
+				['mail_smime_key', '', $fixture . '/key_enc.pem'],
+				['mail_smime_passphrase', '', 'smimetest'],
+				['mail_smime_chain', '', ''],
+			]);
+
+		$email = (new Email())->to('user@example.com')->from('nc@example.com')->subject('Hi')->text('Hello');
+		$result = self::invokePrivate($this->mailer, 'signMessage', [$email]);
+
+		$this->assertInstanceOf(\Symfony\Component\Mime\Message::class, $result);
+		$this->assertStringContainsString('multipart/signed', $result->toString());
+	}
+
+	public function testSignMessageMissingKeyFile(): void {
+		$fixture = __DIR__ . '/data/smime';
+		$this->config
+			->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smime_certificate', '', $fixture . '/cert.pem'],
+				['mail_smime_key', '', $fixture . '/key_missing.pem'],
+				['mail_smime_passphrase', '', ''],
+				['mail_smime_chain', '', ''],
+			]);
+
+		$email = (new Email())->to('user@example.com')->from('nc@example.com')->subject('Hi')->text('Hello');
+		$this->expectException(\RuntimeException::class);
+		self::invokePrivate($this->mailer, 'signMessage', [$email]);
+	}
+
+	public function testSignMessageWrongPassphrase(): void {
+		$fixture = __DIR__ . '/data/smime';
+		$this->config
+			->method('getSystemValueString')
+			->willReturnMap([
+				['mail_smime_certificate', '', $fixture . '/cert_enc.pem'],
+				['mail_smime_key', '', $fixture . '/key_enc.pem'],
+				['mail_smime_passphrase', '', 'wrongpass'],
+				['mail_smime_chain', '', ''],
+			]);
+
+		$email = (new Email())->to('user@example.com')->from('nc@example.com')->subject('Hi')->text('Hello');
+		$this->expectException(\RuntimeException::class);
+		self::invokePrivate($this->mailer, 'signMessage', [$email]);
 	}
 }
