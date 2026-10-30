@@ -167,6 +167,22 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		}
 
+		// When moving a file within the same storage, net space consumed on that storage is zero.
+		// Bypassing the quota check prevents false InsufficientStorage exceptions when free space
+		// on the disk is smaller than the file being moved.
+		try {
+			if ($sourceNode instanceof Node) {
+				$sourceStorage = $sourceNode->getFileInfo()?->getStorage();
+				$destInfo = $this->view->getFileInfo(ltrim($quotaPath, '/'));
+				$destStorage = $destInfo?->getStorage();
+				if ($sourceStorage !== null && $destStorage !== null && $sourceStorage->getId() === $destStorage->getId()) {
+					return true;
+				}
+			}
+		} catch (\Throwable) {
+			// Fallback to regular quota check if storage detection fails
+		}
+
 		return $this->checkQuota($quotaPath, $sourceNode->getSize());
 	}
 
