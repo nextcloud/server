@@ -18,6 +18,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\HintException;
@@ -41,9 +42,7 @@ class ChangePasswordController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'changePersonalPassword')]
 	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {
@@ -173,20 +172,22 @@ class ChangePasswordController extends Controller {
 						],
 					]);
 				}
-				if (!$result && $recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
-						]
-					]);
-				} elseif (!$result && !$recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Unable to change password'),
-						]
-					]);
+				if (!$result) {
+					if ($recoveryEnabledForUser) {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
+							]
+						]);
+					} else {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Unable to change password'),
+							]
+						]);
+					}
 				}
 			}
 		} else {

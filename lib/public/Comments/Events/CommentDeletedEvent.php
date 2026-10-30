@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Comments\Events;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -20,6 +21,8 @@ use OCP\Comments\IComment;
 final class CommentDeletedEvent extends CommentsEvent {
 	/**
 	 * CommentRemovedEvent constructor.
+	 *
+	 * @since 33.0.0
 	 */
 	public function __construct(IComment $comment) {
 		/** @psalm-suppress DeprecatedConstant */

@@ -6,10 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WeatherStatus;
 
 use OCA\WeatherStatus\AppInfo\Application;
-
 use OCP\Capabilities\ICapability;
 
 /**
@@ -29,6 +29,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{weather_status: array{enabled: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			Application::APP_ID => [

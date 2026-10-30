@@ -5,13 +5,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Config;
 
 use OCP\IUser;
 
 class LazyPathCachedMountInfo extends CachedMountInfo {
 	// we don't allow \ in paths so it makes a great placeholder
-	private const PATH_PLACEHOLDER = '\\PLACEHOLDER\\';
+	private const string PATH_PLACEHOLDER = '\\PLACEHOLDER\\';
 
 	/** @var callable(CachedMountInfo): string */
 	protected $rootInternalPathCallback;
@@ -39,6 +40,7 @@ class LazyPathCachedMountInfo extends CachedMountInfo {
 		$this->rootInternalPathCallback = $rootInternalPathCallback;
 	}
 
+	#[\Override]
 	public function getRootInternalPath(): string {
 		if ($this->rootInternalPath === self::PATH_PLACEHOLDER) {
 			$this->rootInternalPath = ($this->rootInternalPathCallback)($this);

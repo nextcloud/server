@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Backend;
@@ -321,6 +322,76 @@ class BackendTest extends TestCase {
 		$users = $this->invokePrivate($backend, 'getUsersForShares', [$shares]);
 		sort($users);
 		$this->assertEquals($expected, $users);
+	}
+
+	public static function dataOnMovedCalendarObject(): array {
+		return [
+			'no sharees' => [[], [], ['owner']],
+			'no common sharees' => [['user1'], ['user2'], ['owner']],
+			'common sharees' => [['user1', 'user2'], ['user2', 'user3'], ['user2', 'owner']],
+			'owner among sharees' => [['owner', 'user1'], ['owner', 'user1'], ['owner', 'user1']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataOnMovedCalendarObject')]
+	public function testOnMovedCalendarObject(array $sourceUsers, array $targetUsers, array $expectedUsers): void {
+		$backend = $this->getBackend(['getUsersForShares']);
+
+		$sourceShares = [
+			['{http://owncloud.org/ns}principal' => 'principals/users/user1'],
+			['{http://owncloud.org/ns}principal' => 'principals/groups/group1'],
+		];
+		$targetShares = [
+			['{http://owncloud.org/ns}principal' => 'principals/users/user2'],
+		];
+		$backend->expects($this->exactly(2))
+			->method('getUsersForShares')
+			->willReturnMap([
+				[$sourceShares, $sourceUsers],
+				[$targetShares, $targetUsers],
+			]);
+
+		$this->userSession->method('getUser')
+			->willReturn(null);
+		$this->appManager->method('isEnabledForUser')
+			->willReturn(false);
+
+		$event = $this->createMock(IEvent::class);
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($event);
+		$event->method('setApp')->willReturnSelf();
+		$event->method('setObject')->willReturnSelf();
+		$event->method('setType')->willReturnSelf();
+		$event->method('setAuthor')->willReturnSelf();
+		$event->method('getAuthor')->willReturn('owner');
+		$event->method('setSubject')->willReturnSelf();
+
+		$affectedUsers = [];
+		$event->expects($this->exactly(count($expectedUsers)))
+			->method('setAffectedUser')
+			->willReturnCallback(function (string $user) use (&$affectedUsers, $event) {
+				$affectedUsers[] = $user;
+				return $event;
+			});
+		$this->activityManager->expects($this->exactly(count($expectedUsers)))
+			->method('publish')
+			->with($event);
+
+		$backend->onMovedCalendarObject(
+			['id' => 1, 'uri' => 'source', 'principaluri' => 'principals/users/owner', '{DAV:}displayname' => 'Source'],
+			['id' => 2, 'uri' => 'target', 'principaluri' => 'principals/users/owner', '{DAV:}displayname' => 'Target'],
+			$sourceShares,
+			$targetShares,
+			[
+				'uri' => 'event.ics',
+				'calendardata' => "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:event-uid\r\nSUMMARY:Event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
+			],
+		);
+
+		sort($affectedUsers);
+		sort($expectedUsers);
+		$this->assertEquals($expectedUsers, $affectedUsers);
 	}
 
 	/**

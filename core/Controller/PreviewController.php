@@ -6,8 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -20,7 +23,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -33,8 +36,7 @@ class PreviewController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IPreview $preview,
-		private IRootFolder $root,
-		private ?string $userId,
+		private ?IUserFolder $userFolder,
 		private IMimeIconProvider $mimeIconProvider,
 	) {
 		parent::__construct($appName, $request);
@@ -44,8 +46,8 @@ class PreviewController extends Controller {
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -62,6 +64,7 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -75,8 +78,7 @@ class PreviewController extends Controller {
 		}
 
 		try {
-			$userFolder = $this->root->getUserFolder($this->userId);
-			$node = $userFolder->get($file);
+			$node = $this->userFolder->get($file);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -87,9 +89,9 @@ class PreviewController extends Controller {
 	/**
 	 * Get a preview by file ID
 	 *
-	 * @param int $fileId ID of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param positive-int $fileId ID of the file
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -106,20 +108,20 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreviewByFileId(
-		int $fileId = -1,
+		int $fileId,
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
 		bool $mimeFallback = false) {
-		if ($fileId === -1 || $x === 0 || $y === 0) {
+		if ($x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$userFolder = $this->root->getUserFolder($this->userId);
-		$node = $userFolder->getFirstNodeById($fileId);
+		$node = $this->userFolder->getFirstNodeById($fileId);
 
 		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);

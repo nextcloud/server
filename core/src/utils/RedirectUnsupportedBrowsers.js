@@ -4,9 +4,9 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import logger from '../logger.js'
-import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
-import browserStorage from '../services/BrowserStorageService.js'
+import { supportedBrowsersRegExp } from '../services/BrowsersListService.ts'
+import browserStorage from '../services/BrowserStorageService.ts'
+import { logger } from './logger.ts'
 
 export const browserStorageKey = 'unsupported-browser-ignore'
 const redirectPath = generateUrl('/unsupported')
@@ -33,7 +33,7 @@ export function testSupportedBrowser() {
 	// redirect to the unsupported warning page
 	if (window.location.pathname.indexOf(redirectPath) === -1) {
 		const redirectUrl = window.location.href.replace(window.location.origin, '')
-		const base64Param = window.Buffer.from(redirectUrl).toString('base64')
+		const base64Param = btoa(redirectUrl)
 		history.pushState(null, null, `${redirectPath}?redirect_url=${base64Param}`)
 		window.location.reload()
 	}

@@ -37,11 +37,11 @@ class AudioToAudioChat implements IInternalTaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Audio chat');
 	}
@@ -50,6 +50,7 @@ class AudioToAudioChat implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Voice chat with the assistant');
 	}
@@ -58,6 +59,7 @@ class AudioToAudioChat implements IInternalTaskType {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +68,7 @@ class AudioToAudioChat implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'system_prompt' => new ShapeDescriptor(
@@ -90,6 +93,7 @@ class AudioToAudioChat implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'input_transcript' => new ShapeDescriptor(

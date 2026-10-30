@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Template;
 
 use OCP\Files\File;
@@ -84,6 +85,7 @@ final class Template implements \JsonSerializable {
 	 * }
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'templateType' => $this->templateType,

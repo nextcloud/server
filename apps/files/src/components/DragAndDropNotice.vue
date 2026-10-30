@@ -32,14 +32,14 @@ import type { PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
 import { Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { UploadStatus } from '@nextcloud/upload'
+import { UploadStatus } from '@nextcloud/files/upload'
+import { t } from '@nextcloud/l10n'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
 import { useActiveStore } from '../store/active.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',

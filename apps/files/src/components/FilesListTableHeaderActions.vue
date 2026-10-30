@@ -6,27 +6,26 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions
 			ref="actionsMenu"
-			:open.sync="openedMenu"
+			v-model:open="openedMenu"
 			container="#app-content-vue"
-			:boundaries-element="boundariesElement"
+			:boundariesElement="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
-			:force-name="true"
+			:forceName="true"
 			:inline="enabledInlineActions.length"
-			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
+			:menuName="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
 			<NcActionButton
-				v-for="(action, idx) in enabledMenuActions"
-				:id="idx === 0 ? FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID : undefined"
+				v-for="(action) in enabledMenuActions"
 				:key="action.id"
 				:ref="`action-batch-${action.id}`"
 				:class="{
 					[`files-list__row-actions-batch-${action.id}`]: true,
 					[`files-list__row-actions-batch--menu`]: isValidMenu(action),
 				}"
-				:close-after-click="!isValidMenu(action)"
+				:closeAfterClick="!isValidMenu(action)"
 				:data-cy-files-list-selection-action="action.id"
-				:is-menu="isValidMenu(action)"
+				:isMenu="isValidMenu(action)"
 				:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
@@ -54,7 +53,7 @@
 					:key="action.id"
 					:class="`files-list__row-actions-batch-${action.id}`"
 					class="files-list__row-actions-batch--submenu"
-					close-after-click
+					closeAfterClick
 					:data-cy-files-list-selection-action="action.id"
 					:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 					:title="action.title?.(actionContext)"
@@ -85,17 +84,14 @@ import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import { FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID } from './FilesListTableHeader.vue'
 import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import logger from '../logger.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-
-export const FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID = 'files-list-head-first-batch-action'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesListTableHeaderActions',
@@ -153,8 +149,6 @@ export default defineComponent({
 
 			boundariesElement,
 			inlineActions,
-
-			FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID,
 		}
 	},
 
@@ -275,17 +269,6 @@ export default defineComponent({
 		},
 	},
 
-	mounted() {
-		const firstActionId = this.enabledMenuActions.at(0)?.id
-		const firstButton = this.$refs.actionsMenu?.$refs?.[`action-batch-${firstActionId}`]
-		if (firstButton) {
-			firstButton.$el.focus()
-			logger.debug('Focusing first batch action button')
-
-			firstButton.$el.addEventListener('focusout', this.onFirstButtonFocusOut)
-		}
-	},
-
 	methods: {
 		/**
 		 * Get a cached note from the store
@@ -315,7 +298,7 @@ export default defineComponent({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', NodeStatus.LOADING)
+					node.status = NodeStatus.LOADING
 				})
 
 				// Dispatch action execution
@@ -355,23 +338,9 @@ export default defineComponent({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', undefined)
+					node.status = undefined
 				})
 			}
-		},
-
-		// When focusing out the first button outside the header actions
-		// we can return back to the select all checkbox
-		onFirstButtonFocusOut(event: FocusEvent) {
-			// If the focus is still within this component, do nothing
-			if (this.$el.contains(event.relatedTarget)) {
-				return
-			}
-
-			event.preventDefault()
-			event.stopPropagation()
-			document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)?.focus()
-			logger.debug('Focusing select all checkbox again')
 		},
 
 		t: translate,

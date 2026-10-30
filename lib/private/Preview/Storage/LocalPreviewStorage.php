@@ -12,7 +12,6 @@ namespace OC\Preview\Storage;
 
 use LogicException;
 use OC;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
@@ -31,7 +30,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class LocalPreviewStorage implements IPreviewStorage {
-	private const SCAN_BATCH_SIZE = 1000;
+	private const int SCAN_BATCH_SIZE = 1000;
 
 	public function __construct(
 		private readonly IConfig $config,
@@ -70,6 +69,13 @@ class LocalPreviewStorage implements IPreviewStorage {
 		}
 	}
 
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		// constructPath() keys on the file id and the preview specification, not
+		// on the preview id, so this file is shared with the preview that won the
+		// race. Deleting it would leave that one with a row but no file.
+	}
+
 	public function getRootFolder(): string {
 		return $this->config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data');
 	}
@@ -93,7 +99,13 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
+	public function migratePreviews(array $previews): void {
+		foreach ($previews as $preview) {
+			$this->migratePreview($preview);
+		}
+	}
+
+	private function migratePreview(Preview $preview): void {
 		// legacy flat directory
 		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
 		if (!file_exists($sourcePath)) {
@@ -281,7 +293,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 				// Move old flat preview to new nested directory format.
 				$dirName = str_replace($this->getPreviewRootFolder(), '', $item['filePath']);
-				if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
+				if (preg_match('/([[:xdigit:]]\/){7}[0-9]+/', $dirName) !== 1) {
 					$previewPath = $this->constructPath($preview);
 					$this->createParentFiles($previewPath);
 					$ok = rename($item['realPath'], $previewPath);
@@ -312,18 +324,17 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$result = [];
 		$qb = $this->connection->getTypedQueryBuilder();
 		$qb->selectColumns('fileid', 'storage', 'etag', 'mimetype')
-			->from('filecache');
-		foreach (array_chunk($fileIds, 1000) as $chunk) {
-			$qb->andWhere(
-				$qb->expr()->in('fileid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY))
-			);
+			->from('filecache')
+			->where($qb->expr()->in('fileid', $qb->createParameter('fileIds')))
+			->runAcrossAllShards();
+		foreach (array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+			$qb->setParameter('fileIds', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$rows = $qb->executeQuery();
+			while ($row = $rows->fetchAssociative()) {
+				$result[(int)$row['fileid']] = $row;
+			}
+			$rows->closeCursor();
 		}
-		$rows = $qb->runAcrossAllShards()
-			->executeQuery();
-		while ($row = $rows->fetchAssociative()) {
-			$result[(int)$row['fileid']] = $row;
-		}
-		$rows->closeCursor();
 		return $result;
 	}
 
@@ -340,18 +351,17 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$result = [];
 		$qb = $this->connection->getTypedQueryBuilder();
 		$qb->selectColumns('fileid', 'storage', 'etag', 'mimetype', 'parent', 'path_hash')
-			->from('filecache');
-		foreach (array_chunk($pathHashes, 1000) as $chunk) {
-			$qb->andWhere(
-				$qb->expr()->in('path_hash', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY))
-			);
+			->from('filecache')
+			->where($qb->expr()->in('path_hash', $qb->createParameter('pathHashes')))
+			->runAcrossAllShards();
+		foreach (array_chunk($pathHashes, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+			$qb->setParameter('pathHashes', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$rows = $qb->executeQuery();
+			while ($row = $rows->fetchAssociative()) {
+				$result[$row['path_hash']] = $row;
+			}
+			$rows->closeCursor();
 		}
-		$rows = $qb->runAcrossAllShards()
-			->executeQuery();
-		while ($row = $rows->fetchAssociative()) {
-			$result[$row['path_hash']] = $row;
-		}
-		$rows->closeCursor();
 		return $result;
 	}
 

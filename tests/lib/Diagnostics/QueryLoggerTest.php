@@ -9,15 +9,20 @@
 namespace Test\Diagnostics;
 
 use OC\Diagnostics\QueryLogger;
+use OC\SystemConfig;
+use OCP\Server;
 use Test\TestCase;
 
 class QueryLoggerTest extends TestCase {
 	private QueryLogger $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = new QueryLogger();
+		$this->logger = new QueryLogger(
+			Server::get(SystemConfig::class)
+		);
 	}
 
 	public function testQueryLogger(): void {

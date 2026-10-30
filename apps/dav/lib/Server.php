@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
@@ -13,7 +14,6 @@ use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
@@ -56,6 +56,7 @@ use OCA\DAV\Connector\Sabre\UserIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
+use OCA\DAV\DAV\Security\RateLimiting;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\SabrePluginAddEvent;
@@ -94,6 +95,7 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Profiler\IProfiler;
@@ -131,7 +133,7 @@ class Server {
 		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OCP\Server::get(IFactory::class)->get('dav')));
 
 		$this->server->addPlugin(new AppleQuirksPlugin());
 
@@ -148,7 +150,9 @@ class Server {
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
-		$this->server->addPlugin(new ProfilerPlugin($this->request));
+		if ($this->profiler->isEnabled()) {
+			$this->server->addPlugin(new ProfilerPlugin($this->request));
+		}
 		$this->server->addPlugin(new BlockLegacyClientPlugin(
 			\OCP\Server::get(IConfig::class),
 			\OCP\Server::get(ThemingDefaults::class),
@@ -200,7 +204,7 @@ class Server {
 
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(IConfig::class)));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(RateLimiting::class)));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new ICSExportPlugin(\OCP\Server::get(IConfig::class), $logger));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OCP\Server::get(IConfig::class), \OCP\Server::get(LoggerInterface::class), \OCP\Server::get(DefaultCalendarValidator::class)));
@@ -213,7 +217,6 @@ class Server {
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 			$this->server->addPlugin(new PublishPlugin(
-				\OCP\Server::get(IConfig::class),
 				\OCP\Server::get(IURLGenerator::class)
 			));
 
@@ -223,7 +226,7 @@ class Server {
 
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(IConfig::class)));
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(RateLimiting::class)));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
@@ -243,6 +246,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		$config = \OCP\Server::get(IConfig::class);
 		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
@@ -255,6 +259,8 @@ class Server {
 			$logger,
 			$eventDispatcher,
 			\OCP\Server::get(IDateTimeZone::class),
+			$config,
+			\OCP\Server::get(IFactory::class)->get('dav'),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
 		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
@@ -283,15 +289,17 @@ class Server {
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
-			// Allow view-only plugin for webdav requests
-			$this->server->addPlugin(new ViewOnlyPlugin(
-				\OC::$server->getUserFolder(),
-			));
-
 			// custom properties plugin must be the last one
 			$userSession = \OCP\Server::get(IUserSession::class);
 			$user = $userSession->getUser();
-			if ($user !== null) {
+			$rootFolder = \OCP\Server::get(IRootFolder::class);
+			if ($user === null) {
+				// Allow view-only plugin for webdav requests
+				$this->server->addPlugin(new ViewOnlyPlugin(null));
+			} else {
+				$userFolder = $rootFolder->getUserFolder($user->getUID());
+				// Allow view-only plugin for webdav requests
+				$this->server->addPlugin(new ViewOnlyPlugin($userFolder));
 				$view = Filesystem::getView();
 				$config = \OCP\Server::get(IConfig::class);
 				$this->server->addPlugin(
@@ -331,13 +339,12 @@ class Server {
 					)
 				);
 
-				// TODO: switch to LazyUserFolder
-				$userFolder = \OC::$server->getUserFolder();
 				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,
 					$userSession,
 					$shareManager,
+					$rootFolder,
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OCP\Server::get(ICommentsManager::class),
@@ -352,9 +359,9 @@ class Server {
 						\OCP\Server::get(Defaults::class),
 						$userSession,
 						\OCP\Server::get(IMipService::class),
-						\OCP\Server::get(EventComparisonService::class),
 						\OCP\Server::get(\OCP\Mail\Provider\IManager::class),
 						\OCP\Server::get(IEmailValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
@@ -374,7 +381,7 @@ class Server {
 						$this->server,
 						$this->server->tree,
 						$user,
-						\OCP\Server::get(IRootFolder::class),
+						$rootFolder,
 						$shareManager,
 						$view,
 						\OCP\Server::get(IFilesMetadataManager::class)
@@ -397,7 +404,7 @@ class Server {
 					\OCP\Server::get(IURLGenerator::class),
 					\OCP\Server::get(ThemingDefaults::class),
 					\OCP\Server::get(IRequest::class),
-					\OC::$server->getL10N('dav'),
+					\OCP\Server::get(IFactory::class)->get('dav'),
 					function () {
 						return UUIDUtil::getUUID();
 					}

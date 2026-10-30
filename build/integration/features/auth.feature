@@ -104,7 +104,7 @@ Feature: auth
 		Then the HTTP status code should be "200"
 		When the CSRF token is extracted from the previous response
 		When a new unrestricted client token is added using restricted basic token auth
-		Then the HTTP status code should be "503"
+		Then the HTTP status code should be "403"
 
 	Scenario: Creating a restricted auth token with regular login should work
 		When a new restricted client token is added
@@ -114,3 +114,28 @@ Feature: auth
 		When a new unrestricted client token is added
 		Then the HTTP status code should be "200"
 
+	# SCOPED TOKENS
+	Scenario: a files token reaches the files OCS API
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a files token is refused on capabilities
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/cloud/capabilities" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token without files_sharing:shares:write cannot create shares
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "POST" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token is refused on unified search
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/ocs/v2.php/search/providers" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token gets no page render
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/index.php/apps/files" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"

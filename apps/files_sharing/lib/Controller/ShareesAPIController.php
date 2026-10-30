@@ -6,13 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Collaboration\Collaborators\SearchResult;
-use OC\Share\Share;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\ResponseDefinitions;
+use OCA\Files_Sharing\TokenScopes;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -38,6 +40,7 @@ use function usort;
  * @psalm-import-type Files_SharingShareesSearchResult from ResponseDefinitions
  * @psalm-import-type Files_SharingShareesRecommendedResult from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::SHARES_WRITE)]
 class ShareesAPIController extends OCSController {
 
 	protected int $offset = 0;
@@ -74,6 +77,7 @@ class ShareesAPIController extends OCSController {
 		protected IManager $shareManager,
 		protected ISearch $collaboratorSearch,
 		protected FederatedShareProvider $federatedShareProvider,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -161,7 +165,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if ($this->appManager->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -183,25 +187,26 @@ class ShareesAPIController extends OCSController {
 		$this->result['lookupEnabled'] = Server::get(GlobalScaleIConfig::class)->isGlobalScaleEnabled();
 		// TODO: Reconsider using lookup server for non-global-scale federation
 
-		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $this->result['lookupEnabled'], $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, $this->result['lookupEnabled'], $itemType, null, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
-		$this->result = array_merge($this->result, $result);
-		$response = new DataResponse($this->result);
+		/** @var Files_SharingShareesSearchResult $result */
+		$result = array_merge($this->result, $result);
 
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->getPaginationLink($page, [
+			$headers['Link'] = $this->getPaginationLink($page, [
 				'search' => $search,
 				'itemType' => $itemType,
 				'shareType' => $shareTypes,
 				'perPage' => $perPage,
-			])]);
+			]);
 		}
 
-		return $response;
+		return new DataResponse($result, Http::STATUS_OK, $headers);
 	}
 
 	/**
@@ -360,7 +365,6 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteGroupSharingAllowed(): bool {
 		return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
 	}
-
 
 	/**
 	 * Generates a bunch of pagination links for the current page

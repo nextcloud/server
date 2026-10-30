@@ -8,7 +8,7 @@ import type { ContentsWithRoot } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { getFavoriteNodes, getRemoteURL, getRootPath } from '@nextcloud/files/dav'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { getContents as filesContents } from './Files.ts'
 import { client } from './WebdavClient.ts'
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 use OCP\IL10N;
@@ -41,6 +42,7 @@ class L10N implements IL10N {
 	 *
 	 * @return string language
 	 */
+	#[\Override]
 	public function getLanguageCode(): string {
 		return $this->lang;
 	}
@@ -50,19 +52,12 @@ class L10N implements IL10N {
 	 *
 	 * @return string locale
 	 */
+	#[\Override]
 	public function getLocaleCode(): string {
 		return $this->locale ?? '';
 	}
 
-	/**
-	 * Translating
-	 * @param string $text The text we need a translation for
-	 * @param array|string $parameters default:array() Parameters for sprintf
-	 * @return string Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $text will be
-	 * returned.
-	 */
+	#[\Override]
 	public function t(string $text, $parameters = []): string {
 		if (!\is_array($parameters)) {
 			$parameters = [$parameters];
@@ -86,6 +81,7 @@ class L10N implements IL10N {
 	 * provided by the po file.
 	 *
 	 */
+	#[\Override]
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
@@ -99,28 +95,7 @@ class L10N implements IL10N {
 		return (string)new L10NString($this, $text_plural, $parameters, $count);
 	}
 
-	/**
-	 * Localization
-	 * @param string $type Type of localization
-	 * @param \DateTime|int|string|null $data parameters for this localization
-	 * @param array $options
-	 * @return string|int|false
-	 *
-	 * Returns the localized data.
-	 *
-	 * Implemented types:
-	 *  - date
-	 *    - Creates a date
-	 *    - params: timestamp (int/string)
-	 *  - datetime
-	 *    - Creates date and time
-	 *    - params: timestamp (int/string)
-	 *  - time
-	 *    - Creates a time
-	 *    - params: timestamp (int/string)
-	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
-	 *  - jsdate: Returns the short JS date format
-	 */
+	#[\Override]
 	public function l(string $type, $data = null, array $options = []) {
 		if ($this->locale === null) {
 			// Use the language of the instance
@@ -138,7 +113,7 @@ class L10N implements IL10N {
 		}
 
 		$value = new \DateTime();
-		if ($data instanceof \DateTime) {
+		if ($data instanceof \DateTime || $data instanceof \DateTimeImmutable) {
 			$value = $data;
 		} elseif (\is_string($data) && !is_numeric($data)) {
 			$data = strtotime($data);

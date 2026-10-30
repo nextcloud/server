@@ -26,13 +26,13 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
 use OCP\IUser;
-use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * Listens to config events and update the mounts for the applicable users
  *
- * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|PostLoginEvent|Event>
+ * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|UserLoggedInEvent|Event>
  */
 class MountCacheService implements IEventListener {
 	private CappedMemoryCache $storageRootCache;
@@ -46,6 +46,7 @@ class MountCacheService implements IEventListener {
 		$this->storageRootCache = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof StorageCreatedEvent) {
 			$this->handleAddedStorage($event->getNewConfig());
@@ -68,14 +69,14 @@ class MountCacheService implements IEventListener {
 		if ($event instanceof UserCreatedEvent) {
 			$this->handleUserCreated($event->getUser());
 		}
-		if ($event instanceof PostLoginEvent) {
+		if ($event instanceof UserLoggedInEvent) {
 			$this->onLogin($event->getUser());
 		}
 	}
 
 	public function handleDeletedStorage(StorageConfig $storage): void {
 		foreach ($this->applicableHelper->getUsersForStorage($storage) as $user) {
-			$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+			$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 		}
 	}
 
@@ -87,7 +88,7 @@ class MountCacheService implements IEventListener {
 
 	public function handleUpdatedStorage(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		foreach ($this->applicableHelper->diffApplicable($oldStorage, $newStorage) as $user) {
-			$this->userMountCache->removeMount($oldStorage->getMountPointForUser($user));
+			$this->userMountCache->removeMount($oldStorage->getMountPointForUser($user), $user);
 		}
 		foreach ($this->applicableHelper->diffApplicable($newStorage, $oldStorage) as $user) {
 			$this->registerForUser($user, $newStorage);
@@ -118,7 +119,7 @@ class MountCacheService implements IEventListener {
 		$data = [
 			'path' => '',
 			'path_hash' => md5(''),
-			'size' => 0,
+			'size' => -1,
 			'unencrypted_size' => 0,
 			'mtime' => 0,
 			'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE,
@@ -156,7 +157,7 @@ class MountCacheService implements IEventListener {
 		$storages = $this->storagesService->getAllStoragesForGroup($group);
 		foreach ($storages as $storage) {
 			if (!$this->applicableHelper->isApplicableForUser($storage, $user)) {
-				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+				$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 			}
 		}
 	}
@@ -181,7 +182,7 @@ class MountCacheService implements IEventListener {
 	private function removeGroupFromStorage(StorageConfig $storage, IGroup $group): void {
 		foreach ($group->searchUsers('') as $user) {
 			if (!$this->applicableHelper->isApplicableForUser($storage, $user)) {
-				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+				$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 			}
 		}
 	}

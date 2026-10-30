@@ -91,19 +91,8 @@ OC.L10N.register(
     "Reset to default" : "Reafitar los valores",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si atopes dalgún problema, nun duldes n'informar d'él nel {issuetracker}rexistrador de problemes{linkend}. Y si quies andechar, ¡xúnite al {designteam}equipu de diseñu{linkend}!",
     "Appearance and accessibility settings" : "Configuración del aspeutu y l'accesibilidá",
-    "Customization has been disabled by your administrator" : "L'alministración desactivó la personalización",
-    "Disable-user-theming should be true or false" : "«Disable-user-theming» ha ser «true» o «false»",
-    "Header logo" : "Logotipu de la testera",
-    "Upload new header logo" : "Xubir un logotipu nuevu pa la testera",
-    "Upload new favicon" : "Xubir un favicon",
-    "User settings" : "Configuración del usuariu",
-    "Upload new logo" : "Xubir un logotipu nuevu",
-    "Upload new background and login image" : "Xubir una imaxe nueva pal fondu y la páxina d'aniciar la sesión",
-    "Background and login image" : "Imaxe pal fondu y la páxina d'aniciar la sesión",
-    "Advanced options" : "Opciones avanzaes",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la estensión de PHP ImageMagick con compatibilidá pa imáxenes SVG y xenerar favicons basaos nel logotipu xubíu y nos colores",
-    "No background has been selected" : "Nun se seleicionó nengún fondu",
-    "Select a custom color" : "Seleicionar un color personalizáu",
-    "Upload" : "Xunir"
+    "Themes" : "Estilos",
+    "Fonts" : "Fontes",
+    "Customization has been disabled by your administrator" : "L'alministración desactivó la personalización"
 },
 "nplurals=2; plural=(n != 1);");

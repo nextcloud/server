@@ -23,6 +23,7 @@ class DiscoveryServiceTest extends TestCase {
 	/** @var IDiscoveryService */
 	private $discoveryService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

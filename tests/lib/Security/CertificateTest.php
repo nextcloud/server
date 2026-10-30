@@ -20,6 +20,7 @@ class CertificateTest extends \Test\TestCase {
 	/** @var Certificate That contains an expired certificate */
 	protected $expiredCertificate;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -30,7 +31,6 @@ class CertificateTest extends \Test\TestCase {
 		$expiredCertificate = file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt');
 		$this->expiredCertificate = new Certificate($expiredCertificate, 'ExpiredCertificate');
 	}
-
 
 	public function testBogusData(): void {
 		$this->expectException(\Exception::class);

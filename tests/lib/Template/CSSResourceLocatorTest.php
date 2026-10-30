@@ -34,6 +34,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private AppConfig&MockObject $appConfig;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

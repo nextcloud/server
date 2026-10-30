@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -46,7 +47,6 @@ abstract class ApiController extends Controller {
 		$this->corsAllowedHeaders = $corsAllowedHeaders;
 		$this->corsMaxAge = $corsMaxAge;
 	}
-
 
 	/**
 	 * This method implements a preflighted cors response for you that you can

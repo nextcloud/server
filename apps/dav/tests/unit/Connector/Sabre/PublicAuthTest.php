@@ -6,12 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -34,6 +36,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private IThrottler&MockObject $throttler;
 	private LoggerInterface&MockObject $logger;
 	private IURLGenerator&MockObject $urlGenerator;
+	private IUserSession&MockObject $userSession;
 	private PublicAuth $auth;
 
 	private bool|string $oldUser;
@@ -47,6 +50,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->auth = new PublicAuth(
 			$this->request,
@@ -55,6 +59,7 @@ class PublicAuthTest extends \Test\TestCase {
 			$this->throttler,
 			$this->logger,
 			$this->urlGenerator,
+			$this->userSession,
 		);
 
 		// Store current user
@@ -96,6 +101,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
+		$share->method('isPasswordProtected')->willReturn(false);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -145,6 +151,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -164,6 +171,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -198,6 +206,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
+		$share->method('isPasswordProtected')->willReturn(false);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -215,6 +224,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -227,13 +237,13 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordRemote(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
 		$this->shareManager->expects($this->once())
@@ -252,6 +262,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
 		$this->shareManager->expects($this->once())
@@ -276,6 +287,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
 		$this->shareManager->expects($this->once())
@@ -300,6 +312,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
@@ -329,6 +342,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
@@ -352,13 +366,13 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordMailInvalidSession(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');
 

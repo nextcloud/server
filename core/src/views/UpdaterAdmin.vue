@@ -14,10 +14,12 @@ import {
 } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { generateFilePath } from '@nextcloud/router'
-import { NcButton, NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
+import { generateOcsUrl } from '@nextcloud/router'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import OCEventSource from '../OC/eventsource.js'
 
@@ -92,7 +94,7 @@ async function onStartUpdate() {
 	}
 
 	isUpdateRunning.value = true
-	const eventSource = new OCEventSource(generateFilePath('core', '', 'ajax/update.php'))
+	const eventSource = new OCEventSource(generateOcsUrl('/core/update'))
 	eventSource.listen('success', (message) => {
 		messages.value.push({ message, type: 'success' })
 	})
@@ -222,7 +224,7 @@ function reloadPage() {
 			</div>
 
 			<NcButton
-				aria-controlls="core-update-details"
+				aria-controls="core-update-details"
 				:aria-expanded="isShowingDetails"
 				variant="tertiary"
 				@click="isShowingDetails = !isShowingDetails">
@@ -233,10 +235,10 @@ function reloadPage() {
 				{{ isShowingDetails ? t('core', 'Hide details') : t('core', 'Show details') }}
 			</NcButton>
 			<Transition
-				:enter-active-class="$style.updater__transition_active"
-				:leave-active-class="$style.updater__transition_active"
-				:leave-to-class="$style.updater__transition_collapsed"
-				:enter-class="$style.updater__transition_collapsed">
+				:enterActiveClass="$style.updater__transition_active"
+				:leaveActiveClass="$style.updater__transition_active"
+				:leaveToClass="$style.updater__transition_collapsed"
+				:enterFromClass="$style.updater__transition_collapsed">
 				<ul
 					v-show="isShowingDetails"
 					id="core-update-details"

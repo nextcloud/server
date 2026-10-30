@@ -17,6 +17,7 @@ use OCP\Security\Ip\IRemoteAddress;
 
 class RemoteAddress implements IRemoteAddress, IAddress {
 	public const SETTING_NAME = 'allowed_admin_ranges';
+	public const SETTING_PASSWORD_CONFIRMATION_NAME = 'allowed_no_password_confirmation_ranges';
 
 	private readonly ?IAddress $ip;
 
@@ -30,16 +31,19 @@ class RemoteAddress implements IRemoteAddress, IAddress {
 			: new Address($remoteAddress);
 	}
 
+	#[\Override]
 	public static function isValid(string $ip): bool {
 		return Address::isValid($ip);
 	}
 
+	#[\Override]
 	public function matches(IRange ... $ranges): bool {
 		return $this->ip === null
 			? true
 			: $this->ip->matches(... $ranges);
 	}
 
+	#[\Override]
 	public function allowsAdminActions(): bool {
 		if ($this->ip === null) {
 			return true;
@@ -54,6 +58,32 @@ class RemoteAddress implements IRemoteAddress, IAddress {
 			|| empty($allowedAdminRanges)
 		) {
 			return true;
+		}
+
+		foreach ($allowedAdminRanges as $allowedAdminRange) {
+			if ((new Range($allowedAdminRange))->contains($this->ip)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	#[\Override]
+	public function allowsBypassPasswordConfirmation(): bool {
+		if ($this->ip === null) {
+			return false;
+		}
+
+		$allowedAdminRanges = $this->config->getSystemValue(self::SETTING_PASSWORD_CONFIRMATION_NAME, false);
+
+		// Apply restrictions on empty or invalid configuration
+		if (
+			$allowedAdminRanges === false
+			|| !is_array($allowedAdminRanges)
+			|| empty($allowedAdminRanges)
+		) {
+			return false;
 		}
 
 		foreach ($allowedAdminRanges as $allowedAdminRange) {

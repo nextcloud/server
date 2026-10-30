@@ -24,10 +24,12 @@ class ConfigLexicon implements ILexicon {
 	public const ALLOW_USER_MOUNTING = 'allow_user_mounting';
 	public const USER_MOUNTING_BACKENDS = 'user_mounting_backends';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::NOTICE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry(self::ALLOW_USER_MOUNTING, ValueType::BOOL, false, 'allow users to mount their own external filesystems', true),
@@ -35,6 +37,7 @@ class ConfigLexicon implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [];
 	}

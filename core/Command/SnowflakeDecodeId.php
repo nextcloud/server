@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OCP\Snowflake\ISnowflakeDecoder;
@@ -21,6 +22,7 @@ class SnowflakeDecodeId extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -30,6 +32,7 @@ class SnowflakeDecodeId extends Base {
 			->addArgument('snowflake-id', InputArgument::REQUIRED, 'Nextcloud Snowflake ID to decode');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$snowflakeId = $input->getArgument('snowflake-id');
 		$data = $this->decoder->decode($snowflakeId);

@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Comhroinnt iargúlta",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
     "Remote share password" : "Pasfhocal comhroinnte cianda",
-    "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil",
-    "X (formerly Twitter)" : "X (Twitter roimhe seo)",
-    "formerly Twitter" : "Twitter roimhe seo"
+    "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

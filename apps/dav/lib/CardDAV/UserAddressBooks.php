@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\Application;
@@ -56,6 +57,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return IAddressBook[]
 	 */
+	#[\Override]
 	public function getChildren() {
 		/** @var string|array $principal */
 		$principal = $this->principalUri;
@@ -109,6 +111,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		return array_merge($objects, ...$objectsFromPlugins);
 	}
 
+	#[\Override]
 	public function createExtendedCollection($name, MkCol $mkCol) {
 		if (ExternalAddressBook::doesViolateReservedName($name)) {
 			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
@@ -129,6 +132,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getACL() {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {

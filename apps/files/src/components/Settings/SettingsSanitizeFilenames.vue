@@ -17,8 +17,8 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import logger from '../../logger.ts'
 import { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'
+import { logger } from '../../utils/logger.ts'
 
 type ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: SanitizeFilenameStatus }
 
@@ -109,7 +109,7 @@ async function refreshStatus() {
 	</NcNoteCard>
 
 	<NcNoteCard v-else-if="status === SanitizeFilenameStatus.Done" type="success">
-		{{ t('files', 'All files have been santized for Windows filename support.') }}
+		{{ t('files', 'All files have been sanitized for Windows filename support.') }}
 	</NcNoteCard>
 
 	<form
@@ -142,7 +142,7 @@ async function refreshStatus() {
 			<NcInputField
 				v-model="renameLimit"
 				:label="t('files', 'Limit')"
-				:helper-text="t('files', 'This allows to configure how many users should be processed in one background job run.')"
+				:helperText="t('files', 'This allows to configure how many users should be processed in one background job run.')"
 				min="1"
 				type="number" />
 

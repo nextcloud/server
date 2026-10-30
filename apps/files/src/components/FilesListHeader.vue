@@ -13,7 +13,7 @@ import type { Folder, IFileListHeader, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import PQueue from 'p-queue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 /**
  * This component is used to render custom
@@ -86,7 +86,7 @@ export default {
 		})
 	},
 
-	destroyed() {
+	unmounted() {
 		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
 	},
 

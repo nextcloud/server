@@ -26,30 +26,37 @@ class FakeTextToTextProvider implements ISynchronousProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APP_ID . '-text2text';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake text2text task processing provider';
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'max_tokens' => new ShapeDescriptor(
@@ -65,6 +72,7 @@ class FakeTextToTextProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [
 			'model' => [
@@ -75,6 +83,7 @@ class FakeTextToTextProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [
 			'max_tokens' => 1234,
@@ -82,18 +91,22 @@ class FakeTextToTextProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($this->appConfig->getAppValueBool('fail-' . $this->getId())) {
 			throw new ProcessingException('Failing as set by AppConfig');

@@ -54,6 +54,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server The Sabre\DAV server instance.
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server): void {
 		$this->server = $server;
 

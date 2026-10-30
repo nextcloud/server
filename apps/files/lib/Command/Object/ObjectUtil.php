@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
+use OCP\Console\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Util;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ObjectUtil {
 	public function __construct(
@@ -39,7 +39,7 @@ class ObjectUtil {
 		return null;
 	}
 
-	public function getObjectStore(?string $bucket, OutputInterface $output): ?IObjectStore {
+	public function getObjectStore(?string $bucket, IOutput $output): ?IObjectStore {
 		$config = $this->getObjectStoreConfig();
 		if (!$config) {
 			$output->writeln('<error>Instance is not using primary object store</error>');

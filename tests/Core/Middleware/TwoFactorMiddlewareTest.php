@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Test\Core\Middleware;
+namespace Tests\Core\Middleware;
 
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\AppFramework\Http\Request;
@@ -78,6 +78,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	private TwoFactorMiddleware $middleware;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -152,7 +153,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($controller, 'index');
 	}
 
-
 	public function testBeforeControllerTwoFactorAuthRequired(): void {
 		$this->expectException(TwoFactorAuthRequiredException::class);
 
@@ -178,7 +178,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->getMock();
 		$this->middleware->beforeController($controller, 'index');
 	}
-
 
 	public function testBeforeControllerUserAlreadyLoggedIn(): void {
 		$this->expectException(UserAlreadyLoggedInException::class);
@@ -277,7 +276,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 		} else {
 			$providers = [];
 		}
-
 
 		$user = $this->createMock(IUser::class);
 

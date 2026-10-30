@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -21,7 +22,7 @@ use OCP\Security\ICredentialsManager;
  * User provided Global Username and Password
  */
 class UserGlobalAuth extends AuthMechanism {
-	private const CREDENTIALS_IDENTIFIER = 'password::global';
+	private const string CREDENTIALS_IDENTIFIER = 'password::global';
 
 	public function __construct(
 		IL10N $l,
@@ -57,6 +58,7 @@ class UserGlobalAuth extends AuthMechanism {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if ($user === null) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');

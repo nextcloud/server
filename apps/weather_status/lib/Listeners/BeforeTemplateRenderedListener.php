@@ -23,6 +23,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	 * Inject our status widget script when the dashboard is loaded
 	 * We need to do it like this because there is currently no PHP API for registering "status widgets"
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
 			return;
@@ -34,5 +35,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		}
 
 		Util::addScript('weather_status', 'weather-status');
+		Util::addStyle('weather_status', 'weather-status');
 	}
 }

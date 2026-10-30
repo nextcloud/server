@@ -20,6 +20,7 @@ use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -29,11 +30,16 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
+use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -84,7 +90,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected IShareManager&MockObject $shareManager;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -121,10 +130,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**
@@ -184,9 +195,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		return $qb->getLastInsertId();
 	}
 
-
-
-
 	public function testGetShareByIdNotExist(): void {
 		$this->expectException(ShareNotFound::class);
 
@@ -217,7 +225,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
 		$ownerPath = $this->createMock(File::class);
-		$shareOwnerFolder = $this->createMock(Folder::class);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
@@ -295,7 +303,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$ownerPath = $this->createMock(File::class);
 
-		$shareOwnerFolder = $this->createMock(Folder::class);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
@@ -339,7 +347,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$id = $qb->getLastInsertId();
 
 		$ownerPath = $this->createMock(Folder::class);
-		$shareOwnerFolder = $this->createMock(Folder::class);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
@@ -379,8 +387,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myTarget');
 
-		$this->rootFolder->method('getUserFolder')->with('user0')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->willReturn($node);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->willReturn($node);
+		$this->rootFolder->method('getUserFolder')->with('user0')->willReturn($userFolder);
 
 		$this->userManager->method('get')->willReturnMap([
 			['user0', $user0],
@@ -403,12 +412,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByIdLinkShare(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -424,7 +435,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$id = $qb->getLastInsertId();
 
 		$ownerPath = $this->createMock(Folder::class);
-		$shareOwnerFolder = $this->createMock(Folder::class);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
@@ -438,7 +449,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(IShare::TYPE_LINK, $share->getShareType());
 		$this->assertNull($share->getSharedWith());
-		$this->assertEquals('password', $share->getPassword());
+		$this->assertTrue($share->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share->getPassword());
 		$this->assertEquals(true, $share->getSendPasswordByTalk());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -647,7 +659,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->executeStatement();
 
 		$ownerPath = $this->createMock(Folder::class);
-		$ownerFolder = $this->createMock(Folder::class);
+		$ownerFolder = $this->createMock(IUserFolder::class);
 		$ownerFolder->method('getFirstNodeById')->willReturn($ownerPath);
 
 		$this->rootFolder
@@ -660,6 +672,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 
 		$children = $this->provider->getChildren($share);
+		usort($children, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 
 		$this->assertCount(2, $children);
 
@@ -696,8 +709,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$path->method('getId')->willReturn(100);
 		$path->method('getOwner')->willReturn($shareOwner);
 
-		$ownerFolder = $this->createMock(Folder::class);
-		$userFolder = $this->createMock(Folder::class);
+		$ownerFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder
 			->method('getUserFolder')
 			->willReturnMap([
@@ -768,8 +781,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$path->method('getId')->willReturn(100);
 		$path->method('getOwner')->willReturn($shareOwner);
 
-		$ownerFolder = $this->createMock(Folder::class);
-		$userFolder = $this->createMock(Folder::class);
+		$ownerFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder
 			->method('getUserFolder')
 			->willReturnMap([
@@ -829,6 +842,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateLinkShare(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$share = new Share($this->rootFolder, $this->userManager);
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -838,8 +853,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$path->method('getId')->willReturn(100);
 		$path->method('getOwner')->willReturn($shareOwner);
 
-		$ownerFolder = $this->createMock(Folder::class);
-		$userFolder = $this->createMock(Folder::class);
+		$ownerFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder
 			->method('getUserFolder')
 			->willReturnMap([
@@ -859,7 +874,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
-		$share->setPassword('password');
+		$share->setPasswordHash($passwordHash);
 		$share->setSendPasswordByTalk(true);
 		$share->setToken('token');
 		$expireDate = new \DateTime();
@@ -877,19 +892,22 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getNode());
-		$this->assertSame('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertSame($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('token', $share2->getToken());
 		$this->assertEquals($expireDate->getTimestamp(), $share2->getExpirationDate()->getTimestamp());
 	}
 
 	public function testGetShareByToken(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -905,15 +923,17 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
+		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($shareOwnerFolder);
 
 		$share = $this->provider->getShareByToken('secrettoken');
 		$this->assertEquals($id, $share->getId());
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame('secrettoken', $share->getToken());
-		$this->assertSame('password', $share->getPassword());
+		$this->assertTrue($share->isPasswordHashed());
+		$this->assertSame($passwordHash, $share->getPassword());
 		$this->assertSame('the label', $share->getLabel());
 		$this->assertSame(true, $share->getSendPasswordByTalk());
 		$this->assertSame(null, $share->getSharedWith());
@@ -924,12 +944,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * as types on IShare, a string and not null
 	 */
 	public function testGetShareByTokenNullLabel(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
-				'password' => $qb->expr()->literal('password'),
+				'password' => $qb->expr()->literal($passwordHash),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -944,8 +966,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
+		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($shareOwnerFolder);
 
 		$share = $this->provider->getShareByToken('secrettoken');
 		$this->assertEquals($id, $share->getId());
@@ -1027,8 +1050,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with($fileId)->willReturn($file);
+		$shareOwnerFolder = $this->createMock(IUserFolder::class);
+		$shareOwnerFolder->method('getFirstNodeById')->with($fileId)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($shareOwnerFolder);
 
 		$share = $this->provider->getSharedWith('sharedWith', IShare::TYPE_USER, null, 1, 0);
 		$this->assertCount(1, $share);
@@ -1039,6 +1063,19 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
+	}
+
+	#[TestWith([[], 0])]
+	#[TestWith([['group1', 'group2'], 1])]
+	public function testGetSharedWithGroupWithoutGroupShares(array $groups, int $expectedQueries): void {
+		$this->groupManager->method('getUserGroupIds')->willReturn($groups);
+		$connection = $this->dbConn->getInner();
+
+		$queriesBefore = $connection->getStats()['executed'];
+		$shares = $this->provider->getSharedWithByPath('sharedWith', IShare::TYPE_GROUP, '/sharedWith/files/target', false, -1, 0);
+
+		$this->assertSame([], $shares);
+		$this->assertSame($expectedQueries, $connection->getStats()['executed'] - $queriesBefore);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
@@ -1228,8 +1265,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn($fileId2);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with($fileId2)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with($fileId2)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getSharedWith('user0', IShare::TYPE_USER, $file, -1, 0);
 		$this->assertCount(1, $share);
@@ -1269,8 +1307,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')->willReturn($fileId2);
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with($fileId2)->willReturn($node);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with($fileId2)->willReturn($node);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getSharedWith('user0', IShare::TYPE_GROUP, $node, -1, 0);
 		$this->assertCount(1, $share);
@@ -1318,8 +1357,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with($deletedFileId)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with($deletedFileId)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($userFolder);
 
 		$groups = [];
 		foreach (range(0, 100) as $i) {
@@ -1430,8 +1470,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($userFolder);
 
 		$share = $this->provider->getSharesBy('sharedBy', IShare::TYPE_USER, $file, false, 1, 0);
 		$this->assertCount(1, $share);
@@ -1480,8 +1521,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
-		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturn($userFolder);
 
 		$shares = $this->provider->getSharesBy('shareOwner', IShare::TYPE_USER, null, true, -1, 0);
 		$this->assertCount(2, $shares);
@@ -1540,8 +1582,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
@@ -1612,8 +1655,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
@@ -1634,7 +1678,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(0, $share2['permissions']);
 		$this->assertEquals('user2', $share2['share_with']);
 	}
-
 
 	public function testDeleteFromSelfGroupUserNotInGroup(): void {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1670,14 +1713,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
-
 
 	public function testDeleteFromSelfGroupDoesNotExist(): void {
 		$this->expectException(ProviderException::class);
@@ -1712,8 +1755,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
@@ -1750,8 +1794,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
@@ -1768,7 +1813,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertCount(0, $shares);
 	}
-
 
 	public function testDeleteFromSelfUserNotRecipient(): void {
 		$this->expectException(ProviderException::class);
@@ -1804,14 +1848,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
 		$this->provider->deleteFromSelf($share, $user3);
 	}
-
 
 	public function testDeleteFromSelfLink(): void {
 		$this->expectException(ProviderException::class);
@@ -1841,8 +1885,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id);
 
@@ -1872,9 +1917,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file2 = $this->createMock(File::class);
 		$file2->method('getId')->willReturn(43);
 
-		$folder1 = $this->createMock(Folder::class);
+		$folder1 = $this->createMock(IUserFolder::class);
 		$folder1->method('getFirstNodeById')->with(42)->willReturn($file1);
-		$folder2 = $this->createMock(Folder::class);
+		$folder2 = $this->createMock(IUserFolder::class);
 		$folder2->method('getFirstNodeById')->with(43)->willReturn($file2);
 
 		$this->rootFolder->method('getUserFolder')->willReturnMap([
@@ -1908,6 +1953,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLink(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$id = $this->addShareToDB(IShare::TYPE_LINK, null, 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
@@ -1929,9 +1976,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file2 = $this->createMock(File::class);
 		$file2->method('getId')->willReturn(43);
 
-		$folder1 = $this->createMock(Folder::class);
+		$folder1 = $this->createMock(IUserFolder::class);
 		$folder1->method('getFirstNodeById')->with(42)->willReturn($file1);
-		$folder2 = $this->createMock(Folder::class);
+		$folder2 = $this->createMock(IUserFolder::class);
 		$folder2->method('getFirstNodeById')->with(43)->willReturn($file2);
 
 		$this->rootFolder->method('getUserFolder')->willReturnMap([
@@ -1941,7 +1988,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setPassword('password');
+		$share->setPasswordHash($passwordHash);
 		$share->setSendPasswordByTalk(true);
 		$share->setSharedBy('user4');
 		$share->setShareOwner('user5');
@@ -1951,7 +1998,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->update($share);
 
 		$this->assertEquals($id, $share2->getId());
-		$this->assertEquals('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -1960,7 +2008,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share2->getId());
-		$this->assertEquals('password', $share2->getPassword());
+		$this->assertTrue($share2->isPasswordHashed());
+		$this->assertEquals($passwordHash, $share2->getPassword());
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -1968,13 +2017,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLinkRemovePassword(): void {
+		$passwordHash = Server::get(IHasher::class)->hash('password');
+
 		$id = $this->addShareToDB(IShare::TYPE_LINK, 'foo', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->update('share');
 		$qb->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
-		$qb->set('password', $qb->createNamedParameter('password'));
+		$qb->set('password', $qb->createNamedParameter($passwordHash));
 		$this->assertEquals(1, $qb->executeStatement());
 
 		$users = [];
@@ -1995,9 +2046,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file2 = $this->createMock(File::class);
 		$file2->method('getId')->willReturn(43);
 
-		$folder1 = $this->createMock(Folder::class);
+		$folder1 = $this->createMock(IUserFolder::class);
 		$folder1->method('getFirstNodeById')->with(42)->willReturn($file1);
-		$folder2 = $this->createMock(Folder::class);
+		$folder2 = $this->createMock(IUserFolder::class);
 		$folder2->method('getFirstNodeById')->with(43)->willReturn($file2);
 
 		$this->rootFolder->method('getUserFolder')->willReturnMap([
@@ -2016,6 +2067,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->update($share);
 
 		$this->assertEquals($id, $share2->getId());
+		$this->assertFalse($share2->isPasswordHashed());
 		$this->assertEquals(null, $share2->getPassword());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -2024,6 +2076,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share2->getId());
+		$this->assertFalse($share2->isPasswordHashed());
 		$this->assertEquals(null, $share2->getPassword());
 		$this->assertSame('user4', $share2->getSharedBy());
 		$this->assertSame('user5', $share2->getShareOwner());
@@ -2066,9 +2119,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file2 = $this->createMock(File::class);
 		$file2->method('getId')->willReturn(43);
 
-		$folder1 = $this->createMock(Folder::class);
+		$folder1 = $this->createMock(IUserFolder::class);
 		$folder1->method('getFirstNodeById')->with(42)->willReturn($file1);
-		$folder2 = $this->createMock(Folder::class);
+		$folder2 = $this->createMock(IUserFolder::class);
 		$folder2->method('getFirstNodeById')->with(43)->willReturn($file2);
 
 		$this->rootFolder->method('getUserFolder')->willReturnMap([
@@ -2145,9 +2198,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file2 = $this->createMock(File::class);
 		$file2->method('getId')->willReturn(43);
 
-		$folder1 = $this->createMock(Folder::class);
+		$folder1 = $this->createMock(IUserFolder::class);
 		$folder1->method('getFirstNodeById')->with(42)->willReturn($file1);
-		$folder2 = $this->createMock(Folder::class);
+		$folder2 = $this->createMock(IUserFolder::class);
 		$folder2->method('getFirstNodeById')->with(43)->willReturn($file2);
 
 		$this->rootFolder->method('getUserFolder')->willReturnMap([
@@ -2200,7 +2253,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user5', $shares[1]['uid_owner']);
 		$this->assertSame(0, (int)$shares[1]['permissions']);
 
-
 		$stmt->closeCursor();
 	}
 
@@ -2223,8 +2275,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->willReturn($file);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id, null);
 
@@ -2259,8 +2312,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$folder = $this->createMock(Folder::class);
 		$folder->method('getId')->willReturn(42);
 
-		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
-		$this->rootFolder->method('getFirstNodeById')->willReturn($folder);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->with(42)->willReturn($folder);
+		$this->rootFolder->method('getUserFolder')->with('user1')->willReturn($userFolder);
 
 		$share = $this->provider->getShareById($id, 'user0');
 
@@ -2269,12 +2323,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/newTarget', $share->getTarget());
+		// The USERGROUP subshare created on first move must be STATUS_ACCEPTED so
+		// MountProvider does not skip it (default DB value is STATUS_PENDING=0).
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 
 		$share->setTarget('/ultraNewTarget');
 		$this->provider->move($share, 'user0');
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
+		// Second move hits the UPDATE branch (USERGROUP subshare already exists).
+		// STATUS_ACCEPTED must be preserved — the UPDATE only touches file_target.
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 	}
 
 	public static function dataDeleteUser(): array {
@@ -2640,6 +2700,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(IShare::TYPE_USER, $file_shares[0]->getShareType());
 
 		$folder_shares = $result[$folder2->getId()];
+		usort($folder_shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(2, $folder_shares);
 		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
 		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
@@ -2943,23 +3004,23 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$id5 = $qb->getLastInsertId();
 
 		$ownerPath1 = $this->createMock(File::class);
-		$shareOwner1Folder = $this->createMock(Folder::class);
+		$shareOwner1Folder = $this->createMock(IUserFolder::class);
 		$shareOwner1Folder->method('getFirstNodeById')->willReturn($ownerPath1);
 
 		$ownerPath2 = $this->createMock(File::class);
-		$shareOwner2Folder = $this->createMock(Folder::class);
+		$shareOwner2Folder = $this->createMock(IUserFolder::class);
 		$shareOwner2Folder->method('getFirstNodeById')->willReturn($ownerPath2);
 
 		$ownerPath3 = $this->createMock(File::class);
-		$shareOwner3Folder = $this->createMock(Folder::class);
+		$shareOwner3Folder = $this->createMock(IUserFolder::class);
 		$shareOwner3Folder->method('getFirstNodeById')->willReturn($ownerPath3);
 
 		$ownerPath4 = $this->createMock(File::class);
-		$shareOwner4Folder = $this->createMock(Folder::class);
+		$shareOwner4Folder = $this->createMock(IUserFolder::class);
 		$shareOwner4Folder->method('getFirstNodeById')->willReturn($ownerPath4);
 
 		$ownerPath5 = $this->createMock(File::class);
-		$shareOwner5Folder = $this->createMock(Folder::class);
+		$shareOwner5Folder = $this->createMock(IUserFolder::class);
 		$shareOwner5Folder->method('getFirstNodeById')->willReturn($ownerPath5);
 
 		$this->rootFolder
@@ -3027,7 +3088,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('token5', $share->getToken());
 		$this->assertEquals('myTarget5', $share->getTarget());
 	}
-
 
 	public function testGetSharesByPath(): void {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -3100,6 +3160,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn(1);
 
 		$shares = $this->provider->getSharesByPath($node);
+		usort($shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(3, $shares);
 
 		$this->assertEquals($id1, $shares[0]->getId());
@@ -3110,5 +3171,119 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id3, $shares[2]->getId());
 		$this->assertEquals(IShare::TYPE_LINK, $shares[2]->getShareType());
+	}
+
+	private function createMailL10n(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$l->method('l')->with('date', $this->isInstanceOf(\DateTime::class), ['width' => 'medium'])->willReturn('Oct 6, 2026');
+		$l->method('getLanguageCode')->willReturn('de');
+		return $l;
+	}
+
+	public function testSendUserShareMail(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('setLanguage')->with('de');
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', false);
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(function (EMailDetails $details): bool {
+			$rows = $details->getRows();
+			return $details->getTitle() === 'file.txt'
+				&& count($rows) === 1
+				&& $rows[0]->getLabel() === 'Valid until'
+				&& $rows[0]->getParts()[0]['text'] === 'Oct 6, 2026';
+		}));
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setReplyTo')->with(['sharer@example.com' => 'Sharer']);
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+			new \DateTime('2026-10-06'),
+			'A note & more',
+		]);
+	}
+
+	public function testSendUserShareMailWithoutNoteAndExpiration(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn(null);
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', '');
+		$template->expects($this->never())->method('addBodyNote');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(
+			fn (EMailDetails $details): bool => $details->getTitle() === 'file.txt' && $details->getRows() === []
+		));
+		$message->expects($this->never())->method('setReplyTo');
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+		]);
+	}
+
+	public function testSendNote(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$recipient = $this->createMock(IUser::class);
+		$recipient->method('getEMailAddress')->willReturn('recipient@example.com');
+		$recipient->method('getDisplayName')->willReturn('Recipient');
+		$this->l10nFactory->method('getUserLanguage')->with($recipient)->willReturn('en');
+		$this->l10nFactory->method('get')->with('lib', 'en')->willReturn($this->createMailL10n());
+		$this->defaults->method('getName')->willReturn('Cloud');
+		$this->urlGenerator->method('linkToRouteAbsolute')->willReturn('https://example.com/link');
+
+		$node = $this->createMock(File::class);
+		$node->method('getName')->willReturn('file.txt');
+		$node->method('getId')->willReturn(42);
+		$share = $this->createMock(IShare::class);
+		$share->method('getNode')->willReturn($node);
+		$share->method('getSharedBy')->willReturn('sharer');
+		$share->method('getNote')->willReturn('A note & more');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$template->expects($this->once())->method('setLanguage')->with('de');
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you');
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setTo')->with(['recipient@example.com' => 'Recipient']);
+
+		self::invokePrivate($this->provider, 'sendNote', [[$recipient], $share]);
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Console;
 
 use OCP\IConfig;
@@ -23,6 +24,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @param bool $decorated Whether to decorate the messages or not
 	 */
+	#[\Override]
 	public function setDecorated(bool $decorated): void {
 		$this->formatter->setDecorated($decorated);
 	}
@@ -32,6 +34,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @return bool true if the output will decorate messages, false otherwise
 	 */
+	#[\Override]
 	public function isDecorated(): bool {
 		return $this->formatter->isDecorated();
 	}
@@ -42,6 +45,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name The style name
 	 * @param OutputFormatterStyleInterface $style The style instance
 	 */
+	#[\Override]
 	public function setStyle(string $name, OutputFormatterStyleInterface $style): void {
 		$this->formatter->setStyle($name, $style);
 	}
@@ -52,6 +56,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasStyle(string $name): bool {
 		return $this->formatter->hasStyle($name);
 	}
@@ -63,6 +68,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @return OutputFormatterStyleInterface
 	 * @throws \InvalidArgumentException When style isn't defined
 	 */
+	#[\Override]
 	public function getStyle(string $name): OutputFormatterStyleInterface {
 		return $this->formatter->getStyle($name);
 	}
@@ -74,6 +80,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @return string|null The styled message, prepended with a timestamp using the
 	 *                     log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
 	 */
+	#[\Override]
 	public function format(?string $message): ?string {
 		if (!$this->formatter->isDecorated()) {
 			// Don't add anything to the output when we shouldn't

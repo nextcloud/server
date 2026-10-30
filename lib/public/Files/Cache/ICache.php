@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files\Cache;
 
 use OCP\Files\Search\ISearchOperator;
@@ -284,7 +285,8 @@ interface ICache {
 	/**
 	 * Construct a cache entry from a search result row *if* the entry belongs to this storage.
 	 *
-	 * This method will be called for every item in the search results, including results from different storages.
+	 * This method is only called for search results with the same numeric storage id as this cache, but these can
+	 * still include results that don't belong to it, such as results outside a jail.
 	 * It's the responsibility of this method to return `null` for all results that don't belong to this storage.
 	 *
 	 * Additionally some implementations might need to further process the resulting entry such as modifying the path

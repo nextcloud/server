@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Step\Then;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -14,14 +14,14 @@ require __DIR__ . '/autoload.php';
 /**
  * Capabilities context.
  */
-class CapabilitiesContext implements Context, SnippetAcceptingContext {
+class CapabilitiesContext implements Context {
 	use BasicStructure;
 	use AppConfiguration;
 
 	/**
-	 * @Then /^fields of capabilities match with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
+	#[Then('/^fields of capabilities match with$/')]
 	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData) {
 		$capabilitiesXML = simplexml_load_string($this->response->getBody());
 		Assert::assertNotFalse($capabilitiesXML, 'Failed to fetch capabilities');
@@ -49,6 +49,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_allow_resharing');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
 		$this->deleteServerConfig('files_sharing', 'incoming_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_enable_link_password_by_default');
 		$this->deleteServerConfig('core', 'shareapi_enforce_links_password');
 		$this->deleteServerConfig('core', 'shareapi_allow_public_notification');
 		$this->deleteServerConfig('core', 'shareapi_default_expire_date');

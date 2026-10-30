@@ -4,11 +4,13 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\Command;
 use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
+use Aws\S3\Exception\S3Exception;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
@@ -32,6 +34,7 @@ trait S3ObjectTrait {
 
 	abstract protected function getCertificateBundlePath(): ?string;
 	abstract protected function getSSECParameters(bool $copy = false): array;
+	abstract protected function getServerSideEncryptionParameters(bool $copy = false): array;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -46,7 +49,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -114,7 +117,7 @@ trait S3ObjectTrait {
 			'ContentType' => $mimetype,
 			'Metadata' => $this->buildS3Metadata($metaData),
 			'StorageClass' => $this->storageClass,
-		] + $this->getSSECParameters();
+		] + $this->getServerSideEncryptionParameters();
 
 		if ($size = $stream->getSize()) {
 			$args['ContentLength'] = $size;
@@ -122,7 +125,6 @@ trait S3ObjectTrait {
 
 		$this->getConnection()->putObject($args);
 	}
-
 
 	/**
 	 * Multipart upload helper that tries to avoid orphaned fragments in S3
@@ -143,10 +145,10 @@ trait S3ObjectTrait {
 		$exception = null;
 		$state = null;
 		$size = $stream->getSize();
-		$totalWritten = 0;
 
 		// retry multipart upload once with concurrency at half on failure
 		while (!$uploaded && $attempts <= 1) {
+			$totalWritten = 0;
 			$uploader = new MultipartUploader($this->getConnection(), $stream, [
 				'bucket' => $this->bucket,
 				'concurrency' => $concurrency,
@@ -157,12 +159,12 @@ trait S3ObjectTrait {
 					'ContentType' => $mimetype,
 					'Metadata' => $this->buildS3Metadata($metaData),
 					'StorageClass' => $this->storageClass,
-				] + $this->getSSECParameters(),
+				] + $this->getServerSideEncryptionParameters(),
 				'before_upload' => function (Command $command) use (&$totalWritten): void {
 					$totalWritten += $command['ContentLength'];
 				},
 				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts): void {
-					if ($size !== null && $totalWritten != $size) {
+					if ($size !== null && $totalWritten !== $size) {
 						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
 						throw new MultipartUploadException($uploader->getState(), $e);
 					}
@@ -215,7 +217,6 @@ trait S3ObjectTrait {
 			'size' => $metaData['size'] ?? null,
 		]);
 
-
 		$size = $psrStream->getSize();
 		if ($size === null || !$canSeek) {
 			// The s3 single-part upload requires the size to be known for the stream.
@@ -266,15 +267,18 @@ trait S3ObjectTrait {
 		]);
 	}
 
+	/**
+	 * @throws S3Exception|\Exception if there is an unhandled exception
+	 */
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
+		return $this->getConnection()->doesObjectExistV2($this->bucket, $urn, false, $this->getServerSideEncryptionParameters());
 	}
 
 	public function copyObject($from, $to, array $options = []) {
 		$sourceMetadata = $this->getConnection()->headObject([
 			'Bucket' => $this->getBucket(),
 			'Key' => $from,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 
 		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
 
@@ -286,26 +290,28 @@ trait S3ObjectTrait {
 				'bucket' => $this->getBucket(),
 				'key' => $to,
 				'acl' => 'private',
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
 				'source_metadata' => $sourceMetadata
 			], $options));
 			$copy->copy();
 		} else {
 			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
 				'mup_threshold' => PHP_INT_MAX,
 			], $options));
 		}
 	}
 
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		if (!$this->isUsePresignedUrl()) {
 			return null;
 		}
 
+		// A cross-origin anchor click saves the file only when this header is part of the signed response.
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->getBucket(),
 			'Key' => $urn,
+			'ResponseContentDisposition' => $this->attachmentContentDisposition($filename),
 		]);
 
 		try {
@@ -315,5 +321,18 @@ trait S3ObjectTrait {
 		} catch (AwsException) {
 			return null;
 		}
+	}
+
+	/**
+	 * Content-Disposition for a direct download. The name is percent-encoded so it cannot break the header.
+	 */
+	protected function attachmentContentDisposition(?string $filename): string {
+		$filename = str_replace(["\r", "\n"], '', (string)$filename);
+		if ($filename === '' || $filename === '.' || $filename === '..') {
+			return 'attachment';
+		}
+
+		$encoded = rawurlencode($filename);
+		return 'attachment; filename="' . $encoded . '"; filename*=UTF-8\'\'' . $encoded;
 	}
 }

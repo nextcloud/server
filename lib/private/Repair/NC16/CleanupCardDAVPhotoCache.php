@@ -35,6 +35,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Cleanup invalid photocache files for carddav';
 	}
@@ -80,6 +81,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 		);
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$this->repair($output);

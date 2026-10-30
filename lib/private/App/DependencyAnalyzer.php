@@ -29,7 +29,7 @@ class DependencyAnalyzer {
 	}
 
 	/**
-	 * @return array of missing dependencies
+	 * @return list<string> of missing dependencies
 	 */
 	public function analyze(array $appInfo, bool $ignoreMax = false): array {
 		if (isset($appInfo['dependencies'])) {
@@ -104,6 +104,9 @@ class DependencyAnalyzer {
 		return $this->compare($first, $second, '<');
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzePhpVersion(array $dependencies): array {
 		$missing = [];
 		if (isset($dependencies['php']['@attributes']['min-version'])) {
@@ -127,6 +130,9 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeArchitecture(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['architecture'])) {
@@ -150,6 +156,9 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeDatabases(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['database'])) {
@@ -170,12 +179,15 @@ class DependencyAnalyzer {
 			return $this->getValue($db);
 		}, $supportedDatabases);
 		$currentDatabase = $this->platform->getDatabase();
-		if (!in_array($currentDatabase, $supportedDatabases)) {
+		if (!in_array($currentDatabase, $supportedDatabases, true)) {
 			$missing[] = $this->getL()->t('The following databases are supported: %s', [implode(', ', $supportedDatabases)]);
 		}
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeCommands(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['command'])) {
@@ -202,6 +214,9 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeLibraries(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['lib'])) {
@@ -243,6 +258,9 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeOS(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['os'])) {
@@ -261,16 +279,24 @@ class DependencyAnalyzer {
 			$oss = [$oss];
 		}
 		$currentOS = $this->platform->getOS();
+		// $oss may contain raw, unnormalized entries (e.g. with @attributes) when a single <os> was given without going through getValue()
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!in_array($currentOS, $oss)) {
 			$missing[] = $this->getL()->t('The following platforms are supported: %s', [implode(', ', $oss)]);
 		}
 		return $missing;
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	private function analyzeServer(array $appInfo, bool $ignoreMax): array {
 		return $this->analyzeServerVersion($this->platform->getOcVersion(), $appInfo, $ignoreMax);
 	}
 
+	/**
+	 * @return list<string> of missing dependencies
+	 */
 	public function analyzeServerVersion(string $serverVersion, array $appInfo, bool $ignoreMax): array {
 		$missing = [];
 		$minVersion = null;

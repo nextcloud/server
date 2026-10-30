@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -202,12 +203,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		];
 	}
 
-
 	public function testGetNodeForPathInvalidPath(): void {
 		$this->expectException(InvalidPath::class);
 
 		$path = '/foo\bar';
-
 
 		$storage = new Temporary([]);
 
@@ -231,7 +230,6 @@ class ObjectTreeTest extends \Test\TestCase {
 
 	public function testGetNodeForPathRoot(): void {
 		$path = '/';
-
 
 		$storage = new Temporary([]);
 

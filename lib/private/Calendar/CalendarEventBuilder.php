@@ -34,46 +34,55 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 	) {
 	}
 
+	#[\Override]
 	public function setStartDate(DateTimeInterface $start): ICalendarEventBuilder {
 		$this->startDate = $start;
 		return $this;
 	}
 
+	#[\Override]
 	public function setEndDate(DateTimeInterface $end): ICalendarEventBuilder {
 		$this->endDate = $end;
 		return $this;
 	}
 
+	#[\Override]
 	public function setSummary(string $summary): ICalendarEventBuilder {
 		$this->summary = $summary;
 		return $this;
 	}
 
+	#[\Override]
 	public function setDescription(string $description): ICalendarEventBuilder {
 		$this->description = $description;
 		return $this;
 	}
 
+	#[\Override]
 	public function setLocation(string $location): ICalendarEventBuilder {
 		$this->location = $location;
 		return $this;
 	}
 
+	#[\Override]
 	public function setStatus(CalendarEventStatus $status): static {
 		$this->status = $status;
 		return $this;
 	}
 
+	#[\Override]
 	public function setOrganizer(string $email, ?string $commonName = null): ICalendarEventBuilder {
 		$this->organizer = [$email, $commonName];
 		return $this;
 	}
 
+	#[\Override]
 	public function addAttendee(string $email, ?string $commonName = null): ICalendarEventBuilder {
 		$this->attendees[] = [$email, $commonName];
 		return $this;
 	}
 
+	#[\Override]
 	public function toIcs(): string {
 		if ($this->startDate === null) {
 			throw new InvalidArgumentException('Event is missing a start date');
@@ -117,6 +126,7 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 		return $vcalendar->serialize();
 	}
 
+	#[\Override]
 	public function createInCalendar(ICreateFromString $calendar): string {
 		$fileName = $this->uid . '.ics';
 		$calendar->createFromString($fileName, $this->toIcs());

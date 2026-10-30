@@ -44,7 +44,7 @@ describe('core: LoginForm', () => {
 
 	it('offers only account name if email is not enabled', async () => {
 		const page = render(LoginForm, {
-			propsData: {
+			props: {
 				emailStates: ['0', '1'],
 			},
 		})
@@ -64,6 +64,40 @@ describe('core: LoginForm', () => {
 		expect(input.id).toBe('user')
 		expect(input.name).toBe('user')
 		expect(input.value).toBe('test-user')
+	})
+
+	it('marks username field as error when login credentials are invalid', () => {
+		const page = render(LoginForm, {
+			props: {
+				errors: ['invalidpassword'],
+				username: 'wrong-user',
+			},
+		})
+
+		const input = page.getByRole('textbox', { name: /Account name or email/ })
+		expect(input.closest('.input-field--error')).not.toBeNull()
+	})
+
+	it.each([
+		['apacheAuthFailed', 'Server side authentication failed!', 'Please contact your administrator.'],
+		['internalexception', 'An internal error occurred.', 'Please try again or contact your administrator.'],
+	])('shows the heading of the %s error', (error, heading, text) => {
+		const page = render(LoginForm, {
+			props: {
+				errors: [error],
+			},
+		})
+
+		const note = page.getByText(text).closest('.notecard')
+		expect(note?.textContent).toContain(heading)
+		expect(note?.getAttribute('class')).not.toContain(heading)
+	})
+
+	it('disables spell checking of the password', () => {
+		const page = render(LoginForm)
+
+		const input: HTMLInputElement = page.getByLabelText('Password', { selector: 'input' })
+		expect(input.getAttribute('spellcheck')).toBe('false')
 	})
 
 	describe('', () => {

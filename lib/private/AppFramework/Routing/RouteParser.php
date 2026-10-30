@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Routing;
 
 use OC\Route\Route;
@@ -15,7 +16,8 @@ class RouteParser {
 	/** @var string[] */
 	private $controllerNameCache = [];
 
-	private const rootUrlApps = [
+	private const array rootUrlApps = [
+		'appstore',
 		'cloud_federation_api',
 		'core',
 		'files_sharing_raw',

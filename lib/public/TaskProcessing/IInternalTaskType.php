@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * This is a task type interface that is implemented by task processing
  * task types that should not show up in the assistant UI
+ *
  * @since 33.0.0
  */
+#[Implementable(since: '33.0.0')]
 interface IInternalTaskType extends ITaskType {
 
 }

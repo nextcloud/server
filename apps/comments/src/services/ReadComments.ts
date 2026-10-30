@@ -5,7 +5,7 @@
 
 import type { Response } from 'webdav'
 
-import client from './DavClient.js'
+import client from './DavClient.ts'
 
 /**
  * Mark comments older than the date timestamp as read

@@ -19,4 +19,10 @@ interface IRemoteAddress {
 	 * @since 30.0.0
 	 */
 	public function allowsAdminActions(): bool;
+
+	/**
+	 * Check if the current remote address is allowed to bypass the password confirmation.
+	 * @since 35.0.0
+	 */
+	public function allowsBypassPasswordConfirmation(): bool;
 }

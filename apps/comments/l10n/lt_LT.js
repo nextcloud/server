@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Failai",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Buvote paminėtas „{file}“, komentare, kuris buvo parašytas iš paskyros, kuri vėliau buvo ištrinta.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} minėjo jus \"{file}\" komentare",
+    "Go to file" : "Eiti į failą",
     "Files app plugin to add comments to files" : "Failų programėlės įskiepis, skirtas prie failų pridėti komentarus",
     "Edit comment" : "Taisyti komentarą",
     "Delete comment" : "Ištrinti komentarą",
@@ -19,7 +20,7 @@ OC.L10N.register(
     "New comment" : "Naujas komentaras",
     "Write a comment …" : "Rašyti komentarą ...",
     "Post comment" : "Paskelbti komentarą",
-    "@ for mentions, : for emoji, / for smart picker" : "@ paminėjimams, : jaustukams, / išmaniajam rinkikliui",
+    "@ for mentions, : for emoji, / for smart picker" : "@ paminėjimams, : emociukams, / išmaniajam rinkikliui",
     "Could not reload comments" : "Nepavyko įkelti komentarų iš naujo",
     "Failed to mark comments as read" : "Nepavyko pažymėti komentarų kaip perskaitytų",
     "Unable to load the comments list" : "Nepavyko įkelti komentarų sąrašo",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Bandant taisyti komentarą, įvyko klaida",
     "Comment deleted" : "Komentaras ištrintas",
     "An error occurred while trying to delete the comment" : "Bandant ištrinti komentarą, įvyko klaida",
-    "An error occurred while trying to create the comment" : "Bandant sukurti komentarą, įvyko klaida",
-    "Write a comment …" : "Rašyti komentarą..."
+    "An error occurred while trying to create the comment" : "Bandant sukurti komentarą, įvyko klaida"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

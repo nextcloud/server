@@ -41,6 +41,7 @@ use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * Class FolderTest
@@ -50,6 +51,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
+	use UserTrait;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->createUser('bar', 'bar');
+	}
+
+	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Folder {
 		$view->expects($this->any())
 			->method('getRoot')
@@ -61,14 +71,17 @@ class FolderTest extends NodeTestCase {
 		}
 	}
 
+	#[\Override]
 	protected function getNodeClass(): string {
 		return Folder::class;
 	}
 
+	#[\Override]
 	protected function getNonExistingNodeClass(): string {
 		return NonExistingFolder::class;
 	}
 
+	#[\Override]
 	protected function getViewDeleteMethod(): string {
 		return 'rmdir';
 	}
@@ -210,7 +223,6 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals($child, $result);
 	}
 
-
 	public function testNewFolderNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -253,7 +265,6 @@ class FolderTest extends NodeTestCase {
 		$result = $node->newFile('asd');
 		$this->assertEquals($child, $result);
 	}
-
 
 	public function testNewFileNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
@@ -408,7 +419,6 @@ class FolderTest extends NodeTestCase {
 		$cache->insert('foo', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$cache->insert('foo/qwerty', ['size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']);
 
-
 		$root->method('getMountsIn')
 			->with('/bar')
 			->willReturn([]);
@@ -471,7 +481,6 @@ class FolderTest extends NodeTestCase {
 		$subCache->insert('asd', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$subCache->insert('asd/qwerty', ['size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']);
 
-
 		$root->method('getMountsIn')
 			->with('/bar/foo')
 			->willReturn([$subMount]);
@@ -479,7 +488,6 @@ class FolderTest extends NodeTestCase {
 		$root->method('getMount')
 			->with('/bar/foo')
 			->willReturn($mount);
-
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$result = $node->search('qw');
@@ -805,7 +813,6 @@ class FolderTest extends NodeTestCase {
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
 
-
 		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
 			return (int)$node->getId();
@@ -869,7 +876,6 @@ class FolderTest extends NodeTestCase {
 		]);
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
-
 
 		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
@@ -1023,7 +1029,6 @@ class FolderTest extends NodeTestCase {
 			->willReturn($subCache2);
 		$subStorage2->method('getOwner')
 			->willReturn('owner');
-
 
 		$cache->insert('', ['size' => 0, 'mtime' => 10, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$cache->insert('foo', ['size' => 0, 'mtime' => 10, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OCP\AppFramework\Http\IOutput;
@@ -21,6 +22,7 @@ class Output implements IOutput {
 	/**
 	 * @param string $out
 	 */
+	#[\Override]
 	public function setOutput($out) {
 		print($out);
 	}
@@ -30,6 +32,7 @@ class Output implements IOutput {
 	 *
 	 * @return bool false if an error occurred
 	 */
+	#[\Override]
 	public function setReadfile($path) {
 		if (is_resource($path)) {
 			$output = fopen('php://output', 'w');
@@ -42,6 +45,7 @@ class Output implements IOutput {
 	/**
 	 * @param string $header
 	 */
+	#[\Override]
 	public function setHeader($header) {
 		header($header);
 	}
@@ -49,6 +53,7 @@ class Output implements IOutput {
 	/**
 	 * @param int $code sets the http status code
 	 */
+	#[\Override]
 	public function setHttpResponseCode($code) {
 		http_response_code($code);
 	}
@@ -56,6 +61,7 @@ class Output implements IOutput {
 	/**
 	 * @return int returns the current http response code
 	 */
+	#[\Override]
 	public function getHttpResponseCode() {
 		return http_response_code();
 	}
@@ -69,6 +75,7 @@ class Output implements IOutput {
 	 * @param bool $secure
 	 * @param bool $httpOnly
 	 */
+	#[\Override]
 	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly, $sameSite = 'Lax') {
 		$path = $this->webRoot ? : '/';
 

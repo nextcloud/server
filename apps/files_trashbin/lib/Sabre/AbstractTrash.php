@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Service\ConfigService;
@@ -22,18 +23,22 @@ abstract class AbstractTrash implements ITrash {
 	) {
 	}
 
+	#[\Override]
 	public function getFilename(): string {
 		return $this->data->getName();
 	}
 
+	#[\Override]
 	public function getDeletionTime(): int {
 		return $this->data->getDeletedTime();
 	}
 
+	#[\Override]
 	public function getFileId(): int {
 		return $this->data->getId();
 	}
 
+	#[\Override]
 	public function getFileInfo(): FileInfo {
 		return $this->data;
 	}
@@ -42,6 +47,7 @@ abstract class AbstractTrash implements ITrash {
 	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
 	 * @return int|float
 	 */
+	#[\Override]
 	public function getSize(): int|float {
 		return $this->data->getSize();
 	}
@@ -62,14 +68,17 @@ abstract class AbstractTrash implements ITrash {
 		return $this->data->getName();
 	}
 
+	#[\Override]
 	public function getOriginalLocation(): string {
 		return $this->data->getOriginalLocation();
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->data->getTitle();
 	}
 
+	#[\Override]
 	public function getDeletedBy(): ?IUser {
 		return $this->data->getDeletedBy();
 	}
@@ -82,6 +91,7 @@ abstract class AbstractTrash implements ITrash {
 		$this->trashManager->removeItem($this->data);
 	}
 
+	#[\Override]
 	public function restore(): bool {
 		$this->trashManager->restoreItem($this->data);
 		return true;

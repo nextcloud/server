@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
@@ -43,6 +44,7 @@ class File extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('info:file')
@@ -52,6 +54,7 @@ class File extends Command {
 			->addOption('storage-tree', null, InputOption::VALUE_NONE, 'Show storage and cache wrapping tree');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$showChildren = $input->getOption('children');
@@ -98,7 +101,7 @@ class File extends Command {
 			$childSize = array_sum(array_map(function (Node $node) {
 				return $node->getSize();
 			}, $children));
-			if ($childSize != $node->getSize()) {
+			if ((float)$childSize !== (float)$node->getSize()) {
 				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) . " but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
 				if (!$node->getStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
 					$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Db\UserStatus;
@@ -79,6 +80,21 @@ class StatusServiceTest extends TestCase {
 			$status1,
 			$status2,
 		], $this->service->findAll(20, 50));
+	}
+
+	public function testFindAllAfterId(): void {
+		$status1 = $this->createMock(UserStatus::class);
+		$status2 = $this->createMock(UserStatus::class);
+
+		$this->mapper->expects($this->once())
+			->method('findAllAfterId')
+			->with(20, 1336)
+			->willReturn([$status1, $status2]);
+
+		$this->assertEquals([
+			$status1,
+			$status2,
+		], $this->service->findAllAfterId(20, 1336));
 	}
 
 	public function testFindAllRecentStatusChanges(): void {
@@ -626,6 +642,16 @@ class StatusServiceTest extends TestCase {
 
 		$actual = $this->service->removeUserStatus('john.doe');
 		$this->assertFalse($actual);
+	}
+
+	public function testRefreshThresholdLeavesRoomForAHeartbeat(): void {
+		// HEARTBEAT_INTERVAL in apps/user_status/src/services/heartbeatScheduler.ts
+		$clientHeartbeatInterval = 5 * 60;
+
+		self::assertGreaterThan(
+			$clientHeartbeatInterval,
+			StatusService::INVALIDATE_STATUS_THRESHOLD - StatusService::REFRESH_STATUS_THRESHOLD,
+		);
 	}
 
 	public function testCleanStatusAutomaticOnline(): void {

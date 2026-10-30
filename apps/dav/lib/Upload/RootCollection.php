@@ -7,11 +7,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
@@ -26,12 +29,21 @@ class RootCollection extends AbstractPrincipalCollection {
 		private IManager $shareManager,
 	) {
 		parent::__construct($principalBackend, $principalPrefix);
+		$this->disableListing = true;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getChildForPrincipal(array $principalInfo): UploadHome {
+	#[\Override]
+	public function getChildForPrincipal(array $principalInfo): INode|UploadHome {
+		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
+		$user = $this->userSession->getUser();
+		if ($prefix !== 'principals/shares' && $user?->getUID() !== $name) {
+			// if the request is not using a share token and the URL does not match the user, error out
+			throw new Forbidden('Not allowed');
+		}
+
 		return new UploadHome(
 			$principalInfo,
 			$this->cleanupService,
@@ -44,6 +56,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'uploads';
 	}

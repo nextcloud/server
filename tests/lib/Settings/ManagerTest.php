@@ -7,71 +7,36 @@
 
 namespace OC\Settings\Tests\AppInfo;
 
-use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
 use OCA\WorkflowEngine\Settings\Section;
-use OCP\Group\ISubAdmin;
-use OCP\IDBConnection;
-use OCP\IGroupManager;
+use OCP\App\IAppManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
-use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var Manager|MockObject */
-	private $manager;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var IDBConnection|MockObject */
-	private $l10n;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var IURLGenerator|MockObject */
-	private $url;
-	/** @var IServerContainer|MockObject */
-	private $container;
-	/** @var AuthorizedGroupMapper|MockObject */
-	private $mapper;
-	/** @var IGroupManager|MockObject */
-	private $groupManager;
-	/** @var ISubAdmin|MockObject */
-	private $subAdmin;
+	private IL10N&MockObject $l10n;
 
+	private Manager $manager;
+
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->l10nFactory = $this->createMock(IFactory::class);
-		$this->url = $this->createMock(IURLGenerator::class);
-		$this->container = $this->createMock(IServerContainer::class);
-		$this->mapper = $this->createMock(AuthorizedGroupMapper::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->subAdmin = $this->createMock(ISubAdmin::class);
 
-		$this->manager = new Manager(
-			$this->logger,
-			$this->l10nFactory,
-			$this->url,
-			$this->container,
-			$this->mapper,
-			$this->groupManager,
-			$this->subAdmin,
-		);
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testGetAdminSections(): void {
 		$this->manager->registerSection('admin', Section::class);
 
 		$section = Server::get(Section::class);
-		$this->container->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with(Section::class)
 			->willReturn($section);
 
@@ -84,7 +49,7 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', Section::class);
 
 		$section = Server::get(Section::class);
-		$this->container->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with(Section::class)
 			->willReturn($section);
 
@@ -98,7 +63,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetPersonalSectionsEmptySection(): void {
-		$this->l10nFactory
+		$this->getAutoMock(IFactory::class)
 			->expects($this->once())
 			->method('get')
 			->with('lib')
@@ -117,7 +82,7 @@ class ManagerTest extends TestCase {
 			->willReturn(13);
 		$section->method('getSection')
 			->willReturn('sharing');
-		$this->container->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with('myAdminClass')
 			->willReturn($section);
 
@@ -135,7 +100,7 @@ class ManagerTest extends TestCase {
 			->willReturn(13);
 		$section->method('getSection')
 			->willReturn('sharing');
-		$this->container->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with('myAdminClass')
 			->willReturn($section);
 
@@ -151,7 +116,7 @@ class ManagerTest extends TestCase {
 			->willReturn(13);
 		$section->method('getSection')
 			->willReturn('sharing');
-		$this->container->expects($this->once())
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
 			->method('get')
 			->with('mySubAdminClass')
 			->willReturn($section);
@@ -179,7 +144,7 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSetting('personal', 'section1');
 		$this->manager->registerSetting('personal', 'section2');
 
-		$this->container->expects($this->exactly(2))
+		$this->getAutoMock(ContainerInterface::class)->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
 				['section1', $section],
@@ -194,8 +159,72 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
+	public function testGetPersonalSettingsHidesSettingsOfAppsNotEnabledForUser(): void {
+		$visible = $this->createMock(ISettings::class);
+		$visible->method('getPriority')
+			->willReturn(16);
+		$visible->method('getSection')
+			->willReturn('security');
+
+		$this->manager->registerSetting('personal', 'visibleClass', 'enabled_app');
+		$this->manager->registerSetting('personal', 'hiddenClass', 'restricted_app');
+
+		$this->getAutoMock(IAppManager::class)->method('isEnabledForUser')
+			->willReturnCallback(static fn (string $appId): bool => $appId === 'enabled_app');
+
+		// The settings of the app the user has no access to are never instantiated.
+		$this->getAutoMock(ContainerInterface::class)->expects($this->once())
+			->method('get')
+			->with('visibleClass')
+			->willReturn($visible);
+
+		$this->assertEquals([
+			16 => [$visible],
+		], $this->manager->getPersonalSettings('security'));
+	}
+
+	public function testGetPersonalSectionsHidesSectionsOfAppsNotEnabledForUser(): void {
+		$this->getAutoMock(IFactory::class)->method('get')
+			->with('lib')
+			->willReturn($this->l10n);
+		$this->l10n->method('t')
+			->willReturnArgument(0);
+
+		$this->manager->registerSection('personal', Section::class, 'restricted_app');
+
+		$this->getAutoMock(IAppManager::class)->method('isEnabledForUser')
+			->with('restricted_app')
+			->willReturn(false);
+
+		$this->getAutoMock(ContainerInterface::class)->expects($this->never())
+			->method('get');
+
+		$this->assertEquals([], $this->manager->getPersonalSections());
+	}
+
+	public function testGetAdminSettingsAreNotHiddenForAppsNotEnabledForUser(): void {
+		// Admins configure apps they are not a member of themselves.
+		$setting = $this->createMock(ISettings::class);
+		$setting->method('getPriority')
+			->willReturn(13);
+		$setting->method('getSection')
+			->willReturn('sharing');
+
+		$this->manager->registerSetting('admin', 'myAdminClass', 'restricted_app');
+
+		$this->getAutoMock(IAppManager::class)->expects($this->never())
+			->method('isEnabledForUser');
+		$this->getAutoMock(ContainerInterface::class)->method('get')
+			->with('myAdminClass')
+			->willReturn($setting);
+
+		$this->assertEquals([
+			13 => [$setting],
+		], $this->manager->getAdminSettings('sharing'));
+	}
+
 	public function testSameSectionAsPersonalAndAdmin(): void {
-		$this->l10nFactory
+		$this->getAutoMock(IFactory::class)
 			->expects($this->once())
 			->method('get')
 			->with('lib')
@@ -208,9 +237,8 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', Section::class);
 		$this->manager->registerSection('admin', Section::class);
 
-
 		$section = Server::get(Section::class);
-		$this->container->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with(Section::class)
 			->willReturn($section);
 

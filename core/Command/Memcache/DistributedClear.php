@@ -21,6 +21,7 @@ class DistributedClear extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('memcache:distributed:clear')
@@ -29,6 +30,7 @@ class DistributedClear extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$cache = $this->cacheFactory->createDistributed();
 		$prefix = $input->getOption('prefix');

@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
 class FederatedCalendarSyncService extends ASyncService {
 	use TTransactional;
 
-	private const SYNC_TOKEN_PREFIX = 'http://sabre.io/ns/sync/';
+	private const string SYNC_TOKEN_PREFIX = 'http://sabre.io/ns/sync/';
 
 	public function __construct(
 		IClientService $clientService,

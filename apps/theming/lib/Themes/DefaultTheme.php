@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OC\AppFramework\Http\Request;
@@ -40,34 +41,46 @@ class DefaultTheme implements ITheme {
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'default';
 	}
 
+	#[\Override]
 	public function getType(): int {
 		return ITheme::TYPE_THEME;
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('System default theme');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable the system default');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Using the default system appearance.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '';
 	}
 
+	#[\Override]
 	public function getMeta(): array {
-		return [];
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'light',
+		]];
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
@@ -194,12 +207,18 @@ class DefaultTheme implements ITheme {
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
 			'--font-size-small' => '13px',
+			// Default text font weight
+			'--font-weight-default' => '400',
+			// Font weight for interactive elements
+			'--font-weight-element' => '500',
+			// Weight for titles and headings
+			'--font-weight-heading' => '600',
 			// 1.5 * font-size for accessibility
 			'--default-line-height' => '1.5',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
-			'--animation-slow' => '300ms',
+			'--animation-slow' => '200ms',
 
 			// Default variables --------------------------------------------
 			// Border width for input elements such as text fields and selects
@@ -225,8 +244,8 @@ class DefaultTheme implements ITheme {
 			'--default-grid-baseline' => '4px',
 
 			// header / navigation bar
-			'--header-height' => '50px',
-			'--header-menu-item-height' => '44px',
+			'--header-height' => '44px',
+			'--header-menu-item-height' => '34px',
 			/* An alpha mask to be applied to all icons on the navigation bar (header menu).
 			 * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
 			 * for better gradient we must at first begin at those 2px (10% of height) as start and stop positions.
@@ -260,6 +279,7 @@ class DefaultTheme implements ITheme {
 		return $variables;
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		return '';
 	}

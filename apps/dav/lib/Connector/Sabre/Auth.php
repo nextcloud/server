@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
@@ -73,6 +74,7 @@ class Auth extends AbstractBasic {
 	 * @return bool
 	 * @throws PasswordLoginForbidden
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		if ($this->userSession->isLoggedIn()
 			&& $this->isDavAuthenticated($this->userSession->getUser()->getUID())
@@ -80,6 +82,9 @@ class Auth extends AbstractBasic {
 			$this->session->close();
 			return true;
 		} else {
+			if ($username === '' || $password === '') {
+				return false;
+			}
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
@@ -104,6 +109,7 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		try {
 			return $this->auth($request, $response);
@@ -123,7 +129,7 @@ class Auth extends AbstractBasic {
 	private function requiresCSRFCheck(): bool {
 
 		$methodsWithoutCsrf = ['GET', 'HEAD', 'OPTIONS'];
-		if (in_array($this->request->getMethod(), $methodsWithoutCsrf)) {
+		if (in_array($this->request->getMethod(), $methodsWithoutCsrf, true)) {
 			return false;
 		}
 
@@ -179,6 +185,8 @@ class Auth extends AbstractBasic {
 			if ($this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
 				throw new \Sabre\DAV\Exception\NotAuthenticated('2FA challenge not passed.');
 			}
+			/** @psalm-suppress DeprecatedClass OC_User is deprecated*/
+			/** @psalm-suppress DeprecatedMethod this call should be removed ideally */
 			if (
 				//Fix for broken webdav clients
 				($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))
@@ -198,7 +206,7 @@ class Auth extends AbstractBasic {
 			$startPos = strrpos($data[1], '/') + 1;
 			$user = $this->userSession->getUser()->getUID();
 			$data[1] = substr_replace($data[1], $user, $startPos);
-		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
+		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''), true)) {
 			// For ajax requests use dummy auth name to prevent browser popup in case of invalid creditials
 			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(Http::STATUS_UNAUTHORIZED);

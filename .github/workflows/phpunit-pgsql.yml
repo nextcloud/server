@@ -9,67 +9,23 @@
 name: PHPUnit PostgreSQL
 
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: phpunit-pgsql-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-    permissions:
-      contents: read
-      pull-requests: read
-
-    outputs:
-      src: ${{ steps.changes.outputs.src }}
-
-    steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
-
   phpunit-pgsql:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
-        # To keep the matrix smaller we ignore PostgreSQL versions in between as we already test the minimum and the maximum
-        postgres-versions: ['14']
         include:
-          - php-versions: '8.3'
-            postgres-versions: '18'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - php-versions: '8.4'
-            postgres-versions: '18'
-          - php-versions: '8.5'
-            postgres-versions: '18'
+          - postgres-versions: '14'
+            php-versions: '8.3'
+          - postgres-versions: '18'
+            php-versions: '8.5'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -92,21 +48,23 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, pgsql, pdo_pgsql
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
           ini-file: development
+          ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -120,23 +78,11 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=pgsql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
           php -f tests/enable_all.php
 
       - name: PHPUnit database tests
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-postgres
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        with:
-          flags: phpunit-postgres
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Run repair steps
         run: |
@@ -146,17 +92,3 @@ jobs:
         if: always()
         run: |
           cat data/nextcloud.log
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, phpunit-pgsql]
-
-    if: always()
-
-    name: phpunit-pgsql-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-pgsql.result != 'success' }}; then exit 1; fi

@@ -37,11 +37,11 @@ class ContextWrite implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Context write');
 	}
@@ -50,6 +50,7 @@ class ContextWrite implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Writes text in a given style based on the provided source material.');
 	}
@@ -58,6 +59,7 @@ class ContextWrite implements ITaskType {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +68,7 @@ class ContextWrite implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'style_input' => new ShapeDescriptor(
@@ -85,6 +88,7 @@ class ContextWrite implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

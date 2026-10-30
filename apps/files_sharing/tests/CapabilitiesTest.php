@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\KnownUser\KnownUserService;
@@ -150,12 +151,29 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', true],
 			['core', 'shareapi_enforce_links_password', true],
 		];
 		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('password', $result['public']);
 		$this->assertArrayHasKey('enforced', $result['public']['password']);
 		$this->assertTrue($result['public']['password']['enforced']);
+	}
+
+	public function testLinkPasswordEnforcedWithoutDefaultPrompt(): void {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		];
+		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', false],
+			['core', 'shareapi_enforce_links_password', true],
+		];
+		$result = $this->getResults($map, $typedMap);
+		$this->assertArrayHasKey('password', $result['public']);
+		$this->assertArrayHasKey('enforced', $result['public']['password']);
+		$this->assertFalse($result['public']['password']['enforced']);
 	}
 
 	public function testLinkNoPassword(): void {
@@ -190,6 +208,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_expire_after_n_days', '7', '7'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+			['core', 'link_defaultExpDays', '7', '7'],
 		];
 
 		$typedMap = [
@@ -201,7 +220,28 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertIsArray($result['public']['expire_date']);
 		$this->assertTrue($result['public']['expire_date']['enabled']);
-		$this->assertArrayHasKey('days', $result['public']['expire_date']);
+		$this->assertSame(7, $result['public']['expire_date']['days']);
+		$this->assertSame(7, $result['public']['expire_date']['default_days']);
+		$this->assertFalse($result['public']['expire_date']['enforced']);
+	}
+
+	public function testLinkExpireDateWithDefaultDays(): void {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_expire_after_n_days', '7', '7'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+			['core', 'link_defaultExpDays', '7', '3'],
+		];
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', false],
+		];
+
+		$result = $this->getResults($map, $typedMap);
+		$this->assertSame(7, $result['public']['expire_date']['days']);
+		$this->assertSame(3, $result['public']['expire_date']['default_days']);
 		$this->assertFalse($result['public']['expire_date']['enforced']);
 	}
 

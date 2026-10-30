@@ -19,6 +19,16 @@ return [
 			'root' => '',
 		],
 		[
+			// The public page puts the file shown in its URL, which a reload
+			// asks the server for
+			'name' => 'Share#showShare',
+			'postfix' => 'fileid',
+			'url' => '/s/{token}/{fileid}',
+			'verb' => 'GET',
+			'root' => '',
+			'requirements' => ['fileid' => '\\d+'],
+		],
+		[
 			'name' => 'Share#showAuthenticate',
 			'url' => '/s/{token}/authenticate/{redirect}',
 			'verb' => 'GET',
@@ -69,9 +79,14 @@ return [
 			'verb' => 'DELETE',
 		],
 		[
-			'name' => 'Accept#accept',
+			'name' => 'Accept#showAccept',
 			'url' => '/accept/{shareId}',
 			'verb' => 'GET',
+		],
+		[
+			'name' => 'Accept#accept',
+			'url' => '/accept/{shareId}',
+			'verb' => 'POST',
 		],
 	],
 	'ocs' => [

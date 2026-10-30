@@ -36,6 +36,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Check\\TFileCheck' => __DIR__ . '/..' . '/../lib/Check/TFileCheck.php',
         'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => __DIR__ . '/..' . '/../lib/Check/UserGroupMembership.php',
         'OCA\\WorkflowEngine\\Command\\Index' => __DIR__ . '/..' . '/../lib/Command/Index.php',
+        'OCA\\WorkflowEngine\\Command\\Runtime' => __DIR__ . '/..' . '/../lib/Command/Runtime.php',
         'OCA\\WorkflowEngine\\Controller\\AWorkflowOCSController' => __DIR__ . '/..' . '/../lib/Controller/AWorkflowOCSController.php',
         'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/GlobalWorkflowsController.php',
         'OCA\\WorkflowEngine\\Controller\\RequestTimeController' => __DIR__ . '/..' . '/../lib/Controller/RequestTimeController.php',

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Comhaid",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Luadh thú ar \"{file}\", i nóta tráchta ó chuntas a scriosadh ó shin",
     "{user} mentioned you in a comment on \"{file}\"" : "Luaigh {user} tú i nóta tráchta ar \"{file}\"",
+    "Go to file" : "Téigh go dtí an comhad",
     "Files app plugin to add comments to files" : "Breiseán aip Comhaid chun tuairimí a chur le comhaid",
     "Edit comment" : "Cuir trácht in eagar",
     "Delete comment" : "Scrios nóta tráchta",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Tharla earráid agus an nóta tráchta á chur in eagar",
     "Comment deleted" : "Trácht scriosta",
     "An error occurred while trying to delete the comment" : "Tharla earráid agus an nóta tráchta á scriosadh",
-    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú",
-    "Write a comment …" : "Scríobh trácht…"
+    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

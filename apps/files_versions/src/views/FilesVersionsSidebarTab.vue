@@ -41,29 +41,31 @@
 </template>
 
 <script lang="ts" setup>
-import type { IFolder, INode, IView } from '@nextcloud/files'
+import type { IFile, IFolder, INode, IView } from '@nextcloud/files'
 import type { Version } from '../utils/versions.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
+import { getViewer, canCompare as viewerCanCompare, canView as viewerCanView } from '@nextcloud/viewer'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
-import { computed, ref, toRef, watch } from 'vue'
+import { watchDebounced } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
 import VirtualScrolling from '../components/VirtualScrolling.vue'
 import logger from '../utils/logger.ts'
-import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
+import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel, versionToNode } from '../utils/versions.ts'
 
 const props = defineProps<{
 	active: boolean
 	node: INode
 
-	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
-	folder: IFolder
-	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
-	view: IView
+	// eslint-disable-next-line vue/no-unused-properties -- part of the SidebarTab interface but we do not need it
+	folder?: IFolder
+	// eslint-disable-next-line vue/no-unused-properties -- part of the SidebarTab interface but we do not need it
+	view?: IView
 }>()
 
 const isMobile = useIsMobile()
@@ -72,20 +74,7 @@ const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
 
-watch(toRef(() => props.node), async () => {
-	if (!props.node) {
-		return
-	}
-
-	try {
-		loading.value = true
-		versions.value = await fetchVersions(props.node)
-	} finally {
-		loading.value = false
-	}
-}, { immediate: true })
-
-const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
+const currentVersionMtime = computed(() => Math.floor(new Date(props.node?.mtime?.getTime() ?? 0).getTime() / 1000) * 1000)
 
 /**
  * Order versions by mtime.
@@ -126,18 +115,32 @@ const initialVersionMtime = computed(() => {
 		.reduce((a, b) => Math.min(a, b))
 })
 
-const canView = computed(() => {
-	if (!props.node) {
-		return false
+const canView = computed(() => props.node !== null && viewerCanView(props.node))
+
+// Comparison puts two files side by side, which needs the width for it, and
+// is only offered where the handler showing the file says it means
+// something: two pictures or two documents, not two clips playing at once.
+const canCompare = computed(() => !isMobile.value
+	&& props.node !== null
+	&& viewerCanCompare(props.node))
+
+// When either the current node to show or its mtime changes we need to refetch the versions
+// When the id changed we immediately show changes
+watch(() => props.node.id, loadVersions, { immediate: true })
+// On mtime changes we debounce to prevent too many requests.
+watchDebounced(currentVersionMtime, loadVersions, { debounce: 600 })
+
+/**
+ * Load versions for the current node
+ */
+async function loadVersions() {
+	try {
+		loading.value = true
+		versions.value = await fetchVersions(props.node)
+	} finally {
+		loading.value = false
 	}
-
-	return window.OCA.Viewer?.mimetypes?.includes(props.node?.mime)
-})
-
-const canCompare = computed(() => {
-	return !isMobile.value
-		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
-})
+}
 
 /**
  * Handle restored event from Version.vue
@@ -241,34 +244,23 @@ function openVersion(version: Version) {
 		return
 	}
 
-	// Open current file view instead of read only
-	if (version.mtime === props.node?.mtime?.getTime()) {
-		window.OCA.Viewer.open({ path: props.node.path })
+	// The newest version is the file itself, which opens as it normally would
+	if (version.mtime === props.node.mtime?.getTime()) {
+		getViewer().open([props.node as IFile], props.node as IFile)
 		return
 	}
 
-	window.OCA.Viewer.open({
-		fileInfo: {
-			...version,
-			// Versions previews are too small for our use case, so we override previewUrl
-			// to either point to the original file or original version.
-			filename: version.filename,
-			previewUrl: undefined,
-		},
-		enableSidebar: false,
-	})
+	// The sidebar resolves a file by its dav source and a version is not
+	// one it can find there
+	const versionNode = versionToNode(version, props.node)
+	getViewer().open([versionNode], versionNode, { enableSidebar: false })
 }
 
 /**
  * @param version - The version to compare
  */
 function compareVersion(version: Version) {
-	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
-
-	window.OCA.Viewer.compare(
-		{ path: props.node!.path },
-		_versions.find((v) => v.source === version.source),
-	)
+	getViewer().compare(props.node as IFile, versionToNode(version, props.node))
 }
 </script>
 

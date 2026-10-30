@@ -12,8 +12,7 @@ namespace OC\OpenMetrics;
 use Generator;
 use OC\OpenMetrics\Exporters\ActiveSessions;
 use OC\OpenMetrics\Exporters\ActiveUsers;
-use OC\OpenMetrics\Exporters\AppsCount;
-use OC\OpenMetrics\Exporters\AppsInfo;
+use OC\OpenMetrics\Exporters\AppEnabled;
 use OC\OpenMetrics\Exporters\FilesByType;
 use OC\OpenMetrics\Exporters\InstanceInfo;
 use OC\OpenMetrics\Exporters\LogLevel;
@@ -28,7 +27,7 @@ use Psr\Log\LoggerInterface;
 
 class ExporterManager {
 	private array $skippedClasses;
-	private const XML_ENTRY = 'openmetrics';
+	private const string XML_ENTRY = 'openmetrics';
 
 	public function __construct(
 		private IAppManager $appManager,
@@ -44,8 +43,7 @@ class ExporterManager {
 		$exporters = [
 			// Basic exporters
 			InstanceInfo::class,
-			AppsInfo::class,
-			AppsCount::class,
+			AppEnabled::class,
 			Maintenance::class,
 			LogLevel::class,
 

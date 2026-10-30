@@ -4,10 +4,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\TokenScopes;
 use OC\Core\Command\Base;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,10 +20,12 @@ class ListCommand extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IProvider $tokenProvider,
+		private TokenScopes $tokenScopes,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -35,6 +39,7 @@ class ListCommand extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('user'));
 
@@ -68,7 +73,14 @@ class ListCommand extends Base {
 	}
 
 	public function formatTokenForPlainOutput(array $token): array {
-		$token['scope'] = implode(', ', array_keys(array_filter($token['scope'] ?? [])));
+		$scope = $token['scope'] ?? [];
+		$scopes = $this->tokenScopes->fromBlob($scope);
+		unset($scope[TokenScopes::KEY]);
+		$parts = array_keys(array_filter($scope));
+		if ($scopes !== null) {
+			$parts[] = 'scopes: ' . ($scopes === [] ? 'none' : implode(' ', $scopes));
+		}
+		$token['scope'] = implode(', ', $parts);
 
 		$token['lastActivity'] = date(DATE_ATOM, $token['lastActivity']);
 

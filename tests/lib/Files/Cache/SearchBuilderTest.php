@@ -16,7 +16,6 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
-use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
@@ -26,25 +25,19 @@ class SearchBuilderTest extends TestCase {
 	/** @var IQueryBuilder */
 	private $builder;
 
-	/** @var IMimeTypeLoader&\PHPUnit\Framework\MockObject\MockObject */
-	private $mimetypeLoader;
-
-	/** @var IFilesMetadataManager&\PHPUnit\Framework\MockObject\MockObject */
-	private $filesMetadataManager;
-
 	/** @var SearchBuilder */
 	private $searchBuilder;
 
 	/** @var integer */
 	private $numericStorageId;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
-		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+		$this->searchBuilder = $this->createInstanceWithMocks(SearchBuilder::class);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getId')
 			->willReturnMap([
 				['text', 1],
@@ -55,7 +48,7 @@ class SearchBuilderTest extends TestCase {
 				['image', 6],
 			]);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getMimetypeById')
 			->willReturnMap([
 				[1, 'text'],
@@ -65,8 +58,6 @@ class SearchBuilderTest extends TestCase {
 				[5, 'image/png'],
 				[6, 'image']
 			]);
-
-		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader, $this->filesMetadataManager);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])
@@ -74,6 +65,7 @@ class SearchBuilderTest extends TestCase {
 			->where($this->builder->expr()->eq('storage', new Literal($this->numericStorageId)));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -103,8 +95,8 @@ class SearchBuilderTest extends TestCase {
 		$data['parent'] = -1;
 		if (isset($data['mimetype'])) {
 			[$mimepart,] = explode('/', $data['mimetype']);
-			$data['mimepart'] = $this->mimetypeLoader->getId($mimepart);
-			$data['mimetype'] = $this->mimetypeLoader->getId($data['mimetype']);
+			$data['mimepart'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($mimepart);
+			$data['mimetype'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($data['mimetype']);
 		} else {
 			$data['mimepart'] = 1;
 			$data['mimetype'] = 1;
@@ -171,7 +163,15 @@ class SearchBuilderTest extends TestCase {
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
 				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%bar'),
 			]), [1]],
-
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []), []],
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'mimetype', []), []],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0, 1]],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mtime', 100),
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0]],
 		];
 	}
 

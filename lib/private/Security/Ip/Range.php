@@ -26,10 +26,12 @@ class Range implements IRange {
 		$this->range = $range;
 	}
 
+	#[\Override]
 	public static function isValid(string $range): bool {
 		return Factory::parseRangeString($range) !== null;
 	}
 
+	#[\Override]
 	public function contains(IAddress $address): bool {
 		return $this->range->contains(Factory::parseAddressString((string)$address, ParseStringFlag::MAY_INCLUDE_ZONEID));
 	}

@@ -6,8 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\NoTokenScopeRequired;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -16,6 +18,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
@@ -31,6 +34,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 
@@ -65,7 +69,7 @@ class AppPasswordController extends OCSController {
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
 		if ($this->session->exists('app_password')) {
-			throw new OCSForbiddenException('You cannot request an new apppassword with an apppassword');
+			throw new OCSForbiddenException('You cannot request a new apppassword with an apppassword');
 		}
 
 		if ($this->userSession->getImpersonatingUserID() !== null
@@ -102,6 +106,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token
@@ -118,6 +128,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/apppassword', root: '/core')]
+	#[NoTokenScopeRequired]
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -132,6 +143,12 @@ class AppPasswordController extends OCSController {
 		}
 
 		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" was deleted',
+			['tokenId' => $token->getId()],
+			false,
+			'auth.app_password.deleted',
+		));
 		return new DataResponse();
 	}
 
@@ -145,6 +162,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/apppassword/rotate', root: '/core')]
+	#[NoTokenScopeRequired]
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -169,9 +187,9 @@ class AppPasswordController extends OCSController {
 	/**
 	 * Confirm the user password
 	 *
-	 * @param string $password The password of the user
+	 * @param non-empty-string $password The password of the user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: positive-int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
@@ -198,13 +216,13 @@ class AppPasswordController extends OCSController {
 	/**
 	 * Get app password with one-time password
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: non-empty-string}, array{}>
 	 * @throws OCSForbiddenException Creating app password is not allowed
 	 *
 	 * 200: App password returned
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[NoTwoFactorRequired]
 	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
 	public function getAppPasswordWithOneTimePassword(): DataResponse {
 		// Only allow with one-time app passwords
@@ -240,6 +258,12 @@ class AppPasswordController extends OCSController {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new DataResponse([
 			'apppassword' => $token

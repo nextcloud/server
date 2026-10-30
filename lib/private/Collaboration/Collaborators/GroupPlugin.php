@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -40,7 +41,8 @@ class GroupPlugin implements ISearchPlugin {
 		}
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
+	#[\Override]
+	public function search(string $search, int $limit, int $offset, ISearchResult $searchResult): bool {
 		if ($this->groupSharingDisabled) {
 			return false;
 		}
@@ -78,7 +80,7 @@ class GroupPlugin implements ISearchPlugin {
 
 			// FIXME: use a more efficient approach
 			$gid = $group->getGID();
-			if (!in_array($gid, $groupIds)) {
+			if (!in_array($gid, $groupIds, true)) {
 				continue;
 			}
 			if (strtolower($gid) === $lowerSearch || strtolower($group->getDisplayName()) === $lowerSearch) {
@@ -107,7 +109,7 @@ class GroupPlugin implements ISearchPlugin {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
-			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
+			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups, true))) {
 				$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [

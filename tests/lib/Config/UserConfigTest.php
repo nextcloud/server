@@ -5,11 +5,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace Test\lib\Config;
+
+namespace Test\Config;
 
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Config\UserConfig;
+use OC\Config\UserConfigEntry;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
@@ -171,9 +173,9 @@ class UserConfigTest extends TestCase {
 						'key1' => ['key1', 'value1', ValueType::STRING, true, 0, true]
 					]
 				],
-
 		];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -228,8 +230,13 @@ class UserConfigTest extends TestCase {
 
 					$flags = $row[4] ?? 0;
 					if ((UserConfig::FLAG_SENSITIVE & $flags) !== 0) {
-						$value = self::invokePrivate(UserConfig::class, 'ENCRYPTION_PREFIX')
-								 . $this->crypto->encrypt((string)$value);
+						if (!isset($this->basePreferences[$userId][$appId][$key]['encrypted'])) {
+							$value = self::invokePrivate(UserConfigEntry::class, 'ENCRYPTION_PREFIX')
+								. $this->crypto->encrypt((string)$value);
+							$this->basePreferences[$userId][$appId][$key]['encrypted'] = $value;
+						} else {
+							$value = $this->basePreferences[$userId][$appId][$key]['encrypted'];
+						}
 					} else {
 						$indexed = (($row[5] ?? false) === true) ? $value : '';
 					}
@@ -251,6 +258,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('preferences');
@@ -301,8 +309,6 @@ class UserConfigTest extends TestCase {
 
 		// confirm cache status
 		$status = $userConfig->statusCache();
-		$this->assertSame([], $status['fastLoaded'], $msg);
-		$this->assertSame([], $status['lazyLoaded'], $msg);
 		$this->assertSame([], $status['fastCache'], $msg);
 		$this->assertSame([], $status['lazyCache'], $msg);
 		foreach ($preLoading as $preLoadUser) {
@@ -311,12 +317,12 @@ class UserConfigTest extends TestCase {
 
 			// confirm cache status
 			$status = $userConfig->statusCache();
-			$this->assertSame(true, $status['fastLoaded'][$preLoadUser], $msg);
-			$this->assertSame(false, $status['lazyLoaded'][$preLoadUser], $msg);
+			$this->assertTrue(isset($status['fastCache'][$preLoadUser]), $msg);
+			$this->assertFalse(isset($status['lazyCache'][$preLoadUser]), $msg);
 
 			$apps = array_values(array_diff(array_keys($this->basePreferences[$preLoadUser]), ['only-lazy']));
 			$this->assertEqualsCanonicalizing($apps, array_keys($status['fastCache'][$preLoadUser]), $msg);
-			$this->assertSame([], array_keys($status['lazyCache'][$preLoadUser]), $msg);
+			$this->assertSame([], $status['lazyCache'][$preLoadUser] ?? [], $msg);
 		}
 
 		return $userConfig;
@@ -825,279 +831,178 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueBool($app, $key, $value)));
 	}
 
-	public static function providerGetValueMixed(): array {
-		return [
-			[
-				['user1'], 'user1', 'app1', 'key0', 'default_because_unknown_key', true,
-				'default_because_unknown_key'
-			],
-			[
-				null, 'user1', 'app1', 'key0', 'default_because_unknown_key', true,
-				'default_because_unknown_key'
-			],
-			[
-				['user1'], 'user1', 'app1', 'key0', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[
-				null, 'user1', 'app1', 'key0', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[['user1'], 'user1', 'app1', 'fast_string', 'default_because_unknown_key', false, 'f_value'],
-			[null, 'user1', 'app1', 'fast_string', 'default_because_unknown_key', false, 'f_value'],
-			[['user1'], 'user1', 'app1', 'fast_string', 'default_because_unknown_key', true, 'f_value'],
-			// because non-lazy are already loaded
-			[
-				null, 'user1', 'app1', 'fast_string', 'default_because_unknown_key', true,
-				'default_because_unknown_key'
-			],
-			[
-				['user1'], 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[
-				null, 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[['user1'], 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', true, 'l_value'],
-			[null, 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', true, 'l_value'],
-			[
-				['user1'], 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', false,
-				'fs_value'
-			],
-			[
-				null, 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', false,
-				'fs_value'
-			],
-			[
-				['user1'], 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', true,
-				'fs_value'
-			],
-			[
-				null, 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', true,
-				'default_because_unknown_key'
-			],
-			[
-				['user1'], 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[
-				null, 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', false,
-				'default_because_unknown_key'
-			],
-			[
-				['user1'], 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', true,
-				'ls_value'
-			],
-			[null, 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', true, 'ls_value'],
-		];
+	private array $getValueMixed = [
+		[['user1'], 'user1', 'app1', 'key0', 'default_because_unknown_key', true, 'default_because_unknown_key'],
+		[['user1'], 'user1', 'app1', 'key0', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[['user1'], 'user1', 'app1', 'fast_string', 'default_because_unknown_key', false, 'f_value'],
+		[['user1'], 'user1', 'app1', 'fast_string', 'default_because_unknown_key', true, 'f_value'],
+		[['user1'], 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[['user1'], 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', true, 'l_value'],
+		[['user1'], 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', false, 'fs_value'],
+		[['user1'], 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', true, 'fs_value'],
+		[['user1'], 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[['user1'], 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', true, 'ls_value'],
+
+		[null, 'user1', 'app1', 'key0', 'default_because_unknown_key', true, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'key0', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'fast_string', 'default_because_unknown_key', false, 'f_value'],
+		// because non-lazy are already loaded
+		[null, 'user1', 'app1', 'fast_string', 'default_because_unknown_key', true, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'lazy_string', 'default_because_unknown_key', true, 'l_value'],
+		[null, 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', false, 'fs_value'],
+		[null, 'user1', 'app1', 'fast_string_sensitive', 'default_because_unknown_key', true, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', false, 'default_because_unknown_key'],
+		[null, 'user1', 'app1', 'lazy_string_sensitive', 'default_because_unknown_key', true, 'ls_value'],
+	];
+
+	public function testGetValueMixed(): void {
+		foreach ($this->getValueMixed as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueMixed($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
-	public function testGetValueMixed(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		string $default,
-		bool $lazy,
-		string $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEquals($result, $userConfig->getValueMixed($userId, $app, $key, $default, $lazy));
+	public function testGetValueString(): void {
+		foreach ($this->getValueMixed as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueString($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
-	public function testGetValueString(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		string $default,
-		bool $lazy,
-		string $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEquals($result, $userConfig->getValueString($userId, $app, $key, $default, $lazy));
+	private array $getValueInt = [
+		[['user1'], 'user1', 'app1', 'key0', 54321, true, 54321],
+		[['user1'], 'user1', 'app1', 'key0', 54321, false, 54321],
+		[['user1'], 'user1', 'app1', 'fast_int', 54321, false, 11],
+		[['user1'], 'user1', 'app1', 'fast_int', 54321, true, 11],
+		[['user1'], 'user1', 'app1', 'fast_int_sensitive', 54321, false, 2024],
+		[['user1'], 'user1', 'app1', 'fast_int_sensitive', 54321, true, 2024],
+		[['user1'], 'user1', 'app1', 'lazy_int', 54321, false, 54321],
+		[['user1'], 'user1', 'app1', 'lazy_int', 54321, true, 12],
+		[['user1'], 'user1', 'app1', 'lazy_int_sensitive', 54321, false, 54321],
+		[['user1'], 'user1', 'app1', 'lazy_int_sensitive', 54321, true, 2048],
+		[null, 'user1', 'app1', 'key0', 54321, true, 54321],
+		[null, 'user1', 'app1', 'key0', 54321, false, 54321],
+		[null, 'user1', 'app1', 'key22', 54321, false, 31],
+		[null, 'user1', 'app1', 'fast_int', 54321, false, 11],
+		[null, 'user1', 'app1', 'fast_int', 54321, true, 54321],
+		[null, 'user1', 'app1', 'fast_int_sensitive', 54321, false, 2024],
+		[null, 'user1', 'app1', 'fast_int_sensitive', 54321, true, 54321],
+		[null, 'user1', 'app1', 'lazy_int', 54321, false, 54321],
+		[null, 'user1', 'app1', 'lazy_int', 54321, true, 12],
+		[null, 'user1', 'app1', 'lazy_int_sensitive', 54321, false, 54321],
+		[null, 'user1', 'app1', 'lazy_int_sensitive', 54321, true, 2048],
+	];
+
+	public function testGetValueInt(): void {
+		foreach ($this->getValueInt as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueInt($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	public static function providerGetValueInt(): array {
-		return [
-			[['user1'], 'user1', 'app1', 'key0', 54321, true, 54321],
-			[null, 'user1', 'app1', 'key0', 54321, true, 54321],
-			[['user1'], 'user1', 'app1', 'key0', 54321, false, 54321],
-			[null, 'user1', 'app1', 'key0', 54321, false, 54321],
-			[null, 'user1', 'app1', 'key22', 54321, false, 31],
-			[['user1'], 'user1', 'app1', 'fast_int', 54321, false, 11],
-			[null, 'user1', 'app1', 'fast_int', 54321, false, 11],
-			[['user1'], 'user1', 'app1', 'fast_int', 54321, true, 11],
-			[null, 'user1', 'app1', 'fast_int', 54321, true, 54321],
-			[['user1'], 'user1', 'app1', 'fast_int_sensitive', 54321, false, 2024],
-			[null, 'user1', 'app1', 'fast_int_sensitive', 54321, false, 2024],
-			[['user1'], 'user1', 'app1', 'fast_int_sensitive', 54321, true, 2024],
-			[null, 'user1', 'app1', 'fast_int_sensitive', 54321, true, 54321],
-			[['user1'], 'user1', 'app1', 'lazy_int', 54321, false, 54321],
-			[null, 'user1', 'app1', 'lazy_int', 54321, false, 54321],
-			[['user1'], 'user1', 'app1', 'lazy_int', 54321, true, 12],
-			[null, 'user1', 'app1', 'lazy_int', 54321, true, 12],
-			[['user1'], 'user1', 'app1', 'lazy_int_sensitive', 54321, false, 54321],
-			[null, 'user1', 'app1', 'lazy_int_sensitive', 54321, false, 54321],
-			[['user1'], 'user1', 'app1', 'lazy_int_sensitive', 54321, true, 2048],
-			[null, 'user1', 'app1', 'lazy_int_sensitive', 54321, true, 2048],
-		];
+	private array $getValueFloat = [
+		[['user1'], 'user1', 'app1', 'key0', 54.321, true, 54.321],
+		[null, 'user1', 'app1', 'key0', 54.321, true, 54.321],
+		[['user1'], 'user1', 'app1', 'key0', 54.321, false, 54.321],
+		[null, 'user1', 'app1', 'key0', 54.321, false, 54.321],
+		[['user1'], 'user1', 'app1', 'fast_float', 54.321, false, 3.14],
+		[null, 'user1', 'app1', 'fast_float', 54.321, false, 3.14],
+		[['user1'], 'user1', 'app1', 'fast_float', 54.321, true, 3.14],
+		[null, 'user1', 'app1', 'fast_float', 54.321, true, 54.321],
+		[['user1'], 'user1', 'app1', 'fast_float_sensitive', 54.321, false, 1.41],
+		[null, 'user1', 'app1', 'fast_float_sensitive', 54.321, false, 1.41],
+		[['user1'], 'user1', 'app1', 'fast_float_sensitive', 54.321, true, 1.41],
+		[null, 'user1', 'app1', 'fast_float_sensitive', 54.321, true, 54.321],
+		[['user1'], 'user1', 'app1', 'lazy_float', 54.321, false, 54.321],
+		[null, 'user1', 'app1', 'lazy_float', 54.321, false, 54.321],
+		[['user1'], 'user1', 'app1', 'lazy_float', 54.321, true, 3.14159],
+		[null, 'user1', 'app1', 'lazy_float', 54.321, true, 3.14159],
+		[['user1'], 'user1', 'app1', 'lazy_float_sensitive', 54.321, false, 54.321],
+		[null, 'user1', 'app1', 'lazy_float_sensitive', 54.321, false, 54.321],
+		[['user1'], 'user1', 'app1', 'lazy_float_sensitive', 54.321, true, 1.4142],
+		[null, 'user1', 'app1', 'lazy_float_sensitive', 54.321, true, 1.4142],
+	];
+
+	public function testGetValueFloat(): void {
+		foreach ($this->getValueFloat as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueFloat($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueInt')]
-	public function testGetValueInt(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		int $default,
-		bool $lazy,
-		int $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEquals($result, $userConfig->getValueInt($userId, $app, $key, $default, $lazy));
+	private array $getValueBool = [
+		[['user1'], 'user1', 'app1', 'key0', false, true, false],
+		[null, 'user1', 'app1', 'key0', false, true, false],
+		[['user1'], 'user1', 'app1', 'key0', true, true, true],
+		[null, 'user1', 'app1', 'key0', true, true, true],
+		[['user1'], 'user1', 'app1', 'key0', false, false, false],
+		[null, 'user1', 'app1', 'key0', false, false, false],
+		[['user1'], 'user1', 'app1', 'key0', true, false, true],
+		[null, 'user1', 'app1', 'key0', true, false, true],
+		[['user1'], 'user1', 'app1', 'fast_boolean', false, false, true],
+		[null, 'user1', 'app1', 'fast_boolean', false, false, true],
+		[['user1'], 'user1', 'app1', 'fast_boolean_0', false, false, false],
+		[null, 'user1', 'app1', 'fast_boolean_0', false, false, false],
+		[['user1'], 'user1', 'app1', 'fast_boolean', true, false, true],
+		[null, 'user1', 'app1', 'fast_boolean', true, false, true],
+		[['user1'], 'user1', 'app1', 'fast_boolean_0', true, false, false],
+		[null, 'user1', 'app1', 'fast_boolean_0', true, false, false],
+		[['user1'], 'user1', 'app1', 'fast_boolean', false, true, true],
+		[null, 'user1', 'app1', 'fast_boolean', false, true, false],
+		[['user1'], 'user1', 'app1', 'fast_boolean_0', false, true, false],
+		[null, 'user1', 'app1', 'fast_boolean_0', false, true, false],
+		[['user1'], 'user1', 'app1', 'fast_boolean', true, true, true],
+		[null, 'user1', 'app1', 'fast_boolean', true, true, true],
+		[['user1'], 'user1', 'app1', 'fast_boolean_0', true, true, false],
+		[null, 'user1', 'app1', 'fast_boolean_0', true, true, true],
+		[['user1'], 'user1', 'app1', 'lazy_boolean', false, false, false],
+		[null, 'user1', 'app1', 'lazy_boolean', false, false, false],
+		[['user1'], 'user1', 'app1', 'lazy_boolean_0', false, false, false],
+		[null, 'user1', 'app1', 'lazy_boolean_0', false, false, false],
+		[['user1'], 'user1', 'app1', 'lazy_boolean', true, false, true],
+		[null, 'user1', 'app1', 'lazy_boolean', true, false, true],
+		[['user1'], 'user1', 'app1', 'lazy_boolean_0', true, false, true],
+		[null, 'user1', 'app1', 'lazy_boolean_0', true, false, true],
+		[['user1'], 'user1', 'app1', 'lazy_boolean', false, true, true],
+		[null, 'user1', 'app1', 'lazy_boolean', false, true, true],
+		[['user1'], 'user1', 'app1', 'lazy_boolean_0', false, true, false],
+		[null, 'user1', 'app1', 'lazy_boolean_0', false, true, false],
+		[['user1'], 'user1', 'app1', 'lazy_boolean', true, true, true],
+		[null, 'user1', 'app1', 'lazy_boolean', true, true, true],
+		[['user1'], 'user1', 'app1', 'lazy_boolean_0', true, true, false],
+		[null, 'user1', 'app1', 'lazy_boolean_0', true, true, false],
+	];
+
+	public function testGetValueBool(): void {
+		foreach ($this->getValueBool as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueBool($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	public static function providerGetValueFloat(): array {
-		return [
-			[['user1'], 'user1', 'app1', 'key0', 54.321, true, 54.321],
-			[null, 'user1', 'app1', 'key0', 54.321, true, 54.321],
-			[['user1'], 'user1', 'app1', 'key0', 54.321, false, 54.321],
-			[null, 'user1', 'app1', 'key0', 54.321, false, 54.321],
-			[['user1'], 'user1', 'app1', 'fast_float', 54.321, false, 3.14],
-			[null, 'user1', 'app1', 'fast_float', 54.321, false, 3.14],
-			[['user1'], 'user1', 'app1', 'fast_float', 54.321, true, 3.14],
-			[null, 'user1', 'app1', 'fast_float', 54.321, true, 54.321],
-			[['user1'], 'user1', 'app1', 'fast_float_sensitive', 54.321, false, 1.41],
-			[null, 'user1', 'app1', 'fast_float_sensitive', 54.321, false, 1.41],
-			[['user1'], 'user1', 'app1', 'fast_float_sensitive', 54.321, true, 1.41],
-			[null, 'user1', 'app1', 'fast_float_sensitive', 54.321, true, 54.321],
-			[['user1'], 'user1', 'app1', 'lazy_float', 54.321, false, 54.321],
-			[null, 'user1', 'app1', 'lazy_float', 54.321, false, 54.321],
-			[['user1'], 'user1', 'app1', 'lazy_float', 54.321, true, 3.14159],
-			[null, 'user1', 'app1', 'lazy_float', 54.321, true, 3.14159],
-			[['user1'], 'user1', 'app1', 'lazy_float_sensitive', 54.321, false, 54.321],
-			[null, 'user1', 'app1', 'lazy_float_sensitive', 54.321, false, 54.321],
-			[['user1'], 'user1', 'app1', 'lazy_float_sensitive', 54.321, true, 1.4142],
-			[null, 'user1', 'app1', 'lazy_float_sensitive', 54.321, true, 1.4142],
-		];
+	private array $getValueArray = [
+		[['user1'], 'user1', 'app1', 'key0', ['default_because_unknown_key'], true, ['default_because_unknown_key']],
+		[null, 'user1', 'app1', 'key0', ['default_because_unknown_key'], true, ['default_because_unknown_key']],
+		[['user1'], 'user1', 'app1', 'key0', ['default_because_unknown_key'], false, ['default_because_unknown_key']],
+		[null, 'user1', 'app1', 'key0', ['default_because_unknown_key'], false, ['default_because_unknown_key']],
+	];
+
+	public function testGetValueArray(): void {
+		foreach ($this->getValueArray as $value) {
+			[$preload, $userId, $app, $key, $default, $lazy, $result] = $value;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($result, $userConfig->getValueArray($userId, $app, $key, $default, $lazy));
+		}
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueFloat')]
-	public function testGetValueFloat(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		float $default,
-		bool $lazy,
-		float $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEquals($result, $userConfig->getValueFloat($userId, $app, $key, $default, $lazy));
-	}
-
-	public static function providerGetValueBool(): array {
-		return [
-			[['user1'], 'user1', 'app1', 'key0', false, true, false],
-			[null, 'user1', 'app1', 'key0', false, true, false],
-			[['user1'], 'user1', 'app1', 'key0', true, true, true],
-			[null, 'user1', 'app1', 'key0', true, true, true],
-			[['user1'], 'user1', 'app1', 'key0', false, false, false],
-			[null, 'user1', 'app1', 'key0', false, false, false],
-			[['user1'], 'user1', 'app1', 'key0', true, false, true],
-			[null, 'user1', 'app1', 'key0', true, false, true],
-			[['user1'], 'user1', 'app1', 'fast_boolean', false, false, true],
-			[null, 'user1', 'app1', 'fast_boolean', false, false, true],
-			[['user1'], 'user1', 'app1', 'fast_boolean_0', false, false, false],
-			[null, 'user1', 'app1', 'fast_boolean_0', false, false, false],
-			[['user1'], 'user1', 'app1', 'fast_boolean', true, false, true],
-			[null, 'user1', 'app1', 'fast_boolean', true, false, true],
-			[['user1'], 'user1', 'app1', 'fast_boolean_0', true, false, false],
-			[null, 'user1', 'app1', 'fast_boolean_0', true, false, false],
-			[['user1'], 'user1', 'app1', 'fast_boolean', false, true, true],
-			[null, 'user1', 'app1', 'fast_boolean', false, true, false],
-			[['user1'], 'user1', 'app1', 'fast_boolean_0', false, true, false],
-			[null, 'user1', 'app1', 'fast_boolean_0', false, true, false],
-			[['user1'], 'user1', 'app1', 'fast_boolean', true, true, true],
-			[null, 'user1', 'app1', 'fast_boolean', true, true, true],
-			[['user1'], 'user1', 'app1', 'fast_boolean_0', true, true, false],
-			[null, 'user1', 'app1', 'fast_boolean_0', true, true, true],
-			[['user1'], 'user1', 'app1', 'lazy_boolean', false, false, false],
-			[null, 'user1', 'app1', 'lazy_boolean', false, false, false],
-			[['user1'], 'user1', 'app1', 'lazy_boolean_0', false, false, false],
-			[null, 'user1', 'app1', 'lazy_boolean_0', false, false, false],
-			[['user1'], 'user1', 'app1', 'lazy_boolean', true, false, true],
-			[null, 'user1', 'app1', 'lazy_boolean', true, false, true],
-			[['user1'], 'user1', 'app1', 'lazy_boolean_0', true, false, true],
-			[null, 'user1', 'app1', 'lazy_boolean_0', true, false, true],
-			[['user1'], 'user1', 'app1', 'lazy_boolean', false, true, true],
-			[null, 'user1', 'app1', 'lazy_boolean', false, true, true],
-			[['user1'], 'user1', 'app1', 'lazy_boolean_0', false, true, false],
-			[null, 'user1', 'app1', 'lazy_boolean_0', false, true, false],
-			[['user1'], 'user1', 'app1', 'lazy_boolean', true, true, true],
-			[null, 'user1', 'app1', 'lazy_boolean', true, true, true],
-			[['user1'], 'user1', 'app1', 'lazy_boolean_0', true, true, false],
-			[null, 'user1', 'app1', 'lazy_boolean_0', true, true, false],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueBool')]
-	public function testGetValueBool(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		bool $default,
-		bool $lazy,
-		bool $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEquals($result, $userConfig->getValueBool($userId, $app, $key, $default, $lazy));
-	}
-
-	public static function providerGetValueArray(): array {
-		return [
-			[
-				['user1'], 'user1', 'app1', 'key0', ['default_because_unknown_key'], true,
-				['default_because_unknown_key']
-			],
-			[
-				null, 'user1', 'app1', 'key0', ['default_because_unknown_key'], true,
-				['default_because_unknown_key']
-			],
-			[
-				['user1'], 'user1', 'app1', 'key0', ['default_because_unknown_key'], false,
-				['default_because_unknown_key']
-			],
-			[
-				null, 'user1', 'app1', 'key0', ['default_because_unknown_key'], false,
-				['default_because_unknown_key']
-			],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueArray')]
-	public function testGetValueArray(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		array $default,
-		bool $lazy,
-		array $result,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		$this->assertEqualsCanonicalizing(
-			$result, $userConfig->getValueArray($userId, $app, $key, $default, $lazy)
-		);
-	}
-
-	public static function providerGetValueType(): array {
-		return [
+	public function testGetValueType(): void {
+		$getValueType = [
 			[null, 'user1', 'app1', 'key1', false, ValueType::MIXED],
 			[null, 'user1', 'app1', 'key1', true, null, UnknownKeyException::class],
 			[null, 'user1', 'app1', 'fast_string', true, ValueType::STRING, UnknownKeyException::class],
@@ -1132,26 +1037,19 @@ class UserConfigTest extends TestCase {
 			[null, 'user1', 'app1', 'lazy_boolean', true, ValueType::BOOL],
 			[null, 'user1', 'app1', 'lazy_boolean', false, ValueType::BOOL, UnknownKeyException::class],
 		];
-	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueType')]
-	public function testGetValueType(
-		?array $preload,
-		string $userId,
-		string $app,
-		string $key,
-		?bool $lazy,
-		?ValueType $result,
-		?string $exception = null,
-	): void {
-		$userConfig = $this->generateUserConfig($preload ?? []);
-		if ($exception !== null) {
-			$this->expectException($exception);
-		}
+		foreach ($getValueType as $value) {
+			[$preload, $userId, $app, $key, $lazy, $result] = $value;
+			$exception = $value[6] ?? null;
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			if ($exception !== null) {
+				$this->expectException($exception);
+			}
 
-		$type = $userConfig->getValueType($userId, $app, $key, $lazy);
-		if ($exception === null) {
-			$this->assertEquals($result->value, $type->value);
+			$type = $userConfig->getValueType($userId, $app, $key, $lazy);
+			if ($exception === null) {
+				$this->assertEquals($result->value, $type->value);
+			}
 		}
 	}
 
@@ -1425,7 +1323,6 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-
 	public static function providerSetValueArray(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', [], false, false, true],
@@ -1526,10 +1423,13 @@ class UserConfigTest extends TestCase {
 			$userConfig = $this->generateUserConfig($preload ?? []);
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			if ($sensitive) {
-				$this->assertEquals(true, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
-					'$UserConfigEncryption$')
+				$statusCache = $userConfig->statusCache();
+				$this->assertEquals(
+					true,
+					str_starts_with(
+						($statusCache['fastCache'][$userId][$app][$key]
+						?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
+						'$UserConfigEncryption$')
 				);
 			}
 		}
@@ -1554,10 +1454,11 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
 			$userConfig->getValueString($userId, $app, $key); // cache loading for userId
+			$statusCache = $userConfig->statusCache();
 			$this->assertEquals(
 				!$sensitive, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					($statusCache['fastCache'][$userId][$app][$key]
+					?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
 					'$UserConfigEncryption$'
 				)
 			);
@@ -1568,10 +1469,11 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
+			$statusCache = $userConfig->statusCache();
 			// should only work if updateGlobalSensitive drop cache
 			$this->assertEquals($sensitive, str_starts_with(
-				$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-				?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+				($statusCache['fastCache'][$userId][$app][$key]
+				?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
 				'$UserConfigEncryption$')
 			);
 		}
@@ -1692,7 +1594,6 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, $userConfig->getDetails($userId, $app, $key));
 	}
 
-
 	public static function providerDeletePreference(): array {
 		return [
 			[null, 'user1', 'app1', 'key22'],
@@ -1772,12 +1673,13 @@ class UserConfigTest extends TestCase {
 	public function testClearCache(): void {
 		$userConfig = $this->generateUserConfig(['user1', 'user2']);
 		$userConfig->clearCache('user1');
-
-		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user2']);
-		$this->assertEquals(false, $userConfig->statusCache()['fastLoaded']['user1']);
+		$status = $userConfig->statusCache();
+		$this->assertTrue(isset($status['fastCache']['user2']));
+		$this->assertFalse(isset($status['fastCache']['user1']));
 		$this->assertEquals('value2a', $userConfig->getValueString('user1', 'app2', 'key2'));
-		$this->assertEquals(false, $userConfig->statusCache()['lazyLoaded']['user1']);
-		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user1']);
+		$status = $userConfig->statusCache();
+		$this->assertFalse(isset($status['lazyCache']['user1']));
+		$this->assertTrue(isset($status['fastCache']['user1']));
 	}
 
 	public function testClearCacheAll(): void {
@@ -1785,11 +1687,8 @@ class UserConfigTest extends TestCase {
 		$userConfig->clearCacheAll();
 		$this->assertEqualsCanonicalizing(
 			[
-				'fastLoaded' => [],
 				'fastCache' => [],
-				'lazyLoaded' => [],
 				'lazyCache' => [],
-				'valueDetails' => [],
 			],
 			$userConfig->statusCache()
 		);

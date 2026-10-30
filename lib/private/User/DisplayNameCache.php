@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\User;
 
 use OCP\EventDispatcher\Event;
@@ -25,7 +26,7 @@ use OCP\User\Events\UserDeletedEvent;
  * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
-	private const CACHE_TTL = 24 * 60 * 60; // 1 day
+	private const int CACHE_TTL = 24 * 60 * 60; // 1 day
 
 	private array $cache = [];
 	private ICache $memCache;
@@ -37,6 +38,9 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
 	}
 
+	/**
+	 * @return ?non-empty-string
+	 */
 	public function getDisplayName(string $userId): ?string {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];
@@ -69,6 +73,7 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache->clear();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
 			$userId = $event->getUser()->getUID();

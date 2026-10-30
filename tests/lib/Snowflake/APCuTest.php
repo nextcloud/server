@@ -17,7 +17,10 @@ use OC\Snowflake\APCuSequence;
 class APCuTest extends ISequenceBase {
 	private string $path;
 
+	#[\Override]
 	public function setUp():void {
+		parent::setUp();
+
 		$this->sequence = new APCuSequence();
 	}
 }

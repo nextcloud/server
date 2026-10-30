@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Activity\Settings;
 
 use OCP\Activity\ActivitySettings;
@@ -20,10 +21,12 @@ abstract class FileActivitySettings extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'files';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Files');
 	}

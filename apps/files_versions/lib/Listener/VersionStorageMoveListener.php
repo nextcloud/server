@@ -45,6 +45,7 @@ class VersionStorageMoveListener implements IEventListener {
 	 * @abstract Moves version across storages if necessary.
 	 * @throws Exception No user in session
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AbstractNodesEvent)) {
 			return;

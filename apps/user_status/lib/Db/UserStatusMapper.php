@@ -36,13 +36,42 @@ class UserStatusMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from($this->tableName);
+			->from($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);
 		}
 		if ($offset !== null) {
 			$qb->setFirstResult($offset);
+		}
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * Finds statuses one page at a time ordered by id, using keyset (seek) pagination
+	 * instead of OFFSET/LIMIT, so each page costs the same regardless of how deep it is.
+	 *
+	 * @param int|null $limit
+	 * @param int|null $lastId Id of the last status from the previous page, or null to fetch the first page
+	 * @return UserStatus[]
+	 */
+	public function findAllAfterId(?int $limit = null, ?int $lastId = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
+
+		if ($lastId !== null) {
+			$qb->andWhere($qb->expr()->gt('id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->orderBy('id', 'ASC');
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
 		}
 
 		return $this->findEntities($qb);
@@ -68,7 +97,7 @@ class UserStatusMapper extends QBMapper {
 					$qb->expr()->isNotNull('custom_icon'),
 					$qb->expr()->isNotNull('custom_message'),
 				),
-				$qb->expr()->notLike('user_id', $qb->createNamedParameter($this->db->escapeLikeParameter('_') . '%'))
+				$qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
 			));
 
 		if ($limit !== null) {
@@ -125,7 +154,8 @@ class UserStatusMapper extends QBMapper {
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL), IQueryBuilder::PARAM_BOOL),
 				$qb->expr()->eq('status', $qb->createNamedParameter(IUserStatus::ONLINE))
-			));
+			))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		$qb->executeStatement();
 	}
@@ -139,11 +169,11 @@ class UserStatusMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->isNotNull('clear_at'))
-			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		$qb->executeStatement();
 	}
-
 
 	/**
 	 * Deletes a user status so we can restore the backup

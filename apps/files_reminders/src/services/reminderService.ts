@@ -48,7 +48,11 @@ export async function setReminder(fileId: number, dueDate: Date): Promise<[]> {
  */
 export async function clearReminder(fileId: number): Promise<[]> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
-	const response = await axios.delete(url)
+	const response = await axios.delete(url, {
+		// We allow 404 as it means there is no reminder to delete,
+		// which is the desired state after this function is called anyway
+		validateStatus: (status) => status === 200 || status === 404,
+	})
 
 	return response.data.ocs.data
 }

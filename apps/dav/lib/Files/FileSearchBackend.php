@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -59,10 +60,12 @@ class FileSearchBackend implements ISearchBackend {
 	/**
 	 * Search endpoint will be remote.php/dav
 	 */
+	#[\Override]
 	public function getArbiterPath(): string {
 		return '';
 	}
 
+	#[\Override]
 	public function isValidScope(string $href, $depth, ?string $path): bool {
 		// only allow scopes inside the dav server
 		if (is_null($path)) {
@@ -77,6 +80,7 @@ class FileSearchBackend implements ISearchBackend {
 		}
 	}
 
+	#[\Override]
 	public function getPropertyDefinitionsForScope(string $href, ?string $path): array {
 		// all valid scopes support the same schema
 
@@ -109,13 +113,12 @@ class FileSearchBackend implements ISearchBackend {
 		return array_merge($props, $this->getPropertyDefinitionsForMetadata());
 	}
 
-
 	private function getPropertyDefinitionsForMetadata(): array {
 		$metadataProps = [];
 		$metadata = $this->filesMetadataManager->getKnownMetadata();
 		$indexes = $metadata->getIndexes();
 		foreach ($metadata->getKeys() as $key) {
-			$isIndex = in_array($key, $indexes);
+			$isIndex = in_array($key, $indexes, true);
 			$type = match ($metadata->getType($key)) {
 				IMetadataValueWrapper::TYPE_INT => SearchPropertyDefinition::DATATYPE_INTEGER,
 				IMetadataValueWrapper::TYPE_FLOAT => SearchPropertyDefinition::DATATYPE_DECIMAL,
@@ -138,6 +141,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param INode[] $nodes
 	 * @param string[] $requestProperties
 	 */
+	#[\Override]
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
 		$this->server->emit('preloadProperties', [$nodes, $requestProperties]);
 	}
@@ -163,6 +167,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param Query $search
 	 * @return SearchResult[]
 	 */
+	#[\Override]
 	public function search(Query $search): array {
 		switch (count($search->from)) {
 			case 0:
@@ -243,7 +248,6 @@ class FileSearchBackend implements ISearchBackend {
 		foreach ($orders as $order) {
 			$v1 = $this->getSearchResultProperty($a, $order->property);
 			$v2 = $this->getSearchResultProperty($b, $order->property);
-
 
 			if ($v1 === null && $v2 === null) {
 				continue;
@@ -342,7 +346,17 @@ class FileSearchBackend implements ISearchBackend {
 			}
 		}, $query->orderBy);
 
+		$selectFields = [];
+		foreach ($query->select as $searchProperty) {
+			try {
+				$selectFields[] = $this->mapPropertyNameToColumn($searchProperty);
+			} catch (\InvalidArgumentException) {
+				// property does not represent a column on DB
+			}
+		}
+
 		$limit = $query->limit;
+		$maxResults = $limit->maxResults !== 0 ? (int)$limit->maxResults : 100;
 		$offset = $limit->firstResult;
 
 		$limitHome = false;
@@ -370,11 +384,12 @@ class FileSearchBackend implements ISearchBackend {
 
 		return new SearchQuery(
 			$operators,
-			(int)$limit->maxResults,
+			$maxResults,
 			$offset,
 			$orders,
 			$this->user,
-			$limitHome
+			$limitHome,
+			$selectFields
 		);
 	}
 
@@ -441,6 +456,23 @@ class FileSearchBackend implements ISearchBackend {
 					$castedValue = $this->castValue($property, $value ?? '');
 				} catch (\Error $e) {
 					throw new \InvalidArgumentException('Invalid property value for ' . $property->name, previous: $e);
+				}
+
+				if ($field === 'name') {
+					return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+						new SearchComparison(
+							$trimmedType,
+							$field,
+							$castedValue,
+							$extra ?? ''
+						),
+						new SearchComparison(
+							$trimmedType,
+							'mount_point_name',
+							$castedValue,
+							$extra ?? ''
+						)
+					]);
 				}
 
 				return new SearchComparison(

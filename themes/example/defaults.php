@@ -102,7 +102,6 @@ class OC_Theme {
 		return $this->getDocBaseUrl() . '/server/15/go.php?to=' . $key;
 	}
 
-
 	/**
 	 * Returns mail header color
 	 * @return string

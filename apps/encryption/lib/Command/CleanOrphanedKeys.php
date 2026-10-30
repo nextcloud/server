@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Command;
 
 use OC\Encryption\Util;
@@ -22,6 +23,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -42,13 +44,33 @@ class CleanOrphanedKeys extends Command {
 
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:clean-orphaned-keys')
-			->setDescription('Scan the keys storage for orphaned keys and remove them');
+			->setDescription('Scan the keys storage for orphaned keys and remove them')
+			->addArgument(
+				'user',
+				InputArgument::OPTIONAL,
+				'The id of the user for whom the scan should be performed. If not provided, all users will be scanned.'
+			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$users = [];
+		$userId = $input->getArgument('user');
+		if ($userId !== null) {
+			$user = $this->userManager->get($userId);
+			if (!$user) {
+				$output->writeln("<error>User $userId not found</error>");
+				return self::FAILURE;
+			}
+			$users[] = $user;
+		} else {
+			$users = $this->userManager->getSeenUsers();
+		}
+
 		$orphanedKeys = [];
 		$headline = 'Scanning all keys for file parity';
 		$output->writeln($headline);
@@ -57,7 +79,7 @@ class CleanOrphanedKeys extends Command {
 		$progress = new ProgressBar($output);
 		$progress->setFormat(" %message% \n [%bar%]");
 
-		foreach ($this->userManager->getSeenUsers() as $user) {
+		foreach ($users as $user) {
 			$uid = $user->getUID();
 			$progress->setMessage('Scanning all keys for: ' . $uid);
 			$progress->advance();
@@ -65,21 +87,20 @@ class CleanOrphanedKeys extends Command {
 			$root = $this->encryptionUtil->getKeyStorageRoot() . '/' . $uid . '/files_encryption/keys';
 			$userOrphanedKeys = $this->scanFolder($output, $root, $uid);
 			$orphanedKeys = array_merge($orphanedKeys, $userOrphanedKeys);
+			$progress->setMessage('Scanned orphaned keys for user: ' . $uid);
 		}
-		$progress->setMessage('Scanned orphaned keys for all users');
 		$progress->finish();
 		$output->writeln("\n");
 		foreach ($orphanedKeys as $keyPath) {
 			$output->writeln('Orphaned key found: ' . $keyPath);
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return self::SUCCESS;
 		}
 		$question = new ConfirmationQuestion('Do you want to delete all orphaned keys? (y/n) ', false);
 		if ($this->questionHelper->ask($input, $output, $question)) {
 			$this->deleteAll($orphanedKeys, $output);
 		} else {
-
 			$question = new ConfirmationQuestion('Do you want to delete specific keys? (y/n) ', false);
 			if ($this->questionHelper->ask($input, $output, $question)) {
 				$this->deleteSpecific($input, $output, $orphanedKeys);
@@ -164,7 +185,7 @@ class CleanOrphanedKeys extends Command {
 	private function deleteSpecific(InputInterface $input, OutputInterface $output, array $orphanedKeys) {
 		$question = new Question('Please enter path for key to delete: ');
 		$path = $this->questionHelper->ask($input, $output, $question);
-		if (!in_array(trim($path), $orphanedKeys)) {
+		if (!in_array(trim($path), $orphanedKeys, true)) {
 			$output->writeln('Wrong key path');
 		} else {
 			try {
@@ -178,7 +199,7 @@ class CleanOrphanedKeys extends Command {
 				return $k !== trim($path);
 			});
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return;
 		}
 		$output->writeln('Remaining orphaned keys: ');

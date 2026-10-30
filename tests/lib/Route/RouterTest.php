@@ -29,6 +29,7 @@ class RouterTest extends TestCase {
 	private Router $router;
 	private IAppManager&MockObject $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		/** @var LoggerInterface $logger */

@@ -5,22 +5,19 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Scanner;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\Utils\PathHelper;
 use OC\Lock\NoopLockingProvider;
-use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\NoUserException;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files;
@@ -35,6 +32,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
@@ -51,6 +49,7 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -242,7 +241,7 @@ class View {
 	 * @param string $path relative to data/
 	 */
 	protected function removeMount($mount, $path): bool {
-		if ($mount instanceof MoveableMount) {
+		if ($mount instanceof IMovableMount) {
 			// cut of /user/files to get the relative path to data/user/files
 			$pathParts = explode('/', $path, 4);
 			$relPath = '/' . $pathParts[3];
@@ -501,7 +500,7 @@ class View {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			return $mount instanceof MoveableMount;
+			return $mount instanceof IMovableMount;
 		}
 		return $this->basicOperation('isDeletable', $path);
 	}
@@ -810,7 +809,7 @@ class View {
 							$movedMounts[] = $mount1;
 							$this->validateMountMove($movedMounts, $sourceParentMount, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
 							/**
-							 * @var MountPoint|MoveableMount $mount1
+							 * @var MountPoint|IMovableMount $mount1
 							 */
 							$sourceMountPoint = $mount1->getMountPoint();
 							$result = $mount1->moveMount($absolutePath2);
@@ -900,7 +899,7 @@ class View {
 				$sourcePath = $mount->getMountPoint();
 			}
 
-			if (!$mount instanceof MoveableMount) {
+			if (!$mount instanceof IMovableMount) {
 				throw new ForbiddenException($l->t('Storage %s cannot be moved', [$sourcePath]), false);
 			}
 
@@ -1066,7 +1065,7 @@ class View {
 			$mount = $this->getMount($path);
 			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
 			$storage = $mount->getStorage();
-			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
+			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($internalPath)) {
 				$this->writeUpdate($storage, $internalPath);
 			}
 		}
@@ -1135,7 +1134,6 @@ class View {
 			return false;
 		}
 	}
-
 
 	/**
 	 * @param string $path
@@ -1212,7 +1210,7 @@ class View {
 				return false;
 			}
 
-			if (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
+			if (in_array('write', $hooks, true) || in_array('delete', $hooks, true) || in_array('read', $hooks, true)) {
 				// always a shared lock during pre-hooks so the hook can read the file
 				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
 			}
@@ -1221,7 +1219,7 @@ class View {
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run && $storage) {
 				/** @var Storage $storage */
-				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+				if (in_array('write', $hooks, true) || in_array('delete', $hooks, true)) {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
 					} catch (LockedException $e) {
@@ -1237,15 +1235,15 @@ class View {
 						$result = $storage->$operation($internalPath);
 					}
 				} catch (\Exception $e) {
-					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+					if (in_array('write', $hooks, true) || in_array('delete', $hooks, true)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} elseif (in_array('read', $hooks)) {
+					} elseif (in_array('read', $hooks, true)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
 				}
 
-				if ($result !== false && in_array('delete', $hooks)) {
+				if ($result !== false && in_array('delete', $hooks, true)) {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
@@ -1253,11 +1251,11 @@ class View {
 					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
 					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
-				if ($result !== false && in_array('touch', $hooks)) {
+				if ($result !== false && in_array('touch', $hooks, true)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam, 0);
 				}
 
-				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
+				if ((in_array('write', $hooks, true) || in_array('delete', $hooks, true)) && ($operation !== 'fopen' || $result === false)) {
 					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 				}
 
@@ -1267,9 +1265,9 @@ class View {
 					// make sure our unlocking callback will still be called if connection is aborted
 					ignore_user_abort(true);
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path): void {
-						if (in_array('write', $hooks)) {
+						if (in_array('write', $hooks, true)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} elseif (in_array('read', $hooks)) {
+						} elseif (in_array('read', $hooks, true)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
@@ -1282,7 +1280,7 @@ class View {
 				}
 
 				if (!$unlockLater
-					&& (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks))
+					&& (in_array('write', $hooks, true) || in_array('delete', $hooks, true) || in_array('read', $hooks, true))
 				) {
 					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 				}
@@ -1410,9 +1408,17 @@ class View {
 				$data = $cache->get($internalPath);
 			} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$cacheDataBefore = $data instanceof CacheEntry ? $data->getData() : false;
 				$watcher->update($internalPath, $data);
-				$storage->getPropagator()->propagateChange($internalPath, time());
 				$data = $cache->get($internalPath);
+				$cacheDataAfter = $data instanceof CacheEntry ? $data->getData() : false;
+
+				// Only propagate mtime change to parent folders if the scanner actually changed the cached metadata,
+				// to avoid updating folder mtimes on every read for backends that conservatively report directories as updated (e.g. S3)
+				if ($cacheDataAfter !== $cacheDataBefore) {
+					$storage->getPropagator()->propagateChange($internalPath, time());
+					$data = $cache->get($internalPath);
+				}
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (LockedException $e) {
@@ -1452,7 +1458,7 @@ class View {
 				return false;
 			}
 
-			if ($mount instanceof MoveableMount && $internalPath === '') {
+			if ($mount instanceof IMovableMount && $internalPath === '') {
 				$data['permissions'] |= Constants::PERMISSION_DELETE;
 			}
 			if ($internalPath === '' && $data['name']) {
@@ -1570,10 +1576,6 @@ class View {
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
 
-		// make sure nested mounts are sorted after their parent mounts
-		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
-
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
@@ -1650,7 +1652,7 @@ class View {
 					$permissions = $rootEntry['permissions'];
 					// do not allow renaming/deleting the mount point if they are not shared files/folders
 					// for shared files/folders we use the permissions given by the owner
-					if ($mount instanceof MoveableMount) {
+					if ($mount instanceof IMovableMount) {
 						$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
 					} else {
 						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
@@ -2002,7 +2004,7 @@ class View {
 			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = Util::getL10N('lib');
-			throw new InvalidPathException($l->t('Dot files are not allowed'));
+			throw new InvalidPathException($l->t('Filenames that begin with a dot are not allowed'));
 		} catch (EmptyFileNameException $ex) {
 			$l = Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
@@ -2274,7 +2276,7 @@ class View {
 	/**
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	public function getUidAndFilename($filename) {
@@ -2283,7 +2285,8 @@ class View {
 			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
 		}
 		$uid = $info->getOwner()->getUID();
-		if ($uid !== \OC_User::getUser()) {
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($uid !== $userInSession) {
 			Filesystem::initMountPoints($uid);
 			$ownerView = new View('/' . $uid . '/files');
 			try {

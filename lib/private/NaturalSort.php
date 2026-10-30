@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\Server;
@@ -113,6 +114,6 @@ class NaturalSort {
 	 * @return NaturalSort instance
 	 */
 	public static function getInstance(): NaturalSort {
-		return \OCP\Server::get(NaturalSort::class);
+		return Server::get(NaturalSort::class);
 	}
 }

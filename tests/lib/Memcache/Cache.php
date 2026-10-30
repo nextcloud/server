@@ -147,6 +147,7 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertFalse($this->instance->ncad('foo', 'bar'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->clear();

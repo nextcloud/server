@@ -43,6 +43,7 @@ class Activity implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'sharebymail') {
 			throw new UnknownActivityException();
@@ -211,6 +212,8 @@ class Activity implements IProvider {
 				continue;
 			}
 
+			// $contact['EMAIL'] structure varies by address book backend and vCard cardinality
+			/** @psalm-suppress UnrecognizedExpression */
 			if (in_array($email, $contact['EMAIL'])) {
 				return $contact['FN'];
 			}

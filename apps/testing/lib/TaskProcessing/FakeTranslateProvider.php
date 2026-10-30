@@ -28,22 +28,27 @@ class FakeTranslateProvider implements ISynchronousProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APP_ID . '-translate';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake translate task processing provider';
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToTextTranslate::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		$coreL = $this->l10nFactory->getLanguages();
 		$languages = array_merge($coreL['commonLanguages'], $coreL['otherLanguages']);
@@ -57,12 +62,14 @@ class FakeTranslateProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [
 			'origin_language' => 'detect_language',
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'max_tokens' => new ShapeDescriptor(
@@ -78,6 +85,7 @@ class FakeTranslateProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [
 			'model' => [
@@ -88,6 +96,7 @@ class FakeTranslateProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [
 			'max_tokens' => 200,
@@ -95,14 +104,17 @@ class FakeTranslateProvider implements ISynchronousProvider {
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -116,6 +128,7 @@ class FakeTranslateProvider implements ISynchronousProvider {
 		return $coreLanguages;
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($this->appConfig->getAppValueBool('fail-' . $this->getId())) {
 			throw new ProcessingException('Failing as set by AppConfig');

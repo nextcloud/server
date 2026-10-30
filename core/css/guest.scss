@@ -438,61 +438,181 @@ form .warning input[type='checkbox']+label {
 	// Same size as login box and dashboard panels
 	width: 320px;
 	box-sizing: border-box;
+	padding: calc(4 * var(--default-grid-baseline));
+}
+
+.two-factor-providers {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2 * var(--default-grid-baseline));
+	margin-top: calc(4 * var(--default-grid-baseline));
 }
 
 .two-factor-provider {
 	display: flex;
-	border-radius: 3px; /* --border-radius */
-	margin: 12px 0;
-	border: 1px solid transparent;
-	text-align: start;
 	align-items: center;
+	box-sizing: border-box;
+	width: 100%;
+	gap: calc(2.5 * var(--default-grid-baseline));
+	padding: calc(3 * var(--default-grid-baseline)) calc(2 * var(--default-grid-baseline));
+	border-radius: var(--border-radius-large);
+	text-align: start;
 	text-decoration: none !important;
 
 	&:hover,
-	&:focus,
-	&:active {
-		border: 1px solid #fff;
+	&:focus-visible {
+		background-color: var(--color-background-hover);
 	}
-	img {
-		width: 64px;
-		height: 64px;
-		padding: 0 12px;
+
+	&:focus-visible {
+		outline: 2px solid var(--color-main-text);
+		outline-offset: -2px;
 	}
+
+	&::after {
+		content: '';
+		flex: none;
+		width: 12px;
+		height: 12px;
+		background: url('../img/actions/arrow-right.svg') no-repeat center / 12px;
+		filter: var(--background-invert-if-dark);
+		opacity: .6;
+	}
+
+	&:dir(rtl)::after {
+		transform: scaleX(-1);
+	}
+
 	div {
-		margin: 12px 0;
+		flex: 1;
+		min-width: 0;
 	}
+
 	h3 {
 		margin: 0;
 	}
+
 	p {
+		margin: var(--default-grid-baseline) 0 0;
 		font-weight: normal;
+		font-size: var(--font-size-small, 13px);
+		line-height: 1.35;
+		color: var(--color-text-maxcontrast);
+	}
+}
+
+.two-factor-provider-icon {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: var(--color-primary-element-light);
+
+	img {
+		width: 24px;
+		height: 24px;
+		filter: var(--background-invert-if-bright);
 	}
 }
 
 .two-factor-icon {
-	width: 100px;
 	display: block;
-	margin: 0 auto;
+	width: 48px;
+	margin: 0 auto calc(3 * var(--default-grid-baseline));
+	filter: var(--background-invert-if-bright);
 }
 
-.two-factor-submit {
+.two-factor-code-input {
+	width: 100% !important;
+	height: 52px !important;
+	margin: 0 0 calc(3 * var(--default-grid-baseline)) !important;
+	font-size: 20px !important;
+	text-align: center;
+
+	&::placeholder {
+		font-size: inherit;
+	}
+}
+
+.two-factor-code-digits {
+	// Left-align from the start of six centered digits, so the caret sits on the first placeholder digit
+	padding-inline-start: calc(50% - 3ch - 1.25em) !important;
+	text-align: start;
+	font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+	font-size: 26px !important;
+	font-weight: bold;
+	letter-spacing: .5em;
+
+	&::placeholder {
+		color: var(--color-text-maxcontrast);
+	}
+}
+
+.two-factor .two-factor-submit {
 	width: 100%;
-	padding: 10px;
-	margin: 0 0 5px 0;
-	border-radius: 100px; /* --border-radius-pill */
-	font-size: 20px;
+	min-height: 48px;
+	margin: 0;
+	border-radius: var(--border-radius-element);
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .two-factor-primary {
-	/* Fix for 'Use backup codes' button not taking correct styles */
-	padding: 14px !important;
-	width: 226px;
+	display: block !important;
+	width: 100%;
+	margin-top: calc(3 * var(--default-grid-baseline));
 }
 
-.two-factor-secondary {
-	display: inline-block;
-	padding: 12px;
+.two-factor-actions {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2 * var(--default-grid-baseline));
+	margin-top: calc(6 * var(--default-grid-baseline));
+	padding-top: calc(5 * var(--default-grid-baseline));
+	border-top: 1px solid var(--color-border-dark);
+
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: calc(2 * var(--default-grid-baseline));
+		min-height: var(--default-clickable-area);
+		border-radius: var(--border-radius-element);
+		font-weight: bold;
+
+		&:hover,
+		&:focus-visible {
+			background-color: var(--color-background-hover);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-main-text);
+			outline-offset: -2px;
+		}
+	}
+
+	.two-factor-action-switch::before,
+	.two-factor-action-backup::before {
+		content: '';
+		width: 16px;
+		height: 16px;
+		background: no-repeat center / 16px;
+		filter: var(--background-invert-if-dark);
+	}
+
+	.two-factor-action-switch::before {
+		background-image: url('../img/actions/change.svg');
+	}
+
+	.two-factor-action-backup::before {
+		background-image: url('../img/actions/password.svg');
+	}
+
+	#cancel-login {
+		color: var(--color-text-error);
+	}
 }
 
 

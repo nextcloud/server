@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC22;
 
 use OC\Core\BackgroundJobs\LookupServerSendCheckBackgroundJob;
@@ -19,10 +20,12 @@ class LookupServerSendCheck implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add background job to set the lookup server share state for users';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(LookupServerSendCheckBackgroundJob::class);
 	}

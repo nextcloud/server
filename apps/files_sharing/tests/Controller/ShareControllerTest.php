@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
-use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
 use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -31,6 +31,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
@@ -42,6 +43,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -49,12 +51,14 @@ use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * @package OCA\Files_Sharing\Controllers
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareControllerTest extends \Test\TestCase {
+	use UserTrait;
 
 	private string $user;
 	private string $oldUser;
@@ -77,6 +81,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private IUserSession&MockObject $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -101,6 +106,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->publicShareTemplateFactory = $this->createMock(IPublicShareTemplateFactory::class);
 		$this->publicShareTemplateFactory
 			->expects($this->any())
@@ -141,8 +147,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->userSession,
 		);
-
 
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
@@ -150,15 +156,14 @@ class ShareControllerTest extends \Test\TestCase {
 		// Create a dummy user
 		$this->user = Server::get(ISecureRandom::class)->generate(12, ISecureRandom::CHAR_LOWER);
 
-		Server::get(IUserManager::class)->createUser($this->user, $this->user);
-		\OC_Util::tearDownFS();
+		$this->createUser($this->user, $this->user);
+		Server::get(ISetupManager::class)->tearDown();
 		$this->loginAsUser($this->user);
 	}
 
 	protected function tearDown(): void {
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId('');
-		Filesystem::tearDown();
 		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
@@ -205,7 +210,6 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test without a not existing token
 		$this->shareController->showShare();
 	}
-
 
 	public function testShowShare(): void {
 		$note = 'personal note';
@@ -646,7 +650,6 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-
 	public function testShowShareInvalid(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -702,6 +705,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testDownloadShareWithCreateOnlyShare(): void {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share
 			->expects($this->once())
 			->method('getPermissions')
@@ -728,6 +732,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->expects(self::once())
 			->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);

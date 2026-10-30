@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "No rule given",
     "Versions" : "Versions",
     "This application automatically maintains older versions of files that are changed." : "This application automatically maintains older versions of files that are changed.",
     "Current version" : "Current version",

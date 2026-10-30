@@ -23,6 +23,7 @@ class ChangePasswordHandler implements IHandler {
 	) {
 	}
 
+	#[\Override]
 	public function handle(string $service, IRequestContext $context, ?IResponse $previousResponse): ?IResponse {
 		if ($service !== 'change-password') {
 			return $previousResponse;

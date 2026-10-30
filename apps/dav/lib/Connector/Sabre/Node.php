@@ -7,9 +7,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
@@ -19,6 +19,7 @@ use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -28,6 +29,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use RuntimeException;
 use Sabre\DAV\Exception;
@@ -101,6 +103,7 @@ abstract class Node implements INode {
 	/**
 	 *  Returns the name of the node
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->info->getName();
 	}
@@ -129,6 +132,7 @@ abstract class Node implements INode {
 	 * @throws PreConditionNotMetException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function setName($name): void {
 		if (!$this->canRename()) {
 			throw new Forbidden('');
@@ -157,6 +161,7 @@ abstract class Node implements INode {
 	 *
 	 * @return int timestamp as integer
 	 */
+	#[\Override]
 	public function getLastModified(): int {
 		return $this->info->getMtime();
 	}
@@ -259,7 +264,7 @@ abstract class Node implements INode {
 		 * Eventually we need to do this properly
 		 */
 		$mountpoint = $this->info->getMountPoint();
-		if (!($mountpoint instanceof MoveableMount)) {
+		if (!($mountpoint instanceof IMovableMount)) {
 			/**
 			 * @psalm-suppress UnnecessaryVarAnnotation Rector doesn't trust the return type annotation
 			 * @var string $mountpointpath
@@ -294,7 +299,7 @@ abstract class Node implements INode {
 		$attributes = [];
 		if ($storage->instanceOfStorage(ISharedStorage::class)) {
 			$attributes = $storage->getShare()->getAttributes();
-			if ($attributes === null) {
+			if (!$attributes instanceof IAttributes) {
 				return [];
 			}
 

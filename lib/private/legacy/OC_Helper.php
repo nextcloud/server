@@ -5,9 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-use bantu\IniGetWrapper\IniGetWrapper;
-use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\SystemConfig;
@@ -15,14 +14,13 @@ use OCA\Files_Sharing\External\Storage;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\IBinaryFinder;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -45,91 +43,11 @@ class OC_Helper {
 	private static ?bool $quotaIncludeExternalStorage = null;
 
 	/**
-	 * Recursive copying of folders
-	 * @param string $src source folder
-	 * @param string $dest target folder
-	 * @return void
-	 * @deprecated 32.0.0 - use \OCP\Files\Folder::copy
+	 * @internal
 	 */
-	public static function copyr($src, $dest) {
-		if (!file_exists($src)) {
-			return;
-		}
-
-		if (is_dir($src)) {
-			if (!is_dir($dest)) {
-				mkdir($dest);
-			}
-			$files = scandir($src);
-			foreach ($files as $file) {
-				if ($file != '.' && $file != '..') {
-					self::copyr("$src/$file", "$dest/$file");
-				}
-			}
-		} else {
-			$validator = Server::get(FilenameValidator::class);
-			if (!$validator->isForbidden($src)) {
-				copy($src, $dest);
-			}
-		}
-	}
-
-	/**
-	 * detect if a given program is found in the search PATH
-	 *
-	 * @param string $name
-	 * @param bool $path
-	 * @internal param string $program name
-	 * @internal param string $optional search path, defaults to $PATH
-	 * @return bool true if executable program found in path
-	 * @deprecated 32.0.0 use the \OCP\IBinaryFinder
-	 */
-	public static function canExecute($name, $path = false) {
-		// path defaults to PATH from environment if not set
-		if ($path === false) {
-			$path = getenv('PATH');
-		}
-		// we look for an executable file of that name
-		$exts = [''];
-		$check_fn = 'is_executable';
-		// Default check will be done with $path directories :
-		$dirs = explode(PATH_SEPARATOR, (string)$path);
-		// WARNING : We have to check if open_basedir is enabled :
-		$obd = Server::get(IniGetWrapper::class)->getString('open_basedir');
-		if ($obd != 'none') {
-			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if (count($obd_values) > 0 && $obd_values[0]) {
-				// open_basedir is in effect !
-				// We need to check if the program is in one of these dirs :
-				$dirs = $obd_values;
-			}
-		}
-		foreach ($dirs as $dir) {
-			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name" . $ext)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Checks if a function is available
-	 *
-	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
-	 */
-	public static function is_function_enabled(string $function_name): bool {
-		return Util::isFunctionEnabled($function_name);
-	}
-
-	/**
-	 * Try to find a program
-	 * @deprecated 25.0.0 Use \OCP\IBinaryFinder directly
-	 */
-	public static function findBinaryPath(string $program): ?string {
-		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
-		return $result !== false ? $result : null;
+	public static function reset(): void {
+		self::$cacheFactory = null;
+		self::$quotaIncludeExternalStorage = null;
 	}
 
 	/**
@@ -145,6 +63,7 @@ class OC_Helper {
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
 	 * @throws NotFoundException
+	 * @deprecated 36.0.0 use \OCP\Files\IUserFolder::getUserQuota
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
@@ -177,10 +96,7 @@ class OC_Helper {
 		if (!$rootInfo instanceof FileInfo) {
 			throw new NotFoundException('The root directory of the user\'s files is missing');
 		}
-		$used = $rootInfo->getSize($includeMountPoints);
-		if ($used < 0) {
-			$used = 0.0;
-		}
+
 		/** @var int|float $quota */
 		$quota = FileInfo::SPACE_UNLIMITED;
 		$mount = $rootInfo->getMountPoint();
@@ -190,16 +106,23 @@ class OC_Helper {
 			self::$quotaIncludeExternalStorage = false;
 		}
 		if (self::$quotaIncludeExternalStorage) {
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
+			if ($storage->instanceOfStorage(ISharedStorage::class)) {
+				// we must use the shared nodes owner,
+				// because if user A shared a file with user B and B shares this again,
+				// then the share initiator is user B but the quota that this counts in is user A's quota.
+				/** @var ISharedStorage $storage */
+				$user = $storage->getShare()->getNode()->getOwner();
+			} elseif (
+				$storage->instanceOfStorage('\OC\Files\Storage\Home')
 				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 			) {
-				/** @var Home $storage */
+				/** @var Home|HomeObjectStoreStorage $storage */
 				$user = $storage->getUser();
 			} else {
 				$user = Server::get(IUserSession::class)->getUser();
 			}
 			$quota = $user?->getQuotaBytes() ?? FileInfo::SPACE_UNKNOWN;
-			if ($quota !== FileInfo::SPACE_UNLIMITED) {
+			if ($user !== null && $quota !== FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				return self::getGlobalStorageInfo($quota, $user, $mount);
 			}
@@ -207,9 +130,15 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var Quota $storage */
+			/** @var Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
+			$used = $sourceStorage->getSize($path, $storage);
+		} else {
+			$used = $rootInfo->getSize($includeMountPoints);
 		}
+
+		$used = max($used, 0.0);
+
 		try {
 			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
 			if (is_bool($free)) {
@@ -329,6 +258,9 @@ class OC_Helper {
 		];
 	}
 
+	/**
+	 * @deprecated 36.0.0
+	 */
 	public static function clearStorageInfo(string $absolutePath): void {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
@@ -336,14 +268,5 @@ class OC_Helper {
 		$cacheKeyPrefix = Filesystem::normalizePath($absolutePath) . '::';
 		$memcache->remove($cacheKeyPrefix . 'include');
 		$memcache->remove($cacheKeyPrefix . 'exclude');
-	}
-
-	/**
-	 * Returns whether the config file is set manually to read-only
-	 * @return bool
-	 * @deprecated 32.0.0 use the `config_is_read_only` system config directly
-	 */
-	public static function isReadOnlyConfigEnabled() {
-		return Server::get(IConfig::class)->getSystemValueBool('config_is_read_only', false);
 	}
 }

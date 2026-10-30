@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Http\Client;
 
 use OCP\Http\Client\IResponse;
@@ -18,16 +19,19 @@ class Response implements IResponse {
 	) {
 	}
 
+	#[\Override]
 	public function getBody() {
 		return $this->stream
 			? $this->response->getBody()->detach()
 			:$this->response->getBody()->getContents();
 	}
 
+	#[\Override]
 	public function getStatusCode(): int {
 		return $this->response->getStatusCode();
 	}
 
+	#[\Override]
 	public function getHeader(string $key): string {
 		$headers = $this->response->getHeader($key);
 
@@ -38,6 +42,7 @@ class Response implements IResponse {
 		return $headers[0];
 	}
 
+	#[\Override]
 	public function getHeaders(): array {
 		return $this->response->getHeaders();
 	}

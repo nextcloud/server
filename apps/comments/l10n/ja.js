@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "ファイル",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "あなたは \"{file}\" で、削除されたアカウントのコメントで言及されました",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} さんが \"{file}\" のコメント内であなたついて言及しました",
+    "Go to file" : "ファイルへ移動",
     "Files app plugin to add comments to files" : "ファイルにコメントを追加するためのファイルアプリプラグイン",
     "Edit comment" : "コメントを編集",
     "Delete comment" : "コメントを削除",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "コメント編集中にエラーが発生しました",
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
-    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "Write a comment …" : "コメントを書く..."
+    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました"
 },
 "nplurals=1; plural=0;");

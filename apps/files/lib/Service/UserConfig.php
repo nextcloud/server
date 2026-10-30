@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Service;
 
 use OCA\Files\AppInfo\Application;
@@ -142,10 +143,12 @@ class UserConfig {
 			throw new \Exception('No user logged in');
 		}
 
-		if (!in_array($key, $this->getAllowedConfigKeys())) {
+		if (!in_array($key, $this->getAllowedConfigKeys(), true)) {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
 
+		// $value is a string, but allowed values may be booleans (e.g. for toggle configs), so comparison must stay loose
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}

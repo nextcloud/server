@@ -152,14 +152,14 @@ trait CommonSettingsTrait {
 			if ($section === 'theming') {
 				$this->navigationManager->setActiveEntry('accessibility_settings');
 			} else {
-				$this->navigationManager->setActiveEntry('settings');
+				$this->navigationManager->setActiveEntry('settings_personal');
 			}
 		} elseif ($type === 'admin') {
 			$settings = array_values($this->settingsManager->getAllowedAdminSettings($section, $user));
 			if (empty($settings) && empty($declarativeSettings)) {
 				throw new NotAdminException('Logged in user does not have permission to access these settings.');
 			}
-			$this->navigationManager->setActiveEntry('admin_settings');
+			$this->navigationManager->setActiveEntry('settings_administration');
 		} else {
 			throw new InvalidArgumentException('$type must be either "admin" or "personal"');
 		}

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "ຟາຍ",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "You were mentioned on \"{file}\", in a comment by an account that has since been deleted",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mentioned you in a comment on \"{file}\"",
+    "Go to file" : "Go to file",
     "Files app plugin to add comments to files" : "Files app plugin to add comments to files",
     "Edit comment" : "ແກ້ໄຂຄຳເຫັນ",
     "Delete comment" : "ລົບຄຳເຫັນ",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "An error occurred while trying to edit the comment",
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
-    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "Write a comment …" : "Write a comment …"
+    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment"
 },
 "nplurals=1; plural=0;");

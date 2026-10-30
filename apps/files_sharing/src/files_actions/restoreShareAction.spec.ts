@@ -152,6 +152,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -165,7 +166,7 @@ describe('Restore share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/1')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
@@ -183,6 +184,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -195,6 +197,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '2',
 			},
 			root: '/files/admin',
 		})
@@ -208,8 +211,8 @@ describe('Restore share action execute tests', () => {
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.post).toBeCalledTimes(2)
-		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
-		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/456')
+		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/1')
+		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/2')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
@@ -228,6 +231,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				share_type: ShareType.User,
+				'share-id': '1',
 			},
 			root: '/files/admin',
 		})
@@ -241,7 +245,7 @@ describe('Restore share action execute tests', () => {
 
 		expect(exec).toBe(false)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/1')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})

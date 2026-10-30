@@ -36,6 +36,7 @@ class GroupPluginTest extends TestCase {
 	protected int $limit = 2;
 	protected int $offset = 0;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

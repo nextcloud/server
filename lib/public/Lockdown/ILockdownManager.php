@@ -4,9 +4,10 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Lockdown;
 
-use OC\Authentication\Token\IToken;
+use OCP\Authentication\Token\IToken;
 
 /**
  * @since 9.2
@@ -24,6 +25,8 @@ interface ILockdownManager {
 	 *
 	 * @param IToken $token
 	 * @since 9.2
+	 * @since 36 Use OCP\Authentication\Token\IToken instead of OC namespaced deprecated one
+	 * @return void
 	 */
 	public function setToken(IToken $token);
 

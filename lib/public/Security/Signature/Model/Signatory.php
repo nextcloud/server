@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Security\Signature\Model;
 
 use JsonSerializable;
@@ -169,6 +170,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @return array
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'keyId' => $this->getKeyId(),

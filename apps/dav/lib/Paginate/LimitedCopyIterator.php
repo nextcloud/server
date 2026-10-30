@@ -20,6 +20,7 @@ namespace OCA\DAV\Paginate;
 class LimitedCopyIterator extends \AppendIterator {
 	private array $skipped = [];
 	private array $copy = [];
+	private readonly bool $hasOthers;
 
 	public function __construct(\Traversable $iterator, int $count, int $offset = 0) {
 		parent::__construct();
@@ -29,17 +30,17 @@ class LimitedCopyIterator extends \AppendIterator {
 		}
 		$iterator = new \NoRewindIterator($iterator);
 
-		$i = 0;
-		while ($iterator->valid() && ++$i <= $offset) {
-			$this->skipped[] = $iterator->current();
+		while ($iterator->valid() && count($this->skipped) < $offset) {
+			$this->skipped[$iterator->key()] = $iterator->current();
 			$iterator->next();
 		}
 
 		while ($iterator->valid() && count($this->copy) < $count) {
-			$this->copy[] = $iterator->current();
+			$this->copy[$iterator->key()] = $iterator->current();
 			$iterator->next();
 		}
 
+		$this->hasOthers = $iterator->valid() || count($this->skipped) > 0;
 		$this->append(new \ArrayIterator($this->skipped));
 		$this->append($this->getRequestedItems());
 		$this->append($iterator);
@@ -47,5 +48,12 @@ class LimitedCopyIterator extends \AppendIterator {
 
 	public function getRequestedItems(): \Iterator {
 		return new \ArrayIterator($this->copy);
+	}
+
+	/**
+	 * Are there any other items in the iterator aside from the requested ones
+	 */
+	public function hasOthers(): bool {
+		return $this->hasOthers;
 	}
 }

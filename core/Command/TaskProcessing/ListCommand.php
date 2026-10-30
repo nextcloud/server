@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
@@ -22,6 +23,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task:list')
@@ -71,6 +73,7 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userIdFilter = $input->getOption('userIdFilter');
 		if ($userIdFilter === null) {
@@ -82,7 +85,7 @@ class ListCommand extends Base {
 		$appId = $input->getOption('appId');
 		$customId = $input->getOption('customId');
 		$status = $input->getOption('status') !== null ? (int)$input->getOption('status') : null;
-		$scheduledAfter = $input->getOption('scheduledAfter') != null ? (int)$input->getOption('scheduledAfter') : null;
+		$scheduledAfter = $input->getOption('scheduledAfter') !== null ? (int)$input->getOption('scheduledAfter') : null;
 		$endedBefore = $input->getOption('endedBefore') !== null ? (int)$input->getOption('endedBefore') : null;
 
 		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);

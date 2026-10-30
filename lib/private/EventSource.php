@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\IEventSource;
@@ -46,6 +47,7 @@ class EventSource implements IEventSource {
 	 * @throws \BadMethodCallException
 	 * @suppress PhanDeprecatedFunction
 	 */
+	#[\Override]
 	public function send(string $type, mixed $data = null): void {
 		if ($data && !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
 			throw new \BadMethodCallException('Type needs to be alphanumeric (' . $type . ')');
@@ -63,6 +65,7 @@ class EventSource implements IEventSource {
 		flush();
 	}
 
+	#[\Override]
 	public function close(): void {
 		$this->send('__internal__', 'close'); //server side closing can be an issue, let the client do it
 	}

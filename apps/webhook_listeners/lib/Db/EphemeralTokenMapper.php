@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
 
 class EphemeralTokenMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_tokens';
-	public const TOKEN_LIFETIME = 1 * 1 * 60; // one hour in seconds
+	public const TOKEN_LIFETIME = 1 * 60 * 60; // one hour in seconds
 
 	public function __construct(
 		IDBConnection $db,
@@ -63,7 +63,6 @@ class EphemeralTokenMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
-
 
 	/**
 	 * @param int $olderThan
@@ -105,7 +104,6 @@ class EphemeralTokenMapper extends QBMapper {
 			$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
 			return;
 		}
-
 
 		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {

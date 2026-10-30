@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Listener;
 
 use BadMethodCallException;
@@ -26,6 +27,7 @@ class ActivityPublisher implements IEventListener {
 	/**
 	 * Push an event to the user's activity stream
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CodesGenerated) {
 			$activity = $this->activityManager->generateEvent();

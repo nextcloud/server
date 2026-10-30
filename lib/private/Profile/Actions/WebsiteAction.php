@@ -25,35 +25,43 @@ class WebsiteAction implements ILinkAction {
 	) {
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		$account = $this->accountManager->getAccount($targetUser);
 		$this->value = $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue();
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return 'core';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return IAccountManager::PROPERTY_WEBSITE;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10nFactory->get('lib')->t('Website');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l10nFactory->get('lib')->t('Visit %s', [$this->value]);
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/timezone.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if (empty($this->value)) {
 			return null;

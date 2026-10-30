@@ -5,21 +5,51 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DatabaseException;
 use OC\DatabaseSetupException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
-use OCP\Security\ISecureRandom;
-use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
-	public $dbprettyname = 'PostgreSQL';
+	public string $dbprettyname = 'PostgreSQL';
+
+	// #[\Override] TODO: Uncomment this when we only support PHP 8.5+ support
+	protected const array CONNECTION_ENCRYPTION_OPTIONS = [...parent::CONNECTION_ENCRYPTION_OPTIONS, 'pgsql_ssl'];
+
+	// #[\Override] TODO: Uncomment this when we only support PHP 8.5+ support
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = ['dbsslmode', 'dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslcrl'];
+
+	/**
+	 * Installer options mapped onto the `pgsql_ssl` connection parameters, as read by
+	 * {@see \OC\DB\ConnectionFactory::createConnectionParams()}.
+	 */
+	private const array SSL_PARAMETERS = [
+		'dbsslmode' => 'mode',
+		'dbsslca' => 'rootcert',
+		'dbsslcert' => 'cert',
+		'dbsslkey' => 'key',
+		'dbsslcrl' => 'crl',
+	];
+
+	#[\Override]
+	protected function getEncryptionConfig(array $config): array {
+		$pgsqlSsl = [];
+		foreach (self::SSL_PARAMETERS as $option => $parameter) {
+			if (!empty($config[$option])) {
+				$pgsqlSsl[$parameter] = (string)$config[$option];
+			}
+		}
+
+		return $pgsqlSsl === [] ? [] : ['pgsql_ssl' => $pgsqlSsl];
+	}
 
 	/**
 	 * @throws DatabaseSetupException
 	 */
+	#[\Override]
 	public function setupDatabase(): void {
 		try {
 			$connection = $this->connect([
@@ -48,8 +78,9 @@ class PostgreSQL extends AbstractDatabase {
 
 					//add prefix to the postgresql user name to prevent collisions
 					$this->dbUser = 'oc_admin';
-					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+
+					// Create a new password so we don't need to store the admin config in the config file
+					$this->dbPassword = $this->generateDbPassword();
 
 					$this->createDBUser($connection);
 				}

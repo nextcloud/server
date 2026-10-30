@@ -10,6 +10,7 @@ use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
 use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\IApacheBackend;
@@ -20,16 +21,14 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
-use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,21 +39,11 @@ use Psr\Log\LoggerInterface;
  * Note that &run is deprecated and won't work anymore.
  *
  * Hooks provided:
- *   pre_createUser(&run, uid, password)
- *   post_createUser(uid, password)
- *   pre_deleteUser(&run, uid)
- *   post_deleteUser(uid)
- *   pre_setPassword(&run, uid, password, recoveryPassword)
- *   post_setPassword(uid, password, recoveryPassword)
- *   pre_login(&run, uid, password)
- *   post_login(uid)
  *   logout()
+ * @deprecated 36.0.0 No more non-deprecated methods in there
  */
 class OC_User {
-	private static $_setupedBackends = [];
-
-	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
-	private static $incognitoMode = false;
+	public static $_setupedBackends = [];
 
 	/**
 	 * Adds the backend to the list of used backends
@@ -96,23 +85,17 @@ class OC_User {
 	}
 
 	/**
-	 * remove all used backends
-	 * @deprecated 32.0.0 Use IUserManager::clearBackends instead
-	 */
-	public static function clearBackends() {
-		Server::get(IUserManager::class)->clearBackends();
-	}
-
-	/**
 	 * setup the configured backends in config.php
 	 * @suppress PhanDeprecatedFunction
+	 * @internal Should not be used by applications
 	 */
 	public static function setupBackends() {
-		OC_App::loadApps(['prelogin']);
+		Server::get(IAppManager::class)->loadApps(['prelogin']);
+
 		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
-			self::clearBackends();
+			Server::get(IUserManager::class)->clearBackends();
 		}
 		foreach ($backends as $i => $config) {
 			if (!is_array($config)) {
@@ -121,7 +104,7 @@ class OC_User {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
 			if (class_exists($class)) {
-				if (!in_array($i, self::$_setupedBackends)) {
+				if (!in_array($i, self::$_setupedBackends, true)) {
 					// make a reflection object
 					$reflectionObj = new ReflectionClass($class);
 
@@ -143,37 +126,44 @@ class OC_User {
 	 * has already happened (e.g. via Single Sign On).
 	 *
 	 * Log in a user and regenerate a new session.
+	 * @internal Should not be called by applications
 	 */
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
-
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = Server::get(IEventDispatcher::class);
+				$request = Server::get(IRequest::class);
+				$user = $userSession->getUser();
 
-				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('Account disabled');
+				if (!$user) {
+					// Should not happen except from bad code or configuration
+					throw new UserNotFoundException('User ' . $uid . ' not found');
+				}
+				if (!$user->isEnabled()) {
+					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
-				$userSession->setLoginName($uid);
-				$request = Server::get(IRequest::class);
+
 				$password = null;
 				if ($backend instanceof IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();
 				}
 
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
-				$userSession->createSessionToken($request, $uid, $uid, $password);
-				$userSession->createRememberMeToken($userSession->getUser());
+				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
+				$userSession->completeLogin(
+					$user,
+					['loginName' => $uid, 'password' => $password ?? ''],
+					regenerateSessionId:false,
+				);
+				$userSession->createRememberMeToken($user);
 
 				if (empty($password)) {
 					$tokenProvider = Server::get(IProvider::class);
@@ -189,31 +179,6 @@ class OC_User {
 						// simply skip updating the token when is it missing
 					}
 				}
-
-				// setup the filesystem
-				OC_Util::setupFS($uid);
-				// first call the post_login hooks, the login-process needs to be
-				// completed before we can safely create the users folder.
-				// For example encryption needs to initialize the users keys first
-				// before we can create the user folder with the skeleton files
-				OC_Hook::emit(
-					'OC_User',
-					'post_login',
-					[
-						'uid' => $uid,
-						'password' => $password,
-						'isTokenLogin' => false,
-					]
-				);
-				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					Server::get(IUserManager::class)->get($uid),
-					$uid,
-					null,
-					false)
-				);
-
-				//trigger creation of user home and /files folder
-				\OC::$server->getUserFolder($uid);
 			}
 			return true;
 		}
@@ -227,11 +192,12 @@ class OC_User {
 	 *                   true: authenticated
 	 *                   false: not authenticated
 	 *                   null: not handled / no backend available
+	 * @deprecated 36.0.0 Should not be used by new apps, for user_saml we need to refactor to drop it
 	 */
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
-			OC_App::loadApps();
+			Server::get(IAppManager::class)->loadApps();
 
 			//setup extra user backends
 			self::setupBackends();
@@ -245,9 +211,9 @@ class OC_User {
 		return null;
 	}
 
-
 	/**
 	 * Sets user id for session and triggers emit
+	 * @deprecated 36.0.0 Use IUserSession
 	 */
 	public static function setUserId(?string $uid): void {
 		$userSession = Server::get(IUserSession::class);
@@ -261,61 +227,50 @@ class OC_User {
 
 	/**
 	 * Set incognito mode, e.g. if a user wants to open a public link
+	 * @deprecated 36.0.0 Use IUserSession::setIncognitoMode instead
 	 */
 	public static function setIncognitoMode(bool $status): void {
-		self::$incognitoMode = $status;
+		Server::get(IUserSession::class)->setIncognitoMode($status);
 	}
 
 	/**
 	 * Get incognito mode status
+	 * @deprecated 36.0.0 Use IUserSession::isIncognitoMode instead
 	 */
 	public static function isIncognitoMode(): bool {
-		return self::$incognitoMode;
+		return Server::get(IUserSession::class)->isIncognitoMode();
 	}
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
+	 * @return string
+	 * @deprecated 36.0.0 Use IURLGenerator
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
-		$backend = self::findFirstActiveUsedBackend();
-		if ($backend) {
-			return $backend->getLogoutUrl();
-		}
-
-		$user = Server::get(IUserSession::class)->getUser();
-		if ($user instanceof IUser) {
-			$backend = $user->getBackend();
-			if ($backend instanceof ICustomLogout) {
-				return $backend->getLogoutUrl();
-			}
-		}
-
-		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(Util::callRegister());
-
-		return $logoutUrl;
+		return $urlGenerator->getLogoutUrl();
 	}
 
 	/**
 	 * Check if the user is an admin user
 	 *
 	 * @param string $uid uid of the admin
+	 * @deprecated 36.0.0 Use IUserManager and IGroupManager
 	 */
 	public static function isAdminUser(string $uid): bool {
 		$user = Server::get(IUserManager::class)->get($uid);
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
-		return $isAdmin && self::$incognitoMode === false;
+		return $isAdmin && !self::isIncognitoMode();
 	}
-
 
 	/**
 	 * get the user id of the user currently logged in.
 	 *
 	 * @return string|false uid or false
+	 * @deprecated 36.0.0 Use IUserSession or DI
 	 */
 	public static function getUser(): string|false {
 		$uid = Server::get(ISession::class)?->get('user_id');
-		if (!is_null($uid) && self::$incognitoMode === false) {
+		if (!is_null($uid) && !self::isIncognitoMode()) {
 			return $uid;
 		} else {
 			return false;
@@ -330,6 +285,7 @@ class OC_User {
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 *
 	 * Change the password of a user
+	 * @deprecated 36.0.0 Use OCP APIs
 	 */
 	public static function setPassword(string $uid, string $password, ?string $recoveryPassword = null): bool {
 		$user = Server::get(IUserManager::class)->get($uid);

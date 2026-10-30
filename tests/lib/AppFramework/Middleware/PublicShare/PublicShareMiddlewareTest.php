@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,65 +18,44 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\Security\Bruteforce\IThrottler;
 
 class PublicShareMiddlewareTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
+	private PublicShareMiddleware $middleware;
 
-	/** @var PublicShareMiddleware */
-	private $middleware;
-
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
-		$this->session = $this->createMock(ISession::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->throttler = $this->createMock(IThrottler::class);
-
-		$this->middleware = new PublicShareMiddleware(
-			$this->request,
-			$this->session,
-			$this->config,
-			$this->throttler
-		);
+		$this->middleware = $this->createInstanceWithMocks(PublicShareMiddleware::class);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testBeforeControllerNoPublicShareController(): void {
 		$controller = $this->createMock(Controller::class);
 
 		$this->middleware->beforeController($controller, 'method');
-		$this->assertTrue(true);
 	}
 
 	public static function dataShareApi(): array {
 		return [
-			['no', 'no',],
-			['no', 'yes',],
-			['yes', 'no',],
+			[false, false],
+			[false, true],
+			[true, false],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataShareApi')]
-	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks): void {
+	public function testBeforeControllerShareApiDisabled(bool $shareApi, bool $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', $shareApi],
-				['core', 'shareapi_allow_links', 'yes', $shareLinks],
+				['core', 'shareapi_enabled', true, $shareApi],
+				['core', 'shareapi_allow_links', true, $shareLinks],
 			]);
 
 		$this->expectException(NotFoundException::class);
@@ -84,10 +65,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerNoTokenParam(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->expectException(NotFoundException::class);
@@ -97,13 +78,13 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerInvalidToken(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -118,16 +99,16 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerValidTokenNotAuthenticated(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->request, $this->session])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -143,66 +124,60 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerValidTokenAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->request, $this->session])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
-		$controller->method('isValidToken')
-			->willReturn(true);
-
-		$controller->method('isPasswordProtected')
+		$controller->expects($this->once())
+			->method('isValidToken')
 			->willReturn(true);
 
 		$this->middleware->beforeController($controller, 'authenticate');
-		$this->assertTrue(true);
 	}
 
 	public function testBeforeControllerValidTokenShowAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->request, $this->session])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
-		$controller->method('isValidToken')
-			->willReturn(true);
-
-		$controller->method('isPasswordProtected')
+		$controller->expects($this->once())
+			->method('isValidToken')
 			->willReturn(true);
 
 		$this->middleware->beforeController($controller, 'showAuthenticate');
-		$this->assertTrue(true);
 	}
 
 	public function testBeforeControllerAuthPublicShareController(): void {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
-			->setConstructorArgs(['app', $this->request, $this->session, $this->createMock(IURLGenerator::class)])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class), $this->createMock(IURLGenerator::class)])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -212,7 +187,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$controller->method('isPasswordProtected')
 			->willReturn(true);
 
-		$this->session->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with('public_link_authenticate_redirect', '[]');
 
@@ -255,15 +230,15 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
 			->setConstructorArgs([
 				'app',
-				$this->request,
-				$this->session,
+				$this->getAutoMock(IRequest::class),
+				$this->getAutoMock(ISession::class),
 				$this->createMock(IURLGenerator::class),
 			])->getMock();
 		$controller->setToken('token');
 
 		$exception = new NeedAuthenticationException();
 
-		$this->request->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('_route')
 			->willReturn('my.route');
 

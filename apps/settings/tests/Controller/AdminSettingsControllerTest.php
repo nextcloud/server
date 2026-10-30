@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
@@ -121,6 +122,13 @@ class AdminSettingsControllerTest extends TestCase {
 			->method('getFormIDs')
 			->with($user, 'admin', 'test')
 			->willReturn([]);
+
+		// The active entry must match the id the admin nav entry is registered
+		// under in Application.php, otherwise the header current-app button is hidden.
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('settings_administration');
 
 		$initialState = [];
 		$this->initialState->expects(self::atLeastOnce())

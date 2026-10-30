@@ -29,6 +29,7 @@ class DbDataCollector extends AbstractDataCollector {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$queries = $this->sanitizeQueries($this->debugStack->queries);
 
@@ -37,6 +38,7 @@ class DbDataCollector extends AbstractDataCollector {
 		];
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'db';
 	}

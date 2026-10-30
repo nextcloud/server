@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\BackgroundJob;
 
 use OCA\Files\AppInfo\Application;
@@ -56,6 +57,7 @@ class SanitizeFilenames extends QueuedJob {
 	 * @param array $argument unused argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->charReplacement = strval($argument['charReplacement']) ?: null;
 		if (isset($argument['errorsOnly'])) {
@@ -151,7 +153,6 @@ class SanitizeFilenames extends QueuedJob {
 
 		return $hasErrors;
 	}
-
 
 	private function sanitizeUserFiles(IUser $user): void {
 		// Set an active user so that event listeners can correctly work (e.g. files versions)

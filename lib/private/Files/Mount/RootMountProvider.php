@@ -23,6 +23,7 @@ class RootMountProvider implements IRootMountProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getRootMounts(IStorageFactory $loader): array {
 		$objectStoreConfig = $this->objectStoreConfig->getObjectStoreConfigForRoot();
 

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "ئەسكەرتىش \"{fileName}\" ئۈچۈن تازىلاندى",
     "Failed to clear reminder" : "ئەسكەرتىشنى تازىلاش مەغلۇب بولدى",
     "Reminder at custom date & time" : "خالىغان چېسلا & ۋاقىتتا ئەسكە سال",
-    "We will remind you of this file" : "بۇ ھۆججەتنى ئەسكەرتىمىز",
     "Cancel" : "بىكار قىلىش",
     "Clear reminder" : "ئەسكەرتىش",
     "Set reminder" : "ئەسكەرتىش بەلگىلەڭ",
@@ -30,7 +29,6 @@ OC.L10N.register(
     "This weekend" : "بۇ ھەپتە ئاخىرى",
     "Set reminder for this weekend" : "بۇ ھەپتە ئاخىرىدا ئەسكەرتىش بەلگىلەڭ",
     "Next week" : "كېلەر ھەپتە",
-    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش بەلگىلەڭ"
+    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ"
 },
 "nplurals=2; plural=(n != 1);");

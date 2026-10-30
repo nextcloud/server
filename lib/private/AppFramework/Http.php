@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework;
 
 use OCP\AppFramework\Http as BaseHttp;
@@ -84,7 +85,6 @@ class Http extends BaseHttp {
 			self::STATUS_NETWORK_AUTHENTICATION_REQUIRED => 'Network Authentication Required', // draft-nottingham-http-new-status
 		];
 	}
-
 
 	/**
 	 * Gets the correct header

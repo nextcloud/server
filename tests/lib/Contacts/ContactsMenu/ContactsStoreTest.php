@@ -7,11 +7,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Contacts\ContactsMenu;
+namespace Test\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
+use OC\Share20\ShareDisableChecker;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\IManager;
@@ -44,6 +45,7 @@ class ContactsStoreTest extends TestCase {
 	/** @var IL10NFactory */
 	private $l10nFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -66,6 +68,7 @@ class ContactsStoreTest extends TestCase {
 			$this->groupManager,
 			$this->knownUserService,
 			$this->l10nFactory,
+			new ShareDisableChecker($this->config, $this->userManager, $this->groupManager),
 		);
 	}
 
@@ -87,7 +90,7 @@ class ContactsStoreTest extends TestCase {
 					],
 				],
 			]);
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user123');
 
@@ -117,7 +120,7 @@ class ContactsStoreTest extends TestCase {
 					],
 				],
 			]);
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user123');
 
@@ -149,7 +152,7 @@ class ContactsStoreTest extends TestCase {
 					'PHOTO' => base64_encode('photophotophoto'),
 				],
 			]);
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user123');
 
@@ -178,7 +181,7 @@ class ContactsStoreTest extends TestCase {
 					'PHOTO' => 'VALUE=uri:https://photo',
 				],
 			]);
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user123');
 
@@ -195,8 +198,8 @@ class ContactsStoreTest extends TestCase {
 			['yes', '["excludedGroup1"]', ['anotherGroup1'], ['user123', 'user12345']],
 			['yes', '["excludedGroup1"]', ['anotherGroup1', 'anotherGroup2', 'anotherGroup3'], ['user123', 'user12345']],
 			['yes', '["excludedGroup1"]', ['excludedGroup1'], []],
-			['yes', '["excludedGroup1"]', ['anotherGroup1', 'excludedGroup1'], ['user123', 'user12345']],
-			['yes', '["excludedGroup1"]', ['excludedGroup1', 'anotherGroup1', 'anotherGroup2', 'anotherGroup3'], ['user123', 'user12345']],
+			['yes', '["excludedGroup1"]', ['anotherGroup1', 'excludedGroup1'], []],
+			['yes', '["excludedGroup1"]', ['excludedGroup1', 'anotherGroup1', 'anotherGroup2', 'anotherGroup3'], []],
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', [], ['user123', 'user12345']],
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1'], ['user123', 'user12345']],
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1', 'anotherGroup2', 'anotherGroup3'], ['user123', 'user12345']],
@@ -204,9 +207,9 @@ class ContactsStoreTest extends TestCase {
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['excludedGroup2'], []],
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['excludedGroup3'], []],
 			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['excludedGroup1', 'excludedGroup2', 'excludedGroup3'], []],
-			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1', 'excludedGroup1'], ['user123', 'user12345']],
-			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1', 'excludedGroup2', 'anotherGroup2', 'anotherGroup3'], ['user123', 'user12345']],
-			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['excludedGroup3', 'anotherGroup1', 'anotherGroup2', 'anotherGroup3'], ['user123', 'user12345']],
+			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1', 'excludedGroup1'], []],
+			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['anotherGroup1', 'excludedGroup2', 'anotherGroup2', 'anotherGroup3'], []],
+			['yes', '["excludedGroup1", "excludedGroup2", "excludedGroup3"]', ['excludedGroup3', 'anotherGroup1', 'anotherGroup2', 'anotherGroup3'], []],
 			['allow', '[]', [], []],
 			['allow', '["allowedGroup1"]', [], []],
 			['allow', '["allowedGroup1"]', ['anotherGroup1'], []],
@@ -243,11 +246,15 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
-		$this->groupManager->expects($this->once())
+		$this->userManager->method('get')
+			->with('user001')
+			->willReturn($currentUser);
+
+		$this->groupManager->expects($this->exactly(2))
 			->method('getUserGroupIds')
 			->with($this->equalTo($currentUser))
 			->willReturn($currentUserGroupIds);
@@ -265,7 +272,6 @@ class ContactsStoreTest extends TestCase {
 					'isLocalSystemBook' => true
 				],
 			]);
-
 
 		$entries = $this->contactsStore->getContacts($currentUser, '');
 
@@ -290,15 +296,18 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
-		$this->groupManager->expects($this->once())
+		$this->userManager->method('get')
+			->with('user001')
+			->willReturn($currentUser);
+
+		$this->groupManager->expects($this->exactly(2))
 			->method('getUserGroupIds')
 			->with($this->equalTo($currentUser))
 			->willReturn(['group1', 'group2', 'group3']);
-
 
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -313,7 +322,6 @@ class ContactsStoreTest extends TestCase {
 					'isLocalSystemBook' => true
 				],
 			]);
-
 
 		$entries = $this->contactsStore->getContacts($currentUser, '');
 
@@ -334,7 +342,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
@@ -407,7 +415,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
@@ -479,7 +487,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
@@ -538,7 +546,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
@@ -617,7 +625,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 
@@ -691,7 +699,7 @@ class ContactsStoreTest extends TestCase {
 
 		/** @var IUser|MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
-		$currentUser->expects($this->exactly(2))
+		$currentUser->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('user001');
 

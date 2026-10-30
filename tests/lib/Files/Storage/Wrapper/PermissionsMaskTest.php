@@ -13,6 +13,8 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\GenericFileException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
@@ -21,12 +23,14 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	 */
 	private $sourceStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->sourceStorage = new Temporary([]);
 		$this->instance = $this->getMaskedStorage(Constants::PERMISSION_ALL);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();
@@ -43,6 +47,60 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->mkdir('foo'));
 		$this->assertFalse($storage->file_exists('foo'));
+	}
+
+	public static function dataRenamePartFile(): array {
+		$partialFileName = 'x.ocTransferId123.part';
+		return [
+			'renaming partial file in same directory' => [
+				'sourcePath' => $partialFileName,
+				'targetPath' => 'x',
+				'shouldSucceed' => true,
+			],
+			'renaming partial file for file uploaded in parent (part_file_in_storage=false) ' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => true,
+			],
+			'renaming partial file for file uploaded in ancestor (part_file_in_storage=false) ' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/B/C/Share/x',
+				'shouldSucceed' => true,
+			],
+			'renaming non-partial file in parent' => [
+				'sourcePath' => '/A/foo.ocTransferId123',
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => false,
+			],
+			'renaming partial file into existing file' => [
+				'sourcePath' => '/A/' . $partialFileName,
+				'targetPath' => '/A/Share/x',
+				'shouldSucceed' => false,
+				'targetExisting' => true,
+			]
+		];
+	}
+	#[DataProvider(methodName: 'dataRenamePartFile')]
+	public function testRenamePartFile(string $sourcePath, string $targetPath, bool $shouldSucceed, bool $targetExisting = false): void {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
+		$directories = array_unique([ ...explode('/', dirname($sourcePath)), ...explode('/', dirname($targetPath)) ]);
+		$path = '';
+		foreach ($directories as $part) {
+			if (in_array($part, ['', '.'], true)) {
+				continue;
+			}
+			$path .= $part . '/';
+			$this->assertTrue($storage->mkdir($path));
+		}
+
+		$this->assertNotFalse($this->sourceStorage->file_put_contents($sourcePath, 'bar'));
+		$this->assertTrue($this->sourceStorage->file_exists($sourcePath));
+		if ($targetExisting) {
+			$this->assertNotFalse($this->sourceStorage->file_put_contents($targetPath, 'existing'));
+			$this->assertTrue($this->sourceStorage->file_exists($targetPath));
+		}
+
+		$this->assertEquals($shouldSucceed, $storage->rename($sourcePath, $targetPath), 'Renaming should ' . ($shouldSucceed ? '' : 'not ') . 'succeed');
 	}
 
 	public function testRmdirNoDelete(): void {
@@ -105,6 +163,67 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	public function testFopenNewFileNoCreate(): void {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
 		$this->assertFalse($storage->fopen('foo', 'w'));
+	}
+
+	public static function dataFromStorage(): array {
+		return [
+			'copy, new file' => ['copyFromStorage', false, Constants::PERMISSION_CREATE],
+			'copy, existing file' => ['copyFromStorage', true, Constants::PERMISSION_UPDATE],
+			'move, new file' => ['moveFromStorage', false, Constants::PERMISSION_CREATE],
+			'move, existing file' => ['moveFromStorage', true, Constants::PERMISSION_UPDATE],
+		];
+	}
+
+	#[DataProvider('dataFromStorage')]
+	public function testFromStorageMasked(string $method, bool $exists, int $permission): void {
+		$otherStorage = new Temporary([]);
+		$otherStorage->file_put_contents('foo', 'new');
+		if ($exists) {
+			$this->sourceStorage->file_put_contents('foo', 'old');
+		}
+
+		$denied = $this->getMaskedStorage(Constants::PERMISSION_ALL - $permission);
+		$this->assertFalse($denied->$method($otherStorage, 'foo', 'foo'));
+		$this->assertTrue($otherStorage->file_exists('foo'));
+		if ($exists) {
+			$this->assertSame('old', $this->sourceStorage->file_get_contents('foo'));
+		} else {
+			$this->assertFalse($this->sourceStorage->file_exists('foo'));
+		}
+
+		$allowed = $this->getMaskedStorage($permission);
+		$this->assertTrue($allowed->$method($otherStorage, 'foo', 'foo'));
+		$this->assertSame('new', $this->sourceStorage->file_get_contents('foo'));
+		$otherStorage->cleanUp();
+	}
+
+	public function testMoveFromStorageSameStorageKeepsRenameRules(): void {
+		$this->sourceStorage->file_put_contents('foo', 'bar');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
+		$this->assertTrue($storage->moveFromStorage($storage, 'foo', 'baz'));
+		$this->assertSame('bar', $this->sourceStorage->file_get_contents('baz'));
+	}
+
+	public function testWriteStreamNoCreate(): void {
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE);
+		$stream = fopen('php://memory', 'r');
+		try {
+			$storage->writeStream('foo', $stream);
+			$this->fail('Expected the write to be refused');
+		} catch (GenericFileException) {
+		}
+		$this->assertFalse(is_resource($stream));
+	}
+
+	public function testWriteStreamExistingFileNoUpdate(): void {
+		$this->sourceStorage->file_put_contents('foo', 'old');
+		$storage = $this->getMaskedStorage(Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE);
+		try {
+			$storage->writeStream('foo', fopen('php://memory', 'r'));
+			$this->fail('Expected the write to be refused');
+		} catch (GenericFileException) {
+		}
+		$this->assertSame('old', $this->sourceStorage->file_get_contents('foo'));
 	}
 
 	public function testScanNewFiles(): void {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -172,5 +173,5 @@ interface IJobList {
 	 * @return list<array{class:class-string<IJob>, count:int}>
 	 * @since 30.0.0
 	 */
-	public function countByClass(): array;
+	public function countByClass(?int $limit = null, int $offset = 0): array;
 }

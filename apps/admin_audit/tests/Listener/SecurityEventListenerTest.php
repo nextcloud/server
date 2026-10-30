@@ -9,30 +9,30 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Tests\Listener;
 
-use OCA\AdminAudit\AuditLogger;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityEventListenerTest extends TestCase {
-	private AuditLogger|MockObject $logger;
+	private IAuditLogger&MockObject $logger;
 
-	private SecurityEventListener $security;
+	private SecurityEventListener $listener;
 
-	private MockObject|IUser $user;
+	private MockObject&IUser $user;
 
-	/** @var IProvider&MockObject */
-	private $provider;
+	private IProvider&MockObject $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(AuditLogger::class);
-		$this->security = new SecurityEventListener($this->logger);
+		$this->logger = $this->createMock(IAuditLogger::class);
+		$this->listener = new SecurityEventListener($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('myuid');
@@ -41,25 +41,32 @@ class SecurityEventListenerTest extends TestCase {
 		$this->provider->method('getDisplayName')->willReturn('myprovider');
 	}
 
-	public function testTwofactorFailed(): void {
+	public function testTwoFactorFailed(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
 				$this->equalTo('Failed two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.failed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
-		$this->security->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
+		$this->listener->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
 	}
 
-	public function testTwofactorSuccess(): void {
+	public function testTwoFactorSuccess(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
 				$this->equalTo('Successful two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.passed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
-		$this->security->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
+		$this->listener->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
+	}
+
+	public function testUnrelatedEventIsIgnored(): void {
+		$this->logger->expects($this->never())
+			->method($this->anything());
+
+		$this->listener->handle(new Event());
 	}
 }

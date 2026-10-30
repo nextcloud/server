@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
@@ -18,6 +19,7 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IUserFolder;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -72,7 +74,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn('http://example.com/owncloud/remote.php/dav');
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->tagManager = $this->createMock(ISystemTagManager::class);
@@ -282,7 +284,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$reportTargetNode->expects($this->any())
 			->method('getPath')
 			->willReturn('/sub1/sub2');
-
 
 		$subNode = $this->createMock(Folder::class);
 
@@ -713,7 +714,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->assertEquals([$filesNode2], array_values(self::invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null])));
 	}
-
 
 	public function testProcessFilterRulesInvisibleTagAsUser(): void {
 		$this->expectException(TagNotFoundException::class);

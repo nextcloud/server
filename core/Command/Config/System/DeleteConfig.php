@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -20,6 +21,7 @@ class DeleteConfig extends Base {
 		parent::__construct($systemConfig);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -40,12 +42,13 @@ class DeleteConfig extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
 
 		if (count($configNames) > 1) {
-			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys(), true)) {
 				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}
@@ -63,7 +66,7 @@ class DeleteConfig extends Base {
 			$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' deleted</info>');
 			return 0;
 		} else {
-			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys(), true)) {
 				$output->writeln('<error>System config ' . $configName . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}

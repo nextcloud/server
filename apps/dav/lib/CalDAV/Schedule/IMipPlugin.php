@@ -6,13 +6,15 @@
  * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
-use OCA\DAV\CalDAV\EventComparisonService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
@@ -52,7 +54,6 @@ class IMipPlugin extends SabreIMipPlugin {
 	public const METHOD_REQUEST = 'request';
 	public const METHOD_REPLY = 'reply';
 	public const METHOD_CANCEL = 'cancel';
-	public const IMIP_INDENT = 15;
 
 	public function __construct(
 		private IAppConfig $config,
@@ -62,13 +63,14 @@ class IMipPlugin extends SabreIMipPlugin {
 		private Defaults $defaults,
 		private IUserSession $userSession,
 		private IMipService $imipService,
-		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
 		private IEmailValidator $emailValidator,
+		private IAccountManager $accountManager,
 	) {
 		parent::__construct('');
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		parent::initialize($server);
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
@@ -97,6 +99,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Message $iTipMessage
 	 * @return void
 	 */
+	#[\Override]
 	public function schedule(Message $iTipMessage) {
 
 		// Not sending any emails if the system considers the update insignificant
@@ -140,29 +143,82 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
-		$newEvents = $iTipMessage->message;
-		$oldEvents = $this->getVCalendar();
+		$newObjects = $iTipMessage->message;
+		$oldObjects = $this->getVCalendar();
 
-		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
-		/** @var VEvent $vEvent */
-		$vEvent = array_pop($modified['new']);
-		/** @var VEvent $oldVevent */
-		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
-		$isModified = isset($oldVevent);
+		$method = match (strtolower($iTipMessage->method)) {
+			'reply' => self::METHOD_REPLY,
+			'cancel' => self::METHOD_CANCEL,
+			default => self::METHOD_REQUEST,
+		};
 
-		// No changed events after all - this shouldn't happen if there is significant change yet here we are
+		// For REQUEST method, we need to determine which instances have changed by comparing new and old events
+		if ($method === self::METHOD_REQUEST) {
+			$newEvents = $this->imipService->eventInstances($newObjects);
+			$oldEventsByInstance = [];
+			if ($oldObjects !== null) {
+				foreach ($this->imipService->eventInstances($oldObjects) as $oldEvent) {
+					$oldEventsByInstance[$this->imipService->instanceKey($oldEvent)] = $oldEvent;
+				}
+			}
+
+			$allInstances = array_map(
+				fn (VEvent $newEvent) => ['new' => $newEvent, 'old' => $oldEventsByInstance[$this->imipService->instanceKey($newEvent)] ?? null],
+				$newEvents,
+			);
+
+			$changedInstances = array_values(array_filter(
+				$allInstances,
+				fn (array $pair) => $pair['old'] === null || $this->imipService->diffInstance($pair['new'], $pair['old']) !== [],
+			));
+
+			$modifiedInstances = $changedInstances !== [] ? $changedInstances : $allInstances;
+		}
+		// For CANCEL/REPLY only ever consume the new instance, so there's no old instance to diff against or compare
+		else {
+			$modifiedInstances = array_map(
+				static fn (VEvent $event) => ['new' => $event, 'old' => null],
+				$this->imipService->eventInstances($newObjects),
+			);
+		}
+
+		// No VEvents in the message at all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
-		if (empty($vEvent)) {
-			$this->logger->warning('iTip message said the change was significant but comparison did not detect any updated VEvents');
+		if (empty($modifiedInstances)) {
+			$this->logger->warning('iTip message said the change was significant but the message contained no VEvents');
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
 
-		// we (should) have one event component left
-		// as the ITip\Broker creates one iTip message per change
-		// and triggers the "schedule" event once per message
-		// we also might not have an old event as this could be a new
-		// invitation, or a new recurrence exception
+		if (count($modifiedInstances) > 1) {
+			$this->logger->debug('iTip message contains multiple instances; only the primary instance is reflected in the invitation email', [
+				'uid' => $iTipMessage->uid,
+				'instanceCount' => count($modifiedInstances),
+			]);
+		}
+
+		// we (should) have one instance per message, as the ITip\Broker creates
+		// one iTip message per attendee and triggers the "schedule" event once
+		// per message; a message can still bundle several instances (e.g.
+		// primary + overrides edited together), in which case only the primary
+		// instance is reflected in the email for now
+		$primaryInstance = null;
+		foreach ($modifiedInstances as $instance) {
+			if (!isset($instance['new']->{'RECURRENCE-ID'})) {
+				$primaryInstance = $instance;
+				break;
+			}
+		}
+		$primaryInstance ??= $modifiedInstances[0];
+
+		/** @var VEvent $vEvent */
+		$vEvent = $primaryInstance['new'];
+		/** @var VEvent|null $oldVevent */
+		$oldVevent = $primaryInstance['old'];
+		$isModified = $oldVevent !== null;
+
+		// we might not have an old event as this could be a new invitation,
+		// or a new recurrence exception
 		$attendee = $this->imipService->getCurrentAttendee($iTipMessage);
 		if ($attendee === null) {
 			$uid = $vEvent->UID ?? 'no UID found';
@@ -181,34 +237,27 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 		$this->imipService->setL10nFromAttendee($attendee);
 
-		// Build the sender name.
+		$sender = substr($iTipMessage->sender, 7);
+
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
-		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
 			$senderName = trim($iTipMessage->senderName->getValue());
 		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
 			$senderName = trim($iTipMessage->senderName);
-		} elseif ($this->userSession->getUser() !== null) {
-			$senderName = trim($this->userSession->getUser()->getDisplayName());
 		} else {
-			$senderName = '';
+			$senderName = $this->getSenderNameFor($sender);
 		}
 
-		$sender = substr($iTipMessage->sender, 7);
-
 		$replyingAttendee = null;
-		switch (strtolower($iTipMessage->method)) {
+		switch ($method) {
 			case self::METHOD_REPLY:
-				$method = self::METHOD_REPLY;
 				$data = $this->imipService->buildReplyBodyData($vEvent);
 				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
 				break;
 			case self::METHOD_CANCEL:
-				$method = self::METHOD_CANCEL;
 				$data = $this->imipService->buildCancelledBodyData($vEvent);
 				break;
 			default:
-				$method = self::METHOD_REQUEST;
 				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
 				break;
 		}
@@ -220,10 +269,12 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->setLanguage($this->imipService->getLanguageCode());
 		$template->addHeader();
+		$template->addBodySender($data['invitee_name'], $senderName !== null ? $sender : '');
 
 		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
-		$this->imipService->addBulletList($template, $vEvent, $data);
+		$this->imipService->addEventDetails($template, $vEvent, $data);
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
 		if (strcasecmp($method, self::METHOD_REQUEST) === 0 && $this->imipService->getAttendeeRsvpOrReqForParticipant($attendee)) {
@@ -251,11 +302,10 @@ class IMipPlugin extends SabreIMipPlugin {
 			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getValueString('dav', 'invitation_link_recipients', 'yes'))));
 
 			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
-				|| in_array(strtolower($recipient), $invitationLinkRecipients)
-				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
+				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
+				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
 				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
 				$this->imipService->addResponseButtons($template, $token);
-				$this->imipService->addMoreOptionsButton($template, $token);
 			}
 		}
 
@@ -333,6 +383,40 @@ class IMipPlugin extends SabreIMipPlugin {
 			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
+	}
+
+	/**
+	 * Messages are regularly brokered on behalf of somebody else, so the
+	 * session user's name is only used when the sender address is one of
+	 * theirs.
+	 */
+	private function getSenderNameFor(string $sender): ?string {
+		$user = $this->userSession->getUser();
+		if ($user !== null && $this->isAddressOfUser($sender, $user)) {
+			return trim($user->getDisplayName()) ?: null;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Profile email addresses are part of the user's calendar-user-address-set
+	 * and therefore valid sender addresses next to the system email address.
+	 */
+	private function isAddressOfUser(string $address, IUser $user): bool {
+		if (strcasecmp((string)$user->getEMailAddress(), $address) === 0) {
+			return true;
+		}
+
+		$emailCollection = $this->accountManager->getAccount($user)
+			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+		foreach ($emailCollection->getProperties() as $property) {
+			if (strcasecmp($property->getValue(), $address) === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

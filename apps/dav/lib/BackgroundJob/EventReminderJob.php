@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
-use OC\User\NoUserException;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
 use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
@@ -33,8 +33,8 @@ class EventReminderJob extends TimedJob {
 	/**
 	 * @throws ProviderNotAvailableException
 	 * @throws NotificationTypeDoesNotExistException
-	 * @throws NoUserException
 	 */
+	#[\Override]
 	public function run($argument):void {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;

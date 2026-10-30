@@ -7,12 +7,15 @@ import type { IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showInfo, showWarning } from '@nextcloud/dialogs'
+import { openConflictPicker } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { getUniqueName } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
-import { openConflictPicker } from '@nextcloud/upload'
-import logger from '../logger.ts'
+import { getFilenameValidity } from '../utils/filenameValidity.ts'
+import { logger } from '../utils/logger.ts'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 /**
  * This represents a Directory in the file tree
@@ -85,6 +88,49 @@ export type RootDirectory = Directory & {
 }
 
 /**
+ * Ask the user to rename every invalid file or folder of a dropped file tree.
+ * Entries are replaced instead of renamed, as `File.name` is read only.
+ *
+ * @param directory Directory to validate
+ * @param path Path of the directory relative to the upload destination
+ * @return false if the user aborted the rename
+ */
+export async function renameInvalidDroppedEntries(directory: Directory, path = ''): Promise<boolean> {
+	for (const [index, entry] of directory.contents.entries()) {
+		const isFolder = entry instanceof Directory
+		let node = entry
+
+		if (getFilenameValidity(node.name, false, isFolder) !== '') {
+			const otherNames = directory.contents.filter((other) => other !== node).map((other) => other.name)
+			const name = await newNodeName(node.name, otherNames, {
+				name: t('files', 'Invalid name for "{path}"', { path: join(path, node.name) }, { escape: false }),
+				label: isFolder ? t('files', 'Folder name') : t('files', 'Filename'),
+				submitLabel: t('files', 'Rename'),
+				isFolder,
+			})
+
+			if (name === null) {
+				logger.debug('Upload cancelled while renaming an invalid entry', { path, name: node.name })
+				return false
+			}
+
+			// Keep the name unique within the dropped folder
+			const uniqueName = getUniqueName(name.trim(), otherNames)
+			node = isFolder
+				? new Directory(uniqueName, (node as Directory).contents)
+				: new File([node], uniqueName, { type: node.type, lastModified: node.lastModified })
+			directory.contents.splice(index, 1, node)
+		}
+
+		if (node instanceof Directory && !await renameInvalidDroppedEntries(node, join(path, node.name))) {
+			return false
+		}
+	}
+
+	return true
+}
+
+/**
  * Traverse a file tree using the Filesystem API
  *
  * @param entry the entry to traverse
@@ -133,17 +179,21 @@ function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemE
 }
 
 /**
- * @param path - The path relative to the dav root
+ * @param path - The path relative to the destination root
+ * @param destination - The destination folder. When provided, directories are created relative
+ *   to its source URL instead of the default user root. This is needed for uploads into
+ *   non-default locations like team folders.
  */
-export async function createDirectoryIfNotExists(path: string) {
-	const davUrl = join(defaultRemoteURL, defaultRootPath)
+export async function createDirectoryIfNotExists(path: string, destination?: IFolder) {
+	const davUrl = destination?.source ?? join(defaultRemoteURL, defaultRootPath)
+	const davRoot = destination?.root ?? defaultRootPath
 	const davClient = getClient(davUrl)
 	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
-		logger.debug('Directory does not exist, creating it', { path })
+		logger.debug('Directory does not exist, creating it', { path, davUrl })
 		await davClient.createDirectory(path, { recursive: true })
 		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', resultToNode(stat.data, defaultRootPath, davUrl))
+		emit('files:node:created', resultToNode(stat.data, davRoot, davUrl))
 	}
 }
 
@@ -167,12 +217,11 @@ export async function resolveConflict<T extends ((Directory | File) | INode)>(fi
 		})
 
 		// Let the user choose what to do with the conflicting files
-		const { selected, renamed } = await openConflictPicker(destination.path, conflicts, contents)
-
-		logger.debug('Conflict resolution', { uploads, selected, renamed })
+		const conflictResults = await openConflictPicker(destination.path, conflicts, contents)
+		logger.debug('Conflict resolution', { uploads, conflictResults })
 
 		// If the user selected nothing, we cancel the upload
-		if (selected.length === 0 && renamed.length === 0 && uploads.length === 0) {
+		if (conflictResults === null || (conflictResults.selected.length === 0 && conflictResults.renamed.length === 0 && uploads.length === 0)) {
 			// User skipped
 			showInfo(t('files', 'Conflicts resolution skipped'))
 			logger.info('User skipped the conflict resolution')
@@ -180,7 +229,7 @@ export async function resolveConflict<T extends ((Directory | File) | INode)>(fi
 		}
 
 		// Update the list of files to upload
-		return [...uploads, ...selected, ...renamed] as (typeof files)
+		return [...uploads, ...conflictResults.selected, ...conflictResults.renamed] as (typeof files)
 	} catch (error) {
 		// User cancelled
 		logger.warn('User cancelled the upload', { error })

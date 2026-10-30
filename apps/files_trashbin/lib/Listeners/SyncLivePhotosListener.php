@@ -33,13 +33,14 @@ class SyncLivePhotosListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($this->userSession === null) {
 			return;
 		}
 
 		/** @var BeforeNodeRestoredEvent $event */
-		$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource()->getId());
+		$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource());
 
 		if ($peerFileId === null) {
 			return; // Not a live photo.

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -35,6 +36,9 @@ abstract class Job implements IJob, IParallelAwareJob {
 	) {
 	}
 
+	/**
+	 * @since 25.0.0
+	 */
 	#[Override]
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
@@ -59,45 +63,72 @@ abstract class Job implements IJob, IParallelAwareJob {
 		}
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	final public function setId(string $id): void {
 		$this->id = $id;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	final public function setLastRun(int $lastRun): void {
 		$this->lastRun = $lastRun;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	public function setArgument(mixed $argument): void {
 		$this->argument = $argument;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	final public function getId(): string {
 		return $this->id;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	final public function getLastRun(): int {
 		return $this->lastRun;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	#[Override]
 	public function getArgument(): mixed {
 		return $this->argument;
 	}
 
+	/**
+	 * @since 25.0.0
+	 */
 	#[Override]
 	public function setAllowParallelRuns(bool $allow): void {
 		$this->allowParallelRuns = $allow;
 	}
 
+	/**
+	 * @since 25.0.0
+	 */
 	#[Override]
 	public function getAllowParallelRuns(): bool {
 		return $this->allowParallelRuns;
 	}
 
+	/**
+	 * @since 15.0.0
+	 */
 	abstract protected function run($argument);
 }

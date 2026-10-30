@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -25,7 +26,6 @@ class DataResponse extends Response {
 	 */
 	protected $data;
 
-
 	/**
 	 * @param T $data the object or array that should be transformed
 	 * @param S $statusCode the Http status code, defaults to 200
@@ -38,12 +38,11 @@ class DataResponse extends Response {
 		$this->data = $data;
 	}
 
-
 	/**
 	 * Sets values in the data json array
 	 * @psalm-suppress InvalidTemplateParam
 	 * @param T $data an array or object which will be transformed
-	 * @return DataResponse Reference to this object
+	 * @return $this Reference to this object
 	 * @since 8.0.0
 	 */
 	public function setData($data) {
@@ -51,7 +50,6 @@ class DataResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Used to get the set parameters

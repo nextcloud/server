@@ -25,36 +25,44 @@ class BlueskyAction implements ILinkAction {
 	) {
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		$account = $this->accountManager->getAccount($targetUser);
 		$this->value = $account->getProperty(IAccountManager::PROPERTY_BLUESKY)->getValue();
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return 'core';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return IAccountManager::PROPERTY_BLUESKY;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10nFactory->get('lib')->t('Bluesky');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		$displayUsername = $this->value;
 		return $this->l10nFactory->get('lib')->t('View %s on Bluesky', [$displayUsername]);
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 60;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/bluesky.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if (empty($this->value)) {
 			return null;

@@ -18,18 +18,22 @@ class Users implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'usersdelegation';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Users');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 55;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return '';
 	}

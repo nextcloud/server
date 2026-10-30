@@ -11,7 +11,6 @@ namespace Test\Support\CrashReport;
 
 use Exception;
 use OC\Support\CrashReport\Registry;
-use OCP\AppFramework\QueryException;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IReporter;
@@ -20,6 +19,7 @@ use Test\TestCase;
 class RegistryTest extends TestCase {
 	private Registry $registry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

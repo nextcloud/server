@@ -51,7 +51,7 @@ class FixKeyLocation extends Command {
 		parent::__construct();
 	}
 
-
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -62,6 +62,7 @@ class FixKeyLocation extends Command {
 			->addArgument('user', InputArgument::REQUIRED, 'User id to fix the key locations for');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 		$userId = $input->getArgument('user');
@@ -322,7 +323,7 @@ class FixKeyLocation extends Command {
 				throw new \Exception('Invalid base path ' . $basePath);
 			}
 			while ($child = readdir($dh)) {
-				if ($child != '..' && $child != '.') {
+				if ($child !== '..' && $child !== '.') {
 					$childPath = $basePath . '/' . $child;
 
 					// recurse if the child is not a key folder

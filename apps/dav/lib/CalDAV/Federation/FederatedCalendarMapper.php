@@ -43,9 +43,10 @@ class FederatedCalendarMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int|null $state Only return calendars in the given invitation state. Null returns all.
 	 * @return FederatedCalendarEntity[]
 	 */
-	public function findByPrincipalUri(string $principalUri): array {
+	public function findByPrincipalUri(string $principalUri, ?int $state = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)
@@ -54,6 +55,13 @@ class FederatedCalendarMapper extends QBMapper {
 				$qb->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR),
 				IQueryBuilder::PARAM_STR,
 			));
+		if ($state !== null) {
+			$qb->andWhere($qb->expr()->eq(
+				'state',
+				$qb->createNamedParameter($state, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			));
+		}
 		return $this->findEntities($qb);
 	}
 
@@ -95,7 +103,12 @@ class FederatedCalendarMapper extends QBMapper {
 				IQueryBuilder::PARAM_INT,
 			))
 			// Omit unsynced calendars for now as they are synced by a separate job
-			->andWhere($qb->expr()->isNotNull('last_sync'));
+			->andWhere($qb->expr()->isNotNull('last_sync'))
+			->andWhere($qb->expr()->eq(
+				'state',
+				$qb->createNamedParameter(FederatedCalendarEntity::STATE_ACCEPTED, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			));
 		return $this->findEntities($qb);
 	}
 
@@ -140,12 +153,20 @@ class FederatedCalendarMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int|null $state Only return calendars in the given invitation state. Null returns all.
 	 * @return \Generator<mixed, FederatedCalendarEntity>
 	 */
-	public function findAll(): \Generator {
+	public function findAll(?int $state = null): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME);
+		if ($state !== null) {
+			$qb->where($qb->expr()->eq(
+				'state',
+				$qb->createNamedParameter($state, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			));
+		}
 
 		$result = $qb->executeQuery();
 		while ($row = $result->fetchAssociative()) {
@@ -154,10 +175,20 @@ class FederatedCalendarMapper extends QBMapper {
 		$result->closeCursor();
 	}
 
-	public function countAll(): int {
+	/**
+	 * @param int|null $state Only count calendars in the given invitation state. Null counts all.
+	 */
+	public function countAll(?int $state = null): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select($qb->func()->count('*'))
 			->from(self::TABLE_NAME);
+		if ($state !== null) {
+			$qb->where($qb->expr()->eq(
+				'state',
+				$qb->createNamedParameter($state, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			));
+		}
 		$result = $qb->executeQuery();
 		$count = (int)$result->fetchOne();
 		$result->closeCursor();
@@ -182,9 +213,10 @@ class FederatedCalendarMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int|null $state Only return calendars in the given invitation state. Null returns all.
 	 * @return FederatedCalendarEntity[]
 	 */
-	public function findByRemoteUrl(string $remoteUrl, string $principalUri, string $token): array {
+	public function findByRemoteUrl(string $remoteUrl, string $principalUri, string $token, ?int $state = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)
@@ -203,6 +235,13 @@ class FederatedCalendarMapper extends QBMapper {
 				$qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
 				IQueryBuilder::PARAM_STR,
 			));
+		if ($state !== null) {
+			$qb->andWhere($qb->expr()->eq(
+				'state',
+				$qb->createNamedParameter($state, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			));
+		}
 
 		return $this->findEntities($qb);
 	}

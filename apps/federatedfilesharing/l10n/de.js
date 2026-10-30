@@ -24,7 +24,7 @@ OC.L10N.register(
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Federated Datei-Freigaben über Servergrenzen hinweg",
     "Confirm data upload to lookup server" : "Hochladen der Daten zum Lookup-Server bestätigen",
-    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf \"veröffentlicht\" eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
+    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf \"veröffentlicht\" eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
     "Enable data upload" : "Hochladen von Daten aktivieren",
     "Disable upload" : "Hochladen deaktivieren",
     "Confirm querying lookup server" : "Abfrage des Lookup-Servers bestätigen",
@@ -43,7 +43,7 @@ OC.L10N.register(
     "Search global and public address book for people" : "Durchsuche globales und öffentliches Adressbuch nach Personen",
     "Allow people to publish their data to a global and public address book" : "Erlaube es Personen, ihre Daten in einem globalen und öffentlichen Adressbuch zu veröffentlichen",
     "Trusted federation" : "Vertrauenswürdige Federation",
-    "Automatically accept shares from trusted federated accounts and groups by default" : "Freigaben von vertrauenswürdigen Federated-Konten und -Gruppen standardmäßig automatisch akzeptieren",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Freigaben von vertrauenswürdigen Federated-Konten und -Gruppen standardmäßig automatisch annehmen",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID, siehe {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Externe Freigabe",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzugefügt werden?",
     "Remote share password" : "Passwort für die externe Freigabe",
-    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
-    "X (formerly Twitter)" : "X (früher Twitter)",
-    "formerly Twitter" : "früher Twitter"
+    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden"
 },
 "nplurals=2; plural=(n != 1);");

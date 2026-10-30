@@ -73,10 +73,11 @@
 </template>
 
 <script lang="ts">
-import type { Folder, Node } from '@nextcloud/files'
+import type { Folder, INode } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
@@ -146,6 +147,7 @@ export default defineComponent({
 					callback: this.onPickedDestination,
 				})
 				.setFilter((node) => node.path !== '/')
+				.setCanPick((node) => Boolean(node.permissions & Permission.SHARE))
 				.startAt(this.destination)
 				.build()
 			try {
@@ -155,7 +157,7 @@ export default defineComponent({
 			}
 		},
 
-		onPickedDestination(nodes: Node[]) {
+		onPickedDestination(nodes: INode[]) {
 			const node = nodes[0]
 			if (node) {
 				this.$emit('update:destination', node.path)

@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Command;
 
-use OC\Command\FileAccess;
 use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Command\ICommand;
@@ -19,8 +19,6 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class Expire implements ICommand {
-	use FileAccess;
-
 	public function __construct(
 		private readonly string $userId,
 	) {

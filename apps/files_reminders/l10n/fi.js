@@ -10,7 +10,6 @@ OC.L10N.register(
     "Reminder set for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
     "Failed to set reminder" : "Muistutuksen asettaminen epäonnistui",
     "Failed to clear reminder" : "Muistutuksen tyhjentäminen epäonnistui",
-    "We will remind you of this file" : "Muistutamme sinua tästä tiedostosta",
     "Cancel" : "Peruuta",
     "Clear reminder" : "Tyhjennä muistutus",
     "Set reminder" : "Aseta muistutus",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "This weekend" : "Tämä viikonloppu",
     "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
     "Next week" : "Seuraava viikko",
-    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
-    "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\""
+    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle"
 },
 "nplurals=2; plural=(n != 1);");

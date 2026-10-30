@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -57,7 +58,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertEquals($tag, $node->getSystemTag());
 	}
 
-
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
@@ -70,36 +70,43 @@ class SystemTagNodeTest extends \Test\TestCase {
 			[
 				true,
 				new SystemTag('1', 'Original', true, true),
-				['Renamed', true, true, null]
+				['Renamed', true, true, null],
+				true,
 			],
 			[
 				true,
 				new SystemTag('1', 'Original', true, true),
-				['Original', false, false, null]
+				['Original', false, false, null],
+				true,
 			],
 			// non-admin
 			[
-				// renaming allowed
+				// renaming not allowed
 				false,
 				new SystemTag('1', 'Original', true, true),
-				['Rename', true, true, '0082c9']
+				['Renamed', true, true, null],
+				false,
 			],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagNodeProvider')]
-	public function testUpdateTag(bool $isAdmin, ISystemTag $originalTag, array $changedArgs): void {
-		$this->tagManager->expects($this->once())
-			->method('canUserSeeTag')
+	public function testUpdateTag(bool $isAdmin, ISystemTag $originalTag, $changedArgs, $allowed): void {
+		$this->tagManager->method('canUserSeeTag')
 			->with($originalTag)
 			->willReturn($originalTag->isUserVisible() || $isAdmin);
-		$this->tagManager->expects($this->once())
-			->method('canUserAssignTag')
+		$this->tagManager->method('canUserAssignTag')
 			->with($originalTag)
 			->willReturn($originalTag->isUserAssignable() || $isAdmin);
-		$this->tagManager->expects($this->once())
-			->method('updateTag')
-			->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
+		if ($allowed) {
+			$this->tagManager->expects($this->once())
+				->method('updateTag')
+				->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
+		} else {
+			$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+			$this->tagManager->expects($this->never())
+				->method('updateTag');
+		}
 		$this->getTagNode($isAdmin, $originalTag)
 			->update($changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
 	}
@@ -170,7 +177,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-
 	public function testUpdateTagAlreadyExists(): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
@@ -187,9 +193,8 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->willThrowException(new TagAlreadyExistsException());
-		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
+		$this->getTagNode(true, $tag)->update('Renamed', true, true, null);
 	}
-
 
 	public function testUpdateTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -207,7 +212,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->willThrowException(new TagNotFoundException());
-		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
+		$this->getTagNode(true, $tag)->update('Renamed', true, true, null);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'adminFlagProvider')]
@@ -253,7 +258,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->expectException($expectedException);
 		$this->getTagNode(false, $tag)->delete();
 	}
-
 
 	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);

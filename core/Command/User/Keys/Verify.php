@@ -26,6 +26,7 @@ class Verify extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:keys:verify')
@@ -49,6 +50,7 @@ class Verify extends Command {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user-id');
 
@@ -78,7 +80,7 @@ class Verify extends Command {
 		$output->writeln('Derived public key:');
 		$output->writeln($publicKeyDerived);
 
-		if ($publicKey != $publicKeyDerived) {
+		if ($publicKey !== $publicKeyDerived) {
 			if (!$input->getOption('update')) {
 				$output->writeln('<error>Stored public key does not match stored private key</error>');
 				return static::FAILURE;

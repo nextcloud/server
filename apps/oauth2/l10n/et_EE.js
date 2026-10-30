@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Su klient ei ole ühenduseks autoriseeritud. Palun teavita oma kliendi peakasutajat.",
+    "Client name cannot be empty." : "Kliendi nimi ei saa olla tühi.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Ümbersuunamise URL peab olema täis URL, näiteks: https://sinudomeen.com/asukoht",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Võimaldab OAuth2-ga ühilduvat autentimist teistest veebirakendustest.",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Kustuta klient",
     "Make sure you store the secret key, it cannot be recovered." : "Salvesta salajane võti, seda ei saa taastada.",
     "Add client" : "Lisa klient",
-    "Add" : "Lisa",
-    "Client Identifier" : "Klienditunnus",
-    "Show client secret" : "Näita kliendi salakoodi",
-    "Hide client secret" : "Peida kliendi salakood"
+    "Add" : "Lisa"
 },
 "nplurals=2; plural=(n != 1);");

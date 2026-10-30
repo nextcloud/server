@@ -7,6 +7,7 @@
 
 namespace OCA\Federation\Command;
 
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarSyncService;
 use Symfony\Component\Console\Command\Command;
@@ -22,14 +23,16 @@ class SyncFederationCalendars extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('federation:sync-calendars')
 			->setDescription('Synchronize all incoming federated calendar shares');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$calendarCount = $this->federatedCalendarMapper->countAll();
+		$calendarCount = $this->federatedCalendarMapper->countAll(FederatedCalendarEntity::STATE_ACCEPTED);
 		if ($calendarCount === 0) {
 			$output->writeln('There are no federated calendars');
 			return 0;
@@ -38,7 +41,7 @@ class SyncFederationCalendars extends Command {
 		$progress = new ProgressBar($output, $calendarCount);
 		$progress->start();
 
-		$calendars = $this->federatedCalendarMapper->findAll();
+		$calendars = $this->federatedCalendarMapper->findAll(FederatedCalendarEntity::STATE_ACCEPTED);
 		foreach ($calendars as $calendar) {
 			try {
 				$this->syncService->syncOne($calendar);

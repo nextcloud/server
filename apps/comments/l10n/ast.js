@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Ficheros",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Mentáronte en «{file}», nun comentariu d'una cuenta que ta desaniciada",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mentóte nun comentariu de: «{file}»",
+    "Go to file" : "Dir al ficheru",
     "Files app plugin to add comments to files" : "Plugin de l'aplicación Ficheros p'amestar comentarios a los ficheros",
     "Edit comment" : "Editar el comentariu",
     "Delete comment" : "Desaniciar el comentariu",
@@ -30,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Prodúxose un error mentanto se tentaba d'editar el comentariu",
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
-    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
-    "Write a comment …" : "Escribi un comentariu…"
+    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu"
 },
 "nplurals=2; plural=(n != 1);");

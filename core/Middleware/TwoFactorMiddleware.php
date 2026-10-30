@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Middleware;
 
 use Exception;
@@ -45,13 +46,15 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController($controller, $methodName) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($this->reflector->hasAnnotationOrAttribute('NoTwoFactorRequired', NoTwoFactorRequired::class)) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
 			return;
 		}
 
+		/** @psalm-suppress TypeDoesNotContainType The class is defined in a different app */
 		if ($controller instanceof APIController && $methodName === 'poll') {
 			// Allow polling the twofactor nextcloud notifications state
 			return;
@@ -118,7 +121,8 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [
 				'redirect_url' => $this->request->getParam('redirect_url'),

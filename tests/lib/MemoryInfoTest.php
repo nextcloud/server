@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Test;
 
 use OC\MemoryInfo;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * This class provides tests for the MemoryInfo class.

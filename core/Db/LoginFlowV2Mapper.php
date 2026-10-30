@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -17,7 +18,7 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<LoginFlowV2>
  */
 class LoginFlowV2Mapper extends QBMapper {
-	private const lifetime = 1200;
+	private const int lifetime = 1200;
 
 	public function __construct(
 		IDBConnection $db,

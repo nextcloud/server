@@ -30,6 +30,7 @@ class Welcome extends Base {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:welcome')
@@ -53,6 +54,7 @@ class Welcome extends Base {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user');
 		// check if user exists

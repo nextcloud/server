@@ -5,15 +5,17 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DatabaseSetupException;
 
 class OCI extends AbstractDatabase {
-	public $dbprettyname = 'Oracle';
+	public string $dbprettyname = 'Oracle';
 
 	protected $dbtablespace;
 
+	#[\Override]
 	public function initialize(array $config): void {
 		parent::initialize($config);
 		if (array_key_exists('dbtablespace', $config)) {
@@ -30,6 +32,7 @@ class OCI extends AbstractDatabase {
 		]);
 	}
 
+	#[\Override]
 	public function validate(array $config): array {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
@@ -39,9 +42,11 @@ class OCI extends AbstractDatabase {
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
-		return $errors;
+		// Oracle is configured through the connect string and `sqlnet.ora`, not by the installer
+		return array_merge($errors, $this->validateEncryptionOptions($config));
 	}
 
+	#[\Override]
 	public function setupDatabase(): void {
 		try {
 			$this->connect();

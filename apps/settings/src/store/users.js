@@ -42,6 +42,7 @@ const state = {
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
+	searchQuery: '',
 	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
 		showStoragePath: usersSettings.showConfig?.user_list_show_storage_path,
@@ -63,6 +64,9 @@ const mutations = {
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
+	setUsersOffset(state, offset) {
+		state.usersOffset = offset
+	},
 	updateDisabledUsers(state) {
 		state.disabledUsersOffset += state.disabledUsersLimit
 	},
@@ -75,7 +79,10 @@ const mutations = {
 	 */
 	addGroup(state, newGroup) {
 		try {
-			if (typeof state.groups.find((group) => group.id === newGroup.id) !== 'undefined') {
+			const existingGroup = state.groups.find((group) => group.id === newGroup.id)
+			if (existingGroup) {
+				// merge in whatever is provided, e.g. to upgrade a stub group with full details
+				Object.assign(existingGroup, newGroup)
 				return
 			}
 			// extend group to default values
@@ -215,6 +222,34 @@ const mutations = {
 	},
 
 	/**
+	 * Apply multiple updated fields to a user in the local store.
+	 *
+	 * @param {object} state Store state
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.data Updated user data from server
+	 */
+	editUserMultiField(state, { userid, data }) {
+		const index = state.users.findIndex((user) => user.id === userid)
+		if (index === -1) {
+			return
+		}
+
+		// Delegate group membership changes so sidebar usercount stays in sync.
+		if (Array.isArray(data.groups)) {
+			const prevGids = state.users[index].groups ?? []
+			for (const gid of data.groups.filter((g) => !prevGids.includes(g))) {
+				this.commit('addUserGroup', { userid, gid })
+			}
+			for (const gid of prevGids.filter((g) => !data.groups.includes(g))) {
+				this.commit('removeUserGroup', { userid, gid })
+			}
+		}
+
+		state.users.splice(index, 1, { ...state.users[index], ...data })
+	},
+
+	/**
 	 * Reset users list
 	 *
 	 * @param {object} state the store state
@@ -235,6 +270,10 @@ const mutations = {
 			...(usersSettings.getSubAdminGroups ?? []),
 			...(usersSettings.systemGroups ?? []),
 		]
+	},
+
+	setSearchQuery(state, query) {
+		state.searchQuery = query
 	},
 
 	setShowConfig(state, { key, value }) {
@@ -265,6 +304,9 @@ const getters = {
 	},
 	getGroups(state) {
 		return state.groups
+	},
+	getSearchQuery(state) {
+		return state.searchQuery
 	},
 	getSubAdminGroups() {
 		return usersSettings.subAdminGroups ?? []
@@ -310,6 +352,55 @@ const getters = {
 
 const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
+
+function commitGroupsFromUsersResponse(context, response) {
+	const groups = response.data.ocs.data.groups ?? []
+	if (groups.length === 0) {
+		return
+	}
+
+	// The response only carries {id, displayname} (see AUserDataOCSController::findGroupsWithDisplayname),
+	// so addGroup fills usercount/disabled/canAdd/canRemove with defaults. Trade-off: a group
+	// only known through this path shows a wrong usercount until the sidebar loads full details.
+	groups.forEach((group) => {
+		context.commit('addGroup', { id: group.id, name: group.displayname })
+	})
+}
+
+/**
+ * Get the offset of the next page from the `Link: <url>; rel="next"` response header.
+ *
+ * @param {object} response axios response
+ * @return {number|null} The offset, or null if there is no next page
+ */
+function getNextPageOffset(response) {
+	const url = response.headers?.link?.match(/<([^>]+)>;\s*rel="next"/)?.[1]
+	const offset = url ? new URL(url).searchParams.get('offset') : null
+	return offset === null ? null : Number(offset)
+}
+
+/**
+ * Build the `enabled` query parameter filtering users by their enabled state.
+ *
+ * @param {boolean|null} enabled The enabled state to filter by, or null for all users
+ * @return {string}
+ */
+function getEnabledParam(enabled) {
+	return enabled === null ? '' : `&enabled=${enabled ? 1 : 0}`
+}
+
+/**
+ * Continue from the next page offset given by the server, as it may have skipped users.
+ *
+ * @param {object} context store context
+ * @param {object} response axios response
+ */
+function commitNextPageOffset(context, response) {
+	const nextOffset = getNextPageOffset(response)
+	if (nextOffset !== null) {
+		context.commit('setUsersOffset', nextOffset)
+	}
+}
 
 const actions = {
 
@@ -357,25 +448,19 @@ const actions = {
 	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
+	 * @param {boolean|null} options.enabled Only get users with this enabled state, or all users if null
 	 * @return {Promise}
 	 */
-	getUsers(context, { offset, limit, search, group }) {
+	getUsers(context, { offset, limit, search, group, enabled = null }) {
 		if (searchRequestCancelSource) {
 			searchRequestCancelSource.cancel('Operation canceled by another search request.')
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
-
-		/**
-		 * Adding filters in the search bar such as in:files, in:users, etc.
-		 * collides with this particular search, so we need to remove them
-		 * here and leave only the original search query
-		 */
-		search = search.replace(/in:[^\s]+/g, '').trim()
-
 		group = typeof group === 'string' ? group : ''
+		const enabledParam = getEnabledParam(enabled)
 		if (group !== '') {
-			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
+			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }) + enabledParam, {
 				cancelToken: searchRequestCancelSource.token,
 			})
 				.then((response) => {
@@ -383,6 +468,8 @@ const actions = {
 					if (usersCount > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
 					}
+					commitNextPageOffset(context, response)
+					commitGroupsFromUsersResponse(context, response)
 					return usersCount
 				})
 				.catch((error) => {
@@ -392,7 +479,7 @@ const actions = {
 				})
 		}
 
-		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search }), {
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search }) + enabledParam, {
 			cancelToken: searchRequestCancelSource.token,
 		})
 			.then((response) => {
@@ -400,6 +487,8 @@ const actions = {
 				if (usersCount > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
 				}
+				commitNextPageOffset(context, response)
+				commitGroupsFromUsersResponse(context, response)
 				return usersCount
 			})
 			.catch((error) => {
@@ -417,16 +506,19 @@ const actions = {
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search query
+	 * @param {boolean|null} options.enabled Only get users with this enabled state, or all users if null
 	 * @return {Promise<number>}
 	 */
-	async getRecentUsers(context, { offset, limit, search }) {
+	async getRecentUsers(context, { offset, limit, search, enabled = null }) {
 		const url = generateOcsUrl('cloud/users/recent?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
+			+ getEnabledParam(enabled)
 		try {
 			const response = await api.get(url)
 			const usersCount = Object.keys(response.data.ocs.data.users).length
 			if (usersCount > 0) {
 				context.commit('appendUsers', response.data.ocs.data.users)
 			}
+			commitNextPageOffset(context, response)
 			return usersCount
 		} catch (error) {
 			context.commit('API_FAILURE', error)
@@ -463,8 +555,9 @@ const actions = {
 		const limitParam = limit === -1 ? '' : `&limit=${limit}`
 		return api.get(generateOcsUrl('cloud/groups?offset={offset}&search={search}', { offset, search }) + limitParam)
 			.then((response) => {
-				if (Object.keys(response.data.ocs.data.groups).length > 0) {
-					response.data.ocs.data.groups.forEach(function(group) {
+				const groups = response.data.ocs.data.groups ?? []
+				if (groups.length > 0) {
+					groups.forEach(function(group) {
 						context.commit('addGroup', { id: group, name: group })
 					})
 					return true
@@ -777,6 +870,29 @@ const actions = {
 			await api.requireAdmin()
 			await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
 			return context.commit('setUserData', { userid, key, value })
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			throw error
+		}
+	},
+
+	/**
+	 * Update multiple user fields atomically via the new bulk endpoint.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.payload Changed fields to send
+	 * @return {Promise}
+	 */
+	async editUserMultiField(context, { userid, payload }) {
+		try {
+			await api.requireAdmin()
+			const response = await api.patch(
+				generateOcsUrl('cloud/users/{userid}', { userid }),
+				payload,
+			)
+			context.commit('editUserMultiField', { userid, data: response.data.ocs.data })
 		} catch (error) {
 			context.commit('API_FAILURE', { userid, error })
 			throw error

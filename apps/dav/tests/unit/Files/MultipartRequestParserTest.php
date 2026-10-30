@@ -75,7 +75,6 @@ class MultipartRequestParserTest extends TestCase {
 		return new MultipartRequestParser($request, $this->logger);
 	}
 
-
 	/**
 	 * Test validation of the request's body type
 	 */
@@ -316,7 +315,6 @@ class MultipartRequestParserTest extends TestCase {
 		$this->getMultipartParser(
 			$bodyObject,
 			['Content-Type' => null],
-
 		);
 	}
 }

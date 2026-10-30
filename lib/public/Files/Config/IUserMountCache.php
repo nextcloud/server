@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files\Config;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -113,7 +114,10 @@ interface IUserMountCache {
 	public function clear(): void;
 
 	/**
-	 * Get all cached mounts for a user
+	 * Get the cached mount for a path
+	 *
+	 * This walks up the directly tree until a mount is found, if you only want
+	 * to get the mount at the specific path, use `getMountAtPath` instead.
 	 *
 	 * @param IUser $user
 	 * @param string $path
@@ -139,7 +143,7 @@ interface IUserMountCache {
 	 *
 	 * @since 33.0.0
 	 */
-	public function removeMount(string $mountPoint): void;
+	public function removeMount(string $mountPoint, ?IUser $user = null): void;
 
 	/**
 	 * Register a new mountpoint for a user
@@ -147,4 +151,11 @@ interface IUserMountCache {
 	 * @since 33.0.0
 	 */
 	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void;
+
+	/**
+	 * Get the mount at the specified path, if any
+	 *
+	 * @since 33.0.2
+	 */
+	public function getMountAtPath(IUser $user, string $mountPoint): ?ICachedMountInfo;
 }

@@ -6,9 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\SystemTag;
 
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface ISystemTagManagerFactory
@@ -22,11 +23,11 @@ interface ISystemTagManagerFactory {
 	/**
 	 * Constructor for the system tag manager factory
 	 *
-	 * @param IServerContainer $serverContainer server container
+	 * @param ContainerInterface $serverContainer server container
 	 * @since 9.0.0
 	 * @deprecated 33.0.0
 	 */
-	public function __construct(IServerContainer $serverContainer);
+	public function __construct(ContainerInterface $serverContainer);
 
 	/**
 	 * creates and returns an instance of the system tag manager

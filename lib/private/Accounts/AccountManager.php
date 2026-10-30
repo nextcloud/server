@@ -53,7 +53,6 @@ use function json_last_error;
  */
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
-
 	use TProfileHelper;
 
 	private string $table = 'accounts';
@@ -122,7 +121,7 @@ class AccountManager implements IAccountManager {
 
 		if (
 			$property->getScope() === self::SCOPE_PRIVATE
-			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL])
+			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL], true)
 		) {
 			if ($throwOnData) {
 				// v2-private is not available for these fields
@@ -197,7 +196,7 @@ class AccountManager implements IAccountManager {
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
 			->setParameter('uid', $uid);
 		$result = $query->executeQuery();
-		$accountData = $result->fetchAll();
+		$accountData = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		if (empty($accountData)) {
@@ -216,6 +215,7 @@ class AccountManager implements IAccountManager {
 		return $this->addMissingDefaultValues($userDataArray, $this->buildDefaultUserRecord($user));
 	}
 
+	#[\Override]
 	public function searchUsers(string $property, array $values): array {
 		// the value col is limited to 255 bytes. It is used for searches only.
 		$values = array_map(function (string $value) {
@@ -233,7 +233,7 @@ class AccountManager implements IAccountManager {
 			$query->setParameter('values', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->executeQuery();
 
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$matches[$row['uid']] = $row['value'];
 			}
 			$result->closeCursor();
@@ -314,6 +314,7 @@ class AccountManager implements IAccountManager {
 		if (!$this->l10n) {
 			$this->l10n = $this->l10nFactory->get('core');
 		}
+		$emailTemplate->setLanguage($this->l10n->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();
@@ -655,6 +656,7 @@ class AccountManager implements IAccountManager {
 		return $account;
 	}
 
+	#[\Override]
 	public function getAccount(IUser $user): IAccount {
 		$cached = $this->internalCache->get($user->getUID());
 		if ($cached !== null) {
@@ -753,7 +755,6 @@ class AccountManager implements IAccountManager {
 		return filter_var($text, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
 	}
 
-
 	private function sanitizePropertyBluesky(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_BLUESKY) {
 			if (!$this->validateBlueSkyHandle($property->getValue())) {
@@ -826,6 +827,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	#[\Override]
 	public function updateAccount(IAccount $account): void {
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {

@@ -5,10 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
 
@@ -17,21 +21,21 @@ trait Auth {
 	private $unrestrictedClientToken;
 	/** @var string */
 	private $restrictedClientToken;
+	/** @var string */
+	private $scopedClientToken;
 	/** @var Client */
 	private $client;
 	/** @var string */
 	private $responseXml;
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function setUpScenario() {
 		$this->client = new Client();
 		$this->responseXml = '';
 		$this->cookieJar = new CookieJar();
 	}
 
-	/**
-	 * @When requesting :url with :method
-	 */
+	#[When('requesting :url with :method')]
 	public function requestingWith($url, $method) {
 		$this->sendRequest($url, $method);
 	}
@@ -61,9 +65,7 @@ trait Auth {
 		}
 	}
 
-	/**
-	 * @When the CSRF token is extracted from the previous response
-	 */
+	#[When('the CSRF token is extracted from the previous response')]
 	public function theCsrfTokenIsExtractedFromThePreviousResponse() {
 		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $this->response->getBody()->getContents()), 0, 89);
 	}
@@ -93,19 +95,31 @@ trait Auth {
 
 		try {
 			$this->response = $client->request('POST', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		} catch (ServerException $e) {
 			$this->response = $e->getResponse();
 		}
 		return json_decode($this->response->getBody()->getContents());
 	}
 
-	/**
-	 * @Given a new restricted client token is added
-	 */
+	#[Given('a new restricted client token is added')]
 	public function aNewRestrictedClientTokenIsAdded() {
 		$tokenObj = $this->createClientToken();
-		$newCreatedTokenId = $tokenObj->deviceToken->id;
-		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $newCreatedTokenId;
+		$this->updateClientTokenScope($tokenObj->deviceToken->id, ['filesystem' => false]);
+		$this->restrictedClientToken = $tokenObj->token;
+	}
+
+	#[Given('a new client token limited to :scopes is added')]
+	public function aNewClientTokenLimitedToIsAdded(string $scopes): void {
+		$tokenObj = $this->createClientToken();
+		$this->updateClientTokenScope($tokenObj->deviceToken->id, ['scopes' => explode(' ', $scopes)]);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+		$this->scopedClientToken = $tokenObj->token;
+	}
+
+	private function updateClientTokenScope(int $id, array $scope): void {
+		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $id;
 		$client = new Client();
 		$options = [
 			'auth' => ['user0', '123456'],
@@ -114,95 +128,95 @@ trait Auth {
 			],
 			'json' => [
 				'name' => md5(microtime()),
-				'scope' => [
-					'filesystem' => false,
-				],
+				'scope' => $scope,
 			],
 			'cookies' => $this->cookieJar,
 		];
 		$this->response = $client->request('PUT', $fullUrl, $options);
-		$this->restrictedClientToken = $tokenObj->token;
 	}
 
-	/**
-	 * @Given a new unrestricted client token is added
-	 */
+	#[Given('a new unrestricted client token is added')]
 	public function aNewUnrestrictedClientTokenIsAdded() {
 		$this->unrestrictedClientToken = $this->createClientToken()->token;
 	}
 
-	/**
-	 * @When a new unrestricted client token is added using restricted basic token auth
-	 */
+	#[When('a new unrestricted client token is added using restricted basic token auth')]
 	public function aNewUnrestrictedClientTokenIsAddedUsingRestrictedBasicTokenAuth() {
 		$this->createClientToken(false);
 	}
 
 	/**
-	 * @When requesting :url with :method using basic auth
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using basic auth')]
 	public function requestingWithBasicAuth($url, $method) {
 		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:123456'));
 	}
 
 	/**
-	 * @When requesting :url with :method using unrestricted basic token auth
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using unrestricted basic token auth')]
 	public function requestingWithUnrestrictedBasicTokenAuth($url, $method) {
 		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->unrestrictedClientToken), true);
 	}
 
 	/**
-	 * @When requesting :url with :method using restricted basic token auth
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using restricted basic token auth')]
 	public function requestingWithRestrictedBasicTokenAuth($url, $method) {
 		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->restrictedClientToken), true);
 	}
 
 	/**
-	 * @When requesting :url with :method using an unrestricted client token
+	 * No cookies: the browser session that created the token would win over it
+	 */
+	#[When('requesting :url with :method using scoped basic token auth')]
+	public function requestingWithScopedBasicTokenAuth(string $url, string $method): void {
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->scopedClientToken));
+	}
+
+	/**
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using an unrestricted client token')]
 	public function requestingWithUsingAnUnrestrictedClientToken($url, $method) {
 		$this->sendRequest($url, $method, 'Bearer ' . $this->unrestrictedClientToken);
 	}
 
 	/**
-	 * @When requesting :url with :method using a restricted client token
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using a restricted client token')]
 	public function requestingWithUsingARestrictedClientToken($url, $method) {
 		$this->sendRequest($url, $method, 'Bearer ' . $this->restrictedClientToken);
 	}
 
 	/**
-	 * @When requesting :url with :method using browser session
 	 *
 	 * @param string $url
 	 * @param string $method
 	 */
+	#[When('requesting :url with :method using browser session')]
 	public function requestingWithBrowserSession($url, $method) {
 		$this->sendRequest($url, $method, null, true);
 	}
 
 	/**
-	 * @Given a new browser session is started
-	 *
 	 * @param bool $remember
 	 */
+	#[Given('a new browser session is started')]
 	public function aNewBrowserSessionIsStarted($remember = false) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 		$loginUrl = $baseUrl . '/login';
@@ -232,24 +246,17 @@ trait Auth {
 		$this->extracRequestTokenFromResponse($response);
 	}
 
-	/**
-	 * @Given a new remembered browser session is started
-	 */
+	#[Given('a new remembered browser session is started')]
 	public function aNewRememberedBrowserSessionIsStarted() {
 		$this->aNewBrowserSessionIsStarted(true);
 	}
 
-
-	/**
-	 * @Given the cookie jar is reset
-	 */
+	#[Given('the cookie jar is reset')]
 	public function theCookieJarIsReset() {
 		$this->cookieJar = new CookieJar();
 	}
 
-	/**
-	 * @When the session cookie expires
-	 */
+	#[When('the session cookie expires')]
 	public function whenTheSessionCookieExpires() {
 		$this->cookieJar->clearSessionCookies();
 	}

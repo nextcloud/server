@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC24;
 
 use OC\Authentication\Token\TokenCleanupJob;
@@ -19,10 +20,12 @@ class AddTokenCleanupJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add token cleanup job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(TokenCleanupJob::class);
 	}

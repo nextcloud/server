@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\SystemConfig;
@@ -18,6 +19,8 @@ use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use OCP\Server;
@@ -25,6 +28,7 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\Traits\UserTrait;
 
 /**
  * Class SharesReminderJobTest
@@ -34,6 +38,8 @@ use Psr\Log\LoggerInterface;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SharesReminderJobTest extends \Test\TestCase {
+	use UserTrait;
+
 	private SharesReminderJob $job;
 	private IDBConnection $db;
 	private IManager $shareManager;
@@ -51,13 +57,13 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 
 		// Clear occasional leftover shares from other tests
-		$this->db->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->db->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$user1 = $this->userManager->createUser($this->user1, 'longrandompassword');
-		$user2 = $this->userManager->createUser($this->user2, 'longrandompassword');
+		$user1 = $this->createUser($this->user1, 'longrandompassword');
+		$user2 = $this->createUser($this->user2, 'longrandompassword');
 		$user1->setSystemEMailAddress('user1@test.com');
 		$user2->setSystemEMailAddress('user2@test.com');
 
@@ -78,17 +84,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->db->executeUpdate('DELETE FROM `*PREFIX*share`');
-
-		$userManager = Server::get(IUserManager::class);
-		$user1 = $userManager->get($this->user1);
-		if ($user1) {
-			$user1->delete();
-		}
-		$user2 = $userManager->get($this->user2);
-		if ($user2) {
-			$user2->delete();
-		}
+		$this->db->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->logout();
 
@@ -176,6 +172,22 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->logout();
 		$messageMock = $this->createMock(IMessage::class);
 		$this->mailer->method('createMessage')->willReturn($messageMock);
+		$templateMock = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($templateMock);
+		$templateMock
+			->expects(($shouldBeReminded ? $this->once() : $this->never()))
+			->method('setLanguage')
+			->with('en');
+		$templateMock
+			->expects(($shouldBeReminded ? $this->once() : $this->never()))
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = $details->getRows();
+				return $details->getTitle() === 'test'
+					&& count($rows) === 1
+					&& $rows[0]->getLabel() === 'Valid until'
+					&& $rows[0]->getParts()[0]['text'] !== '';
+			}));
 		$this->mailer
 			->expects(($shouldBeReminded ? $this->once() : $this->never()))
 			->method('send')

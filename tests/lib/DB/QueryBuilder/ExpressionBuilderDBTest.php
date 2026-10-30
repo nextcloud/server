@@ -14,6 +14,7 @@ use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -22,6 +23,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	protected $connection;
 	protected $schemaSetup = false;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -95,6 +97,43 @@ class ExpressionBuilderDBTest extends TestCase {
 		$query->select(new Literal('1'))
 			->from('users')
 			->where($query->expr()->iLike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
+	}
+
+	public static function notILikeProvider(): array {
+		$connection = Server::get(IDBConnection::class);
+
+		return [
+			['foo', 'bar', true],
+			['foo', 'foo', false],
+			['foo', 'Foo', false],
+			['foo', 'f%', false],
+			['foo', '%o', false],
+			['foo', '%', false],
+			['foo', 'fo_', false],
+			['foo', 'foo_', true],
+			['foo', $connection->escapeLikeParameter('fo_'), true],
+			['foo', $connection->escapeLikeParameter('f%'), true],
+		];
+	}
+
+	/**
+	 *
+	 * @param string $param1
+	 * @param string $param2
+	 * @param boolean $match
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('notILikeProvider')]
+	public function testNotILike($param1, $param2, $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->notILike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
 		$result = $query->executeQuery();
 		$column = $result->fetchOne();
@@ -231,6 +270,63 @@ class ExpressionBuilderDBTest extends TestCase {
 		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
+	}
+
+	public static function dataExists(): array {
+		$connection = Server::get(IDBConnection::class);
+
+		$query1 = $connection->getQueryBuilder()
+			->select(new Literal('1'))
+			->from('users');
+
+		$query2 = $connection->getQueryBuilder();
+		$query2->select(new Literal('1'))
+			->from('users')
+			->where($query2->expr()->eq($query2->createNamedParameter('a'), $query2->createNamedParameter('b')));
+		return [
+			[$query1, true],
+			[$query2, false],
+		];
+	}
+
+	#[DataProvider('dataExists')]
+	public function testExists(IQueryBuilder $subquery, bool $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		foreach ($subquery->getParameters() as $key => $value) {
+			$query->setParameter($key, $value);
+		}
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->exists($subquery));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
+	}
+
+	public static function dataNotExists(): array {
+		return array_map(fn (array $data) => [$data[0], !$data[1]], self::dataExists());
+	}
+
+	#[DataProvider('dataNotExists')]
+	public function testNotExists(IQueryBuilder $subquery, bool $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		foreach ($subquery->getParameters() as $key => $value) {
+			$query->setParameter($key, $value);
+		}
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->notExists($subquery));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
 	}
 
 	protected function createConfig($appId, $key, $value) {

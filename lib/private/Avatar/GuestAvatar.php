@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Avatar;
 
 use OCP\Color;
@@ -35,6 +36,7 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Tests if the user has an avatar.
 	 */
+	#[\Override]
 	public function exists(): bool {
 		// Guests always have an avatar.
 		return true;
@@ -43,6 +45,7 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Returns the guest user display name.
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->userDisplayName;
 	}
@@ -52,6 +55,7 @@ class GuestAvatar extends Avatar {
 	 *
 	 * @param IImage|resource|string $data
 	 */
+	#[\Override]
 	public function set($data): void {
 		// unimplemented for guest user avatars
 	}
@@ -59,6 +63,7 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Removing avatars isn't implemented for guests.
 	 */
+	#[\Override]
 	public function remove(bool $silent = false): void {
 		// unimplemented for guest user avatars
 	}
@@ -66,6 +71,7 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Generates an avatar for the guest.
 	 */
+	#[\Override]
 	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
 		$avatar = $this->generateAvatar($this->userDisplayName, $size, $darkTheme);
 		return new InMemoryFile('avatar.png', $avatar);
@@ -78,6 +84,7 @@ class GuestAvatar extends Avatar {
 	 * @param mixed $oldValue The previous value
 	 * @param mixed $newValue The new value
 	 */
+	#[\Override]
 	public function userChanged(string $feature, $oldValue, $newValue): void {
 		if ($feature === 'displayName') {
 			$this->userDisplayName = $newValue;
@@ -87,15 +94,16 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Guests don't have custom avatars.
 	 */
+	#[\Override]
 	public function isCustomAvatar(): bool {
 		return false;
 	}
-
 
 	/**
 	 * Different color than for authorized user with the same name
 	 * to make it harder to impersonate people.
 	 */
+	#[\Override]
 	public function avatarBackgroundColor(string $hash): Color {
 		return parent::avatarBackgroundColor($hash . ' (guest)');
 	}

@@ -20,6 +20,9 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\EMailDetailsRow;
+use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
@@ -37,7 +40,6 @@ class IMipServiceTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IMipService $service;
 	private IUserManager&MockObject $userManager;
-
 
 	private VCalendar $vCalendar1a;
 	private VCalendar $vCalendar1b;
@@ -162,6 +164,12 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetLanguageCode(): void {
+		$this->l10n->method('getLanguageCode')->willReturn('ar');
+
+		$this->assertEquals('ar', $this->service->getLanguageCode());
+	}
+
 	public function testIsSystemUserWhenUserExists(): void {
 		$email = 'user@example.com';
 		$user = $this->createMock(IUser::class);
@@ -227,11 +235,66 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
 		// test output
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataCreatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240630T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReader),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
+
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -278,15 +341,221 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
-			'meeting_when_html' => $this->service->generateWhenString($eventReaderNew),
-			'meeting_title_html' => sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", 'Testing Singleton Event', 'Testing Event'),
-			'meeting_description_html' => '',
-			'meeting_location_html' => ''
+			'meeting_title_previous' => 'Testing Singleton Event',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
 		// test output
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$oldTitle = '<h1>Old event</h1>';
+		$oldLocation = '<h1>Stuttgart Office</h1>';
+		$oldDescription = '<h1>Description for old event</h1>';
+		$oldUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$newTitle = '<h1>New event</h1>';
+		$newLocation = '<h1>Berlin Office</h1>';
+		$newDescription = '<h1>Description for new event</h1>';
+		$newUrl = 'https://example.test/event?id=456"><script>alert(1)</script><a href="';
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', []);
+		$vEventNew->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventNew->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('SUMMARY', $newTitle);
+		$vEventNew->add('LOCATION', $newLocation);
+		$vEventNew->add('DESCRIPTION', $newDescription);
+		$vEventNew->add('URL', $newUrl);
+
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', []);
+		$vEventOld->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventOld->add('DTSTART', '20240702T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('DTEND', '20240702T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('SUMMARY', $oldTitle);
+		$vEventOld->add('LOCATION', $oldLocation);
+		$vEventOld->add('DESCRIPTION', $oldDescription);
+		$vEventOld->add('URL', $oldUrl);
+
+		$eventReaderNew = new EventReader($vCalendarNew, $vCalendarNew->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_description' => $newDescription,
+			'meeting_title' => $newTitle,
+			'meeting_location' => $newLocation,
+			'meeting_url' => $newUrl,
+			'meeting_title_previous' => $oldTitle,
+			'meeting_description_previous' => $oldDescription,
+			'meeting_location_previous' => $oldLocation,
+			'meeting_url_previous' => $oldUrl,
+		];
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedWhen(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static fn (string $type, \DateTime $date): string => $date->format($type === 'time' ? 'H:i' : 'm-d'));
+		$this->l10n->method('n')
+			->willReturnCallback(static fn (string $singular, string $plural, int $count, array $parameters = []): string => implode(' ', $parameters));
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240601T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarOld = clone $this->vCalendar1a;
+		$vCalendarOld->VEVENT[0]->DTSTART->setValue('20240702T080000');
+		$vCalendarOld->VEVENT[0]->DTEND->setValue('20240702T090000');
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame('07-01 08:00 09:00 (America/Toronto)', $actual['meeting_when']);
+		$this->assertSame('07-02 08:00 09:00 (America/Toronto)', $actual['meeting_when_previous']);
+		$this->assertArrayNotHasKey('meeting_title_previous', $actual);
+	}
+
+	public function testBuildReplyBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildReplyBodyData($vCalendar->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildCancelledBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expectedWhenString = $this->service->generateWhenString($eventReaderNew);
+
+		$expected = [
+			'meeting_when' => $expectedWhenString,
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+		];
+
+		$actual = $this->service->buildCancelledBodyData($vCalendar->VEVENT[0]);
+
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -2231,4 +2500,351 @@ class IMipServiceTest extends TestCase {
 		);
 	}
 
+	private function createDetailsEvent(): \Sabre\VObject\Component\VEvent {
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->add('UID', 'test-uid');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Event');
+		return $vEvent;
+	}
+
+	private function mockDetailsL10n(): void {
+		$this->l10n->method('t')->willReturnCallback(
+			static fn (string $text, array $parameters = []): string => vsprintf($text, $parameters)
+		);
+		$this->l10n->method('n')->willReturnCallback(
+			static fn (string $singular, string $plural, int $count): string => str_replace('%n', (string)$count, $count === 1 ? $singular : $plural)
+		);
+		$this->l10n->method('l')->willReturnCallback(
+			static fn (string $type, \DateTimeInterface $date, array $options): string => match ($options['width']) {
+				'full' => $date->format('l, F j, Y'),
+				'~MMM' => $date->format('M'),
+				'~d' => $date->format('j'),
+			}
+		);
+	}
+
+	/**
+	 * @return list<array{0: string, 1: list<array{type: string, text: string, url: string}>}>
+	 */
+	private static function rowsOf(EMailDetails $details): array {
+		return array_map(
+			static fn (EMailDetailsRow $row): array => [$row->getLabel(), $row->getParts()],
+			$details->getRows(),
+		);
+	}
+
+	public function testAddEventDetailsPutsDescriptionAfterCard(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+		$order = [];
+		$template->method('addBodyNote')->willReturnCallback(function (string $text, string $label) use (&$order): void {
+			$order[] = 'note:' . $label;
+		});
+		$template->method('addBodyDetails')->willReturnCallback(function () use (&$order): void {
+			$order[] = 'details';
+		});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => 'Title',
+			'meeting_when' => 'Monday',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+			'meeting_occurring' => '',
+		]);
+
+		$this->assertSame(['details', 'note:Description', 'note:Previous description'], $order);
+	}
+
+	public function testAddEventDetails(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$data = [
+			'meeting_title' => '<b>Title</b>',
+			'meeting_when' => 'Monday & Tuesday',
+			'meeting_location' => 'Room "A"',
+			'meeting_url' => 'https://example.com/?a=1&b=2',
+			'meeting_description' => "Line 1\nLine 2",
+			'meeting_occurring' => 'Every Monday',
+		];
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details) use ($data): bool {
+				self::assertSame($data['meeting_title'], $details->getTitle());
+				self::assertSame('Monday, July 1, 2024', $details->getSubtitle());
+				self::assertSame(['month' => 'Jul', 'day' => '1'], $details->getDateBadge());
+				self::assertSame([
+					['When', [['type' => 'text', 'text' => $data['meeting_when'], 'url' => '']]],
+					['Occurring', [['type' => 'text', 'text' => $data['meeting_occurring'], 'url' => '']]],
+					['Where', [['type' => 'text', 'text' => $data['meeting_location'], 'url' => '']]],
+					['Link', [['type' => 'link', 'text' => $data['meeting_url'], 'url' => $data['meeting_url']]]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$template->expects(self::once())
+			->method('addBodyNote')
+			->with($data['meeting_description'], 'Description');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data);
+	}
+
+	public function testAddEventDetailsShowsPreviousValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$data = [
+			'meeting_title' => 'New title',
+			'meeting_title_previous' => 'Old title',
+			'meeting_when' => 'Tomorrow',
+			'meeting_when_previous' => 'Today',
+			'meeting_location' => 'https://example.com/new',
+			'meeting_location_previous' => 'https://example.com/old',
+			'meeting_url' => '',
+			'meeting_url_previous' => 'https://example.com/removed',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+		];
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('New title', $details->getTitle());
+				self::assertSame([
+					['Title', [
+						['type' => 'text', 'text' => 'New title', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Old title', 'url' => ''],
+					]],
+					['When', [
+						['type' => 'text', 'text' => 'Tomorrow', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Today', 'url' => ''],
+					]],
+					['Where', [
+						['type' => 'link', 'text' => 'https://example.com/new', 'url' => 'https://example.com/new'],
+						['type' => 'muted', 'text' => 'Previously: https://example.com/old', 'url' => ''],
+					]],
+					['Calendar', [['type' => 'text', 'text' => 'Personal', 'url' => '']]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$calls = [
+			['New description', 'Description'],
+			['Old description', 'Previous description'],
+		];
+		$template->expects(self::exactly(2))
+			->method('addBodyNote')
+			->willReturnCallback(function (string $text, string $label) use (&$calls): void {
+				self::assertSame(array_shift($calls), [$text, $label]);
+			});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data, 'Personal');
+	}
+
+	public function testAddEventDetailsWithoutOptionalValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('Untitled event', $details->getTitle());
+				self::assertSame(['When'], array_column(self::rowsOf($details), 0));
+				return true;
+			}));
+		$template->expects(self::never())
+			->method('addBodyNote');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => '',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddEventDetailsListsAttendees(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')
+			->with('dav', 'invitation_list_attendees')
+			->willReturn(true);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$vEvent = $this->createDetailsEvent();
+		$vEvent->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'Organizer', 'PARTSTAT' => 'ACCEPTED']);
+		$vEvent->add('ATTENDEE', 'mailto:a1@example.com', ['CN' => 'Attendee 1', 'PARTSTAT' => 'ACCEPTED']);
+		for ($i = 2; $i <= 7; $i++) {
+			$vEvent->add('ATTENDEE', 'mailto:a' . $i . '@example.com');
+		}
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = self::rowsOf($details);
+				self::assertSame(['Organizer', [
+					['type' => 'link', 'text' => 'Organizer ✔︎', 'url' => 'mailto:organizer@example.com'],
+				]], $rows[1]);
+				self::assertSame(['Attendees', [
+					['type' => 'link', 'text' => 'Attendee 1 ✔︎', 'url' => 'mailto:a1@example.com'],
+					['type' => 'link', 'text' => 'a2@example.com', 'url' => 'mailto:a2@example.com'],
+					['type' => 'link', 'text' => 'a3@example.com', 'url' => 'mailto:a3@example.com'],
+					['type' => 'link', 'text' => 'a4@example.com', 'url' => 'mailto:a4@example.com'],
+					['type' => 'link', 'text' => 'a5@example.com', 'url' => 'mailto:a5@example.com'],
+					['type' => 'muted', 'text' => 'and 2 others', 'url' => ''],
+				]], $rows[2]);
+				return true;
+			}));
+
+		$this->service->addEventDetails($template, $vEvent, [
+			'meeting_title' => 'Test Event',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddResponseButtons(): void {
+		$this->mockDetailsL10n();
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->willReturnCallback(static fn (string $route, array $parameters): string => $route . '/' . $parameters['token']);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyButtons')
+			->with([
+				['text' => 'Accept', 'url' => 'dav.invitation_response.accept/token'],
+				['text' => 'Decline', 'url' => 'dav.invitation_response.decline/token'],
+				['text' => 'More options …', 'url' => 'dav.invitation_response.options/token'],
+			], 'Will you attend?');
+
+		$this->service->addResponseButtons($template, 'token');
+	}
+
+	/**
+	 * instanceKey() is what IMipPlugin::schedule() uses to pair a new
+	 * instance with its old counterpart - two unrelated events that happen
+	 * to share a RECURRENCE-ID (or lack one) must never produce the same
+	 * key just because their UID differs.
+	 */
+	public function testInstanceKeyNeverMatchesAcrossDifferentUids(): void {
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', ['UID' => 'uid-old']);
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', ['UID' => 'uid-new']);
+
+		$this->assertNotSame($this->service->instanceKey($vEventOld), $this->service->instanceKey($vEventNew));
+	}
+
+	/**
+	 * A recurring event's master and one of its overrides share a UID but
+	 * differ by RECURRENCE-ID - schedule()'s pairing relies on instanceKey()
+	 * telling them apart, and on it matching the same instance's old and
+	 * new version to each other.
+	 */
+	public function testInstanceKeyDistinguishesMasterFromOverrideButMatchesAcrossVersions(): void {
+		$recurrenceId = new \DateTime('2016-01-02 00:00:00');
+
+		$vCalendarOld = new VCalendar();
+		$oldMaster = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234']);
+		$oldOverride = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId]);
+
+		$vCalendarNew = new VCalendar();
+		$newMaster = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'SEQUENCE' => 3]);
+		$newOverride = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId, 'SEQUENCE' => 2]);
+
+		$this->assertNotSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($oldOverride));
+		$this->assertSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($newMaster));
+		$this->assertSame($this->service->instanceKey($oldOverride), $this->service->instanceKey($newOverride));
+	}
+
+	// First test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithoutZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			// 'SEQUENCE' => 0,			// sequence number may not be set to zero during event creation and instead fully omitted
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	// Second test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	/**
+	 * RDATE/EXDATE decide which occurrences of a recurring master exist, so
+	 * adding an extra occurrence or excluding one must register as a change
+	 * even when RRULE/SEQUENCE/LAST-MODIFIED are untouched - matching iTip's
+	 * own significantChangeProperties list.
+	 */
+	public function testDiffInstanceDetectsRdateAndExdateChanges(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+		]);
+
+		$vEventNewRdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+			'RDATE' => new \DateTime('2016-03-01 00:00:00'),
+		]);
+		$this->assertContains('RDATE', $this->service->diffInstance($vEventNewRdate, $vEventOld));
+
+		$vEventNewExdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-06 00:00:00'),
+		]);
+		$this->assertContains('EXDATE', $this->service->diffInstance($vEventNewExdate, $vEventOld));
+	}
+
+	/**
+	 * eventInstances() is what IMipPlugin::schedule() relies on to extract
+	 * the VEVENT(s) from an iTip message and from the stored old calendar:
+	 * it must return only the VEVENT components, in document order,
+	 * ignoring sibling components like VTIMEZONE.
+	 */
+	public function testEventInstancesReturnsOnlyVeventComponentsInOrder(): void {
+		$vCalendar = new VCalendar();
+		$vCalendar->add('VTIMEZONE', ['TZID' => 'America/Toronto']);
+		$vEvent1 = $vCalendar->add('VEVENT', ['UID' => 'uid-1234']);
+		$vEvent2 = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-02 00:00:00'),
+		]);
+
+		$this->assertSame([$vEvent1, $vEvent2], $this->service->eventInstances($vCalendar));
+	}
 }

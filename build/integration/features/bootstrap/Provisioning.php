@@ -7,6 +7,11 @@
  */
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -34,7 +39,7 @@ trait Provisioning {
 	/** @var array */
 	private $createdGroups = [];
 
-	/** @AfterScenario */
+	#[AfterScenario]
 	public function restoreAppsEnabledStateAfterScenario() {
 		$this->asAn('admin');
 
@@ -48,9 +53,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" exists$/
 	 * @param string $user
 	 */
+	#[Given('/^user "([^"]*)" exists$/')]
 	public function assureUserExists($user) {
 		try {
 			$this->userExists($user);
@@ -65,9 +70,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" with displayname "((?:[^"]|\\")*)" exists$/
 	 * @param string $user
 	 */
+	#[Given('/^user "([^"]*)" with displayname "((?:[^"]|\\\\")*)" exists$/')]
 	public function assureUserWithDisplaynameExists($user, $displayname) {
 		try {
 			$this->userExists($user);
@@ -82,9 +87,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" does not exist$/
 	 * @param string $user
 	 */
+	#[Given('/^user "([^"]*)" does not exist$/')]
 	public function userDoesNotExist($user) {
 		try {
 			$this->userExists($user);
@@ -143,11 +148,11 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" has$/
 	 *
 	 * @param string $user
 	 * @param TableNode|null $settings
 	 */
+	#[Then('/^user "([^"]*)" has$/')]
 	public function userHasSetting($user, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
@@ -177,9 +182,7 @@ trait Provisioning {
 		}
 	}
 
-	/**
-	 * @Then /^user "([^"]*)" has the following profile data$/
-	 */
+	#[Then('/^user "([^"]*)" has the following profile data$/')]
 	public function userHasProfileData(string $user, ?TableNode $settings): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/profile/$user";
 		$client = new Client();
@@ -209,11 +212,11 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^group "([^"]*)" has$/
 	 *
 	 * @param string $user
 	 * @param TableNode|null $settings
 	 */
+	#[Then('/^group "([^"]*)" has$/')]
 	public function groupHasSetting($group, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
 		$client = new Client();
@@ -239,13 +242,12 @@ trait Provisioning {
 		}
 	}
 
-
 	/**
-	 * @Then /^user "([^"]*)" has editable fields$/
 	 *
 	 * @param string $user
 	 * @param TableNode|null $fields
 	 */
+	#[Then('/^user "([^"]*)" has editable fields$/')]
 	public function userHasEditableFields($user, $fields) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/user/fields";
 		if ($user !== 'self') {
@@ -274,11 +276,11 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^search users by phone for region "([^"]*)" with$/
 	 *
 	 * @param string $user
 	 * @param TableNode|null $settings
 	 */
+	#[Then('/^search users by phone for region "([^"]*)" with$/')]
 	public function searchUserByPhone($region, TableNode $searchTable) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/search/by-phone";
 		$client = new Client();
@@ -349,10 +351,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^check that user "([^"]*)" belongs to group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Then('/^check that user "([^"]*)" belongs to group "([^"]*)"$/')]
 	public function checkThatUserBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
 		$client = new Client();
@@ -393,10 +395,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^user "([^"]*)" belongs to group "([^"]*)"$/')]
 	public function assureUserBelongsToGroup($user, $group) {
 		$previous_user = $this->currentUser;
 		$this->currentUser = 'admin';
@@ -410,10 +412,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" does not belong to group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^user "([^"]*)" does not belong to group "([^"]*)"$/')]
 	public function userDoesNotBelongToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
 		$client = new Client();
@@ -433,9 +435,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @When /^creating the group "([^"]*)"$/
 	 * @param string $group
 	 */
+	#[When('/^creating the group "([^"]*)"$/')]
 	public function creatingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups";
 		$client = new Client();
@@ -459,9 +461,7 @@ trait Provisioning {
 		}
 	}
 
-	/**
-	 * @When /^assure user "([^"]*)" is disabled$/
-	 */
+	#[When('/^assure user "([^"]*)" is disabled$/')]
 	public function assureUserIsDisabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/disable";
 		$client = new Client();
@@ -481,9 +481,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @When /^Deleting the user "([^"]*)"$/
 	 * @param string $user
 	 */
+	#[When('/^Deleting the user "([^"]*)"$/')]
 	public function deletingTheUser($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
@@ -499,9 +499,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @When /^Deleting the group "([^"]*)"$/
 	 * @param string $group
 	 */
+	#[When('/^Deleting the group "([^"]*)"$/')]
 	public function deletingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/$group";
 		$client = new Client();
@@ -523,10 +523,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^Add user "([^"]*)" to the group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^Add user "([^"]*)" to the group "([^"]*)"$/')]
 	public function addUserToGroup($user, $group) {
 		$this->userExists($user);
 		$this->groupExists($group);
@@ -534,10 +534,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @When /^User "([^"]*)" is added to the group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[When('/^User "([^"]*)" is added to the group "([^"]*)"$/')]
 	public function addingUserToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/groups";
 		$client = new Client();
@@ -556,7 +556,6 @@ trait Provisioning {
 		$this->response = $client->post($fullUrl, $options);
 	}
 
-
 	public function groupExists($group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";
 		$client = new Client();
@@ -570,9 +569,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^group "([^"]*)" exists$/
 	 * @param string $group
 	 */
+	#[Given('/^group "([^"]*)" exists$/')]
 	public function assureGroupExists($group) {
 		try {
 			$this->groupExists($group);
@@ -587,9 +586,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^group "([^"]*)" does not exist$/
 	 * @param string $group
 	 */
+	#[Given('/^group "([^"]*)" does not exist$/')]
 	public function groupDoesNotExist($group) {
 		try {
 			$this->groupExists($group);
@@ -611,10 +610,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" is subadmin of group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^user "([^"]*)" is subadmin of group "([^"]*)"$/')]
 	public function userIsSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
 		$client = new Client();
@@ -634,10 +633,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^Assure user "([^"]*)" is subadmin of group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^Assure user "([^"]*)" is subadmin of group "([^"]*)"$/')]
 	public function assureUserIsSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/subadmins";
 		$client = new Client();
@@ -656,10 +655,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" is not a subadmin of group "([^"]*)"$/
 	 * @param string $user
 	 * @param string $group
 	 */
+	#[Given('/^user "([^"]*)" is not a subadmin of group "([^"]*)"$/')]
 	public function userIsNotSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
 		$client = new Client();
@@ -679,9 +678,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^users returned are$/
 	 * @param TableNode|null $usersList
 	 */
+	#[Then('/^users returned are$/')]
 	public function theUsersShouldBe($usersList) {
 		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRows();
@@ -692,9 +691,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^phone matches returned are$/
 	 * @param TableNode|null $usersList
 	 */
+	#[Then('/^phone matches returned are$/')]
 	public function thePhoneUsersShouldBe($usersList) {
 		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRowsHash();
@@ -705,9 +704,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^detailed users returned are$/
 	 * @param TableNode|null $usersList
 	 */
+	#[Then('/^detailed users returned are$/')]
 	public function theDetailedUsersShouldBe($usersList) {
 		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRows();
@@ -719,9 +718,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^groups returned are$/
 	 * @param TableNode|null $groupsList
 	 */
+	#[Then('/^groups returned are$/')]
 	public function theGroupsShouldBe($groupsList) {
 		if ($groupsList instanceof TableNode) {
 			$groups = $groupsList->getRows();
@@ -732,9 +731,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^subadmin groups returned are$/
 	 * @param TableNode|null $groupsList
 	 */
+	#[Then('/^subadmin groups returned are$/')]
 	public function theSubadminGroupsShouldBe($groupsList) {
 		if ($groupsList instanceof TableNode) {
 			$groups = $groupsList->getRows();
@@ -745,9 +744,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^apps returned are$/
 	 * @param TableNode|null $appList
 	 */
+	#[Then('/^apps returned are$/')]
 	public function theAppsShouldBe($appList) {
 		if ($appList instanceof TableNode) {
 			$apps = $appList->getRows();
@@ -758,9 +757,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^subadmin users returned are$/
 	 * @param TableNode|null $groupsList
 	 */
+	#[Then('/^subadmin users returned are$/')]
 	public function theSubadminUsersShouldBe($groupsList) {
 		$this->theSubadminGroupsShouldBe($groupsList);
 	}
@@ -826,9 +825,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^app "([^"]*)" enabled state will be restored once the scenario finishes$/
 	 * @param string $app
 	 */
+	#[Given('/^app "([^"]*)" enabled state will be restored once the scenario finishes$/')]
 	public function appEnabledStateWillBeRestoredOnceTheScenarioFinishes($app) {
 		$previousUser = $this->currentUser;
 		$this->currentUser = 'admin';
@@ -861,9 +860,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^app "([^"]*)" is disabled$/
 	 * @param string $app
 	 */
+	#[Given('/^app "([^"]*)" is disabled$/')]
 	public function appIsDisabled($app) {
 		$respondedArray = $this->getAppsWithFilter('disabled');
 		Assert::assertContains($app, $respondedArray);
@@ -871,9 +870,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^app "([^"]*)" is enabled$/
 	 * @param string $app
 	 */
+	#[Given('/^app "([^"]*)" is enabled$/')]
 	public function appIsEnabled($app) {
 		$respondedArray = $this->getAppsWithFilter('enabled');
 		Assert::assertContains($app, $respondedArray);
@@ -881,12 +880,11 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^app "([^"]*)" is not enabled$/
-	 *
 	 * Checks that the app is disabled or not installed.
 	 *
 	 * @param string $app
 	 */
+	#[Given('/^app "([^"]*)" is not enabled$/')]
 	public function appIsNotEnabled($app) {
 		$respondedArray = $this->getAppsWithFilter('enabled');
 		Assert::assertNotContains($app, $respondedArray);
@@ -894,9 +892,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" is disabled$/
 	 * @param string $user
 	 */
+	#[Then('/^user "([^"]*)" is disabled$/')]
 	public function userIsDisabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
@@ -914,9 +912,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" is enabled$/
 	 * @param string $user
 	 */
+	#[Then('/^user "([^"]*)" is enabled$/')]
 	public function userIsEnabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
@@ -934,10 +932,10 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given user :user has a quota of :quota
 	 * @param string $user
 	 * @param string $quota
 	 */
+	#[Given('user :user has a quota of :quota')]
 	public function userHasAQuotaOf($user, $quota) {
 		$body = new TableNode([
 			0 => ['key', 'quota'],
@@ -949,9 +947,9 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given user :user has unlimited quota
 	 * @param string $user
 	 */
+	#[Given('user :user has unlimited quota')]
 	public function userHasUnlimitedQuota($user) {
 		$this->userHasAQuotaOf($user, 'none');
 	}
@@ -970,10 +968,8 @@ trait Provisioning {
 		return simplexml_load_string($this->response->getBody())->data[0]->home;
 	}
 
-	/**
-	 * @BeforeScenario
-	 * @AfterScenario
-	 */
+	#[BeforeScenario]
+	#[AfterScenario]
 	public function cleanupUsers() {
 		$previousServer = $this->currentServer;
 		$this->usingServer('LOCAL');
@@ -987,10 +983,8 @@ trait Provisioning {
 		$this->usingServer($previousServer);
 	}
 
-	/**
-	 * @BeforeScenario
-	 * @AfterScenario
-	 */
+	#[BeforeScenario]
+	#[AfterScenario]
 	public function cleanupGroups() {
 		$previousServer = $this->currentServer;
 		$this->usingServer('LOCAL');
@@ -1004,9 +998,7 @@ trait Provisioning {
 		$this->usingServer($previousServer);
 	}
 
-	/**
-	 * @Then /^user "([^"]*)" has not$/
-	 */
+	#[Then('/^user "([^"]*)" has not$/')]
 	public function userHasNotSetting($user, TableNode $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();

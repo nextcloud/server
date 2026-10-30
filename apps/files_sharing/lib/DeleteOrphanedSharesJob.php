@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Db\TTransactional;
@@ -23,9 +24,9 @@ class DeleteOrphanedSharesJob extends TimedJob {
 
 	use TTransactional;
 
-	private const CHUNK_SIZE = 1000;
+	private const int CHUNK_SIZE = 1000;
 
-	private const INTERVAL = 24 * 60 * 60;
+	private const int INTERVAL = 24 * 60 * 60;
 
 	/**
 	 * sets the correct interval for this timed job
@@ -46,6 +47,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		if ($this->db->getShardDefinition('filecache')) {
 			$this->shardingCleanup();

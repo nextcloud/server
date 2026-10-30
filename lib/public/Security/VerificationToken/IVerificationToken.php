@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Security\VerificationToken;
 
 use OCP\IUser;
@@ -14,7 +15,7 @@ use OCP\IUser;
  */
 interface IVerificationToken {
 	/**
-	 * Checks whether the a provided tokent matches a stored token and its
+	 * Checks whether a provided token matches a stored token and its
 	 * constraints. An InvalidTokenException is thrown on issues, otherwise
 	 * the check is successful.
 	 *

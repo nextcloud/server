@@ -23,7 +23,7 @@
 		<!-- Checkbox -->
 		<FileEntryCheckbox
 			:fileid="fileid"
-			:is-loading="isLoading"
+			:isLoading="isLoading"
 			:nodes="nodes"
 			:source="source" />
 
@@ -33,18 +33,18 @@
 			<FileEntryPreview
 				ref="preview"
 				:dragover="dragover"
-				:grid-mode="true"
+				:gridMode="true"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 
 			<FileEntryName
 				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 		</td>
 
 		<!-- Mtime -->
@@ -56,21 +56,22 @@
 			@click="openDetailsIfAvailable">
 			<NcDateTime
 				v-if="mtime"
-				ignore-seconds
+				ignoreSeconds
 				:timestamp="mtime" />
 		</td>
 
 		<!-- Actions -->
 		<FileEntryActions
 			ref="actions"
-			:opened.sync="openedMenu"
+			v-model:opened="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:grid-mode="true"
+			:gridMode="true"
 			:source="source" />
 	</tr>
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
@@ -117,11 +118,12 @@ export default defineComponent({
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
 
 		const actions = useFileActions()
 

@@ -4,7 +4,7 @@
  -->
 <template>
 	<NcListItem
-		:anchor-id="`${id}--link`"
+		:anchorId="`${id}--link`"
 		compact
 		:details="details"
 		:href="href"
@@ -12,7 +12,7 @@
 		role="presentation"
 		@click="$emit('click')">
 		<template #icon>
-			<slot v-if="$scopedSlots.icon" name="icon" />
+			<slot v-if="$slots.icon" name="icon" />
 			<div
 				v-else
 				role="presentation"
@@ -35,6 +35,10 @@ const props = defineProps<{
 	icon?: string
 	href: string
 	details?: string
+}>()
+
+defineEmits<{
+	click: []
 }>()
 
 onMounted(() => {

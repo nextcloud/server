@@ -31,14 +31,17 @@ class WebdavEndpoint implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('WebDAV endpoint');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$urls = [
 			['propfind', '/remote.php/webdav', [207, 401]],
@@ -48,7 +51,7 @@ class WebdavEndpoint implements ISetupCheck {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
-				$works = in_array($response->getStatusCode(), $validStatuses);
+				$works = in_array($response->getStatusCode(), $validStatuses, true);
 				// Skip the other requests if one works
 				if ($works === true) {
 					break;

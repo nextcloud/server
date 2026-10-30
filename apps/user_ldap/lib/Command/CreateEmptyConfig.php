@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Configuration;
@@ -21,6 +22,7 @@ class CreateEmptyConfig extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:create-empty-config')
@@ -34,6 +36,7 @@ class CreateEmptyConfig extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);

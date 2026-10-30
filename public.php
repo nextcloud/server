@@ -15,6 +15,7 @@ require_once __DIR__ . '/lib/versioncheck.php';
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
@@ -84,14 +85,16 @@ try {
 
 	// Load the app
 	$appManager->loadApp($app);
-	OC_User::setIncognitoMode(true);
+
+	Server::get(IUserSession::class)->setIncognitoMode(true);
 
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
-	$status = 500;
-	if ($ex instanceof ServiceUnavailableException) {
-		$status = 503;
+	if ($ex->getCode() > 0) {
+		$status = $ex->getCode();
+	} else {
+		$status = $ex instanceof ServiceUnavailableException ? 503 : 500;
 	}
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);

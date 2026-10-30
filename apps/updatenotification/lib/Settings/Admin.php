@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Settings;
 
 use OCA\UpdateNotification\AppInfo\Application;
@@ -21,6 +22,7 @@ use OCP\L10N\IFactory;
 use OCP\ServerVersion;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -39,6 +41,7 @@ class Admin implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$lastUpdateCheckTimestamp = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
@@ -56,7 +59,7 @@ class Admin implements ISettings {
 
 		$updateState = $this->updateChecker->getUpdateState();
 
-		$notifyGroups = $this->appConfig->getValueArray(Application::APP_NAME, 'notify_groups', ['admin']);
+		$notifyGroups = $this->appConfig->getValueArray(Application::APP_ID, 'notify_groups', ['admin']);
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
@@ -88,7 +91,9 @@ class Admin implements ISettings {
 		];
 		$this->initialState->provideInitialState('data', $params);
 
-		return new TemplateResponse('updatenotification', 'admin', [], '');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'admin', [], '');
 	}
 
 	protected function filterChanges(array $changes): array {
@@ -132,6 +137,7 @@ class Admin implements ISettings {
 		return $result;
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->config->getSystemValueBool('updatechecker', true)) {
 			// update checker is disabled so we do not show the section at all
@@ -141,6 +147,7 @@ class Admin implements ISettings {
 		return 'overview';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 11;
 	}

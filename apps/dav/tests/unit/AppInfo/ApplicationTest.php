@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\AppInfo;
 
 use OCA\DAV\AppInfo\Application;
@@ -26,9 +27,9 @@ class ApplicationTest extends TestCase {
 		$c = $app->getContainer();
 
 		// assert service instances in the container are properly setup
-		$s = $c->query(ContactsManager::class);
+		$s = $c->get(ContactsManager::class);
 		$this->assertInstanceOf(ContactsManager::class, $s);
-		$s = $c->query(CardDavBackend::class);
+		$s = $c->get(CardDavBackend::class);
 		$this->assertInstanceOf(CardDavBackend::class, $s);
 	}
 }

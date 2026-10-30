@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests;
 
 use OC\AllConfig;
@@ -14,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\SystemConfig;
-use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -24,11 +24,14 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 
 /**
@@ -284,7 +287,6 @@ class VersioningTest extends \Test\TestCase {
 				[],
 				0
 			]
-
 		];
 	}
 
@@ -337,7 +339,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v1, 'version1');
 		$this->rootView->file_put_contents($v2, 'version2');
 
-		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -399,12 +401,11 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v2Renamed));
 	}
 
-
 	public function testMoveFileIntoSharedFolderAsRecipient(): void {
 		Filesystem::mkdir('folder1');
 		$fileInfo = Filesystem::getFileInfo('folder1');
 
-		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -454,7 +455,7 @@ class VersioningTest extends \Test\TestCase {
 	public function testMoveFolderIntoSharedFolderAsRecipient(): void {
 		Filesystem::mkdir('folder1');
 
-		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -521,7 +522,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v1, 'version1');
 		$this->rootView->file_put_contents($v2, 'version2');
 
-		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -634,9 +635,8 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
 
-
 	public function testExpireNonexistingUser(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
@@ -661,7 +661,7 @@ class VersioningTest extends \Test\TestCase {
 	public function testRestoreNoPermission(): void {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
-		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
+		$userHome = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER);
 		$node = $userHome->newFolder('folder');
 		$file = $node->newFile('test.txt');
 
@@ -697,11 +697,11 @@ class VersioningTest extends \Test\TestCase {
 		$this->markTestSkipped('Unreliable test');
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
-		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
+		$userHome = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER);
 		$node = $userHome->newFolder('folder');
 		$file = $node->newFile('test.txt');
 
-		$userHome2 = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER2);
+		$userHome2 = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER2);
 		$userHome2->newFolder('subfolder');
 
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
@@ -902,7 +902,7 @@ class VersioningTest extends \Test\TestCase {
 		Filesystem::mkdir('folder');
 		Filesystem::file_put_contents('folder/test.txt', 'test file');
 
-		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -972,12 +972,10 @@ class VersioningTest extends \Test\TestCase {
 			Server::get(IUserManager::class)->registerBackend($backend);
 		}
 
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
-		\OC::$server->getUserFolder($user);
+		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
 

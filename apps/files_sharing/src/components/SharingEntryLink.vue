@@ -21,7 +21,7 @@
 					{{ subtitle }}
 				</p>
 				<SharingEntryQuickShareSelect
-					v-if="share && share.permissions !== undefined"
+					v-if="share && share.permissions !== undefined && !config.sharingDialogEnabled"
 					:share="share"
 					:file-info="fileInfo"
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
@@ -51,12 +51,14 @@
 		</div>
 
 		<!-- pending actions -->
+		<!-- Auto placement prevents top/bottom placement flip on items toggle -->
 		<NcActions
 			v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
+			placement="auto"
 			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText
@@ -88,7 +90,7 @@
 				:label="t('files_sharing', 'Enter a password')"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
-				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
+				:minlength="minPasswordLength"
 				autocomplete="new-password"
 				@submit="onNewLinkShare(true)">
 				<template #icon>
@@ -147,14 +149,24 @@
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
-			:open.sync="open"
-			@close="onMenuClose">
+			:open.sync="open">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton
+						v-if="!config.sharingDialogEnabled"
 						:disabled="saving"
 						:close-after-click="true"
 						@click.prevent="openSharingDetails">
+						<template #icon>
+							<Tune :size="20" />
+						</template>
+						{{ t('files_sharing', 'Customize link') }}
+					</NcActionButton>
+					<NcActionButton
+						v-else
+						:disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openEditDialog">
 						<template #icon>
 							<Tune :size="20" />
 						</template>
@@ -280,6 +292,7 @@ import ShareDetails from '../mixins/ShareDetails.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
+import { openShareEditDialog } from '../services/SharingDialog.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 
 export default {
@@ -349,6 +362,16 @@ export default {
 	},
 
 	computed: {
+		minPasswordLength() {
+			if (this.isPasswordPolicyEnabled) {
+				if (this.config.passwordPolicy.policies?.sharing?.minLength) {
+					return this.config.passwordPolicy.policies.sharing.minLength
+				}
+				return this.config.passwordPolicy.minLength
+			}
+			return 0
+		},
+
 		/**
 		 * Link share label
 		 *
@@ -443,30 +466,6 @@ export default {
 		},
 
 		/**
-		 * Is it possible to protect the password by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
-		},
-
-		/**
-		 * Is the current share password protected by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalk: {
-			get() {
-				return this.share.sendPasswordByTalk
-			},
-
-			async set(enabled) {
-				this.share.sendPasswordByTalk = enabled
-			},
-		},
-
-		/**
 		 * Is the current share an email share ?
 		 *
 		 * @return {boolean}
@@ -475,20 +474,6 @@ export default {
 			return this.share
 				? this.share.type === ShareType.Email
 				: false
-		},
-
-		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
-				// Makes no sense
-				return false
-			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-				// For email shares we need a new password in order to enable or
-				// disable
-				return false
-			}
-
-			// Anything else should be fine
-			return true
 		},
 
 		/**
@@ -628,6 +613,17 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Open the unified sharing dialog to edit this link share.
+		 */
+		async openEditDialog() {
+			try {
+				await openShareEditDialog(this.share.id, this.fileInfo.node)
+			} catch (error) {
+				logger.error('Failed to open the sharing dialog', { error })
+			}
+		},
+
 		/**
 		 * Check if the share requires review
 		 *
@@ -854,46 +850,6 @@ export default {
 		},
 
 		/**
-		 * Menu have been closed or password has been submitted.
-		 * The only property that does not get
-		 * synced automatically is the password
-		 * So let's check if we have an unsaved
-		 * password.
-		 * expireDate is saved on datepicker pick
-		 * or close.
-		 */
-		onPasswordSubmit() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-				this.queueUpdate('password')
-			}
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-			}
-
-			this.queueUpdate('sendPasswordByTalk', 'password')
-		},
-
-		/**
-		 * Save potential changed data on menu close
-		 */
-		onMenuClose() {
-			this.onPasswordSubmit()
-			this.onNoteSubmit()
-		},
-
-		/**
 		 * @param {boolean} enabled True if expiration is enabled
 		 */
 		onExpirationDateToggleUpdate(enabled) {
@@ -935,6 +891,7 @@ export default {
 		justify-content: space-between;
 		flex: 1 0;
 		min-width: 0;
+		align-items: center;
 	}
 
 		&__desc {

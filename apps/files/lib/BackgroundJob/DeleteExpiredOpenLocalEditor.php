@@ -33,6 +33,7 @@ class DeleteExpiredOpenLocalEditor extends TimedJob {
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->mapper->deleteExpiredTokens($this->time->getTime());
 	}

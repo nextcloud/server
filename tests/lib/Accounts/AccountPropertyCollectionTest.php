@@ -21,6 +21,7 @@ class AccountPropertyCollectionTest extends TestCase {
 
 	protected const COLLECTION_NAME = 'my_multivalue_property';
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

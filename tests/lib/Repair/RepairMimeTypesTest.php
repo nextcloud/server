@@ -31,6 +31,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	private IMimeTypeLoader $mimetypeLoader;
 	private IDBConnection $db;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -61,6 +62,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
@@ -132,6 +134,37 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$fixedMimeTypes = [
 			['test.jp2', 'image/jp2'],
 			['test.webp', 'image/webp'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming AVIF images, which had no mapping and so were stored
+	 * as whatever the content sniffer made of them, or as nothing at all
+	 */
+	public function testRenameAvifType(): void {
+		$currentMimeTypes = [
+			['test.avif', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.avif', 'image/avif'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming JPEG XL images, which had no mapping either
+	 */
+	public function testRenameJxlType(): void {
+		$currentMimeTypes = [
+			['test.jxl', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.jxl', 'image/jxl'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);

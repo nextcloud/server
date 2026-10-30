@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Controller;
+namespace Tests\Core\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
@@ -24,6 +24,7 @@ class ContactsMenuControllerTest extends TestCase {
 
 	private ContactsMenuController $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -71,7 +72,7 @@ class ContactsMenuControllerTest extends TestCase {
 		$entries[0]->method('getProperty')
 			->with('UID')
 			->willReturn('member1');
-		$entries[0]->method('getProperty')
+		$entries[1]->method('getProperty')
 			->with('UID')
 			->willReturn('member2');
 

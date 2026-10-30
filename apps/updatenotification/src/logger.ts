@@ -6,6 +6,6 @@
 import { getLoggerBuilder } from '@nextcloud/logger'
 
 export const logger = getLoggerBuilder()
-	.detectLogLevel()
 	.setApp('updatenotification')
+	.detectLogLevel()
 	.build()

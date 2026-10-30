@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -78,7 +79,13 @@ class ServerFactory {
 		$useCollection = $isPublicShare && !$needsSharesInRoot;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
 		[$tree, $rootCollection] = $this->getTree($useCollection);
+
+		// Set streaming of PROPFIND responses
+		Server::$streamMultiStatus = true;
+
 		$server = new Server($tree);
+		$server->addPlugin(new StreamedPropFindNotFoundPlugin());
+
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
 		$server->setBaseUri($baseUri);
@@ -110,6 +117,8 @@ class ServerFactory {
 			$this->logger,
 			$this->eventDispatcher,
 			\OCP\Server::get(IDateTimeZone::class),
+			$this->config,
+			$this->l10n,
 		));
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
@@ -130,7 +139,12 @@ class ServerFactory {
 		$server->on('beforeMethod:*', function () use ($server,
 			$tree, $viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
 			// ensure the skeleton is copied
-			$userFolder = \OC::$server->getUserFolder();
+			$userFolder = null;
+			$rootFolder = \OCP\Server::get(IRootFolder::class);
+			$user = $this->userSession->getUser();
+			if ($user !== null) {
+				$userFolder = $rootFolder->getUserFolder($user->getUID());
+			}
 
 			/** @var View $view */
 			$view = $viewCallBack($server);
@@ -180,7 +194,8 @@ class ServerFactory {
 				$server->addPlugin(new SharesPlugin(
 					$tree,
 					$this->userSession,
-					\OCP\Server::get(\OCP\Share\IManager::class)
+					\OCP\Server::get(\OCP\Share\IManager::class),
+					$rootFolder,
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(
@@ -201,7 +216,7 @@ class ServerFactory {
 							$server,
 							$tree,
 							$this->databaseConnection,
-							$this->userSession->getUser(),
+							$user,
 							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)

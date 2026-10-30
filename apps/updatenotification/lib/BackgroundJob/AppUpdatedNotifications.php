@@ -38,6 +38,7 @@ class AppUpdatedNotifications extends QueuedJob {
 	/**
 	 * @param array{appId: string, timestamp: int} $argument
 	 */
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$appId = $argument['appId'];
 		$timestamp = $argument['timestamp'];
@@ -47,7 +48,7 @@ class AppUpdatedNotifications extends QueuedJob {
 		$this->logger->debug(
 			'Running background job to create app update notifications for "' . $appId . '"',
 			[
-				'app' => Application::APP_NAME,
+				'app' => Application::APP_ID,
 			],
 		);
 
@@ -60,7 +61,7 @@ class AppUpdatedNotifications extends QueuedJob {
 
 		// Create new notifications
 		$notification = $this->notificationManager->createNotification();
-		$notification->setApp(Application::APP_NAME)
+		$notification->setApp(Application::APP_ID)
 			->setDateTime($dateTime)
 			->setSubject('app_updated', [$appId])
 			->setObject('app_updated', $appId);
@@ -74,7 +75,7 @@ class AppUpdatedNotifications extends QueuedJob {
 	 */
 	private function stopPreviousNotifications(string $appId): void {
 		$notification = $this->notificationManager->createNotification();
-		$notification->setApp(Application::APP_NAME)
+		$notification->setApp(Application::APP_ID)
 			->setObject('app_updated', $appId);
 		$this->notificationManager->markProcessed($notification);
 	}

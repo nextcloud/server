@@ -25,20 +25,24 @@ class AppCalendarPlugin implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getAppID(): string {
 		return 'dav-wrapper';
 	}
 
+	#[\Override]
 	public function fetchAllForCalendarHome(string $principalUri): array {
 		return array_map(function ($calendar) use (&$principalUri) {
 			return new AppCalendar($this->getAppID(), $calendar, $principalUri);
 		}, $this->getWrappedCalendars($principalUri));
 	}
 
+	#[\Override]
 	public function hasCalendarInCalendarHome(string $principalUri, string $calendarUri): bool {
 		return count($this->getWrappedCalendars($principalUri, [ $calendarUri ])) > 0;
 	}
 
+	#[\Override]
 	public function getCalendarInCalendarHome(string $principalUri, string $calendarUri): ?ExternalCalendar {
 		$calendars = $this->getWrappedCalendars($principalUri, [ $calendarUri ]);
 		if (count($calendars) > 0) {

@@ -6,9 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Deck\Sharing\ShareAPIHelper;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -34,6 +37,7 @@ use Psr\Container\ContainerExceptionInterface;
 /**
  * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class DeletedShareAPIController extends OCSController {
 
 	public function __construct(

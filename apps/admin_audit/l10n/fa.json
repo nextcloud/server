@@ -1,5 +1,5 @@
 { "translations": {
-    "Auditing / Logging" : "حسابرسی / گزارش‌گیری",
-    "Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions." : "قابلیت‌های گزارش‌گیری مانند ثبت گزارش دسترسی به پرونده‌ها یا اقدامات حساس دیگر را برای نکست‌کلود فراهم می‌کند."
+    "Auditing / Logging" : "ممیزی / ثبت رویداد",
+    "Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions." : "قابلیت‌های ثبت رویداد را برای نکست‌کلود فراهم می‌کند، مانند ثبت دسترسی به فایل‌ها یا اقدامات حساس دیگر."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

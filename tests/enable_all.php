@@ -25,6 +25,10 @@ foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
 	if ($file->isDot()) {
 		continue;
 	}
+	// apps/viewer is not an app, only the legacy viewer API until Nextcloud 39
+	if (!file_exists($file->getPathname() . '/appinfo/info.xml')) {
+		continue;
+	}
 	if (!file_exists($file->getPathname() . '/.git')) {
 		enableApp($file->getFilename());
 	}

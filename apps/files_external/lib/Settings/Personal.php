@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -34,12 +35,14 @@ class Personal implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$this->setInitialState();
 		$this->loadScriptsAndStyles();
 		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
+	#[\Override]
 	public function getSection() {
 		if (!$this->backendService->isUserMountingAllowed()) {
 			return null;
@@ -55,6 +58,7 @@ class Personal implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 40;
 	}

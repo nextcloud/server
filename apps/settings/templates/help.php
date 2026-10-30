@@ -49,6 +49,7 @@
 					</span>
 				</a>
 			</li>
+		</ul>
 	</div>
 
 	<div id="app-content" class="help-includes">
@@ -87,6 +88,7 @@
 						<?php p($l->t('Privacy policy')); ?> ↗
 					</a>
 				<?php } ?>
+				</div>
 			</div>
 		</div>
 	</div>

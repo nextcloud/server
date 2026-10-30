@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Notify;
 
 use OCP\Files\Notify\IChange;
@@ -25,6 +26,7 @@ class Change implements IChange {
 	 *
 	 * @return IChange::ADDED|IChange::REMOVED|IChange::MODIFIED|IChange::RENAMED
 	 */
+	#[\Override]
 	public function getType(): int {
 		return $this->type;
 	}
@@ -34,6 +36,7 @@ class Change implements IChange {
 	 *
 	 * Note, for rename changes this path is the old path for the file
 	 */
+	#[\Override]
 	public function getPath(): string {
 		return $this->path;
 	}

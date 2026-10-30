@@ -28,6 +28,7 @@ class DummySubscription implements ISubscription {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function hasValidSubscription(): bool {
 		return $this->hasValidSubscription;
 	}
@@ -35,10 +36,12 @@ class DummySubscription implements ISubscription {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function hasExtendedSupport(): bool {
 		return $this->hasExtendedSupport;
 	}
 
+	#[\Override]
 	public function isHardUserLimitReached(): bool {
 		return $this->isHardUserLimitReached;
 	}

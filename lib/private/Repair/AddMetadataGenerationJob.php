@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
@@ -19,10 +20,12 @@ class AddMetadataGenerationJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Queue a job to generate metadata';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(GenerateMetadataJob::class);
 	}

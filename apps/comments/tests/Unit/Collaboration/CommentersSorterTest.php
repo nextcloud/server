@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Tests\Unit\Collaboration;
 
 use OCA\Comments\Collaboration\CommentersSorter;
@@ -16,6 +17,7 @@ class CommentersSorterTest extends TestCase {
 	protected ICommentsManager&MockObject $commentsManager;
 	protected CommentersSorter $sorter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

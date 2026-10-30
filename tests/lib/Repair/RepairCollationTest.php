@@ -22,6 +22,7 @@ class TestCollationRepair extends Collation {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getAllNonUTF8BinTables(IDBConnection $connection): array {
 		return parent::getAllNonUTF8BinTables($connection);
 	}
@@ -42,6 +43,7 @@ class RepairCollationTest extends TestCase {
 
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -59,6 +61,7 @@ class RepairCollationTest extends TestCase {
 		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->connection = Server::get(ConnectionAdapter::class);
 		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {

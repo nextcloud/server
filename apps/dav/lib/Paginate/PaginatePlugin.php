@@ -31,6 +31,7 @@ class PaginatePlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$server->on('beforeMultiStatus', [$this, 'onMultiStatus']);
@@ -39,6 +40,7 @@ class PaginatePlugin extends ServerPlugin {
 		$server->on('method:REPORT', [$this, 'onMethod'], 1);
 	}
 
+	#[\Override]
 	public function getFeatures(): array {
 		return ['nc-paginate'];
 	}
@@ -57,17 +59,21 @@ class PaginatePlugin extends ServerPlugin {
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
 
 			$copyIterator = new LimitedCopyIterator($fileProperties, $pageSize, $offset);
-			// wrap the iterator with another that renders XML, this way we
-			// cache XML, but we keep the first $pageSize elements as objects
-			// to use for the response of the first page.
-			$rendererGenerator = $this->getXmlRendererGenerator($copyIterator);
-			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator);
+
+			if ($copyIterator->hasOthers()) {
+				// wrap the iterator with another that renders XML, this way we
+				// cache XML, but we keep the first $pageSize elements as objects
+				// to use for the response of the first page.
+				$rendererGenerator = $this->getXmlRendererGenerator($copyIterator);
+				['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator);
+
+				$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
+				$this->server->httpResponse->addHeader(self::PAGINATE_TOKEN_HEADER, $token);
+				$this->server->httpResponse->addHeader(self::PAGINATE_TOTAL_HEADER, (string)$count);
+				$request->setHeader(self::PAGINATE_TOKEN_HEADER, $token);
+			}
 
 			$fileProperties = $copyIterator->getRequestedItems();
-			$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
-			$this->server->httpResponse->addHeader(self::PAGINATE_TOKEN_HEADER, $token);
-			$this->server->httpResponse->addHeader(self::PAGINATE_TOTAL_HEADER, (string)$count);
-			$request->setHeader(self::PAGINATE_TOKEN_HEADER, $token);
 		}
 	}
 

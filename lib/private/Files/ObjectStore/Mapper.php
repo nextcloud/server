@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\ObjectStore;
 
 use OCP\IUser;
@@ -29,6 +30,10 @@ class Mapper {
 		$minBucket = isset($this->config['arguments']['min_bucket'])
 			? (int)$this->config['arguments']['min_bucket']
 			: 0;
+
+		if ($minBucket === $numBuckets) {
+			return (string)$minBucket;
+		}
 
 		$hash = md5($this->user->getUID());
 		$num = hexdec(substr($hash, 0, 4));

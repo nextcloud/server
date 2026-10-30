@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -24,7 +25,6 @@ class DataDisplayResponse extends Response {
 	 */
 	protected $data;
 
-
 	/**
 	 * @param string $data the data to display
 	 * @param S $statusCode the Http status code, defaults to 200
@@ -43,10 +43,10 @@ class DataDisplayResponse extends Response {
 	 * @return string
 	 * @since 8.1.0
 	 */
+	#[\Override]
 	public function render() {
 		return $this->data;
 	}
-
 
 	/**
 	 * Sets values in the data
@@ -59,7 +59,6 @@ class DataDisplayResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Used to get the set parameters

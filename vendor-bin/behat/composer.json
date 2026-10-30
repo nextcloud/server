@@ -1,12 +1,13 @@
 {
 	"config": {
 		"platform": {
-			"php": "8.2"
+			"php": "8.3"
 		},
 		"sort-packages": true
 	},
 	"require-dev": {
-		"behat/behat": "^3.27",
+		"behat/behat": "^4.0",
+		"behat/phpunit-assertions-extension": "^1.0",
 		"phpunit/phpunit": "^11.5"
 	}
 }

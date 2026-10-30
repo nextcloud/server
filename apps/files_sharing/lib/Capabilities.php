@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -46,6 +47,7 @@ class Capabilities implements ICapability {
 	 *             expire_date?: array{
 	 *                 enabled: bool,
 	 *                 days?: int,
+	 *                 default_days?: int,
 	 *                 enforced?: bool,
 	 *             },
 	 *             expire_date_internal?: array{
@@ -90,12 +92,14 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         },
 	 *         sharee: array{
+	 *             minSearchStringLength: int,
 	 *             query_lookup_default: bool,
 	 *             always_show_unique: bool,
 	 *         },
 	 *	   },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$res = [];
 
@@ -123,7 +127,13 @@ class Capabilities implements ICapability {
 				$public['multiple_links'] = true;
 				$public['expire_date']['enabled'] = $this->shareManager->shareApiLinkDefaultExpireDate();
 				if ($public['expire_date']['enabled']) {
-					$public['expire_date']['days'] = $this->shareManager->shareApiLinkDefaultExpireDays();
+					$maxDays = $this->shareManager->shareApiLinkDefaultExpireDays();
+					$defaultDays = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$maxDays);
+					if ($defaultDays > $maxDays) {
+						$defaultDays = $maxDays;
+					}
+					$public['expire_date']['days'] = $maxDays;
+					$public['expire_date']['default_days'] = $defaultDays;
 					$public['expire_date']['enforced'] = $this->shareManager->shareApiLinkDefaultExpireDateEnforced();
 				}
 
@@ -185,6 +195,7 @@ class Capabilities implements ICapability {
 
 		// Sharee searches
 		$res['sharee'] = [
+			'minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false),
 			'always_show_unique' => $this->config->getAppValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
 		];

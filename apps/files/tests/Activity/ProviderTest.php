@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Tests\Activity;
 
 use OCA\Files\Activity\Provider;
@@ -116,7 +117,6 @@ class ProviderTest extends TestCase {
 		$this->assertSame($path, $result['path']);
 		$this->assertSame('link-' . $id, $result['link']);
 	}
-
 
 	public function testGetFileThrows(): void {
 		$this->expectException(UnknownActivityException::class);

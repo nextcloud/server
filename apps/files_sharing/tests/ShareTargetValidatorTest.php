@@ -9,12 +9,11 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Tests;
 
 use OC\EventDispatcher\EventDispatcher;
-use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
-use OCP\Files\Mount\IMountManager;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Share\Events\VerifyMountPointEvent;
@@ -40,7 +39,6 @@ class ShareTargetValidatorTest extends TestCase {
 
 		$this->filename = '/share-api-storage.txt';
 
-
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder2);
 
@@ -57,14 +55,12 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->targetValidator = new ShareTargetValidator(
 			Server::get(IManager::class),
 			$this->eventDispatcher,
-			Server::get(SetupManager::class),
-			Server::get(IMountManager::class),
+			Server::get(IRootFolder::class),
 		);
 		$this->user2 = $this->createMock(IUser::class);
 		$this->user2->method('getUID')
 			->willReturn(self::TEST_FILES_SHARING_API_USER2);
 	}
-
 
 	/**
 	 * test if the mount point moves up if the parent folder no longer exists
@@ -85,7 +81,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
 
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame($this->folder, $share->getTarget());
@@ -119,7 +115,7 @@ class ShareTargetValidatorTest extends TestCase {
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/bar (2)', $share->getTarget());
@@ -144,9 +140,10 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 
 		$conflictingMount = $this->createMock(ICachedMountInfo::class);
-		$this->targetValidator->verifyMountPoint($this->user2, $share2, [
+		$conflictingMounts = [
 			'/' . $this->user2->getUID() . '/files' . $this->folder2 . '/' => $conflictingMount
-		], [$share2]);
+		];
+		$this->targetValidator->verifyMountPoint($this->user2, $share2, fn ($path) => $conflictingMounts[$path] ?? null, [$share2]);
 
 		$share2 = $this->shareManager->getShareById($share2->getFullId());
 
@@ -157,7 +154,6 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 		$this->view->unlink($this->folder);
 	}
-
 
 	/**
 	 * test if the parent folder is created if asked for
@@ -181,7 +177,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->eventDispatcher->addListener(VerifyMountPointEvent::class, function (VerifyMountPointEvent $event): void {
 			$event->setCreateParent(true);
 		});
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());

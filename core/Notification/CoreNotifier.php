@@ -6,8 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Notification;
 
+use OC\Core\BackgroundJobs\CheckCodeIntegrityJob;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
@@ -30,6 +32,7 @@ class CoreNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'core';
 	}
@@ -40,10 +43,12 @@ class CoreNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->factory->get('core')->t('Nextcloud Server');
 	}
 
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'core') {
 			throw new UnknownNotificationException();
@@ -69,6 +74,16 @@ class CoreNotifier implements INotifier {
 				->setLink($link, IAction::TYPE_WEB)
 				->setPrimary(true);
 			$notification->addParsedAction($action);
+			return $notification;
+		}
+
+		if ($notification->getSubject() === 'code_integrity_changed') {
+			$sentences = CheckCodeIntegrityJob::formatSummary($l, $notification->getSubjectParameters());
+			$sentences[] = $l->t('Review the results in the administration overview.');
+			$notification->setParsedSubject($l->t('The code integrity check result has changed'));
+			$notification->setParsedMessage(implode("\n", $sentences));
+			$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']));
+			$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/error.svg')));
 			return $notification;
 		}
 

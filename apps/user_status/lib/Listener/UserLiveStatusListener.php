@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Listener;
 
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
@@ -41,6 +42,7 @@ class UserLiveStatusListener implements IEventListener {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserLiveStatusEvent)) {
 			// Unrelated
@@ -74,9 +76,7 @@ class UserLiveStatusListener implements IEventListener {
 
 		$needsUpdate = false;
 
-		// If the current status is older than 5 minutes,
-		// treat it as outdated and update
-		if ($userStatus->getStatusTimestamp() < ($this->timeFactory->getTime() - StatusService::INVALIDATE_STATUS_THRESHOLD)) {
+		if ($userStatus->getStatusTimestamp() < ($this->timeFactory->getTime() - StatusService::REFRESH_STATUS_THRESHOLD)) {
 			$needsUpdate = true;
 		}
 

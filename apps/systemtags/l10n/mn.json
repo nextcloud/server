@@ -43,6 +43,8 @@
     "Collaborative tags" : "Хамтран ажиллах түлхүүр үг",
     "Collaborative tagging functionality which shares tags among people." : "Хүмүүсийн дунд тагуудыг хуваалцдаг хамтарсан таглах функц.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Хүмүүсийн хооронд шошгуудыг хуваалцдаг хамтарсан шошгожуулалтын функц. Багуудад маш тохиромжтой.\n\t(Хэрэв та олон түрээслэгчтэй суурилуулалтын үйлчлүүлэгч бол шошгууд хуваалцагддаг учир энэ аппыг идэвхгүй болгохыг зөвлөдөг.)",
+    "Search tags" : "Tag-үүд хайх",
+    "No tags available" : "Боломжтой Tag-үүд алга",
     "Public" : "Нийтийн",
     "Restricted" : "Хязгаарлагдсан",
     "Invisible" : "Үл харагдах",
@@ -63,9 +65,9 @@
     "Delete" : "Устгах",
     "Reset" : "Хэвэнд нь оруулах",
     "Loading …" : "Ачаалж байна …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} тохируулагдаж {tag2} 1 файлаас хасагдана.","{tag1} тохируулагдаж {tag2} {count} файлаас хасагдана."],
+    "_{tag1} will be set and {tag2} will be removed from {count} file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} тохируулагдаж, {count} файлаас {tag2} хасагдана.","{tag1} тохируулагдаж, {count} файлаас {tag2} хасагдана."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} 1 файлд тохируулагдана.","{tag} {count} файлд тохируулагдана."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} 1 файлаас хасагдана.","{tag} {count} файлаас хасагдана."],
+    "_{tag} will be removed from {count} file._::_{tag} will be removed from {count} files._" : ["{count} файлаас {tag} хасагдана.","{count} файлаас {tag} хасагдана."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} болон {lastTag} 1 файлд тохируулагдана.","{tags} болон {lastTag} {count} файлд тохируулагдана."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} болон {lastTag} 1 файлаас хасагдана.","{tags} болон {lastTag} {count} файлаас хасагдана."],
     "{displayName} (hidden)" : "{displayName} (нуугдсан)",
@@ -108,8 +110,7 @@
     "Failed to load tags for file" : "Файлын тагуудыг ачаалж чадсангүй",
     "Failed to set tag for file" : "Файлд таг тохируулж чадсангүй",
     "Failed to delete tag for file" : "Файлаас таг устгаж чадсангүй",
-    "Collaborative tags …" : "Хамтарсан тагууд …",
-    "Loading …" : "Ачаалж байна …",
-    "Loading collaborative tags …" : "Хамтарсан тагуудыг ачаалж байна …"
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} тохируулагдаж {tag2} 1 файлаас хасагдана.","{tag1} тохируулагдаж {tag2} {count} файлаас хасагдана."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} 1 файлаас хасагдана.","{tag} {count} файлаас хасагдана."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

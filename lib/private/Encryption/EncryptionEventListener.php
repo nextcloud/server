@@ -48,6 +48,7 @@ class EncryptionEventListener implements IEventListener {
 		$dispatcher->addServiceListener(NodeRestoredEvent::class, static::class);
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$this->encryptionManager->isEnabled()) {
 			return;

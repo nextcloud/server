@@ -22,8 +22,9 @@ class AppConfigTest extends TestCase {
 	private IAppConfigCore|MockObject $appConfigCore;
 	private AppConfig $appConfig;
 
-	private const TEST_APPID = 'appconfig-test';
+	private const string TEST_APPID = 'appconfig-test';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -40,7 +41,6 @@ class AppConfigTest extends TestCase {
 			->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->getAppKeys());
 	}
-
 
 	/**
 	 * @return array
@@ -70,7 +70,6 @@ class AppConfigTest extends TestCase {
 			->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->hasAppKey($key, $lazy));
 	}
-
 
 	/**
 	 * @return array

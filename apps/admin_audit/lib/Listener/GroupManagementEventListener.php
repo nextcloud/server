@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -21,6 +22,7 @@ use OCP\Group\Events\UserRemovedEvent;
  * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|GroupCreatedEvent|GroupDeletedEvent>
  */
 class GroupManagementEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserAddedEvent) {
 			$this->userAdded($event);
@@ -34,7 +36,7 @@ class GroupManagementEventListener extends Action implements IEventListener {
 	}
 
 	private function userAdded(UserAddedEvent $event): void {
-		$this->log('User "%s" added to group "%s"',
+		$this->log(Operation::GroupMemberAdded, 'User "%s" added to group "%s"',
 			[
 				'group' => $event->getGroup()->getGID(),
 				'user' => $event->getUser()->getUID()
@@ -46,7 +48,7 @@ class GroupManagementEventListener extends Action implements IEventListener {
 	}
 
 	private function userRemoved(UserRemovedEvent $event): void {
-		$this->log('User "%s" removed from group "%s"',
+		$this->log(Operation::GroupMemberRemoved, 'User "%s" removed from group "%s"',
 			[
 				'group' => $event->getGroup()->getGID(),
 				'user' => $event->getUser()->getUID()
@@ -58,7 +60,7 @@ class GroupManagementEventListener extends Action implements IEventListener {
 	}
 
 	private function groupCreated(GroupCreatedEvent $event): void {
-		$this->log('Group created: "%s"',
+		$this->log(Operation::GroupCreated, 'Group created: "%s"',
 			[
 				'group' => $event->getGroup()->getGID()
 			],
@@ -69,7 +71,7 @@ class GroupManagementEventListener extends Action implements IEventListener {
 	}
 
 	private function groupDeleted(GroupDeletedEvent $event): void {
-		$this->log('Group deleted: "%s"',
+		$this->log(Operation::GroupDeleted, 'Group deleted: "%s"',
 			[
 				'group' => $event->getGroup()->getGID()
 			],

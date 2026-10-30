@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\BackgroundJob;
 
 use OC\Installer;
@@ -49,6 +50,7 @@ class UpdateAvailableNotifications extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		// Do not check for updates if not connected to the internet
 		if (!$this->config->getSystemValueBool('has_internet_connection', true)) {
@@ -110,9 +112,9 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setDateTime(new \DateTime())
-				->setObject(Application::APP_NAME, 'error')
+				->setObject(Application::APP_ID, 'error')
 				->setSubject('connection_error', ['days' => $numDays]);
 
 			foreach ($this->getUsersToNotify() as $uid) {
@@ -130,9 +132,9 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function clearErrorNotifications(): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setSubject('connection_error')
-				->setObject(Application::APP_NAME, 'error');
+				->setObject(Application::APP_ID, 'error');
 		} catch (\InvalidArgumentException $e) {
 			return;
 		}
@@ -173,7 +175,7 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setDateTime(new \DateTime())
 				->setObject($app, $version);
 
@@ -226,7 +228,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function deleteOutdatedNotifications($app, $version): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setObject($app, $version);
 		} catch (\InvalidArgumentException) {
 			return;

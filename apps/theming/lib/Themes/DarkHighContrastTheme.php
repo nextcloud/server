@@ -5,28 +5,34 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
 
 class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
+	#[\Override]
 	public function getId(): string {
 		return 'dark-highcontrast';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dark theme with high contrast mode');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dark high contrast mode');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Similar to the high contrast mode, but with dark colours.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: dark) and (prefers-contrast: more)';
 	}
@@ -34,6 +40,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 	/**
 	 * Keep this consistent with other HighContrast Themes
 	 */
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
@@ -116,6 +123,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		);
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		return "
 		[class^='icon-'], [class*=' icon-'],

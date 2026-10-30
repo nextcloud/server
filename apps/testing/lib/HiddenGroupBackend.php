@@ -18,26 +18,32 @@ class HiddenGroupBackend extends ABackend implements IHideFromCollaborationBacke
 	) {
 	}
 
+	#[\Override]
 	public function inGroup($uid, $gid): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function getUserGroups($uid): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0): array {
 		return $offset === 0 ? [$this->groupName] : [];
 	}
 
+	#[\Override]
 	public function groupExists($gid): bool {
 		return $gid === $this->groupName;
 	}
 
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0): array {
 		return [];
 	}
 
+	#[\Override]
 	public function hideGroup(string $groupId): bool {
 		return true;
 	}

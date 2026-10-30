@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\AppData;
 
 use OC\Files\SimpleFS\SimpleFolder;
@@ -85,6 +86,7 @@ class AppData implements IAppData {
 		return $this->folder;
 	}
 
+	#[\Override]
 	public function getFolder(string $name): ISimpleFolder {
 		$key = $this->appId . '/' . $name;
 		if ($cachedFolder = $this->folders->get($key)) {
@@ -113,6 +115,7 @@ class AppData implements IAppData {
 		return $folder;
 	}
 
+	#[\Override]
 	public function newFolder(string $name): ISimpleFolder {
 		$key = $this->appId . '/' . $name;
 		$folder = $this->getAppDataFolder()->newFolder($name);
@@ -122,6 +125,7 @@ class AppData implements IAppData {
 		return $simpleFolder;
 	}
 
+	#[\Override]
 	public function getDirectoryListing(): array {
 		$listing = $this->getAppDataFolder()->getDirectoryListing();
 

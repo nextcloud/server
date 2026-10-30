@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -44,6 +45,7 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\LoadAdditionalListener;
+use OCA\Files_External\Listener\StorePasswordListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\MountCacheService;
@@ -56,9 +58,10 @@ use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -76,6 +79,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
@@ -87,11 +91,15 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserCreatedEvent::class, MountCacheService::class);
 		$context->registerEventListener(UserAddedEvent::class, MountCacheService::class);
 		$context->registerEventListener(UserRemovedEvent::class, MountCacheService::class);
-		$context->registerEventListener(PostLoginEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserLoggedInEvent::class, MountCacheService::class);
+
+		$context->registerEventListener(UserLoggedInEvent::class, StorePasswordListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter): void {
 			$mountProviderCollection->registerProvider($configAdapter);
@@ -108,6 +116,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	/**
 	 * @{inheritdoc}
 	 */
+	#[\Override]
 	public function getBackends() {
 		$container = $this->getContainer();
 
@@ -130,6 +139,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	/**
 	 * @{inheritdoc}
 	 */
+	#[\Override]
 	public function getAuthMechanisms() {
 		$container = $this->getContainer();
 

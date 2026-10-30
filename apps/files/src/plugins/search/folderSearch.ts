@@ -9,7 +9,7 @@ import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
-import logger from '../../logger.ts'
+import { logger } from '../../utils/logger.ts'
 
 /**
  * Initialize the unified search plugin.

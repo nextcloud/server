@@ -1,10 +1,11 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OCP\Constants;
@@ -15,11 +16,13 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Override;
 
 class Share implements IShare {
@@ -30,23 +33,24 @@ class Share implements IShare {
 	private $fileId;
 	/** @var string */
 	private $nodeType;
-	/** @var int */
+	/** @var IShare::TYPE_* */
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
-	/** @var string */
-	private $sharedWithDisplayName;
+	private ?string $sharedWithDisplayName = null;
+	/** @var ?callable */
+	private $sharedWithDisplayNameCallback = null;
 	/** @var string */
 	private $sharedWithAvatar;
 	/** @var string */
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
-	/** @var int */
+	/** @var int-mask-of<Constants::PERMISSION_*> */
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
-	/** @var int */
+	/** @var self::STATUS_* */
 	private $status;
 	/** @var string */
 	private $note = '';
@@ -54,14 +58,17 @@ class Share implements IShare {
 	private $expireDate;
 	/** @var string */
 	private $password;
+	private bool $isPasswordHashed = false;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
-	private $token;
+	private $token = '';
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
+	/** @var string */
+	private ?string $originalTarget = null;
 	/** @var \DateTime */
 	private $shareTime;
 	/** @var bool */
@@ -131,20 +138,24 @@ class Share implements IShare {
 				throw new NotFoundException();
 			}
 
-			// for federated shares the owner can be a remote user, in this
-			// case we use the initiator
-			if ($this->userManager->userExists($this->shareOwner)) {
-				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
-			} else {
-				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
-			}
+			try {
+				// for federated shares the owner can be a remote user, in this
+				// case we use the initiator
+				if ($this->userManager->userExists($this->shareOwner)) {
+					$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+				} else {
+					$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
+				}
 
-			$node = $userFolder->getFirstNodeById($this->fileId);
-			if (!$node) {
-				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
-			}
+				$node = $userFolder->getFirstNodeById($this->fileId);
+				if (!$node) {
+					throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
+				}
 
-			$this->node = $node;
+				$this->node = $node;
+			} catch (UserNotFoundException $e) {
+				throw new NotFoundException('Owner for share not found, fileid: ' . $this->fileId, previous:$e);
+			}
 		}
 
 		return $this->node;
@@ -153,6 +164,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setNodeId($fileId) {
 		$this->node = null;
 		$this->fileId = $fileId;
@@ -162,6 +174,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getNodeId(): int {
 		if ($this->fileId === null) {
 			$this->fileId = $this->getNode()->getId();
@@ -177,6 +190,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setNodeType($type) {
 		if ($type !== 'file' && $type !== 'folder') {
 			throw new \InvalidArgumentException();
@@ -189,6 +203,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getNodeType() {
 		if ($this->nodeType === null) {
 			if ($this->getNodeCacheEntry()) {
@@ -206,6 +221,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setShareType($shareType) {
 		$this->shareType = $shareType;
 		return $this;
@@ -214,6 +230,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareType() {
 		return $this->shareType;
 	}
@@ -221,6 +238,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSharedWith($sharedWith) {
 		if (!is_string($sharedWith)) {
 			throw new \InvalidArgumentException();
@@ -232,6 +250,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharedWith() {
 		return $this->sharedWith;
 	}
@@ -239,6 +258,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSharedWithDisplayName($displayName) {
 		if (!is_string($displayName)) {
 			throw new \InvalidArgumentException();
@@ -248,15 +268,30 @@ class Share implements IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param callable(IShare):?string $callback
+	 * @return $this
 	 */
+	public function setSharedWithDisplayNameCallback(callable $callback) {
+		$this->sharedWithDisplayNameCallback = $callback;
+		return $this;
+	}
+
+	#[\Override]
 	public function getSharedWithDisplayName() {
-		return $this->sharedWithDisplayName;
+		if ($this->sharedWithDisplayNameCallback !== null) {
+			$displayName = ($this->sharedWithDisplayNameCallback)($this);
+			if ($displayName !== null) {
+				$this->sharedWithDisplayName = $displayName;
+			}
+			$this->sharedWithDisplayNameCallback = null;
+		}
+		return $this->sharedWithDisplayName ?? '';
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSharedWithAvatar($src) {
 		if (!is_string($src)) {
 			throw new \InvalidArgumentException();
@@ -268,6 +303,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharedWithAvatar() {
 		return $this->sharedWithAvatar;
 	}
@@ -275,6 +311,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setPermissions($permissions) {
 		//TODO checks
 
@@ -285,6 +322,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPermissions() {
 		return $this->permissions;
 	}
@@ -292,6 +330,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function newAttributes(): IAttributes {
 		return new ShareAttributes();
 	}
@@ -299,6 +338,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setAttributes(?IAttributes $attributes) {
 		$this->attributes = $attributes;
 		return $this;
@@ -307,6 +347,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAttributes(): ?IAttributes {
 		return $this->attributes;
 	}
@@ -314,6 +355,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setStatus(int $status): IShare {
 		$this->status = $status;
 		return $this;
@@ -322,13 +364,15 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function getStatus(): int {
+	#[\Override]
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setNote($note) {
 		$this->note = $note;
 		return $this;
@@ -337,6 +381,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getNote() {
 		if (is_string($this->note)) {
 			return $this->note;
@@ -347,6 +392,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setLabel($label) {
 		$this->label = $label;
 		return $this;
@@ -355,6 +401,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getLabel() {
 		return $this->label;
 	}
@@ -362,6 +409,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setExpirationDate($expireDate) {
 		//TODO checks
 
@@ -372,6 +420,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getExpirationDate() {
 		return $this->expireDate;
 	}
@@ -379,6 +428,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setNoExpirationDate(bool $noExpirationDate) {
 		$this->noExpirationDate = $noExpirationDate;
 		return $this;
@@ -387,6 +437,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getNoExpirationDate(): bool {
 		return $this->noExpirationDate;
 	}
@@ -394,6 +445,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function isExpired() {
 		return $this->getExpirationDate() !== null
 			&& $this->getExpirationDate() <= new \DateTime();
@@ -402,6 +454,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSharedBy($sharedBy) {
 		if (!is_string($sharedBy)) {
 			throw new \InvalidArgumentException();
@@ -415,6 +468,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharedBy() {
 		//TODO check if set
 		return $this->sharedBy;
@@ -423,6 +477,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setShareOwner($shareOwner) {
 		if (!is_string($shareOwner)) {
 			throw new \InvalidArgumentException();
@@ -436,6 +491,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareOwner() {
 		//TODO check if set
 		return $this->shareOwner;
@@ -444,21 +500,49 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setPassword($password) {
 		$this->password = $password;
+		$this->isPasswordHashed = false;
+		return $this;
+	}
+
+	#[\Override]
+	public function setPasswordHash(string $passwordHash): IShare {
+		if (!Server::get(IHasher::class)->validate($passwordHash)) {
+			throw new \InvalidArgumentException();
+		}
+
+		$this->password = $passwordHash;
+		$this->isPasswordHashed = true;
 		return $this;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPassword() {
 		return $this->password;
+	}
+
+	#[\Override]
+	public function isPasswordHashed(): bool {
+		return $this->isPasswordHashed;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
+	public function isPasswordProtected(): bool {
+		return $this->password !== '' && $this->password !== null;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	#[\Override]
 	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): IShare {
 		$this->passwordExpirationTime = $passwordExpirationTime;
 		return $this;
@@ -467,6 +551,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPasswordExpirationTime(): ?\DateTimeInterface {
 		return $this->passwordExpirationTime;
 	}
@@ -474,6 +559,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSendPasswordByTalk(bool $sendPasswordByTalk) {
 		$this->sendPasswordByTalk = $sendPasswordByTalk;
 		return $this;
@@ -482,6 +568,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSendPasswordByTalk(): bool {
 		return $this->sendPasswordByTalk;
 	}
@@ -489,6 +576,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setToken($token) {
 		$this->token = $token;
 		return $this;
@@ -497,15 +585,18 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getToken() {
 		return $this->token;
 	}
 
+	#[\Override]
 	public function setParent(int $parent): self {
 		$this->parent = $parent;
 		return $this;
 	}
 
+	#[\Override]
 	public function getParent(): ?int {
 		return $this->parent;
 	}
@@ -513,14 +604,28 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setTarget($target) {
+		// if the target is changed, save the original target
+		if ($this->target && !$this->originalTarget) {
+			$this->originalTarget = $this->target;
+		}
 		$this->target = $target;
 		return $this;
 	}
 
 	/**
+	 * Return the original target, if this share was moved
+	 */
+	#[\Override]
+	public function getOriginalTarget(): ?string {
+		return $this->originalTarget;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getTarget() {
 		return $this->target;
 	}
@@ -528,6 +633,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setShareTime(\DateTime $shareTime) {
 		$this->shareTime = $shareTime;
 		return $this;
@@ -536,6 +642,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareTime() {
 		return $this->shareTime;
 	}
@@ -543,6 +650,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setMailSend($mailSend) {
 		$this->mailSend = $mailSend;
 		return $this;
@@ -551,6 +659,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getMailSend() {
 		return $this->mailSend;
 	}
@@ -558,6 +667,7 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setNodeCacheEntry(ICacheEntry $entry) {
 		$this->nodeCacheEntry = $entry;
 	}
@@ -565,28 +675,34 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getNodeCacheEntry() {
 		return $this->nodeCacheEntry;
 	}
 
+	#[\Override]
 	public function setHideDownload(bool $hide): IShare {
 		$this->hideDownload = $hide;
 		return $this;
 	}
 
+	#[\Override]
 	public function getHideDownload(): bool {
 		return $this->hideDownload;
 	}
 
+	#[\Override]
 	public function setReminderSent(bool $reminderSent): IShare {
 		$this->reminderSent = $reminderSent;
 		return $this;
 	}
 
+	#[\Override]
 	public function getReminderSent(): bool {
 		return $this->reminderSent;
 	}
 
+	#[\Override]
 	public function canDownload(): bool {
 		if (($this->getPermissions() & Constants::PERMISSION_READ) === 0) {
 			return false;
@@ -600,6 +716,7 @@ class Share implements IShare {
 		return true;
 	}
 
+	#[\Override]
 	public function canSeeContent(): bool {
 		$shareManager = Server::get(IManager::class);
 

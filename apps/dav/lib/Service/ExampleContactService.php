@@ -13,9 +13,12 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IL10N;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -47,11 +50,14 @@ class ExampleContactService {
 			return null;
 		}
 
-		if (!$folder->fileExists('defaultContact.vcf')) {
+		try {
+			return $folder->getFile('defaultContact.vcf')->getContent();
+		} catch (NotFoundException $e) {
+			return null;
+		} catch (GenericFileException|NotPermittedException|LockedException $e) {
+			$this->logger->error('Could not read default contact file', ['exception' => $e]);
 			return null;
 		}
-
-		return $folder->getFile('defaultContact.vcf')->getContent();
 	}
 
 	private function createInitialDefaultContact(): void {

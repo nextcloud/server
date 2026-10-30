@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
+use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +24,7 @@ class SetConfig extends Base {
 		parent::__construct($systemConfig);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -55,6 +58,7 @@ class SetConfig extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
@@ -77,8 +81,36 @@ class SetConfig extends Base {
 			$this->systemConfig->setValue($configName, $configValue['value']);
 		}
 
-		$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' set to ' . $configValue['readable-value'] . '</info>');
+		$readableValue = $this->getReadableValue($configNames, $configValue);
+
+		$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' set to ' . $readableValue . '</info>');
 		return 0;
+	}
+
+	/**
+	 * Mask sensitive values
+	 * @param string[] $configNames
+	 * @param array{value: mixed, readable-value: string} $configValue
+	 */
+	protected function getReadableValue(array $configNames, array $configValue): string {
+		$filteredValue = $this->systemConfig->getFilteredValue($configNames[0]);
+		foreach (array_slice($configNames, 1) as $key) {
+			if (!is_array($filteredValue) || !array_key_exists($key, $filteredValue)) {
+				// Nothing got filtered along this path
+				return $configValue['readable-value'];
+			}
+			$filteredValue = $filteredValue[$key];
+		}
+
+		if ($filteredValue === $configValue['value']) {
+			return $configValue['readable-value'];
+		}
+
+		if ($filteredValue === IConfig::SENSITIVE_VALUE) {
+			return IConfig::SENSITIVE_VALUE;
+		}
+
+		return 'array ' . json_encode($filteredValue);
 	}
 
 	/**
@@ -115,6 +147,7 @@ class SetConfig extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'type') {
 			return ['string', 'integer', 'double', 'boolean', 'json', 'null'];

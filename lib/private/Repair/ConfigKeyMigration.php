@@ -19,10 +19,12 @@ class ConfigKeyMigration implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Migrate config keys';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->configManager->migrateConfigLexiconKeys();
 		$this->configManager->updateLexiconEntries('core');

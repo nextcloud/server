@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,16 +9,20 @@ declare(strict_types=1);
 
 namespace OC\User;
 
+use OCP\IImage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private IUserManager $userManager,
+		/** @var ?non-empty-string $displayName */
 		private ?string $displayName = null,
 		private ?UserInterface $backend = null,
 	) {
@@ -35,17 +40,19 @@ class LazyUser implements IUser {
 		}
 
 		if ($this->user === null) {
-			throw new NoUserException('User not found in backend');
+			throw UserNotFoundException::createForUser($this->uid);
 		}
 
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}
 
-	public function getDisplayName() {
+	#[\Override]
+	public function getDisplayName(): string {
 		if ($this->displayName) {
 			return $this->displayName;
 		}
@@ -53,126 +60,157 @@ class LazyUser implements IUser {
 		return $this->userManager->getDisplayName($this->uid) ?? $this->uid;
 	}
 
-	public function setDisplayName($displayName) {
+	#[\Override]
+	public function setDisplayName($displayName): bool {
 		return $this->getUser()->setDisplayName($displayName);
 	}
 
+	#[\Override]
 	public function getLastLogin(): int {
 		return $this->getUser()->getLastLogin();
 	}
 
+	#[\Override]
 	public function getFirstLogin(): int {
 		return $this->getUser()->getFirstLogin();
 	}
 
+	#[\Override]
 	public function updateLastLoginTimestamp(): bool {
 		return $this->getUser()->updateLastLoginTimestamp();
 	}
 
-	public function delete() {
+	#[\Override]
+	public function delete(): bool {
 		return $this->getUser()->delete();
 	}
 
-	public function setPassword($password, $recoveryPassword = null) {
+	#[\Override]
+	public function setPassword($password, $recoveryPassword = null): bool {
 		return $this->getUser()->setPassword($password, $recoveryPassword);
 	}
 
+	#[\Override]
 	public function getPasswordHash(): ?string {
 		return $this->getUser()->getPasswordHash();
 	}
 
+	#[\Override]
 	public function setPasswordHash(string $passwordHash): bool {
 		return $this->getUser()->setPasswordHash($passwordHash);
 	}
 
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		return $this->getUser()->getHome();
 	}
 
-	public function getBackendClassName() {
+	#[\Override]
+	public function getBackendClassName(): string {
 		return $this->getUser()->getBackendClassName();
 	}
 
+	#[\Override]
 	public function getBackend(): ?UserInterface {
 		return $this->getUser()->getBackend();
 	}
 
+	#[\Override]
 	public function canChangeAvatar(): bool {
 		return $this->getUser()->canChangeAvatar();
 	}
 
+	#[\Override]
 	public function canChangePassword(): bool {
 		return $this->getUser()->canChangePassword();
 	}
 
+	#[\Override]
 	public function canChangeDisplayName(): bool {
 		return $this->getUser()->canChangeDisplayName();
 	}
 
+	#[\Override]
 	public function canChangeEmail(): bool {
 		return $this->getUser()->canChangeEmail();
 	}
 
+	#[\Override]
 	public function canEditProperty(string $property): bool {
 		return $this->getUser()->canEditProperty($property);
 	}
 
-	public function isEnabled() {
+	#[\Override]
+	public function isEnabled(): bool {
 		return $this->getUser()->isEnabled();
 	}
 
-	public function setEnabled(bool $enabled = true) {
-		return $this->getUser()->setEnabled($enabled);
+	#[\Override]
+	public function setEnabled(bool $enabled = true): void {
+		$this->getUser()->setEnabled($enabled);
 	}
 
-	public function getEMailAddress() {
+	#[\Override]
+	public function getEMailAddress(): ?string {
 		return $this->getUser()->getEMailAddress();
 	}
 
+	#[\Override]
 	public function getSystemEMailAddress(): ?string {
 		return $this->getUser()->getSystemEMailAddress();
 	}
 
+	#[\Override]
 	public function getPrimaryEMailAddress(): ?string {
 		return $this->getUser()->getPrimaryEMailAddress();
 	}
 
-	public function getAvatarImage($size) {
+	#[\Override]
+	public function getAvatarImage($size): ?IImage {
 		return $this->getUser()->getAvatarImage($size);
 	}
 
-	public function getCloudId() {
+	#[\Override]
+	public function getCloudId(): string {
 		return $this->getUser()->getCloudId();
 	}
 
-	public function setEMailAddress($mailAddress) {
+	#[\Override]
+	public function setEMailAddress($mailAddress): void {
 		$this->getUser()->setEMailAddress($mailAddress);
 	}
 
+	#[\Override]
 	public function setSystemEMailAddress(string $mailAddress): void {
 		$this->getUser()->setSystemEMailAddress($mailAddress);
 	}
 
+	#[\Override]
 	public function setPrimaryEMailAddress(string $mailAddress): void {
 		$this->getUser()->setPrimaryEMailAddress($mailAddress);
 	}
 
-	public function getQuota() {
+	#[\Override]
+	public function getQuota(): string {
 		return $this->getUser()->getQuota();
 	}
 
+	#[\Override]
 	public function getQuotaBytes(): int|float {
 		return $this->getUser()->getQuotaBytes();
 	}
 
-	public function setQuota($quota) {
+	#[\Override]
+	public function setQuota($quota): void {
 		$this->getUser()->setQuota($quota);
 	}
 
+	#[\Override]
 	public function getManagerUids(): array {
 		return $this->getUser()->getManagerUids();
 	}
 
+	#[\Override]
 	public function setManagerUids(array $uids): void {
 		$this->getUser()->setManagerUids($uids);
 	}

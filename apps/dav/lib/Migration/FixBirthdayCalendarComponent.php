@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -21,6 +22,7 @@ class FixBirthdayCalendarComponent implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Fix component of birthday calendars';
 	}
@@ -28,6 +30,7 @@ class FixBirthdayCalendarComponent implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->update('calendars')

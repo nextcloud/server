@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\IConfig;
@@ -35,14 +36,21 @@ class Hasher implements IHasher {
 	private array $options = [];
 	/** Salt used for legacy passwords */
 	private ?string $legacySalt = null;
+	/** Only used for testing */
+	private ?string $forcedAlgorithm = null;
 
 	public function __construct(
 		private IConfig $config,
 	) {
-		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
-			// password_hash fails, when the minimum values are undershot.
-			// In this case, apply minimum.
-			$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
+		if (\defined('PASSWORD_ARGON2_PROVIDER')) {
+			// password_hash fails, when the minimum values are undershot or maximum overshot. So apply minimum/maximum.
+			/** @psalm-suppress TypeDoesNotContainType - The constant defaults to "standard" but when sodium is installed it will be "sodium" */
+			if (PASSWORD_ARGON2_PROVIDER === 'sodium') {
+				$this->options['threads'] = 1;
+			} else {
+				// standard (libargon) or openssl
+				$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
+			}
 			// The minimum memory cost is 8 KiB per thread.
 			$this->options['memory_cost'] = max($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST), $this->options['threads'] * 8);
 			$this->options['time_cost'] = max($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST), 1);
@@ -62,18 +70,17 @@ class Hasher implements IHasher {
 	 * @param string $message Message to generate hash from
 	 * @return string Hash of the message with appended version parameter
 	 */
+	#[\Override]
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
-		if (\defined('PASSWORD_ARGON2ID') && $alg === PASSWORD_ARGON2ID) {
-			return 3 . '|' . password_hash($message, PASSWORD_ARGON2ID, $this->options);
-		}
+		$version = match ($alg) {
+			PASSWORD_ARGON2ID => 3,
+			PASSWORD_ARGON2I => 2,
+			PASSWORD_BCRYPT => 1,
+		};
 
-		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
-			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
-		}
-
-		return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
+		return $version . '|' . password_hash($message, $alg, $this->options);
 	}
 
 	/**
@@ -150,6 +157,7 @@ class Hasher implements IHasher {
 	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
+	#[\Override]
 	public function verify(string $message, string $hash, &$newHash = null): bool {
 		$splittedHash = $this->splitHash($hash);
 
@@ -174,6 +182,10 @@ class Hasher implements IHasher {
 	}
 
 	private function getPrefferedAlgorithm(): string {
+		if ($this->forcedAlgorithm !== null) {
+			return $this->forcedAlgorithm;
+		}
+
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
@@ -191,10 +203,11 @@ class Hasher implements IHasher {
 		return $default;
 	}
 
+	#[\Override]
 	public function validate(string $prefixedHash): bool {
 		$splitHash = $this->splitHash($prefixedHash);
-		if (empty($splitHash)) {
-			return false;
+		if ($splitHash === null) {
+			return strlen($prefixedHash) === 60 || strlen($prefixedHash) === 40;
 		}
 		$validVersions = [3, 2, 1];
 		$version = $splitHash['version'];

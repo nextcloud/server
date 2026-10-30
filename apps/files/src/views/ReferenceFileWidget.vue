@@ -19,20 +19,17 @@
 		</span>
 	</div>
 
-	<!-- Live preview if a handler is available -->
+	<!-- Live preview where the viewer can show the file, read-only, with a menu
+	     to open it in the viewer. <nc-viewer-file> is a custom element, not a Vue
+	     component: as a plain tag, Vue would try to resolve it and warn, as our
+	     build has no `isCustomElement` for it. `:is` with a string renders the
+	     element without, and `.prop` hands it the file as a DOM property -->
 	<component
-		:is="viewerHandler.component"
-		v-else-if="interactive && viewerHandler && !failedViewer"
-		:active="false /* prevent video from autoplaying */"
-		:can-swipe="false"
-		:can-zoom="false"
-		:is-embedded="true"
-		v-bind="viewerFile"
-		:file-list="[viewerFile]"
-		:is-full-screen="false"
-		:is-sidebar-shown="false"
+		:is="viewerFileTag"
+		v-else-if="interactive && viewable && !failedViewer"
+		:file.prop="node"
 		class="widget-file widget-file--interactive"
-		@error="failedViewer = true" />
+		@errored="failedViewer = true" />
 
 	<!-- The file is accessible -->
 	<a
@@ -43,7 +40,7 @@
 		@click="navigate">
 		<span class="widget-file__image" :class="filePreviewClass" :style="filePreviewStyle">
 			<template v-if="!previewUrl">
-				<FolderIcon v-if="isFolder" :size="88" fill-color="var(--color-primary-element)" />
+				<FolderIcon v-if="isFolder" :size="88" fillColor="var(--color-primary-element)" />
 				<FileIcon v-else :size="88" />
 			</template>
 		</span>
@@ -57,18 +54,20 @@
 
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
-import type { Component, PropType } from 'vue'
+import type { PropType } from 'vue'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { File, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { canView, getViewer } from '@nextcloud/viewer'
 import path from 'path'
 import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
-import logger from '../logger.ts'
+import { generateFileUrl } from '../utils/generateUrl.ts'
+import { logger } from '../utils/logger.ts'
 
 // see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
 type Ressource = {
@@ -80,31 +79,9 @@ type Ressource = {
 	mimetype: string
 	mtime: number // as unix timestamp
 	'preview-available': boolean
-}
-
-type ViewerHandler = {
-	id: string
-	group: string
-	mimes: string[]
-	component: Component
-}
-
-/**
- * Minimal mock of the legacy Viewer FileInfo
- * TODO: replace by Node object
- */
-type ViewerFile = {
-	filename: string // the path to the root folder
-	basename: string // the file name
-	lastmod: Date // the last modification date
-	size: number // the file size in bytes
-	type: string
-	mime: string
-	fileid: number
-	failed: boolean
-	loaded: boolean
-	davPath: string
-	source: string
+	permissions?: number
+	'hide-download'?: 'yes' | 'no'
+	'can-download'?: 'yes' | 'no'
 }
 
 export default defineComponent({
@@ -133,37 +110,51 @@ export default defineComponent({
 
 	data() {
 		return {
+			// The element @nextcloud/viewer defines to show a file anywhere
+			viewerFileTag: 'nc-viewer-file',
 			previewUrl: null as string | null,
 			failedViewer: false,
 		}
 	},
 
 	computed: {
-		availableViewerHandlers(): ViewerHandler[] {
-			return (window?.OCA?.Viewer?.availableHandlers || []) as ViewerHandler[]
-		},
-
-		viewerHandler(): ViewerHandler | undefined {
-			return this.availableViewerHandlers
-				.find((handler) => handler.mimes.includes(this.richObject.mimetype))
-		},
-
-		viewerFile(): ViewerFile {
-			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
-				.replace(/\/\/$/, '/')
-			return {
-				filename: this.richObject.path,
-				basename: this.richObject.name,
-				lastmod: new Date(this.richObject.mtime * 1000),
-				size: this.richObject.size,
-				type: 'file',
-				mime: this.richObject.mimetype,
-				fileid: this.richObject.id,
-				failed: false,
-				loaded: true,
-				davPath: davSource,
-				source: davSource,
+		/**
+		 * The file, as the viewer takes it. The server resolved the reference
+		 * for this user: the path is in their folder, a file shared with them
+		 * included. None for a guest, who has no folder
+		 */
+		node(): File | null {
+			const uid = getCurrentUser()?.uid
+			if (!uid || this.isFolder) {
+				return null
 			}
+			return new File({
+				id: this.richObject.id,
+				source: generateRemoteUrl(`dav/files/${uid}/${this.richObject.path}`).replace(/\/\/$/, '/'),
+				root: `/files/${uid}`,
+				displayname: this.richObject.name,
+				mime: this.richObject.mimetype,
+				size: this.richObject.size,
+				mtime: new Date(this.richObject.mtime * 1000),
+				// Not known here, and not needed to show it
+				owner: null,
+				// Readable at least, or this widget would say it is not accessible
+				permissions: this.richObject.permissions ?? Permission.READ,
+				attributes: {
+					hasPreview: this.richObject['preview-available'],
+					// What a share allows, which the viewer reads as DAV gives it:
+					// no download offered, and the preview asked for by hand
+					'hide-download': this.richObject['hide-download'] === 'yes',
+					...(this.richObject['can-download'] === 'no'
+						? { 'share-attributes': JSON.stringify([{ scope: 'permissions', key: 'download', value: false }]) }
+						: {}),
+				},
+			})
+		},
+
+		/** Whether the viewer has something to show the file with */
+		viewable(): boolean {
+			return this.node !== null && canView(this.node)
 		},
 
 		fileSize() {
@@ -221,10 +212,10 @@ export default defineComponent({
 				event.stopPropagation()
 				event.preventDefault()
 				this.openFilePicker()
-			} else if (window?.OCA?.Viewer?.mimetypes.indexOf(this.richObject.mimetype) !== -1 && !window?.OCA?.Viewer?.file) {
+			} else if (this.viewable) {
 				event.stopPropagation()
 				event.preventDefault()
-				window?.OCA?.Viewer?.open({ path: this.richObject.path })
+				getViewer().open([this.node!], this.node!)
 			}
 		},
 

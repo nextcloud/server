@@ -24,6 +24,7 @@ class CSSResourceLocator extends ResourceLocator {
 		parent::__construct($logger, $config);
 	}
 
+	#[\Override]
 	public function doFind(string $resource): void {
 		$parts = explode('/', $resource);
 		if (count($parts) < 2) {
@@ -57,6 +58,7 @@ class CSSResourceLocator extends ResourceLocator {
 		$this->append($app_path, join('/', array_slice($parts, 1)) . '.css', $app_url);
 	}
 
+	#[\Override]
 	public function doFindTheme(string $resource): void {
 		$theme_dir = 'themes/' . $this->theme . '/';
 		$this->appendIfExist($this->serverroot, $theme_dir . 'apps/' . $resource . '.css')
@@ -64,6 +66,7 @@ class CSSResourceLocator extends ResourceLocator {
 			|| $this->appendIfExist($this->serverroot, $theme_dir . 'core/' . $resource . '.css');
 	}
 
+	#[\Override]
 	public function append(string $root, string $file, ?string $webRoot = null, bool $throw = true, bool $scss = false): void {
 		if (!$scss) {
 			parent::append($root, $file, $webRoot, $throw);

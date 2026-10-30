@@ -14,20 +14,16 @@ use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotificationTest extends TestCase {
 	/** @var INotification */
 	protected $notification;
-	protected IValidator&MockObject $validator;
-	protected IRichTextFormatter&MockObject $richTextFormatter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->validator = $this->createMock(IValidator::class);
-		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
-		$this->notification = new Notification($this->validator, $this->richTextFormatter);
+		$this->notification = $this->createInstanceWithMocks(Notification::class);
 	}
 
 	protected static function dataValidString($maxLength): array {
@@ -80,7 +76,6 @@ class NotificationTest extends TestCase {
 
 		$this->notification->setApp($app);
 	}
-
 
 	public static function dataSetUser(): array {
 		return self::dataValidString(64);
@@ -327,7 +322,13 @@ class NotificationTest extends TestCase {
 	}
 
 	public static function dataSetLink(): array {
-		return self::dataValidString(4000);
+		return [
+			['http://example.tld/'],
+			['https://example.tld/'],
+			['https://example.tld/path/to/resource?query=1&other=2#fragment'],
+			// Maximum length (4000 chars total, including the scheme)
+			['https://' . str_repeat('a', 4000 - 8)],
+		];
 	}
 
 	/**
@@ -341,29 +342,38 @@ class NotificationTest extends TestCase {
 	}
 
 	public static function dataSetLinkInvalid(): array {
-		return self::dataInvalidString(4000);
+		return [
+			// Empty / too long
+			[''],
+			['https://' . str_repeat('a', 4001 - 8)],
+
+			// Disallowed schemes
+			['javascript:alert(1)'],
+			['JavaScript:alert(1)'],
+			['data:text/html,<script>alert(1)</script>'],
+			['vbscript:msgbox("xss")'],
+			['file:///etc/passwd'],
+			['mailto:test@example.tld'],
+			['ftp://example.tld/'],
+			['ws://example.tld/'],
+
+			// Relative urls
+			['/relative/path'],
+			['//protocol-relative.tld/'],
+			['example.tld/path'],
+			['test1'],
+		];
 	}
 
-	/**
-	 * @param mixed $link
-	 *
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLinkInvalid')]
-	public function testSetLinkInvalid($link): void {
+	public function testSetLinkInvalid(string $link): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->notification->setLink($link);
 	}
 
-	public static function dataSetIcon(): array {
-		return self::dataValidString(4000);
-	}
-
-	/**
-	 * @param string $icon
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetIcon')]
-	public function testSetIcon($icon): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLink')]
+	public function testSetIcon(string $icon): void {
 		$this->assertSame('', $this->notification->getIcon());
 		$this->assertSame($this->notification, $this->notification->setIcon($icon));
 		$this->assertSame($icon, $this->notification->getIcon());
@@ -373,12 +383,8 @@ class NotificationTest extends TestCase {
 		return self::dataInvalidString(4000);
 	}
 
-	/**
-	 * @param mixed $icon
-	 *
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetIconInvalid')]
-	public function testSetIconInvalid($icon): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLinkInvalid')]
+	public function testSetIconInvalid(string $icon): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->notification->setIcon($icon);
@@ -403,7 +409,6 @@ class NotificationTest extends TestCase {
 		$this->assertEquals([$action], $this->notification->getActions());
 		$this->assertEquals([], $this->notification->getParsedActions());
 	}
-
 
 	public function testAddActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -449,7 +454,6 @@ class NotificationTest extends TestCase {
 		$this->assertEquals([$action], $this->notification->getParsedActions());
 		$this->assertEquals([], $this->notification->getActions());
 	}
-
 
 	public function testAddParsedActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -530,7 +534,7 @@ class NotificationTest extends TestCase {
 				'getSubject',
 				'getParsedSubject',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -563,7 +567,7 @@ class NotificationTest extends TestCase {
 				'getParsedSubject',
 				'getSubject',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -612,7 +616,7 @@ class NotificationTest extends TestCase {
 				'getObjectType',
 				'getObjectId',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->any())

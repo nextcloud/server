@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
 use OC\Files\Cache\Storage;
@@ -188,8 +189,6 @@ abstract class StoragesService {
 	 * @return StorageConfig storage config, with added id
 	 */
 	public function addStorage(StorageConfig $newStorage): StorageConfig {
-		$allStorages = $this->readConfig();
-
 		$configId = $this->dbConfig->addMount(
 			$newStorage->getMountPoint(),
 			$newStorage->getBackend()->getIdentifier(),
@@ -216,9 +215,6 @@ abstract class StoragesService {
 		if (count($newStorage->getApplicableUsers()) === 0 && count($newStorage->getApplicableGroups()) === 0) {
 			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		}
-
-		// add new storage
-		$allStorages[$configId] = $newStorage;
 
 		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
@@ -436,12 +432,12 @@ abstract class StoragesService {
 		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
 
 		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
-			if (!in_array(Application::APP_ID, $appIdsList)) {
+			if (!in_array(Application::APP_ID, $appIdsList, true)) {
 				$appIdsList[] = Application::APP_ID;
 				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
 			}
 		} else {
-			if (in_array(Application::APP_ID, $appIdsList)) {
+			if (in_array(Application::APP_ID, $appIdsList, true)) {
 				$appIdsList = array_values(array_filter($appIdsList, fn ($v) => $v !== Application::APP_ID));
 				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
 			}

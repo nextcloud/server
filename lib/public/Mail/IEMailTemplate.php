@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Mail;
 
 /**
@@ -37,6 +38,25 @@ namespace OCP\Mail;
  */
 interface IEMailTemplate {
 	/**
+	 * Note for content written by a user, e.g. a share note
+	 *
+	 * @since 36.0.0
+	 */
+	public const NOTE_NEUTRAL = 'neutral';
+	/**
+	 * @since 36.0.0
+	 */
+	public const NOTE_INFO = 'info';
+	/**
+	 * @since 36.0.0
+	 */
+	public const NOTE_WARNING = 'warning';
+	/**
+	 * @since 36.0.0
+	 */
+	public const NOTE_ERROR = 'error';
+
+	/**
 	 * Sets the subject of the email
 	 *
 	 * @param string $subject
@@ -51,6 +71,19 @@ interface IEMailTemplate {
 	 * @since 12.0.0
 	 */
 	public function addHeader();
+
+	/**
+	 * Sets the language of the recipient
+	 *
+	 * Used for the lang and dir attributes of the HTML email, mirrors the
+	 * layout for right-to-left languages, and is the default language of
+	 * the footer. Call it before addFooter().
+	 *
+	 * @param string $language Language code, e.g. `ar` or `pt_BR`
+	 *
+	 * @since 36.0.0
+	 */
+	public function setLanguage(string $language): void;
 
 	/**
 	 * Adds a heading to the email
@@ -114,6 +147,47 @@ interface IEMailTemplate {
 	 * @since 12.0.0
 	 */
 	public function addBodyButton(string $text, string $url, $plainText = '');
+
+	/**
+	 * Adds a row of buttons to the body of the email, the first one is the primary action
+	 *
+	 * @param non-empty-list<array{text: string, url: string}> $buttons
+	 * @param string $label Optional text shown above the buttons, e.g. "Will you attend?"
+	 *
+	 * @since 36.0.0
+	 */
+	public function addBodyButtons(array $buttons, string $label = ''): void;
+
+	/**
+	 * Adds the person an email is about (sharer, organizer...), shown with an initials circle
+	 *
+	 * @param string $subline Optional second line, e.g. the email address
+	 *
+	 * @since 36.0.0
+	 */
+	public function addBodySender(string $displayName, string $subline = ''): void;
+
+	/**
+	 * Adds a highlighted box to the body of the email
+	 *
+	 * Use {@see self::NOTE_NEUTRAL} for content written by a user (share note,
+	 * event description), the other types for messages from the server itself.
+	 * Line breaks in $text are kept. A short note about a shared item goes
+	 * before its details card, longer content like an event description after it.
+	 *
+	 * @param string $label Label above the text for neutral notes, bold title before it for the other types
+	 * @param self::NOTE_* $type
+	 *
+	 * @since 36.0.0
+	 */
+	public function addBodyNote(string $text, string $label = '', string $type = self::NOTE_NEUTRAL): void;
+
+	/**
+	 * Adds a card with a title and labelled rows to the body of the email
+	 *
+	 * @since 36.0.0
+	 */
+	public function addBodyDetails(EMailDetails $details): void;
 
 	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email

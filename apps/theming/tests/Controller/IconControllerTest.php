@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\Files\SimpleFS\SimpleFile;
@@ -124,6 +125,24 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
+	public function testGetFaviconUploaded(): void {
+		// a custom favicon was uploaded, so it must be served as-is and the
+		// app-specific generation path must not overwrite it
+		$file = $this->iconFileMock('favicon.ico', 'filecontent');
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon', false)
+			->willReturn($file);
+		$this->imageManager->expects($this->never())
+			->method('getCachedImage');
+		$this->iconBuilder->expects($this->never())
+			->method('getFavicon');
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getFavicon());
+	}
+
 	public function testGetFaviconDefault(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
@@ -175,6 +194,24 @@ class IconControllerTest extends TestCase {
 			->willReturn($file);
 
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+	}
+
+	public function testGetTouchIconUploaded(): void {
+		// a custom favicon was uploaded, so it must be served as-is and the
+		// app-specific generation path must not overwrite it
+		$file = $this->iconFileMock('favicon.png', 'filecontent');
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon')
+			->willReturn($file);
+		$this->imageManager->expects($this->never())
+			->method('getCachedImage');
+		$this->iconBuilder->expects($this->never())
+			->method('getTouchIcon');
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image type']);
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}

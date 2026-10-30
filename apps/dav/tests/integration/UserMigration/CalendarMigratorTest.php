@@ -32,8 +32,8 @@ class CalendarMigratorTest extends TestCase {
 	private CalendarMigrator $migrator;
 	private OutputInterface $output;
 
-	private const ASSETS_DIR = __DIR__ . '/assets/calendars/';
-	private const USERS_URI_ROOT = 'principals/users/';
+	private const string ASSETS_DIR = __DIR__ . '/assets/calendars/';
+	private const string USERS_URI_ROOT = 'principals/users/';
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Mail;
 
 /**
@@ -24,6 +25,16 @@ namespace OCP\Mail;
  * 	$mailer->send($message);
  *
  * This message can then be passed to send() of \OC\Mail\Mailer
+ *
+ * To send an email built from a template, pass the template to the message with
+ * IMessage::useTemplate() instead of setting the rendered bodies manually, so
+ * that images embedded in the template (e.g. the logo) are attached as well:
+ *
+ * 	$template = $mailer->createEMailTemplate('app.MailId');
+ * 	$template->setSubject('Your Subject');
+ * 	$template->addHeader();
+ * 	$template->addBodyText('The message text');
+ * 	$message->useTemplate($template);
  *
  * @since 8.1.0
  */
@@ -80,7 +91,7 @@ interface IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0
-	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
+	 * @deprecated 32.0.0 use {@see IEmailValidator::isValid()} instead
 	 */
 	public function validateMailAddress(string $email): bool;
 }

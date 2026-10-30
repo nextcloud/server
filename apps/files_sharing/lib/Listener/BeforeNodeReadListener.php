@@ -41,6 +41,7 @@ class BeforeNodeReadListener implements IEventListener {
 		$this->cache = $cacheFactory->createDistributed('files_sharing_activity_events');
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforeZipCreatedEvent) {
 			$this->handleBeforeZipCreatedEvent($event);
@@ -74,7 +75,7 @@ class BeforeNodeReadListener implements IEventListener {
 		/** @var ISharedStorage $storage */
 		$share = $storage->getShare();
 
-		if (!in_array($share->getShareType(), [IShare::TYPE_EMAIL, IShare::TYPE_LINK])) {
+		if (!in_array($share->getShareType(), [IShare::TYPE_EMAIL, IShare::TYPE_LINK], true)) {
 			return;
 		}
 
@@ -103,7 +104,7 @@ class BeforeNodeReadListener implements IEventListener {
 		/** @var ISharedStorage $storage */
 		$share = $storage->getShare();
 
-		if (!in_array($share->getShareType(), [IShare::TYPE_EMAIL, IShare::TYPE_LINK])) {
+		if (!in_array($share->getShareType(), [IShare::TYPE_EMAIL, IShare::TYPE_LINK], true)) {
 			return;
 		}
 

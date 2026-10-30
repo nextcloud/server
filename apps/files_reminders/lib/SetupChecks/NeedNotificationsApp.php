@@ -21,14 +21,17 @@ class NeedNotificationsApp implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Files reminder');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->appManager->isEnabledForAnyone('notifications')) {
 			return SetupResult::success($this->l10n->t('The "files_reminders" app can work properly.'));

@@ -9,35 +9,29 @@ declare(strict_types=1);
 
 namespace OCA\Files\Db;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Schema\ColumnType;
 
 /**
- * @method void setUserId(string $userId)
- * @method string getUserId()
- * @method void setPathHash(string $pathHash)
- * @method string getPathHash()
- * @method void setExpirationTime(int $expirationTime)
- * @method int getExpirationTime()
- * @method void setToken(string $token)
- * @method string getToken()
+ * @psalm-suppress MissingConstructor ORM based hydration
  */
-class OpenLocalEditor extends Entity {
-	/** @var string */
-	protected $userId;
+#[Entity(name: 'open_local_editor')]
+final class OpenLocalEditor {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public int $id;
 
-	/** @var string */
-	protected $pathHash;
+	#[Column(name: 'user_id', type: ColumnType::String, length: 64)]
+	public string $userId;
 
-	/** @var int */
-	protected $expirationTime;
+	#[Column(name: 'path_hash', type: ColumnType::String, length: 64)]
+	public string $pathHash;
 
-	/** @var string */
-	protected $token;
+	#[Column(name: 'expiration_time', type: ColumnType::Bigint)]
+	public int $expirationTime;
 
-	public function __construct() {
-		$this->addType('userId', 'string');
-		$this->addType('pathHash', 'string');
-		$this->addType('expirationTime', 'integer');
-		$this->addType('token', 'string');
-	}
+	#[Column(name: 'token', type: ColumnType::String, length: 128)]
+	public string $token;
 }

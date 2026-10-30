@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Activity;
 
 use OCP\Activity\ISetting;
@@ -25,6 +26,7 @@ class Setting implements ISetting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'personal_settings';
 	}
@@ -33,6 +35,7 @@ class Setting implements ISetting {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('Your <strong>password</strong> or <strong>email</strong> was modified');
 	}
@@ -43,6 +46,7 @@ class Setting implements ISetting {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 0;
 	}
@@ -51,6 +55,7 @@ class Setting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeStream() {
 		return false;
 	}
@@ -59,6 +64,7 @@ class Setting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream() {
 		return true;
 	}
@@ -67,6 +73,7 @@ class Setting implements ISetting {
 	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeMail() {
 		return false;
 	}
@@ -75,6 +82,7 @@ class Setting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}

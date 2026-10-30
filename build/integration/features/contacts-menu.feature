@@ -103,7 +103,7 @@ Feature: contacts-menu
     And searching for contacts matching with "test"
     Then the list of searched contacts has "0" contacts
 
-  Scenario: users can be searched by display name when searcher belongs to both a group excluded from sharing and another group
+  Scenario: users can not be searched by display name when searcher belongs to both a group excluded from sharing and another group
     Given user "user0" exists
     And group "ExcludedGroup" exists
     And user "user0" belongs to group "ExcludedGroup"
@@ -118,13 +118,45 @@ Feature: contacts-menu
       | value | Test name |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
-    Then the list of searched contacts has "1" contacts
-    And searched contact "0" is named "Test name"
+    Then the list of searched contacts has "0" contacts
 
-  Scenario: users can be searched by email when searcher belongs to both a group excluded from sharing and another group
+  Scenario: users can not be searched by email when searcher belongs to both a group excluded from sharing and another group
     Given user "user0" exists
     And group "ExcludedGroup" exists
     And user "user0" belongs to group "ExcludedGroup"
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | email |
+      | value | test@example.com |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "0" contacts
+
+  Scenario: users can be searched by display name when searcher does not belong to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
+    And group "AnotherGroup" exists
+    And user "user0" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
+    And user "user1" exists
+    And As an "admin"
+    And sending "PUT" to "/cloud/users/user1" with
+      | key | displayname |
+      | value | Test name |
+    When Logging in using web as "user0"
+    And searching for contacts matching with "test"
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "Test name"
+
+  Scenario: users can be searched by email when searcher does not belong to a group excluded from sharing
+    Given user "user0" exists
+    And group "ExcludedGroup" exists
     And group "AnotherGroup" exists
     And user "user0" belongs to group "AnotherGroup"
     And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
@@ -327,18 +359,20 @@ Feature: contacts-menu
     # Disabled because it regularly fails on drone:
     # Then the list of searched contacts has "0" contacts
 
-  Scenario: users cannot list other users from the system address book
-    Given user "user0" exists
-    And user "user1" exists
-    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
-    And Logging in using web as "user1"
-    And searching for contacts matching with ""
-    Then the list of searched contacts has "1" contacts
-    And invoking occ with "config:app:delete dav system_addressbook_exposed"
-
+  # The example contact of the personal address book is listed next to "user0" of the system address book
   Scenario: users can list other users from the system address book
     Given user "user0" exists
     And user "user1" exists
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "2" contacts
+
+  # Exposing the system address book is only about DAV clients, user searching and
+  # auto-completion keep working when it is disabled
+  Scenario: users can list other users from the system address book when it is not exposed to DAV clients
+    Given user "user0" exists
+    And user "user1" exists
+    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
     And Logging in using web as "user1"
     And searching for contacts matching with ""
     Then the list of searched contacts has "2" contacts

@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace OC\Snowflake;
 
+use DateTimeImmutable;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\IServerInfo;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
+use RuntimeException;
 
 /**
  * Nextcloud Snowflake ID generator
@@ -24,28 +26,56 @@ use Override;
 final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	public function __construct(
 		private ITimeFactory $timeFactory,
-		private IConfig $config,
 		private ISequence $sequenceGenerator,
+		private IServerInfo $serverInfo,
 	) {
 	}
 
 	#[Override]
-	public function nextId(): string {
-		// Relative time
-		[$seconds, $milliseconds] = $this->getCurrentTime();
+	public function nextId(?DateTimeImmutable $timestamp = null): string {
+		$timestamp ??= $this->timeFactory->now();
 
-		$serverId = $this->getServerId() & 0x1FF; // Keep 9 bits
+		// Relative time
+		$seconds = $timestamp->getTimestamp() - self::TS_OFFSET;
+		if ($seconds < 0) {
+			throw new \InvalidArgumentException('Snowflake IDs cannot be generated for a time before ' . date(DATE_ATOM, self::TS_OFFSET));
+		}
+		$milliseconds = (int)$timestamp->format('v');
+
+		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
-		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
+		$sequenceId = $this->sequenceGenerator->nextId($serverId, $seconds, $milliseconds); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
 			// Throttle a bit, wait for next millisecond
 			usleep(1000);
 			return $this->nextId();
 		}
 
+		return $this->packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId);
+	}
+
+	/**
+	 * Return minimal snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. For example get all snowflake IDs generated before $timestamp
+	 *
+	 * @since 34.0.1
+	 */
+	#[Override]
+	public function minForTimeId(int $timestamp): string {
+		return $this->packSnowflakeId($timestamp - self::TS_OFFSET, 0, 0, 0, 0);
+	}
+
+	/**
+	 * @psalm-suppress MoreSpecificReturnType
+	 * @return non-empty-string
+	 */
+	private function packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId): string {
 		if (PHP_INT_SIZE === 8) {
 			$firstHalf = $seconds & 0x7FFFFFFF;
 			$secondHalf = (($milliseconds & 0x3FF) << 22) | ($serverId << 13) | ($isCli << 12) | $sequenceId;
+			/** @psalm-suppress LessSpecificReturnStatement */
 			return (string)($firstHalf << 32 | $secondHalf);
 		}
 
@@ -68,6 +98,9 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	/**
 	 * Mostly copied from Symfony:
 	 * https://github.com/symfony/symfony/blob/v7.3.4/src/Symfony/Component/Uid/BinaryUtil.php#L49
+	 *
+	 * @param non-empty-list<non-negative-int> $bytes
+	 * @return non-empty-string
 	 */
 	private function convertToDecimal(array $bytes): string {
 		$base = 10;
@@ -91,25 +124,11 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 			$bytes = $quotient;
 		}
 
+		if ($digits === '') {
+			throw new RuntimeException('Empty digits: ' . var_export($bytes, true));
+		}
+
 		return $digits;
-	}
-
-	private function getCurrentTime(): array {
-		$time = $this->timeFactory->now();
-		return [
-			$time->getTimestamp() - self::TS_OFFSET,
-			(int)$time->format('v'),
-		];
-	}
-
-	/**
-	 * Return configured serverid or generate one if not set
-	 */
-	private function getServerId(): int {
-		$serverid = $this->config->getSystemValueInt('serverid', -1);
-		return $serverid > 0
-			? $serverid
-			: crc32(gethostname() ?: random_bytes(8));
 	}
 
 	private function isCli(): bool {

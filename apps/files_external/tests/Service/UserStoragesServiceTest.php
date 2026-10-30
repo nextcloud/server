@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
@@ -13,7 +14,6 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
-
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
@@ -79,6 +79,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
 		$this->assertEquals($storage->getAuthMechanism(), $newStorage->getAuthMechanism());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
+		$this->assertSame($storage->getMountOptions(), $newStorage->getMountOptions());
 		$this->assertEquals(0, $newStorage->getStatus());
 
 		// hook called once for user
@@ -167,7 +168,6 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 			$this->userId
 		);
 	}
-
 
 	public function testGetAdminStorage(): void {
 		$this->expectException(NotFoundException::class);

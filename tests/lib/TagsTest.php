@@ -10,9 +10,10 @@ namespace Test;
 
 use OC\Tagging\TagMapper;
 use OC\TagManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -36,6 +37,7 @@ class TagsTest extends \Test\TestCase {
 	protected TagMapper $tagMapper;
 	protected TagManager $tagMgr;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -57,7 +59,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$node = $this->createMock(Node::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder
@@ -71,7 +73,7 @@ class TagsTest extends \Test\TestCase {
 			->willReturnCallback(fn () => 'file.txt');
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
+		$this->tagMapper = Server::get(TagMapper::class);
 		$this->tagMgr = new TagManager(
 			$this->tagMapper,
 			$this->userSession,
@@ -83,10 +85,11 @@ class TagsTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$conn = Server::get(IDBConnection::class);
-		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
-		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
+		$conn->getQueryBuilder()->delete('vcategory_to_object')->executeStatement();
+		$conn->getQueryBuilder()->delete('vcategory')->executeStatement();
 
 		parent::tearDown();
 	}
@@ -232,16 +235,18 @@ class TagsTest extends \Test\TestCase {
 		$tagType = $tagData[0]['type'];
 
 		$conn = Server::get(IDBConnection::class);
-		$statement = $conn->prepare(
-			'INSERT INTO `*PREFIX*vcategory_to_object` '
-			. '(`objid`, `categoryid`, `type`) VALUES '
-			. '(?, ?, ?)'
-		);
 
 		// insert lots of entries
 		$idsArray = [];
 		for ($i = 1; $i <= 1500; $i++) {
-			$statement->execute([$i, $tagId, $tagType]);
+			$qb = $conn->getQueryBuilder();
+			$qb->insert('vcategory_to_object')
+				->values([
+					'objid' => $qb->createNamedParameter($i, IQueryBuilder::PARAM_INT),
+					'categoryid' => $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+					'type' => $qb->createNamedParameter($tagType),
+				])
+				->executeStatement();
 			$idsArray[] = $i;
 		}
 

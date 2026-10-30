@@ -40,6 +40,7 @@ class WebhookCall extends QueuedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);

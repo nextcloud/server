@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -25,6 +26,7 @@ class SyncJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->syncService->syncThemAll(function ($url, $ex): void {
 			if ($ex instanceof \Exception) {

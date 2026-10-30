@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Ficheiros",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Mencionárono en «{file}», nun comentario dunha conta que xa foi eliminada",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionouno a Vde. nun comentario en «{file}»",
+    "Go to file" : "Ir ao ficheiro",
     "Files app plugin to add comments to files" : "Complemento da aplicación de ficheiros para engadir comentarios aos ficheiros",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Eliminar comentario",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Produciuse un erro cando tentaba editar o comentario",
     "Comment deleted" : "Comentario eliminado",
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
-    "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
-    "Write a comment …" : "Escriba un comentario…"
+    "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario"
 },
 "nplurals=2; plural=(n != 1);");

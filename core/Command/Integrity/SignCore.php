@@ -5,12 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use phpseclib\Crypt\RSA;
-use phpseclib\File\X509;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\File\X509;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,6 +30,7 @@ class SignCore extends Command {
 		parent::__construct(null);
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('integrity:sign-core')
@@ -41,6 +43,7 @@ class SignCore extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
@@ -63,8 +66,7 @@ class SignCore extends Command {
 			return 1;
 		}
 
-		$rsa = new RSA();
-		$rsa->loadKey($privateKey);
+		$rsa = RSA::loadPrivateKey($privateKey);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$x509->setPrivateKey($rsa);

@@ -39,6 +39,7 @@ class FixEncryptedVersion extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -62,6 +63,7 @@ class FixEncryptedVersion extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$skipSignatureCheck = $this->config->getSystemValueBool('encryption_skip_signature_check', false);
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
@@ -180,7 +182,7 @@ class FixEncryptedVersion extends Command {
 				}
 				$encryptedVersion = $fileInfo->getEncryptedVersion();
 				$stat = $this->view->stat($path);
-				if (($encryptedVersion == 0) && isset($stat['hasHeader']) && ($stat['hasHeader'] == true)) {
+				if (($encryptedVersion === 0) && isset($stat['hasHeader']) && ($stat['hasHeader'] === true)) {
 					// The file has encrypted to false but has an encryption header
 					if ($ignoreCorrectEncVersionCall === true) {
 						// Lets rectify the file by correcting encrypted version

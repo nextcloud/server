@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\CalDAV\Federation\FederationSharingService;
@@ -223,7 +224,7 @@ abstract class Backend {
 					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
 					'protected' => true,
 				];
-			} elseif (in_array($this->service->getResourceType(), ['calendar','addressbook'])) {
+			} elseif (in_array($this->service->getResourceType(), ['calendar','addressbook'], true)) {
 				// Allow changing the properties of read only calendars,
 				// so users can change the visibility.
 				$acl[] = [

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Failed to set reminder" : "Nem sikerült beállítani az emlékeztetőt",
     "Reminder cleared for \"{fileName}\"" : "Emlékeztető törlése a következőhöz: „{fileName}”",
     "Failed to clear reminder" : "Nem sikerült törölni az emlékeztetőt",
-    "We will remind you of this file" : "Emlékeztetni fogjuk Önt erre a fájlra",
     "Cancel" : "Mégse",
     "Clear reminder" : "Emlékeztető törlése",
     "Set reminder" : "Emlékeztető beállítása",
@@ -23,7 +22,6 @@ OC.L10N.register(
     "This weekend" : "Ezen a héten",
     "Set reminder for this weekend" : "Emlékeztető beállítása erre a hétvégére",
     "Next week" : "Következő hét",
-    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre",
-    "Set reminder for \"{fileName}\"" : "Emlékeztető beállítása a következőhöz: „{fileName}”"
+    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre"
 },
 "nplurals=2; plural=(n != 1);");

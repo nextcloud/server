@@ -13,7 +13,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\UserInterface;
+use Test\Util\User\Dummy;
 
 class DummyUser extends User {
 	public function __construct(
@@ -22,6 +22,7 @@ class DummyUser extends User {
 		parent::__construct($this->uid, null, Server::get(IEventDispatcher::class));
 	}
 
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}
@@ -31,22 +32,19 @@ class DummyUser extends User {
  * Allow creating users in a temporary backend
  */
 trait UserTrait {
-	/**
-	 * @var \Test\Util\User\Dummy|UserInterface
-	 */
-	protected $userBackend;
+	protected Dummy $userBackend;
 
-	protected function createUser($name, $password): IUser {
+	protected function createUser(string $name, string $password): IUser {
 		$this->userBackend->createUser($name, $password);
 		return new DummyUser($name);
 	}
 
-	protected function setUpUserTrait() {
-		$this->userBackend = new \Test\Util\User\Dummy();
+	protected function setUpUserTrait(): void {
+		$this->userBackend = new Dummy();
 		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
-	protected function tearDownUserTrait() {
+	protected function tearDownUserTrait(): void {
 		Server::get(IUserManager::class)->removeBackend($this->userBackend);
 	}
 }

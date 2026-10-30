@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
@@ -31,6 +32,7 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Registering background jobs to update cache for webcal calendars';
 	}
@@ -38,6 +40,7 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['principaluri', 'uri'])

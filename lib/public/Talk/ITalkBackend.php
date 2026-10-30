@@ -42,4 +42,22 @@ interface ITalkBackend {
 	 * @since 26.0.0
 	 */
 	public function deleteConversation(string $id): void;
+
+	/**
+	 * Check if the logged-in user is allowed to create conversations
+	 *
+	 * Also returns false when no backend is enabled for the user
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function isAllowedToCreateConversations(): bool;
+
+	/**
+	 * Check if the Talk backend is enabled for the logged-in user
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function isEnabledForUser(): bool;
 }

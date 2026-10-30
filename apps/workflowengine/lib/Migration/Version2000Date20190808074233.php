@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Migration;
 
 use Closure;
-use Doctrine\DBAL\Schema\Table;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Schema\ITable;
 use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -24,6 +25,7 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -116,7 +118,7 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 		return $schema;
 	}
 
-	protected function ensureEntityColumns(Table $table) {
+	protected function ensureEntityColumns(ITable $table): void {
 		if (!$table->hasColumn('entity')) {
 			$table->addColumn('entity', Types::STRING, [
 				'notnull' => true,

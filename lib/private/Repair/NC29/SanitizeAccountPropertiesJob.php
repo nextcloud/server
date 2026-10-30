@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC29;
 
 use InvalidArgumentException;
@@ -18,7 +19,7 @@ use Psr\Log\LoggerInterface;
 
 class SanitizeAccountPropertiesJob extends QueuedJob {
 
-	private const PROPERTIES_TO_CHECK = [
+	private const array PROPERTIES_TO_CHECK = [
 		IAccountManager::PROPERTY_PHONE,
 		IAccountManager::PROPERTY_WEBSITE,
 		IAccountManager::PROPERTY_TWITTER,
@@ -35,6 +36,7 @@ class SanitizeAccountPropertiesJob extends QueuedJob {
 		$this->setAllowParallelRuns(false);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$numRemoved = 0;
 
@@ -55,7 +57,7 @@ class SanitizeAccountPropertiesJob extends QueuedJob {
 					$this->accountManager->updateAccount($account);
 					return;
 				} catch (InvalidArgumentException $e) {
-					if (in_array($e->getMessage(), IAccountManager::ALLOWED_PROPERTIES)) {
+					if (in_array($e->getMessage(), IAccountManager::ALLOWED_PROPERTIES, true)) {
 						$numRemoved++;
 						$property = $account->getProperty($e->getMessage());
 						$account->setProperty($property->getName(), '', $property->getScope(), IAccountManager::NOT_VERIFIED);

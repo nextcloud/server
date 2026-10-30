@@ -9,7 +9,7 @@ import InformationSvg from '@mdi/svg/svg/information-outline.svg?raw'
 import { getSidebar, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 export const ACTION_DETAILS = 'details'
 

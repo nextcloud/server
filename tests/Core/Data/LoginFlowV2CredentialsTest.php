@@ -15,6 +15,7 @@ class LoginFlowV2CredentialsTest extends TestCase {
 	/** @var LoginFlowV2Credentials */
 	private $fixture;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

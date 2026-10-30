@@ -6,12 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use Psr\Log\LoggerInterface;
@@ -23,10 +25,13 @@ class WorkerCommand extends Base {
 	public function __construct(
 		private readonly IManager $taskProcessingManager,
 		private readonly LoggerInterface $logger,
+		private readonly IAppConfig $appConfig,
+		private readonly ITimeFactory $timeFactory,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('taskprocessing:worker')
@@ -60,13 +65,15 @@ class WorkerCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$startTime = time();
+		$startTime = $this->timeFactory->now()->getTimestamp();
 		$timeout = (int)$input->getOption('timeout');
 		$interval = (int)$input->getOption('interval');
 		$once = $input->getOption('once') === true;
 		/** @var list<string> $taskTypes */
 		$taskTypes = $input->getOption('taskTypes');
+		$lastConfigStorageTime = 0;
 
 		if ($timeout > 0) {
 			$output->writeln('<info>Task processing worker will stop after ' . $timeout . ' seconds</info>');
@@ -74,7 +81,7 @@ class WorkerCommand extends Base {
 
 		while (true) {
 			// Stop if timeout exceeded
-			if ($timeout > 0 && ($startTime + $timeout) < time()) {
+			if ($timeout > 0 && ($startTime + $timeout) < $this->timeFactory->now()->getTimestamp()) {
 				$output->writeln('Timeout reached, exiting...', OutputInterface::VERBOSITY_VERBOSE);
 				break;
 			}
@@ -82,11 +89,15 @@ class WorkerCommand extends Base {
 			// Handle SIGTERM/SIGINT gracefully
 			try {
 				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
+			} catch (InterruptedException) {
 				$output->writeln('<info>Task processing worker stopped</info>');
 				break;
 			}
 
+			if ($lastConfigStorageTime < $this->timeFactory->now()->getTimestamp() - 60) {
+				$this->appConfig->setValueString('core', 'ai.taskprocessing_worker_last_iteration', (string)$this->timeFactory->now()->getTimestamp(), lazy: true);
+				$lastConfigStorageTime = $this->timeFactory->now()->getTimestamp();
+			}
 			$processedTask = $this->processNextTask($output, $taskTypes);
 
 			if ($once) {
@@ -106,9 +117,11 @@ class WorkerCommand extends Base {
 	 * Attempt to process one task across all preferred synchronous providers.
 	 *
 	 * To avoid starvation, all eligible task types are first collected and then
-	 * the oldest scheduled task across all of them is fetched in a single query.
-	 * This ensures that tasks are processed in the order they were scheduled,
-	 * regardless of which provider handles them.
+	 * the oldest scheduled task across all of them is claimed in a single atomic
+	 * query (FOR UPDATE SKIP LOCKED, with a SQLite fallback). Each claim prefers the
+	 * oldest available scheduled task -- under parallel workers SKIP LOCKED skips rows
+	 * another worker has locked, so this reduces starvation rather than guaranteeing a
+	 * strict global processing order -- and no two workers ever claim the same task.
 	 *
 	 * @param list<string> $taskTypes When non-empty, only providers for these task type IDs are considered.
 	 * @return bool True if a task was processed, false if no task was found
@@ -150,15 +163,22 @@ class WorkerCommand extends Base {
 			return false;
 		}
 
-		// Fetch the oldest scheduled task across all eligible task types in one query.
-		// This naturally prevents starvation: regardless of how many tasks one provider
-		// has queued, another provider's older tasks will be picked up first.
+		// Atomically claim the oldest scheduled task across all eligible task types in
+		// one query. SELECT ... FOR UPDATE SKIP LOCKED (with a SQLite fallback) both
+		// fetches and marks the task RUNNING, so multiple workers never claim the same
+		// task and no per-worker ignore-list / retry loop is needed. This also reduces
+		// starvation: each claim prefers the oldest available task, so a provider with a
+		// large queue does not indefinitely block another provider's older tasks (though a
+		// worker may claim a newer task while an older one is locked by another worker).
 		try {
-			$task = $this->taskProcessingManager->getNextScheduledTask(array_keys($eligibleProviders));
-		} catch (NotFoundException) {
-			return false;
+			$task = $this->taskProcessingManager->claimNextScheduledTask(array_keys($eligibleProviders));
 		} catch (Exception $e) {
-			$this->logger->error('Unknown error while retrieving scheduled TaskProcessing tasks', ['exception' => $e]);
+			$this->logger->error('Unknown error while claiming scheduled TaskProcessing tasks', ['exception' => $e]);
+			return false;
+		}
+
+		if ($task === null) {
+			// No schedulable task available right now.
 			return false;
 		}
 

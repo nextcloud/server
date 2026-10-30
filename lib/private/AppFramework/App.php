@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
@@ -16,12 +17,12 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
-use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -30,9 +31,6 @@ use OCP\Server;
  * Handles all the dependency injection, controllers and output flow
  */
 class App {
-	/** @var string[] */
-	private static $nameSpaceCache = [];
-
 	/**
 	 * Turns an app id into a namespace by either reading the appinfo.xml's
 	 * namespace tag or uppercasing the appid's first letter
@@ -40,36 +38,22 @@ class App {
 	 * @param string $topNamespace the namespace which should be prepended to
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
-		// Hit the cache!
-		if (isset(self::$nameSpaceCache[$appId])) {
-			return $topNamespace . self::$nameSpaceCache[$appId];
+		$appManager = Server::get(IAppManager::class);
+		$namespace = $appManager->getAppNamespace($appId);
+		if ($topNamespace !== 'OCA\\') {
+			return $topNamespace . substr($namespace, strlen('OCA\\'));
 		}
-
-		$appInfo = Server::get(IAppManager::class)->getAppInfo($appId);
-		if (isset($appInfo['namespace'])) {
-			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
-		} else {
-			// if the tag is not found, fall back to uppercasing the first letter
-			self::$nameSpaceCache[$appId] = ucfirst($appId);
-		}
-
-		return $topNamespace . self::$nameSpaceCache[$appId];
+		return $namespace;
 	}
 
+	/**
+	 * @deprecated 34.0.0 use IAppManager::getAppFromNamespace
+	 */
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (!str_starts_with($className, $topNamespace)) {
-			return null;
-		}
-
-		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
-				return $appId;
-			}
-		}
-
-		return null;
+		return Server::get(IAppManager::class)->getAppFromNamespace($className);
 	}
 
 	/**
@@ -95,7 +79,7 @@ class App {
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
 			Server::get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
+			$profiler->add(new RoutingDataCollector($container->get('appName'), $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -104,12 +88,12 @@ class App {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($urlParams);
-		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+		} elseif ($container->has('urlParams') && !is_null($container->get('urlParams'))) {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
-			$request->setUrlParameters($container['urlParams']);
+			$request->setUrlParameters($container->get('urlParams'));
 		}
-		$appName = $container['appName'];
+		$appName = $container->get('appName');
 
 		$eventLogger->end('app:controller:params');
 
@@ -118,7 +102,7 @@ class App {
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
 			$controller = $container->get($controllerName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface) {
 			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
@@ -131,7 +115,7 @@ class App {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		}
 
 		$eventLogger->end('app:controller:load');
@@ -155,7 +139,7 @@ class App {
 
 		$eventLogger->end('app:controller:run');
 
-		$io = $container[IOutput::class];
+		$io = $container->get(IOutput::class);
 
 		if ($profiler->isEnabled()) {
 			$eventLogger->end('runtime');
@@ -184,8 +168,8 @@ class App {
 				$name,
 				$value['value'],
 				$expireDate,
-				$container->getServer()->getWebRoot(),
-				null,
+				$container->get('webRoot'),
+				'',
 				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,
 				$sameSite

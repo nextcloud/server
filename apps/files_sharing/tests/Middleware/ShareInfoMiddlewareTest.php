@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests\Middleware;
 
 use OCA\Files_Sharing\Controller\ShareInfoController;
@@ -65,7 +66,6 @@ class ShareInfoMiddlewareTest extends TestCase {
 			$this->assertSame($exeption, $e);
 		}
 	}
-
 
 	public function testAfterExceptionNoS2S(): void {
 		$exeption = new \Exception();

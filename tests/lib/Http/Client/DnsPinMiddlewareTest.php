@@ -26,6 +26,7 @@ use Test\TestCase;
 class DnsPinMiddlewareTest extends TestCase {
 	private DnsPinMiddleware $dnsPinMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

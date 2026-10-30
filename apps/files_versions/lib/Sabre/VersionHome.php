@@ -4,12 +4,13 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Sabre;
 
-use OC\User\NoUserException;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -26,32 +27,38 @@ class VersionHome implements ICollection {
 	private function getUser() {
 		[, $name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		$user = $this->userManager->get($name);
-		if (!$user) {
-			throw new NoUserException();
+		if ($user === null) {
+			throw UserNotFoundException::createForUser($name);
 		}
 		return $user;
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->getUser()->getUID();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		$user = $this->getUser();
 
@@ -63,6 +70,7 @@ class VersionHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$user = $this->getUser();
 
@@ -72,10 +80,12 @@ class VersionHome implements ICollection {
 		];
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		return $name === 'versions' || $name === 'restore';
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return 0;
 	}

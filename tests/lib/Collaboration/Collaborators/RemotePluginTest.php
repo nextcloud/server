@@ -48,6 +48,7 @@ class RemotePluginTest extends TestCase {
 	/** @var SearchResult */
 	protected $searchResult;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

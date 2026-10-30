@@ -4,16 +4,19 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
 use Aws\Credentials\CredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
+use Aws\Middleware;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Psr7\Utils;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\ObjectStore\Events\BucketCreatedEvent;
 use OCP\Files\StorageNotAvailableException;
@@ -21,6 +24,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
 use OCP\Server;
+use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
@@ -60,6 +64,7 @@ trait S3ConnectionTrait {
 		$this->retriesMaxAttempts = $params['retriesMaxAttempts'] ?? 5;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
+		$params['key'] = $params['key'] ?? '';
 		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
@@ -71,6 +76,7 @@ trait S3ConnectionTrait {
 		}
 
 		$this->params = $params;
+		$this->usePresignedUrl = $params['use_presigned_url'] ?? false;
 	}
 
 	public function getBucket() {
@@ -108,8 +114,6 @@ trait S3ConnectionTrait {
 				CredentialProvider::defaultProvider(['use_aws_shared_config_files' => false])
 			)
 		);
-
-		$this->usePresignedUrl = $this->params['use_presigned_url'] ?? false;
 
 		$options = [
 			'version' => $this->params['version'] ?? 'latest',
@@ -157,6 +161,8 @@ trait S3ConnectionTrait {
 			$options['signature_version'] = 'v2';
 		}
 		$this->connection = new S3Client($options);
+
+		$this->addDeleteObjectsContentMd5Middleware();
 
 		try {
 			$logger = Server::get(LoggerInterface::class);
@@ -217,6 +223,41 @@ trait S3ConnectionTrait {
 		if ($this->test) {
 			sleep($this->timeout);
 		}
+	}
+
+	/**
+	 * Add middleware to inject Content-MD5 header for DeleteObjects operations
+	 *
+	 * AWS SDK PHP v3.339.0+ stopped generating the Content-MD5 header for DeleteObjects operations.
+	 * However, this is still required by the `bt-blue.com` S3 provider.
+	 * This middleware automatically calculates and adds the header to comply with
+	 * AWS S3 API requirements.
+	 *
+	 * @see https://github.com/aws/aws-sdk-php/issues/3068
+	 */
+	private function addDeleteObjectsContentMd5Middleware(): void {
+		if ($this->connection === null) {
+			return;
+		}
+
+		$handlerList = $this->connection->getHandlerList();
+		$handlerList->appendBuild(
+			Middleware::mapRequest(static function (RequestInterface $request): RequestInterface {
+				// Only add Content-MD5 for DeleteObjects operations
+				if ($request->getUri()->getQuery() !== 'delete') {
+					return $request;
+				}
+
+				// Calculate MD5 of request body and add Content-MD5 header
+				if (!$request->hasHeader('Content-MD5')) {
+					$body = $request->getBody();
+					$contentMd5 = base64_encode(Utils::hash($body, 'md5', true));
+					return $request->withHeader('Content-MD5', $contentMd5);
+				}
+
+				return $request;
+			})
+		);
 	}
 
 	public static function legacySignatureProvider($version, $service, $region) {
@@ -293,6 +334,80 @@ trait S3ConnectionTrait {
 			'SSECustomerKey' => $rawKey,
 			'SSECustomerKeyMD5' => md5($rawKey, true)
 		];
+	}
+
+	/**
+	 * Get SSE-KMS key ID from configuration
+	 * @return string|null KMS key ARN/ID or null for bucket default key
+	 */
+	protected function getSSEKMSKeyId(): ?string {
+		if (isset($this->params['sse_kms_key_id']) && !empty($this->params['sse_kms_key_id'])) {
+			return $this->params['sse_kms_key_id'];
+		}
+		return null;
+	}
+
+	/**
+	 * Check if SSE-KMS is enabled
+	 * @return bool
+	 */
+	protected function isSSEKMSEnabled(): bool {
+		return !empty($this->params['sse_kms_enabled']) && $this->params['sse_kms_enabled'] === true;
+	}
+
+	/**
+	 * Get SSE-KMS parameters for S3 operations
+	 *
+	 * When SSE-KMS is enabled, AWS S3 encrypts objects server-side using
+	 * AWS Key Management Service (KMS) keys. This provides:
+	 * - Centralized key management via AWS KMS
+	 * - Audit trail of key usage
+	 * - No client-side encryption overhead
+	 * - Automatic key rotation support
+	 *
+	 * @param bool $copy Whether this is for a copy operation (unused for KMS)
+	 * @return array Parameters to merge into S3 API calls
+	 */
+	protected function getSSEKMSParameters(bool $copy = false): array {
+		if (!$this->isSSEKMSEnabled()) {
+			return [];
+		}
+
+		$params = [
+			'ServerSideEncryption' => 'aws:kms',
+		];
+
+		// Add specific KMS key if configured, otherwise use bucket default key
+		$keyId = $this->getSSEKMSKeyId();
+		if ($keyId !== null) {
+			$params['SSEKMSKeyId'] = $keyId;
+		}
+
+		// Note: For copy operations, S3 re-encrypts with the destination key
+		// No special source parameters needed (unlike SSE-C)
+
+		return $params;
+	}
+
+	/**
+	 * Get unified server-side encryption parameters
+	 *
+	 * Supports both SSE-C (customer-provided keys) and SSE-KMS (AWS-managed keys).
+	 * SSE-C takes precedence if both are configured (for backward compatibility
+	 * during migration from SSE-C to SSE-KMS).
+	 *
+	 * @param bool $copy Whether this is for a copy operation
+	 * @return array Encryption parameters to merge into S3 API calls
+	 */
+	protected function getServerSideEncryptionParameters(bool $copy = false): array {
+		// SSE-C takes precedence for backward compatibility during migration
+		$sseC = $this->getSSECParameters($copy);
+		if (!empty($sseC)) {
+			return $sseC;
+		}
+
+		// Fall back to SSE-KMS if enabled
+		return $this->getSSEKMSParameters($copy);
 	}
 
 	public function isUsePresignedUrl(): bool {

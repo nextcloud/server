@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Listener;
 
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
@@ -135,6 +136,9 @@ class UserLiveStatusListenerTest extends TestCase {
 			['john.doe', 'online', 5000, false, 'away', 5000, true, false],
 			['john.doe', 'away', 5000, true, 'online', 5000, true, false],
 			['john.doe', 'online', 5000, true, 'away', 5000, true, false],
+			// a status older than REFRESH_STATUS_THRESHOLD is refreshed, a younger one is not
+			['john.doe', 'online', 4500, false, 'online', 5000, true, true],
+			['john.doe', 'online', 4700, false, 'online', 5000, true, false],
 		];
 	}
 }

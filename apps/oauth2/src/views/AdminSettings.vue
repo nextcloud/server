@@ -8,6 +8,7 @@ import axios, { isAxiosError } from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -56,7 +57,7 @@ async function addClient() {
 		const { data } = await axios.post(generateUrl('apps/oauth2/clients'), {
 			name: newClient.value.name,
 			redirectUri: newClient.value.redirectUri,
-		})
+		}, { confirmPassword: PwdConfirmationMode.Strict })
 		clients.value.push(data)
 		showSecretWarning.value = true
 
@@ -76,7 +77,7 @@ async function addClient() {
 <template>
 	<NcSettingsSection
 		:name="t('oauth2', 'OAuth 2.0 clients')"
-		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
+		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName }, { escape: false })"
 		:docUrl="oauthDocLink">
 		<table v-if="clients.length > 0" :class="[$style.oauthApp__table, { [$style.oauthApp__table_withSecret]: showSecretWarning }]">
 			<thead>

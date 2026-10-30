@@ -6,11 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
-use OC\Files\Filesystem;
 use OC\Group\Database;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -56,9 +57,8 @@ abstract class TestCase extends \Test\TestCase {
 			$user->delete();
 		}
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId('');
-		Filesystem::tearDown();
 
 		// reset backend
 		Server::get(IUserManager::class)->clearBackends();
@@ -86,9 +86,8 @@ abstract class TestCase extends \Test\TestCase {
 			}
 		}
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		Server::get(IUserSession::class)->setUser(null);
-		Filesystem::tearDown();
 		Server::get(IUserSession::class)->login($user, $password);
 		Server::get(IRootFolder::class)->getUserFolder($user);
 

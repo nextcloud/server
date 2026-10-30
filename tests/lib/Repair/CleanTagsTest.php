@@ -32,6 +32,7 @@ class CleanTagsTest extends \Test\TestCase {
 	private IUserManager&MockObject $userManager;
 	private IOutput&MockObject $outputMock;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -48,6 +49,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$this->cleanUpTables();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->cleanUpTables();
 
@@ -92,7 +94,6 @@ class CleanTagsTest extends \Test\TestCase {
 		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries', [$this->outputMock]);
 		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
 		$this->assertEntryCount('vcategory', 2, 'Assert tag categories count after cleaning category entries');
-
 
 		$this->addTagCategory('TestRepairCleanTags', 'contacts', 'userExists'); // Retained
 		$this->assertEntryCount('vcategory', 3, 'Assert tag categories count before cleaning categories by users');

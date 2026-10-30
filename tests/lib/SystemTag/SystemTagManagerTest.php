@@ -37,6 +37,7 @@ class SystemTagManagerTest extends TestCase {
 	private IAppConfig $appConfig;
 	private IEventDispatcher $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -57,6 +58,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->pruneTagsTables();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->pruneTagsTables();
 		\OC::$CLI = true;
@@ -269,13 +271,11 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertSameTag($tag2, $tagList[$tag2->getId()]);
 	}
 
-
 	public function testGetNonExistingTag(): void {
 		$this->expectException(TagNotFoundException::class);
 
 		$this->tagManager->getTag('nonexist', false, false);
 	}
-
 
 	public function testGetNonExistingTagsById(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -283,7 +283,6 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
-
 
 	public function testGetInvalidTagIdFormat(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -296,22 +295,22 @@ class SystemTagManagerTest extends TestCase {
 		return [
 			[
 				// update name
-				['one', true, true, '0082c9'],
+				['one', true, true],
 				['two', true, true, '0082c9']
 			],
 			[
 				// update one flag
-				['one', false, true, null],
+				['one', false, true],
 				['one', true, true, '0082c9']
 			],
 			[
 				// update all flags
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['one', true, true, null]
 			],
 			[
 				// update all
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['two', true, true, '0082c9']
 			],
 		];
@@ -323,7 +322,6 @@ class SystemTagManagerTest extends TestCase {
 			$tagCreate[0],
 			$tagCreate[1],
 			$tagCreate[2],
-			$tagCreate[3],
 		);
 		$this->tagManager->updateTag(
 			$tag1->getId(),
@@ -336,7 +334,6 @@ class SystemTagManagerTest extends TestCase {
 			$tagUpdated[0],
 			$tagUpdated[1],
 			$tagUpdated[2],
-			$tagUpdated[3],
 		);
 
 		$this->assertEquals($tag2->getId(), $tag1->getId());
@@ -372,7 +369,6 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->assertEmpty($this->tagManager->getAllTags());
 	}
-
 
 	public function testDeleteNonExistingTag(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -576,7 +572,6 @@ class SystemTagManagerTest extends TestCase {
 
 		\OC::$CLI = $oldCli;
 	}
-
 
 	/**
 	 * @param ISystemTag $tag1

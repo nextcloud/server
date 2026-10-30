@@ -18,7 +18,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class FederatedCalendarPeriodicSyncJob extends TimedJob {
-	private const DOWNLOAD_LIMIT = 500;
+	private const int DOWNLOAD_LIMIT = 500;
 
 	public function __construct(
 		ITimeFactory $time,
@@ -34,6 +34,7 @@ class FederatedCalendarPeriodicSyncJob extends TimedJob {
 		$this->setInterval(3600);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			return;

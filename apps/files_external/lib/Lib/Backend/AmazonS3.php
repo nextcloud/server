@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
@@ -23,8 +24,9 @@ class AmazonS3 extends Backend {
 			->setIdentifier('amazons3')
 			->addIdentifierAlias('\OC\Files\Storage\AmazonS3') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
-			->setText($l->t('S3 Storage'))
+			->setText($l->t('S3-Compatible Object Storage'))
 			->addParameters([
+				// TRANSLATORS Technical term for an Amazon S3 storage container
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
@@ -32,21 +34,22 @@ class AmazonS3 extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('proxy', $l->t('Proxy')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				// TRANSLATORS Technical term for an Amazon S3 geographical region
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('storageClass', $l->t('Storage Class')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
-				(new DefinitionParameter('use_ssl', $l->t('Enable SSL')))
+				(new DefinitionParameter('use_ssl', $l->t('Use HTTPS')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
-				(new DefinitionParameter('use_path_style', $l->t('Enable Path Style')))
+				(new DefinitionParameter('use_path_style', $l->t('Use Path Style (https://example.com/bucket)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
-				(new DefinitionParameter('legacy_auth', $l->t('Legacy (v2) authentication')))
+				(new DefinitionParameter('legacy_auth', $l->t('Use Legacy S3 signing (v2)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
-				(new DefinitionParameter('use_presigned_url', $l->t('Use presigned S3 url')))
+				(new DefinitionParameter('use_presigned_url', $l->t('Enable Direct Downloads (presigned URLs)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(false),
 				(new DefinitionParameter('sse_c_key', $l->t('SSE-C encryption key')))

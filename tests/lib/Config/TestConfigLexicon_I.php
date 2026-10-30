@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Tests\lib\Config;
+namespace Test\Config;
 
 use OCP\Config\IUserConfig;
 use OCP\Config\Lexicon\Entry;
@@ -18,10 +18,12 @@ use OCP\IAppConfig;
 class TestConfigLexicon_I implements ILexicon {
 	public const APPID = 'lexicon_test_i';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
@@ -31,6 +33,7 @@ class TestConfigLexicon_I implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IUserConfig::FLAG_SENSITIVE),

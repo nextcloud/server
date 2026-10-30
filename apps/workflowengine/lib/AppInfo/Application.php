@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\AppInfo;
 
 use Closure;
@@ -31,6 +32,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(
 			LoadSettingsScriptsEvent::class,
@@ -39,8 +41,14 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
+		$context->injectFn(Closure::fromCallable([$this, 'registerRuntimeOperations']));
 		$context->injectFn(Closure::fromCallable([$this, 'registerRuleListeners']));
+	}
+
+	private function registerRuntimeOperations(Manager $manager): void {
+		$manager->reloadRuntimeOperations();
 	}
 
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
@@ -48,7 +56,10 @@ class Application extends App implements IBootstrap {
 		LoggerInterface $logger): void {
 		/** @var Manager $manager */
 		$manager = $container->get(Manager::class);
-		$configuredEvents = $manager->getAllConfiguredEvents();
+		$configuredEvents = array_merge_recursive(
+			$manager->getAllConfiguredEvents(),
+			$manager->getAllConfiguredRuntimeEvents(),
+		);
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {

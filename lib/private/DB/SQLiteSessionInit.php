@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventSubscriber;
@@ -18,23 +19,47 @@ class SQLiteSessionInit implements EventSubscriber {
 	public function __construct(
 		private readonly bool $caseSensitiveLike,
 		private readonly string $journalMode,
+		private readonly int $busyTimeout,
 	) {
 	}
 
 	public function postConnect(ConnectionEventArgs $args): void {
 		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
-		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
-		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
+		$args->getConnection()->executeStatement('PRAGMA case_sensitive_like = ' . $sensitive);
+		$args->getConnection()->executeStatement('PRAGMA journal_mode = ' . $this->journalMode);
+		$args->getConnection()->executeStatement('PRAGMA foreign_keys = true');
+		$args->getConnection()->executeStatement('PRAGMA busy_timeout = ' . $this->busyTimeout);
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
+
+		$regexSubstr = function ($string, $pattern): string {
+			if (is_null($string) || is_null($pattern)) {
+				return '';
+			} else {
+				$string = (string)$string;
+				$pattern = str_replace('#', '\#', (string)$pattern);
+			}
+
+			$matches = [];
+			$result = preg_match("#$pattern#", $string, $matches);
+			if ($result === 0 || $result === false) {
+				return '';
+			} else {
+				return $matches[0];
+			}
+		};
+
 		if (PHP_VERSION_ID >= 80500 && method_exists($pdo, 'createFunction')) {
 			$pdo->createFunction('md5', 'md5', 1);
+			$pdo->createFunction('regexp_substr', $regexSubstr, 2);
 		} else {
 			$pdo->sqliteCreateFunction('md5', 'md5', 1);
+			$pdo->sqliteCreateFunction('regexp_substr', $regexSubstr, 2);
 		}
 	}
 
+	#[\Override]
 	public function getSubscribedEvents(): array {
 		return [Events::postConnect];
 	}

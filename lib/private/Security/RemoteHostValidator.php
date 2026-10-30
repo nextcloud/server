@@ -30,10 +30,13 @@ final class RemoteHostValidator implements IRemoteHostValidator {
 	) {
 	}
 
+	#[\Override]
 	public function isValid(string $host): bool {
 		if ($this->config->getSystemValueBool('allow_local_remote_servers', false)) {
 			return true;
 		}
+
+		$host = rtrim($host, '.');
 
 		$host = idn_to_utf8(strtolower(urldecode($host)));
 		if ($host === false) {

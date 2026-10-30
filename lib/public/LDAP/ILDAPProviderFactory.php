@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\LDAP;
 
-use OCP\IServerContainer;
+use OCP\AppFramework\Attribute\Consumable;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface ILDAPProviderFactory
@@ -16,27 +20,25 @@ use OCP\IServerContainer;
  *
  * @since 11.0.0
  */
+#[Consumable(since: '11.0.0')]
 interface ILDAPProviderFactory {
 	/**
 	 * Constructor for the LDAP provider factory
 	 *
-	 * @param IServerContainer $serverContainer server container
 	 * @since 11.0.0
 	 */
-	public function __construct(IServerContainer $serverContainer);
+	public function __construct(ContainerInterface $serverContainer);
 
 	/**
 	 * creates and returns an instance of the ILDAPProvider
 	 *
-	 * @return ILDAPProvider
 	 * @since 11.0.0
 	 */
-	public function getLDAPProvider();
+	public function getLDAPProvider(): ILDAPProvider;
 
 	/**
 	 * Check if an ldap provider is available
 	 *
-	 * @return bool
 	 * @since 21.0.0
 	 */
 	public function isAvailable(): bool;

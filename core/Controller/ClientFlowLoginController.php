@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -38,6 +39,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -103,7 +105,7 @@ class ClientFlowLoginController extends Controller {
 		$client = null;
 		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-			$clientName = $client->getName();
+			$clientName = $client->name;
 		}
 
 		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
@@ -133,7 +135,7 @@ class ClientFlowLoginController extends Controller {
 
 		$csp = new ContentSecurityPolicy();
 		if ($client) {
-			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+			$csp->addAllowedFormActionDomain($client->redirectUri);
 		} else {
 			$csp->addAllowedFormActionDomain('nc://*');
 		}
@@ -161,8 +163,8 @@ class ClientFlowLoginController extends Controller {
 			'appTokenUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.apptokenRedirect'),
 		]);
 
-
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
@@ -191,12 +193,12 @@ class ClientFlowLoginController extends Controller {
 		$client = null;
 		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-			$clientName = $client->getName();
+			$clientName = $client->name;
 		}
 
 		$csp = new ContentSecurityPolicy();
 		if ($client) {
-			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+			$csp->addAllowedFormActionDomain($client->redirectUri);
 		} else {
 			$csp->addAllowedFormActionDomain('nc://*');
 		}
@@ -222,6 +224,7 @@ class ClientFlowLoginController extends Controller {
 		]);
 
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
@@ -274,7 +277,7 @@ class ClientFlowLoginController extends Controller {
 		$client = false;
 		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-			$clientName = $client->getName();
+			$clientName = $client->name;
 		}
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
@@ -292,16 +295,16 @@ class ClientFlowLoginController extends Controller {
 		if ($client) {
 			$code = $this->random->generate(128, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 			$accessToken = new AccessToken();
-			$accessToken->setClientId($client->getId());
-			$accessToken->setEncryptedToken($this->crypto->encrypt($token, $code));
-			$accessToken->setHashedCode(hash('sha512', $code));
-			$accessToken->setTokenId($generatedToken->getId());
-			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
+			$accessToken->clientId = $client->id;
+			$accessToken->encryptedToken = $this->crypto->encrypt($token, $code);
+			$accessToken->hashedCode = hash('sha512', $code);
+			$accessToken->tokenId = $generatedToken->getId();
+			$accessToken->codeCreatedAt = $this->timeFactory->now()->getTimestamp();
 			$this->accessTokenMapper->insert($accessToken);
 
 			$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
 
-			$redirectUri = $client->getRedirectUri();
+			$redirectUri = $client->redirectUri;
 			if ($enableOcClients && $redirectUri === 'http://localhost:*') {
 				// Sanity check untrusted redirect URI provided by the client first
 				if (!preg_match('/^http:\/\/localhost:[0-9]+$/', $providedRedirectUri)) {
@@ -335,6 +338,12 @@ class ClientFlowLoginController extends Controller {
 		$this->eventDispatcher->dispatchTyped(
 			new AppPasswordCreatedEvent($generatedToken)
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+			false,
+			'auth.app_password.created',
+		));
 
 		return new RedirectResponse($redirectUri);
 	}

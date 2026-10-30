@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Files;
 
+use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
@@ -92,12 +93,19 @@ class FileSearchBackendTest extends TestCase {
 		$this->searchFolder->expects($this->once())
 			->method('search')
 			->with(new SearchQuery(
-				new SearchComparison(
-					ISearchComparison::COMPARE_EQUAL,
-					'name',
-					'foo'
-				),
-				0,
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+					new SearchComparison(
+						ISearchComparison::COMPARE_EQUAL,
+						'name',
+						'foo'
+					),
+					new SearchComparison(
+						ISearchComparison::COMPARE_EQUAL,
+						'mount_point_name',
+						'foo'
+					),
+				]),
+				100,
 				0,
 				[],
 				$this->user
@@ -126,7 +134,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					'foo'
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -155,7 +163,7 @@ class FileSearchBackendTest extends TestCase {
 					'size',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -184,7 +192,7 @@ class FileSearchBackendTest extends TestCase {
 					'mtime',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -213,7 +221,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					FileInfo::MIMETYPE_FOLDER
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -228,7 +236,6 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertCount(1, $result);
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
-
 
 	public function testSearchInvalidProp(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -265,7 +272,6 @@ class FileSearchBackendTest extends TestCase {
 
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
-
 
 	public function testSearchNonFolder(): void {
 		$this->expectException(\InvalidArgumentException::class);

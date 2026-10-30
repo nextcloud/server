@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Dashboard\Service;
 
 use JsonException;
@@ -31,10 +32,28 @@ class DashboardService {
 	 */
 	public function getLayout(): array {
 		$systemDefault = $this->appConfig->getAppValueString('layout', 'recommendations,spreed,mail,calendar');
-		return array_values(array_filter(
+		return $this->sanitizeLayout(
 			explode(',', $this->userConfig->getValueString($this->userId, 'dashboard', 'layout', $systemDefault)),
-			fn (string $value) => $value !== '')
 		);
+	}
+
+	/**
+	 * @param list<string> $layout
+	 * @return list<string>
+	 */
+	public function sanitizeLayout(array $layout): array {
+		$seen = [];
+		$result = [];
+		foreach ($layout as $value) {
+			if ($value === '' || isset($seen[$value])) {
+				continue;
+			}
+
+			$seen[$value] = true;
+			$result[] = $value;
+		}
+
+		return $result;
 	}
 
 	/**

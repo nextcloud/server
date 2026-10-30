@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -27,6 +28,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = $argument['offset'];
 		$stopAt = $argument['stopAt'];

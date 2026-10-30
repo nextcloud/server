@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Quota;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\Server;
@@ -32,6 +33,7 @@ class HelperStorageTest extends \Test\TestCase {
 	private $storage;
 	private bool $savedQuotaIncludeExternalStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,7 +41,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->createUser($this->user, $this->user);
 		$this->savedQuotaIncludeExternalStorage = $this->getIncludeExternalStorage();
 
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId($this->user);
 		Filesystem::init($this->user, '/' . $this->user . '/files');
 
@@ -50,6 +52,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->storageMock = null;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->setIncludeExternalStorage($this->savedQuotaIncludeExternalStorage);
 		$this->user = null;
@@ -58,7 +61,7 @@ class HelperStorageTest extends \Test\TestCase {
 			$this->storageMock->getCache()->clear();
 			$this->storageMock = null;
 		}
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		\OC_User::setUserId('');
 		Server::get(IConfig::class)->deleteAllUserValues($this->user);
@@ -184,7 +187,6 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(22, $storageInfo['used'], '5 bytes of home storage and 17 bytes of the temporary storage are used');
 		$this->assertEquals(34, $storageInfo['total'], '5 bytes used and 12 bytes free in home storage as well as 17 bytes used in temporary storage');
 	}
-
 
 	/**
 	 * Test getting the storage info with quota enabled

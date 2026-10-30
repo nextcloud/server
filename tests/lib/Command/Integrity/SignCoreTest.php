@@ -16,21 +16,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignCoreTest extends TestCase {
-	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
-	private $checker;
-	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
-	private $fileAccessHelper;
 	/** @var SignCore */
 	private $signCore;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->checker = $this->createMock(Checker::class);
-		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
-		$this->signCore = new SignCore(
-			$this->checker,
-			$this->fileAccessHelper
-		);
+		$this->signCore = $this->createInstanceWithMocks(SignCore::class);
 	}
 
 	public function testExecuteWithMissingPrivateKey(): void {
@@ -92,7 +84,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->fileAccessHelper
+		$this->getAutoMock(FileAccessHelper::class)
 			->method('file_get_contents')
 			->willReturnMap([
 				['privateKey', false],
@@ -121,7 +113,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->fileAccessHelper
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -152,7 +144,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->fileAccessHelper
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -160,7 +152,7 @@ class SignCoreTest extends TestCase {
 				['certificate', file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt')],
 			]);
 
-		$this->checker
+		$this->getAutoMock(Checker::class)
 			->expects($this->once())
 			->method('writeCoreSignature')
 			->willThrowException(new \Exception('My exception message'));
@@ -188,7 +180,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->fileAccessHelper
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -196,7 +188,7 @@ class SignCoreTest extends TestCase {
 				['certificate', file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt')],
 			]);
 
-		$this->checker
+		$this->getAutoMock(Checker::class)
 			->expects($this->once())
 			->method('writeCoreSignature');
 

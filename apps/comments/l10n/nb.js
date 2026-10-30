@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Filer",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Du ble nevnt på \"{file}\", i en kommentar av en konto som siden har blitt slettet",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} nevnte deg i en kommentar til \"{file}\"",
+    "Go to file" : "Gå til fil",
     "Files app plugin to add comments to files" : "Tillegg for å legge til kommentarer til filer",
     "Edit comment" : "Rediger kommentar",
     "Delete comment" : "Slett kommentar",
@@ -30,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Det oppsto en feil under forsøk på å redigere kommentaren",
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Det oppsto en feil under forsøk på å slette kommentaren",
-    "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren",
-    "Write a comment …" : "Skriv en kommentar..."
+    "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren"
 },
 "nplurals=2; plural=(n != 1);");

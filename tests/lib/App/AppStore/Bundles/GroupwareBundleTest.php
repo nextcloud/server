@@ -12,6 +12,7 @@ namespace Test\App\AppStore\Bundles;
 use OC\App\AppStore\Bundles\GroupwareBundle;
 
 class GroupwareBundleTest extends BundleBase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->bundle = new GroupwareBundle($this->l10n);

@@ -8,43 +8,47 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OC\Core\Command\Base;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class ListObject extends Base {
-	private const CHUNK_SIZE = 100;
+#[AsCommand(
+	name: 'files:object:list',
+	description: 'List all objects in the object store',
+	supportsOutputFormat: true,
+)]
+class ListObject {
+	private const int CHUNK_SIZE = 100;
 
 	public function __construct(
 		private readonly ObjectUtil $objectUtils,
 	) {
-		parent::__construct();
 	}
 
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:object:list')
-			->setDescription('List all objects in the object store')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to list the objects from, only required in cases where it can't be determined from the config");
-	}
-
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
+	public function __invoke(
+		IInput $input,
+		IOutput $output,
+		OutputFormat $outputFormat,
+		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
+	): ExitCode {
+		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		if (!$objectStore instanceof IObjectStoreMetaData) {
 			$output->writeln('<error>Configured object store does currently not support listing objects</error>');
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 		$objects = $objectStore->listObjects();
-		$objects = $this->objectUtils->formatObjects($objects, $input->getOption('output') === self::OUTPUT_FORMAT_PLAIN);
-		$this->writeStreamingTableInOutputFormat($input, $output, $objects, self::CHUNK_SIZE);
+		$objects = $this->objectUtils->formatObjects($objects, $outputFormat === OutputFormat::Plain);
+		$output->writeStreamingTableInOutputFormat($objects, self::CHUNK_SIZE);
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 }

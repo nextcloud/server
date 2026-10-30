@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Avatars;
 
 use OCP\IAvatarManager;
@@ -23,11 +24,13 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return AvatarHome
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo) {
 		$avatarManager = Server::get(IAvatarManager::class);
 		return new AvatarHome($principalInfo, $avatarManager);
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'avatars';
 	}

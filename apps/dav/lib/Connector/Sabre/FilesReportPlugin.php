@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -12,6 +13,7 @@ use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
 use OCP\ITagManager;
@@ -42,17 +44,6 @@ class FilesReportPlugin extends ServerPlugin {
 	 */
 	private $server;
 
-	/**
-	 * @param Tree $tree
-	 * @param View $fileView
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param ITagManager $fileTagger manager for private tags
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param Folder $userFolder
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(
 		private Tree $tree,
 		private View $fileView,
@@ -64,7 +55,7 @@ class FilesReportPlugin extends ServerPlugin {
 		private ITagManager $fileTagger,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
-		private Folder $userFolder,
+		private IUserFolder $userFolder,
 		private IAppManager $appManager,
 	) {
 	}
@@ -80,6 +71,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
@@ -95,6 +87,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param string $uri
 	 * @return array
 	 */
+	#[\Override]
 	public function getSupportedReportSet($uri) {
 		return [self::REPORT_NAME];
 	}
@@ -308,7 +301,6 @@ class FilesReportPlugin extends ServerPlugin {
 		return Circles::getFilesForCircles($circlesIds);
 	}
 
-
 	/**
 	 * Prepare propfind response for the given nodes
 	 *
@@ -329,7 +321,7 @@ class FilesReportPlugin extends ServerPlugin {
 			$result['href'] = $propFind->getPath();
 
 			$resourceType = $this->server->getResourceTypeForNode($node);
-			if (in_array('{DAV:}collection', $resourceType) || in_array('{DAV:}principal', $resourceType)) {
+			if (in_array('{DAV:}collection', $resourceType, true) || in_array('{DAV:}principal', $resourceType, true)) {
 				$result['href'] .= '/';
 			}
 

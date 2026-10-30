@@ -22,6 +22,7 @@ class ExportSchema extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('db:schema:export')
@@ -31,6 +32,7 @@ class ExportSchema extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = $this->connection->createSchema();
 		$sql = $input->getOption('sql');

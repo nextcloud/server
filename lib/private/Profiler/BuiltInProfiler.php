@@ -30,7 +30,6 @@ class BuiltInProfiler {
 		$shouldProfileSingleRequest = $this->shouldProfileSingleRequest();
 		$shouldSample = $this->config->getSystemValueBool('profiling.sample') && !$shouldProfileSingleRequest;
 
-
 		if (!$shouldProfileSingleRequest && !$shouldSample) {
 			return;
 		}
@@ -38,7 +37,6 @@ class BuiltInProfiler {
 		$requestRate = $this->config->getSystemValue('profiling.request.rate', 0.001);
 		$sampleRate = $this->config->getSystemValue('profiling.sample.rate', 1.0);
 		$eventType = $this->config->getSystemValue('profiling.event_type', EXCIMER_REAL);
-
 
 		$this->excimer = new \ExcimerProfiler();
 		$this->excimer->setPeriod($shouldProfileSingleRequest ? $requestRate : $sampleRate);

@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\App\AppStore\AppStoreLinkVisibility;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
 use OC\Core\AppInfo\Application;
@@ -43,9 +44,9 @@ use OCP\Template\ITemplateManager;
 use OCP\Util;
 
 class TemplateLayout {
-	private static string $versionHash = '';
+	private string $versionHash = '';
 	/** @var string[] */
-	private static array $cacheBusterCache = [];
+	private array $cacheBusterCache = [];
 
 	public ?CSSResourceLocator $cssLocator = null;
 	public ?JSResourceLocator $jsLocator = null;
@@ -82,14 +83,18 @@ class TemplateLayout {
 
 				$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 				$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
+				$this->initialState->provideInitialState('core', 'navigationActions', array_values($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
+				$this->initialState->provideInitialState('core', 'appStoreLinkShown', Server::get(AppStoreLinkVisibility::class)->isShownToUsers());
 
 				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
 				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
 					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
 					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 					Util::addScript('core', 'legacy-unified-search', 'core');
+					Util::addStyle('core', 'legacy-unified-search');
 				} else {
 					Util::addScript('core', 'unified-search', 'core');
+					Util::addStyle('core', 'unified-search');
 				}
 
 				// Set logo link target
@@ -156,12 +161,15 @@ class TemplateLayout {
 				}
 
 				$page->assign('user_displayname', $userDisplayName);
-				$page->assign('user_uid', \OC_User::getUser());
+				$page->assign('user_uid', $user?->getUID() ?? false);
 				break;
 			case TemplateResponse::RENDER_AS_PUBLIC:
 				$page = $this->templateManager->getTemplate('core', 'layout.public');
 				$page->assign('appid', $appId);
 				$page->assign('bodyid', 'body-public');
+
+				$currentAppData = $this->navigationManager->get($appId);
+				$this->initialState->provideInitialState('core', 'apps', $currentAppData === null ? [] : [$currentAppData]);
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
@@ -211,19 +219,19 @@ class TemplateLayout {
 		$page->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
 
 		if ($this->config->getSystemValueBool('installed', false)) {
-			if (empty(self::$versionHash)) {
+			if (empty($this->versionHash)) {
 				$v = $this->appManager->getAppInstalledVersions(true);
 				$v['core'] = implode('.', $this->serverVersion->getVersion());
-				self::$versionHash = substr(md5(implode(',', $v)), 0, 8);
+				$this->versionHash = substr(md5(implode(',', $v)), 0, 8);
 			}
 		} else {
-			self::$versionHash = md5('not installed');
+			$this->versionHash = md5('not installed');
 		}
 
 		// Add the js files
 		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$page->assign('jsfiles', []);
-		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+		if ($this->config->getSystemValueBool('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
@@ -247,7 +255,7 @@ class TemplateLayout {
 			if (Server::get(ContentSecurityPolicyNonceManager::class)->browserSupportsCspV3()) {
 				$page->assign('inline_ocjs', $config);
 			} else {
-				$page->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+				$page->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
 			}
 		}
 		foreach ($jsFiles as $info) {
@@ -280,7 +288,7 @@ class TemplateLayout {
 
 		$page->assign('cssfiles', []);
 		$page->assign('printcssfiles', []);
-		$this->initialState->provideInitialState('core', 'versionHash', self::$versionHash);
+		$this->initialState->provideInitialState('core', 'versionHash', $this->versionHash);
 		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
@@ -320,7 +328,7 @@ class TemplateLayout {
 
 		if ($this->config->getSystemValueBool('installed', false) === false) {
 			// if not installed just return the version hash
-			return '?v=' . self::$versionHash;
+			return '?v=' . $this->versionHash;
 		}
 
 		$hash = false;
@@ -334,7 +342,7 @@ class TemplateLayout {
 		}
 		// As a last resort we use the server version hash
 		if ($hash === false) {
-			$hash = self::$versionHash;
+			$hash = $this->versionHash;
 		}
 
 		// The theming app is force-enabled thus the cache buster is always available
@@ -344,7 +352,7 @@ class TemplateLayout {
 	}
 
 	private function getVersionHashByPath(string $path): string|false {
-		if (array_key_exists($path, self::$cacheBusterCache) === false) {
+		if (array_key_exists($path, $this->cacheBusterCache) === false) {
 			// Not yet cached, so lets find the cache buster string
 			$appId = $this->getAppNamefromPath($path);
 			if ($appId === false) {
@@ -354,20 +362,20 @@ class TemplateLayout {
 
 			if ($appId === 'core') {
 				// core is not a real app but the server itself
-				$hash = self::$versionHash;
+				$hash = $this->versionHash;
 			} else {
 				$appVersion = $this->appManager->getAppVersion($appId);
 				// For shipped apps the app version is not a single source of truth, we rather also need to consider the Nextcloud version
 				if ($this->appManager->isShipped($appId)) {
-					$appVersion .= '-' . self::$versionHash;
+					$appVersion .= '-' . $this->versionHash;
 				}
 
 				$hash = substr(md5($appVersion), 0, 8);
 			}
-			self::$cacheBusterCache[$path] = $hash;
+			$this->cacheBusterCache[$path] = $hash;
 		}
 
-		return self::$cacheBusterCache[$path];
+		return $this->cacheBusterCache[$path];
 	}
 
 	private function findStylesheetFiles(array $styles): array {
@@ -381,7 +389,10 @@ class TemplateLayout {
 	public function getAppNamefromPath(string $path): string|false {
 		if ($path !== '') {
 			$pathParts = explode('/', $path);
-			if ($pathParts[0] === 'css') {
+			if ($pathParts[0] === 'dist') {
+				// Return the part before the dash in the file name
+				return explode('-', \end($pathParts), 2)[0];
+			} elseif ($pathParts[0] === 'css') {
 				// This is a scss request
 				return $pathParts[1];
 			} elseif ($pathParts[0] === 'core') {

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Events;
 
 use OCP\EventDispatcher\Event;
@@ -17,7 +18,6 @@ use OCP\Files\Node;
  * @package OCA\Files_Versions
  */
 class CreateVersionEvent extends Event {
-
 
 	/** @var bool */
 	private $createVersion;

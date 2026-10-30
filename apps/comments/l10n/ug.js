@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "ھۆججەتلەر",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "سىز ئۆچۈرۈلگەن ھېساباتنىڭ ئىزاھاتىدا سىز «{file}» دە تىلغا ئېلىندى",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} سىزنى \"{file}\" دىكى باھادا تىلغا ئالدى",
+    "Go to file" : "ھۆججەتكە بېرىڭ",
     "Files app plugin to add comments to files" : "ھۆججەتلەرگە باھا قوشۇش ئۈچۈن ھۆججەت قىستۇرمىسى",
     "Edit comment" : "باھا تەھرىرلەش",
     "Delete comment" : "باھانى ئۆچۈرۈڭ",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "باھانى تەھرىرلىمەكچى بولغاندا خاتالىق كۆرۈلدى",
     "Comment deleted" : "باھا ئۆچۈرۈلدى",
     "An error occurred while trying to delete the comment" : "باھانى ئۆچۈرمەكچى بولغاندا خاتالىق كۆرۈلدى",
-    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى",
-    "Write a comment …" : "باھا يېزىڭ…"
+    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى"
 },
 "nplurals=2; plural=(n != 1);");

@@ -4,13 +4,28 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Federation;
 
+use OCP\Constants;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
+use OCP\Federation\ICloudIdManager;
+use OCP\IURLGenerator;
+use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 class CloudFederationFactory implements ICloudFederationFactory {
+	public function __construct(
+		private IOCMDiscoveryService $ocmDiscoveryService,
+		private ICloudIdManager $cloudIdManager,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
+	}
 	/**
 	 * get a CloudFederationShare Object to prepare a share you want to send
 	 *
@@ -25,12 +40,73 @@ class CloudFederationFactory implements ICloudFederationFactory {
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
+	 * @param int $permissions Nextcloud permission bitmask
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType) {
-		return new CloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $shareType, $resourceType, $sharedSecret);
+	#[\Override]
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType, int $permissions = Constants::PERMISSION_READ) {
+		$useProtocolObject = false;
+		$remoteDomain = null;
+
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+			$remoteDomain = $cloudId->getRemote();
+
+			try {
+				$remoteProvider = $this->ocmDiscoveryService->discover($remoteDomain);
+				$capabilities = $remoteProvider->getCapabilities();
+				$useProtocolObject = $capabilities->has('protocol-object');
+
+				$this->logger->debug('OCM provider capabilities discovered', [
+					'remote' => $remoteDomain,
+					'capabilities' => $capabilities->toArray(),
+					'useProtocolObject' => $useProtocolObject,
+				]);
+			} catch (OCMProviderException $e) {
+				$this->logger->warning('Failed to discover OCM provider, using legacy share method', [
+					'remote' => $remoteDomain,
+					'exception' => $e->getMessage(),
+				]);
+			}
+		} catch (\InvalidArgumentException $e) {
+			$this->logger->warning('Invalid cloud ID format, using legacy share method', [
+				'shareWith' => $shareWith,
+				'exception' => $e->getMessage(),
+			]);
+		}
+
+		$webDavUri = '';
+		if ($useProtocolObject) {
+			try {
+				$webDavUri = $this->urlGenerator->getAbsoluteURL(
+					$this->ocmDiscoveryService->getLocalOCMProvider(false)->extractProtocolEntry('file', 'webdav'),
+				);
+			} catch (OCMArgumentException $e) {
+				$this->logger->warning('No local OCM webdav entry, using legacy share method', [
+					'exception' => $e->getMessage(),
+				]);
+				$useProtocolObject = false;
+			}
+		}
+
+		return new CloudFederationShare(
+			$shareWith,
+			$name,
+			$description,
+			$providerId,
+			$owner,
+			$ownerDisplayName,
+			$sharedBy,
+			$sharedByDisplayName,
+			$shareType,
+			$resourceType,
+			$sharedSecret,
+			$useProtocolObject,
+			$webDavUri,
+			$permissions
+		);
 	}
 
 	/**
@@ -41,6 +117,7 @@ class CloudFederationFactory implements ICloudFederationFactory {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getCloudFederationNotification() {
 		return new CloudFederationNotification();
 	}

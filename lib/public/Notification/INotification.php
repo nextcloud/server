@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Notification;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -232,6 +233,10 @@ interface INotification {
 	public function getRichMessageParameters(): array;
 
 	/**
+	 * Set the target endpoint for this action
+	 *
+	 * All links should always be relative to support desktop and mobile clients.
+	 *
 	 * @param string $link
 	 * @return $this
 	 * @throws InvalidValueException if the link is invalid

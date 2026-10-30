@@ -4,14 +4,17 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OC\User\NoUserException;
+use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
-use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +30,7 @@ class Info extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:info')
@@ -44,6 +48,7 @@ class Info extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('user'));
 		if (is_null($user)) {
@@ -84,20 +89,13 @@ class Info extends Base {
 	 * @return array
 	 */
 	protected function getStorageInfo(IUser $user): array {
-		$this->setupManager->tearDown();
-		$this->setupManager->setupForUser($user);
+		$root = Server::get(IRootFolder::class);
 		try {
-			$storage = \OC_Helper::getStorageInfo('/');
-		} catch (NotFoundException $e) {
+			$userFolder = $root->getUserFolder($user->getUID());
+			return $userFolder->getUserQuota();
+		} catch (NoUserException) {
 			return [];
 		}
-		return [
-			'free' => $storage['free'],
-			'used' => $storage['used'],
-			'total' => $storage['total'],
-			'relative' => $storage['relative'],
-			'quota' => $storage['quota'],
-		];
 	}
 
 	/**
@@ -105,6 +103,7 @@ class Info extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'user') {
 			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));

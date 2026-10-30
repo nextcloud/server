@@ -5,18 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Comments;
 
 use OCP\Comments\ICommentsManagerFactory;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class FakeFactory
  */
 class FakeFactory implements ICommentsManagerFactory {
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 	}
 
+	#[\Override]
 	public function getManager() {
 		return new FakeManager();
 	}

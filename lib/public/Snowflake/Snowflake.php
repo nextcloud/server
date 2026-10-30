@@ -19,10 +19,11 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '33.0.0')]
 final readonly class Snowflake {
 	/**
-	 * @psalm-param int<0,1023> $serverId
+	 * @psalm-param int<0,511> $serverId
 	 * @psalm-param int<0,4095> $sequenceId
 	 * @psalm-param non-negative-int $seconds
 	 * @psalm-param int<0,999> $milliseconds
+	 * @since 33.0.0
 	 */
 	public function __construct(
 		private int $serverId,
@@ -35,7 +36,8 @@ final readonly class Snowflake {
 	}
 
 	/**
-	 * @psalm-return int<0,1023>
+	 * @psalm-return int<0,511>
+	 * @since 33.0.0
 	 */
 	public function getServerId(): int {
 		return $this->serverId;
@@ -43,17 +45,22 @@ final readonly class Snowflake {
 
 	/**
 	 * @psalm-return int<0,4095>
+	 * @since 33.0.0
 	 */
 	public function getSequenceId(): int {
 		return $this->sequenceId;
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function isCli(): bool {
 		return $this->isCli;
 	}
 
 	/**
 	 * @psalm-return non-negative-int
+	 * @since 33.0.0
 	 */
 	public function getSeconds(): int {
 		return $this->seconds;
@@ -61,11 +68,15 @@ final readonly class Snowflake {
 
 	/**
 	 * @psalm-return  int<0,999>
+	 * @since 33.0.0
 	 */
 	public function getMilliseconds(): int {
 		return $this->milliseconds;
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getCreatedAt(): \DateTimeImmutable {
 		return $this->createdAt;
 	}

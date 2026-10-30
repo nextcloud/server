@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\Credentials\CredentialsInterface;
@@ -40,6 +41,7 @@ class S3Signature implements SignatureInterface {
 		sort($this->signableQueryString);
 	}
 
+	#[\Override]
 	public function signRequest(
 		RequestInterface $request,
 		CredentialsInterface $credentials,
@@ -53,6 +55,7 @@ class S3Signature implements SignatureInterface {
 		return $request->withHeader('Authorization', $auth);
 	}
 
+	#[\Override]
 	public function presign(
 		RequestInterface $request,
 		CredentialsInterface $credentials,

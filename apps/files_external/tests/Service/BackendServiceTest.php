@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
@@ -15,12 +16,16 @@ use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Service\BackendService;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class BackendServiceTest extends \Test\TestCase {
 	protected IAppConfig&MockObject $appConfig;
+	protected LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	/**
@@ -46,7 +51,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testRegisterBackend(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backend = $this->getBackendMock('\Foo\Bar');
 
@@ -57,8 +62,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendAlias->method('getIdentifier')
 			->willReturn('identifier_real');
 
-		$service->registerBackend($backend);
-		$service->registerBackend($backendAlias);
+		$this->invokePrivate($service, 'registerBackend', [$backend]);
+		$this->invokePrivate($service, 'registerBackend', [$backendAlias]);
 
 		$this->assertEquals($backend, $service->getBackend('identifier:\Foo\Bar'));
 		$this->assertEquals($backendAlias, $service->getBackend('identifier_real'));
@@ -72,7 +77,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testBackendProvider(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backend1 = $this->getBackendMock('\Foo\Bar');
 		$backend2 = $this->getBackendMock('\Bar\Foo');
@@ -91,7 +96,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testAuthMechanismProvider(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backend1 = $this->getAuthMechanismMock('\Foo\Bar');
 		$backend2 = $this->getAuthMechanismMock('\Bar\Foo');
@@ -110,7 +115,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testMultipleBackendProviders(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backend1a = $this->getBackendMock('\Foo\Bar');
 		$backend1b = $this->getBackendMock('\Bar\Foo');
@@ -147,7 +152,7 @@ class BackendServiceTest extends \Test\TestCase {
 			->with('files_external', 'allow_user_mounting')
 			->willReturn(true);
 
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backendAllowed = $this->getBackendMock('\User\Mount\Allowed');
 		$backendAllowed->expects($this->never())
@@ -165,13 +170,13 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendAlias->expects($this->never())
 			->method('removeVisibility');
 
-		$service->registerBackend($backendAllowed);
-		$service->registerBackend($backendNotAllowed);
-		$service->registerBackend($backendAlias);
+		$this->invokePrivate($service, 'registerBackend', [$backendAllowed]);
+		$this->invokePrivate($service, 'registerBackend', [$backendNotAllowed]);
+		$this->invokePrivate($service, 'registerBackend', [$backendAlias]);
 	}
 
 	public function testGetAvailableBackends(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 
 		$backendAvailable = $this->getBackendMock('\Backend\Available');
 		$backendAvailable->expects($this->once())
@@ -186,8 +191,8 @@ class BackendServiceTest extends \Test\TestCase {
 					->getMock()
 			]);
 
-		$service->registerBackend($backendAvailable);
-		$service->registerBackend($backendNotAvailable);
+		$this->invokePrivate($service, 'registerBackend', [$backendAvailable]);
+		$this->invokePrivate($service, 'registerBackend', [$backendNotAvailable]);
 
 		$availableBackends = $service->getAvailableBackends();
 		$this->assertArrayHasKey('identifier:\Backend\Available', $availableBackends);
@@ -212,7 +217,7 @@ class BackendServiceTest extends \Test\TestCase {
 	public function testRegisterConfigHandlerInvalid(array $placeholders): void {
 		$this->expectException(\RuntimeException::class);
 
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 		$mock = $this->createMock(IConfigHandler::class);
 		$cb = function () use ($mock) {
 			return $mock;
@@ -223,7 +228,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testConfigHandlers(): void {
-		$service = new BackendService($this->appConfig);
+		$service = new BackendService($this->appConfig, $this->logger);
 		$mock = $this->createMock(IConfigHandler::class);
 		$mock->expects($this->exactly(3))
 			->method('handle');

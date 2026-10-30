@@ -5,9 +5,36 @@
 
 import { defineConfig } from 'vitest/config'
 
-// stub - for the moment see build/frontend/vitest.config.ts
 export default defineConfig({
 	test: {
-		projects: ['build/frontend*'],
+		projects: [
+			'build/frontend*',
+		],
+		onUnhandledError(error) {
+			// TODO: remove when this is fixed: https://github.com/nextcloud-libraries/nextcloud-vue/issues/8090
+			if (error.message.includes('`fallbackFocus` was specified but was not a node, or did not return a node')) {
+				return false
+			}
+			// NcPopover passes its fallback as `fallBackFocus`, which focus-trap does
+			// not know, and jsdom has no layout so nothing counts as tabbable.
+			// TODO: remove once NcPopover sets `fallbackFocus`.
+			if (error.message.includes('Your focus-trap must have at least one container with at least one tabbable node')) {
+				return false
+			}
+			// A worker that still has console output in flight when it shuts down
+			// fails the run even though every test passed. The specs that log
+			// heavily (the focus trap above prints per interaction) hit this
+			// depending on how the files are spread over the workers.
+			if (error.name === 'EnvironmentTeardownError' && error.message.includes('Closing rpc while')) {
+				return false
+			}
+		},
+	},
+	server: {
+		watch: {
+			ignored(path: string) {
+				return !/(\/|build\/frontend[^/]*\/)(apps|core)\/(src|tests)\//.test(path)
+			},
+		},
 	},
 })

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -32,12 +33,12 @@ class ExpireSharesJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
-
 	/**
 	 * Makes the background job do its work
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		//Current time
 		$now = new \DateTime();

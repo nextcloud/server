@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests;
 
 use OC\Files\AppData\AppData;
@@ -320,7 +321,7 @@ class IconBuilderTest extends TestCase {
 		$finalIconFile->newImage($size, $size, new \ImagickPixel('transparent'));
 		$draw = new \ImagickDraw();
 		$draw->setFillColor($color);
-		$draw->roundRectangle(0, 0, $size - 1, $size - 1, $cornerRadius, $cornerRadius);
+		$draw->roundRectangle(0, 0, $size, $size, $cornerRadius, $cornerRadius);
 		$finalIconFile->drawImage($draw);
 		$draw->destroy();
 		$finalIconFile->setImageVirtualPixelMethod(\Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);

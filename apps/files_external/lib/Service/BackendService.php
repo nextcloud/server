@@ -5,19 +5,26 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
+use OC\Files\Storage\Common;
 use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\ConfigLexicon;
+use OCA\Files_External\Event\LoadAdditionalBackendEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service class to manage backend definitions
@@ -40,24 +47,27 @@ class BackendService {
 	private array $userMountingBackends = [];
 
 	/** @var Backend[] */
-	private $backends = [];
+	private array $backends = [];
 
 	/** @var IBackendProvider[] */
-	private $backendProviders = [];
+	private array $backendProviders = [];
 
 	/** @var AuthMechanism[] */
-	private $authMechanisms = [];
+	private array $authMechanisms = [];
 
 	/** @var IAuthMechanismProvider[] */
-	private $authMechanismProviders = [];
+	private array $authMechanismProviders = [];
 
 	/** @var callable[] */
-	private $configHandlerLoaders = [];
+	private array $configHandlerLoaders = [];
 
-	private $configHandlers = [];
+	/** @var IConfigHandler[] */
+	private array $configHandlers = [];
+	private bool $eventSent = false;
 
 	public function __construct(
 		protected readonly IAppConfig $appConfig,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -71,21 +81,24 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
-	private function callForRegistrations() {
-		static $eventSent = false;
-		if (!$eventSent) {
+	private function callForRegistrations(): void {
+		$instance = Server::get(self::class);
+		if (!$instance->eventSent) {
 			Server::get(IEventDispatcher::class)->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
 			);
-			$eventSent = true;
+			Server::get(IEventDispatcher::class)->dispatchTyped(new LoadAdditionalBackendEvent());
+			$instance->eventSent = true;
 		}
 	}
 
-	private function loadBackendProviders() {
+	private function loadBackendProviders(): void {
 		$this->callForRegistrations();
 		foreach ($this->backendProviders as $provider) {
-			$this->registerBackends($provider->getBackends());
+			foreach ($provider->getBackends() as $backend) {
+				$this->registerBackend($backend);
+			}
 		}
 		$this->backendProviders = [];
 	}
@@ -94,27 +107,25 @@ class BackendService {
 	 * Register an auth mechanism provider
 	 *
 	 * @since 9.1.0
-	 * @param IAuthMechanismProvider $provider
 	 */
-	public function registerAuthMechanismProvider(IAuthMechanismProvider $provider) {
+	public function registerAuthMechanismProvider(IAuthMechanismProvider $provider): void {
 		$this->authMechanismProviders[] = $provider;
 	}
 
-	private function loadAuthMechanismProviders() {
+	private function loadAuthMechanismProviders(): void {
 		$this->callForRegistrations();
 		foreach ($this->authMechanismProviders as $provider) {
-			$this->registerAuthMechanisms($provider->getAuthMechanisms());
+			foreach ($provider->getAuthMechanisms() as $mechanism) {
+				$this->registerAuthMechanism($mechanism);
+			}
 		}
 		$this->authMechanismProviders = [];
 	}
 
 	/**
 	 * Register a backend
-	 *
-	 * @deprecated 9.1.0 use registerBackendProvider()
-	 * @param Backend $backend
 	 */
-	public function registerBackend(Backend $backend) {
+	private function registerBackend(Backend $backend): void {
 		if (!$this->isAllowedUserBackend($backend)) {
 			$backend->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
@@ -124,21 +135,9 @@ class BackendService {
 	}
 
 	/**
-	 * @deprecated 9.1.0 use registerBackendProvider()
-	 * @param Backend[] $backends
-	 */
-	public function registerBackends(array $backends) {
-		foreach ($backends as $backend) {
-			$this->registerBackend($backend);
-		}
-	}
-	/**
 	 * Register an authentication mechanism
-	 *
-	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
-	 * @param AuthMechanism $authMech
 	 */
-	public function registerAuthMechanism(AuthMechanism $authMech) {
+	private function registerAuthMechanism(AuthMechanism $authMech): void {
 		if (!$this->isAllowedAuthMechanism($authMech)) {
 			$authMech->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
@@ -148,21 +147,11 @@ class BackendService {
 	}
 
 	/**
-	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
-	 * @param AuthMechanism[] $mechanisms
-	 */
-	public function registerAuthMechanisms(array $mechanisms) {
-		foreach ($mechanisms as $mechanism) {
-			$this->registerAuthMechanism($mechanism);
-		}
-	}
-
-	/**
 	 * Get all backends
 	 *
-	 * @return Backend[]
+	 * @return array<string, Backend>
 	 */
-	public function getBackends() {
+	public function getBackends(): array {
 		$this->loadBackendProviders();
 		// only return real identifiers, no aliases
 		$backends = [];
@@ -177,8 +166,10 @@ class BackendService {
 	 *
 	 * @return Backend[]
 	 */
-	public function getAvailableBackends() {
-		return array_filter($this->getBackends(), fn (Backend $backend) => $backend->checkRequiredDependencies() === []);
+	public function getAvailableBackends(): array {
+		$backends = array_filter($this->getBackends(), fn (Backend $backend): bool => $backend->checkRequiredDependencies() === [] && $backend->getDeprecateTo() === null);
+		uasort($backends, [Backend::class, 'lexicalCompare']);
+		return $backends;
 	}
 
 	/**
@@ -330,9 +321,66 @@ class BackendService {
 
 	/**
 	 * @since 16.0.0
+	 * @return IConfigHandler[]
 	 */
-	public function getConfigHandlers() {
+	public function getConfigHandlers(): array {
 		$this->loadConfigHandlers();
 		return $this->configHandlers;
+	}
+
+	/**
+	 * @param mixed $input
+	 * @return mixed
+	 * @throws ContainerExceptionInterface
+	 */
+	public function applyConfigHandlers($input, ?string $userId = null) {
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $this->getConfigHandlers();
+		foreach ($handlers as $handler) {
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
+			}
+			$input = $handler->handle($input);
+		}
+		return $input;
+	}
+
+	/**
+	 * Test connecting using the given backend configuration
+	 *
+	 * @param string $class backend class name
+	 * @param array $options backend configuration options
+	 * @return StorageNotAvailableException::STATUS_*
+	 * @throws \Exception
+	 */
+	public function getBackendStatus(string $class, array $options): int {
+		foreach ($options as $key => &$option) {
+			if ($key === 'password') {
+				// no replacements in passwords
+				continue;
+			}
+			$option = $this->applyConfigHandlers($option);
+		}
+		if (class_exists($class)) {
+			try {
+				/** @var Common $storage */
+				$storage = new $class($options);
+
+				try {
+					$result = $storage->test();
+					$storage->setAvailability($result);
+					if ($result) {
+						return StorageNotAvailableException::STATUS_SUCCESS;
+					}
+				} catch (\Exception $e) {
+					$storage->setAvailability(false);
+					throw $e;
+				}
+			} catch (\Exception $exception) {
+				$this->logger->error($exception->getMessage(), ['exception' => $exception]);
+				throw $exception;
+			}
+		}
+		return StorageNotAvailableException::STATUS_ERROR;
 	}
 }

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 use OCP\AppFramework\Http;
@@ -18,7 +19,7 @@ use OCP\AppFramework\Http;
  * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class NotLoggedInException extends SecurityException {
-	public function __construct() {
-		parent::__construct('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
+	public function __construct(string $message = 'Current user is not logged in') {
+		parent::__construct($message, Http::STATUS_UNAUTHORIZED);
 	}
 }

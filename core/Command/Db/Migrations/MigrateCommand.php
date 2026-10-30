@@ -5,11 +5,13 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
+use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -20,20 +22,32 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MigrateCommand extends Command implements CompletionAwareInterface {
 	public function __construct(
 		private Connection $connection,
+		private IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		$this
 			->setName('migrations:migrate')
-			->setDescription('Execute a migration to a specified version or the latest available version.')
-			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on')
-			->addArgument('version', InputArgument::OPTIONAL, 'The version number (YYYYMMDDHHMMSS) or alias (first, prev, next, latest) to migrate to.', 'latest');
+			->setDescription('Run pending database migrations for an app up to a specified migration ID or the latest available migration.')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'The app whose database migrations should be run'
+			)
+			->addArgument(
+				'version',
+				InputArgument::OPTIONAL,
+				'Target migration ID (e.g. 2404Date20220903071748) or latest.',
+				'latest'
+			);
 
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
@@ -48,7 +62,8 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	#[\Override]
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
 
@@ -57,10 +72,11 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	#[\Override]
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app') {
-			$allApps = \OC_App::getAllApps();
-			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
+			return array_diff($allApps, $this->appManager->getEnabledApps());
 		}
 
 		if ($argumentName === 'version') {
@@ -69,7 +85,7 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 			$ms = new MigrationService($appName, $this->connection);
 			$migrations = $ms->getAvailableVersions();
 
-			array_unshift($migrations, 'next', 'latest');
+			array_unshift($migrations, 'latest');
 			return $migrations;
 		}
 

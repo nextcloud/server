@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\OCM;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -13,6 +14,7 @@ use OC\OCM\OCMDiscoveryService;
 use OCA\CloudFederationAPI\Controller\OCMRequestController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\Server;
@@ -31,6 +33,7 @@ class DiscoveryServiceTest extends TestCase {
 	private IConfig $config;
 	private OCMRequestController $requestController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -121,18 +124,36 @@ class DiscoveryServiceTest extends TestCase {
 		}
 	}
 
-
-	public function testLocalBaseCapability(): void {
-		$local = $this->discoveryService->getLocalOCMProvider();
-		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()));
+	#[\PHPUnit\Framework\Attributes\TestWith([true])]
+	#[\PHPUnit\Framework\Attributes\TestWith([false])]
+	public function testLocalBaseCapability(bool $fullDetails): void {
+		$local = $this->discoveryService->getLocalOCMProvider($fullDetails);
+		$this->assertEmpty(array_diff(['notifications', 'shares', 'exchange-token', 'protocol-object'], $local->getCapabilities()->toArray()));
 	}
 
+	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
+		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
+		// by the JWK Set published at the URL in `jwksUri`. Advertised
+		// whenever signing is not disabled outright.
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$this->assertTrue($local->hasCapability('http-sig'));
+	}
+
+	public function testLocalDiscoveryAdvertisesJwksUri(): void {
+		// scheme follows the instance base URL
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$jwksUri = $local->getJwksUri();
+		$baseUrl = Server::get(IURLGenerator::class)->getBaseUrl();
+		$expectedScheme = str_starts_with($baseUrl, 'http://') ? 'http://' : 'https://';
+		$this->assertStringStartsWith($expectedScheme, $jwksUri);
+		$this->assertStringContainsString('cloud_federation_api/api/v1/jwks', $jwksUri);
+	}
 
 	public function testLocalAddedCapability(): void {
 		$this->context->for('ocm-capability-app')->registerEventListener(LocalOCMDiscoveryEvent::class, LocalOCMDiscoveryTestEvent::class);
 		$this->context->delegateEventListenerRegistrations($this->dispatcher);
 		$local = $this->discoveryService->getLocalOCMProvider();
-		$this->assertEmpty(array_diff(['notifications', 'shares', 'ocm-capability-test'], $local->getCapabilities()));
+		$this->assertEmpty(array_diff(['notifications', 'shares', 'exchange-token', 'protocol-object', 'ocm-capability-test'], $local->getCapabilities()->toArray()));
 	}
 
 }

@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "此客戶端無權連結，請通知此客戶端的管理員。",
+    "Client name cannot be empty." : "客戶端名稱不能為空。",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "重導向 URL 必須為完整的 URL，如範例所示：https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "允許相容於Oauth2的外部網頁應用程式驗證。",
@@ -17,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "刪除客戶端",
     "Make sure you store the secret key, it cannot be recovered." : "請確保妥善保存密鑰，因為它無法復得。",
     "Add client" : "新增第三方應用程式",
-    "Add" : "新增",
-    "Client Identifier" : "用戶識別",
-    "Show client secret" : "顯示客戶端密碼",
-    "Hide client secret" : "隱藏客戶端密碼"
+    "Add" : "新增"
 },
 "nplurals=1; plural=0;");

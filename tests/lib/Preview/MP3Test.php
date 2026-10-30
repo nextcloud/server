@@ -18,6 +18,7 @@ use OC\Preview\MP3;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class MP3Test extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

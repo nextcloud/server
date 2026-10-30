@@ -16,7 +16,10 @@ use OCP\Server;
 #[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
 class PostscriptTest extends Provider {
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		if (\Imagick::queryFormats('EPS') === false || \Imagick::queryFormats('PS') === false) {
 			$this->markTestSkipped('Imagick does not support postscript.');
 		}

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
@@ -50,6 +51,7 @@ class UserStoragesService extends StoragesService {
 	 * @param StorageConfig $storage storage data
 	 * @param string $signal signal to trigger
 	 */
+	#[\Override]
 	protected function triggerHooks(StorageConfig $storage, string $signal): void {
 		$user = $this->getUser()->getUID();
 
@@ -70,6 +72,7 @@ class UserStoragesService extends StoragesService {
 	 * @param StorageConfig $oldStorage old storage data
 	 * @param StorageConfig $newStorage new storage data
 	 */
+	#[\Override]
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {

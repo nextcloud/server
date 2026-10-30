@@ -14,6 +14,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
+use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
 use OCA\Files\AppInfo\Application;
@@ -27,6 +28,7 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
@@ -34,6 +36,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -58,7 +61,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OC\Files\Node
  */
-class Root extends Folder implements IRootFolder {
+class Root extends Folder implements IRootFolder, Emitter {
 	private PublicEmitter $emitter;
 	private CappedMemoryCache $userFolderCache;
 	private ICache $pathByIdCache;
@@ -72,7 +75,7 @@ class Root extends Folder implements IRootFolder {
 		private LoggerInterface $logger,
 		private IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory,
+		private ICacheFactory $cacheFactory,
 		IAppConfig $appConfig,
 	) {
 		parent::__construct($this, $view, '');
@@ -97,6 +100,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $method
 	 * @param callable $callback
 	 */
+	#[\Override]
 	public function listen($scope, $method, callable $callback) {
 		$this->emitter->listen($scope, $method, $callback);
 	}
@@ -106,6 +110,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
+	#[\Override]
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->emitter->removeListener($scope, $method, $callback);
 	}
@@ -129,18 +134,17 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->addMount($mount);
 	}
 
+	#[\Override]
 	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return IMountPoint[]
-	 */
+	#[\Override]
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
+	#[\Override]
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
@@ -167,6 +171,7 @@ class Root extends Folder implements IRootFolder {
 		throw new NotPermittedException();
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new NotPermittedException();
 	}
@@ -176,6 +181,7 @@ class Root extends Folder implements IRootFolder {
 	 * @return Node
 	 * @throws \OCP\Files\NotPermittedException
 	 */
+	#[\Override]
 	public function copy($targetPath) {
 		throw new NotPermittedException();
 	}
@@ -184,6 +190,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param int $mtime
 	 * @throws \OCP\Files\NotPermittedException
 	 */
+	#[\Override]
 	public function touch($mtime = null) {
 		throw new NotPermittedException();
 	}
@@ -192,6 +199,7 @@ class Root extends Folder implements IRootFolder {
 	 * @return Storage
 	 * @throws \OCP\Files\NotFoundException
 	 */
+	#[\Override]
 	public function getStorage() {
 		throw new NotFoundException();
 	}
@@ -199,6 +207,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getPath() {
 		return '/';
 	}
@@ -206,6 +215,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getInternalPath() {
 		return '';
 	}
@@ -213,6 +223,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getId() {
 		return 0;
 	}
@@ -220,6 +231,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function stat() {
 		return [];
 	}
@@ -227,6 +239,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getMTime() {
 		return 0;
 	}
@@ -235,6 +248,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param bool $includeMounts
 	 * @return int|float
 	 */
+	#[\Override]
 	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
@@ -242,6 +256,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEtag() {
 		return '';
 	}
@@ -249,6 +264,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getPermissions() {
 		return Constants::PERMISSION_CREATE;
 	}
@@ -256,6 +272,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isReadable() {
 		return false;
 	}
@@ -263,6 +280,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isUpdateable() {
 		return false;
 	}
@@ -270,6 +288,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isDeletable() {
 		return false;
 	}
@@ -277,6 +296,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isShareable() {
 		return false;
 	}
@@ -284,6 +304,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @throws \OCP\Files\NotFoundException
 	 */
+	#[\Override]
 	public function getParent(): INode|IRootFolder {
 		throw new NotFoundException();
 	}
@@ -291,22 +312,18 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return '';
 	}
 
-	/**
-	 * Returns a view to user's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
-	 * @throws NoUserException
-	 * @throws NotPermittedException
-	 */
-	public function getUserFolder($userId) {
+	#[\Override]
+	public function getUserFolder(string $userId): IUserFolder {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
+			// Change this to UserNotFoundException in the future when all consumers
+			// are ported to the new exception
 			$e = new NoUserException('Backends provided no user object');
 			$this->logger->error(
 				sprintf(
@@ -325,17 +342,16 @@ class Root extends Folder implements IRootFolder {
 
 		if (!$this->userFolderCache->hasKey($userId)) {
 			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
-				try {
-					$folder = $this->get('/' . $userId . '/files');
-					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("Account folder for \"$userId\" exists as a file");
-					}
-				} catch (NotFoundException $e) {
-					if (!$this->nodeExists('/' . $userId)) {
-						$this->newFolder('/' . $userId);
-					}
-					$folder = $this->newFolder('/' . $userId . '/files');
-				}
+				$realFolder = $this->getOrCreateFolder('/' . $userId . '/files', maxRetries: 1);
+				$folder = new UserFolder(
+					$this,
+					$this->view,
+					$realFolder->getPath(),
+					null,
+					Server::get(IConfig::class),
+					$userObject,
+					$this->cacheFactory,
+				);
 			} else {
 				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, $this->useDefaultHomeFoldersPermissions);
 			}
@@ -350,6 +366,7 @@ class Root extends Folder implements IRootFolder {
 		return $this->userMountCache;
 	}
 
+	#[\Override]
 	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
@@ -382,6 +399,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @return INode[]
 	 */
+	#[\Override]
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
 		$setupManager = $this->mountManager->getSetupManager();
@@ -418,7 +436,7 @@ class Root extends Folder implements IRootFolder {
 		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
 
 		$mounts = $this->mountManager->getMountsByMountProvider($path, $mountProviders);
-		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints));
+		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints, true));
 
 		// if we haven't found a relevant mount that is setup, but we do have relevant mount infos
 		// we try to load them from the mount info.
@@ -492,6 +510,7 @@ class Root extends Folder implements IRootFolder {
 		return $folders;
 	}
 
+	#[\Override]
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
 		$path = $cacheEntry->getPath();
 		$fullPath = $mountPoint->getMountPoint() . $path;

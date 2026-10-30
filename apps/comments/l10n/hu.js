@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Fájlok",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt fiók hozzászólásában",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} megemlítette egy hozzászólásban ennél: „{file}”",
+    "Go to file" : "Ugrás a fájlhoz",
     "Files app plugin to add comments to files" : "A Fájlok alkalmazás bővítménye, amellyel megjegyzések adhatóak a fájlokhoz",
     "Edit comment" : "Hozzászólás szerkesztése",
     "Delete comment" : "Hozzászólás törlése",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Hiba történt a megjegyzés szerkesztése közben",
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
-    "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "Write a comment …" : "Hozzászólás írása…"
+    "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben"
 },
 "nplurals=2; plural=(n != 1);");

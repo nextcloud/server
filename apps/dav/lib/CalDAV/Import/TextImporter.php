@@ -5,15 +5,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Import;
 
 use Exception;
 
 class TextImporter {
 
-	public const OBJECT_PREFIX = 'BEGIN:VCALENDAR' . PHP_EOL;
-	public const OBJECT_SUFFIX = PHP_EOL . 'END:VCALENDAR';
-	private const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
+	public const string OBJECT_PREFIX = 'BEGIN:VCALENDAR' . PHP_EOL;
+	public const string OBJECT_SUFFIX = PHP_EOL . 'END:VCALENDAR';
+	private const array COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 
 	private bool $analyzed = false;
 	private array $structure = ['VCALENDAR' => [], 'VEVENT' => [], 'VTODO' => [], 'VJOURNAL' => [], 'VTIMEZONE' => []];

@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\DAV\Sharing\SharingPrivilegeSetTrait;
 use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\Server;
@@ -26,6 +28,8 @@ use Sabre\DAV\PropPatch;
  * @property CardDavBackend $carddavBackend
  */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
+	use SharingPrivilegeSetTrait;
+
 	/**
 	 * AddressBook constructor.
 	 *
@@ -35,7 +39,6 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	 */
 	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n) {
 		parent::__construct($carddavBackend, $addressBookInfo);
-
 
 		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME
 			&& $this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
@@ -60,6 +63,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	 * @param list<string> $remove
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function updateShares(array $add, array $remove): void {
 		if ($this->isShared()) {
 			throw new Forbidden();
@@ -78,6 +82,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	 *
 	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
+	#[\Override]
 	public function getShares(): array {
 		if ($this->isShared()) {
 			return [];
@@ -85,6 +90,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return $this->carddavBackend->getShares($this->getResourceId());
 	}
 
+	#[\Override]
 	public function getACL() {
 		$acl = [
 			[
@@ -93,6 +99,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 				'protected' => true,
 			],[
 				'privilege' => '{DAV:}write',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}write-acl',
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			],
@@ -142,10 +153,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		});
 	}
 
+	#[\Override]
 	public function getChildACL() {
 		return $this->getACL();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		$obj = $this->carddavBackend->getCard($this->addressBookInfo['id'], $name);
 		if (!$obj) {
@@ -155,6 +168,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id']);
 		$children = [];
@@ -166,6 +180,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return $children;
 	}
 
+	#[\Override]
 	public function getMultipleChildren(array $paths) {
 		$objs = $this->carddavBackend->getMultipleCards($this->addressBookInfo['id'], $paths);
 		$children = [];
@@ -177,10 +192,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return $children;
 	}
 
+	#[\Override]
 	public function getResourceId(): int {
 		return $this->addressBookInfo['id'];
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
@@ -188,6 +205,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return parent::getOwner();
 	}
 
+	#[\Override]
 	public function delete() {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
@@ -207,6 +225,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		parent::delete();
 	}
 
+	#[\Override]
 	public function propPatch(PropPatch $propPatch) {
 		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			parent::propPatch($propPatch);
@@ -232,6 +251,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return true;
 	}
 
+	#[\Override]
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
 
 		return parent::getChanges($syncToken, $syncLevel, $limit);
@@ -240,6 +260,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function moveInto($targetName, $sourcePath, INode $sourceNode) {
 		if (!($sourceNode instanceof Card)) {
 			return false;

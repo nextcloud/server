@@ -7,13 +7,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
 use OCP\IConfig;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,8 +27,7 @@ use Psr\Log\LoggerInterface;
  * @since 6.0.0
  */
 class App {
-	/** @var IAppContainer */
-	private $container;
+	private DIContainer $container;
 
 	/**
 	 * Turns an app id into a namespace by convention. The id is split at the
@@ -36,11 +38,11 @@ class App {
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
 	}
-
 
 	/**
 	 * @param string $appName
@@ -57,7 +59,6 @@ class App {
 			$setUpViaQuery = false;
 
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
-
 			foreach ($e->getTrace() as $step) {
 				if (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
@@ -68,7 +69,7 @@ class App {
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
 					&& $step['function'] === 'getAppContainer'
-					&& $step['args'][1] === $classNameParts[1]) {
+					&& $step['args'][0] === $classNameParts[0] . '\\' . $classNameParts[1]) {
 					$setUpViaQuery = true;
 					break;
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
@@ -92,50 +93,28 @@ class App {
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
 		} catch (ContainerExceptionInterface $e) {
-			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
+			$this->container = new DIContainer($appName, $urlParams);
 		}
 	}
 
 	/**
-	 * @return IAppContainer
+	 * @return ContainerInterface
 	 * @since 6.0.0
+	 * @since 35.0.0 Typed as returning a ContainerInterface instead of the deprecated IAppContainer
 	 */
-	public function getContainer(): IAppContainer {
+	public function getContainer(): ContainerInterface {
 		return $this->container;
 	}
 
 	/**
 	 * This function is called by the routing component to fire up the frameworks dispatch mechanism.
 	 *
-	 * Example code in routes.php of the task app:
-	 * $this->create('tasks_index', '/')->get()->action(
-	 *		function($params){
-	 *			$app = new TaskApp($params);
-	 *			$app->dispatch('PageController', 'index');
-	 *		}
-	 *	);
-	 *
-	 *
-	 * Example for for TaskApp implementation:
-	 * class TaskApp extends \OCP\AppFramework\App {
-	 *
-	 *		public function __construct($params){
-	 *			parent::__construct('tasks', $params);
-	 *
-	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
-	 *				$a = $c->query('API');
-	 *				$r = $c->query('Request');
-	 *				return new PageController($a, $r);
-	 *			});
-	 *		}
-	 *	}
-	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
 	 * @since 6.0.0
 	 */
-	public function dispatch(string $controllerName, string $methodName) {
+	public function dispatch(string $controllerName, string $methodName): void {
 		\OC\AppFramework\App::main($controllerName, $methodName, $this->container);
 	}
 }

@@ -13,8 +13,8 @@ use OCP\IConfig;
 use OCP\Server;
 
 class ChunkedUploadConfig {
-	private const KEY_MAX_SIZE = 'files.chunked_upload.max_size';
-	private const KEY_MAX_PARALLEL_COUNT = 'files.chunked_upload.max_parallel_count';
+	private const string KEY_MAX_SIZE = 'files.chunked_upload.max_size';
+	private const string KEY_MAX_PARALLEL_COUNT = 'files.chunked_upload.max_parallel_count';
 
 	public static function getMaxChunkSize(): int {
 		return Server::get(IConfig::class)->getSystemValueInt(self::KEY_MAX_SIZE, 100 * 1024 * 1024);
@@ -25,6 +25,6 @@ class ChunkedUploadConfig {
 	}
 
 	public static function getMaxParallelCount(): int {
-		return Server::get(IConfig::class)->getSystemValueInt(self::KEY_MAX_PARALLEL_COUNT, 5);
+		return max(1, Server::get(IConfig::class)->getSystemValueInt(self::KEY_MAX_PARALLEL_COUNT, 5));
 	}
 }

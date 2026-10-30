@@ -43,6 +43,7 @@ class FactoryTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	protected IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -273,7 +274,6 @@ class FactoryTest extends TestCase {
 			->expects(self::never())
 			->method('setUserValue')
 			->with('MyUserUid', 'core', 'lang', 'en');
-
 
 		self::assertSame('en', $factory->findLanguage('MyApp'));
 	}

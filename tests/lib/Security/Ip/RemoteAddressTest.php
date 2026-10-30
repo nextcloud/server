@@ -17,6 +17,7 @@ class RemoteAddressTest extends \Test\TestCase {
 	private IConfig $config;
 	private IRequest $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);

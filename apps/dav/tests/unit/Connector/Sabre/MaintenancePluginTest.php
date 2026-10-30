@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -31,7 +32,6 @@ class MaintenancePluginTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->maintenancePlugin = new MaintenancePlugin($this->config, $this->l10n);
 	}
-
 
 	public function testMaintenanceMode(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);

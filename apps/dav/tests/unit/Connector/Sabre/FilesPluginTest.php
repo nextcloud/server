@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Accounts\Account;
@@ -17,6 +18,7 @@ use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\Accounts\IAccountManager;
+use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
@@ -84,7 +86,7 @@ class FilesPluginTest extends TestCase {
 	/**
 	 * @param class-string<INode> $class
 	 */
-	private function createTestNode(string $class, string $path = '/dummypath'): INode&MockObject {
+	private function createTestNode(string $class, string $path = '/dummypath', bool $isUpdateable = true): INode&MockObject {
 		$node = $this->createMock($class);
 
 		$node->expects($this->any())
@@ -113,6 +115,9 @@ class FilesPluginTest extends TestCase {
 		$fileInfo->expects($this->any())
 			->method('isReadable')
 			->willReturn(true);
+		$fileInfo->expects($this->any())
+			->method('isUpdateable')
+			->willReturn($isUpdateable);
 		$fileInfo->expects($this->any())
 			->method('getCreationTime')
 			->willReturn(123456789);
@@ -252,6 +257,7 @@ class FilesPluginTest extends TestCase {
 			'/dummyPath',
 			[
 				FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME,
+				FilesPlugin::OCM_SHARE_PERMISSIONS_PROPERTYNAME,
 			],
 			0
 		);
@@ -263,7 +269,10 @@ class FilesPluginTest extends TestCase {
 			->willReturn($user);
 
 		$loggedInUser = $this->createMock(User::class);
-		$this->userSession->expects($this->once())
+		$loggedInUser->expects($this->once())->method('getUID')->willReturn('recipient');
+		$node->expects($this->once())->method('getSharePermissions')
+			->with('recipient')->willReturn(Constants::PERMISSION_ALL);
+		$this->userSession->expects($this->exactly(2))
 			->method('getUser')
 			->willReturn($loggedInUser);
 
@@ -281,6 +290,7 @@ class FilesPluginTest extends TestCase {
 		);
 
 		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
+		$this->assertSame('["share","read","write"]', $propFind->get(FilesPlugin::OCM_SHARE_PERMISSIONS_PROPERTYNAME));
 	}
 
 	public function testGetPropertiesStorageNotAvailable(): void {
@@ -471,7 +481,6 @@ class FilesPluginTest extends TestCase {
 			FilesPlugin::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
 
-
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
 			$propPatch
@@ -485,6 +494,39 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals(200, $result[FilesPlugin::LASTMODIFIED_PROPERTYNAME]);
 		$this->assertEquals(200, $result[FilesPlugin::GETETAG_PROPERTYNAME]);
 		$this->assertEquals(200, $result[FilesPlugin::CREATIONDATE_PROPERTYNAME]);
+	}
+
+	public function testUpdatePropsReadOnlyNode(): void {
+		$node = $this->createTestNode(File::class, '/dummypath', false);
+
+		$node->expects($this->never())
+			->method('touch');
+		$node->expects($this->never())
+			->method('setEtag');
+		$node->expects($this->never())
+			->method('setCreationTime');
+
+		$propPatch = new PropPatch([
+			FilesPlugin::GETETAG_PROPERTYNAME => 'newetag',
+			FilesPlugin::LASTMODIFIED_PROPERTYNAME => 'Fri, 13 Feb 2015 00:01:02 GMT',
+			FilesPlugin::CREATIONDATE_PROPERTYNAME => '2007-08-31T16:47+00:00',
+			FilesPlugin::CREATION_TIME_PROPERTYNAME => '1188578820',
+		]);
+
+		$this->plugin->handleUpdateProperties(
+			'/dummypath',
+			$propPatch
+		);
+
+		$propPatch->commit();
+
+		$this->assertEmpty($propPatch->getRemainingMutations());
+
+		$result = $propPatch->getResult();
+		$this->assertEquals(403, $result[FilesPlugin::LASTMODIFIED_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::GETETAG_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::CREATIONDATE_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::CREATION_TIME_PROPERTYNAME]);
 	}
 
 	public function testUpdatePropsForbidden(): void {

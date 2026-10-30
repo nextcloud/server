@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\BackgroundJobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -28,6 +29,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	 *
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->log->info('Running background job to clean-up outdated updater backups');
 

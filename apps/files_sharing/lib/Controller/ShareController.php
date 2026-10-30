@@ -1,15 +1,18 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
@@ -39,6 +42,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
@@ -77,6 +81,7 @@ class ShareController extends AuthPublicShareController {
 		protected ISecureRandom $secureRandom,
 		protected Defaults $defaults,
 		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+		private IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
 	}
@@ -85,6 +90,7 @@ class ShareController extends AuthPublicShareController {
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
@@ -98,6 +104,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * The template to show when authentication failed
 	 */
+	#[\Override]
 	protected function showAuthFailed(): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
 
@@ -109,6 +116,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * The template to show after user identification
 	 */
+	#[\Override]
 	protected function showIdentificationResult(bool $success = false): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
 
@@ -123,6 +131,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param ?string $identityToken
 	 * @return bool
 	 */
+	#[\Override]
 	protected function validateIdentity(?string $identityToken = null): bool {
 		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
 			return false;
@@ -138,6 +147,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * Generates a password for the share, respecting any password policy defined
 	 */
+	#[\Override]
 	protected function generatePassword(): void {
 		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
@@ -147,14 +157,17 @@ class ShareController extends AuthPublicShareController {
 		$this->shareManager->updateShare($this->share);
 	}
 
+	#[\Override]
 	protected function verifyPassword(string $password): bool {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -165,10 +178,12 @@ class ShareController extends AuthPublicShareController {
 		return true;
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
+	#[\Override]
 	protected function authSucceeded() {
 		if ($this->share === null) {
 			throw new NotFoundException();
@@ -183,6 +198,7 @@ class ShareController extends AuthPublicShareController {
 		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));
 	}
 
+	#[\Override]
 	protected function authFailed() {
 		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
 		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
@@ -250,18 +266,6 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	private function validateShare(IShare $share) {
-		// If the owner is disabled no access to the link is granted
-		$owner = $this->userManager->get($share->getShareOwner());
-		if ($owner === null || !$owner->isEnabled()) {
-			return false;
-		}
-
-		// If the initiator of the share is disabled no access is granted
-		$initiator = $this->userManager->get($share->getSharedBy());
-		if ($initiator === null || !$initiator->isEnabled()) {
-			return false;
-		}
-
 		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
 	}
 
@@ -271,10 +275,11 @@ class ShareController extends AuthPublicShareController {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// Check whether share exists
 		try {
@@ -313,7 +318,6 @@ class ShareController extends AuthPublicShareController {
 			throw $e;
 		}
 
-
 		$this->emitAccessShareHook($share);
 		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);
 
@@ -327,8 +331,9 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
 
@@ -401,7 +406,9 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$davUrl = '/public.php/dav/files/' . $token . $davPath;
-		$davUrl .= '?' . http_build_query($params);
+		if (!empty($params)) {
+			$davUrl .= '?' . http_build_query($params);
+		}
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
 	}
 }

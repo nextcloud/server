@@ -12,14 +12,15 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for text reformulation
  * @since 30.0.0
+ * @deprecated 35.0.0
  */
-class TextToTextReformulation implements ITaskType {
+class TextToTextReformulation implements IInternalTaskType {
 	/**
 	 * @since 30.0.0
 	 */
@@ -37,11 +38,11 @@ class TextToTextReformulation implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Reformulate text');
 	}
@@ -50,6 +51,7 @@ class TextToTextReformulation implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Takes a text and reformulates it');
 	}
@@ -58,6 +60,7 @@ class TextToTextReformulation implements ITaskType {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +69,7 @@ class TextToTextReformulation implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -80,6 +84,7 @@ class TextToTextReformulation implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

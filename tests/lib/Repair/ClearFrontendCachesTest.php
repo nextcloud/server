@@ -9,44 +9,30 @@ namespace Test\Repair;
 
 use OC\Repair\ClearFrontendCaches;
 use OC\Template\JSCombiner;
-use OCP\ICache;
-use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-
-	private ICacheFactory&MockObject $cacheFactory;
-	private JSCombiner&MockObject $jsCombiner;
 	private IOutput&MockObject $outputMock;
 
 	protected ClearFrontendCaches $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->outputMock = $this->createMock(IOutput::class);
 
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->jsCombiner = $this->createMock(JSCombiner::class);
-
-		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
+		$this->repair = $this->createInstanceWithMocks(ClearFrontendCaches::class);
 	}
 
-
 	public function testRun(): void {
-		$imagePathCache = $this->createMock(ICache::class);
-		$imagePathCache->expects($this->once())
+		$this->getCacheAutoMock('imagePath')->expects($this->once())
 			->method('clear')
 			->with('');
-		$this->jsCombiner->expects($this->once())
+		$this->getAutoMock(JSCombiner::class)->expects($this->once())
 			->method('resetCache');
-		$this->cacheFactory->expects($this->once())
-			->method('createDistributed')
-			->with('imagePath')
-			->willReturn($imagePathCache);
 
 		$this->repair->run($this->outputMock);
-		$this->assertTrue(true);
 	}
 }

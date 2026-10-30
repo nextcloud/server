@@ -27,6 +27,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @return array|null an array of metadata of the file
 	 */
+	#[\Override]
 	public function getData($path) {
 		$data = parent::getData($path);
 		if ($data === null) {
@@ -51,6 +52,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 	}
 
+	#[\Override]
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		$sourceScanner = $this->getSourceScanner();
 		if ($sourceScanner instanceof ObjectStoreScanner) {

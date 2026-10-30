@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Diagnostics;
 
 use OC\Log;
@@ -47,6 +48,7 @@ class EventLogger implements IEventLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function start($id, $description = '') {
 		if ($this->activated) {
 			$this->events[$id] = new Event($id, $description, microtime(true));
@@ -57,6 +59,7 @@ class EventLogger implements IEventLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function end($id) {
 		if ($this->activated && isset($this->events[$id])) {
 			$timing = $this->events[$id];
@@ -68,6 +71,7 @@ class EventLogger implements IEventLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function log($id, $description, $start, $end) {
 		if ($this->activated) {
 			$this->events[$id] = new Event($id, $description, $start);
@@ -79,6 +83,7 @@ class EventLogger implements IEventLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getEvents() {
 		return $this->events;
 	}
@@ -86,6 +91,7 @@ class EventLogger implements IEventLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function activate() {
 		$this->activated = true;
 	}

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OC\Core\AppInfo\Application;
@@ -20,6 +21,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getTimeZoneOffset() !== '' && $this->isValidTimezone($loginData->getTimeZone())) {
 			$userId = $loginData->getUser()->getUID();
@@ -36,6 +38,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	}
 
 	private function isValidTimezone(?string $value): bool {
-		return $value && in_array($value, \DateTimeZone::listIdentifiers());
+		// Older browsers still report deprecated aliases like Europe/Kiev.
+		return $value && in_array($value, \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC), true);
 	}
 }

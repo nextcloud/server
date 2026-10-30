@@ -39,6 +39,7 @@ class SubAdminTest extends \Test\TestCase {
 	/** @var IGroup[] */
 	private $groups;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -84,6 +85,7 @@ class SubAdminTest extends \Test\TestCase {
 			->executeStatement();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->users as $user) {
 			$user->delete();
@@ -98,6 +100,7 @@ class SubAdminTest extends \Test\TestCase {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter('orphanedUser')))
 			->orWhere($qb->expr()->eq('gid', $qb->createNamedParameter('orphanedGroup')))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	public function testCreateSubAdmin(): void {

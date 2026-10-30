@@ -11,6 +11,7 @@ namespace OC\Preview\Db;
 
 use DateInterval;
 use DateTimeImmutable;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -25,10 +26,18 @@ use Override;
  */
 class PreviewMapper extends QBMapper {
 
-	private const TABLE_NAME = 'previews';
-	private const LOCATION_TABLE_NAME = 'preview_locations';
-	private const VERSION_TABLE_NAME = 'preview_versions';
+	private const string TABLE_NAME = 'previews';
+	private const string LOCATION_TABLE_NAME = 'preview_locations';
+	private const string VERSION_TABLE_NAME = 'preview_versions';
+	private const int MAX_INSERT_PARAMETERS = 900;
 	public const MAX_CHUNK_SIZE = 1000;
+
+	// Columns selected by joinLocation() that do not belong to the previews table
+	private const array JOINED_COLUMN_ALIASES = [
+		'version' => 'v',
+		'bucket_name' => 'l',
+		'object_store_name' => 'l',
+	];
 
 	public function __construct(
 		IDBConnection $db,
@@ -38,6 +47,7 @@ class PreviewMapper extends QBMapper {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
+	#[\Override]
 	protected function mapRowToEntity(array $row): Entity {
 		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
 		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
@@ -50,6 +60,8 @@ class PreviewMapper extends QBMapper {
 		/** @var Preview $preview */
 		$preview = $entity;
 
+		// The version row reuses the preview id, so it has to exist before it is written.
+		$preview->generateId();
 		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
 		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
 
@@ -67,6 +79,77 @@ class PreviewMapper extends QBMapper {
 		return parent::insert($preview);
 	}
 
+	/**
+	 * Insert many migrated previews using multi-row INSERT statements.
+	 *
+	 * Only the columns set by the preview migration are written.
+	 *
+	 * @param list<Preview> $previews
+	 */
+	public function insertMany(array $previews): void {
+		$columns = [
+			'id' => IQueryBuilder::PARAM_STR,
+			'file_id' => IQueryBuilder::PARAM_INT,
+			'storage_id' => IQueryBuilder::PARAM_INT,
+			'old_file_id' => IQueryBuilder::PARAM_INT,
+			'location_id' => IQueryBuilder::PARAM_STR,
+			'width' => IQueryBuilder::PARAM_INT,
+			'height' => IQueryBuilder::PARAM_INT,
+			'mimetype_id' => IQueryBuilder::PARAM_INT,
+			'source_mimetype_id' => IQueryBuilder::PARAM_INT,
+			'mtime' => IQueryBuilder::PARAM_INT,
+			'size' => IQueryBuilder::PARAM_INT,
+			'max' => IQueryBuilder::PARAM_BOOL,
+			'cropped' => IQueryBuilder::PARAM_BOOL,
+			'encrypted' => IQueryBuilder::PARAM_BOOL,
+			'etag' => IQueryBuilder::PARAM_STR,
+		];
+
+		// Oracle before 23ai does not support multi-row VALUES.
+		$multiRow = $this->db->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE;
+		$bulk = [];
+		foreach ($previews as $preview) {
+			if (!$multiRow || ($preview->getVersion() !== null && $preview->getVersion() !== '')) {
+				$this->insert($preview);
+				continue;
+			}
+			$preview->generateId();
+			$bulk[] = $preview;
+		}
+
+		$platform = $this->db->getDatabasePlatform();
+		$sql = 'INSERT INTO ' . $this->db->getQueryBuilder()->getTableName(self::TABLE_NAME)
+			. ' (' . implode(', ', array_map($platform->quoteSingleIdentifier(...), array_keys($columns))) . ') VALUES ';
+		$placeholders = '(' . implode(', ', array_fill(0, count($columns), '?')) . ')';
+		$types = array_values($columns);
+
+		foreach (array_chunk($bulk, intdiv(self::MAX_INSERT_PARAMETERS, count($columns))) as $chunk) {
+			$params = [];
+			$paramTypes = [];
+			foreach ($chunk as $preview) {
+				array_push($params,
+					$preview->getId(),
+					$preview->getFileId(),
+					$preview->getStorageId(),
+					$preview->getOldFileId(),
+					$preview->getLocationId(),
+					$preview->getWidth(),
+					$preview->getHeight(),
+					$this->mimeTypeLoader->getId($preview->getMimeType()),
+					$this->mimeTypeLoader->getId($preview->getSourceMimeType()),
+					$preview->getMtime(),
+					$preview->getSize(),
+					$preview->isMax(),
+					$preview->isCropped(),
+					$preview->isEncrypted(),
+					$preview->getEtag(),
+				);
+				array_push($paramTypes, ...$types);
+			}
+			$this->db->executeStatement($sql . implode(', ', array_fill(0, count($chunk), $placeholders)), $params, $paramTypes);
+		}
+	}
+
 	#[Override]
 	public function update(Entity $entity): Entity {
 		/** @var Preview $preview */
@@ -82,11 +165,15 @@ class PreviewMapper extends QBMapper {
 	public function delete(Entity $entity): Entity {
 		/** @var Preview $preview */
 		$preview = $entity;
-		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+
+		$versionId = $preview->getVersionId();
+		if ($versionId !== null && $versionId !== '' && $versionId !== '-1') {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete(self::VERSION_TABLE_NAME)
-				->where($qb->expr()->eq('file_id', $qb->createNamedParameter($preview->getFileId())))
-				->andWhere($qb->expr()->eq('version', $qb->createNamedParameter($preview->getVersion())))
+				->where($qb->expr()->eq(
+					'id',
+					$qb->createNamedParameter($versionId),
+				))
 				->executeStatement();
 		}
 
@@ -128,7 +215,7 @@ class PreviewMapper extends QBMapper {
 	public function getByFileId(int $fileId): \Generator {
 		$selectQb = $this->db->getQueryBuilder();
 		$this->joinLocation($selectQb)
-			->where($selectQb->expr()->eq('file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		yield from $this->yieldEntities($selectQb);
 	}
 
@@ -201,7 +288,8 @@ class PreviewMapper extends QBMapper {
 
 	public function deleteAll(): void {
 		$delete = $this->db->getQueryBuilder();
-		$delete->delete($this->getTableName());
+		$delete->delete($this->getTableName())
+			->executeStatement();
 	}
 
 	/**
@@ -211,14 +299,20 @@ class PreviewMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
+			->orderBy('p.id', 'ASC')
 			->setMaxResults($limit);
 
 		if ($maxAgeDays !== null) {
-			$qb->andWhere($qb->expr()->lt('mtime', $qb->createNamedParameter((new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(), IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->lt(
+				'p.mtime',
+				$qb->createNamedParameter(
+					(new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(),
+					IQueryBuilder::PARAM_INT,
+				),
+			));
 		}
 
 		return $this->yieldEntities($qb);
-
 	}
 
 	/**
@@ -234,5 +328,32 @@ class PreviewMapper extends QBMapper {
 				}, $mimeTypes)
 			));
 		return $this->yieldEntities($qb);
+	}
+
+	public function getPreviewForSpecification(array $parameters): ?Preview {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb);
+
+		foreach ($parameters as $key => $value) {
+			// The previews table is joined with preview_versions, which shares
+			// the file_id column name, so plain column names have to be aliased.
+			$column = str_contains($key, '.')
+				? $key
+				: (self::JOINED_COLUMN_ALIASES[$key] ?? 'p') . '.' . $key;
+			// An untyped false binds as an empty string, which PostgreSQL
+			// rejects for a boolean column.
+			$type = match (true) {
+				is_bool($value) => IQueryBuilder::PARAM_BOOL,
+				is_int($value) => IQueryBuilder::PARAM_INT,
+				default => IQueryBuilder::PARAM_STR,
+			};
+			$qb->andWhere($qb->expr()->eq($column, $qb->createNamedParameter($value, $type)));
+		}
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 }

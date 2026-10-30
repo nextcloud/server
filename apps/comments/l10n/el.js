@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Αρχεία",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Σας ανέφεραν στο \"{file}\", σε σχόλιο από λογαριασμό που έχει πλέον διαγραφεί",
     "{user} mentioned you in a comment on \"{file}\"" : "Ο/η {user} σας ανέφερε σε σχόλιο στο “{file}”",
+    "Go to file" : "Μετάβαση στο αρχείο",
     "Files app plugin to add comments to files" : "Πρόσθετο εφαρμογής Αρχεία για προσθήκη σχολίων σε αρχεία",
     "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επεξεργασίας του σχολίου",
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
-    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "Write a comment …" : "Γράψτε ένα σχόλιο …"
+    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου"
 },
 "nplurals=2; plural=(n != 1);");

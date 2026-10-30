@@ -31,6 +31,7 @@ class HooksTest extends TestCase {
 	private AccountManager&MockObject $accountManager;
 	private Hooks $hooks;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

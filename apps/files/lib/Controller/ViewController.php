@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OC\Files\FilenameValidator;
@@ -16,7 +17,6 @@ use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -102,7 +102,6 @@ class ViewController extends Controller {
 		}
 	}
 
-
 	/**
 	 * @param string $dir
 	 * @param string $view
@@ -152,8 +151,9 @@ class ViewController extends Controller {
 
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
-		// in the correct folder
-		if ($fileid && $dir !== '') {
+		// in the correct folder. Only where dir is a path in the
+		// user's files: other views use it for their own ids (tags).
+		if ($fileid && $dir !== '' && in_array($view, ['', 'files', 'personal'], true)) {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
 			$nodes = $baseFolder->getById((int)$fileid);
 			if (!empty($nodes)) {
@@ -178,6 +178,10 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 		$this->initialState->provideInitialState('recent_limit', $this->appConfig->getAppValueInt(ConfigLexicon::RECENT_LIMIT, 100));
+		// Not yet consumed by the frontend, provided for future implementation
+		$this->initialState->provideInitialState('group_recent_files', $this->appConfig->getAppValueBool(ConfigLexicon::GROUP_RECENT_FILES, false));
+		$this->initialState->provideInitialState('recent_files_group_mime_types', $this->appConfig->getAppValueArray(ConfigLexicon::RECENT_FILES_GROUP_MIME_TYPES, []));
+		$this->initialState->provideInitialState('recent_files_group_timespan_minutes', $this->appConfig->getAppValueInt(ConfigLexicon::RECENT_FILES_GROUP_TIMESPAN_MINUTES, 2));
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
@@ -193,14 +197,11 @@ class ViewController extends Controller {
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
-		// Load Viewer scripts
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
 
-		$this->initialState->provideInitialState('templates_enabled', ($this->config->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton') !== '') || ($this->config->getSystemValueString('templatedirectory', \OC::$SERVERROOT . '/core/skeleton/Templates') !== ''));
+		$this->initialState->provideInitialState('templates_enabled', true);
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
+		$this->initialState->provideInitialState('localClientEnabled', $this->appConfig->getAppValueBool(ConfigLexicon::LOCAL_CLIENT_INTEGRATION));
 
 		$isTwoFactorEnabled = false;
 		foreach ($this->twoFactorRegistry->getProviderStates($user) as $providerId => $providerState) {

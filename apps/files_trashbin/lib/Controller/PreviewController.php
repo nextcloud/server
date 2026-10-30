@@ -6,8 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -26,6 +29,7 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+#[TokenScope(scope: TokenScopes::FILES_READ)]
 class PreviewController extends Controller {
 	public function __construct(
 		string $appName,

@@ -34,6 +34,7 @@ class JobListTest extends TestCase {
 	protected IConfig&MockObject $config;
 	protected ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -270,6 +271,26 @@ class JobListTest extends TestCase {
 
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
+	}
+
+	public function testRemoveByIdWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'remove-by-id');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->removeById($job->getId());
+
+		$this->assertNull($this->instance->getById($job->getId()));
+	}
+
+	public function testResetBackgroundJobWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'reset');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->resetBackgroundJob($job);
+
+		$row = $this->instance->getDetailsById($job->getId());
+		$this->assertSame('0', (string)$row['last_run']);
+		$this->assertSame('0', (string)$row['reserved_at']);
 	}
 
 	public function testHasReservedJobs(): void {

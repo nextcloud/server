@@ -17,7 +17,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
 
 class TaskProcessingSuccessRate implements ISetupCheck {
-	public const MAX_FAILURE_PERCENTAGE = 0.2;
+	public const MAX_FAILURE_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
 
@@ -28,47 +28,39 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
-		return $this->l10n->t('Task Processing pickup speed');
+		return $this->l10n->t('Task Processing success rate');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
-		$taskCount = 0;
 		$lastNDays = 0;
-		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
+		do {
 			$lastNDays++;
-			// userId: '' means no filter, whereas null would mean guest
-			$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
-			$taskCount = count($tasks);
-		}
+			$scheduleAfter = $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays);
+			$taskCount = $this->taskProcessingManager->countTasks(scheduleAfter: $scheduleAfter);
+		} while ($taskCount === 0 && $lastNDays < self::MAX_DAYS);
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n day.',
 					'No scheduled tasks in the last %n days.',
 					$lastNDays
 				)
 			);
 		}
-		$failedCount = 0;
-		foreach ($tasks as $task) {
-			if ($task->getEndedAt() === null) {
-				continue; // task was not picked up yet
-			}
-			$status = $task->getStatus();
-			if ($status === Task::STATUS_FAILED) {
-				$failedCount++;
-			}
-		}
+		$failedCount = $this->taskProcessingManager->countTasks(status: Task::STATUS_FAILED, scheduleAfter: $scheduleAfter);
 
 		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'Most tasks were successful in the last day.',
+					'Most tasks were successful in the last %n day.',
 					'Most tasks were successful in the last %n days.',
 					$lastNDays
 				)

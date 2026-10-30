@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -29,6 +30,7 @@ class SetAcceptedStatus implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'Set existing shares as accepted';
 	}
@@ -36,6 +38,7 @@ class SetAcceptedStatus implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;
@@ -45,7 +48,8 @@ class SetAcceptedStatus implements IRepairStep {
 		$query
 			->update('share')
 			->set('accepted', $query->createNamedParameter(IShare::STATUS_ACCEPTED))
-			->where($query->expr()->in('share_type', $query->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($query->expr()->in('share_type', $query->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->neq('accepted', $query->createNamedParameter(IShare::STATUS_REJECTED, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
 

@@ -7,28 +7,18 @@
 
 namespace Test\Repair;
 
-use OC\Avatar\AvatarManager;
 use OC\Repair\ClearGeneratedAvatarCache;
-use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 
-	private AvatarManager&MockObject $avatarManager;
-	private IConfig&MockObject $config;
-	private IJobList&MockObject $jobList;
-
 	protected ClearGeneratedAvatarCache $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->avatarManager = $this->createMock(AvatarManager::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->jobList = $this->createMock(IJobList::class);
-
-		$this->repair = new ClearGeneratedAvatarCache($this->config, $this->avatarManager, $this->jobList);
+		$this->repair = $this->createInstanceWithMocks(ClearGeneratedAvatarCache::class);
 	}
 
 	public static function shouldRunDataProvider(): array {
@@ -51,7 +41,7 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('shouldRunDataProvider')]
 	public function testShouldRun($from, $expected): void {
-		$this->config->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('version', '0.0.0.0')
 			->willReturn($from);

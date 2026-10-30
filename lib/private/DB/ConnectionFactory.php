@@ -5,12 +5,15 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\ConnectionActivityMiddleware;
+use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
@@ -139,14 +142,22 @@ class ConnectionFactory {
 
 			case 'sqlite3':
 				$journalMode = $connectionParams['sqlite.journal_mode'];
+				$busyTimeout = $connectionParams['sqlite.busy_timeout'];
 				$connectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode, $busyTimeout));
 				break;
 		}
+		$configuration = new Configuration();
+		$activityMiddleware = new ConnectionActivityMiddleware();
+		$configuration->setMiddlewares([
+			new UtcTimezoneMiddleware(),
+			$activityMiddleware,
+		]);
+		$connectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;
@@ -196,11 +207,12 @@ class ConnectionFactory {
 
 		$connectionParams['tablePrefix'] = $this->config->getValue('dbtableprefix', self::DEFAULT_DBTABLEPREFIX);
 		$connectionParams['sqlite.journal_mode'] = $this->config->getValue('sqlite.journal_mode', 'WAL');
+		$connectionParams['sqlite.busy_timeout'] = $this->config->getValue('sqlite.busy_timeout', 30000);
 
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
-			$connectionParams['driverOptions'] = $driverOptions;
+			$connectionParams['driverOptions'] = $driverOptions + ($connectionParams['driverOptions'] ?? []);
 		}
 
 		// set default table creation options

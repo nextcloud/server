@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Activity\Settings;
 
 use OCP\Activity\ActivitySettings;
@@ -20,10 +21,12 @@ abstract class ShareActivitySettings extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Sharing');
 	}

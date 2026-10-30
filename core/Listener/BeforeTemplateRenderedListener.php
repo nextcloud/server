@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Listener;
 
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -23,6 +24,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeTemplateRenderedEvent || $event instanceof BeforeLoginTemplateRenderedEvent)) {
 			return;
@@ -43,6 +45,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// todo: make login work without these
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 		}
 
@@ -50,6 +53,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// include common nextcloud webpack bundle
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 
 			if ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_ERROR) {

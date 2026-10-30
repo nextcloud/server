@@ -6,11 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
@@ -114,6 +116,19 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
+	public function testUpdatePermissions(): void {
+		$this->cloudFederationProviderManager->expects($this->once())
+			->method('getCloudFederationProvider')->with('file')->willReturn($this->cloudFederationProvider);
+		$this->cloudFederationProvider->expects($this->once())
+			->method('notificationReceived')
+			->with('RESHARE_CHANGE_PERMISSION', '42', [
+				'sharedSecret' => 'token',
+				'permission' => ['share', 'read', 'write'],
+			]);
+
+		$this->assertInstanceOf(DataResponse::class, $this->requestHandler->updatePermissions('42', 'token', Constants::PERMISSION_ALL));
+	}
+
 	public function testDeclineShare(): void {
 		$id = '42';
 
@@ -135,7 +150,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
-
 
 	public function testAcceptShare(): void {
 		$id = '42';

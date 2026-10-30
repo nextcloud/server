@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -20,6 +21,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -33,6 +35,8 @@ class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
+	private array $cachedNumConcurrentPreviews = [];
+
 	public function __construct(
 		private readonly IConfig $config,
 		private readonly IAppConfig $appConfig,
@@ -43,6 +47,7 @@ class Generator {
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly PreviewMigrationService $migrationService,
+		private readonly ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -90,7 +95,6 @@ class Generator {
 			'mimeType' => $mimeType,
 		]);
 
-
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType, $cacheResult);
 	}
@@ -124,8 +128,11 @@ class Generator {
 		}
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
-		$maxPreviewImage = null; // only load the image when we need it
+		// The image is only set if the max preview was just generated
+		[$maxPreview, $maxPreviewImage] = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
+		if ($maxPreviewImage instanceof IStreamImage) {
+			$maxPreviewImage = null;
+		}
 		if ($maxPreview->getSize() === 0) {
 			$this->storageFactory->deletePreview($maxPreview);
 			$this->previewMapper->delete($maxPreview);
@@ -176,12 +183,19 @@ class Generator {
 						throw new NotFoundException();
 					}
 
-					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
-					}
-
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					$sourceImage = $maxPreviewImage === null ? $this->loadSmallerSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
+					if ($sourceImage !== null) {
+						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $sourceImage->width(), $sourceImage->height(), $previewVersion, $cacheResult);
+						if ($sourceImage instanceof Image) {
+							$sourceImage->destroy();
+						}
+					} else {
+						if ($maxPreviewImage === null) {
+							$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
+						}
+						$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					}
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException('', 0, $e);
@@ -201,6 +215,46 @@ class Generator {
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * A cheaper resize source than the full max preview, if any
+	 *
+	 * @param Preview[] $previews
+	 */
+	private function loadSmallerSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?IImage {
+		$source = $this->findResizeSource($previews, $maxPreview, $width, $height, $version);
+		if ($source !== null) {
+			return $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+		}
+
+		// Only pays off for previews much smaller than the max preview
+		if (8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
+			return $this->helper->getScaledImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper), $width, $height);
+		}
+		return null;
+	}
+
+	/**
+	 * Smallest cached, uncropped preview larger than the requested size
+	 *
+	 * @param Preview[] $previews
+	 */
+	private function findResizeSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?Preview {
+		$source = null;
+		foreach ($previews as $preview) {
+			if ($preview->isMax() || $preview->isCropped()
+				|| $preview->getVersion() !== $version
+				|| $preview->getMimetype() !== $maxPreview->getMimetype()
+				|| $preview->getWidth() < $width || $preview->getHeight() < $height
+				|| ($preview->getWidth() === $width && $preview->getHeight() === $height)) {
+				continue;
+			}
+			if ($source === null || $preview->getWidth() * $preview->getHeight() < $source->getWidth() * $source->getHeight()) {
+				$source = $preview;
+			}
+		}
+		return $source;
 	}
 
 	/**
@@ -259,22 +313,26 @@ class Generator {
 	 *
 	 * @return int number of concurrent threads, or 0 if it cannot be determined
 	 */
-	public static function getHardwareConcurrency(): int {
-		static $width;
+	private function getHardwareConcurrency(): int {
+		// /proc/cpuinfo is slow to read
+		$cache = $this->cacheFactory->createLocal('preview');
+		$cached = $cache->get('hardware_concurrency');
+		if (is_int($cached)) {
+			return $cached;
+		}
+		$concurrency = self::readHardwareConcurrency();
+		$cache->set('hardware_concurrency', $concurrency, 3600);
+		return $concurrency;
+	}
 
-		if (!isset($width)) {
-			if (function_exists('ini_get')) {
-				$openBasedir = ini_get('open_basedir');
-				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
-					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
-				} else {
-					$width = 0;
-				}
-			} else {
-				$width = 0;
+	private static function readHardwareConcurrency(): int {
+		if (function_exists('ini_get')) {
+			$openBasedir = ini_get('open_basedir');
+			if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+				return is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
 			}
 		}
-		return $width;
+		return 0;
 	}
 
 	/**
@@ -293,39 +351,42 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = [];
-		if (array_key_exists($type, $cached)) {
-			return $cached[$type];
+		if (array_key_exists($type, $this->cachedNumConcurrentPreviews)) {
+			return $this->cachedNumConcurrentPreviews[$type];
 		}
 
-		$hardwareConcurrency = self::getHardwareConcurrency();
+		$hardwareConcurrency = $this->getHardwareConcurrency();
 		switch ($type) {
 			case 'preview_concurrency_all':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
 				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$cached[$type] = max($concurrency_all, $concurrency_new);
+				$this->cachedNumConcurrentPreviews[$type] = max($concurrency_all, $concurrency_new);
 				break;
 			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
-				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
+				$this->cachedNumConcurrentPreviews[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;
 			default:
 				return -1;
 		}
-		return $cached[$type];
+		if ($this->cachedNumConcurrentPreviews[$type] < 1) {
+			$this->cachedNumConcurrentPreviews[$type] = 1;
+		}
+		return $this->cachedNumConcurrentPreviews[$type];
 	}
 
 	/**
 	 * @param Preview[] $previews
+	 * @return array{Preview, ?IImage} the max preview and its image, if it was generated
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): array {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
 			if ($preview->isMax() && ($version === $preview->getVersion())) {
-				return $preview;
+				return [$preview, null];
 			}
 		}
 
@@ -340,7 +401,7 @@ class Generator {
 				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 				foreach ($previews as $preview) {
 					if ($preview->isMax() && ($version === $preview->getVersion())) {
-						return $preview;
+						return [$preview, null];
 					}
 				}
 			}
@@ -349,10 +410,11 @@ class Generator {
 	}
 
 	/**
+	 * @return array{Preview, IImage}
 	 * @throws DBException
 	 * @throws NotFoundException
 	 */
-	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): array {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -403,7 +465,7 @@ class Generator {
 					$previewEntry->setMimetype($preview->dataMimeType());
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return $this->savePreview($previewEntry, $preview);
+					return [$this->savePreview($previewEntry, $preview), $preview];
 				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
@@ -591,6 +653,30 @@ class Generator {
 		}
 		$previewEntry->setSize($size);
 		$previewEntry->generateId();
-		return $this->previewMapper->insert($previewEntry);
+		try {
+			return $this->previewMapper->insert($previewEntry);
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+
+			$this->storageFactory->deleteUnreferencedPreview($previewEntry);
+
+			$this->logger->debug('Generating a preview but one already exists.', ['exception' => $e]);
+
+			$preview = $this->previewMapper->getPreviewForSpecification([
+				'file_id' => $previewEntry->getFileId(),
+				'width' => $previewEntry->getWidth(),
+				'height' => $previewEntry->getHeight(),
+				'mimetype_id' => $previewEntry->getMimetypeId(),
+				'cropped' => $previewEntry->isCropped(),
+				'version_id' => $previewEntry->getVersion() ?? '-1',
+			]);
+
+			if ($preview === null) {
+				throw new \RuntimeException('Unable to save a preview because it already exists but fetching it again yield nothing');
+			}
+			return $preview;
+		}
 	}
 }

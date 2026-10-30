@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OCP\IGroupManager;
@@ -38,25 +39,26 @@ class UserGroupMembership implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		$user = $this->userSession->getUser();
 
 		if ($user instanceof IUser) {
 			$groupIds = $this->getUserGroups($user);
-			return ($operator === 'is') === in_array($value, $groupIds);
+			return ($operator === 'is') === in_array($value, $groupIds, true);
 		} else {
 			return $operator !== 'is';
 		}
 	}
-
 
 	/**
 	 * @param string $operator
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['is', '!is'])) {
+		if (!in_array($operator, ['is', '!is'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
@@ -80,11 +82,13 @@ class UserGroupMembership implements ICheck {
 		return $this->cachedGroupMemberships;
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		// universal by default
 		return [];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		// admin only by default
 		return $scope === IManager::SCOPE_ADMIN;

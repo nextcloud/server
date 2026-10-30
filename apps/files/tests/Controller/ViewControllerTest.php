@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\Controller;
 
 use OC\Files\FilenameValidator;
@@ -26,6 +27,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -104,6 +106,10 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('files')
+			->willReturn('OCA\\Files');
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -177,7 +183,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -199,6 +205,38 @@ class ViewControllerTest extends TestCase {
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
+	}
+
+	public static function dataTestRedirectToFileFolder(): array {
+		return [
+			'files view' => ['files', true],
+			'no view' => ['', true],
+			'personal files' => ['personal', true],
+			// The tags view puts the tag id in dir
+			'tags view' => ['tags', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRedirectToFileFolder')]
+	public function testRedirectToFileFolder(string $view, bool $redirects): void {
+		$this->viewController->method('getStorageInfo')->willReturn([]);
+		$this->config->method('getUserValue')->willReturnArgument(3);
+
+		$node = $this->createMock(File::class);
+		$node->method('getPath')->willReturn('/testuser1/files/Folder/photo.jpg');
+		$node->method('getParent')->willReturn($this->createMock(Folder::class));
+
+		$baseFolderFiles = $this->createMock(IUserFolder::class);
+		$baseFolderFiles->method('getById')->with(123)->willReturn([$node]);
+		$baseFolderFiles->method('getFirstNodeById')->with(123)->willReturn($node);
+		$baseFolderFiles->method('getRelativePath')->willReturnMap([
+			['/testuser1/files/Folder/photo.jpg', '/Folder/photo.jpg'],
+			['', '/Folder'],
+		]);
+		$this->rootFolder->method('getUserFolder')->with('testuser1')->willReturn($baseFolderFiles);
+
+		$response = $this->viewController->index('/1', $view, '123');
+		$this->assertSame($redirects, $response instanceof RedirectResponse);
 	}
 
 	public static function dataTestShortRedirect(): array {
@@ -225,7 +263,7 @@ class ViewControllerTest extends TestCase {
 			->with('files')
 			->willReturn(true);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->with('testuser1')
@@ -260,7 +298,7 @@ class ViewControllerTest extends TestCase {
 			->method('getPath')
 			->willReturn('testuser1/files_trashbin/files/test.d1462861890/sub');
 
-		$baseFolderFiles = $this->createMock(Folder::class);
+		$baseFolderFiles = $this->createMock(IUserFolder::class);
 		$baseFolderTrash = $this->createMock(Folder::class);
 
 		$this->rootFolder->expects($this->any())
@@ -302,14 +340,11 @@ class ViewControllerTest extends TestCase {
 				'backup_codes' => true,
 			]);
 
-		$invokedCountProvideInitialState = $this->exactly(10);
-		$this->initialState->expects($invokedCountProvideInitialState)
+		$initialStates = [];
+		$this->initialState->expects(self::atLeast(13))
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
-				if ($invokedCountProvideInitialState->numberOfInvocations() === 10) {
-					$this->assertEquals('isTwoFactorEnabled', $key);
-					$this->assertTrue($data);
-				}
+			->willReturnCallback(function ($key, $data) use (&$initialStates): void {
+				$initialStates[$key] = $data;
 			});
 
 		$this->config
@@ -319,5 +354,6 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->viewController->index('', '', null);
+		$this->assertTrue($initialStates['isTwoFactorEnabled'] ?? false);
 	}
 }

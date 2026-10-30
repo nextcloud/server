@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -14,6 +15,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 
@@ -118,6 +120,12 @@ class RemoteWipe {
 
 		$this->logger->info('user ' . $dbToken->getUID() . ' finished a remote wipe');
 		$this->eventDispatcher->dispatch(RemoteWipeFinished::class, new RemoteWipeFinished($dbToken));
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Remote wipe of app password with ID "%s" of user "%s" was finished',
+			['tokenId' => $dbToken->getId(), 'userId' => $dbToken->getUID()],
+			false,
+			'auth.remote_wipe.finished',
+		));
 
 		return true;
 	}

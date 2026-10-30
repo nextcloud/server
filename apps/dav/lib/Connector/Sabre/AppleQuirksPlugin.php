@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\Server;
@@ -28,7 +29,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	private const OSX_CONTACTS_AGENT = 'AddressBookCore';
 	*/
 
-	private const OSX_AGENT_PREFIX = 'macOS';
+	private const string OSX_AGENT_PREFIX = 'macOS';
 
 	/** @var bool */
 	private $isMacOSDavAgent = false;
@@ -40,6 +41,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('beforeMethod:REPORT', [$this, 'beforeReport'], 0);
 		$server->on('report', [$this, 'report'], 0);
@@ -65,7 +67,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function report($reportName, $report, $path) {
-		if ($reportName == '{DAV:}principal-property-search' && $this->isMacOSDavAgent) {
+		if ($reportName === '{DAV:}principal-property-search' && $this->isMacOSDavAgent) {
 			/** @var \Sabre\DAVACL\Xml\Request\PrincipalPropertySearchReport $report */
 			$report->applyToPrincipalCollectionSet = true;
 		}

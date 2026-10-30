@@ -7,10 +7,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
+use OC\User\Session as UserSession;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -55,6 +57,7 @@ class Internal extends Session {
 	 * @param string $key
 	 * @param integer $value
 	 */
+	#[\Override]
 	public function set(string $key, $value) {
 		$reopened = $this->reopen();
 		$_SESSION[$key] = $value;
@@ -67,6 +70,7 @@ class Internal extends Session {
 	 * @param string $key
 	 * @return mixed
 	 */
+	#[\Override]
 	public function get(string $key) {
 		if (!$this->exists($key)) {
 			return null;
@@ -78,6 +82,7 @@ class Internal extends Session {
 	 * @param string $key
 	 * @return bool
 	 */
+	#[\Override]
 	public function exists(string $key): bool {
 		return isset($_SESSION[$key]);
 	}
@@ -85,12 +90,14 @@ class Internal extends Session {
 	/**
 	 * @param string $key
 	 */
+	#[\Override]
 	public function remove(string $key) {
 		if (isset($_SESSION[$key])) {
 			unset($_SESSION[$key]);
 		}
 	}
 
+	#[\Override]
 	public function clear() {
 		$this->reopen();
 		$this->invoke('session_unset');
@@ -100,6 +107,7 @@ class Internal extends Session {
 		$_SESSION = [];
 	}
 
+	#[\Override]
 	public function close() {
 		$this->invoke('session_write_close');
 		parent::close();
@@ -112,6 +120,7 @@ class Internal extends Session {
 	 * @param bool $updateToken Whether to update the associated auth token
 	 * @return void
 	 */
+	#[\Override]
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
 		$this->reopen();
 		$oldId = null;
@@ -141,6 +150,7 @@ class Internal extends Session {
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
+				Server::get(UserSession::class)->renewMagicSessionId($oldId);
 			} catch (InvalidTokenException $e) {
 				// Just ignore
 			}
@@ -154,6 +164,7 @@ class Internal extends Session {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		$id = $this->invoke('session_id', [], true);
 		if ($id === '') {
@@ -165,6 +176,7 @@ class Internal extends Session {
 	/**
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function reopen(): bool {
 		if ($this->sessionClosed) {
 			$this->startSession(false, false);

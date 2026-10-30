@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +13,7 @@ use Generator;
 use InvalidArgumentException;
 use JsonException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Config\Exceptions\IncorrectTypeException;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
@@ -49,27 +51,30 @@ use Psr\Log\LoggerInterface;
  * @since 31.0.0
  */
 class UserConfig implements IUserConfig {
-	private const USER_MAX_LENGTH = 64;
-	private const APP_MAX_LENGTH = 32;
-	private const KEY_MAX_LENGTH = 64;
-	private const INDEX_MAX_LENGTH = 64;
-	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
+	private const int USER_MAX_LENGTH = 64;
+	private const int APP_MAX_LENGTH = 32;
+	private const int KEY_MAX_LENGTH = 64;
+	private const int INDEX_MAX_LENGTH = 64;
+	private const int MAX_NON_LAZY_SIZE = 128; // bytes
 
-	/** @var array<string, array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $fastCache = [];   // cache for normal config keys
-	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $lazyCache = [];   // cache for lazy config keys
-	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
-	private array $valueDetails = [];  // type for all config values
-	/** @var array<string, boolean> ['user_id' => bool] */
-	private array $fastLoaded = [];
-	/** @var array<string, boolean> ['user_id' => bool] */
-	private array $lazyLoaded = [];
+	/** @var CappedMemoryCache<array<string, array<string, UserConfigEntry>>>  cache for normal config keys */
+	private CappedMemoryCache $fastCache;
+	/** @var CappedMemoryCache<array<string, array<string, UserConfigEntry>>> cache for lazy config keys */
+	private CappedMemoryCache $lazyCache;
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 	private array $strictnessApplied = [];
+	/**
+	 * Tracks whether the NC-only columns (`type`, `lazy`, `flags`, `indexed`) exist in the
+	 * `preferences` table. Set to false on first load when a DBException::REASON_INVALID_FIELD_NAME
+	 * is caught, which happens during an ownCloud → Nextcloud migration before the schema steps run.
+	 *
+	 * Every SELECT that reads those columns and every INSERT/UPDATE that writes them must
+	 * guard with `if ($this->migrationCompleted)` so they degrade gracefully.
+	 * If you add a new query that touches NC-only columns, add the same guard.
+	 */
+	private bool $migrationCompleted = true;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -80,6 +85,8 @@ class UserConfig implements IUserConfig {
 		protected ICrypto $crypto,
 		protected IEventDispatcher $dispatcher,
 	) {
+		$this->fastCache = new CappedMemoryCache();
+		$this->lazyCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -90,6 +97,7 @@ class UserConfig implements IUserConfig {
 	 * @return list<string> list of userIds
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getUserIds(string $appId = ''): array {
 		$this->assertParams(app: $appId, allowEmptyUser: true, allowEmptyApp: true);
 
@@ -102,7 +110,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$userIds = [];
 		foreach ($rows as $row) {
 			$userIds[] = $row['userid'];
@@ -117,6 +125,7 @@ class UserConfig implements IUserConfig {
 	 * @return list<string> list of app ids
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getApps(string $userId): array {
 		$this->assertParams($userId, allowEmptyApp: true);
 		$this->loadConfigAll($userId);
@@ -135,6 +144,7 @@ class UserConfig implements IUserConfig {
 	 * @return list<string> list of stored config keys
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getKeys(string $userId, string $app): array {
 		$this->assertParams($userId, $app);
 		$this->loadConfigAll($userId);
@@ -156,6 +166,7 @@ class UserConfig implements IUserConfig {
 	 * @return bool TRUE if key exists
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function hasKey(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
@@ -185,16 +196,19 @@ class UserConfig implements IUserConfig {
 	 * @throws UnknownKeyException if config key is not known
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isSensitive(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]->isSensitive();
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]->isSensitive();
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags']);
 	}
 
 	/**
@@ -209,16 +223,19 @@ class UserConfig implements IUserConfig {
 	 * @throws UnknownKeyException if config key is not known
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isIndexed(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]->isIndexed();
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]->isIndexed();
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->isFlagged(self::FLAG_INDEXED, $this->valueDetails[$userId][$app][$key]['flags']);
 	}
 
 	/**
@@ -233,6 +250,7 @@ class UserConfig implements IUserConfig {
 	 * @see IUserConfig for details about lazy loading
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isLazy(string $userId, string $app, string $key): bool {
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
@@ -262,6 +280,7 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, string|int|float|bool|array> [key => value]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getValues(
 		string $userId,
 		string $app,
@@ -292,6 +311,7 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, array<string, string|int|float|bool|array>> [appId => [key => value]]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getAllValues(string $userId, bool $filtered = false): array {
 		$this->assertParams($userId, allowEmptyApp: true);
 		$this->loadConfigAll($userId);
@@ -317,6 +337,7 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, string|int|float|bool|array> [appId => value]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array {
 		$this->assertParams($userId, '', $key, allowEmptyApp: true);
 		$this->loadConfig($userId, $lazy);
@@ -331,11 +352,12 @@ class UserConfig implements IUserConfig {
 		$values = [];
 		foreach (array_keys($cache) as $app) {
 			if (isset($cache[$app][$key])) {
-				$value = $cache[$app][$key];
+				$entry = $cache[$app][$key];
 				try {
-					$this->decryptSensitiveValue($userId, $app, $key, $value);
-					$value = $this->convertTypedValue($value, $typedAs ?? $this->getValueType($userId, $app, $key, $lazy));
+					$value = $this->getDecryptedSensitiveValue($userId, $app, $key, $entry);
+					$value = $this->convertTypedValue($value, $typedAs ?? $entry->getType());
 				} catch (IncorrectTypeException|UnknownKeyException) {
+					$value = $entry->getRawValue();
 				}
 				$values[$app] = $value;
 			}
@@ -343,7 +365,6 @@ class UserConfig implements IUserConfig {
 
 		return $values;
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -356,6 +377,7 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, string|int|float|bool|array> [userId => value]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getValuesByUsers(
 		string $app,
 		string $key,
@@ -375,7 +397,7 @@ class UserConfig implements IUserConfig {
 		// this nested function will execute current Query and store result within $values.
 		$executeAndStoreValue = function (IQueryBuilder $qb) use (&$values, $typedAs): IResult {
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$value = $row['configvalue'];
 				try {
 					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int)$row['type']));
@@ -416,6 +438,7 @@ class UserConfig implements IUserConfig {
 	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): Generator {
 		return $this->searchUsersByTypedValue($app, $key, $value, $caseInsensitive);
 	}
@@ -430,6 +453,7 @@ class UserConfig implements IUserConfig {
 	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function searchUsersByValueInt(string $app, string $key, int $value): Generator {
 		return $this->searchUsersByValueString($app, $key, (string)$value);
 	}
@@ -444,6 +468,7 @@ class UserConfig implements IUserConfig {
 	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function searchUsersByValues(string $app, string $key, array $values): Generator {
 		return $this->searchUsersByTypedValue($app, $key, $values);
 	}
@@ -458,6 +483,7 @@ class UserConfig implements IUserConfig {
 	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function searchUsersByValueBool(string $app, string $key, bool $value): Generator {
 		$values = ['0', 'off', 'false', 'no'];
 		if ($value) {
@@ -535,7 +561,7 @@ class UserConfig implements IUserConfig {
 
 		$qb->andWhere($where);
 		$result = $qb->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield $row['userid'];
 		}
 	}
@@ -604,6 +630,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueString(
 		string $userId,
 		string $app,
@@ -629,6 +656,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueInt(
 		string $userId,
 		string $app,
@@ -654,6 +682,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueFloat(
 		string $userId,
 		string $app,
@@ -679,6 +708,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueBool(
 		string $userId,
 		string $app,
@@ -686,8 +716,16 @@ class UserConfig implements IUserConfig {
 		bool $default = false,
 		bool $lazy = false,
 	): bool {
-		$b = strtolower($this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL));
-		return in_array($b, ['1', 'true', 'yes', 'on']);
+		// The explicit (string) cast and ?? null guard defend against a PHP OPcache bug where
+		// values passed by reference across function boundaries can have their type corrupted
+		// (e.g. bool returned as int, or null). Affects PHP 8.x with OPcache enabled; fixed
+		// upstream in https://github.com/php/php-src/pull/21973. Keep until minimum PHP version
+		// is bumped. Psalm sees the declared return type (string) and flags these as redundant.
+		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull */
+		$value = $this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL) ?? ($default ? 'true' : 'false');
+		/** @psalm-suppress RedundantCast */
+		$b = strtolower((string)$value);
+		return in_array($b, ['1', 'true', 'yes', 'on'], true);
 	}
 
 	/**
@@ -705,6 +743,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueArray(
 		string $userId,
 		string $app,
@@ -757,20 +796,6 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 
 		/**
-		 * We ignore check if mixed type is requested.
-		 * If type of stored value is set as mixed, we don't filter.
-		 * If type of stored value is defined, we compare with the one requested.
-		 */
-		$knownType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
-		if ($type !== ValueType::MIXED
-			&& $knownType !== null
-			&& $knownType !== ValueType::MIXED
-			&& $type !== $knownType) {
-			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
-			throw new TypeConflictException('conflict with value type from database');
-		}
-
-		/**
 		 * - the pair $app/$key cannot exist in both array,
 		 * - we should still return an existing non-lazy value even if current method
 		 *   is called with $lazy is true
@@ -778,14 +803,27 @@ class UserConfig implements IUserConfig {
 		 * This way, lazyCache will be empty until the load for lazy config value is requested.
 		 */
 		if (isset($this->lazyCache[$userId][$app][$key])) {
-			$value = $this->lazyCache[$userId][$app][$key];
+			$entry = $this->lazyCache[$userId][$app][$key];
 		} elseif (isset($this->fastCache[$userId][$app][$key])) {
-			$value = $this->fastCache[$userId][$app][$key];
+			$entry = $this->fastCache[$userId][$app][$key];
 		} else {
 			return $default;
 		}
 
-		$this->decryptSensitiveValue($userId, $app, $key, $value);
+		/**
+		 * We ignore check if mixed type is requested.
+		 * If type of stored value is set as mixed, we don't filter.
+		 * If type of stored value is defined, we compare with the one requested.
+		 */
+		$knownType = $entry->getType();
+		if ($type !== ValueType::MIXED
+			&& $knownType !== ValueType::MIXED
+			&& $type !== $knownType) {
+			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
+			throw new TypeConflictException('conflict with value type from database');
+		}
+
+		$value = $this->getDecryptedSensitiveValue($userId, $app, $key, $entry);
 
 		// in case the key was modified while running matchAndApplyLexiconDefinition() we are
 		// interested to check options in case a modification of the value is needed
@@ -809,16 +847,19 @@ class UserConfig implements IUserConfig {
 	 * @throws IncorrectTypeException if config value type is not known
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getValueType(string $userId, string $app, string $key, ?bool $lazy = null): ValueType {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key]['type'])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]->getType();
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]->getType();
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->valueDetails[$userId][$app][$key]['type'];
 	}
 
 	/**
@@ -834,16 +875,19 @@ class UserConfig implements IUserConfig {
 	 * @throws IncorrectTypeException if config value type is not known
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getValueFlags(string $userId, string $app, string $key, bool $lazy = false): int {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]->getFlags();
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]->getFlags();
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->valueDetails[$userId][$app][$key]['flags'];
 	}
 
 	/**
@@ -888,7 +932,6 @@ class UserConfig implements IUserConfig {
 		);
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -904,6 +947,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueString(
 		string $userId,
 		string $app,
@@ -938,6 +982,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueInt(
 		string $userId,
 		string $app,
@@ -976,6 +1021,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueFloat(
 		string $userId,
 		string $app,
@@ -1009,6 +1055,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueBool(
 		string $userId,
 		string $app,
@@ -1044,6 +1091,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 * @see IUserConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueArray(
 		string $userId,
 		string $app,
@@ -1106,19 +1154,37 @@ class UserConfig implements IUserConfig {
 			return false;
 		}
 		$this->loadConfig($userId, $lazy);
+		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {
+			$this->logger->debug(
+				'[Deprecated] User {userId} config "{app}:{key}" is larger than {maxSize} bytes. It should be declared as lazy.',
+				[
+					'app' => $app,
+					'key' => $key,
+					'userId' => $userId,
+					'maxSize' => self::MAX_NON_LAZY_SIZE,
+				]
+			);
+		}
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
-		$sensitive = $this->isFlagged(self::FLAG_SENSITIVE, $flags);
-		if ($sensitive || ($this->hasKey($userId, $app, $key, $lazy) && $this->isSensitive($userId, $app, $key, $lazy))) {
-			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
-			$flags |= self::FLAG_SENSITIVE;
+		$newEntry = new UserConfigEntry(
+			type:$type,
+			flags:$flags,
+			value:$value,
+			crypto:$this->crypto,
+		);
+		-		$sensitive = $newEntry->isSensitive();
+		if ($newEntry->isSensitive() || ($this->hasKey($userId, $app, $key, $lazy) && $this->isSensitive($userId, $app, $key, $lazy))) {
+			$newEntry->setSensitive(true);
 		}
+		$value = $newEntry->getDecryptedSensitiveValue();
+		$flags = $newEntry->getFlags();
 
 		// if requested, we fill the 'indexed' field with current value
 		$indexed = '';
-		if ($type !== ValueType::ARRAY && $this->isFlagged(self::FLAG_INDEXED, $flags)) {
-			if ($this->isFlagged(self::FLAG_SENSITIVE, $flags)) {
+		if ($type !== ValueType::ARRAY && $newEntry->isIndexed()) {
+			if ($newEntry->isSensitive()) {
 				$this->logger->warning('sensitive value are not to be indexed');
 			} elseif (strlen($value) > self::USER_MAX_LENGTH) {
 				$this->logger->warning('value is too lengthy to be indexed');
@@ -1128,7 +1194,10 @@ class UserConfig implements IUserConfig {
 		}
 
 		$oldValue = null;
+		$updateReason = '';
 		if ($this->hasKey($userId, $app, $key, $lazy)) {
+			$updateReason = 'key exists';
+
 			/**
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
@@ -1148,12 +1217,14 @@ class UserConfig implements IUserConfig {
 				$insert->insert('preferences')
 					->setValue('userid', $insert->createNamedParameter($userId))
 					->setValue('appid', $insert->createNamedParameter($app))
-					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
-					->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-					->setValue('indexed', $insert->createNamedParameter($indexed))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+						->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+						->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+						->setValue('indexed', $insert->createNamedParameter($indexed));
+				}
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -1161,6 +1232,7 @@ class UserConfig implements IUserConfig {
 					// TODO: throw exception or just log and returns false !?
 					throw $e;
 				}
+				$updateReason = 'insert raised a duplicate contraint';
 			}
 		}
 
@@ -1168,10 +1240,14 @@ class UserConfig implements IUserConfig {
 		 * We cannot insert a new row, meaning we need to update an already existing one
 		 */
 		if (!$inserted) {
-			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
+			$currType = ($this->fastCache[$userId][$app][$key] ?? $this->lazyCache[$userId][$app][$key] ?? null)?->getType();
 			if ($currType === null) { // this might happen when switching lazy loading status
 				$this->loadConfigAll($userId);
-				$currType = $this->valueDetails[$userId][$app][$key]['type'];
+
+				if (!isset($this->fastCache[$userId][$app][$key]) && !isset($this->lazyCache[$userId][$app][$key])) {
+					throw new UnknownKeyException("unknown key $app $key for $userId even though $updateReason");
+				}
+				$currType = ($this->fastCache[$userId][$app][$key] ?? $this->lazyCache[$userId][$app][$key] ?? null)?->getType();
 			}
 
 			/**
@@ -1205,13 +1281,15 @@ class UserConfig implements IUserConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('preferences')
 				->set('configvalue', $update->createNamedParameter($value))
-				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
-				->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-				->set('indexed', $update->createNamedParameter($indexed))
 				->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 				->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+					->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+					->set('indexed', $update->createNamedParameter($indexed));
+			}
 
 			$update->executeStatement();
 		}
@@ -1224,15 +1302,19 @@ class UserConfig implements IUserConfig {
 		}
 
 		// update local cache
+		$entry = new UserConfigEntry(
+			value: $value,
+			type: $type,
+			flags: $flags,
+			crypto:$this->crypto,
+		);
 		if ($lazy) {
-			$this->lazyCache[$userId][$app][$key] = $value;
+			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+			$this->lazyCache[$userId][$app][$key] = $entry;
 		} else {
-			$this->fastCache[$userId][$app][$key] = $value;
+			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+			$this->fastCache[$userId][$app][$key] = $entry;
 		}
-		$this->valueDetails[$userId][$app][$key] = [
-			'type' => $type,
-			'flags' => $flags
-		];
 
 		return true;
 	}
@@ -1257,7 +1339,7 @@ class UserConfig implements IUserConfig {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
-		$this->isLazy($userId, $app, $key); // confirm key exists
+		$lazy = $this->isLazy($userId, $app, $key); // confirm key exists
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
@@ -1267,7 +1349,11 @@ class UserConfig implements IUserConfig {
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueDetails[$userId][$app][$key]['type'] = $type;
+		if ($lazy) {
+			$this->lazyCache[$userId][$app][$key]->setType($type);
+		} else {
+			$this->fastCache[$userId][$app][$key]->setType($type);
+		}
 
 		return true;
 	}
@@ -1283,6 +1369,7 @@ class UserConfig implements IUserConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateSensitive(string $userId, string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
@@ -1307,26 +1394,17 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$userId][$app][$key];
-		$flags = $this->getValueFlags($userId, $app, $key);
-		if ($sensitive) {
-			$flags |= self::FLAG_SENSITIVE;
-			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
-		} else {
-			$flags &= ~self::FLAG_SENSITIVE;
-			$this->decryptSensitiveValue($userId, $app, $key, $value);
-		}
+		$entry = $cache[$userId][$app][$key];
+		$entry->setSensitive($sensitive);
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-			->set('configvalue', $update->createNamedParameter($value))
+			->set('flags', $update->createNamedParameter($entry->getFlags(), IQueryBuilder::PARAM_INT))
+			->set('configvalue', $update->createNamedParameter($entry->getRawValue()))
 			->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 			->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
-
-		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
 
 		return true;
 	}
@@ -1340,6 +1418,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateGlobalSensitive(string $app, string $key, bool $sensitive): void {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
@@ -1370,6 +1449,7 @@ class UserConfig implements IUserConfig {
 	 * @throws UnknownKeyException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateIndexed(string $userId, string $app, string $key, bool $indexed): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
@@ -1394,29 +1474,25 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$userId][$app][$key];
-		$flags = $this->getValueFlags($userId, $app, $key);
+		$entry = $cache[$userId][$app][$key];
+		$entry->setIndexed($indexed);
 		if ($indexed) {
-			$indexed = $value;
+			$indexed = $entry->getRawValue();
 		} else {
-			$flags &= ~self::FLAG_INDEXED;
 			$indexed = '';
 		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+			->set('flags', $update->createNamedParameter($entry->getFlags(), IQueryBuilder::PARAM_INT))
 			->set('indexed', $update->createNamedParameter($indexed))
 			->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 			->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
-
 		return true;
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -1427,6 +1503,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateGlobalIndexed(string $app, string $key, bool $indexed): void {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
@@ -1473,6 +1550,7 @@ class UserConfig implements IUserConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateLazy(string $userId, string $app, string $key, bool $lazy): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
@@ -1509,6 +1587,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function updateGlobalLazy(string $app, string $key, bool $lazy): void {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
@@ -1534,6 +1613,7 @@ class UserConfig implements IUserConfig {
 	 * @throws UnknownKeyException if config key is not known in database
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDetails(string $userId, string $app, string $key): array {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
@@ -1559,9 +1639,8 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$app][$key];
-		$sensitive = $this->isSensitive($userId, $app, $key, null);
-		$this->decryptSensitiveValue($userId, $app, $key, $value);
+		$entry = $cache[$app][$key];
+		$value = $this->getDecryptedSensitiveValue($userId, $app, $key, $entry);
 
 		return [
 			'userId' => $userId,
@@ -1571,7 +1650,7 @@ class UserConfig implements IUserConfig {
 			'type' => $type->value,
 			'lazy' => $lazy,
 			'typeString' => $typeString,
-			'sensitive' => $sensitive
+			'sensitive' => $entry->isSensitive(),
 		];
 	}
 
@@ -1584,6 +1663,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function deleteUserConfig(string $userId, string $app, string $key): void {
 		$this->assertParams($userId, $app, $key);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
@@ -1597,7 +1677,6 @@ class UserConfig implements IUserConfig {
 
 		unset($this->lazyCache[$userId][$app][$key]);
 		unset($this->fastCache[$userId][$app][$key]);
-		unset($this->valueDetails[$userId][$app][$key]);
 	}
 
 	/**
@@ -1608,6 +1687,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function deleteKey(string $app, string $key): void {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
@@ -1628,6 +1708,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function deleteApp(string $app): void {
 		$this->assertParams('', $app, allowEmptyUser: true);
 
@@ -1639,6 +1720,7 @@ class UserConfig implements IUserConfig {
 		$this->clearCacheAll();
 	}
 
+	#[\Override]
 	public function deleteAllUserConfig(string $userId): void {
 		$this->assertParams($userId, '', allowEmptyApp: true);
 		$qb = $this->connection->getQueryBuilder();
@@ -1657,10 +1739,11 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function clearCache(string $userId, bool $reload = false): void {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->lazyLoaded[$userId] = $this->fastLoaded[$userId] = false;
-		$this->lazyCache[$userId] = $this->fastCache[$userId] = $this->valueDetails[$userId] = [];
+		unset($this->lazyCache[$userId]);
+		unset($this->fastCache[$userId]);
 
 		if (!$reload) {
 			return;
@@ -1674,9 +1757,11 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function clearCacheAll(): void {
-		$this->lazyLoaded = $this->fastLoaded = [];
-		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
+		$this->lazyCache = new CappedMemoryCache();
+		$this->fastCache = new CappedMemoryCache();
+		$this->configLexiconDetails = [];
 	}
 
 	/**
@@ -1689,22 +1774,9 @@ class UserConfig implements IUserConfig {
 	 */
 	public function statusCache(): array {
 		return [
-			'fastLoaded' => $this->fastLoaded,
-			'fastCache' => $this->fastCache,
-			'lazyLoaded' => $this->lazyLoaded,
-			'lazyCache' => $this->lazyCache,
-			'valueDetails' => $this->valueDetails,
+			'fastCache' => $this->fastCache->getData(),
+			'lazyCache' => $this->lazyCache->getData(),
 		];
-	}
-
-	/**
-	 * @param int $needle bitflag to search
-	 * @param int $flags all flags
-	 *
-	 * @return bool TRUE if bitflag $needle is set in $flags
-	 */
-	private function isFlagged(int $needle, int $flags): bool {
-		return (($needle & $flags) !== 0);
 	}
 
 	/**
@@ -1762,28 +1834,50 @@ class UserConfig implements IUserConfig {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
-		$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		// we only need value from lazy when loadConfig does not specify it
-		if ($lazy !== null) {
-			$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+		if (!$this->migrationCompleted) {
+			$qb->select('appid', 'configkey', 'configvalue');
 		} else {
-			$qb->addSelect('lazy');
+			$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
+
+			// we only need value from lazy when loadConfig does not specify it
+			if ($lazy !== null) {
+				$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+			} else {
+				$qb->addSelect('lazy');
+			}
 		}
 
-		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
-		foreach ($rows as $row) {
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
-				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
-			} else {
-				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME || !$this->migrationCompleted) {
+				throw $e;
 			}
-			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)$row['flags']];
+			// columns 'type', 'lazy', 'flags', 'indexed' don't exist yet (ownCloud migration)
+			$this->migrationCompleted = false;
+			$this->loadConfig($userId, $lazy);
+			return;
+		}
+
+		$rows = $result->fetchAllAssociative();
+		foreach ($rows as $row) {
+			$valueDetail = new UserConfigEntry(
+				value: $row['configvalue'] ?? '',
+				type: ValueType::from((int)($row['type'] ?? 0)),
+				flags: (int)($row['flags'] ?? 0),
+				crypto:$this->crypto,
+			);
+			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
+			} else {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
+			}
 		}
 		$result->closeCursor();
-		$this->setAsLoaded($userId, $lazy);
 	}
 
 	/**
@@ -1799,37 +1893,10 @@ class UserConfig implements IUserConfig {
 	 */
 	private function isLoaded(string $userId, ?bool $lazy): bool {
 		if ($lazy === null) {
-			return ($this->lazyLoaded[$userId] ?? false) && ($this->fastLoaded[$userId] ?? false);
+			return isset($this->lazyCache[$userId]) && isset($this->fastCache[$userId]);
 		}
 
-		return $lazy ? $this->lazyLoaded[$userId] ?? false : $this->fastLoaded[$userId] ?? false;
-	}
-
-	/**
-	 * if $lazy is:
-	 * - false: set fast config as loaded
-	 * - true : set lazy config as loaded
-	 * - null : set both config as loaded
-	 *
-	 * @param string $userId
-	 * @param bool $lazy
-	 */
-	private function setAsLoaded(string $userId, ?bool $lazy): void {
-		if ($lazy === null) {
-			$this->fastLoaded[$userId] = $this->lazyLoaded[$userId] = true;
-			return;
-		}
-
-		// We also create empty entry to keep both fastLoaded/lazyLoaded synced
-		if ($lazy) {
-			$this->lazyLoaded[$userId] = true;
-			$this->fastLoaded[$userId] = $this->fastLoaded[$userId] ?? false;
-			$this->fastCache[$userId] = $this->fastCache[$userId] ?? [];
-		} else {
-			$this->fastLoaded[$userId] = true;
-			$this->lazyLoaded[$userId] = $this->lazyLoaded[$userId] ?? false;
-			$this->lazyCache[$userId] = $this->lazyCache[$userId] ?? [];
-		}
+		return $lazy ? isset($this->lazyCache[$userId]) : isset($this->fastCache[$userId]);
 	}
 
 	/**
@@ -1842,20 +1909,16 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, string|int|float|bool|array>
 	 */
 	private function formatAppValues(string $userId, string $app, array $values, bool $filtered = false): array {
-		foreach ($values as $key => $value) {
-			//$key = (string)$key;
-			try {
-				$type = $this->getValueType($userId, $app, (string)$key);
-			} catch (UnknownKeyException) {
-				continue;
-			}
+		foreach ($values as $key => $entry) {
+			$value = $entry->getRawValue();
+			$type = $entry->getType();
 
-			if ($this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
+			if ($entry->isSensitive()) {
 				if ($filtered) {
 					$value = IConfig::SENSITIVE_VALUE;
 					$type = ValueType::STRING;
 				} else {
-					$this->decryptSensitiveValue($userId, $app, (string)$key, $value);
+					$value = $this->getDecryptedSensitiveValue($userId, $app, (string)$key, $entry);
 				}
 			}
 
@@ -1880,7 +1943,7 @@ class UserConfig implements IUserConfig {
 			case ValueType::FLOAT:
 				return (float)$value;
 			case ValueType::BOOL:
-				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+				return in_array(strtolower($value), ['1', 'true', 'yes', 'on'], true);
 			case ValueType::ARRAY:
 				try {
 					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
@@ -1892,34 +1955,18 @@ class UserConfig implements IUserConfig {
 		return $value;
 	}
 
-
-	/**
-	 * will change referenced $value with the decrypted value in case of encrypted (sensitive value)
-	 *
-	 * @param string $userId
-	 * @param string $app
-	 * @param string $key
-	 * @param string $value
-	 */
-	private function decryptSensitiveValue(string $userId, string $app, string $key, string &$value): void {
-		if (!$this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
-			return;
-		}
-
-		if (!str_starts_with($value, self::ENCRYPTION_PREFIX)) {
-			return;
-		}
-
+	private function getDecryptedSensitiveValue(string $userId, string $app, string $key, UserConfigEntry $entry): string {
 		try {
-			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+			return $entry->getDecryptedSensitiveValue();
 		} catch (\Exception $e) {
 			$this->logger->warning('could not decrypt sensitive value', [
 				'userId' => $userId,
 				'app' => $app,
 				'key' => $key,
-				'value' => $value,
+				'value' => $entry->getRawValue(),
 				'exception' => $e
 			]);
+			return $entry->getRawValue();
 		}
 	}
 

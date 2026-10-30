@@ -35,10 +35,10 @@ const loadingImageFailed = ref(false)
 
 <template>
 	<NcDashboardWidgetItem
-		:target-url="item.link"
-		:overlay-icon-url="item.overlayIconUrl ? item.overlayIconUrl : ''"
-		:main-text="item.title"
-		:sub-text="item.subtitle">
+		:targetUrl="item.link"
+		:overlayIconUrl="item.overlayIconUrl ? item.overlayIconUrl : ''"
+		:mainText="item.title"
+		:subText="item.subtitle">
 		<template #avatar>
 			<template v-if="item.iconUrl">
 				<NcAvatar

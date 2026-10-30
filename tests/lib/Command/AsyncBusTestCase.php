@@ -8,12 +8,12 @@
 
 namespace Test\Command;
 
-use OC\Command\FileAccess;
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
 use Test\TestCase;
 
 class SimpleCommand implements ICommand {
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = 'SimpleCommand';
 	}
@@ -25,14 +25,19 @@ class StateFullCommand implements ICommand {
 	) {
 	}
 
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = $this->state;
 	}
 }
 
-class FilesystemCommand implements ICommand {
-	use FileAccess;
+trait SyncCommand {
+};
 
+class FilesystemCommand implements ICommand {
+	use SyncCommand;
+
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = 'FileAccess';
 	}
@@ -70,7 +75,10 @@ abstract class AsyncBusTestCase extends TestCase {
 	 */
 	abstract protected function createBus();
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		self::$lastCommand = '';
 	}
 
@@ -96,14 +104,13 @@ abstract class AsyncBusTestCase extends TestCase {
 	}
 
 	public function testFileFileAccessCommandSync(): void {
-		$this->getBus()->requireSync('\OC\Command\FileAccess');
+		$this->getBus()->requireSync(SyncCommand::class);
 		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('FileAccess', self::$lastCommand);
 		self::$lastCommand = '';
 		$this->runJobs();
 		$this->assertEquals('', self::$lastCommand);
 	}
-
 
 	abstract protected function runJobs();
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
 use OCA\Settings\Settings\Admin\Mail;
@@ -61,7 +62,7 @@ class MailSettingsController extends Controller {
 		string $mail_sendmailmode,
 		?bool $mail_noverify = null,
 	): DataResponse {
-		$mail_smtpauth = $mail_smtpauth == '1';
+		$mail_smtpauth = $mail_smtpauth === true;
 
 		$configs = [
 			'mail_domain' => $mail_domain,
@@ -132,6 +133,7 @@ class MailSettingsController extends Controller {
 				$template = $this->mailer->createEMailTemplate('settings.TestEmail', [
 					'displayname' => $displayName,
 				]);
+				$template->setLanguage($this->l10n->getLanguageCode());
 
 				$template->setSubject($this->l10n->t('Email setting test'));
 				$template->addHeader();

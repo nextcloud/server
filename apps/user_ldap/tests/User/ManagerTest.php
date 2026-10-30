@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
@@ -79,7 +80,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->image,
 			$this->ncUserManager,
 			$this->notificationManager,
-			$this->shareManager
+			$this->shareManager,
 		);
 
 		$this->manager->setLdapAccess($this->access);

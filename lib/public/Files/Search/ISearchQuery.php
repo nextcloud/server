@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Search;
 
 use OCP\IUser;
@@ -57,4 +58,12 @@ interface ISearchQuery {
 	 * @since 18.0.0
 	 */
 	public function limitToHome(): bool;
+
+	/**
+	 * The fields to include in the search results
+	 *
+	 * @return list<string>
+	 * @since 35.0.0
+	 */
+	public function getSelectFields(): array;
 }

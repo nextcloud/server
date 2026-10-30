@@ -1,11 +1,11 @@
 <?php
 
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Service\ASyncService;
@@ -152,7 +152,12 @@ class SyncService extends ASyncService {
 					if (is_null($vCard)) {
 						$this->backend->deleteCard($addressBookId, $cardId);
 					} else {
-						$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+						$cardData = $vCard->serialize();
+						// Writing an identical card would still bump the address book
+						// sync token and make every client re-download the card
+						if ($card['carddata'] !== $cardData) {
+							$this->backend->updateCard($addressBookId, $cardId, $cardData);
+						}
 					}
 				}
 			}, $this->dbConnection);
@@ -201,7 +206,10 @@ class SyncService extends ASyncService {
 			$vCard = Reader::read($card['carddata']);
 			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
-			if (!$this->userManager->userExists($uid)) {
+			$user = $this->userManager->get($uid);
+
+			// If the user does not exist
+			if ($user === null || self::getCardUri($user) !== $card['uri']) {
 				$this->deleteUser($card['uri']);
 			}
 		}
@@ -213,5 +221,16 @@ class SyncService extends ASyncService {
 	 */
 	public static function getCardUri(IUser $user): string {
 		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
+	}
+
+	public function markCardsAsPending(int $addressBookId): void {
+		$this->backend->markCardsAsPending($addressBookId);
+	}
+
+	public function deletePendingCards(int $addressBookId): void {
+		$cards = $this->backend->getPendingCards($addressBookId);
+		foreach ($cards as $card) {
+			$this->backend->deleteCard($addressBookId, $card['uri']);
+		}
 	}
 }

@@ -49,6 +49,7 @@ class UserStatusAutomation extends TimedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		if (!isset($argument['userId'])) {
 			$this->jobList->remove(self::class, $argument);
@@ -89,7 +90,7 @@ class UserStatusAutomation extends TimedJob {
 
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId())));
 		$query->executeStatement();
 
 		$this->logger->debug('Updated user status automation last_run to ' . $timestamp . ' for user ' . $userId);

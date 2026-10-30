@@ -92,6 +92,16 @@ readonly class ServerVersion {
 	}
 
 	/**
+	 * Set current update channel.
+	 *
+	 * @param 'beta'|'stable'|'enterprise'|'git' $channel
+	 * @since 34.0.0
+	 */
+	public function setChannel(string $channel): void {
+		Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
+	}
+
+	/**
 	 * @since 31.0.0
 	 */
 	public function getBuild(): string {

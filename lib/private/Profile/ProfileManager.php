@@ -49,12 +49,12 @@ class ProfileManager implements IProfileManager {
 	/** @var CappedMemoryCache<ProfileConfig> */
 	private CappedMemoryCache $configCache;
 
-	private const CORE_APP_ID = 'core';
+	private const string CORE_APP_ID = 'core';
 
 	/**
 	 * Array of account property actions
 	 */
-	private const ACCOUNT_PROPERTY_ACTIONS = [
+	private const array ACCOUNT_PROPERTY_ACTIONS = [
 		EmailAction::class,
 		PhoneAction::class,
 		WebsiteAction::class,
@@ -66,7 +66,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Array of account properties displayed on the profile
 	 */
-	private const PROFILE_PROPERTIES = [
+	private const array PROFILE_PROPERTIES = [
 		IAccountManager::PROPERTY_ADDRESS,
 		IAccountManager::PROPERTY_AVATAR,
 		IAccountManager::PROPERTY_BIOGRAPHY,
@@ -95,6 +95,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * If no user is passed as an argument return whether profile is enabled globally in `config.php`
 	 */
+	#[\Override]
 	public function isProfileEnabled(?IUser $user = null): bool {
 		$profileEnabledGlobally = $this->config->getSystemValueBool('profile.enabled', true);
 
@@ -187,6 +188,7 @@ class ProfileManager implements IProfileManager {
 	 * Return whether the profile parameter of the target user
 	 * is visible to the visiting user
 	 */
+	#[\Override]
 	public function isProfileFieldVisible(string $profileField, IUser $targetUser, ?IUser $visitingUser): bool {
 		try {
 			$account = $this->accountManager->getAccount($targetUser);
@@ -234,6 +236,7 @@ class ProfileManager implements IProfileManager {
 	 * in an associative array
 	 * @psalm-return CoreProfileFields
 	 */
+	#[\Override]
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
 

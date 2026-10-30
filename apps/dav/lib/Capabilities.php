@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV;
 
 use OCP\Capabilities\ICapability;
@@ -22,6 +23,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$capabilities = [
 			'dav' => [

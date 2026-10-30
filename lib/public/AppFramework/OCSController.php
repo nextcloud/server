@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\DataResponse;
@@ -87,6 +88,7 @@ abstract class OCSController extends ApiController {
 	 * @return Response
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function buildResponse($response, $format = 'xml') {
 		return parent::buildResponse($response, $format);
 	}

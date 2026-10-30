@@ -174,6 +174,16 @@ class Defaults {
 	}
 
 	/**
+	 * Raw logo image data (raster) for embedding directly into emails
+	 *
+	 * @return array{content: string, mimeType: string}|null null when unavailable
+	 * @since 35.0.0
+	 */
+	public function getLogoImage(): ?array {
+		return $this->defaults->getLogoImage();
+	}
+
+	/**
 	 * Returns primary color
 	 * @return string
 	 * @since 12.0.0

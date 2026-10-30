@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Writer;
@@ -45,6 +46,7 @@ class ChecksumList implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		foreach ($this->checksums as $checksum) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}checksum', $checksum);

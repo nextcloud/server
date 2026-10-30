@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\Application;
@@ -15,7 +16,7 @@ use function max;
 
 class RetentionService {
 	public const RETENTION_CONFIG_KEY = 'calendarRetentionObligation';
-	private const DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
+	private const int DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
 
 	public function __construct(
 		private IConfig $config,

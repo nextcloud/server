@@ -9,62 +9,39 @@ declare(strict_types=1);
 
 namespace lib\AppFramework\Bootstrap;
 
+use OC\App\AppManager;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\Support\CrashReport\Registry;
+use OC\Server;
 use OCA\Settings\AppInfo\Application;
-use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
-use OCP\Dashboard\IManager;
-use OCP\Diagnostics\IEventLogger;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IServerContainer;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-	private IAppManager&MockObject $appManager;
-	private IServerContainer&MockObject $serverContainer;
-	private Registry&MockObject $crashReporterRegistry;
-	private IManager&MockObject $dashboardManager;
-	private IEventDispatcher&MockObject $eventDispatcher;
-	private IEventLogger&MockObject $eventLogger;
-	private LoggerInterface&MockObject $logger;
 	private Coordinator $coordinator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
-		$this->crashReporterRegistry = $this->createMock(Registry::class);
-		$this->dashboardManager = $this->createMock(IManager::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->eventLogger = $this->createMock(IEventLogger::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->coordinator = new Coordinator(
-			$this->serverContainer,
-			$this->crashReporterRegistry,
-			$this->dashboardManager,
-			$this->eventDispatcher,
-			$this->eventLogger,
-			$this->appManager,
-			$this->logger,
-		);
+		$this->coordinator = $this->createInstanceWithMocks(Coordinator::class);
+		$this->getAutoMock(AppManager::class)->expects($this->any())
+			->method('getAppNamespace')
+			->with('settings')
+			->willReturn('OCA\\Settings');
 	}
 
 	public function testBootAppNotLoadable(): void {
 		$appId = 'settings';
-		$this->serverContainer->expects($this->once())
-			->method('query')
+		$this->getAutoMock(Server::class)->expects($this->once())
+			->method('get')
 			->with(Application::class)
 			->willThrowException(new QueryException(''));
-		$this->logger->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 
 		$this->coordinator->bootApp($appId);
@@ -73,8 +50,8 @@ class CoordinatorTest extends TestCase {
 	public function testBootAppNotBootable(): void {
 		$appId = 'settings';
 		$mockApp = $this->createMock(Application::class);
-		$this->serverContainer->expects($this->once())
-			->method('query')
+		$this->getAutoMock(Server::class)->expects($this->once())
+			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);
 
@@ -88,14 +65,16 @@ class CoordinatorTest extends TestCase {
 				parent::__construct('test', []);
 			}
 
+			#[\Override]
 			public function register(IRegistrationContext $context): void {
 			}
 
+			#[\Override]
 			public function boot(IBootContext $context): void {
 			}
 		};
-		$this->serverContainer->expects($this->once())
-			->method('query')
+		$this->getAutoMock(Server::class)->expects($this->once())
+			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);
 

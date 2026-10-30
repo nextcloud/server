@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Themes;
 
 use OCA\Theming\AppInfo\Application;
@@ -103,7 +104,6 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 
 		parent::setUp();
 	}
-
 
 	public function testGetId(): void {
 		$this->assertEquals('light-highcontrast', $this->theme->getId());

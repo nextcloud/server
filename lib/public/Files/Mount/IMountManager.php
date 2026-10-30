@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files\Mount;
 
 use OCP\Files\Config\ICachedMountInfo;
@@ -55,7 +56,7 @@ interface IMountManager {
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint> Returns a sorted list of mount point
 	 * @since 8.2.0
 	 */
 	public function findIn(string $path): array;

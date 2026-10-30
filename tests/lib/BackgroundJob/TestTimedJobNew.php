@@ -20,6 +20,7 @@ class TestTimedJobNew extends TimedJob {
 		$this->setInterval(10);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$this->ran = true;
 	}

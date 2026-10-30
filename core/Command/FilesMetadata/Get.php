@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\FilesMetadata;
 
-use OC\User\NoUserException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,6 +29,7 @@ class Get extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('metadata:get')
 			->setDescription('get stored metadata about a file, by its id')
@@ -65,9 +66,10 @@ class Get extends Command {
 	/**
 	 * @throws NotPermittedException
 	 * @throws FilesMetadataNotFoundException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileId = (int)$input->getArgument('fileId');
 
@@ -78,8 +80,8 @@ class Get extends Command {
 			}
 		}
 
+		$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getFirstNodeById($fileId);
 		if ($input->getOption('refresh')) {
-			$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getFirstNodeById($fileId);
 			if (!$node) {
 				throw new NotFoundException();
 			}
@@ -88,7 +90,7 @@ class Get extends Command {
 				IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
 			);
 		} else {
-			$metadata = $this->filesMetadataManager->getMetadata($fileId);
+			$metadata = $this->filesMetadataManager->getMetadataForNode($node);
 		}
 
 		if ($input->getOption('as-array')) {

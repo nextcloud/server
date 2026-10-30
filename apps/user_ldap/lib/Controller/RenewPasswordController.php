@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\AppInfo\Application;
@@ -102,7 +103,8 @@ class RenewPasswordController extends Controller {
 		}
 
 		try {
-			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
+			$userObject = $this->userManager->get($user);
+			if (!is_null($newPassword) && !is_null($userObject) && $userObject->setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [
 					[], [$this->l10n->t('Please login with the new password')]
 				]);

@@ -13,6 +13,8 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Export\ExportService;
+use OCA\DAV\CalDAV\Import\ImportDisposition;
+use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\App\IAppManager;
 use OCP\Calendar\CalendarExportOptions;
@@ -35,21 +37,21 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	private const PATH_ROOT = Application::APP_ID . '/calendars/';
-	private const PATH_VERSION = self::PATH_ROOT . 'version.json';
-	private const PATH_CALENDARS = self::PATH_ROOT . 'calendars.json';
-	private const PATH_SUBSCRIPTIONS = self::PATH_ROOT . 'subscriptions.json';
-	private const USERS_URI_ROOT = 'principals/users/';
-	private const MIGRATED_URI_PREFIX = 'migrated-';
+	private const string PATH_ROOT = Application::APP_ID . '/calendars/';
+	private const string PATH_VERSION = self::PATH_ROOT . 'version.json';
+	private const string PATH_CALENDARS = self::PATH_ROOT . 'calendars.json';
+	private const string PATH_SUBSCRIPTIONS = self::PATH_ROOT . 'subscriptions.json';
+	private const string USERS_URI_ROOT = 'principals/users/';
+	private const string MIGRATED_URI_PREFIX = 'migrated-';
 
-	private const DAV_PROPERTY_URI = 'uri';
-	private const DAV_PROPERTY_DISPLAYNAME = '{DAV:}displayname';
-	private const DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
-	private const DAV_PROPERTY_CALENDAR_TIMEZONE = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
-	private const DAV_PROPERTY_SUBSCRIBED_SOURCE = 'source';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
+	private const string DAV_PROPERTY_URI = 'uri';
+	private const string DAV_PROPERTY_DISPLAYNAME = '{DAV:}displayname';
+	private const string DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
+	private const string DAV_PROPERTY_CALENDAR_TIMEZONE = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
+	private const string DAV_PROPERTY_SUBSCRIBED_SOURCE = 'source';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 
 	public function __construct(
 		private readonly IAppManager $appManager,
@@ -67,6 +69,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'calendar';
 	}
@@ -74,6 +77,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->l10n->t('Calendar');
 	}
@@ -81,6 +85,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l10n->t('Calendars including events, details and attendees');
 	}
@@ -88,6 +93,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getEstimatedExportSize(IUser $user): int|float {
 		$principalUri = self::USERS_URI_ROOT . $user->getUID();
 		$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
@@ -237,6 +243,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	 *
 	 * @throws CalendarMigratorException
 	 */
+	#[\Override]
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
 		$output->writeln('Importing calendaring data…');
 		if ($importSource->getMigratorVersion($this->getId()) === null) {
@@ -326,23 +333,21 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 					rewind($tempFile);
 
 					// import calendar data
-					try {
-						$options = new CalendarImportOptions();
-						$options->setFormat($calendarMeta['format'] ?? 'ical');
-						$options->setErrors(0);
-						$options->setValidate(1);
-						$options->setSupersede(true);
+					$options = new CalendarImportOptions();
+					$options->setFormat($calendarMeta['format'] ?? 'ical');
+					$options->setErrors(0);
+					$options->setValidate(1);
+					$options->setSupersede(true);
 
-						$outcome = $this->importService->import(
-							$tempFile,
-							$calendar,
-							$options
+					try {
+						$this->importSummary(
+							$calendarMeta['label'] ?? $calendarMeta['uri'],
+							$this->importService->import($tempFile, $calendar, $options),
+							$output
 						);
 					} finally {
 						fclose($tempFile);
 					}
-
-					$this->importSummary($calendarMeta['label'] ?? $calendarMeta['uri'], $outcome, $output);
 
 					$importCount++;
 				} catch (Throwable $e) {
@@ -437,16 +442,14 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 				$options->setSupersede(true);
 
 				try {
-					$outcome = $this->importService->import(
-						$tempFile,
-						$calendar,
-						$options
+					$this->importSummary(
+						$calendarName ?? $calendarUri,
+						$this->importService->import($tempFile, $calendar, $options),
+						$output
 					);
 				} finally {
 					fclose($tempFile);
 				}
-
-				$this->importSummary($calendarName ?? $calendarUri, $outcome, $output);
 			} catch (Throwable $e) {
 				$output->writeln("Failed to import calendar \"$filename\", skipping…");
 				continue;
@@ -510,19 +513,25 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		}
 	}
 
-	private function importSummary(string $label, array $outcome, OutputInterface $output): void {
+	/**
+	 * @param iterable<ImportObjectEvent> $stream
+	 */
+	private function importSummary(string $label, iterable $stream, OutputInterface $output): void {
 		$created = 0;
 		$updated = 0;
 		$skipped = 0;
 		$errors = 0;
 
-		foreach ($outcome as $result) {
-			match ($result['outcome'] ?? null) {
-				'created' => $created++,
-				'updated' => $updated++,
-				'exists' => $skipped++,
-				'error' => $errors++,
-				default => null,
+		foreach ($stream as $event) {
+			if (!$event instanceof ImportObjectEvent) {
+				continue;
+			}
+
+			match ($event->disposition) {
+				ImportDisposition::Created => $created++,
+				ImportDisposition::Updated => $updated++,
+				ImportDisposition::Exists => $skipped++,
+				ImportDisposition::Error => $errors++,
 			};
 		}
 

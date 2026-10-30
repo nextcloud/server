@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Provider;
 
 use OC\App\AppManager;
@@ -36,6 +37,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'backup_codes';
 	}
@@ -45,6 +47,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->l10n->t('Backup code');
 	}
@@ -54,6 +57,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l10n->t('Use backup code');
 	}
@@ -64,6 +68,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param IUser $user
 	 * @return ITemplate
 	 */
+	#[\Override]
 	public function getTemplate(IUser $user): ITemplate {
 		return $this->templateManager->getTemplate('twofactor_backupcodes', 'challenge');
 	}
@@ -75,6 +80,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param string $challenge
 	 * @return bool
 	 */
+	#[\Override]
 	public function verifyChallenge(IUser $user, string $challenge): bool {
 		return $this->storage->validateCode($user, $challenge);
 	}
@@ -85,6 +91,7 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param IUser $user
 	 * @return boolean
 	 */
+	#[\Override]
 	public function isTwoFactorAuthEnabledForUser(IUser $user): bool {
 		return $this->storage->hasBackupCodes($user);
 	}
@@ -118,12 +125,14 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 *
 	 * @return IPersonalProviderSettings
 	 */
+	#[\Override]
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
 		$state = $this->storage->getBackupCodesState($user);
 		$this->initialState->provideInitialState('state', $state);
 		return new Personal();
 	}
 
+	#[\Override]
 	public function disableFor(IUser $user): void {
 		$this->storage->deleteCodes($user);
 	}

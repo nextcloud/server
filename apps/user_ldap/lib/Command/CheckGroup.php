@@ -34,6 +34,7 @@ class CheckGroup extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:check-group')
@@ -58,6 +59,7 @@ class CheckGroup extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->dispatcher->addListener(GroupCreatedEvent::class, fn ($event) => $this->onGroupCreatedEvent($event, $output));
 		$this->dispatcher->addListener(UserAddedEvent::class, fn ($event) => $this->onUserAddedEvent($event, $output));

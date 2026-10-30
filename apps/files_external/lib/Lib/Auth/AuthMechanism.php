@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Auth;
 
 use OCA\Files_External\Lib\FrontendDefinitionTrait;
@@ -77,6 +78,7 @@ class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefiniti
 	/**
 	 * Serialize into JSON for client-side JS
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$data = $this->jsonSerializeDefinition();
 		$data += $this->jsonSerializeIdentifier();

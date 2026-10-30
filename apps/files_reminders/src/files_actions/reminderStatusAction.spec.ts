@@ -22,7 +22,7 @@ describe('reminderStatusAction', () => {
 		owner: 'user',
 		source: 'https://example.com/remote.php/dav/files/user/folder',
 		attributes: {
-			'reminder-due-date': '2024-12-25T10:00:00Z',
+			'reminder-due-date': '2099-12-25T10:00:00Z',
 		},
 		root: '/files/user',
 	})
@@ -36,6 +36,17 @@ describe('reminderStatusAction', () => {
 			folder: root,
 			contents: [],
 		})).toBe(true)
+	})
+
+	it('should be disabled for one node with past due date', () => {
+		const node = folder.clone()
+		node.attributes['reminder-due-date'] = '2000-01-01T00:00:00Z'
+		expect(action.enabled!({
+			nodes: [node],
+			view,
+			folder: root,
+			contents: [],
+		})).toBe(false)
 	})
 
 	it('should be disabled with more than one node', () => {
@@ -64,6 +75,6 @@ describe('reminderStatusAction', () => {
 			view,
 			folder: root,
 			contents: [],
-		})).toMatchInlineSnapshot('"Reminder set – Wednesday, December 25, 2024 at 10:00 AM"')
+		})).toMatchInlineSnapshot('"Reminder set – Friday, December 25, 2099 at 10:00 AM"')
 	})
 })

@@ -48,7 +48,7 @@ watchDebounced([userEnableRecovery], async ([newValue], [oldValue]) => {
 		v-model="userEnableRecovery"
 		type="switch"
 		:loading="isLoading"
-		:description="t('encryption', 'Enabling this option will allow you to reobtain access to your encrypted files in case of password loss')">
-		{{ t('encryption', 'Enable password recovery') }}
+		:description="t('encryption', 'Controls whether the administrator can use the recovery key to restore access to your encrypted files if you lose your login password.')">
+		{{ t('encryption', 'Allow recovery of my encrypted files') }}
 	</NcCheckboxRadioSwitch>
 </template>

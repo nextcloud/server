@@ -6,6 +6,7 @@
  * SPDX-FileCopyrightText: fruux GmbH (https://fruux.com/)
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -93,6 +94,7 @@ class Invite implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		$cs = '{' . Plugin::NS_OWNCLOUD . '}';
 

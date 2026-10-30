@@ -34,12 +34,14 @@ class DropLegacyFileKey extends Command {
 		$this->rootView = new View();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:drop-legacy-filekey')
 			->setDescription('Scan the files for the legacy filekey format using RC4 and get rid of it (if master key is enabled)');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$result = true;
 

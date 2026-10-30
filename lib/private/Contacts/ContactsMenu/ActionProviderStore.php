@@ -17,13 +17,13 @@ use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IProvider;
-use OCP\IServerContainer;
 use OCP\IUser;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class ActionProviderStore {
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private AppManager $appManager,
 		private LoggerInterface $logger,
 	) {

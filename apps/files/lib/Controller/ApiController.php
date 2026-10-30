@@ -5,14 +5,17 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Files\Node\Node;
 use OCA\Files\Helper;
 use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -52,7 +55,10 @@ use Throwable;
  *
  * @package OCA\Files\Controller
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ApiController extends Controller {
+	private ?Folder $userFolder = null;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -61,7 +67,6 @@ class ApiController extends Controller {
 		private IPreview $previewManager,
 		private IManager $shareManager,
 		private IConfig $config,
-		private ?Folder $userFolder,
 		private UserConfig $userConfig,
 		private ViewConfig $viewConfig,
 		private IL10N $l10n,
@@ -69,6 +74,10 @@ class ApiController extends Controller {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		}
 	}
 
 	/**
@@ -388,7 +397,6 @@ class ApiController extends Controller {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfig($view)]);
 	}
 
-
 	/**
 	 * Get the user view config
 	 *
@@ -416,7 +424,6 @@ class ApiController extends Controller {
 
 		return new JSONResponse(['message' => 'ok', 'data' => ['key' => $key, 'value' => $value]]);
 	}
-
 
 	/**
 	 * Get the user config

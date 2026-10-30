@@ -7,10 +7,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\OCS;
 
 use OCP\Capabilities\ICapability;
 use OCP\IConfig;
+use OCP\IPreview;
 use OCP\IURLGenerator;
 
 /**
@@ -21,9 +23,11 @@ use OCP\IURLGenerator;
 class CoreCapabilities implements ICapability {
 	/**
 	 * @param IConfig $config
+	 * @param IPreview $preview
 	 */
 	public function __construct(
 		private IConfig $config,
+		private IPreview $preview,
 	) {
 	}
 
@@ -37,9 +41,15 @@ class CoreCapabilities implements ICapability {
 	 *         reference-api: boolean,
 	 *         reference-regex: string,
 	 *         mod-rewrite-working: boolean,
+	 *         previews: array{
+	 *             enabled_providers: list<string>,
+	 *             max_width: int,
+	 *             max_height: int,
+	 *         },
 	 *     },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'core' => [
@@ -48,6 +58,17 @@ class CoreCapabilities implements ICapability {
 				'reference-api' => true,
 				'reference-regex' => IURLGenerator::URL_REGEX_NO_MODIFIERS,
 				'mod-rewrite-working' => $this->config->getSystemValueBool('htaccess.IgnoreFrontController') || getenv('front_controller_active') === 'true',
+				'previews' => [
+					// The mime patterns previews can be generated for. Empty
+					// when previews are off entirely. Clients use it to tell
+					// the formats a browser cannot show on its own but the
+					// server can render from the ones it can do neither of.
+					'enabled_providers' => array_keys($this->preview->getProviders()),
+					// The largest preview the server renders. Past it, a client
+					// that needs more detail has to load the file itself
+					'max_width' => $this->config->getSystemValueInt('preview_max_x', 4096),
+					'max_height' => $this->config->getSystemValueInt('preview_max_y', 4096),
+				],
 			],
 		];
 	}

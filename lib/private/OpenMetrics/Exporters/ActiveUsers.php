@@ -21,22 +21,27 @@ class ActiveUsers implements IMetricFamily {
 	) {
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'active_users';
 	}
 
+	#[\Override]
 	public function type(): MetricType {
 		return MetricType::gauge;
 	}
 
+	#[\Override]
 	public function unit(): string {
 		return 'users';
 	}
 
+	#[\Override]
 	public function help(): string {
 		return 'Number of active users';
 	}
 
+	#[\Override]
 	public function metrics(): Generator {
 		$now = time();
 		$timeFrames = [

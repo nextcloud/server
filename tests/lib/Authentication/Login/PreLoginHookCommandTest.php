@@ -10,36 +10,26 @@ declare(strict_types=1);
 namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\PreLoginHookCommand;
-use OC\User\Manager;
-use OCP\IUserManager;
-use PHPUnit\Framework\MockObject\MockObject;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Events\BeforeUserLoggedInEvent;
 
 class PreLoginHookCommandTest extends ALoginTestCommand {
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(Manager::class);
-
-		$this->cmd = new PreLoginHookCommand(
-			$this->userManager
-		);
+		$this->cmd = $this->createInstanceWithMocks(PreLoginHookCommand::class);
 	}
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->userManager->expects($this->once())
-			->method('emit')
-			->with(
-				'\OC\User',
-				'preLogin',
-				[
-					$this->username,
-					$this->password,
-				]
-			);
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (BeforeUserLoggedInEvent $event): bool {
+				$this->assertEquals($this->username, $event->getUsername());
+				$this->assertEquals($this->password, $event->getPassword());
+				return true;
+			}));
 
 		$result = $this->cmd->process($data);
 

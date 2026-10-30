@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "檔案",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "一個已被刪除的帳戶在 “{file}” 的留言中提到你",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的留言中提到你",
+    "Go to file" : "前往檔案",
     "Files app plugin to add comments to files" : "檔案插件程式插件，用於為檔案增加註釋",
     "Edit comment" : "編輯留言",
     "Delete comment" : "刪除留言",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "嘗試編輯此留言時錯誤",
     "Comment deleted" : "意見刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
-    "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
-    "Write a comment …" : "發表評論 ..."
+    "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤"
 },
 "nplurals=1; plural=0;");

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\DeadlockException;
@@ -88,7 +89,7 @@ class Updater implements IUpdater {
 		if ($this->cache instanceof Cache && $sizeDifference === null) {
 			$this->cache->correctFolderSize($path, $data);
 		}
-		$this->correctParentStorageMtime($path);
+		$this->correctParentStorageMtime($path, $data['parent'] ?? null);
 		$this->propagator->propagateChange($path, $time, $sizeDifference ?? 0);
 	}
 
@@ -107,10 +108,11 @@ class Updater implements IUpdater {
 
 		$this->cache->remove($path);
 
-		$this->correctParentStorageMtime($path);
 		if ($entry instanceof ICacheEntry) {
+			$this->correctParentStorageMtime($path, $entry->getParentId());
 			$this->propagator->propagateChange($path, time(), -$entry->getSize());
 		} else {
+			$this->correctParentStorageMtime($path);
 			$this->propagator->propagateChange($path, time());
 			if ($this->cache instanceof Cache) {
 				$this->cache->correctFolderSize($parent);
@@ -121,6 +123,16 @@ class Updater implements IUpdater {
 	#[Override]
 	public function renameFromStorage(IStorage $sourceStorage, string $source, string $target): void {
 		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache) use ($sourceStorage, $source, $target): void {
+			$parent = dirname($target);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			if (!$this->cache->inCache($parent)) {
+				// scan the parent first, moving the entry below a parent that is not in
+				// the cache would hide it from folder listings until the next scan
+				$this->scanner->scan($parent, Scanner::SCAN_SHALLOW, -1, false);
+			}
+
 			// Remove existing cache entry to no reuse the fileId.
 			if ($this->cache->inCache($target)) {
 				$this->cache->remove($target);
@@ -179,6 +191,12 @@ class Updater implements IUpdater {
 
 			$isDir = $sourceInfo->getMimeType() === FileInfo::MIMETYPE_FOLDER;
 		} else {
+			if (!$this->storage->instanceOfStorage(ObjectStoreStorage::class) && !$this->cache->inCache($target)) {
+				// the source was not in the cache, so the operation could not transfer
+				// an entry to the target. Scan the target to not leave it invisible
+				// until the next scan
+				$this->scanner->scan($target, Scanner::SCAN_SHALLOW, -1, false);
+			}
 			$isDir = $this->storage->is_dir($target);
 		}
 
@@ -196,7 +214,7 @@ class Updater implements IUpdater {
 			$this->cache->correctFolderSize($target);
 		}
 		if ($sourceUpdater instanceof Updater) {
-			$sourceUpdater->correctParentStorageMtime($source);
+			$sourceUpdater->correctParentStorageMtime($source, $sourceInfo ? $sourceInfo->getParentId() : null);
 		}
 		$this->correctParentStorageMtime($target);
 		$this->updateStorageMTimeOnly($target);
@@ -222,10 +240,12 @@ class Updater implements IUpdater {
 	/**
 	 * Update the storage_mtime of the direct parent in the cache to the mtime from the storage
 	 */
-	private function correctParentStorageMtime(string $internalPath): void {
-		$parentId = $this->cache->getParentId($internalPath);
+	private function correctParentStorageMtime(string $internalPath, ?int $parentId = null) {
+		if ($parentId === null) {
+			$parentId = $this->cache->getParentId($internalPath);
+		}
 		$parent = dirname($internalPath);
-		if ($parentId != -1) {
+		if ($parentId !== -1) {
 			$mtime = $this->storage->filemtime($parent);
 			if ($mtime !== false) {
 				try {

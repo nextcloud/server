@@ -6,11 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Tests\Settings;
 
 use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
+use OCP\Encryption\IManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -33,6 +36,8 @@ class AdminTest extends TestCase {
 	protected ISession&MockObject $session;
 	protected IInitialState&MockObject $initialState;
 	protected IAppConfig&MockObject $appConfig;
+	protected IUserConfig&MockObject $userConfig;
+	protected IManager&MockObject $encryptionManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,6 +50,8 @@ class AdminTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
 
 		$this->admin = new Admin(
 			$this->l,
@@ -55,26 +62,24 @@ class AdminTest extends TestCase {
 			$this->session,
 			$this->initialState,
 			$this->appConfig,
+			$this->userConfig,
+			$this->encryptionManager,
 		);
 	}
 
 	public function testGetForm(): void {
+		$this->encryptionManager
+			->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+
 		$this->appConfig
 			->method('getValueBool')
 			->willReturnMap([
-				['encryption', 'recoveryAdminEnabled', true]
+				['encryption', 'recoveryAdminEnabled', true],
+				['encryption', 'encryptHomeStorage', true, true],
+				['encryption', 'useMasterKey', true, true],
 			]);
-		$this->config
-			->method('getAppValue')
-			->willReturnCallback(function ($app, $key, $default) {
-				if ($app === 'encryption' && $key === 'recoveryAdminEnabled' && $default === '0') {
-					return '1';
-				}
-				if ($app === 'encryption' && $key === 'encryptHomeStorage' && $default === '1') {
-					return '1';
-				}
-				return $default;
-			});
 
 		$this->initialState
 			->expects(self::once())
@@ -83,10 +88,44 @@ class AdminTest extends TestCase {
 				'recoveryEnabled' => true,
 				'initStatus' => '0',
 				'encryptHomeStorage' => true,
-				'masterKeyEnabled' => true
+				'masterKeyEnabled' => true,
+				'serverSideEncryptionEnabled' => true,
 			]);
 		$expected = new TemplateResponse('encryption', 'settings', renderAs: '');
 		$this->assertEquals($expected, $this->admin->getForm());
+	}
+
+	public function testGetFormPassesDisabledSettingsAndInitializationStatus(): void {
+		$this->encryptionManager
+			->expects(self::once())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->appConfig
+			->method('getValueBool')
+			->willReturnMap([
+				['encryption', 'recoveryAdminEnabled', false],
+				['encryption', 'encryptHomeStorage', true, false],
+				['encryption', 'useMasterKey', true, false],
+			]);
+
+		$this->session
+			->method('get')
+			->with('encryptionInitialized')
+			->willReturn('2');
+
+		$this->initialState
+			->expects(self::once())
+			->method('provideInitialState')
+			->with('adminSettings', [
+				'recoveryEnabled' => false,
+				'initStatus' => '2',
+				'encryptHomeStorage' => false,
+				'masterKeyEnabled' => false,
+				'serverSideEncryptionEnabled' => false,
+			]);
+
+		$this->admin->getForm();
 	}
 
 	public function testGetSection(): void {

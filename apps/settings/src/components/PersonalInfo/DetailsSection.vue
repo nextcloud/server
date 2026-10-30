@@ -4,30 +4,35 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar :is-heading="true" :readable="t('settings', 'Details')" />
+	<section class="details-section">
+		<div v-if="teams.length" class="details-section__block">
+			<h3 class="details-section__heading">{{ t('settings', 'Your teams') }}</h3>
+			<NcFormBox class="details-section__box">
+				<NcFormBoxButton
+					v-for="team in teams"
+					:key="team.id"
+					:label="team.displayName"
+					:href="team.link || undefined"
+					:target="team.link ? '_blank' : undefined">
+					<template #icon>
+						<OpenInNew :size="20" />
+					</template>
+				</NcFormBoxButton>
+			</NcFormBox>
+		</div>
 
-		<div class="details">
-			<div class="details__groups">
-				<Account :size="20" />
-				<div class="details__groups-info">
-					<p>{{ t('settings', 'You are a member of the following groups:') }}</p>
-					<p class="details__groups-list">
-						{{ [...groups, ...teams].join(', ') }}
-					</p>
-				</div>
-			</div>
-			<div class="details__quota">
-				<CircleSlice :size="20" />
-				<div class="details__quota-info">
-					<!-- eslint-disable-next-line vue/no-v-html -->
-					<p class="details__quota-text" v-html="quotaText" />
-					<NcProgressBar
-						size="medium"
-						:value="usageRelative"
-						:error="usageRelative > 80" />
-				</div>
-			</div>
+		<div v-if="groups.length" class="details-section__block">
+			<h3 class="details-section__heading">{{ t('settings', 'Your groups') }}</h3>
+			<p class="details-section__list">{{ groups.join(', ') }}</p>
+		</div>
+
+		<div class="details-section__block">
+			<!-- eslint-disable-next-line vue/no-v-html -->
+			<p class="details-section__quota" v-html="quotaText" />
+			<NcProgressBar
+				size="medium"
+				:value="usageRelative"
+				:error="usageRelative > 80" />
 		</div>
 	</section>
 </template>
@@ -35,10 +40,10 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import Account from 'vue-material-design-icons/AccountOutline.vue'
-import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
-import HeaderBar from './shared/HeaderBar.vue'
+import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 
 /** SYNC to be kept in sync with `lib/public/Files/FileInfo.php` */
 const SPACE_UNLIMITED = -3
@@ -49,10 +54,10 @@ export default {
 	name: 'DetailsSection',
 
 	components: {
-		Account,
-		CircleSlice,
-		HeaderBar,
+		NcFormBox,
+		NcFormBoxButton,
 		NcProgressBar,
+		OpenInNew,
 	},
 
 	data() {
@@ -81,34 +86,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.details {
+.details-section {
 	display: flex;
 	flex-direction: column;
-	margin-block: 10px;
-	margin-inline: 0 32px;
-	gap: 16px 0;
-	color: var(--color-text-maxcontrast);
+	gap: 16px;
+	padding: 6px 0;
 
-	&__groups,
-	&__quota {
+	&__block {
 		display: flex;
-		gap: 0 10px;
+		flex-direction: column;
+		gap: 6px;
+	}
 
-		&-info {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			gap: 4px 0;
-		}
+	&__heading {
+		margin: 0;
+		font-size: 16px;
+		font-weight: bold;
+	}
 
-		&-list {
-			font-weight: bold;
-		}
+	&__box {
+		margin-inline-end: 52px;
+	}
 
-		&:deep(.material-design-icon) {
-			align-self: flex-start;
-			margin-top: 2px;
-		}
+	&__list,
+	&__quota {
+		margin: 0;
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>

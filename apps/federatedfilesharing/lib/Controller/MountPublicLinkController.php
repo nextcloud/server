@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Controller;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -94,11 +95,10 @@ class MountPublicLinkController extends Controller {
 			$allowedShareIds = [];
 		}
 
-		$authenticated = in_array($share->getId(), $allowedShareIds)
+		$authenticated = in_array($share->getId(), $allowedShareIds, true)
 			|| $this->shareManager->checkPassword($share, $password);
 
-		$storedPassword = $share->getPassword();
-		if (!empty($storedPassword) && !$authenticated) {
+		if ($share->isPasswordProtected() && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
 				Http::STATUS_BAD_REQUEST

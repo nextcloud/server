@@ -51,6 +51,24 @@ Feature: sharees
     And "exact remotes" sharees returned is empty
     And "remotes" sharees returned is empty
 
+  Scenario: Search without exact match does not return disabled users
+    Given As an "admin"
+    And assure user "Sharee1" is disabled
+    And As an "test"
+    When getting sharees for
+      | search | Sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned are
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned are
+      | ShareeGroup | 1 | ShareeGroup |
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
   Scenario: Search only with group members - denied
     Given As an "test"
     And parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
@@ -139,6 +157,24 @@ Feature: sharees
     And user "test" belongs to group "AnotherGroup"
     And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
     And parameter "shareapi_exclude_groups_list" of app "core" is set to "ShareeGroup"
+    When getting sharees for
+      | search | sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
+  Scenario: Search when belonging to a group not excluded from sharing
+    Given As an "test"
+    And group "AnotherGroup" exists
+    And user "test" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ExcludedGroup"
     When getting sharees for
       | search | sharee |
       | itemType | file |
@@ -254,6 +290,22 @@ Feature: sharees
     Then "exact remotes" sharees returned is empty
     Then "remotes" sharees returned is empty
 
+  Scenario: Search with exact match does not return disabled users
+    Given As an "admin"
+    And assure user "Sharee1" is disabled
+    And As an "test"
+    When getting sharees for
+      | search | Sharee1 |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
   Scenario: Search with exact match not-exact casing
     Given As an "test"
     When getting sharees for
@@ -364,6 +416,21 @@ Feature: sharees
     And "exact emails" sharees returned is empty
     And "emails" sharees returned is empty
 
+  Scenario: Search user by system e-mail address does not return disabled users
+    Given As an "admin"
+    And assure user "Sharee2" is disabled
+    And As an "test"
+    When getting sharees for
+      | search    | sharee2@system.com |
+      | itemType  | file |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
   Scenario: Search user by system e-mail address without exact match
     Given As an "test"
     When getting sharees for
@@ -423,6 +490,40 @@ Feature: sharees
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty
     And "remotes" sharees returned is empty
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
+  Scenario: Search user by system e-mail address with e-mail full match disabled
+    Given As an "test"
+    And parameter "shareapi_restrict_user_enumeration_full_match_email" of app "core" is set to "no"
+    When getting sharees for
+      | search    | sharee2@system.com |
+      | itemType  | file |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    # With enumeration allowed the user is still found as non-exact match, as
+    # enumeration also searches in the e-mail address
+    And "users" sharees returned are
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
+  Scenario: Search user by system e-mail address with e-mail full match and user enumeration disabled
+    Given As an "test"
+    And parameter "shareapi_restrict_user_enumeration_full_match_email" of app "core" is set to "no"
+    And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
+    When getting sharees for
+      | search    | sharee2@system.com |
+      | itemType  | file |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    # The user id full match must not resolve e-mail addresses through the user
+    # backends (login via e-mail address)
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
     And "exact emails" sharees returned is empty
     And "emails" sharees returned is empty
 

@@ -31,6 +31,7 @@ class JsControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -66,7 +67,6 @@ class JsControllerTest extends TestCase {
 
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
-
 
 	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);

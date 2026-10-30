@@ -5,11 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Collaboration\Collaborators\ISearch;
@@ -29,26 +31,14 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareesAPIControllerTest extends TestCase {
-	/** @var ShareesAPIController */
-	protected $sharees;
-
-	/** @var string */
-	protected $uid;
-
-	/** @var IRequest|MockObject */
-	protected $request;
-
-	/** @var IManager|MockObject */
+	protected ShareesAPIController $sharees;
+	protected string $uid;
+	protected IRequest&MockObject $request;
 	protected $shareManager;
-
-	/** @var ISearch|MockObject */
-	protected $collaboratorSearch;
-
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var FederatedShareProvider|MockObject */
-	protected $federatedShareProvider;
+	protected ISearch&MockObject $collaboratorSearch;
+	protected IConfig&MockObject $config;
+	protected FederatedShareProvider&MockObject $federatedShareProvider;
+	protected IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,11 +48,11 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		/** @var IURLGenerator|MockObject $urlGeneratorMock */
 		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
@@ -72,7 +62,8 @@ class ShareesAPIControllerTest extends TestCase {
 			$urlGeneratorMock,
 			$this->shareManager,
 			$this->collaboratorSearch,
-			$this->federatedShareProvider
+			$this->federatedShareProvider,
+			$this->appManager,
 		);
 	}
 
@@ -199,7 +190,6 @@ class ShareesAPIControllerTest extends TestCase {
 			[[
 				'itemType' => 'folder',
 			], 'no', 'no', false, true, true, true, $allTypes, false, false, true],
-
 		];
 	}
 
@@ -267,7 +257,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$urlGenerator,
 				$this->shareManager,
 				$this->collaboratorSearch,
-				$this->federatedShareProvider
+				$this->federatedShareProvider,
+				$this->appManager,
 			])
 			->onlyMethods(['isRemoteSharingAllowed', 'isRemoteGroupSharingAllowed'])
 			->getMock();
@@ -276,14 +267,13 @@ class ShareesAPIControllerTest extends TestCase {
 		sort($expectedShareTypes);
 
 		$this->collaboratorSearch->expects($this->once())
-			->method('search')
-			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page - 1))
+			->method('filteredSearch')
+			->with($search, $expectedShareTypes, $this->anything(), $itemType, null, $perPage, $perPage * ($page - 1))
 			->willReturn([[], false]);
 
 		$sharees->expects($this->any())
 			->method('isRemoteSharingAllowed')
 			->willReturn($remoteSharingEnabled);
-
 
 		$sharees->expects($this->any())
 			->method('isRemoteGroupSharingAllowed')
@@ -365,7 +355,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$urlGenerator,
 				$this->shareManager,
 				$this->collaboratorSearch,
-				$this->federatedShareProvider
+				$this->federatedShareProvider,
+				$this->appManager,
 			])
 			->onlyMethods(['isRemoteSharingAllowed'])
 			->getMock();
@@ -373,7 +364,7 @@ class ShareesAPIControllerTest extends TestCase {
 			->method('isRemoteSharingAllowed');
 
 		$this->collaboratorSearch->expects($this->never())
-			->method('search');
+			->method('filteredSearch');
 
 		try {
 			$sharees->search('', null, $page, $perPage, null);

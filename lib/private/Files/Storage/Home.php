@@ -5,11 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomeCache;
 use OC\Files\Cache\HomePropagator;
-use OC\User\User;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\IHomeStorage;
@@ -39,10 +39,12 @@ class Home extends Local implements IHomeStorage {
 		parent::__construct(['datadir' => $datadir]);
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
@@ -53,6 +55,7 @@ class Home extends Local implements IHomeStorage {
 		return $this->cache;
 	}
 
+	#[\Override]
 	public function getPropagator(?IStorage $storage = null): IPropagator {
 		if (!$storage) {
 			$storage = $this;
@@ -63,11 +66,12 @@ class Home extends Local implements IHomeStorage {
 		return $this->propagator;
 	}
 
-
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		return $this->user->getUID();
 	}

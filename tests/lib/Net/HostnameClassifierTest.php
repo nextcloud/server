@@ -15,6 +15,7 @@ use Test\TestCase;
 class HostnameClassifierTest extends TestCase {
 	private HostnameClassifier $classifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -29,6 +30,7 @@ class HostnameClassifierTest extends TestCase {
 			['another-host.local'],
 			['service.localhost'],
 			['randomdomain.internal'],
+			['another-host.local.'],
 		];
 	}
 
@@ -46,6 +48,7 @@ class HostnameClassifierTest extends TestCase {
 			['example.org'],
 			['host.domain'],
 			['cloud.domain.tld'],
+			['cloud.domain.tld.'],
 		];
 	}
 

@@ -21,6 +21,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/** @var Availability */
 	protected $wrapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

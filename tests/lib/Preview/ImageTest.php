@@ -18,6 +18,7 @@ use OC\Preview\JPEG;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class ImageTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

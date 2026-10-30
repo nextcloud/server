@@ -34,11 +34,8 @@ class TestMiddleware extends Middleware {
 	public $response;
 	public $output;
 
-	/**
-	 * @param boolean $beforeControllerThrowsEx
-	 */
 	public function __construct(
-		private $beforeControllerThrowsEx,
+		private bool $beforeControllerThrowsEx,
 	) {
 		self::$beforeControllerCalled = 0;
 		self::$afterControllerCalled = 0;
@@ -46,7 +43,8 @@ class TestMiddleware extends Middleware {
 		self::$beforeOutputCalled = 0;
 	}
 
-	public function beforeController($controller, $methodName) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
 		self::$beforeControllerCalled++;
 		$this->beforeControllerOrder = self::$beforeControllerCalled;
 		$this->controller = $controller;
@@ -56,7 +54,8 @@ class TestMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): void {
 		self::$afterExceptionCalled++;
 		$this->afterExceptionOrder = self::$afterExceptionCalled;
 		$this->controller = $controller;
@@ -65,7 +64,8 @@ class TestMiddleware extends Middleware {
 		parent::afterException($controller, $methodName, $exception);
 	}
 
-	public function afterController($controller, $methodName, Response $response) {
+	#[\Override]
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		self::$afterControllerCalled++;
 		$this->afterControllerOrder = self::$afterControllerCalled;
 		$this->controller = $controller;
@@ -74,7 +74,8 @@ class TestMiddleware extends Middleware {
 		return parent::afterController($controller, $methodName, $response);
 	}
 
-	public function beforeOutput($controller, $methodName, $output) {
+	#[\Override]
+	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
 		self::$beforeOutputCalled++;
 		$this->beforeOutputOrder = self::$beforeOutputCalled;
 		$this->controller = $controller;
@@ -101,6 +102,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 	 */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -111,7 +113,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->out = 'hi';
 		$this->exception = new \Exception();
 	}
-
 
 	private function getControllerMock() {
 		return $this->getMockBuilder(TestController::class)
@@ -125,13 +126,11 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			])->getMock();
 	}
 
-
 	private function getMiddleware($beforeControllerThrowsEx = false) {
 		$m1 = new TestMiddleware($beforeControllerThrowsEx);
 		$this->dispatcher->registerMiddleware($m1);
 		return $m1;
 	}
-
 
 	public function testAfterExceptionShouldReturnResponseOfMiddleware(): void {
 		$response = new Response();
@@ -155,7 +154,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals($response, $this->dispatcher->afterException($this->controller, $this->method, $this->exception));
 	}
 
-
 	public function testAfterExceptionShouldThrowAgainWhenNotHandled(): void {
 		$m1 = new TestMiddleware(false);
 		$m2 = new TestMiddleware(true);
@@ -168,7 +166,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->dispatcher->afterException($this->controller, $this->method, $this->exception);
 	}
 
-
 	public function testBeforeControllerCorrectArguments(): void {
 		$m1 = $this->getMiddleware();
 		$this->dispatcher->beforeController($this->controller, $this->method);
@@ -176,7 +173,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals($this->controller, $m1->controller);
 		$this->assertEquals($this->method, $m1->methodName);
 	}
-
 
 	public function testAfterControllerCorrectArguments(): void {
 		$m1 = $this->getMiddleware();
@@ -187,7 +183,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals($this->method, $m1->methodName);
 		$this->assertEquals($this->response, $m1->response);
 	}
-
 
 	public function testAfterExceptionCorrectArguments(): void {
 		$m1 = $this->getMiddleware();
@@ -202,7 +197,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals($this->exception, $m1->exception);
 	}
 
-
 	public function testBeforeOutputCorrectArguments(): void {
 		$m1 = $this->getMiddleware();
 
@@ -212,7 +206,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals($this->method, $m1->methodName);
 		$this->assertEquals($this->out, $m1->output);
 	}
-
 
 	public function testBeforeControllerOrder(): void {
 		$m1 = $this->getMiddleware();
@@ -234,7 +227,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals(1, $m2->afterControllerOrder);
 	}
 
-
 	public function testAfterExceptionOrder(): void {
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware();
@@ -247,7 +239,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals(1, $m2->afterExceptionOrder);
 	}
 
-
 	public function testBeforeOutputOrder(): void {
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware();
@@ -257,7 +248,6 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$this->assertEquals(2, $m1->beforeOutputOrder);
 		$this->assertEquals(1, $m2->beforeOutputOrder);
 	}
-
 
 	public function testExceptionShouldRunAfterExceptionOfOnlyPreviouslyExecutedMiddlewares(): void {
 		$m1 = $this->getMiddleware();

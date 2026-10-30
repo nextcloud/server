@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -18,6 +19,7 @@ use OCP\EventDispatcher\IEventListener;
  * @template-implements IEventListener<ConsoleEvent>
  */
 class ConsoleEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof ConsoleEvent) {
 			$this->runCommand($event);
@@ -34,7 +36,7 @@ class ConsoleEventListener extends Action implements IEventListener {
 		// Remove `./occ`
 		array_shift($arguments);
 
-		$this->log('Console command executed: %s',
+		$this->log(Operation::ConsoleCommandExecuted, 'Console command executed: %s',
 			['arguments' => implode(' ', $arguments)],
 			['arguments']
 		);

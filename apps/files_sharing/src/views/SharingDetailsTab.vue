@@ -122,7 +122,8 @@
 						v-model="share.token"
 						autocomplete="off"
 						:label="t('files_sharing', 'Share link token')"
-						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
+						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information.', { maxLength: TOKEN_MAX_LENGTH })"
+						:maxlength="TOKEN_MAX_LENGTH"
 						show-trailing-button
 						:trailing-button-label="loadingToken ? t('files_sharing', 'Generating…') : t('files_sharing', 'Generate new token')"
 						@trailing-button-click="generateNewToken">
@@ -155,8 +156,7 @@
 					</template>
 					<NcCheckboxRadioSwitch
 						v-if="canTogglePasswordProtectedByTalkAvailable"
-						v-model="isPasswordProtectedByTalk"
-						@update:modelValue="onPasswordProtectedByTalkChange">
+						v-model="isPasswordProtectedByTalk">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-model="hasExpirationDate" :disabled="isExpiryDateEnforced">
@@ -167,6 +167,7 @@
 					<NcDateTimePickerNative
 						v-if="hasExpirationDate"
 						id="share-date-picker"
+						ref="expireDate"
 						:model-value="new Date(share.expireDate ?? dateTomorrow)"
 						:min="dateTomorrow"
 						:max="maxExpirationDateEnforced"
@@ -174,16 +175,16 @@
 						:label="t('files_sharing', 'Expiration date')"
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
-						@input="onExpirationChange" />
+						@update:model-value="onExpirationChange"
+						@change="checkExpirationDateValidity" />
 					<NcCheckboxRadioSwitch
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
-						:disabled="canChangeHideDownload"
-						@update:modelValue="queueUpdate('hideDownload')">
+						:disabled="canChangeHideDownload">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
-						v-else
+						v-else-if="canShowDownloadPermission"
 						v-model="canDownload"
 						:disabled="!canSetDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -340,6 +341,12 @@ import logger from '../services/logger.ts'
 import { generateToken } from '../services/TokenService.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 
+/**
+ * Maximum length of a custom share token, matching the oc_share.token
+ * database column (see ShareAPIController::TOKEN_MAX_LENGTH).
+ */
+const TOKEN_MAX_LENGTH = 32
+
 /** @typedef {import('../models/Share.js').default} Share */
 export default {
 	name: 'SharingDetailsTab',
@@ -389,6 +396,7 @@ export default {
 
 	data() {
 		return {
+			TOKEN_MAX_LENGTH,
 			writeNoteToRecipientIsChecked: false,
 			sharingPermission: getBundledPermissions().ALL.toString(),
 			revertSharingPermission: getBundledPermissions().ALL.toString(),
@@ -400,6 +408,13 @@ export default {
 			creating: false,
 			initialToken: this.share.token,
 			loadingToken: false,
+			initialPermissions: undefined,
+			initialExpireDate: undefined,
+			initialNote: undefined,
+			initialLabel: undefined,
+			initialHideDownload: undefined,
+			initialSendPasswordByTalk: undefined,
+			initialHasDownloadPermission: undefined,
 
 			externalShareActions: getSidebarActions(),
 			// legacy
@@ -446,8 +461,21 @@ export default {
 			return getBundledPermissions(this.config.excludeReshareFromEdit)
 		},
 
+		/**
+		 * Permissions the current user is allowed to hand out.
+		 * On a reshare this is capped by what they received themselves.
+		 *
+		 * @return {number}
+		 */
+		grantablePermissions() {
+			const received = Number(this.fileInfo.sharePermissions)
+			// A missing prop means we don't know, not that they hold nothing
+			return Number.isNaN(received) ? getBundledPermissions().ALL : received
+		},
+
 		allPermissions() {
-			return this.isFolder ? this.bundledPermissions.ALL.toString() : this.bundledPermissions.ALL_FILE.toString()
+			const bundle = this.isFolder ? this.bundledPermissions.ALL : this.bundledPermissions.ALL_FILE
+			return (bundle & this.grantablePermissions).toString()
 		},
 
 		/**
@@ -696,6 +724,10 @@ export default {
 			return (this.fileInfo.canDownload() || this.canDownload)
 		},
 
+		canShowDownloadPermission() {
+			return !this.isPublicShare && !this.isRemoteShare
+		},
+
 		canRemoveReadPermission() {
 			return this.allowsFileDrop && (
 				this.share.type === ShareType.Link
@@ -867,6 +899,14 @@ export default {
 	},
 
 	beforeMount() {
+		this.initialPermissions = this.share.permissions
+		this.initialExpireDate = this.share.expireDate
+		this.initialNote = this.share.note
+		this.initialLabel = this.share.label
+		this.initialHideDownload = this.share.hideDownload
+		this.initialSendPasswordByTalk = this.share.sendPasswordByTalk
+		this.initialHasDownloadPermission = this.share.hasDownloadPermission
+
 		this.initializePermissions()
 		this.initializeAttributes()
 		logger.debug('Share object received', { share: this.share })
@@ -878,6 +918,32 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Check native `min` / `max` constraints on the expiration date field.
+		 * Prefer the change event target when available (same pattern as SharingEntryLink).
+		 *
+		 * @param {Event} [event]
+		 * @return {boolean}
+		 */
+		checkExpirationDateValidity(event) {
+			const fromEvent = event?.target
+			const fromRef = this.$refs.expireDate?.$el?.querySelector?.('input')
+			const input = fromEvent instanceof HTMLInputElement
+				? fromEvent
+				: (fromRef instanceof HTMLInputElement ? fromRef : null)
+
+			if (!input) {
+				return true
+			}
+
+			input.setCustomValidity('')
+			const isValid = input.checkValidity()
+			if (!isValid) {
+				input.reportValidity()
+			}
+			return isValid
+		},
+
 		/**
 		 * Set a share attribute on the current share
 		 *
@@ -931,6 +997,16 @@ export default {
 
 		cancel() {
 			this.share.token = this.initialToken
+			this.share.permissions = this.initialPermissions
+			this.share.expireDate = this.initialExpireDate
+			this.share.note = this.initialNote
+			this.share.label = this.initialLabel
+			this.share.hideDownload = this.initialHideDownload
+			this.share.sendPasswordByTalk = this.initialSendPasswordByTalk
+			this.share.hasDownloadPermission = this.initialHasDownloadPermission
+
+			this.$set(this.share, 'newPassword', undefined)
+
 			this.$emit('close-sharing-details')
 		},
 
@@ -1028,15 +1104,20 @@ export default {
 		handleDefaultPermissions() {
 			if (this.isNewShare) {
 				const defaultPermissions = this.config.defaultPermissions
-				const permissionsWithoutShare = defaultPermissions & ~ATOMIC_PERMISSIONS.SHARE
-				const basePermissions = getBundledPermissions(true)
-				if (permissionsWithoutShare === basePermissions.READ_ONLY
-					|| permissionsWithoutShare === basePermissions.ALL
-					|| permissionsWithoutShare === basePermissions.ALL_FILE) {
-					this.sharingPermission = permissionsWithoutShare.toString()
+				const basePermissions = this.bundledPermissions
+				if (defaultPermissions === basePermissions.READ_ONLY) {
+					this.sharingPermission = basePermissions.READ_ONLY.toString()
+				} else if (defaultPermissions === basePermissions.ALL
+					|| defaultPermissions === basePermissions.ALL_FILE) {
+					this.sharingPermission = this.allPermissions
+				} else if (defaultPermissions === basePermissions.FILE_DROP) {
+					this.sharingPermission = basePermissions.FILE_DROP.toString()
 				} else {
 					this.sharingPermission = 'custom'
-					this.share.permissions = defaultPermissions
+					// The admin default can ask for more than a resharer may pass on.
+					// Only the value is capped: deciding the branch on the capped value
+					// would push every reshare into this one and expand the accordion.
+					this.share.permissions = defaultPermissions & this.grantablePermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
 				}
@@ -1060,12 +1141,21 @@ export default {
 		initializePermissions() {
 			this.handleShareType()
 			this.handleDefaultPermissions()
+			// A new share starts from the full permission set, so the atomic
+			// checkboxes would pre-check rights a resharer cannot pass on and the
+			// share would be rejected on save. An existing share keeps what is
+			// stored, so a permission the owner revoked afterwards stays revocable.
+			if (this.isNewShare) {
+				// The editor owns the share it is building, like the rest of this file.
+				// eslint-disable-next-line vue/no-mutating-props
+				this.share.permissions &= this.grantablePermissions
+			}
 			this.handleCustomPermissions()
 		},
 
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
-			const publicShareAttributes = ['label', 'hideDownload']
+			const publicShareAttributes = ['label', 'hideDownload', 'sendPasswordByTalk']
 			// Only include password if it's being actively changed
 			if (this.hasUnsavedPassword) {
 				publicShareAttributes.push('password')
@@ -1091,7 +1181,7 @@ export default {
 				this.share.note = ''
 			}
 			if (this.isPasswordProtected) {
-				if (this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
+				if (this.isPublicShare && this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
 					this.passwordError = true
 					return
 				}
@@ -1099,8 +1189,17 @@ export default {
 				this.share.password = ''
 			}
 
+			// "Video verification" must be disabled if the password was
+			// disabled, as it does not make sense and would also prevent
+			// saving if it is still enabled.
+			if (this.isPasswordProtectedByTalk && !this.isPasswordProtected) {
+				this.isPasswordProtectedByTalk = false
+			}
+
 			if (!this.hasExpirationDate) {
 				this.share.expireDate = ''
+			} else if (!this.checkExpirationDateValidity()) {
+				return
 			}
 
 			if (this.isNewShare) {
@@ -1131,6 +1230,9 @@ export default {
 
 				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
 				this.share._share.id = share.id
+				// Similarly the token is always set by the backend when the
+				// share is created.
+				this.share._share.token = share.token
 				await this.queueUpdate(...permissionsAndAttributes)
 				// Also a ugly hack to update the updated permissions
 				for (const prop of permissionsAndAttributes) {
@@ -1168,6 +1270,11 @@ export default {
 					}
 					return action.$children.at(0)?.onSave?.()
 				}))
+			}
+
+			// clear the password after saving
+			if (this.share.newPassword) {
+				this.$set(this.share, 'newPassword', undefined)
 			}
 
 			this.$emit('close-sharing-details')
@@ -1220,28 +1327,12 @@ export default {
 		 */
 		onPasswordChange(password) {
 			if (password === '') {
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 				this.passwordError = this.isNewShare && this.isPasswordEnforced
 				return
 			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.isEmailShareType || this.hasUnsavedPassword) {
-				this.queueUpdate('sendPasswordByTalk', 'password')
-			} else {
-				this.queueUpdate('sendPasswordByTalk')
-			}
 		},
 
 		isValidShareAttribute(value) {
@@ -1440,5 +1531,10 @@ export default {
 			}
 		}
 	}
+}
+
+:deep(input:user-invalid) {
+	--input-border-color: var(--color-border-error, var(--color-error)) !important;
+	border-color: var(--color-border-error, var(--color-error)) !important;
 }
 </style>

@@ -6,11 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\BackgroundJob\TransferOwnership;
 use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -21,25 +24,25 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as NotificationManager;
 
-class TransferOwnershipController extends OCSController {
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
+final class TransferOwnershipController extends OCSController {
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private string $userId,
-		private NotificationManager $notificationManager,
-		private ITimeFactory $timeFactory,
-		private IJobList $jobList,
-		private TransferOwnershipMapper $mapper,
-		private IUserManager $userManager,
-		private IRootFolder $rootFolder,
+		private readonly NotificationManager $notificationManager,
+		private readonly ITimeFactory $timeFactory,
+		private readonly IJobList $jobList,
+		private readonly TransferOwnershipMapper $mapper,
+		private readonly IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
 	}
-
 
 	/**
 	 * Transfer the ownership to another user
@@ -54,30 +57,31 @@ class TransferOwnershipController extends OCSController {
 	 * 403: Transferring ownership is not allowed
 	 */
 	#[NoAdminRequired]
-	public function transfer(string $recipient, string $path): DataResponse {
+	public function transfer(IUser $user, string $recipient, string $path): DataResponse {
 		$recipientUser = $this->userManager->get($recipient);
 
-		if ($recipientUser === null) {
+		if (!$recipientUser instanceof IUser) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$userRoot = $this->rootFolder->getUserFolder($this->userId);
+		$userRoot = $this->rootFolder->getUserFolder($user->getUID());
 
 		try {
 			$node = $userRoot->get($path);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		if ($node->getOwner()->getUID() !== $this->userId || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+		$owner = $node->getOwner();
+		if ($owner === null || $owner->getUID() !== $user->getUID() || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$transferOwnership = new TransferOwnershipEntity();
-		$transferOwnership->setSourceUser($this->userId);
-		$transferOwnership->setTargetUser($recipient);
-		$transferOwnership->setFileId($node->getId());
-		$transferOwnership->setNodeName($node->getName());
+		$transferOwnership->sourceUser = $user->getUID();
+		$transferOwnership->targetUser = $recipient;
+		$transferOwnership->fileId = $node->getId();
+		$transferOwnership->nodeName = $node->getName();
 		$transferOwnership = $this->mapper->insert($transferOwnership);
 
 		$notification = $this->notificationManager->createNotification();
@@ -85,11 +89,11 @@ class TransferOwnershipController extends OCSController {
 			->setApp($this->appName)
 			->setDateTime($this->timeFactory->getDateTime())
 			->setSubject('transferownershipRequest', [
-				'sourceUser' => $this->userId,
+				'sourceUser' => $user->getUID(),
 				'targetUser' => $recipient,
 				'nodeName' => $node->getName(),
 			])
-			->setObject('transfer', (string)$transferOwnership->getId());
+			->setObject('transfer', (string)$transferOwnership->id);
 
 		$this->notificationManager->notify($notification);
 
@@ -99,7 +103,7 @@ class TransferOwnershipController extends OCSController {
 	/**
 	 * Accept an ownership transfer
 	 *
-	 * @param int $id ID of the ownership transfer
+	 * @param positive-int $id ID of the ownership transfer
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
@@ -108,19 +112,19 @@ class TransferOwnershipController extends OCSController {
 	 * 404: Ownership transfer not found
 	 */
 	#[NoAdminRequired]
-	public function accept(int $id): DataResponse {
+	public function accept(IUser $user, int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		if ($transferOwnership->getTargetUser() !== $this->userId) {
+		if ($transferOwnership->targetUser !== $user->getUID()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$this->jobList->add(TransferOwnership::class, [
-			'id' => $transferOwnership->getId(),
+			'id' => $transferOwnership->id,
 		]);
 
 		$notification = $this->notificationManager->createNotification();
@@ -134,7 +138,7 @@ class TransferOwnershipController extends OCSController {
 	/**
 	 * Reject an ownership transfer
 	 *
-	 * @param int $id ID of the ownership transfer
+	 * @param positive-int $id ID of the ownership transfer
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
@@ -143,14 +147,14 @@ class TransferOwnershipController extends OCSController {
 	 * 404: Ownership transfer not found
 	 */
 	#[NoAdminRequired]
-	public function reject(int $id): DataResponse {
+	public function reject(IUser $user, int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		if ($transferOwnership->getTargetUser() !== $this->userId) {
+		if ($transferOwnership->targetUser !== $user->getUID()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

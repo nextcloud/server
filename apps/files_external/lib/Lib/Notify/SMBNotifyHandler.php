@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Lib\Notify;
 
 use OC\Files\Notify\Change;
@@ -42,6 +43,7 @@ class SMBNotifyHandler implements INotifyHandler {
 		}
 	}
 
+	#[\Override]
 	public function listen(callable $callback) {
 		$oldRenamePath = null;
 		$this->shareNotifyHandler->listen(function (\Icewind\SMB\Change $shareChange) use ($callback) {
@@ -59,6 +61,7 @@ class SMBNotifyHandler implements INotifyHandler {
 	 *
 	 * @return IChange[]
 	 */
+	#[\Override]
 	public function getChanges() {
 		$shareChanges = $this->shareNotifyHandler->getChanges();
 		$changes = [];
@@ -76,6 +79,7 @@ class SMBNotifyHandler implements INotifyHandler {
 	 *
 	 * Note that any pending changes will be discarded
 	 */
+	#[\Override]
 	public function stop() {
 		$this->shareNotifyHandler->stop();
 	}

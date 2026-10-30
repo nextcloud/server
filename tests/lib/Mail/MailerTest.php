@@ -45,7 +45,7 @@ class MailerTest extends TestCase {
 	/** @var IEventDispatcher&MockObject */
 	private $dispatcher;
 
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -207,7 +207,6 @@ class MailerTest extends TestCase {
 			->willReturn(false);
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
-
 
 	public function testSendInvalidMailException(): void {
 		$this->config

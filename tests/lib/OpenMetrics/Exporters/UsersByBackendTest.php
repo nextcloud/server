@@ -22,7 +22,7 @@ class UsersByBackendTest extends ExporterTestCase {
 		'backend C' => 0,
 	];
 
-
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userManager->method('countUsers')

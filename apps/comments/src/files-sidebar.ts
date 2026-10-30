@@ -4,16 +4,12 @@
  */
 
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
-import { getCSPNonce } from '@nextcloud/auth'
 import { registerSidebarTab } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import wrap from '@vue/web-component-wrapper'
-import { createPinia, PiniaVuePlugin } from 'pinia'
-import Vue from 'vue'
+import { createPinia } from 'pinia'
+import { defineCustomElement } from 'vue'
 import { registerCommentsPlugins } from './comments-activity-tab.ts'
 import { isUsingActivityIntegration } from './utils/activity.ts'
-
-__webpack_nonce__ = getCSPNonce()
 
 const tagName = 'comments_files-sidebar-tab'
 
@@ -32,17 +28,15 @@ if (isUsingActivityIntegration()) {
 		async onInit() {
 			const { default: FilesSidebarTab } = await import('./views/FilesSidebarTab.vue')
 
-			Vue.use(PiniaVuePlugin)
-			Vue.mixin({ pinia: createPinia() })
-			const webComponent = wrap(Vue, FilesSidebarTab)
-			// In Vue 2, wrap doesn't support disabling shadow. Disable with a hack
-			Object.defineProperty(webComponent.prototype, 'attachShadow', {
-				value() { return this },
+			const FilesSidebarTabElement = defineCustomElement(FilesSidebarTab, {
+				configureApp(app) {
+					const pinia = createPinia()
+					app.use(pinia)
+				},
+				shadowRoot: false,
 			})
-			Object.defineProperty(webComponent.prototype, 'shadowRoot', {
-				get() { return this },
-			})
-			window.customElements.define(tagName, webComponent)
+
+			window.customElements.define(tagName, FilesSidebarTabElement)
 		},
 	})
 }

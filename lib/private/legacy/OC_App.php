@@ -7,58 +7,38 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use OC\App\AppManager;
-use OC\App\DependencyAnalyzer;
-use OC\AppFramework\App;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
-use OC\NeedsUpdateException;
-use OC\Repair;
-use OC\Repair\Events\RepairErrorEvent;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\Authentication\IAlternativeLogin;
-use OCP\BackgroundJob\IJobList;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IL10N;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
-use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
  * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
+ * @deprecated 36.0.0 There are no more non-deprecated methods in there
  */
 class OC_App {
-	private static array $altLogin = [];
-	private static array $alreadyRegistered = [];
-	public const supportedApp = 300;
-	public const officialApp = 200;
-
 	/**
-	 * clean the appId
-	 *
-	 * @psalm-taint-escape file
-	 * @psalm-taint-escape include
-	 * @psalm-taint-escape html
-	 * @psalm-taint-escape has_quotes
-	 *
-	 * @deprecated 31.0.0 use IAppManager::cleanAppId
+	 * @deprecated 36.0.0 use your own constant
 	 */
-	public static function cleanAppId(string $app): string {
-		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
-	}
+	public const supportedApp = 300;
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
+	public const officialApp = 200;
 
 	/**
 	 * Check if an app is loaded
@@ -101,76 +81,13 @@ class OC_App {
 	}
 
 	/**
-	 * @internal
-	 */
-	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
-		$key = $app . '-' . $path;
-		if (!$force && isset(self::$alreadyRegistered[$key])) {
-			return;
-		}
-
-		self::$alreadyRegistered[$key] = true;
-
-		// Register on PSR-4 composer autoloader
-		$appNamespace = App::buildAppNamespace($app);
-		\OC::$server->registerNamespace($app, $appNamespace);
-
-		if (file_exists($path . '/composer/autoload.php')) {
-			require_once $path . '/composer/autoload.php';
-		} else {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
-		}
-
-		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
-		}
-	}
-
-	/**
-	 * Check if an app is of a specific type
-	 *
-	 * @deprecated 27.0.0 use IAppManager::isType
-	 */
-	public static function isType(string $app, array $types): bool {
-		return Server::get(IAppManager::class)->isType($app, $types);
-	}
-
-	/**
-	 * read app types from info.xml and cache them in the database
-	 */
-	public static function setAppTypes(string $app): void {
-		$appManager = Server::get(IAppManager::class);
-		$appData = $appManager->getAppInfo($app);
-		if (!is_array($appData)) {
-			return;
-		}
-
-		if (isset($appData['types'])) {
-			$appTypes = implode(',', $appData['types']);
-		} else {
-			$appTypes = '';
-			$appData['types'] = [];
-		}
-
-		$config = Server::get(IConfig::class);
-		$config->setAppValue($app, 'types', $appTypes);
-
-		if ($appManager->hasProtectedAppType($appData['types'])) {
-			$enabled = $config->getAppValue($app, 'enabled', 'yes');
-			if ($enabled !== 'yes' && $enabled !== 'no') {
-				$config->setAppValue($app, 'enabled', 'yes');
-			}
-		}
-	}
-
-	/**
 	 * Returns apps enabled for the current user.
 	 *
 	 * @param bool $forceRefresh whether to refresh the cache
 	 * @param bool $all whether to return apps for all users, not only the
 	 *                  currently logged in one
 	 * @return list<string>
+	 * @deprecated 32.0.0 - use {@see \OCP\App\IAppManager::getEnabledAppsForUser} or {@see \OC\OCP\AppIAppManager::getEnabledApps} instead
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
 		if (!Server::get(SystemConfig::class)->getValue('installed', false)) {
@@ -236,130 +153,6 @@ class OC_App {
 	}
 
 	/**
-	 * Find the apps root for an app id.
-	 *
-	 * If multiple copies are found, the apps root the latest version is returned.
-	 *
-	 * @param bool $ignoreCache ignore cache and rebuild it
-	 * @return false|array{path: string, url: string} the apps root shape
-	 * @deprecated 32.0.0 internal, use getAppPath or getAppWebPath
-	 */
-	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
-		return Server::get(AppManager::class)->findAppInDirectories($appId, $ignoreCache);
-	}
-
-	/**
-	 * get app's version based on it's path
-	 *
-	 * @deprecated 32.0.0 use Server::get(IAppManager)->getAppInfoByPath() with the path to info.xml directly
-	 */
-	public static function getAppVersionByPath(string $path): string {
-		$infoFile = $path . '/appinfo/info.xml';
-		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
-		return $appData['version'] ?? '';
-	}
-
-	/**
-	 * get the id of loaded app
-	 * @deprecated 34.0.0 Don’t do that
-	 */
-	public static function getCurrentApp(): string {
-		if (\OC::$CLI) {
-			return '';
-		}
-
-		$request = Server::get(IRequest::class);
-		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
-		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
-		if (empty($topFolder)) {
-			try {
-				$path_info = $request->getPathInfo();
-			} catch (Exception $e) {
-				// Can happen from unit tests because the script name is `./vendor/bin/phpunit` or something a like then.
-				Server::get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
-				return '';
-			}
-			if ($path_info) {
-				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
-			}
-		}
-		if ($topFolder == 'apps') {
-			$length = strlen($topFolder);
-			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1) ?: '';
-		} else {
-			return $topFolder;
-		}
-	}
-
-	/**
-	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
-	 */
-	public static function registerLogIn(array $entry): void {
-		Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
-		self::$altLogin[] = $entry;
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function getAlternativeLogIns(): array {
-		/** @var Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = Server::get(Coordinator::class);
-
-		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
-			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
-					'option' => $registration->getService(),
-					'interface' => IAlternativeLogin::class,
-					'app' => $registration->getAppId(),
-				]);
-				continue;
-			}
-
-			try {
-				/** @var IAlternativeLogin $provider */
-				$provider = Server::get($registration->getService());
-			} catch (ContainerExceptionInterface $e) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
-					[
-						'exception' => $e,
-						'option' => $registration->getService(),
-						'app' => $registration->getAppId(),
-					]);
-			}
-
-			try {
-				$provider->load();
-
-				self::$altLogin[] = [
-					'name' => $provider->getLabel(),
-					'href' => $provider->getLink(),
-					'class' => $provider->getClass(),
-				];
-			} catch (Throwable $e) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
-					[
-						'exception' => $e,
-						'option' => $registration->getService(),
-						'app' => $registration->getAppId(),
-					]);
-			}
-		}
-
-		return self::$altLogin;
-	}
-
-	/**
-	 * get a list of all apps in the apps folder
-	 *
-	 * @return string[] an array of app names (string IDs)
-	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
-	 */
-	public static function getAllApps(): array {
-		return Server::get(IAppManager::class)->getAllAppsInAppsFolders();
-	}
-
-	/**
 	 * List all supported apps
 	 *
 	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
@@ -372,6 +165,7 @@ class OC_App {
 
 	/**
 	 * List all apps, this is used in apps.php
+	 * @deprecated 36.0.0 Use your own logic around IAppManager, this is legacy specific formatting
 	 */
 	public function listAllApps(): array {
 		$appManager = Server::get(IAppManager::class);
@@ -380,12 +174,12 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
-		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
+		$langCode = Server::get(IFactory::class)->get('core')->getLanguageCode();
 		$urlGenerator = Server::get(IURLGenerator::class);
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (!in_array($app, $blacklist)) {
+			if (!in_array($app, $blacklist, true)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
@@ -419,28 +213,13 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
-				if (in_array($app, $supportedApps)) {
+				if (in_array($app, $supportedApps, true)) {
 					$info['level'] = self::supportedApp;
 				}
 
-				try {
-					$appPath = $appManager->getAppPath($app);
-				} catch (AppPathNotFoundException) {
-					$appPath = false;
-				}
-				if ($appPath !== false) {
-					$appIcon = $appPath . '/img/' . $app . '.svg';
-					if (file_exists($appIcon)) {
-						$info['preview'] = $urlGenerator->imagePath($app, $app . '.svg');
-						$info['previewAsIcon'] = true;
-					} else {
-						$appIcon = $appPath . '/img/app.svg';
-						if (file_exists($appIcon)) {
-							$info['preview'] = $urlGenerator->imagePath($app, 'app.svg');
-							$info['previewAsIcon'] = true;
-						}
-					}
-				}
+				$info['icon'] = $appManager->getAppIcon($app, dark: true)
+					?? $appManager->getAppIcon($app);
+
 				// fix documentation
 				if (isset($info['documentation']) && is_array($info['documentation'])) {
 					foreach ($info['documentation'] as $key => $url) {
@@ -454,40 +233,13 @@ class OC_App {
 					}
 				}
 
+				$info['license'] = $info['licence'];
 				$info['version'] = $appManager->getAppVersion($app);
 				$appList[] = $info;
 			}
 		}
 
 		return $appList;
-	}
-
-	/**
-	 * @deprecated 32.0.0 Use IAppManager::isUpgradeRequired instead
-	 */
-	public static function shouldUpgrade(string $app): bool {
-		return Server::get(IAppManager::class)->isUpgradeRequired($app);
-	}
-
-	/**
-	 * Check whether the current Nextcloud version matches the given
-	 * application's version requirements.
-	 *
-	 * The comparison is made based on the number of parts that the
-	 * app info version has. For example for ownCloud 6.0.3 if the
-	 * app info version is expecting version 6.0, the comparison is
-	 * made on the first two parts of the ownCloud version.
-	 * This means that it's possible to specify "requiremin" => 6
-	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
-	 *
-	 * @param string $ocVersion Nextcloud version to check against
-	 * @param array $appInfo app info (from xml)
-	 *
-	 * @return bool true if compatible, otherwise false
-	 * @deprecated 32.0.0 Use IAppManager::isAppCompatible instead
-	 */
-	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
-		return Server::get(IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
 	}
 
 	/**
@@ -508,60 +260,6 @@ class OC_App {
 			return Server::get(AppManager::class)->upgradeApp($appId);
 		} catch (AppPathNotFoundException $e) {
 			return false;
-		}
-	}
-
-	/**
-	 * @param string $appId
-	 * @param string[] $steps
-	 * @throws NeedsUpdateException
-	 */
-	public static function executeRepairSteps(string $appId, array $steps) {
-		if (empty($steps)) {
-			return;
-		}
-		// load the app
-		self::loadApp($appId);
-
-		$dispatcher = Server::get(IEventDispatcher::class);
-
-		// load the steps
-		$r = Server::get(Repair::class);
-		foreach ($steps as $step) {
-			try {
-				$r->addStep($step);
-			} catch (Exception $ex) {
-				$dispatcher->dispatchTyped(new RepairErrorEvent($ex->getMessage()));
-				logger('core')->error('Failed to add app migration step ' . $step, ['exception' => $ex]);
-			}
-		}
-		// run the steps
-		$r->run();
-	}
-
-	/**
-	 * @deprecated 32.0.0 Use the IJobList directly instead
-	 */
-	public static function setupBackgroundJobs(array $jobs): void {
-		$queue = Server::get(IJobList::class);
-		foreach ($jobs as $job) {
-			$queue->add($job);
-		}
-	}
-
-	/**
-	 * @throws \Exception
-	 */
-	public static function checkAppDependencies(IConfig $config, IL10N $l, array $info, bool $ignoreMax): void {
-		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
-		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
-		if (!empty($missing)) {
-			$missingMsg = implode(PHP_EOL, $missing);
-			throw new \Exception(
-				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',
-					[$info['name'], $missingMsg]
-				)
-			);
 		}
 	}
 }

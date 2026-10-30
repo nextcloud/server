@@ -42,6 +42,17 @@ use OCA\DAV\CalDAV\UpcomingEvent;
  *      summary: ?string,
  *      location: ?string,
  *  }
+ *
+ * @psalm-type DAVPendingFederatedCalendar = array{
+ *      id: int,
+ *      displayName: string,
+ *      color: ?string,
+ *      sharedBy: string,
+ *      sharedByDisplayName: string,
+ *      remoteUrl: string,
+ *      permissions: int,
+ *      components: string,
+ *  }
  */
 class ResponseDefinitions {
 }

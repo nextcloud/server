@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\Base;
@@ -66,7 +65,6 @@ abstract class JobBase extends Base {
 		if ($isTimedJob) {
 			$reflection = new \ReflectionClass($job);
 			$intervalProperty = $reflection->getProperty('interval');
-			$intervalProperty->setAccessible(true);
 			$interval = $intervalProperty->getValue($job);
 
 			$nextRun = new \DateTime();

@@ -17,10 +17,6 @@
 			<slot name="filters" />
 		</div>
 
-		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
-			<slot name="header-overlay" />
-		</div>
-
 		<div
 			v-if="dataSources.length === 0"
 			class="files-list__empty">
@@ -32,7 +28,6 @@
 			:inert="dataSources.length === 0"
 			class="files-list__table"
 			:class="{
-				'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'],
 				'files-list__table--hidden': dataSources.length === 0,
 			}">
 			<!-- Accessibility table caption for screen readers -->
@@ -77,7 +72,7 @@ import type { PropType } from 'vue'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 interface RecycledPoolItem {
 	key: string
@@ -324,7 +319,7 @@ export default defineComponent({
 		})
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this.resizeObserver) {
 			this.resizeObserver.disconnect()
 		}

@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Comments;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
  * Class CommentsEvent
@@ -18,7 +20,7 @@ use OCP\EventDispatcher\Event;
  * In the future, once the deprecated methods are removed, this class will be abstract.
  */
 #[Consumable(since: '9.0.0')]
-class CommentsEvent extends Event {
+class CommentsEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 11.0.0
 	 * @deprecated 33.0.0 Use \OCP\Comments\Events\CommentAddedEvent instead.
@@ -57,7 +59,7 @@ class CommentsEvent extends Event {
 
 	/**
 	 * @since 9.0.0
-	 * @depreacted Since 33.0.0 use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
+	 * @deprecated 33.0.0 Use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
 	 */
 	public function getEvent(): string {
 		return $this->event;
@@ -68,5 +70,15 @@ class CommentsEvent extends Event {
 	 */
 	public function getComment(): IComment {
 		return $this->comment;
+	}
+
+	/**
+	 * @since 35.0.2
+	 */
+	#[\Override]
+	public function getWebhookSerializable(): array {
+		return [
+			'comment' => $this->comment,
+		];
 	}
 }

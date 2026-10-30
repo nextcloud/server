@@ -6,10 +6,10 @@
 import { getFileActions } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { dirname } from 'path'
-import { useRoute, useRouter } from 'vue-router/composables'
-import logger from '../logger.ts'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { executeAction } from '../utils/actionUtils.ts'
+import { logger } from '../utils/logger.ts'
 import { useRouteParameters } from './useRouteParameters.ts'
 
 /**
@@ -33,7 +33,7 @@ export function useHotKeys(): void {
 			: action.hotkey.key
 
 		logger.debug(`Register hotkey for action "${action.id}"`)
-		useHotKey(key, () => executeAction(action), {
+		useHotKey(key, () => executeAction(action, 'hotkey'), {
 			stop: true,
 			prevent: true,
 			alt: action.hotkey.alt,

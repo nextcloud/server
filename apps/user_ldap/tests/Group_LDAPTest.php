@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -1074,7 +1075,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertTrue($this->groupBackend->createGroup('gid'));
 	}
 
-
 	public function testCreateGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1119,7 +1119,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertTrue($this->groupBackend->deleteGroup('gid'));
 	}
 
-
 	public function testDeleteGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1155,7 +1154,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals('result', $this->groupBackend->addToGroup('uid', 'gid'));
 	}
 
-
 	public function testAddToGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1190,7 +1188,6 @@ class Group_LDAPTest extends TestCase {
 		$this->initBackend();
 		$this->assertEquals('result', $this->groupBackend->removeFromGroup('uid', 'gid'));
 	}
-
 
 	public function testRemoveFromGroupFailing(): void {
 		$this->expectException(\Exception::class);

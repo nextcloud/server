@@ -13,6 +13,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Hyvää iltaa, {name}",
     "Hello" : "Hei",
     "Hello, {name}" : "Hei {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Hyvää syntymäpäivää 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Hyvää syntymäpäivää, {name} 🥳🤩🎂🎉",
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
     "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",

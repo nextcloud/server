@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -39,20 +40,23 @@ class FileAccess implements IFileAccess {
 		);
 	}
 
+	#[\Override]
 	public function getByFileIdInStorage(int $fileId, int $storageId): ?CacheEntry {
 		$items = array_values($this->getByFileIdsInStorage([$fileId], $storageId));
 		return $items[0] ?? null;
 	}
 
+	#[\Override]
 	public function getByPathInStorage(string $path, int $storageId): ?CacheEntry {
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->eq('filecache.path_hash', $query->createNamedParameter(md5($path))));
 		$query->andWhere($query->expr()->eq('filecache.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 
-		$row = $query->executeQuery()->fetch();
+		$row = $query->executeQuery()->fetchAssociative();
 		return $row ? Cache::cacheEntryFromData($row, $this->mimeTypeLoader) : null;
 	}
 
+	#[\Override]
 	public function getByFileId(int $fileId): ?CacheEntry {
 		$items = array_values($this->getByFileIds([$fileId]));
 		return $items[0] ?? null;
@@ -75,11 +79,12 @@ class FileAccess implements IFileAccess {
 	 * @param int[] $fileIds
 	 * @return array<int, CacheEntry>
 	 */
+	#[\Override]
 	public function getByFileIds(array $fileIds): array {
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 
-		$rows = $query->executeQuery()->fetchAll();
+		$rows = $query->executeQuery()->fetchAllAssociative();
 		return $this->rowsToEntries($rows);
 	}
 
@@ -88,16 +93,18 @@ class FileAccess implements IFileAccess {
 	 * @param int $storageId
 	 * @return array<int, CacheEntry>
 	 */
+	#[\Override]
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array {
 		$fileIds = array_values($fileIds);
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		$query->andWhere($query->expr()->eq('filecache.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 
-		$rows = $query->executeQuery()->fetchAll();
+		$rows = $query->executeQuery()->fetchAllAssociative();
 		return $this->rowsToEntries($rows);
 	}
 
+	#[\Override]
 	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator {
 		$qb = $this->getQuery();
 		$qb->select('path')
@@ -105,7 +112,7 @@ class FileAccess implements IFileAccess {
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		/** @var array{path:string}|false $root */
-		$root = $result->fetch();
+		$root = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($root === false) {
@@ -153,7 +160,7 @@ class FileAccess implements IFileAccess {
 			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
 			$rows = [];
 			do {
-				while (count($rows) < 1000 && ($row = $files->fetch())) {
+				while (count($rows) < 1000 && ($row = $files->fetchAssociative())) {
 					$rows[] = $row;
 				}
 				$parents = array_map(function ($row) {
@@ -165,7 +172,7 @@ class FileAccess implements IFileAccess {
 				$parentQuery->where($parentQuery->expr()->in('fileid', $parentQuery->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)));
 				$parentQuery->hintShardKey('storage', $storageId);
 				$result = $parentQuery->executeQuery();
-				$parentRows = $result->fetchAll();
+				$parentRows = $result->fetchAllAssociative();
 				$result->closeCursor();
 
 				$encryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
@@ -176,11 +183,11 @@ class FileAccess implements IFileAccess {
 					yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 				}
 				$rows = [];
-			} while ($rows[] = $files->fetch());
+			} while ($rows[] = $files->fetchAssociative());
 		} else {
 			while (
 				/** @var array */
-				$row = $files->fetch()
+				$row = $files->fetchAssociative()
 			) {
 				yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 			}
@@ -189,6 +196,7 @@ class FileAccess implements IFileAccess {
 		$files->closeCursor();
 	}
 
+	#[\Override]
 	public function getDistinctMounts(array $mountProviders = [], bool $onlyUserFilesMounts = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
@@ -212,7 +220,7 @@ class FileAccess implements IFileAccess {
 
 		while (
 			/** @var array{storage_id:int, root_id:int,mount_provider_class:string} $row */
-			$row = $result->fetch()
+			$row = $result->fetchAssociative()
 		) {
 			$storageId = (int)$row['storage_id'];
 			$rootId = (int)$row['root_id'];
@@ -232,7 +240,7 @@ class FileAccess implements IFileAccess {
 						->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
 						->andWhere($qb->expr()->eq('path', $qb->createNamedParameter('files')));
 					/** @var array|false $root */
-					$root = $qb->executeQuery()->fetch();
+					$root = $qb->executeQuery()->fetchAssociative();
 					if ($root !== false) {
 						$overrideRoot = (int)$root['fileid'];
 					}

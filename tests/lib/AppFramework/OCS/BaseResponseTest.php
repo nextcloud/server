@@ -17,6 +17,7 @@ class ArrayValue implements \JsonSerializable {
 	) {
 	}
 
+	#[\Override]
 	public function jsonSerialize(): mixed {
 		return $this->array;
 	}

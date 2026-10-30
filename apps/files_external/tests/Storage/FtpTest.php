@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OCA\Files_External\Lib\Storage\FTP;
@@ -50,7 +51,6 @@ class FtpTest extends \Test\Files\Storage\Storage {
 			return substr($item[0], -1) !== ' ';
 		});
 	}
-
 
 	/**
 	 * mtime for folders is only with a minute resolution

@@ -32,6 +32,7 @@ class PropFindPlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('preloadCollection', $this->preloadCollection(...));
 		$server->on('propFind', [$this, 'propFind']);
@@ -50,7 +51,7 @@ class PropFindPlugin extends ServerPlugin {
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
-		if (!in_array(static::REMINDER_DUE_DATE_PROPERTY, $propFind->getRequestedProperties())) {
+		if (!in_array(static::REMINDER_DUE_DATE_PROPERTY, $propFind->getRequestedProperties(), true)) {
 			return;
 		}
 

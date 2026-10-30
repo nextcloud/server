@@ -18,8 +18,9 @@ namespace OCP {
 		/**
 		 * @return string defining the technical unique key
 		 * @since 5.0.0
+		 * @since 35.0.0 Typed return type
 		 */
-		public function getKey();
+		public function getKey(): string;
 
 		/**
 		 * @return string defining the unique uri

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Mount;
 
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
@@ -30,6 +31,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @param IStorageFactory $loader
 	 * @return ?IMountPoint
 	 */
+	#[\Override]
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader): ?IMountPoint {
 		$objectStoreConfig = $this->objectStoreConfig->getObjectStoreConfigForUser($user);
 		if ($objectStoreConfig === null) {

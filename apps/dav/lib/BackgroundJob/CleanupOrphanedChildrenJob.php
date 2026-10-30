@@ -23,7 +23,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 	public const ARGUMENT_PARENT_ID = 'parentId';
 	public const ARGUMENT_LOG_MESSAGE = 'logMessage';
 
-	private const BATCH_SIZE = 1000;
+	private const int BATCH_SIZE = 1000;
 
 	public function __construct(
 		ITimeFactory $time,
@@ -34,6 +34,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$childTable = $argument[self::ARGUMENT_CHILD_TABLE];
 		$parentTable = $argument[self::ARGUMENT_PARENT_TABLE];

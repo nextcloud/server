@@ -22,7 +22,7 @@
 		<!-- Checkbox -->
 		<FileEntryCheckbox
 			:fileid="fileid"
-			:is-loading="isLoading"
+			:isLoading="isLoading"
 			:nodes="nodes"
 			:source="source" />
 
@@ -33,24 +33,24 @@
 				ref="preview"
 				:source="source"
 				:dragover="dragover"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 
 			<FileEntryName
 				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
 		<FileEntryActions
 			v-show="!isRenamingSmallScreen"
 			ref="actions"
+			v-model:opened="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:opened.sync="openedMenu"
 			:source="source" />
 
 		<!-- Mime -->
@@ -82,7 +82,7 @@
 			@click="openDetailsIfAvailable">
 			<NcDateTime
 				v-if="mtime"
-				ignore-seconds
+				ignoreSeconds
 				:timestamp="mtime" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
@@ -96,9 +96,9 @@
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
 			<CustomElementRender
-				:active-folder="activeFolder"
-				:active-view="activeView"
-				:render="column.render"
+				:activeFolder="activeFolder"
+				:activeView="activeView"
+				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>
 	</tr>
@@ -108,6 +108,7 @@
 import { FileType, formatFileSize } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import CustomElementRender from './CustomElementRender.vue'
@@ -116,6 +117,7 @@ import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import { useFileActions } from '../composables/useFileActions.ts'
+import { useFileListLayout } from '../composables/useFileListLayout.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -161,27 +163,32 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 		const {
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
 
 		const actions = useFileActions()
 
 		return {
 			actions,
-			actionsMenuStore,
 			activeFolder,
 			activeNode,
 			activeView,
 			currentRouteFileId,
-			draggingStore,
 			isNarrow,
+			layout,
+
+			activeStore,
+			actionsMenuStore,
+			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
@@ -211,11 +218,10 @@ export default defineComponent({
 		},
 
 		columns() {
-			// Hide columns if the list is too small
-			if (this.isNarrow || this.compact) {
+			if (this.compact) {
 				return []
 			}
-			return this.activeView?.columns || []
+			return this.layout.columns
 		},
 
 		mime() {
@@ -273,20 +279,20 @@ export default defineComponent({
 	},
 
 	created() {
-		useHotKey('Enter', this.triggerDefaultAction, {
-			stop: true,
-			prevent: true,
-		})
+		useHotKey('Enter', this.triggerDefaultAction)
 	},
 
 	methods: {
 		formatFileSize,
 
-		triggerDefaultAction() {
+		triggerDefaultAction(event?: KeyboardEvent) {
 			// Don't react to the event if the file row is not active
 			if (!this.isActive) {
 				return
 			}
+
+			event?.preventDefault()
+			event?.stopPropagation()
 
 			this.defaultFileAction?.exec({
 				nodes: [this.source],
@@ -294,6 +300,12 @@ export default defineComponent({
 				contents: this.nodes,
 				view: this.activeView!,
 			})
+		},
+
+		adaptColumnRenderToCustomElementRender(column) {
+			return ({ nodes, view }) => {
+				return column.render(nodes[0], view)
+			}
 		},
 	},
 })

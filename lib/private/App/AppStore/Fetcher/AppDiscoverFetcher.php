@@ -16,6 +16,12 @@ use OCP\IConfig;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Fetch app discover section entries from the app store
+ *
+ * @psalm-import-type AppStoreFetcherDiscoverElement from ResponseDefinitions
+ * @template-extends Fetcher<AppStoreFetcherDiscoverElement>
+ */
 class AppDiscoverFetcher extends Fetcher {
 
 	public const INVALIDATE_AFTER_SECONDS = 86400;
@@ -46,12 +52,14 @@ class AppDiscoverFetcher extends Fetcher {
 	 * Get the app discover section entries
 	 *
 	 * @param bool $allowUnstable Include also upcoming entries
+	 * @return list<AppStoreFetcherDiscoverElement>
 	 */
-	public function get($allowUnstable = false) {
+	#[\Override]
+	public function get($allowUnstable = false): array {
 		$entries = parent::get(false);
 		$now = new DateTimeImmutable();
 
-		return array_filter($entries, function (array $entry) use ($now, $allowUnstable) {
+		return array_values(array_filter($entries, function (array $entry) use ($now, $allowUnstable) {
 			// Always remove expired entries
 			if (isset($entry['expiryDate'])) {
 				try {
@@ -79,7 +87,7 @@ class AppDiscoverFetcher extends Fetcher {
 			}
 			// Otherwise the entry is not time limited and should stay
 			return true;
-		});
+		}));
 	}
 
 	public function getETag(): ?string {

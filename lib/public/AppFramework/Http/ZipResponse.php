@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OC\Streamer;
@@ -58,6 +59,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		$size = 0;
 		$files = count($this->resources);

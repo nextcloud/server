@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Command;
 
 use InvalidArgumentException;
@@ -39,6 +40,7 @@ class ExportCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('calendar:export')
 			->setDescription('Export calendar data from supported calendars to disk or stdout')
@@ -48,6 +50,7 @@ class ExportCalendar extends Command {
 			->addOption('location', null, InputOption::VALUE_REQUIRED, 'Location of where to write the output. Defaults to stdout');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('uid');
 		$calendarId = $input->getArgument('uri');

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Файлууд",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Та \"{file}\" дээр, устгагдсан акаунтын сэтгэгдэлд дурдагдсан байна",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} таныг \"{file}\" дээрх сэтгэгдэлд дурдсан",
+    "Go to file" : "Файл руу очих",
     "Files app plugin to add comments to files" : "Файлд сэтгэгдэл нэмэх Файлын апп плагин",
     "Edit comment" : "Сэтгэгдэл засах",
     "Delete comment" : "Сэтгэгдэл устгах",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Сэтгэгдэл засварлах үед алдаа гарлаа",
     "Comment deleted" : "Сэтгэгдэл устгагдсан",
     "An error occurred while trying to delete the comment" : "Сэтгэгдэл устгах үед алдаа гарлаа",
-    "An error occurred while trying to create the comment" : "Сэтгэгдэл үүсгэх үед алдаа гарлаа",
-    "Write a comment …" : "Сэтгэгдэл бичих …"
+    "An error occurred while trying to create the comment" : "Сэтгэгдэл үүсгэх үед алдаа гарлаа"
 },
 "nplurals=2; plural=(n != 1);");

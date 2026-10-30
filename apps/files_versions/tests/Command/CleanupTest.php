@@ -6,14 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests\Command;
 
 use OC\User\Manager;
 use OCA\Files_Versions\Command\CleanUp;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCP\Files\Cache\ICache;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Storage\IStorage;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -52,7 +53,7 @@ class CleanupTest extends TestCase {
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userHomeStorage = $this->createMock(IStorage::class);
 		$userHomeStorageCache = $this->createMock(ICache::class);
 		$this->rootFolder->expects($this->once())
@@ -91,7 +92,6 @@ class CleanupTest extends TestCase {
 			[false]
 		];
 	}
-
 
 	/**
 	 * test delete versions from users given as parameter

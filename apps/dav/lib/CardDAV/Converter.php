@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use DateTimeImmutable;
@@ -20,6 +21,18 @@ use Sabre\VObject\Property\Text;
 use Sabre\VObject\Property\VCard\Date;
 
 class Converter {
+	private const array NAME_SUFFIXES = [
+		'i', 'ii', 'iii', 'iv', 'v',
+		'senior', 'junior', 'jr', 'sr',
+		'phd', 'apr', 'rph', 'pe', 'md', 'ma', 'msc', 'bsc', 'ba', 'bs',
+		'dmd', 'cme', 'bsn', 'mba',
+		'ceo', 'cto', 'cfo', 'coo',
+	];
+	private const array NAME_SALUTATIONS = [
+		'mr', 'mrs', 'ms', 'miss', 'master', 'mister', 'dr', 'rev', 'fr', 'prof',
+		'herr', 'frau', 'mme', 'mlle', 'me', 'pr',
+	];
+
 	public function __construct(
 		private IAccountManager $accountManager,
 		private IUserManager $userManager,
@@ -157,23 +170,85 @@ class Converter {
 	}
 
 	public function splitFullName(string $fullName): array {
-		// Very basic western style parsing. I'm not gonna implement
-		// https://github.com/android/platform_packages_providers_contactsprovider/blob/master/src/com/android/providers/contacts/NameSplitter.java ;)
+		// Based on https://github.com/joshfraser/PHP-Name-Parser
 
-		$elements = explode(' ', $fullName);
-		$result = ['', '', '', '', ''];
-		if (count($elements) > 2) {
-			$result[0] = implode(' ', array_slice($elements, count($elements) - 1));
-			$result[1] = $elements[0];
-			$result[2] = implode(' ', array_slice($elements, 1, count($elements) - 2));
-		} elseif (count($elements) === 2) {
-			$result[0] = $elements[1];
-			$result[1] = $elements[0];
-		} else {
-			$result[0] = $elements[0];
+		$prefix = [];
+		$suffix = [];
+		$cleanedName = preg_replace('/\([^()]*\)|\[[^[\]]*\]|\{[^{}]*\}/', ' ', $fullName) ?? $fullName;
+		$cleanedName = trim(preg_replace('/\s+/', ' ', $cleanedName) ?? $cleanedName);
+		if ($cleanedName === '') {
+			$cleanedName = trim($fullName);
 		}
 
+		$segments = array_values(array_filter(
+			array_map($this->splitNameWords(...), explode(',', $cleanedName)),
+			static fn (array $segment): bool => $segment !== [],
+		));
+
+		while (count($segments) > 1) {
+			$lastSegment = $segments[count($segments) - 1];
+			$knownSuffix = array_filter(
+				$lastSegment,
+				fn (string $word): bool => !$this->isNameSuffix($word),
+			) === [];
+			if (!$knownSuffix) {
+				break;
+			}
+			array_unshift($suffix, implode(' ', array_pop($segments)));
+		}
+
+		if (count($segments) > 1 && count($segments[0]) === 1) {
+			$result = [$segments[0][0], '', '', '', ''];
+			$nameWords = array_merge(...array_slice($segments, 1));
+		} else {
+			$result = ['', '', '', '', ''];
+			$nameWords = $segments[0] ?? $this->splitNameWords($cleanedName);
+			if (count($segments) > 1) {
+				$suffix[] = implode(', ', array_map(static fn (array $segment): string => implode(' ', $segment), array_slice($segments, 1)));
+			}
+		}
+
+		while (count($nameWords) > 1 && $this->isNameSalutation($nameWords[0])) {
+			$prefix[] = array_shift($nameWords);
+		}
+		while (count($nameWords) > 1 && $this->isNameSuffix($nameWords[count($nameWords) - 1])) {
+			array_unshift($suffix, array_pop($nameWords));
+		}
+
+		if ($result[0] !== '') {
+			$result[1] = $nameWords[0] ?? '';
+			$result[2] = implode(' ', array_slice($nameWords, 1));
+		} elseif (count($nameWords) > 2) {
+			$result[0] = implode(' ', array_slice($nameWords, count($nameWords) - 1));
+			$result[1] = $nameWords[0];
+			$result[2] = implode(' ', array_slice($nameWords, 1, count($nameWords) - 2));
+		} elseif (count($nameWords) === 2) {
+			$result[0] = $nameWords[1];
+			$result[1] = $nameWords[0];
+		} elseif (count($nameWords) === 1) {
+			$result[0] = $nameWords[0];
+		}
+
+		$result[3] = implode(' ', $prefix);
+		$result[4] = implode(', ', array_filter($suffix));
+
 		return $result;
+	}
+
+	private function splitNameWords(string $name): array {
+		return preg_split('/\s+/', trim($name), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+	}
+
+	private function isNameSuffix(string $word): bool {
+		return in_array($this->normalizeNameWord($word), self::NAME_SUFFIXES, true);
+	}
+
+	private function isNameSalutation(string $word): bool {
+		return in_array($this->normalizeNameWord($word), self::NAME_SALUTATIONS, true);
+	}
+
+	private function normalizeNameWord(string $word): string {
+		return strtolower(preg_replace('/[.,]/', '', trim($word)) ?? $word);
 	}
 
 	private function getAvatarImage(IUser $user): ?IImage {

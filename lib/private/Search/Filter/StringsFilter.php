@@ -28,6 +28,7 @@ class StringsFilter implements IFilter {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function get(): array {
 		return $this->values;
 	}

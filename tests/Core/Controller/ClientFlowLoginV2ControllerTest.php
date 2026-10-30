@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\Core\Controller;
+namespace Tests\Core\Controller;
 
 use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OC\Core\Data\LoginFlowV2Credentials;
@@ -42,6 +42,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 	/** @var ClientFlowLoginV2Controller */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -278,7 +279,6 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$result = $this->controller->grantPage('stateToken');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
-
 
 	public function testGenerateAppPasswordInvalidStateToken(): void {
 		$this->session->method('get')

@@ -31,19 +31,12 @@
 		</th>
 		<th
 			class="header__cell"
-			:class="{ 'header__cell--obfuscated': hasObfuscated }"
-			data-cy-user-list-header-password
-			scope="col">
-			<span>{{ passwordLabel }}</span>
-		</th>
-		<th
-			class="header__cell"
 			data-cy-user-list-header-email
 			scope="col">
 			<span>{{ t('settings', 'Email') }}</span>
 		</th>
 		<th
-			class="header__cell header__cell--large"
+			class="header__cell header__cell--groups"
 			data-cy-user-list-header-groups
 			scope="col">
 			<span>{{ t('settings', 'Groups') }}</span>
@@ -121,13 +114,6 @@ import Vue from 'vue'
 export default Vue.extend({
 	name: 'UserListHeader',
 
-	props: {
-		hasObfuscated: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
 	computed: {
 		showConfig() {
 			// @ts-expect-error: allow untyped $store
@@ -137,14 +123,6 @@ export default Vue.extend({
 		settings() {
 			// @ts-expect-error: allow untyped $store
 			return this.$store.getters.getServerData
-		},
-
-		passwordLabel(): string {
-			if (this.hasObfuscated) {
-				// TRANSLATORS This string is for a column header labelling either a password or a message that the current user has insufficient permissions
-				return t('settings', 'Password or insufficient permissions message')
-			}
-			return t('settings', 'Password')
 		},
 	},
 

@@ -20,10 +20,12 @@ class RegisterUpdateCalendarResourcesRoomBackgroundJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Register a background job to update rooms and resources';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(UpdateCalendarResourcesRoomsBackgroundJob::class);
 	}

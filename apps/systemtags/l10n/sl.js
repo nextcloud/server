@@ -41,6 +41,7 @@ OC.L10N.register(
     "Files" : "Datoteke",
     "Tags" : "Oznake",
     "Collaborative tags" : "Sodelovalne oznake",
+    "Search tags" : "Poišči oznake",
     "Public" : "Javno",
     "Restricted" : "Omejeno",
     "Invisible" : "Nevidno",
@@ -66,8 +67,6 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom, omejitvene so uporabnikom vidne, a jih ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
     "Add tags" : "Dodaj oznake",
     "Open in Files" : "Odpri v mapi",
-    "No tags found" : "Ni najdenih oznak",
-    "Collaborative tags …" : "Sodelovalne oznake ...",
-    "Loading …" : "Poteka nalaganje …"
+    "No tags found" : "Ni najdenih oznak"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

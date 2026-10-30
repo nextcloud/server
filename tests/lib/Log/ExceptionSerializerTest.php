@@ -16,6 +16,7 @@ use Test\TestCase;
 class ExceptionSerializerTest extends TestCase {
 	private ExceptionSerializer $serializer;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 
@@ -32,7 +33,19 @@ class ExceptionSerializerTest extends TestCase {
 	}
 
 	private function customMagicAuthThing(string $login, string $parole): void {
-		throw new \Exception('expected custom auth exception');
+		$this->throwsException($parole);
+	}
+
+	private function customSensitiveParameter(
+		string $login,
+		#[\SensitiveParameter]
+		string $password,
+	): void {
+		$this->throwsException($password);
+	}
+
+	private function throwsException(string $maybeSecret): void {
+		throw new \Exception('expected exception');
 	}
 
 	/**
@@ -59,9 +72,24 @@ class ExceptionSerializerTest extends TestCase {
 			$this->customMagicAuthThing('u57474', 'Secret');
 		} catch (\Exception $e) {
 			$serializedData = $this->serializer->serializeException($e);
-			$this->assertSame('customMagicAuthThing', $serializedData['Trace'][0]['function']);
+			$this->assertSame('throwsException', $serializedData['Trace'][0]['function']);
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
-			$this->assertFalse(isset($serializedData['Trace'][0]['args'][1]));
+			$this->assertSame('customMagicAuthThing', $serializedData['Trace'][1]['function']);
+			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][1]['args'][0]);
+			$this->assertFalse(isset($serializedData['Trace'][1]['args'][1]));
+		}
+	}
+
+	public function testSerializerWithSensitiveParameter(): void {
+		try {
+			$this->customSensitiveParameter('login', 'Secret');
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+			$this->assertSame('throwsException', $serializedData['Trace'][0]['function']);
+			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
+			$this->assertSame('customSensitiveParameter', $serializedData['Trace'][1]['function']);
+			$this->assertSame('login', $serializedData['Trace'][1]['args'][0]);
+			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][1]['args'][1]);
 		}
 	}
 }

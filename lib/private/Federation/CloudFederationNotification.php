@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Federation;
 
 use OCP\Federation\ICloudFederationNotification;
@@ -30,6 +31,7 @@ class CloudFederationNotification implements ICloudFederationNotification {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setMessage($notificationType, $resourceType, $providerId, array $notification) {
 		$this->message = [
 			'notificationType' => $notificationType,
@@ -46,6 +48,7 @@ class CloudFederationNotification implements ICloudFederationNotification {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getMessage() {
 		return $this->message;
 	}

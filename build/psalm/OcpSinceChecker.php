@@ -1,12 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\EnumCase;
 use Psalm\CodeLocation;
 use Psalm\DocComment;
 use Psalm\Exception\DocblockParseException;
@@ -34,13 +39,12 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		} else {
 			self::checkClassComment($classLike, $statementsSource);
 		}
-
 		foreach ($classLike->stmts as $stmt) {
 			if ($stmt instanceof ClassConst) {
 				self::checkStatementComment($stmt, $statementsSource, 'constant');
 			}
 
-			if ($stmt instanceof ClassMethod) {
+			if ($stmt instanceof ClassMethod && ($stmt->isPublic() || $stmt->isProtected())) {
 				self::checkStatementComment($stmt, $statementsSource, 'method');
 			}
 
@@ -136,6 +140,9 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+		foreach ($parsedDocblock->tags['since'] ?? [] as $since) {
+			self::checkSinceIsReleasable(trim($since), $statementsSource, $stmt);
+		}
 
 		if (isset($parsedDocblock->tags['depreacted'])) {
 			IssueBuffer::maybeAdd(
@@ -180,6 +187,9 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+		foreach ($parsedDocblock->tags['since'] ?? [] as $since) {
+			self::checkSinceIsReleasable(trim($since), $statementsSource, $stmt);
+		}
 
 		if (isset($parsedDocblock->tags['depreacted'])) {
 			IssueBuffer::maybeAdd(
@@ -209,9 +219,46 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 								new CodeLocation($statementsSource, $stmt)
 							)
 						);
+					} else {
+						self::checkSinceIsReleasable($arg->value->value, $statementsSource, $stmt);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * A since version must not be newer than the next patch release of the
+	 * current branch, so backports with an unadjusted since fail
+	 */
+	private static function checkSinceIsReleasable(string $since, FileSource $statementsSource, \PhpParser\Node $stmt): void {
+		// Backports may list multiple versions: "33.0.1, 32.0.7"
+		if (!preg_match('/^\d+(\.\d+)*(\s*,\s*\d+(\.\d+)*)*/', $since, $list)) {
+			return;
+		}
+
+		$maxVersion = self::getMaxSinceVersion();
+		foreach (preg_split('/\s*,\s*/', $list[0]) as $version) {
+			if (version_compare($version, $maxVersion, '<=')) {
+				return;
+			}
+		}
+
+		IssueBuffer::maybeAdd(
+			new InvalidDocblock(
+				'Since version ' . $list[0] . ' is newer than the next release ' . $maxVersion . ' of this branch, please adjust it to the version the change is released in.',
+				new CodeLocation($statementsSource, $stmt)
+			)
+		);
+	}
+
+	private static function getMaxSinceVersion(): string {
+		static $maxVersion = null;
+		if ($maxVersion === null) {
+			require __DIR__ . '/../../version.php';
+			/** @var array{0: int, 1: int, 2: int, 3: int} $OC_Version */
+			$maxVersion = $OC_Version[0] . '.' . $OC_Version[1] . '.' . ($OC_Version[2] + 1);
+		}
+		return $maxVersion;
 	}
 }

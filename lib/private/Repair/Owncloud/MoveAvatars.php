@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\Owncloud;
 
 use OCP\BackgroundJob\IJobList;
@@ -20,10 +21,12 @@ class MoveAvatars implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add move avatar background job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		// only run once
 		if ($this->config->getAppValue('core', 'moveavatarsdone') === 'yes') {

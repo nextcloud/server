@@ -12,11 +12,11 @@ use OC\Session\Memory;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 class MemoryTest extends Session {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new Memory();
 	}
-
 
 	public function testThrowsExceptionOnGetId(): void {
 		$this->expectException(SessionNotAvailableException::class);

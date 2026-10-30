@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OC\Files\Storage\Local;
@@ -40,6 +41,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @param string $path
 	 * @param bool $isDir
 	 */
+	#[\Override]
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void {
 		$this->_setFileInfo($storage, $path, $isDir);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
@@ -82,6 +84,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		return $this->executeStringCheck($operator, $value, $this->getActualValue());
 	}
@@ -89,6 +92,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	protected function getActualValue() {
 		if ($this->mimeType[$this->storage->getId()][$this->path] !== null) {
 			return $this->mimeType[$this->storage->getId()][$this->path];
@@ -145,10 +149,12 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 		);
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		return [ File::class ];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}

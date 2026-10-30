@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions;
 
 use OCP\App\IAppManager;
@@ -25,6 +26,7 @@ class Capabilities implements ICapability {
 	 *
 	 * @return array{files: array{versioning: bool, version_labeling: bool, version_deletion: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'files' => [

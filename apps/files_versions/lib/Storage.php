@@ -15,7 +15,6 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
 use OC\User\NoUserException;
-use OC_User;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
@@ -25,7 +24,7 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files;
+use OCP\Files\Cache\IPropagator;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -41,8 +40,10 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -56,11 +57,17 @@ class Storage {
 	public const DELETE_TRIGGER_QUOTA_EXCEEDED = 2;
 
 	// files for which we can remove the versions after the delete operation was successful
-	private static $deletedFiles = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $deletedFiles = [];
 
-	private static $sourcePathAndUser = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $sourcePathAndUser = [];
 
-	private static $max_versions_per_interval = [
+	private const array MAX_VERSIONS_PER_INTERVAL = [
 		//first 10sec, one version every 2sec
 		1 => ['intervalEndsAfter' => 10,      'step' => 2],
 		//next minute, one version every 10sec
@@ -84,19 +91,20 @@ class Storage {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = Server::get(IUserManager::class);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 		// if the user with the UID doesn't exists, e.g. because the UID points
 		// to a remote user with a federated cloud ID we use the current logged-in
 		// user. We need a valid local user to create the versions
 		if (!$userManager->userExists($uid)) {
-			$uid = OC_User::getUser();
+			$uid = $userInSession;
 		}
 		Filesystem::initMountPoints($uid);
-		if ($uid !== OC_User::getUser()) {
+		if ($uid !== $userInSession) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/' . $uid . '/files');
 			try {
@@ -205,6 +213,7 @@ class Storage {
 		}
 
 		$event = new CreateVersionEvent($file);
+		$eventDispatcher->dispatchTyped($event);
 		$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
 		if ($event->shouldCreateVersion() === false) {
 			return false;
@@ -216,7 +225,6 @@ class Storage {
 		$versionManager->createVersion($user, $file);
 	}
 
-
 	/**
 	 * mark file as deleted so that we can remove the versions if the file is gone
 	 * @param string $path
@@ -226,6 +234,14 @@ class Storage {
 		self::$deletedFiles[$path] = [
 			'uid' => $uid,
 			'filename' => $filename];
+	}
+
+	private static function getUserStoragePropagator(string $uid): ?IPropagator {
+		try {
+			return Server::get(IRootFolder::class)->getUserFolder($uid)->getStorage()->getPropagator();
+		} catch (\Exception) {
+			return null;
+		}
 	}
 
 	/**
@@ -258,10 +274,16 @@ class Storage {
 
 			$versions = self::getVersions($uid, $filename);
 			if (!empty($versions)) {
-				foreach ($versions as $v) {
-					\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path . $v['version'], 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
-					self::deleteVersion($view, $filename . '.v' . $v['version']);
-					\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $v['version'], 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+				$propagator = self::getUserStoragePropagator($uid);
+				$propagator?->beginBatch();
+				try {
+					foreach ($versions as $v) {
+						\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path . $v['version'], 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+						self::deleteVersion($view, $filename . '.v' . $v['version']);
+						\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $v['version'], 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+					}
+				} finally {
+					$propagator?->commitBatch();
 				}
 			}
 		}
@@ -613,21 +635,27 @@ class Storage {
 			return $version < $threshold;
 		});
 
-		foreach ($versions as $version) {
-			$internalPath = $version->getInternalPath();
-			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+		$propagator = self::getUserStoragePropagator($uid);
+		$propagator?->beginBatch();
+		try {
+			foreach ($versions as $version) {
+				$internalPath = $version->getInternalPath();
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 
-			$versionEntity = isset($versionEntities[$version->getId()]) ? $versionEntities[$version->getId()] : null;
-			if (!is_null($versionEntity)) {
-				$versionsMapper->delete($versionEntity);
-			}
+				$versionEntity = isset($versionEntities[$version->getId()]) ? $versionEntities[$version->getId()] : null;
+				if (!is_null($versionEntity)) {
+					$versionsMapper->delete($versionEntity);
+				}
 
-			try {
-				$version->delete();
-				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
-			} catch (NotPermittedException $e) {
-				Server::get(LoggerInterface::class)->error("Missing permissions to delete version for user {$uid}: {$internalPath}", ['app' => 'files_versions', 'exception' => $e]);
+				try {
+					$version->delete();
+					\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+				} catch (NotPermittedException $e) {
+					Server::get(LoggerInterface::class)->error("Missing permissions to delete version for user {$uid}: {$internalPath}", ['app' => 'files_versions', 'exception' => $e]);
+				}
 			}
+		} finally {
+			$propagator?->commitBatch();
 		}
 	}
 
@@ -763,12 +791,8 @@ class Storage {
 		$toDelete = [];  // versions we want to delete
 
 		$interval = 1;
-		$step = Storage::$max_versions_per_interval[$interval]['step'];
-		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
-			$nextInterval = -1;
-		} else {
-			$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
-		}
+		$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
+		$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 
 		$firstVersion = reset($versions);
 
@@ -797,12 +821,16 @@ class Storage {
 					$newInterval = false; // version checked so we can move to the next one
 				} else { // time to move on to the next interval
 					$interval++;
-					$step = Storage::$max_versions_per_interval[$interval]['step'];
+					if ($interval > count(Storage::MAX_VERSIONS_PER_INTERVAL)) {
+						/* Should never happen, as last interval has -1 as nextInterval */
+						throw new \Exception('MAX_VERSIONS_PER_INTERVAL is malformed or there is a logic issue');
+					}
+					$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
 					$nextVersion = $prevTimestamp - $step;
-					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
+					if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
 						$nextInterval = -1;
 					} else {
-						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+						$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 					}
 					$newInterval = true; // we changed the interval -> check same version with new interval
 				}
@@ -838,6 +866,7 @@ class Storage {
 	 * @param string $filename path to file to expire
 	 * @param string $uid user for which to expire the version
 	 * @return bool|int|null
+	 * @throws UserNotFoundException
 	 */
 	public static function expire($filename, $uid) {
 		$expiration = self::getExpiration();
@@ -873,7 +902,7 @@ class Storage {
 
 			$softQuota = true;
 			$quota = $user->getQuota();
-			if ($quota === null || $quota === 'none') {
+			if ($quota === 'none') {
 				$quota = Filesystem::free_space('/');
 				$softQuota = false;
 			} else {
@@ -889,15 +918,11 @@ class Storage {
 				if ($softQuota) {
 					$root = Server::get(IRootFolder::class);
 					$userFolder = $root->getUserFolder($uid);
-					if (is_null($userFolder)) {
-						$availableSpace = 0;
+					$free = $quota - $userFolder->getSize(false); // remaining free space for user
+					if ($free > 0) {
+						$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
 					} else {
-						$free = $quota - $userFolder->getSize(false); // remaining free space for user
-						if ($free > 0) {
-							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
-						} else {
-							$availableSpace = $free - $versionsSize;
-						}
+						$availableSpace = $free - $versionsSize;
 					}
 				} else {
 					$availableSpace = $quota;
@@ -928,47 +953,53 @@ class Storage {
 				$versionsSize = $versionsSize - $sizeOfDeletedVersions;
 			}
 
-			foreach ($toDelete as $key => $path) {
-				// Make sure to cleanup version table relations as expire does not pass deleteVersion
-				try {
-					/** @var VersionsMapper $versionsMapper */
-					$versionsMapper = Server::get(VersionsMapper::class);
-					$file = Server::get(IRootFolder::class)->getUserFolder($uid)->get($filename);
-					$pathparts = pathinfo($path);
-					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
-					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
-						continue;
+			$propagator = self::getUserStoragePropagator($uid);
+			$propagator?->beginBatch();
+			try {
+				foreach ($toDelete as $key => $path) {
+					// Make sure to cleanup version table relations as expire does not pass deleteVersion
+					try {
+						/** @var VersionsMapper $versionsMapper */
+						$versionsMapper = Server::get(VersionsMapper::class);
+						$file = Server::get(IRootFolder::class)->getUserFolder($uid)->get($filename);
+						$pathparts = pathinfo($path);
+						$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
+						$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
+						if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
+							continue;
+						}
+						$versionsMapper->delete($versionEntity);
+					} catch (DoesNotExistException $e) {
 					}
-					$versionsMapper->delete($versionEntity);
-				} catch (DoesNotExistException $e) {
+
+					\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
+					self::deleteVersion($versionsFileview, $path);
+					\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
+					unset($allVersions[$key]); // update array with the versions we keep
+					$logger->info('Expire: ' . $path, ['app' => 'files_versions']);
 				}
 
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
-				self::deleteVersion($versionsFileview, $path);
-				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
-				unset($allVersions[$key]); // update array with the versions we keep
-				$logger->info('Expire: ' . $path, ['app' => 'files_versions']);
-			}
-
-			// Check if enough space is available after versions are rearranged.
-			// If not we delete the oldest versions until we meet the size limit for versions,
-			// but always keep the two latest versions
-			$numOfVersions = count($allVersions) - 2 ;
-			$i = 0;
-			// sort oldest first and make sure that we start at the first element
-			ksort($allVersions);
-			reset($allVersions);
-			while ($availableSpace < 0 && $i < $numOfVersions) {
-				$version = current($allVersions);
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $version['path'] . '.v' . $version['version'], 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
-				self::deleteVersion($versionsFileview, $version['path'] . '.v' . $version['version']);
-				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $version['path'] . '.v' . $version['version'], 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
-				$logger->info('running out of space! Delete oldest version: ' . $version['path'] . '.v' . $version['version'], ['app' => 'files_versions']);
-				$versionsSize -= $version['size'];
-				$availableSpace += $version['size'];
-				next($allVersions);
-				$i++;
+				// Check if enough space is available after versions are rearranged.
+				// If not we delete the oldest versions until we meet the size limit for versions,
+				// but always keep the two latest versions
+				$numOfVersions = count($allVersions) - 2 ;
+				$i = 0;
+				// sort oldest first and make sure that we start at the first element
+				ksort($allVersions);
+				reset($allVersions);
+				while ($availableSpace < 0 && $i < $numOfVersions) {
+					$version = current($allVersions);
+					\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $version['path'] . '.v' . $version['version'], 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
+					self::deleteVersion($versionsFileview, $version['path'] . '.v' . $version['version']);
+					\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $version['path'] . '.v' . $version['version'], 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
+					$logger->info('running out of space! Delete oldest version: ' . $version['path'] . '.v' . $version['version'], ['app' => 'files_versions']);
+					$versionsSize -= $version['size'];
+					$availableSpace += $version['size'];
+					next($allVersions);
+					$i++;
+				}
+			} finally {
+				$propagator?->commitBatch();
 			}
 
 			return $versionsSize; // finally return the new size of the version history

@@ -63,6 +63,8 @@ class TokenService {
 	 * ]
 	 * Created auth tokens are valid for 1 hour.
 	 *
+	 * With this, admin tokens can be created. Therefore, the admin delegation for webhooks is considered a full admin role. This is by design.
+	 *
 	 * @param WebhookListener $webhookListener
 	 * @param ?string $triggerUserId the user that triggered the webhook call
 	 * @return array{
@@ -84,7 +86,7 @@ class TokenService {
 					$tokens['user_ids'][$userId] = [
 						'userId' => $userId,
 						'token' => $this->createEphemeralToken($userId),
-						'baseUrl' => $this->urlGenerator->getBaseUrl()
+						'baseUrl' => rtrim($this->urlGenerator->getAbsoluteURL('/'), '/'),
 					];
 				} catch (\Exception $e) {
 					$this->logger->error('Webhook token creation for user ' . $userId . ' failed: ' . $e->getMessage(), ['exception' => $e]);
@@ -104,7 +106,7 @@ class TokenService {
 						$tokens['owner'] = [
 							'userId' => $ownerId,
 							'token' => $this->createEphemeralToken($ownerId),
-							'baseUrl' => $this->urlGenerator->getBaseUrl()
+							'baseUrl' => rtrim($this->urlGenerator->getAbsoluteURL('/'), '/'),
 						];
 						break;
 					case 'trigger':
@@ -115,7 +117,7 @@ class TokenService {
 						$tokens['trigger'] = [
 							'userId' => $triggerUserId,
 							'token' => $this->createEphemeralToken($triggerUserId),
-							'baseUrl' => $this->urlGenerator->getBaseUrl()
+							'baseUrl' => rtrim($this->urlGenerator->getAbsoluteURL('/'), '/'),
 						];
 						break;
 					default:
