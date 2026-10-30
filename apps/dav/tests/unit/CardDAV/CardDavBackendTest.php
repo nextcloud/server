@@ -606,6 +606,33 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals($uri0, $changes['added'][0]);
 	}
 
+	public function testSyncSupportTruncatesIncrementalChanges(): void {
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn (string $key, int $default) => $key === 'carddav_sync_request_truncation' ? 2 : $default);
+
+		$bookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$syncToken = $this->backend->getChangesForAddressBook($bookId, '', 1)['syncToken'];
+
+		$uris = [];
+		for ($i = 0; $i < 3; $i++) {
+			$uri = $this->getUniqueID('card');
+			$this->backend->createCard($bookId, $uri, str_replace('UID:Test', 'UID:Test' . $i, $this->vcardTest0));
+			$uris[] = $uri;
+		}
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$syncToken, 1, null);
+		$this->assertTrue($changes['result_truncated']);
+		$this->assertSame([$uris[0], $uris[1]], $changes['added']);
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$changes['syncToken'], 1, null);
+		$this->assertTrue($changes['result_truncated']);
+		$this->assertSame([$uris[1], $uris[2]], $changes['added']);
+
+		$changes = $this->backend->getChangesForAddressBook($bookId, (string)$changes['syncToken'], 1, null);
+		$this->assertArrayNotHasKey('result_truncated', $changes);
+		$this->assertSame([$uris[2]], $changes['added']);
+	}
+
 	public function testSharing(): void {
 		$this->userManager->expects($this->any())
 			->method('userExists')
