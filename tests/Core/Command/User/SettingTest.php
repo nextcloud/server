@@ -167,6 +167,27 @@ class SettingTest extends TestCase {
 				false,
 				'The "error-if-not-exists" option can only be used together with "delete".',
 			],
+			[
+				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
+				[['ignore-missing-user', true], ['force', true]],
+				[],
+				false,
+				false,
+			],
+			[
+				[['uid', 'username'], ['key', 'configkey']],
+				[['ignore-missing-user', true], ['delete', true], ['force', true]],
+				[],
+				false,
+				false,
+			],
+			[
+				[['uid', 'username'], ['key', 'configkey'], ['value', null]],
+				[['ignore-missing-user', true], ['force', true]],
+				[],
+				false,
+				'The "force" option can only be used together with "value" or "delete".',
+			],
 		];
 	}
 
@@ -375,6 +396,7 @@ class SettingTest extends TestCase {
 		$this->consoleInput->method('hasParameterOption')
 			->willReturnMap([
 				['--update-only', false, false],
+				['--force', false, false],
 			]);
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
@@ -404,6 +426,7 @@ class SettingTest extends TestCase {
 			->willReturnMap([
 				['--delete', false, true],
 				['--error-if-not-exists', false, false],
+				['--force', false, false],
 			]);
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
@@ -417,6 +440,60 @@ class SettingTest extends TestCase {
 			->method('deleteUserValue');
 
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testExecuteSetRejectedForced(): void {
+		$command = $this->getCommand(['checkInput']);
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', 'configkey'],
+				['value', 'setValue'],
+			]);
+		$this->consoleInput->method('hasParameterOption')
+			->willReturnMap([
+				['--update-only', false, false],
+				['--force', false, true],
+			]);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforePreferenceSetEvent $event): void {
+				$event->setValid(false);
+			});
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('username', 'appname', 'configkey', 'setValue');
+
+		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testExecuteDeleteRejectedForced(): void {
+		$command = $this->getCommand(['checkInput']);
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', 'configkey'],
+			]);
+		$this->consoleInput->method('hasParameterOption')
+			->willReturnMap([
+				['--delete', false, true],
+				['--error-if-not-exists', false, false],
+				['--force', false, true],
+			]);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforePreferenceDeletedEvent $event): void {
+				$event->setValid(false);
+			});
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('username', 'appname', 'configkey');
+
+		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
 	public static function dataExecuteGet(): array {
