@@ -62,7 +62,7 @@ jobs:
           # the delegate and allow the HEIC/HEIF/AVIF coders so decoding succeeds.
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libheif1 libheif-dev
-          for policy in /etc/ImageMagick-{6,7}/policy.xml; do
+          for policy in /etc/ImageMagick-[67]/policy.xml; do
             if [ -f "$policy" ]; then
               sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF)"/rights="read|write" pattern="\1"/g' "$policy"
             fi
@@ -112,5 +112,5 @@ jobs:
         if: always()
         run: |
           gs --version
-          cat /etc/ImageMagick-6/policy.xml
+          cat /etc/ImageMagick-[67]/policy.xml
           cat data/nextcloud.log
