@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\SystemTag\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 
 /**
  * Event triggered when creating a new tag.
  *
  * @since 35.0.0
  */
-#[Consumable(since: '35.0.0')]
+#[Listenable(since: '35.0.0')]
 final class TagCreatedEvent extends AbstractTagEvent {
 }
