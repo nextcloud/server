@@ -38,6 +38,7 @@ class SyncServiceTest extends TestCase {
 	protected IClient&MockObject $client;
 	protected IConfig&MockObject $config;
 	protected SyncService $service;
+	protected int $transactionDepth = 0;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -57,6 +58,7 @@ class SyncServiceTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->trackTransactionDepth($this->dbConnection);
 		$this->logger = new NullLogger();
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
@@ -75,6 +77,22 @@ class SyncServiceTest extends TestCase {
 			$this->logger,
 			$this->converter,
 		);
+	}
+
+	private function trackTransactionDepth(IDBConnection&MockObject $dbConnection): void {
+		$dbConnection->method('beginTransaction')->willReturnCallback(function (): void {
+			$this->transactionDepth++;
+		});
+		$dbConnection->method('commit')->willReturnCallback(function (): void {
+			$this->transactionDepth--;
+		});
+		$dbConnection->method('rollBack')->willReturnCallback(function (): void {
+			$this->transactionDepth--;
+		});
+	}
+
+	private function assertNotInTransaction(): void {
+		$this->assertSame(0, $this->transactionDepth, 'Expected no open transaction');
 	}
 
 	public function testEmptySync(): void {
@@ -116,7 +134,8 @@ class SyncServiceTest extends TestCase {
 
 	public function testSyncWithNewElement(): void {
 		$this->backend->expects($this->exactly(1))
-			->method('createCard');
+			->method('createCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$this->backend->expects($this->exactly(0))
 			->method('updateCard');
 		$this->backend->expects($this->exactly(0))
@@ -188,7 +207,8 @@ END:VCARD';
 		$this->backend->expects($this->exactly(0))
 			->method('createCard');
 		$this->backend->expects($this->exactly(1))
-			->method('updateCard');
+			->method('updateCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$this->backend->expects($this->exactly(0))
 			->method('deleteCard');
 
@@ -421,8 +441,10 @@ END:VCARD';
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
-		$backend->expects($this->exactly($createCalls))->method('createCard');
-		$backend->expects($this->exactly($updateCalls))->method('updateCard');
+		$backend->expects($this->exactly($createCalls))->method('createCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
+		$backend->expects($this->exactly($updateCalls))->method('updateCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$backend->expects($this->exactly($deleteCalls))->method('deleteCard');
 
 		$backend->method('getCard')->willReturnOnConsecutiveCalls(false, [
@@ -435,6 +457,7 @@ END:VCARD';
 
 		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
+		$this->trackTransactionDepth($dbConnection);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
@@ -444,7 +467,10 @@ END:VCARD';
 		$converter = $this->createMock(Converter::class);
 		$converter->expects($this->any())
 			->method('createCardFromUser')
-			->willReturn($this->createMock(VCard::class));
+			->willReturnCallback(function () {
+				$this->assertNotInTransaction();
+				return $this->createMock(VCard::class);
+			});
 
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
