@@ -44,8 +44,9 @@ From least to most privileged:
 - The `testing` app is a CI helper, not enabled and out of scope.
 - Shipped apps that live in their own repositories (activity, notifications, text, circles, …) are not installed.
 - Try `curl -u alice:alice -X PROPFIND http://localhost/remote.php/dav/files/alice/`.
-- `occ` runs `/src/occ` as `www-data`, the user Apache runs as, and `as-www-data` runs any other command as that user. Use `occ` to create more users, groups and shares.
+- `occ` runs `/src/occ` as `www-data`, the user Apache runs as, and `as-www-data` runs any other command as that user. Use `occ` to create more users, groups and shares, and to enable other apps from `apps/` a scenario needs.
 - PHPUnit: `as-www-data composer run test -- tests/lib/<Area>` or `-- apps/<app>/tests`. Some tests are written for CI and can leave the instance unusable. Run only the tests for the code you are looking at, and run `nextcloud-reset` if the instance stops working.
+- PHP errors are not shown in responses. Nextcloud logs to `/var/lib/nextcloud/data/nextcloud.log`.
 - Not available here: Redis, an LDAP server, and the S3, Swift and Azure object stores. Tests that need them are skipped.
 
 ## How you rate severity
@@ -75,7 +76,7 @@ Examples from published advisories:
 - Features that are disabled by default and carry an insecurity warning, such as the LibreOffice preview provider.
 
 ## Reports and patches
-- One report per root cause, naming the principal, the boundary crossed, and every affected route.
+- One report per root cause, naming the commit, the affected file and function, the principal, the boundary crossed, and every affected route.
 - The build leaves `.htaccess` (the install appends its `ErrorDocument` block), `lib/composer/composer/installed.json`, `installed.php` and `InstalledVersions.php` (the development install) changed in `/src`. Leave them out of patches.
 - Include a reproducer: HTTP requests against the instance above, or a PHPUnit test that fails before the fix.
 - Patches should be minimal, fix the check where it is enforced rather than in one caller, and say whether sibling routes have the same gap. Match the surrounding code: tabs, and an SPDX header in new files.
