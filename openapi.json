@@ -19503,8 +19503,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "notificationType",
-                                    "resourceType"
+                                    "notificationType"
                                 ],
                                 "properties": {
                                     "notificationType": {
@@ -19513,6 +19512,7 @@
                                     },
                                     "resourceType": {
                                         "type": "string",
+                                        "nullable": true,
                                         "description": "calendar, file, contact,..."
                                     },
                                     "providerId": {
@@ -19527,6 +19527,16 @@
                                         "additionalProperties": {
                                             "type": "object"
                                         }
+                                    },
+                                    "senderDomain": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Domain of the sending server"
+                                    },
+                                    "shareType": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Type of the recipient the notification is about, e.g. user"
                                     }
                                 }
                             }
@@ -19568,7 +19578,7 @@
                         }
                     },
                     "501": {
-                        "description": "The resource type is not supported",
+                        "description": "The resource type or the notification type is not supported",
                         "content": {
                             "application/json": {
                                 "schema": {
