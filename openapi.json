@@ -14624,12 +14624,10 @@
                     {
                         "name": "fileId",
                         "in": "query",
-                        "description": "ID of the file",
+                        "description": "ID of the file, optionally followed by the instance ID as returned by DAV",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "minimum": 1
+                            "type": "string"
                         }
                     },
                     {
