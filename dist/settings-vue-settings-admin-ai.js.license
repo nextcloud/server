@@ -139,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.5.0
+	- version: 6.5.1
 	- license: MIT
 - unist-builder
 	- version: 4.0.0
@@ -148,7 +148,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: MIT
 - unist-util-visit-parents
-	- version: 6.0.2
+	- version: 6.1.0
 	- license: MIT
 - vue-demi
 	- version: 0.14.10
