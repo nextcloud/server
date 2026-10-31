@@ -17,11 +17,14 @@ use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -202,6 +205,68 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(19, $share->getPermissions());
 		$this->assertEquals('token', $share->getToken());
 		$this->assertEquals($expirationDate, $share->getExpirationDate());
+	}
+
+	public function testCreateSameNameAsMountedFederatedShare(): void {
+		// shareOwner has a federated share mounted at /myFile, but the shared node is another one with the same name
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share_external')
+			->values([
+				'id' => $qb->createNamedParameter(1000, IQueryBuilder::PARAM_INT),
+				'remote' => $qb->createNamedParameter('https://remote.test'),
+				'remote_id' => $qb->createNamedParameter('10'),
+				'refresh_token' => $qb->createNamedParameter('remoteToken'),
+				'name' => $qb->createNamedParameter('/myFile'),
+				'owner' => $qb->createNamedParameter('remoteOwner'),
+				'user' => $qb->createNamedParameter('shareOwner'),
+				'mountpoint' => $qb->createNamedParameter('/myFile'),
+				'mountpoint_hash' => $qb->createNamedParameter(md5('/myFile')),
+				'accepted' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+			])
+			->executeStatement();
+
+		$share = $this->shareManager->newShare();
+
+		$node = $this->createMock(File::class);
+		$node->method('getId')->willReturn(42);
+		$node->method('getName')->willReturn('myFile');
+
+		$share->setSharedWith('user@server.com')
+			->setSharedBy('sharedBy')
+			->setShareOwner('shareOwner')
+			->setPermissions(19)
+			->setShareType(IShare::TYPE_REMOTE)
+			->setNode($node)
+			->setTarget('/myFile');
+
+		$mountedShare = $this->createMock(Folder::class);
+		$mountedShare->method('getId')->willReturn(43);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('get')
+			->with('/myFile')
+			->willReturn($mountedShare);
+		$this->rootFolder->method('getUserFolder')
+			->with('shareOwner')
+			->willReturn($userFolder);
+
+		$this->tokenHandler->method('generateToken')->willReturn('token');
+		$this->addressHandler->method('generateRemoteURL')
+			->willReturn('http://localhost/');
+
+		$this->notifications->expects($this->never())
+			->method('requestReShare');
+		$this->notifications->expects($this->once())
+			->method('sendRemoteShare')
+			->willReturn(true);
+
+		try {
+			$share = $this->provider->create($share);
+		} finally {
+			$this->connection->getQueryBuilder()->delete('share_external')->executeStatement();
+		}
+
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals('token', $share->getToken());
 	}
 
 	public function testCreateCouldNotFindServer(): void {
