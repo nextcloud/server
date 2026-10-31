@@ -693,20 +693,20 @@ class Manager implements IManager {
 			$checkClass = $check['class'];
 			$reflection = new \ReflectionClass($checkClass);
 			if ($checkClass !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames(), true)) {
-				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
+				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$checkClass]));
 			}
 
 			try {
 				/** @var ICheck $instance */
 				$instance = $this->container->get($checkClass);
 			} catch (ContainerExceptionInterface) {
-				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
+				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$checkClass]));
 			}
 
 			if (!empty($instance->supportedEntities())
 				&& !in_array($entity, $instance->supportedEntities(), true)
 			) {
-				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
+				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$checkClass]));
 			}
 
 			$instance->validateCheck($check['operator'], $check['value']);
