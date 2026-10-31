@@ -907,11 +907,13 @@ const actions = {
 	 * @return {Promise}
 	 */
 	sendWelcomeMail(context, userid) {
-		return api.requireAdmin().then(() => {
-			return api.post(generateOcsUrl('cloud/users/{userid}/welcome', { userid }))
-				.then(() => true)
-				.catch((error) => { throw error })
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+		return api.requireAdmin()
+			.then(() => api.post(generateOcsUrl('cloud/users/{userid}/welcome', { userid })))
+			.then(() => true)
+			.catch((error) => {
+				context.commit('API_FAILURE', { userid, error })
+				return false
+			})
 	},
 	/**
 	 * Migrate local storage keys to database
