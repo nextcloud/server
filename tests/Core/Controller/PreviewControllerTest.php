@@ -93,6 +93,38 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	public function testFileIdWithInstanceId(): void {
+		$instanceId = \OC_Util::getInstanceId();
+		$this->userFolder->expects($this->once())
+			->method('getFirstNodeById')
+			->with(12345)
+			->willReturn(null);
+
+		$res = $this->controller->getPreviewByFileId('00012345' . $instanceId);
+		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testFileIdWithInstanceIdStartingWithDigit(): void {
+		$config = \OCP\Server::get(\OCP\IConfig::class);
+		$oldInstanceId = $config->getSystemValue('instanceid');
+		$config->setSystemValue('instanceid', '1abc123');
+		try {
+			$this->userFolder->expects($this->once())
+				->method('getFirstNodeById')
+				->with(12345)
+				->willReturn(null);
+
+			$res = $this->controller->getPreviewByFileId('000123451abc123');
+			$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+
+			$this->assertEquals($expected, $res);
+		} finally {
+			$config->setSystemValue('instanceid', $oldInstanceId);
+		}
+	}
+
 	public function testNoPreviewAndNoIcon(): void {
 		$file = $this->createMock(File::class);
 		$this->userFolder->method('get')

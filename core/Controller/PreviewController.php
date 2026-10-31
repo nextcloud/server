@@ -89,7 +89,7 @@ class PreviewController extends Controller {
 	/**
 	 * Get a preview by file ID
 	 *
-	 * @param positive-int $fileId ID of the file
+	 * @param string $fileId ID of the file, optionally followed by the instance ID as returned by DAV
 	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
 	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
@@ -110,7 +110,7 @@ class PreviewController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreviewByFileId(
-		int $fileId,
+		string $fileId,
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
@@ -121,7 +121,15 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$node = $this->userFolder->getFirstNodeById($fileId);
+		$instanceId = \OC_Util::getInstanceId();
+		if ($instanceId !== '' && str_ends_with($fileId, $instanceId)) {
+			$fileId = substr($fileId, 0, -strlen($instanceId));
+		}
+		if (!ctype_digit($fileId) || (int)$fileId < 1) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		$node = $this->userFolder->getFirstNodeById((int)$fileId);
 
 		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
