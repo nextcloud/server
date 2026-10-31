@@ -596,6 +596,8 @@ return array(
     'OCP\\Files\\ObjectStore\\IObjectStore' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStore.php',
     'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
     'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
+    'OCP\\Files\\ObjectStore\\IObjectStorePresignedUpload' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStorePresignedUpload.php',
+    'OCP\\Files\\ObjectStore\\IObjectStoreStorage' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreStorage.php',
     'OCP\\Files\\ReservedWordException' => $baseDir . '/lib/public/Files/ReservedWordException.php',
     'OCP\\Files\\Search\\ISearchBinaryOperator' => $baseDir . '/lib/public/Files/Search/ISearchBinaryOperator.php',
     'OCP\\Files\\Search\\ISearchComparison' => $baseDir . '/lib/public/Files/Search/ISearchComparison.php',

@@ -637,6 +637,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\ObjectStore\\IObjectStore' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStore.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
+        'OCP\\Files\\ObjectStore\\IObjectStorePresignedUpload' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStorePresignedUpload.php',
+        'OCP\\Files\\ObjectStore\\IObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreStorage.php',
         'OCP\\Files\\ReservedWordException' => __DIR__ . '/../../..' . '/lib/public/Files/ReservedWordException.php',
         'OCP\\Files\\Search\\ISearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/public/Files/Search/ISearchBinaryOperator.php',
         'OCP\\Files\\Search\\ISearchComparison' => __DIR__ . '/../../..' . '/lib/public/Files/Search/ISearchComparison.php',

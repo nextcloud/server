@@ -12,8 +12,13 @@ use Exception;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use OCP\Files\ObjectStore\IObjectStorePresignedUpload;
 
-class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaData {
+class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStorePresignedUpload, IObjectStoreMetaData {
+	/** S3's limits for one part of a multipart upload. */
+	private const MAX_PART_NUMBER = 10000;
+	private const MAX_PART_SIZE = 5 * 1024 * 1024 * 1024;
+
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
@@ -100,6 +105,91 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'Key' => $urn,
 			'UploadId' => $uploadId,
 		]);
+	}
+
+	#[\Override]
+	public function canPreSignUploads(): bool {
+		// A customer-provided key would have to be sent with every part, and
+		// legacy (V2) signatures can't sign a checksum.
+		return $this->getSSECKey() === null && empty($this->params['legacy_auth']);
+	}
+
+	#[\Override]
+	public function initiatePreSignedMultipartUpload(string $urn, ?string $mimetype = null): string {
+		if (!$this->canPreSignUploads()) {
+			throw new Exception('This object store configuration can\'t take presigned uploads');
+		}
+		$args = [
+			'Bucket' => $this->bucket,
+			'Key' => $urn,
+			'ChecksumAlgorithm' => 'SHA256',
+			'StorageClass' => $this->storageClass,
+		] + $this->getServerSideEncryptionParameters();
+		if ($mimetype !== null && $mimetype !== '') {
+			$args['ContentType'] = $mimetype;
+		}
+		$uploadId = $this->getConnection()->createMultipartUpload($args)->get('UploadId');
+		if (!is_string($uploadId) || $uploadId === '') {
+			throw new Exception('No upload id returned');
+		}
+		return $uploadId;
+	}
+
+	#[\Override]
+	public function preSignUploadPart(string $urn, string $uploadId, int $partNumber, int $size, string $sha256, \DateTimeInterface $expiration): array {
+		if ($partNumber < 1 || $partNumber > self::MAX_PART_NUMBER) {
+			throw new \InvalidArgumentException('The part number must be between 1 and ' . self::MAX_PART_NUMBER);
+		}
+		if ($size < 0 || $size > self::MAX_PART_SIZE) {
+			throw new \InvalidArgumentException('A part has at most ' . self::MAX_PART_SIZE . ' bytes');
+		}
+		if (preg_match('/^[0-9a-f]{64}$/', $sha256) !== 1) {
+			throw new \InvalidArgumentException('The SHA-256 must be lowercase hex');
+		}
+		if (!$this->canPreSignUploads()) {
+			throw new Exception('This object store configuration can\'t take presigned uploads');
+		}
+		$command = $this->getConnection()->getCommand('UploadPart', [
+			'Bucket' => $this->bucket,
+			'Key' => $urn,
+			'UploadId' => $uploadId,
+			'PartNumber' => $partNumber,
+			'ContentLength' => $size,
+			'ChecksumSHA256' => base64_encode((string)hex2bin($sha256)),
+		]);
+		$request = $this->getConnection()->createPresignedRequest($command, $expiration);
+
+		// The client has to send exactly the headers the signature covers;
+		// its HTTP library sets the host from the URL.
+		parse_str($request->getUri()->getQuery(), $query);
+		$signed = is_string($query['X-Amz-SignedHeaders'] ?? null) ? explode(';', $query['X-Amz-SignedHeaders']) : [];
+		$headers = [];
+		foreach ($signed as $name) {
+			if ($name !== 'host' && $request->hasHeader($name)) {
+				$headers[$name] = $request->getHeaderLine($name);
+			}
+		}
+		return ['method' => 'PUT', 'url' => (string)$request->getUri(), 'headers' => $headers];
+	}
+
+	#[\Override]
+	public function getPreSignedUploadParts(string $urn, string $uploadId): array {
+		$parts = [];
+		foreach ($this->getMultipartUploads($urn, $uploadId) as $part) {
+			$checksum = $part['ChecksumSHA256'] ?? null;
+			$sha256 = null;
+			if (is_string($checksum) && $checksum !== '') {
+				$raw = base64_decode($checksum, true);
+				$sha256 = ($raw !== false && strlen($raw) === 32) ? bin2hex($raw) : null;
+			}
+			$parts[] = [
+				'number' => (int)$part['PartNumber'],
+				'size' => (int)$part['Size'],
+				'sha256' => $sha256,
+			];
+		}
+		usort($parts, static fn (array $a, array $b): int => $a['number'] <=> $b['number']);
+		return $parts;
 	}
 
 	private function parseS3Metadata(array $metadata): array {

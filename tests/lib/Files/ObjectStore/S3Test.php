@@ -190,4 +190,40 @@ class S3Test extends ObjectStoreTestCase {
 
 		$this->assertNoUpload('testfilesizes');
 	}
+
+	public function testPreSignedMultipartUpload(): void {
+		$this->cleanupAfter('presigned');
+		$s3 = $this->getInstance();
+		if (!$s3->canPreSignUploads()) {
+			$this->markTestSkipped('The object store configuration can\'t take presigned uploads');
+		}
+		$first = str_repeat('A', 5 * 1024 * 1024);
+		$last = 'the end';
+		$expires = new \DateTimeImmutable('+15 minutes');
+		$client = new \GuzzleHttp\Client();
+		$put = static function (array $request, string $body) use ($client): int {
+			return $client->request($request['method'], $request['url'], [
+				'headers' => $request['headers'],
+				'body' => $body,
+				'http_errors' => false,
+			])->getStatusCode();
+		};
+
+		$uploadId = $s3->initiatePreSignedMultipartUpload('presigned', 'text/plain');
+		$one = $s3->preSignUploadPart('presigned', $uploadId, 1, strlen($first), hash('sha256', $first), $expires);
+		$two = $s3->preSignUploadPart('presigned', $uploadId, 2, strlen($last), hash('sha256', $last), $expires);
+
+		$this->assertGreaterThanOrEqual(400, $put($two, 'other bytes'), 'A part that doesn\'t match its checksum is refused');
+		$this->assertSame(200, $put($one, $first));
+		$this->assertSame(200, $put($two, $last));
+		$this->assertSame([
+			['number' => 1, 'size' => strlen($first), 'sha256' => hash('sha256', $first)],
+			['number' => 2, 'size' => strlen($last), 'sha256' => hash('sha256', $last)],
+		], $s3->getPreSignedUploadParts('presigned', $uploadId));
+
+		$size = $s3->completeMultipartUpload('presigned', $uploadId, $s3->getMultipartUploads('presigned', $uploadId));
+		$this->assertSame(strlen($first) + strlen($last), $size);
+		$this->assertSame($first . $last, stream_get_contents($s3->readObject('presigned')));
+		$this->assertNoUpload('presigned');
+	}
 }
