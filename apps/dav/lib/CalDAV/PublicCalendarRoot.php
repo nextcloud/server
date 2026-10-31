@@ -8,6 +8,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -67,13 +68,12 @@ class PublicCalendarRoot extends Collection {
 
 	/**
 	 * Checks if the public calendar should be visible or not, based on
-	 * the configuration of the `hide_disabled_user_shares` setting within
-	 * `files_sharing` and the status of the owning user (disabled or not).
+	 * the configuration of the `hide_disabled_user_shares_scope` setting within
+	 * `core` and the status of the owning user (disabled or not).
+	 * Public calendars are external shares, hidden unless the scope is `none`.
 	 */
 	private function validateVisibility(string $principalUri): bool {
-		$hideCalendarsOfDisabledUsers = $this->appConfig->getValueBool(
-			'files_sharing', 'hide_disabled_user_shares', true
-		);
+		$hideCalendarsOfDisabledUsers = $this->appConfig->getValueString('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE) !== 'none';
 
 		if (!$hideCalendarsOfDisabledUsers) {
 			return true;

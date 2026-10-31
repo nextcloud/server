@@ -21,10 +21,12 @@ use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Sharing\SharingManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Interaction\Actions\ShareAction;
 use OCP\Interaction\InteractionRestrictedException;
@@ -3727,6 +3729,30 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 			],
 		], $formatted['owner']);
+	}
+
+	public function testGetShareDisabledOwnerWithoutHiding(): void {
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueString('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE, 'none');
+
+		try {
+			$accessContext = new ShareAccessContext($this->owner);
+
+			$this->dbConnection->beginTransaction();
+			$share = $this->manager->createShare($accessContext);
+			$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+			$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+			$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+			$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+			$this->dbConnection->commit();
+
+			$this->owner->setEnabled(false);
+
+			$formatted = $this->getShare(new ShareAccessContext(currentUser: $this->user1), $share->id);
+			$this->assertEquals('owner', $formatted['owner']['user_id']);
+		} finally {
+			$appConfig->deleteKey('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE);
+		}
 	}
 
 	public function testGetShareDisabledInitiator(): void {

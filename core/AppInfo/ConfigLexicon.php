@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
 	public const SHARE_LINK_EXPIRE_DATE_DEFAULT = 'shareapi_default_expire_date';
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
+	public const SHARE_HIDE_DISABLED_USER_SHARES_SCOPE = 'hide_disabled_user_shares_scope';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 	public const DAV_REPAIR_REMOVED_BROKEN_PROPERTIES = 'dav_repair_removed_broken_properties';
@@ -96,6 +97,12 @@ class ConfigLexicon implements ILexicon {
 					default => false,
 				},
 				definition: 'Enforce expiration date for shares via link or mail'
+			),
+			new Entry(
+				key: self::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE,
+				type: ValueType::STRING,
+				defaultRaw: 'external',
+				definition: 'Shares involving a disabled account to hide: "all", "external" (giving access outside of this instance) or "none"',
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM'),

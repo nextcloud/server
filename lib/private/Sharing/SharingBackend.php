@@ -31,6 +31,7 @@ use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -635,7 +636,8 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	private function hideDisabledUserShares(): bool {
-		return $this->appConfig->getValueString('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes';
+		// Recipient types are not classified as internal or external, so `external` hides all shares
+		return $this->appConfig->getValueString('core', ConfigLexicon::SHARE_HIDE_DISABLED_USER_SHARES_SCOPE) !== 'none';
 	}
 
 	// TODO: Split up the method

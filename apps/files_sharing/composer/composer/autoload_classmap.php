@@ -92,6 +92,7 @@ return array(
     'OCA\\Files_Sharing\\Migration\\Version33000Date20251030081949' => $baseDir . '/../lib/Migration/Version33000Date20251030081949.php',
     'OCA\\Files_Sharing\\Migration\\Version33000Date20260306120000' => $baseDir . '/../lib/Migration/Version33000Date20260306120000.php',
     'OCA\\Files_Sharing\\Migration\\Version33000Date20260306150000' => $baseDir . '/../lib/Migration/Version33000Date20260306150000.php',
+    'OCA\\Files_Sharing\\Migration\\Version36000Date20261029120000' => $baseDir . '/../lib/Migration/Version36000Date20261029120000.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
