@@ -238,4 +238,27 @@ class AppSettingsControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
 	}
+
+	public static function dataCreateProxyPreviewUrl(): array {
+		return [
+			'empty' => ['', ''],
+			'already proxied by the app store' => [
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+			],
+			'source URL' => [
+				'https://example.org/a.png',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+			],
+			'source URL encoding to + and /' => [
+				'https://example.org/?a=>>>',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy8_YT0-Pj4=',
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateProxyPreviewUrl')]
+	public function testCreateProxyPreviewUrl(string $url, string $expected): void {
+		$this->assertSame($expected, self::invokePrivate($this->appSettingsController, 'createProxyPreviewUrl', [$url]));
+	}
 }
