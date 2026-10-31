@@ -32,7 +32,7 @@ class LazySearchBackend implements ISearchBackend {
 	#[\Override]
 	public function isValidScope(string $href, $depth, ?string $path): bool {
 		if ($this->backend) {
-			return $this->backend->getArbiterPath();
+			return $this->backend->isValidScope($href, $depth, $path);
 		}
 		return false;
 	}
