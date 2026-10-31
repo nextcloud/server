@@ -137,6 +137,10 @@ export default {
 		},
 	},
 
+	mounted() {
+		this.getComments()
+	},
+
 	methods: {
 		t,
 
@@ -198,7 +202,7 @@ export default {
 					resourceId: this.currentResourceId,
 				}, { offset: this.offset }) || { data: [] }
 
-				this.logger.debug(`Processed ${comments.length} comments`, { comments })
+				logger.debug(`Processed ${comments.length} comments`, { comments })
 
 				// We received less than the requested amount,
 				// we're done fetching comments
