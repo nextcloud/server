@@ -936,6 +936,22 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
+	public function testSetSensitiveValueStringOverwritesUndecryptableValue(): void {
+		$config = $this->generateAppConfig();
+		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
+
+		$sql = $this->connection->getQueryBuilder();
+		$sql->update('appconfig')
+			->set('configvalue', $sql->createNamedParameter(self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt('value-1', 'other-secret')))
+			->where($sql->expr()->eq('appid', $sql->createNamedParameter('feed')))
+			->andWhere($sql->expr()->eq('configkey', $sql->createNamedParameter('string')))
+			->executeStatement();
+		$config->clearCache();
+
+		$config->setValueString('feed', 'string', 'value-2', sensitive: true);
+		$this->assertSame('value-2', $config->getValueString('feed', 'string', ''));
+	}
+
 	public function testSetLazyValueInt(): void {
 		$config = $this->generateAppConfig();
 		$config->setValueInt('feed', 'int', 42, true);
