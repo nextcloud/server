@@ -162,7 +162,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 8.2.3
+	- version: 8.2.4
 	- license: MIT
 - is-buffer
 	- version: 1.1.6
