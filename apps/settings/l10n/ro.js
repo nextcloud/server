@@ -27,6 +27,7 @@ OC.L10N.register(
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Ai redenumit parola de aplicație „{token}” în „{newToken}”",
     "You granted filesystem access to app password \"{token}\"" : "Ai acordat acces la sistemul de fișiere parolei de aplicație „{token}”",
     "You revoked filesystem access from app password \"{token}\"" : "Ai revocat accesul la sistemul de fișiere pentru parola de aplicație „{token}”",
+    "You changed the access of app password \"{token}\"" : "Ai schimbat accesul parolei de aplicație „{token}”",
     "Security" : "Securitate",
     "You successfully logged in using two-factor authentication (%1$s)" : "Te-ai autentificat cu succes folosind autentificarea în doi pași (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "O încercare de autentificare folosind autentificarea în doi pași a eșuat (%1$s)",
