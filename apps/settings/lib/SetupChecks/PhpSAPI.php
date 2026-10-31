@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IL10N;
@@ -20,23 +21,67 @@ class PhpSAPI implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
-		return $this->l10n->t('PHP SAPI');
+		return $this->l10n->t('PHP-FPM process limit');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
-		$sapi_type = php_sapi_name();
+		if (php_sapi_name() !== 'fpm-fcgi') {
+			return SetupResult::success();
+		}
 
-		if ($sapi_type === 'fpm-fcgi') {
-			$sapi_max_children_reached = fpm_get_status()['max-children-reached']; // since last restart
-			if ($sapi_max_children_reached === 1) {
-				$sapi_max_children_reached_actual = fpm_get_status()['max-active-processes'];
-				return SetupResult::error($this->l10n->t('Your PHP-FPM pool reached it\'s maximum number of allowed processes (' . $sapi_max_children_reached_actual . ') at least once since your last restart. You may want to increase your pm.max_children value in your PHP-FPM pool configuration to avoid problems such as Gateway Timeouts, client connection errors, and slow performance.'), $this->urlGenerator->linkToDocs('admin-php-fpm'));
-			}
+		if (!function_exists('fpm_get_status')) {
+			return SetupResult::warning(
+				$this->l10n->t('PHP-FPM status is unavailable, so the max children check could not be completed.'),
+				$this->urlGenerator->linkToDocs('admin-php-fpm')
+			);
+		}
+
+		$status = fpm_get_status();
+		if ($status === false) {
+			return SetupResult::warning(
+				$this->l10n->t('PHP-FPM status could not be read, so the max children check could not be completed.'),
+				$this->urlGenerator->linkToDocs('admin-php-fpm')
+			);
+		}
+
+		$maxChildrenReached = $status['max-children-reached'] ?? null;
+		$maxActiveProcesses = $status['max-active-processes'] ?? null;
+		$startTimeEpoch = $status['start-time'] ?? null;
+
+		if (!is_int($maxChildrenReached) || !is_int($maxActiveProcesses) || !is_int($startTimeEpoch)) {
+			return SetupResult::warning(
+				$this->l10n->t('PHP-FPM status is incomplete, so the max children check could not be completed.'),
+				$this->urlGenerator->linkToDocs('admin-php-fpm')
+			);
+		}
+
+		if ($maxChildrenReached > 0) {
+			$startTime = date('Y-m-d H:i:s T', $startTimeEpoch);
+			$timesReached = $this->l10n->n('once', '%n times', $maxChildrenReached);
+
+			$message = $this->l10n->t(
+				'PHP-FPM reached its configured "pm.max_children" limit %s since its last restart at %s (peak active processes: %s).',
+				[$timesReached, $startTime, (string)$maxActiveProcesses],
+			);
+			$message .= ' ' . $this->l10n->t(
+				'When the pool is saturated, additional requests may be queued, time out, or fail. This can cause slow responses, client connection errors, or 502/504 gateway errors.'
+			);
+			$message .= "\n\n" . $this->l10n->t(
+				'The counter resets when PHP-FPM restarts. If saturation is ongoing or recurring, review pool configuration and server capacity and consider increasing "pm.max_children".'
+			);
+
+			return SetupResult::warning(
+				$message,
+				$this->urlGenerator->linkToDocs('admin-php-fpm'),
+			);
 		}
 
 		return SetupResult::success();
