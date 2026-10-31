@@ -22,9 +22,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
+use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -232,6 +231,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node = $this->createMock(File::class);
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
+		$node->method('getInternalPath')->willReturn('myFile');
+		$node->method('getStorage')->willReturn($this->createMock(IStorage::class));
 
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
@@ -240,16 +241,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_REMOTE)
 			->setNode($node)
 			->setTarget('/myFile');
-
-		$mountedShare = $this->createMock(Folder::class);
-		$mountedShare->method('getId')->willReturn(43);
-		$userFolder = $this->createMock(IUserFolder::class);
-		$userFolder->method('get')
-			->with('/myFile')
-			->willReturn($mountedShare);
-		$this->rootFolder->method('getUserFolder')
-			->with('shareOwner')
-			->willReturn($userFolder);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->addressHandler->method('generateRemoteURL')

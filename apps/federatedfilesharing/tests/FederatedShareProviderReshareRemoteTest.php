@@ -15,6 +15,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCA\Files_Sharing\External\Storage as ExternalStorage;
 use OCP\Constants;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
@@ -23,7 +24,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -96,9 +97,20 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 	public function testCreateRemoteOwner(): void {
 		$permissions = Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
 
+		// the shared node is the root of the federated share mounted for alice
+		$storage = $this->createMock(ExternalStorage::class);
+		$storage->method('instanceOfStorage')
+			->with(ExternalStorage::class)
+			->willReturn(true);
+		$mount = $this->createMock(IMountPoint::class);
+		$mount->method('getMountPoint')->willReturn('/alice/files/Share1/');
+
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')->willReturn(1000);
 		$node->method('getName')->willReturn('Share 1');
+		$node->method('getInternalPath')->willReturn('');
+		$node->method('getStorage')->willReturn($storage);
+		$node->method('getMountPoint')->willReturn($mount);
 
 		/*
 		 * Mocks getSharedWith ($alreadyShared and $alreadySharedGroup).
@@ -301,15 +313,6 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				$this->equalTo(IShare::TYPE_REMOTE),
 			)
 			->willReturn(['share_token2', '20']);
-
-		// the shared node is the mount point of the federated share
-		$userFolder = $this->createMock(IUserFolder::class);
-		$userFolder->method('get')
-			->with('/Share1')
-			->willReturn($node);
-		$this->rootFolder->method('getUserFolder')
-			->with('alice')
-			->willReturn($userFolder);
 
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share
