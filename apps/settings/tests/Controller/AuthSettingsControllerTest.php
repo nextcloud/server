@@ -18,6 +18,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Authentication\Token\TokenScopes;
 use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
@@ -135,6 +136,38 @@ class AuthSettingsControllerTest extends TestCase {
 		$response = $this->controller->create($name);
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals($expected, $response->getData());
+	}
+
+	public static function dataCreateWithScopes(): array {
+		$files = [SharingTokenScopes::SHARES_WRITE, FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
+		$sorted = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE];
+		return [
+			'files' => [$files, [TokenScopes::KEY => $sorted, IToken::SCOPE_FILESYSTEM => true]],
+			'calendar' => [['dav:calendar:read'], [TokenScopes::KEY => ['dav:calendar:read'], IToken::SCOPE_FILESYSTEM => false]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateWithScopes')]
+	public function testCreateWithScopes(array $scopes, array $expectedScope): void {
+		$this->mockSessionForCreate();
+		$deviceToken = $this->createMock(IToken::class);
+		$deviceToken->method('jsonSerialize')->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with($this->anything(), $this->uid, 'User13', '123456', 'Nexus 4', IToken::PERMANENT_TOKEN, IToken::DO_NOT_REMEMBER, $expectedScope)
+			->willReturn($deviceToken);
+		$this->mockActivityManager();
+
+		$response = $this->controller->create('Nexus 4', false, $scopes);
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+	}
+
+	public function testCreateInvalidScopes(): void {
+		$this->mockSessionForCreate();
+		$this->tokenProvider->expects($this->never())->method('generateToken');
+
+		$response = $this->controller->create('Nexus 4', false, [FilesTokenScopes::FILES_WRITE]);
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	public function testCreateDisabledBySystemConfig(): void {
@@ -460,7 +493,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
 	}
 
 	public static function dataUpdateFilesystemScope(): array {
@@ -498,7 +531,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => $newFilesystem]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
 
 	public function testUpdateNoChange(): void {
@@ -529,7 +562,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public static function dataUpdateScopedToken(): array {
@@ -563,7 +596,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($token);
 
-		$this->assertSame([], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
+		$this->assertSame(['scope' => $stored], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
 	}
 
 	public static function dataUpdateScopes(): array {
@@ -594,7 +627,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($token);
 
-		$this->assertSame([], $this->controller->update($tokenId, $scope, 'App password')->getData());
+		$this->assertSame(['scope' => $expected], $this->controller->update($tokenId, $scope, 'App password')->getData());
 	}
 
 	public function testUpdateInvalidScopes(): void {
@@ -643,7 +676,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
+		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateTokenWrongUser(): void {
@@ -678,6 +711,18 @@ class AuthSettingsControllerTest extends TestCase {
 		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	private function mockSessionForCreate(): void {
+		$sessionToken = $this->createMock(IToken::class);
+		$sessionToken->method('getLoginName')->willReturn('User13');
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->with('sessionid')->willReturn($sessionToken);
+		$this->tokenProvider->method('getPassword')->willReturn('123456');
+		$this->secureRandom->method('generate')->willReturn('XXXXX');
 	}
 
 	private function mockAuthToken(int $id, int $type = IToken::PERMANENT_TOKEN): PublicKeyToken&MockObject {
