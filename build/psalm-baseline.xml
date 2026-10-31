@@ -3620,11 +3620,6 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Image.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[ob_get_clean()]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[getOnlyDefaultAliases]]></code>
