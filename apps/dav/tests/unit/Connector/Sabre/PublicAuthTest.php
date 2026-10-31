@@ -20,6 +20,8 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 
 /**
  * Class PublicAuthTest
@@ -160,6 +162,69 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		self::invokePrivate($this->auth, 'checkToken');
+	}
+
+	public function testCheckShareNotFound(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+
+		$this->shareManager->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willThrowException(new ShareNotFound());
+
+		$this->throttler->expects($this->once())
+			->method('registerAttempt')
+			->with('public_dav_auth', '1.2.3.4');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->auth->check(new Request('GET', '/dav/files/GX9HSGQrGE'), new Response());
+	}
+
+	public function testCheckShareNotFoundWithoutStrictCookie(): void {
+		$cookies = $_COOKIE;
+		$_COOKIE = ['foo' => 'bar'];
+
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+		$this->request->method('passesStrictCookieCheck')
+			->willReturn(false);
+
+		$this->shareManager->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willThrowException(new ShareNotFound());
+
+		$this->throttler->expects($this->once())
+			->method('registerAttempt')
+			->with('public_dav_auth', '1.2.3.4');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		try {
+			$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+			$this->auth->check(new Request('GET', '/dav/files/GX9HSGQrGE'), new Response());
+		} finally {
+			$_COOKIE = $cookies;
+		}
+	}
+
+	public function testCheckUnexpectedException(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+
+		$this->shareManager->method('getShareByToken')
+			->willThrowException(new \RuntimeException('Database is gone'));
+
+		$this->logger->expects($this->once())
+			->method('error');
+
+		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
+		$this->auth->check(new Request('GET', '/dav/files/GX9HSGQrGE'), new Response());
 	}
 
 	public function testCheckTokenAlreadyAuthenticated(): void {

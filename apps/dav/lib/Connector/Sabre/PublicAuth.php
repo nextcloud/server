@@ -57,6 +57,7 @@ class PublicAuth extends AbstractBasic {
 
 	/**
 	 * @throws NotAuthenticated
+	 * @throws NotFound
 	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
 	 */
@@ -84,6 +85,11 @@ class PublicAuth extends AbstractBasic {
 			return $this->checkToken();
 		} catch (NotAuthenticated|MaxDelayReached $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			throw $e;
+		} catch (ShareNotFound) {
+			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			throw new NotFound();
+		} catch (NotFound $e) {
 			throw $e;
 		} catch (PreconditionFailed $e) {
 			$response->setHeader(
