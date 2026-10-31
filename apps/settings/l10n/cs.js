@@ -107,7 +107,7 @@ OC.L10N.register(
     "Sharing" : "Sdílení",
     "Availability" : "Dostupnost",
     "Calendar" : "Kalendář",
-    "Profile & contact" : "Profil & kontakt",
+    "Profile & contact" : "Profil a kontakt",
     "Mobile & desktop" : "Mobilní a desktop",
     "Artificial Intelligence" : "Umělá inteligence",
     "None / STARTTLS" : "None / STARTTLS",
