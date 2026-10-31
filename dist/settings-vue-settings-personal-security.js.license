@@ -7,6 +7,7 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -55,34 +56,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.9.0
+	- version: 9.14.1
 	- license: AGPL-3.0-or-later
-- @vue/reactivity
-	- version: 3.5.43
-	- license: MIT
-- @vue/runtime-core
-	- version: 3.5.43
-	- license: MIT
-- @vue/runtime-dom
-	- version: 3.5.43
-	- license: MIT
-- @vue/shared
-	- version: 3.5.43
+- @vueuse/core
+	- version: 15.0.0
 	- license: MIT
 - @vueuse/shared
-	- version: 14.4.0
-	- license: MIT
-- @vueuse/core
-	- version: 14.4.0
+	- version: 15.0.0
 	- license: MIT
 - vue-router
-	- version: 5.2.0
+	- version: 5.4.0
 	- license: MIT
 - vue
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.5.0
+	- version: 7.6.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.8.5
@@ -190,7 +179,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.5.0
+	- version: 6.5.1
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
 	- license: MIT
 - vue-demi
 	- version: 0.14.10
