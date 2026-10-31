@@ -2309,6 +2309,16 @@ $CONFIG = [
 	'sharing.federation.allowSelfSignedCertificates' => false,
 
 	/**
+	 * The timeout in seconds for requests made to remote servers when accessing
+	 * federated shares, e.g. fetching the share info or checking whether the
+	 * remote server is reachable. Increase it if big federated shares take longer
+	 * to answer than the default.
+	 *
+	 * Defaults to ``10`` seconds.
+	 */
+	'sharing.federation.request_timeout' => 10,
+
+	/**
 	 * Override the ``apiVersion`` advertised in the local OCM discovery document.
 	 * Setting this to a non-empty string also removes the non-standard ``version``
 	 * field. Leave empty for compatibility with older Nextcloud servers.

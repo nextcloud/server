@@ -559,9 +559,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	private function getDefaultRequestOptions(): array {
+		$timeout = $this->config->getSystemValueInt('sharing.federation.request_timeout', 10);
 		$options = [
-			'timeout' => 10,
-			'connect_timeout' => 10,
+			'timeout' => $timeout,
+			'connect_timeout' => $timeout,
 		];
 		if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates')) {
 			$options['verify'] = false;
