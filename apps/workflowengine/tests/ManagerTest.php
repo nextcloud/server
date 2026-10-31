@@ -687,6 +687,53 @@ class ManagerTest extends TestCase {
 		}
 	}
 
+	public function testValidateOperationInvalidCheckClassError(): void {
+		$check = [
+			'id' => 1,
+			'class' => \stdClass::class,
+			'operator' => 'is',
+			'value' => 'foo',
+			'hash' => 'abc',
+		];
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->once())
+			->method('isAvailableForScope')
+			->with(IManager::SCOPE_ADMIN)
+			->willReturn(true);
+
+		$entityMock->expects($this->any())
+			->method('getEvents')
+			->willReturn([$eventEntityMock]);
+
+		$eventEntityMock->expects($this->any())
+			->method('getEventName')
+			->willReturn('MyEvent');
+
+		$this->container->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock) {
+				return match ($className) {
+					IOperation::class => $operationMock,
+					IEntity::class => $entityMock,
+					IEntityEvent::class => $eventEntityMock,
+					default => $this->createMock($className),
+				};
+			});
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('Check ' . \stdClass::class . ' is invalid');
+		$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', $scopeMock, IEntity::class, ['MyEvent']);
+	}
+
 	public function testValidateOperationDataLengthError(): void {
 		$check = [
 			'id' => 1,
