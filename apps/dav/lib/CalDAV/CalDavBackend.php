@@ -3505,7 +3505,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		// If there is exactly one base component of a supported type, extract its data directly.
 		$baseComponent = $vObject->getBaseComponent();
 		if ($baseComponent !== null && in_array($baseComponent->name, $supportedComponentTypes, true)) {
-			return $derived + $extract($baseComponent);
+			$data = $extract($baseComponent);
+			foreach ($vObject->getComponents() as $component) {
+				if ($component === $baseComponent || $component->name !== $baseComponent->name || !isset($component->{'RECURRENCE-ID'})) {
+					continue;
+				}
+				$exceptionData = $extract($component);
+				if ($exceptionData['firstOccurence'] > 0) {
+					$data['firstOccurence'] = min($data['firstOccurence'], $exceptionData['firstOccurence']);
+				}
+				$data['lastOccurence'] = max($data['lastOccurence'], $exceptionData['lastOccurence']);
+			}
+
+			return $derived + $data;
 		}
 
 		// No supported base component is present, e.g. a scheduling object made up solely of recurrence exceptions without an
