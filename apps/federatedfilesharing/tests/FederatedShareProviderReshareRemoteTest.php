@@ -23,6 +23,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -302,6 +303,15 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				$this->equalTo(IShare::TYPE_REMOTE),
 			)
 			->willReturn(['share_token2', '20']);
+
+		// the shared node is the mount point of the federated share
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('get')
+			->with('/Share1')
+			->willReturn($node);
+		$this->rootFolder->method('getUserFolder')
+			->with('alice')
+			->willReturn($userFolder);
 
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share
