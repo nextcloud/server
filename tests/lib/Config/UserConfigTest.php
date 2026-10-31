@@ -1127,6 +1127,17 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals('mixed.case@nextcloud.com', $actual);
 	}
 
+	public function testSetValueMixedAfterConcurrentInsertWithAllCachesLoaded(): void {
+		$userConfig = $this->generateUserConfig();
+		$otherUserConfig = $this->generateUserConfig();
+
+		$otherUserConfig->getApps('user1');
+		$userConfig->setValueMixed('user1', 'new-app', 'new-key', 'value');
+
+		$this->assertTrue($otherUserConfig->setValueMixed('user1', 'new-app', 'new-key', 'value2'));
+		$this->assertSame('value2', $otherUserConfig->getValueMixed('user1', 'new-app', 'new-key'));
+	}
+
 	public static function providerSetValueString(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', 'value', false, false, true],

@@ -1242,6 +1242,7 @@ class UserConfig implements IUserConfig {
 		if (!$inserted) {
 			$currType = ($this->fastCache[$userId][$app][$key] ?? $this->lazyCache[$userId][$app][$key] ?? null)?->getType();
 			if ($currType === null) { // this might happen when switching lazy loading status
+				unset($this->fastCache[$userId], $this->lazyCache[$userId]);
 				$this->loadConfigAll($userId);
 
 				if (!isset($this->fastCache[$userId][$app][$key]) && !isset($this->lazyCache[$userId][$app][$key])) {
