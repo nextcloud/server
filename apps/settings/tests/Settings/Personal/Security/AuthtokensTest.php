@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Tests\Settings\Personal\Security;
 
+use OC\Authentication\Token\GrantableApps;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
@@ -27,6 +28,7 @@ class AuthtokensTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private IInitialState&MockObject $initialState;
 	private IConfig&MockObject $serverConfig;
+	private GrantableApps&MockObject $grantableApps;
 	private string $uid;
 	private Authtokens $section;
 
@@ -39,6 +41,8 @@ class AuthtokensTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->serverConfig = $this->createMock(IConfig::class);
 		$this->uid = 'test123';
+		$this->grantableApps = $this->createMock(GrantableApps::class);
+		$this->grantableApps->method('entries')->willReturn([['id' => 'spreed', 'name' => 'Talk', 'icon' => '', 'acrossApps' => false]]);
 
 		$this->section = new Authtokens(
 			$this->authTokenProvider,
@@ -47,6 +51,7 @@ class AuthtokensTest extends TestCase {
 			$this->initialState,
 			$this->serverConfig,
 			$this->uid,
+			$this->grantableApps,
 		);
 	}
 
@@ -102,8 +107,9 @@ class AuthtokensTest extends TestCase {
 				]
 			],
 			['can_create_app_token', true],
+			['grantable_apps', [['id' => 'spreed', 'name' => 'Talk', 'icon' => '', 'acrossApps' => false]]],
 		];
-		$this->initialState->expects($this->exactly(2))
+		$this->initialState->expects($this->exactly(3))
 			->method('provideInitialState')
 			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);

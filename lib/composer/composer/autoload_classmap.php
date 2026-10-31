@@ -1350,6 +1350,7 @@ return array(
     'OC\\Authentication\\Login\\UserDisabledCheckCommand' => $baseDir . '/lib/private/Authentication/Login/UserDisabledCheckCommand.php',
     'OC\\Authentication\\Login\\WebAuthnChain' => $baseDir . '/lib/private/Authentication/Login/WebAuthnChain.php',
     'OC\\Authentication\\Notifications\\Notifier' => $baseDir . '/lib/private/Authentication/Notifications/Notifier.php',
+    'OC\\Authentication\\Token\\GrantableApps' => $baseDir . '/lib/private/Authentication/Token/GrantableApps.php',
     'OC\\Authentication\\Token\\INamedToken' => $baseDir . '/lib/private/Authentication/Token/INamedToken.php',
     'OC\\Authentication\\Token\\IProvider' => $baseDir . '/lib/private/Authentication/Token/IProvider.php',
     'OC\\Authentication\\Token\\IToken' => $baseDir . '/lib/private/Authentication/Token/IToken.php',

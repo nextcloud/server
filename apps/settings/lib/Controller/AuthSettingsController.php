@@ -11,6 +11,7 @@ namespace OCA\Settings\Controller;
 use BadMethodCallException;
 use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Token\GrantableApps;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
@@ -54,6 +55,7 @@ class AuthSettingsController extends Controller {
 		private IConfig $serverConfig,
 		private IL10N $l,
 		private TokenScopes $tokenScopes,
+		private GrantableApps $grantableApps,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -113,9 +115,9 @@ class AuthSettingsController extends Controller {
 		} else {
 			$type = IToken::PERMANENT_TOKEN;
 			try {
-				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes]);
-			} catch (\InvalidArgumentException) {
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes], $this->grantableApps->get());
+			} catch (\InvalidArgumentException $e) {
+				return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 			}
 		}
 
@@ -255,9 +257,9 @@ class AuthSettingsController extends Controller {
 		$currentScope = $token->getScopeAsArray();
 
 		try {
-			$newScope = $this->tokenScopes->updateScope($currentScope, $scope);
-		} catch (\InvalidArgumentException) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$newScope = $this->tokenScopes->updateScope($currentScope, $scope, $this->grantableApps->get());
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($newScope !== $currentScope) {
