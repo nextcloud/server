@@ -95,6 +95,12 @@ class GetSharedSecret extends Job {
 			return;
 		}
 
+		// if both servers initiated the exchange of the shared secret, the greater token wins
+		if (strcmp($this->trustedServers->getToken($target), $token) > 0) {
+			$this->logger->info('Remote server ' . $target . ' presented a lower token, the shared secret will be requested from it instead.');
+			return;
+		}
+
 		$endPoints = $this->ocsDiscoveryService->discover($target, 'FEDERATED_SHARING');
 		$endPoint = $endPoints['shared-secret'] ?? $this->defaultEndPoint;
 
