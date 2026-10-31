@@ -440,15 +440,16 @@ class Principal implements BackendInterface {
 		}
 
 		// If sharing is restricted to group members only,
-		// return only members that have groups in common
+		// return only members that have groups in common.
+		// Without a user session there is no sharer whose groups could restrict
+		// the result, so resolution proceeds unrestricted. This covers iMIP
+		// scheduling replies and background jobs, which are never logged in.
 		$restrictGroups = false;
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
 			$user = $this->userSession->getUser();
-			if (!$user) {
-				return null;
+			if ($user !== null) {
+				$restrictGroups = $this->groupManager->getUserGroupIds($user);
 			}
-
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
 		if (str_starts_with($uri, 'mailto:')) {
