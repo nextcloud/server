@@ -9,6 +9,7 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
+use OC\Lockdown\LockdownManager;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -52,6 +53,7 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\Connector\Sabre\TokenScopePlugin;
 use OCA\DAV\Connector\Sabre\UserIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -178,6 +180,8 @@ class Server {
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
 		$authPlugin->addBackend($authBackend);
+		$pluginManager = new PluginManager(\OC::$server, \OCP\Server::get(IAppManager::class));
+		$this->server->addPlugin(new TokenScopePlugin(\OCP\Server::get(LockdownManager::class), $pluginManager));
 
 		// debugging
 		if ($debugEnabled) {
@@ -288,7 +292,7 @@ class Server {
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
+		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger, $pluginManager): void {
 			// custom properties plugin must be the last one
 			$userSession = \OCP\Server::get(IUserSession::class);
 			$user = $userSession->getUser();
@@ -412,10 +416,6 @@ class Server {
 			}
 
 			// register plugins from apps
-			$pluginManager = new PluginManager(
-				\OC::$server,
-				\OCP\Server::get(IAppManager::class)
-			);
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$this->server->addPlugin($appPlugin);
 			}
