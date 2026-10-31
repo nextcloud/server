@@ -6,7 +6,7 @@
 import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from 'vitest'
 
 // Hoisted so mocks exist before the SFC's imports run.
 const initialState = vi.hoisted(() => ({
@@ -234,9 +234,10 @@ describe('core: AppMenu', () => {
 	})
 
 	it('returnFocusTarget points at the trigger that opened the popover', async () => {
-		// focus-trap doesn't activate in jsdom (needs layout), so we can't assert
-		// on document.activeElement. Instead we call returnFocusTarget() directly
-		// (the same method NcPopover calls on deactivation).
+		// jsdom has no layout, so focus-trap finds no tabbable node and falls
+		// back to the popover root; we can't assert on document.activeElement.
+		// Instead we call returnFocusTarget() directly (the same method
+		// NcPopover calls on deactivation).
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await wrapper.get('.app-menu__current-app').trigger('click')
 
@@ -625,6 +626,12 @@ describe('core: AppMenu navigation actions', () => {
 	})
 
 	it('focuses the first submenu entry on open and navigates it with arrow keys', async () => {
+		// jsdom has no layout, so tabbable (used by focus-trap) treats every node
+		// as hidden and the submenu trap falls back to the popover root. Report a
+		// box so the trap picks the first entry, as it does in a browser.
+		const rects = vi.spyOn(HTMLElement.prototype, 'getClientRects')
+			.mockReturnValue([{}] as unknown as DOMRectList)
+		onTestFinished(() => rects.mockRestore())
 		initialState.loadState.mockImplementation(stateWith(fakeApps(), fakeActions(6)))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
