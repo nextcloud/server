@@ -165,8 +165,8 @@ abstract class AbstractMapping {
 				$dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name);
 				if ($dn !== false) {
 					$this->cache[$dn] = $name;
+					$this->localNameToDnCache?->set($name, $dn, self::LOCAL_CACHE_TTL);
 				}
-				$this->localNameToDnCache?->set($name, $dn, self::LOCAL_CACHE_TTL);
 			}
 		}
 		return $dn ?? false;
