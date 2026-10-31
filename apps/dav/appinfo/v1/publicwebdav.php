@@ -16,6 +16,7 @@ use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
+use OCA\DAV\Storage\PublicShareWrapper;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
@@ -124,6 +125,10 @@ $server = $serverFactory->createServer(
 		Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 		});
+		// Ensure that also private shares have the `getShare` method
+		Filesystem::addStorageWrapper('getShare', function (string $mountPoint, IStorage $storage) use ($share) {
+			return new PublicShareWrapper(['storage' => $storage, 'share' => $share]);
+		}, 0);
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
