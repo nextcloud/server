@@ -60,7 +60,7 @@
     "@vueuse/integrations": "^14.4.0",
     "color": "^5.0.3",
     "debounce": "^3.0.0",
-    "marked": "^18.1.1",
+    "marked": "^18.1.2",
     "p-queue": "^9.3.5",
     "pinia": "^4.1.0",
     "sortablejs": "^1.15.7",
