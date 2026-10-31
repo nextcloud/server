@@ -179,7 +179,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 15.0.5
 	- license: BSD-3-Clause
 - focus-trap
-	- version: 8.2.3
+	- version: 8.2.4
 	- license: MIT
 - ieee754
 	- version: 1.2.1

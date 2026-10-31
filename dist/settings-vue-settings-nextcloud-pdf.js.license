@@ -95,7 +95,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.11.0
 	- license: MIT
 - webpack
-	- version: 5.112.0
+	- version: 5.112.2
 	- license: MIT
 - @file-type/xml
 	- version: 0.4.4
