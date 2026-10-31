@@ -1,0 +1,55 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: @videojs/core developers
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+SPDX-FileCopyrightText: omahlama
+
+This file is generated from multiple sources. Included packages:
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/paths
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.13.1
+	- license: AGPL-3.0-or-later
+- @videojs/core
+	- version: 10.0.1
+	- license: Apache-2.0
+- @vitejs/plugin-vue
+	- version: 6.0.8
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.44
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.44
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.44
+	- license: MIT
+- @vue/shared
+	- version: 3.5.44
+	- license: MIT
+- blurhash
+	- version: 2.0.5
+	- license: MIT
+- pinia
+	- version: 4.0.3
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT
+- vue-router
+	- version: 5.3.1
+	- license: MIT
