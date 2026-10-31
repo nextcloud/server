@@ -90,11 +90,27 @@ class AbsenceService {
 					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
 				],
 			);
+		} else {
+			$this->jobList->remove(
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => $absence->getId(),
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				],
+			);
 		}
 		if ($eventData->getEndDate() > $now) {
 			$this->jobList->scheduleAfter(
 				OutOfOfficeEventDispatcherJob::class,
 				$eventData->getEndDate(),
+				[
+					'id' => $absence->getId(),
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				],
+			);
+		} else {
+			$this->jobList->remove(
+				OutOfOfficeEventDispatcherJob::class,
 				[
 					'id' => $absence->getId(),
 					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
@@ -116,7 +132,14 @@ class AbsenceService {
 			return;
 		}
 		$this->absenceMapper->delete($absence);
-		$this->jobList->remove(OutOfOfficeEventDispatcherJob::class);
+		$this->jobList->remove(OutOfOfficeEventDispatcherJob::class, [
+			'id' => $absence->getId(),
+			'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+		]);
+		$this->jobList->remove(OutOfOfficeEventDispatcherJob::class, [
+			'id' => $absence->getId(),
+			'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+		]);
 		$eventData = $absence->toOutOufOfficeData(
 			$user,
 			$this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone(),
