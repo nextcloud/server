@@ -583,7 +583,11 @@ class Local extends Common {
 
 	#[\Override]
 	public function getETag(string $path): string|false {
-		return $this->calculateEtag($path, $this->stat($path));
+		$stat = $this->stat($path);
+		if ($stat === false) {
+			return md5('');
+		}
+		return $this->calculateEtag($path, $stat);
 	}
 
 	private function calculateEtag(string $path, array $stat): string|false {

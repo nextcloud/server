@@ -59,6 +59,10 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
+	public function testEtagMissingFile(): void {
+		$this->assertEquals(md5(''), $this->instance->getETag('missing.txt'));
+	}
+
 	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
