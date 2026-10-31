@@ -439,12 +439,8 @@ class Trashbin implements IEventListener {
 			return Util::numericToNumber($userTrashbinSize);
 		}
 
-		$appConfig = Server::get(IAppConfig::class);
-		$systemTrashbinSize = $appConfig->getValueString('files_trashbin', 'trashbin_size', '-1');
-		if (is_numeric($systemTrashbinSize)) {
-			return Util::numericToNumber($systemTrashbinSize);
-		}
-		return -1;
+		// occ trashbin:size stores the default size as an integer
+		return Server::get(IAppConfig::class)->getValueInt('files_trashbin', 'trashbin_size', -1);
 	}
 
 	/**
