@@ -400,7 +400,7 @@ export default defineComponent({
 			}
 
 			// a open the action menu
-			if (event.key === 'a' && !this.openedMenu) {
+			if (event.key !== 'Escape' && !this.openedMenu) {
 				this.openedMenu = true
 			}
 		},
