@@ -10,9 +10,11 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\ResponseDefinitions;
+use OC\Core\TokenScopes;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
 use OC\Search\UnsupportedFilter;
@@ -35,6 +37,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  * @psalm-import-type CoreUnifiedSearchProvider from ResponseDefinitions
  * @psalm-import-type CoreUnifiedSearchResult from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::SEARCH_READ)]
 class UnifiedSearchController extends OCSController {
 	public function __construct(
 		IRequest $request,
