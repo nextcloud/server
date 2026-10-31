@@ -3100,6 +3100,16 @@ $CONFIG = [
 	 */
 	'account_manager.default_property_scope' => [],
 
+	/*
+	 * Overrides default visibility for profile data. Valid properties and visibilities
+	 * are defined in ``OCP\Accounts\IAccountManager`` and ``OCP\Profile\IProfileManager``.
+	 * Values are merged with defaults from there.
+	 *
+	 * Example: Set phone property to hidden visibility:
+	 * ``[\OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Profile\IProfileManager::VISIBILITY_HIDE]``
+	 */
+	'profile_manager.default_property_visibility' => [],
+
 	/**
 	 * Enable the deprecated Projects feature, superseded by Related Resources since
 	 * Nextcloud 25.
