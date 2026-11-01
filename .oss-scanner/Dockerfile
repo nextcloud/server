@@ -26,11 +26,15 @@ COPY --chown=www-data:www-data . /src
 WORKDIR /src
 
 RUN as-www-data git submodule update --init --depth 1 \
-    && as-www-data composer install
+    && as-www-data composer install \
+    && for app in app_api files_downloadlimit notifications twofactor_totp; do \
+         as-www-data git clone --depth 1 "https://github.com/nextcloud/$app" "apps/$app" \
+         && as-www-data composer install -d "apps/$app" || exit 1; \
+       done
 
 RUN occ maintenance:install --database=sqlite --data-dir=/var/lib/nextcloud/data --admin-user=admin --admin-pass=admin \
     && occ config:system:set appstoreenabled --type=boolean --value=false \
-    && occ app:enable admin_audit encryption files_external user_ldap \
+    && occ app:enable admin_audit encryption files_external user_ldap app_api files_downloadlimit notifications twofactor_totp \
     && OC_PASS=alice occ user:add --password-from-env --group=alice alice \
     && OC_PASS=bob occ user:add --password-from-env --group=bob bob \
     && cp -a /var/lib/nextcloud/data /var/lib/nextcloud/data.pristine \
