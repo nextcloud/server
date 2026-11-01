@@ -57,7 +57,7 @@ OC.L10N.register(
     "If you do not remember your old password you can ask your administrator to recover your files." : "Hvis du ikke kan huske din gamle adgangskode, så kan du bede din administrator om at gendanne dine filer.",
     "Previous login password" : "Tidligere loginadgangskode",
     "Current login password" : "Nuværende loginadgangskode",
-    "Update" : "Opdatér",
+    "Update" : "Opdater",
     "Updating recovery keys. This can take some time…" : "Opdaterer gendannelsesnøgler. Det kan tage lidt tid …",
     "Controls whether the administrator can use the recovery key to restore access to your encrypted files if you lose your login password." : "Bestemmer, om administratoren kan bruge gendannelsesnøglen til at give dig adgang til dine krypterede filer igen, hvis du mister din loginadgangskode.",
     "Allow recovery of my encrypted files" : "Tillad gendannelse af mine krypterede filer",

@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note" : "Bemærkning",
     "Valid until" : "Gyldig indtil",
     "Password" : "Adgangskode",
-    "Required" : "Påkrævet",
+    "Required" : "Obligatorisk",
     "Open shared item" : "Åbn delt element",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delte %2$s med dig. Du burde allerede have modtaget en separat e-mail med et link til det.",
