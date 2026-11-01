@@ -6,7 +6,7 @@ OC.L10N.register(
     "User already exists" : "Brugeren eksisterer allerede",
     "Group %1$s does not exist" : "Gruppen %1$s eksisterer ikke",
     "Insufficient privileges for group %1$s" : "Utilstrækkelige privilegier for gruppen %1$s",
-    "No group specified (required for sub-admins)" : "Ingen gruppe angivet (påkrævet for underadministratorer)",
+    "No group specified (required for sub-admins)" : "Ingen gruppe angivet (obligatorisk for underadministratorer)",
     "Sub-admin group does not exist" : "Underadministratorgruppen eksisterer ikke",
     "Cannot create sub-admins for admin group" : "Kan ikke oprette underadministratorer for administratorgruppen",
     "No permissions to promote sub-admins" : "Ingen rettigheder til at forfremme underadministratorer",
