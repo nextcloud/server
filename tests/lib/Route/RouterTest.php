@@ -76,4 +76,24 @@ class RouterTest extends TestCase {
 		// test caching
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 	}
+
+	public function testMatchAttributeRouteOfAppNotEnabledForCurrentUser(): void {
+		$this->appManager->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->appManager->method('getAppPath')
+			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+		$this->appManager->method('getAppNamespace')
+			->willReturn('OCA\\Dashboard');
+		$this->appManager->method('isAppLoaded')
+			->willReturn(true);
+		// e.g. an app restricted to groups while no user is logged in yet
+		$this->appManager->method('isEnabledForUser')
+			->willReturn(false);
+		$this->appManager->method('isEnabledForAnyone')
+			->with('dashboard')
+			->willReturn(true);
+
+		$parameters = $this->router->findMatchingRoute('/apps/dashboard/');
+		$this->assertEquals('dashboard.dashboard.index', $parameters['_route']);
+	}
 }
