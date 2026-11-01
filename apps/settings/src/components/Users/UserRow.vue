@@ -409,7 +409,11 @@ function enableDisableUser() {
 function sendWelcomeMail() {
 	loading.all = true
 	store.dispatch('sendWelcomeMail', props.user.id)
-		.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
+		.then((sent) => {
+			if (sent) {
+				showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 })
+			}
+		})
 		.finally(() => {
 			loading.all = false
 		})
