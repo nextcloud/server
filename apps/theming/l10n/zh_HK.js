@@ -82,7 +82,7 @@ OC.L10N.register(
     "Remove background image" : "移除背景圖片",
     "Background image" : "背景圖像",
     "Favicon" : "Favicon",
-    "Logo" : "Logo",
+    "Logo" : "標誌",
     "Navigation bar logo" : "導覽列標誌",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "雖然您可以選取並自訂您的實例，但用戶仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以將其開啟。",
     "Disable user theming" : "停用用戶佈景主題",
