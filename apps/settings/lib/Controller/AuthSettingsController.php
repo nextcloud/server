@@ -98,6 +98,7 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
+		$name = trim($name);
 		if ($qrcodeLogin) {
 			if ($this->appConfig->getAppValueBool(ConfigLexicon::LOGIN_QRCODE_ONETIME)) {
 				// TRANSLATORS Fallback name for the temporary app password when using the QR code login
@@ -110,7 +111,7 @@ class AuthSettingsController extends Controller {
 				$type = IToken::PERMANENT_TOKEN;
 				$scope = null;
 			}
-		} elseif (trim($name) === '') {
+		} elseif ($name === '') {
 			// No name is only allowed for one time logins
 			return $this->getServiceNotAvailableResponse();
 		} else {
@@ -266,8 +267,11 @@ class AuthSettingsController extends Controller {
 		$currentName = $token->getName();
 		$currentScope = $token->getScopeAsArray();
 
-		if ($name !== $currentName && trim($name) === '') {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		if ($name !== $currentName) {
+			$name = trim($name);
+			if ($name === '') {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		try {
