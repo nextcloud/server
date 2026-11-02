@@ -164,10 +164,13 @@ final readonly class Actor implements JsonSerializable {
 			throw new InvalidArgumentException('Invalid actor data');
 		}
 
-		return new self(Principal::fromArray($principal),
+		return new self(
+			Principal::fromArray($principal),
 			$delegate !== null ? self::fromArray($delegate) : null,
-			$via !== null ? DelegationKind::tryFrom($via) ?? throw new InvalidArgumentException(sprintf('Unknown delegation kind "%s"', $via))
-				: null, );
+			$via !== null
+				? DelegationKind::tryFrom($via) ?? throw new InvalidArgumentException(sprintf('Unknown delegation kind "%s"', $via))
+				: null,
+		);
 	}
 
 	private static function assertValidLink(Principal $principal, Actor $delegate, DelegationKind $via): void {
