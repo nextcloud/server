@@ -224,6 +224,11 @@ class Server {
 			$this->server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
 		}
 
+		// federated calendar shares only need the CalDAV reports, e.g. calendar-multiget for syncing
+		if ($this->requestIsForSubtree(['remote-calendars'])) {
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
+		}
+
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(RateLimiting::class)));
