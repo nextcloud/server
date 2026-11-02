@@ -47,6 +47,10 @@ class ActorTest extends TestCase {
 				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice'))->elevate(Principal::system('files_versions.expire')),
 				DelegationKind::SystemElevation, ['system:files_versions.expire', 'user:alice', 'system:files.retention', 'user:admin'],
 			],
+			'same component name of different apps' => [
+				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('retention', 'files'))->actFor(Principal::user('alice'))->elevate(Principal::system('retention', 'governance')),
+				DelegationKind::SystemElevation, ['system:retention:governance', 'user:alice', 'system:retention:files', 'user:admin'],
+			],
 			'user elevates' => [fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention')), DelegationKind::SystemElevation, ['system:files.retention', 'user:admin']], 'impersonation elevates' => [
 				fn () => Actor::of(Principal::user('admin'))->impersonate(Principal::user('alice'))->elevate(Principal::system('files.retention')),
 				DelegationKind::SystemElevation, ['system:files.retention', 'user:alice', 'user:admin'],
