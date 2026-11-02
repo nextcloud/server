@@ -40,6 +40,9 @@ final readonly class Actor implements JsonSerializable {
 	 */
 	public const int MAX_CHAIN_LENGTH = 16;
 
+	/** @var positive-int number of principals in the chain */
+	private int $depth;
+
 	private function __construct(
 		public Principal $principal,
 		public ?self $delegate = null,
@@ -53,14 +56,17 @@ final readonly class Actor implements JsonSerializable {
 			self::assertValidLink($principal, $delegate, $via);
 		}
 
-		$chain = $this->chain();
-		if (count($chain) > self::MAX_CHAIN_LENGTH) {
+		$this->depth = ($delegate?->depth ?? 0) + 1;
+		if ($this->depth > self::MAX_CHAIN_LENGTH) {
 			throw new InvalidArgumentException('Delegation chain too long');
 		}
 
-		$keys = array_map(static fn (Principal $p) => $p->key(), $chain);
-		if (count($keys) !== count(array_unique($keys))) {
-			throw new InvalidArgumentException('Principal appears more than once in delegation chain');
+		// the delegate's chain is already unique, so only the new principal needs checking
+		$key = $principal->key();
+		foreach ($delegate?->chain() ?? [] as $p) {
+			if ($p->key() === $key) {
+				throw new InvalidArgumentException('Principal appears more than once in delegation chain');
+			}
 		}
 	}
 
