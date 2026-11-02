@@ -28,9 +28,9 @@ use Override;
 #[Consumable(since: '36.0.0')]
 final readonly class Principal implements JsonSerializable {
 	/**
-	 * @param non-empty-string $id - uid, federated user id, guest id, bot id or system component
-	 * @param ?non-empty-string $origin - remote instance for federated, share/room token for guests, null otherwise
-	 * @param ?non-empty-string $source - app-namespaced kind of guest, e.g. "spreed.guest" or "files_sharing.link"; null for non-guests
+	 * @param non-empty-string $id - uid, federated user id, external user id, bot id or system component
+	 * @param ?non-empty-string $origin - remote instance for federated users, share/room token for external users, null otherwise
+	 * @param ?non-empty-string $source - app-namespaced kind of external user, e.g. "spreed.guest" or "files_sharing.link"; null for others
 	 */
 	private function __construct(
 		public PrincipalType $type,
@@ -39,8 +39,8 @@ final readonly class Principal implements JsonSerializable {
 		public ?string $source = null,
 	) {
 		$originAllowed = match ($type) {
-			PrincipalType::Federated => $origin !== null && $origin !== '',
-			PrincipalType::Guest => $origin === null || $origin !== '',
+			PrincipalType::FederatedUser => $origin !== null && $origin !== '',
+			PrincipalType::External => $origin === null || $origin !== '',
 			PrincipalType::User, PrincipalType::Bot, PrincipalType::System => $origin === null,
 			default => false,
 		};
@@ -51,7 +51,7 @@ final readonly class Principal implements JsonSerializable {
 			));
 		}
 
-		$sourceAllowed = $type === PrincipalType::Guest
+		$sourceAllowed = $type === PrincipalType::External
 			? $source !== null
 			: $source === null;
 		if (!$sourceAllowed) {
@@ -76,17 +76,17 @@ final readonly class Principal implements JsonSerializable {
 	 * @experimental 36.0.0
 	 */
 	public static function federated(string $userId, string $remote): self {
-		return new self(PrincipalType::Federated, $userId, $remote);
+		return new self(PrincipalType::FederatedUser, $userId, $remote);
 	}
 
 	/**
-	 * @param non-empty-string $source app-namespaced kind of guest, e.g. "spreed.email"
-	 * @param non-empty-string $guestId - guest id
+	 * @param non-empty-string $source app-namespaced kind of external user, e.g. "spreed.email"
+	 * @param non-empty-string $externalId - external user id
 	 * @param ?non-empty-string $token - share/room token, if any
 	 * @experimental 36.0.0
 	 */
-	public static function guest(string $source, string $guestId, ?string $token = null): self {
-		return new self(PrincipalType::Guest, $guestId, $token, $source);
+	public static function external(string $source, string $externalId, ?string $token = null): self {
+		return new self(PrincipalType::External, $externalId, $token, $source);
 	}
 
 	/**
@@ -125,8 +125,8 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * Stable key for logs, cache keys and cycle detection, e.g. "federated:bob@cloud.example"
-	 * or "guest:abc123@roomtoken:spreed.guest"
+	 * Stable key for logs, cache keys and cycle detection, e.g. "federated_user:bob@cloud.example"
+	 * or "external:abc123@roomtoken:spreed.guest"
 	 *
 	 * @experimental 36.0.0
 	 */

@@ -31,15 +31,15 @@ enum PrincipalType: string {
 	 *
 	 * @experimental 36.0.0
 	 */
-	case Federated = 'federated';
+	case FederatedUser = 'federated_user';
 	/**
-	 * No account: public link visitor, Talk guest, email participant.
+	 * No account: anonymous user, public link visitor, Talk guest, email participant.
 	 *
 	 * NOTE: users from the guests app are {@see self::User}
 	 *
 	 * @experimental 36.0.0
 	 */
-	case Guest = 'guest';
+	case External = 'external';
 	/**
 	 * Non-human client: Talk bot, integration, assistant.
 	 *
@@ -58,7 +58,7 @@ enum PrincipalType: string {
 	 */
 	public function isHuman(): bool {
 		return match ($this) {
-			self::User, self::Federated, self::Guest => true,
+			self::User, self::FederatedUser, self::External => true,
 			self::Bot, self::System => false,
 		};
 	}

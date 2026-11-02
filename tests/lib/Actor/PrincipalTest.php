@@ -20,9 +20,9 @@ class PrincipalTest extends TestCase {
 	public static function dataFactories(): array {
 		return [
 			'user' => [fn () => Principal::user('alice'), PrincipalType::User, 'alice', null, null, 'user:alice'],
-			'federated' => [fn () => Principal::federated('bob', 'cloud.example'), PrincipalType::Federated, 'bob', 'cloud.example', null, 'federated:bob@cloud.example'],
-			'guest with token' => [fn () => Principal::guest('spreed.guest', 'g1', 'room'), PrincipalType::Guest, 'g1', 'room', 'spreed.guest', 'guest:g1@room:spreed.guest'],
-			'guest without token' => [fn () => Principal::guest('files_sharing.link', 'g1'), PrincipalType::Guest, 'g1', null, 'files_sharing.link', 'guest:g1:files_sharing.link'],
+			'federated' => [fn () => Principal::federated('bob', 'cloud.example'), PrincipalType::FederatedUser, 'bob', 'cloud.example', null, 'federated_user:bob@cloud.example'],
+			'external with token' => [fn () => Principal::external('spreed.guest', 'g1', 'room'), PrincipalType::External, 'g1', 'room', 'spreed.guest', 'external:g1@room:spreed.guest'],
+			'external' => [fn () => Principal::external('spreed.email', 'external_user'), PrincipalType::External, 'external_user', null, 'spreed.email', 'external:external_user:spreed.email'],
 			'bot' => [fn () => Principal::bot('summarizer'), PrincipalType::Bot, 'summarizer', null, null, 'bot:summarizer'],
 			'system' => [fn () => Principal::system('files.retention'), PrincipalType::System, 'files.retention', null, null, 'system:files.retention'],
 		];
@@ -41,21 +41,21 @@ class PrincipalTest extends TestCase {
 
 	public static function dataInvalid(): array {
 		return [
-			'federated with empty remote' => [fn () => Principal::federated('bob', ''), 'Invalid origin for principal of type "federated"'],
-			'guest with empty token' => [fn () => Principal::guest('spreed.guest', 'g1', ''), 'Invalid origin for principal of type "guest"'],
+			'federated with empty remote' => [fn () => Principal::federated('bob', ''), 'Invalid origin for principal of type "federated_user"'],
+			'external with empty token' => [fn () => Principal::external('spreed.email', 'external_user', ''), 'Invalid origin for principal of type "external"'],
 			'empty type' => [fn () => Principal::fromArray(['type' => '', 'id' => 'alice']), 'Invalid principal data'],
 			'empty id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => '']), 'Invalid principal data'],
-			'empty origin' => [fn () => Principal::fromArray(['type' => 'federated', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
-			'empty source' => [fn () => Principal::fromArray(['type' => 'guest', 'id' => 'g1', 'source' => '']), 'Invalid principal data'],
+			'empty origin' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
+			'empty source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user', 'source' => '']), 'Invalid principal data'],
 			'user with origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'origin' => 'x']), 'Invalid origin for principal of type "user"'],
 			'bot with source' => [fn () => Principal::fromArray(['type' => 'bot', 'id' => 'b', 'source' => 'spreed.guest']), 'Invalid source for principal of type "bot"'],
-			'federated without remote' => [fn () => Principal::fromArray(['type' => 'federated', 'id' => 'bob']), 'Invalid origin for principal of type "federated"'],
-			'guest without source' => [fn () => Principal::fromArray(['type' => 'guest', 'id' => 'g1']), 'Invalid source for principal of type "guest"'],
+			'federated without remote' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob']), 'Invalid origin for principal of type "federated_user"'],
+			'external without source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user']), 'Invalid source for principal of type "external"'],
 			'missing type' => [fn () => Principal::fromArray(['id' => 'alice']), 'Invalid principal data'],
 			'missing id' => [fn () => Principal::fromArray(['type' => 'user']), 'Invalid principal data'],
 			'non-string id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 1]), 'Invalid principal data'],
-			'non-string origin' => [fn () => Principal::fromArray(['type' => 'federated', 'id' => 'bob', 'origin' => 1]), 'Invalid principal data'],
-			'non-string source' => [fn () => Principal::fromArray(['type' => 'guest', 'id' => 'g1', 'source' => 1]), 'Invalid principal data'],
+			'non-string origin' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => 1]), 'Invalid principal data'],
+			'non-string source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user', 'source' => 1]), 'Invalid principal data'],
 			'unknown type' => [fn () => Principal::fromArray(['type' => 'nope', 'id' => 'alice']), 'Unknown principal type "nope"'],
 		];
 	}
@@ -68,13 +68,13 @@ class PrincipalTest extends TestCase {
 	}
 
 	public static function dataEquals(): array {
-		$guest = fn () => Principal::guest('spreed.guest', 'g1', 'room');
+		$external = fn () => Principal::external('spreed.email', 'external_user', 'room');
 		return [
-			'same' => [$guest, fn () => Principal::guest('spreed.guest', 'g1', 'room'), true],
-			'different source' => [$guest, fn () => Principal::guest('spreed.email', 'g1', 'room'), false],
-			'different id' => [$guest, fn () => Principal::guest('spreed.guest', 'g2', 'room'), false],
-			'different origin' => [$guest, fn () => Principal::guest('spreed.guest', 'g1', 'other'), false],
-			'no origin' => [$guest, fn () => Principal::guest('spreed.guest', 'g1'), false],
+			'same' => [$external, fn () => Principal::external('spreed.email', 'external_user', 'room'), true],
+			'different source' => [$external, fn () => Principal::external('spreed.guest', 'external_user', 'room'), false],
+			'different id' => [$external, fn () => Principal::external('spreed.email', 'other_user', 'room'), false],
+			'different origin' => [$external, fn () => Principal::external('spreed.email', 'external_user', 'other'), false],
+			'no origin' => [$external, fn () => Principal::external('spreed.email', 'external_user'), false],
 			'different type' => [fn () => Principal::user('alice'), fn () => Principal::bot('alice'), false],
 		];
 	}
