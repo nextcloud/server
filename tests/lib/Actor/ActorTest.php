@@ -36,8 +36,8 @@ class ActorTest extends TestCase {
 		return [
 			'user impersonates user' => [fn () => Actor::of(Principal::user('admin'))->impersonate(Principal::user('alice')), DelegationKind::Impersonation, ['user:alice', 'user:admin']],
 			'bot acts for user' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'bot:summarizer']],
-			'bot acts for federated' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::federated('bob', 'cloud.example')), DelegationKind::OnBehalfOf, ['federated:bob@cloud.example', 'bot:summarizer']],
-			'bot acts for guest' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::guest('spreed.guest', 'g1', 'room')), DelegationKind::OnBehalfOf, ['guest:g1@room:spreed.guest', 'bot:summarizer']],
+			'bot acts for federated' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::federated('bob', 'cloud.example')), DelegationKind::OnBehalfOf, ['federated_user:bob@cloud.example', 'bot:summarizer']],
+			'bot acts for external' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::external('spreed.guest', 'g1', 'room')), DelegationKind::OnBehalfOf, ['external:g1@room:spreed.guest', 'bot:summarizer']],
 			'system acts for user' => [fn () => Actor::of(Principal::system('files_versions.expire'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'system:files_versions.expire']],
 			'elevation acts for user' => [
 				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice')),
@@ -72,7 +72,7 @@ class ActorTest extends TestCase {
 		$admin = static fn () => Actor::of(Principal::user('admin'));
 		$bot = static fn () => Actor::of(Principal::bot('summarizer'));
 		return [
-			'impersonate guest' => [fn () => $admin()->impersonate(Principal::guest('spreed.guest', 'g1')), 'Invalid impersonation: only local users can be impersonated'],
+			'impersonate external' => [fn () => $admin()->impersonate(Principal::external('spreed.guest', 'g1')), 'Invalid impersonation: only local users can be impersonated'],
 			'impersonate federated' => [fn () => $admin()->impersonate(Principal::federated('bob', 'cloud.example')), 'Invalid impersonation: only local users can be impersonated'],
 			'bot impersonates' => [fn () => $bot()->impersonate(Principal::user('alice')), 'Invalid impersonation: only local users can impersonate'],
 			'nested impersonation' => [fn () => $admin()->impersonate(Principal::user('alice'))->impersonate(Principal::user('bob')), 'Invalid impersonation: nested impersonation is not allowed'],
@@ -173,7 +173,7 @@ class ActorTest extends TestCase {
 			'delegate without via' => [['principal' => $alice, 'delegate' => $admin], 'A delegate requires a delegation kind and vice versa'],
 			'via without delegate' => [['principal' => $alice, 'via' => 'impersonation'], 'A delegate requires a delegation kind and vice versa'],
 			'forbidden link' => [
-				['principal' => ['type' => 'guest', 'id' => 'g1', 'source' => 'spreed.guest'], 'via' => 'impersonation', 'delegate' => $admin],
+				['principal' => ['type' => 'external', 'id' => 'g1', 'source' => 'spreed.guest'], 'via' => 'impersonation', 'delegate' => $admin],
 				'Invalid impersonation: only local users can be impersonated',
 			],
 			'duplicate principal' => [
