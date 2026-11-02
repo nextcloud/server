@@ -20,6 +20,7 @@ const {
 	actionUrl,
 	client,
 	direct,
+	initiatorAddress,
 	instanceName,
 	stateToken,
 	userDisplayName,
@@ -32,6 +33,7 @@ const {
 	actionUrl: string
 	client: string
 	direct: boolean
+	initiatorAddress?: string | null
 	instanceName: string
 	stateToken: string
 	userId: string
@@ -63,6 +65,10 @@ async function onSubmit(event: SubmitEvent) {
 			{{ t('core', 'Currently logged in as {userDisplayName} ({userId}).', { userDisplayName, userId }) }}
 			<br>
 			{{ t('core', 'You are about to grant "{client}" access to your {instanceName} account.', { client, instanceName }) }}
+		</NcNoteCard>
+
+		<NcNoteCard v-if="initiatorAddress" type="warning">
+			{{ t('core', 'This request was started from {address}, which is not the network you are using now. Only grant access if you started it on your own device just now. Otherwise someone may be trying to get access to your account.', { address: initiatorAddress }) }}
 		</NcNoteCard>
 
 		<form method="POST" :action="actionUrl" @submit="onSubmit">

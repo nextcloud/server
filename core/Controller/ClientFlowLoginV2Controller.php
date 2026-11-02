@@ -36,6 +36,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Ip\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Util;
@@ -60,6 +61,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		private ?string $userId,
 		private IL10N $l10n,
 		private IInitialState $initialState,
+		private IFactory $ipFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -176,6 +178,7 @@ class ClientFlowLoginV2Controller extends Controller {
 			'instanceName' => $this->defaults->getName(),
 			'stateToken' => $stateToken,
 			'direct' => $direct === 1,
+			'initiatorAddress' => $this->isStartedFromOtherNetwork($flow) ? $flow->getInitiatorIp() : null,
 		]);
 
 		Util::addScript('core', 'login_flow');
@@ -265,6 +268,26 @@ class ClientFlowLoginV2Controller extends Controller {
 		return $this->handleFlowDone($result);
 	}
 
+	/**
+	 * Whether the flow was started from another network than the one granting it.
+	 * A switch between IPv4 and IPv6 is common on dual-stack devices and does not count.
+	 */
+	private function isStartedFromOtherNetwork(LoginFlowV2 $flow): bool {
+		$initiatorIp = $flow->getInitiatorIp();
+		$currentIp = $this->request->getRemoteAddress();
+		if ($initiatorIp === null || $initiatorIp === '' || str_contains($initiatorIp, ':') !== str_contains($currentIp, ':')) {
+			return false;
+		}
+
+		$prefix = str_contains($initiatorIp, ':') ? 64 : 24;
+		try {
+			$network = $this->ipFactory->rangeFromString($initiatorIp . '/' . $prefix);
+			return !$network->contains($this->ipFactory->addressFromString($currentIp));
+		} catch (\InvalidArgumentException) {
+			return false;
+		}
+	}
+
 	private function handleFlowDone(bool $result): StandaloneTemplateResponse {
 		if ($result) {
 			Util::addScript('core', 'login_flow');
@@ -304,7 +327,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('user-agent');
 
-		$tokens = $this->loginFlowV2Service->createTokens($userAgent);
+		$tokens = $this->loginFlowV2Service->createTokens($userAgent, $this->request->getRemoteAddress());
 
 		$data = [
 			'poll' => [
