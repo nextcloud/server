@@ -15,7 +15,6 @@ use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
-use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -26,6 +25,7 @@ use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -75,7 +75,7 @@ class InvitationResponseServer {
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
-		$acl = new DavAclPlugin();
+		$acl = new InvitationResponseAclPlugin(Server::get(IUserManager::class));
 		$acl->principalCollectionSet = [
 			'principals/users', 'principals/groups'
 		];
