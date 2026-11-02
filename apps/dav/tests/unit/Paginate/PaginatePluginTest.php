@@ -279,6 +279,29 @@ class PaginatePluginTest extends TestCase {
 		self::assertFalse($this->plugin->onMethod($this->request, $response));
 	}
 
+	public function testOnMethodIgnoresEvictedCacheEntries(): void {
+		$this->initializePlugin();
+
+		$this->request->method('hasHeader')->willReturn(true);
+		$this->request->method('getUrl')->willReturn('url');
+		$this->request->method('getHeader')->willReturnMap([
+			[PaginatePlugin::PAGINATE_TOKEN_HEADER, 'token'],
+			[PaginatePlugin::PAGINATE_OFFSET_HEADER, '0'],
+			[PaginatePlugin::PAGINATE_COUNT_HEADER, '2'],
+		]);
+
+		$this->cache->method('exists')->willReturn(true);
+		$this->cache->method('get')->willReturn((function (): \Generator {
+			yield $this->getResponseXmlForFile('/file1', 'File 1');
+			yield null;
+		})());
+
+		$this->response->expects(self::never())
+			->method('setBody');
+
+		self::assertNull($this->plugin->onMethod($this->request, $this->response));
+	}
+
 	public function testOnMultiStatusNoPaginateHeaderShouldSucceed(): void {
 		$this->initializePlugin();
 

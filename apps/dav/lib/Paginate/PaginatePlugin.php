@@ -126,7 +126,10 @@ class PaginatePlugin extends ServerPlugin {
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
 			$count = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 
-			$items = $this->cache->get($url, $token, $offset, $count);
+			$items = iterator_to_array($this->cache->get($url, $token, $offset, $count), false);
+			if (in_array(null, $items, true)) {
+				return;
+			}
 
 			$response->setStatus(207);
 			$response->addHeader(self::PAGINATE_HEADER, 'true');
