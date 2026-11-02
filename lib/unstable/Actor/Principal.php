@@ -22,23 +22,22 @@ use Override;
  * keeps this trivially serializable for jobs and audit logs.
  *
  * @psalm-immutable
+ * @psalm-import-type PrincipalData from DataTypes
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
 final readonly class Principal implements JsonSerializable {
+	/**
+	 * @param non-empty-string $id - uid, federated user id, guest id, bot id or system component
+	 * @param ?non-empty-string $origin - remote instance for federated, share/room token for guests, null otherwise
+	 * @param ?non-empty-string $source - app-namespaced kind of guest, e.g. "spreed.guest" or "files_sharing.link"; null for non-guests
+	 */
 	private function __construct(
 		public PrincipalType $type,
-		/** uid, federated user id, guest id, bot id or system component */
 		public string $id,
-		/** remote instance for federated, share/room token for guests, null otherwise */
 		public ?string $origin = null,
-		/** app-namespaced kind of guest, e.g. "spreed.guest" or "files_sharing.link"; null for non-guests */
 		public ?string $source = null,
 	) {
-		if ($id === '') {
-			throw new InvalidArgumentException('Principal id must not be empty');
-		}
-
 		$originAllowed = match ($type) {
 			PrincipalType::Federated => $origin !== null && $origin !== '',
 			PrincipalType::Guest => $origin === null || $origin !== '',
@@ -53,7 +52,7 @@ final readonly class Principal implements JsonSerializable {
 		}
 
 		$sourceAllowed = $type === PrincipalType::Guest
-			? $source !== null && $source !== ''
+			? $source !== null
 			: $source === null;
 		if (!$sourceAllowed) {
 			throw new InvalidArgumentException(sprintf(
@@ -64,6 +63,7 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
+	 * @param non-empty-string $uid - user id
 	 * @experimental 36.0.0
 	 */
 	public static function user(string $uid): self {
@@ -71,6 +71,8 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
+	 * @param non-empty-string $userId - federated user id
+	 * @param non-empty-string $remote - remote instance
 	 * @experimental 36.0.0
 	 */
 	public static function federated(string $userId, string $remote): self {
@@ -78,7 +80,9 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * @param string $source app-namespaced kind of guest, e.g. "spreed.email"
+	 * @param non-empty-string $source app-namespaced kind of guest, e.g. "spreed.email"
+	 * @param non-empty-string $guestId - guest id
+	 * @param ?non-empty-string $token - share/room token, if any
 	 * @experimental 36.0.0
 	 */
 	public static function guest(string $source, string $guestId, ?string $token = null): self {
@@ -86,6 +90,7 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
+	 * @param non-empty-string $botId - bot id
 	 * @experimental 36.0.0
 	 */
 	public static function bot(string $botId): self {
@@ -95,6 +100,7 @@ final readonly class Principal implements JsonSerializable {
 	/**
 	 * Identifies a component, e.g. "governance.retention".
 	 *
+	 * @param non-empty-string $component - component name
 	 * @experimental 36.0.0
 	 */
 	public static function system(string $component): self {
@@ -120,19 +126,19 @@ final readonly class Principal implements JsonSerializable {
 
 	/**
 	 * Stable key for logs, cache keys and cycle detection, e.g. "federated:bob@cloud.example"
-	 * or "guest:spreed.guest:abc123@roomtoken"
+	 * or "guest:abc123@roomtoken:spreed.guest"
 	 *
 	 * @experimental 36.0.0
 	 */
 	public function key(): string {
 		return $this->type->value . ':'
-			. ($this->source !== null ? $this->source . ':' : '')
 			. $this->id
-			. ($this->origin !== null ? '@' . $this->origin : '');
+			. ($this->origin !== null ? '@' . $this->origin : '')
+			. ($this->source !== null ? ':' . $this->source : '');
 	}
 
 	/**
-	 * @return array{type: string, id: string, origin: ?string, source: ?string}
+	 * @return PrincipalData
 	 * @experimental 36.0.0
 	 */
 	#[Override]
@@ -141,20 +147,16 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * @param array<array-key, mixed> $data
-	 * @throws InvalidArgumentException
+	 * @param array<string, mixed> $data - see PrincipalData
+	 * @throws InvalidArgumentException if the data is invalid or the type is unknown
 	 * @experimental 36.0.0
 	 */
 	public static function fromArray(array $data): self {
-		$type = $data['type'] ?? null;
-		$id = $data['id'] ?? null;
+		self::assertValidData($data);
+		$type = $data['type'];
+		$id = $data['id'];
 		$origin = $data['origin'] ?? null;
 		$source = $data['source'] ?? null;
-		if (!is_string($type) || !is_string($id)
-			|| ($origin !== null && !is_string($origin))
-			|| ($source !== null && !is_string($source))) {
-			throw new InvalidArgumentException('Invalid principal data');
-		}
 
 		return new self(
 			PrincipalType::tryFrom($type) ?? throw new InvalidArgumentException(sprintf('Unknown principal type "%s"', $type)),
@@ -162,5 +164,22 @@ final readonly class Principal implements JsonSerializable {
 			$origin,
 			$source,
 		);
+	}
+
+	/**
+	 * @psalm-assert array{type: non-empty-string, id: non-empty-string, origin?: ?non-empty-string, source?: ?non-empty-string} $data
+	 * @throws InvalidArgumentException - if the data is invalid
+	 */
+	private static function assertValidData(array $data): void {
+		$type = $data['type'] ?? null;
+		$id = $data['id'] ?? null;
+		$origin = $data['origin'] ?? null;
+		$source = $data['source'] ?? null;
+		if (!is_string($type) || $type === ''
+			|| !is_string($id) || $id === ''
+			|| ($origin !== null && !is_string($origin)) || $origin === ''
+			|| ($source !== null && !is_string($source)) || $source === '') {
+			throw new InvalidArgumentException('Invalid principal data');
+		}
 	}
 }
