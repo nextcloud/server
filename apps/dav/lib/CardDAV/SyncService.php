@@ -73,14 +73,12 @@ class SyncService extends ASyncService {
 			if (isset($status[200])) {
 				$absoluteUrl = $this->prepareUri($url, $resource);
 				$vCard = $this->download($absoluteUrl, $userName, $sharedSecret);
-				$this->atomic(function () use ($addressBookId, $cardUri, $vCard): void {
-					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
-					if ($existingCard === false) {
-						$this->backend->createCard($addressBookId, $cardUri, $vCard);
-					} else {
-						$this->backend->updateCard($addressBookId, $cardUri, $vCard);
-					}
-				}, $this->dbConnection);
+				$existingCard = $this->backend->getCard($addressBookId, $cardUri);
+				if ($existingCard === false) {
+					$this->backend->createCard($addressBookId, $cardUri, $vCard);
+				} else {
+					$this->backend->updateCard($addressBookId, $cardUri, $vCard);
+				}
 			} else {
 				$this->backend->deleteCard($addressBookId, $cardUri);
 			}
@@ -140,27 +138,24 @@ class SyncService extends ASyncService {
 
 		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$this->atomic(function () use ($addressBookId, $cardId, $user): void {
-				$card = $this->backend->getCard($addressBookId, $cardId);
-				if ($card === false) {
-					$vCard = $this->converter->createCardFromUser($user);
-					if ($vCard !== null) {
-						$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
-					}
+			$vCard = $this->converter->createCardFromUser($user);
+			$card = $this->backend->getCard($addressBookId, $cardId);
+			if ($card === false) {
+				if ($vCard !== null) {
+					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
+				}
+			} else {
+				if (is_null($vCard)) {
+					$this->backend->deleteCard($addressBookId, $cardId);
 				} else {
-					$vCard = $this->converter->createCardFromUser($user);
-					if (is_null($vCard)) {
-						$this->backend->deleteCard($addressBookId, $cardId);
-					} else {
-						$cardData = $vCard->serialize();
-						// Writing an identical card would still bump the address book
-						// sync token and make every client re-download the card
-						if ($card['carddata'] !== $cardData) {
-							$this->backend->updateCard($addressBookId, $cardId, $cardData);
-						}
+					$cardData = $vCard->serialize();
+					// Writing an identical card would still bump the address book
+					// sync token and make every client re-download the card
+					if ($card['carddata'] !== $cardData) {
+						$this->backend->updateCard($addressBookId, $cardId, $cardData);
 					}
 				}
-			}, $this->dbConnection);
+			}
 		} else {
 			$this->backend->deleteCard($addressBookId, $cardId);
 		}

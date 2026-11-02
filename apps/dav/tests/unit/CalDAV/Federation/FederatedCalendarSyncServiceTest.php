@@ -19,7 +19,6 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -31,7 +30,6 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 	private FederatedCalendarMapper&MockObject $federatedCalendarMapper;
 	private LoggerInterface&MockObject $logger;
 	private CalDavBackend&MockObject $backend;
-	private IDBConnection&MockObject $dbConnection;
 	private ICloudIdManager&MockObject $cloudIdManager;
 	private IClientService&MockObject $clientService;
 	private IConfig&MockObject $config;
@@ -42,7 +40,6 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->backend = $this->createMock(CalDavBackend::class);
-		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -53,7 +50,6 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			$this->federatedCalendarMapper,
 			$this->logger,
 			$this->backend,
-			$this->dbConnection,
 			$this->cloudIdManager,
 		);
 	}
@@ -144,6 +140,74 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			->with(1);
 
 		$this->assertEquals(0, $this->federatedCalendarSyncService->syncOne($calendar));
+	}
+
+	public static function provideExistingObjectData(): array {
+		return [
+			'new object' => [null, 1, 0],
+			'existing object' => [['id' => 10], 0, 1],
+		];
+	}
+
+	#[DataProvider(methodName: 'provideExistingObjectData')]
+	public function testSyncOneWithChangedObject(?array $existingObject, int $createCalls, int $updateCalls): void {
+		$calendar = new FederatedCalendarEntity();
+		$calendar->setId(1);
+		$calendar->setPrincipaluri('principals/users/user1');
+		$calendar->setRemoteUrl('https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2');
+		$calendar->setSyncToken(100);
+		$calendar->setToken('token');
+
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->method('getId')
+			->willReturn('user1@nextcloud.testing');
+		$this->cloudIdManager->expects(self::once())
+			->method('getCloudId')
+			->with('user1')
+			->willReturn($cloudId);
+
+		$client = $this->createMock(IClient::class);
+		$reportResponse = $this->createMock(IResponse::class);
+		$reportResponse->method('getBody')
+			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:response><d:href>/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics</d:href><d:propstat><d:prop><d:getetag>"abc"</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:sync-token>http://sabre.io/ns/sync/101</d:sync-token></d:multistatus>');
+		$client->expects(self::once())
+			->method('request')
+			->with('REPORT', 'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', self::anything())
+			->willReturn($reportResponse);
+
+		$calendarData = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nEND:VCALENDAR\r\n";
+		$getResponse = $this->createMock(IResponse::class);
+		$getResponse->method('getBody')
+			->willReturn($calendarData);
+		$client->expects(self::once())
+			->method('get')
+			->with('https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2/event1.ics', self::anything())
+			->willReturn($getResponse);
+
+		$this->clientService->method('newClient')
+			->willReturn($client);
+
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
+
+		$this->backend->expects(self::once())
+			->method('getCalendarObject')
+			->with(1, 'event1.ics', CalDavBackend::CALENDAR_TYPE_FEDERATED)
+			->willReturn($existingObject);
+		$this->backend->expects(self::exactly($createCalls))
+			->method('createCalendarObject')
+			->with(1, 'event1.ics', $calendarData, CalDavBackend::CALENDAR_TYPE_FEDERATED);
+		$this->backend->expects(self::exactly($updateCalls))
+			->method('updateCalendarObject')
+			->with(1, 'event1.ics', $calendarData, CalDavBackend::CALENDAR_TYPE_FEDERATED);
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('updateSyncTokenAndTime')
+			->with(1, 101);
+
+		$this->assertEquals(1, $this->federatedCalendarSyncService->syncOne($calendar));
 	}
 
 	public static function provideUnexpectedSyncTokenData(): array {
