@@ -13,7 +13,15 @@ use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use Sabre\DAV\Server;
 
 class ForbiddenTest extends \Test\TestCase {
-	public function testSerialization(): void {
+	public static function dataSerialization(): array {
+		return [
+			['1234567890', '1234567890'],
+			['Muster GmbH & Co. KG', 'Muster GmbH &amp; Co. KG'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSerialization')]
+	public function testSerialization(string $message, string $expectedReason): void {
 
 		// create xml doc
 		$DOM = new \DOMDocument('1.0', 'utf-8');
@@ -23,13 +31,12 @@ class ForbiddenTest extends \Test\TestCase {
 		$DOM->appendChild($error);
 
 		// serialize the exception
-		$message = '1234567890';
 		$retry = false;
 		$expectedXml = <<<EOD
 <?xml version="1.0" encoding="utf-8"?>
 <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:o="http://owncloud.org/ns">
   <o:retry xmlns:o="o:">false</o:retry>
-  <o:reason xmlns:o="o:">1234567890</o:reason>
+  <o:reason xmlns:o="o:">$expectedReason</o:reason>
 </d:error>
 
 EOD;
