@@ -30,7 +30,8 @@ final readonly class Principal implements JsonSerializable {
 	/**
 	 * @param non-empty-string $id - uid, federated user id, external user id, bot id or system component
 	 * @param ?non-empty-string $origin - remote instance for federated users, share/room token for external users, null otherwise
-	 * @param ?non-empty-string $source - app-namespaced kind of external user, e.g. "spreed.guest" or "files_sharing.link"; null for others
+	 * @param ?non-empty-string $source - app-namespaced kind of external user, e.g. "spreed.guest" or "files_sharing.link";
+	 *                                    optionally the app owning a bot or system component, e.g. "spreed"; null for users
 	 */
 	private function __construct(
 		public PrincipalType $type,
@@ -51,9 +52,12 @@ final readonly class Principal implements JsonSerializable {
 			));
 		}
 
-		$sourceAllowed = $type === PrincipalType::External
-			? $source !== null
-			: $source === null;
+		$sourceAllowed = match ($type) {
+			PrincipalType::External => $source !== null && $source !== '',
+			PrincipalType::Bot, PrincipalType::System => $source === null || $source !== '',
+			PrincipalType::User, PrincipalType::FederatedUser => $source === null,
+			default => false,
+		};
 		if (!$sourceAllowed) {
 			throw new InvalidArgumentException(sprintf(
 				'Invalid source for principal of type "%s"',
@@ -91,20 +95,22 @@ final readonly class Principal implements JsonSerializable {
 
 	/**
 	 * @param non-empty-string $botId - bot id
+	 * @param ?non-empty-string $source - app owning the bot, e.g. "spreed"
 	 * @experimental 36.0.0
 	 */
-	public static function bot(string $botId): self {
-		return new self(PrincipalType::Bot, $botId);
+	public static function bot(string $botId, ?string $source = null): self {
+		return new self(PrincipalType::Bot, $botId, null, $source);
 	}
 
 	/**
 	 * Identifies a component, e.g. "governance.retention".
 	 *
 	 * @param non-empty-string $component - component name
+	 * @param ?non-empty-string $source - app owning the component, e.g. "app_api"
 	 * @experimental 36.0.0
 	 */
-	public static function system(string $component): self {
-		return new self(PrincipalType::System, $component);
+	public static function system(string $component, ?string $source = null): self {
+		return new self(PrincipalType::System, $component, null, $source);
 	}
 
 	/**

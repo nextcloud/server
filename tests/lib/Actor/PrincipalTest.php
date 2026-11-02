@@ -24,7 +24,9 @@ class PrincipalTest extends TestCase {
 			'external with token' => [fn () => Principal::external('spreed.guest', 'g1', 'room'), PrincipalType::External, 'g1', 'room', 'spreed.guest', 'external:g1@room:spreed.guest'],
 			'external' => [fn () => Principal::external('spreed.email', 'external_user'), PrincipalType::External, 'external_user', null, 'spreed.email', 'external:external_user:spreed.email'],
 			'bot' => [fn () => Principal::bot('summarizer'), PrincipalType::Bot, 'summarizer', null, null, 'bot:summarizer'],
+			'bot with source' => [fn () => Principal::bot('summarizer', 'spreed'), PrincipalType::Bot, 'summarizer', null, 'spreed', 'bot:summarizer:spreed'],
 			'system' => [fn () => Principal::system('files.retention'), PrincipalType::System, 'files.retention', null, null, 'system:files.retention'],
+			'system with source' => [fn () => Principal::system('retention', 'governance'), PrincipalType::System, 'retention', null, 'governance', 'system:retention:governance'],
 		];
 	}
 
@@ -43,12 +45,16 @@ class PrincipalTest extends TestCase {
 		return [
 			'federated with empty remote' => [fn () => Principal::federated('bob', ''), 'Invalid origin for principal of type "federated_user"'],
 			'external with empty token' => [fn () => Principal::external('spreed.email', 'external_user', ''), 'Invalid origin for principal of type "external"'],
+			'external with empty source' => [fn () => Principal::external('', 'external_user'), 'Invalid source for principal of type "external"'],
+			'bot with empty source' => [fn () => Principal::bot('summarizer', ''), 'Invalid source for principal of type "bot"'],
+			'system with empty source' => [fn () => Principal::system('retention', ''), 'Invalid source for principal of type "system"'],
 			'empty type' => [fn () => Principal::fromArray(['type' => '', 'id' => 'alice']), 'Invalid principal data'],
 			'empty id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => '']), 'Invalid principal data'],
 			'empty origin' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
 			'empty source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user', 'source' => '']), 'Invalid principal data'],
 			'user with origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'origin' => 'x']), 'Invalid origin for principal of type "user"'],
-			'bot with source' => [fn () => Principal::fromArray(['type' => 'bot', 'id' => 'b', 'source' => 'spreed.guest']), 'Invalid source for principal of type "bot"'],
+			'user with source' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'source' => 'spreed']), 'Invalid source for principal of type "user"'],
+			'federated with source' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => 'cloud.example', 'source' => 'spreed']), 'Invalid source for principal of type "federated_user"'],
 			'federated without remote' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob']), 'Invalid origin for principal of type "federated_user"'],
 			'external without source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user']), 'Invalid source for principal of type "external"'],
 			'missing type' => [fn () => Principal::fromArray(['id' => 'alice']), 'Invalid principal data'],
@@ -76,6 +82,8 @@ class PrincipalTest extends TestCase {
 			'different origin' => [$external, fn () => Principal::external('spreed.email', 'external_user', 'other'), false],
 			'no origin' => [$external, fn () => Principal::external('spreed.email', 'external_user'), false],
 			'different type' => [fn () => Principal::user('alice'), fn () => Principal::bot('alice'), false],
+			'bots of different apps' => [fn () => Principal::bot('summarizer', 'spreed'), fn () => Principal::bot('summarizer', 'assistant'), false],
+			'bot with and without app' => [fn () => Principal::bot('summarizer', 'spreed'), fn () => Principal::bot('summarizer'), false],
 		];
 	}
 
