@@ -53,6 +53,8 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
 
+	private const USERCONTENT_PROXY_URL = 'https://usercontent.apps.nextcloud.com/';
+
 	/** @var array */
 	private $allApps = [];
 
@@ -299,12 +301,16 @@ class AppSettingsController extends Controller {
 
 	/**
 	 * Convert URL to proxied URL so CSP is no problem
+	 *
+	 * The app store already serves its screenshot URLs in this form; only an
+	 * app's own info.xml still names the source.
 	 */
 	private function createProxyPreviewUrl(string $url): string {
-		if ($url === '') {
-			return '';
+		if ($url === '' || str_starts_with($url, self::USERCONTENT_PROXY_URL)) {
+			return $url;
 		}
-		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+		// The proxy stores its files under the URL-safe alphabet
+		return self::USERCONTENT_PROXY_URL . strtr(base64_encode($url), '+/', '-_');
 	}
 
 	private function fetchApps() {
@@ -531,7 +537,7 @@ class AppSettingsController extends Controller {
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,
-				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
+				'screenshot' => $this->createProxyPreviewUrl($app['screenshots'][0]['url'] ?? ''),
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,
