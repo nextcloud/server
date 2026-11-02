@@ -290,7 +290,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->willReturn(null);
-		$this->getAutoMock(IUserSession::class)
+		$this->userSession
 			->method('getUser')
 			->willReturn($this->createMock(IUser::class));
 
@@ -323,17 +323,17 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
-		$this->getAutoMock(Manager::class)
+		$this->userManager
 			->method('get')
 			->willReturn(null);
-		$this->getAutoMock(IUserSession::class)
+		$this->userSession
 			->method('getUser')
 			->willReturn(null);
-		$this->getAutoMock(ICloudIdManager::class)
+		$this->cloudIdManager
 			->method('isValidCloudId')
 			->willReturn(true);
-		$this->getAutoMock(IAppData::class)->expects($this->never())->method('getFolder');
-		$this->getAutoMock(IAppData::class)->expects($this->never())->method('newFolder');
+		$this->appData->expects($this->never())->method('getFolder');
+		$this->appData->expects($this->never())->method('newFolder');
 
 		$this->avatarManager->getAvatar('user@https://remote.example.com');
 	}
@@ -347,7 +347,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('get')
 			->with('invalidUser')
 			->willReturn(null);
-		$this->getAutoMock(IUserSession::class)
+		$this->userSession
 			->method('getUser')
 			->willReturn($this->createMock(IUser::class));
 
