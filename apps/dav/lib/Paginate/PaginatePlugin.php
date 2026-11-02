@@ -52,7 +52,7 @@ class PaginatePlugin extends ServerPlugin {
 		$url = $request->getUrl();
 		if (
 			$request->hasHeader(self::PAGINATE_HEADER) &&
-			(!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER)))
+			(!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER), $this->getCacheContext()))
 		) {
 			$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
@@ -62,7 +62,7 @@ class PaginatePlugin extends ServerPlugin {
 			// cache XML, but we keep the first $pageSize elements as objects
 			// to use for the response of the first page.
 			$rendererGenerator = $this->getXmlRendererGenerator($copyIterator);
-			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator);
+			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator, $this->getCacheContext());
 
 			$fileProperties = $copyIterator->getRequestedItems();
 			$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
@@ -130,7 +130,7 @@ class PaginatePlugin extends ServerPlugin {
 		if (
 			$request->hasHeader(self::PAGINATE_TOKEN_HEADER) &&
 			$request->hasHeader(self::PAGINATE_OFFSET_HEADER) &&
-			$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
+			$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER), $context)
 		) {
 			$token = $request->getHeader(self::PAGINATE_TOKEN_HEADER);
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);

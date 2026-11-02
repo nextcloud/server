@@ -14,7 +14,6 @@ use OCA\DAV\Paginate\PaginateCache;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class PaginateCacheTest extends TestCase {
@@ -57,7 +56,9 @@ class PaginateCacheTest extends TestCase {
 		];
 	}
 
-	#[DataProvider(methodName: 'dataDifferentContextDoesNotUseCache')]
+	/**
+	 * @dataProvider dataDifferentContextDoesNotUseCache
+	 */
 	public function testDifferentContextDoesNotUseCache(array $context): void {
 		$this->paginateCache->store('url', new \ArrayIterator(['a', 'b']), self::CONTEXT);
 
