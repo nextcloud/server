@@ -37,7 +37,7 @@ class ActorTest extends TestCase {
 			'user impersonates user' => [fn () => Actor::of(Principal::user('admin'))->impersonate(Principal::user('alice')), DelegationKind::Impersonation, ['user:alice', 'user:admin']],
 			'bot acts for user' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'bot:summarizer']],
 			'bot acts for federated' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::federated('bob', 'cloud.example')), DelegationKind::OnBehalfOf, ['federated:bob@cloud.example', 'bot:summarizer']],
-			'bot acts for guest' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::guest('spreed.guest', 'g1', 'room')), DelegationKind::OnBehalfOf, ['guest:spreed.guest:g1@room', 'bot:summarizer']],
+			'bot acts for guest' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::guest('spreed.guest', 'g1', 'room')), DelegationKind::OnBehalfOf, ['guest:g1@room:spreed.guest', 'bot:summarizer']],
 			'system acts for user' => [fn () => Actor::of(Principal::system('files_versions.expire'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'system:files_versions.expire']],
 			'elevation acts for user' => [
 				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice')),
@@ -86,6 +86,10 @@ class ActorTest extends TestCase {
 				'Principal appears more than once in delegation chain',
 			],
 			'self impersonation' => [fn () => $admin()->impersonate(Principal::user('admin')), 'Principal appears more than once in delegation chain'],
+			'repeated principal in the middle of the chain' => [
+				fn () => $admin()->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice'))->elevate(Principal::system('files.retention')),
+				'Principal appears more than once in delegation chain',
+			],
 		];
 	}
 
@@ -131,6 +135,18 @@ class ActorTest extends TestCase {
 		self::alternatingChain(Actor::MAX_CHAIN_LENGTH + 1);
 	}
 
+	public function testFromArrayChainTooLong(): void {
+		$data = [
+			'principal' => ['type' => 'user', 'id' => 'user' . Actor::MAX_CHAIN_LENGTH],
+			'via' => DelegationKind::OnBehalfOf->value,
+			'delegate' => json_decode(json_encode(self::alternatingChain(Actor::MAX_CHAIN_LENGTH)), true),
+		];
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('Delegation chain too long');
+		Actor::fromArray($data);
+	}
+
 	/**
 	 * Chain of the given length alternating between a system component elevation and acting for a user.
 	 */
@@ -159,6 +175,10 @@ class ActorTest extends TestCase {
 			'forbidden link' => [
 				['principal' => ['type' => 'guest', 'id' => 'g1', 'source' => 'spreed.guest'], 'via' => 'impersonation', 'delegate' => $admin],
 				'Invalid impersonation: only local users can be impersonated',
+			],
+			'duplicate principal' => [
+				['principal' => $alice, 'via' => 'impersonation', 'delegate' => ['principal' => $alice]],
+				'Principal appears more than once in delegation chain',
 			],
 		];
 	}

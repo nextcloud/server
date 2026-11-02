@@ -21,8 +21,8 @@ class PrincipalTest extends TestCase {
 		return [
 			'user' => [fn () => Principal::user('alice'), PrincipalType::User, 'alice', null, null, 'user:alice'],
 			'federated' => [fn () => Principal::federated('bob', 'cloud.example'), PrincipalType::Federated, 'bob', 'cloud.example', null, 'federated:bob@cloud.example'],
-			'guest with token' => [fn () => Principal::guest('spreed.guest', 'g1', 'room'), PrincipalType::Guest, 'g1', 'room', 'spreed.guest', 'guest:spreed.guest:g1@room'],
-			'guest without token' => [fn () => Principal::guest('files_sharing.link', 'g1'), PrincipalType::Guest, 'g1', null, 'files_sharing.link', 'guest:files_sharing.link:g1'],
+			'guest with token' => [fn () => Principal::guest('spreed.guest', 'g1', 'room'), PrincipalType::Guest, 'g1', 'room', 'spreed.guest', 'guest:g1@room:spreed.guest'],
+			'guest without token' => [fn () => Principal::guest('files_sharing.link', 'g1'), PrincipalType::Guest, 'g1', null, 'files_sharing.link', 'guest:g1:files_sharing.link'],
 			'bot' => [fn () => Principal::bot('summarizer'), PrincipalType::Bot, 'summarizer', null, null, 'bot:summarizer'],
 			'system' => [fn () => Principal::system('files.retention'), PrincipalType::System, 'files.retention', null, null, 'system:files.retention'],
 		];
@@ -41,10 +41,12 @@ class PrincipalTest extends TestCase {
 
 	public static function dataInvalid(): array {
 		return [
-			'empty id' => [fn () => Principal::user(''), 'Principal id must not be empty'],
 			'federated with empty remote' => [fn () => Principal::federated('bob', ''), 'Invalid origin for principal of type "federated"'],
 			'guest with empty token' => [fn () => Principal::guest('spreed.guest', 'g1', ''), 'Invalid origin for principal of type "guest"'],
-			'guest with empty source' => [fn () => Principal::guest('', 'g1'), 'Invalid source for principal of type "guest"'],
+			'empty type' => [fn () => Principal::fromArray(['type' => '', 'id' => 'alice']), 'Invalid principal data'],
+			'empty id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => '']), 'Invalid principal data'],
+			'empty origin' => [fn () => Principal::fromArray(['type' => 'federated', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
+			'empty source' => [fn () => Principal::fromArray(['type' => 'guest', 'id' => 'g1', 'source' => '']), 'Invalid principal data'],
 			'user with origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'origin' => 'x']), 'Invalid origin for principal of type "user"'],
 			'bot with source' => [fn () => Principal::fromArray(['type' => 'bot', 'id' => 'b', 'source' => 'spreed.guest']), 'Invalid source for principal of type "bot"'],
 			'federated without remote' => [fn () => Principal::fromArray(['type' => 'federated', 'id' => 'bob']), 'Invalid origin for principal of type "federated"'],
