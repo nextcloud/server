@@ -8,7 +8,7 @@
 
 namespace OCP\Comments;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -17,7 +17,7 @@ use OCP\EventDispatcher\Event;
  * @since 9.1.0
  * @since 28.0.0 Dispatched as a typed event
  */
-#[Consumable(since: '9.1.0')]
+#[Listenable(since: '9.1.0')]
 class CommentsEntityEvent extends Event {
 	/**
 	 * @since 9.1.0

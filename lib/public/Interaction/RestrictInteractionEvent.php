@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Interaction;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -28,7 +28,7 @@ use RuntimeException;
  *
  * @since 34.0.2
  */
-#[Consumable(since: '34.0.2')]
+#[Listenable(since: '34.0.2')]
 final class RestrictInteractionEvent extends Event {
 	/**
 	 * @since 34.0.2

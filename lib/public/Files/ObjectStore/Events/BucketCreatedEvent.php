@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Files\ObjectStore\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
  * @since 33.0.0
  */
-#[Consumable(since: '33.0.0')]
+#[Listenable(since: '33.0.0')]
 class BucketCreatedEvent extends Event {
 
 	/**
