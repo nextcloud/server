@@ -9,9 +9,10 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class SqliteFunctionBuilder extends FunctionBuilder {
-	#[\Override]
+	#[Override]
 	public function concat($x, ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
@@ -21,33 +22,38 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	#[\Override]
+	#[Override]
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')');
 	}
 
-	#[\Override]
+	#[Override]
 	public function greatest($x, $y): IQueryFunction {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	#[\Override]
+	#[Override]
 	public function least($x, $y): IQueryFunction {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	#[\Override]
+	#[Override]
 	public function octetLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('LENGTH(CAST(' . $quotedName . ' as BLOB))' . $alias);
 	}
 
-	#[\Override]
+	#[Override]
 	public function charLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+	}
+
+	#[Override]
+	public function fromUnixtime(int|string $timestamp): IQueryFunction {
+		return new QueryFunction('datetime(' . (int)$timestamp . ', "unixepoch")');
 	}
 }
