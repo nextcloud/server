@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\Paginate;
 use OCA\DAV\Paginate\PaginateCache;
 use OCA\DAV\Paginate\PaginatePlugin;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -19,12 +20,14 @@ use Sabre\Xml\Service;
 use Test\TestCase;
 
 class PaginatePluginTest extends TestCase {
+	private const CONTEXT = ['principal' => 'principals/users/alice', 'minimal' => false];
 
 	private PaginateCache&MockObject $cache;
 	private PaginatePlugin $plugin;
 	private Server&MockObject $server;
 	private RequestInterface&MockObject $request;
 	private ResponseInterface&MockObject $response;
+	private ?string $preferReturn = null;
 
 	public function testOnMultiStatusCachesAndUpdatesResponse(): void {
 		$this->initializePlugin();
@@ -88,6 +91,7 @@ class PaginatePluginTest extends TestCase {
 					self::assertStringContainsString($this->getResponseXmlForFile('/dav/file3', 'File 3'), $items[2]);
 					return true;
 				}),
+				self::CONTEXT,
 			)
 			->willReturn([
 				'token' => 'token',
@@ -187,7 +191,7 @@ class PaginatePluginTest extends TestCase {
 
 		$this->cache->expects(self::once())
 			->method('exists')
-			->with('', 'token')
+			->with('', 'token', self::CONTEXT)
 			->willReturn(true);
 
 		$this->cache->expects(self::never())
@@ -231,12 +235,12 @@ class PaginatePluginTest extends TestCase {
 
 		$this->cache->expects(self::once())
 			->method('exists')
-			->with('url', 'token')
+			->with('url', 'token', self::CONTEXT)
 			->willReturn(true);
 
 		$this->cache->expects(self::once())
 			->method('get')
-			->with('url', 'token', 2, 4)
+			->with('url', 'token', 2, 4, self::CONTEXT)
 			->willReturn((function (): \Generator {
 				yield $this->getResponseXmlForFile('/file1', 'File 1');
 				yield $this->getResponseXmlForFile('/file2', 'File 2');
@@ -279,6 +283,27 @@ class PaginatePluginTest extends TestCase {
 		self::assertFalse($this->plugin->onMethod($this->request, $response));
 	}
 
+	public function testOnMethodPassesMinimalPreferenceInContext(): void {
+		$this->initializePlugin();
+		$this->preferReturn = 'minimal';
+
+		$this->request->method('hasHeader')
+			->willReturn(true);
+		$this->request->method('getUrl')
+			->willReturn('url');
+		$this->request->method('getHeader')
+			->willReturn('token');
+
+		$this->cache->expects(self::once())
+			->method('exists')
+			->with('url', 'token', ['principal' => 'principals/users/alice', 'minimal' => true])
+			->willReturn(false);
+		$this->cache->expects(self::never())
+			->method('get');
+
+		$this->plugin->onMethod($this->request, $this->response);
+	}
+
 	public function testOnMultiStatusNoPaginateHeaderShouldSucceed(): void {
 		$this->initializePlugin();
 
@@ -316,7 +341,7 @@ class PaginatePluginTest extends TestCase {
 
 		$this->server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['on', 'getHTTPPrefer', 'getBaseUri'])
+			->onlyMethods(['on', 'getHTTPPrefer', 'getBaseUri', 'getPlugin'])
 			->getMock();
 
 		$this->request = $this->createMock(RequestInterface::class);
@@ -328,7 +353,13 @@ class PaginatePluginTest extends TestCase {
 		$this->server->xml->namespaceMap = [ 'DAV:' => 'd' ];
 
 		$this->server->method('getHTTPPrefer')
-			->willReturn(['return' => null]);
+			->willReturnCallback(fn () => ['return' => $this->preferReturn]);
+
+		$authPlugin = $this->createMock(AuthPlugin::class);
+		$authPlugin->method('getCurrentPrincipal')
+			->willReturn('principals/users/alice');
+		$this->server->method('getPlugin')
+			->willReturnMap([['auth', $authPlugin]]);
 		$this->server->method('getBaseUri')
 			->willReturn('/dav/');
 
