@@ -161,7 +161,7 @@ class PublicCalendarRootTest extends TestCase {
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->mockAppConfig(hideDisabledUserShares: true);
+		$this->mockAppConfig(hideDisabledUserExternalShares: true);
 
 		$this->expectException(NotFound::class);
 		$this->publicCalendarRoot->getChild($publicUri);
@@ -172,7 +172,7 @@ class PublicCalendarRootTest extends TestCase {
 		$publicUri = $calendar->getPublishStatus();
 
 		$this->mockDisabledOwner();
-		$this->mockAppConfig(hideDisabledUserShares: false);
+		$this->mockAppConfig(hideDisabledUserExternalShares: false);
 
 		$calendarResult = $this->publicCalendarRoot->getChild($publicUri);
 		$this->assertEquals($calendar, $calendarResult);
@@ -199,11 +199,11 @@ class PublicCalendarRootTest extends TestCase {
 			->willReturn($disabledUser);
 	}
 
-	private function mockAppConfig(bool $hideDisabledUserShares = true, bool $allowLinks = true): void {
+	private function mockAppConfig(bool $hideDisabledUserExternalShares = true, bool $allowLinks = true): void {
 		$this->appConfig->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', true, false, $allowLinks],
-				['files_sharing', 'hide_disabled_user_shares', true, false, $hideDisabledUserShares],
+				['files_sharing', 'hide_disabled_user_external_shares', true, false, $hideDisabledUserExternalShares],
 			]);
 	}
 }

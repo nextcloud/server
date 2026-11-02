@@ -22,9 +22,11 @@ use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OC\Sharing\SharingManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Interaction\Actions\ShareAction;
 use OCP\Interaction\InteractionRestrictedException;
@@ -267,6 +269,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->user2->delete();
 
 		$this->registry->clear();
+
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->deleteKey('files_sharing', 'hide_disabled_user_shares');
+		$appConfig->deleteKey('files_sharing', 'hide_disabled_user_external_shares');
 
 		foreach ([
 			'sharing_share',
@@ -3727,6 +3733,93 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 			],
 		], $formatted['owner']);
+	}
+
+	public static function dataHideDisabledUserShares(): array {
+		return [
+			'hide all' => [true, true],
+			'hide internal' => [true, false],
+			'hide external' => [false, true],
+			'hide none' => [false, false],
+		];
+	}
+
+	private function setHideDisabledUserShares(bool $hideInternal, bool $hideExternal): void {
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueBool('files_sharing', 'hide_disabled_user_shares', $hideInternal);
+		$appConfig->setValueBool('files_sharing', 'hide_disabled_user_external_shares', $hideExternal);
+	}
+
+	private function isShareVisible(ShareAccessContext $accessContext, string $id): bool {
+		try {
+			$this->getShare($accessContext, $id);
+			return true;
+		} catch (HintException $hintException) {
+			$this->assertEquals('Share not found.', $hintException->getHint());
+			return false;
+		}
+	}
+
+	/**
+	 * @return non-empty-string
+	 */
+	private function getTokenRecipientSecret(Share $share): string {
+		foreach ($share->recipients as $recipient) {
+			if ($recipient->class === TokenShareRecipientType::class) {
+				$this->assertNotNull($recipient->secret);
+				return $recipient->secret;
+			}
+		}
+
+		$this->fail('No token recipient.');
+	}
+
+	#[DataProvider('dataHideDisabledUserShares')]
+	public function testGetShareDisabledOwnerByRecipientKind(bool $hideInternal, bool $hideExternal): void {
+		$this->registry->registerRecipientType(Server::get(TokenShareRecipientType::class));
+		$this->setHideDisabledUserShares($hideInternal, $hideExternal);
+
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TokenShareRecipientType::class, str_repeat('t', 32), null));
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+		$this->dbConnection->commit();
+
+		$secret = $this->getTokenRecipientSecret($share);
+		$this->owner->setEnabled(false);
+
+		$this->assertSame(!$hideInternal, $this->isShareVisible(new ShareAccessContext(currentUser: $this->user1), $share->id));
+		$this->assertSame(!$hideExternal, $this->isShareVisible(new ShareAccessContext(secret: $secret), $share->id));
+	}
+
+	#[DataProvider('dataHideDisabledUserShares')]
+	public function testGetShareDisabledInitiatorByRecipientKind(bool $hideInternal, bool $hideExternal): void {
+		$this->registry->registerRecipientType(Server::get(TokenShareRecipientType::class));
+		$this->setHideDisabledUserShares($hideInternal, $hideExternal);
+
+		$accessContext = new ShareAccessContext($this->owner);
+		$initiatorAccessContext = new ShareAccessContext(currentUser: $this->user1);
+
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+		$share = $this->manager->addShareRecipient($initiatorAccessContext, $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient($initiatorAccessContext, $share, new ShareRecipient(TokenShareRecipientType::class, str_repeat('t', 32), null));
+		$this->dbConnection->commit();
+
+		$secret = $this->getTokenRecipientSecret($share);
+		$this->user1->setEnabled(false);
+
+		$this->assertSame(!$hideInternal, $this->isShareVisible(new ShareAccessContext(currentUser: $this->user2), $share->id));
+		$this->assertSame(!$hideExternal, $this->isShareVisible(new ShareAccessContext(secret: $secret), $share->id));
 	}
 
 	public function testGetShareDisabledInitiator(): void {
