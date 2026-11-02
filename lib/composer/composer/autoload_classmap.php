@@ -1912,6 +1912,8 @@ return array(
     'OC\\FilesMetadata\\MetadataQuery' => $baseDir . '/lib/private/FilesMetadata/MetadataQuery.php',
     'OC\\FilesMetadata\\Model\\FilesMetadata' => $baseDir . '/lib/private/FilesMetadata/Model/FilesMetadata.php',
     'OC\\FilesMetadata\\Model\\MetadataValueWrapper' => $baseDir . '/lib/private/FilesMetadata/Model/MetadataValueWrapper.php',
+    'OC\\FilesMetadata\\Schema\\MetadataSchemaManager' => $baseDir . '/lib/private/FilesMetadata/Schema/MetadataSchemaManager.php',
+    'OC\\FilesMetadata\\Schema\\MetadataSchemaRegistry' => $baseDir . '/lib/private/FilesMetadata/Schema/MetadataSchemaRegistry.php',
     'OC\\FilesMetadata\\Service\\IndexRequestService' => $baseDir . '/lib/private/FilesMetadata/Service/IndexRequestService.php',
     'OC\\FilesMetadata\\Service\\MetadataRequestService' => $baseDir . '/lib/private/FilesMetadata/Service/MetadataRequestService.php',
     'OC\\Files\\AppData\\AppData' => $baseDir . '/lib/private/Files/AppData/AppData.php',

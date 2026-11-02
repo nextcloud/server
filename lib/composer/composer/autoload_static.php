@@ -1953,6 +1953,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\FilesMetadata\\MetadataQuery' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/MetadataQuery.php',
         'OC\\FilesMetadata\\Model\\FilesMetadata' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Model/FilesMetadata.php',
         'OC\\FilesMetadata\\Model\\MetadataValueWrapper' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Model/MetadataValueWrapper.php',
+        'OC\\FilesMetadata\\Schema\\MetadataSchemaManager' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Schema/MetadataSchemaManager.php',
+        'OC\\FilesMetadata\\Schema\\MetadataSchemaRegistry' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Schema/MetadataSchemaRegistry.php',
         'OC\\FilesMetadata\\Service\\IndexRequestService' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Service/IndexRequestService.php',
         'OC\\FilesMetadata\\Service\\MetadataRequestService' => __DIR__ . '/../../..' . '/lib/private/FilesMetadata/Service/MetadataRequestService.php',
         'OC\\Files\\AppData\\AppData' => __DIR__ . '/../../..' . '/lib/private/Files/AppData/AppData.php',
