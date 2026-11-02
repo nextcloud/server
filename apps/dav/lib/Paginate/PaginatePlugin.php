@@ -62,7 +62,7 @@ class PaginatePlugin extends ServerPlugin {
 			// cache XML, but we keep the first $pageSize elements as objects
 			// to use for the response of the first page.
 			$rendererGenerator = $this->getXmlRendererGenerator($copyIterator);
-			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator);
+			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator, $this->getCacheContext());
 
 			$fileProperties = $copyIterator->getRequestedItems();
 			$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
