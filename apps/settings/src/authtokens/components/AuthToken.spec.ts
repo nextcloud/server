@@ -18,6 +18,11 @@ vi.mock('@nextcloud/dialogs', () => ({
 	showConfirmation: showConfirmationMock,
 }))
 
+vi.mock('@vueuse/integrations/useQRCode', async () => {
+	const { computed, toValue } = await import('vue')
+	return { useQRCode: (text: string) => computed(() => `qr:${toValue(text)}`) }
+})
+
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
@@ -226,6 +231,23 @@ describe('AuthToken action labels', () => {
 })
 
 describe('AuthTokenSetupDialog QR code', () => {
+	it('renders the login credentials as QR code', async () => {
+		const wrapper = mount(AuthTokenSetupDialog, {
+			props: { token: { token: 'app-password', loginName: 'admin', deviceToken: makeToken() } },
+			global: {
+				stubs: {
+					NcDialog: { template: '<div><slot /></div>' },
+					NcIconSvgWrapper: true,
+				},
+			},
+		})
+
+		getByRole(wrapper.element, 'button', { name: 'Show QR code for mobile apps' }).click()
+		await nextTick()
+
+		expect(wrapper.find('img').attributes('src')).toBe('qr:nc://login/user:admin&password:app-password&server:http://nextcloud.local')
+	})
+
 	// The credentials are shown as text, so the QR code is redundant for screen readers
 	it('hides the QR code from assistive technology', async () => {
 		const wrapper = mount(AuthTokenSetupDialog, {
@@ -234,8 +256,6 @@ describe('AuthTokenSetupDialog QR code', () => {
 				stubs: {
 					NcDialog: { template: '<div><slot /></div>' },
 					NcIconSvgWrapper: true,
-					// jsdom has no canvas 2D context to draw the QR code on
-					VueQrcode: { template: '<canvas />' },
 				},
 			},
 		})
@@ -243,7 +263,7 @@ describe('AuthTokenSetupDialog QR code', () => {
 		getByRole(wrapper.element, 'button', { name: 'Show QR code for mobile apps' }).click()
 		await nextTick()
 
-		expect(wrapper.find('canvas').element).toHaveAttribute('aria-hidden', 'true')
+		expect(wrapper.find('img').element).toHaveAttribute('alt', '')
 	})
 })
 
