@@ -67,20 +67,24 @@ class SyncService extends ASyncService {
 		}
 
 		// 3. apply changes
-		// TODO: use multi-get for download
+		$changedResources = [];
 		foreach ($response['response'] as $resource => $status) {
-			$cardUri = basename($resource);
 			if (isset($status[200])) {
-				$absoluteUrl = $this->prepareUri($url, $resource);
-				$vCard = $this->download($absoluteUrl, $userName, $sharedSecret);
+				$changedResources[] = $resource;
+			} else {
+				$this->backend->deleteCard($addressBookId, basename($resource));
+			}
+		}
+
+		if ($changedResources !== []) {
+			foreach ($this->fetchCards($url, $absoluteUri, $userName, $sharedSecret, $changedResources) as $resource => $vCard) {
+				$cardUri = basename($resource);
 				$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 				if ($existingCard === false) {
 					$this->backend->createCard($addressBookId, $cardUri, $vCard);
 				} else {
 					$this->backend->updateCard($addressBookId, $cardUri, $vCard);
 				}
-			} else {
-				$this->backend->deleteCard($addressBookId, $cardUri);
 			}
 		}
 
@@ -88,6 +92,33 @@ class SyncService extends ASyncService {
 			$response['token'],
 			$response['truncated'],
 		];
+	}
+
+	/**
+	 * Download the vCards of the given resources, using addressbook-multiget when the remote supports it.
+	 *
+	 * @param list<string> $hrefs
+	 * @return \Generator<string, string> vCard data keyed by href
+	 */
+	private function fetchCards(string $url, string $addressBookUrl, string $userName, string $sharedSecret, array $hrefs): \Generator {
+		$reportName = '{' . Plugin::NS_CARDDAV . '}addressbook-multiget';
+		if (!$this->requestReportSupport($addressBookUrl, $userName, $sharedSecret, $reportName)) {
+			foreach ($hrefs as $href) {
+				yield $href => $this->requestGet($this->prepareUri($url, $href), $userName, $sharedSecret);
+			}
+			return;
+		}
+
+		foreach (array_chunk($hrefs, self::MULTIGET_BATCH_SIZE) as $batch) {
+			yield from $this->requestMultiGet(
+				$addressBookUrl,
+				$userName,
+				$sharedSecret,
+				$batch,
+				$reportName,
+				'{' . Plugin::NS_CARDDAV . '}address-data',
+			);
+		}
 	}
 
 	/**
