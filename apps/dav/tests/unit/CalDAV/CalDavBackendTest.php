@@ -774,6 +774,62 @@ EOD;
 		$this->assertCount(0, $subscriptions);
 	}
 
+	public function testSubscriptionCredentials(): void {
+		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
+			'{http://calendarserver.org/ns/}source' => new Href('webcal://us%40er:p%23ss@example.com/cal.ics'),
+		]);
+
+		$this->assertSame('webcal://example.com/cal.ics', $this->backend->getSubscriptionById($id)['source']);
+		$this->assertSame(['us@er', 'p#ss'], $this->getSubscriptionCredentials($id));
+
+		// unchanged source without user info keeps the credentials
+		$patch = new PropPatch([
+			'{http://calendarserver.org/ns/}source' => new Href('webcal://example.com/cal.ics'),
+		]);
+		$this->backend->updateSubscription($id, $patch);
+		$patch->commit();
+		$this->assertSame(['us@er', 'p#ss'], $this->getSubscriptionCredentials($id));
+
+		$patch = new PropPatch([
+			'{http://calendarserver.org/ns/}source' => new Href('webcal://other:secret@example.com/cal.ics'),
+		]);
+		$this->backend->updateSubscription($id, $patch);
+		$patch->commit();
+		$this->assertSame('webcal://example.com/cal.ics', $this->backend->getSubscriptionById($id)['source']);
+		$this->assertSame(['other', 'secret'], $this->getSubscriptionCredentials($id));
+
+		// changed source without user info drops the credentials
+		$patch = new PropPatch([
+			'{http://calendarserver.org/ns/}source' => new Href('webcal://example.org/cal.ics'),
+		]);
+		$this->backend->updateSubscription($id, $patch);
+		$patch->commit();
+		$this->assertSame('webcal://example.org/cal.ics', $this->backend->getSubscriptionById($id)['source']);
+		$this->assertNull($this->getSubscriptionCredentials($id));
+
+		$this->backend->deleteSubscription($id);
+	}
+
+	private function getSubscriptionCredentials(int|string $id): ?array {
+		foreach ($this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER) as $subscription) {
+			if ((string)$subscription['id'] === (string)$id) {
+				return $subscription['credentials'];
+			}
+		}
+		$this->fail('Subscription ' . $id . ' not found');
+	}
+
+	public function testSubscriptionWithoutCredentials(): void {
+		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
+			'{http://calendarserver.org/ns/}source' => new Href('https://example.com/cal.ics'),
+		]);
+
+		$this->assertSame('https://example.com/cal.ics', $this->backend->getSubscriptionById($id)['source']);
+		$this->assertNull($this->getSubscriptionCredentials($id));
+
+		$this->backend->deleteSubscription($id);
+	}
+
 	public static function providesSchedulingData(): array {
 		$data = <<<EOS
 BEGIN:VCALENDAR

@@ -59,10 +59,8 @@ class Connection {
 			'stream' => true,
 		];
 
-		$user = parse_url($subscription['source'], PHP_URL_USER);
-		$pass = parse_url($subscription['source'], PHP_URL_PASS);
-		if ($user !== null && $pass !== null) {
-			$params[RequestOptions::AUTH] = [$user, $pass];
+		if (isset($subscription['credentials'])) {
+			$params[RequestOptions::AUTH] = $subscription['credentials'];
 		}
 
 		try {

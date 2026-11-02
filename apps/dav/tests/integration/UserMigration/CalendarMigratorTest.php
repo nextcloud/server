@@ -489,7 +489,84 @@ class CalendarMigratorTest extends TestCase {
 			$this->assertEquals('Test Subscription', $exportedSubscription['displayname']);
 			$this->assertEquals('#ff0000', $exportedSubscription['color']);
 			$this->assertEquals('https://example.com/calendar.ics', $exportedSubscription['source']);
+			$this->assertNull($exportedSubscription['credentials']);
 			$this->assertEquals('1', $exportedSubscription['striptodos']);
+		} finally {
+			$this->deleteUser($user);
+		}
+	}
+
+	public function testExportSubscriptionsWithCredentials(): void {
+		$user = $this->createTestUser();
+
+		try {
+			$principalUri = self::USERS_URI_ROOT . $user->getUID();
+			$this->calDavBackend->createSubscription(
+				$principalUri,
+				'credentials-subscription',
+				[
+					'{http://calendarserver.org/ns/}source' => new \Sabre\DAV\Xml\Property\Href('https://us%40er:p%2Bss%3Aw@example.com/calendar.ics'),
+				]
+			);
+
+			$exportDestination = $this->createMock(IExportDestination::class);
+
+			$exportedSubscriptionsJson = null;
+
+			$exportDestination->method('addFileContents')
+				->willReturnCallback(function (string $path, string $content) use (&$exportedSubscriptionsJson): void {
+					if ($path === 'dav/calendars/subscriptions.json') {
+						$exportedSubscriptionsJson = json_decode($content, true);
+					}
+				});
+
+			$exportDestination->method('addFileAsStream');
+
+			$this->migrator->export($user, $exportDestination, $this->output);
+
+			$this->assertCount(1, $exportedSubscriptionsJson);
+			$this->assertEquals('https://example.com/calendar.ics', $exportedSubscriptionsJson[0]['source']);
+			$this->assertEquals(['username' => 'us@er', 'password' => 'p+ss:w'], $exportedSubscriptionsJson[0]['credentials']);
+		} finally {
+			$this->deleteUser($user);
+		}
+	}
+
+	public function testImportSubscriptionsWithCredentials(): void {
+		$user = $this->createTestUser();
+
+		try {
+			$importSource = $this->createMock(IImportSource::class);
+
+			$subscriptionsJson = json_encode([[
+				'uri' => 'imported-subscription',
+				'displayname' => 'Imported Subscription',
+				'source' => 'https://example.com/imported.ics',
+				'credentials' => ['username' => 'us@er', 'password' => 'p+ss:w'],
+			]]);
+
+			$importSource->method('getMigratorVersion')
+				->with('calendar')
+				->willReturn(2);
+
+			$importSource->method('pathExists')
+				->willReturnCallback(fn (string $path) => $path === 'dav/calendars/subscriptions.json');
+
+			$importSource->method('getFileContents')
+				->willReturnCallback(function (string $path) use ($subscriptionsJson) {
+					if ($path === 'dav/calendars/subscriptions.json') {
+						return $subscriptionsJson;
+					}
+					throw new \Exception("Unexpected path: $path");
+				});
+
+			$this->migrator->import($user, $importSource, $this->output);
+
+			$principalUri = self::USERS_URI_ROOT . $user->getUID();
+			$subscriptions = $this->calDavBackend->getSubscriptionsForUser($principalUri);
+			$this->assertCount(1, $subscriptions);
+			$this->assertEquals('https://example.com/imported.ics', $subscriptions[0]['source']);
+			$this->assertEquals(['us@er', 'p+ss:w'], $subscriptions[0]['credentials']);
 		} finally {
 			$this->deleteUser($user);
 		}

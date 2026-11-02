@@ -50,7 +50,9 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Sabre\CalDAV\Backend\AbstractBackend;
@@ -2976,6 +2978,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
 		$fields[] = 'synctoken';
+		$fields[] = 'credentials';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -2991,6 +2994,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'uri' => $row['uri'],
 				'principaluri' => $row['principaluri'],
 				'source' => $row['source'],
+				'credentials' => $this->decryptSubscriptionCredentials($row['id'], $row['credentials']),
 				'lastmodified' => $row['lastmodified'],
 
 				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
@@ -3020,10 +3024,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			throw new Forbidden('The {http://calendarserver.org/ns/}source property is required when creating subscriptions');
 		}
 
+		[$source, $credentials] = self::extractSubscriptionCredentials($properties['{http://calendarserver.org/ns/}source']->getHref());
 		$values = [
 			'principaluri' => $principalUri,
 			'uri' => $uri,
-			'source' => $properties['{http://calendarserver.org/ns/}source']->getHref(),
+			'source' => $source,
+			'credentials' => $credentials,
 			'lastmodified' => time(),
 		];
 
@@ -3085,7 +3091,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			foreach ($mutations as $propertyName => $propertyValue) {
 				if ($propertyName === '{http://calendarserver.org/ns/}source') {
-					$newValues['source'] = $propertyValue->getHref();
+					[$newValues['source'], $newValues['credentials']] = self::extractSubscriptionCredentials($propertyValue->getHref());
 				} else {
 					$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
 					$newValues[$fieldName] = $propertyValue;
@@ -3093,6 +3099,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 
 			$subscriptionRow = $this->atomic(function () use ($subscriptionId, $newValues) {
+				// clients only see the source without credentials, so sending it back unchanged keeps them
+				if (array_key_exists('credentials', $newValues) && $newValues['credentials'] === null) {
+					$currentSource = $this->getSubscriptionById($subscriptionId)['source'] ?? null;
+					if ($currentSource === $newValues['source']) {
+						unset($newValues['credentials']);
+					}
+				}
+
 				$query = $this->db->getQueryBuilder();
 				$query->update('calendarsubscriptions')
 					->set('lastmodified', $query->createNamedParameter(time()));
@@ -3109,6 +3123,57 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			return true;
 		});
+	}
+
+	private static function encryptSubscriptionCredentials(string $username, string $password): string {
+		return Server::get(ICrypto::class)->encrypt(json_encode([
+			'username' => $username,
+			'password' => $password,
+		], JSON_THROW_ON_ERROR));
+	}
+
+	/**
+	 * @return array{0: string, 1: string}|null username and password
+	 */
+	private function decryptSubscriptionCredentials(int|string $subscriptionId, mixed $credentials): ?array {
+		if (!is_string($credentials) || $credentials === '') {
+			return null;
+		}
+
+		try {
+			$decoded = json_decode(Server::get(ICrypto::class)->decrypt($credentials), true, 2, JSON_THROW_ON_ERROR);
+		} catch (\Exception $e) {
+			$this->logger->error('Could not decrypt the credentials of subscription ' . $subscriptionId, [
+				'exception' => $e,
+			]);
+			return null;
+		}
+
+		return [(string)$decoded['username'], (string)$decoded['password']];
+	}
+
+	/**
+	 * Splits the user info off a subscription source url
+	 *
+	 * The user info is percent-decoded and encrypted.
+	 *
+	 * @return array{0: string, 1: ?string} the source without user info and the encrypted credentials
+	 */
+	public static function extractSubscriptionCredentials(string $source): array {
+		// the greedy match stops at the last '@' of the authority
+		if (preg_match('/^([a-z][a-z0-9+.\-]*:\/\/)([^\/?#]*)@/i', $source, $matches) !== 1) {
+			return [$source, null];
+		}
+
+		$source = $matches[1] . substr($source, strlen($matches[0]));
+		[$username, $password] = array_pad(explode(':', $matches[2], 2), 2, '');
+		$username = rawurldecode($username);
+		$password = rawurldecode($password);
+		if ($username === '' && $password === '') {
+			return [$source, null];
+		}
+
+		return [$source, self::encryptSubscriptionCredentials($username, $password)];
 	}
 
 	/**
