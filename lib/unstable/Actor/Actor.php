@@ -30,6 +30,7 @@ use Override;
  *   alice's action escalated:        principal=system, delegate=Actor(alice), via=SystemElevation
  *
  * @psalm-immutable
+ * @psalm-import-type ActorData from DataTypes
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
@@ -138,6 +139,7 @@ final readonly class Actor implements JsonSerializable {
 	}
 
 	/**
+	 * @return array{principal: Principal, via: ?non-empty-string, delegate: ?Actor}
 	 * @experimental 36.0.0
 	 */
 	#[Override]
@@ -152,25 +154,37 @@ final readonly class Actor implements JsonSerializable {
 	/**
 	 * Rehydrate from a serialized  payload.
 	 *
-	 * @param array<array-key, mixed> $data
-	 * @throws InvalidArgumentException
+	 * @param array<string, mixed> $data - see ActorData
+	 * @throws InvalidArgumentException - if the data is invalid
 	 * @experimental 36.0.0
 	 */
 	public static function fromArray(array $data): self {
+		self::assertValidActorData($data);
+		$delegate = $data['delegate'] ?? null;
+		$via = $data['via'] ?? null;
+
+		return new self(
+			Principal::fromArray($data['principal']),
+			$delegate !== null ? self::fromArray($delegate) : null,
+			$via !== null
+				? DelegationKind::tryFrom($via) ?? throw new InvalidArgumentException(sprintf('Unknown delegation kind "%s"', $via))
+				: null,
+		);
+	}
+
+	/**
+	 * The principal is validated by Principal::fromArray.
+	 *
+	 * @psalm-assert array{principal: array<string, mixed>, delegate?: ?array<string, mixed>, via?: ?string} $data
+	 * @throws InvalidArgumentException -- if the data is invalid
+	 */
+	private static function assertValidActorData(array $data): void {
 		$principal = $data['principal'] ?? null;
 		$delegate = $data['delegate'] ?? null;
 		$via = $data['via'] ?? null;
 		if (!is_array($principal) || ($delegate !== null && !is_array($delegate)) || ($via !== null && !is_string($via))) {
 			throw new InvalidArgumentException('Invalid actor data');
 		}
-
-		return new self(
-			Principal::fromArray($principal),
-			$delegate !== null ? self::fromArray($delegate) : null,
-			$via !== null
-				? DelegationKind::tryFrom($via) ?? throw new InvalidArgumentException(sprintf('Unknown delegation kind "%s"', $via))
-				: null,
-		);
 	}
 
 	private static function assertValidLink(Principal $principal, Actor $delegate, DelegationKind $via): void {
