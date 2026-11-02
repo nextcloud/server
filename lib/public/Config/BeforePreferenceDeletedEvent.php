@@ -11,6 +11,11 @@ namespace OCP\Config;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
+/**
+ * Dispatched before a user preference is deleted via the preferences API; the deletion is rejected unless a listener marks it valid.
+ *
+ * @since 25.0.0
+ */
 #[Listenable(since: '25.0.0')]
 class BeforePreferenceDeletedEvent extends Event {
 	protected string $userId;
