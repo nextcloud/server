@@ -39,7 +39,7 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_ADMINISTRATION)]
 class ApiController extends OCSController {
 
-	private const string USERCONTENT_PROXY_URL = 'https://usercontent.apps.nextcloud.com/';
+	private const USERCONTENT_PROXY_URL = 'https://usercontent.apps.nextcloud.com/';
 
 	/** @var array */
 	private $allApps = [];
