@@ -29,10 +29,10 @@ interface ISharingManager {
 	/**
 	 * Search for recipients that can be added to a share.
 	 *
-	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
+	 * @param ?non-empty-list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
 	 * @param positive-int $limit
 	 * @param non-negative-int $offset
-	 * @param ?Share $excludeShare If provided, recipients that are already part of the share will not be returned.
+	 * @param ?Share $forShare If provided, recipients that are already part of the share will not be returned.
 	 * @return list<ShareRecipient>
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
@@ -152,6 +152,7 @@ interface ISharingManager {
 	/**
 	 * Update the secret of a recipient.
 	 *
+	 * @param non-empty-string $secret
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException
 	 * @throws ShareOperationForbiddenException
@@ -210,6 +211,7 @@ interface ISharingManager {
 	/**
 	 * Get a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -220,6 +222,7 @@ interface ISharingManager {
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
 	 * @param ?non-empty-string $filterSourceTypeValue
+	 * @param ?non-empty-string $lastShareID
 	 * @param ?positive-int $limit
 	 * @return list<Share>
 	 * @experimental 35.0.0

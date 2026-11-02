@@ -94,7 +94,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$result = $qb->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -206,7 +206,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->andWhere($qb->expr()->eq('source_value', $qb->createNamedParameter($source->value)))
 			->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -300,7 +300,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->andWhere($this->isNullOrEqual($qb, 'recipient_instance_id', $this->instanceMapper->getInstanceId($recipient->instance)))
 			->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -334,7 +334,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$result = $qb->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -571,21 +571,6 @@ final readonly class SharingBackend implements ISharingBackend {
 		$this->assertInTransaction();
 
 		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
-	}
-
-	#[\Override]
-	public function hasShare(string $id): bool {
-		$this->assertInTransaction();
-
-		$qb = $this->connection->getQueryBuilder();
-
-		$result = $qb
-			->select('id')
-			->from('sharing_share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->executeQuery();
-
-		return $result->fetchOne() !== false;
 	}
 
 	#[\Override]
