@@ -9,19 +9,19 @@
 			:aria-label-listbox="t('settings', 'Day to use as the first day of week')"
 			class="fdow-section__day-select"
 			:clearable="false"
-			:input-id="inputId"
-			:input-label="t('settings', 'First day of week')"
+			:inputId="inputId"
+			:inputLabel="t('settings', 'First day of week')"
 			label="label"
 			:options="dayOptions"
-			:model-value="valueOption"
+			:modelValue="valueOption"
 			@option:selected="updateFirstDayOfWeek" />
 	</section>
 </template>
 
 <script lang="ts">
 import { loadState } from '@nextcloud/initial-state'
-import { getDayNames } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { getCanonicalLocale, getDayNames, getFirstDay, t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import {
 	ACCOUNT_SETTING_PROPERTY_ENUM,
@@ -40,11 +40,25 @@ const { firstDayOfWeek } = loadState<{ firstDayOfWeek?: string }>(
 	{},
 )
 
-export default {
+/**
+ * The first day of week of the user's locale, 0 being Sunday.
+ *
+ * Browsers without `Intl.Locale.getWeekInfo` (Firefox < 153, Chrome < 130) fall back to
+ * the first day in use, which differs from the locale's if the user picked another day.
+ */
+function getLocaleFirstDay(): number {
+	const locale = new Intl.Locale(getCanonicalLocale()) as Intl.Locale & { getWeekInfo?: () => { firstDay: number } }
+	// Intl counts the days from 1 (Monday) to 7 (Sunday)
+	return (locale.getWeekInfo?.().firstDay ?? getFirstDay()) % 7
+}
+
+export default defineComponent({
 	name: 'FirstDayOfWeekSection',
 	components: {
 		NcSelect,
 	},
+
+	emits: ['update:value'],
 
 	data() {
 		let firstDay = -1
@@ -67,7 +81,7 @@ export default {
 				value: -1,
 				label: t('settings', 'Derived from your locale ({weekDayName})', {
 					// use the locale's default first day (not the user's saved override)
-					weekDayName: getDayNames()[moment.localeData().firstDayOfWeek()],
+					weekDayName: getDayNames()[getLocaleFirstDay()],
 				}),
 			}]
 			for (const [index, dayName] of getDayNames().entries()) {
@@ -110,7 +124,7 @@ export default {
 			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>

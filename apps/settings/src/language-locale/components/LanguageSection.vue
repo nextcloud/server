@@ -11,10 +11,10 @@
 
 		<LanguageSectionEntry
 			v-if="isEditable"
-			:input-id="inputId"
-			:common-languages="commonLanguages"
-			:other-languages="otherLanguages"
-			:language.sync="language" />
+			v-model:language="language"
+			:inputId="inputId"
+			:commonLanguages="commonLanguages"
+			:otherLanguages="otherLanguages" />
 
 		<span v-else>
 			{{ t('settings', 'No language set') }}
@@ -25,7 +25,7 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import LanguageSectionEntry from './LanguageSectionEntry.vue'
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
 
 const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 

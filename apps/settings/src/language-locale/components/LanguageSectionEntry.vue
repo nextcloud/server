@@ -9,11 +9,11 @@
 			:aria-label-listbox="t('settings', 'Languages')"
 			class="language__select"
 			:clearable="false"
-			:input-id="inputId"
+			:inputId="inputId"
 			label="name"
-			label-outside
+			labelOutside
 			:options="allLanguages"
-			:model-value="language"
+			:modelValue="language"
 			@option:selected="onLanguageChange" />
 
 		<NcFormBoxButton
@@ -28,13 +28,14 @@
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.ts'
-import { validateLanguage } from '../../../utils/validate.js'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../utils/handlers.ts'
+import { validateLanguage } from '../../utils/validate.js'
 
 export default {
 	name: 'LanguageSectionEntry',
@@ -66,6 +67,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:language'],
 
 	data() {
 		return {

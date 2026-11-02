@@ -7,7 +7,7 @@
 	<li class="webauthn-device">
 		<span class="icon-webauthn-device" />
 		{{ name || t('settings', 'Unnamed device') }}
-		<NcActions :force-menu="true">
+		<NcActions :forceMenu="true">
 			<NcActionButton icon="icon-delete" @click="$emit('delete')">
 				{{ t('settings', 'Delete') }}
 			</NcActionButton>
@@ -33,6 +33,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['delete'],
 }
 </script>
 

@@ -11,10 +11,10 @@
 
 		<LocaleSectionEntry
 			v-if="isEditable"
-			:input-id="inputId"
-			:locales-for-language="localesForLanguage"
-			:other-locales="otherLocales"
-			:locale.sync="locale" />
+			v-model:locale="locale"
+			:inputId="inputId"
+			:localesForLanguage="localesForLanguage"
+			:otherLocales="otherLocales" />
 
 		<span v-else>
 			{{ t('settings', 'No locale set') }}
@@ -25,7 +25,7 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import LocaleSectionEntry from './LocaleSectionEntry.vue'
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
 
 const { localeMap: { activeLocale, localesForLanguage, otherLocales } } = loadState('settings', 'personalInfoParameters', {})
 

@@ -13,21 +13,35 @@
 			:aria-label-listbox="t('settings', 'Locales')"
 			class="locale__select"
 			:clearable="false"
-			:input-id="inputId"
+			:inputId="inputId"
 			label="name"
-			label-outside
+			labelOutside
 			:options="allLocales"
-			:model-value="locale"
+			:modelValue="locale"
 			@option:selected="updateLocale" />
 	</div>
 </template>
 
 <script>
-import moment from '@nextcloud/moment'
+import { getCanonicalLocale, t } from '@nextcloud/l10n'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.ts'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../utils/handlers.ts'
+
+const dateFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { year: 'numeric', month: '2-digit', day: '2-digit' })
+const timeFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { hour: 'numeric', minute: '2-digit', second: '2-digit' })
+
+/**
+ * The current date and time, formatted in the user's locale
+ */
+function formatExample() {
+	const now = new Date()
+	return {
+		date: dateFormat.format(now),
+		time: timeFormat.format(now),
+	}
+}
 
 export default {
 	name: 'LocaleSectionEntry',
@@ -58,14 +72,13 @@ export default {
 		},
 	},
 
+	emits: ['update:locale'],
+
 	data() {
 		return {
 			initialLocale: this.locale,
 			intervalId: 0,
-			example: {
-				date: moment().format('L'),
-				time: moment().format('LTS'),
-			},
+			example: formatExample(),
 		}
 	},
 
@@ -84,7 +97,7 @@ export default {
 		this.intervalId = window.setInterval(this.refreshExample, 1000)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.clearInterval(this.intervalId)
 	},
 
@@ -115,10 +128,7 @@ export default {
 		},
 
 		refreshExample() {
-			this.example = {
-				date: moment().format('L'),
-				time: moment().format('LTS'),
-			}
+			this.example = formatExample()
 		},
 	},
 }

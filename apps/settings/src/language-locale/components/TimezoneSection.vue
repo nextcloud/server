@@ -24,8 +24,8 @@ watch(timezone, () => {
 		<NcTimezonePicker
 			v-model="timezone"
 			class="timezone-section__picker"
-			:label="t('settings', 'Time zone')"
-			:input-id="inputId" />
+			:inputLabel="t('settings', 'Time zone')"
+			:uid="inputId" />
 	</section>
 </template>
 

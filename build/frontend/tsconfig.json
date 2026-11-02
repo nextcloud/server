@@ -1,4 +1,4 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["./apps", "./core", "../../apps/settings/src/authtokens", "../../apps/settings/src/sharing"]
+	"include": ["./apps", "./core", "../../apps/settings/src/authtokens", "../../apps/settings/src/sharing", "../../apps/settings/src/password", "../../apps/settings/src/webauthn", "../../apps/settings/src/language-locale"]
 }

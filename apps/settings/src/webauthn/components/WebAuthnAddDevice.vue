@@ -32,10 +32,10 @@
 					v-model="name"
 					class="new-webauthn-device__name"
 					:label="t('settings', 'Device name')"
-					show-trailing-button
-					:trailing-button-label="t('settings', 'Add')"
-					trailing-button-icon="arrowEnd"
-					@trailing-button-click="submit" />
+					showTrailingButton
+					:trailingButtonLabel="t('settings', 'Add')"
+					trailingButtonIcon="arrowEnd"
+					@trailingButtonClick="submit" />
 			</form>
 		</div>
 
@@ -54,6 +54,7 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -89,7 +90,6 @@ export default {
 	},
 
 	props: {
-		httpWarning: Boolean,
 		isHttps: {
 			type: Boolean,
 			default: false,
@@ -100,6 +100,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['added'],
 
 	setup() {
 		// non reactive props

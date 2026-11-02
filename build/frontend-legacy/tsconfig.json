@@ -1,7 +1,7 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./*.d.ts"],
-	"exclude": ["./**/*.cy.ts", "./apps/settings/src/authtokens", "./apps/settings/src/sharing"],
+	"exclude": ["./**/*.cy.ts", "./apps/settings/src/authtokens", "./apps/settings/src/sharing", "./apps/settings/src/password", "./apps/settings/src/webauthn", "./apps/settings/src/language-locale"],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"types": ["node", "vue", "vue-router"],

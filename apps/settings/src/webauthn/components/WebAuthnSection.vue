@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div id="security-webauthn" class="section">
+	<div class="section">
 		<h2>{{ t('settings', 'Passwordless Authentication') }}</h2>
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Set up your account for passwordless authentication following the FIDO2 standard.') }}
@@ -32,8 +32,8 @@
 
 		<WebAuthnAddDevice
 			v-if="supportsWebauthn"
-			:is-https="isHttps"
-			:is-localhost="isLocalhost"
+			:isHttps="isHttps"
+			:isLocalhost="isLocalhost"
 			@added="deviceAdded" />
 	</div>
 </template>
@@ -48,7 +48,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import WebAuthnAddDevice from './WebAuthnAddDevice.vue'
 import WebAuthnDevice from './WebAuthnDevice.vue'
 import logger from '../../logger.ts'
-import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
+import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.ts'
 
 const sortByName = sortBy('name')
 
