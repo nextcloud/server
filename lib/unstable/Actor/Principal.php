@@ -31,7 +31,7 @@ final readonly class Principal implements JsonSerializable {
 	 * @param non-empty-string $id - uid, federated user id, external user id, bot id or system component
 	 * @param ?non-empty-string $origin - remote instance for federated users, share/room token for external users, null otherwise
 	 * @param ?non-empty-string $source - app-namespaced kind of external user, e.g. "spreed.guest" or "files_sharing.link";
-	 *                                    optionally the app owning a bot or system component, e.g. "spreed"; null for users
+	 *                                  optionally the app owning a bot or system component, e.g. "spreed"; null for users
 	 */
 	private function __construct(
 		public PrincipalType $type,
