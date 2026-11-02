@@ -88,6 +88,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	abstract protected function removeShareRecipient(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): array;
 
 	/**
+	 * @param non-empty-string $secret
 	 * @return SharingShare
 	 */
 	abstract protected function updateShareRecipientSecret(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, string $secret): array;
@@ -117,6 +118,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	abstract protected function deleteShare(ShareAccessContext $accessContext, Share $share): void;
 
 	/**
+	 * @param non-empty-string $id
 	 * @return SharingShare
 	 */
 	abstract protected function getShare(ShareAccessContext $accessContext, string $id): array;
