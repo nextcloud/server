@@ -6,11 +6,11 @@
 <script setup lang="ts">
 import type { ITokenResponse } from '../store/authtoken.ts'
 
-import QR from '@chenfengyuan/vue-qrcode'
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { getRootUrl } from '@nextcloud/router'
+import { useQRCode } from '@vueuse/integrations/useQRCode'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
@@ -60,6 +60,7 @@ const qrUrl = computed(() => {
 	const server = window.location.protocol + '//' + window.location.host + getRootUrl()
 	return `nc://login/user:${loginName.value}&password:${appPassword.value}&server:${server}`
 })
+const qrCode = useQRCode(qrUrl)
 
 const copyPasswordLabel = computed(() => {
 	if (isPasswordCopied.value) {
@@ -165,7 +166,7 @@ async function copyLoginName() {
 			<NcButton v-if="!showQRCode" @click="showQRCode = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</NcButton>
-			<QR v-else :value="qrUrl" aria-hidden="true" />
+			<img v-else :src="qrCode" alt="">
 		</div>
 	</NcDialog>
 </template>

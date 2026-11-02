@@ -42,7 +42,6 @@
     "@nextcloud/files": "$@nextcloud/files"
   },
   "dependencies": {
-    "@chenfengyuan/vue-qrcode": "^2.0.0",
     "@mdi/js": "^7.4.47",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.6.0",
