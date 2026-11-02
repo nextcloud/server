@@ -345,6 +345,8 @@ return array(
     'OCP\\Comments\\MessageTooLongException' => $baseDir . '/lib/public/Comments/MessageTooLongException.php',
     'OCP\\Comments\\NotFoundException' => $baseDir . '/lib/public/Comments/NotFoundException.php',
     'OCP\\Common\\Exception\\NotFoundException' => $baseDir . '/lib/public/Common/Exception/NotFoundException.php',
+    'OCP\\Config\\BeforeAppConfigDeletedEvent' => $baseDir . '/lib/public/Config/BeforeAppConfigDeletedEvent.php',
+    'OCP\\Config\\BeforeAppConfigSetEvent' => $baseDir . '/lib/public/Config/BeforeAppConfigSetEvent.php',
     'OCP\\Config\\BeforePreferenceDeletedEvent' => $baseDir . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
     'OCP\\Config\\BeforePreferenceSetEvent' => $baseDir . '/lib/public/Config/BeforePreferenceSetEvent.php',
     'OCP\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/public/Config/Exceptions/IncorrectTypeException.php',
