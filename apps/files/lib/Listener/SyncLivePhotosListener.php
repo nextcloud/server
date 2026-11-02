@@ -117,6 +117,10 @@ class SyncLivePhotosListener implements IEventListener {
 		$peerFileIds = $this->livePhotosService->getLivePhotoPeerIds($fileIds);
 
 		foreach ($peerFileIds as $sourceFileId => $peerFileId) {
+			if (in_array($peerFileId, $this->pendingRenames, true)) {
+				continue; // The file is moved to another storage along with its peer.
+			}
+
 			// Check the user's folder.
 			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
 			$sourceFile = $eventsById[$sourceFileId];
@@ -126,10 +130,10 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 
 			if (
-				$sourceFile->getStorage() !== $peerFile->getData()->getStorageId()
-				|| basename($sourceFile->getPath()) !== basename($peerFile->getInternalPath())
+				$sourceFile->getStorageId() !== $peerFile->getData()->getStorageId()
+				|| dirname($sourceFile->getPath()) !== dirname($peerFile->getInternalPath())
 			) {
-				break; // Peer file is not in the same folder as the deleted file
+				continue; // Peer file is not in the same folder as the deleted file
 			}
 			$peerFile->delete();
 		}
