@@ -24,10 +24,10 @@ use Override;
  * a job payload or a request, check the principal's permissions themselves.
  *
  * Examples:
- *   bot "summarizer" for alice:      principal=alice,  delegate=Actor(bot),   via=OnBehalfOf
- *   version expiry in alice's files: principal=alice,  delegate=Actor(system), via=OnBehalfOf
- *   admin impersonating alice:       principal=alice,  delegate=Actor(admin), via=Impersonation
- *   alice's action escalated:        principal=system, delegate=Actor(alice), via=SystemElevation
+ *   bot "summarizer" for alice:      principal=alice,  delegate=Actor(bot),    via=OnBehalfOf
+ *   alice's scheduled message sent:  principal=alice,  delegate=Actor(system), via=OnBehalfOf
+ *   admin impersonating alice:       principal=alice,  delegate=Actor(admin),  via=Impersonation
+ *   alice's action escalated:        principal=system, delegate=Actor(alice),  via=SystemElevation
  *
  * @psalm-immutable
  * @psalm-import-type ActorData from DataTypes
