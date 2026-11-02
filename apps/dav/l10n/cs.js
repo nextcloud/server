@@ -55,6 +55,7 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Kalendář <strong>úkoly</strong> byl upraven",
     "Contact birthdays" : "Narozeniny kontaktů",
     "Death of %s" : "Datum úmrtí %s",
+    "Calendar federation" : "Federování kalendáře",
     "Accept" : "Přijmout",
     "Decline" : "Odmítnout",
     "Untitled calendar" : "Nepojmenovaný kalendář",
