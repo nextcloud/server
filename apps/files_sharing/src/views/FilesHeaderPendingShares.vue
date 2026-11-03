@@ -12,7 +12,7 @@
 				<NcIconSvgWrapper
 					v-if="share.type === FileType.Folder"
 					class="pending-shares__icon pending-shares__icon--folder"
-					:svg="FolderSvg"
+					:path="mdiFolder"
 					:size="32" />
 				<img
 					v-else
@@ -24,12 +24,11 @@
 						{{ getBasename(share) }}<span class="pending-shares__extension">{{ getExtension(share) }}</span>
 					</span>
 					<span class="pending-shares__details">
-						{{ t('files_sharing', 'Shared by {owner}', { owner: share.attributes['owner-display-name'] }) }}
+						{{ t('files_sharing', 'Shared by {owner}', { owner: share.attributes['owner-display-name'] }, { escape: false }) }}
 					</span>
 				</div>
 			</div>
 			<NcButton
-				:aria-label="t('files_sharing', 'Accept share {name}', { name: share.displayname })"
 				:disabled="busy.includes(share.source)"
 				@click="accept(share)">
 				<template v-if="busy.includes(share.source)" #icon>
@@ -38,18 +37,18 @@
 				{{ t('files_sharing', 'Accept share') }}
 			</NcButton>
 			<NcActions
-				:aria-label="t('files_sharing', 'Actions for {name}', { name: share.displayname })"
+				:aria-label="t('files_sharing', 'Actions for {name}', { name: share.displayname }, { escape: false })"
 				:disabled="busy.includes(share.source)"
 				forceMenu>
 				<NcActionText v-if="share.size !== undefined" class="pending-shares__info">
 					<template #icon>
-						<NcIconSvgWrapper :svg="ChartPieSvg" />
+						<NcIconSvgWrapper :path="mdiChartPieOutline" />
 					</template>
 					{{ formatFileSize(share.size, true) }}
 				</NcActionText>
 				<NcActionText v-if="share.mtime" class="pending-shares__info">
 					<template #icon>
-						<NcIconSvgWrapper :svg="ClockSvg" />
+						<NcIconSvgWrapper :path="mdiClockOutline" />
 					</template>
 					{{ formatRelativeTime(share.mtime) }}
 				</NcActionText>
@@ -58,7 +57,7 @@
 					closeAfterClick
 					@click="reject(share)">
 					<template #icon>
-						<NcIconSvgWrapper :svg="CloseSvg" />
+						<NcIconSvgWrapper :path="mdiClose" />
 					</template>
 					{{ t('files_sharing', 'Reject share') }}
 				</NcActionButton>
@@ -70,10 +69,7 @@
 <script setup lang="ts">
 import type { INode } from '@nextcloud/files'
 
-import ChartPieSvg from '@mdi/svg/svg/chart-pie-outline.svg?raw'
-import ClockSvg from '@mdi/svg/svg/clock-outline.svg?raw'
-import CloseSvg from '@mdi/svg/svg/close.svg?raw'
-import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import { mdiChartPieOutline, mdiClockOutline, mdiClose, mdiFolder } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, formatFileSize } from '@nextcloud/files'
