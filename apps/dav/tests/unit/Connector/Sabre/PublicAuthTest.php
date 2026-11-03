@@ -131,6 +131,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('getPassword')->willReturn(null);
 
 		$this->shareManager->expects($this->once())
@@ -161,18 +162,80 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"password"}');
 
 		$result = self::invokePrivate($this->auth, 'checkToken');
 		$this->assertSame([true, 'principals/GX9HSGQrGE'], $result);
+	}
+
+	public function testCheckTokenAuthenticatedWithChangedPassword(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('new-password');
+		$share->method('getShareType')->willReturn(42);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willReturn($share);
+
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"old-password"}');
+
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		self::invokePrivate($this->auth, 'checkToken');
+	}
+
+	public function testSessionInvalidatedByPasswordChange(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+
+		$passwordHash = 'old-password';
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturnCallback(static function () use (&$passwordHash) {
+			return $passwordHash;
+		});
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+
+		$this->shareManager->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willReturn($share);
+		$this->shareManager->method('checkPassword')
+			->willReturnCallback(static function (IShare $share, ?string $password) use (&$passwordHash) {
+				return $password === $passwordHash;
+			});
+
+		$sessionData = [];
+		$this->session->method('exists')->willReturnCallback(static function (string $key) use (&$sessionData) {
+			return isset($sessionData[$key]);
+		});
+		$this->session->method('get')->willReturnCallback(static function (string $key) use (&$sessionData) {
+			return $sessionData[$key] ?? null;
+		});
+		$this->session->method('set')->willReturnCallback(static function (string $key, $value) use (&$sessionData): void {
+			$sessionData[$key] = $value;
+		});
+
+		$this->assertTrue(self::invokePrivate($this->auth, 'validateUserPass', ['username', 'old-password']));
+		$this->assertSame([true, 'principals/GX9HSGQrGE'], self::invokePrivate($this->auth, 'checkToken'));
+
+		$passwordHash = 'new-password';
+
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		self::invokePrivate($this->auth, 'checkToken');
 	}
 
 	public function testCheckTokenPasswordNotAuthenticated(): void {
@@ -180,6 +243,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -188,7 +252,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn(null);
 
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		self::invokePrivate($this->auth, 'checkToken');
@@ -201,14 +265,14 @@ class PublicAuthTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"other-token":"password"}');
 
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		self::invokePrivate($this->auth, 'checkToken');
@@ -289,6 +353,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -301,6 +366,10 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(true);
 
+		$this->session->expects($this->once())
+			->method('set')
+			->with('public_link_authenticated_frontend', '{"GX9HSGQrGE":"password"}');
+
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
@@ -311,6 +380,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
@@ -337,7 +407,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -351,12 +421,37 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"password"}');
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
+	}
+
+	public function testInvalidSharePasswordLinkSessionWithChangedPassword(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('new-password');
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->willReturn($share);
+
+		$this->shareManager->method('checkPassword')
+			->with(
+				$this->equalTo($share),
+				$this->equalTo('old-password')
+			)->willReturn(false);
+
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"old-password"}');
+
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'old-password']);
+
+		$this->assertFalse($result);
 	}
 
 	public function testSharePasswordLinkInvalidSession(): void {
@@ -366,7 +461,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -380,8 +475,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"other-token":"password"}');
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -396,7 +490,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -410,8 +504,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"other-token":"password"}');
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 

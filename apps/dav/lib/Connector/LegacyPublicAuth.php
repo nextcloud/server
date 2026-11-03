@@ -73,14 +73,14 @@ class LegacyPublicAuth extends AbstractBasic {
 				// Validate password if provided
 				if ($this->shareManager->checkPassword($share, $password)) {
 					// If not set, set authenticated session cookie
-					if (!$this->isShareInSession($share)) {
-						$this->addShareToSession($share);
+					if (!PublicAuth::isShareInSession($this->session, $share)) {
+						PublicAuth::addShareToSession($this->session, $share);
 					}
 					return true;
 				}
 
 				// We are already authenticated for this share in the session
-				if ($this->isShareInSession($share)) {
+				if (PublicAuth::isShareInSession($this->session, $share)) {
 					return true;
 				}
 
@@ -101,29 +101,6 @@ class LegacyPublicAuth extends AbstractBasic {
 			}
 		}
 		return true;
-	}
-
-	private function addShareToSession(IShare $share): void {
-		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED) ?? [];
-		if (!is_array($allowedShareIds)) {
-			$allowedShareIds = [];
-		}
-
-		$allowedShareIds[] = $share->getId();
-		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $allowedShareIds);
-	}
-
-	private function isShareInSession(IShare $share): bool {
-		if (!$this->session->exists(PublicAuth::DAV_AUTHENTICATED)) {
-			return false;
-		}
-
-		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
-		if (!is_array($allowedShareIds)) {
-			return false;
-		}
-
-		return in_array($share->getId(), $allowedShareIds, true);
 	}
 
 	public function getShare(): IShare {
