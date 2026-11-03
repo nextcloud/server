@@ -10,12 +10,14 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use InvalidArgumentException;
+use OC\Files\Search\FilesSearchQuery;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Search\Filter\GroupFilter;
 use OC\Search\Filter\UserFilter;
+use OC\SystemConfig;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
@@ -42,6 +44,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		private IMimeTypeDetector $mimeTypeDetector,
 		private IRootFolder $rootFolder,
 		private IPreview $previewManager,
+		private ?SystemConfig $systemConfig = null,
 	) {
 	}
 
@@ -161,12 +164,30 @@ class FilesSearchProvider implements IFilteringProvider {
 			};
 		}
 
-		return new SearchQuery(
+		$cursor = (int)$query->getCursor();
+		$soleNameLike = count($comparisons) === 1
+			&& $comparisons[0] instanceof SearchComparison
+			&& $comparisons[0]->getField() === 'name'
+			&& $comparisons[0]->getType() === ISearchComparison::COMPARE_LIKE
+			&& $comparisons[0]->getExtra() === ''
+			&& is_string($comparisons[0]->getValue());
+		$bounded = $this->systemConfig?->getValue('files_search_bounded_name', false) === true
+			&& $query->getSortOrder() === ISearchQuery::SORT_DATE_DESC
+			&& $soleNameLike
+			&& $query->getLimit() >= 1
+			&& $query->getLimit() <= 100
+			&& $cursor >= 0
+			&& $cursor <= 1024 - $query->getLimit();
+		$queryClass = $bounded ? FilesSearchQuery::class : SearchQuery::class;
+		return new $queryClass(
 			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_AND, $comparisons),
 			$query->getLimit(),
-			(int)$query->getCursor(),
+			$cursor,
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC
-				? [new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime')]
+				? array_merge([new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime')],
+					// The bounded sole-name opt-in deliberately makes equal-mtime pages
+					// deterministic. All non-admitted requests retain their native order.
+					$bounded ? [new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'fileid')] : [])
 				: [],
 			$user
 		);

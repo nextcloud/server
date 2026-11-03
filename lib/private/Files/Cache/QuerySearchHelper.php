@@ -7,7 +7,9 @@
 
 namespace OC\Files\Cache;
 
+use OC\DB\FilesSearchSnapshot;
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Search\FilesSearchQuery;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
@@ -21,6 +23,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
@@ -36,7 +39,20 @@ class QuerySearchHelper {
 		private readonly QueryOptimizer $queryOptimizer,
 		private readonly IGroupManager $groupManager,
 		private readonly IFilesMetadataManager $filesMetadataManager,
+		private readonly ?FilesSearchSnapshot $filesSearchSnapshot = null,
 	) {
+	}
+
+	private function withConnection(IDBConnection $connection): self {
+		return new self(
+			$this->mimetypeLoader,
+			$connection,
+			$this->searchBuilder,
+			$this->queryOptimizer,
+			$this->groupManager,
+			$this->filesMetadataManager,
+			null,
+		);
 	}
 
 	protected function getQueryBuilder(): CacheQueryBuilder {
@@ -142,6 +158,120 @@ class QuerySearchHelper {
 	 * @return array<T, ICacheEntry[]>
 	 */
 	public function searchInCaches(ISearchQuery $searchQuery, array $caches): array {
+		$context = $this->filesSearchContext($searchQuery, $caches);
+		$prefix = $context === null ? null : $this->rankPrefix($searchQuery);
+		if ($context !== null && $prefix !== null && $this->filesSearchSnapshot !== null) {
+			$results = $this->filesSearchSnapshot->run(
+				$this->connection,
+				function (IDBConnection $connection, callable $assertActive, callable $verifyOneToOne, callable $recentNameIds) use ($searchQuery, $caches, $context, $prefix): array {
+					$helper = $this->withConnection($connection);
+					$recentStorage = count($context[1]) === 1 ? $context[1][0] : null;
+					$namePattern = $context[0]->getValue();
+					if (is_int($recentStorage) && $recentStorage > 0 && is_string($namePattern)) {
+						$recentRows = $recentNameIds($recentStorage, $namePattern, $prefix, false);
+						$assertActive();
+						if (is_array($recentRows) && count($recentRows) === $prefix && $verifyOneToOne()) {
+							$recentIds = $helper->candidateIds($recentRows, $prefix);
+							$restrictedQuery = $helper->queryWithIds($searchQuery, $recentIds);
+							$probe = $helper->idProbeBuilder($restrictedQuery, $caches);
+							$assertActive();
+							$probeResult = $probe->executeQuery();
+							try {
+								$probeRows = $probeResult->fetchAllAssociative();
+							} finally {
+								$probeResult->closeCursor();
+							}
+							$assertActive();
+							if (count($probeRows) > $searchQuery->getLimit()) {
+								throw new \UnexpectedValueException('Files search recent probe bound violated');
+							}
+							if (count($probeRows) === $searchQuery->getLimit()) {
+								return $helper->searchInCaches($restrictedQuery, $caches);
+							}
+							$widenedRows = $recentNameIds($recentStorage, $namePattern, $prefix, true);
+							$assertActive();
+							if (is_array($widenedRows)) {
+								$widenedIds = $helper->candidateIds($widenedRows, 2048);
+								if ($widenedIds !== []) {
+									$widenedQuery = $helper->queryWithIds($searchQuery, $widenedIds);
+									$widenedProbe = $helper->idProbeBuilder($widenedQuery, $caches);
+									$assertActive();
+									$widenedResult = $widenedProbe->executeQuery();
+									try {
+										$widenedProbeRows = $widenedResult->fetchAllAssociative();
+									} finally {
+										$widenedResult->closeCursor();
+									}
+									$assertActive();
+									if (count($widenedProbeRows) > $searchQuery->getLimit()) {
+										throw new \UnexpectedValueException('Files search widened probe bound violated');
+									}
+									if (count($widenedProbeRows) === $searchQuery->getLimit()) {
+										return $helper->searchInCaches($widenedQuery, $caches);
+									}
+								}
+							}
+						}
+					}
+					$builder = $helper->getQueryBuilder();
+					$builder->selectFileCache('file', false);
+					$metadataQuery = $builder->selectMetadata();
+					$coarseOperation = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+						$context[0],
+						new SearchComparison(ISearchComparison::COMPARE_IN, 'storage', $context[1]),
+					]);
+					$searchExpr = $helper->searchBuilder->searchOperatorToDBExpr($builder, $coarseOperation, $metadataQuery);
+					if ($searchExpr) {
+						$builder->andWhere($searchExpr);
+					}
+					$helper->searchBuilder->addSearchOrdersToQuery($builder, $searchQuery->getOrder(), $metadataQuery);
+					$builder->setMaxResults($prefix);
+					$builder->select('file.fileid');
+					$assertActive();
+					$result = $builder->executeQuery();
+					try {
+						$rows = $result->fetchAllAssociative();
+					} finally {
+						$result->closeCursor();
+					}
+					$assertActive();
+					if (count($rows) > $prefix) {
+						throw new \UnexpectedValueException('Files search candidate bound violated');
+					}
+					if (!$verifyOneToOne()) {
+						return $helper->searchInCaches($searchQuery, $caches);
+					}
+					$ids = $helper->candidateIds($rows, $prefix);
+					if ($ids === []) {
+						return array_fill_keys(array_keys($caches), []);
+					}
+					$restrictedQuery = $helper->queryWithIds($searchQuery, $ids);
+					if (count($ids) === $prefix) {
+						$probe = $helper->idProbeBuilder($restrictedQuery, $caches);
+						$assertActive();
+						$probeResult = $probe->executeQuery();
+						try {
+							$probeRows = $probeResult->fetchAllAssociative();
+						} finally {
+							$probeResult->closeCursor();
+						}
+						$assertActive();
+						if (count($probeRows) > $searchQuery->getLimit()) {
+							throw new \UnexpectedValueException('Files search probe bound violated');
+						}
+						if (count($probeRows) !== $searchQuery->getLimit()) {
+							return $helper->searchInCaches($searchQuery, $caches);
+						}
+					}
+					$assertActive();
+					return $helper->searchInCaches($restrictedQuery, $caches);
+				},
+			);
+			if ($results !== null) {
+				return $results;
+			}
+		}
+
 		// search in multiple caches at once by creating one query in the following format
 		// SELECT ... FROM oc_filecache WHERE
 		//     <filter expressions from the search query>
@@ -216,6 +346,133 @@ class QuerySearchHelper {
 			}
 		}
 		return $results;
+	}
+
+	/** @return array{0: SearchComparison, 1: list<int>}|null */
+	private function filesSearchContext(ISearchQuery $query, array $caches): ?array {
+		if ($this->connection->getShardDefinition('filecache') !== null
+			|| !$query instanceof FilesSearchQuery || count($caches) !== 1 || $query->getSelectFields() !== []
+			|| $query->getLimit() < 1 || $query->getLimit() > 100 || $query->getOffset() < 0) {
+			return null;
+		}
+		$order = $query->getOrder();
+		if (count($order) !== 2 || $order[0]->getField() !== 'mtime' || $order[0]->getDirection() !== ISearchOrder::DIRECTION_DESCENDING
+			|| $order[1]->getField() !== 'fileid' || $order[1]->getDirection() !== ISearchOrder::DIRECTION_DESCENDING
+			|| $order[0]->getExtra() !== '' || $order[1]->getExtra() !== '') {
+			return null;
+		}
+		$operation = $query->getSearchOperation();
+		if ($operation instanceof SearchBinaryOperator && $operation->getType() === ISearchBinaryOperator::OPERATOR_AND
+			&& count($operation->getArguments()) === 1) {
+			$operation = $operation->getArguments()[0];
+		}
+		if (!$operation instanceof SearchComparison || $operation->getField() !== 'name'
+			|| $operation->getType() !== ISearchComparison::COMPARE_LIKE || $operation->getExtra() !== ''
+			|| !is_string($operation->getValue())) {
+			return null;
+		}
+		$cache = reset($caches);
+		if (!$cache instanceof CacheJail || $cache->getGetUnjailedRoot() !== 'files') {
+			return null;
+		}
+		$storages = $this->storageSuperset($cache->getQueryFilterForStorage());
+		return $storages === null || $storages === [] ? null : [$operation, $storages];
+	}
+
+	private function rankPrefix(ISearchQuery $query): ?int {
+		$limit = $query->getLimit();
+		$offset = $query->getOffset();
+		if ($limit < 1 || $offset < 0 || $limit > 1024 || $offset > 1024 - $limit) {
+			return null;
+		}
+		return $offset + $limit;
+	}
+
+	/** @param list<array<string, mixed>> $rows
+	 * @return list<int> */
+	private function candidateIds(array $rows, int $bound): array {
+		if (count($rows) > $bound) {
+			throw new \UnexpectedValueException('Files search candidate bound violated');
+		}
+		$ids = [];
+		foreach ($rows as $row) {
+			$value = $row['fileid'] ?? null;
+			if ((!is_int($value) && !is_string($value)) || !preg_match('/^[1-9][0-9]*$/D', (string)$value)) {
+				throw new \UnexpectedValueException('Files search candidate fileid is invalid');
+			}
+			$id = filter_var($value, FILTER_VALIDATE_INT);
+			if ($id === false || isset($ids[$id])) {
+				throw new \UnexpectedValueException('Files search candidate fileid is invalid');
+			}
+			$ids[$id] = $id;
+		}
+		return array_values($ids);
+	}
+
+	/** @param list<int> $ids */
+	private function queryWithIds(ISearchQuery $query, array $ids): SearchQuery {
+		return new SearchQuery(
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				$query->getSearchOperation(),
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', $ids),
+			]),
+			$query->getLimit(),
+			$query->getOffset(),
+			$query->getOrder(),
+			$query->getUser(),
+			$query->limitToHome(),
+			$query->getSelectFields(),
+		);
+	}
+
+	private function idProbeBuilder(ISearchQuery $query, array $caches): CacheQueryBuilder {
+		$builder = $this->getQueryBuilder();
+		$builder->selectFileCache('file', false);
+		$metadataQuery = $builder->selectMetadata();
+		$this->applySearchConstraints($builder, $query, $caches, $metadataQuery);
+		$builder->select('file.fileid');
+		return $builder;
+	}
+
+	/** @return list<int>|null */
+	private function storageSuperset(ISearchOperator $operator): ?array {
+		if ($operator instanceof SearchComparison && $operator->getField() === 'storage' && $operator->getExtra() === '') {
+			$values = match ($operator->getType()) {
+				ISearchComparison::COMPARE_EQUAL => [$operator->getValue()],
+				ISearchComparison::COMPARE_IN => $operator->getValue(),
+				default => null,
+			};
+			if (!is_array($values) || $values === [] || count($values) > 16) {
+				return null;
+			}
+			foreach ($values as $id) {
+				if (!is_int($id) || $id < 1) {
+					return null;
+				}
+			}
+			return array_values(array_unique($values));
+		}
+		if (!$operator instanceof SearchBinaryOperator || $operator->getArguments() === []) {
+			return null;
+		}
+		$type = $operator->getType();
+		if ($type !== ISearchBinaryOperator::OPERATOR_AND && $type !== ISearchBinaryOperator::OPERATOR_OR) {
+			return null;
+		}
+		$sets = array_map($this->storageSuperset(...), $operator->getArguments());
+		if ($type === ISearchBinaryOperator::OPERATOR_OR && in_array(null, $sets, true)) {
+			return null;
+		}
+		$sets = array_values(array_filter($sets, static fn ($set) => $set !== null));
+		if ($sets === []) {
+			return null;
+		}
+		$result = array_shift($sets);
+		foreach ($sets as $set) {
+			$result = $type === ISearchBinaryOperator::OPERATOR_AND ? array_intersect($result, $set) : array_merge($result, $set);
+		}
+		$result = array_values(array_unique($result));
+		return count($result) > 16 ? null : $result;
 	}
 
 	protected function requireUser(ISearchQuery $searchQuery): IUser {
