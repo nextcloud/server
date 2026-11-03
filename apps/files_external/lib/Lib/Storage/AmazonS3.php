@@ -122,7 +122,7 @@ class AmazonS3 extends Common {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
-				] + $this->getServerSideEncryptionParameters())->toArray();
+				] + $this->getReadServerSideEncryptionParameters())->toArray();
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
