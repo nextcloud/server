@@ -13,6 +13,12 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class TARTest extends TestBase {
+	public function testGetTarTypeWithHiddenArchiveNames(): void {
+		$this->assertSame(TAR::GZIP, TAR::getTarType('.tar.gz'));
+		$this->assertSame(TAR::GZIP, TAR::getTarType('.tgz'));
+		$this->assertSame(TAR::BZIP, TAR::getTarType('.tar.bz2'));
+	}
+
 	#[\Override]
 	protected function getExisting() {
 		$dir = \OC::$SERVERROOT . '/tests/data';
