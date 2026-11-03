@@ -240,4 +240,28 @@ abstract class LockingProvider extends TestCase {
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
 		$this->instance->releaseLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
+
+	public function testIsLockedWithInvalidType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->isLocked('foo', 0);
+	}
+
+	public function testAcquireLockWithInvalidType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->acquireLock('foo', 0);
+	}
+
+	public function testReleaseLockWithInvalidType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->releaseLock('foo', 0);
+	}
+
+	public function testChangeLockWithInvalidType(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->changeLock('foo', 0);
+	}
 }
