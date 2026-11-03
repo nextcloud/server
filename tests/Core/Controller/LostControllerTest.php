@@ -29,6 +29,7 @@ use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Security\Events\PasswordResetRequestedEvent;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -239,8 +240,10 @@ class LostControllerTest extends TestCase {
 
 		$this->logger->expects($this->exactly(0))
 			->method('error');
-		$this->eventDispatcher->expects($this->never())
-			->method('dispatchTyped');
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event): void {
+				$this->assertNotInstanceOf(CriticalActionPerformedEvent::class, $event, 'no audit entry for a reset that sends no email');
+			});
 		$this->logger->expects($this->exactly(2))
 			->method('warning');
 
@@ -324,16 +327,24 @@ class LostControllerTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->eventDispatcher->expects($this->once())
+		$events = [];
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.password_reset.requested'
-				&& $event->getParameters() === ['userId' => 'ExistingUser']
-				&& $event->getLogMessage() === 'Password reset was requested for user "%s"'));
+			->willReturnCallback(static function (object $event) use (&$events): void {
+				$events[] = $event;
+			});
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
+
+		$this->assertInstanceOf(PasswordResetRequestedEvent::class, $events[0]);
+		$this->assertSame('ExistingUser', $events[0]->getInput());
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[1]);
+		$this->assertSame('auth.password_reset.requested', $events[1]->getOperation());
+		$this->assertSame(['userId' => 'ExistingUser'], $events[1]->getParameters());
+		$this->assertSame('Password reset was requested for user "%s"', $events[1]->getLogMessage());
 	}
 
 	public function testEmailWithMailSuccessful(): void {
@@ -393,6 +404,40 @@ class LostControllerTest extends TestCase {
 			->with($message);
 
 		$response = $this->lostController->email('test@example.com');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEmailDispatchesRequestedEvent(): void {
+		$this->userManager->method('getByEmail')
+			->willReturn([]);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(static fn (PasswordResetRequestedEvent $event): bool => $event->getInput() === 'NonExistingUser'));
+
+		$response = $this->lostController->email('NonExistingUser');
+
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testEmailPreventedByListener(): void {
+		$this->userManager->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(static function (PasswordResetRequestedEvent $event): void {
+				$event->preventEmail();
+			});
+		$this->verificationToken->expects($this->never())
+			->method('create');
+		$this->mailer->expects($this->never())
+			->method('send');
+
+		$response = $this->lostController->email('ExistingUser');
+
 		$expectedResponse = new JSONResponse(['status' => 'success']);
 		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
