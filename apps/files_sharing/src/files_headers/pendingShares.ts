@@ -43,6 +43,7 @@ export default function registerPendingShares() {
 				const { default: component } = await import('../views/FilesHeaderPendingShares.vue')
 				FilesHeaderPendingShares = Vue.extend(component)
 			}
+			instance?.$destroy()
 			instance = new FilesHeaderPendingShares().$mount(el) as unknown as IFilesHeaderPendingShares
 			if (isPendingSharesEnabled(folder, view)) {
 				instance.update()
