@@ -101,7 +101,7 @@ class Setup {
 	 * Wrapper around \PDO::getAvailableDrivers
 	 */
 	protected function getAvailableDbDriversForPdo(): array {
-		if (class_exists(\PDO::class)) {
+		if ($this->class_exists(\PDO::class)) {
 			return \PDO::getAvailableDrivers();
 		}
 		return [];
