@@ -90,11 +90,9 @@ class Scanner extends PublicEmitter {
 			$this->eventDispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount): void {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', [$mount->getMountPoint() . $path]);
 			$this->eventDispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount): void {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
 			$this->eventDispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount): void {

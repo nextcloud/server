@@ -58,8 +58,6 @@ class OC_Hook {
 		['OC\User','postUnassignedUserId'],
 		[Scanner::class,'scan_file'],
 		[Scanner::class,'post_scan_file'],
-		['Scanner','removeFromCache'],
-		['Scanner','addToCache'],
 		['Scanner','correctFolderSize'],
 		/* Only used by tests */
 		['LegacyHookTest', 'error'],
