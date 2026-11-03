@@ -28,47 +28,56 @@ class IconBuilder {
 	}
 
 	/**
-	 * @param $app string app name
-	 * @return string|false image blob
+	 * Render app icon on themed background color as SVG
+	 * fallback to logo
+	 *
+	 * @param string $app app name
+	 * @return string|false content of the svg file
 	 */
-	public function getFavicon($app) {
-		if (!$this->imageManager->canConvert('PNG')) {
+	public function getFavicon(string $app): string|false {
+		$appIcon = $this->util->getAppIcon($app);
+		if ($appIcon instanceof ISimpleFile) {
+			$appIconContent = $appIcon->getContent();
+		} elseif (!file_exists($appIcon)) {
+			return false;
+		} else {
+			$appIconContent = file_get_contents($appIcon);
+		}
+
+		if ($appIconContent === false || $appIconContent === '') {
 			return false;
 		}
-		try {
-			$icon = $this->renderAppIcon($app, 128);
-			if ($icon === false) {
+
+		// the custom logo is stored without file extension, so the mime type is detected from the content
+		$mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($appIconContent);
+		if (!str_starts_with($mime, 'image/') || $mime === 'image/svg') {
+			if (!str_contains($appIconContent, '<svg')) {
 				return false;
 			}
-			$icon->setImageFormat('PNG32');
-
-			$favicon = new Imagick();
-			$favicon->setFormat('ICO');
-
-			$clone = clone $icon;
-			$clone->scaleImage(16, 0);
-			$favicon->addImage($clone);
-
-			$clone = clone $icon;
-			$clone->scaleImage(32, 0);
-			$favicon->addImage($clone);
-
-			$clone = clone $icon;
-			$clone->scaleImage(64, 0);
-			$favicon->addImage($clone);
-
-			$clone = clone $icon;
-			$clone->scaleImage(128, 0);
-			$favicon->addImage($clone);
-
-			$data = $favicon->getImagesBlob();
-			$favicon->destroy();
-			$icon->destroy();
-			$clone->destroy();
-			return $data;
-		} catch (\ImagickException $e) {
-			return false;
+			$mime = 'image/svg+xml';
 		}
+		$color = $this->themingDefaults->getColorPrimary();
+
+		/**
+		 * invert app icons for bright primary colors
+		 * the default nextcloud logo and custom logos will not be inverted
+		 */
+		$filter = '';
+		$filterAttribute = '';
+		if ($this->util->isBrightColor($color)
+			&& !$appIcon instanceof ISimpleFile
+			&& $app !== 'core'
+		) {
+			$filter = '<filter id="invert" color-interpolation-filters="sRGB"><feColorMatrix values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"/></filter>';
+			$filterAttribute = ' filter="url(#invert)"';
+		}
+
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 100 100">'
+			. $filter
+			. '<rect width="100" height="100" rx="20" fill="' . htmlspecialchars($color, ENT_XML1 | ENT_QUOTES) . '"/>'
+			. '<image x="7.5" y="7.5" width="85" height="85"' . $filterAttribute
+			. ' href="data:' . htmlspecialchars($mime, ENT_XML1 | ENT_QUOTES) . ';base64,' . base64_encode($appIconContent) . '"/>'
+			. '</svg>';
 	}
 
 	/**
