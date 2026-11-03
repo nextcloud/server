@@ -3477,18 +3477,6 @@
   <file src="lib/private/Files/Node/HookConnector.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/LazyFolder.php">

@@ -92,7 +92,7 @@ class Node implements INode {
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = Server::get(IEventDispatcher::class);
 		foreach ($hooks as $hook) {
-			if (method_exists($this->root, 'emit')) {
+			if ($hook === 'postWrite' && method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
 			}
 
