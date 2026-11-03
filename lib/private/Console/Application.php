@@ -71,11 +71,13 @@ class Application {
 		} catch (\RuntimeException $e) {
 			//expected if there are extra options
 		}
-		if ($input->getOption('no-warnings')) {
+		// Honour both Symfony --quiet/-q and our --no-warnings before any
+		// early stderr chatter so scripted upgrades stay silent.
+		if ($input->getOption('no-warnings') || $input->getOption('quiet')) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 		}
 
-		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
+		if (!$output->isQuiet() && $this->memoryInfo->isMemoryLimitSufficient() === false) {
 			$output->getErrorOutput()->writeln(
 				'<comment>The current PHP memory limit '
 				. 'is below the recommended value of 512MB.</comment>'
@@ -138,12 +140,16 @@ class Application {
 						}
 					}
 				}
-			} elseif ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
+			} elseif (!$output->isQuiet()
+				&& $input->getArgument('command') !== '_completion'
+				&& $input->getArgument('command') !== 'maintenance:install') {
 				$errorOutput = $output->getErrorOutput();
 				$errorOutput->writeln('Nextcloud is not installed - only a limited number of commands are available');
 			}
 		} catch (NeedsUpdateException) {
-			if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'upgrade') {
+			if (!$output->isQuiet()
+				&& $input->getArgument('command') !== '_completion'
+				&& $input->getArgument('command') !== 'upgrade') {
 				$errorOutput = $output->getErrorOutput();
 				$errorOutput->writeln('Nextcloud or one of the apps require upgrade - only a limited number of commands are available');
 				$errorOutput->writeln('You may use your browser or the occ upgrade command to do the upgrade');
@@ -173,7 +179,8 @@ class Application {
 	 * @return void
 	 */
 	private function writeMaintenanceModeInfo(InputInterface $input, ConsoleOutputInterface $output): void {
-		if ($input->getArgument('command') !== '_completion'
+		if (!$output->isQuiet()
+			&& $input->getArgument('command') !== '_completion'
 			&& $input->getArgument('command') !== 'maintenance:mode'
 			&& $input->getArgument('command') !== 'status') {
 			$errOutput = $output->getErrorOutput();
