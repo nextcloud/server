@@ -27,8 +27,12 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { AxiosError } from '@nextcloud/axios'
+import type { LanguageOption } from '../../components/Users/userFormUtils.ts'
+
 import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
@@ -37,90 +41,39 @@ import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalI
 import { handleError } from '../../utils/handlers.ts'
 import { validateLanguage } from '../../utils/validate.js'
 
-export default {
-	name: 'LanguageSectionEntry',
+const language = defineModel<LanguageOption>('language', { required: true })
 
-	components: {
-		NcFormBoxButton,
-		NcSelect,
-		OpenInNew,
-	},
+const props = defineProps<{
+	inputId?: string
+	commonLanguages: LanguageOption[]
+	otherLanguages: LanguageOption[]
+}>()
 
-	props: {
-		inputId: {
-			type: String,
-			default: null,
-		},
+/**
+ * All available languages, sorted like: current, common, other
+ */
+const allLanguages = computed(() => {
+	const common = props.commonLanguages.filter((l) => l.code !== language.value.code)
+	const other = props.otherLanguages.filter((l) => l.code !== language.value.code)
+	return [language.value, ...common, ...other]
+})
 
-		commonLanguages: {
-			type: Array,
-			required: true,
-		},
+/**
+ * @param newLanguage The language picked in the select, the page reloads in it
+ */
+async function onLanguageChange(newLanguage: LanguageOption) {
+	language.value = newLanguage
 
-		otherLanguages: {
-			type: Array,
-			required: true,
-		},
+	if (!validateLanguage(newLanguage)) {
+		return
+	}
 
-		language: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	emits: ['update:language'],
-
-	data() {
-		return {
-			initialLanguage: this.language,
-		}
-	},
-
-	computed: {
-		/**
-		 * All available languages, sorted like: current, common, other
-		 */
-		allLanguages() {
-			const common = this.commonLanguages.filter((l) => l.code !== this.language.code)
-			const other = this.otherLanguages.filter((l) => l.code !== this.language.code)
-			return [this.language, ...common, ...other]
-		},
-	},
-
-	methods: {
-		async onLanguageChange(language) {
-			this.$emit('update:language', language)
-
-			if (validateLanguage(language)) {
-				await this.updateLanguage(language)
-			}
-		},
-
-		async updateLanguage(language) {
-			try {
-				const responseData = await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE, language.code)
-				this.handleResponse({
-					language,
-					status: responseData.ocs?.meta?.status,
-				})
-				window.location.reload()
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update language'),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ language, status, errorMessage, error }) {
-			if (status === 'ok') {
-				// Ensure that local state reflects server state
-				this.initialLanguage = language
-			} else {
-				handleError(error, errorMessage)
-			}
-		},
-	},
+	try {
+		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE, newLanguage.code)
+		window.location.reload()
+	} catch (error) {
+		handleError(error as AxiosError, t('settings', 'Unable to update language'))
+	}
 }
 </script>
 

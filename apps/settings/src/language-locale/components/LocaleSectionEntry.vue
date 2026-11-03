@@ -22,12 +22,24 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { AxiosError } from '@nextcloud/axios'
+import type { LanguageOption } from '../../components/Users/userFormUtils.ts'
+
 import { getCanonicalLocale, t } from '@nextcloud/l10n'
+import { useIntervalFn } from '@vueuse/core'
+import { computed, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.ts'
+
+const props = defineProps<{
+	inputId?: string
+	locale: LanguageOption
+	localesForLanguage: LanguageOption[]
+	otherLocales: LanguageOption[]
+}>()
 
 const dateFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { year: 'numeric', month: '2-digit', day: '2-digit' })
 const timeFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { hour: 'numeric', minute: '2-digit', second: '2-digit' })
@@ -43,94 +55,30 @@ function formatExample() {
 	}
 }
 
-export default {
-	name: 'LocaleSectionEntry',
+const example = ref(formatExample())
+useIntervalFn(() => {
+	example.value = formatExample()
+}, 1000)
 
-	components: {
-		NcSelect,
-	},
+/**
+ * All available locale, sorted like: current, common, other
+ */
+const allLocales = computed(() => {
+	const common = props.localesForLanguage.filter((l) => l.code !== props.locale.code)
+	const other = props.otherLocales.filter((l) => l.code !== props.locale.code)
+	return [props.locale, ...common, ...other]
+})
 
-	props: {
-		inputId: {
-			type: String,
-			default: null,
-		},
-
-		locale: {
-			type: Object,
-			required: true,
-		},
-
-		localesForLanguage: {
-			type: Array,
-			required: true,
-		},
-
-		otherLocales: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	emits: ['update:locale'],
-
-	data() {
-		return {
-			initialLocale: this.locale,
-			intervalId: 0,
-			example: formatExample(),
-		}
-	},
-
-	computed: {
-		/**
-		 * All available locale, sorted like: current, common, other
-		 */
-		allLocales() {
-			const common = this.localesForLanguage.filter((l) => l.code !== this.locale.code)
-			const other = this.otherLocales.filter((l) => l.code !== this.locale.code)
-			return [this.locale, ...common, ...other]
-		},
-	},
-
-	mounted() {
-		this.intervalId = window.setInterval(this.refreshExample, 1000)
-	},
-
-	beforeUnmount() {
-		window.clearInterval(this.intervalId)
-	},
-
-	methods: {
-		async updateLocale(locale) {
-			try {
-				const responseData = await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE, locale.code)
-				this.handleResponse({
-					locale,
-					status: responseData.ocs?.meta?.status,
-				})
-				window.location.reload()
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update locale'),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ locale, status, errorMessage, error }) {
-			if (status === 'ok') {
-				this.initialLocale = locale
-			} else {
-				this.$emit('update:locale', this.initialLocale)
-				handleError(error, errorMessage)
-			}
-		},
-
-		refreshExample() {
-			this.example = formatExample()
-		},
-	},
+/**
+ * @param newLocale The locale to save, the page reloads with it
+ */
+async function updateLocale(newLocale: LanguageOption) {
+	try {
+		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE, newLocale.code)
+		window.location.reload()
+	} catch (error) {
+		handleError(error as AxiosError, t('settings', 'Unable to update locale'))
+	}
 }
 </script>
 

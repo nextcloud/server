@@ -15,27 +15,18 @@
 	</li>
 </template>
 
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 
-export default {
-	name: 'WebAuthnDevice',
+defineProps<{
+	name: string | null
+}>()
 
-	components: {
-		NcActionButton,
-		NcActions,
-	},
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-	},
-
-	emits: ['delete'],
-}
+defineEmits<{
+	delete: []
+}>()
 </script>
 
 <style scoped>

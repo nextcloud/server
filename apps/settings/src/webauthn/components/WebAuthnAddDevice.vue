@@ -52,10 +52,14 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RegistrationResponseJSON } from '@simplewebauthn/browser'
+import type { WebAuthnDevice } from '../../service/WebAuthnRegistrationSerice.ts'
+
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
+import { nextTick, ref, useTemplateRef } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import logger from '../../logger.ts'
@@ -64,15 +68,14 @@ import {
 	startRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
 
-/**
- * @param {string} text The text to log
- */
-function logAndPass(text) {
-	return (data) => {
-		logger.debug(text)
-		return data
-	}
-}
+defineProps<{
+	isHttps?: boolean
+	isLocalhost?: boolean
+}>()
+
+const emit = defineEmits<{
+	added: [device: WebAuthnDevice]
+}>()
 
 const RegistrationSteps = Object.freeze({
 	READY: 1,
@@ -81,107 +84,72 @@ const RegistrationSteps = Object.freeze({
 	PERSIST: 4,
 })
 
-export default {
-	name: 'WebAuthnAddDevice',
+const name = ref('')
+const credential = ref<RegistrationResponseJSON>()
+const step = ref<number>(RegistrationSteps.READY)
 
-	components: {
-		NcButton,
-		NcTextField,
-	},
+const nameInput = useTemplateRef('nameInput')
 
-	props: {
-		isHttps: {
-			type: Boolean,
-			default: false,
-		},
+/**
+ * Start the registration process by loading the authenticator parameters
+ * The next step is the naming of the device
+ */
+async function start() {
+	step.value = RegistrationSteps.REGISTRATION
+	logger.debug('Starting WebAuthn registration')
 
-		isLocalhost: {
-			type: Boolean,
-			default: false,
-		},
-	},
+	try {
+		await confirmPassword()
+		credential.value = await startRegistration()
+		step.value = RegistrationSteps.NAMING
+		await nextTick()
+		nameInput.value?.focus()
+	} catch (err) {
+		showError(String(err))
+		step.value = RegistrationSteps.READY
+	}
+}
 
-	emits: ['added'],
+/**
+ * Save the new device with the given name on the server
+ */
+async function submit() {
+	step.value = RegistrationSteps.PERSIST
 
-	setup() {
-		// non reactive props
-		return {
-			RegistrationSteps,
-		}
-	},
+	try {
+		await confirmPassword()
+		logger.debug('confirmed password')
+		await saveRegistrationData()
+		logger.debug('registration data saved')
+		reset()
+		logger.debug('app reset')
+	} catch (error) {
+		logger.error(String(error), { error })
+	}
+}
 
-	data() {
-		return {
-			name: '',
-			credential: {},
-			step: RegistrationSteps.READY,
-		}
-	},
+/**
+ * Finish the registration on the server and add the new device to the list
+ */
+async function saveRegistrationData() {
+	try {
+		const device = await finishRegistration(name.value, credential.value!)
 
-	watch: {
-		/**
-		 * Auto focus the name input when naming a device
-		 */
-		step() {
-			if (this.step === RegistrationSteps.NAMING) {
-				this.$nextTick(() => this.$refs.nameInput?.focus())
-			}
-		},
-	},
+		logger.info('new device added', { device })
 
-	methods: {
-		/**
-		 * Start the registration process by loading the authenticator parameters
-		 * The next step is the naming of the device
-		 */
-		async start() {
-			this.step = RegistrationSteps.REGISTRATION
-			logger.debug('Starting WebAuthn registration')
+		emit('added', device)
+	} catch (err) {
+		logger.error('Error persisting webauthn registration', { error: err })
+		throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'), { cause: err })
+	}
+}
 
-			try {
-				await confirmPassword()
-				this.credential = await startRegistration()
-				this.step = RegistrationSteps.NAMING
-			} catch (err) {
-				showError(err)
-				this.step = RegistrationSteps.READY
-			}
-		},
-
-		/**
-		 * Save the new device with the given name on the server
-		 */
-		submit() {
-			this.step = RegistrationSteps.PERSIST
-
-			return confirmPassword()
-				.then(logAndPass('confirmed password'))
-				.then(this.saveRegistrationData)
-				.then(logAndPass('registration data saved'))
-				.then(() => this.reset())
-				.then(logAndPass('app reset'))
-				.catch(logger.error)
-		},
-
-		async saveRegistrationData() {
-			try {
-				const device = await finishRegistration(this.name, this.credential)
-
-				logger.info('new device added', { device })
-
-				this.$emit('added', device)
-			} catch (err) {
-				logger.error('Error persisting webauthn registration', { error: err })
-				throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'), { cause: err })
-			}
-		},
-
-		reset() {
-			this.name = ''
-			this.registrationData = {}
-			this.step = RegistrationSteps.READY
-		},
-	},
+/**
+ * Back to the start, ready for the next device
+ */
+function reset() {
+	name.value = ''
+	step.value = RegistrationSteps.READY
 }
 </script>
 

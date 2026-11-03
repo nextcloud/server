@@ -38,11 +38,15 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 /* eslint vue/multi-word-component-names: "warn" */
 
+import type { WebAuthnDevice as Device } from '../../service/WebAuthnRegistrationSerice.ts'
+
+import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
+import { computed, ref } from 'vue'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import WebAuthnAddDevice from './WebAuthnAddDevice.vue'
 import WebAuthnDevice from './WebAuthnDevice.vue'
@@ -50,69 +54,40 @@ import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.ts'
 import { naturalCollator } from '../../utils/sorting.ts'
 
-export default {
-	name: 'WebAuthnSection',
+const props = defineProps<{
+	initialDevices: Device[]
+	isHttps?: boolean
+	isLocalhost?: boolean
+}>()
 
-	components: {
-		WebAuthnAddDevice,
-		WebAuthnDevice,
-		NcNoteCard,
-	},
+// Non reactive properties
+const supportsWebauthn = browserSupportsWebAuthn()
 
-	props: {
-		initialDevices: {
-			type: Array,
-			required: true,
-		},
+const devices = ref(props.initialDevices)
 
-		isHttps: {
-			type: Boolean,
-			default: false,
-		},
+const sortedDevices = computed(() => [...devices.value].sort((a, b) => naturalCollator.compare(a.name ?? '', b.name ?? '')))
 
-		isLocalhost: {
-			type: Boolean,
-			default: false,
-		},
-	},
+/**
+ * @param device The device the server just registered
+ */
+function deviceAdded(device: Device) {
+	logger.debug(`adding new device to the list ${device.id}`)
 
-	setup() {
-		// Non reactive properties
-		return {
-			supportsWebauthn: browserSupportsWebAuthn(),
-		}
-	},
+	devices.value.push(device)
+}
 
-	data() {
-		return {
-			devices: this.initialDevices,
-		}
-	},
+/**
+ * @param id The device to delete
+ */
+async function deleteDevice(id: number) {
+	logger.info(`deleting webauthn device ${id}`)
 
-	computed: {
-		sortedDevices() {
-			return [...this.devices].sort((a, b) => naturalCollator.compare(a.name ?? '', b.name ?? ''))
-		},
-	},
+	await confirmPassword()
+	await removeRegistration(id)
 
-	methods: {
-		deviceAdded(device) {
-			logger.debug(`adding new device to the list ${device.id}`)
+	devices.value = devices.value.filter((d) => d.id !== id)
 
-			this.devices.push(device)
-		},
-
-		async deleteDevice(id) {
-			logger.info(`deleting webauthn device ${id}`)
-
-			await confirmPassword()
-			await removeRegistration(id)
-
-			this.devices = this.devices.filter((d) => d.id !== id)
-
-			logger.info(`webauthn device ${id} removed successfully`)
-		},
-	},
+	logger.info(`webauthn device ${id} removed successfully`)
 }
 </script>
 

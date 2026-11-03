@@ -22,44 +22,23 @@
 	</section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { LanguageOption } from '../../components/Users/userFormUtils.ts'
+
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { computed, ref } from 'vue'
 import LanguageSectionEntry from './LanguageSectionEntry.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
 
-const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
+const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState<{
+	languageMap: { activeLanguage: LanguageOption, commonLanguages: LanguageOption[], otherLanguages: LanguageOption[] }
+}>('settings', 'personalInfoParameters')
 
-export default {
-	name: 'LanguageSection',
+const inputId = `account-setting-${ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE}`
 
-	components: {
-		LanguageSectionEntry,
-	},
-
-	setup() {
-		// Non reactive instance properties
-		return {
-			commonLanguages,
-			otherLanguages,
-		}
-	},
-
-	data() {
-		return {
-			language: activeLanguage,
-		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-setting-${ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE}`
-		},
-
-		isEditable() {
-			return Boolean(this.language)
-		},
-	},
-}
+const language = ref(activeLanguage)
+const isEditable = computed(() => Boolean(language.value))
 </script>
 
 <style lang="scss" scoped>

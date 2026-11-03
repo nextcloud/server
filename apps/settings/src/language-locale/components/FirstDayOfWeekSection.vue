@@ -18,10 +18,12 @@
 	</section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { AxiosError } from '@nextcloud/axios'
+
 import { loadState } from '@nextcloud/initial-state'
 import { getCanonicalLocale, getDayNames, getFirstDay, t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import {
 	ACCOUNT_SETTING_PROPERTY_ENUM,
@@ -55,76 +57,32 @@ function getLocaleFirstDay(): number {
 	return ((locale.getWeekInfo?.() ?? locale.weekInfo)?.firstDay ?? getFirstDay()) % 7
 }
 
-export default defineComponent({
-	name: 'FirstDayOfWeekSection',
-	components: {
-		NcSelect,
-	},
+const inputId = 'account-property-fdow'
 
-	data() {
-		let firstDay = -1
-		if (firstDayOfWeek) {
-			firstDay = parseInt(firstDayOfWeek)
-		}
+const firstDay = ref(firstDayOfWeek ? parseInt(firstDayOfWeek) : -1)
 
-		return {
-			firstDay,
-		}
-	},
+const dayOptions: DayOption[] = [{
+	value: -1,
+	label: t('settings', 'Derived from your locale ({weekDayName})', {
+		// use the locale's default first day (not the user's saved override)
+		weekDayName: getDayNames()[getLocaleFirstDay()],
+	}),
+}, ...getDayNames().map((dayName, index) => ({ value: index, label: dayName }))]
 
-	computed: {
-		inputId(): string {
-			return 'account-property-fdow'
-		},
+const valueOption = computed(() => dayOptions.find((option) => option.value === firstDay.value))
 
-		dayOptions(): DayOption[] {
-			const options = [{
-				value: -1,
-				label: t('settings', 'Derived from your locale ({weekDayName})', {
-					// use the locale's default first day (not the user's saved override)
-					weekDayName: getDayNames()[getLocaleFirstDay()],
-				}),
-			}]
-			for (const [index, dayName] of getDayNames().entries()) {
-				options.push({ value: index, label: dayName })
-			}
-			return options
-		},
-
-		valueOption(): DayOption | undefined {
-			return this.dayOptions.find((option) => option.value === this.firstDay)
-		},
-	},
-
-	methods: {
-		async updateFirstDayOfWeek(option: DayOption): Promise<void> {
-			try {
-				const responseData = await savePrimaryAccountProperty(
-					ACCOUNT_SETTING_PROPERTY_ENUM.FIRST_DAY_OF_WEEK,
-					option.value.toString(),
-				)
-				this.handleResponse({
-					value: option.value,
-					status: responseData.ocs?.meta?.status,
-				})
-				window.location.reload()
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update first day of week'),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ value, status, errorMessage, error }): void {
-			if (status === 'ok') {
-				this.firstDay = value
-			} else {
-				handleError(error, errorMessage)
-			}
-		},
-	},
-})
+/**
+ * @param option The day picked in the select, the page reloads with it
+ */
+async function updateFirstDayOfWeek(option: DayOption): Promise<void> {
+	try {
+		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.FIRST_DAY_OF_WEEK, option.value.toString())
+		firstDay.value = option.value
+		window.location.reload()
+	} catch (error) {
+		handleError(error as AxiosError, t('settings', 'Unable to update first day of week'))
+	}
+}
 </script>
 
 <style lang="scss" scoped>

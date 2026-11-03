@@ -11,7 +11,7 @@
 
 		<LocaleSectionEntry
 			v-if="isEditable"
-			v-model:locale="locale"
+			:locale="activeLocale"
 			:inputId="inputId"
 			:localesForLanguage="localesForLanguage"
 			:otherLocales="otherLocales" />
@@ -22,38 +22,21 @@
 	</section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { LanguageOption } from '../../components/Users/userFormUtils.ts'
+
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import LocaleSectionEntry from './LocaleSectionEntry.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
 
-const { localeMap: { activeLocale, localesForLanguage, otherLocales } } = loadState('settings', 'personalInfoParameters', {})
+const { localeMap: { activeLocale, localesForLanguage, otherLocales } } = loadState<{
+	localeMap: { activeLocale: LanguageOption, localesForLanguage: LanguageOption[], otherLocales: LanguageOption[] }
+}>('settings', 'personalInfoParameters')
 
-export default {
-	name: 'LocaleSection',
+const inputId = `account-setting-${ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE}`
 
-	components: {
-		LocaleSectionEntry,
-	},
-
-	data() {
-		return {
-			localesForLanguage,
-			otherLocales,
-			locale: activeLocale,
-		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-setting-${ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE}`
-		},
-
-		isEditable() {
-			return Boolean(this.locale)
-		},
-	},
-}
+const isEditable = Boolean(activeLocale)
 </script>
 
 <style lang="scss" scoped>
