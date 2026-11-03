@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Sharing\Backend as SharingBackend;
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\CustomPropertiesService;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\Accounts\IAccountManager;
@@ -123,6 +124,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->config,
 			$this->sharingBackend,
 			$this->federatedCalendarMapper,
+			Server::get(CustomPropertiesService::class),
 			$this->cacheFactory,
 			false,
 		);
