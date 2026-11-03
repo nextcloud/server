@@ -13,6 +13,7 @@ use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Server;
@@ -36,6 +37,8 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/** @var IConfig */
 	private $config;
 
+	private IAppConfig $appConfig;
+
 	/** @var PluginManager */
 	private $pluginManager;
 
@@ -51,6 +54,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 		$this->pluginManager = new PluginManager(
 			\OC::$server,
 			Server::get(IAppManager::class)
@@ -97,7 +101,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
 			$objects[] = new Inbox($this->caldavBackend, $this->principalInfo['uri']);
-			$objects[] = new Outbox($this->config, $this->principalInfo['uri']);
+			$objects[] = new Outbox($this->appConfig, $this->principalInfo['uri']);
 		}
 
 		// We're adding a notifications node, if it's supported by the backend.
@@ -153,7 +157,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Inbox($this->caldavBackend, $this->principalInfo['uri']);
 		}
 		if ($name === 'outbox' && $this->caldavBackend instanceof SchedulingSupport) {
-			return new Outbox($this->config, $this->principalInfo['uri']);
+			return new Outbox($this->appConfig, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
 			return new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);

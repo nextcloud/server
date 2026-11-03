@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -93,7 +95,7 @@ class EmbeddedCalDavServer {
 		$this->server->addPlugin(new PublishPlugin(
 			Server::get(IURLGenerator::class)
 		));
-		if ($appConfig->getValueString('dav', 'sendInvitations', 'yes') === 'yes') {
+		if ($appConfig->getValueString(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS, 'yes') === 'yes') {
 			$this->server->addPlugin(Server::get(IMipPlugin::class));
 		}
 

@@ -12,10 +12,11 @@ namespace OC\User;
 use JsonException;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Service\AbsenceService;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\User\IOutOfOfficeData;
@@ -26,7 +27,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 
 	public function __construct(
 		ICacheFactory $cacheFactory,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private AbsenceService $absenceService,
 		private LoggerInterface $logger,
 		private TimezoneService $timezoneService,
@@ -36,7 +37,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 
 	#[\Override]
 	public function isEnabled(): bool {
-		return $this->config->getAppValue(Application::APP_ID, 'hide_absence_settings', 'no') === 'no';
+		return $this->appConfig->getValueString(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS, 'no') === 'no';
 	}
 
 	private function getCachedOutOfOfficeData(IUser $user): ?OutOfOfficeData {
