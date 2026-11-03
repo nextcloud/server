@@ -57,7 +57,6 @@ use Psr\Log\LoggerInterface;
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
  * - postLogin(\OC\User\User $user, string $loginName, string $password, boolean $isTokenLogin)
- * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  * - postLogout()
  *
@@ -994,7 +993,6 @@ class Session implements IUserSession, Emitter {
 			// Ignore
 		}
 		$this->dispatcher->dispatchTyped(new UserLoggedInWithCookieEvent($user, $password));
-		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user, $password]);
 		return true;
 	}
 
