@@ -27,6 +27,7 @@
 			:forceMenu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open="openedMenu"
+			@open="openedMenu = true"
 			@close="onMenuClose"
 			@closed="onMenuClosed">
 			<!-- Non-destructive actions list -->
@@ -420,14 +421,14 @@ export default defineComponent({
 
 <style lang="scss">
 // Allow right click to define the position of the menu
-// only if defined
-main.app-content[style*="mouse-pos-x"] .v-popper__popper {
+// only if defined, a closing menu keeps its own copy of the position
+main.app-content[style*="mouse-pos-x"] .v-popper__popper,
+main.app-content .v-popper__popper[style*="mouse-pos-x"] {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
-	// If the menu is too close to the bottom, we move it up
+	// If the menu is too close to the bottom, its bottom edge is aligned with the cursor
 	&[data-popper-placement="top"] {
-		// 34px added to align with the top of the cursor
-		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh + 34px), 0px) !important;
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 100%), 0px) !important;
 	}
 	// Hide arrow if floating
 	.v-popper__arrow-container {

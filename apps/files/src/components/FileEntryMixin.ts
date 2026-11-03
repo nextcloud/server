@@ -180,6 +180,11 @@ export default defineComponent({
 				this.actionsMenuStore.opened = opened
 					? this.uniqueId.toString()
 					: null
+
+				// Not opened by right click, so the menu belongs under its trigger
+				if (opened) {
+					this.setMenuPosition()
+				}
 			},
 		},
 
@@ -323,7 +328,8 @@ export default defineComponent({
 		},
 
 		/**
-		 * Position the actions menu at the mouse, or reset its position without an event
+		 * Position the next opened actions menu at the mouse, or under its trigger without an event.
+		 * Menus still open keep their current position while they close.
 		 *
 		 * @param event The right click event
 		 */
@@ -332,6 +338,22 @@ export default defineComponent({
 			const root = this.$el?.closest('main.app-content') as HTMLElement | null
 			if (!root) {
 				return
+			}
+
+			for (const popper of root.querySelectorAll<HTMLElement>('.v-popper__popper')) {
+				// A menu is still visible during its hide transition
+				const style = getComputedStyle(popper)
+				const visible = style.visibility !== 'hidden' && style.opacity !== '0'
+				for (const property of ['--mouse-pos-x', '--mouse-pos-y']) {
+					if (visible) {
+						// Keep a position frozen by a previous call, the root one may be reset already
+						if (!popper.style.getPropertyValue(property)) {
+							popper.style.setProperty(property, root.style.getPropertyValue(property))
+						}
+					} else {
+						popper.style.removeProperty(property)
+					}
+				}
 			}
 
 			if (!event) {
