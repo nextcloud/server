@@ -11,7 +11,12 @@ namespace lib\Log;
 
 use OC\Log\ExceptionSerializer;
 use OC\SystemConfig;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Test\TestCase;
+
+class LazyObjectFixture {
+	public string $value = 'value';
+}
 
 class ExceptionSerializerTest extends TestCase {
 	private ExceptionSerializer $serializer;
@@ -45,6 +50,10 @@ class ExceptionSerializerTest extends TestCase {
 	}
 
 	private function throwsException(string $maybeSecret): void {
+		throw new \Exception('expected exception');
+	}
+
+	private function throwsWithObject(object $object): void {
 		throw new \Exception('expected exception');
 	}
 
@@ -91,5 +100,26 @@ class ExceptionSerializerTest extends TestCase {
 			$this->assertSame('login', $serializedData['Trace'][1]['args'][0]);
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][1]['args'][1]);
 		}
+	}
+
+	#[RequiresPhp('>= 8.4')]
+	public function testSerializerDoesNotInitializeLazyObjects(): void {
+		$initialized = false;
+		$ghost = (new \ReflectionClass(LazyObjectFixture::class))->newLazyGhost(function () use (&$initialized): void {
+			$initialized = true;
+			throw new \RuntimeException('initializer must not run');
+		});
+
+		$ignoreArgs = ini_set('zend.exception_ignore_args', '0');
+		try {
+			$this->throwsWithObject($ghost);
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+		} finally {
+			ini_set('zend.exception_ignore_args', (string)$ignoreArgs);
+		}
+
+		$this->assertFalse($initialized);
+		$this->assertSame(LazyObjectFixture::class, $serializedData['Trace'][0]['args'][0]['__class__']);
 	}
 }

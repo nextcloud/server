@@ -168,6 +168,13 @@ class ExceptionSerializer {
 					'__properties__' => 'Encoding skipped as the maximum nesting level was reached',
 				];
 			}
+			// Reading the properties would run the initializer of a lazy object
+			if (PHP_VERSION_ID >= 80400 && (new \ReflectionClass($arg))->isUninitializedLazyObject($arg)) {
+				return [
+					'__class__' => get_class($arg),
+					'__properties__' => 'Encoding skipped as the object is not initialized',
+				];
+			}
 
 			$objectInfo = [ '__class__' => get_class($arg) ];
 			$objectVars = get_object_vars($arg);
