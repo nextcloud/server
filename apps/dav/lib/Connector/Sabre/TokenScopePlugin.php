@@ -46,7 +46,7 @@ class TokenScopePlugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		// After authentication (10), before the ACL plugin (20)
-		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 15);
+		$server->on('beforeMethod:*', $this->beforeMethod(...), 15);
 	}
 
 	public function beforeMethod(RequestInterface $request): void {
@@ -63,7 +63,7 @@ class TokenScopePlugin extends ServerPlugin {
 		}
 
 		// Registered here so unscoped requests skip the per-node check. Priority 0 runs before any handler that loads data
-		$this->server->on('propFind', [$this, 'propFind'], 0);
+		$this->server->on('propFind', $this->propFind(...), 0);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class TokenScopePlugin extends ServerPlugin {
 	 * @param list<string> $segments
 	 */
 	private function allowsGroupware(array $segments, string $method, bool $write, string $readScope, string $writeScope): bool {
-		// POST shares and publishes calendars and address books, except on the scheduling outbox
+		// The only POST allowed: free/busy queries on the scheduling outbox. Every other POST shares or publishes a calendar or address book
 		if ($method === 'POST') {
 			return $segments[0] === CalDAVPlugin::CALENDAR_ROOT && count($segments) === 3 && $segments[2] === 'outbox'
 				&& $this->lockdownManager->hasScope($writeScope);

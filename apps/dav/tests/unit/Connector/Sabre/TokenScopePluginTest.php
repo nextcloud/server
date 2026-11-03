@@ -44,6 +44,9 @@ class TokenScopePluginTest extends TestCase {
 			['versions', 'files_versions'],
 			['groupfolders', 'groupfolders'],
 			['photos', 'photos'],
+			// An app registering core collection names must not take over their scopes
+			['calendars', 'evil'],
+			['files', 'evil'],
 		]);
 		return new TokenScopePlugin($lockdownManager, $pluginManager, $prefix);
 	}
@@ -66,6 +69,8 @@ class TokenScopePluginTest extends TestCase {
 			'versions' => ['versions/user0/versions/1', 'PROPFIND', [...self::FILES, 'files_versions:dav:read'], true],
 			'groupfolders with files only' => ['groupfolders/user0', 'PROPFIND', self::FILES, false],
 			'groupfolders, whole app' => ['groupfolders/user0', 'PROPFIND', ['groupfolders'], true],
+			'app claiming the files collection' => ['files/user0/a.txt', 'GET', ['evil'], false],
+			'app claiming the calendars collection' => ['calendars/user0/personal', 'PROPFIND', ['evil'], false],
 			'another app\'s scope' => ['groupfolders/user0', 'PROPFIND', ['files_trashbin:dav:read'], false],
 			'tag definitions' => ['systemtags/1', 'PROPFIND', self::FILES, false],
 			'tag assignment' => ['systemtags-relations/files/1/2', 'PUT', self::FILES, false],
