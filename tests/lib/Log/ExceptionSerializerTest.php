@@ -92,4 +92,23 @@ class ExceptionSerializerTest extends TestCase {
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][1]['args'][1]);
 		}
 	}
+
+	private function throwsWithObject(object $object): void {
+		throw new \Exception('expected exception');
+	}
+
+	#[\PHPUnit\Framework\Attributes\RequiresPhp('>= 8.4')]
+	public function testSerializerWithUninitializedLazyObject(): void {
+		$class = new \ReflectionClass(SystemConfig::class);
+		$ghost = $class->newLazyGhost(function (): void {
+			throw new \RuntimeException('initializer must not run');
+		});
+		try {
+			$this->throwsWithObject($ghost);
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+			$this->assertSame(SystemConfig::class, $serializedData['Trace'][0]['args'][0]['__class__']);
+			$this->assertTrue($class->isUninitializedLazyObject($ghost));
+		}
+	}
 }
