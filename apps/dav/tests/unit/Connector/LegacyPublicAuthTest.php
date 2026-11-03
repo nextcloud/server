@@ -92,6 +92,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -107,6 +108,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
 		$this->shareManager->expects($this->once())
@@ -122,6 +124,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
@@ -144,11 +147,33 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
+	public function testSharePasswordNotHashedNotStoredInSession(): void {
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(false);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->willReturn($share);
+
+		$this->shareManager->method('checkPassword')->willReturn(true);
+
+		$this->session->expects($this->never())->method('set');
+
+		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+
+		$this->assertTrue($result);
+	}
+
 	public function testSharePasswordMailValidPassword(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
 		$this->shareManager->expects($this->once())
@@ -170,6 +195,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
@@ -194,6 +220,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('new-password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
@@ -218,6 +245,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
@@ -242,6 +270,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('isPasswordHashed')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
