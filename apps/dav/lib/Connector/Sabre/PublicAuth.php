@@ -233,8 +233,13 @@ class PublicAuth extends AbstractBasic {
 	 * with the public share page), so changing the share password invalidates it.
 	 */
 	public static function addShareToSession(ISession $session, IShare $share): void {
+		// Never store a plain text password in the session
+		if (!$share->isPasswordHashed()) {
+			return;
+		}
+
 		$allowedTokens = self::getAuthenticatedTokens($session);
-		$allowedTokens[$share->getToken()] = (string)$share->getPassword();
+		$allowedTokens[$share->getToken()] = $share->getPassword();
 		$session->set(PublicShareController::DAV_AUTHENTICATED_FRONTEND, json_encode($allowedTokens));
 	}
 
@@ -242,9 +247,11 @@ class PublicAuth extends AbstractBasic {
 	 * Check if the current password of the share was verified in the session
 	 */
 	public static function isShareInSession(ISession $session, IShare $share): bool {
-		$allowedTokens = self::getAuthenticatedTokens($session);
-		return isset($allowedTokens[$share->getToken()])
-			&& $allowedTokens[$share->getToken()] === $share->getPassword();
+		$passwordHash = $share->getPassword();
+		$sessionHash = self::getAuthenticatedTokens($session)[$share->getToken()] ?? null;
+		return is_string($passwordHash)
+			&& is_string($sessionHash)
+			&& hash_equals($passwordHash, $sessionHash);
 	}
 
 	/**
