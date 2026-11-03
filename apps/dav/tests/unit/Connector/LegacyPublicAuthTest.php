@@ -115,6 +115,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -126,6 +127,10 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo('password')
 			)->willReturn(true);
 
+		$this->session->expects($this->once())
+			->method('set')
+			->with('public_link_authenticated_frontend', '{"GX9HSGQrGE":"password"}');
+
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
@@ -133,6 +138,7 @@ class LegacyPublicAuthTest extends TestCase {
 
 	public function testSharePasswordMailValidPassword(): void {
 		$share = $this->createMock(IShare::class);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
@@ -155,7 +161,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -167,19 +173,41 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"password"}');
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
 
+	public function testInvalidSharePasswordLinkSessionWithChangedPassword(): void {
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('new-password');
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->willReturn($share);
+
+		$this->shareManager->method('checkPassword')
+			->with(
+				$this->equalTo($share),
+				$this->equalTo('old-password')
+			)->willReturn(false);
+
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"GX9HSGQrGE":"old-password"}');
+
+		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'old-password']);
+
+		$this->assertFalse($result);
+	}
+
 	public function testSharePasswordLinkInvalidSession(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -191,8 +219,7 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"other-token":"password"}');
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -204,7 +231,7 @@ class LegacyPublicAuthTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
-		$share->method('getId')->willReturn('42');
+		$share->method('getToken')->willReturn('GX9HSGQrGE');
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -216,8 +243,7 @@ class LegacyPublicAuthTest extends TestCase {
 				$this->equalTo('password')
 			)->willReturn(false);
 
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn(['43']);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn('{"other-token":"password"}');
 
 		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
