@@ -516,9 +516,6 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- vuex-router-sync
-	- version: 5.0.0
-	- license: MIT
 - web-namespaces
 	- version: 2.0.1
 	- license: MIT
