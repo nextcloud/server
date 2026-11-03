@@ -96,10 +96,11 @@ const modules = {
 		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
 	},
 	settings: {
-		// Only the app password section is migrated to Vue 3 so far, the rest
-		// of the app is still built by the Vue 2 frontend. It is referenced by path
-		// rather than through `apps/` so it resolves the Vue 3 dependencies.
+		// Only the app password and previews sections are on Vue 3 so far, the rest
+		// of the app is still built by the Vue 2 frontend. They are referenced by path
+		// rather than through `apps/` so they resolve the Vue 3 dependencies.
 		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/authtokens', 'main.ts'),
+		'admin-settings-previews': resolve(import.meta.dirname, '../..', 'apps/settings/src/previews', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

@@ -33,6 +33,7 @@
 		<admin>OCA\Settings\Settings\Admin\ArtificialIntelligence</admin>
 		<admin>OCA\Settings\Settings\Admin\Server</admin>
 		<admin>OCA\Settings\Settings\Admin\Sharing</admin>
+		<admin>OCA\Settings\Settings\Admin\Previews</admin>
 		<admin>OCA\Settings\Settings\Admin\Security</admin>
 		<admin>OCA\Settings\Settings\Admin\Delegation</admin>
 		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
@@ -45,6 +46,7 @@
 		<admin-section>OCA\Settings\Sections\Admin\Security</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Server</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Sharing</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Previews</admin-section>
 		<admin-delegation>OCA\Settings\Settings\Admin\Users</admin-delegation>
 		<admin-delegation-section>OCA\Settings\Sections\Admin\Users</admin-delegation-section>
 		<personal>OCA\Settings\Settings\Personal\Additional</personal>

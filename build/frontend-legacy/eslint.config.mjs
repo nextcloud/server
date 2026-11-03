@@ -61,8 +61,9 @@ export default defineConfig([
 			'**/vendor/', // different vendors
 			// the public share entry point is Vue 3, it is linted by the Vue 3 frontend
 			'**/apps/files_sharing/src/public/',
-			// the app password section is Vue 3, it is linted by the Vue 3 frontend
+			// the app password and previews sections are Vue 3, they are linted by the Vue 3 frontend
 			'**/apps/settings/src/authtokens/',
+			'**/apps/settings/src/previews/',
 		],
 	},
 ])
