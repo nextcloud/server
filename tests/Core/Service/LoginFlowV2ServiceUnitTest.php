@@ -453,12 +453,19 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			});
 
 		$this->mapper->expects($this->once())
-			->method('insert');
+			->method('insert')
+			->with($this->callback(function (LoginFlowV2 $flow): bool {
+				return $flow->getClientIp() === '2001:db8::1'
+					&& $flow->getClientName() === 'user_agent'
+					&& $flow->getTimestamp() === 1700000000;
+			}));
+
+		$this->timeFactory->method('getTime')->willReturn(1700000000);
 
 		$this->secureRandom->expects($this->exactly(2))
 			->method('generate');
 
-		$token = $this->subjectUnderTest->createTokens('user_agent');
+		$token = $this->subjectUnderTest->createTokens('user_agent', '2001:db8::1');
 		$this->assertTrue($token instanceof LoginFlowV2Tokens);
 	}
 }

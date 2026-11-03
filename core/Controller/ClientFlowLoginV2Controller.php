@@ -304,7 +304,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('user-agent');
 
-		$tokens = $this->loginFlowV2Service->createTokens($userAgent);
+		$tokens = $this->loginFlowV2Service->createTokens($userAgent, $this->request->getRemoteAddress());
 
 		$data = [
 			'poll' => [
