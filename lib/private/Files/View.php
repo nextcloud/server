@@ -962,13 +962,16 @@ class View {
 
 			try {
 				$exists = $this->file_exists($target);
-				if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
+				$sourcePath = $this->getHookPath($source);
+				$targetPath = $this->getHookPath($target);
+				$emitHooks = $this->shouldEmitHooks($source) && $this->shouldEmitHooks($target) && $sourcePath !== null && $targetPath !== null;
+				if ($emitHooks) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
 						[
-							Filesystem::signal_param_oldpath => $this->getHookPath($source),
-							Filesystem::signal_param_newpath => $this->getHookPath($target),
+							Filesystem::signal_param_oldpath => $sourcePath,
+							Filesystem::signal_param_newpath => $targetPath,
 							Filesystem::signal_param_run => &$run
 						]
 					);
@@ -1002,13 +1005,13 @@ class View {
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-					if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target) && $result !== false) {
+					if ($result !== false && $emitHooks) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
 							[
-								Filesystem::signal_param_oldpath => $this->getHookPath($source),
-								Filesystem::signal_param_newpath => $this->getHookPath($target)
+								Filesystem::signal_param_oldpath => $sourcePath,
+								Filesystem::signal_param_newpath => $targetPath,
 							]
 						);
 						$this->emit_file_hooks_post($exists, $target);
@@ -1176,7 +1179,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @return mixed
+	 * @return int|float|false
 	 * @throws InvalidPathException
 	 */
 	public function free_space($path = '/') {

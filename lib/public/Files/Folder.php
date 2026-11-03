@@ -179,7 +179,7 @@ interface Folder extends Node {
 	/**
 	 * Get the amount of free space inside the folder
 	 *
-	 * @return int
+	 * @return int|float|false
 	 * @since 6.0.0
 	 */
 	public function getFreeSpace();

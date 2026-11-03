@@ -63,6 +63,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/SystemReport',
 		$nextcloudDir . '/lib/private/SystemReport',
 		$nextcloudDir . '/tests/lib/SystemReport',
+		$nextcloudDir . '/apps/dav/lib/Connector/Sabre/QuotaPlugin.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
