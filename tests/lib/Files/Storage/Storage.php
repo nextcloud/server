@@ -220,7 +220,7 @@ abstract class Storage extends \Test\TestCase {
 	public function testCopy($source, $target): void {
 		$this->initSourceAndTarget($source);
 
-		$this->instance->copy($source, $target);
+		$this->assertTrue($this->instance->copy($source, $target));
 
 		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
 		$this->assertSameAsLorem($target);
@@ -243,7 +243,7 @@ abstract class Storage extends \Test\TestCase {
 	public function testCopyOverwrite($source, $target): void {
 		$this->initSourceAndTarget($source, $target);
 
-		$this->instance->copy($source, $target);
+		$this->assertTrue($this->instance->copy($source, $target));
 
 		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
 		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
@@ -450,7 +450,7 @@ abstract class Storage extends \Test\TestCase {
 	public function testCopyOverWriteFile(): void {
 		$this->instance->file_put_contents('target.txt', 'foo');
 		$this->instance->file_put_contents('source.txt', 'bar');
-		$this->instance->copy('source.txt', 'target.txt');
+		$this->assertTrue($this->instance->copy('source.txt', 'target.txt'));
 		$this->assertEquals('bar', $this->instance->file_get_contents('target.txt'));
 	}
 
@@ -525,7 +525,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('source/test2.txt', 'qwerty');
 		$this->instance->mkdir('source/subfolder');
 		$this->instance->file_put_contents('source/subfolder/test.txt', 'bar');
-		$this->instance->copy('source', 'target');
+		$this->assertTrue($this->instance->copy('source', 'target'));
 
 		$this->assertTrue($this->instance->file_exists('source'));
 		$this->assertTrue($this->instance->file_exists('source/test1.txt'));
@@ -552,7 +552,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('target/test1.txt', 'bar');
 		$this->instance->file_put_contents('target/test2.txt', 'bar');
 
-		$this->instance->copy('source', 'target');
+		$this->assertTrue($this->instance->copy('source', 'target'));
 
 		$this->assertFalse($this->instance->file_exists('target/test2.txt'), 'File target/test2.txt should no longer exist, but does');
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
@@ -564,7 +564,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->file_put_contents('target', 'bar');
 
-		$this->instance->copy('source', 'target');
+		$this->assertTrue($this->instance->copy('source', 'target'));
 
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 	}

@@ -138,4 +138,55 @@ class CommonTest extends Storage {
 		$instance->moveFromStorage($source, 'foo.txt', 'bar.txt');
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
+
+	public function testCopyFileOntoItselfIsSuccessfulNoOp(): void {
+		$this->instance->file_put_contents('same.txt', 'contents');
+
+		$this->assertTrue($this->instance->copy('same.txt', 'same.txt'));
+		$this->assertSame('contents', $this->instance->file_get_contents('same.txt'));
+	}
+
+	public function testCopyDirectoryOntoItselfIsSuccessfulNoOp(): void {
+		$this->instance->mkdir('same');
+		$this->instance->file_put_contents('same/file.txt', 'contents');
+
+		$this->assertTrue($this->instance->copy('same', 'same'));
+		$this->assertSame('contents', $this->instance->file_get_contents('same/file.txt'));
+	}
+
+	public function testCopyMissingPathOntoItselfFails(): void {
+		$this->assertFalse($this->instance->copy('missing', 'missing'));
+	}
+
+	public function testCopyReturnsFalseWhenDirectoryCannotBeOpened(): void {
+		$this->instance->mkdir('source');
+
+		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
+			->onlyMethods(['opendir'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
+		$instance->expects($this->once())
+			->method('opendir')
+			->with('source')
+			->willReturn(false);
+
+		$this->assertFalse($instance->copy('source', 'target'));
+	}
+
+	public function testCopyClosesSourceStreamWhenTargetCannotBeOpened(): void {
+		$sourceStream = fopen('php://temp', 'r+');
+		fwrite($sourceStream, 'contents');
+		rewind($sourceStream);
+
+		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
+			->onlyMethods(['fopen'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
+		$instance->expects($this->exactly(2))
+			->method('fopen')
+			->willReturnOnConsecutiveCalls($sourceStream, false);
+
+			$this->assertFalse($instance->copy('source.txt', 'target.txt'));
+			$this->assertFalse(is_resource($sourceStream));
+	}
 }
