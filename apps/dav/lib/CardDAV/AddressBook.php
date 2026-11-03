@@ -15,6 +15,7 @@ use OCP\IL10N;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Backend\BackendInterface;
+use Sabre\CardDAV\IQueryableAddressBook;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IMoveTarget;
@@ -27,7 +28,7 @@ use Sabre\DAV\PropPatch;
  * @package OCA\DAV\CardDAV
  * @property CardDavBackend $carddavBackend
  */
-class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
+class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget, IQueryableAddressBook {
 	use SharingPrivilegeSetTrait;
 
 	/**
@@ -190,6 +191,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		return $children;
+	}
+
+	#[\Override]
+	public function addressBookQuery(array $filters, string $test, ?int $limit, ?string $continuationToken): array {
+		return $this->carddavBackend->queryCards((int)$this->addressBookInfo['id'], $filters, $test, $limit, $continuationToken);
 	}
 
 	#[\Override]

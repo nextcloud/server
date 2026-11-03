@@ -16,6 +16,7 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\CardDAV\IQueryableAddressBook;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
@@ -236,5 +237,43 @@ class AddressBookTest extends TestCase {
 			'read-write sharee' => ['user2', false, true, false],
 			'read-only sharee' => ['user2', true, false, false],
 		];
+	}
+
+	public function testAddressBookQueryDelegatesToBackend(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$addressBookInfo = [
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'default',
+		];
+		$addressBook = new AddressBook($backend, $addressBookInfo, $this->createMock(IL10N::class));
+		$filters = [[
+			'name' => 'FN',
+			'test' => 'anyof',
+			'is-not-defined' => false,
+			'param-filters' => [],
+			'text-matches' => [[
+				'negate-condition' => false,
+				'collation' => 'i;unicode-casemap',
+				'match-type' => 'contains',
+				'value' => 'doe',
+			]],
+		]];
+		$page = [
+			'cards' => [
+				['name' => 'a.vcf', 'continuationToken' => 'tokenA'],
+				['name' => 'b.vcf', 'continuationToken' => 'tokenB'],
+			],
+			'hasMore' => true,
+		];
+
+		$backend->expects(self::once())
+			->method('queryCards')
+			->with(666, $filters, 'allof', 2, 'token1')
+			->willReturn($page);
+
+		self::assertInstanceOf(IQueryableAddressBook::class, $addressBook);
+		self::assertSame($page, $addressBook->addressBookQuery($filters, 'allof', 2, 'token1'));
 	}
 }
