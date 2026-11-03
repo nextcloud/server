@@ -617,66 +617,70 @@ class View {
 	 * @throws LockedException
 	 */
 	public function file_put_contents($path, $data) {
-		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
-			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-			if (Filesystem::isValidPath($path)
-				&& !Filesystem::isFileBlacklisted($path)
-			) {
-				$path = $this->getRelativePath($absolutePath);
-				if ($path === null) {
-					throw new InvalidPathException("Path $absolutePath is not in the expected root");
-				}
+		// not having to deal with streams in file_put_contents makes life easier
+		if (!is_resource($data)) {
+ 			$hooks = $this->file_exists($path) ? ['update', 'write'] : ['create', 'write'];
+ 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
+ 		}
 
-				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
+		if (!Filesystem::isValidPath($path)
+			|| Filesystem::isFileBlacklisted($path)
+		) {
+			return false;
+		}
+		
+		$path = $this->getRelativePath($absolutePath);
+		if ($path === null) {
+			throw new InvalidPathException("Path $absolutePath is not in the expected root");
+		}
 
-				$exists = $this->file_exists($path);
-				if ($this->shouldEmitHooks($path)) {
-					$run = true;
-					$this->emit_file_hooks_pre($exists, $path, $run);
-					if (!$run) {
-						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-						return false;
-					}
-				}
+		$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+		$lockType = ILockingProvider::LOCK_SHARED;
 
-				try {
-					$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
-				} catch (\Exception $e) {
-					// Release the shared lock before throwing.
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-					throw $e;
-				}
-
-				/** @var Storage $storage */
-				[$storage, $internalPath] = $this->resolvePath($path);
-				$target = $storage->fopen($internalPath, 'w');
-				if ($target) {
-					$result = stream_copy_to_stream($data, $target);
-					if ($result !== false) {
-						$result = true;
-					}
-					fclose($target);
-					fclose($data);
-
-					$this->writeUpdate($storage, $internalPath);
-
-					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
-
-					if ($this->shouldEmitHooks($path) && $result !== false) {
-						$this->emit_file_hooks_post($exists, $path);
-					}
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-					return $result;
-				} else {
-					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+		try {
+			$exists = $this->file_exists($path);
+			if ($this->shouldEmitHooks($path)) {
+				$run = true;
+				$this->emit_file_hooks_pre($exists, $path, $run);
+				if (!$run) {
 					return false;
 				}
-			} else {
+			}
+
+			$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+			$lockType = ILockingProvider::LOCK_EXCLUSIVE;
+
+			/** @var Storage $storage */
+			[$storage, $internalPath] = $this->resolvePath($path);
+			$target = $storage->fopen($internalPath, 'w');
+			if (!$target) {
 				return false;
 			}
-		} else {
-			$hooks = $this->file_exists($path) ? ['update', 'write'] : ['create', 'write'];
-			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
+
+			try {
+				$result = stream_copy_to_stream($data, $target);
+			} finally {
+				fclose($target);
+				fclose($data);
+			}
+
+			if ($result !== false) {
+				$result = true;
+			}
+
+			$this->writeUpdate($storage, $internalPath);
+
+			$this->changeLock($path, ILockingProvider::LOCK_SHARED);
+			$lockType = ILockingProvider::LOCK_SHARED;
+
+			if ($this->shouldEmitHooks($path) && $result !== false) {
+				$this->emit_file_hooks_post($exists, $path);
+			}
+
+			return $result;
+		} finally {
+			$this->unlockFile($path, $lockType);
 		}
 	}
 
