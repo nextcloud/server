@@ -110,6 +110,10 @@ class SyncLivePhotosListener implements IEventListener {
 			return; // Not a live photo.
 		}
 
+		if (in_array($peerFileId, $this->pendingRenames, true)) {
+			return; // The file is moved to another storage along with its peer.
+		}
+
 		// Check the user's folder.
 		$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
 		if ($peerFile === null) {
