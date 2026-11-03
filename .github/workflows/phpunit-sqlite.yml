@@ -111,6 +111,4 @@ jobs:
       - name: Print logs
         if: always()
         run: |
-          gs --version
-          cat /etc/ImageMagick-6/policy.xml
           cat data/nextcloud.log
