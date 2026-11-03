@@ -13,6 +13,7 @@ use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -138,7 +139,17 @@ interface ISharingBackend {
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareProperty(string $id, ShareProperty $property): ?string;
+	public function updateShareProperty(string $id, ShareProperty $property): void;
+
+	/**
+	 * Get the value of a property of a share.
+	 *
+	 * @param non-empty-string $id
+	 * @param class-string<ISharePropertyType> $propertyTypeClass
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function getSharePropertyValue(string $id, string $propertyTypeClass): ?string;
 
 	/**
 	 * Update a permission of a share.
