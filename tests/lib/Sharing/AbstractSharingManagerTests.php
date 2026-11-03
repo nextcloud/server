@@ -1748,7 +1748,24 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['properties']);
 	}
 
-	public function testUpdateSharePropertyModifyProperties(): void {
+	/**
+	 * @return list<array{list<string>, ?string}>
+	 */
+	public static function dataUpdateSharePropertyModifyProperties(): array {
+		return [
+			[[], null],
+			[['modify-on-save'], 'modified-on-save'],
+			[['old-value'], 'old-value'],
+			[['old-value', 'modify-on-save-old-value'], 'old-value'],
+			[['modify-on-format'], 'modified-on-format'],
+		];
+	}
+
+	/**
+	 * @param list<string> $values
+	 */
+	#[DataProvider('dataUpdateSharePropertyModifyProperties')]
+	public function testUpdateSharePropertyModifyProperties(array $values, ?string $expectedValue): void {
 		$this->registry->registerPropertyType(
 			new TestSharePropertyTypeModifyValue(['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'])
 		);
@@ -1764,9 +1781,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		// We cannot test for modify-on-save, because we will always see modified-on-save as the returned value.
+		if ($values === []) {
+			$formatted = $this->getShare($accessContext, $share->id);
+		} else {
+			foreach ($values as $value) {
+				$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, $value));
+			}
+		}
 
-		$formatted = $this->getShare($accessContext, $share->id);
 		$this->assertEquals([
 			[
 				'class' => TestSharePropertyType1::class,
@@ -1786,100 +1808,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'priority' => 1,
 				'advanced' => false,
 				'required' => false,
-				'value' => 'modified-on-save',
-				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
-			],
-		], $formatted['properties']);
-
-		$this->dbConnection->beginTransaction();
-		$share = $this->manager->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'old-value'));
-		$this->dbConnection->commit();
-
-		$before = $this->manager->getTime();
-		$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save-old-value'));
-		$share = $this->reloadShare($accessContext, $share);
-		$after = $this->manager->getTime();
-		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-		$this->assertEquals([
-			[
-				'class' => TestSharePropertyType1::class,
-				'display_name' => 'TestSharePropertyType1',
-				'hint' => 'hint TestSharePropertyType1',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => null,
-				'type' => 'enum',
-				'valid_values' => ['valid1'],
-			],
-			[
-				'class' => TestSharePropertyTypeModifyValue::class,
-				'display_name' => 'TestSharePropertyTypeModifyValue',
-				'hint' => 'hint TestSharePropertyTypeModifyValue',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => 'old-value',
-				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
-			],
-		], $formatted['properties']);
-
-		$before = $this->manager->getTime();
-		$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save'));
-		$share = $this->reloadShare($accessContext, $share);
-		$after = $this->manager->getTime();
-		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-		$this->assertEquals([
-			[
-				'class' => TestSharePropertyType1::class,
-				'display_name' => 'TestSharePropertyType1',
-				'hint' => 'hint TestSharePropertyType1',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => null,
-				'type' => 'enum',
-				'valid_values' => ['valid1'],
-			],
-			[
-				'class' => TestSharePropertyTypeModifyValue::class,
-				'display_name' => 'TestSharePropertyTypeModifyValue',
-				'hint' => 'hint TestSharePropertyTypeModifyValue',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => 'modified-on-save',
-				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
-			],
-		], $formatted['properties']);
-
-		$before = $this->manager->getTime();
-		$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-format'));
-		$after = $this->manager->getTime();
-		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-		$this->assertEquals([
-			[
-				'class' => TestSharePropertyType1::class,
-				'display_name' => 'TestSharePropertyType1',
-				'hint' => 'hint TestSharePropertyType1',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => null,
-				'type' => 'enum',
-				'valid_values' => ['valid1'],
-			],
-			[
-				'class' => TestSharePropertyTypeModifyValue::class,
-				'display_name' => 'TestSharePropertyTypeModifyValue',
-				'hint' => 'hint TestSharePropertyTypeModifyValue',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => 'modified-on-format',
+				'value' => $expectedValue,
 				'type' => 'enum',
 				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
 			],
