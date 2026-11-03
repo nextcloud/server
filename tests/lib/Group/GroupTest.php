@@ -8,7 +8,9 @@
 
 namespace Test\Group;
 
+use OC\Group\Database;
 use OC\Group\Group;
+use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeGroupChangedEvent;
@@ -114,6 +116,40 @@ class GroupTest extends \Test\TestCase {
 		$this->assertEquals('user1', $user1->getUID());
 		$this->assertEquals('user2', $user2->getUID());
 		$this->assertEquals('user3', $user3->getUID());
+	}
+
+	public function testGetUserIdsMultipleBackends(): void {
+		$backend1 = $this->createMock(Database::class);
+		$backend2 = $this->createMock(Database::class);
+		$userManager = $this->createMock(Manager::class);
+		$userManager->expects($this->never())
+			->method('get');
+		$group = new Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
+
+		$backend1->expects($this->once())
+			->method('usersInGroup')
+			->with('group1')
+			->willReturn(['user1', 'user2']);
+		$backend2->expects($this->once())
+			->method('usersInGroup')
+			->with('group1')
+			->willReturn(['user2', '3']);
+
+		$this->assertSame(['user1', 'user2', '3'], $group->getUserIds());
+	}
+
+	public function testGetUserIdsReusesLoadedUsers(): void {
+		$backend = $this->createMock(Database::class);
+		$userManager = $this->getUserManager();
+		$group = new Group('group1', [$backend], $this->dispatcher, $userManager);
+
+		$backend->expects($this->once())
+			->method('usersInGroup')
+			->with('group1')
+			->willReturn(['user1', 'user2']);
+
+		$group->getUsers();
+		$this->assertSame(['user1', 'user2'], $group->getUserIds());
 	}
 
 	public function testInGroupSingleBackend(): void {
