@@ -1430,8 +1430,6 @@ export default defineComponent({
 		/**
 		 * Move the selection through the flat result list. Focus stays in the input;
 		 * only the active index (and thus aria-activedescendant + the highlight) moves.
-		 * Ported from LegacyUnifiedSearch's focusNext/focusPrev arithmetic, minus the
-		 * roving DOM .focus().
 		 *
 		 * @param direction next | prev | first | last
 		 */
