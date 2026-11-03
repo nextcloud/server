@@ -24,7 +24,7 @@ use OCP\Support\Subscription\IAssertion;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserMappingTest extends AbstractMappingTestCase {
-	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): UserMapping {
-		return new UserMapping($dbMock, $cacheFactory, $appConfig, true, $this->createMock(IAssertion::class), $this->createMock(IRequest::class));
+	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig, bool $isCLI = true): UserMapping {
+		return new UserMapping($dbMock, $cacheFactory, $appConfig, $isCLI, $this->createMock(IAssertion::class), $this->createMock(IRequest::class));
 	}
 }
