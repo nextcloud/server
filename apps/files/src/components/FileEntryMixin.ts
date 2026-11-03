@@ -273,13 +273,8 @@ export default defineComponent({
 			// Checking if the menu is really closed and not
 			// just a change in the open state to another file entry.
 			if (this.actionsMenuStore.opened === null) {
-				// Reset any right menu position potentially set
 				logger.debug('All actions menu closed, resetting right menu position...')
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				if (root !== null) {
-					root.style.removeProperty('--mouse-pos-x')
-					root.style.removeProperty('--mouse-pos-y')
-				}
+				this.setMenuPosition()
 			}
 		},
 	},
@@ -312,19 +307,10 @@ export default defineComponent({
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
-				// Actions menu is contained within the app content
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				const contentRect = root.getBoundingClientRect()
-				// Using Math.min/max to prevent the menu from going out of the AppContent
-				// 200 = max width of the menu
 				logger.debug('Setting actions menu position...')
-				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
-				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
+				this.setMenuPosition(event)
 			} else {
-				// Reset any right menu position potentially set
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				root.style.removeProperty('--mouse-pos-x')
-				root.style.removeProperty('--mouse-pos-y')
+				this.setMenuPosition()
 			}
 
 			// If the clicked row is in the selection, open global menu
@@ -334,6 +320,31 @@ export default defineComponent({
 			// Prevent any browser defaults
 			event.preventDefault()
 			event.stopPropagation()
+		},
+
+		/**
+		 * Position the actions menu at the mouse, or reset its position without an event
+		 *
+		 * @param event The right click event
+		 */
+		setMenuPosition(event?: MouseEvent) {
+			// Actions menu is contained within the app content
+			const root = this.$el?.closest('main.app-content') as HTMLElement | null
+			if (!root) {
+				return
+			}
+
+			if (!event) {
+				root.style.removeProperty('--mouse-pos-x')
+				root.style.removeProperty('--mouse-pos-y')
+				return
+			}
+
+			const contentRect = root.getBoundingClientRect()
+			// Using Math.max to prevent the menu from going out of the AppContent
+			// 200 = max width of the menu
+			root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
+			root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 		},
 
 		execDefaultAction(event: MouseEvent) {
