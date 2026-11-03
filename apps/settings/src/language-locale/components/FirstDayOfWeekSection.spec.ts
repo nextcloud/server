@@ -41,7 +41,7 @@ describe('FirstDayOfWeekSection', () => {
 		expect(localeOptionLabel()).toBe(`Derived from your locale (${day})`)
 	})
 
-	it('falls back to the first day in use without Intl week info', () => {
+	it('reads the older weekInfo getter without getWeekInfo', () => {
 		const prototype = Intl.Locale.prototype as Intl.Locale & { getWeekInfo?: unknown }
 		const getWeekInfo = Object.getOwnPropertyDescriptor(prototype, 'getWeekInfo')!
 		delete prototype.getWeekInfo
@@ -49,9 +49,26 @@ describe('FirstDayOfWeekSection', () => {
 		l10n.getFirstDay.mockReturnValue(3)
 
 		try {
+			expect(localeOptionLabel()).toBe('Derived from your locale (Monday)')
+		} finally {
+			Object.defineProperty(prototype, 'getWeekInfo', getWeekInfo)
+		}
+	})
+
+	it('falls back to the first day in use without Intl week info', () => {
+		const prototype = Intl.Locale.prototype as Intl.Locale & { getWeekInfo?: unknown, weekInfo?: unknown }
+		const getWeekInfo = Object.getOwnPropertyDescriptor(prototype, 'getWeekInfo')!
+		const weekInfo = Object.getOwnPropertyDescriptor(prototype, 'weekInfo')!
+		delete prototype.getWeekInfo
+		delete prototype.weekInfo
+		l10n.getCanonicalLocale.mockReturnValue('de-DE')
+		l10n.getFirstDay.mockReturnValue(3)
+
+		try {
 			expect(localeOptionLabel()).toBe('Derived from your locale (Wednesday)')
 		} finally {
 			Object.defineProperty(prototype, 'getWeekInfo', getWeekInfo)
+			Object.defineProperty(prototype, 'weekInfo', weekInfo)
 		}
 	})
 })

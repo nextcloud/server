@@ -29,6 +29,10 @@ import {
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.ts'
 
+interface WeekInfo {
+	firstDay: number
+}
+
 interface DayOption {
 	value: number
 	label: string
@@ -42,13 +46,13 @@ const { firstDayOfWeek } = loadState<{ firstDayOfWeek?: string }>(
 
 /**
  * The locale's first day of week, 0 being Sunday.
- * Without `Intl.Locale.getWeekInfo` (Firefox < 153, Chrome < 130) this is the day in use,
- * which is wrong if the user picked another one.
+ * Without Intl week info (Firefox < 153) this is the day in use, which is wrong if the user
+ * picked another one.
  */
 function getLocaleFirstDay(): number {
-	const locale = new Intl.Locale(getCanonicalLocale()) as Intl.Locale & { getWeekInfo?: () => { firstDay: number } }
+	const locale = new Intl.Locale(getCanonicalLocale()) as Intl.Locale & { getWeekInfo?: () => WeekInfo, weekInfo?: WeekInfo }
 	// Intl counts the days from 1 (Monday) to 7 (Sunday)
-	return (locale.getWeekInfo?.().firstDay ?? getFirstDay()) % 7
+	return ((locale.getWeekInfo?.() ?? locale.weekInfo)?.firstDay ?? getFirstDay()) % 7
 }
 
 export default defineComponent({
