@@ -12,6 +12,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { confirmPassword, isPasswordConfirmationRequired } from '@nextcloud/password-confirmation'
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import LoginFlowContext from '../../components/LoginFlow/LoginFlowContext.vue'
 import LoginFlowAuth from '../../views/LoginFlowAuth.vue'
 import LoginFlowGrant from '../../views/LoginFlowGrant.vue'
@@ -78,6 +79,7 @@ beforeEach(() => {
 		clientIp: '2001:db8::1',
 		browserIp: '2001:db8::1',
 		createdAt: 1700000000,
+		sameIp: true,
 	}
 	vi.mocked(loadState).mockImplementation((_app, key, fallback) => {
 		if (key === 'loginFlowContext') {
@@ -104,6 +106,7 @@ afterEach(() => {
 describe('Login flow request details', () => {
 	it('identifies the user agent and each address and preserves the request timestamp', () => {
 		context.browserIp = '2001:db8::2'
+		context.sameIp = false
 		const wrapper = mount(LoginFlowContext, { props: { context }, global })
 		const details = Object.fromEntries(wrapper.findAll('dt').map((label) => [
 			label.text(),
@@ -122,7 +125,7 @@ describe('Login flow request details', () => {
 
 	it('shows a fallback for missing user agent and addresses', () => {
 		const wrapper = mount(LoginFlowContext, {
-			props: { context: { ...context, userAgent: '', clientIp: null, browserIp: '' } },
+			props: { context: { ...context, userAgent: '', clientIp: null, browserIp: '', sameIp: null } },
 			global,
 		})
 
@@ -240,6 +243,75 @@ describe('Login flow v2 review', () => {
 		expect(credentials?.get('user')).toBe('user')
 		expect(credentials?.get('password')).toBe('existing-password')
 		expect(confirmPassword).not.toHaveBeenCalled()
+	})
+})
+
+describe('Reviewing an IP mismatch', () => {
+	it.each(['grant', 'app-password'] as const)('requires a separate review before %s authorization', async (mode) => {
+		page = mode === 'grant' ? 'grant' : 'auth'
+		context.sameIp = false
+		context.browserIp = '198.51.100.2'
+		const submit = vi.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {})
+		const wrapper = mount(LoginFlowV2, { global, attachTo: document.body })
+		if (mode === 'app-password') {
+			expect(wrapper.findComponent(NcNoteCard).exists()).toBe(false)
+			await button(wrapper, 'Use an existing app password').trigger('click')
+		}
+
+		expect(wrapper.getComponent(NcNoteCard).props('type')).toBe('warning')
+		expect(wrapper.get('dl').text()).toContain(context.userAgent)
+		expect(wrapper.get('dl').text()).toContain('198.51.100.2')
+		expect(wrapper.find('form').exists()).toBe(false)
+		expect(wrapper.find('input[name="password"]').exists()).toBe(false)
+
+		await button(wrapper, 'Review request anyway').trigger('click')
+		await flushPromises()
+
+		expect(axios.post).not.toHaveBeenCalled()
+		expect(submit).not.toHaveBeenCalled()
+		expect(confirmPassword).not.toHaveBeenCalled()
+		expect(button(wrapper, 'Grant access').exists()).toBe(true)
+		expect(wrapper.getComponent(NcNoteCard).props('type')).toBe('warning')
+		expect(document.activeElement).toBe(wrapper.get('[aria-label="App access details"]').element)
+		if (mode === 'app-password') {
+			expect(wrapper.find('input[name="password"]').exists()).toBe(true)
+		}
+
+		await wrapper.get('form').trigger('submit')
+		await flushPromises()
+		expect(submit).toHaveBeenCalledOnce()
+	})
+
+	it.each([true, null])('does not add a review step for sameIp=%s', (sameIp) => {
+		page = 'grant'
+		context.sameIp = sameIp
+		const wrapper = mount(LoginFlowV2, { global })
+		expect(wrapper.findComponent(NcNoteCard).exists()).toBe(false)
+		expect(button(wrapper, 'Grant access').exists()).toBe(true)
+	})
+
+	it('requires review again when the page is reloaded', async () => {
+		page = 'grant'
+		context.sameIp = false
+		const wrapper = mount(LoginFlowV2, { global })
+		await button(wrapper, 'Review request anyway').trigger('click')
+		expect(wrapper.find('form').exists()).toBe(true)
+		wrapper.unmount()
+
+		const reloaded = mount(LoginFlowV2, { global })
+		expect(reloaded.find('form').exists()).toBe(false)
+		expect(button(reloaded, 'Review request anyway').exists()).toBe(true)
+	})
+
+	it('still allows declining a mismatched request without review', async () => {
+		page = 'grant'
+		context.sameIp = false
+		const wrapper = mount(LoginFlowV2, { global })
+		await button(wrapper, 'Decline').trigger('click')
+		await flushPromises()
+		expect(axios.post).toHaveBeenCalledWith(context.declineUrl, { stateToken: 'state-token' })
+		expect(wrapper.findComponent(NcNoteCard).exists()).toBe(false)
+		expect(wrapper.findComponent(LoginFlowContext).exists()).toBe(false)
 	})
 })
 

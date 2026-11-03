@@ -175,14 +175,26 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->assertSame('Please use original client', $result->getParams()['message']);
 	}
 
-	public function testShowAuthPickerValidLoginToken(): void {
+	public static function flowContextProvider(): array {
+		return [
+			['203.0.113.1', '203.0.113.1', true],
+			['203.0.113.1', '198.51.100.2', false],
+			['2001:db8::1', '2001:0db8:0000:0000:0000:0000:0000:0001', true],
+			[null, '203.0.113.1', null],
+			['', '', null],
+			['invalid', '203.0.113.1', null],
+		];
+	}
+
+	#[DataProvider('flowContextProvider')]
+	public function testShowAuthPickerValidLoginToken(?string $clientIp, string $browserIp, ?bool $sameIp): void {
 		$this->session->method('get')
 			->willReturnMap([[ClientFlowLoginV2Controller::TOKEN_NAME, 'loginToken']]);
 
 		$flow = new LoginFlowV2();
-		$flow->setClientIp('203.0.113.1');
+		$flow->setClientIp($clientIp);
 		$flow->setTimestamp(1700000000);
-		$this->request->method('getRemoteAddress')->willReturn('198.51.100.2');
+		$this->request->method('getRemoteAddress')->willReturn($browserIp);
 		$this->loginFlowV2Service->method('getByLoginToken')
 			->with('loginToken')
 			->willReturn($flow);
@@ -203,9 +215,10 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->controller->showAuthPickerPage();
 
 		foreach ([
-			'clientIp' => '203.0.113.1',
-			'browserIp' => '198.51.100.2',
+			'clientIp' => $clientIp,
+			'browserIp' => $browserIp,
 			'createdAt' => 1700000000,
+			'sameIp' => $sameIp,
 		] as $key => $value) {
 			$this->assertSame($value, $providedState['loginFlowContext'][$key]);
 		}
@@ -337,6 +350,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			'clientIp' => '203.0.113.1',
 			'browserIp' => '198.51.100.2',
 			'createdAt' => 1700000000,
+			'sameIp' => false,
 		] as $key => $value) {
 			$this->assertSame($value, $providedState['loginFlowContext'][$key]);
 		}

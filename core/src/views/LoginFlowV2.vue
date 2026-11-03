@@ -12,15 +12,17 @@ import axios, { isAxiosError } from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword, isPasswordConfirmationRequired, PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { nextTick, ref, useTemplateRef } from 'vue'
+import { computed, nextTick, ref, useTemplateRef } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import LoginFlowContext from '../components/LoginFlow/LoginFlowContext.vue'
+import LoginFlowHelp from '../components/LoginFlow/LoginFlowHelp.vue'
 
 const context = loadState<LoginFlowV2Context>('core', 'loginFlowContext')
 const auth = loadState<LoginFlowV2Auth | null>('core', 'loginFlowAuth', null)
@@ -35,6 +37,20 @@ const submitting = ref(false)
 const declineError = ref('')
 const unavailable = ref(false)
 const declinedHeading = useTemplateRef('declinedHeading')
+const reviewDetails = useTemplateRef('reviewDetails')
+const reviewed = ref(false)
+const hasMismatch = computed(() => Boolean(grant || useAppTokenLogin.value) && context.sameIp === false)
+const reviewRequired = computed(() => hasMismatch.value && !reviewed.value)
+
+/** Keep warning acknowledgement separate from granting access. */
+async function review() {
+	if (declining.value || submitting.value || unavailable.value) {
+		return
+	}
+	reviewed.value = true
+	await nextTick()
+	reviewDetails.value?.focus()
+}
 
 /** Cancel the pending request before showing confirmation. */
 async function decline() {
@@ -71,7 +87,7 @@ async function decline() {
  */
 async function onSubmit(event: SubmitEvent) {
 	event.preventDefault()
-	if (submitting.value || declining.value || unavailable.value) {
+	if (submitting.value || declining.value || unavailable.value || reviewRequired.value) {
 		return
 	}
 	submitting.value = true
@@ -99,6 +115,38 @@ async function onSubmit(event: SubmitEvent) {
 				<h2 :class="$style.heading">
 					{{ auth ? t('core', 'Sign in to connect an app') : t('core', 'Allow account access?') }}
 				</h2>
+				<NcNoteCard v-if="hasMismatch" type="warning" :heading="t('core', 'Check this connection request')">
+					<p :class="$style.warningIntroduction">
+						{{ t('core', 'The app’s request came from a different IP address than your browser. Someone could be trying to gain access to your account.') }}
+					</p>
+					<p :class="$style.reminder">
+						{{ t('core', 'If you weren’t setting up an app or device, decline this request and contact your system administrator.') }}
+					</p>
+					<div :class="$style.warningHelp">
+						{{ t('core', 'Why might the addresses differ?') }}
+						<LoginFlowHelp :label="t('core', 'Why might the addresses differ?')">
+							{{ t('core', 'VPNs, privacy relays, different networks, and web apps that connect through their own servers can cause different IP addresses. These possibilities do not establish that this particular request is legitimate.') }}
+						</LoginFlowHelp>
+					</div>
+					<div v-if="reviewRequired && !unavailable" :class="$style.actions">
+						<NcButton
+							type="button"
+							variant="primary"
+							wide
+							:disabled="declining"
+							@click="decline">
+							{{ declineError ? t('core', 'Retry decline') : t('core', 'Decline') }}
+						</NcButton>
+						<NcButton
+							type="button"
+							variant="secondary"
+							wide
+							:disabled="declining"
+							@click="review">
+							{{ t('core', 'Review request anyway') }}
+						</NcButton>
+					</div>
+				</NcNoteCard>
 			</header>
 
 			<p v-if="auth && !useAppTokenLogin">
@@ -106,8 +154,10 @@ async function onSubmit(event: SubmitEvent) {
 			</p>
 			<section
 				v-if="grant || useAppTokenLogin"
+				ref="reviewDetails"
 				:class="$style.reviewDetails"
-				:aria-label="t('core', 'App access details')">
+				:aria-label="t('core', 'App access details')"
+				tabindex="-1">
 				<div
 					v-if="grant && context.userId"
 					:class="$style.account"
@@ -134,6 +184,7 @@ async function onSubmit(event: SubmitEvent) {
 				</p>
 				<p :class="$style.access">
 					<NcIconSvgWrapper
+						v-if="!hasMismatch"
 						:path="mdiAlertOutline"
 						:class="$style.warningIcon"
 						aria-hidden="true" />
@@ -149,7 +200,7 @@ async function onSubmit(event: SubmitEvent) {
 				{{ t('core', 'Security settings') }}
 			</NcButton>
 			<form
-				v-else
+				v-else-if="!reviewRequired"
 				:action="useAppTokenLogin ? auth?.appTokenUrl : grant?.actionUrl"
 				:class="$style.form"
 				method="post"
@@ -184,7 +235,7 @@ async function onSubmit(event: SubmitEvent) {
 				<div :class="$style.actions">
 					<NcButton
 						type="button"
-						variant="secondary"
+						:variant="hasMismatch ? 'primary' : 'secondary'"
 						wide
 						:disabled="declining || submitting"
 						@click="decline">
@@ -257,6 +308,22 @@ async function onSubmit(event: SubmitEvent) {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 4);
+
+	&:focus-visible {
+		outline: 2px solid var(--color-primary-element);
+		outline-offset: var(--default-grid-baseline);
+	}
+}
+
+.warningIntroduction {
+	margin-block-start: calc(var(--default-grid-baseline) * 2);
+}
+
+.warningHelp {
+	display: flex;
+	align-items: center;
+	gap: var(--default-grid-baseline);
+	margin-block: calc(var(--default-grid-baseline) * 2);
 }
 
 .warningIcon {

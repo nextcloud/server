@@ -13,6 +13,7 @@ export interface LoginFlowV2Context {
 	clientIp: string | null
 	browserIp: string
 	createdAt: number
+	sameIp: boolean | null
 }
 
 export interface LoginFlowV2Auth {
