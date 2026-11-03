@@ -60,7 +60,7 @@ class PluginManager {
 	private $populated = false;
 
 	/**
-	 * Contstruct a PluginManager
+	 * Construct a PluginManager
 	 *
 	 * @param ServerContainer $container server container for resolving plugin classes
 	 * @param IAppManager $appManager app manager to loading apps and their info

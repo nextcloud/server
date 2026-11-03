@@ -12,7 +12,7 @@ import { t } from '@nextcloud/l10n'
  */
 export default {
 	/**
-	 * Displayes a "Saving..." message in the given message placeholder
+	 * Displays a "Saving..." message in the given message placeholder
 	 *
 	 * @param selector - Query selectior for the element to display the message in
 	 */
@@ -21,7 +21,7 @@ export default {
 	},
 
 	/**
-	 * Displayes a custom message in the given message placeholder
+	 * Displays a custom message in the given message placeholder
 	 *
 	 * @param selector - Query selectior for the element to display the message in
 	 * @param message - Plain text message to display (no HTML allowed)
@@ -40,7 +40,7 @@ export default {
 	},
 
 	/**
-	 * Displayes an success/error message in the given selector
+	 * Displays an success/error message in the given selector
 	 *
 	 * @param selector - Query selectior for the element to display the message in
 	 * @param response - Response of the server
@@ -53,7 +53,7 @@ export default {
 	},
 
 	/**
-	 * Displayes an success/error message in the given selector
+	 * Displays an success/error message in the given selector
 	 *
 	 * @param selector - Query selector for the element to display the message in
 	 * @param response - Response of the server
@@ -70,7 +70,7 @@ export default {
 	},
 
 	/**
-	 * Displayes an success message in the given selector
+	 * Displays an success message in the given selector
 	 *
 	 * @param selector - Query selector for the element to display the message in
 	 * @param message - Plain text success message to display (no HTML allowed)
@@ -121,7 +121,7 @@ export default {
 	},
 
 	/**
-	 * Displayes an error message in the given selector
+	 * Displays an error message in the given selector
 	 *
 	 * @param selector - Query selector for the element to display the message in
 	 * @param message - Plain text error message to display (no HTML allowed)
