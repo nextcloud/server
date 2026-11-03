@@ -193,6 +193,12 @@ class JobList implements IJobList {
 			$query->andWhere($query->expr()->orX(...$orClasses));
 		}
 
+		$excludedClasses = $this->config->getSystemValue('excluded_jobs', []);
+		if (is_array($excludedClasses) && !empty($excludedClasses)) {
+			$excludedClasses = array_map(static fn ($class): string => ltrim((string)$class, '\\'), $excludedClasses);
+			$query->andWhere($query->expr()->notIn('class', $query->createNamedParameter($excludedClasses, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+
 		$result = $query->executeQuery();
 		$row = $result->fetchAssociative();
 		$result->closeCursor();
