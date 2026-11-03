@@ -27,6 +27,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -401,5 +402,61 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$this->assertTrue($clearedLogin);
 		$this->assertTrue($clearedState);
+	}
+
+	public function testDeclineMissingStateToken(): void {
+		$this->loginFlowV2Service->expects($this->never())->method('decline');
+		$this->session->expects($this->never())->method('remove');
+
+		$this->assertSame(Http::STATUS_FORBIDDEN, $this->controller->decline(null)->getStatus());
+	}
+
+	public function testDeclineInvalidStateToken(): void {
+		$this->session->method('get')->willReturn('another-state-token');
+		$this->loginFlowV2Service->expects($this->never())->method('getByLoginToken');
+		$this->loginFlowV2Service->expects($this->never())->method('decline');
+
+		$this->assertSame(Http::STATUS_FORBIDDEN, $this->controller->decline('stateToken')->getStatus());
+	}
+
+	public static function declineUnavailableProvider(): array {
+		return [
+			[new LoginFlowV2NotFoundException(), Http::STATUS_GONE],
+			[new LoginFlowV2ClientForbiddenException(), Http::STATUS_FORBIDDEN],
+		];
+	}
+
+	#[DataProvider('declineUnavailableProvider')]
+	public function testDeclineUnavailableRequest(\Exception $exception, int $status): void {
+		$this->session->method('get')->willReturnMap([
+			[ClientFlowLoginV2Controller::STATE_NAME, 'stateToken'],
+			[ClientFlowLoginV2Controller::TOKEN_NAME, 'loginToken'],
+		]);
+		$this->loginFlowV2Service->method('getByLoginToken')->willThrowException($exception);
+		$this->loginFlowV2Service->expects($this->never())->method('decline');
+		$this->session->expects($this->never())->method('remove');
+
+		$this->assertSame($status, $this->controller->decline('stateToken')->getStatus());
+	}
+
+	public static function declineResultProvider(): array {
+		return [[true, Http::STATUS_OK], [false, Http::STATUS_CONFLICT]];
+	}
+
+	#[DataProvider('declineResultProvider')]
+	public function testDeclinePendingRequest(bool $cancelled, int $status): void {
+		$this->session->method('get')->willReturnMap([
+			[ClientFlowLoginV2Controller::STATE_NAME, 'stateToken'],
+			[ClientFlowLoginV2Controller::TOKEN_NAME, 'loginToken'],
+		]);
+		$this->loginFlowV2Service->method('getByLoginToken')->willReturn(new LoginFlowV2());
+		$this->loginFlowV2Service->expects($this->once())->method('decline')->with('loginToken')->willReturn($cancelled);
+		$removed = [];
+		$this->session->method('remove')->willReturnCallback(function (string $key) use (&$removed): void {
+			$removed[] = $key;
+		});
+
+		$this->assertSame($status, $this->controller->decline('stateToken')->getStatus());
+		$this->assertSame($cancelled ? [ClientFlowLoginV2Controller::TOKEN_NAME, ClientFlowLoginV2Controller::STATE_NAME] : [], $removed);
 	}
 }

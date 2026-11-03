@@ -129,6 +129,10 @@ class LoginFlowV2Service {
 		return true;
 	}
 
+	public function decline(string $loginToken): bool {
+		return $this->mapper->deletePending($loginToken);
+	}
+
 	/**
 	 * @param string $loginToken
 	 * @param string $sessionId
@@ -140,6 +144,10 @@ class LoginFlowV2Service {
 		try {
 			$data = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
+			return false;
+		}
+
+		if ($data->getAppPassword() !== null) {
 			return false;
 		}
 
@@ -165,21 +173,29 @@ class LoginFlowV2Service {
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
-		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
-			'App password with ID "%s" and name "%s" was created',
-			['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
-			false,
-			'auth.app_password.created',
-		));
-
 		$data->setLoginName($loginName);
 		$data->setServer($server);
 
 		// Properly encrypt
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
-		$this->mapper->update($data);
-		return true;
+		$completed = false;
+		try {
+			$completed = $this->mapper->complete($data);
+		} finally {
+			if (!$completed) {
+				$this->tokenProvider->invalidateTokenById($userId, $generatedToken->getId());
+			}
+		}
+		if ($completed) {
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'App password with ID "%s" and name "%s" was created',
+				['tokenId' => $generatedToken->getId(), 'tokenName' => $generatedToken->getName()],
+				false,
+				'auth.app_password.created',
+			));
+		}
+		return $completed;
 	}
 
 	public function flowDoneWithAppPassword(string $loginToken, string $server, string $loginName, string $appPassword): bool {
@@ -189,14 +205,17 @@ class LoginFlowV2Service {
 			return false;
 		}
 
+		if ($data->getAppPassword() !== null) {
+			return false;
+		}
+
 		$data->setLoginName($loginName);
 		$data->setServer($server);
 
 		// Properly encrypt
 		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
 
-		$this->mapper->update($data);
-		return true;
+		return $this->mapper->complete($data);
 	}
 
 	public function createTokens(string $userAgent, string $clientIp): LoginFlowV2Tokens {
