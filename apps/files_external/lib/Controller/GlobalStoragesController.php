@@ -76,7 +76,7 @@ class GlobalStoragesController extends StoragesController {
 		?array $mountOptions,
 		?array $applicableUsers,
 		?array $applicableGroups,
-		?int $priority,
+		?int $priority = 100,
 	): DataResponse {
 		$newStorage = $this->createStorage(
 			$mountPoint,
