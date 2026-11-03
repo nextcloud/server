@@ -17,6 +17,8 @@ use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\DAV\CustomPropertiesService;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Events\CachedCalendarObjectCreatedEvent;
 use OCA\DAV\Events\CachedCalendarObjectDeletedEvent;
@@ -220,6 +222,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IConfig $config,
 		private Sharing\Backend $calendarSharingBackend,
 		private FederatedCalendarMapper $federatedCalendarMapper,
+		private CustomPropertiesService $customPropertiesService,
 		ICacheFactory $cacheFactory,
 		private bool $legacyEndpoint = false,
 	) {
@@ -459,7 +462,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 			$result->closeCursor();
 
-			return array_values($calendars);
+			return $this->addAdditionalPropertiesToCalendars(array_values($calendars));
 		}, $this->db);
 	}
 
@@ -508,7 +511,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 		$stmt->closeCursor();
-		return array_values($calendars);
+		return $this->addAdditionalPropertiesToCalendars(array_values($calendars));
 	}
 
 	/**
@@ -673,6 +676,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$calendar = $this->rowToCalendar($row, $calendar);
 		$calendar = $this->addOwnerPrincipalToCalendar($calendar);
 		$calendar = $this->addResourceTypeToCalendar($row, $calendar);
+
+		[$calendar] = $this->addAdditionalPropertiesToCalendars([$calendar]);
 
 		return $calendar;
 	}
@@ -4009,6 +4014,49 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return "principals/$name";
 		}
 		return $principalUri;
+	}
+
+	/**
+	 * Adds the properties the user whose calendar home a calendar is in has stored on it
+	 *
+	 * Stored properties only fill in values the calendar does not provide itself. On calendars
+	 * shared with the user, the properties a sharee can customize override the owner's values.
+	 *
+	 * @param array[] $calendars
+	 * @return array[]
+	 */
+	private function addAdditionalPropertiesToCalendars(array $calendars): array {
+		$ownerPrincipalKey = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal';
+
+		$paths = [];
+		$calendarPaths = [];
+		foreach ($calendars as $key => $calendar) {
+			[$prefix, $userId] = Uri\split($calendar['principaluri']);
+			if ($prefix !== 'principals/users' && $prefix !== 'principals') {
+				continue;
+			}
+			$path = 'calendars/' . $userId . '/' . $calendar['uri'];
+			$paths[$userId][] = $path;
+			$calendarPaths[$key] = [$userId, $path];
+		}
+		if ($paths === []) {
+			return $calendars;
+		}
+
+		$properties = $this->customPropertiesService->getProperties($paths);
+		foreach ($calendarPaths as $key => [$userId, $path]) {
+			$storedProperties = $properties[$userId][$path] ?? [];
+			if ($storedProperties === []) {
+				continue;
+			}
+			$calendar = array_merge($storedProperties, $calendars[$key]);
+			if (isset($calendar[$ownerPrincipalKey]) && $calendar[$ownerPrincipalKey] !== $calendar['principaluri']) {
+				$calendar = array_merge($calendar, array_intersect_key($storedProperties, array_flip(CustomPropertiesBackend::SHARED_CALENDAR_PROPERTIES)));
+			}
+			$calendars[$key] = $calendar;
+		}
+
+		return $calendars;
 	}
 
 	/**

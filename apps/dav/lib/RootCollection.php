@@ -23,6 +23,7 @@ use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\CustomPropertiesService;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
@@ -113,6 +114,7 @@ class RootCollection extends SimpleCollection {
 			$config,
 			$calendarSharingBackend,
 			Server::get(FederatedCalendarMapper::class),
+			Server::get(CustomPropertiesService::class),
 			Server::get(ICacheFactory::class),
 			false,
 		);

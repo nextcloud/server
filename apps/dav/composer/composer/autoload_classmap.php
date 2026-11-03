@@ -288,6 +288,7 @@ return array(
     'OCA\\DAV\\Controller\\OutOfOfficeController' => $baseDir . '/../lib/Controller/OutOfOfficeController.php',
     'OCA\\DAV\\Controller\\UpcomingEventsController' => $baseDir . '/../lib/Controller/UpcomingEventsController.php',
     'OCA\\DAV\\DAV\\CustomPropertiesBackend' => $baseDir . '/../lib/DAV/CustomPropertiesBackend.php',
+    'OCA\\DAV\\DAV\\CustomPropertiesService' => $baseDir . '/../lib/DAV/CustomPropertiesService.php',
     'OCA\\DAV\\DAV\\GroupPrincipalBackend' => $baseDir . '/../lib/DAV/GroupPrincipalBackend.php',
     'OCA\\DAV\\DAV\\PublicAuth' => $baseDir . '/../lib/DAV/PublicAuth.php',
     'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => $baseDir . '/../lib/DAV/RemoteUserPrincipalBackend.php',
