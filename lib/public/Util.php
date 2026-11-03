@@ -201,6 +201,7 @@ class Util {
 	 */
 	private static function scriptOrderValue(string $name): int {
 		return match($name) {
+			'core/js/initial-state' => 4, // provides window._nc_initial_state which every other script may read
 			'core/js/common' => 3,
 			'core/js/main' => 2,
 			default => str_starts_with($name, 'core/l10n/')

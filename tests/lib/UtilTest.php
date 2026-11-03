@@ -273,6 +273,18 @@ class UtilTest extends \Test\TestCase {
 		}
 	}
 
+	public function testAddScriptInitialStateFirst(): void {
+		Util::addScript('myApp', 'main');
+		Util::addScript('core', 'common');
+		Util::addScript('core', 'main');
+		Util::addScript('core', 'initial-state');
+
+		$scripts = Util::getScripts();
+		$this->assertSame('core/js/initial-state', $scripts[0]);
+		$this->assertSame('core/js/common', $scripts[1]);
+		$this->assertSame('core/js/main', $scripts[2]);
+	}
+
 	public function testAddScriptCircularDependency(): void {
 		Util::addScript('circular', 'file1', 'dependency');
 		Util::addScript('dependency', 'file2', 'circular');
