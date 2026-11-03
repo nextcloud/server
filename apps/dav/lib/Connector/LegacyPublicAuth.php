@@ -10,10 +10,12 @@ namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Share\Events\ShareLinkAccessFailedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -36,6 +38,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		private ISession $session,
 		private IThrottler $throttler,
 		private IUserSession $userSession,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -62,6 +65,7 @@ class LegacyPublicAuth extends AbstractBasic {
 			$share = $this->shareManager->getShareByToken($username);
 		} catch (ShareNotFound $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($username, null, ShareLinkAccessFailedEvent::REASON_NOT_FOUND));
 			return false;
 		}
 
@@ -87,6 +91,8 @@ class LegacyPublicAuth extends AbstractBasic {
 				if ($this->isShareInSession($share)) {
 					return true;
 				}
+
+				$this->eventDispatcher->dispatchTyped(new ShareLinkAccessFailedEvent($username, $share, ShareLinkAccessFailedEvent::REASON_WRONG_PASSWORD));
 
 				if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
 					// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
