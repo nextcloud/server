@@ -95,7 +95,7 @@ class EmbeddedCalDavServer {
 		$this->server->addPlugin(new PublishPlugin(
 			Server::get(IURLGenerator::class)
 		));
-		if ($appConfig->getValueString(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS, 'yes') === 'yes') {
+		if ($appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS)) {
 			$this->server->addPlugin(Server::get(IMipPlugin::class));
 		}
 

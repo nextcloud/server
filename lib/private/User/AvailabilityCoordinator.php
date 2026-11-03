@@ -37,7 +37,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 
 	#[\Override]
 	public function isEnabled(): bool {
-		return $this->appConfig->getValueString(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS, 'no') === 'no';
+		return !$this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS);
 	}
 
 	private function getCachedOutOfOfficeData(IUser $user): ?OutOfOfficeData {

@@ -28,9 +28,9 @@ class OutboxTest extends TestCase {
 
 	public function testGetACLFreeBusyEnabled(): void {
 		$this->appConfig->expects($this->once())
-			->method('getValueString')
-			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY, 'no')
-			->willReturn('no');
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY)
+			->willReturn(false);
 
 		$this->assertEquals([
 			[
@@ -63,9 +63,9 @@ class OutboxTest extends TestCase {
 
 	public function testGetACLFreeBusyDisabled(): void {
 		$this->appConfig->expects($this->once())
-			->method('getValueString')
-			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY, 'no')
-			->willReturn('yes');
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY)
+			->willReturn(true);
 
 		$this->assertEquals([
 			[
