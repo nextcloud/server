@@ -146,7 +146,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testCheckTokenAuthenticatedWithChangedPassword(): void {
-		$this->request->method('getRawPathInfo')
+		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -168,7 +168,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSessionInvalidatedByPasswordChange(): void {
-		$this->request->method('getRawPathInfo')
+		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$passwordHash = 'old-password';
@@ -358,7 +358,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordNotHashedNotStoredInSession(): void {
-		$this->request->method('getRawPathInfo')
+		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
@@ -439,7 +439,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testInvalidSharePasswordLinkSessionWithChangedPassword(): void {
-		$this->request->method('getRawPathInfo')
+		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
 		$share = $this->createMock(IShare::class);
