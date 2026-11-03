@@ -12,10 +12,13 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
+use OC;
+use OC\Config;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\DB\PgSqlTools;
+use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
@@ -31,7 +34,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 use function preg_match;
 use function preg_quote;
 
@@ -50,38 +52,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	protected function configure() {
 		$this
 			->setName('db:convert-type')
-			->setDescription('Convert the Nextcloud database to the newly configured one')
+			->setDescription('Convert the Nextcloud database to a newly configured one using a second configuration file alongside config.php to define the target database')
 			->addArgument(
-				'type',
+				'newConfigFile',
 				InputArgument::REQUIRED,
-				'the type of the database to convert to'
-			)
-			->addArgument(
-				'username',
-				InputArgument::REQUIRED,
-				'the username of the database to convert to'
-			)
-			->addArgument(
-				'hostname',
-				InputArgument::REQUIRED,
-				'the hostname of the database to convert to'
-			)
-			->addArgument(
-				'database',
-				InputArgument::REQUIRED,
-				'the name of the database to convert to'
-			)
-			->addOption(
-				'port',
-				null,
-				InputOption::VALUE_REQUIRED,
-				'the port of the database to convert to'
-			)
-			->addOption(
-				'password',
-				null,
-				InputOption::VALUE_REQUIRED,
-				'the password of the database to convert to. Will be asked when not specified. Can also be passed via stdin.'
+				'the name of the new config file configuring the new database'
 			)
 			->addOption(
 				'clear-schema',
@@ -105,19 +80,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function validateInput(InputInterface $input, OutputInterface $output) {
-		$type = $this->connectionFactory->normalizeType($input->getArgument('type'));
-		if ($type === 'sqlite3') {
-			throw new \InvalidArgumentException(
-				'Converting to SQLite (sqlite3) is currently not supported.'
-			);
-		}
-		if ($type === $this->config->getSystemValue('dbtype', '')) {
-			throw new \InvalidArgumentException(sprintf(
-				'Can not convert from %1$s to %1$s.',
-				$type
-			));
-		}
+	#[\Override]
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$toConfig = new Config(OC::$configDir, $input->getArgument('newConfigFile'));
+		$toSystemConfig = new SystemConfig($toConfig);
+		$type = $toConfig->getValue('dbtype', 'sqlite3');
+
 		if ($type === 'oci' && $input->getOption('clear-schema')) {
 			// Doctrine unconditionally tries (at least in version 2.3)
 			// to drop sequence triggers when dropping a table, even though
@@ -127,48 +95,20 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				'The --clear-schema option is not supported when converting to Oracle (oci).'
 			);
 		}
-	}
-
-	protected function readPassword(InputInterface $input, OutputInterface $output) {
-		// Explicitly specified password
-		if ($input->getOption('password')) {
-			return;
-		}
-
-		// Read from stdin. stream_set_blocking is used to prevent blocking
-		// when nothing is passed via stdin.
-		stream_set_blocking(STDIN, 0);
-		$password = file_get_contents('php://stdin');
-		stream_set_blocking(STDIN, 1);
-		if (trim($password) !== '') {
-			$input->setOption('password', $password);
-			return;
-		}
-
-		// Read password by interacting
-		if ($input->isInteractive()) {
-			/** @var QuestionHelper $helper */
-			$helper = $this->getHelper('question');
-			$question = new Question('What is the database password (press <enter> for none)? ');
-			$question->setHidden(true);
-			$question->setHiddenFallback(false);
-			$password = $helper->ask($input, $output, $question);
-			if ($password === null) {
-				$password = ''; // possibly unnecessary
-			}
-			$input->setOption('password', $password);
-			return;
-		}
-	}
-
-	#[\Override]
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->validateInput($input, $output);
-		$this->readPassword($input, $output);
 
 		/** @var Connection $fromDB */
 		$fromDB = Server::get(Connection::class);
-		$toDB = $this->getToDBConnection($input, $output);
+		$toDB = $this->getToDBConnection($toSystemConfig);
+
+		if ($type === 'oci' && $input->getOption('clear-schema')) {
+			// Doctrine unconditionally tries (at least in version 2.3)
+			// to drop sequence triggers when dropping a table, even though
+			// such triggers may not exist. This results in errors like
+			// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
+			throw new \InvalidArgumentException(
+				'The --clear-schema option is not supported when converting to Oracle (oci).'
+			);
+		}
 
 		if ($input->getOption('clear-schema')) {
 			$this->clearSchema($toDB, $input, $output);
@@ -200,7 +140,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
-		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
+		$this->convertDB($fromDB, $toDB, $type, $intersectingTables, $input, $output);
 		return 0;
 	}
 
@@ -230,34 +170,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 	}
 
-	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
-		$type = $input->getArgument('type');
-		$connectionParams = $this->connectionFactory->createConnectionParams(type: $type);
-		$connectionParams = array_merge($connectionParams, [
-			'host' => $input->getArgument('hostname'),
-			'user' => $input->getArgument('username'),
-			'password' => $input->getOption('password'),
-			'dbname' => $input->getArgument('database'),
-		]);
-
-		// parse port
-		if ($input->getOption('port')) {
-			$connectionParams['port'] = $input->getOption('port');
+	protected function getToDBConnection(SystemConfig $systemConfig) {
+		$factory = new ConnectionFactory($systemConfig);
+		$type = $systemConfig->getValue('dbtype', 'sqlite');
+		if (!$factory->isValidType($type)) {
+			throw new DatabaseException('Invalid database type');
 		}
-
-		// parse hostname for unix socket
-		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getArgument('hostname'), $matches)) {
-			$connectionParams['host'] = $matches[1];
-			if (isset($matches[3])) {
-				if (is_numeric($matches[3])) {
-					$connectionParams['port'] = $matches[3];
-				} else {
-					$connectionParams['unix_socket'] = $matches[3];
-				}
-			}
-		}
-
-		return $this->connectionFactory->getConnection($type, $connectionParams);
+		$connection = $factory->getConnection($type, []);
+		return $connection;
 	}
 
 	protected function clearSchema(Connection $db, InputInterface $input, OutputInterface $output) {
@@ -400,7 +320,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		return $this->columnTypes[$tableName][$columnName];
 	}
 
-	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
+	protected function convertDB(Connection $fromDB, Connection $toDB, string $type, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setSystemValue('maintenance', true);
 		$schema = $fromDB->createSchema();
 
@@ -410,36 +330,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$output->writeln('<info> - ' . $table . '</info>');
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
-			if ($input->getArgument('type') === 'pgsql') {
+			if ($type === 'pgsql') {
 				$tools = new PgSqlTools($this->config);
 				$tools->resynchronizeDatabaseSequences($toDB);
 			}
-			// save new database config
-			$this->saveDBInfo($input);
+			$output->writeln('<info>Conversion complete. Replace config.php with the new config file.</info>');
 		} catch (\Exception $e) {
 			$this->config->setSystemValue('maintenance', false);
 			throw $e;
 		}
 		$this->config->setSystemValue('maintenance', false);
-	}
-
-	protected function saveDBInfo(InputInterface $input) {
-		$type = $input->getArgument('type');
-		$username = $input->getArgument('username');
-		$dbHost = $input->getArgument('hostname');
-		$dbName = $input->getArgument('database');
-		$password = $input->getOption('password');
-		if ($input->getOption('port')) {
-			$dbHost .= ':' . $input->getOption('port');
-		}
-
-		$this->config->setSystemValues([
-			'dbtype' => $type,
-			'dbname' => $dbName,
-			'dbhost' => $dbHost,
-			'dbuser' => $username,
-			'dbpassword' => $password,
-		]);
 	}
 
 	/**
@@ -463,9 +363,6 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	 */
 	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
-		if ($argumentName === 'type') {
-			return ['mysql', 'oci', 'pgsql'];
-		}
 		return [];
 	}
 }
