@@ -33,7 +33,7 @@ const dateFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { year: 'numeri
 const timeFormat = new Intl.DateTimeFormat(getCanonicalLocale(), { hour: 'numeric', minute: '2-digit', second: '2-digit' })
 
 /**
- * The current date and time, formatted in the user's locale
+ * Now, in the user's locale
  */
 function formatExample() {
 	const now = new Date()

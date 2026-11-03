@@ -41,10 +41,9 @@ const { firstDayOfWeek } = loadState<{ firstDayOfWeek?: string }>(
 )
 
 /**
- * The first day of week of the user's locale, 0 being Sunday.
- *
- * Browsers without `Intl.Locale.getWeekInfo` (Firefox < 153, Chrome < 130) fall back to
- * the first day in use, which differs from the locale's if the user picked another day.
+ * The locale's first day of week, 0 being Sunday.
+ * Without `Intl.Locale.getWeekInfo` (Firefox < 153, Chrome < 130) this is the day in use,
+ * which is wrong if the user picked another one.
  */
 function getLocaleFirstDay(): number {
 	const locale = new Intl.Locale(getCanonicalLocale()) as Intl.Locale & { getWeekInfo?: () => { firstDay: number } }
@@ -57,8 +56,6 @@ export default defineComponent({
 	components: {
 		NcSelect,
 	},
-
-	emits: ['update:value'],
 
 	data() {
 		let firstDay = -1
@@ -119,7 +116,6 @@ export default defineComponent({
 			if (status === 'ok') {
 				this.firstDay = value
 			} else {
-				this.$emit('update:value', this.firstDay)
 				handleError(error, errorMessage)
 			}
 		},

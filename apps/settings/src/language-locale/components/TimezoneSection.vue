@@ -25,7 +25,7 @@ watch(timezone, () => {
 			v-model="timezone"
 			class="timezone-section__picker"
 			:inputLabel="t('settings', 'Time zone')"
-			:uid="inputId" />
+			:inputId="inputId" />
 	</section>
 </template>
 

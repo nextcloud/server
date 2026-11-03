@@ -43,14 +43,12 @@
 
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
-import sortBy from 'lodash/fp/sortBy.js'
+import sortBy from 'lodash/sortBy.js'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import WebAuthnAddDevice from './WebAuthnAddDevice.vue'
 import WebAuthnDevice from './WebAuthnDevice.vue'
 import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.ts'
-
-const sortByName = sortBy('name')
 
 export default {
 	name: 'WebAuthnSection',
@@ -93,7 +91,7 @@ export default {
 
 	computed: {
 		sortedDevices() {
-			return sortByName(this.devices)
+			return sortBy(this.devices, 'name')
 		},
 	},
 

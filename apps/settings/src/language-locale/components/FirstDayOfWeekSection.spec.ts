@@ -21,7 +21,6 @@ import { t } from '@nextcloud/l10n'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import FirstDayOfWeekSection from './FirstDayOfWeekSection.vue'
 
-/** Label of the option that follows the locale */
 function localeOptionLabel(): string {
 	const wrapper = mount(FirstDayOfWeekSection, { global: { mocks: { t } } })
 	return wrapper.findComponent(NcSelect).props('options')[0].label
@@ -29,7 +28,7 @@ function localeOptionLabel(): string {
 
 describe('FirstDayOfWeekSection', () => {
 	afterEach(() => {
-		vi.restoreAllMocks()
+		vi.resetAllMocks()
 	})
 
 	it.each([
