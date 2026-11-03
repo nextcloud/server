@@ -100,7 +100,7 @@ $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -119,18 +119,19 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	}
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
+	$isUpload = str_starts_with($server->httpRequest->getPath(), 'uploads/');
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 	/** @psalm-suppress InternalMethod */
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($requestUri, $baseuri, $share) {
+	Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($isUpload, $share) {
 		$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
 
 		// For chunked uploads it is necessary to have read and delete permission,
 		// so the temporary directory, chunks and destination file can be read and delete after the assembly.
-		if (str_starts_with(substr($requestUri, strlen($baseuri) - 1), '/uploads/')) {
+		if ($isUpload) {
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
