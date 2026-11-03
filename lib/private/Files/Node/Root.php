@@ -204,6 +204,11 @@ class Root extends Folder implements IRootFolder, Emitter {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
+	public function getStorageId(): int {
+		throw new NotFoundException();
+	}
+
 	/**
 	 * @return string
 	 */

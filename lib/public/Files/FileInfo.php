@@ -128,6 +128,15 @@ interface FileInfo {
 	public function getStorage();
 
 	/**
+	 * Get the numeric storage id for the storage backend the file or folder is stored on
+	 *
+	 * @return int
+	 * @throws NotFoundException
+	 * @since 36.0.0
+	 */
+	public function getStorageId(): int;
+
+	/**
 	 * Get the file id of the file or folder
 	 *
 	 * @return int|null
