@@ -234,11 +234,6 @@ class PublicAuth extends AbstractBasic {
 	 * with the public share page), so changing the share password invalidates it.
 	 */
 	public static function addShareToSession(ISession $session, IShare $share): void {
-		// Never store a plain text password in the session
-		if (!$share->isPasswordHashed()) {
-			return;
-		}
-
 		$allowedTokens = self::getAuthenticatedTokens($session);
 		$allowedTokens[$share->getToken()] = $share->getPassword();
 		$session->set(PublicShareController::DAV_AUTHENTICATED_FRONTEND, json_encode($allowedTokens));
@@ -255,11 +250,11 @@ class PublicAuth extends AbstractBasic {
 			&& hash_equals($passwordHash, $sessionHash);
 	}
 
-		$allowedShareIds = $this->session->get(self::DAV_AUTHENTICATED);
-		if (!is_array($allowedShareIds)) {
-			return false;
-		}
-
-		return in_array($share->getId(), $allowedShareIds);
+	/**
+	 * @return array<string, string> share token => password hash
+	 */
+	private static function getAuthenticatedTokens(ISession $session): array {
+		$allowedTokens = json_decode($session->get(PublicShareController::DAV_AUTHENTICATED_FRONTEND) ?? '[]', true);
+		return is_array($allowedTokens) ? $allowedTokens : [];
 	}
 }

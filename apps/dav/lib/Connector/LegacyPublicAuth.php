@@ -104,29 +104,6 @@ class LegacyPublicAuth extends AbstractBasic {
 		return true;
 	}
 
-	private function addShareToSession(IShare $share): void {
-		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED) ?? [];
-		if (!is_array($allowedShareIds)) {
-			$allowedShareIds = [];
-		}
-
-		$allowedShareIds[] = $share->getId();
-		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $allowedShareIds);
-	}
-
-	private function isShareInSession(IShare $share): bool {
-		if (!$this->session->exists(PublicAuth::DAV_AUTHENTICATED)) {
-			return false;
-		}
-
-		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
-		if (!is_array($allowedShareIds)) {
-			return false;
-		}
-
-		return in_array($share->getId(), $allowedShareIds, true);
-	}
-
 	public function getShare(): IShare {
 		assert($this->share !== null);
 		return $this->share;
