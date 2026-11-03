@@ -60,6 +60,29 @@ class SecurityHeaders implements ISetupCheck {
 			return implode(',', $values);
 		};
 
+		$parseDirectives = static function (string $value): array {
+			$directives = array_map(
+				static fn (string $directive): string => strtolower(trim($directive)),
+				explode(',', $value)
+			);
+
+			if (in_array('', $directives, true)) {
+				return [];
+			}
+
+			return $directives;
+		};
+
+		// These directives can safely co-exist
+		$allowedRobotsDirectives = [
+			'noindex',
+			'nofollow',
+			'noarchive',
+			'nosnippet',
+			'noimageindex',
+			'notranslate',
+		];
+
 		foreach ($urls as [$verb,$url,$validStatuses]) {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
@@ -71,11 +94,24 @@ class SecurityHeaders implements ISetupCheck {
 				$msg = '';
 				$msgParameters = [];
 				foreach ($securityHeaders as $header => [$expected, $accepted]) {
-					$normalizedValue = $normalize($response->getHeader($header));
+					$headerValue = $response->getHeader($header);
+					$normalizedValue = $normalize($headerValue);
 					$normalizedExpected = $normalize($expected);
 					$normalizedAccepted = $accepted !== null ? $normalize($accepted) : null;
 
-					if ($normalizedValue !== $normalizedExpected) {
+					if ($header === 'X-Robots-Tag') {
+						$directives = $parseDirectives($headerValue);
+						$uniqueDirectives = array_unique($directives);
+
+						$isValid = $directives !== []
+							&& count($directives) === count($uniqueDirectives)
+							&& !array_diff($directives, $allowedRobotsDirectives)
+							&& !array_diff(['noindex', 'nofollow'], $directives);
+					} else {
+						$isValid = $normalizedValue === $normalizedExpected;
+					}
+
+					if (!$isValid) {
 						if ($normalizedAccepted !== null && $normalizedValue === $normalizedAccepted) {
 							$msg .= $this->l10n->t(
 								'- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.',
