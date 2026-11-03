@@ -19,7 +19,6 @@ use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ISharePropertyTypeFilter;
-use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -381,38 +380,13 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function updateShareProperty(string $id, ShareProperty $property): ?string {
+	public function updateShareProperty(string $id, ShareProperty $property): void {
 		$this->assertInTransaction();
-
-		$value = $property->value;
-
-		$propertyType = $this->registry->getPropertyTypes()[$property->class];
-
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->select('sp.property_value')
-				->from('sharing_share_properties', 'sp')
-				->where($qb->expr()->eq('sp.share_id', $qb->createNamedParameter($id)))
-				->andWhere(
-					$qb->expr()->eq(
-						'sp.property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT)
-					)
-				);
-
-			/** @var string|false $oldValue */
-			$oldValue = $qb->executeQuery()->fetchOne();
-			if ($oldValue === false) {
-				$oldValue = null;
-			}
-
-			$value = $propertyType->modifyValueOnSave($oldValue, $property->value);
-		}
 
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_properties')
-			->set('property_value', $qb->createNamedParameter($value))
+			->set('property_value', $qb->createNamedParameter($property->value))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
 			->andWhere(
 				$qb->expr()->eq('property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT))
@@ -425,9 +399,29 @@ final readonly class SharingBackend implements ISharingBackend {
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
 					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
-					'property_value' => $qb->createNamedParameter($value),
+					'property_value' => $qb->createNamedParameter($property->value),
 				])
 				->executeStatement();
+		}
+	}
+
+	#[\Override]
+	public function getSharePropertyValue(string $id, string $propertyTypeClass): ?string {
+		$qb = $this->connection->getQueryBuilder();
+		$qb
+			->select('sp.property_value')
+			->from('sharing_share_properties', 'sp')
+			->where($qb->expr()->eq('sp.share_id', $qb->createNamedParameter($id)))
+			->andWhere(
+				$qb->expr()->eq(
+					'sp.property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($propertyTypeClass), IQueryBuilder::PARAM_INT)
+				)
+			);
+
+		/** @var string|false $value */
+		$value = $qb->executeQuery()->fetchOne();
+		if ($value === false) {
+			return null;
 		}
 
 		return $value;
@@ -1285,12 +1279,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$value = $this->updateShareProperty($share->id, $property);
-
-		$property = new ShareProperty(
-			$property->class,
-			$value,
-		);
+		$this->updateShareProperty($share->id, $property);
 
 		$properties = $share->properties;
 		$properties[$propertyTypeClass] = $property;
