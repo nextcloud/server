@@ -89,8 +89,8 @@ class PostgreSQLTest extends TestCase {
 	}
 
 	/**
-	 * A `pgsql_ssl` value provided as raw config value, e.g. through an autoconfig file,
-	 * must survive the mapped options.
+	 * Raw PostgreSQL SSL parameters (`pgsql_ssl`) not overridden by mapped installer options
+	 * must be preserved.
 	 */
 	public function testInitializeMergesWithRawPgsqlSsl(): void {
 		$this->config->expects($this->once())
@@ -99,11 +99,32 @@ class PostgreSQLTest extends TestCase {
 				'dbname' => 'nextcloud',
 				'dbhost' => 'db.example.org',
 				'dbtableprefix' => 'oc_',
-				'pgsql_ssl' => ['rootcert' => '/rootCA.crt', 'mode' => 'verify-full'],
+				'pgsql_ssl' => [
+					'rootcert' => '/rootCA.crt',
+					'mode' => 'verify-full',
+				],
 			]);
 
 		$this->database->initialize($this->options([
 			'pgsql_ssl' => ['rootcert' => '/rootCA.crt'],
+			'dbsslmode' => 'verify-full',
+		]));
+	}
+
+	public function testInitializeMappedEncryptionOptionOverridesRawPgsqlSsl(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+				'pgsql_ssl' => [
+					'mode' => 'verify-full',
+				],
+			]);
+
+		$this->database->initialize($this->options([
+			'pgsql_ssl' => ['mode' => 'require'],
 			'dbsslmode' => 'verify-full',
 		]));
 	}
@@ -118,8 +139,16 @@ class PostgreSQLTest extends TestCase {
 		], $errors);
 	}
 
-	public function testValidateRejectsIncompleteClientCertificate(): void {
-		$errors = $this->database->validate($this->options(['dbsslkey' => '/client.key']));
+	public static function incompleteClientCertificateOptions(): array {
+		return [
+			'certificate without key' => [['dbsslcert' => '/client.crt']],
+			'key without certificate' => [['dbsslkey' => '/client.key']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('incompleteClientCertificateOptions')]
+	public function testValidateRejectsIncompleteClientCertificate(array $options): void {
+		$errors = $this->database->validate($this->options($options));
 
 		$this->assertEquals([
 			'The database options "dbsslcert" and "dbsslkey" have to be provided together',

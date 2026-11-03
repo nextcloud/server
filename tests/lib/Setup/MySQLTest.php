@@ -83,8 +83,8 @@ class MySQLTest extends TestCase {
 	}
 
 	/**
-	 * Driver options provided as raw config value, e.g. through an autoconfig file, must
-	 * survive - and their numeric keys must not be renumbered.
+	 * Raw driver options (e.g. those provided through an autoconfig file) that are not
+	 * overridden by installer options must be preserved as-is.
 	 */
 	public function testInitializeMergesWithRawDriverOptions(): void {
 		$this->config->expects($this->once())
@@ -102,6 +102,26 @@ class MySQLTest extends TestCase {
 		$this->database->initialize($this->options([
 			'dbdriveroptions' => [$this->attribute('INIT_COMMAND') => 'SET wait_timeout = 28800'],
 			'dbsslca' => '/ca.pem',
+		]));
+	}
+
+	public function testInitializeMappedEncryptionOptionOverridesRawDriverOption(): void {
+		$sslCa = $this->attribute('SSL_CA');
+
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+				'dbdriveroptions' => [
+					$sslCa => '/installer-ca.pem',
+				],
+			]);
+
+		$this->database->initialize($this->options([
+			'dbdriveroptions' => [$sslCa => '/raw-ca.pem'],
+			'dbsslca' => '/installer-ca.pem',
 		]));
 	}
 
