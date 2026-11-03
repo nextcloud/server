@@ -19,7 +19,7 @@ class CalendarFederationConfig {
 	}
 
 	public function isFederationEnabled(): bool {
-		return $this->appConfig->getValueBool('dav', 'enableCalendarFederation', true);
+		return $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::ENABLE_CALENDAR_FEDERATION, true);
 	}
 
 	/**

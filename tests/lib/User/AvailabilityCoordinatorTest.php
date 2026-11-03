@@ -11,7 +11,9 @@ namespace Test\User;
 
 use OC\User\AvailabilityCoordinator;
 use OC\User\OutOfOfficeData;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Service\AbsenceService;
 use OCP\ICache;
