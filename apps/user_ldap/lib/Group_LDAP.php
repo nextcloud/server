@@ -944,8 +944,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 						break;
 					}
 
-					$cacheKey = 'userExistsOnLDAP' . $uid;
-					$userExists = $this->access->connection->getFromCache($cacheKey);
+					$userExistsCacheKey = 'userExistsOnLDAP' . $uid;
+					$userExists = $this->access->connection->getFromCache($userExistsCacheKey);
 					if ($userExists === false) {
 						break;
 					}
@@ -957,11 +957,11 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 								$this->access->connection->ldapUserFilter
 							]))) {
 							if ($search === '') {
-								$this->access->connection->writeToCache($cacheKey, false);
+								$this->access->connection->writeToCache($userExistsCacheKey, false);
 							}
 							break;
 						}
-						$this->access->connection->writeToCache($cacheKey, true);
+						$this->access->connection->writeToCache($userExistsCacheKey, true);
 					}
 					$groupUsers[] = $uid;
 					break;
