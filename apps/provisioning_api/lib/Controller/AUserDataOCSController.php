@@ -25,6 +25,7 @@ use OCP\Files\NotFoundException;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -249,6 +250,62 @@ abstract class AUserDataOCSController extends OCSController {
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * Collect users matching the filters from a paginated source, skipping missing ones.
+	 *
+	 * Whole source pages are consumed, as sources with multiple backends apply $limit and
+	 * $offset per backend. So more than $limit users may be returned, and fewer if no full
+	 * page was found within 10 source pages.
+	 *
+	 * @param \Closure(?int, int): array<?IUser> $search Returns the source page for a limit and offset
+	 * @param bool $enabled Only collect users with this enabled state
+	 * @return array{list<IUser>, int, bool} The matching users, the source offset of the next page,
+	 *                                       and whether the source may have more users
+	 */
+	protected function searchFilteredUsers(\Closure $search, ?int $limit, int $offset, bool $enabled): array {
+		$users = [];
+		$rounds = 0;
+		while (true) {
+			$page = $search($limit, $offset);
+			foreach ($page as $user) {
+				if ($user !== null && $user->isEnabled() === $enabled) {
+					$users[] = $user;
+				}
+			}
+			if ($limit === null || $limit <= 0 || count($page) === 0) {
+				return [$users, $offset, false];
+			}
+			$offset += $limit;
+			if (count($users) >= $limit || ++$rounds >= 10) {
+				return [$users, $offset, true];
+			}
+		}
+	}
+
+	/**
+	 * Build the `Link: <url>; rel="next"` header if there is a next page.
+	 *
+	 * @param array|bool $items The page of results, or whether more results are known to exist
+	 * @param array<string, mixed> $params Query parameters for the next page
+	 * @param int|null $forceOffset Offset of the next page when it is not `$offset + $limit`,
+	 *                              e.g. because some results were skipped
+	 * @return array{Link?: string}
+	 */
+	protected function buildOffsetNextPageLinkHeader(IURLGenerator $urlGenerator, array|bool $items, array $params, ?int $limit, int $offset, ?int $forceOffset = null): array {
+		$hasMore = is_bool($items) ? $items : ($limit !== null && $limit > 0 && count($items) >= $limit);
+		if (!$hasMore) {
+			return [];
+		}
+
+		$params = array_merge($params, [
+			'limit' => ($limit ?? 100),
+			'offset' => $forceOffset ?? $offset + ($limit ?? 100),
+		]);
+		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
+		$url = $urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
+		return ['Link' => '<' . $url . '>; rel="next"'];
 	}
 
 	/**

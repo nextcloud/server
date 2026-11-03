@@ -28098,6 +28098,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -28111,6 +28121,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned based on last logged in information",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -29831,6 +29848,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -29844,6 +29871,13 @@
                 "responses": {
                     "200": {
                         "description": "Group users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -30303,6 +30337,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -30316,6 +30360,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

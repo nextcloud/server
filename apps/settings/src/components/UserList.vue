@@ -290,6 +290,7 @@ export default {
 						offset: this.usersOffset,
 						limit: this.usersLimit,
 						search: this.searchQuery,
+						enabled: true,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
@@ -297,6 +298,7 @@ export default {
 						limit: this.usersLimit,
 						group: this.selectedGroup,
 						search: this.searchQuery,
+						enabled: true,
 					})
 				}
 				logger.debug(`${this.users.length} total user(s) loaded`)
