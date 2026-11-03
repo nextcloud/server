@@ -121,9 +121,19 @@ interface IGroupManager {
 	public function isAdmin($userId);
 
 	/**
-	 * Checks if a userId is eligible to users administration delegation
-	 * @param string $userId
-	 * @return bool if delegated admin
+	 * Checks whether a user has delegated access to user administration
+	 * through their group memberships.
+	 *
+	 * Returns false if the user does not exist or the current remote address
+	 * is not allowed to perform admin actions.
+	 *
+	 * This checks user administration delegation only, not delegation for
+	 * other administration settings. Full administrator status alone does
+	 * not make this method return true.
+	 *
+	 * @param string $userId ID of the user to check
+	 * @return bool Whether the user has the relevant delegation and the
+	 *              current remote address allows admin actions
 	 * @since 30.0.0
 	 */
 	public function isDelegatedAdmin(string $userId): bool;
