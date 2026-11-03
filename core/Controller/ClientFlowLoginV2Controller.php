@@ -14,6 +14,7 @@ use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\ResponseDefinitions;
 use OC\Core\Service\LoginFlowV2Service;
+use OC\Security\Ip\Address;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -344,6 +345,13 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	private function provideFlowContext(LoginFlowV2 $flow): void {
+		$clientIp = $flow->getClientIp();
+		$browserIp = $this->request->getRemoteAddress();
+		$sameIp = null;
+		if ($clientIp !== null && Address::isValid($clientIp) && Address::isValid($browserIp)) {
+			$sameIp = (string)new Address($clientIp) === (string)new Address($browserIp);
+		}
+
 		$user = $this->userSession->getUser();
 		$this->initialState->provideInitialState('loginFlowContext', [
 			'userAgent' => $flow->getClientName(),
@@ -353,8 +361,9 @@ class ClientFlowLoginV2Controller extends Controller {
 			'declineUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.decline'),
 			'securitySettingsUrl' => $this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']),
 			'createdAt' => $flow->getTimestamp(),
-			'clientIp' => $flow->getClientIp(),
-			'browserIp' => $this->request->getRemoteAddress(),
+			'clientIp' => $clientIp,
+			'browserIp' => $browserIp,
+			'sameIp' => $sameIp,
 		]);
 	}
 
