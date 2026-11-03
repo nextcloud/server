@@ -72,7 +72,7 @@ class Config extends Base {
 					return 1;
 				}
 			}
-			$this->setOption($mount, $key, $value, $output);
+			return $this->setOption($mount, $key, $value, $output);
 		} else {
 			$this->getOption($mount, $key, $output);
 		}
@@ -98,7 +98,7 @@ class Config extends Base {
 	 * @param string $key
 	 * @param string $value
 	 */
-	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): void {
+	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): int {
 		$decoded = json_decode($value, true);
 		if (!is_null($decoded) && json_encode($decoded) === $value) {
 			$value = $decoded;
@@ -109,5 +109,6 @@ class Config extends Base {
 			$mount->setBackendOption($key, $value);
 		}
 		$this->globalService->updateStorage($mount);
+		return self::SUCCESS;
 	}
 }
