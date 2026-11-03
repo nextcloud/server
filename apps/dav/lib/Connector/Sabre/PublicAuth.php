@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\PublicShareController;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
@@ -137,7 +138,7 @@ class PublicAuth extends AbstractBasic {
 		\OC_User::setIncognitoMode(true);
 
 		// If already authenticated
-		if ($this->isShareInSession($share)) {
+		if (self::isShareInSession($this->session, $share)) {
 			return [true, $this->principalPrefix . $token];
 		}
 
@@ -182,14 +183,14 @@ class PublicAuth extends AbstractBasic {
 				// Validate password if provided
 				if ($this->shareManager->checkPassword($share, $password)) {
 					// If not set, set authenticated session cookie
-					if (!$this->isShareInSession($share)) {
-						$this->addShareToSession($share);
+					if (!self::isShareInSession($this->session, $share)) {
+						self::addShareToSession($this->session, $share);
 					}
 					return true;
 				}
 
 				// We are already authenticated for this share in the session
-				if ($this->isShareInSession($share)) {
+				if (self::isShareInSession($this->session, $share)) {
 					return true;
 				}
 
@@ -224,20 +225,26 @@ class PublicAuth extends AbstractBasic {
 		return $this->share;
 	}
 
-	private function addShareToSession(IShare $share): void {
-		$allowedShareIds = $this->session->get(self::DAV_AUTHENTICATED) ?? [];
-		if (!is_array($allowedShareIds)) {
-			$allowedShareIds = [];
-		}
-
-		$allowedShareIds[] = $share->getId();
-		$this->session->set(self::DAV_AUTHENTICATED, $allowedShareIds);
+	/**
+	 * Remember in the session that the password of the share was verified.
+	 *
+	 * The share token is stored together with the current password hash (shared
+	 * with the public share page), so changing the share password invalidates it.
+	 */
+	public static function addShareToSession(ISession $session, IShare $share): void {
+		$allowedTokens = self::getAuthenticatedTokens($session);
+		$allowedTokens[$share->getToken()] = (string)$share->getPassword();
+		$session->set(PublicShareController::DAV_AUTHENTICATED_FRONTEND, json_encode($allowedTokens));
 	}
 
-	private function isShareInSession(IShare $share): bool {
-		if (!$this->session->exists(self::DAV_AUTHENTICATED)) {
-			return false;
-		}
+	/**
+	 * Check if the current password of the share was verified in the session
+	 */
+	public static function isShareInSession(ISession $session, IShare $share): bool {
+		$allowedTokens = self::getAuthenticatedTokens($session);
+		return isset($allowedTokens[$share->getToken()])
+			&& $allowedTokens[$share->getToken()] === $share->getPassword();
+	}
 
 		$allowedShareIds = $this->session->get(self::DAV_AUTHENTICATED);
 		if (!is_array($allowedShareIds)) {
