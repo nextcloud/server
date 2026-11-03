@@ -199,7 +199,7 @@ class LoginFlowV2Service {
 		return true;
 	}
 
-	public function createTokens(string $userAgent): LoginFlowV2Tokens {
+	public function createTokens(string $userAgent, string $clientIp): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
 		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
@@ -208,6 +208,7 @@ class LoginFlowV2Service {
 		$flow->setStarted(0);
 		$flow->setTimestamp($this->time->getTime());
 		$flow->setClientName($userAgent);
+		$flow->setClientIp($clientIp);
 
 		[$publicKey, $privateKey] = $this->getKeyPair();
 		$privateKey = $this->crypto->encrypt($privateKey, $pollToken);

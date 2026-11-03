@@ -10,6 +10,7 @@ namespace Tests\Core\Controller;
 
 use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OC\Core\Data\LoginFlowV2Credentials;
+use OC\Core\Data\LoginFlowV2Tokens;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
@@ -278,6 +279,20 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->grantPage('stateToken');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testInitRecordsClientAddress(): void {
+		$this->request->method('getHeader')->with('user-agent')->willReturn('Desktop client');
+		$this->request->method('getRemoteAddress')->willReturn('2001:db8::1');
+		$this->loginFlowV2Service->expects($this->once())
+			->method('createTokens')
+			->with('Desktop client', '2001:db8::1')
+			->willReturn(new LoginFlowV2Tokens('login-token', 'poll-token'));
+
+		$response = $this->controller->init();
+
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		$this->assertSame('poll-token', $response->getData()['poll']['token']);
 	}
 
 	public function testGenerateAppPasswordInvalidStateToken(): void {
