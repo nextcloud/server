@@ -679,8 +679,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * copy file between two storages
-	 * @throws \Exception
+	 * Copy a file or directory between storages, applying encryption-specific handling.
 	 */
 	private function copyBetweenStorage(
 		Storage\IStorage $sourceStorage,
@@ -689,54 +688,95 @@ class Encryption extends Wrapper {
 		bool $preserveMtime,
 		bool $isRename,
 	): bool {
-		// for versions we have nothing to do, because versions should always use the
-		// key from the original file. Just create a 1:1 copy and done
-		if ($this->isVersion($targetInternalPath)
-			|| $this->isVersion($sourceInternalPath)) {
-			// remember that we try to create a version so that we can detect it during
-			// fopen($sourceInternalPath) and by-pass the encryption in order to
-			// create a 1:1 copy of the file
+		// Keep version data byte-for-byte: versions use the original file's key, so
+		// decrypting and re-encrypting them could make them incompatible with that key.
+		if ($this->isVersion($targetInternalPath) || $this->isVersion($sourceInternalPath)) {
+			// The wrapped copy may read the source via this wrapper's fopen(). That method checks
+			// this marker to determine whether to bypass decryption for this operation.
 			$this->arrayCache->set('encryption_copy_version_' . $sourceInternalPath, true);
-			$result = $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
-			$this->arrayCache->remove('encryption_copy_version_' . $sourceInternalPath);
+			try {
+				$result = $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			} finally {
+				$this->arrayCache->remove('encryption_copy_version_' . $sourceInternalPath);
+			}
+
 			if ($result) {
-				$info = $this->getCache('', $sourceStorage)->get($sourceInternalPath);
-				// make sure that we update the unencrypted size for the version
-				if (isset($info['encrypted']) && $info['encrypted'] === true) {
-					$this->updateUnencryptedSize(
-						$this->getFullPath($targetInternalPath),
-						$info->getUnencryptedSize()
-					);
+				$sourceCacheEntry = $this->getCache('', $sourceStorage)->get($sourceInternalPath);
+				// Preserve the source's plaintext size; otherwise the raw copy may be reported
+				// using its ciphertext size.
+				if (isset($sourceCacheEntry['encrypted']) && $sourceCacheEntry['encrypted'] === true) {
+					$this->updateUnencryptedSize($this->getFullPath($targetInternalPath), $sourceCacheEntry->getUnencryptedSize());
 				}
 				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, true);
 			}
+
 			return $result;
 		}
 
-		// first copy the keys that we reuse the existing file key on the target location
-		// and don't create a new one which would break versions for example.
-		if ($sourceStorage->instanceOfStorage(Common::class) && $sourceStorage->getMountOption('mount_point')) {
-			$mountPoint = $sourceStorage->getMountOption('mount_point');
+		// Attempt to reuse the source key so copied versions, if any, remain decryptable.
+		// For directories, this may copy descendant keys again during recursion.
+		// TODO: Verify key-storage copy semantics and optimize to avoid duplicate work if possible.
+		$sourceCacheEntry = $sourceStorage->getCache()->get($sourceInternalPath);
+		$sourceIsEncrypted = $sourceCacheEntry !== false && !empty($sourceCacheEntry['encrypted']);
+		$hasCommonSourceStorage = $sourceStorage->instanceOfStorage(Common::class);
+		$mountPoint = $hasCommonSourceStorage ? $sourceStorage->getMountOption('mount_point') : null;
+		$keyCopySucceeded = false;
+		$keyCopyFailureReason = null;
+
+		if ($mountPoint) {
 			$source = $mountPoint . '/' . $sourceInternalPath;
 			$target = $this->getFullPath($targetInternalPath);
-			$this->copyKeys($source, $target);
+			$keyCopySucceeded = $this->copyKeys($source, $target);
+			if (!$keyCopySucceeded) {
+				$keyCopyFailureReason = 'source key directory is missing or key copy failed';
+			}
 		} else {
-			$this->logger->error('Could not find mount point, can\'t keep encryption keys');
+			$keyCopyFailureReason = 'cannot determine source path for key copy';
+		}
+
+		if ($sourceIsEncrypted && !$keyCopySucceeded) {
+			$this->logger->warning('Could not reuse encryption keys for encrypted source; copied versions may be unreadable', [
+				'app' => 'core',
+				'reason' => $keyCopyFailureReason,
+				'sourceStorage' => get_class($sourceStorage),
+				'sourceStorageId' => $sourceStorage->getId(),
+				'sourceInternalPath' => $sourceInternalPath,
+				'targetPath' => $this->getFullPath($targetInternalPath),
+			]);
 		}
 
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
+			// Recurse so files can be read and written through their respective
+			// encryption wrappers; the two storages may have different settings.
 			$dh = $sourceStorage->opendir($sourceInternalPath);
+			if (!is_resource($dh)) {
+				return false;
+			}
+
 			if (!$this->is_dir($targetInternalPath)) {
 				$result = $this->mkdir($targetInternalPath);
 			} else {
 				$result = true;
 			}
-			if (is_resource($dh)) {
+
+			try {
+				// A failed child copy leaves entries already copied in the target.
+				// For moves, the source is retained because the recursive copy reports failure.
+				// We do not roll back the partial target here: safe cleanup must account for
+				// target content that existed before this operation.
+				// TODO: Define and implement safe cleanup for partial copies.
 				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime, $isRename);
+						$result = $this->copyFromStorage(
+							$sourceStorage,
+							$sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file,
+							$preserveMtime,
+							$isRename,
+						);
 					}
 				}
+			} finally {
+				closedir($dh);
 			}
 		} else {
 			$source = false;
@@ -772,6 +812,7 @@ class Encryption extends Wrapper {
 				$this->getCache()->remove($targetInternalPath);
 			}
 		}
+
 		return $result;
 	}
 
