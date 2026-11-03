@@ -11,17 +11,35 @@ namespace lib\Log;
 
 use OC\Log\ExceptionSerializer;
 use OC\SystemConfig;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Test\TestCase;
+
+class LazyObjectFixture {
+	public string $value = 'value';
+}
 
 class ExceptionSerializerTest extends TestCase {
 	private ExceptionSerializer $serializer;
+	private string|false $exceptionIgnoreArgs;
 
 	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 
+		// traces only contain arguments if this is disabled
+		$this->exceptionIgnoreArgs = ini_set('zend.exception_ignore_args', '0');
+
 		$config = $this->createMock(SystemConfig::class);
 		$this->serializer = new ExceptionSerializer($config);
+	}
+
+	#[\Override]
+	public function tearDown(): void {
+		if ($this->exceptionIgnoreArgs !== false) {
+			ini_set('zend.exception_ignore_args', $this->exceptionIgnoreArgs);
+		}
+
+		parent::tearDown();
 	}
 
 	private function emit($arguments) {
@@ -34,6 +52,10 @@ class ExceptionSerializerTest extends TestCase {
 
 	private function customMagicAuthThing(string $login, string $parole): void {
 		throw new \Exception('expected custom auth exception');
+	}
+
+	private function throwsWithObject(object $object): void {
+		throw new \Exception('expected exception');
 	}
 
 	/**
@@ -64,5 +86,21 @@ class ExceptionSerializerTest extends TestCase {
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
 			$this->assertFalse(isset($serializedData['Trace'][0]['args'][1]));
 		}
+	}
+
+	#[RequiresPhp('>= 8.4')]
+	public function testSerializerDoesNotInitializeLazyObjects(): void {
+		$ghost = (new \ReflectionClass(LazyObjectFixture::class))->newLazyGhost(function (): void {
+			throw new \RuntimeException('Lazy ghost could not be initialized');
+		});
+
+		try {
+			$this->throwsWithObject($ghost);
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+		}
+
+		$this->assertSame(LazyObjectFixture::class, $serializedData['Trace'][0]['args'][0]['__class__']);
+		$this->assertSame('Lazy ghost could not be initialized', $serializedData['Trace'][0]['args'][0]['__failure__']);
 	}
 }
