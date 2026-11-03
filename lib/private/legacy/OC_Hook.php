@@ -23,8 +23,6 @@ class OC_Hook {
 		[Filesystem::CLASSNAME, Filesystem::signal_read],
 		[Filesystem::CLASSNAME, Filesystem::signal_create],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_create],
-		[Filesystem::CLASSNAME, Filesystem::signal_update],
-		[Filesystem::CLASSNAME, Filesystem::signal_post_update],
 		[Filesystem::CLASSNAME, Filesystem::signal_write],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_write],
 		[Filesystem::CLASSNAME, Filesystem::signal_delete],

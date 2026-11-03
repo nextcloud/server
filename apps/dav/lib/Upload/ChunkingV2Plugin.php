@@ -415,10 +415,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
 				Filesystem::signal_param_path => $hookPath,
 			]);
-		} else {
-			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $hookPath,
-			]);
 		}
 		OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $hookPath,
@@ -429,10 +425,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$hookPath = $this->getHookPath($target);
 		if (!$exists) {
 			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $hookPath,
-			]);
-		} else {
-			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath,
 			]);
 		}
