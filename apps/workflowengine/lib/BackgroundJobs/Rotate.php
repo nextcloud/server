@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,38 +8,46 @@
 
 namespace OCA\WorkflowEngine\BackgroundJobs;
 
-use OCA\WorkflowEngine\AppInfo\Application;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
-use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	public function __construct(ITimeFactory $time) {
+	public function __construct(
+		ITimeFactory $time,
+		private IAppConfig $appConfig,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($time);
-		$this->setInterval(60 * 60 * 3);
+		$this->setInterval(self::DEFAULT_ROTATION_INTERVAL);
 	}
 
 	#[\Override]
 	protected function run($argument): void {
-		$config = Server::get(IConfig::class);
-		$appConfig = Server::get(IAppConfig::class);
-		$default = $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
-		$this->filePath = trim($appConfig->getValueString(Application::APP_ID, 'logfile', $default));
-
+		$defaultFilePath = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
+		$this->filePath = $this->appConfig->getAppValueString('logfile', $defaultFilePath);
 		if ($this->filePath === '') {
-			// disabled, nothing to do
 			return;
 		}
 
-		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
-
+		$this->maxSize = $this->config->getSystemValueInt('log_rotate_size', self::DEFAULT_MAX_SIZE);
 		if ($this->shouldRotateBySize()) {
-			$this->rotate();
+			$rotatedFile = $this->rotate();
+			$this->logger->info(
+				'Log file "{filePath}" reached the configured rotation size of {maxSize} bytes and was moved to "{rotatedFile}"',
+				[
+					'app' => self::class,
+					'filePath' => $this->filePath,
+					'maxSize' => $this->maxSize,
+					'rotatedFile' => $rotatedFile,
+				],
+			);
 		}
 	}
 }
