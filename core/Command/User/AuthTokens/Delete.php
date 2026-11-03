@@ -48,6 +48,12 @@ class Delete extends Base {
 				'Delete tokens last used before a given date.'
 			)
 			->addOption(
+				'all',
+				null,
+				InputOption::VALUE_NONE,
+				'Delete all tokens of the user. Tokens marked for remote wipe are kept, delete them by <id> with --cancel-wipe.'
+			)
+			->addOption(
 				'cancel-wipe',
 				null,
 				InputOption::VALUE_NONE,
@@ -61,6 +67,15 @@ class Delete extends Base {
 		$id = (int)$input->getArgument('id');
 		$before = $input->getOption('last-used-before');
 		$cancelWipe = (bool)$input->getOption('cancel-wipe');
+		$all = (bool)$input->getOption('all');
+
+		if ($all) {
+			if ($id || $before || $cancelWipe) {
+				throw new RuntimeException('Option --all cannot be used with [<id>], --last-used-before or --cancel-wipe');
+			}
+
+			return $this->deleteAll($uid, $output);
+		}
 
 		if ($before) {
 			if ($id) {
@@ -71,7 +86,7 @@ class Delete extends Base {
 		}
 
 		if (!$id) {
-			throw new RuntimeException('Not enough arguments. Specify the token <id> or use the --last-used-before option.');
+			throw new RuntimeException('Not enough arguments. Specify the token <id> or use the --last-used-before or --all option.');
 		}
 
 		if (!$cancelWipe) {
@@ -91,6 +106,13 @@ class Delete extends Base {
 
 	protected function deleteById(string $uid, int $id): int {
 		$this->tokenProvider->invalidateTokenById($uid, $id);
+
+		return Command::SUCCESS;
+	}
+
+	protected function deleteAll(string $uid, OutputInterface $output): int {
+		$deleted = $this->tokenProvider->invalidateTokensOfUserExcept($uid, null);
+		$output->writeln('Deleted ' . count($deleted) . ' token(s)');
 
 		return Command::SUCCESS;
 	}
