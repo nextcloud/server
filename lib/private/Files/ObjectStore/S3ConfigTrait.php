@@ -41,4 +41,11 @@ trait S3ConfigTrait {
 	private bool $useMultipartCopy = true;
 
 	protected int $retriesMaxAttempts;
+
+	/**
+	 * Conditional write mode: true (force on), false (off, the default) or 'auto'
+	 * (probe the bucket once and cache the result). Opt-in to preserve existing
+	 * behaviour on upgrade.
+	 */
+	protected bool|string $conditionalWrites = false;
 }
