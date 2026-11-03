@@ -540,6 +540,73 @@ class Local extends Common {
 	}
 
 	/**
+	 * Skips directory symlinks that resolve to the listed directory or one of
+	 * its ancestors: following such a link sends the scanner back into the tree
+	 * it is already walking, until the path length limit. Only the listing is
+	 * filtered; resolving a path still follows the link.
+	 */
+	#[\Override]
+	public function getDirectoryContent(string $directory): \Traversable {
+		$ancestors = null;
+		foreach (parent::getDirectoryContent($directory) as $metadata) {
+			if ($metadata['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+				try {
+					$childSource = $this->getSourcePath(rtrim($directory, '/') . '/' . $metadata['name']);
+				} catch (ForbiddenException) {
+					// Retargeted outside the datadir since listed; drop it like getMetaData() would.
+					continue;
+				}
+				if (is_link($childSource)) {
+					$childReal = realpath($childSource);
+					if ($childReal !== false) {
+						// Built lazily, only once a symlinked directory shows up.
+						$ancestors ??= $this->getAncestorRealPaths($directory);
+						if (isset($ancestors[rtrim($childReal, '/')])) {
+							Server::get(LoggerInterface::class)->warning(
+								"Skipping looping directory symlink '$childSource' -> '$childReal'",
+								['app' => 'core']
+							);
+							continue;
+						}
+					}
+				}
+			}
+			yield $metadata;
+		}
+	}
+
+	/**
+	 * Resolved paths of $directory and each of its ancestors up to the storage
+	 * root, as a set. A directory symlink resolving to any of them closes a loop.
+	 */
+	private function getAncestorRealPaths(string $directory): array {
+		$root = rtrim($this->realDataDir, '/');
+		$paths = [];
+		try {
+			$current = $this->getSourcePath(rtrim($directory, '/'));
+		} catch (ForbiddenException) {
+			// No resolvable ancestor chain: filter nothing.
+			return $paths;
+		}
+		while (true) {
+			$real = realpath($current);
+			if ($real !== false) {
+				$real = rtrim($real, '/');
+				$paths[$real] = true;
+				if ($real === $root) {
+					break;
+				}
+			}
+			$parent = dirname($current);
+			if ($parent === $current || strlen($parent) < strlen($root)) {
+				break;
+			}
+			$current = $parent;
+		}
+		return $paths;
+	}
+
+	/**
 	 * Get the source path (on disk) of a given path
 	 *
 	 * @throws ForbiddenException
