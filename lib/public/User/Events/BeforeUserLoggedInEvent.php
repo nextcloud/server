@@ -9,26 +9,27 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\Authentication\IApacheBackend;
 use OCP\EventDispatcher\Event;
 
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
+#[Dispatchable(since: '18.0.0')]
 class BeforeUserLoggedInEvent extends Event {
-	private string $username;
-	private ?string $password;
-	private ?IApacheBackend $backend;
-
 	/**
 	 * @since 18.0.0
 	 * @since 26.0.0 password can be null
 	 */
-	public function __construct(string $username, ?string $password, ?IApacheBackend $backend = null) {
+	public function __construct(
+		private readonly string $username,
+		private readonly ?string $password,
+		private readonly ?IApacheBackend $backend = null,
+	) {
 		parent::__construct();
-		$this->username = $username;
-		$this->password = $password;
-		$this->backend = $backend;
 	}
 
 	/**
@@ -51,7 +52,6 @@ class BeforeUserLoggedInEvent extends Event {
 	/**
 	 * return backend if available (or null)
 	 *
-	 * @return IApacheBackend|null
 	 * @since 26.0.0
 	 */
 	public function getBackend(): ?IApacheBackend {

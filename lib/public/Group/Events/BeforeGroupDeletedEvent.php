@@ -9,26 +9,27 @@ declare(strict_types=1);
 
 namespace OCP\Group\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\IGroup;
 
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
+#[Dispatchable(since: '18.0.0')]
 class BeforeGroupDeletedEvent extends Event {
-	/** @var IGroup */
-	private $group;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IGroup $group) {
+	public function __construct(
+		private readonly IGroup $group,
+	) {
 		parent::__construct();
-		$this->group = $group;
 	}
 
 	/**
-	 * @return IGroup
 	 * @since 18.0.0
 	 */
 	public function getGroup(): IGroup {

@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @since 14.0.0
  * @deprecated 30.0.0 Use ICreateNamedGroupBackend instead
  */
+#[Implementable(since: '14.0.0')]
 interface ICreateGroupBackend {
 	/**
 	 * @since 14.0.0

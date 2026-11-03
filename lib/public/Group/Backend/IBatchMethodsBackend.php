@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @brief Optional interface for group backends
  * @since 28.0.0
  */
+#[Implementable(since: '28.0.0')]
 interface IBatchMethodsBackend {
 	/**
 	 * @brief Batch method to check if a list of groups exists

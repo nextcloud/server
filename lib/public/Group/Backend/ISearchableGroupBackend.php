@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\IUser;
 
 /**
  * @since 27.0.0
  */
+#[Implementable(since: '27.0.0')]
 interface ISearchableGroupBackend {
 	/**
 	 * @brief Get a list of users matching the given search parameters.
