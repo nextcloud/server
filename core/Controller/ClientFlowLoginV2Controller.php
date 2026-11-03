@@ -188,6 +188,32 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	#[PublicPage]
+	#[UseSession]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/decline')]
+	public function decline(?string $stateToken): JSONResponse {
+		if ($stateToken === null || !$this->isValidStateToken($stateToken)) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$this->getFlowByLoginToken();
+		} catch (LoginFlowV2NotFoundException $e) {
+			return new JSONResponse([], Http::STATUS_GONE);
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if (!$this->loginFlowV2Service->decline($this->session->get(self::TOKEN_NAME))) {
+			return new JSONResponse([], Http::STATUS_CONFLICT);
+		}
+
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
+		return new JSONResponse([]);
+	}
+
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
