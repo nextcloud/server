@@ -74,14 +74,14 @@ class LegacyPublicAuth extends AbstractBasic {
 				// Validate password if provided
 				if ($this->shareManager->checkPassword($share, $password)) {
 					// If not set, set authenticated session cookie
-					if (!$this->isShareInSession($share)) {
-						$this->addShareToSession($share);
+					if (!PublicAuth::isShareInSession($this->session, $share)) {
+						PublicAuth::addShareToSession($this->session, $share);
 					}
 					return true;
 				}
 
 				// We are already authenticated for this share in the session
-				if ($this->isShareInSession($share)) {
+				if (PublicAuth::isShareInSession($this->session, $share)) {
 					return true;
 				}
 
