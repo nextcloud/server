@@ -592,6 +592,7 @@ class Server extends ServerContainer {
 		});
 		// PSR-3 logger
 		$this->registerAlias(LoggerInterface::class, PsrLoggerAdapter::class);
+		$this->registerAlias(\OCP\Log\ILazyLogger::class, \OC\Log\LazyLogger::class);
 
 		$this->registerAlias(ILogFactory::class, LogFactory::class);
 		$this->registerAlias(IJobList::class, JobList::class);
