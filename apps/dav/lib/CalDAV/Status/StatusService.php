@@ -61,6 +61,7 @@ class StatusService {
 		if (empty($calendarEvents)) {
 			try {
 				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE);
 			} catch (Exception $e) {
 				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 					// A different process might have written another status
@@ -92,32 +93,40 @@ class StatusService {
 			return;
 		}
 
-		// Filter events to see if we have any that apply to the calendar status
-		$applicableEvents = array_filter($calendarEvents, static function (array $calendarEvent) use ($userStatusTimestamp): bool {
+		// Filter events to see if we have any that apply to the calendar status,
+		// and split them into meetings (with attendees) and solo busy events (no attendees).
+		$meetingEvents = [];
+		$singleEvents = [];
+		foreach ($calendarEvents as $calendarEvent) {
 			if (empty($calendarEvent['objects'])) {
-				return false;
+				continue;
 			}
 			$component = $calendarEvent['objects'][0];
 			if (isset($component['X-NEXTCLOUD-OUT-OF-OFFICE'])) {
-				return false;
+				continue;
 			}
 			if (isset($component['DTSTART']) && $userStatusTimestamp !== null) {
 				/** @var DateTimeImmutable $dateTime */
 				$dateTime = $component['DTSTART'][0];
 				if ($dateTime instanceof DateTimeImmutable && $userStatusTimestamp > $dateTime->getTimestamp()) {
-					return false;
+					continue;
 				}
 			}
 			// Ignore events that are transparent
 			if (isset($component['TRANSP']) && strcasecmp($component['TRANSP'][0], 'TRANSPARENT') === 0) {
-				return false;
+				continue;
 			}
-			return true;
-		});
+			if (!empty($component['ATTENDEE'])) {
+				$meetingEvents[] = $calendarEvent;
+			} else {
+				$singleEvents[] = $calendarEvent;
+			}
+		}
 
-		if (empty($applicableEvents)) {
+		if (empty($meetingEvents) && empty($singleEvents)) {
 			try {
 				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE);
 			} catch (Exception $e) {
 				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 					// A different process might have written another status
@@ -132,20 +141,30 @@ class StatusService {
 			return;
 		}
 
-		// Only update the status if it's neccesary otherwise we mess up the timestamp
-		if ($currentStatus === null || $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY) {
-			// One event that fulfills all status conditions is enough
-			// 1. Not an OOO event
-			// 2. Current user status (that is not a calendar status) was not set after the start of this event
-			// 3. Event is not set to be transparent
-			$count = count($applicableEvents);
-			$this->logger->debug("Found $count applicable event(s), changing user status", ['user' => $userId]);
-			$this->userStatusService->setUserStatus(
-				$userId,
-				IUserStatus::BUSY,
-				IUserStatus::MESSAGE_CALENDAR_BUSY,
-				true
-			);
+		// Meetings (with attendees) take priority over solo busy events.
+		// Only update the status if it's necessary otherwise we mess up the timestamp.
+		if (!empty($meetingEvents)) {
+			if ($currentStatus === null || $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY) {
+				$count = count($meetingEvents);
+				$this->logger->debug("Found $count meeting event(s), changing user status to meeting", ['user' => $userId]);
+				$this->userStatusService->setUserStatus(
+					$userId,
+					IUserStatus::BUSY,
+					IUserStatus::MESSAGE_CALENDAR_BUSY,
+					true
+				);
+			}
+		} else {
+			if ($currentStatus === null || $currentStatus->getMessageId() !== IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE) {
+				$count = count($singleEvents);
+				$this->logger->debug("Found $count single busy event(s), changing user status to busy", ['user' => $userId]);
+				$this->userStatusService->setUserStatus(
+					$userId,
+					IUserStatus::BUSY,
+					IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE,
+					true
+				);
+			}
 		}
 	}
 
