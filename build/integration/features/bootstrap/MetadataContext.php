@@ -5,6 +5,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
 use PHPUnit\Framework\Assert;
@@ -47,6 +48,24 @@ class MetadataContext implements Context {
 
 		$davUrl = $this->getDavUrl($user, $fileName);
 		$client->request('PROPPATCH', $this->baseUrl . $davUrl, $body);
+	}
+
+	#[Given('User :user links :fileName as live photo to :peerName')]
+	public function userLinksLivePhoto(string $user, string $fileName, string $peerName) {
+		$client = new SClient([
+			'baseUri' => $this->baseUrl,
+			'userName' => $user,
+			'password' => '123456',
+			'authType' => SClient::AUTH_BASIC,
+		]);
+
+		$response = $client->propFind($this->baseUrl . $this->getDavUrl($user, $peerName), ['{http://owncloud.org/ns}fileid']);
+		$peerId = $response['{http://owncloud.org/ns}fileid'];
+
+		$response = $client->propPatch($this->baseUrl . $this->getDavUrl($user, $fileName), [
+			'{http://nextcloud.org/ns}metadata-files-live-photo' => (string)$peerId,
+		]);
+		Assert::assertTrue($response);
 	}
 
 	#[When('User :user deletes the :metadataKey prop on :fileName')]
