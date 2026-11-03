@@ -90,6 +90,21 @@
             };
             node_version = builtins.substring 1 (-1) (builtins.elemAt (lib.strings.splitString "." (builtins.fromJSON (builtins.readFile ./package.json)).engines.node) 0);
             node = pkgs."nodejs_${node_version}";
+            php_stubs_updater = php.buildComposerProject2 (finalAttrs: {
+              pname = "php-stubs-updater";
+              version = "0.0.1";
+
+              src = pkgs.fetchFromGitea {
+                domain = "codeberg.org";
+                owner = "provokateurin";
+                repo = "php-stubs-updater";
+                rev = "fd8a76461dc409ea041bf5dcd3f91df2f4480415";
+                hash = "sha256-X37uw++oBwzTibNa7Qz5eONOnUEs2DKU/vm83+M3KH0=";
+              };
+
+              composerStrictValidation = false;
+              vendorHash = "sha256-DULjWnP+gBEq2x4GDj7yNK7wVFWuRLadHJym0EiRLjA=";
+           });
           in
           pkgs.mkShell {
             NOCOVERAGE = 1;
@@ -104,6 +119,7 @@
 
               haze.packages.${system}.default
               pkgs.reuse
+              php_stubs_updater
             ];
           };
       }
