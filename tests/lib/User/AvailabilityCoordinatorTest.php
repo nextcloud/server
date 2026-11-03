@@ -31,9 +31,9 @@ class AvailabilityCoordinatorTest extends TestCase {
 
 	public function testIsEnabled(): void {
 		$this->getAutoMock(IAppConfig::class)->expects(self::once())
-			->method('getValueString')
-			->with(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS, 'no')
-			->willReturn('no');
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS)
+			->willReturn(false);
 
 		$isEnabled = $this->availabilityCoordinator->isEnabled();
 
