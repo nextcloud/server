@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Federation;
 
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCP\IAppConfig;
 
 class CalendarFederationConfig {

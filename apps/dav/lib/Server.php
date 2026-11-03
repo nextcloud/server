@@ -28,7 +28,6 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCA\DAV\Comments\CommentsPlugin;
-use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\AddExtraHeadersPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\AppleQuirksPlugin;
@@ -212,7 +211,7 @@ class Server {
 
 			$this->server->addPlugin(\OCP\Server::get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($this->request));
-			if (\OCP\Server::get(IAppConfig::class)->getValueString(Application::APP_ID, ConfigLexicon::ALLOW_CALENDAR_LINK_SUBSCRIPTIONS, 'yes') === 'yes') {
+			if (\OCP\Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::ALLOW_CALENDAR_LINK_SUBSCRIPTIONS)) {
 				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 			}
 
@@ -348,7 +347,7 @@ class Server {
 					\OCP\Server::get(ICommentsManager::class),
 					$userSession
 				));
-				if (\OCP\Server::get(IAppConfig::class)->getValueString(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS, 'yes') === 'yes') {
+				if (\OCP\Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS)) {
 					$this->server->addPlugin(new IMipPlugin(
 						\OCP\Server::get(IAppConfig::class),
 						\OCP\Server::get(IMailer::class),

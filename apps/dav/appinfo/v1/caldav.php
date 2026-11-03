@@ -88,7 +88,7 @@ $calDavBackend = new CalDavBackend(
 );
 
 $debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
-$sendInvitations = Server::get(IAppConfig::class)->getValueString(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS, 'yes') === 'yes';
+$sendInvitations = Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS);
 
 // Root nodes
 $principalCollection = new PrincipalCollection($principalBackend);
