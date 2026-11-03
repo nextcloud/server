@@ -33,8 +33,6 @@ class OC_Hook {
 		[Filesystem::CLASSNAME, Filesystem::signal_post_copy],
 		[Filesystem::CLASSNAME, Filesystem::signal_touch],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_touch],
-		[Filesystem::CLASSNAME, Filesystem::signal_delete_mount],
-		[Filesystem::CLASSNAME, Filesystem::signal_create_mount],
 		[Filesystem::CLASSNAME, Filesystem::signal_setup],
 		[Filesystem::CLASSNAME, Filesystem::signal_pre_setup],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_init_mountpoints],
