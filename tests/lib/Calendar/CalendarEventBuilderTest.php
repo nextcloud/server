@@ -98,6 +98,42 @@ class CalendarEventBuilderTest extends TestCase {
 		$this->assertEquals('event-uid-123.ics', $actual);
 	}
 
+	public function testToIcsWithTimezone(): void {
+		$tz = new \DateTimeZone('Europe/Berlin');
+		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2026-05-11T11:00:00', $tz));
+		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2026-05-11T12:00:00', $tz));
+		$this->calendarEventBuilder->setStatus(CalendarEventStatus::CONFIRMED);
+		$this->calendarEventBuilder->setSummary('My event');
+		$this->calendarEventBuilder->setDescription('Foo bar baz');
+		$this->calendarEventBuilder->setOrganizer('organizer@domain.tld', 'Organizer');
+		$this->calendarEventBuilder->addAttendee('attendee@domain.tld', 'Attendee');
+
+		$actual = $this->calendarEventBuilder->toIcs();
+
+		// TZID must use the globally-defined form (RFC 5545 §3.2.19) so no VTIMEZONE is needed
+		$this->assertStringContainsString('DTSTART;TZID=/Europe/Berlin:', $actual);
+		$this->assertStringContainsString('DTEND;TZID=/Europe/Berlin:', $actual);
+		$this->assertStringNotContainsString('BEGIN:VTIMEZONE', $actual);
+
+		$expected = file_get_contents(\OC::$SERVERROOT . '/tests/data/ics/event-builder-with-timezone.ics');
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testToIcsWithUtcIsUnchanged(): void {
+		// UTC datetimes must stay as-is (Z suffix, no TZID parameter)
+		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2026-05-11T09:00:00Z'));
+		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2026-05-11T10:00:00Z'));
+		$this->calendarEventBuilder->setStatus(CalendarEventStatus::CONFIRMED);
+		$this->calendarEventBuilder->setSummary('My event');
+
+		$actual = $this->calendarEventBuilder->toIcs();
+
+		$this->assertStringContainsString('DTSTART:20260511T090000Z', $actual);
+		$this->assertStringContainsString('DTEND:20260511T100000Z', $actual);
+		$this->assertStringNotContainsString('TZID', $actual);
+		$this->assertStringNotContainsString('BEGIN:VTIMEZONE', $actual);
+	}
+
 	public function testToIcsWithoutStartDate(): void {
 		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2025-01-05T17:19:58Z'));
 		$this->calendarEventBuilder->setSummary('My event');
