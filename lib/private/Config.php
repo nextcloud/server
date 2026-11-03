@@ -61,7 +61,7 @@ class Config {
 	 * @return array an array of key names
 	 */
 	public function getKeys(): array {
-		return array_merge(array_keys($this->cache), array_keys($this->envCache));
+		return array_values(array_unique(array_merge(array_keys($this->cache), array_keys($this->envCache))));
 	}
 
 	/**
