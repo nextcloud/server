@@ -76,6 +76,16 @@ interface Node extends FileInfo {
 	public function getStorage();
 
 	/**
+	 * Get the numeric storage id for the storage backend the file or folder is stored on
+	 *
+	 * @return int
+	 * @throws NotFoundException
+	 * @since 36.0.0
+	 */
+	#[\Override]
+	public function getStorageId(): int;
+
+	/**
 	 * Get the full path of the file or folder
 	 *
 	 * @return string

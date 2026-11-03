@@ -23,6 +23,7 @@ use OCP\Files\Config\Event\UserMountAddedEvent;
 use OCP\Files\Config\Event\UserMountRemovedEvent;
 use OCP\Files\Config\Event\UserMountUpdatedEvent;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\IMimeTypeLoader;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -74,6 +75,7 @@ class UserMountCacheTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IEventLogger::class),
 			$this->eventDispatcher,
+			$this->createMock(IMimeTypeLoader::class),
 		);
 	}
 
@@ -557,12 +559,15 @@ class UserMountCacheTest extends TestCase {
 		$user1 = $this->userManager->get('u1');
 		$user2 = $this->userManager->get('u2');
 
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('filecache')
+			->where($query->expr()->eq('storage', $query->createNamedParameter(2)));
+		$query->executeStatement();
+
 		/** @var Storage $storage1 */
 		[$storage1, $rootId] = $this->getStorage(2);
-		$folderId = $this->createCacheEntry('files', 2, 100);
-		$fileId = $this->createCacheEntry('files/foo', 2, 7);
-		$storage1->getCache()->put($folderId, ['size' => 100]);
-		$storage1->getCache()->update($fileId, ['size' => 70]);
+		$this->createCacheEntry('files', 2, 100);
+		$this->createCacheEntry('files/foo', 2, 7);
 
 		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/u1/'])
