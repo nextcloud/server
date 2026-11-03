@@ -14,11 +14,11 @@
 		<NcCheckboxRadioSwitch
 			v-else
 			id="two-factor-enforced"
-			v-model="enforced"
+			v-model="twoFactorState.enforced"
 			type="switch">
 			{{ t('settings', 'Enforce two-factor authentication') }}
 		</NcCheckboxRadioSwitch>
-		<template v-if="enforced">
+		<template v-if="twoFactorState.enforced">
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
 			<p class="top-margin">
@@ -29,7 +29,7 @@
 					<span>{{ t('settings', 'Enforced groups') }}</span>
 				</label>
 				<NcSelect
-					v-model="enforcedGroups"
+					v-model="twoFactorState.enforcedGroups"
 					input-id="enforcedGroups"
 					:options="groups"
 					:disabled="loading"
@@ -46,7 +46,7 @@
 					<span>{{ t('settings', 'Excluded groups') }}</span>
 				</label>
 				<NcSelect
-					v-model="excludedGroups"
+					v-model="twoFactorState.excludedGroups"
 					input-id="excludedGroups"
 					:options="groups"
 					:disabled="loading"
@@ -104,40 +104,15 @@ export default {
 			groups: [],
 			loadingGroups: false,
 			twoFactorAdminDoc: loadState('settings', 'two-factor-admin-doc'),
+			twoFactorState: loadState('settings', 'mandatory2FAState'),
 		}
 	},
 
-	computed: {
-		enforced: {
-			get() {
-				return this.$store.state.enforced
-			},
-
-			set(val) {
+	watch: {
+		twoFactorState: {
+			deep: true,
+			handler() {
 				this.dirty = true
-				this.$store.commit('setEnforced', val)
-			},
-		},
-
-		enforcedGroups: {
-			get() {
-				return this.$store.state.enforcedGroups
-			},
-
-			set(val) {
-				this.dirty = true
-				this.$store.commit('setEnforcedGroups', val)
-			},
-		},
-
-		excludedGroups: {
-			get() {
-				return this.$store.state.excludedGroups
-			},
-
-			set(val) {
-				this.dirty = true
-				this.$store.commit('setExcludedGroups', val)
 			},
 		},
 	},
@@ -145,7 +120,7 @@ export default {
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
 		// be valid groups, so let's add them as initial state
-		this.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))
+		this.groups = sortedUniq(uniq(this.twoFactorState.enforcedGroups.concat(this.twoFactorState.excludedGroups)))
 
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
@@ -167,9 +142,9 @@ export default {
 			this.loading = true
 
 			const data = {
-				enforced: this.enforced,
-				enforcedGroups: this.enforcedGroups,
-				excludedGroups: this.excludedGroups,
+				enforced: this.twoFactorState.enforced,
+				enforcedGroups: this.twoFactorState.enforcedGroups,
+				excludedGroups: this.twoFactorState.excludedGroups,
 			}
 			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })
 				.then((resp) => resp.data)

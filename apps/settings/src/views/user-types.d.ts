@@ -4,8 +4,7 @@
  */
 
 /**
- * The fields the user-management components read from the (still untyped) users
- * Vuex store. An explicit assertion of the store shape until the store is typed.
+ * The fields the user-management components read from the users store.
  */
 export interface IUser {
 	id: string
@@ -65,4 +64,15 @@ export interface IGroup {
 	 * True if users can be removed from this group
 	 */
 	canRemove?: boolean
+}
+
+/**
+ * An entry in an account's actions menu, built in or registered by another app
+ * through `OCA.Settings.UserList.registerAction`
+ */
+export interface UserAction {
+	action: (event: MouseEvent, user: Record<string, unknown>) => void
+	enabled?: (user: Record<string, unknown>) => boolean
+	icon: string
+	text: string
 }

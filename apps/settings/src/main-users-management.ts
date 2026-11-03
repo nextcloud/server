@@ -10,11 +10,9 @@ import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirm
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
-import Vuex from 'vuex'
-import { sync } from 'vuex-router-sync'
 import UserManagement from './views/UserManagement.vue'
 import router from './router/index.ts'
-import { useStore } from './store/index.js'
+import { useUsersStore } from './store/users.ts'
 
 addPasswordConfirmationInterceptors(axios)
 
@@ -27,20 +25,15 @@ Vue.prototype.t = t
 Vue.prototype.n = n
 Vue.use(PiniaVuePlugin)
 Vue.use(VTooltipPlugin, { defaultHtml: false })
-Vue.use(Vuex)
-
-const store = useStore()
-sync(store, router)
 
 const pinia = createPinia()
 
 // Migrate legacy local storage settings to the database
-store.dispatch('migrateLocalStorage')
+useUsersStore(pinia).migrateLocalStorage()
 
 const App = Vue.extend(UserManagement)
 const app = new App({
 	router,
-	store,
 	pinia,
 })
 app.$mount('#content')
