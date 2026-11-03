@@ -6,7 +6,8 @@
 <template>
 	<div class="locale">
 		<p class="locale__example">
-			{{ t('settings', 'Example: {example}', { example: `${example.date} ${example.time}` }) }}
+			{{ t('settings', 'Example: {example}', { example }) }}
+
 		</p>
 
 		<NcSelect
@@ -23,7 +24,8 @@
 </template>
 
 <script>
-import moment from '@nextcloud/moment'
+import { useNow } from '@vueuse/core'
+import { useFormatTime } from '@nextcloud/vue/composables/useFormatDateTime'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
@@ -58,14 +60,22 @@ export default {
 		},
 	},
 
+	setup() {
+		const now = useNow({ interval: 1000 })
+
+		return {
+			example: useFormatTime(now, {
+				format: {
+					dateStyle: 'short',
+					timeStyle: 'medium',
+				},
+			}),
+		}
+	},
+
 	data() {
 		return {
 			initialLocale: this.locale,
-			intervalId: 0,
-			example: {
-				date: moment().format('L'),
-				time: moment().format('LTS'),
-			},
 		}
 	},
 
@@ -78,14 +88,6 @@ export default {
 			const other = this.otherLocales.filter((l) => l.code !== this.locale.code)
 			return [this.locale, ...common, ...other]
 		},
-	},
-
-	mounted() {
-		this.intervalId = window.setInterval(this.refreshExample, 1000)
-	},
-
-	beforeDestroy() {
-		window.clearInterval(this.intervalId)
 	},
 
 	methods: {
@@ -111,13 +113,6 @@ export default {
 			} else {
 				this.$emit('update:locale', this.initialLocale)
 				handleError(error, errorMessage)
-			}
-		},
-
-		refreshExample() {
-			this.example = {
-				date: moment().format('L'),
-				time: moment().format('LTS'),
 			}
 		},
 	},
