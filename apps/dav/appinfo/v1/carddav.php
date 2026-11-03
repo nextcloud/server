@@ -21,6 +21,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -105,6 +106,9 @@ $server->addPlugin(new ImageExportPlugin(Server::get(PhotoCache::class)));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', Server::get(LoggerInterface::class)));
 $server->addPlugin(Server::get(CardDavRateLimitingPlugin::class));
 $server->addPlugin(Server::get(CardDavValidatePlugin::class));
+
+// allow setup of additional plugins
+Server::get(IEventDispatcher::class)->dispatchTyped(new SabrePluginAddEvent($server));
 
 // And off we go!
 $server->start();
