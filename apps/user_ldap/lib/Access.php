@@ -381,9 +381,13 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * returns a DN-string that is cleaned from not domain parts, e.g.
-	 * cn=foo,cn=bar,dc=foobar,dc=server,dc=org
-	 * becomes dc=foobar,dc=server,dc=org
+	 * Returns the domain DN portion of a full DN, from the first dc= component onward.
+	 *
+	 * For example, cn=foo,cn=bar,dc=foobar,dc=server,dc=org
+	 * becomes dc=foobar,dc=server,dc=org.
+	 *
+	 * Returns an empty string if the input is not a valid DN or if no dc=
+	 * component is present.
 	 *
 	 * @param string $dn
 	 * @return string
@@ -391,19 +395,24 @@ class Access extends LDAPUtility {
 	public function getDomainDNFromDN($dn) {
 		$allParts = $this->ldap->explodeDN($dn, 0);
 		if ($allParts === false) {
-			//not a valid DN
+			// not a valid DN
 			return '';
 		}
+
 		$domainParts = [];
 		$dcFound = false;
-		foreach ($allParts as $part) {
-			if (!$dcFound && str_starts_with($part, 'dc=')) {
+		foreach ($allParts as $key => $part) {
+			if ($key === 'count' || !is_string($part)) {
+				continue;
+			}
+			if (!$dcFound && strncasecmp($part, 'dc=', 3) === 0) {
 				$dcFound = true;
 			}
 			if ($dcFound) {
 				$domainParts[] = $part;
 			}
 		}
+
 		return implode(',', $domainParts);
 	}
 
@@ -1834,6 +1843,10 @@ class Access extends LDAPUtility {
 	 */
 	public function getSID($dn) {
 		$domainDN = $this->getDomainDNFromDN($dn);
+		if ($domainDN === '') {
+			return false;
+		}
+
 		$cacheKey = 'getSID-' . $domainDN;
 		$sid = $this->connection->getFromCache($cacheKey);
 		if (!is_null($sid)) {
