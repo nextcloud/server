@@ -154,6 +154,9 @@ class RegistrationContext {
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
 
+	/** @var NodeAttributeProviderRegistration[] */
+	private array $nodeAttributeProviders = [];
+
 	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
 	private array $declarativeSettings = [];
 
@@ -387,6 +390,15 @@ class RegistrationContext {
 				$this->context->registerReferenceProvider(
 					$this->appId,
 					$class
+				);
+			}
+
+			#[\Override]
+			public function registerNodeAttributeProvider(string $class, array $attributes): void {
+				$this->context->registerNodeAttributeProvider(
+					$this->appId,
+					$class,
+					$attributes
 				);
 			}
 
@@ -634,6 +646,13 @@ class RegistrationContext {
 
 	public function registerReferenceProvider(string $appId, string $class): void {
 		$this->referenceProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @param list<string> $attributes
+	 */
+	public function registerNodeAttributeProvider(string $appId, string $class, array $attributes): void {
+		$this->nodeAttributeProviders[] = new NodeAttributeProviderRegistration($appId, $class, $attributes);
 	}
 
 	/**
@@ -1028,6 +1047,13 @@ class RegistrationContext {
 	 */
 	public function getPreviewProviders(): array {
 		return $this->previewProviders;
+	}
+
+	/**
+	 * @return NodeAttributeProviderRegistration[]
+	 */
+	public function getNodeAttributeProviders(): array {
+		return $this->nodeAttributeProviders;
 	}
 
 	/**

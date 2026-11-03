@@ -14,7 +14,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
@@ -46,7 +45,6 @@ $serverFactory = new ServerFactory(
 	Server::get(IMountManager::class),
 	Server::get(ITagManager::class),
 	Server::get(IRequest::class),
-	Server::get(IPreview::class),
 	$dispatcher,
 	Server::get(IL10nFactory::class)->get('dav')
 );
