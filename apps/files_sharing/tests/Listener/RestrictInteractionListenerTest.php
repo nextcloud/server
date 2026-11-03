@@ -33,12 +33,15 @@ use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 #[Group('DB')]
 final class RestrictInteractionListenerTest extends TestCase {
 	private IUser $user;
+	private ?IUser $recipient = null;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -53,6 +56,10 @@ final class RestrictInteractionListenerTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		Server::get(ISetupManager::class)->tearDown();
+
+		if ($this->recipient !== null) {
+			$this->assertTrue($this->recipient->delete());
+		}
 
 		$this->assertTrue($this->user->delete());
 
@@ -79,25 +86,83 @@ final class RestrictInteractionListenerTest extends TestCase {
 	}
 
 	public function testNodeResourceShareActionSharePermissionOnOtherPath(): void {
+		$userManager = Server::get(IUserManager::class);
+		$shareManager = Server::get(IManager::class);
+		$setupManager = Server::get(ISetupManager::class);
+
+		$recipient = $userManager->createUser('recipient', 'password');
+		$this->assertInstanceOf(IUser::class, $recipient);
+		$this->recipient = $recipient;
+
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
+		$parentNode = $userFolder->newFolder('parent');
+		$childNode = $parentNode->newFolder('child');
 
-		$fileNode = $userFolder->newFile('foo.txt', 'bar');
-		$fileNode->getStorage()->getCache()->update($fileNode->getId(), ['permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE]);
-		$fileNode = $userFolder->getFirstNodeById($fileNode->getId());
-		$this->assertNotNull($fileNode);
+		// The recipient reaches the child through both a shareable parent mount and a read-only direct mount.
+		$parentShare = $shareManager->newShare()
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith($recipient->getUID())
+			->setSharedBy($this->user->getUID())
+			->setShareOwner($this->user->getUID())
+			->setNode($parentNode)
+			->setPermissions(Constants::PERMISSION_ALL);
+		$parentShare = $shareManager->createShare($parentShare);
+		$shareManager->acceptShare($parentShare, $recipient->getUID());
 
-		$folderNode = $userFolder->newFolder('foo');
-		$folderNode->getStorage()->getCache()->update($folderNode->getId(), ['permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE]);
-		$folderNode = $userFolder->getFirstNodeById($folderNode->getId());
-		$this->assertNotNull($folderNode);
+		$childShare = $shareManager->newShare()
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith($recipient->getUID())
+			->setSharedBy($this->user->getUID())
+			->setShareOwner($this->user->getUID())
+			->setNode($childNode)
+			->setPermissions(Constants::PERMISSION_READ);
+		$childShare = $shareManager->createShare($childShare);
+		$shareManager->acceptShare($childShare, $recipient->getUID());
 
-		// The node found first has no share permission, but another path to the same file id has,
-		// which is reflected by the merged permissions of the resource.
-		foreach ([$fileNode, $folderNode] as $node) {
-			$resource = new NodeResource($node->getId(), $this->user->getUID(), $node, Constants::PERMISSION_ALL);
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction(), []);
-			$this->assertFalse($event->isInteractionRestricted());
+		$setupManager->tearDown();
+		$setupManager->setupForUser($recipient);
+
+		$recipientFolder = Server::get(IRootFolder::class)->getUserFolder($recipient->getUID());
+		$nodes = $recipientFolder->getById($childNode->getId());
+
+		$this->assertCount(2, $nodes);
+
+		$readOnlyNode = null;
+		$shareableNode = null;
+		foreach ($nodes as $node) {
+			if (($node->getPermissions() & Constants::PERMISSION_SHARE) === 0) {
+				$readOnlyNode = $node;
+			} else {
+				$shareableNode = $node;
+			}
 		}
+
+		$this->assertNotNull($readOnlyNode);
+		$this->assertNotNull($shareableNode);
+		$this->assertNotSame($readOnlyNode->getPath(), $shareableNode->getPath());
+		$this->assertSame(0, $readOnlyNode->getPermissions() & Constants::PERMISSION_SHARE);
+		$this->assertSame(Constants::PERMISSION_SHARE, $shareableNode->getPermissions() & Constants::PERMISSION_SHARE);
+
+		$resource = new NodeResource(
+			$childNode->getId(),
+			$recipient->getUID(),
+			$readOnlyNode,
+		);
+
+		$this->assertSame(
+			Constants::PERMISSION_SHARE,
+			$resource->getNodePermissions() & Constants::PERMISSION_SHARE,
+		);
+
+		$event = new RestrictInteractionEvent(
+			$recipient->getUID(),
+			$recipient,
+			[$resource],
+			new ShareAction(),
+			[],
+		);
+
+		$this->assertFalse($event->isInteractionRestricted());
 	}
 
 	public function testNodeResourceShareActionNotHomeFolder(): void {
