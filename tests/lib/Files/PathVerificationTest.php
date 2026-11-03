@@ -103,12 +103,11 @@ class PathVerificationTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesValidPosixPaths')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testPathVerificationValidPaths($fileName): void {
 		$storage = new Local(['datadir' => '']);
 
 		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
-		// nothing thrown
-		$this->addToAssertionCount(1);
 	}
 
 	public static function providesValidPosixPaths(): array {
