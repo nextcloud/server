@@ -94,7 +94,7 @@ async function save(): Promise<false | undefined> {
 		isForm
 		:buttons="buttons">
 		<!-- NcModal ignores Escape pressed in any input, radios and checkboxes included -->
-		<div ref="content" class="access-dialog" @keydown.esc="open = false">
+		<div ref="content" :class="$style.accessDialog" @keydown.esc="open = false">
 			<NcTextField
 				v-if="!token"
 				v-model="name"
@@ -106,8 +106,8 @@ async function save(): Promise<false | undefined> {
 	</NcDialog>
 </template>
 
-<style lang="scss" scoped>
-.access-dialog {
+<style module>
+.accessDialog {
 	display: flex;
 	flex-direction: column;
 	gap: calc(4 * var(--default-grid-baseline));

@@ -48,7 +48,7 @@ function toggle(grant: Grant, on: boolean) {
 </script>
 
 <template>
-	<div class="access-picker">
+	<div :class="$style.accessPicker">
 		<NcRadioGroup v-model="preset" :label="t('settings', 'Access')">
 			<NcCheckboxRadioSwitch value="all" :description="t('settings', 'Everything you can do, including your settings and any admin rights you have.')">
 				{{ t('settings', 'All access') }}
@@ -67,7 +67,7 @@ function toggle(grant: Grant, on: boolean) {
 		<div
 			v-if="preset === 'custom'"
 			ref="areas"
-			class="access-picker__areas"
+			:class="$style.accessPicker__areas"
 			role="group"
 			:aria-label="t('settings', 'Custom access')">
 			<template v-for="area in AREAS" :key="area">
@@ -78,7 +78,7 @@ function toggle(grant: Grant, on: boolean) {
 					@update:modelValue="toggle(area, $event)">
 					{{ GRANT_LABELS[area] }}
 				</NcCheckboxRadioSwitch>
-				<div class="access-picker__options">
+				<div :class="$style.accessPicker__options">
 					<NcCheckboxRadioSwitch
 						v-for="option in AREA_OPTIONS[area]"
 						:key="option"
@@ -96,18 +96,18 @@ function toggle(grant: Grant, on: boolean) {
 	</div>
 </template>
 
-<style lang="scss" scoped>
-.access-picker {
+<style module>
+.accessPicker {
 	display: flex;
 	flex-direction: column;
 	gap: calc(2 * var(--default-grid-baseline));
+}
 
-	&__areas {
-		padding-inline-start: calc(4 * var(--default-grid-baseline));
-	}
+.accessPicker__areas {
+	padding-inline-start: calc(4 * var(--default-grid-baseline));
+}
 
-	&__options {
-		padding-inline-start: calc(8 * var(--default-grid-baseline));
-	}
+.accessPicker__options {
+	padding-inline-start: calc(8 * var(--default-grid-baseline));
 }
 </style>
