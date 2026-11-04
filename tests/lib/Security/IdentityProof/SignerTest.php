@@ -12,6 +12,7 @@ namespace Test\Security\IdentityProof;
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager;
 use OC\Security\IdentityProof\Signer;
+use OCP\Security\IdentityProof\Algorithm;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -78,7 +79,7 @@ gQIDAQAB
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->key = new Key($this->public, $this->private);
+		$this->key = new Key($this->public, $this->private, Algorithm::Rsa2048);
 
 		$this->keyManager = $this->createMock(Manager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

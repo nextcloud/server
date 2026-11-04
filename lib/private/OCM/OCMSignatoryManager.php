@@ -126,15 +126,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		 * based on the requested interface (ie. only accept shares from globalscale)
 		 */
 		$keyId = $this->buildLocalKeyId(self::KEYID_FRAGMENT_CAVAGE);
-
-		if (!$this->identityProofManager->hasAppKey('core', self::APPKEY_CAVAGE)) {
-			$this->identityProofManager->generateAppKey('core', self::APPKEY_CAVAGE, [
-				'algorithm' => 'rsa',
-				'private_key_bits' => 2048,
-				'private_key_type' => OPENSSL_KEYTYPE_RSA,
-			]);
-		}
-		$keyPair = $this->identityProofManager->getAppKey('core', self::APPKEY_CAVAGE);
+		$keyPair = $this->identityProofManager->getAppKey('core', \OCP\Security\IdentityProof\Algorithm::Rsa2048, self::APPKEY_CAVAGE);
 
 		$signatory = new Signatory(true);
 		$signatory->setKeyId($keyId);
@@ -279,7 +271,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		$poolId = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0) + 1;
 		$this->appConfig->setValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, $poolId);
 
-		$this->identityProofManager->generateEcdsaP256AppKey('core', self::APPKEY_JWKS_POOL_PREFIX . $poolId);
+		$this->identityProofManager->getAppKey('core', \OCP\Security\IdentityProof\Algorithm::Es256, self::APPKEY_JWKS_POOL_PREFIX . $poolId);
 		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, $this->canonicalKid($kid));
 		return $poolId;
 	}
@@ -367,7 +359,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		if ($kid === '') {
 			return null;
 		}
-		$keyPair = $this->identityProofManager->getAppKey('core', $appKey);
+		$keyPair = $this->identityProofManager->getAppKey('core', \OCP\Security\IdentityProof\Algorithm::Es256, $appKey);
 		$signatory = new Signatory(true);
 		$signatory->setKeyId($kid);
 		$signatory->setPublicKey($keyPair->getPublic());

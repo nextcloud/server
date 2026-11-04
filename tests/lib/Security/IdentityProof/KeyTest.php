@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Test\Security\IdentityProof;
 
 use OC\Security\IdentityProof\Key;
+use OCP\Security\IdentityProof\Algorithm;
 use Test\TestCase;
 
 class KeyTest extends TestCase {
@@ -20,7 +21,7 @@ class KeyTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->key = new Key('public', 'private');
+		$this->key = new Key('public', 'private', Algorithm::Es384);
 	}
 
 	public function testGetPrivate(): void {
@@ -29,5 +30,9 @@ class KeyTest extends TestCase {
 
 	public function testGetPublic(): void {
 		$this->assertSame('public', $this->key->getPublic());
+	}
+
+	public function testGetAlgorithm(): void {
+		$this->assertSame(Algorithm::Es384, $this->key->getAlgorithm());
 	}
 }

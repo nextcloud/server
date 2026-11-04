@@ -19,6 +19,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\Security\IdentityProof\Algorithm;
 use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\ISignatureManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -250,21 +251,21 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->identityProofManager->method('hasAppKey')->willReturnCallback(
 			fn (string $app, string $name): bool => isset($this->appKeyStore[$app . '/' . $name])
 		);
-		$this->identityProofManager->method('generateEcdsaP256AppKey')->willReturnCallback(
-			function (string $app, string $name): Key {
+		$this->identityProofManager->method('getAppKey')->willReturnCallback(
+			function (string $app, Algorithm $algorithm, string $name): Key {
+				if (isset($this->appKeyStore[$app . '/' . $name])) {
+					return $this->appKeyStore[$app . '/' . $name];
+				}
 				$res = openssl_pkey_new([
 					'private_key_type' => OPENSSL_KEYTYPE_EC,
 					'curve_name' => 'prime256v1',
 				]);
 				openssl_pkey_export($res, $privatePem);
 				$publicPem = openssl_pkey_get_details($res)['key'];
-				$key = new Key($publicPem, $privatePem);
+				$key = new Key($publicPem, $privatePem, $algorithm);
 				$this->appKeyStore[$app . '/' . $name] = $key;
 				return $key;
 			}
-		);
-		$this->identityProofManager->method('getAppKey')->willReturnCallback(
-			fn (string $app, string $name): Key => $this->appKeyStore[$app . '/' . $name]
 		);
 		$this->identityProofManager->method('deleteAppKey')->willReturnCallback(
 			function (string $app, string $name): bool {
