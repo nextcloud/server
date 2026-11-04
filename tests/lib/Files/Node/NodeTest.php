@@ -9,19 +9,23 @@ namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
+use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
+use Test\TestMoveableMountPoint;
 
 /**
  * Class NodeTest
@@ -702,6 +706,50 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
+	public static function moveSourcePermissionsProvider(): array {
+		return [
+			'move needs delete' => ['/other/asd', Constants::PERMISSION_ALL & ~Constants::PERMISSION_DELETE, false, false],
+			'move with delete' => ['/other/asd', Constants::PERMISSION_READ | Constants::PERMISSION_DELETE, false, true],
+			'move of a movable mount' => ['/other/asd', Constants::PERMISSION_READ, true, true],
+			'rename needs update or delete' => ['/bar/asd', Constants::PERMISSION_READ, false, false],
+			'rename with update' => ['/bar/asd', Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE, false, true],
+			'rename with delete' => ['/bar/asd', Constants::PERMISSION_READ | Constants::PERMISSION_DELETE, false, true],
+			'rename of a movable mount' => ['/bar/asd', Constants::PERMISSION_READ, true, true],
+		];
+	}
+
+	/**
+	 * @dataProvider moveSourcePermissionsProvider
+	 */
+	public function testMoveSourcePermissions(string $target, int $sourcePermissions, bool $sourceIsMovableMount, bool $allowed): void {
+		$sourceMount = $sourceIsMovableMount
+			? $this->createMock(TestMoveableMountPoint::class)
+			: $this->createMock(IMountPoint::class);
+		$sourceMount->method('getStorage')
+			->willReturn($this->getMockStorage());
+		$sourceInfo = new FileInfo('', $this->getMockStorage(), $sourceIsMovableMount ? '' : 'foo', ['permissions' => $sourcePermissions, 'fileid' => 1], $sourceMount);
+		$parentInfo = $this->getFileInfo(['permissions' => Constants::PERMISSION_ALL, 'fileid' => 2], 'parent');
+
+		$this->view->method('getFileInfo')
+			->willReturnCallback(fn (string $path) => $path === '/bar/foo' ? $sourceInfo : $parentInfo);
+
+		$this->view->expects($allowed ? $this->once() : $this->never())
+			->method('rename')
+			->with('/bar/foo', $target)
+			->willReturn(true);
+
+		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
+		$parentNode = new Folder($this->root, $this->view, dirname($target));
+
+		$this->root->method('get')
+			->willReturnMap([[dirname($target), $parentNode], [$target, $node]]);
+
+		if (!$allowed) {
+			$this->expectException(NotPermittedException::class);
+		}
+		$node->move($target);
+		$this->assertEquals($target, $node->getPath());
+	}
 
 	public function testMoveNoParent(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
