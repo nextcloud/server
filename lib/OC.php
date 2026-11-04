@@ -18,6 +18,7 @@ use OC\Share20\UserDeletedListener;
 use OC\Share20\UserRemovedListener;
 use OC\User\DisabledUserException;
 use OCP\App\Events\AppsLoadedEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\ISetupManager;
@@ -467,6 +468,7 @@ class OC {
 			$session = new \OC\Session\Internal(
 				$sessionName,
 				logger('core'),
+				Server::get(ITimeFactory::class),
 			);
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);

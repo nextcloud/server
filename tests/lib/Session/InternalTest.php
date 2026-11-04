@@ -12,6 +12,7 @@ namespace Test\Session;
 use OC\Authentication\Token\IProvider;
 use OC\Session\Internal;
 use OC\User\Session as UserSession;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
 use OCP\IConfig;
 use OCP\ITempManager;
@@ -31,12 +32,18 @@ use Test\TestCase;
 #[PreserveGlobalState(enabled: false)]
 class InternalTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $timeFactory;
+	private int $now;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->now = (new \DateTimeImmutable('2024-01-01 00:00:00 UTC'))->getTimestamp();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->timeFactory->method('getTime')
+			->willReturnCallback(fn (): int => $this->now);
 		ini_set('session.save_handler', 'files');
 		ini_set('session.save_path', Server::get(ITempManager::class)->getTemporaryFolder());
 		ini_set('session.serialize_handler', 'php_serialize');
@@ -58,7 +65,7 @@ class InternalTest extends TestCase {
 			session_id($id);
 			$_COOKIE['oc_session_test'] = $id;
 		}
-		return new Internal('oc_session_test', $this->logger);
+		return new Internal('oc_session_test', $this->logger, $this->timeFactory);
 	}
 
 	/**
@@ -99,7 +106,7 @@ class InternalTest extends TestCase {
 
 	private function markSupersededLongAgo(string $id): void {
 		file_put_contents($this->getStoragePath($id), serialize([
-			Internal::SUPERSEDED_AT => time() - Internal::SUPERSEDED_GRACE_PERIOD,
+			Internal::SUPERSEDED_AT => $this->now - Internal::SUPERSEDED_GRACE_PERIOD,
 		]));
 	}
 
@@ -167,7 +174,7 @@ class InternalTest extends TestCase {
 		$session->regenerateId();
 		$session->close();
 
-		$this->assertSame([Internal::SUPERSEDED_AT], array_keys($this->readStoredSession($oldId)));
+		$this->assertSame([Internal::SUPERSEDED_AT => $this->now], $this->readStoredSession($oldId));
 	}
 
 	public function testRegenerateIdDeletesOldIdTheClientDidNotSend(): void {
@@ -200,9 +207,20 @@ class InternalTest extends TestCase {
 		$this->assertFalse((bool)ini_get('session.use_cookies'));
 	}
 
+	public function testRequestStartingWithinGracePeriodGetsFreshSessionWithoutCookie(): void {
+		$oldId = $this->createSupersededId();
+		$this->now += Internal::SUPERSEDED_GRACE_PERIOD - 1;
+
+		$staleSession = $this->startRequest($oldId);
+
+		$this->assertNotSame($oldId, $staleSession->getId());
+		$this->assertFalse($staleSession->exists('foo'));
+		$this->assertFalse((bool)ini_get('session.use_cookies'));
+	}
+
 	public function testRequestStartingAfterGracePeriodGetsFreshSessionWithCookie(): void {
 		$oldId = $this->createSupersededId();
-		$this->markSupersededLongAgo($oldId);
+		$this->now += Internal::SUPERSEDED_GRACE_PERIOD;
 
 		$staleSession = $this->startRequest($oldId);
 
@@ -303,7 +321,7 @@ class InternalTest extends TestCase {
 		$concurrentRequest = $this->startRequest($oldId);
 		$concurrentRequest->regenerateId();
 		$concurrentRequest->close();
-		$this->markSupersededLongAgo($oldId);
+		$this->now += Internal::SUPERSEDED_GRACE_PERIOD;
 
 		// This request still runs on the old id and started before the regeneration
 		session_id($oldId);
