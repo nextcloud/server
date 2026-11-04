@@ -19,8 +19,8 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
-	/** Covers the EXIF segment at the start of a JPEG */
-	private const EXIF_HEAD_SIZE = 256 * 1024;
+	/** Covers the EXIF and ICC profile segments at the start of a JPEG or PNG */
+	private const HEAD_SIZE = 256 * 1024;
 
 	/** @var IConfig */
 	private $config;
@@ -109,15 +109,20 @@ class Imaginary extends ProviderV2 {
 		}
 
 		$body = $stream;
-		if ($autorotate && $file->getMimeType() === 'image/jpeg') {
-			// Each pipeline operation re-encodes the full image, only rotate when needed
-			$head = fread($stream, self::EXIF_HEAD_SIZE);
+		$head = '';
+		if (in_array($file->getMimeType(), ['image/jpeg', 'image/png'], true)) {
+			$head = fread($stream, self::HEAD_SIZE);
 			if ($head === false) {
 				return null;
 			}
-			$autorotate = $this->needsRotation($head);
 			$body = new AppendStream([Utils::streamFor($head), Utils::streamFor($stream)]);
 		}
+		if ($autorotate && $file->getMimeType() === 'image/jpeg') {
+			// Each pipeline operation re-encodes the full image, only rotate when needed
+			$autorotate = $this->needsRotation($head);
+		}
+		// Imaginary strips the colour profile along with the other metadata
+		$iccProfile = $mimeType === 'webp' ? null : Image::getIccProfile($head);
 
 		$operations = [];
 
@@ -183,19 +188,27 @@ class Imaginary extends ProviderV2 {
 			return null;
 		}
 
+		$responseBody = $response->getBody();
+		if ($iccProfile !== null) {
+			$data = Image::embedIccProfile(is_resource($responseBody) ? (string)stream_get_contents($responseBody) : $responseBody, $iccProfile);
+			$responseBody = fopen('php://temp', 'r+');
+			fwrite($responseBody, $data);
+			rewind($responseBody);
+		}
+
 		// This is not optimal but previews are distorted if the wrong width and height values are
 		// used. Both dimension headers are only sent when passing the option "-return-size" to
 		// Imaginary.
 		if ($response->getHeader('Image-Width') && $response->getHeader('Image-Height')) {
 			$image = new StreamImage(
-				$response->getBody(),
+				$responseBody,
 				$response->getHeader('Content-Type'),
 				(int)$response->getHeader('Image-Width'),
 				(int)$response->getHeader('Image-Height'),
 			);
 		} else {
 			$image = new Image();
-			$image->loadFromFileHandle($response->getBody());
+			$image->loadFromFileHandle($responseBody);
 		}
 
 		return $image->valid() ? $image : null;

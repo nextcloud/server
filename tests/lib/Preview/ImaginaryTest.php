@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Preview;
 
+use OC\Image;
 use OC\Preview\Imaginary;
 use OCP\Files\File;
 use OCP\Http\Client\IClient;
@@ -89,5 +90,45 @@ class ImaginaryTest extends TestCase {
 
 		$preview = (new Imaginary([]))->getThumbnail($file, 256, 256);
 		$this->assertNotNull($preview);
+	}
+
+	#[TestWith(['testimage-icc-p3.jpg', true, true])]
+	#[TestWith(['testimage-icc-p3.jpg', false, true])]
+	#[TestWith(['testimage-icc-srgb.jpg', true, false])]
+	#[TestWith(['testimage.jpg', true, false])]
+	public function testColourProfileOfSourceReattached(string $source, bool $withSizeHeaders, bool $expectProfile): void {
+		$jpeg = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $source);
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $jpeg);
+		rewind($stream);
+
+		$file = $this->createMock(File::class);
+		$file->method('getSize')->willReturn(strlen($jpeg));
+		$file->method('getMimeType')->willReturn('image/jpeg');
+		$file->method('fopen')->willReturn($stream);
+
+		// Imaginary strips all metadata from its output
+		$stripped = $this->getJpeg(null);
+		$response = $this->createMock(IResponse::class);
+		$response->method('getStatusCode')->willReturn(200);
+		$response->method('getHeader')->willReturnCallback(fn (string $name): string => match ($name) {
+			'Image-Width' => $withSizeHeaders ? '40' : '',
+			'Image-Height' => $withSizeHeaders ? '30' : '',
+			'Content-Type' => 'image/jpeg',
+			default => '',
+		});
+		$responseBody = fopen('php://memory', 'r+');
+		fwrite($responseBody, $stripped);
+		rewind($responseBody);
+		$response->method('getBody')->willReturn($responseBody);
+		$this->client->method('post')->willReturn($response);
+
+		$preview = (new Imaginary([]))->getThumbnail($file, 256, 256);
+		$this->assertNotNull($preview);
+		$data = $withSizeHeaders ? stream_get_contents($preview->resource()) : $preview->data();
+		$this->assertSame($expectProfile ? Image::getIccProfile($jpeg) : null, Image::getIccProfile($data));
+		if (!$expectProfile && $withSizeHeaders) {
+			$this->assertSame($stripped, $data);
+		}
 	}
 }

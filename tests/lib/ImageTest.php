@@ -381,4 +381,270 @@ class ImageTest extends \Test\TestCase {
 		$img->loadFromData($data);
 		$this->assertFalse($img->valid());
 	}
+
+	/**
+	 * Returns the reassembled ICC profile from the APP2 segments of a JPEG,
+	 * or null if there is none.
+	 */
+	private static function iccProfileOfJpeg(string $data): ?string {
+		if (!str_starts_with($data, "\xFF\xD8")) {
+			throw new \UnexpectedValueException('Not a JPEG');
+		}
+		$chunks = [];
+		$pos = 2;
+		while (true) {
+			if ($pos + 4 > strlen($data) || $data[$pos] !== "\xFF") {
+				throw new \UnexpectedValueException('Malformed JPEG segment at ' . $pos);
+			}
+			$marker = ord($data[$pos + 1]);
+			if ($marker === 0xDA) {
+				break;
+			}
+			$length = unpack('n', $data, $pos + 2)[1];
+			$payload = substr($data, $pos + 4, $length - 2);
+			if ($marker === 0xE2 && str_starts_with($payload, "ICC_PROFILE\x00")) {
+				$chunks[ord($payload[12])] = substr($payload, 14);
+			}
+			$pos += 2 + $length;
+		}
+		if ($chunks === []) {
+			return null;
+		}
+		ksort($chunks);
+		return implode('', $chunks);
+	}
+
+	/**
+	 * Returns the ICC profile from the iCCP chunk of a PNG, or null if there is none.
+	 */
+	private static function iccProfileOfPng(string $data): ?string {
+		if (!str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
+			throw new \UnexpectedValueException('Not a PNG');
+		}
+		$pos = 8;
+		while ($pos + 12 <= strlen($data)) {
+			$length = unpack('N', $data, $pos)[1];
+			$type = substr($data, $pos + 4, 4);
+			if ($type === 'IDAT') {
+				break;
+			}
+			if ($type === 'iCCP') {
+				$chunk = substr($data, $pos + 8, $length);
+				if (unpack('N', $data, $pos + 8 + $length)[1] !== crc32($type . $chunk)) {
+					throw new \UnexpectedValueException('Invalid iCCP checksum');
+				}
+				$separator = strpos($chunk, "\x00");
+				return gzuncompress(substr($chunk, $separator + 2));
+			}
+			$pos += 12 + $length;
+		}
+		return null;
+	}
+
+	public function testIccProfilePreservedInJpeg(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+		$this->assertNotNull($sourceProfile);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromData($source);
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromBase64(base64_encode($source));
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testIccProfilePreservedAcrossResizeAndCrop(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$img->resize(32);
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->resizeCopy(32)->data()));
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->preciseResizeCopy(32, 16)->data()));
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->cropCopy(0, 0, 16, 16)->data()));
+	}
+
+	public function testIccProfilePreservedInPngOutput(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
+		$img->save($tempFile, 'image/png');
+		$this->assertEquals($sourceProfile, self::iccProfileOfPng(file_get_contents($tempFile)));
+		unlink($tempFile);
+	}
+
+	public function testIccProfilePreservedFromPngSource(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.png');
+		$sourceProfile = self::iccProfileOfPng($source);
+		$this->assertNotNull($sourceProfile);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.png');
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfPng($img->data()));
+	}
+
+	public function testIccProfileNotInventedForUntaggedImage(): void {
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	/**
+	 * Returns a structurally valid RGB ICC profile of the given size.
+	 */
+	private static function rgbIccProfile(int $size): string {
+		$header = pack('N', $size) . str_repeat("\x00", 12) . 'RGB XYZ ' . str_repeat("\x00", 12) . 'acsp';
+		return str_pad($header, $size, "\x00");
+	}
+
+	/**
+	 * Inserts the profile as APP2 segments right after the SOI marker of a JPEG.
+	 */
+	private static function jpegWithIccProfile(string $jpeg, string $profile): string {
+		$chunks = str_split($profile, 65519);
+		$segments = '';
+		foreach ($chunks as $index => $chunk) {
+			$payload = "ICC_PROFILE\x00" . chr($index + 1) . chr(count($chunks)) . $chunk;
+			$segments .= "\xFF\xE2" . pack('n', strlen($payload) + 2) . $payload;
+		}
+		return substr($jpeg, 0, 2) . $segments . substr($jpeg, 2);
+	}
+
+	public function testOversizedIccProfileNotPreserved(): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, self::rgbIccProfile(1024)));
+		$this->assertNotNull(self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, self::rgbIccProfile(100 * 1024)));
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testIccProfileWithWrongDeclaredSizeNotPreserved(): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$profile = substr_replace(self::rgbIccProfile(1024), pack('N', 2048), 0, 4);
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, $profile));
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testIccProfileReadFromFileAfterLargeMetadata(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+		$padding = str_repeat("\xFF\xE1" . pack('n', 65535) . str_repeat("\x00", 65533), 140);
+		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
+		file_put_contents($tempFile, substr($source, 0, 2) . $padding . substr($source, 2));
+
+		$img = new Image();
+		$img->loadFromFile($tempFile);
+		unlink($tempFile);
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testCompressedIccProfileBombNotInflated(): void {
+		ob_start();
+		imagepng(imagecreatetruecolor(4, 4));
+		$png = ob_get_clean();
+		$chunkData = "ICC profile\x00\x00" . gzcompress(str_repeat("\x00", 16 * 1024 * 1024), 9);
+		$chunk = pack('N', strlen($chunkData)) . 'iCCP' . $chunkData . pack('N', crc32('iCCP' . $chunkData));
+		$png = substr($png, 0, 33) . $chunk . substr($png, 33);
+
+		$memoryBefore = memory_get_usage();
+		memory_reset_peak_usage();
+		$img = new Image();
+		$img->loadFromData($png);
+		$this->assertLessThan(4 * 1024 * 1024, memory_get_peak_usage() - $memoryBefore);
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfPng($img->data()));
+	}
+
+	public function testSrgbIccProfileNotEmbedded(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-srgb.jpg');
+		$this->assertNotNull(self::iccProfileOfJpeg($source));
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-srgb.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	/**
+	 * Returns a matrix/TRC RGB ICC profile with the given colorants and a pure gamma tone curve.
+	 *
+	 * @param list<list<float>> $colorants red, green and blue XYZ values
+	 */
+	private static function matrixIccProfile(array $colorants, float $gamma): string {
+		$tags = [];
+		foreach (['rXYZ', 'gXYZ', 'bXYZ'] as $index => $signature) {
+			$tags[$signature] = 'XYZ ' . str_repeat("\x00", 4)
+				. implode('', array_map(fn (float $value) => pack('N', (int)round($value * 65536) & 0xFFFFFFFF), $colorants[$index]));
+		}
+		foreach (['rTRC', 'gTRC', 'bTRC'] as $signature) {
+			$tags[$signature] = 'curv' . str_repeat("\x00", 4) . pack('N', 1) . pack('n', (int)round($gamma * 256)) . "\x00\x00";
+		}
+		$offset = 132 + 12 * count($tags);
+		$table = pack('N', count($tags));
+		$data = '';
+		foreach ($tags as $signature => $tag) {
+			$table .= $signature . pack('NN', $offset + strlen($data), strlen($tag));
+			$data .= $tag;
+		}
+		$size = $offset + strlen($data);
+		$header = pack('N', $size) . str_repeat("\x00", 12) . 'RGB XYZ ' . str_repeat("\x00", 12) . 'acsp';
+		return str_pad($header, 128, "\x00") . $table . $data;
+	}
+
+	public static function dataMatrixIccProfiles(): array {
+		$srgb = [[0.4361, 0.2225, 0.0139], [0.3851, 0.7169, 0.0971], [0.1431, 0.0606, 0.7141]];
+		$displayP3 = [[0.5151, 0.2412, -0.0011], [0.2920, 0.6922, 0.0419], [0.1571, 0.0666, 0.7841]];
+		return [
+			'sRGB primaries with gamma 2.2' => [$srgb, 2.2, false],
+			'linear sRGB' => [$srgb, 1.0, true],
+			'Display P3 primaries' => [$displayP3, 2.2, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatrixIccProfiles')]
+	public function testOnlyNonSrgbIccProfilesEmbedded(array $colorants, float $gamma, bool $embedded): void {
+		$jpeg = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$profile = self::matrixIccProfile($colorants, $gamma);
+
+		$img = new Image();
+		$img->loadFromData(self::jpegWithIccProfile($jpeg, $profile));
+		$this->assertTrue($img->valid());
+		$this->assertSame($embedded ? $profile : null, self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testNonRgbIccProfileNotPreserved(): void {
+		// GD converts CMYK pixel data to RGB on load, the source profile no longer applies
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-cmyk.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
 }
