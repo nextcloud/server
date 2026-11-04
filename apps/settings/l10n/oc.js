@@ -182,6 +182,7 @@ OC.L10N.register(
     "Error" : "Error",
     "Documentation" : "Documentacion",
     "Forum" : "Forum",
+    "Legal notice" : "Avís legal",
     "Version" : "Version",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desvolopat per la {communityopen}comunautat Nextcloud{linkclose}, lo {githubopen}còdi font{linkclose} es jos licéncia {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Aimar nòstra pagina Facebook",

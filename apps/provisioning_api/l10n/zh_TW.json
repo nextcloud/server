@@ -1,5 +1,7 @@
 { "translations": {
     "Logged in account must be an administrator or have authorization to edit this setting." : "登入的帳號必須為管理員或是有權編輯此設定的帳號。",
+    "The given value was rejected" : "所提供的值已被拒絕",
+    "Deleting the given key was rejected" : "刪除指定金鑰的請求遭拒絕",
     "Could not create non-existing user ID" : "無法建立不存在的使用者 ID",
     "User already exists" : "使用者已存在",
     "Group %1$s does not exist" : "群組 %1$s 不存在",
