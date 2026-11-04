@@ -11,179 +11,179 @@ namespace Test\Actor;
 
 use Closure;
 use InvalidArgumentException;
-use NCU\Actor\Actor;
-use NCU\Actor\DelegationKind;
-use NCU\Actor\Principal;
-use NCU\Actor\PrincipalType;
+use LogicException;
+use OCP\Actor\Actor;
+use OCP\Actor\Principal;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class ActorTest extends TestCase {
 
-	public function testActorOf(): void {
-		$alice = Principal::user('alice');
-		$actor = Actor::of($alice);
+	public static function dataActors(): array {
+		return [
+			'user' => [fn () => Actor::of(Principal::user('alice')), 'user|alice', null, 'user|alice'],
+			'federated user' => [fn () => Actor::of(Principal::user('bob', 'cloud.example')), 'user|bob@cloud.example', null, 'user|bob@cloud.example'],
+			'anonymous' => [
+				fn () => Actor::of(Principal::anonymous('sharetoken', 'files_sharing:visitor')),
+				'anonymous|sharetoken|files_sharing:visitor', null, 'anonymous|sharetoken|files_sharing:visitor',
+			],
+			'system' => [fn () => Actor::of(Principal::system('sync', 'calendar')), 'system|sync|calendar', null, 'system|sync|calendar'],
+			'user acts for user' => [
+				fn () => Actor::of(Principal::user('alice'))->onBehalfOf(Principal::user('bob')),
+				'user|bob', 'user|alice', 'user|bob#user|alice',
+			],
+			'bot acts for user' => [
+				fn () => Actor::of(Principal::bot('summarizer', 'spreed'))->onBehalfOf(Principal::user('alice')),
+				'user|alice', 'bot|summarizer|spreed', 'user|alice#bot|summarizer|spreed',
+			],
+			'system acts for user' => [
+				fn () => Actor::of(Principal::system('retention', 'files_versions'))->onBehalfOf(Principal::user('alice')),
+				'user|alice', 'system|retention|files_versions', 'user|alice#system|retention|files_versions',
+			],
+			'user acts for system' => [
+				fn () => Actor::of(Principal::user('alice'))->onBehalfOf(Principal::system('occ', 'core')),
+				'system|occ|core', 'user|alice', 'system|occ|core#user|alice',
+			],
+			'anonymous with delegate delimiter in visitor id' => [
+				fn () => Actor::of(Principal::anonymous('sharetoken', 'files_sharing:visitor', 'v#user|alice')),
+				'anonymous|sharetoken@v%23user%7Calice|files_sharing:visitor', null, 'anonymous|sharetoken@v%23user%7Calice|files_sharing:visitor',
+			],
+		];
+	}
 
+	/**
+	 * @param Closure(): Actor $createActor
+	 */
+	#[DataProvider(methodName: 'dataActors')]
+	public function testActors(Closure $createActor, string $principalKey, ?string $delegateKey, string $key): void {
+		$actor = $createActor();
+
+		$this->assertSame($principalKey, $actor->principal->key());
+		$this->assertSame($delegateKey, $actor->delegate?->key());
+		$this->assertSame($delegateKey !== null, $actor->isDelegated());
+		$this->assertSame($key, $actor->key());
+	}
+
+	public function testOnBehalfOf(): void {
+		$alice = Principal::user('alice');
+		$bob = Principal::user('bob');
+		$actor = Actor::of($alice);
+		$delegated = $actor->onBehalfOf($bob);
+
+		$this->assertSame($bob, $delegated->principal);
+		$this->assertSame($alice, $delegated->delegate);
 		$this->assertSame($alice, $actor->principal);
 		$this->assertNull($actor->delegate);
-		$this->assertNull($actor->via);
-		$this->assertFalse($actor->isDelegated());
-		$this->assertSame([$alice], $actor->chain());
-		$this->assertSame($alice, $actor->initiator());
 	}
 
-	public static function dataValidLinks(): array {
+	public static function dataInvalidOnBehalfOf(): array {
 		return [
-			'user impersonates user' => [fn () => Actor::of(Principal::user('admin'))->impersonate(Principal::user('alice')), DelegationKind::Impersonation, ['user:alice', 'user:admin']],
-			'bot acts for user' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'bot:summarizer']],
-			'bot acts for federated' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::federated('bob', 'cloud.example')), DelegationKind::OnBehalfOf, ['federated_user:bob@cloud.example', 'bot:summarizer']],
-			'bot acts for external' => [fn () => Actor::of(Principal::bot('summarizer'))->actFor(Principal::external('spreed.guest', 'g1', 'room')), DelegationKind::OnBehalfOf, ['external:g1@room:spreed.guest', 'bot:summarizer']],
-			'system acts for user' => [fn () => Actor::of(Principal::system('files_versions.expire'))->actFor(Principal::user('alice')), DelegationKind::OnBehalfOf, ['user:alice', 'system:files_versions.expire']],
-			'elevation acts for user' => [
-				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice')),
-				DelegationKind::OnBehalfOf, ['user:alice', 'system:files.retention', 'user:admin'],
+			'already delegated' => [
+				fn () => Actor::of(Principal::user('alice'))->onBehalfOf(Principal::user('bob'))->onBehalfOf(Principal::user('carol')),
+				LogicException::class,
+				'A delegated actor cannot act on behalf of another principal',
 			],
-			'alternating elevation and delegation' => [
-				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice'))->elevate(Principal::system('files_versions.expire')),
-				DelegationKind::SystemElevation, ['system:files_versions.expire', 'user:alice', 'system:files.retention', 'user:admin'],
-			],
-			'same component name of different apps' => [
-				fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('retention', 'files'))->actFor(Principal::user('alice'))->elevate(Principal::system('retention', 'governance')),
-				DelegationKind::SystemElevation, ['system:retention:governance', 'user:alice', 'system:retention:files', 'user:admin'],
-			],
-			'user elevates' => [fn () => Actor::of(Principal::user('admin'))->elevate(Principal::system('files.retention')), DelegationKind::SystemElevation, ['system:files.retention', 'user:admin']], 'impersonation elevates' => [
-				fn () => Actor::of(Principal::user('admin'))->impersonate(Principal::user('alice'))->elevate(Principal::system('files.retention')),
-				DelegationKind::SystemElevation, ['system:files.retention', 'user:alice', 'user:admin'],
+			'self' => [
+				fn () => Actor::of(Principal::user('alice'))->onBehalfOf(Principal::user('alice')),
+				InvalidArgumentException::class,
+				'A principal cannot impersonate itself',
 			],
 		];
 	}
 
 	/**
 	 * @param Closure(): Actor $createActor
-	 * @param list<string> $expectedChainKeys
+	 * @param class-string<\Throwable> $exception
 	 */
-	#[DataProvider(methodName: 'dataValidLinks')]
-	public function testValidLinks(Closure $createActor, DelegationKind $expectedVia, array $expectedChainKeys): void {
-		$actor = $createActor();
-		$this->assertTrue($actor->isDelegated());
-		$this->assertSame($expectedVia, $actor->via);
-		$this->assertSame($expectedChainKeys, array_map(static fn (Principal $p) => $p->key(), $actor->chain()));
-		$this->assertSame($expectedChainKeys[0], $actor->principal->key());
-		$this->assertSame(end($expectedChainKeys), $actor->initiator()->key());
-	}
-
-	public static function dataInvalidLinks(): array {
-		$admin = static fn () => Actor::of(Principal::user('admin'));
-		$bot = static fn () => Actor::of(Principal::bot('summarizer'));
-		return [
-			'impersonate external' => [fn () => $admin()->impersonate(Principal::external('spreed.guest', 'g1')), 'Invalid impersonation: only local users can be impersonated'],
-			'impersonate federated' => [fn () => $admin()->impersonate(Principal::federated('bob', 'cloud.example')), 'Invalid impersonation: only local users can be impersonated'],
-			'bot impersonates' => [fn () => $bot()->impersonate(Principal::user('alice')), 'Invalid impersonation: only local users can impersonate'],
-			'nested impersonation' => [fn () => $admin()->impersonate(Principal::user('alice'))->impersonate(Principal::user('bob')), 'Invalid impersonation: nested impersonation is not allowed'],
-			'act for bot' => [fn () => $bot()->actFor(Principal::bot('other')), 'Invalid on_behalf_of: subject must be a human principal'],
-			'act for system' => [fn () => $bot()->actFor(Principal::system('files.retention')), 'Invalid on_behalf_of: subject must be a human principal'],
-			'user acts for user' => [fn () => $admin()->actFor(Principal::user('alice')), 'Invalid on_behalf_of: only bots and system components act on behalf of others'],
-			'elevate to user' => [fn () => $admin()->elevate(Principal::user('alice')), 'Invalid system_elevation: target must be a system principal'],
-			'system elevates to system' => [fn () => Actor::of(Principal::system('a'))->elevate(Principal::system('b')), 'Invalid system_elevation: system cannot elevate to system'],
-			'act for own initiator' => [
-				fn () => Actor::of(Principal::user('alice'))->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice')),
-				'Principal appears more than once in delegation chain',
-			],
-			'self impersonation' => [fn () => $admin()->impersonate(Principal::user('admin')), 'Principal appears more than once in delegation chain'],
-			'repeated principal in the middle of the chain' => [
-				fn () => $admin()->elevate(Principal::system('files.retention'))->actFor(Principal::user('alice'))->elevate(Principal::system('files.retention')),
-				'Principal appears more than once in delegation chain',
-			],
-		];
-	}
-
-	/**
-	 * @param Closure(): Actor $createActor
-	 */
-	#[DataProvider(methodName: 'dataInvalidLinks')]
-	public function testInvalidLinks(Closure $createActor, string $expectedExceptionMessage): void {
-		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage($expectedExceptionMessage);
+	#[DataProvider(methodName: 'dataInvalidOnBehalfOf')]
+	public function testInvalidOnBehalfOf(Closure $createActor, string $exception, string $message): void {
+		$this->expectException($exception);
+		$this->expectExceptionMessage($message);
 		$createActor();
 	}
 
-	public function testInvolves(): void {
-		$actor = Actor::of(Principal::bot('summarizer'))->actFor(Principal::user('alice'));
-
-		$this->assertTrue($actor->involves(PrincipalType::Bot));
-		$this->assertTrue($actor->involves(PrincipalType::User));
-		$this->assertFalse($actor->involves(PrincipalType::System));
+	public function testJsonSerialize(): void {
+		$this->assertSame(
+			'{"principal":{"type":"user","id":"alice","origin":null,"source":null},"delegate":{"type":"bot","id":"summarizer","origin":null,"source":"assistant"}}',
+			json_encode(Actor::of(Principal::bot('summarizer', 'assistant'))->onBehalfOf(Principal::user('alice'))),
+		);
+		$this->assertSame(
+			'{"principal":{"type":"user","id":"alice","origin":null,"source":null},"delegate":null}',
+			json_encode(Actor::of(Principal::user('alice'))),
+		);
 	}
 
 	/**
 	 * @param Closure(): Actor $createActor
 	 */
-	#[DataProvider(methodName: 'dataValidLinks')]
-	public function testToJsonFromArray(Closure $createActor): void {
+	#[DataProvider(methodName: 'dataActors')]
+	public function testRoundTrip(Closure $createActor): void {
 		$actor = $createActor();
 		$json = json_encode($actor);
 		$restored = Actor::fromArray(json_decode($json, true));
 
+		$this->assertSame($actor->key(), $restored->key());
 		$this->assertSame($json, json_encode($restored));
-	}
-
-	public function testMaxChainLength(): void {
-		$actor = self::alternatingChain(Actor::MAX_CHAIN_LENGTH);
-
-		$this->assertCount(Actor::MAX_CHAIN_LENGTH, $actor->chain());
-	}
-
-	public function testChainTooLong(): void {
-		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Delegation chain too long');
-		self::alternatingChain(Actor::MAX_CHAIN_LENGTH + 1);
-	}
-
-	public function testFromArrayChainTooLong(): void {
-		$data = [
-			'principal' => ['type' => 'user', 'id' => 'user' . Actor::MAX_CHAIN_LENGTH],
-			'via' => DelegationKind::OnBehalfOf->value,
-			'delegate' => json_decode(json_encode(self::alternatingChain(Actor::MAX_CHAIN_LENGTH)), true),
-		];
-
-		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Delegation chain too long');
-		Actor::fromArray($data);
+		$this->assertTrue($actor->equals($restored));
 	}
 
 	/**
-	 * Chain of the given length alternating between a system component elevation and acting for a user.
+	 * @param Closure(): Actor $createActor
 	 */
-	private static function alternatingChain(int $length): Actor {
-		$actor = Actor::of(Principal::user('user0'));
-		for ($i = 1; $i < $length; $i++) {
-			$actor = $i % 2 === 1
-				? $actor->elevate(Principal::system('component' . $i))
-				: $actor->actFor(Principal::user('user' . $i));
-		}
-		return $actor;
+	#[DataProvider(methodName: 'dataActors')]
+	public function testRoundTripWithoutJson(Closure $createActor): void {
+		$actor = $createActor();
+
+		$this->assertTrue($actor->equals(Actor::fromArray($actor->jsonSerialize())));
+	}
+
+	public static function dataEquals(): array {
+		$alice = fn () => Actor::of(Principal::user('alice'));
+		$botForAlice = fn () => Actor::of(Principal::bot('summarizer', 'assistant'))->onBehalfOf(Principal::user('alice'));
+		return [
+			'same principal' => [$alice, $alice, true],
+			'different principal' => [$alice, fn () => Actor::of(Principal::user('bob')), false],
+			'same delegation' => [$botForAlice, $botForAlice, true],
+			'different delegate' => [$botForAlice, fn () => Actor::of(Principal::user('bob'))->onBehalfOf(Principal::user('alice')), false],
+			'delegated and not delegated' => [$botForAlice, $alice, false],
+		];
+	}
+
+	/**
+	 * @param Closure(): Actor $createA
+	 * @param Closure(): Actor $createB
+	 */
+	#[DataProvider(methodName: 'dataEquals')]
+	public function testEquals(Closure $createA, Closure $createB, bool $expected): void {
+		$a = $createA();
+		$b = $createB();
+		$this->assertSame($expected, $a->equals($b));
+		$this->assertSame($expected, $b->equals($a));
+	}
+
+	public function testFromArrayWithoutDelegate(): void {
+		$actor = Actor::fromArray(['principal' => ['type' => 'user', 'id' => 'alice']]);
+
+		$this->assertTrue($actor->principal->equals(Principal::user('alice')));
+		$this->assertNull($actor->delegate);
+		$this->assertFalse($actor->isDelegated());
 	}
 
 	public static function dataInvalidFromArray(): array {
 		$alice = ['type' => 'user', 'id' => 'alice'];
-		$admin = ['principal' => ['type' => 'user', 'id' => 'admin']];
 		return [
 			'missing principal' => [[], 'Invalid actor data'],
+			'null principal' => [['principal' => null, 'delegate' => $alice], 'Invalid actor data'],
 			'non-array principal' => [['principal' => 'alice'], 'Invalid actor data'],
-			'non-array delegate' => [['principal' => $alice, 'via' => 'impersonation', 'delegate' => 'admin'], 'Invalid actor data'],
-			'non-string via' => [['principal' => $alice, 'via' => 1, 'delegate' => $admin], 'Invalid actor data'],
-			'unknown via' => [['principal' => $alice, 'via' => 'nope', 'delegate' => $admin], 'Unknown delegation kind "nope"'],
+			'non-array delegate' => [['principal' => $alice, 'delegate' => 'admin'], 'Invalid actor data'],
 			'invalid principal' => [['principal' => ['type' => 'user']], 'Invalid principal data'],
-			'delegate without via' => [['principal' => $alice, 'delegate' => $admin], 'A delegate requires a delegation kind and vice versa'],
-			'via without delegate' => [['principal' => $alice, 'via' => 'impersonation'], 'A delegate requires a delegation kind and vice versa'],
-			'forbidden link' => [
-				['principal' => ['type' => 'external', 'id' => 'g1', 'source' => 'spreed.guest'], 'via' => 'impersonation', 'delegate' => $admin],
-				'Invalid impersonation: only local users can be impersonated',
+			'invalid delegate' => [['principal' => $alice, 'delegate' => ['type' => 'user']], 'Invalid principal data'],
+			'unknown principal type' => [['principal' => ['type' => 'nope', 'id' => 'alice']], 'Unknown principal type "nope"'],
+			'invalid delegate principal' => [
+				['principal' => $alice, 'delegate' => ['type' => 'user', 'id' => 'admin', 'source' => 'spreed']],
+				'Invalid source for principal of type "user"',
 			],
-			'duplicate principal' => [
-				['principal' => $alice, 'via' => 'impersonation', 'delegate' => ['principal' => $alice]],
-				'Principal appears more than once in delegation chain',
-			],
+			'delegate equals principal' => [['principal' => $alice, 'delegate' => $alice], 'A principal cannot impersonate itself'],
 		];
 	}
 
