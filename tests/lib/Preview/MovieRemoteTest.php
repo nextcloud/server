@@ -19,6 +19,7 @@ use OC\Preview\Movie;
 use OC\Preview\MovieRemote;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\IStorage;
 use OCP\Server;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -185,7 +186,7 @@ class MovieRemoteTest extends Provider {
 	}
 
 	private function getStorageFile(callable $fopen, string $content, int $cachedSize, array &$opened): File {
-		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('isLocal')->willReturn(false);
 		$file = $this->createMock(File::class);
 		$file->method('fopen')->willReturnCallback(function () use ($fopen, $content, &$opened) {

@@ -221,14 +221,13 @@ class FFmpegOverIpClient {
 				}
 				$this->openFiles[$fileId] = ['path' => $path, 'offset' => 0];
 				return [self::MSG_OPEN_OK, pack('nJ', $requestId, $this->files[$path]['size'])];
-
 			case self::MSG_READ:
 				$fileId = $this->unpack('n', $payload, 2, 8);
 				$length = min($this->unpack('N', $payload, 4, 8), self::MAX_READ_SIZE);
 				if (!isset($this->openFiles[$fileId])) {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
-				$file = &$this->openFiles[$fileId];
+				$file = $this->openFiles[$fileId];
 				$stream = $this->files[$file['path']]['stream'];
 				if (ftell($stream) !== $file['offset'] && fseek($stream, $file['offset']) !== 0) {
 					return $this->ioError($requestId, self::FIO_EIO);
@@ -238,9 +237,8 @@ class FFmpegOverIpClient {
 				if ($data === false) {
 					return $this->ioError($requestId, self::FIO_EIO);
 				}
-				$file['offset'] += strlen($data);
+				$this->openFiles[$fileId]['offset'] += strlen($data);
 				return [self::MSG_READ_OK, pack('n', $requestId) . $data];
-
 			case self::MSG_SEEK:
 				$fileId = $this->unpack('n', $payload, 2, 13);
 				$offset = $this->unpack('J', $payload, 4, 13);
@@ -248,7 +246,7 @@ class FFmpegOverIpClient {
 				if (!isset($this->openFiles[$fileId])) {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
-				$file = &$this->openFiles[$fileId];
+				$file = $this->openFiles[$fileId];
 				$base = match ($whence) {
 					self::FIO_SEEK_SET => 0,
 					self::FIO_SEEK_CUR => $file['offset'],
@@ -258,16 +256,14 @@ class FFmpegOverIpClient {
 				if ($base === null || $offset > PHP_INT_MAX - $base || $base + $offset < 0) {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
-				$file['offset'] = $base + $offset;
-				return [self::MSG_SEEK_OK, pack('nJ', $requestId, $file['offset'])];
-
+				$this->openFiles[$fileId]['offset'] = $base + $offset;
+				return [self::MSG_SEEK_OK, pack('nJ', $requestId, $base + $offset)];
 			case self::MSG_FSTAT:
 				$fileId = $this->unpack('n', $payload, 2, 4);
 				if (!isset($this->openFiles[$fileId])) {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
 				return [self::MSG_FSTAT_OK, pack('nJN', $requestId, $this->files[$this->openFiles[$fileId]['path']]['size'], self::FILE_MODE)];
-
 			case self::MSG_CLOSE:
 				$fileId = $this->unpack('n', $payload, 2, 4);
 				if (!isset($this->openFiles[$fileId])) {
@@ -275,7 +271,6 @@ class FFmpegOverIpClient {
 				}
 				unset($this->openFiles[$fileId]);
 				return [self::MSG_CLOSE_OK, pack('n', $requestId)];
-
 			default:
 				// Writing, truncating, deleting, renaming and creating directories
 				return $this->ioError($requestId, self::FIO_EROFS);
