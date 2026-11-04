@@ -658,13 +658,13 @@ class Tags implements ITags {
 	 * A numeric value is only accepted as ID if it is the ID of one of the loaded tags.
 	 *
 	 * @param string $tag The tag ID or name to look for.
-	 * @return int|false The tag's id or false if no matching tag is found.
+	 * @return string|bool The tag's id or false if no matching tag is found.
 	 */
-	private function getTagIdByIdOrName(string $tag): int|false {
+	private function getTagIdByIdOrName(string $tag) {
 		if (is_numeric($tag)) {
 			$key = $this->getTagById($tag);
 			if ($key !== false) {
-				return $this->tags[$key]->id ?? -1;
+				return $this->tags[$key]->id ?? false;
 			}
 		}
 		return $this->getTagId($tag);
