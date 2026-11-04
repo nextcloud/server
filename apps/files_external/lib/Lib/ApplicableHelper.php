@@ -84,7 +84,7 @@ class ApplicableHelper {
 		} else {
 			$yielded = [];
 			foreach ($a->getApplicableGroups() as $groupId) {
-				if (!in_array($groupId, $b->getApplicableGroups())) {
+				if (!in_array($groupId, $b->getApplicableGroups(), true)) {
 					$group = $this->groupManager->get($groupId);
 					if ($group) {
 						foreach ($group->getUsers() as $user) {
