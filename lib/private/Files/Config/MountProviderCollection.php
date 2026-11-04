@@ -208,7 +208,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 				return $mount;
 			}
 		}
-		throw new \Exception('No home storage configured for user ' . $user);
+		throw new \Exception('No home storage configured for user ' . $user->getUID());
 	}
 
 	/**
