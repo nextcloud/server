@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: p-queue developers
-SPDX-FileCopyrightText: moment developers
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
@@ -36,7 +35,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -141,9 +139,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.3
-	- license: GPL-3.0-or-later
-- @nextcloud/moment
-	- version: 1.3.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 9.14.0
@@ -310,9 +305,6 @@ This file is generated from multiple sources. Included packages:
 - is-svg
 	- version: 6.1.0
 	- license: MIT
-- lodash
-	- version: 4.18.1
-	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
@@ -393,9 +385,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - micromark
 	- version: 4.0.2
-	- license: MIT
-- moment
-	- version: 2.31.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
