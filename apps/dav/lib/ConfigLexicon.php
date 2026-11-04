@@ -21,6 +21,11 @@ use OCP\Config\ValueType;
  * {@see ILexicon}
  */
 class ConfigLexicon implements ILexicon {
+	public const ENABLE_CALENDAR_FEDERATION = 'enableCalendarFederation';
+	public const SEND_INVITATIONS = 'sendInvitations';
+	public const HIDE_ABSENCE_SETTINGS = 'hide_absence_settings';
+	public const ALLOW_CALENDAR_LINK_SUBSCRIPTIONS = 'allow_calendar_link_subscriptions';
+	public const DISABLE_FREE_BUSY = 'disableFreeBusy';
 	public const SYSTEM_ADDRESSBOOK_EXPOSED = 'system_addressbook_exposed';
 
 	public function getStrictness(): Strictness {
@@ -29,6 +34,36 @@ class ConfigLexicon implements ILexicon {
 
 	public function getAppConfigs(): array {
 		return [
+			new Entry(
+				self::ENABLE_CALENDAR_FEDERATION,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether calendars can be shared with and received from other Nextcloud servers',
+			),
+			new Entry(
+				self::SEND_INVITATIONS,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether to send invitation emails for events with attendees',
+			),
+			new Entry(
+				self::HIDE_ABSENCE_SETTINGS,
+				ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether to hide the absence (out-of-office) settings from users',
+			),
+			new Entry(
+				self::ALLOW_CALENDAR_LINK_SUBSCRIPTIONS,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether users can subscribe to calendars by link',
+			),
+			new Entry(
+				self::DISABLE_FREE_BUSY,
+				ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether to disable the free/busy lookup on user outboxes',
+			),
 			new Entry(
 				self::SYSTEM_ADDRESSBOOK_EXPOSED,
 				ValueType::BOOL,
