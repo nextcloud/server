@@ -2,6 +2,54 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { watchDebounced } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGroup'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import SelectSharingPermissions from './SelectSharingPermissions.vue'
+import logger from '../../logger.ts'
+import { useSharingSettings } from '../composables/useSharingSettings.ts'
+import { deleteCoreConfigValue, setCoreConfigValue } from '../services/appConfig.ts'
+
+const settings = useSharingSettings()
+
+const disclaimerText = ref(settings.publicShareDisclaimerText)
+const isDisclaimerEnabled = ref(disclaimerText.value !== '')
+watch(isDisclaimerEnabled, (enabled) => {
+	if (!enabled) {
+		disclaimerText.value = ''
+	}
+})
+watchDebounced(disclaimerText, saveDisclaimer, { debounce: 500 })
+
+/**
+ * Store the disclaimer text of public link upload pages, an empty text removes it.
+ *
+ * @param text - The new disclaimer text
+ */
+async function saveDisclaimer(text: string) {
+	try {
+		if (text === '') {
+			await deleteCoreConfigValue('shareapi_public_link_disclaimertext')
+			showSuccess(t('settings', 'Deleted disclaimer text'))
+		} else {
+			await setCoreConfigValue('shareapi_public_link_disclaimertext', text)
+			showSuccess(t('settings', 'Changed disclaimer text'))
+		}
+	} catch (error) {
+		logger.error('Could not set the public share disclaimer', { error })
+		showError(t('settings', 'Could not set disclaimer text'))
+	}
+}
+</script>
+
 <template>
 	<form class="sharing">
 		<NcCheckboxRadioSwitch
@@ -22,12 +70,10 @@
 				{{ t('settings', 'Restrict users to only share with users in their groups') }}
 			</NcCheckboxRadioSwitch>
 			<div v-show="settings.onlyShareWithGroupMembers" id="settings-sharing-api-excluded-groups" class="sharing__labeled-entry sharing__input">
-				<label for="settings-sharing-only-group-members-excluded-groups">{{ t('settings', 'Ignore the following groups when checking group membership') }}</label>
+				<span aria-hidden="true">{{ t('settings', 'Ignore the following groups when checking group membership') }}</span>
 				<NcSettingsSelectGroup
-					id="settings-sharing-only-group-members-excluded-groups"
 					v-model="settings.onlyShareWithGroupMembersExcludeGroupList"
-					:label="t('settings', 'Ignore the following groups when checking group membership')"
-					style="width: 100%" />
+					:label="t('settings', 'Ignore the following groups when checking group membership')" />
 			</div>
 			<NcCheckboxRadioSwitch v-model="settings.allowViewWithoutDownload">
 				{{ t('settings', 'Allow users to preview files even if download is disabled') }}
@@ -64,23 +110,22 @@
 					v-model="settings.enforceLinksPassword">
 					{{ t('settings', 'Enforce password protection') }}
 				</NcCheckboxRadioSwitch>
-				<label
+				<div
 					v-if="settings.enforceLinksPasswordExcludedGroupsEnabled"
 					v-show="settings.enableLinkPasswordByDefault"
 					class="sharing__labeled-entry sharing__input">
-					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
+					<span aria-hidden="true">{{ t('settings', 'Exclude groups from password requirements') }}</span>
 					<NcSettingsSelectGroup
 						v-model="settings.enforceLinksPasswordExcludedGroups"
-						style="width: 100%"
+						:label="t('settings', 'Exclude groups from password requirements')"
 						:disabled="!settings.enforceLinksPassword" />
-				</label>
-				<label class="sharing__labeled-entry sharing__input">
-					<span>{{ t('settings', 'Exclude groups from creating link shares') }}</span>
+				</div>
+				<div class="sharing__labeled-entry sharing__input">
+					<span aria-hidden="true">{{ t('settings', 'Exclude groups from creating link shares') }}</span>
 					<NcSettingsSelectGroup
 						v-model="settings.allowLinksExcludeGroups"
-						:label="t('settings', 'Exclude groups from creating link shares')"
-						style="width: 100%" />
-				</label>
+						:label="t('settings', 'Exclude groups from creating link shares')" />
+				</div>
 			</fieldset>
 
 			<NcCheckboxRadioSwitch
@@ -104,51 +149,48 @@
 				</NcNoteCard>
 			</div>
 
-			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
-			<div class="sharing__sub-section">
-				<NcCheckboxRadioSwitch
-					v-model="settings.excludeGroups"
-					name="excludeGroups"
-					value="no"
-					type="radio"
-					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Allow sharing for everyone (default)') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					v-model="settings.excludeGroups"
-					name="excludeGroups"
-					value="yes"
-					type="radio"
-					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Exclude some groups (block list)') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					v-model="settings.excludeGroups"
-					name="excludeGroups"
-					value="allow"
-					type="radio"
-					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Allow some groups only (allow list)') }}
-				</NcCheckboxRadioSwitch>
-				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
-					<NcSettingsSelectGroup
-						id="settings-sharing-excluded-groups"
-						v-model="settings.excludeGroupsList"
-						aria-describedby="settings-sharing-excluded-groups-desc"
-						:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
-						:disabled="settings.excludeGroups === 'no'"
-						style="width: 100%" />
-					<em id="settings-sharing-excluded-groups-desc">
-						<template v-if="settings.excludeGroups === 'allow'">
-							{{ t('settings', 'Only members of at least one of these groups will be able to initiate shares.') }}
-							{{ t('settings', 'Others will be blocked, but are still able to receive shares.') }}
-						</template>
-						<template v-else>
-							{{ t('settings', 'A member of at least one of these groups will not be able to initiate new shares, but will still be able to receive shares.') }}
-						</template>
-					</em>
+			<fieldset>
+				<legend>{{ t('settings', 'Limit sharing based on groups') }}</legend>
+				<div class="sharing__sub-section">
+					<NcCheckboxRadioSwitch
+						v-model="settings.excludeGroups"
+						name="excludeGroups"
+						value="no"
+						type="radio">
+						{{ t('settings', 'Allow sharing for everyone (default)') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch
+						v-model="settings.excludeGroups"
+						name="excludeGroups"
+						value="yes"
+						type="radio">
+						{{ t('settings', 'Exclude some groups (block list)') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch
+						v-model="settings.excludeGroups"
+						name="excludeGroups"
+						value="allow"
+						type="radio">
+						{{ t('settings', 'Allow some groups only (allow list)') }}
+					</NcCheckboxRadioSwitch>
+					<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
+						<NcSettingsSelectGroup
+							v-model="settings.excludeGroupsList"
+							aria-describedby="settings-sharing-excluded-groups-desc"
+							:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
+							:disabled="settings.excludeGroups === 'no'" />
+						<em id="settings-sharing-excluded-groups-desc">
+							<template v-if="settings.excludeGroups === 'allow'">
+								{{ t('settings', 'Only members of at least one of these groups will be able to initiate shares.') }}
+								{{ t('settings', 'Others will be blocked, but are still able to receive shares.') }}
+							</template>
+							<template v-else>
+								{{ t('settings', 'A member of at least one of these groups will not be able to initiate new shares, but will still be able to receive shares.') }}
+							</template>
+						</em>
+					</div>
 				</div>
-			</div>
+			</fieldset>
 
 			<NcCheckboxRadioSwitch
 				v-model="settings.defaultInternalExpireDate"
@@ -254,19 +296,15 @@
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch v-model="publicShareDisclaimerEnabled" type="switch">
+			<NcCheckboxRadioSwitch v-model="isDisclaimerEnabled" type="switch">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
-			<div
-				v-if="publicShareDisclaimerEnabled"
-				aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
-				class="sharing__sub-section">
+			<div v-if="isDisclaimerEnabled" class="sharing__sub-section">
 				<NcTextArea
+					v-model="disclaimerText"
 					class="sharing__input"
 					:label="t('settings', 'Disclaimer text')"
-					aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
-					:model-value="settings.publicShareDisclaimerText"
-					@update:value="onUpdateDisclaimer" />
+					aria-describedby="settings-sharing-privacy-related-disclaimer-hint" />
 				<em id="settings-sharing-privacy-related-disclaimer-hint" class="sharing__input">
 					{{ t('settings', 'This text will be shown on the public link upload page when the file list is hidden.') }}
 				</em>
@@ -275,141 +313,10 @@
 
 		<div id="settings-sharing-default-permissions" class="sharing__section">
 			<h3>{{ t('settings', 'Default share permissions') }}</h3>
-			<SelectSharingPermissions :value.sync="settings.defaultPermissions" />
+			<SelectSharingPermissions v-model="settings.defaultPermissions" />
 		</div>
 	</form>
 </template>
-
-<script lang="ts">
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import debounce from 'debounce'
-import { snakeCase } from 'lodash'
-import { defineComponent } from 'vue'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGroup'
-import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import SelectSharingPermissions from './SelectSharingPermissions.vue'
-
-interface IShareSettings {
-	enabled: boolean
-	allowGroupSharing: boolean
-	allowLinks: boolean
-	allowLinksExcludeGroups: unknown
-	allowPublicUpload: boolean
-	allowResharing: boolean
-	allowShareDialogUserEnumeration: boolean
-	allowFederationOnPublicShares: boolean
-	restrictUserEnumerationToGroup: boolean
-	restrictUserEnumerationToPhone: boolean
-	restrictUserEnumerationFullMatch: boolean
-	restrictUserEnumerationFullMatchUserId: boolean
-	restrictUserEnumerationFullMatchDisplayname: boolean
-	restrictUserEnumerationFullMatchEmail: boolean
-	restrictUserEnumerationFullMatchIgnoreSecondDN: boolean
-	enforceLinksPassword: boolean
-	enforceLinksPasswordExcludedGroups: string[]
-	enforceLinksPasswordExcludedGroupsEnabled: boolean
-	onlyShareWithGroupMembers: boolean
-	onlyShareWithGroupMembersExcludeGroupList: string[]
-	defaultExpireDate: boolean
-	expireAfterNDays: string
-	enforceExpireDate: boolean
-	excludeGroups: string
-	excludeGroupsList: string[]
-	publicShareDisclaimerText: string
-	enableLinkPasswordByDefault: boolean
-	defaultPermissions: number
-	defaultInternalExpireDate: boolean
-	internalExpireAfterNDays: string
-	enforceInternalExpireDate: boolean
-	defaultRemoteExpireDate: boolean
-	remoteExpireAfterNDays: string
-	enforceRemoteExpireDate: boolean
-	allowCustomTokens: boolean
-	allowViewWithoutDownload: boolean
-}
-
-export default defineComponent({
-	name: 'AdminSettingsSharingForm',
-	components: {
-		NcCheckboxRadioSwitch,
-		NcSettingsSelectGroup,
-		NcNoteCard,
-		NcTextArea,
-		NcTextField,
-		SelectSharingPermissions,
-	},
-
-	data() {
-		const settingsData = loadState<IShareSettings>('settings', 'sharingSettings')
-		return {
-			settingsData,
-			publicShareDisclaimerEnabled: settingsData.publicShareDisclaimerText !== '',
-		}
-	},
-
-	computed: {
-		settings() {
-			return new Proxy(this.settingsData, {
-				get(target, property) {
-					return target[property]
-				},
-
-				set(target, property: string, newValue) {
-					const configName = `shareapi_${snakeCase(property)}`
-					const value = typeof newValue === 'boolean' ? (newValue ? 'yes' : 'no') : (typeof newValue === 'string' ? newValue : JSON.stringify(newValue))
-					window.OCP.AppConfig.setValue('core', configName, value)
-					target[property] = newValue
-					return true
-				},
-			})
-		},
-	},
-
-	watch: {
-		publicShareDisclaimerEnabled() {
-			// When disabled we just remove the disclaimer content
-			if (this.publicShareDisclaimerEnabled === false) {
-				this.onUpdateDisclaimer('')
-			}
-		},
-	},
-
-	methods: {
-		t,
-
-		onUpdateDisclaimer: debounce(function(value: string) {
-			const options = {
-				success() {
-					if (value !== '') {
-						showSuccess(t('settings', 'Changed disclaimer text'))
-					} else {
-						showSuccess(t('settings', 'Deleted disclaimer text'))
-					}
-				},
-				error() {
-					showError(t('settings', 'Could not set disclaimer text'))
-				},
-			}
-			if (value === '') {
-				window.OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options)
-			} else {
-				window.OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options)
-			}
-			this.settingsData.publicShareDisclaimerText = value
-		}, 500) as (v?: string) => void,
-
-		onUpdateExcludeGroups: debounce(function(value: string) {
-			window.OCP.AppConfig.setValue('core', 'excludeGroups', value)
-			this.settings.excludeGroups = value
-		}, 500) as (v?: string) => void,
-	},
-})
-</script>
 
 <style scoped lang="scss">
 .sharing {

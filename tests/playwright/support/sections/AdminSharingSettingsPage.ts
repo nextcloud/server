@@ -32,7 +32,7 @@ export class AdminSharingSettingsPage {
 
 	/** The section's link to the admin documentation. */
 	documentationLink(): Locator {
-		return this.page.getByRole('link', { name: 'External documentation for Sharing' })
+		return this.heading().getByRole('link', { name: 'External documentation' })
 	}
 
 	/** The warning shown instead of the settings while the sharing app is disabled. */

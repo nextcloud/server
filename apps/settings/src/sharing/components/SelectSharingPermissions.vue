@@ -2,89 +2,46 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import { Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+
+/** The selected permissions as bitmask */
+const permissions = defineModel<number>({ required: true })
+
+const options = [
+	{ permission: Permission.CREATE, label: t('settings', 'Create') },
+	{ permission: Permission.UPDATE, label: t('settings', 'Change') },
+	{ permission: Permission.DELETE, label: t('settings', 'Delete') },
+	{ permission: Permission.SHARE, label: t('settings', 'Reshare') },
+]
+
+/**
+ * Toggle a permission
+ *
+ * @param permission - The permission (bit) to toggle
+ */
+function toggle(permission: number) {
+	permissions.value ^= permission
+}
+</script>
+
 <template>
-	<fieldset class="permissions-select">
-		<NcCheckboxRadioSwitch :model-value="canCreate" @update:modelValue="toggle(PERMISSION_CREATE)">
-			{{ t('settings', 'Create') }}
-		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :model-value="canUpdate" @update:modelValue="toggle(PERMISSION_UPDATE)">
-			{{ t('settings', 'Change') }}
-		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :model-value="canDelete" @update:modelValue="toggle(PERMISSION_DELETE)">
-			{{ t('settings', 'Delete') }}
-		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :model-value="canShare" @update:modelValue="toggle(PERMISSION_SHARE)">
-			{{ t('settings', 'Reshare') }}
+	<fieldset :class="$style.permissionsSelect">
+		<NcCheckboxRadioSwitch
+			v-for="{ permission, label } in options"
+			:key="permission"
+			:modelValue="(permissions & permission) !== 0"
+			@update:modelValue="toggle(permission)">
+			{{ label }}
 		</NcCheckboxRadioSwitch>
 	</fieldset>
 </template>
 
-<script lang="ts">
-import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-
-export default defineComponent({
-	name: 'SelectSharingPermissions',
-	components: {
-		NcCheckboxRadioSwitch,
-	},
-
-	props: {
-		value: {
-			type: Number,
-			required: true,
-		},
-	},
-
-	emits: {
-		'update:value': (value: number) => typeof value === 'number',
-	},
-
-	data() {
-		return {
-			PERMISSION_UPDATE: 2,
-			PERMISSION_CREATE: 4,
-			PERMISSION_DELETE: 8,
-			PERMISSION_SHARE: 16,
-		}
-	},
-
-	computed: {
-		canCreate() {
-			return (this.value & this.PERMISSION_CREATE) !== 0
-		},
-
-		canUpdate() {
-			return (this.value & this.PERMISSION_UPDATE) !== 0
-		},
-
-		canDelete() {
-			return (this.value & this.PERMISSION_DELETE) !== 0
-		},
-
-		canShare() {
-			return (this.value & this.PERMISSION_SHARE) !== 0
-		},
-	},
-
-	methods: {
-		t: translate,
-		/**
-		 * Toggle a permission
-		 *
-		 * @param permission The permission (bit) to toggle
-		 */
-		toggle(permission: number) {
-			// xor to toggle the bit
-			this.$emit('update:value', this.value ^ permission)
-		},
-	},
-})
-</script>
-
-<style scoped>
-.permissions-select {
+<style module>
+.permissionsSelect {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;
