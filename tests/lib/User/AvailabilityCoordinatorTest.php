@@ -11,10 +11,12 @@ namespace Test\User;
 
 use OC\User\AvailabilityCoordinator;
 use OC\User\OutOfOfficeData;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Service\AbsenceService;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUser;
 use Test\TestCase;
 
@@ -28,10 +30,10 @@ class AvailabilityCoordinatorTest extends TestCase {
 	}
 
 	public function testIsEnabled(): void {
-		$this->getAutoMock(IConfig::class)->expects(self::once())
-			->method('getAppValue')
-			->with('dav', 'hide_absence_settings', 'no')
-			->willReturn('no');
+		$this->getAutoMock(IAppConfig::class)->expects(self::once())
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS)
+			->willReturn(false);
 
 		$isEnabled = $this->availabilityCoordinator->isEnabled();
 

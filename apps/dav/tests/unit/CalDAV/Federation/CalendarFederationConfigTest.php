@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\Federation;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Federation\CalendarFederationConfig;
+use OCA\DAV\ConfigLexicon;
 use OCP\GlobalScale\IConfig;
 use OCP\IAppConfig;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -45,7 +47,7 @@ class CalendarFederationConfigTest extends TestCase {
 	public function testIsFederationEnabled(bool $configValue): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueBool')
-			->with('dav', 'enableCalendarFederation', true)
+			->with(Application::APP_ID, ConfigLexicon::ENABLE_CALENDAR_FEDERATION, true)
 			->willReturn($configValue);
 
 		$this->assertEquals($configValue, $this->config->isFederationEnabled());

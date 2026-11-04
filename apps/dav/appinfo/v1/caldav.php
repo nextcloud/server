@@ -7,6 +7,7 @@
  */
 // Backends
 use OC\KnownUser\KnownUserService;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
@@ -17,6 +18,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
@@ -86,7 +88,7 @@ $calDavBackend = new CalDavBackend(
 );
 
 $debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
-$sendInvitations = Server::get(IAppConfig::class)->getValueBool('dav', 'sendInvitations', true);
+$sendInvitations = Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS);
 
 // Root nodes
 $principalCollection = new PrincipalCollection($principalBackend);
