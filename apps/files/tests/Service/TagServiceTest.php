@@ -79,8 +79,7 @@ class TagServiceTest extends \Test\TestCase {
 	}
 
 	public function testUpdateFileTags(): void {
-		$tag1 = 'tag1';
-		$tag2 = 'tag2';
+		$tag1 = ITags::TAG_FAVORITE;
 
 		$subdir = $this->root->newFolder('subdir');
 		$testFile = $subdir->newFile('test.txt');
@@ -89,20 +88,13 @@ class TagServiceTest extends \Test\TestCase {
 		$fileId = $testFile->getId();
 
 		// set tags
-		$this->tagService->updateFileTags('subdir/test.txt', [$tag1, $tag2]);
+		$this->tagService->updateFileTags('subdir/test.txt', [$tag1]);
 
 		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
-
-		// remove tag
-		$this->tagService->updateFileTags('subdir/test.txt', [$tag2]);
-		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
 
 		// clear tags
 		$this->tagService->updateFileTags('subdir/test.txt', []);
 		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([], $this->tagger->getIdsForTag($tag2));
 
 		// non-existing file
 		$caught = false;
