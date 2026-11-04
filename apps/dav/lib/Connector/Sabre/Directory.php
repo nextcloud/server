@@ -567,6 +567,10 @@ class Directory extends Node implements
 				// to the node API
 				/** @psalm-suppress InternalMethod */
 				$info = $this->fileView->getFileInfo($scanPath, false);
+				if (!$info) {
+					throw new \Sabre\DAV\Exception\NotFound('File with name ' . $destinationPath
+						. ' could not be located');
+				}
 				$directory = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
 				$readable = $directory->getNode()->isReadable();
 				if (!$readable) {
