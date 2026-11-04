@@ -23,6 +23,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
+use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -211,6 +212,8 @@ class AbsenceServiceTest extends TestCase {
 					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
 				]],
 			]);
+		$this->jobList->expects(self::never())
+			->method('remove');
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -252,6 +255,12 @@ class AbsenceServiceTest extends TestCase {
 				'id' => '1',
 				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
 			]);
+		$this->jobList->expects(self::once())
+			->method('remove')
+			->with(OutOfOfficeEventDispatcherJob::class, [
+				'id' => 1,
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+			]);
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -287,6 +296,12 @@ class AbsenceServiceTest extends TestCase {
 			->willReturn((new DateTimeImmutable('2023-01-12', $tz))->getTimestamp());
 		$this->jobList->expects(self::never())
 			->method('scheduleAfter');
+		$removeCalls = [];
+		$this->jobList->expects(self::exactly(2))
+			->method('remove')
+			->willReturnCallback(function (string $job, ?array $argument) use (&$removeCalls): void {
+				$removeCalls[] = [$job, $argument];
+			});
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -295,6 +310,23 @@ class AbsenceServiceTest extends TestCase {
 			'',
 			'',
 		);
+
+		self::assertEquals([
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				],
+			],
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				],
+			],
+		], $removeCalls);
 	}
 
 	public function testUpdateAbsenceSchedulesBothJobs(): void {
@@ -343,6 +375,8 @@ class AbsenceServiceTest extends TestCase {
 					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
 				]],
 			]);
+		$this->jobList->expects(self::never())
+			->method('remove');
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -391,6 +425,12 @@ class AbsenceServiceTest extends TestCase {
 				'id' => '1',
 				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
 			]);
+		$this->jobList->expects(self::once())
+			->method('remove')
+			->with(OutOfOfficeEventDispatcherJob::class, [
+				'id' => 1,
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+			]);
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -433,6 +473,12 @@ class AbsenceServiceTest extends TestCase {
 			->willReturn((new DateTimeImmutable('2023-01-12', $tz))->getTimestamp());
 		$this->jobList->expects(self::never())
 			->method('scheduleAfter');
+		$removeCalls = [];
+		$this->jobList->expects(self::exactly(2))
+			->method('remove')
+			->willReturnCallback(function (string $job, ?array $argument) use (&$removeCalls): void {
+				$removeCalls[] = [$job, $argument];
+			});
 
 		$this->absenceService->createOrUpdateAbsence(
 			$user,
@@ -441,5 +487,115 @@ class AbsenceServiceTest extends TestCase {
 			'',
 			'',
 		);
+
+		self::assertEquals([
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				],
+			],
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				],
+			],
+		], $removeCalls);
+	}
+
+	public function testClearAbsenceRemovesBothJobs(): void {
+		$tz = new DateTimeZone('Europe/Berlin');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$absence = new Absence();
+		$absence->setId(1);
+		$absence->setUserId('user');
+		$absence->setFirstDay('2023-01-05');
+		$absence->setLastDay('2023-01-10');
+		$absence->setStatus('status');
+		$absence->setMessage('message');
+
+		$this->absenceMapper->expects(self::once())
+			->method('findByUserId')
+			->with('user')
+			->willReturn($absence);
+		$this->absenceMapper->expects(self::once())
+			->method('delete')
+			->with($absence);
+		$this->timezoneService->expects(self::once())
+			->method('getUserTimezone')
+			->with('user')
+			->willReturn($tz->getName());
+
+		$removeCalls = [];
+		$this->jobList->expects(self::exactly(2))
+			->method('remove')
+			->willReturnCallback(function (string $job, ?array $argument) use (&$removeCalls): void {
+				$removeCalls[] = [$job, $argument];
+			});
+
+		$this->eventDispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(static function (Event $event) use ($user, $tz): bool {
+				self::assertInstanceOf(OutOfOfficeClearedEvent::class, $event);
+				/** @var OutOfOfficeClearedEvent $event */
+				$data = $event->getData();
+				self::assertEquals('1', $data->getId());
+				self::assertEquals($user, $data->getUser());
+				self::assertEquals(
+					(new DateTimeImmutable('2023-01-05', $tz))->getTimestamp(),
+					$data->getStartDate(),
+				);
+				self::assertEquals(
+					(new DateTimeImmutable('2023-01-10', $tz))->getTimestamp() + 3600 * 23 + 59 * 60,
+					$data->getEndDate(),
+				);
+				self::assertEquals('status', $data->getShortMessage());
+				self::assertEquals('message', $data->getMessage());
+				return true;
+			}));
+
+		$this->absenceService->clearAbsence($user);
+
+		self::assertEquals([
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				],
+			],
+			[
+				OutOfOfficeEventDispatcherJob::class,
+				[
+					'id' => 1,
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				],
+			],
+		], $removeCalls);
+	}
+
+	public function testClearAbsenceWhenDoesNotExist(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user');
+
+		$this->absenceMapper->expects(self::once())
+			->method('findByUserId')
+			->with('user')
+			->willThrowException(new DoesNotExistException('foo bar'));
+		$this->absenceMapper->expects(self::never())
+			->method('delete');
+		$this->jobList->expects(self::never())
+			->method('remove');
+		$this->eventDispatcher->expects(self::never())
+			->method('dispatchTyped');
+
+		$this->absenceService->clearAbsence($user);
 	}
 }
