@@ -3,21 +3,6 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 
-<template>
-	<section class="fdow-section">
-		<NcSelect
-			:aria-label-listbox="t('settings', 'Day to use as the first day of week')"
-			class="fdow-section__day-select"
-			:clearable="false"
-			:inputId="inputId"
-			:inputLabel="t('settings', 'First day of week')"
-			label="label"
-			:options="dayOptions"
-			:modelValue="valueOption"
-			@option:selected="updateFirstDayOfWeek" />
-	</section>
-</template>
-
 <script setup lang="ts">
 import type { AxiosError } from '@nextcloud/axios'
 
@@ -27,9 +12,9 @@ import { computed, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import {
 	ACCOUNT_SETTING_PROPERTY_ENUM,
-} from '../../constants/AccountPropertyConstants.ts'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../utils/handlers.ts'
+} from '../../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 interface WeekInfo {
 	firstDay: number
@@ -84,6 +69,21 @@ async function updateFirstDayOfWeek(option: DayOption): Promise<void> {
 	}
 }
 </script>
+
+<template>
+	<section class="fdow-section">
+		<NcSelect
+			:aria-label-listbox="t('settings', 'Day to use as the first day of week')"
+			class="fdow-section__day-select"
+			:clearable="false"
+			:inputId="inputId"
+			:inputLabel="t('settings', 'First day of week')"
+			label="label"
+			:options="dayOptions"
+			:modelValue="valueOption"
+			@option:selected="updateFirstDayOfWeek" />
+	</section>
+</template>
 
 <style lang="scss" scoped>
 .fdow-section {

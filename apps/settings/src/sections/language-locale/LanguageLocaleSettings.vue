@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { translate as t } from '@nextcloud/l10n'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import SettingsColumn from '../components/SettingsColumn.vue'
+import SettingsColumn from '../../components/SettingsColumn.vue'
 import FirstDayOfWeekSection from './components/FirstDayOfWeekSection.vue'
 import LanguageSection from './components/LanguageSection.vue'
 import LocaleSection from './components/LocaleSection.vue'

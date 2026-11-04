@@ -3,58 +3,9 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div v-if="!isHttps && !isLocalhost">
-		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
-	</div>
-	<div v-else>
-		<NcButton
-			v-if="step === RegistrationSteps.READY"
-			variant="primary"
-			@click="start">
-			{{ t('settings', 'Add WebAuthn device') }}
-		</NcButton>
-
-		<div
-			v-else-if="step === RegistrationSteps.REGISTRATION"
-			class="new-webauthn-device">
-			<span class="icon-loading-small webauthn-loading" />
-			{{ t('settings', 'Please authorize your WebAuthn device.') }}
-		</div>
-
-		<div
-			v-else-if="step === RegistrationSteps.NAMING"
-			class="new-webauthn-device">
-			<span class="icon-loading-small webauthn-loading" />
-			<form @submit.prevent="submit">
-				<NcTextField
-					ref="nameInput"
-					v-model="name"
-					class="new-webauthn-device__name"
-					:label="t('settings', 'Device name')"
-					showTrailingButton
-					:trailingButtonLabel="t('settings', 'Add')"
-					trailingButtonIcon="arrowEnd"
-					@trailingButtonClick="submit" />
-			</form>
-		</div>
-
-		<div
-			v-else-if="step === RegistrationSteps.PERSIST"
-			class="new-webauthn-device">
-			<span class="icon-loading-small webauthn-loading" />
-			{{ t('settings', 'Adding your device …') }}
-		</div>
-
-		<div v-else>
-			Invalid registration step. This should not have happened.
-		</div>
-	</div>
-</template>
-
 <script setup lang="ts">
 import type { RegistrationResponseJSON } from '@simplewebauthn/browser'
-import type { WebAuthnDevice } from '../../service/WebAuthnRegistrationSerice.ts'
+import type { WebAuthnDevice } from '../../../service/WebAuthnRegistrationSerice.ts'
 
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
@@ -62,18 +13,21 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import { nextTick, ref, useTemplateRef } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../../logger.ts'
+import logger from '../../../logger.ts'
 import {
 	finishRegistration,
 	startRegistration,
-} from '../../service/WebAuthnRegistrationSerice.ts'
+} from '../../../service/WebAuthnRegistrationSerice.ts'
 
 defineProps<{
+	/** Whether the page is served over HTTPS */
 	isHttps?: boolean
+	/** Whether the page is served from localhost */
 	isLocalhost?: boolean
 }>()
 
 const emit = defineEmits<{
+	/** A device was registered on the server */
 	added: [device: WebAuthnDevice]
 }>()
 
@@ -152,6 +106,55 @@ function reset() {
 	step.value = RegistrationSteps.READY
 }
 </script>
+
+<template>
+	<div v-if="!isHttps && !isLocalhost">
+		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
+	</div>
+	<div v-else>
+		<NcButton
+			v-if="step === RegistrationSteps.READY"
+			variant="primary"
+			@click="start">
+			{{ t('settings', 'Add WebAuthn device') }}
+		</NcButton>
+
+		<div
+			v-else-if="step === RegistrationSteps.REGISTRATION"
+			class="new-webauthn-device">
+			<span class="icon-loading-small webauthn-loading" />
+			{{ t('settings', 'Please authorize your WebAuthn device.') }}
+		</div>
+
+		<div
+			v-else-if="step === RegistrationSteps.NAMING"
+			class="new-webauthn-device">
+			<span class="icon-loading-small webauthn-loading" />
+			<form @submit.prevent="submit">
+				<NcTextField
+					ref="nameInput"
+					v-model="name"
+					class="new-webauthn-device__name"
+					:label="t('settings', 'Device name')"
+					showTrailingButton
+					:trailingButtonLabel="t('settings', 'Add')"
+					trailingButtonIcon="arrowEnd"
+					@trailingButtonClick="submit" />
+			</form>
+		</div>
+
+		<div
+			v-else-if="step === RegistrationSteps.PERSIST"
+			class="new-webauthn-device">
+			<span class="icon-loading-small webauthn-loading" />
+			{{ t('settings', 'Adding your device …') }}
+		</div>
+
+		<div v-else>
+			Invalid registration step. This should not have happened.
+		</div>
+	</div>
+</template>
 
 <style scoped lang="scss">
 .webauthn-loading {

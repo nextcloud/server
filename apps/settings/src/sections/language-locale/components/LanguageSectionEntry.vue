@@ -3,49 +3,29 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="language">
-		<NcSelect
-			:aria-label-listbox="t('settings', 'Languages')"
-			class="language__select"
-			:clearable="false"
-			:inputId="inputId"
-			label="name"
-			labelOutside
-			:options="allLanguages"
-			:modelValue="language"
-			@option:selected="onLanguageChange" />
-
-		<NcFormBoxButton
-			:label="t('settings', 'Help translate')"
-			href="https://explore.transifex.com/nextcloud/"
-			target="_blank">
-			<template #icon>
-				<OpenInNew :size="20" />
-			</template>
-		</NcFormBoxButton>
-	</div>
-</template>
-
 <script setup lang="ts">
 import type { AxiosError } from '@nextcloud/axios'
-import type { LanguageOption } from '../../components/Users/userFormUtils.ts'
+import type { LanguageOption } from '../../../components/Users/userFormUtils.ts'
 
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants.ts'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../utils/handlers.ts'
-import { validateLanguage } from '../../utils/validate.js'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../utils/handlers.ts'
+import { validateLanguage } from '../../../utils/validate.js'
 
+/** The user's current language */
 const language = defineModel<LanguageOption>('language', { required: true })
 
 const props = defineProps<{
+	/** Id of the select input, for the section's label */
 	inputId?: string
+	/** Most used languages, listed first */
 	commonLanguages: LanguageOption[]
+	/** All other languages */
 	otherLanguages: LanguageOption[]
 }>()
 
@@ -76,6 +56,30 @@ async function onLanguageChange(newLanguage: LanguageOption) {
 	}
 }
 </script>
+
+<template>
+	<div class="language">
+		<NcSelect
+			:aria-label-listbox="t('settings', 'Languages')"
+			class="language__select"
+			:clearable="false"
+			:inputId="inputId"
+			label="name"
+			labelOutside
+			:options="allLanguages"
+			:modelValue="language"
+			@option:selected="onLanguageChange" />
+
+		<NcFormBoxButton
+			:label="t('settings', 'Help translate')"
+			href="https://explore.transifex.com/nextcloud/"
+			target="_blank">
+			<template #icon>
+				<OpenInNew :size="20" />
+			</template>
+		</NcFormBoxButton>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .language {

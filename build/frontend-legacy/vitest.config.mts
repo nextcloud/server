@@ -57,7 +57,7 @@ export default defineConfig({
 		},
 		coverage: {
 			include: ['./apps/*/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', './apps/settings/src/authtokens/**', './apps/settings/src/sharing/**', './apps/settings/src/password/**', './apps/settings/src/webauthn/**', './apps/settings/src/language-locale/**'],
+			exclude: ['**.spec.*', '**.test.*', '**.cy.*', './apps/settings/src/sections/**', './apps/settings/src/sharing/**'],
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
@@ -69,11 +69,8 @@ export default defineConfig({
 			...defaultExclude,
 			...gitIgnore,
 			// these sections are Vue 3, they are tested by the Vue 3 frontend
-			'**/apps/settings/src/authtokens/**',
+			'**/apps/settings/src/sections/**',
 			'**/apps/settings/src/sharing/**',
-			'**/apps/settings/src/password/**',
-			'**/apps/settings/src/webauthn/**',
-			'**/apps/settings/src/language-locale/**',
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {

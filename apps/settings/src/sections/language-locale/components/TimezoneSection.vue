@@ -7,7 +7,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { ref, watch } from 'vue'
 import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 
 const { timezone: currentTimezone } = loadState<{ timezone: string }>('settings', 'personalInfoParameters')
 
