@@ -6,7 +6,7 @@
 import { mdiPlus } from '@mdi/js'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AppActionIcon from '../../components/AppActionIcon.vue'
+import AppActionIcon from '../../../components/AppMenu/AppActionIcon.vue'
 
 describe('core: AppActionIcon', () => {
 	it('paints the icon from its URL', () => {

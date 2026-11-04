@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INavigationEntry } from '../../types/navigation.d.ts'
+import type { INavigationEntry } from '../../../types/navigation.d.ts'
 
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -118,7 +118,7 @@ function eightApps(activeIndex: number = -1): INavigationEntry[] {
 // Import AFTER mocks are registered. Static `import` would hoist above
 // vi.mock() and break the wiring; dynamic import in beforeAll/await is the
 // idiomatic Vitest workaround when you need to control mock state per test.
-import type AppMenuModule from '../../components/AppMenu.vue'
+import type AppMenuModule from '../../../components/AppMenu/AppMenu.vue'
 let AppMenu: typeof AppMenuModule
 
 beforeEach(async () => {
@@ -128,7 +128,7 @@ beforeEach(async () => {
 	}
 	initialState.loadState.mockImplementation(stateFor({ apps: fakeApps() }))
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
-	AppMenu = (await import('../../components/AppMenu.vue')).default
+	AppMenu = (await import('../../../components/AppMenu/AppMenu.vue')).default
 })
 
 afterEach(() => {

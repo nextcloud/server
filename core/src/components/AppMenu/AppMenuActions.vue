@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
-import type { INavigationEntry } from '../types/navigation.d.ts'
+import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { mdiDotsHorizontal } from '@mdi/js'
 import { t } from '@nextcloud/l10n'

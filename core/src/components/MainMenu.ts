@@ -4,7 +4,7 @@
  */
 
 import { createApp } from 'vue'
-import AppMenu from './AppMenu.vue'
+import AppMenu from './AppMenu/AppMenu.vue'
 import { mountInPlace } from '../utils/mountInPlace.ts'
 
 /**
