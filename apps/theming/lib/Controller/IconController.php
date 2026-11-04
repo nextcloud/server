@@ -54,6 +54,12 @@ class IconController extends Controller {
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThemedIcon(string $app, string $image): Response {
+		// The cache key is built from the raw path, so only canonical svg paths are
+		// accepted to ensure every cached file belongs to exactly one icon.
+		if (preg_match('/^([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\/)*[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.svg$/D', $image) !== 1) {
+			return new NotFoundResponse();
+		}
+
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
 			$image = 'favicon.png';
