@@ -229,6 +229,7 @@ class TemplateLayout {
 		}
 
 		// Add the js files
+		Util::addScript('core', 'initial-state');
 		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$page->assign('jsfiles', []);
 		if ($this->config->getSystemValueBool('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
@@ -312,7 +313,7 @@ class TemplateLayout {
 			$page->assign('viewport_maximum_scale', '1.0');
 		}
 
-		$page->assign('initialStates', $this->initialState->getInitialStates());
+		$page->assign('initialStates', $this->initialState->getInitialStatesJson());
 
 		$page->assign('id-app-content', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-content' : '#content');
 		$page->assign('id-app-navigation', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-navigation' : null);

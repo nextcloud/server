@@ -52,11 +52,11 @@ class InitialStateServiceTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('staticData')]
 	public function testStaticData(mixed $value): void {
 		$this->service->provideInitialState('test', 'key', $value);
-		$data = $this->service->getInitialStates();
+		$data = $this->service->getInitialStatesJson();
 
 		$this->assertEquals(
-			['test-key' => json_encode($value)],
-			$data
+			['test' => ['key' => json_decode(json_encode($value))]],
+			json_decode($data, true, flags: JSON_THROW_ON_ERROR)
 		);
 	}
 
@@ -65,12 +65,9 @@ class InitialStateServiceTest extends TestCase {
 			->method('error');
 
 		$this->service->provideInitialState('test', 'key', ['upload' => INF]);
-		$data = $this->service->getInitialStates();
+		$data = $this->service->getInitialStatesJson();
 
-		$this->assertEquals(
-			[],
-			$data
-		);
+		$this->assertSame('{}', $data);
 	}
 
 	public function testStaticButInvalidData(): void {
@@ -78,12 +75,9 @@ class InitialStateServiceTest extends TestCase {
 			->method('warning');
 
 		$this->service->provideInitialState('test', 'key', new stdClass());
-		$data = $this->service->getInitialStates();
+		$data = $this->service->getInitialStatesJson();
 
-		$this->assertEquals(
-			[],
-			$data
-		);
+		$this->assertSame('{}', $data);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('staticData')]
@@ -91,11 +85,40 @@ class InitialStateServiceTest extends TestCase {
 		$this->service->provideLazyInitialState('test', 'key', function () use ($value) {
 			return $value;
 		});
-		$data = $this->service->getInitialStates();
+		$data = $this->service->getInitialStatesJson();
 
 		$this->assertEquals(
-			['test-key' => json_encode($value)],
-			$data
+			['test' => ['key' => json_decode(json_encode($value))]],
+			json_decode($data, true, flags: JSON_THROW_ON_ERROR)
 		);
+	}
+
+	public function testGroupsByAppAndKey(): void {
+		$this->service->provideInitialState('core', 'config', ['version' => '36.0.0']);
+		$this->service->provideInitialState('unified-search', 'live-search', true);
+		$this->service->provideInitialState('core', 'min-search-length', 1);
+		$this->service->provideInitialState('app', '0', 'numeric key');
+
+		$this->assertSame(
+			'{"core":{"config":{"version":"36.0.0"},"min-search-length":1},"unified-search":{"live-search":true},"app":{"0":"numeric key"}}',
+			$this->service->getInitialStatesJson()
+		);
+	}
+
+	public function testSafeToEmbedInScriptElement(): void {
+		$this->service->provideInitialState('test', 'html', '</script><!--<script>');
+		$this->service->provideInitialState('<app>', '<key>', ['<b>' => '>']);
+		$data = $this->service->getInitialStatesJson();
+
+		$this->assertStringNotContainsString('<', $data);
+		$this->assertStringNotContainsString('>', $data);
+		$this->assertSame(
+			['test' => ['html' => '</script><!--<script>'], '<app>' => ['<key>' => ['<b>' => '>']]],
+			json_decode($data, true, flags: JSON_THROW_ON_ERROR)
+		);
+	}
+
+	public function testNoInitialState(): void {
+		$this->assertSame('{}', $this->service->getInitialStatesJson());
 	}
 }

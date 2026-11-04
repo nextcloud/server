@@ -36,11 +36,9 @@ class InitialStateService implements IInitialStateService {
 	public function provideInitialState(string $appName, string $key, $data): void {
 		// Scalars and JsonSerializable are fine
 		if (is_scalar($data) || $data instanceof \JsonSerializable || is_array($data)) {
-			if (!isset($this->states[$appName])) {
-				$this->states[$appName] = [];
-			}
 			try {
-				$this->states[$appName][$key] = json_encode($data, JSON_THROW_ON_ERROR);
+				// JSON_HEX_TAG keeps "</script>" and "<!--" out of the JSON so it can be embedded in a <script> element
+				$this->states[$appName][$key] = json_encode($data, JSON_THROW_ON_ERROR | JSON_HEX_TAG);
 			} catch (\JsonException $e) {
 				$this->logger->error('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName, ['exception' => $e]);
 			}
@@ -115,16 +113,23 @@ class InitialStateService implements IInitialStateService {
 		}
 	}
 
-	public function getInitialStates(): array {
+	/**
+	 * Get all initial states as one JSON object of the shape `{"<app>": {"<key>": <value>}}`.
+	 *
+	 * The result contains no "<" or ">", so it can be embedded in a `<script type="application/json">` element as is.
+	 */
+	public function getInitialStatesJson(): string {
 		$this->invokeLazyStateCallbacks();
 		$this->loadLazyStates();
 
-		$appStates = [];
+		$apps = [];
 		foreach ($this->states as $app => $states) {
+			$entries = [];
 			foreach ($states as $key => $value) {
-				$appStates["$app-$key"] = $value;
+				$entries[] = json_encode((string)$key, JSON_THROW_ON_ERROR | JSON_HEX_TAG) . ':' . $value;
 			}
+			$apps[] = json_encode((string)$app, JSON_THROW_ON_ERROR | JSON_HEX_TAG) . ':{' . implode(',', $entries) . '}';
 		}
-		return $appStates;
+		return '{' . implode(',', $apps) . '}';
 	}
 }
