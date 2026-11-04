@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
@@ -41,10 +42,7 @@ class BearerAuth extends AbstractBearer {
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
 
-		if (!$this->userSession->isLoggedIn()) {
-			$this->userSession->tryTokenLogin($this->request);
-		}
-		if ($this->userSession->isLoggedIn()) {
+		if ($this->userSession->tryTokenLogin($this->request)) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 
