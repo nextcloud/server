@@ -97,15 +97,23 @@ class TokenScopePlugin extends ServerPlugin {
 	}
 
 	/**
+	 * For calendars, system calendars and address books
+	 *
 	 * @param list<string> $segments
 	 */
 	private function allowsGroupware(array $segments, string $method, bool $write, string $readScope, string $writeScope): bool {
-		// The only POST allowed: free/busy queries on the scheduling outbox. Every other POST shares or publishes a calendar or address book
+		// POST shares or publishes, except free/busy queries on the scheduling outbox
 		if ($method === 'POST') {
-			return $segments[0] === CalDAVPlugin::CALENDAR_ROOT && count($segments) === 3 && $segments[2] === 'outbox'
-				&& $this->lockdownManager->hasScope($writeScope);
+			return $this->isSchedulingOutbox($segments) && $this->lockdownManager->hasScope($writeScope);
 		}
 
 		return $this->lockdownManager->hasScope($write ? $writeScope : $readScope);
+	}
+
+	/**
+	 * @param list<string> $segments
+	 */
+	private function isSchedulingOutbox(array $segments): bool {
+		return $segments[0] === CalDAVPlugin::CALENDAR_ROOT && count($segments) === 3 && $segments[2] === 'outbox';
 	}
 }
