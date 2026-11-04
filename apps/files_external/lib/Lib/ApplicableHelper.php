@@ -84,7 +84,7 @@ class ApplicableHelper {
 		} else {
 			$yielded = [];
 			foreach ($a->getApplicableGroups() as $groupId) {
-				if (!in_array($groupId, $b->getApplicableGroups())) {
+				if (!in_array($groupId, $b->getApplicableGroups(), true)) {
 					$group = $this->groupManager->get($groupId);
 					if ($group) {
 						foreach ($group->getUsers() as $user) {
@@ -99,7 +99,7 @@ class ApplicableHelper {
 				}
 			}
 			foreach ($a->getApplicableUsers() as $userId) {
-				if (!in_array($userId, $b->getApplicableUsers())) {
+				if (!in_array($userId, $b->getApplicableUsers(), true)) {
 					$user = $this->userManager->get($userId);
 					if ($user && !$this->isApplicableForUser($b, $user)) {
 						if (!isset($yielded[$user->getUID()])) {
