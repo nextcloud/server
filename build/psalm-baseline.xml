@@ -318,11 +318,6 @@
       <code><![CDATA[getL10N]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/CalDAV/Outbox.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/CalDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|null]]></code>
@@ -1059,8 +1054,6 @@
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getL10N]]></code>
       <code><![CDATA[getL10N]]></code>
       <code><![CDATA[getUserFolder]]></code>

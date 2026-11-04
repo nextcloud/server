@@ -7,27 +7,29 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Outbox;
-use OCP\IConfig;
+use OCA\DAV\ConfigLexicon;
+use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class OutboxTest extends TestCase {
-	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private Outbox $outbox;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->outbox = new Outbox($this->config, 'user-principal-123');
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->outbox = new Outbox($this->appConfig, 'user-principal-123');
 	}
 
 	public function testGetACLFreeBusyEnabled(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'disableFreeBusy', 'no')
-			->willReturn('no');
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY)
+			->willReturn(false);
 
 		$this->assertEquals([
 			[
@@ -59,10 +61,10 @@ class OutboxTest extends TestCase {
 	}
 
 	public function testGetACLFreeBusyDisabled(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'disableFreeBusy', 'no')
-			->willReturn('yes');
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::DISABLE_FREE_BUSY)
+			->willReturn(true);
 
 		$this->assertEquals([
 			[
