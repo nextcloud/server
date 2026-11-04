@@ -100,7 +100,7 @@ trait S3ConnectionTrait {
 
 		if ($this->existingBucketsCache === null) {
 			$this->existingBucketsCache = Server::get(ICacheFactory::class)
-				->createLocal('s3-bucket-exists-cache');
+				->createDistributed('s3-bucket-exists-cache');
 		}
 
 		$scheme = (isset($this->params['use_ssl']) && $this->params['use_ssl'] === false) ? 'http' : 'https';
