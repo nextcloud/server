@@ -11,12 +11,14 @@ namespace Test\User;
 
 use OC\User\AvailabilityCoordinator;
 use OC\User\OutOfOfficeData;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Db\Absence;
 use OCA\DAV\Service\AbsenceService;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -26,7 +28,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 	private AvailabilityCoordinator $availabilityCoordinator;
 	private ICacheFactory $cacheFactory;
 	private ICache $cache;
-	private IConfig|MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private AbsenceService $absenceService;
 	private LoggerInterface $logger;
 	private MockObject|TimezoneService $timezoneService;
@@ -38,7 +40,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->absenceService = $this->createMock(AbsenceService::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timezoneService = $this->createMock(TimezoneService::class);
 
@@ -48,7 +50,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 
 		$this->availabilityCoordinator = new AvailabilityCoordinator(
 			$this->cacheFactory,
-			$this->config,
+			$this->appConfig,
 			$this->absenceService,
 			$this->logger,
 			$this->timezoneService,
@@ -56,10 +58,10 @@ class AvailabilityCoordinatorTest extends TestCase {
 	}
 
 	public function testIsEnabled(): void {
-		$this->config->expects(self::once())
-			->method('getAppValue')
-			->with('dav', 'hide_absence_settings', 'no')
-			->willReturn('no');
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with(Application::APP_ID, ConfigLexicon::HIDE_ABSENCE_SETTINGS)
+			->willReturn(false);
 
 		$isEnabled = $this->availabilityCoordinator->isEnabled();
 

@@ -9,6 +9,7 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -212,7 +213,7 @@ class Server {
 
 			$this->server->addPlugin(\OCP\Server::get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($this->request));
-			if (\OCP\Server::get(IConfig::class)->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes') {
+			if (\OCP\Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::ALLOW_CALENDAR_LINK_SUBSCRIPTIONS)) {
 				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 			}
 
@@ -348,7 +349,7 @@ class Server {
 					\OCP\Server::get(ICommentsManager::class),
 					$userSession
 				));
-				if (\OCP\Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+				if (\OCP\Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS)) {
 					$this->server->addPlugin(new IMipPlugin(
 						\OCP\Server::get(IAppConfig::class),
 						\OCP\Server::get(IMailer::class),
