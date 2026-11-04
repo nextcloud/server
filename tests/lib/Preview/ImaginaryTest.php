@@ -14,7 +14,7 @@ use OCP\Files\File;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Http\Message\StreamInterface;
 use Test\TestCase;
 
@@ -38,56 +38,140 @@ class ImaginaryTest extends TestCase {
 		parent::tearDown();
 	}
 
-	private function getJpeg(?int $orientation): string {
+	private function getJpeg(): string {
 		$image = imagecreatetruecolor(40, 30);
 		ob_start();
 		imagejpeg($image);
-		$jpeg = ob_get_clean();
-		if ($orientation === null) {
-			return $jpeg;
-		}
-
-		// EXIF segment with only the orientation
-		$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0);
-		$app1 = "\xFF\xE1" . pack('n', 2 + 6 + strlen($tiff)) . "Exif\0\0" . $tiff;
-		return substr($jpeg, 0, 2) . $app1 . substr($jpeg, 2);
+		return ob_get_clean();
 	}
 
-	#[TestWith([null, false])]
-	#[TestWith([1, false])]
-	#[TestWith([6, true])]
-	public function testAutorotateOnlyWhenNeeded(?int $orientation, bool $expectAutorotate): void {
-		$jpeg = $this->getJpeg($orientation);
+	/**
+	 * Requests a preview of a file of the given MIME type and returns the operations sent
+	 * to Imaginary.
+	 */
+	private function getOperations(string $mimeType, int $maxX, int $maxY): array {
+		$content = $this->getJpeg();
 		$stream = fopen('php://memory', 'r+');
-		fwrite($stream, $jpeg);
+		fwrite($stream, $content);
 		rewind($stream);
 
 		$file = $this->createMock(File::class);
-		$file->method('getSize')->willReturn(strlen($jpeg));
-		$file->method('getMimeType')->willReturn('image/jpeg');
+		$file->method('getSize')->willReturn(strlen($content));
+		$file->method('getMimeType')->willReturn($mimeType);
 		$file->method('fopen')->willReturn($stream);
 
 		$response = $this->createMock(IResponse::class);
 		$response->method('getStatusCode')->willReturn(200);
 		$response->method('getHeader')->willReturn('');
 		$responseBody = fopen('php://memory', 'r+');
-		fwrite($responseBody, $this->getJpeg(null));
+		fwrite($responseBody, $this->getJpeg());
 		rewind($responseBody);
 		$response->method('getBody')->willReturn($responseBody);
 
+		$operations = null;
 		$this->client->expects($this->once())
 			->method('post')
-			->willReturnCallback(function (string $url, array $options) use ($jpeg, $expectAutorotate, $response): IResponse {
-				$operations = array_column(json_decode($options['query']['operations'], true), 'operation');
-				$this->assertSame($expectAutorotate ? ['autorotate', 'fit'] : ['fit'], $operations);
+			->willReturnCallback(function (string $url, array $options) use ($content, $response, &$operations): IResponse {
+				$operations = json_decode($options['query']['operations'], true);
 
-				// The whole file is sent, including the head read for the orientation
+				// The whole file is sent
 				$body = $options['body'];
-				$this->assertSame($jpeg, $body instanceof StreamInterface ? $body->getContents() : stream_get_contents($body));
+				$this->assertSame($content, $body instanceof StreamInterface ? $body->getContents() : stream_get_contents($body));
 				return $response;
 			});
 
-		$preview = (new Imaginary([]))->getThumbnail($file, 256, 256);
+		$preview = (new Imaginary([]))->getThumbnail($file, $maxX, $maxY);
 		$this->assertNotNull($preview);
+		return $operations;
+	}
+
+	public static function dataShrinkBeforeRotate(): array {
+		return [
+			'jpeg' => ['image/jpeg', 'jpeg'],
+			'heic' => ['image/heic', 'jpeg'],
+			'tiff' => ['image/tiff', 'jpeg'],
+			'webp' => ['image/webp', 'jpeg'],
+			'png' => ['image/png', 'png'],
+			'gif' => ['image/gif', 'png'],
+		];
+	}
+
+	#[DataProvider('dataShrinkBeforeRotate')]
+	public function testShrinkBeforeRotate(string $mimeType, string $type): void {
+		$this->assertSame([
+			[
+				'operation' => 'fit',
+				'params' => [
+					'width' => 4096,
+					'height' => 4096,
+					'stripmeta' => 'false',
+					'type' => $type,
+					'norotation' => 'true',
+					'quality' => '100',
+				],
+			],
+			[
+				'operation' => 'autorotate',
+			],
+			[
+				'operation' => 'fit',
+				'params' => [
+					'width' => 4096,
+					'height' => 4096,
+					'stripmeta' => 'true',
+					'type' => $type,
+					'norotation' => 'true',
+					'quality' => '80',
+				],
+			],
+		], $this->getOperations($mimeType, 4096, 4096));
+	}
+
+	public function testNonSquareBox(): void {
+		$operations = $this->getOperations('image/jpeg', 4096, 2048);
+
+		$this->assertSame(['fit', 'autorotate', 'fit'], array_column($operations, 'operation'));
+		$this->assertSame([4096, 4096], [$operations[0]['params']['width'], $operations[0]['params']['height']]);
+		$this->assertSame([4096, 2048], [$operations[2]['params']['width'], $operations[2]['params']['height']]);
+	}
+
+	public function testPreviewFormat(): void {
+		$this->overwriteSystemConfig('preview_format', 'webp');
+
+		$operations = $this->getOperations('image/jpeg', 1024, 1024);
+
+		$this->assertSame('webp', $operations[0]['params']['type']);
+		$this->assertSame('webp', $operations[2]['params']['type']);
+	}
+
+	public static function dataConvert(): array {
+		return [
+			'pdf' => ['application/pdf'],
+			'svg' => ['image/svg+xml'],
+			'illustrator' => ['application/illustrator'],
+		];
+	}
+
+	#[DataProvider('dataConvert')]
+	public function testConvertWithoutRotation(string $mimeType): void {
+		$this->assertSame([
+			[
+				'operation' => 'convert',
+				'params' => [
+					'type' => 'png',
+				],
+			],
+			[
+				'operation' => 'fit',
+				'params' => [
+					'width' => 1024,
+					'height' => 1024,
+					'stripmeta' => 'true',
+					'type' => 'png',
+					'norotation' => 'true',
+					'quality' => '80',
+				],
+			],
+		], $this->getOperations($mimeType, 1024, 1024));
 	}
 }

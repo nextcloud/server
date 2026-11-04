@@ -7,8 +7,6 @@
 
 namespace OC\Preview;
 
-use GuzzleHttp\Psr7\AppendStream;
-use GuzzleHttp\Psr7\Utils;
 use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
@@ -19,9 +17,6 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
-	/** Covers the EXIF segment at the start of a JPEG */
-	private const EXIF_HEAD_SIZE = 256 * 1024;
-
 	/** @var IConfig */
 	private $config;
 
@@ -74,88 +69,7 @@ class Imaginary extends ProviderV2 {
 
 		$httpClient = $this->service->newClient();
 
-		$convert = false;
-		$autorotate = true;
-
-		switch ($file->getMimeType()) {
-			case 'image/heic':
-				// Autorotate seems to be broken for Heic so disable for that
-				$autorotate = false;
-				$mimeType = 'jpeg';
-				break;
-			case 'image/gif':
-			case 'image/png':
-				$mimeType = 'png';
-				break;
-			case 'image/svg+xml':
-			case 'application/pdf':
-			case 'application/illustrator':
-				$convert = true;
-				// Converted files do not need to be autorotated
-				$autorotate = false;
-				$mimeType = 'png';
-				break;
-			default:
-				$mimeType = 'jpeg';
-		}
-
-		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
-
-		switch ($preview_format) { // Change the format to the correct one
-			case 'webp':
-				$mimeType = 'webp';
-				break;
-			default:
-		}
-
-		$body = $stream;
-		if ($autorotate && $file->getMimeType() === 'image/jpeg') {
-			// Each pipeline operation re-encodes the full image, only rotate when needed
-			$head = fread($stream, self::EXIF_HEAD_SIZE);
-			if ($head === false) {
-				return null;
-			}
-			$autorotate = $this->needsRotation($head);
-			$body = new AppendStream([Utils::streamFor($head), Utils::streamFor($stream)]);
-		}
-
-		$operations = [];
-
-		if ($convert) {
-			$operations[] = [
-				'operation' => 'convert',
-				'params' => [
-					'type' => $mimeType,
-				]
-			];
-		} elseif ($autorotate) {
-			$operations[] = [
-				'operation' => 'autorotate',
-			];
-		}
-
-		switch ($mimeType) {
-			case 'jpeg':
-				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
-				break;
-			case 'webp':
-				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
-				break;
-			default:
-				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
-		}
-
-		$operations[] = [
-			'operation' => ($crop ? 'smartcrop' : 'fit'),
-			'params' => [
-				'width' => $maxX,
-				'height' => $maxY,
-				'stripmeta' => 'true',
-				'type' => $mimeType,
-				'norotation' => 'true',
-				'quality' => $quality,
-			]
-		];
+		$operations = $this->getOperations($file->getMimeType(), $maxX, $maxY, $crop);
 
 		try {
 			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
@@ -166,7 +80,7 @@ class Imaginary extends ProviderV2 {
 					'headers' => [
 						'Content-Type' => $file->getMimeType(),
 					],
-					'body' => $body,
+					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
 					'timeout' => 120,
 					'connect_timeout' => 3,
@@ -201,12 +115,109 @@ class Imaginary extends ProviderV2 {
 		return $image->valid() ? $image : null;
 	}
 
-	private function needsRotation(string $head): bool {
-		if (!is_callable('exif_read_data')) {
-			return true;
+	/**
+	 * Images are shrunk before they are rotated, as every operation decodes and encodes
+	 * its input again. The first fit uses a square box, so that the result is large
+	 * enough in either orientation, and keeps the EXIF orientation for autorotate.
+	 *
+	 * @return list<array{operation: string, params?: array<string, int|string>}>
+	 */
+	private function getOperations(string $sourceMimeType, int $maxX, int $maxY, bool $crop): array {
+		$convert = false;
+
+		switch ($sourceMimeType) {
+			case 'image/gif':
+			case 'image/png':
+				$mimeType = 'png';
+				break;
+			case 'image/svg+xml':
+			case 'application/pdf':
+			case 'application/illustrator':
+				$convert = true;
+				$mimeType = 'png';
+				break;
+			default:
+				$mimeType = 'jpeg';
 		}
-		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($head), 'IFD0');
-		return $exif !== false && isset($exif['Orientation']) && (int)$exif['Orientation'] !== 1;
+
+		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
+
+		switch ($preview_format) { // Change the format to the correct one
+			case 'webp':
+				$mimeType = 'webp';
+				break;
+			default:
+		}
+
+		switch ($mimeType) {
+			default:
+			case 'jpeg':
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+				break;
+			case 'webp':
+				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
+				break;
+		}
+
+		$output = [
+			'width' => $maxX,
+			'height' => $maxY,
+			'stripmeta' => 'true',
+			'type' => $mimeType,
+			'norotation' => 'true',
+			'quality' => $quality,
+		];
+
+		if ($convert) {
+			// Converted files do not need to be autorotated
+			return [
+				[
+					'operation' => 'convert',
+					'params' => [
+						'type' => $mimeType,
+					],
+				],
+				[
+					'operation' => ($crop ? 'smartcrop' : 'fit'),
+					'params' => $output,
+				],
+			];
+		}
+
+		if ($crop) {
+			// The crop box applies to the image as it is shown
+			return [
+				[
+					'operation' => 'autorotate',
+				],
+				[
+					'operation' => 'smartcrop',
+					'params' => $output,
+				],
+			];
+		}
+
+		$box = max($maxX, $maxY);
+		return [
+			[
+				'operation' => 'fit',
+				'params' => [
+					'width' => $box,
+					'height' => $box,
+					'stripmeta' => 'false',
+					'type' => $mimeType,
+					'norotation' => 'true',
+					'quality' => '100',
+				],
+			],
+			[
+				'operation' => 'autorotate',
+			],
+			[
+				'operation' => 'fit',
+				'params' => $output,
+			],
+		];
 	}
 
 	/**
