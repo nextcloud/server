@@ -110,19 +110,24 @@
 <script lang="ts">
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
+import { useUsersStore } from '../../store/users.ts'
 
 export default Vue.extend({
 	name: 'UserListHeader',
 
+	setup() {
+		return {
+			usersStore: useUsersStore(),
+		}
+	},
+
 	computed: {
 		showConfig() {
-			// @ts-expect-error: allow untyped $store
-			return this.$store.getters.getShowConfig
+			return this.usersStore.showConfig
 		},
 
 		settings() {
-			// @ts-expect-error: allow untyped $store
-			return this.$store.getters.getServerData
+			return this.usersStore.serverData
 		},
 	},
 

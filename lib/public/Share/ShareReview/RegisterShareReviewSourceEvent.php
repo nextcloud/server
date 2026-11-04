@@ -14,8 +14,9 @@ use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
- * Event dispatched by a share-review app to collect share sources from other
- * apps. Listeners register the class name of their {@see IShareReviewSource}
+ * Event dispatched by a share-review app to collect share sources from other apps.
+ *
+ * Listeners register the class name of their {@see IShareReviewSource}
  * implementation; the share-review app resolves it from the dependency
  * injection container.
  *

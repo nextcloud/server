@@ -42,7 +42,6 @@
     "@nextcloud/files": "$@nextcloud/files"
   },
   "dependencies": {
-    "@chenfengyuan/vue-qrcode": "^2.0.0",
     "@mdi/js": "^7.4.47",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.6.0",
@@ -60,7 +59,7 @@
     "@nextcloud/paths": "^3.1.0",
     "@nextcloud/router": "^3.2.0",
     "@nextcloud/sharing": "^1.0.0-beta.4",
-    "@nextcloud/viewer": "^2.0.0-beta.19",
+    "@nextcloud/viewer": "^2.0.0-beta.20",
     "@nextcloud/vue": "^9.12.0",
     "@simplewebauthn/browser": "^14.0.0",
     "@vueuse/core": "^15.0.0",
@@ -80,7 +79,6 @@
     "sortablejs": "^1.15.7",
     "vue": "^3.5.44",
     "vue-router": "^5.0.6",
-    "vuex": "^4.1.0",
     "webdav": "^5.11.0"
   },
   "devDependencies": {

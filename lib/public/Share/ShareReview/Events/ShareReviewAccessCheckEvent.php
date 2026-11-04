@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Share\ShareReview\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -31,29 +31,29 @@ use OCP\EventDispatcher\Event;
  * {@see \OCP\Share\ShareReview\IShareReviewSource} implementation, at the
  * beginning of its deleteShare() method:
  *
- *   public function deleteShare(string $shareId): bool {
- *       $event = new ShareReviewAccessCheckEvent('MyApp', $shareId);
- *       $this->dispatcher->dispatchTyped($event);
- *       if (!$event->isHandled() || !$event->isGranted()) {
- *           return false; // default-deny: no listener means no access
- *       }
- *       // ... actually delete the share ...
- *   }
+ *     public function deleteShare(string $shareId): bool {
+ *         $event = new ShareReviewAccessCheckEvent('MyApp', $shareId);
+ *         $this->dispatcher->dispatchTyped($event);
+ *         if (!$event->isHandled() || !$event->isGranted()) {
+ *             return false; // default-deny: no listener means no access
+ *         }
+ *         // ... actually delete the share ...
+ *     }
  *
  * Listened to by: the share-review app. Its listener decides whether the
  * current user is an authorized share-review operator (e.g. the app is
  * enabled for the user) and answers with grantAccess() or denyAccess():
  *
- *   public function handle(Event $event): void {
- *       if (!$event instanceof ShareReviewAccessCheckEvent) {
- *           return;
- *       }
- *       if ($this->isShareReviewOperator()) {
- *           $event->grantAccess();
- *       } else {
- *           $event->denyAccess('User is not a share-review operator.');
- *       }
- *   }
+ *     public function handle(Event $event): void {
+ *         if (!$event instanceof ShareReviewAccessCheckEvent) {
+ *             return;
+ *         }
+ *         if ($this->isShareReviewOperator()) {
+ *             $event->grantAccess();
+ *         } else {
+ *             $event->denyAccess('User is not a share-review operator.');
+ *         }
+ *     }
  *
  * Apps that merely expose shares must not listen to this event; answering it
  * is the responsibility of the share-review app that triggered the deletion.
@@ -67,7 +67,7 @@ use OCP\EventDispatcher\Event;
  *
  * @since 34.0.2
  */
-#[Consumable(since: '34.0.2')]
+#[Listenable(since: '34.0.2')]
 class ShareReviewAccessCheckEvent extends Event {
 
 	private bool $handled = false;

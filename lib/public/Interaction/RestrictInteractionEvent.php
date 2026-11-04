@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Interaction;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -22,13 +22,13 @@ use RuntimeException;
  * This event can be emitted to check if a user is allowed to perform an action, such that the receivers would become aware of the resources.
  * If the resources have a distinction between an owner and a initiator, the event must be emitted for each separately.
  * Emitters may omit one or multiple properties, if they are not known.
- * Emitters must call {@see isInteractionRestricted} instead of dispatching the event manually, to ensure exception handling and audit logging is done correctly.
+ * Emitters must call {@see RestrictInteractionEvent::isInteractionRestricted()} instead of dispatching the event manually, to ensure exception handling and audit logging is done correctly.
  * Listeners may ignore any of the properties and only check the ones that are relevant to them.
  * Listeners must throw an {@see InteractionRestrictedException}, if they want to restrict the interaction.
  *
  * @since 34.0.2
  */
-#[Consumable(since: '34.0.2')]
+#[Listenable(since: '34.0.2')]
 final class RestrictInteractionEvent extends Event {
 	/**
 	 * @since 34.0.2

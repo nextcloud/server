@@ -35,6 +35,7 @@ use OCA\Files\Listener\RestrictInteractionListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
+use OCA\Files\PublicCapabilities;
 use OCA\Files\Search\FileAccountScopedSearchProvider;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
@@ -79,6 +80,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
+		$context->registerCapability(PublicCapabilities::class);
 
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);

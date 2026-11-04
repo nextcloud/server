@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Tests\Mapping;
 
+use OC\Memcache\ArrayCache;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -22,7 +23,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 
 	private IAppConfig&MockObject $configMock;
 
-	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): AbstractMapping;
+	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig, bool $isCLI = true): AbstractMapping;
 
 	protected function setUp(): void {
 		$this->cacheFactoryMock = $this->createMock(ICacheFactory::class);
@@ -92,6 +93,37 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 		$this->mapEntries($mapper, $data);
 
 		return [$mapper, $data];
+	}
+
+	/**
+	 * A name looked up before it is mapped must be found once the CLI maps it,
+	 * because the CLI does not write to the local cache of web requests.
+	 */
+	public function testGetDNByNameFindsNameMappedAfterLookup(): void {
+		$localCache = new ArrayCache();
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('isLocalCacheAvailable')->willReturn(true);
+		$cacheFactory->method('createLocal')->willReturn($localCache);
+		$config = $this->createMock(IAppConfig::class);
+		$config->method('getValueString')->willReturn('yes');
+		$dbc = Server::get(IDBConnection::class);
+		$data = $this->getTestData();
+
+		$webMapper = $this->getMapper($dbc, $cacheFactory, $config, false);
+		$webMapper->clear();
+		$this->assertFalse($webMapper->getDNByName($data[0]['name']));
+		$this->assertFalse($localCache->hasKey($data[0]['name']));
+		// a cached miss
+		$localCache->set($data[1]['name'], false);
+
+		$cliMapper = $this->getMapper($dbc, $this->cacheFactoryMock, $this->configMock);
+		$this->mapEntries($cliMapper, [$data[0], $data[1]]);
+
+		$webMapper = $this->getMapper($dbc, $cacheFactory, $config, false);
+		$this->assertSame($data[0]['dn'], $webMapper->getDNByName($data[0]['name']));
+		$this->assertSame($data[1]['dn'], $webMapper->getDNByName($data[1]['name']));
+		$this->assertSame($data[0]['dn'], $localCache->get($data[0]['name']));
+		$this->assertSame($data[1]['dn'], $localCache->get($data[1]['name']));
 	}
 
 	/**

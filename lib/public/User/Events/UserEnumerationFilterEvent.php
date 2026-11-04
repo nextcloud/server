@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
@@ -21,7 +20,6 @@ use OCP\EventDispatcher\Event;
  *
  * @since 31.0.14
  */
-#[Consumable(since: '31.0.14')]
 #[Listenable(since: '31.0.14')]
 class UserEnumerationFilterEvent extends Event {
 	/** @var list<string> $initialUsers */

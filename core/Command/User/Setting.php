@@ -9,6 +9,9 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -22,6 +25,7 @@ class Setting extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IConfig $config,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
@@ -91,6 +95,12 @@ class Setting extends Base {
 				InputOption::VALUE_NONE,
 				'Checks whether the setting exists before deleting it'
 			)
+			->addOption(
+				'force',
+				null,
+				InputOption::VALUE_NONE,
+				'Set or delete the setting even if the app rejects it'
+			)
 		;
 	}
 
@@ -131,6 +141,9 @@ class Setting extends Base {
 		if ($input->getOption('error-if-not-exists') && !$input->getOption('delete')) {
 			throw new \InvalidArgumentException('The "error-if-not-exists" option can only be used together with "delete".');
 		}
+		if ($input->getOption('force') && !$input->getOption('delete') && $input->getArgument('value') === null) {
+			throw new \InvalidArgumentException('The "force" option can only be used together with "value" or "delete".');
+		}
 	}
 
 	#[\Override]
@@ -152,6 +165,16 @@ class Setting extends Base {
 				if ($input->hasParameterOption('--update-only') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
+				}
+
+				$event = new BeforePreferenceSetEvent($uid, $app, $key, $input->getArgument('value'));
+				$this->eventDispatcher->dispatchTyped($event);
+				if ($event->isRejected()) {
+					if (!$input->hasParameterOption('--force')) {
+						$output->writeln('<error>The value was rejected for setting "' . $key . '" of app "' . $app . '", use --force to set it anyway.</error>');
+						return 1;
+					}
+					$output->writeln('<comment>The value was rejected for setting "' . $key . '" of app "' . $app . '", setting it anyway.</comment>');
 				}
 
 				if ($app === 'settings' && in_array($key, ['email', 'display_name'], true)) {
@@ -185,6 +208,16 @@ class Setting extends Base {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
+				}
+
+				$event = new BeforePreferenceDeletedEvent($uid, $app, $key);
+				$this->eventDispatcher->dispatchTyped($event);
+				if ($event->isRejected()) {
+					if (!$input->hasParameterOption('--force')) {
+						$output->writeln('<error>Deleting setting "' . $key . '" of app "' . $app . '" was rejected, use --force to delete it anyway.</error>');
+						return 1;
+					}
+					$output->writeln('<comment>Deleting setting "' . $key . '" of app "' . $app . '" was rejected, deleting it anyway.</comment>');
 				}
 
 				if ($app === 'settings' && in_array($key, ['email', 'display_name'], true)) {

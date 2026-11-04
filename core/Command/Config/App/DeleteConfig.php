@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Config\App;
 
+use OCP\Config\BeforeAppConfigDeletedEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,6 +39,12 @@ class DeleteConfig extends Base {
 				InputOption::VALUE_NONE,
 				'Checks whether the config exists before deleting it'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'Delete the value even if the app rejects it',
+			)
 		;
 	}
 
@@ -49,6 +56,16 @@ class DeleteConfig extends Base {
 		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->appConfig->getKeys($appName), true)) {
 			$output->writeln('<error>Config ' . $configName . ' of app ' . $appName . ' could not be deleted because it did not exist</error>');
 			return 1;
+		}
+
+		$event = new BeforeAppConfigDeletedEvent($appName, $configName);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isRejected()) {
+			if (!$input->getOption('force')) {
+				$output->writeln('<error>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected, use --force to delete it anyway</error>');
+				return 1;
+			}
+			$output->writeln('<comment>Deleting config ' . $configName . ' of app ' . $appName . ' was rejected, deleting it anyway</comment>');
 		}
 
 		$this->appConfig->deleteKey($appName, $configName);
