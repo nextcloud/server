@@ -2,6 +2,8 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Das angemeldete Konto muss ein Administrationskonto sein oder die Berechtigung haben, diese Einstellung zu bearbeiten.",
+    "The given value was rejected" : "Der eingegebene Wert wurde abgelehnt",
+    "Deleting the given key was rejected" : "Das Löschen des angegebenen Schlüssels wurde abgelehnt",
     "Could not create non-existing user ID" : "Nicht vorhandene Benutzer-ID konnte nicht erstellen werden",
     "User already exists" : "Benutzer existiert bereits",
     "Group %1$s does not exist" : "Gruppe %1$s existiert nicht",
