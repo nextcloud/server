@@ -873,7 +873,16 @@ class AppConfig implements IAppConfig {
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
 			 */
-			if ($origValue === $this->getTypedValue($app, $key, $value, $lazy ?? true, $type)
+			try {
+				$sameValue = ($origValue === $this->getTypedValue($app, $key, $value, $lazy ?? true, $type));
+			} catch (AppConfigTypeConflictException $e) {
+				throw $e;
+			} catch (\Exception) {
+				// stored value cannot be decrypted (e.g. instance secret changed), so overwrite it
+				$sameValue = false;
+			}
+
+			if ($sameValue
 				&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
 				return false;
 			}
