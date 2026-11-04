@@ -4,19 +4,19 @@
  */
 
 import type { IFolder } from '@nextcloud/files'
-import type { ComponentPublicInstance, VueConstructor } from 'vue'
+import type { App } from 'vue'
+import type FilesHeaderNoteToRecipient from '../views/FilesHeaderNoteToRecipient.vue'
 
 import { registerFileListHeader } from '@nextcloud/files'
-import Vue from 'vue'
-
-type IFilesHeaderNoteToRecipient = ComponentPublicInstance & { updateFolder: (folder: IFolder) => void }
+import { createApp } from 'vue'
 
 /**
  * Register the  "note to recipient" as a files list header
  */
 export default function registerNoteToRecipient() {
-	let FilesHeaderNoteToRecipient: VueConstructor
-	let instance: IFilesHeaderNoteToRecipient
+	let app: App
+	let headerComponent: typeof FilesHeaderNoteToRecipient
+	let instance: InstanceType<typeof FilesHeaderNoteToRecipient>
 
 	registerFileListHeader({
 		id: 'note-to-recipient',
@@ -31,11 +31,13 @@ export default function registerNoteToRecipient() {
 		},
 		// render simply spawns the component
 		render: async (el: HTMLElement, folder: IFolder) => {
-			if (FilesHeaderNoteToRecipient === undefined) {
-				const { default: component } = await import('../views/FilesHeaderNoteToRecipient.vue')
-				FilesHeaderNoteToRecipient = Vue.extend(component)
+			if (app) {
+				app.unmount()
+			} else {
+				headerComponent = (await import('../views/FilesHeaderNoteToRecipient.vue')).default
 			}
-			instance = new FilesHeaderNoteToRecipient().$mount(el) as unknown as IFilesHeaderNoteToRecipient
+			app = createApp(headerComponent)
+			instance = app.mount(el) as InstanceType<typeof FilesHeaderNoteToRecipient>
 			instance.updateFolder(folder)
 		},
 	})

@@ -77,12 +77,14 @@ function share(recipients = [recipient('bob')]) {
 
 function mountEntry(data = share()) {
 	return mount(UnifiedShareEntry, {
-		propsData: { share: data, fileInfo: { node: { fileid: 1 } } },
-		stubs: {
-			NcAvatar: true,
-			AvatarStack: true,
-			// The actions live in a menu that only renders its content once opened.
-			NcActions: { template: '<div><slot /></div>' },
+		props: { share: data, fileInfo: { node: { fileid: 1 } } },
+		global: {
+			stubs: {
+				NcAvatar: true,
+				AvatarStack: true,
+				// The actions live in a menu that only renders its content once opened.
+				NcActions: { template: '<div><slot /></div>' },
+			},
 		},
 	})
 }
@@ -90,7 +92,7 @@ function mountEntry(data = share()) {
 /** Trigger a row action by its label, as clicking the menu entry would. */
 async function triggerAction(wrapper: ReturnType<typeof mountEntry>, label: string) {
 	const action = wrapper.findAllComponents({ name: 'NcActionButton' })
-		.wrappers.find((button) => button.text().includes(label))
+		.find((button) => button.text().includes(label))
 	expect(action, `the "${label}" action is rendered`).toBeDefined()
 	action!.vm.$emit('click')
 	await new Promise((resolve) => setTimeout(resolve))

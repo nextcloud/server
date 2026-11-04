@@ -37,7 +37,7 @@
 				type="email"
 				@keypress.enter.stop="addNewEmail"
 				@paste.stop.prevent="onPasteEmails"
-				@focusout.native="addNewEmail" />
+				@focusout="addNewEmail" />
 
 			<!-- Email list -->
 			<div v-if="emails.length > 0" class="file-request-dialog__emails">

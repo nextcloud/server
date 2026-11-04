@@ -30,17 +30,17 @@
 			@submit.prevent.stop="">
 			<FileRequestIntro
 				v-show="currentStep === STEP.FIRST"
+				v-model:destination="destination"
+				v-model:label="label"
+				v-model:note="note"
 				:context="context"
-				:destination.sync="destination"
-				:disabled="loading"
-				:label.sync="label"
-				:note.sync="note" />
+				:disabled="loading" />
 
 			<FileRequestDatePassword
 				v-show="currentStep === STEP.SECOND"
-				:disabled="loading"
-				:expiration-date.sync="expirationDate"
-				:password.sync="password" />
+				v-model:expiration-date="expirationDate"
+				v-model:password="password"
+				:disabled="loading" />
 
 			<FileRequestFinish
 				v-if="share"
@@ -185,6 +185,8 @@ export default defineComponent({
 			required: true,
 		},
 	},
+
+	emits: ['close'],
 
 	setup() {
 		return {
