@@ -1989,7 +1989,7 @@ class ShareAPIController extends OCSController {
 					return true;
 				}
 				return false;
-			} catch (ContainerExceptionInterface $e) {
+			} catch (\Exception) {
 				return false;
 			}
 		}
