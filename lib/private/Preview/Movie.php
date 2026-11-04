@@ -18,6 +18,9 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
+	/** Timestamps (in seconds) to make attempts to generate a still */
+	public const TIME_ATTEMPTS = [5, 1, 0];
+
 	/** ffprobe arguments (without the input) that print the color transfer of the first video stream */
 	public const HDR_PROBE_ARGS = ['-select_streams', 'v:0', '-show_entries', 'stream=color_transfer', '-of', 'default=noprint_wrappers=1:nokey=1'];
 
@@ -86,8 +89,7 @@ class Movie extends ProviderV2 {
 
 		$connectDirect = $this->connectDirect($file);
 
-		// Timestamps to make attempts to generate a still
-		$timeAttempts = [5, 1, 0];
+		$timeAttempts = self::TIME_ATTEMPTS;
 
 		// If HTTP/HTTPS direct connect is not available or if the file is encrypted,
 		// process normally
@@ -315,6 +317,21 @@ class Movie extends ProviderV2 {
 		return ($colorTransfer === 'smpte2084' || $colorTransfer === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false;
 	}
 
+	/**
+	 * ffmpeg arguments that write a single still of $input at $second as JPEG to $output
+	 *
+	 * @return list<string>
+	 */
+	public static function getStillArgs(string $input, int $second, bool $hdr, string $output): array {
+		return [
+			'-y', '-ss', (string)$second,
+			'-i', $input,
+			'-f', 'mjpeg', '-vframes', '1',
+			...($hdr ? ['-vf', self::HDR_FILTER] : []),
+			$output,
+		];
+	}
+
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = Server::get(ITempManager::class)->getTemporaryFile();
 		if ($tmpPath === false) {
@@ -328,19 +345,7 @@ class Movie extends ProviderV2 {
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
 		if ($binaryType === 'ffmpeg') {
-			if ($this->useHdr($absPath)) {
-				$cmd = [$this->binary, '-y', '-ss', (string)$second,
-					'-i', $absPath,
-					'-f', 'mjpeg', '-vframes', '1',
-					'-vf', self::HDR_FILTER,
-					$tmpPath];
-			} else {
-				// always default to generating preview using non-HDR command
-				$cmd = [$this->binary, '-y', '-ss', (string)$second,
-					'-i', $absPath,
-					'-f', 'mjpeg', '-vframes', '1',
-					$tmpPath];
-			}
+			$cmd = [$this->binary, ...self::getStillArgs($absPath, $second, $this->useHdr($absPath), $tmpPath)];
 		} else {
 			// Not supported
 			unlink($tmpPath);

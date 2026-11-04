@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OC\Preview;
 
 use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -22,8 +24,8 @@ use Psr\Log\LoggerInterface;
  * @see https://github.com/steelbrain/ffmpeg-over-ip
  */
 class MovieRemote extends ProviderV2 {
-	/** Timestamps (in seconds) to make attempts to generate a still */
-	private const TIME_ATTEMPTS = [5, 1, 0];
+	/** Bytes downloaded of videos on storages that cannot seek, matching the first attempt of Movie */
+	private const NON_SEEKABLE_SIZE = 10 * 1024 * 1024;
 
 	private IConfig $config;
 	private LoggerInterface $logger;
@@ -40,35 +42,34 @@ class MovieRemote extends ProviderV2 {
 	}
 
 	#[\Override]
-	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		$address = $this->config->getSystemValueString('preview_ffmpeg_url', '');
-		if ($address === '') {
-			$this->logger->error('MovieRemote preview provider is enabled, but no url is configured. Please provide the address of your ffmpeg-over-ip server to the \'preview_ffmpeg_url\' config variable.');
-			return null;
-		}
-		$client = $this->getClient($address, $this->config->getSystemValueString('preview_ffmpeg_key', ''));
+	public function isAvailable(FileInfo $file): bool {
+		return $this->config->getSystemValueString('preview_ffmpeg_address', '') !== '';
+	}
 
-		$stream = $this->getSeekableStream($file);
-		if ($stream === null) {
+	#[\Override]
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if (!$this->isAvailable($file)) {
 			return null;
 		}
-		// The extension helps ffmpeg to detect the container format
+
+		$input = $this->getInput($file);
+		if ($input === null) {
+			return null;
+		}
 		$extension = preg_replace('/[^a-z0-9]/', '', strtolower($file->getExtension()));
-		$input = '/input' . ($extension !== '' ? '.' . $extension : '');
-		$files = [$input => ['stream' => $stream, 'size' => (int)$file->getSize()]];
+		$path = '/input' . ($extension !== '' ? '.' . $extension : '');
+		$files = [$path => $input];
 
 		try {
-			$probe = $client->run(FFmpegOverIpClient::PROGRAM_FFPROBE, [...Movie::HDR_PROBE_ARGS, $input], $files);
-			$filter = Movie::isHdr($probe['stdout'], $probe['stderr']) ? ['-vf', Movie::HDR_FILTER] : [];
+			$client = $this->getClient(
+				$this->config->getSystemValueString('preview_ffmpeg_address'),
+				$this->config->getSystemValueString('preview_ffmpeg_key', ''),
+				$this->config->getSystemValueInt('preview_ffmpeg_timeout', 120),
+			);
+			$hdr = $this->useHdr($client, $path, $files);
 
-			foreach (self::TIME_ATTEMPTS as $second) {
-				$result = $client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, [
-					'-ss', (string)$second,
-					'-i', $input,
-					'-f', 'mjpeg', '-vframes', '1',
-					...$filter,
-					'pipe:1',
-				], $files);
+			foreach (Movie::TIME_ATTEMPTS as $second) {
+				$result = $client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, Movie::getStillArgs($path, $second, $hdr, 'pipe:1'), $files);
 
 				if ($result['exitCode'] === 0 && $result['stdout'] !== '') {
 					$image = new Image();
@@ -89,23 +90,37 @@ class MovieRemote extends ProviderV2 {
 			]);
 			return null;
 		} finally {
-			fclose($stream);
+			fclose($input['stream']);
+			$this->cleanTmpFiles();
 		}
 
 		$this->logger->error('MovieRemote preview generation process failed, file=' . $file->getPath());
 		return null;
 	}
 
-	protected function getClient(string $address, string $secret): FFmpegOverIpClient {
-		return new FFmpegOverIpClient($address, $secret);
+	protected function getClient(string $address, string $secret, int $timeout): FFmpegOverIpClient {
+		return new FFmpegOverIpClient($address, $secret, $timeout, Server::get(ICertificateManager::class)->getAbsoluteBundlePath());
 	}
 
 	/**
-	 * Opens the file, copying it to a temporary stream if the storage does not support seeking
-	 *
-	 * @return resource|null
+	 * @param array<string, array{stream: resource, size: int}> $files
 	 */
-	private function getSeekableStream(File $file) {
+	private function useHdr(FFmpegOverIpClient $client, string $path, array $files): bool {
+		try {
+			$probe = $client->run(FFmpegOverIpClient::PROGRAM_FFPROBE, [...Movie::HDR_PROBE_ARGS, $path], $files);
+		} catch (\RuntimeException $e) {
+			$this->logger->debug('MovieRemote HDR detection failed: ' . $e->getMessage(), ['exception' => $e]);
+			return false;
+		}
+		return Movie::isHdr($probe['stdout'], $probe['stderr']);
+	}
+
+	/**
+	 * Opens the video, downloading only its beginning to a temporary file if the storage cannot seek
+	 *
+	 * @return array{stream: resource, size: int}|null
+	 */
+	private function getInput(File $file): ?array {
 		$stream = $file->fopen('r');
 		if (!is_resource($stream)) {
 			return null;
@@ -113,20 +128,18 @@ class MovieRemote extends ProviderV2 {
 		// Stream wrappers always claim to be seekable, so seeking is tried instead
 		try {
 			if (stream_get_meta_data($stream)['seekable'] && fseek($stream, 1) === 0 && fseek($stream, 0) === 0) {
-				return $stream;
+				return ['stream' => $stream, 'size' => (int)$file->getSize()];
 			}
 		} catch (\Throwable) {
 		}
 		fclose($stream);
 
-		$stream = $file->fopen('r');
-		if (!is_resource($stream)) {
+		$localPath = $this->getLocalFile($file, self::NON_SEEKABLE_SIZE);
+		$stream = $localPath !== false ? fopen($localPath, 'r') : false;
+		if ($stream === false) {
+			$this->cleanTmpFiles();
 			return null;
 		}
-		$copy = fopen('php://temp', 'r+');
-		stream_copy_to_stream($stream, $copy);
-		fclose($stream);
-		rewind($copy);
-		return $copy;
+		return ['stream' => $stream, 'size' => (int)filesize($localPath)];
 	}
 }

@@ -66,18 +66,21 @@ class FFmpegOverIpClient {
 	private array $files = [];
 	/** @var array<int, array{path: string, offset: int}> */
 	private array $openFiles = [];
-	private float $deadline = 0;
+	private float $deadline;
 
 	/**
-	 * @param string $address ``host:port``, ``tcp://host:port`` or ``unix:/path/to/socket``
-	 * @param int $timeout seconds a single run() may take
+	 * @param string $address ``host:port``, ``tcp://host:port``, ``tls://host:port`` or ``unix:/path/to/socket``
+	 * @param int $timeout seconds all runs of this client may take together
+	 * @param ?string $caFile certificates to verify the server with for ``tls://`` addresses
 	 */
 	public function __construct(
 		private string $address,
 		private string $secret,
 		private int $timeout = 120,
+		private ?string $caFile = null,
 		private int $connectTimeout = 5,
 	) {
+		$this->deadline = microtime(true) + $timeout;
 	}
 
 	/**
@@ -87,7 +90,12 @@ class FFmpegOverIpClient {
 	 * @throws \RuntimeException if the server is unreachable, rejects the command or violates the protocol
 	 */
 	public function run(int $program, array $args, array $files): array {
-		$socket = @stream_socket_client($this->getRemoteSocket(), $errno, $errstr, $this->connectTimeout);
+		$remoteSocket = $this->getRemoteSocket();
+		$ssl = ['verify_peer' => true, 'verify_peer_name' => true];
+		if ($this->caFile !== null) {
+			$ssl['cafile'] = $this->caFile;
+		}
+		$socket = @stream_socket_client($remoteSocket, $errno, $errstr, min($this->connectTimeout, $this->getRemainingTime()), STREAM_CLIENT_CONNECT, stream_context_create(['ssl' => $ssl]));
 		if ($socket === false) {
 			throw new \RuntimeException('Could not connect to ffmpeg-over-ip server ' . $this->address . ': ' . $errstr);
 		}
@@ -111,7 +119,6 @@ class FFmpegOverIpClient {
 	public function communicate($socket, int $program, array $args, array $files): array {
 		$this->files = $files;
 		$this->openFiles = [];
-		$this->deadline = microtime(true) + $this->timeout;
 		$stdout = '';
 		$stderr = '';
 
@@ -159,10 +166,24 @@ class FFmpegOverIpClient {
 		if (str_starts_with($address, 'unix:')) {
 			return 'unix://' . preg_replace('/^unix:(\/\/)?/', '', $address);
 		}
-		if (str_starts_with($address, 'tcp://')) {
-			return $address;
+		if (preg_match('/^([a-z][a-z0-9+.-]*):\/\//i', $address, $matches) !== 1) {
+			return 'tcp://' . $address;
 		}
-		return 'tcp://' . $address;
+		if (!in_array(strtolower($matches[1]), ['tcp', 'tls', 'ssl'], true)) {
+			throw new \RuntimeException('Invalid ffmpeg-over-ip address "' . $this->address . '", expected host:port, tls://host:port or unix:/path/to/socket');
+		}
+		return $address;
+	}
+
+	/**
+	 * @throws \RuntimeException if the timeout is exceeded
+	 */
+	private function getRemainingTime(): float {
+		$remaining = $this->deadline - microtime(true);
+		if ($remaining <= 0) {
+			throw new \RuntimeException('ffmpeg-over-ip server did not finish within ' . $this->timeout . ' seconds');
+		}
+		return $remaining;
 	}
 
 	private function encodeCommand(int $program, array $args): string {
@@ -234,7 +255,7 @@ class FFmpegOverIpClient {
 					self::FIO_SEEK_END => $this->files[$file['path']]['size'],
 					default => null,
 				};
-				if ($base === null || $base + $offset < 0) {
+				if ($base === null || $offset > PHP_INT_MAX - $base || $base + $offset < 0) {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
 				$file['offset'] = $base + $offset;
@@ -331,10 +352,7 @@ class FFmpegOverIpClient {
 	 * @param resource $socket
 	 */
 	private function applyTimeout($socket): void {
-		$remaining = $this->deadline - microtime(true);
-		if ($remaining <= 0) {
-			throw new \RuntimeException('ffmpeg-over-ip server did not finish within ' . $this->timeout . ' seconds');
-		}
+		$remaining = $this->getRemainingTime();
 		stream_set_timeout($socket, (int)$remaining, (int)(($remaining - (int)$remaining) * 1000000));
 	}
 }

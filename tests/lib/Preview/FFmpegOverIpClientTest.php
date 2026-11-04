@@ -57,8 +57,8 @@ class FFmpegOverIpClientTest extends TestCase {
 		return $messages;
 	}
 
-	private function communicate(array $files = [], int $timeout = 10): array {
-		$client = new FFmpegOverIpClient('ffmpeg-over-ip:5050', 'secret', $timeout);
+	private function communicate(array $files = [], int $timeout = 10, ?FFmpegOverIpClient $client = null): array {
+		$client ??= new FFmpegOverIpClient('ffmpeg-over-ip:5050', 'secret', $timeout);
 		return $client->communicate($this->client, FFmpegOverIpClient::PROGRAM_FFPROBE, ['-i', '/input.mp4'], $files);
 	}
 
@@ -143,6 +143,22 @@ class FFmpegOverIpClientTest extends TestCase {
 		], array_slice($this->clientMessages(), 2));
 	}
 
+	public function testRejectsSeekOverflow(): void {
+		$this->serverSends(0x20, pack('nnNn', 1, 1, 0, 0) . '/input.mp4');
+		$this->serverSends(0x23, pack('nnJC', 2, 1, PHP_INT_MAX, 2));
+		$this->serverSends(0x23, pack('nnJC', 3, 1, -6, 2));
+		$this->serverSends(0x21, pack('nnN', 4, 1, 100));
+		$this->serverSends(0x03, pack('N', 0));
+
+		$this->communicate($this->getFiles('video'));
+		$this->assertSame([
+			[0x40, pack('nJ', 1, 5)],
+			[0x4F, pack('nN', 2, 22)],
+			[0x4F, pack('nN', 3, 22)],
+			[0x41, pack('n', 4) . 'video'],
+		], array_slice($this->clientMessages(), 2));
+	}
+
 	public function testAnswersPing(): void {
 		$this->serverSends(0x05, 'ping');
 		$this->serverSends(0x03, pack('N', 0));
@@ -188,11 +204,41 @@ class FFmpegOverIpClientTest extends TestCase {
 		$this->communicate([], 1);
 	}
 
-	public function testUnreachable(): void {
-		$client = new FFmpegOverIpClient('unix:/nonexistent/ffmpeg-over-ip.sock', 'secret');
+	public function testTimeoutCoversAllRuns(): void {
+		$client = new FFmpegOverIpClient('ffmpeg-over-ip:5050', 'secret', 1);
+		$this->serverSends(0x03, pack('N', 0));
+		$this->communicate([], 1, $client);
+		usleep(1100000);
+		$this->serverSends(0x03, pack('N', 0));
 
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage('Could not connect to ffmpeg-over-ip server unix:/nonexistent/ffmpeg-over-ip.sock');
+		$this->expectExceptionMessage('ffmpeg-over-ip server did not finish within 1 seconds');
+		$this->communicate([], 1, $client);
+	}
+
+	public static function invalidAddressProvider(): array {
+		return [['http://ffmpeg-over-ip:5050'], ['https://ffmpeg-over-ip:5050/']];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidAddressProvider')]
+	public function testInvalidAddress(string $address): void {
+		$client = new FFmpegOverIpClient($address, 'secret');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Invalid ffmpeg-over-ip address "' . $address . '", expected host:port, tls://host:port or unix:/path/to/socket');
+		$client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, ['-version'], []);
+	}
+
+	public static function unreachableAddressProvider(): array {
+		return [['127.0.0.1:1'], ['tcp://127.0.0.1:1'], ['tls://127.0.0.1:1'], ['unix:/nonexistent/ffmpeg-over-ip.sock']];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('unreachableAddressProvider')]
+	public function testUnreachable(string $address): void {
+		$client = new FFmpegOverIpClient($address, 'secret');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Could not connect to ffmpeg-over-ip server ' . $address);
 		$client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, ['-version'], []);
 	}
 }

@@ -38,7 +38,7 @@ class MovieRemoteTest extends Provider {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->overwriteSystemConfig('preview_ffmpeg_url', 'ffmpeg-over-ip:5050');
+		$this->overwriteSystemConfig('preview_ffmpeg_address', 'ffmpeg-over-ip:5050');
 		$this->overwriteSystemConfig('preview_ffmpeg_key', 'secret');
 		$this->imgPath = $this->prepareTestFile($this->fileName, \OC::$SERVERROOT . '/tests/data/' . $this->fileName);
 
@@ -61,8 +61,8 @@ class MovieRemoteTest extends Provider {
 			}
 
 			#[\Override]
-			protected function getClient(string $address, string $secret): FFmpegOverIpClient {
-				$this->credentials = [$address, $secret];
+			protected function getClient(string $address, string $secret, int $timeout): FFmpegOverIpClient {
+				$this->credentials = [$address, $secret, $timeout];
 				return $this->client;
 			}
 		};
@@ -87,13 +87,13 @@ class MovieRemoteTest extends Provider {
 		$this->assertNotNull($preview);
 		$this->assertSame(256, $preview->width());
 		$this->assertSame(160, $preview->height());
-		$this->assertSame(['ffmpeg-over-ip:5050', 'secret'], $this->provider->credentials);
+		$this->assertSame(['ffmpeg-over-ip:5050', 'secret', 120], $this->provider->credentials);
 
 		$this->assertCount(2, $this->calls);
 		$this->assertSame(FFmpegOverIpClient::PROGRAM_FFPROBE, $this->calls[0][0]);
 		$this->assertSame([...Movie::HDR_PROBE_ARGS, '/input.mp4'], $this->calls[0][1]);
 		$this->assertSame(FFmpegOverIpClient::PROGRAM_FFMPEG, $this->calls[1][0]);
-		$this->assertSame(['-ss', '5', '-i', '/input.mp4', '-f', 'mjpeg', '-vframes', '1', 'pipe:1'], $this->calls[1][1]);
+		$this->assertSame(['-y', '-ss', '5', '-i', '/input.mp4', '-f', 'mjpeg', '-vframes', '1', 'pipe:1'], $this->calls[1][1]);
 		$this->assertSame(['/input.mp4'], array_keys($this->calls[1][2]));
 		$this->assertSame(filesize(\OC::$SERVERROOT . '/tests/data/' . $this->fileName), $this->calls[1][2]['/input.mp4']['size']);
 	}
@@ -102,7 +102,7 @@ class MovieRemoteTest extends Provider {
 		$this->results[] = $this->getResult("smpte2084\n", 0, 'configuration: --enable-libzimg');
 
 		$this->assertNotNull($this->getThumbnail());
-		$this->assertSame(['-ss', '5', '-i', '/input.mp4', '-f', 'mjpeg', '-vframes', '1', '-vf', Movie::HDR_FILTER, 'pipe:1'], $this->calls[1][1]);
+		$this->assertSame(['-y', '-ss', '5', '-i', '/input.mp4', '-f', 'mjpeg', '-vframes', '1', '-vf', Movie::HDR_FILTER, 'pipe:1'], $this->calls[1][1]);
 	}
 
 	public function testHdrWithoutZscale(): void {
@@ -112,11 +112,23 @@ class MovieRemoteTest extends Provider {
 		$this->assertNotContains('-vf', $this->calls[1][1]);
 	}
 
+	public function testProbeFails(): void {
+		$this->onRun = function (): void {
+			if (count($this->calls) === 1) {
+				throw new \RuntimeException('ffprobe not found');
+			}
+		};
+
+		$this->assertNotNull($this->getThumbnail());
+		$this->assertCount(2, $this->calls);
+		$this->assertNotContains('-vf', $this->calls[1][1]);
+	}
+
 	public function testTriesNextTimestamp(): void {
 		$this->results = [$this->getResult(''), $this->getResult('', 1), $this->getResult('not an image')];
 
 		$this->assertNotNull($this->getThumbnail());
-		$this->assertSame(['5', '1', '0'], array_map(fn (array $call): string => $call[1][1], array_slice($this->calls, 1)));
+		$this->assertSame(['5', '1', '0'], array_map(fn (array $call): string => $call[1][2], array_slice($this->calls, 1)));
 	}
 
 	public function testAllAttemptsFail(): void {
@@ -132,12 +144,20 @@ class MovieRemoteTest extends Provider {
 		};
 
 		$this->assertNull($this->getThumbnail());
-		$this->assertCount(1, $this->calls);
+		$this->assertCount(2, $this->calls);
+	}
+
+	public function testTimeoutConfig(): void {
+		$this->overwriteSystemConfig('preview_ffmpeg_timeout', 30);
+
+		$this->assertNotNull($this->getThumbnail());
+		$this->assertSame(30, $this->provider->credentials[2]);
 	}
 
 	public function testNoUrlConfigured(): void {
-		$this->overwriteSystemConfig('preview_ffmpeg_url', '');
+		$this->overwriteSystemConfig('preview_ffmpeg_address', '');
 
+		$this->assertFalse($this->provider->isAvailable($this->createMock(File::class)));
 		$this->assertNull($this->getThumbnail());
 		$this->assertSame([], $this->calls);
 	}
@@ -164,21 +184,31 @@ class MovieRemoteTest extends Provider {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('streamProvider')]
-	public function testStorageStreams(callable $fopen, bool $copied): void {
-		$content = 'video content';
-		$opened = [];
+	private function getStorageFile(callable $fopen, string $content, int $cachedSize, array &$opened): File {
+		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storage->method('isLocal')->willReturn(false);
 		$file = $this->createMock(File::class);
 		$file->method('fopen')->willReturnCallback(function () use ($fopen, $content, &$opened) {
 			return $opened[] = $fopen($content);
 		});
-		$file->method('getSize')->willReturn(strlen($content));
+		$file->method('getSize')->willReturn($cachedSize);
+		$file->method('getStorage')->willReturn($storage);
 		$file->method('getExtension')->willReturn('MP4');
 		$file->method('getPath')->willReturn('/user/files/video.mp4');
+		return $file;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('streamProvider')]
+	public function testStorageStreams(callable $fopen, bool $copied): void {
+		$content = 'video content';
+		$opened = [];
+		// A stale cached size is only used if the stream is passed on directly
+		$file = $this->getStorageFile($fopen, $content, 999, $opened);
 
 		$this->onRun = function (array $files) use ($content, $copied, &$opened): void {
 			$stream = $files['/input.mp4']['stream'];
 			$this->assertSame($copied, !in_array($stream, $opened, true));
+			$this->assertSame($copied ? strlen($content) : 999, $files['/input.mp4']['size']);
 			fseek($stream, 6);
 			$this->assertSame(substr($content, 6), stream_get_contents($stream));
 			fseek($stream, 0);
@@ -187,5 +217,18 @@ class MovieRemoteTest extends Provider {
 
 		$this->assertNotNull($this->getThumbnail($file));
 		$this->assertCount(2, $this->calls);
+	}
+
+	public function testNonSeekableStreamIsDownloadedPartially(): void {
+		$content = str_repeat('a', 11 * 1024 * 1024);
+		$opened = [];
+		$file = $this->getStorageFile(fn (string $content) => StreamWrapper::getResource(new NoSeekStream(Utils::streamFor($content))), $content, strlen($content), $opened);
+
+		$this->onRun = function (array $files): void {
+			$this->assertSame(10 * 1024 * 1024, $files['/input.mp4']['size']);
+			$this->assertSame(10 * 1024 * 1024, strlen(stream_get_contents($files['/input.mp4']['stream'], -1, 0)));
+		};
+
+		$this->assertNotNull($this->getThumbnail($file));
 	}
 }

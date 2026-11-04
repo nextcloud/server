@@ -1634,23 +1634,39 @@ $CONFIG = [
 	'preview_imaginary_key' => 'secret',
 
 	/**
-	 * Set the address (``host:port``) of an ffmpeg-over-ip server to generate
-	 * video previews on. Also requires the ``OC\Preview\MovieRemote`` provider
-	 * to be enabled in the ``enabledPreviewProviders`` array. Neither ffmpeg nor
-	 * the ffmpeg-over-ip client is needed on the Nextcloud server in that case.
+	 * Set the address of an ffmpeg-over-ip server to generate video previews on,
+	 * as ``host:port``, ``tls://host:port`` or ``unix:/path/to/socket``. This is
+	 * not an HTTP URL. Also requires the ``OC\Preview\MovieRemote`` provider to
+	 * be enabled in the ``enabledPreviewProviders`` array. Neither ffmpeg nor the
+	 * ffmpeg-over-ip client is needed on the Nextcloud server in that case.
 	 *
 	 * The server reads the videos from Nextcloud over the same connection, so
-	 * it needs no access to the data directory. The connection is not
-	 * encrypted, so only use it within a trusted network.
+	 * it needs no access to the data directory. ffmpeg-over-ip itself does not
+	 * encrypt the connection and does not authenticate the server, so anyone
+	 * answering on this address can read the videos. Either only use it within
+	 * a trusted network, or put a TLS terminating proxy (e.g. stunnel) in front
+	 * of the server and use a ``tls://`` address, whose certificate is verified
+	 * against the system and imported certificates.
+	 *
+	 * Videos on storages that cannot seek (e.g. WebDAV or FTP external storage)
+	 * are only sent partially, like with ``OC\Preview\Movie``.
 	 *
 	 * See https://github.com/steelbrain/ffmpeg-over-ip
 	 */
-	'preview_ffmpeg_url' => 'ffmpeg-over-ip:5050',
+	'preview_ffmpeg_address' => 'ffmpeg-over-ip:5050',
 
 	/**
 	 * The ``authSecret`` configured on the ffmpeg-over-ip server.
 	 */
 	'preview_ffmpeg_key' => 'secret',
+
+	/**
+	 * Seconds generating a single video preview on the ffmpeg-over-ip server
+	 * may take in total.
+	 *
+	 * Defaults to ``120``
+	 */
+	'preview_ffmpeg_timeout' => 120,
 
 	/**
 	 * Only register providers that have been explicitly enabled
