@@ -50,3 +50,39 @@ describe('store:authtoken addToken', () => {
 		expect(store.tokens).toHaveLength(0)
 	})
 })
+
+describe('store:authtoken scopes', () => {
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		vi.restoreAllMocks()
+	})
+
+	it('sends the scopes when creating a token', async () => {
+		const post = vi.spyOn(axios, 'post').mockResolvedValue({
+			data: { deviceToken, loginName: 'alice', token: 'secret' },
+		})
+
+		await useAuthTokenStore().addToken('Laptop', ['dav:calendar:read'])
+
+		expect(post.mock.calls[0][1]).toMatchObject({ name: 'Laptop', scopes: ['dav:calendar:read'] })
+	})
+
+	it.each([['dav:calendar:read'], null])('sets the scopes %o and keeps what the server stored', async (scopes) => {
+		const stored = { filesystem: false, scopes: ['dav:calendar:read'] }
+		const put = vi.spyOn(axios, 'put').mockResolvedValue({ data: { scope: stored } })
+		const token = { ...deviceToken, scope: { filesystem: false, scopes: ['dav:contacts:read'] } }
+
+		expect(await useAuthTokenStore().setTokenScopes(token, scopes)).toBe(true)
+		expect(put.mock.calls[0][1]).toMatchObject({ scope: { scopes } })
+		expect(token.scope).toEqual(stored)
+	})
+
+	it('keeps the old scopes when saving fails', async () => {
+		vi.spyOn(axios, 'put').mockRejectedValue(new Error('Request failed'))
+		const scope = { filesystem: false, scopes: ['dav:contacts:read'] }
+		const token = { ...deviceToken, scope }
+
+		expect(await useAuthTokenStore().setTokenScopes(token, null)).toBe(false)
+		expect(token.scope).toBe(scope)
+	})
+})
