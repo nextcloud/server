@@ -40,6 +40,11 @@ class QueryBuilder extends TypedQueryBuilder {
 	private bool $nonEmptyWhere = false;
 	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
+	private string $insertTableName = '';
+	/** @var array<string, string> */
+	private array $insertValues = [];
+	/** @var list<array<string, string>> */
+	private array $additionalInsertRows = [];
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -298,7 +303,28 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getSQL() {
+		if ($this->additionalInsertRows !== [] && $this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
+			return $this->getBulkInsertSQL();
+		}
 		return $this->queryBuilder->getSQL();
+	}
+
+	private function getBulkInsertSQL(): string {
+		$columns = array_keys($this->insertValues);
+		$rows = [$this->insertValues, ...$this->additionalInsertRows];
+		$valueLists = [];
+		foreach ($rows as $row) {
+			if (count($row) !== count($columns) || array_diff_key($row, $this->insertValues) !== []) {
+				throw new QueryException('All rows of a bulk insert must set the same columns');
+			}
+			$valueLists[] = '(' . implode(', ', array_map(static fn (string $column): string => $row[$column], $columns)) . ')';
+		}
+
+		$into = $this->insertTableName . ' (' . implode(', ', $columns) . ')';
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
+			return 'INSERT ALL ' . implode(' ', array_map(static fn (string $values): string => 'INTO ' . $into . ' VALUES ' . $values, $valueLists)) . ' SELECT 1 FROM DUAL';
+		}
+		return 'INSERT INTO ' . $into . ' VALUES ' . implode(', ', $valueLists);
 	}
 
 	/**
@@ -669,9 +695,8 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function insert($insert = null) {
-		$this->queryBuilder->insert(
-			$this->getTableName($insert)
-		);
+		$this->insertTableName = $this->getTableName($insert);
+		$this->queryBuilder->insert($this->insertTableName);
 
 		$this->lastInsertedTable = $insert;
 
@@ -1022,10 +1047,9 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function setValue($column, $value) {
-		$this->queryBuilder->setValue(
-			$this->helper->quoteColumnName($column),
-			(string)$value
-		);
+		$quotedColumn = $this->helper->quoteColumnName($column);
+		$this->insertValues[$quotedColumn] = (string)$value;
+		$this->queryBuilder->setValue($quotedColumn, (string)$value);
 
 		return $this;
 	}
@@ -1051,14 +1075,33 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function values(array $values) {
-		$quotedValues = [];
-		foreach ($values as $key => $value) {
-			$quotedValues[$this->helper->quoteColumnName($key)] = $value;
-		}
-
-		$this->queryBuilder->values($quotedValues);
+		$this->insertValues = $this->quoteInsertValues($values);
+		$this->additionalInsertRows = [];
+		$this->queryBuilder->values($this->insertValues);
 
 		return $this;
+	}
+
+	#[\Override]
+	public function addValues(array $values): self {
+		if ($this->insertValues === []) {
+			return $this->values($values);
+		}
+
+		$this->additionalInsertRows[] = $this->quoteInsertValues($values);
+
+		return $this;
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private function quoteInsertValues(array $values): array {
+		$quotedValues = [];
+		foreach ($values as $key => $value) {
+			$quotedValues[$this->helper->quoteColumnName($key)] = (string)$value;
+		}
+		return $quotedValues;
 	}
 
 	/**

@@ -814,6 +814,40 @@ interface IQueryBuilder {
 	public function values(array $values);
 
 	/**
+	 * Adds a row of values to an insert query indexed by column names,
+	 * allowing multiple rows to be inserted with a single statement.
+	 *
+	 * Every row must set the same columns. If no values have been set yet,
+	 * this behaves like values().
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->insert('users');
+	 *     foreach ($users as $user) {
+	 *         $qb->addValues([
+	 *             'name' => $qb->createNamedParameter($user['name']),
+	 *             'email' => $qb->createNamedParameter($user['email']),
+	 *         ]);
+	 *     }
+	 *     $qb->executeStatement();
+	 * </code>
+	 *
+	 * The caller is responsible for keeping the number of rows small enough
+	 * to stay below the parameter limits of the database (e.g. 65535 for PostgreSQL).
+	 * The value returned by getLastInsertId() after a multi-row insert depends
+	 * on the database and should not be relied upon.
+	 * On sharded tables, the rows are inserted with one statement per row.
+	 *
+	 * @param array<string, IParameter|IQueryFunction|string> $values The values of the row indexed by column names.
+	 *
+	 * @return $this This QueryBuilder instance.
+	 * @since 36.0.0
+	 *
+	 * @psalm-taint-sink sql $values
+	 */
+	public function addValues(array $values): self;
+
+	/**
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
