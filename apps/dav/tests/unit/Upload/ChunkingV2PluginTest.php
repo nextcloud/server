@@ -9,12 +9,21 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Upload;
 
+use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\S3;
+use OC\Files\Storage\Wrapper\Encryption;
+use OC\Memcache\Redis;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\DAV\Upload\FutureFile;
 use OCA\DAV\Upload\UploadFile;
+use OCA\DAV\Upload\UploadFolder;
+use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -101,5 +110,68 @@ class ChunkingV2PluginTest extends TestCase {
 		$this->tree->method('getNodeForPath')->willReturn($this->createMock(Directory::class));
 
 		$this->assertTrue($this->plugin->forbiddenMethod($this->request));
+	}
+
+	public static function dataAfterMkcolChunkedWrite(): array {
+		return [
+			'without encryption' => ['encrypted' => false],
+			'with server-side encryption' => ['encrypted' => true],
+		];
+	}
+
+	#[DataProvider(methodName: 'dataAfterMkcolChunkedWrite')]
+	public function testAfterMkcolStartsChunkedWriteOnlyWithoutEncryption(bool $encrypted): void {
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->willReturnCallback(static fn (string $key, mixed $default = '') => $key === 'memcache.distributed' ? Redis::class : $default);
+		$this->overwriteService(IConfig::class, $config);
+
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn($this->createMock(Redis::class));
+		$plugin = new ChunkingV2Plugin($cacheFactory);
+		$plugin->initialize($this->server);
+
+		$storage = $this->createMock(ObjectStoreStorage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnCallback(static fn (string $class): bool => match ($class) {
+				IChunkedFileWrite::class, ObjectStoreStorage::class => true,
+				Encryption::class => $encrypted,
+				default => false,
+			});
+		$storage->method('getObjectStore')->willReturn($this->createMock(S3::class));
+		$storage->expects($encrypted ? $this->never() : $this->once())
+			->method('startChunkedWrite')
+			->with('uploads/web-file-upload-id/.target')
+			->willReturn('upload-token');
+
+		$targetFile = $this->createMock(File::class);
+		$targetFile->method('getId')->willReturn(42);
+		$targetFile->method('getInternalPath')->willReturn('uploads/web-file-upload-id/.target');
+		$tempTarget = $this->createMock(UploadFile::class);
+		$tempTarget->method('getFile')->willReturn($targetFile);
+
+		$uploadFolder = $this->createMock(UploadFolder::class);
+		$uploadFolder->method('getName')->willReturn('web-file-upload-id');
+		$uploadFolder->method('getStorage')->willReturn($storage);
+		$uploadFolder->method('getChild')->with('.target')->willReturn($tempTarget);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(static function (string $path) use ($uploadFolder) {
+				if ($path === 'uploads/admin/web-file-upload-id') {
+					return $uploadFolder;
+				}
+				throw new NotFound();
+			});
+		$this->request->method('getPath')->willReturn('uploads/admin/web-file-upload-id');
+		$this->request->method('getHeader')
+			->with('Destination')
+			->willReturn('http://localhost/remote.php/dav/files/admin/target.txt');
+		$this->server->method('calculateUri')->willReturn('files/admin/target.txt');
+
+		$this->response->expects($encrypted ? $this->never() : $this->once())
+			->method('setStatus')
+			->with(201);
+
+		$this->assertTrue($plugin->afterMkcol($this->request, $this->response));
 	}
 }
