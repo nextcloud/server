@@ -62,7 +62,6 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $manager->getBackends());
 	}
 
-
 	public function testUserExistsSingleBackendExists(): void {
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
@@ -225,9 +224,10 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$this->manager->registerBackend($backend);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
 
-		$this->assertFalse($this->manager->checkPassword("foo\0", 'bar'));
+		$this->assertFalse($manager->checkPassword("foo\0", 'bar'));
 	}
 
 	public function testGetOneBackendExists(): void {
@@ -396,8 +396,7 @@ class ManagerTest extends TestCase {
 			->with(\OC\User\Backend::CREATE_USER)
 			->willReturn(true);
 
-
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->expectException(\InvalidArgumentException::class, $exception);
@@ -430,7 +429,6 @@ class ManagerTest extends TestCase {
 		$user = $manager->createUser('foo', 'bar');
 		$this->assertEquals('foo', $user->getUID());
 	}
-
 
 	public function testCreateUserSingleBackendExists(): void {
 		$this->expectException(\Exception::class);
@@ -484,7 +482,6 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
-
 	public function testCreateUserFromBackendWithBackendError(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Could not create account');
@@ -502,7 +499,6 @@ class ManagerTest extends TestCase {
 		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
-
 
 	public function testCreateUserTwoBackendExists(): void {
 		$this->expectException(\Exception::class);
