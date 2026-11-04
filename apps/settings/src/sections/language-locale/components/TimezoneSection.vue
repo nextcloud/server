@@ -5,14 +5,12 @@
 
 <script setup lang="ts">
 import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
 import { ref, watch } from 'vue'
 import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 
 const { timezone: currentTimezone } = loadState<{ timezone: string }>('settings', 'personalInfoParameters')
 
-const inputId = 'account-property-timezone'
 const timezone = ref(currentTimezone)
 watch(timezone, () => {
 	savePrimaryAccountProperty('timezone', timezone.value)
@@ -23,9 +21,7 @@ watch(timezone, () => {
 	<section class="timezone-section">
 		<NcTimezonePicker
 			v-model="timezone"
-			class="timezone-section__picker"
-			:label="t('settings', 'Time zone')"
-			:input-id="inputId" />
+			class="timezone-section__picker" />
 	</section>
 </template>
 

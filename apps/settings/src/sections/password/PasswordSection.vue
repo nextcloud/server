@@ -8,9 +8,9 @@ import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import { NcFormBox } from '@nextcloud/vue'
 import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
@@ -56,7 +56,7 @@ async function changePassword() {
 
 				<NcPasswordField
 					v-model="newPass"
-					check-password-strength
+					checkPasswordStrength
 					:label="t('settings', 'New password')"
 					:maxlength="469"
 					name="newpassword"

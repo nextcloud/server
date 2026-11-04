@@ -46,7 +46,7 @@ export default defineConfig({
 	test: {
 		include: [
 			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-			'../../apps/settings/src/authtokens/**/*.spec.ts',
+			'../../apps/settings/src/sections/**/*.spec.ts',
 			'../../apps/settings/src/sharing/**/*.spec.ts',
 		],
 		env: {
@@ -62,7 +62,7 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
-				'../../apps/settings/src/authtokens/**',
+				'../../apps/settings/src/sections/**',
 				'../../apps/settings/src/sharing/**',
 				'core/src/**',
 			],
