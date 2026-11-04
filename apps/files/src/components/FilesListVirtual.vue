@@ -62,6 +62,9 @@
 					<div class="files-list__skeleton-icon" />
 					<!-- Name skeleton -->
 					<div class="files-list__skeleton-name" />
+					<!-- Other columns skeleton -->
+					<div class="files-list__skeleton-column" />
+					<div class="files-list__skeleton-column" />
 				</div>
 			</div>
 		</template>
@@ -627,8 +630,9 @@ export default defineComponent({
 		}
 
 		.files-list__skeleton-checkbox {
-			width: var(--checkbox-size);
-			height: var(--checkbox-size);
+			width: 18px;
+			height: 18px;
+			margin: 6px;
 			border-radius: 4px;
 			background: linear-gradient(
 				90deg,
@@ -669,6 +673,21 @@ export default defineComponent({
 			background-size: 200% 100%;
 			animation: skeleton-loading 3.5s infinite;
 			min-width: 100px;
+		}
+
+		.files-list__skeleton-column {
+			width: calc(var(--row-height) * 2.5);
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			flex-shrink: 0;
 		}
 
 		@keyframes skeleton-loading {
