@@ -100,8 +100,8 @@ gQIDAQAB
 		$this->timeFactory->method('getTime')
 			->willReturn(42);
 
-		$this->keyManager->method('getKey')
-			->with($this->equalTo($user))
+		$this->keyManager->method('getUserKey')
+			->with($this->equalTo($user), $this->equalTo(Algorithm::Rsa2048))
 			->willReturn($this->key);
 
 		$data = [
@@ -120,7 +120,7 @@ gQIDAQAB
 			'signature' => 'E1fNdoWMX1QmSyKv+S3FtOgLe9niYGQFWOKGaMLxc2h7s3V++EIqJvw/NCLBfrUowzWkTzhkjfbHaf88Hz34WAn4sAwXYAO8cnboQs6SClKRzQ/nvbtLgd2wm9RQ8UTOM7wR6C7HpIn4qqJ4BTQ1bAwYAiJ2GoK+W8wC0o0Gpub2906j3JJ4cbc9lufd5ohWKCev8Ubem/EEKaRIZA7qHh+Q1MKXTaJQJlCjTMe5PyGy0fsmtVxsPls3/Fkd9sVeHEHSYHzOiF6ttlxWou4TdRbq3WSEVpt1DOOvkKI9w2+zBJ7IPH8CnVpXcdIzWDctUygZKzNMUQnweDOOziEdUw=='
 		];
 
-		$result = $this->signer->sign('myType', $data, $user);
+		$result = $this->signer->sign('myType', $data, $user, Algorithm::Rsa2048);
 
 		$this->assertEquals($expects, $result);
 	}
@@ -142,15 +142,15 @@ gQIDAQAB
 
 		$user = $this->createMock(IUser::class);
 
-		$this->keyManager->method('getKey')
-			->with($this->equalTo($user))
+		$this->keyManager->method('getUserKey')
+			->with($this->equalTo($user), $this->equalTo(Algorithm::Rsa2048))
 			->willReturn($this->key);
 
 		$this->userManager->method('get')
 			->with('foo')
 			->willReturn($user);
 
-		$this->assertTrue($this->signer->verify($data));
+		$this->assertTrue($this->signer->verify($data, Algorithm::Rsa2048));
 	}
 
 	public function testVerifyInvalid(): void {
@@ -170,21 +170,21 @@ gQIDAQAB
 
 		$user = $this->createMock(IUser::class);
 
-		$this->keyManager->method('getKey')
-			->with($this->equalTo($user))
+		$this->keyManager->method('getUserKey')
+			->with($this->equalTo($user), $this->equalTo(Algorithm::Rsa2048))
 			->willReturn($this->key);
 
 		$this->userManager->method('get')
 			->with('foo')
 			->willReturn($user);
 
-		$this->assertFalse($this->signer->verify($data));
+		$this->assertFalse($this->signer->verify($data, Algorithm::Rsa2048));
 	}
 
 	public function testVerifyInvalidData(): void {
 		$data = [
 		];
 
-		$this->assertFalse($this->signer->verify($data));
+		$this->assertFalse($this->signer->verify($data, Algorithm::Rsa2048));
 	}
 }

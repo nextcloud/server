@@ -12,6 +12,7 @@ namespace OC\Security\IdentityProof;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\IdentityProof\Algorithm;
 
 class Signer {
 	public function __construct(
@@ -24,10 +25,10 @@ class Signer {
 	/**
 	 * Returns a signed blob for $data
 	 *
-	 * @return array ['message', 'signature']
+	 * @return array{message: string, signature: string}
 	 */
-	public function sign(string $type, array $data, IUser $user): array {
-		$privateKey = $this->keyManager->getKey($user)->getPrivate();
+	public function sign(string $type, array $data, IUser $user, Algorithm $algorithm): array {
+		$privateKey = $this->keyManager->getUserKey($user, $algorithm)->getPrivate();
 		$data = [
 			'data' => $data,
 			'type' => $type,
@@ -45,8 +46,9 @@ class Signer {
 	/**
 	 * Whether the data is signed properly
 	 *
+	 * @param array{message: array, signature: string} $data
 	 */
-	public function verify(array $data): bool {
+	public function verify(array $data, Algorithm $algorithm): bool {
 		if (isset($data['message']['signer'])
 			&& isset($data['signature'])
 		) {
@@ -55,7 +57,7 @@ class Signer {
 
 			$user = $this->userManager->get($userId);
 			if ($user !== null) {
-				$key = $this->keyManager->getKey($user);
+				$key = $this->keyManager->getUserKey($user, $algorithm);
 				return openssl_verify(
 					json_encode($data['message']),
 					base64_decode($data['signature']),

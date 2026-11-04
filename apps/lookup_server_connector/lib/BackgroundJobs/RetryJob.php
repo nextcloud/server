@@ -19,6 +19,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\IdentityProof\Algorithm;
 
 class RetryJob extends Job {
 	private string $lookupServer;
@@ -108,7 +109,7 @@ class RetryJob extends Job {
 		}
 
 		$data = $this->getUserAccountData($user);
-		$signedData = $this->signer->sign('lookupserver', $data, $user);
+		$signedData = $this->signer->sign('lookupserver', $data, $user, Algorithm::Rsa2048);
 		$client = $this->clientService->newClient();
 
 		try {
