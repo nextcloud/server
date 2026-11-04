@@ -3139,13 +3139,6 @@ $CONFIG = [
 	'reference_opengraph' => true,
 
 	/**
-	 * Enable the legacy unified search.
-	 *
-	 * Defaults to ``false``
-	 */
-	'unified_search.enabled' => false,
-
-	/**
 	 * Enable features that do not yet comply with accessibility standards.
 	 *
 	 * Defaults to ``true``
