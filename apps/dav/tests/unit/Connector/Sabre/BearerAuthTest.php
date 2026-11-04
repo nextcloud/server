@@ -22,6 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BearerAuth;
@@ -66,12 +67,9 @@ class BearerAuthTest extends TestCase {
 
 	public function testValidateBearerToken(): void {
 		$this->userSession
-			->expects($this->exactly(2))
-			->method('isLoggedIn')
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-			);
+			->expects($this->once())
+			->method('tryTokenLogin')
+			->willReturn(true);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
