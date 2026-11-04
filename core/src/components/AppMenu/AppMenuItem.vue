@@ -4,11 +4,11 @@
 -->
 
 <script setup lang="ts">
-import type { INavigationEntry } from '../types/navigation.d.ts'
+import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { n } from '@nextcloud/l10n'
 import { computed } from 'vue'
-import AppIcon from './AppIcon.vue'
+import AppIcon from '../AppIcon.vue'
 
 const props = withDefaults(defineProps<{
 	app: INavigationEntry

@@ -89,6 +89,9 @@ class TemplateLayout {
 				Util::addScript('core', 'unified-search', 'core');
 				Util::addStyle('core', 'unified-search');
 
+				Util::addScript('core', 'appmenu', 'core');
+				Util::addStyle('core', 'appmenu');
+
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
 				$page->assign('logoUrl', $logoUrl);

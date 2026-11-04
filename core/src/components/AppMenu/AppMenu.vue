@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { INavigationEntry } from '../types/navigation.d.ts'
+import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { mdiCog, mdiDotsGrid } from '@mdi/js'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -18,7 +18,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import AppMenuActions from './AppMenuActions.vue'
 import AppMenuItem from './AppMenuItem.vue'
-import { logger } from '../utils/logger.ts'
+import { logger } from '../../utils/logger.ts'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])

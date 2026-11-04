@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INavigationEntry } from '../../types/navigation.d.ts'
+import type { INavigationEntry } from '../../../types/navigation.d.ts'
 
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -17,7 +17,7 @@ vi.mock('@nextcloud/l10n', () => ({
 	},
 }))
 
-import AppMenuItem from '../../components/AppMenuItem.vue'
+import AppMenuItem from '../../../components/AppMenu/AppMenuItem.vue'
 
 function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 	return {

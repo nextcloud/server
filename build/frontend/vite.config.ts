@@ -17,6 +17,7 @@ const modules = {
 	},
 	core: {
 		'ajax-cron': resolve(import.meta.dirname, 'core/src', 'ajax-cron.ts'),
+		appmenu: resolve(import.meta.dirname, 'core/src', 'appmenu.ts'),
 		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
 		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
 		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),

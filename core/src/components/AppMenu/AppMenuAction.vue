@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { INavigationEntry } from '../types/navigation.d.ts'
+import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { emit as emitOnEventBus } from '@nextcloud/event-bus'
 import { computed } from 'vue'
