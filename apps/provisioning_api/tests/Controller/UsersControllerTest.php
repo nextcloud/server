@@ -2884,6 +2884,68 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
+	public function testEditUserMultiValueAdminAddAdditionalEmailIsVerified(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$this->groupManager
+			->expects($this->any())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subAdminManager);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$property->expects($this->once())
+			->method('setLocallyVerified')
+			->with(IAccountManager::VERIFIED);
+		$collection = $this->createMock(IAccountPropertyCollection::class);
+		$collection->expects($this->once())
+			->method('addPropertyWithDefaults')
+			->with('demo@nextcloud.com');
+		$collection->method('getPropertyByValue')
+			->willReturnMap([
+				['demo@nextcloud.com', $property],
+			]);
+
+		$userAccount = $this->createMock(IAccount::class);
+		$userAccount->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($collection);
+
+		$this->accountManager
+			->expects($this->once())
+			->method('getAccount')
+			->with($targetUser)
+			->willReturn($userAccount);
+		$this->accountManager
+			->expects($this->once())
+			->method('updateAccount')
+			->with($userAccount);
+
+		$this->assertEquals([], $this->api->editUserMultiValue('UserToEdit', 'additional_mail', '', 'demo@nextcloud.com')->getData());
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataEditUserSelfEditChangeLanguageButForced')]
 	public function testEditUserAdminEditChangeLanguageInvalidLanguage(): void {
 		$this->expectException(OCSException::class);

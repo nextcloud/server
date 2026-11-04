@@ -923,7 +923,7 @@ class UsersController extends AUserDataOCSController {
 				if ($value !== '') {
 					$value = mb_strtolower(trim($value));
 					$mailCollection->addPropertyWithDefaults($value);
-					$property = $mailCollection->getPropertyByValue($key);
+					$property = $mailCollection->getPropertyByValue($value);
 					if ($isAdminOrSubadmin && $property) {
 						// admin set mails are auto-verified
 						$property->setLocallyVerified(IAccountManager::VERIFIED);
