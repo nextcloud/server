@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test;
 
+use OC\Icons\IconManager;
 use OC\InitialStateService;
 use OC\TemplateLayout;
 use OCP\App\IAppManager;
@@ -30,6 +31,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 	private ITemplateManager&MockObject $templateManager;
 	private ServerVersion&MockObject $serverVersion;
 	private IRequest&MockObject $request;
+	private IconManager&MockObject $iconManager;
 
 	private TemplateLayout $templateLayout;
 
@@ -45,6 +47,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->iconManager = $this->createMock(IconManager::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
@@ -80,7 +83,38 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/' . $path);
 
-		$this->templateLayout = new TemplateLayout(
+		$this->templateLayout = $this->createTemplateLayout();
+
+		$layout = $this->templateLayout->getPageTemplate(TemplateResponse::RENDER_AS_ERROR, '');
+
+		self::invokePrivate($this->templateLayout, 'versionHash', ['version_hash']);
+
+		$hash = self::invokePrivate($this->templateLayout, 'getVersionHashSuffix', [$path, $file]);
+		self::assertEquals($expected, $hash);
+	}
+
+	public function testProvidesIconsInitialState(): void {
+		$icons = [
+			'iconUrl' => '/core/img/icons/{name}.svg?v=abc',
+			'spriteUrl' => '/core/img/icons.svg?v=abc',
+			'spriteIcons' => ['close'],
+		];
+		$this->iconManager->method('getInitialState')
+			->willReturn($icons);
+
+		$provided = [];
+		$this->initialState->method('provideInitialState')
+			->willReturnCallback(function (string $app, string $key, mixed $data) use (&$provided): void {
+				$provided[$app . '/' . $key] = $data;
+			});
+
+		$this->createTemplateLayout()->getPageTemplate(TemplateResponse::RENDER_AS_ERROR, '');
+
+		self::assertSame($icons, $provided['core/icons'] ?? null);
+	}
+
+	private function createTemplateLayout(): TemplateLayout {
+		return new TemplateLayout(
 			$this->config,
 			$this->appConfig,
 			$this->appManager,
@@ -89,14 +123,8 @@ class TemplateLayoutTest extends \Test\TestCase {
 			$this->templateManager,
 			$this->serverVersion,
 			$this->request,
+			$this->iconManager,
 		);
-
-		$layout = $this->templateLayout->getPageTemplate(TemplateResponse::RENDER_AS_ERROR, '');
-
-		self::invokePrivate($this->templateLayout, 'versionHash', ['version_hash']);
-
-		$hash = self::invokePrivate($this->templateLayout, 'getVersionHashSuffix', [$path, $file]);
-		self::assertEquals($expected, $hash);
 	}
 
 	public static function dataVersionHash() {

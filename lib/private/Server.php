@@ -79,6 +79,7 @@ use OC\Files\View;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
+use OC\Icons\IconManager;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
@@ -223,6 +224,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\Icons\IIconManager;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
@@ -377,6 +379,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(IFile::class, File::class);
 		$this->registerAlias(IStorage::class, Storage::class);
 		$this->registerAlias(ITagManager::class, TagManager::class);
+		$this->registerAlias(IIconManager::class, IconManager::class);
 
 		$this->registerAlias(ISystemTagManagerFactory::class, SystemTagManagerFactory::class);
 		/** @deprecated 35.0.0 */

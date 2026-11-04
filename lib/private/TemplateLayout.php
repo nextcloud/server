@@ -17,6 +17,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
+use OC\Icons\IconManager;
 use OC\Search\SearchQuery;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Template\CSSResourceLocator;
@@ -60,6 +61,7 @@ class TemplateLayout {
 		private ITemplateManager $templateManager,
 		private ServerVersion $serverVersion,
 		private IRequest $request,
+		private IconManager $iconManager,
 	) {
 	}
 
@@ -289,6 +291,7 @@ class TemplateLayout {
 		$page->assign('cssfiles', []);
 		$page->assign('printcssfiles', []);
 		$this->initialState->provideInitialState('core', 'versionHash', $this->versionHash);
+		$this->initialState->provideInitialState('core', 'icons', $this->iconManager->getInitialState());
 		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
