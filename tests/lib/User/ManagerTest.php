@@ -63,7 +63,6 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $manager->getBackends());
 	}
 
-
 	public function testUserExistsSingleBackendExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -184,6 +183,27 @@ class ManagerTest extends TestCase {
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->checkPassword('foo', 'bar'));
+	}
+
+	public function testCheckPasswordNullByteInLoginName(): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->never())
+			->method('checkPassword');
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) {
+				if ($actions === BACKEND::CHECK_PASSWORD) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$this->assertFalse($manager->checkPassword("foo\0", 'bar'));
 	}
 
 	public function testGetOneBackendExists(): void {
@@ -330,7 +350,6 @@ class ManagerTest extends TestCase {
 			->with(\OC\User\Backend::CREATE_USER)
 			->willReturn(true);
 
-
 		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
@@ -361,7 +380,6 @@ class ManagerTest extends TestCase {
 		$user = $manager->createUser('foo', 'bar');
 		$this->assertEquals('foo', $user->getUID());
 	}
-
 
 	public function testCreateUserSingleBackendExists(): void {
 		$this->expectException(\Exception::class);
@@ -409,7 +427,6 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
-
 	public function testCreateUserFromBackendWithBackendError(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Could not create account');
@@ -425,7 +442,6 @@ class ManagerTest extends TestCase {
 		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
-
 
 	public function testCreateUserTwoBackendExists(): void {
 		$this->expectException(\Exception::class);
