@@ -1764,13 +1764,7 @@
                         "type": "object",
                         "required": [
                             "windows_compatible_filenames",
-                            "$comment",
                             "bigfilechunking",
-                            "blacklisted_files",
-                            "forbidden_filenames",
-                            "forbidden_filename_basenames",
-                            "forbidden_filename_characters",
-                            "forbidden_filename_extensions",
                             "chunked_upload",
                             "file_conversions",
                             "directEditing"
@@ -1779,42 +1773,8 @@
                             "windows_compatible_filenames": {
                                 "type": "boolean"
                             },
-                            "$comment": {
-                                "type": "string",
-                                "nullable": true
-                            },
                             "bigfilechunking": {
                                 "type": "boolean"
-                            },
-                            "blacklisted_files": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object"
-                                }
-                            },
-                            "forbidden_filenames": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_basenames": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_characters": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_extensions": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
                             },
                             "chunked_upload": {
                                 "type": "object",
@@ -1906,6 +1866,61 @@
                             "type": "array",
                             "items": {
                                 "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "FilesPublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "object",
+                        "required": [
+                            "$comment",
+                            "blacklisted_files",
+                            "forbidden_filenames",
+                            "forbidden_filename_basenames",
+                            "forbidden_filename_characters",
+                            "forbidden_filename_extensions"
+                        ],
+                        "properties": {
+                            "$comment": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "blacklisted_files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "forbidden_filenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_basenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_extensions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -8045,6 +8060,9 @@
                                                                 },
                                                                 {
                                                                     "$ref": "#/components/schemas/FilesCapabilities"
+                                                                },
+                                                                {
+                                                                    "$ref": "#/components/schemas/FilesPublicCapabilities"
                                                                 },
                                                                 {
                                                                     "$ref": "#/components/schemas/FilesSharingCapabilities"
