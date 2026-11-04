@@ -12,6 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\Memcached;
 use OC\Memcache\Redis;
@@ -317,6 +318,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 		if (!$this->uploadFolder->getStorage()->instanceOfStorage(IChunkedFileWrite::class)) {
 			throw new StorageInvalidException('Storage does not support chunked file writing');
+		}
+		if ($this->uploadFolder->getStorage()->instanceOfStorage(Encryption::class)) {
+			throw new StorageInvalidException('Chunked file writing is not supported with server-side encryption');
 		}
 		if ($this->uploadFolder->getStorage()->instanceOfStorage(ObjectStoreStorage::class) && !$this->uploadFolder->getStorage()->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
 			throw new StorageInvalidException('Storage does not support multi part uploads');
