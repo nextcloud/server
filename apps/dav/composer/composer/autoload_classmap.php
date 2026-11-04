@@ -273,6 +273,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\StreamedPropFindNotFoundPlugin' => $baseDir . '/../lib/Connector/Sabre/StreamedPropFindNotFoundPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\TagList' => $baseDir . '/../lib/Connector/Sabre/TagList.php',
     'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => $baseDir . '/../lib/Connector/Sabre/TagsPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\TokenScopePlugin' => $baseDir . '/../lib/Connector/Sabre/TokenScopePlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => $baseDir . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
     'OCA\\DAV\\Controller\\BirthdayCalendarController' => $baseDir . '/../lib/Controller/BirthdayCalendarController.php',
