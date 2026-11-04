@@ -114,7 +114,7 @@ trait WebDav {
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		try {
 			$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
