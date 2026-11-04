@@ -12,7 +12,7 @@ use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
-use OC\MemCache\ArrayCache;
+use OC\Memcache\ArrayCache;
 use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\Http;
 use OCP\Constants;
