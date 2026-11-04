@@ -73,6 +73,10 @@ class MailTest extends TestCase {
 				['mail_smtpname', '', 'smtp.sender.com'],
 				['mail_smtppassword', '', 'mypassword'],
 				['mail_sendmailmode', 'smtp', 'smtp'],
+				['mail_smime_certificate', '', '/etc/ssl/certs/mail.pem'],
+				['mail_smime_key', '', '/etc/ssl/private/mail.key'],
+				['mail_smime_chain', '', ''],
+				['mail_smime_passphrase', '', 'pass123'],
 			]);
 
 		$initialState = [];
@@ -116,6 +120,10 @@ class MailTest extends TestCase {
 				'mail_smtpname' => 'smtp.sender.com',
 				'mail_smtppassword' => '********',
 				'mail_sendmailmode' => 'smtp',
+				'mail_smime_certificate' => '/etc/ssl/certs/mail.pem',
+				'mail_smime_key' => '/etc/ssl/private/mail.key',
+				'mail_smime_chain' => '',
+				'mail_smime_passphrase' => '********',
 				'mail_noverify' => false,
 			],
 		], $initialState);

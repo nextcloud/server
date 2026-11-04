@@ -32,6 +32,7 @@ use Symfony\Component\Mailer\Transport\NullTransport;
 use Symfony\Component\Mailer\Transport\SendmailTransport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
+use Symfony\Component\Mime\Crypto\SMimeSigner;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
 
@@ -210,7 +211,7 @@ class Mailer implements IMailer {
 		}
 
 		try {
-			$mailer->send($message->getSymfonyEmail());
+			$mailer->send($this->signMessage($message->getSymfonyEmail()));
 		} catch (TransportExceptionInterface $e) {
 			$logMessage = sprintf('Sending mail to "%s" with subject "%s" failed', json_encode($message->getTo()), $message->getSubject());
 			$this->logger->error($logMessage, ['app' => 'core', 'exception' => $e]);
@@ -236,6 +237,34 @@ class Mailer implements IMailer {
 		$this->logger->debug($logMessage, ['app' => 'core']);
 
 		return [];
+	}
+
+	/**
+	 * Sign the message with S/MIME if a signing certificate is configured.
+	 *
+	 * If no certificate is configured, the message is returned unchanged. When
+	 * signing is enabled but fails, an exception is thrown so that no unsigned
+	 * mail is delivered.
+	 */
+	private function signMessage(Email $email): \Symfony\Component\Mime\Message {
+		$certificate = $this->config->getSystemValueString('mail_smime_certificate', '');
+		if ($certificate === '') {
+			return $email;
+		}
+
+		try {
+			$signer = new SMimeSigner(
+				$certificate,
+				$this->config->getSystemValueString('mail_smime_key', ''),
+				$this->config->getSystemValueString('mail_smime_passphrase', '') ?: null,
+				$this->config->getSystemValueString('mail_smime_chain', '') ?: null
+			);
+
+			return $signer->sign($email);
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to sign mail with S/MIME: ' . $e->getMessage(), ['app' => 'core', 'exception' => $e]);
+			throw $e;
+		}
 	}
 
 	/**
