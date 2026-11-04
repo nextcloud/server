@@ -318,4 +318,23 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_OK, $res->getStatus());
 		$this->assertEquals($preview, $this->invokePrivate($res, 'file'));
 	}
+
+	public function testGetMimeIconUrlIsCacheable(): void {
+		$mimeIconProvider = $this->createMock(IMimeIconProvider::class);
+		$mimeIconProvider->method('getMimeIconUrl')
+			->with('text/plain')
+			->willReturn('/core/img/filetypes/text.svg');
+		$controller = new PreviewController(
+			'core',
+			$this->request,
+			$this->previewManager,
+			$this->userFolder,
+			$mimeIconProvider
+		);
+
+		$res = $controller->getMimeIconUrl('text/plain');
+
+		$this->assertEquals(Http::STATUS_SEE_OTHER, $res->getStatus());
+		$this->assertStringContainsString('public, max-age=86400', $res->getHeaders()['Cache-Control']);
+	}
 }
