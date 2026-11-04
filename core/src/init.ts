@@ -6,7 +6,6 @@
 import { getLocale } from '@nextcloud/l10n'
 import moment from 'moment'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu.ts'
-import { setUp as setUpMainMenu } from './components/MainMenu.ts'
 import { setUp as setUpUserMenu } from './components/UserMenu.ts'
 import { initSessionHeartBeat } from './session-heartbeat.ts'
 import { initFallbackClipboardAPI } from './utils/ClipboardFallback.ts'
@@ -46,7 +45,6 @@ export function initCore() {
 
 	initSessionHeartBeat()
 
-	setUpMainMenu()
 	setUpUserMenu()
 	setUpContactsMenu()
 }
