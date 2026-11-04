@@ -170,8 +170,8 @@ class Manager implements IManager {
 	 * Set public key for $user
 	 * @internal Only used by the OCC command that regenerates a users public key
 	 */
-	public function setPublicKey(IUser $user, string $publicKey): void {
-		$keyId = $this->generateKeyId(KeyType::User, Algorithm::Rsa2048, $user->getUID());
+	public function setUserKeyRegeneratedPublicKey(IUser $user, Algorithm $algorithm, string $publicKey): void {
+		$keyId = $this->generateKeyId(KeyType::User, $algorithm, $user->getUID());
 
 		$folder = $this->appData->getFolder($keyId);
 		$folder->newFile('public', $publicKey);

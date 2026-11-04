@@ -182,7 +182,7 @@ class ManagerTest extends TestCase {
 			->method('set')
 			->with('user-MyUid-public', 'MyNewPublicKey');
 
-		$this->manager->setPublicKey($user, 'MyNewPublicKey');
+		$this->manager->setUserKeyRegeneratedPublicKey($user, Algorithm::Rsa2048, 'MyNewPublicKey');
 	}
 
 	public function testGetKeyWithNotExistingKey(): void {

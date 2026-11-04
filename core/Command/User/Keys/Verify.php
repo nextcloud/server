@@ -12,6 +12,7 @@ namespace OC\Core\Command\User\Keys;
 use OC\Security\IdentityProof\Manager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\IdentityProof\Algorithm;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,6 +43,12 @@ class Verify extends Command {
 				InputOption::VALUE_NONE,
 				'Save the derived public key to match the private key'
 			)
+			->addOption(
+				'algorithm',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Algorithm to check or update the key for'
+			)
 		;
 	}
 
@@ -60,7 +67,23 @@ class Verify extends Command {
 			return static::FAILURE;
 		}
 
-		$key = $this->keyManager->getKey($user);
+		if ($input->getOption('algorithm')) {
+			try {
+				$algorithm = Algorithm::from($input->getOption('algorithm'));
+			} catch (\ValueError) {
+				$output->writeln('<error>Algorithm ' . $input->getOption('algorithm') . ' is not supported</error>');
+				$algorithms = [];
+				foreach (Algorithm::cases() as $algorithm) {
+					$algorithms[] = $algorithm->value;
+				}
+				$output->writeln('Supported values are: ' . implode(', ', $algorithms));
+				return static::FAILURE;
+			}
+			$key = $this->keyManager->getUserKey($user, $algorithm);
+		} else {
+			$key = $this->keyManager->getUserKey($user, Algorithm::Rsa2048);
+		}
+
 		$publicKey = $key->getPublic();
 		$privateKey = $key->getPrivate();
 
@@ -69,8 +92,8 @@ class Verify extends Command {
 
 		// Derive the public key from the private key again to validate the stored public key
 		$opensslPrivateKey = openssl_pkey_get_private($privateKey);
-		$publicKeyDerived = openssl_pkey_get_details($opensslPrivateKey);
-		$publicKeyDerived = $publicKeyDerived['key'];
+		$details = openssl_pkey_get_details($opensslPrivateKey);
+		$publicKeyDerived = $details['key'];
 		$output->writeln('User derived public key size: ' . strlen($publicKeyDerived));
 
 		$output->writeln('');
@@ -86,7 +109,7 @@ class Verify extends Command {
 				return static::FAILURE;
 			}
 
-			$this->keyManager->setPublicKey($user, $publicKeyDerived);
+			$this->keyManager->setUserKeyRegeneratedPublicKey($user, Algorithm::Rsa2048, $publicKeyDerived);
 			$output->writeln('<info>Derived public key did not match, successfully updated</info>');
 			return static::SUCCESS;
 		}
