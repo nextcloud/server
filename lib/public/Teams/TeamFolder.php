@@ -25,6 +25,7 @@ class TeamFolder implements \JsonSerializable {
 		private int $id,
 		private string $mountPoint,
 		private ?int $quota = null,
+		private ?int $rootFileId = null,
 	) {
 	}
 
@@ -53,7 +54,16 @@ class TeamFolder implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array{id: int, quota: int|null, mountPoint: string}
+	 * Return the filecache ID of the folder's root, when exposed by the provider.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getRootFileId(): ?int {
+		return $this->rootFileId;
+	}
+
+	/**
+	 * @return array{id: int, quota: int|null, mountPoint: string, rootFileId: int|null}
 	 * @since 35.0.0
 	 */
 	#[\Override]
@@ -62,6 +72,7 @@ class TeamFolder implements \JsonSerializable {
 			'id' => $this->id,
 			'quota' => $this->quota,
 			'mountPoint' => $this->mountPoint,
+			'rootFileId' => $this->rootFileId,
 		];
 	}
 }
