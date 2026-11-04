@@ -15,14 +15,10 @@ use OCP\AppFramework\Attribute\Consumable;
 use Override;
 
 /**
- * Identity only: who, and where that identity lives.
- *
- * Deliberately carries no roles, groups, display name or quota. Those are
- * lookup data and get resolved from the id when a policy needs them, which
- * keeps this trivially serializable for jobs and audit logs.
+ * A principal defines the identity of an actor.
+ * It specifies who the actor is and where that identity lives.
  *
  * @psalm-immutable
- * @psalm-import-type PrincipalData from DataTypes
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
@@ -40,9 +36,8 @@ final readonly class Principal implements JsonSerializable {
 		public ?string $source = null,
 	) {
 		$originAllowed = match ($type) {
-			PrincipalType::FederatedUser => $origin !== null && $origin !== '',
-			PrincipalType::External => $origin === null || $origin !== '',
-			PrincipalType::User, PrincipalType::Bot, PrincipalType::System => $origin === null,
+			PrincipalType::Anonymous, PrincipalType::User => $origin === null || $origin !== '',
+			PrincipalType::Bot, PrincipalType::System => $origin === null,
 			default => false,
 		};
 		if (!$originAllowed) {
@@ -53,9 +48,9 @@ final readonly class Principal implements JsonSerializable {
 		}
 
 		$sourceAllowed = match ($type) {
-			PrincipalType::External => $source !== null && $source !== '',
+			PrincipalType::Anonymous => $source !== null && $source !== '',
 			PrincipalType::Bot, PrincipalType::System => $source === null || $source !== '',
-			PrincipalType::User, PrincipalType::FederatedUser => $source === null,
+			PrincipalType::User => $source === null,
 			default => false,
 		};
 		if (!$sourceAllowed) {
@@ -67,30 +62,38 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * @param non-empty-string $uid - user id
+	 * Identifies a local user of this Nextcloud instance.
+	 *
+	 * @param non-empty-string $userId - user id
 	 * @experimental 36.0.0
 	 */
-	public static function user(string $uid): self {
-		return new self(PrincipalType::User, $uid);
+	public static function user(string $userId): self {
+		return new self(PrincipalType::User, $userId);
 	}
 
 	/**
+	 * Identifies a federated user, e.g. a user from another Nextcloud instance.
+	 *
+	 * This is essentially a user with an origin set to the remote instance.
+	 *
 	 * @param non-empty-string $userId - federated user id
 	 * @param non-empty-string $remote - remote instance
 	 * @experimental 36.0.0
 	 */
-	public static function federated(string $userId, string $remote): self {
-		return new self(PrincipalType::FederatedUser, $userId, $remote);
+	public static function federatedUser(string $userId, string $remote): self {
+		return new self(PrincipalType::User, $userId, $remote);
 	}
 
 	/**
-	 * @param non-empty-string $source app-namespaced kind of external user, e.g. "spreed.email"
-	 * @param non-empty-string $externalId - external user id
-	 * @param ?non-empty-string $token - share/room token, if any
+	 * Identifies an anonymous user, e.g. a public visitor of a public share.
+	 *
+	 * @param non-empty-string $externalId - anonymous user id (e.g. the nickname set by the public visitor)
+	 * @param non-empty-string $token - e.g. the share or room token
+	 * @param ?non-empty-string $source app-namespaced kind of external user, e.g. `files_sharing:visitor` or `spreed:guest`
 	 * @experimental 36.0.0
 	 */
-	public static function external(string $source, string $externalId, ?string $token = null): self {
-		return new self(PrincipalType::External, $externalId, $token, $source);
+	public static function anonymous(string $externalId, string $token, ?string $source = null): self {
+		return new self(PrincipalType::Anonymous, $externalId, $token, $source);
 	}
 
 	/**
@@ -103,14 +106,17 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * Identifies a component, e.g. "governance.retention".
+	 * Identifies a system component
 	 *
-	 * @param non-empty-string $component - component name
-	 * @param ?non-empty-string $source - app owning the component, e.g. "app_api"
+	 * e.g. "retention" component of the "files_versions" app would be represented as `Principal::system('files_versions', 'retention')`
+	 *
+	 * @param non-empty-string $appId - app id (e.g. "files_versions")
+	 * @param ?non-empty-string $source - component name (e.g. "retention" for the retention component of the "files_versions" app)
 	 * @experimental 36.0.0
 	 */
-	public static function system(string $component, ?string $source = null): self {
-		return new self(PrincipalType::System, $component, null, $source);
+	public static function system(string $appId, ?string $source = null): self {
+		// todo: consider if we want to call IAppManager::cleanAppId here - or even validate the app is installed
+		return new self(PrincipalType::System, $appId, null, $source);
 	}
 
 	/**
@@ -131,20 +137,22 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * Stable key for logs, cache keys and cycle detection, e.g. "federated_user:bob@cloud.example"
-	 * or "external:abc123@roomtoken:spreed.guest"
+	 * Stable key for logs, cache keys and cycle detection
+	 *
+	 * e.g. a federated user: `user|bob@cloud.example`
+	 * or an anonymous user on a public share: `anonymous|nickname@sharetoken|files_sharing:visitor`
 	 *
 	 * @experimental 36.0.0
 	 */
 	public function key(): string {
-		return $this->type->value . ':'
+		return $this->type->value . '|'
 			. $this->id
 			. ($this->origin !== null ? '@' . $this->origin : '')
-			. ($this->source !== null ? ':' . $this->source : '');
+			. ($this->source !== null ? '|' . $this->source : '');
 	}
 
 	/**
-	 * @return PrincipalData
+	 * @return array{type: non-empty-string, id: non-empty-string, origin?: ?non-empty-string, source?: ?non-empty-string}
 	 * @experimental 36.0.0
 	 */
 	#[Override]
@@ -153,7 +161,7 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * @param array<string, mixed> $data - see PrincipalData
+	 * @param array<string, mixed> $data - see `Principal::jsonSerialize`
 	 * @throws InvalidArgumentException if the data is invalid or the type is unknown
 	 * @experimental 36.0.0
 	 */

@@ -15,59 +15,52 @@ use OCP\AppFramework\Attribute\Consumable;
 use Override;
 
 /**
- * Transport information about whose authority is being claimed to perform an
- * operation ($principal) and, if someone else is exercising it, who that is
- * ($delegate), recursively.
+ * An "Actor" transports information about whose authority is being claimed to perform an operation.
  *
- * Creating an Actor asserts nothing. Callers check whether the operation is
- * permitted before creating it. Consumers receiving an Actor from another app,
- * a job payload or a request, check the principal's permissions themselves.
+ * Actors consist of two information:
+ * 1. The principal whose authority is being claimed to perform an operation.
+ * 2. If the principal is acting on behalf of someone else, the delegate.
  *
- * Examples:
- *   bot "summarizer" for alice:      principal=alice,  delegate=Actor(bot),    via=OnBehalfOf
- *   alice's scheduled message sent:  principal=alice,  delegate=Actor(system), via=OnBehalfOf
- *   admin impersonating alice:       principal=alice,  delegate=Actor(admin),  via=Impersonation
- *   alice's action escalated:        principal=system, delegate=Actor(alice),  via=SystemElevation
+ * Creating an Actor asserts nothing.
+ * Callers check whether the operation is permitted before creating it.
+ * Consumers receiving an Actor from another app, a job payload or a request, check the principal's permissions themselves.
+ *
+ * ## Examples
+ * ```php
+ * // 1. User acting as itself
+ * $actor = Actor::of(Principal::user('alice'));
+ *
+ * // 2. User impersonating another user
+ * $actor = Actor::of(Principal::user('alice'))
+ *     ->impersonate(Principal::user('bob'));
+ *
+ * // 3. Bot acting on behalf of a user
+ * $actor = Actor::of(Principal::bot('summarizer'))
+ *     ->impersonate(Principal::user('alice'));
+ *
+ * // 4. System component acting as the system itself - e.g. a cron job
+ * $actor = Actor::of(Principal::system('calendar', 'sync'));
+ *
+ * // 5. System component acting on behalf of a user
+ * $actor = Actor::of(Principal::system('files_versions', 'retention'))
+ *     ->impersonate(Principal::user('alice'));
+ *
+ * // 6. A federated user acting as itself
+ * $actor = Actor::of(Principal::federatedUser('bob', 'cloud.example'));
+ *
+ * // 7. An public visitor acting as itself
+ * $actor = Actor::of(Principal::anonymous('nickname', 'files_sharing:visitor', 'public-share-token'));
+ * ```
  *
  * @psalm-immutable
- * @psalm-import-type ActorData from DataTypes
  * @experimental 36.0.0
  */
 #[Consumable(since: '36.0.0')]
 final readonly class Actor implements JsonSerializable {
-	/**
-	 * @experimental 36.0.0
-	 */
-	public const int MAX_CHAIN_LENGTH = 16;
-
-	/** @var non-empty-list<Principal> principal first, initiator last */
-	private array $chain;
-
 	private function __construct(
 		public Principal $principal,
-		public ?self $delegate = null,
-		public ?DelegationKind $via = null,
+		public ?Principal $delegate = null,
 	) {
-		if (($delegate === null) !== ($via === null)) {
-			throw new InvalidArgumentException('A delegate requires a delegation kind and vice versa');
-		}
-
-		if ($delegate !== null && $via !== null) {
-			self::assertValidLink($principal, $delegate, $via);
-		}
-
-		$this->chain = [$principal, ...($delegate?->chain ?? [])];
-		if (count($this->chain) > self::MAX_CHAIN_LENGTH) {
-			throw new InvalidArgumentException('Delegation chain too long');
-		}
-
-		// the delegate's chain is already unique, so only the new principal needs checking
-		$key = $principal->key();
-		foreach ($delegate?->chain ?? [] as $p) {
-			if ($p->key() === $key) {
-				throw new InvalidArgumentException('Principal appears more than once in delegation chain');
-			}
-		}
 	}
 
 	/**
@@ -85,25 +78,7 @@ final readonly class Actor implements JsonSerializable {
 	 * @experimental 36.0.0
 	 */
 	public function impersonate(Principal $target): self {
-		return new self($target, $this, DelegationKind::Impersonation);
-	}
-
-	/**
-	 * $this acts on behalf of $subject.
-	 *
-	 * @experimental 36.0.0
-	 */
-	public function actFor(Principal $subject): self {
-		return new self($subject, $this, DelegationKind::OnBehalfOf);
-	}
-
-	/**
-	 * Continue claiming the authority of a system component.
-	 *
-	 * @experimental 36.0.0
-	 */
-	public function elevate(Principal $system): self {
-		return new self($system, $this, DelegationKind::SystemElevation);
+		return new self($target, $this->principal);
 	}
 
 	/**
@@ -114,45 +89,24 @@ final readonly class Actor implements JsonSerializable {
 	}
 
 	/**
-	 * The party at the end of the chain that actually started this (bot, admin, user who triggered elevation).
+	 * Get a unique key for the Actor.
 	 *
 	 * @experimental 36.0.0
 	 */
-	public function initiator(): Principal {
-		return $this->chain[array_key_last($this->chain)];
+	public function key(): string {
+		return $this->principal->key() . ($this->delegate !== null ? '#' . $this->delegate->key() : '');
 	}
 
 	/**
-	 * @return non-empty-list<Principal> principal first, initiator last
-	 * @experimental 36.0.0
-	 */
-	public function chain(): array {
-		return $this->chain;
-	}
-
-	/**
-	 * Whether any link in the chain is of the given type, e.g. "is a bot involved at all?"
+	 * Serialize the Actor to an array.
 	 *
-	 * @experimental 36.0.0
-	 */
-	public function involves(PrincipalType $type): bool {
-		foreach ($this->chain() as $p) {
-			if ($p->is($type)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @return array{principal: Principal, via: ?non-empty-string, delegate: ?Actor}
+	 * @return array{principal: Principal, delegate: ?Principal}
 	 * @experimental 36.0.0
 	 */
 	#[Override]
 	public function jsonSerialize(): array {
 		return [
 			'principal' => $this->principal,
-			'via' => $this->via?->value,
 			'delegate' => $this->delegate,
 		];
 	}
@@ -160,61 +114,31 @@ final readonly class Actor implements JsonSerializable {
 	/**
 	 * Rehydrate from a serialized  payload.
 	 *
-	 * @param array<string, mixed> $data - see ActorData
+	 * @param array<string, mixed> $data - see `Actor::jsonSerialize`
 	 * @throws InvalidArgumentException - if the data is invalid
 	 * @experimental 36.0.0
 	 */
 	public static function fromArray(array $data): self {
 		self::assertValidActorData($data);
 		$delegate = $data['delegate'] ?? null;
-		$via = $data['via'] ?? null;
 
 		return new self(
 			Principal::fromArray($data['principal']),
-			$delegate !== null ? self::fromArray($delegate) : null,
-			$via !== null
-				? DelegationKind::tryFrom($via) ?? throw new InvalidArgumentException(sprintf('Unknown delegation kind "%s"', $via))
-				: null,
+			$delegate !== null ? Principal::fromArray($delegate) : null,
 		);
 	}
 
 	/**
 	 * The principal is validated by Principal::fromArray.
 	 *
-	 * @psalm-assert array{principal: array<string, mixed>, delegate?: ?array<string, mixed>, via?: ?string} $data
+	 * @psalm-assert array{principal: array<string, mixed>, delegate?: ?array<string, mixed>} $data
 	 * @throws InvalidArgumentException -- if the data is invalid
 	 */
 	private static function assertValidActorData(array $data): void {
 		$principal = $data['principal'] ?? null;
 		$delegate = $data['delegate'] ?? null;
-		$via = $data['via'] ?? null;
-		if (!is_array($principal) || ($delegate !== null && !is_array($delegate)) || ($via !== null && !is_string($via))) {
+		if (!is_array($principal) || ($delegate !== null && !is_array($delegate))) {
 			throw new InvalidArgumentException('Invalid actor data');
 		}
-	}
-
-	private static function assertValidLink(Principal $principal, Actor $delegate, DelegationKind $via): void {
-		$fail = static fn (string $why): never => throw new InvalidArgumentException(
-			sprintf('Invalid %s: %s', $via->value, $why),
-		);
-
-		match ($via) {
-			DelegationKind::Impersonation => match (true) {
-				!$principal->is(PrincipalType::User) => $fail('only local users can be impersonated'),
-				!$delegate->principal->is(PrincipalType::User) => $fail('only local users can impersonate'),
-				$delegate->isDelegated() => $fail('nested impersonation is not allowed'),
-				default => null,
-			},
-			DelegationKind::OnBehalfOf => match (true) {
-				!$principal->type->isHuman() => $fail('subject must be a human principal'),
-				!$delegate->principal->is(PrincipalType::Bot) && !$delegate->principal->is(PrincipalType::System) => $fail('only bots and system components act on behalf of others'),
-				default => null,
-			},
-			DelegationKind::SystemElevation => match (true) {
-				!$principal->is(PrincipalType::System) => $fail('target must be a system principal'),
-				$delegate->principal->is(PrincipalType::System) => $fail('system cannot elevate to system'),
-				default => null,
-			},
-		};
 	}
 }

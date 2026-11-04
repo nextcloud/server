@@ -13,8 +13,9 @@ use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * A type of principal that is requesting information or performing an action.
- * New cases may be added in future versions. Consumers MUST handle unknown
- * cases, e.g. with a default branch that denies.
+ *
+ * New cases may be added in future versions.
+ * Consumers MUST handle unknown cases, e.g. with a default branch that denies.
  *
  * @experimental 36.0.0
  */
@@ -27,19 +28,11 @@ enum PrincipalType: string {
 	 */
 	case User = 'user';
 	/**
-	 * Account on another instance (federated cloud ID).
-	 *
-	 * @experimental 36.0.0
-	 */
-	case FederatedUser = 'federated_user';
-	/**
 	 * No account: anonymous user, public link visitor, Talk guest, email participant.
 	 *
-	 * NOTE: users from the guests app are {@see self::User}
-	 *
 	 * @experimental 36.0.0
 	 */
-	case External = 'external';
+	case Anonymous = 'anonymous';
 	/**
 	 * Non-human client: Talk bot, integration, assistant.
 	 *
@@ -52,14 +45,4 @@ enum PrincipalType: string {
 	 * @experimental 36.0.0
 	 */
 	case System = 'system';
-
-	/**
-	 * @experimental 36.0.0
-	 */
-	public function isHuman(): bool {
-		return match ($this) {
-			self::User, self::FederatedUser, self::External => true,
-			self::Bot, self::System => false,
-		};
-	}
 }
