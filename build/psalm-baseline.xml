@@ -1502,19 +1502,6 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/files_external/lib/Service/StoragesService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-				Filesystem::CLASSNAME,
-				$signal,
-				[
-					Filesystem::signal_param_path => $mountPoint,
-					Filesystem::signal_param_mount_type => $mountType,
-					Filesystem::signal_param_users => $applicable,
-				]
-			)]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files_reminders/lib/Model/RichReminder.php">
     <ConstructorSignatureMismatch>
       <code><![CDATA[public function __construct(]]></code>
@@ -3482,18 +3469,6 @@
   </file>
   <file src="lib/private/Files/Node/HookConnector.php">
     <UndefinedInterfaceMethod>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
       <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>

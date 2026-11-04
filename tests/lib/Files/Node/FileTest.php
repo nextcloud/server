@@ -60,8 +60,8 @@ class FileTest extends NodeTestCase {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
-		$root->listen('\OC\Files', 'preWrite', $hook);
-		$root->listen('\OC\Files', 'postWrite', $hook);
+		$this->listenToNodeHook('preWrite', $hook);
+		$this->listenToNodeHook('postWrite', $hook);
 
 		$this->view->expects($this->once())
 			->method('file_get_contents')
@@ -175,8 +175,8 @@ class FileTest extends NodeTestCase {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
-		$root->listen('\OC\Files', 'preWrite', $hook);
-		$root->listen('\OC\Files', 'postWrite', $hook);
+		$this->listenToNodeHook('preWrite', $hook);
+		$this->listenToNodeHook('postWrite', $hook);
 
 		$this->view->expects($this->once())
 			->method('fopen')
@@ -213,8 +213,8 @@ class FileTest extends NodeTestCase {
 			$hooksCalled++;
 		};
 
-		$root->listen('\OC\Files', 'preWrite', $hook);
-		$root->listen('\OC\Files', 'postWrite', $hook);
+		$this->listenToNodeHook('preWrite', $hook);
+		$this->listenToNodeHook('postWrite', $hook);
 
 		$this->view->expects($this->once())
 			->method('fopen')

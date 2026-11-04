@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Cache\Storage;
-use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -22,6 +21,7 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
@@ -33,7 +33,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 use OCP\Server;
-use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CleaningDBConfig extends DBConfigService {
@@ -58,14 +57,14 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected BackendService&MockObject $backendService;
 	protected string $dataDir;
 	protected CleaningDBConfig $dbConfig;
-	protected static array $hookCalls;
+	/** @var list<Event> */
+	protected array $dispatchedEvents = [];
 	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(Server::get(IDBConnection::class), Server::get(ICrypto::class));
-		self::$hookCalls = [];
 		$config = Server::get(IConfig::class);
 		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
@@ -73,6 +72,10 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		);
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event): void {
+				$this->dispatchedEvents[] = $event;
+			});
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		// prepare BackendService mock
@@ -118,19 +121,9 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->backendService->method('getBackends')
 			->willReturn($backends);
 		$this->overwriteService(BackendService::class, $this->backendService);
-
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_create_mount,
-			get_class($this), 'createHookCallback');
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_delete_mount,
-			get_class($this), 'deleteHookCallback');
 	}
 
 	protected function tearDown(): void {
-		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
 		}
@@ -423,44 +416,11 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->assertEmpty($this->service->getStorages());
 	}
 
-	public static function createHookCallback($params): void {
-		self::$hookCalls[] = [
-			'signal' => Filesystem::signal_create_mount,
-			'params' => $params
-		];
-	}
-
-	public static function deleteHookCallback($params): void {
-		self::$hookCalls[] = [
-			'signal' => Filesystem::signal_delete_mount,
-			'params' => $params
-		];
-	}
-
 	/**
-	 * Asserts hook call
-	 *
-	 * @param array $callData hook call data to check
-	 * @param string $signal signal name
-	 * @param string $mountPath mount path
-	 * @param string $mountType mount type
-	 * @param string $applicable applicable users
+	 * @param list<class-string<Event>> $expected
 	 */
-	protected function assertHookCall($callData, $signal, $mountPath, $mountType, $applicable) {
-		$this->assertEquals($signal, $callData['signal']);
-		$params = $callData['params'];
-		$this->assertEquals(
-			$mountPath,
-			$params[Filesystem::signal_param_path]
-		);
-		$this->assertEquals(
-			$mountType,
-			$params[Filesystem::signal_param_mount_type]
-		);
-		$this->assertEquals(
-			$applicable,
-			$params[Filesystem::signal_param_users]
-		);
+	protected function assertDispatchedEvents(array $expected): void {
+		$this->assertSame($expected, array_map(static fn (Event $event): string => $event::class, $this->dispatchedEvents));
 	}
 
 	public function testUpdateStorageMountPoint(): void {

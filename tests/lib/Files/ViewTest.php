@@ -730,14 +730,9 @@ class ViewTest extends \Test\TestCase {
 
 	private $hookWritePath;
 	private $hookCreatePath;
-	private $hookUpdatePath;
 
 	public function dummyHookWrite($params) {
 		$this->hookWritePath = $params['path'];
-	}
-
-	public function dummyHookUpdate($params) {
-		$this->hookUpdatePath = $params['path'];
 	}
 
 	public function dummyHookCreate($params) {
@@ -751,26 +746,22 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage1, [], '/');
 		Filesystem::mount($storage2, [], $defaultRoot);
 		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyHookCreate');
-		\OC_Hook::connect('OC_Filesystem', 'post_update', $this, 'dummyHookUpdate');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHookWrite');
 
 		$view = new View($defaultRoot);
-		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
+		$this->hookWritePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
 		$this->assertEquals('/asd.txt', $this->hookCreatePath);
-		$this->assertNull($this->hookUpdatePath);
 		$this->assertEquals('/asd.txt', $this->hookWritePath);
 
-		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
+		$this->hookWritePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
 		$this->assertNull($this->hookCreatePath);
-		$this->assertEquals('/asd.txt', $this->hookUpdatePath);
 		$this->assertEquals('/asd.txt', $this->hookWritePath);
 
 		\OC_Hook::clear('OC_Filesystem', 'post_create');
-		\OC_Hook::clear('OC_Filesystem', 'post_update');
 		\OC_Hook::clear('OC_Filesystem', 'post_write');
 	}
 

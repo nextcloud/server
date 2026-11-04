@@ -9,7 +9,6 @@
 namespace OCA\Files_External\Service;
 
 use OC\Files\Cache\Storage;
-use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application as FilesApplication;
 use OCA\Files\ConfigLexicon;
 use OCA\Files_External\AppInfo\Application;
@@ -27,7 +26,6 @@ use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
 use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -217,7 +215,7 @@ abstract class StoragesService {
 		}
 
 		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
-		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
 
@@ -280,46 +278,12 @@ abstract class StoragesService {
 	}
 
 	/**
-	 * Triggers the given hook signal for all the applicables given
-	 *
-	 * @param string $signal signal
-	 * @param string $mountPoint hook mount point param
-	 * @param string $mountType hook mount type param
-	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
-	 */
-	protected function triggerApplicableHooks(string $signal, string $mountPoint, string $mountType, array $applicableArray): void {
-		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
-		foreach ($applicableArray as $applicable) {
-			Util::emitHook(
-				Filesystem::CLASSNAME,
-				$signal,
-				[
-					Filesystem::signal_param_path => $mountPoint,
-					Filesystem::signal_param_mount_type => $mountType,
-					Filesystem::signal_param_users => $applicable,
-				]
-			);
-		}
-	}
-
-	/**
-	 * Triggers $signal for all applicable users of the given
-	 * storage
-	 *
-	 * @param StorageConfig $storage storage data
-	 * @param string $signal signal to trigger
-	 */
-	abstract protected function triggerHooks(StorageConfig $storage, string $signal): void;
-
-	/**
-	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accommodate for additions/deletions in applicableUsers
-	 * and applicableGroups fields.
+	 * Dispatches the events for an updated storage
 	 *
 	 * @param StorageConfig $oldStorage old storage data
 	 * @param StorageConfig $newStorage new storage data
 	 */
-	abstract protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void;
+	abstract protected function dispatchChangeEvents(StorageConfig $oldStorage, StorageConfig $newStorage): void;
 
 	/**
 	 * Update storage to the configuration
@@ -395,7 +359,7 @@ abstract class StoragesService {
 			$this->dbConfig->setAuthBackend($id, $updatedStorage->getAuthMechanism()->getIdentifier());
 		}
 
-		$this->triggerChangeHooks($oldStorage, $updatedStorage);
+		$this->dispatchChangeEvents($oldStorage, $updatedStorage);
 
 		$this->updateOverwriteHomeFolders();
 
@@ -420,7 +384,7 @@ abstract class StoragesService {
 
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
 		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
-		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 
 		// delete oc_storages entries and oc_filecache
 		Storage::cleanByMountId($id);

@@ -2427,7 +2427,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share20\\Exception\\InvalidShare' => __DIR__ . '/../../..' . '/lib/private/Share20/Exception/InvalidShare.php',
         'OC\\Share20\\Exception\\ProviderException' => __DIR__ . '/../../..' . '/lib/private/Share20/Exception/ProviderException.php',
         'OC\\Share20\\GroupDeletedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/GroupDeletedListener.php',
-        'OC\\Share20\\LegacyHooks' => __DIR__ . '/../../..' . '/lib/private/Share20/LegacyHooks.php',
         'OC\\Share20\\Manager' => __DIR__ . '/../../..' . '/lib/private/Share20/Manager.php',
         'OC\\Share20\\ProviderFactory' => __DIR__ . '/../../..' . '/lib/private/Share20/ProviderFactory.php',
         'OC\\Share20\\PublicShareTemplateFactory' => __DIR__ . '/../../..' . '/lib/private/Share20/PublicShareTemplateFactory.php',

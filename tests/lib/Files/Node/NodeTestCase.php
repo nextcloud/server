@@ -17,6 +17,7 @@ use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Constants;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\InvalidPathException;
@@ -30,6 +31,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -49,6 +51,8 @@ abstract class NodeTestCase extends \Test\TestCase {
 	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected ICacheFactory&MockObject $cacheFactory;
 	protected IAppConfig&MockObject $appConfig;
+	/** @var list<array{string, callable}> */
+	private array $nodeHookListeners = [];
 
 	#[\Override]
 	protected function setUp(): void {
@@ -80,6 +84,29 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
+	}
+
+	#[\Override]
+	protected function tearDown(): void {
+		$dispatcher = Server::get(IEventDispatcher::class);
+		foreach ($this->nodeHookListeners as [$eventName, $listener]) {
+			$dispatcher->removeListener($eventName, $listener);
+		}
+		$this->nodeHookListeners = [];
+		parent::tearDown();
+	}
+
+	/**
+	 * Listen to the `\OCP\Files::$hook` event sent by the node, the listener receives the affected nodes
+	 */
+	protected function listenToNodeHook(string $hook, callable $listener): void {
+		$eventName = '\OCP\Files::' . $hook;
+		$eventListener = static function (GenericEvent $event) use ($listener): void {
+			$subject = $event->getSubject();
+			$listener(...(is_array($subject) ? $subject : [$subject]));
+		};
+		Server::get(IEventDispatcher::class)->addListener($eventName, $eventListener);
+		$this->nodeHookListeners[] = [$eventName, $eventListener];
 	}
 
 	/**
@@ -128,9 +155,8 @@ abstract class NodeTestCase extends \Test\TestCase {
 	}
 
 	public function testDelete(): void {
-		$this->root->expects($this->exactly(2))
-			->method('emit')
-			->willReturn(true);
+		$this->root->expects($this->never())
+			->method('emit');
 		$this->root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -187,8 +213,8 @@ abstract class NodeTestCase extends \Test\TestCase {
 			$this->createMock(IAppConfig::class),
 		);
 
-		$root->listen('\OC\Files', 'preDelete', $preListener);
-		$root->listen('\OC\Files', 'postDelete', $postListener);
+		$this->listenToNodeHook('preDelete', $preListener);
+		$this->listenToNodeHook('postDelete', $postListener);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
@@ -432,8 +458,8 @@ abstract class NodeTestCase extends \Test\TestCase {
 			$this->cacheFactory,
 			$this->createMock(IAppConfig::class),
 		);
-		$root->listen('\OC\Files', 'preTouch', $preListener);
-		$root->listen('\OC\Files', 'postTouch', $postListener);
+		$this->listenToNodeHook('preTouch', $preListener);
+		$this->listenToNodeHook('postTouch', $postListener);
 
 		$this->view->expects($this->once())
 			->method('touch')
@@ -656,9 +682,9 @@ abstract class NodeTestCase extends \Test\TestCase {
 			$hooksRun++;
 		};
 
-		$root->listen('\OC\Files', $preHookName, $preListener);
-		$root->listen('\OC\Files', 'preWrite', $preWriteListener);
-		$root->listen('\OC\Files', $postHookName, $postListener);
+		$this->listenToNodeHook($preHookName, $preListener);
+		$this->listenToNodeHook('preWrite', $preWriteListener);
+		$this->listenToNodeHook($postHookName, $postListener);
 		$root->listen('\OC\Files', 'postWrite', $postWriteListener);
 
 		$node->$operationMethod('/bar/asd');

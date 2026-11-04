@@ -583,11 +583,6 @@ class View {
 				Filesystem::signal_param_path => $this->getHookPath($path),
 				Filesystem::signal_param_run => &$run,
 			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $this->getHookPath($path),
-				Filesystem::signal_param_run => &$run,
-			]);
 		}
 		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $this->getHookPath($path),
@@ -598,10 +593,6 @@ class View {
 	protected function emit_file_hooks_post(bool $exists, string $path): void {
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $this->getHookPath($path),
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $this->getHookPath($path),
 			]);
 		}
@@ -675,7 +666,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = $this->file_exists($path) ? ['update', 'write'] : ['create', 'write'];
+			$hooks = $this->file_exists($path) ? ['write'] : ['create', 'write'];
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}

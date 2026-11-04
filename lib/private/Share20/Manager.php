@@ -90,7 +90,6 @@ use RuntimeException;
 class Manager implements IManager {
 
 	private ?IL10N $l;
-	private LegacyHooks $legacyHooks;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -112,9 +111,6 @@ class Manager implements IManager {
 		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
-		// The constructor of LegacyHooks registers the listeners of share events
-		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**

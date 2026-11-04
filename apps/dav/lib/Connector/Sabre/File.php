@@ -439,11 +439,6 @@ class File extends Node implements IFile {
 				Filesystem::signal_param_path => $hookPath,
 				Filesystem::signal_param_run => &$run,
 			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $hookPath,
-				Filesystem::signal_param_run => &$run,
-			]);
 		}
 		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $hookPath,
@@ -463,10 +458,6 @@ class File extends Node implements IFile {
 		}
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $hookPath
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath
 			]);
 		}

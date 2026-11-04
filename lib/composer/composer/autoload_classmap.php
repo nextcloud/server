@@ -2386,7 +2386,6 @@ return array(
     'OC\\Share20\\Exception\\InvalidShare' => $baseDir . '/lib/private/Share20/Exception/InvalidShare.php',
     'OC\\Share20\\Exception\\ProviderException' => $baseDir . '/lib/private/Share20/Exception/ProviderException.php',
     'OC\\Share20\\GroupDeletedListener' => $baseDir . '/lib/private/Share20/GroupDeletedListener.php',
-    'OC\\Share20\\LegacyHooks' => $baseDir . '/lib/private/Share20/LegacyHooks.php',
     'OC\\Share20\\Manager' => $baseDir . '/lib/private/Share20/Manager.php',
     'OC\\Share20\\ProviderFactory' => $baseDir . '/lib/private/Share20/ProviderFactory.php',
     'OC\\Share20\\PublicShareTemplateFactory' => $baseDir . '/lib/private/Share20/PublicShareTemplateFactory.php',
