@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV;
 
+use OCA\DAV\Upload\AsyncRequestService;
 use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 use OCP\User\IAvailabilityCoordinator;
@@ -17,11 +18,12 @@ class Capabilities implements ICapability {
 	public function __construct(
 		private IConfig $config,
 		private IAvailabilityCoordinator $coordinator,
+		private AsyncRequestService $asyncRequestService,
 	) {
 	}
 
 	/**
-	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
+	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool, async_request?: bool}}
 	 */
 	#[\Override]
 	public function getCapabilities() {
@@ -40,6 +42,9 @@ class Capabilities implements ICapability {
 		if ($this->coordinator->isEnabled()) {
 			$capabilities['dav']['absence-supported'] = true;
 			$capabilities['dav']['absence-replacement'] = true;
+		}
+		if ($this->asyncRequestService->isAvailable()) {
+			$capabilities['dav']['async_request'] = true;
 		}
 		return $capabilities;
 	}

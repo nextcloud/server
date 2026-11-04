@@ -478,6 +478,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\TokenScopes' => __DIR__ . '/..' . '/../lib/TokenScopes.php',
         'OCA\\DAV\\Traits\\PrincipalProxyTrait' => __DIR__ . '/..' . '/../lib/Traits/PrincipalProxyTrait.php',
         'OCA\\DAV\\Upload\\AssemblyStream' => __DIR__ . '/..' . '/../lib/Upload/AssemblyStream.php',
+        'OCA\\DAV\\Upload\\AsyncRequestPlugin' => __DIR__ . '/..' . '/../lib/Upload/AsyncRequestPlugin.php',
+        'OCA\\DAV\\Upload\\AsyncRequestService' => __DIR__ . '/..' . '/../lib/Upload/AsyncRequestService.php',
         'OCA\\DAV\\Upload\\ChunkingPlugin' => __DIR__ . '/..' . '/../lib/Upload/ChunkingPlugin.php',
         'OCA\\DAV\\Upload\\ChunkingV2Plugin' => __DIR__ . '/..' . '/../lib/Upload/ChunkingV2Plugin.php',
         'OCA\\DAV\\Upload\\CleanupService' => __DIR__ . '/..' . '/../lib/Upload/CleanupService.php',
