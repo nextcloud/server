@@ -12,6 +12,7 @@ namespace OC\Session;
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OC\User\Session as UserSession;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -51,6 +52,7 @@ class Internal extends Session {
 	public function __construct(
 		string $name,
 		private readonly LoggerInterface $logger,
+		private readonly ITimeFactory $timeFactory,
 	) {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
@@ -270,7 +272,7 @@ class Internal extends Session {
 		$markOldId = $deleteOldSession && ($_COOKIE[session_name()] ?? null) === $oldId;
 		if ($markOldId) {
 			// The old id keeps the marker instead of the data, so session_regenerate_id() must not delete it
-			$_SESSION = [self::SUPERSEDED_AT => time()];
+			$_SESSION = [self::SUPERSEDED_AT => $this->timeFactory->getTime()];
 		}
 
 		$regenerated = $this->invoke('session_regenerate_id', [$deleteOldSession && !$markOldId], true) === true;
@@ -299,7 +301,7 @@ class Internal extends Session {
 		]);
 		$this->invoke('session_abort', [], true);
 		$_SESSION = [];
-		$this->cookieAllowed = $atRequestStart && time() - $supersededAt >= self::SUPERSEDED_GRACE_PERIOD;
+		$this->cookieAllowed = $atRequestStart && $this->timeFactory->getTime() - $supersededAt >= self::SUPERSEDED_GRACE_PERIOD;
 		$freshId = $this->invoke('session_create_id', [], true);
 		if (is_string($freshId) && $this->invoke('session_id', [$freshId], true) !== false) {
 			$this->startSession(readAndClose: $atRequestStart, sendCookie: $this->cookieAllowed);
