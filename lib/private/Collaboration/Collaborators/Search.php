@@ -6,29 +6,35 @@
  */
 namespace OC\Collaboration\Collaborators;
 
+use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
+use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
+use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 use OCP\Share\IShare;
 
 class Search implements ISearch {
+	/** @var array<IShare::TYPE_*, list<class-string<ISearchPlugin>>> $pluginList */
 	protected array $pluginList = [];
 
 	public function __construct(
-		private IContainer $container,
+		private readonly IContainer $container,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
-	/**
-	 * @param string $search
-	 * @param bool $lookup
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @throws \OCP\AppFramework\QueryException
-	 */
-	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
+	#[\Override]
+	public function search(string $search, array $shareTypes, bool $lookup, int $limit, int $offset): array {
+		[$results, $more] = $this->filteredSearch($search, $shareTypes, $lookup, null, null, $limit, $offset, false);
+		return [$results, $more];
+	}
+
+	#[\Override]
+	public function filteredSearch(string $search, array $shareTypes, bool $lookup, ?string $itemType, ?string $itemId, int $limit, int $offset, bool $sendFilterEvent = true): array {
 		$hasMoreResults = false;
 
 		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
@@ -43,7 +49,7 @@ class Search implements ISearch {
 			}
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
-				$searchPlugin = $this->container->resolve($plugin);
+				$searchPlugin = $this->container->get($plugin);
 				if ($searchPlugin instanceof UserPlugin && $lookup) {
 					// we are in GlobalScale, we ignore local accounts and prefer the result from lookup
 					continue;
@@ -54,7 +60,7 @@ class Search implements ISearch {
 
 		// Get from lookup server, not a separate share type
 		if ($lookup) {
-			$searchPlugin = $this->container->resolve(LookupPlugin::class);
+			$searchPlugin = $this->container->get(LookupPlugin::class);
 			$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 		}
 
@@ -81,11 +87,43 @@ class Search implements ISearch {
 			$searchResult->unsetResult($emailType);
 		}
 
-		return [$searchResult->asArray(), $hasMoreResults];
+		$results = $searchResult->asArray();
+		if ($sendFilterEvent) {
+			$event = new AutoCompleteEvent([
+				'search' => $search,
+				'results' => $results,
+				'itemType' => $itemType,
+				'itemId' => $itemId,
+				'sorter' => null,
+				'shareTypes' => $shareTypes,
+				'limit' => $limit,
+			]);
+			$this->eventDispatcher->dispatch(IManager::class . '::filterResults', $event);
+			$results = $event->getResults();
+
+			$event = new AutoCompleteFilterEvent(
+				$results,
+				$search,
+				$itemType,
+				$itemId,
+				null,
+				$shareTypes,
+				$limit,
+			);
+			$this->eventDispatcher->dispatchTyped($event);
+			$results = $event->getResults();
+		}
+
+		return [$results, $hasMoreResults];
 	}
 
 	public function registerPlugin(array $pluginInfo): void {
-		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
+		/** @psalm-suppress InvalidScalarArgument For legacy reasons */
+		if (str_starts_with($pluginInfo['shareType'], 'SHARE_')) {
+			$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
+		} else {
+			$shareType = $pluginInfo['shareType'];
+		}
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
