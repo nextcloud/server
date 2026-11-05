@@ -40,7 +40,7 @@ export class LoginFlowPage {
 		await this.page.goto(loginUrl)
 	}
 
-	heading(name: 'Connect to your account' | 'Account access' | 'Account connected'): Locator {
+	heading(name: string): Locator {
 		return this.page.getByRole('heading', { name })
 	}
 
@@ -57,5 +57,13 @@ export class LoginFlowPage {
 
 	grantAccessButton(): Locator {
 		return this.page.getByRole('button', { name: 'Grant access' })
+	}
+
+	continueButton(): Locator {
+		return this.page.getByRole('link', { name: 'Continue', exact: true })
+	}
+
+	connectedMessage(): Locator {
+		return this.page.getByText('Your client should now be connected!', { exact: true })
 	}
 }
