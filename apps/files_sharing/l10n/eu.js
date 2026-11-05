@@ -405,7 +405,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : " %1$s partekatzeak huts egin du, atzealdeak %2$s motako partekatzeak ez dituelako onartzen",
     "Public upload disabled by the administrator" : "Administratzaileak igoera publikoak desgaitu ditu",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokenek gutxienez karaktere 1 izan behar dute, eta letrak, zenbakiak edo marratxo bat baino ezin dituzte eduki",
-    "Via “{folder}”" : "“{folder}” bidez",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea."
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea.",
+    "Via “{folder}”" : "“{folder}” bidez"
 },
 "nplurals=2; plural=(n != 1);");

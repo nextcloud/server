@@ -28,4 +28,27 @@ enum ShareState: string {
 	 * @experimental 35.0.0
 	 */
 	case Deleted = 'deleted';
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function encode(): int {
+		return match ($this) {
+			self::Active => 1,
+			self::Draft => 2,
+			self::Deleted => 3,
+		};
+	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public static function decode(int $value): self {
+		return match ($value) {
+			1 => self::Active,
+			2 => self::Draft,
+			3 => self::Deleted,
+			default => throw new \ValueError('Invalid share state ' . $value)
+		};
+	}
 }

@@ -16,7 +16,7 @@ OC.L10N.register(
     "Regenerate backup codes" : "Regenerează codurile de rezervă",
     "Print backup codes" : "Tipărește codurile de rezervă",
     "Save backup codes" : "Salvează codurile de rezervă",
-    "If you regenerate backup codes, you automatically invalidate old codes." : "Dacă regenerezi codurile de rezervă, codurile vechi devin automat invalide.",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Dacă regenerezi codurile de rezervă, codurile vechi devin automat nevalide.",
     "{name} backup codes" : "Coduri de rezervă pentru {name}",
     "Unable to open a new tab for printing" : "Nu s-a putut deschide o filă nouă pentru tipărire",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Folosește unul dintre codurile de rezervă salvate la configurarea autentificării în doi pași.",

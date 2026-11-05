@@ -173,7 +173,8 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetTempBaseDirFromConfig(): void {
-		$dir = $this->getManager()->getTemporaryFolder();
+		$manager1 = $this->getManager();
+		$dir = $manager1->getTemporaryFolder();
 
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())

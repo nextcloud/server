@@ -154,7 +154,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				'shareOwner',
 				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost'
+				'sharedBy@http://localhost',
+				IShare::TYPE_REMOTE,
+				19
 			)
 			->willReturn(true);
 

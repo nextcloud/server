@@ -90,7 +90,6 @@ use RuntimeException;
 class Manager implements IManager {
 
 	private ?IL10N $l;
-	private LegacyHooks $legacyHooks;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -112,9 +111,6 @@ class Manager implements IManager {
 		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
-		// The constructor of LegacyHooks registers the listeners of share events
-		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**
@@ -716,6 +712,16 @@ class Manager implements IManager {
 			// mail.
 			$plainTextPassword = $share->getPassword();
 			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
+
+			if ($share->getToken() !== '') {
+				try {
+					$shareFound = $this->getShareByToken($share->getToken());
+					if ($share->getId() !== $shareFound->getId()) {
+						throw new ShareTokenException('Unable to update share. Share token already exists');
+					}
+				} catch (ShareNotFound $e) {
+				}
+			}
 
 			/**
 			 * Cannot enable the getSendPasswordByTalk if there is no password set

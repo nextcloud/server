@@ -450,6 +450,18 @@ $CONFIG = [
 	'session_keepalive' => true,
 
 	/**
+	 * When enabled, this flag allows the download of a directory to proceed
+	 * even if some files or subdirectories are marked as non-downloadable.
+	 * If files are corrupted, missing, or the server encounter temporary errors
+	 * they are logged in a `missing_files[_unique_id].json` within the archive,
+	 * along with the cause. When disabled, the download is denied if any file
+	 * or subdirectory is marked as non-downloadable. Files that cannot be read
+	 * while the archive is being streamed are left out or incomplete, and only
+	 * logged in the server log.
+	 */
+	'archive_report_missing_files' => true,
+
+	/**
 	 * Enable or disable the automatic logout after session_lifetime, even if session
 	 * keepalive is enabled. This will make sure that an inactive browser will log itself out
 	 * even if requests to the server might extend the session lifetime.
@@ -2387,6 +2399,14 @@ $CONFIG = [
 	'sqlite.journal_mode' => 'DELETE',
 
 	/**
+	 * Number of milliseconds a SQLite3 connection will wait for a lock held by
+	 * another connection to clear before giving up with a "database is locked"
+	 * error. See https://www.sqlite.org/pragma.html#pragma_busy_timeout for
+	 * more details.
+	 */
+	'sqlite.busy_timeout' => 30000,
+
+	/**
 	 * During setup, if requirements are met (see below), this setting is set to true
 	 * to enable MySQL to handle 4-byte characters instead of 3-byte characters.
 	 *
@@ -2631,6 +2651,22 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'localstorage.unlink_on_truncate' => false,
+
+	/**
+	 * Amount of physical disk space (in bytes) to keep available on the data
+	 * directory's filesystem. The free space reported for local storage is
+	 * reduced by this margin, so uploads are rejected before the disk is
+	 * actually full. This prevents users (in particular those with unlimited
+	 * quota) from filling up all available space, which would starve the
+	 * database, temporary files and logs and can render the instance
+	 * unrecoverable.
+	 *
+	 * Set this to a value large enough to keep the instance operational, or
+	 * to ``0`` to report the free space as-is.
+	 *
+	 * Defaults to 100 MiB
+	 */
+	'localstorage.min_free_space' => 100 * 1024 * 1024,
 
 	/**
 	 * Include external storage mounts in quota calculations.
@@ -3101,13 +3137,6 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'reference_opengraph' => true,
-
-	/**
-	 * Enable the legacy unified search.
-	 *
-	 * Defaults to ``false``
-	 */
-	'unified_search.enabled' => false,
 
 	/**
 	 * Enable features that do not yet comply with accessibility standards.

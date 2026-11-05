@@ -64,6 +64,7 @@ OC.L10N.register(
     "Update" : "Oppdater",
     "Delete" : "Slett",
     "Reset" : "Tilbakestill",
+    "Loading …" : "Laster inn ...",
     "{displayName} (hidden)" : "{displayName} (skjult)",
     "{displayName} (restricted)" : "{displayName} (begrenset tilgang)",
     "Failed to apply tags changes" : "Kunne ikke utføre endring av merkelapper",

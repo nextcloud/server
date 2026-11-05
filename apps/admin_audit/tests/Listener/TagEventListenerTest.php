@@ -35,7 +35,7 @@ class TagEventListenerTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('System tag "confidential" (invisible, system only) created', ['app' => 'admin_audit', 'operation' => 'systemtags.tag.created']);
+			->with('System tag "confidential" (invisible, system only) created', ['app' => 'admin_audit', 'operation' => 'systemtags.tag.created', 'params' => ['name' => 'confidential', 'visibility' => 'invisible', 'assignable' => 'system only']]);
 
 		$this->listener->handle(new TagCreatedEvent($tag));
 	}

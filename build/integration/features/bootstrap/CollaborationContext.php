@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Given;
+use Behat\Step\Then;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 
@@ -19,17 +21,17 @@ class CollaborationContext implements Context {
 	use WebDav;
 
 	/**
-	 * @Then /^get autocomplete for "([^"]*)"$/
 	 * @param TableNode|null $formData
 	 */
+	#[Then('/^get autocomplete for "([^"]*)"$/')]
 	public function getAutocompleteForUser(string $search, TableNode $formData): void {
 		$this->getAutocompleteWithType(0, $search, $formData);
 	}
 
 	/**
-	 * @Then /^get email autocomplete for "([^"]*)"$/
 	 * @param TableNode|null $formData
 	 */
+	#[Then('/^get email autocomplete for "([^"]*)"$/')]
 	public function getAutocompleteForEmail(string $search, TableNode $formData): void {
 		$this->getAutocompleteWithType(4, $search, $formData);
 	}
@@ -63,9 +65,7 @@ class CollaborationContext implements Context {
 		}, $suggestions, $formData->getHash()));
 	}
 
-	/**
-	 * @Given /^there is a contact in an addressbook$/
-	 */
+	#[Given('/^there is a contact in an addressbook$/')]
 	public function thereIsAContactInAnAddressbook() {
 		$this->usingNewDavPath();
 		try {
@@ -115,10 +115,10 @@ EOF;
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" has status "([^"]*)"$/
 	 * @param string $user
 	 * @param string $status
 	 */
+	#[Given('/^user "([^"]*)" has status "([^"]*)"$/')]
 	public function assureUserHasStatus($user, $status) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/user_status/api/v1/user_status/status";
 		$client = new Client();
@@ -175,11 +175,11 @@ EOF;
 	}
 
 	/**
-	 * @Given /^user statuses for "([^"]*)" list "([^"]*)" with status "([^"]*)"$/
 	 * @param string $user
 	 * @param string $statusUser
 	 * @param string $status
 	 */
+	#[Given('/^user statuses for "([^"]*)" list "([^"]*)" with status "([^"]*)"$/')]
 	public function assertStatusesList(string $user, string $statusUser, string $status): void {
 		$statusList = $this->getStatusList($user);
 		Assert::assertArrayHasKey('element', $statusList, 'Returned status list empty or broken');
@@ -196,9 +196,9 @@ EOF;
 	}
 
 	/**
-	 * @Given /^user statuses for "([^"]*)" are empty$/
 	 * @param string $user
 	 */
+	#[Given('/^user statuses for "([^"]*)" are empty$/')]
 	public function assertStatusesEmpty(string $user): void {
 		$statusList = $this->getStatusList($user);
 		Assert::assertEmpty($statusList);

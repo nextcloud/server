@@ -8,16 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
-SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
-SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: p-queue developers
-SPDX-FileCopyrightText: moment developers
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: date-fns developers
@@ -39,7 +35,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -57,8 +52,8 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
-SPDX-FileCopyrightText: Borewit
 SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
@@ -109,9 +104,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.2.1
-	- license: MIT
 - @vueuse/shared
 	- version: 14.4.0
 	- license: MIT
@@ -137,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.1.0
+	- version: 4.1.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -148,29 +140,35 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
-- @nextcloud/moment
-	- version: 1.3.5
-	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.6.0
+	- version: 9.14.0
 	- license: AGPL-3.0-or-later
+- @vue/reactivity
+	- version: 3.5.44
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.44
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.44
+	- license: MIT
+- @vue/shared
+	- version: 3.5.44
+	- license: MIT
 - @vueuse/core
-	- version: 14.2.1
+	- version: 15.0.0
 	- license: MIT
 - @vueuse/shared
-	- version: 14.2.1
-	- license: MIT
-- @vue/devtools-api
-	- version: 8.1.0
+	- version: 15.0.0
 	- license: MIT
 - vue-router
-	- version: 5.0.3
+	- version: 5.4.0
 	- license: MIT
 - vue
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 6.1.0
+	- version: 6.2.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 3.1.0
@@ -197,17 +195,11 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.1.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.41.0
+	- version: 8.42.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
 	- license: ISC
-- @vue/devtools-kit
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.2.1
-	- license: MIT
 - @vue/reactivity
 	- version: 3.5.43
 	- license: MIT
@@ -234,9 +226,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- birpc
-	- version: 2.9.0
 	- license: MIT
 - char-regex
 	- version: 2.0.2
@@ -266,13 +255,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.16
+	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.5
 	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.4
 	- license: MIT
 - events
 	- version: 3.3.0
@@ -284,7 +276,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 8.2.2
+	- version: 8.2.3
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
@@ -294,9 +286,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - hast-util-whitespace
 	- version: 2.0.1
-	- license: MIT
-- hookable
-	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -315,9 +304,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-svg
 	- version: 6.1.0
-	- license: MIT
-- lodash
-	- version: 4.18.1
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -400,20 +386,14 @@ This file is generated from multiple sources. Included packages:
 - micromark
 	- version: 4.0.2
 	- license: MIT
-- moment
-	- version: 2.31.0
-	- license: MIT
 - buffer
 	- version: 6.0.3
 	- license: MIT
 - nostics
 	- version: 1.3.0
 	- license: MIT
-- p-queue
-	- version: 9.3.5
-	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
+- p-timeout
+	- version: 7.0.2
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -481,9 +461,6 @@ This file is generated from multiple sources. Included packages:
 - trough
 	- version: 2.2.0
 	- license: MIT
-- typescript-event-target
-	- version: 1.1.2
-	- license: MIT
 - unified
 	- version: 11.0.5
 	- license: MIT
@@ -535,12 +512,15 @@ This file is generated from multiple sources. Included packages:
 - web-namespaces
 	- version: 2.0.1
 	- license: MIT
-- webdav
-	- version: 5.11.0
+- @floating-ui/core
+	- version: 1.8.0
 	- license: MIT
-- @file-type/xml
-	- version: 0.4.4
+- @floating-ui/utils
+	- version: 0.2.12
 	- license: MIT
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @nextcloud/auth
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
@@ -553,6 +533,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 7.5.0
+	- license: AGPL-3.0-or-later
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
@@ -560,7 +543,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.1.0
+	- version: 4.1.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -581,31 +564,28 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.4
 	- license: GPL-3.0-or-later
 - @nextcloud/viewer
-	- version: 2.0.0-beta.18
+	- version: 2.0.0-beta.20
 	- license: AGPL-3.0-or-later
+- @vueuse/core
+	- version: 14.4.0
+	- license: MIT
+- @vueuse/shared
+	- version: 14.4.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.2.1
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.2.1
-	- license: MIT
 - @vue/reactivity
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - @vue/shared
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - axios
 	- version: 1.20.0
@@ -613,50 +593,47 @@ This file is generated from multiple sources. Included packages:
 - base64-js
 	- version: 1.5.1
 	- license: MIT
-- birpc
-	- version: 2.9.0
-	- license: MIT
 - buffer
 	- version: 5.7.1
 	- license: MIT
 - date-fns
 	- version: 4.1.0
 	- license: MIT
+- debounce
+	- version: 3.0.0
+	- license: MIT
 - dompurify
 	- version: 3.4.17
 	- license: (MPL-2.0 OR Apache-2.0)
-- hookable
-	- version: 5.5.3
+- eventemitter3
+	- version: 5.0.4
+	- license: MIT
+- focus-trap
+	- version: 8.2.4
 	- license: MIT
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
-- is-svg
-	- version: 6.1.0
-	- license: MIT
 - nostics
 	- version: 1.2.0
 	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
+- p-timeout
+	- version: 7.0.2
 	- license: MIT
-- sax
-	- version: 1.4.1
-	- license: ISC
 - semver
 	- version: 7.8.5
 	- license: ISC
-- safe-buffer
-	- version: 5.1.2
+- tabbable
+	- version: 6.5.0
 	- license: MIT
-- string_decoder
-	- version: 1.1.1
+- typescript-event-target
+	- version: 1.1.2
 	- license: MIT
 - vue-router
 	- version: 5.3.1
 	- license: MIT
 - vue
-	- version: 3.5.43
+	- version: 3.5.44
 	- license: MIT
 - webdav
 	- version: 5.11.0

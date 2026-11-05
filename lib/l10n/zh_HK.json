@@ -119,6 +119,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "應用程式 \"%s\" 無法安裝，因為無法讀取 appinfo 檔案。",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "應用程式 \"%s\" 無法安裝，因為該應用程式不相容於目前伺服器的版本。",
     "__language_name__" : "正體中文（香港）",
+    "This email was sent from %1$s on behalf of %2$s." : "此電郵是由 %1$s 代表 %2$s 寄送的。",
     "This is an automatically sent email, please do not reply." : "此為自動寄送的電子郵件，請勿回覆。",
     "Bluesky" : "Bluesky",
     "View %s on Bluesky" : "在 Bluesky 上查看 %s",

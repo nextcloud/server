@@ -78,13 +78,13 @@ import GroupListItem from './GroupListItem.vue'
 import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
 import logger from '../logger.ts'
 import { searchGroups } from '../service/groups.ts'
-import { useStore } from '../store/index.js'
+import { useUsersStore } from '../store/users.ts'
 
 const emit = defineEmits<{
 	(e: 'select'): void
 }>()
 
-const store = useStore()
+const usersStore = useUsersStore()
 const route = useRoute()
 const router = useRouter()
 
@@ -97,14 +97,14 @@ const selectedGroup = computed(() => route.params?.selectedGroup)
 /** Current active group - URL decoded  */
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
 /** Server settings for current user */
-const settings = computed(() => store.getters.getServerData)
+const settings = computed(() => usersStore.serverData)
 /** True if the current user is a (delegated) admin */
 const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || settings.value.isDelegatedAdmin)
 /** All available groups */
 const groups = computed(() => {
 	return isAdminOrDelegatedAdmin.value
-		? store.getters.getSortedGroups
-		: store.getters.getSubAdminGroups
+		? usersStore.sortedGroups
+		: usersStore.subAdminGroups
 })
 /** User groups */
 const { userGroups } = useFormatGroups(groups)
@@ -123,7 +123,7 @@ const loadingGroups = ref(false)
 /** Search offset */
 const offset = ref(0)
 /** Search query — shared via Vuex store */
-const groupsSearchQuery = computed(() => store.getters.getSearchQuery)
+const groupsSearchQuery = computed(() => usersStore.searchQuery)
 const filteredGroups = computed(() => {
 	if (isAdminOrDelegatedAdmin.value) {
 		return userGroups.value
@@ -148,7 +148,7 @@ watch(isLastGroupVisible, async () => {
 })
 
 watch(groupsSearchQuery, async () => {
-	store.commit('resetGroups')
+	usersStore.resetGroups()
 	offset.value = 0
 	await loadGroups()
 })
@@ -179,7 +179,7 @@ async function loadGroups() {
 			offset.value += 25
 		}
 		for (const group of groups) {
-			store.commit('addGroup', group)
+			usersStore.addGroup(group)
 		}
 	} catch (error) {
 		logger.error(t('settings', 'Failed to load groups'), { error })
@@ -203,7 +203,7 @@ async function createGroup() {
 	loadingAddGroup.value = true
 
 	try {
-		await store.dispatch('addGroup', groupId)
+		await usersStore.createGroup(groupId)
 		await router.push({
 			name: 'group',
 			params: {

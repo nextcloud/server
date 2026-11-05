@@ -57,7 +57,7 @@ OC.L10N.register(
     "SSE-C encryption key" : "SSE-C-Schlüssel",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
-    "Remote subfolder" : "Entfernter Unterordner",
+    "Remote subfolder" : "Externer Unterordner",
     "Secure https://" : "Sicheres https://",
     "FTP/FTPS" : "FTP/FTPS",
     "Host" : "Host",

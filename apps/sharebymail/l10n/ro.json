@@ -14,7 +14,7 @@
     "Share by mail" : "Partajare prin e-mail",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Partajarea %1$s a eșuat, deoarece acest element este deja partajat cu contul %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nu îți putem trimite parola generată automat. Setează o adresă de e-mail validă în setările personale și încearcă din nou.",
-    "Failed to send share by email. Got an invalid email address" : "Partajarea prin e-mail nu a putut fi trimisă: adresa de e-mail este invalidă",
+    "Failed to send share by email. Got an invalid email address" : "Partajarea prin e-mail nu a putut fi trimisă: adresa de e-mail este nevalidă",
     "Failed to send share by email" : "Partajarea prin e-mail nu a putut fi trimisă",
     "%1$s shared %2$s with you" : "%1$s a partajat %2$s cu tine",
     "Note" : "Notă",

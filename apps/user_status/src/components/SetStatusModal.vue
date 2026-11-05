@@ -90,6 +90,7 @@
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { mapState, mapStores } from 'pinia'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import ClearAtSelect from './ClearAtSelect.vue'
@@ -100,6 +101,8 @@ import PreviousStatus from './PreviousStatus.vue'
 import { logger } from '../logger.ts'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
 import { getAllStatusOptions } from '../services/statusOptionsService.js'
+import { useUserBackupStatusStore } from '../store/userBackupStatus.ts'
+import { useUserStatusStore } from '../store/userStatus.ts'
 
 export default {
 	name: 'SetStatusModal',
@@ -141,16 +144,11 @@ export default {
 	},
 
 	computed: {
-		messageId() {
-			return this.$store.state.userStatus.messageId
-		},
-
-		icon() {
-			return this.$store.state.userStatus.icon
-		},
+		...mapStores(useUserBackupStatusStore),
+		...mapState(useUserStatusStore, ['messageId', 'icon']),
 
 		message() {
-			return this.$store.state.userStatus.message || ''
+			return this.userStatusStore.message || ''
 		},
 
 		hasBackupStatus() {
@@ -158,11 +156,11 @@ export default {
 		},
 
 		backupIcon() {
-			return this.$store.state.userBackupStatus.icon || ''
+			return this.userBackupStatusStore.icon || ''
 		},
 
 		backupMessage() {
-			return this.$store.state.userBackupStatus.message || ''
+			return this.userBackupStatusStore.message || ''
 		},
 
 		absencePageUrl() {
@@ -209,13 +207,13 @@ export default {
 	 * Loads the current status when a user opens dialog
 	 */
 	mounted() {
-		this.$store.dispatch('fetchBackupFromServer')
+		this.userBackupStatusStore.fetchBackupFromServer()
 
-		this.predefinedMessageId = this.$store.state.userStatus.messageId
-		if (this.$store.state.userStatus.clearAt !== null) {
+		this.predefinedMessageId = this.userStatusStore.messageId
+		if (this.userStatusStore.clearAt !== null) {
 			this.clearAt = {
 				type: '_time',
-				time: this.$store.state.userStatus.clearAt,
+				time: this.userStatusStore.clearAt,
 			}
 		}
 	},
@@ -237,11 +235,7 @@ export default {
 		 */
 		setIcon(icon) {
 			this.predefinedMessageId = null
-			this.$store.dispatch('setCustomMessage', {
-				message: this.message,
-				icon,
-				clearAt: this.clearAt,
-			})
+			this.userStatusStore.setCustomMessage(this.message, icon, this.clearAt)
 			this.$nextTick(() => {
 				this.$refs.customMessageInput.focus()
 			})
@@ -274,10 +268,7 @@ export default {
 		selectPredefinedMessage(status) {
 			this.predefinedMessageId = status.id
 			this.clearAt = status.clearAt
-			this.$store.dispatch('setPredefinedMessage', {
-				messageId: status.id,
-				clearAt: status.clearAt,
-			})
+			this.userStatusStore.setPredefinedMessage(status.id, status.clearAt)
 		},
 
 		/**
@@ -294,16 +285,9 @@ export default {
 				this.isSavingStatus = true
 
 				if (this.predefinedMessageId === null) {
-					await this.$store.dispatch('setCustomMessage', {
-						message: this.editedMessage,
-						icon: this.icon,
-						clearAt: this.clearAt,
-					})
+					await this.userStatusStore.setCustomMessage(this.editedMessage, this.icon, this.clearAt)
 				} else {
-					this.$store.dispatch('setPredefinedMessage', {
-						messageId: this.predefinedMessageId,
-						clearAt: this.clearAt,
-					})
+					await this.userStatusStore.setPredefinedMessage(this.predefinedMessageId, this.clearAt)
 				}
 			} catch (err) {
 				showError(t('user_status', 'There was an error saving the status'))
@@ -324,7 +308,7 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				await this.$store.dispatch('clearMessage')
+				await this.userStatusStore.clearMessage()
 			} catch (err) {
 				showError(t('user_status', 'There was an error clearing the status'))
 				logger.debug(err)
@@ -345,9 +329,7 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				await this.$store.dispatch('revertBackupFromServer', {
-					messageId: this.messageId,
-				})
+				await this.userBackupStatusStore.revertBackupFromServer(this.messageId)
 			} catch (err) {
 				showError(t('user_status', 'There was an error reverting the status'))
 				logger.debug(err)
@@ -356,7 +338,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
-			this.predefinedMessageId = this.$store.state.userStatus?.messageId
+			this.predefinedMessageId = this.userStatusStore.messageId
 		},
 	},
 }

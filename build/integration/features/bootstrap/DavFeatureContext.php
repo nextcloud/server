@@ -8,11 +8,10 @@ declare(strict_types=1);
  */
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 
 require __DIR__ . '/autoload.php';
 
-class DavFeatureContext implements Context, SnippetAcceptingContext {
+class DavFeatureContext implements Context {
 	use AppConfiguration;
 	use ContactsMenu;
 	use ExternalStorage;

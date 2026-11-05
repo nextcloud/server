@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Export\ExportService;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -55,6 +57,7 @@ class CalendarExportController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function export(string $target, ?string $type = null, ?array $options = null, ?string $user = null) {
 		$calendarId = $target;
 		$format = $type ?? 'ical';

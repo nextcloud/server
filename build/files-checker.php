@@ -24,6 +24,7 @@ $expectedFiles = [
 	'.mailmap',
 	'.nextcloudignore',
 	'.npmignore',
+	'.oss-scanner',
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
 	'.tag',

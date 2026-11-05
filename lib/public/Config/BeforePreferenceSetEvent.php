@@ -11,13 +11,18 @@ namespace OCP\Config;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
+/**
+ * Dispatched before a user preference is set via the preferences API; the change is rejected unless a listener marks it valid.
+ *
+ * @since 25.0.0
+ */
 #[Listenable(since: '25.0.0')]
 class BeforePreferenceSetEvent extends Event {
 	protected string $userId;
 	protected string $appId;
 	protected string $configKey;
 	protected string $configValue;
-	protected bool $valid = false;
+	protected ?bool $valid = null;
 
 	/**
 	 * @since 25.0.0
@@ -62,7 +67,19 @@ class BeforePreferenceSetEvent extends Event {
 	 * @since 25.0.0
 	 */
 	public function isValid(): bool {
-		return $this->valid;
+		return $this->valid === true;
+	}
+
+	/**
+	 * Whether a listener explicitly refused the change via setValid(false)
+	 *
+	 * Admin contexts (e.g. occ) only block the change when it was rejected,
+	 * while user contexts require it to be valid.
+	 *
+	 * @since 36.0.0
+	 */
+	public function isRejected(): bool {
+		return $this->valid === false;
 	}
 
 	/**

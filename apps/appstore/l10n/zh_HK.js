@@ -154,10 +154,15 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "最佳安全保障：文件永遠不會離開您的伺服器",
     "Best ODF compatibility" : "最佳 ODF 兼容性",
     "Best support for legacy files" : "對舊版檔案的最佳支持",
+    "Enabling following apps: {apps}" : "正在啟用以下應用程式：{apps}",
+    "_Updating %n app._::_Updating %n apps._" : ["正在更新 %n 個應用程式。"],
     "Could not load app categories. Please try again later." : "無法載入應用程式分類。請稍後再試。",
     "Could not load apps list. Please try again later." : "無法載入應用程式列表。請稍後再試。",
     "Could not update the app. Please try again later." : "無法更新應用程式。請稍後再試。",
     "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
+    "Could not update an exApp. Please try again later." : "無法更新 exApp。請稍後再試。",
+    "Could not update {app}. Please try again later." : "無法更新 {app}。請稍後再試。",
+    "Could not update an app. Please try again later." : "無法更新應用程式。請稍後再試。",
     "Failed to update app {appName}" : "更新應用程式 {appName} 失敗"
 },
 "nplurals=1; plural=0;");

@@ -16,7 +16,7 @@ OC.L10N.register(
     "Server url" : "URL-ul serverului",
     "Add" : "Adaugă",
     "Server ok" : "Server funcțional",
-    "User list was exchanged at least once successfully with the remote server." : "Lista utilizatorilor a fost schimbată cu succes cel puțin o dată cu serverul la distanță.",
+    "User list was exchanged at least once successfully with the remote server." : "Schimbul listei de utilizatori cu serverul la distanță a reușit cel puțin o dată.",
     "Server pending" : "Server în așteptare",
     "Waiting for shared secret or initial user list exchange." : "Se așteaptă secretul partajat sau schimbul inițial al listei de utilizatori.",
     "Server access revoked" : "Accesul serverului a fost revocat",

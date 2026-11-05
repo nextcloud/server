@@ -3,29 +3,25 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { TestingPinia } from '@pinia/testing'
+
+import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// `<script setup>` children and `useStore()` are invisible to VTU stubs/mocks,
-// so swap them via `vi.mock` (see dialogTestHelpers).
-const { dispatch } = vi.hoisted(() => ({ dispatch: vi.fn() }))
-
-vi.mock('../../store/index.js', () => ({
-	useStore: () => ({
-		dispatch,
-		getters: {
-			getServerData: { newUserGenerateUserID: false, newUserRequireEmail: false },
-			getPasswordPolicyMinLength: 8,
-		},
-	}),
-}))
+// `<script setup>` children are invisible to VTU stubs, so swap them via
+// `vi.mock` (see dialogTestHelpers).
 vi.mock('@nextcloud/vue/components/NcDialog', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcDialogStub }))
 vi.mock('@nextcloud/vue/components/NcButton', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcButtonStub }))
 vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogTestHelpers.ts')).UserFormFieldsStub }))
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NewUserDialog from './NewUserDialog.vue'
+import { useUsersStore } from '../../store/users.ts'
 import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
+
+let pinia: TestingPinia
+let store: ReturnType<typeof useUsersStore>
 
 function makeNewUser(overrides = {}) {
 	return {
@@ -49,27 +45,31 @@ function mountDialog({ loading = { all: false } } = {}) {
 			newUser: makeNewUser(),
 			quotaOptions: [],
 		},
+		pinia,
 	})
 }
 
 describe('NewUserDialog loading feedback', () => {
 	beforeEach(() => {
-		vi.clearAllMocks()
+		pinia = createTestingPinia({
+			createSpy: vi.fn,
+			initialState: { 'settings-users': { serverData: { newUserGenerateUserID: false, newUserRequireEmail: false }, minPasswordLength: 8 } },
+		})
+		store = useUsersStore()
 	})
 
 	it('does not dispatch a second create request while one is in flight', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.addUser).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 		await wrapper.find('form').trigger('submit')
 
-		const addUserCalls = dispatch.mock.calls.filter(([action]) => action === 'addUser')
-		expect(addUserCalls).toHaveLength(1)
+		expect(store.addUser).toHaveBeenCalledOnce()
 	})
 
 	it('marks the form as busy and inert while creating', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.addUser).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
@@ -80,7 +80,7 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('shows a spinner and busy label on the submit button while creating', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.addUser).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
@@ -90,7 +90,7 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('sets aria-disabled (not disabled) on the submit button while creating', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.addUser).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 		const submit = wrapper.find('[data-test="submit"]')
 
@@ -104,7 +104,7 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('prevents closing the dialog while creating', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.addUser).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 		const dialog = wrapper.findComponent(NcDialogStub)
 
@@ -117,7 +117,7 @@ describe('NewUserDialog loading feedback', () => {
 
 	it('re-enables the form when the request fails', async () => {
 		const error = { response: { data: { ocs: { meta: { statuscode: 0 } } } } }
-		dispatch.mockRejectedValue(error)
+		vi.mocked(store.addUser).mockRejectedValue(error)
 		const loading = { all: false }
 		const wrapper = mountDialog({ loading })
 

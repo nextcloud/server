@@ -147,7 +147,7 @@ async function setStorageCredentials(
 	const credentialsSet = page.waitForResponse((response) => response.request().method() === 'PUT'
 		&& response.url().includes('/apps/files_external/userglobalstorages/'))
 
-	await filesListPage.triggerInlineActionForFile(mountName, ACTION_CREDENTIALS_EXTERNAL_STORAGE)
+	await filesListPage.triggerActionForFile(mountName, ACTION_CREDENTIALS_EXTERNAL_STORAGE)
 
 	const storageDialog = page.getByRole('dialog', { name: 'Storage credentials' })
 	await expect(storageDialog).toBeVisible()

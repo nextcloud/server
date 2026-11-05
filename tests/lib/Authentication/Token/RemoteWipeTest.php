@@ -18,6 +18,7 @@ use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -151,5 +152,27 @@ class RemoteWipeTest extends TestCase {
 		$result = $this->remoteWipe->finish('tk1');
 
 		$this->assertTrue($result);
+	}
+
+	public function testFinishWiping(): void {
+		$token = $this->createMock(IToken::class);
+		$token->method('getId')->willReturn(42);
+		$token->method('getUID')->willReturn('user1');
+		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
+			->method('getToken')
+			->with('tk1')
+			->willThrowException(new WipeTokenException($token));
+		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
+			->method('invalidateToken')
+			->with('tk1');
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatch')
+			->with(RemoteWipeFinished::class, $this->equalTo(new RemoteWipeFinished($token)));
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.remote_wipe.finished'
+				&& $event->getParameters() === ['tokenId' => 42, 'userId' => 'user1']));
+
+		$this->assertTrue($this->remoteWipe->finish('tk1'));
 	}
 }
