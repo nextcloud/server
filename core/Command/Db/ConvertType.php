@@ -10,6 +10,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
@@ -400,13 +401,43 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		return $this->columnTypes[$tableName][$columnName];
 	}
 
+	/**
+	 * Sorts the tables so that every table is copied after the tables it references
+	 * with a foreign key, otherwise inserting its rows violates the foreign key.
+	 *
+	 * @param string[] $tables
+	 * @return string[]
+	 */
+	public function sortTablesByForeignKeys(Schema $schema, array $tables): array {
+		$sorted = [];
+		$visiting = [];
+		$visit = function (string $table) use (&$visit, &$sorted, &$visiting, $schema, $tables): void {
+			// Already sorted, or a circular reference that cannot be resolved by ordering
+			if (isset($sorted[$table]) || isset($visiting[$table])) {
+				return;
+			}
+			$visiting[$table] = true;
+			foreach ($schema->getTable($table)->getForeignKeys() as $foreignKey) {
+				$foreignTable = $foreignKey->getForeignTableName();
+				if (in_array($foreignTable, $tables, true)) {
+					$visit($foreignTable);
+				}
+			}
+			$sorted[$table] = true;
+		};
+		foreach ($tables as $table) {
+			$visit($table);
+		}
+		return array_keys($sorted);
+	}
+
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setSystemValue('maintenance', true);
 		$schema = $fromDB->createSchema();
 
 		try {
 			// copy table rows
-			foreach ($tables as $table) {
+			foreach ($this->sortTablesByForeignKeys($schema, $tables) as $table) {
 				$output->writeln('<info> - ' . $table . '</info>');
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
