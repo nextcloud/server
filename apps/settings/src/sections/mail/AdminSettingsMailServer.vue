@@ -104,10 +104,9 @@ async function testEmail() {
  * Submit the mail settings form
  */
 async function onSubmit() {
-	await confirmPassword()
-
 	isSaving.value = true
 	try {
+		await confirmPassword()
 		if (mailConfig.value.mail_smtpauth && hasCredentialChanges.value) {
 			await axios.post(generateUrl('/settings/admin/mailsettings/credentials'), {
 				mail_smtppassword: hasPasswordChanges.value ? mailConfig.value.mail_smtppassword : undefined,

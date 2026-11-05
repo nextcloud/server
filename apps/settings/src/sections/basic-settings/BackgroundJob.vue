@@ -23,6 +23,7 @@ const cliBasedCronUser = loadState('settings', 'cliBasedCronUser', 'www-data')
 const backgroundJobsDocUrl = loadState<string>('settings', 'backgroundJobsDocUrl')
 
 const backgroundJobsMode = ref(loadState('settings', 'backgroundJobsMode', 'cron'))
+let savedMode = backgroundJobsMode.value
 const relativeTime = formatRelativeTime(lastCron * 1000)
 const maxAgeRelativeTime = formatRelativeTime(cronMaxAge * 1000)
 
@@ -50,19 +51,20 @@ function coreConfigUrl(key: string) {
 async function onBackgroundJobModeChanged(mode: string) {
 	const url = coreConfigUrl('backgroundjobs_mode')
 
-	await confirmPassword()
-
 	try {
+		await confirmPassword()
 		const { data } = await axios.post(url, {
 			value: mode,
 		})
 		if (data.ocs?.meta?.status === 'ok') {
+			savedMode = mode
 			await deleteError()
 			return
 		}
 	} catch (error) {
 		logger.error('Unable to update background job mode', { error })
 	}
+	backgroundJobsMode.value = savedMode
 	showError(t('settings', 'Unable to update background job mode'))
 }
 
@@ -73,9 +75,8 @@ async function deleteError() {
 	// clear cron errors on background job mode change
 	const url = coreConfigUrl('cronErrors')
 
-	await confirmPassword()
-
 	try {
+		await confirmPassword()
 		await axios.delete(url)
 	} catch (error) {
 		logger.error(error)

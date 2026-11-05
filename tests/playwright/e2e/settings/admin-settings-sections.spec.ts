@@ -52,6 +52,21 @@ test.describe('Settings: admin sections', () => {
 		}
 	})
 
+	test('background jobs mode is reset when saving fails', async ({ page }) => {
+		await page.route('**/config/apps/core/backgroundjobs_mode', (route) => route.fulfill({ status: 500 }))
+		await page.goto('settings/admin/server')
+
+		// the page has other radio groups, the input name scopes to this one
+		const checked = page.locator('input[name="backgroundJobsMode"]:checked')
+		const initial = await checked.getAttribute('value')
+		const other = page.getByRole('radio', { name: initial === 'webcron' ? 'AJAX' : 'Webcron' })
+		await other.check({ force: true })
+
+		await expect(page.getByText('Unable to update background job mode')).toBeVisible()
+		await expect(other).not.toBeChecked()
+		await expect(checked).toHaveAttribute('value', initial!)
+	})
+
 	test('delegation page renders', async ({ page }) => {
 		await page.goto('settings/admin/admindelegation')
 		await expect(page.getByRole('heading', { level: 2, name: /^Administration privileges/ })).toBeVisible()
