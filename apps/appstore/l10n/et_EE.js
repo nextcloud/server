@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Päringu ajal tekkis viga. Jätkamine pole võimalik.",
     "Could not update an exApp. Please try again later." : "ExApp süsteemirakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
     "Could not update {app}. Please try again later." : "„{app}“ rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
-    "Could not update an app. Please try again later." : "Rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti.",
-    "Failed to update app {appName}" : "„{appName}“ rakenduse uuendamine ei õnnestunud"
+    "Could not update an app. Please try again later." : "Rakenduse uuendamine ei õnnestunud. Palun proovi hiljem uuesti."
 },
 "nplurals=2; plural=(n != 1);");

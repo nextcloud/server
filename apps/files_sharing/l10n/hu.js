@@ -295,7 +295,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
-    "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda",
-    "Via “{folder}”" : "A(z) „{folder}” mappán keretül"
+    "Public upload disabled by the administrator" : "A nyilvános feltöltést letiltotta a rendszergazda"
 },
 "nplurals=2; plural=(n != 1);");
