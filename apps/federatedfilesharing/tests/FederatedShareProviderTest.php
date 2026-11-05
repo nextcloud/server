@@ -23,7 +23,6 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -214,7 +213,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				'id' => $qb->createNamedParameter(1000, IQueryBuilder::PARAM_INT),
 				'remote' => $qb->createNamedParameter('https://remote.test'),
 				'remote_id' => $qb->createNamedParameter('10'),
-				'refresh_token' => $qb->createNamedParameter('remoteToken'),
+				'share_token' => $qb->createNamedParameter('remoteToken'),
 				'name' => $qb->createNamedParameter('/myFile'),
 				'owner' => $qb->createNamedParameter('remoteOwner'),
 				'user' => $qb->createNamedParameter('shareOwner'),
@@ -240,7 +239,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$mountedShare = $this->createMock(Folder::class);
 		$mountedShare->method('getId')->willReturn(43);
-		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('get')
 			->with('/myFile')
 			->willReturn($mountedShare);
