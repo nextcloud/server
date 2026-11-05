@@ -303,6 +303,15 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 			)
 			->willReturn(['share_token2', '20']);
 
+		// the shared node is the mount point of the federated share
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('get')
+			->with('/Share1')
+			->willReturn($node);
+		$this->rootFolder->method('getUserFolder')
+			->with('alice')
+			->willReturn($userFolder);
+
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share
 			->setSharedWith('bob@https://destination.test')
