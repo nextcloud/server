@@ -14,6 +14,7 @@ use OC\Core\Command\App\Enable;
 use OC\Core\Command\App\GetPath;
 use OC\Core\Command\App\Install;
 use OC\Core\Command\App\ListApps;
+use OC\Core\Command\App\Purge;
 use OC\Core\Command\App\Remove;
 use OC\Core\Command\App\Update;
 use OC\Core\Command\Background\Delete;
@@ -146,6 +147,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(GetPath::class));
 	$application->addCommand(Server::get(ListApps::class));
 	$application->addCommand(Server::get(Remove::class));
+	$application->addCommand(Server::get(Purge::class));
 	$application->addCommand(Server::get(Update::class));
 
 	$application->addCommand(Server::get(Cleanup::class));
