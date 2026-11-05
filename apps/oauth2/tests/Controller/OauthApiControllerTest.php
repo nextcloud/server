@@ -425,7 +425,7 @@ final class OauthApiControllerTest extends TestCase {
 				'validrefresh',
 				'random128',
 				'newEncryptedToken',
-				false,
+				'refresh_token',
 			)->willReturn(1);
 
 		$expected = new JSONResponse([
@@ -531,7 +531,7 @@ final class OauthApiControllerTest extends TestCase {
 				'validrefresh',
 				'random128',
 				'newEncryptedToken',
-				false,
+				'refresh_token',
 			)->willReturn(1);
 
 		$expected = new JSONResponse([
@@ -640,7 +640,7 @@ final class OauthApiControllerTest extends TestCase {
 				'validrefresh',
 				'random128',
 				'newEncryptedToken',
-				false,
+				'refresh_token',
 			)->willReturn(1);
 
 		$expected = new JSONResponse([
@@ -739,7 +739,7 @@ final class OauthApiControllerTest extends TestCase {
 				'validrefresh',
 				'random128',
 				'newEncryptedToken',
-				false,
+				'refresh_token',
 			)->willReturn(0);
 
 		$this->throttler->expects($this->never())

@@ -54,4 +54,70 @@ final class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$this->accessTokenMapper->getByCode('MyAwesomeToken');
 	}
+
+	private function insertToken(int $clientId, int $tokenCount): AccessToken {
+		$token = new AccessToken();
+		$token->clientId = $clientId;
+		$token->tokenId = time();
+		$token->encryptedToken = 'MyEncryptedToken';
+		$token->hashedCode = hash('sha512', 'MyAwesomeToken');
+		$token->tokenCount = $tokenCount;
+
+		$this->accessTokenMapper->insert($token);
+		return $token;
+	}
+
+	public function testRotateTokenInAuthorizationCodeState(): void {
+		$this->accessTokenMapper->deleteByClientId(1235);
+		$token = $this->insertToken(1235, 0);
+
+		$rotated = $this->accessTokenMapper->rotateToken($token->id, 'MyAwesomeToken', 'rotatedcode', 'OtherEncryptedToken', 'authorization_code');
+		$this->assertEquals(1, $rotated);
+
+		$row = $this->accessTokenMapper->getByCode('rotatedcode');
+		$this->assertEquals('OtherEncryptedToken', $row->encryptedToken);
+		$this->assertEquals(1, $row->tokenCount);
+
+		$this->accessTokenMapper->deleteByClientId(1235);
+	}
+
+	public function testRotateTokenWithRefreshTokenGrantOnUnusedToken(): void {
+		$this->accessTokenMapper->deleteByClientId(1235);
+		$token = $this->insertToken(1235, 0);
+
+		// an unused authorization code is not a valid refresh token
+		$rotated = $this->accessTokenMapper->rotateToken($token->id, 'MyAwesomeToken', 'rotatedcode', 'OtherEncryptedToken', 'refresh_token');
+		$this->assertEquals(0, $rotated);
+
+		$row = $this->accessTokenMapper->getByCode('MyAwesomeToken');
+		$this->assertEquals('MyEncryptedToken', $row->encryptedToken);
+		$this->assertEquals(0, $row->tokenCount);
+
+		$this->accessTokenMapper->deleteByClientId(1235);
+	}
+
+	public function testRotateTokenInRefreshTokenState(): void {
+		$this->accessTokenMapper->deleteByClientId(1235);
+		$token = $this->insertToken(1235, 1);
+
+		$rotated = $this->accessTokenMapper->rotateToken($token->id, 'MyAwesomeToken', 'rotatedcode', 'OtherEncryptedToken', 'refresh_token');
+		$this->assertEquals(1, $rotated);
+
+		$row = $this->accessTokenMapper->getByCode('rotatedcode');
+		$this->assertEquals('OtherEncryptedToken', $row->encryptedToken);
+		$this->assertEquals(2, $row->tokenCount);
+
+		$this->accessTokenMapper->deleteByClientId(1235);
+	}
+
+	public function testRotateTokenWithAuthorizationCodeGrantOnUsedToken(): void {
+		$this->accessTokenMapper->deleteByClientId(1235);
+		$token = $this->insertToken(1235, 1);
+
+		// an already used token can't be processed through the authorization code grant
+		$rotated = $this->accessTokenMapper->rotateToken($token->id, 'MyAwesomeToken', 'rotatedcode', 'OtherEncryptedToken', 'authorization_code');
+		$this->assertEquals(0, $rotated);
+
+		$this->accessTokenMapper->deleteByClientId(1235);
+	}
 }
