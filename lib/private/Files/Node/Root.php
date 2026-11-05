@@ -371,7 +371,9 @@ class Root extends Folder implements IRootFolder, Emitter {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
 			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
-			if ($cachedPath && str_starts_with($cachedPath, $path)) {
+			// the cached path has to be inside $path, sharing its prefix is not enough:
+			// "/user/files_trashbin/files/a.txt" starts with "/user/files" too
+			if ($cachedPath && PathHelper::getRelativePath($path, $cachedPath) !== null) {
 				// getting the node by path is significantly cheaper than finding it by id
 				try {
 					$node = $this->get($cachedPath);
