@@ -411,7 +411,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Διαμοιρασμός %1$s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %2$s",
     "Public upload disabled by the administrator" : "Δημόσιο ανέβασμα είναι απενεργοποιημένο από τον διαχειριστή",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Τα tokens πρέπει να περιέχουν τουλάχιστον 1 χαρακτήρα και μπορούν να περιέχουν μόνο γράμματα, αριθμούς ή παύλα",
-    "Via “{folder}”" : "Μέσω “{folder}”",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες."
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες.",
+    "Via “{folder}”" : "Μέσω “{folder}”"
 },
 "nplurals=2; plural=(n != 1);");
