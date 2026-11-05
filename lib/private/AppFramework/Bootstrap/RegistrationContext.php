@@ -30,6 +30,7 @@ use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\FilesMetadata\Schema\IMetadataSchemaProvider;
 use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Mail\Provider\IProvider as IMailProvider;
@@ -171,6 +172,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IConversionProvider>[] */
 	private array $fileConversionProviders = [];
+
+	/** @var ServiceRegistration<IMetadataSchemaProvider>[] */
+	private array $metadataSchemaProviders = [];
 
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
@@ -525,6 +529,14 @@ class RegistrationContext {
 					$globalScaleServiceClass
 				);
 			}
+
+			#[\Override]
+			public function registerMetadataSchemaProvider(string $class): void {
+				$this->context->registerMetadataSchemaProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -738,6 +750,13 @@ class RegistrationContext {
 	 */
 	public function registerFileConversionProvider(string $appId, string $class): void {
 		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<IMetadataSchemaProvider> $class
+	 */
+	public function registerMetadataSchemaProvider(string $appId, string $class): void {
+		$this->metadataSchemaProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -1143,6 +1162,13 @@ class RegistrationContext {
 	 */
 	public function getFileConversionProviders(): array {
 		return $this->fileConversionProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IMetadataSchemaProvider>[]
+	 */
+	public function getMetadataSchemaProviders(): array {
+		return $this->metadataSchemaProviders;
 	}
 
 	/**
