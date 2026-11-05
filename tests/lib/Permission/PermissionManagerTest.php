@@ -13,9 +13,6 @@ use NCU\Permission\ABooleanPermission;
 use NCU\Permission\CorePermission;
 use NCU\Permission\IPermission;
 use NCU\Permission\IPermissionManager;
-use NCU\Permission\IPermissionResourceType;
-use NCU\Permission\PermissionBinding;
-use NCU\Permission\ResolvedPermission;
 use OC\Permission\PermissionManager;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -62,11 +59,7 @@ class PermissionManagerTest extends TestCase {
 			}
 
 			public function getDisplayName(): string {
-				return 'Generic ' . $this->id;
-			}
-
-			public function getHint(): ?string {
-				return 'Generic hint ' . $this->id;
+				return 'Permission ' . $this->id;
 			}
 
 			public function getPriority(): int {
@@ -86,29 +79,6 @@ class PermissionManagerTest extends TestCase {
 		$this->instances[$class] = $permission;
 		$this->manager->registerPermission($class);
 		return $permission;
-	}
-
-	/**
-	 * @param list<PermissionBinding> $bindings
-	 */
-	private function registerResourceType(string $id, array $bindings): IPermissionResourceType {
-		$resourceType = $this->createMock(IPermissionResourceType::class);
-		$resourceType->method('getId')->willReturn($id);
-		$resourceType->method('getDisplayName')->willReturn('Resource ' . $id);
-		$resourceType->method('getPermissionBindings')->willReturn($bindings);
-
-		$class = 'ResourceType\\' . count($this->instances);
-		$this->instances[$class] = $resourceType;
-		$this->manager->registerResourceType($class);
-		return $resourceType;
-	}
-
-	/**
-	 * @param list<ResolvedPermission> $resolvedPermissions
-	 * @return list<string>
-	 */
-	private static function ids(array $resolvedPermissions): array {
-		return array_map(static fn (ResolvedPermission $resolvedPermission): string => $resolvedPermission->permission->getId(), $resolvedPermissions);
 	}
 
 	public function testPermissionsAreInstantiatedLazilyAndOnce(): void {
@@ -138,6 +108,13 @@ class PermissionManagerTest extends TestCase {
 		$this->assertSame(['app:b', 'app:a', 'app:c'], array_keys($this->manager->getPermissions()));
 	}
 
+	public function testGetPermission(): void {
+		$permission = $this->registerPermission('app:a');
+
+		$this->assertSame($permission, $this->manager->getPermission('app:a'));
+		$this->assertNull($this->manager->getPermission('app:unknown'));
+	}
+
 	public function testInvalidPermissionsAreSkipped(): void {
 		$valid = $this->registerPermission('app:valid');
 		$this->registerPermission('Invalid ID');
@@ -150,94 +127,15 @@ class PermissionManagerTest extends TestCase {
 		$this->logger->expects($this->exactly(5))->method('error');
 
 		$this->assertSame(['app:valid' => $valid], $this->manager->getPermissions());
-		$this->assertNull($this->manager->getPermission('app:invalid_default'));
 	}
 
-	public function testUnknownRequiredPermissionIsLogged(): void {
-		$this->registerPermission('app:a', requiredPermissionIds: ['app:unknown']);
-
-		$this->logger->expects($this->once())->method('warning');
-
-		$this->assertNotNull($this->manager->getPermission('app:a'));
-	}
-
-	public function testInvalidResourceTypesAreSkipped(): void {
-		$valid = $this->registerResourceType('app:valid', []);
-		$this->registerResourceType('Invalid ID', []);
-		$this->registerResourceType('app:valid', []);
-		$this->instances['ResourceType\\wrong'] = new \stdClass();
-		$this->manager->registerResourceType('ResourceType\\wrong');
-
-		$this->logger->expects($this->exactly(3))->method('error');
-
-		$this->assertSame(['app:valid' => $valid], $this->manager->getResourceTypes());
-		$this->assertSame($valid, $this->manager->getResourceType('app:valid'));
-		$this->assertNull($this->manager->getResourceType('Invalid ID'));
-	}
-
-	public function testBindingOverridesAndFallbacks(): void {
-		$read = $this->registerPermission('app:read', 90);
-		$share = $this->registerPermission('app:share', 50, 'true');
-		$this->registerResourceType('app:resource', [
-			new PermissionBinding('app:share', 'Forward', 'Forward hint', 'false'),
-			new PermissionBinding('app:read'),
-		]);
-
-		$resolved = $this->manager->getPermissionsForResourceType('app:resource');
-
-		$this->assertEquals([
-			new ResolvedPermission($read, 'app:resource', 'Generic app:read', 'Generic hint app:read', 'true', []),
-			new ResolvedPermission($share, 'app:resource', 'Forward', 'Forward hint', 'false', []),
-		], $resolved);
-	}
-
-	public function testInvalidBindingsAreSkipped(): void {
-		$this->registerPermission('app:a');
-		$this->registerPermission('app:b');
-		$this->registerResourceType('app:resource', [
-			new PermissionBinding('app:a'),
-			new PermissionBinding('app:a', 'Duplicate'),
-			new PermissionBinding('app:b', defaultValue: 'maybe'),
-			new PermissionBinding('app:unknown'),
-		]);
-
-		$this->logger->expects($this->exactly(2))->method('error');
-		$this->logger->expects($this->once())->method('warning');
-
-		$resolved = $this->manager->getPermissionsForResourceType('app:resource');
-		$this->assertSame(['app:a'], self::ids($resolved));
-		$this->assertSame('Generic app:a', $resolved[0]->displayName);
-	}
-
-	public function testRequiredPermissionsAreLimitedToBoundPermissions(): void {
+	public function testInvalidRequiredPermissionsAreLogged(): void {
 		$this->registerPermission('app:read');
-		$this->registerPermission('app:list');
-		$this->registerPermission('app:update', requiredPermissionIds: ['app:read', 'app:list', 'app:update']);
-		$this->registerResourceType('app:resource', [
-			new PermissionBinding('app:read'),
-			new PermissionBinding('app:update'),
-		]);
+		$this->registerPermission('app:update', requiredPermissionIds: ['app:read', 'app:unknown', 'app:update']);
 
-		$resolved = $this->manager->getPermissionsForResourceType('app:resource');
+		$this->logger->expects($this->exactly(2))->method('warning');
 
-		$this->assertSame(['app:read', 'app:update'], self::ids($resolved));
-		$this->assertSame([], $resolved[0]->requiredPermissionIds);
-		$this->assertSame(['app:read'], $resolved[1]->requiredPermissionIds);
-	}
-
-	public function testGetResourceTypesForPermission(): void {
-		$this->registerPermission('app:share');
-		$this->registerPermission('app:other');
-		$this->registerResourceType('mail:message', [new PermissionBinding('app:share', 'Forward')]);
-		$this->registerResourceType('files:node', [new PermissionBinding('app:share'), new PermissionBinding('app:other')]);
-		$this->registerResourceType('tables:table', [new PermissionBinding('app:other')]);
-
-		$resolved = $this->manager->getResourceTypesForPermission('app:share');
-
-		$this->assertSame(['files:node', 'mail:message'], array_map(static fn (ResolvedPermission $resolvedPermission): string => $resolvedPermission->resourceTypeId, $resolved));
-		$this->assertSame(['Generic app:share', 'Forward'], array_map(static fn (ResolvedPermission $resolvedPermission): string => $resolvedPermission->displayName, $resolved));
-		$this->assertSame([], $this->manager->getResourceTypesForPermission('app:unknown'));
-		$this->assertSame([], $this->manager->getPermissionsForResourceType('app:unknown'));
+		$this->assertNotNull($this->manager->getPermission('app:update'));
 	}
 
 	public function testCorePermissionsAreRegistered(): void {

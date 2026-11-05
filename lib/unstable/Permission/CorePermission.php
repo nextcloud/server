@@ -14,7 +14,7 @@ use OCP\AppFramework\Attribute\Consumable;
 /**
  * IDs of the generic permissions registered by the server.
  *
- * Resource types should bind these instead of defining their own permission whenever the meaning is the same.
+ * Apps should reuse these instead of defining their own permission whenever the meaning is the same.
  *
  * @experimental 36.0.0
  */

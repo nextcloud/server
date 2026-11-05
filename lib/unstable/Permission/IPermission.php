@@ -14,9 +14,8 @@ use OCP\AppFramework\Attribute\Consumable;
 /**
  * A permission describes one meaning, e.g. "may share the resource with others".
  *
- * The same permission ID always has the same meaning, regardless of the resource type it is bound to.
- * Resource types may present it with their own wording, see {@see PermissionBinding}.
- * The app owning a resource type enforces the permission, everybody else only needs the definition.
+ * The same permission ID always has the same meaning, regardless of the resource it is applied to.
+ * The app owning a resource enforces the permission, everybody else only needs the definition.
  *
  * Values are ordered from most restrictive to most permissive, so that values from multiple sources
  * can be combined without knowing what the permission does.
@@ -38,7 +37,7 @@ interface IPermission {
 	public function getId(): string;
 
 	/**
-	 * Generic, user friendly name, also used as the heading when grouping the permission across resource types.
+	 * User friendly name.
 	 *
 	 * @return non-empty-string
 	 * @experimental 36.0.0
@@ -67,7 +66,7 @@ interface IPermission {
 	public function getValueType(): PermissionValueType;
 
 	/**
-	 * Value used when nothing was configured, may be overridden per resource type.
+	 * Value used when nothing was configured.
 	 *
 	 * @experimental 36.0.0
 	 */
