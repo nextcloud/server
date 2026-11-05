@@ -7,9 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'NCU\\Actor\\Actor' => $baseDir . '/lib/unstable/Actor/Actor.php',
-    'NCU\\Actor\\Principal' => $baseDir . '/lib/unstable/Actor/Principal.php',
-    'NCU\\Actor\\PrincipalType' => $baseDir . '/lib/unstable/Actor/PrincipalType.php',
     'NCU\\AppFramework\\Http\\Attribute\\TokenScope' => $baseDir . '/lib/unstable/AppFramework/Http/Attribute/TokenScope.php',
     'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
     'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
@@ -109,6 +106,9 @@ return array(
     'OCP\\Activity\\IManager' => $baseDir . '/lib/public/Activity/IManager.php',
     'OCP\\Activity\\IProvider' => $baseDir . '/lib/public/Activity/IProvider.php',
     'OCP\\Activity\\ISetting' => $baseDir . '/lib/public/Activity/ISetting.php',
+    'OCP\\Actor\\Actor' => $baseDir . '/lib/public/Actor/Actor.php',
+    'OCP\\Actor\\Principal' => $baseDir . '/lib/public/Actor/Principal.php',
+    'OCP\\Actor\\PrincipalType' => $baseDir . '/lib/public/Actor/PrincipalType.php',
     'OCP\\AppFramework\\ApiController' => $baseDir . '/lib/public/AppFramework/ApiController.php',
     'OCP\\AppFramework\\App' => $baseDir . '/lib/public/AppFramework/App.php',
     'OCP\\AppFramework\\Attribute\\ASince' => $baseDir . '/lib/public/AppFramework/Attribute/ASince.php',
