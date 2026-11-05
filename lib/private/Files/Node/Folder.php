@@ -501,10 +501,15 @@ class Folder extends Node implements IFolder {
 			]
 		);
 
-		$filterNonRecentFiles = new SearchComparison(
-			ISearchComparison::COMPARE_GREATER_THAN,
-			'mtime',
-			strtotime('-2 week')
+		// Uploads keep the mtime of the file they come from, so look at when
+		// they were uploaded too, like the Files app's recent view does
+		$since = strtotime('-2 week');
+		$filterNonRecentFiles = new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_OR,
+			[
+				new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'mtime', $since),
+				new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'upload_time', $since),
+			]
 		);
 		if ($offset === 0 && $limit <= 100) {
 			$query = new SearchQuery(
@@ -520,7 +525,7 @@ class Folder extends Node implements IFolder {
 				[
 					new SearchOrder(
 						ISearchOrder::DIRECTION_DESCENDING,
-						'mtime'
+						'last_activity'
 					),
 				]
 			);
@@ -532,7 +537,7 @@ class Folder extends Node implements IFolder {
 				[
 					new SearchOrder(
 						ISearchOrder::DIRECTION_DESCENDING,
-						'mtime'
+						'last_activity'
 					),
 				]
 			);
