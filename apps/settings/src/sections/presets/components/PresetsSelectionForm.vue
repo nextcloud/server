@@ -6,15 +6,10 @@
 <script setup lang="ts">
 import type { PresetIds } from './models.ts'
 
+import { mdiAccountGroupOutline, mdiAccountOutline, mdiCloudCircleOutline, mdiCrowd, mdiDomain, mdiMinusCircleOutline, mdiSchoolOutline } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
-import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
-import CloudCircleOutline from 'vue-material-design-icons/CloudCircleOutline.vue'
-import Crowd from 'vue-material-design-icons/Crowd.vue'
-import Domain from 'vue-material-design-icons/Domain.vue'
-import MinusCircleOutline from 'vue-material-design-icons/MinusCircleOutline.vue'
-import SchoolOutline from 'vue-material-design-icons/SchoolOutline.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 /** The selected preset */
 const selectedPreset = defineModel<PresetIds>({ required: true })
@@ -35,16 +30,16 @@ const PresetNames = {
 }
 
 const PresetsIcons = {
-	LARGE: Domain,
-	MEDIUM: Domain,
-	SMALL: Domain,
-	SHARED: CloudCircleOutline,
-	UNIVERSITY: SchoolOutline,
-	SCHOOL: SchoolOutline,
-	CLUB: AccountGroupOutline,
-	FAMILY: Crowd,
-	PRIVATE: AccountOutline,
-	NONE: MinusCircleOutline,
+	LARGE: mdiDomain,
+	MEDIUM: mdiDomain,
+	SMALL: mdiDomain,
+	SHARED: mdiCloudCircleOutline,
+	UNIVERSITY: mdiSchoolOutline,
+	SCHOOL: mdiSchoolOutline,
+	CLUB: mdiAccountGroupOutline,
+	FAMILY: mdiCrowd,
+	PRIVATE: mdiAccountOutline,
+	NONE: mdiMinusCircleOutline,
 }
 
 </script>
@@ -56,7 +51,7 @@ const PresetsIcons = {
 			:key="presetId"
 			:class="$style.option">
 
-			<component :is="PresetsIcons[presetId]" :size="32" />
+			<NcIconSvgWrapper :class="$style.icon" :path="PresetsIcons[presetId]" :size="32" />
 
 			<NcCheckboxRadioSwitch
 				type="radio"
@@ -105,7 +100,7 @@ const PresetsIcons = {
 }
 
 .optionName,
-.option :global(.material-design-icon) {
+.icon {
 	cursor: pointer;
 }
 </style>
