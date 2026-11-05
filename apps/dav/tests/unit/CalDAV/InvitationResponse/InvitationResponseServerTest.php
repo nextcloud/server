@@ -32,6 +32,7 @@ class InvitationResponseServerTest extends TestCase {
 
 	private const ORGANIZER = 'mailto:organizer@example.com';
 	private const INTERNAL_ATTENDEE = 'mailto:attendee@example.com';
+	private const EXTERNAL_ATTENDEE = 'mailto:external@example.org';
 	private const UID = 'b5b4a3e0-2a1e-4b8f-9e57-6c3f0d7d1a2b';
 
 	/** @var array<int, IUser> calendar id => owner */
@@ -61,6 +62,7 @@ class InvitationResponseServerTest extends TestCase {
 	public static function attendeeProvider(): array {
 		return [
 			'internal attendee' => [self::INTERNAL_ATTENDEE, true],
+			'external attendee' => [self::EXTERNAL_ATTENDEE, false],
 		];
 	}
 
@@ -99,6 +101,14 @@ class InvitationResponseServerTest extends TestCase {
 
 		$this->assertNull($server->getServer()->getPlugin('imip'));
 		$this->assertSame('1.2', $message->getScheduleStatus());
+	}
+
+	public function testExternalAttendeeReplyWithoutChangeSendsNoEmail(): void {
+		$message = $this->createEventAndReply(self::EXTERNAL_ATTENDEE, false, 'ACCEPTED');
+
+		$this->iMipPlugin->expects($this->never())->method('schedule');
+
+		(new InvitationResponseServer())->handleITipMessage($message);
 	}
 
 	private function assertReplyToOrganizer(Message $reply, string $attendee): bool {

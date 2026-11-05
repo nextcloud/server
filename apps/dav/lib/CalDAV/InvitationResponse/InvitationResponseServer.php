@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\CalDAV\TipBroker;
 use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
@@ -124,9 +125,56 @@ class InvitationResponseServer {
 			$this->server->addPlugin(Server::get(IMipPlugin::class));
 		}
 
+		// Sabre sends no email for replies applied directly to the organizer's copy
+		$organizerObjectPath = null;
+		$oldCalendarData = null;
+		if ($sendInvitations && $iTipMessage->recipient !== $iTipMessage->sender) {
+			$organizerObjectPath = $this->getCalendarObjectPath($iTipMessage->recipient, $iTipMessage->uid);
+			if ($organizerObjectPath !== null) {
+				/** @var \Sabre\CalDAV\ICalendarObject $organizerObject */
+				$organizerObject = $this->server->tree->getNodeForPath($organizerObjectPath);
+				$oldCalendarData = $organizerObject->get();
+			}
+		}
+
 		/** @var \OCA\DAV\CalDAV\Schedule\Plugin $schedulingPlugin */
 		$schedulingPlugin = $this->server->getPlugin('caldav-schedule');
 		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
+
+		if ($organizerObjectPath === null || $iTipMessage->getScheduleStatus() !== '1.2') {
+			return;
+		}
+
+		// The tree still caches the node from before the delivery
+		$this->server->tree->markDirty($organizerObjectPath);
+		/** @var \Sabre\CalDAV\ICalendarObject $organizerObject */
+		$organizerObject = $this->server->tree->getNodeForPath($organizerObjectPath);
+		/** @var IMipPlugin $iMipPlugin */
+		$iMipPlugin = $this->server->getPlugin('imip');
+		foreach ((new TipBroker())->parseEvent($organizerObject->get(), $iTipMessage->sender, $oldCalendarData) as $reply) {
+			$iMipPlugin->schedule($reply);
+		}
+	}
+
+	private function getCalendarObjectPath(string $address, string $uid): ?string {
+		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
+		$aclPlugin = $this->server->getPlugin('acl');
+		$principalUri = $aclPlugin->getPrincipalByUri($address);
+		if ($principalUri === null) {
+			return null;
+		}
+
+		/** @var \Sabre\CalDAV\Plugin $caldavPlugin */
+		$caldavPlugin = $this->server->getPlugin('caldav');
+		$homePath = $caldavPlugin->getCalendarHomeForPrincipal($principalUri);
+		if ($homePath === null) {
+			return null;
+		}
+
+		/** @var \Sabre\CalDAV\CalendarHome $calendarHome */
+		$calendarHome = $this->server->tree->getNodeForPath($homePath);
+		$objectPath = $calendarHome->getCalendarObjectByUID($uid);
+		return $objectPath !== null ? $homePath . '/' . $objectPath : null;
 	}
 
 	public function isExternalAttendee(string $principalUri): bool {
