@@ -51,6 +51,7 @@ describe('Pending shares header', () => {
 
 		expect(wrapper.find('.pending-shares__details').text()).toBe('Shared by Foo & Bar')
 		expect(wrapper.find('.pending-shares__name').text()).toBe('Budget.md')
+		expect(wrapper.find('.pending-shares__share button').text()).toBe('Accept file')
 	})
 
 	test('The accept button is labeled by its visible text only', async () => {
@@ -63,7 +64,7 @@ describe('Pending shares header', () => {
 		})])
 
 		const button = wrapper.find('.pending-shares__share button')
-		expect(button.text()).toBe('Accept share')
+		expect(button.text()).toBe('Accept folder')
 		expect(button.attributes('aria-label')).toBeUndefined()
 	})
 })
