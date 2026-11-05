@@ -294,3 +294,25 @@ Feature: download
 		And the downloaded zip file contains a file named "crowdedFolder/subFolder7/test.txt-5524" with the contents of "/crowdedFolder/subFolder7/test.txt-5524" from "user0" data
 		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/subSubFolder/emptySubSubSubFolder/"
 		And the downloaded zip file contains a folder named "crowdedFolder/subFolder7/emptySubSubFolder/"
+
+	Scenario: downloading 2 small files using POST
+		Given using new dav path
+		And user "user0" exists
+		And User "user0" copies file "/welcome.txt" to "/welcome2.txt"
+		When user "user0" downloads zip file for entries '"welcome.txt","welcome2.txt"' in folder "/" using POST
+		Then the downloaded file is a zip file
+		And the downloaded zip file contains a file named "welcome.txt" with the contents of "/welcome.txt" from "user0" data
+		And the downloaded zip file contains a file named "welcome2.txt" with the contents of "/welcome2.txt" from "user0" data
+
+	Scenario: downloading (from folder) a small file and 2 nested directories using POST
+		Given using new dav path
+		And user "user0" exists
+		And user "user0" created a folder "/baseFolder"
+		And User "user0" copies file "/welcome.txt" to "/baseFolder/welcome.txt"
+		And user "user0" created a folder "/baseFolder/subFolder"
+		And user "user0" created a folder "/baseFolder/subFolder/emptySubSubFolder"
+		When user "user0" downloads zip file for entries '"welcome.txt","subFolder"' in folder "/baseFolder/" using POST
+		Then the downloaded file is a zip file
+		And the downloaded zip file contains a file named "welcome.txt" with the contents of "/baseFolder/welcome.txt" from "user0" data
+		And the downloaded zip file contains a folder named "subFolder/"
+		And the downloaded zip file contains a folder named "subFolder/emptySubSubFolder/"
