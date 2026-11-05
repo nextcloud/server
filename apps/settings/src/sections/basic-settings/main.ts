@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { loadState } from '@nextcloud/initial-state'
 import { createApp } from 'vue'
 import BackgroundJob from './BackgroundJob.vue'
 import ProfileSettings from './ProfileSettings.vue'
 
 createApp(BackgroundJob).mount('#vue-admin-background-job')
 
-if (loadState('settings', 'profileEnabledGlobally', true)) {
-	createApp(ProfileSettings).mount('#vue-admin-profile-settings')
+// Only rendered when profiles are enabled globally
+const profileSettings = document.getElementById('vue-admin-profile-settings')
+if (profileSettings) {
+	createApp(ProfileSettings).mount(profileSettings)
 }

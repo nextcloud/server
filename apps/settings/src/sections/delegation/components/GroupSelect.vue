@@ -14,16 +14,14 @@ import { ref, watch } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../../logger.ts'
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
 	/** Groups that can be picked */
-	availableGroups?: Group[]
+	availableGroups: Group[]
 	/** The setting to delegate */
 	setting: DelegatedSetting
 	/** Groups currently allowed to access any delegated setting */
 	authorizedGroups: AuthorizedGroup[]
-}>(), {
-	availableGroups: () => [],
-})
+}>()
 
 const selected = ref(props.authorizedGroups
 	.filter((group) => group.class === props.setting.class)

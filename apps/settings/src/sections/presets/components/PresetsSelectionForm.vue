@@ -17,7 +17,7 @@ import MinusCircleOutline from 'vue-material-design-icons/MinusCircleOutline.vue
 import SchoolOutline from 'vue-material-design-icons/SchoolOutline.vue'
 
 /** The selected preset */
-const selectedPreset = defineModel<PresetIds | ''>({ default: '' })
+const selectedPreset = defineModel<PresetIds>({ required: true })
 
 const PresetNames = {
 	// TRANSLATORS Large organization > Big organization > Small organization

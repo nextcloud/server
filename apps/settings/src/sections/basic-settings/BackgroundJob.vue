@@ -17,40 +17,38 @@ import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import logger from '../../logger.ts'
 
 const lastCron = loadState<number>('settings', 'lastCron')
-const cronMaxAge = loadState<number | ''>('settings', 'cronMaxAge', '')
+const cronMaxAge = loadState<number>('settings', 'cronMaxAge', 0)
 const cliBasedCronPossible = loadState('settings', 'cliBasedCronPossible', true)
 const cliBasedCronUser = loadState('settings', 'cliBasedCronUser', 'www-data')
 const backgroundJobsDocUrl = loadState<string>('settings', 'backgroundJobsDocUrl')
 
 const backgroundJobsMode = ref(loadState('settings', 'backgroundJobsMode', 'cron'))
 const relativeTime = formatRelativeTime(lastCron * 1000)
-const maxAgeRelativeTime = formatRelativeTime(Number(cronMaxAge) * 1000)
+const maxAgeRelativeTime = formatRelativeTime(cronMaxAge * 1000)
 
-const cronLabel = computed(() => {
-	let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
-	if (cliBasedCronPossible) {
-		desc += '<br>' + t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: cliBasedCronUser })
-	} else {
-		desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
+const cronLabel = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.') + '<br>' + (cliBasedCronPossible
+	? t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: cliBasedCronUser })
+	: t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
 			linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
 			linkend: '</a>',
-		}, undefined, { escape: false })
-	}
-	return desc
-})
+		}, undefined, { escape: false }))
 
 const oldExecution = Date.now() / 1000 - lastCron > 600
-const longExecutionNotCron = computed(() => Date.now() / 1000 - Number(cronMaxAge) > 12 * 3600 && backgroundJobsMode.value !== 'cron')
-const longExecutionCron = computed(() => Date.now() / 1000 - Number(cronMaxAge) > 24 * 3600 && backgroundJobsMode.value === 'cron')
+const longExecutionNotCron = computed(() => Date.now() / 1000 - cronMaxAge > 12 * 3600 && backgroundJobsMode.value !== 'cron')
+const longExecutionCron = computed(() => Date.now() / 1000 - cronMaxAge > 24 * 3600 && backgroundJobsMode.value === 'cron')
+
+/**
+ * @param key Core app config key
+ */
+function coreConfigUrl(key: string) {
+	return generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', { appId: 'core', key })
+}
 
 /**
  * @param mode The background jobs mode picked by the admin
  */
 async function onBackgroundJobModeChanged(mode: string) {
-	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
-		appId: 'core',
-		key: 'backgroundjobs_mode',
-	})
+	const url = coreConfigUrl('backgroundjobs_mode')
 
 	await confirmPassword()
 
@@ -73,10 +71,7 @@ async function onBackgroundJobModeChanged(mode: string) {
  */
 async function deleteError() {
 	// clear cron errors on background job mode change
-	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
-		appId: 'core',
-		key: 'cronErrors',
-	})
+	const url = coreConfigUrl('cronErrors')
 
 	await confirmPassword()
 
