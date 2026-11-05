@@ -2,6 +2,19 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import events from 'node:events'
+
+// jsdom replaces the global `EventTarget`, so classes extending it (like `PQueue`)
+// are rejected by Node's `setMaxListeners`, which only accepts Node's own event targets.
+const { setMaxListeners } = events
+events.setMaxListeners = (n, ...eventTargets) => {
+	const nodeTargets = eventTargets.filter((target) => !(target instanceof window.EventTarget))
+	// Without any target the limit would be applied as the global default instead
+	if (eventTargets.length === 0 || nodeTargets.length > 0) {
+		setMaxListeners(n, ...nodeTargets)
+	}
+}
+
 window.OC = {
 	...window.OC,
 	config: {
