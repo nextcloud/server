@@ -160,7 +160,6 @@
     "An error occurred during the request. Unable to proceed." : "Ett fel uppstod under begäran. Det gick inte att fortsätta.",
     "Could not update an exApp. Please try again later." : "Det gick inte att uppdatera en ExApp. Försök igen senare.",
     "Could not update {app}. Please try again later." : "Det gick inte att uppdatera {app}. Försök igen senare.",
-    "Could not update an app. Please try again later." : "Det gick inte att uppdatera en app. Försök igen senare.",
-    "Failed to update app {appName}" : "Det gick inte att uppdatera appen {appName}"
+    "Could not update an app. Please try again later." : "Det gick inte att uppdatera en app. Försök igen senare."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

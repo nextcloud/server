@@ -339,7 +339,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Public link sharing is disabled by the administrator" : "Administratoren har skrudd av offentlig lenkedeling",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
-    "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
-    "Via “{folder}”" : "Via “{folder}”"
+    "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren"
 },
 "nplurals=2; plural=(n != 1);");

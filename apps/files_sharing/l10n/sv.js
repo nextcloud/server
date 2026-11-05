@@ -422,7 +422,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Det gick inte att dela %1$s eftersom bakomliggande system inte tillåter delningar av typen %2$s",
     "Public upload disabled by the administrator" : "Offentlig uppladdning har inaktiverats av administratören",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token måste innehålla minst ett tecken och får endast innehålla bokstäver, siffror eller bindestreck",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information.",
-    "Via “{folder}”" : "Via “{folder}”"
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information."
 },
 "nplurals=2; plural=(n != 1);");

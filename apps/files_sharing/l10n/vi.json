@@ -236,7 +236,6 @@
     "Group sharing is disabled by the administrator" : "Chia sẻ nhóm bị quản trị viên vô hiệu hóa",
     "Public link sharing is disabled by the administrator" : "Chia sẻ liên kết công khai bị quản trị viên vô hiệu hóa",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Chia sẻ %1$s không thành công vì phần phụ trợ không cho phép chia sẻ từ loại %2$s",
-    "Public upload disabled by the administrator" : "Tải lên công khai bị quản trị viên vô hiệu hóa",
-    "Via “{folder}”" : "Thông qua “{folder}”"
+    "Public upload disabled by the administrator" : "Tải lên công khai bị quản trị viên vô hiệu hóa"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
