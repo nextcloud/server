@@ -10,7 +10,7 @@
 		<li v-for="share in shares" :key="share.source" class="pending-shares__share">
 			<div class="pending-shares__file">
 				<NcIconSvgWrapper
-					v-if="share.type === FileType.Folder"
+					v-if="isFolder(share)"
 					class="pending-shares__icon pending-shares__icon--folder"
 					:path="mdiFolder"
 					:size="32" />
@@ -34,7 +34,7 @@
 				<template v-if="busy.includes(share.source)" #icon>
 					<NcLoadingIcon :size="20" />
 				</template>
-				{{ t('files_sharing', 'Accept share') }}
+				{{ isFolder(share) ? t('files_sharing', 'Accept folder') : t('files_sharing', 'Accept file') }}
 			</NcButton>
 			<NcActions
 				:aria-label="t('files_sharing', 'Actions for {name}', { name: share.displayname }, { escape: false })"
@@ -59,7 +59,7 @@
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiClose" />
 					</template>
-					{{ t('files_sharing', 'Reject share') }}
+					{{ isFolder(share) ? t('files_sharing', 'Decline folder') : t('files_sharing', 'Decline file') }}
 				</NcActionButton>
 			</NcActions>
 		</li>
@@ -110,6 +110,15 @@ function getIconUrl(share: INode): string {
 }
 
 /**
+ * Whether a share is a folder
+ *
+ * @param share The share node
+ */
+function isFolder(share: INode): boolean {
+	return share.type === FileType.Folder
+}
+
+/**
  * Get the file extension of a share, empty for folders
  *
  * @param share The share node
@@ -157,7 +166,9 @@ async function handle<T>(share: INode, request: (share: INode) => Promise<T>, er
  * @param share The share node
  */
 async function accept(share: INode) {
-	const node = await handle(share, acceptShare, t('files_sharing', 'Could not accept share'))
+	const node = await handle(share, acceptShare, isFolder(share)
+		? t('files_sharing', 'Could not accept folder')
+		: t('files_sharing', 'Could not accept file'))
 	if (!node) {
 		return
 	}
@@ -181,7 +192,9 @@ async function accept(share: INode) {
  * @param share The share node
  */
 async function reject(share: INode) {
-	await handle(share, rejectShare, t('files_sharing', 'Could not reject share'))
+	await handle(share, rejectShare, isFolder(share)
+		? t('files_sharing', 'Could not decline folder')
+		: t('files_sharing', 'Could not decline file'))
 }
 
 defineExpose({ update })
