@@ -56,7 +56,7 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 					<span>
 						<NcCheckboxRadioSwitch
 							v-if="configPreset.entry.type === 'BOOL'"
-							:model-value="configPreset.defaults[selectedPreset] === '1'"
+							:modelValue="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
 					</span>
@@ -80,7 +80,7 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 					<span>
 						<NcCheckboxRadioSwitch
 							v-if="configPreset.entry.type === 'BOOL'"
-							:model-value="configPreset.defaults[selectedPreset] === '1'"
+							:modelValue="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
 					</span>

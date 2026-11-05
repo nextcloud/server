@@ -5,22 +5,23 @@
 <template>
 	<NcSelect
 		v-model="selected"
-		:input-id="setting.id"
+		:inputId="setting.id"
 		class="group-select"
 		:placeholder="t('settings', 'None')"
 		label="displayName"
 		:options="availableGroups"
 		multiple
-		keep-open />
+		keepOpen />
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import logger from '../../logger.ts'
+import logger from '../../../logger.ts'
 
 export default {
 	name: 'GroupSelect',

@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { ISetupCheck } from '../../settings-types.ts'
+import type { ISetupCheck } from '../settings-types.ts'
 
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
@@ -33,7 +33,7 @@ const shownChecks = computed(() => props.setupChecks.filter(({ severity }) => se
 			v-for="(setupCheck, index) in shownChecks"
 			:key="index"
 			class="settings-setup-checks-list__item"
-			:setup-check="setupCheck" />
+			:setupCheck="setupCheck" />
 	</ul>
 </template>
 

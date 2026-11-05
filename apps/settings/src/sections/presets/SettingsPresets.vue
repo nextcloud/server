@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { PresetAppConfigs, PresetIds } from '../components/SettingsPresets/models.ts'
+import type { PresetAppConfigs, PresetIds } from './components/models.ts'
 
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
@@ -15,9 +15,9 @@ import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import PresetsSelectionForm from '../components/SettingsPresets/PresetsSelectionForm.vue'
-import PresetVisualisation from '../components/SettingsPresets/PresetVisualisation.vue'
-import logger from '../logger.ts'
+import PresetsSelectionForm from './components/PresetsSelectionForm.vue'
+import PresetVisualisation from './components/PresetVisualisation.vue'
+import logger from '../../logger.ts'
 
 const presets = loadState('settings', 'settings-presets', {}) as PresetAppConfigs
 const currentPreset = ref(loadState('settings', 'settings-selected-preset', 'NONE') as PresetIds)
@@ -48,9 +48,9 @@ async function saveSelectedPreset() {
 	<NcSettingsSection
 		:name="t('settings', 'Quick presets')"
 		:description="t('settings', 'Select a configuration preset for easy setup.')">
-		<PresetsSelectionForm v-model="selectedPreset" :presets="presets" />
+		<PresetsSelectionForm v-model="selectedPreset" />
 
-		<PresetVisualisation :presets="presets" :selected-preset="selectedPreset" />
+		<PresetVisualisation :presets="presets" :selectedPreset="selectedPreset" />
 
 		<NcButton
 			class="save-button"

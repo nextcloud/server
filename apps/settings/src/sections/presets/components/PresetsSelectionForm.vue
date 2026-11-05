@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { PresetAppConfigs, PresetIds } from './models.ts'
+import type { PresetIds } from './models.ts'
 
 import { t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
@@ -16,20 +16,8 @@ import Domain from 'vue-material-design-icons/Domain.vue'
 import MinusCircleOutline from 'vue-material-design-icons/MinusCircleOutline.vue'
 import SchoolOutline from 'vue-material-design-icons/SchoolOutline.vue'
 
-defineProps({
-	presets: {
-		type: Object as () => PresetAppConfigs,
-		required: true,
-	},
-	value: {
-		type: String as () => PresetIds,
-		default: '',
-	},
-})
-
-const emit = defineEmits<{
-	(e: 'input', option: string): void
-}>()
+/** The selected preset */
+const selectedPreset = defineModel<PresetIds | ''>({ default: '' })
 
 const PresetNames = {
 	// TRANSLATORS Large organization > Big organization > Small organization
@@ -68,14 +56,14 @@ const PresetsIcons = {
 			:key="presetId"
 			class="presets-form__option">
 
-			<components :is="PresetsIcons[presetId]" :size="32" />
+			<component :is="PresetsIcons[presetId]" :size="32" />
 
 			<NcCheckboxRadioSwitch
 				type="radio"
-				:model-value="value"
+				:modelValue="selectedPreset"
 				:value="presetId"
 				name="preset"
-				@update:modelValue="emit('input', presetId)" />
+				@update:modelValue="selectedPreset = presetId" />
 
 			<span class="presets-form__option__name">{{ presetName }}</span>
 		</label>

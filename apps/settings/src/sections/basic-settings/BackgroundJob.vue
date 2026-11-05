@@ -7,7 +7,7 @@
 	<NcSettingsSection
 		:name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
-		:doc-url="backgroundJobsDocUrl">
+		:docUrl="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
 			<NcNoteCard v-if="oldExecution" type="error">
 				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', { time: relativeTime }) }}
@@ -69,7 +69,7 @@
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
@@ -101,8 +101,8 @@ export default {
 			cliBasedCronPossible,
 			cliBasedCronUser,
 			backgroundJobsDocUrl,
-			relativeTime: moment(lastCron * 1000).fromNow(),
-			maxAgeRelativeTime: moment(cronMaxAge * 1000).fromNow(),
+			relativeTime: formatRelativeTime(lastCron * 1000),
+			maxAgeRelativeTime: formatRelativeTime(cronMaxAge * 1000),
 		}
 	},
 

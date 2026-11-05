@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { IRichObjectParameters, ISetupCheck } from '../../settings-types.ts'
+import type { IRichObjectParameters, ISetupCheck } from '../settings-types.ts'
 
 import { mdiAlert, mdiClose, mdiInformation } from '@mdi/js'
 import escapeHTML from 'escape-html'

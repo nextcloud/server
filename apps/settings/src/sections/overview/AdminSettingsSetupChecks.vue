@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { ISetupCheck } from '../settings-types.ts'
+import type { ISetupCheck } from './settings-types.ts'
 
 import { mdiCheck, mdiCloseCircleOutline, mdiReload } from '@mdi/js'
 import axios from '@nextcloud/axios'
@@ -17,8 +17,8 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import SettingsSetupChecksList from '../components/SettingsSetupChecks/SettingsSetupChecksList.vue'
-import logger from '../logger.ts'
+import SettingsSetupChecksList from './components/SettingsSetupChecksList.vue'
+import logger from '../../logger.ts'
 
 const {
 	sectionDocsUrl,
@@ -85,7 +85,7 @@ async function loadSetupChecks() {
 		id="security-warning"
 		:name="t('settings', 'Security & setup warnings')"
 		:description="t('settings', 'It is important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.')"
-		:doc-url="sectionDocsUrl">
+		:docUrl="sectionDocsUrl">
 		<NcEmptyContent v-if="loading" :name="t('settings', 'Checking your server …')">
 			<template #icon>
 				<NcLoadingIcon />
@@ -120,9 +120,9 @@ async function loadSetupChecks() {
 				}}
 			</p>
 
-			<SettingsSetupChecksList :setup-checks="setupChecks" severity="error" />
-			<SettingsSetupChecksList :setup-checks="setupChecks" severity="warning" />
-			<SettingsSetupChecksList :setup-checks="setupChecks" severity="info" />
+			<SettingsSetupChecksList :setupChecks="setupChecks" severity="error" />
+			<SettingsSetupChecksList :setupChecks="setupChecks" severity="warning" />
+			<SettingsSetupChecksList :setupChecks="setupChecks" severity="info" />
 
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p class="settings-security-warnings__hint" v-html="adminDocsHtml" />
