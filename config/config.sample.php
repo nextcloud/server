@@ -1645,11 +1645,18 @@ $CONFIG = [
 	 * encrypt the connection and does not authenticate the server, so anyone
 	 * answering on this address can read the videos. Either only use it within
 	 * a trusted network, or put a TLS terminating proxy (e.g. stunnel) in front
-	 * of the server and use a ``tls://`` address, whose certificate is verified
-	 * against the system and imported certificates.
+	 * of the server and use a ``tls://`` address. Like for other outgoing
+	 * connections of Nextcloud, its certificate is verified against Nextcloud's
+	 * certificate bundle, so a certificate of an internal CA has to be imported
+	 * with ``occ security:certificates:import``.
 	 *
-	 * Videos on storages that cannot seek (e.g. WebDAV or FTP external storage)
-	 * are only sent partially, like with ``OC\Preview\Movie``.
+	 * Like with ``OC\Preview\Movie``, the server can only read up to 20 MB of
+	 * videos on storages that are not local (e.g. S3 or external storage), and
+	 * only the first 10 MB of videos on storages that cannot seek (e.g. WebDAV
+	 * or FTP external storage).
+	 *
+	 * If ``OC\Preview\Movie`` is enabled as well, the server is tried first and
+	 * the local ffmpeg is only used if the server could not generate a preview.
 	 *
 	 * See https://github.com/steelbrain/ffmpeg-over-ip
 	 */
@@ -1662,7 +1669,7 @@ $CONFIG = [
 
 	/**
 	 * Seconds generating a single video preview on the ffmpeg-over-ip server
-	 * may take in total.
+	 * may take in total. Values below 1 use the default.
 	 *
 	 * Defaults to ``120``
 	 */

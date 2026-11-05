@@ -22,9 +22,13 @@ class FFmpegOverIpClient {
 	public const PROGRAM_FFMPEG = 0x01;
 	public const PROGRAM_FFPROBE = 0x02;
 
+	/** Code of the exception thrown if the server cannot be reached */
+	public const ERROR_CONNECT = 1;
+
 	private const PROTOCOL_VERSION = 0x06;
 
 	private const MSG_COMMAND = 0x01;
+	private const MSG_CANCEL = 0x02;
 	private const MSG_EXIT_CODE = 0x03;
 	private const MSG_ERROR = 0x04;
 	private const MSG_PING = 0x05;
@@ -61,23 +65,30 @@ class FFmpegOverIpClient {
 	private const MAX_READ_SIZE = 16 * 1024 * 1024;
 	private const MAX_STDOUT_SIZE = 64 * 1024 * 1024;
 	private const MAX_STDERR_SIZE = 64 * 1024;
+	private const WRITE_CHUNK_SIZE = 64 * 1024;
 
 	/** @var array<string, array{stream: resource, size: int}> */
 	private array $files = [];
 	/** @var array<int, array{path: string, offset: int}> */
 	private array $openFiles = [];
+	/** @var array<string, int> position of each stream after the last successful read */
+	private array $positions = [];
 	private float $deadline;
+	private int $bytesRead = 0;
+	private bool $writing = false;
 
 	/**
 	 * @param string $address ``host:port``, ``tcp://host:port``, ``tls://host:port`` or ``unix:/path/to/socket``
 	 * @param int $timeout seconds all runs of this client may take together
 	 * @param ?string $caFile certificates to verify the server with for ``tls://`` addresses
+	 * @param ?int $readLimit bytes the server may read in all runs of this client together
 	 */
 	public function __construct(
 		private string $address,
 		private string $secret,
 		private int $timeout = 120,
 		private ?string $caFile = null,
+		private ?int $readLimit = null,
 		private int $connectTimeout = 5,
 	) {
 		$this->deadline = microtime(true) + $timeout;
@@ -87,7 +98,7 @@ class FFmpegOverIpClient {
 	 * @param list<string> $args
 	 * @param array<string, array{stream: resource, size: int}> $files seekable streams by the path they are opened with
 	 * @return array{exitCode: int, stdout: string, stderr: string}
-	 * @throws \RuntimeException if the server is unreachable, rejects the command or violates the protocol
+	 * @throws \RuntimeException if the server is unreachable (with code ERROR_CONNECT), rejects the command or violates the protocol
 	 */
 	public function run(int $program, array $args, array $files): array {
 		$remoteSocket = $this->getRemoteSocket();
@@ -95,9 +106,25 @@ class FFmpegOverIpClient {
 		if ($this->caFile !== null) {
 			$ssl['cafile'] = $this->caFile;
 		}
-		$socket = @stream_socket_client($remoteSocket, $errno, $errstr, min($this->connectTimeout, $this->getRemainingTime()), STREAM_CLIENT_CONNECT, stream_context_create(['ssl' => $ssl]));
+		// PHP derives no peer name from IPv6 literals
+		if (preg_match('/^(?:tls|ssl):\/\/\[([^\]]+)\]/i', $remoteSocket, $matches) === 1) {
+			$ssl['peer_name'] = $matches[1];
+		}
+
+		// TLS errors are only reported as warnings
+		$errors = [];
+		set_error_handler(function (int $errno, string $message) use (&$errors): bool {
+			$errors[] = $message;
+			return true;
+		});
+		try {
+			$socket = stream_socket_client($remoteSocket, $errno, $errstr, min($this->connectTimeout, $this->getRemainingTime()), STREAM_CLIENT_CONNECT, stream_context_create(['ssl' => $ssl]));
+		} finally {
+			restore_error_handler();
+		}
 		if ($socket === false) {
-			throw new \RuntimeException('Could not connect to ffmpeg-over-ip server ' . $this->address . ': ' . $errstr);
+			$reason = implode('; ', array_filter([$errstr, ...$errors]));
+			throw new \RuntimeException('Could not connect to ffmpeg-over-ip server ' . $this->address . ': ' . $reason, self::ERROR_CONNECT);
 		}
 
 		try {
@@ -119,6 +146,23 @@ class FFmpegOverIpClient {
 	public function communicate($socket, int $program, array $args, array $files): array {
 		$this->files = $files;
 		$this->openFiles = [];
+		$this->positions = [];
+		$this->writing = false;
+
+		try {
+			return $this->exchange($socket, $program, $args);
+		} catch (\Throwable $e) {
+			$this->cancel($socket);
+			throw $e;
+		}
+	}
+
+	/**
+	 * @param resource $socket
+	 * @param list<string> $args
+	 * @return array{exitCode: int, stdout: string, stderr: string}
+	 */
+	private function exchange($socket, int $program, array $args): array {
 		$stdout = '';
 		$stderr = '';
 
@@ -159,6 +203,19 @@ class FFmpegOverIpClient {
 					}
 			}
 		}
+	}
+
+	/**
+	 * Asks the server to stop the process, which it otherwise keeps running until its keepalive times out
+	 *
+	 * @param resource $socket
+	 */
+	private function cancel($socket): void {
+		if ($this->writing || !is_resource($socket)) {
+			return;
+		}
+		stream_set_blocking($socket, false);
+		@fwrite($socket, pack('CN', self::MSG_CANCEL, 0));
 	}
 
 	private function getRemoteSocket(): string {
@@ -228,16 +285,17 @@ class FFmpegOverIpClient {
 					return $this->ioError($requestId, self::FIO_EINVAL);
 				}
 				$file = $this->openFiles[$fileId];
-				$stream = $this->files[$file['path']]['stream'];
-				if (ftell($stream) !== $file['offset'] && fseek($stream, $file['offset']) !== 0) {
+				// A short read is treated as end of file, so anything but the full length is an error
+				$expected = max(0, min($length, $this->files[$file['path']]['size'] - $file['offset']));
+				if ($this->readLimit !== null && $this->bytesRead + $expected > $this->readLimit) {
 					return $this->ioError($requestId, self::FIO_EIO);
 				}
-				// A short read is treated as end of file, so the full length must be read
-				$data = $length > 0 ? stream_get_contents($stream, $length) : '';
-				if ($data === false) {
+				$data = $this->readFile($file['path'], $file['offset'], $expected);
+				if ($data === null) {
 					return $this->ioError($requestId, self::FIO_EIO);
 				}
-				$this->openFiles[$fileId]['offset'] += strlen($data);
+				$this->bytesRead += $expected;
+				$this->openFiles[$fileId]['offset'] += $expected;
 				return [self::MSG_READ_OK, pack('n', $requestId) . $data];
 			case self::MSG_SEEK:
 				$fileId = $this->unpack('n', $payload, 2, 13);
@@ -275,6 +333,28 @@ class FFmpegOverIpClient {
 				// Writing, truncating, deleting, renaming and creating directories
 				return $this->ioError($requestId, self::FIO_EROFS);
 		}
+	}
+
+	/**
+	 * Reads exactly $length bytes at $offset of the file registered as $path
+	 */
+	private function readFile(string $path, int $offset, int $length): ?string {
+		if ($length === 0) {
+			return '';
+		}
+		$stream = $this->files[$path]['stream'];
+		// ftell() is not reliable after a failed seek, so the position is tracked here
+		if (($this->positions[$path] ?? null) !== $offset && fseek($stream, $offset) !== 0) {
+			unset($this->positions[$path]);
+			return null;
+		}
+		unset($this->positions[$path]);
+		$data = stream_get_contents($stream, $length);
+		if ($data === false || strlen($data) !== $length) {
+			return null;
+		}
+		$this->positions[$path] = $offset + $length;
+		return $data;
 	}
 
 	/**
@@ -333,14 +413,32 @@ class FFmpegOverIpClient {
 	 */
 	private function writeMessage($socket, int $type, string $payload): void {
 		$data = pack('CN', $type, strlen($payload)) . $payload;
-		while ($data !== '') {
-			$this->applyTimeout($socket);
-			$written = fwrite($socket, $data);
-			if ($written === false || $written === 0) {
-				throw new \RuntimeException('Could not write to ffmpeg-over-ip server');
+		$offset = 0;
+		$this->writing = true;
+		// A blocking write restarts its timeout after every partial write, so the deadline is enforced with select
+		stream_set_blocking($socket, false);
+		try {
+			while ($offset < strlen($data)) {
+				$remaining = $this->getRemainingTime();
+				$read = $except = null;
+				$write = [$socket];
+				$ready = stream_select($read, $write, $except, (int)$remaining, (int)(($remaining - (int)$remaining) * 1000000));
+				if ($ready === false) {
+					throw new \RuntimeException('Could not write to ffmpeg-over-ip server');
+				}
+				if ($ready === 0) {
+					continue;
+				}
+				$written = fwrite($socket, substr($data, $offset, self::WRITE_CHUNK_SIZE));
+				if ($written === false) {
+					throw new \RuntimeException('Could not write to ffmpeg-over-ip server');
+				}
+				$offset += $written;
 			}
-			$data = substr($data, $written);
+		} finally {
+			stream_set_blocking($socket, true);
 		}
+		$this->writing = false;
 	}
 
 	/**

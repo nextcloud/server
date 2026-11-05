@@ -159,6 +159,50 @@ class FFmpegOverIpClientTest extends TestCase {
 		], array_slice($this->clientMessages(), 2));
 	}
 
+	public function testReadLimit(): void {
+		$client = new FFmpegOverIpClient('ffmpeg-over-ip:5050', 'secret', 10, null, 8);
+		$this->serverSends(0x20, pack('nnNn', 1, 1, 0, 0) . '/input.mp4');
+		$this->serverSends(0x21, pack('nnN', 2, 1, 5));
+		$this->serverSends(0x21, pack('nnN', 3, 1, 100));
+		$this->serverSends(0x03, pack('N', 1));
+
+		$this->communicate($this->getFiles('Hello world'), 10, $client);
+		$this->assertSame([
+			[0x40, pack('nJ', 1, 11)],
+			[0x41, pack('n', 2) . 'Hello'],
+			[0x4F, pack('nN', 3, 5)],
+		], array_slice($this->clientMessages(), 2));
+	}
+
+	public function testFailedSeekDoesNotCorruptLaterReads(): void {
+		$content = '';
+		for ($i = 0; strlen($content) < 20000; $i++) {
+			$content .= sprintf('%08d', $i);
+		}
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $content);
+		// The stream is shorter than the size, so seeking to the end fails
+		$files = ['/input.mp4' => ['stream' => $stream, 'size' => 30000]];
+
+		$this->serverSends(0x20, pack('nnNn', 1, 1, 0, 0) . '/input.mp4');
+		$this->serverSends(0x21, pack('nnN', 2, 1, 9000));
+		$this->serverSends(0x23, pack('nnJC', 3, 1, 25000, 0));
+		$this->serverSends(0x21, pack('nnN', 4, 1, 100));
+		$this->serverSends(0x23, pack('nnJC', 5, 1, 9000, 0));
+		$this->serverSends(0x21, pack('nnN', 6, 1, 100));
+		$this->serverSends(0x23, pack('nnJC', 7, 1, 19990, 0));
+		$this->serverSends(0x21, pack('nnN', 8, 1, 100));
+		$this->serverSends(0x03, pack('N', 0));
+
+		$this->communicate($files);
+		$messages = array_slice($this->clientMessages(), 2);
+		$this->assertSame([0x41, pack('n', 2) . substr($content, 0, 9000)], $messages[1]);
+		$this->assertSame([0x4F, pack('nN', 4, 5)], $messages[3]);
+		$this->assertSame([0x41, pack('n', 6) . substr($content, 9000, 100)], $messages[5]);
+		// A short read would be taken as end of file
+		$this->assertSame([0x4F, pack('nN', 8, 5)], $messages[7]);
+	}
+
 	public function testAnswersPing(): void {
 		$this->serverSends(0x05, 'ping');
 		$this->serverSends(0x03, pack('N', 0));
@@ -196,6 +240,32 @@ class FFmpegOverIpClientTest extends TestCase {
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessage('Message from ffmpeg-over-ip server is too large');
 		$this->communicate();
+	}
+
+	public function testCancelsOnAbort(): void {
+		fwrite($this->server, pack('CN', 0x12, 2 * 1024 * 1024));
+
+		try {
+			$this->communicate();
+			$this->fail('Expected an exception');
+		} catch (\RuntimeException) {
+		}
+		$this->assertSame([0x02, ''], $this->clientMessages()[2]);
+	}
+
+	public function testWriteDeadline(): void {
+		// The server never reads the response, so the write blocks once the socket buffer is full
+		$this->serverSends(0x20, pack('nnNn', 1, 1, 0, 0) . '/input.mp4');
+		$this->serverSends(0x21, pack('nnN', 2, 1, 4 * 1024 * 1024));
+		$start = microtime(true);
+
+		try {
+			$this->communicate($this->getFiles(str_repeat('a', 4 * 1024 * 1024)), 1);
+			$this->fail('Expected an exception');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('ffmpeg-over-ip server did not finish within 1 seconds', $e->getMessage());
+		}
+		$this->assertLessThan(3, microtime(true) - $start);
 	}
 
 	public function testTimeout(): void {
@@ -238,7 +308,25 @@ class FFmpegOverIpClientTest extends TestCase {
 		$client = new FFmpegOverIpClient($address, 'secret');
 
 		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionCode(FFmpegOverIpClient::ERROR_CONNECT);
 		$this->expectExceptionMessage('Could not connect to ffmpeg-over-ip server ' . $address);
 		$client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, ['-version'], []);
+	}
+
+	public function testTlsErrorIsReported(): void {
+		// A plain server never answers the TLS handshake
+		$server = stream_socket_server('tcp://127.0.0.1:0');
+		$address = 'tls://' . stream_socket_get_name($server, false);
+		$client = new FFmpegOverIpClient($address, 'secret', 1);
+
+		try {
+			$client->run(FFmpegOverIpClient::PROGRAM_FFMPEG, ['-version'], []);
+			$this->fail('Expected an exception');
+		} catch (\RuntimeException $e) {
+			$this->assertSame(FFmpegOverIpClient::ERROR_CONNECT, $e->getCode());
+			$this->assertMatchesRegularExpression('/^Could not connect to ffmpeg-over-ip server ' . preg_quote($address, '/') . ': \S/', $e->getMessage());
+		} finally {
+			fclose($server);
+		}
 	}
 }

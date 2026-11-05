@@ -20,6 +20,7 @@ use OC\Preview\MovieRemote;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
+use OCP\Lock\ILockingProvider;
 use OCP\Server;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -62,8 +63,8 @@ class MovieRemoteTest extends Provider {
 			}
 
 			#[\Override]
-			protected function getClient(string $address, string $secret, int $timeout): FFmpegOverIpClient {
-				$this->credentials = [$address, $secret, $timeout];
+			protected function getClient(string $address, string $secret, int $timeout, ?int $readLimit): FFmpegOverIpClient {
+				$this->credentials = [$address, $secret, $timeout, $readLimit];
 				return $this->client;
 			}
 		};
@@ -88,7 +89,7 @@ class MovieRemoteTest extends Provider {
 		$this->assertNotNull($preview);
 		$this->assertSame(256, $preview->width());
 		$this->assertSame(160, $preview->height());
-		$this->assertSame(['ffmpeg-over-ip:5050', 'secret', 120], $this->provider->credentials);
+		$this->assertSame(['ffmpeg-over-ip:5050', 'secret', 120, null], $this->provider->credentials);
 
 		$this->assertCount(2, $this->calls);
 		$this->assertSame(FFmpegOverIpClient::PROGRAM_FFPROBE, $this->calls[0][0]);
@@ -139,20 +140,43 @@ class MovieRemoteTest extends Provider {
 		$this->assertCount(4, $this->calls);
 	}
 
-	public function testServerFails(): void {
+	public function testServerUnreachable(): void {
 		$this->onRun = function (): void {
-			throw new \RuntimeException('Could not connect');
+			throw new \RuntimeException('Could not connect', FFmpegOverIpClient::ERROR_CONNECT);
+		};
+
+		$this->assertNull($this->getThumbnail());
+		$this->assertCount(1, $this->calls);
+	}
+
+	public function testStorageError(): void {
+		$this->onRun = function (): void {
+			throw new \Exception('Connection reset');
 		};
 
 		$this->assertNull($this->getThumbnail());
 		$this->assertCount(2, $this->calls);
 	}
 
-	public function testTimeoutConfig(): void {
-		$this->overwriteSystemConfig('preview_ffmpeg_timeout', 30);
+	public function testFileIsNotLocked(): void {
+		$this->onRun = function (): void {
+			$this->rootView->lockFile($this->imgPath, ILockingProvider::LOCK_EXCLUSIVE);
+			$this->rootView->unlockFile($this->imgPath, ILockingProvider::LOCK_EXCLUSIVE);
+		};
 
 		$this->assertNotNull($this->getThumbnail());
-		$this->assertSame(30, $this->provider->credentials[2]);
+	}
+
+	public static function timeoutProvider(): array {
+		return [[30, 30], [0, 120], [-5, 120]];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('timeoutProvider')]
+	public function testTimeoutConfig(int $config, int $timeout): void {
+		$this->overwriteSystemConfig('preview_ffmpeg_timeout', $config);
+
+		$this->assertNotNull($this->getThumbnail());
+		$this->assertSame($timeout, $this->provider->credentials[2]);
 	}
 
 	public function testNoUrlConfigured(): void {
@@ -186,12 +210,15 @@ class MovieRemoteTest extends Provider {
 	}
 
 	private function getStorageFile(callable $fopen, string $content, int $cachedSize, array &$opened): File {
+		$open = function () use ($fopen, $content, &$opened) {
+			return $opened[] = $fopen($content);
+		};
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('isLocal')->willReturn(false);
+		$storage->method('fopen')->with('files/video.mp4', 'r')->willReturnCallback($open);
 		$file = $this->createMock(File::class);
-		$file->method('fopen')->willReturnCallback(function () use ($fopen, $content, &$opened) {
-			return $opened[] = $fopen($content);
-		});
+		$file->method('fopen')->willReturnCallback($open);
+		$file->method('getInternalPath')->willReturn('files/video.mp4');
 		$file->method('getSize')->willReturn($cachedSize);
 		$file->method('getStorage')->willReturn($storage);
 		$file->method('getExtension')->willReturn('MP4');
@@ -203,13 +230,13 @@ class MovieRemoteTest extends Provider {
 	public function testStorageStreams(callable $fopen, bool $copied): void {
 		$content = 'video content';
 		$opened = [];
-		// A stale cached size is only used if the stream is passed on directly
+		// The cached size is outdated
 		$file = $this->getStorageFile($fopen, $content, 999, $opened);
 
 		$this->onRun = function (array $files) use ($content, $copied, &$opened): void {
 			$stream = $files['/input.mp4']['stream'];
 			$this->assertSame($copied, !in_array($stream, $opened, true));
-			$this->assertSame($copied ? strlen($content) : 999, $files['/input.mp4']['size']);
+			$this->assertSame(strlen($content), $files['/input.mp4']['size']);
 			fseek($stream, 6);
 			$this->assertSame(substr($content, 6), stream_get_contents($stream));
 			fseek($stream, 0);
@@ -218,6 +245,7 @@ class MovieRemoteTest extends Provider {
 
 		$this->assertNotNull($this->getThumbnail($file));
 		$this->assertCount(2, $this->calls);
+		$this->assertSame(20 * 1024 * 1024, $this->provider->credentials[3]);
 	}
 
 	public function testNonSeekableStreamIsDownloadedPartially(): void {
