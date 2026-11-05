@@ -404,7 +404,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Berbagi %1$s gagal karena back end tidak mengizinkan berbagi dari tipe %2$s",
     "Public upload disabled by the administrator" : "Pengunggahan publik dinonaktifkan oleh administrator",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token harus berisi setidaknya 1 karakter dan hanya boleh berisi huruf, angka, atau tanda hubung",
-    "Via “{folder}”" : "Melalui “{folder}”",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Tetapkan token tautan berbagi publik menjadi sesuatu yang mudah diingat atau buat token baru. Tidak disarankan menggunakan token yang mudah ditebak untuk berbagi yang berisi informasi sensitif."
 },
 "nplurals=1; plural=0;");

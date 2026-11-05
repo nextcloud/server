@@ -139,3 +139,63 @@ Feature: auth
 		Given a new client token limited to "files:files:read files:files:write" is added
 		When requesting "/index.php/apps/files" with "GET" using scoped basic token auth
 		Then the HTTP status code should be "403"
+
+	Scenario: a files token reaches files over DAV
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a files token reads no calendars over DAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/dav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token reaches files over legacy WebDAV
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/webdav/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a files token reads no calendars over legacy CalDAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/caldav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token reaches calendars over legacy CalDAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/caldav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a calendar token reaches calendars over DAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/calendars/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"
+
+	Scenario: a calendar token reads no files over DAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token reads no files over legacy WebDAV
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/webdav/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a calendar token cannot list the trash
+		Given a new client token limited to "dav:calendar:read dav:calendar:write" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token without DAV reads no files over DAV
+		Given a new client token limited to "files:files:read files:files:write" is added
+		When requesting "/remote.php/dav/files/user0/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token reads no trash without the trash scope
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
+	Scenario: a files token with the trash scope reads the trash
+		Given a new client token limited to "files:files:read files:files:write files:dav:read files:dav:write files_trashbin:dav:read" is added
+		When requesting "/remote.php/dav/trashbin/user0/trash/" with "PROPFIND" using scoped basic token auth
+		Then the HTTP status code should be "207"

@@ -160,6 +160,26 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->checkPassword('foo', 'bar'));
 	}
 
+	public function testCheckPasswordNullByteInLoginName(): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->never())
+			->method('checkPassword');
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) {
+				if ($actions === BACKEND::CHECK_PASSWORD) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+
+		$this->manager->registerBackend($backend);
+
+		$this->assertFalse($this->manager->checkPassword("foo\0", 'bar'));
+	}
+
 	public function testGetOneBackendExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())

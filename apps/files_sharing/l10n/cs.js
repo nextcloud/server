@@ -404,7 +404,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sdílení %1$s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %2$s",
     "Public upload disabled by the administrator" : "Nahrávání veřejností zakázáno správcem",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Je třeba, aby tokeny obsahovaly alespoň jeden znak a mohou se skládat pouze z písmen, číslic a ještě pomlčky",
-    "Via “{folder}”" : "Prostřednictvím „{folder}“",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token veřejného odkazu na sdílení na něco snadno zapamatovatelného nebo vytvořte nový token. Není doporučeno používat uhodnutelné tokeny pro sdílení, která obsahují citlivé informace."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

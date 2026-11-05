@@ -277,11 +277,6 @@
       <code><![CDATA[fread($this->source, $end - $start)]]></code>
     </FalsableReturnStatement>
   </file>
-  <file src="apps/dav/lib/CalDAV/Outbox.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/CalDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|null]]></code>
@@ -1004,8 +999,6 @@
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Service/ExampleContactService.php">
@@ -1507,19 +1500,6 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_external/lib/Service/StoragesService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-				Filesystem::CLASSNAME,
-				$signal,
-				[
-					Filesystem::signal_param_path => $mountPoint,
-					Filesystem::signal_param_mount_type => $mountType,
-					Filesystem::signal_param_users => $applicable,
-				]
-			)]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_reminders/lib/Model/RichReminder.php">
@@ -3490,18 +3470,6 @@
   <file src="lib/private/Files/Node/HookConnector.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/LazyFolder.php">
@@ -3868,8 +3836,13 @@
     </InvalidArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+    </InternalClass>
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
     </InternalMethod>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">

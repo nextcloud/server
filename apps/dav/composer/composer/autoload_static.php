@@ -288,6 +288,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\StreamedPropFindNotFoundPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/StreamedPropFindNotFoundPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\TagList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagList.php',
         'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagsPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\TokenScopePlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TokenScopePlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
         'OCA\\DAV\\Controller\\BirthdayCalendarController' => __DIR__ . '/..' . '/../lib/Controller/BirthdayCalendarController.php',

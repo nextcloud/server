@@ -412,7 +412,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s ha fallado porque el backend no permite compartidos del tipo %2$s",
     "Public upload disabled by the administrator" : "La subida pública está deshabilitado por el administrador",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Los tokens deben contener al menos un carácter y solo deben contener letras, números o un guion",
-    "Via “{folder}”" : "Vía \"{folder}\"",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Establezca el token del enlace público del recurso compartido a algo fácil de recordar, o, genere un token nuevo. No recomendamos el uso de tokens fáciles de deducir para recursos compartidos que contengan información sensible."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

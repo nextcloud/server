@@ -46,6 +46,8 @@ class Local extends Common {
 
 	protected bool $caseInsensitive = false;
 
+	private int $minFreeSpace = 0;
+
 	public function __construct(array $parameters) {
 		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -69,6 +71,12 @@ class Local extends Common {
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
+
+		// amount of physical disk space to keep available, so that filling up
+		// the storage cannot starve the database, temp files or logs and render
+		// the instance unrecoverable. Reported free space is reduced by this
+		// margin, so uploads are blocked before the disk is actually full.
+		$this->minFreeSpace = max(0, (int)$this->config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024));
 
 		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !$this->stat('')) {
 			// data dir not accessible or available, can happen when using an external storage of type Local
@@ -498,7 +506,9 @@ class Local extends Common {
 		if ($space === false || is_null($space)) {
 			return FileInfo::SPACE_UNKNOWN;
 		}
-		return Util::numericToNumber($space);
+		// keep a reserved margin available so the instance cannot be driven into
+		// an unrecoverable out-of-disk state, never report a negative value
+		return max(0, Util::numericToNumber($space) - $this->minFreeSpace);
 	}
 
 	public function search(string $query): array {
@@ -649,6 +659,11 @@ class Local extends Common {
 	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
+			// check before resolving the jail, as that also drops any permission mask of the source
+			if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+				return false;
+			}
+
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**

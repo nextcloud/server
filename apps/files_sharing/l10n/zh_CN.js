@@ -412,7 +412,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "共享 %1$s 失败，后端不允许类型为 %2$s 的共享",
     "Public upload disabled by the administrator" : "管理员已禁用公开上传",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "令牌必须至少包含 1 个字符，并且只能包含字母、数字或连字符",
-    "Via “{folder}”" : "通过“{folder}”",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "将公开共享链接令牌设置为易于记忆的令牌或生成新令牌。不建议对包含敏感信息的共享使用可猜测的令牌。"
 },
 "nplurals=1; plural=0;");

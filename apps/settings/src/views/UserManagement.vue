@@ -61,10 +61,6 @@ export default defineComponent({
 		},
 	},
 
-	beforeMount() {
-		this.$store.dispatch('getPasswordPolicyMinLength')
-	},
-
 	created() {
 		// init the OCA.Settings.UserList object
 		window.OCA = window.OCA ?? {}

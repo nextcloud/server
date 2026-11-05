@@ -2653,6 +2653,22 @@ $CONFIG = [
 	'localstorage.unlink_on_truncate' => false,
 
 	/**
+	 * Amount of physical disk space (in bytes) to keep available on the data
+	 * directory's filesystem. The free space reported for local storage is
+	 * reduced by this margin, so uploads are rejected before the disk is
+	 * actually full. This prevents users (in particular those with unlimited
+	 * quota) from filling up all available space, which would starve the
+	 * database, temporary files and logs and can render the instance
+	 * unrecoverable.
+	 *
+	 * Set this to a value large enough to keep the instance operational, or
+	 * to ``0`` to report the free space as-is.
+	 *
+	 * Defaults to 100 MiB
+	 */
+	'localstorage.min_free_space' => 100 * 1024 * 1024,
+
+	/**
 	 * Include external storage mounts in quota calculations.
 	 *
 	 * When enabled, user storage quotas will also include files stored on
@@ -3121,13 +3137,6 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'reference_opengraph' => true,
-
-	/**
-	 * Enable the legacy unified search.
-	 *
-	 * Defaults to ``false``
-	 */
-	'unified_search.enabled' => false,
 
 	/**
 	 * Enable features that do not yet comply with accessibility standards.

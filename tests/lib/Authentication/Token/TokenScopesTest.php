@@ -67,6 +67,8 @@ class TokenScopesTest extends TestCase {
 			'files share without read' => [[TokenScopes::KEY => [SharingTokenScopes::SHARES_WRITE]]],
 			'files write and share without read' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE, SharingTokenScopes::SHARES_WRITE]]],
 			'read-only files' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ]]],
+			'trash without files' => [[TokenScopes::KEY => ['files_trashbin:dav:read']]],
+			'versions without files' => [[TokenScopes::KEY => ['files_versions:dav:read']]],
 			'read and share without write' => [[TokenScopes::KEY => [FilesTokenScopes::FILES_READ, SharingTokenScopes::SHARES_WRITE]]],
 			'not an array' => [[TokenScopes::KEY => FilesTokenScopes::FILES_READ]],
 			'nested array entry' => [[TokenScopes::KEY => ['dav:calendar:read', ['x']]]],

@@ -115,6 +115,7 @@ OC.L10N.register(
     "Last 30 days" : "آخر 30 يوماً",
     "This year ({year})" : "هذا العام ({year})",
     "Last year ({year})" : "العام الماضي ({year})",
+    "Custom range" : "نطاق مخصص",
     "Custom date range" : "نطاق زمني مخصص",
     "Search everywhere" : "البحث الشامل",
     "Documents" : "المستندات",

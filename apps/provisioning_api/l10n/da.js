@@ -2,6 +2,8 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Den indloggede konto skal være administrator eller have tilladelse til at redigere denne indstilling.",
+    "The given value was rejected" : "Den angivne værdi blev afvist",
+    "Deleting the given key was rejected" : "Sletning af den angivne nøgle blev afvist",
     "Could not create non-existing user ID" : "Kunne ikke oprette et ikke-eksisterende bruger-ID",
     "User already exists" : "Brugeren eksisterer allerede",
     "Group %1$s does not exist" : "Gruppen %1$s eksisterer ikke",
