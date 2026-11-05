@@ -122,7 +122,7 @@ class LostController extends Controller {
 	protected function checkPasswordResetToken(string $token, string $userId): void {
 		try {
 			$user = $this->userManager->get($userId);
-			$this->verificationToken->check($token, $user, 'lostpassword', $user ? $user->getEMailAddress() : '', true);
+			$this->verificationToken->check($token, $user, 'lostpassword', $user?->getEMailAddress() ?? '', true);
 		} catch (InvalidTokenException $e) {
 			$this->logger->warning('Password reset token check failed', [
 				'user' => $userId,

@@ -71,13 +71,13 @@ class VerificationToken implements IVerificationToken {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_INVALID_FORMAT);
 		}
 
+		if (!hash_equals($splitToken[1], $token)) {
+			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_MISMATCH);
+		}
+
 		if ($splitToken[0] < ($this->timeFactory->getTime() - self::TOKEN_LIFETIME)
 			|| ($expiresWithLogin && $this->lastInteractiveLogin->get($user) > $splitToken[0])) {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_EXPIRED);
-		}
-
-		if (!hash_equals($splitToken[1], $token)) {
-			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_MISMATCH);
 		}
 	}
 
