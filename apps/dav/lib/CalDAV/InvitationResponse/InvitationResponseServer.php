@@ -7,11 +7,14 @@
 
 namespace OCA\DAV\CalDAV\InvitationResponse;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -24,6 +27,7 @@ use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
@@ -113,6 +117,13 @@ class InvitationResponseServer {
 	 * @return void
 	 */
 	public function handleITipMessage(Message $iTipMessage) {
+		$sendInvitations = Server::get(IAppConfig::class)->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS);
+
+		// Not in the constructor, other code reusing this server must not send emails
+		if ($sendInvitations && $this->server->getPlugin('imip') === null) {
+			$this->server->addPlugin(Server::get(IMipPlugin::class));
+		}
+
 		/** @var \OCA\DAV\CalDAV\Schedule\Plugin $schedulingPlugin */
 		$schedulingPlugin = $this->server->getPlugin('caldav-schedule');
 		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
