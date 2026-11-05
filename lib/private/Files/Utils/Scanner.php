@@ -26,6 +26,7 @@ use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
@@ -257,7 +258,7 @@ class Scanner extends PublicEmitter {
 					$cache->correctFolderSize($relativePath);
 				}
 				$propagator->commitBatch();
-			} catch (StorageNotAvailableException $e) {
+			} catch (StorageNotAvailableException|StorageInvalidException $e) {
 				$this->logger->error('Storage ' . $storage->getId() . ' not available', ['exception' => $e]);
 				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
 			}
