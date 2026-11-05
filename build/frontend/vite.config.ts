@@ -99,7 +99,7 @@ const modules = {
 		// Only some sections are migrated to Vue 3 so far, the rest of the app
 		// is still built by the Vue 2 frontend. They are referenced by path
 		// rather than through `apps/` so they resolve the Vue 3 dependencies.
-		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sharing', 'main.ts'),
+		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/sharing', 'main.ts'),
 		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/authtokens', 'main.ts'),
 		'personal-password': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/password', 'main.ts'),
 		'personal-webauthn': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/webauthn', 'main.ts'),

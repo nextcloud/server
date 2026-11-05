@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type * as AppConfig from '../../../../../core/src/OCP/appconfig.ts'
+import type * as AppConfig from '../../../../../../core/src/OCP/appconfig.ts'
 
 /**
  * The app config API of core, it asks for the password confirmation if needed.
