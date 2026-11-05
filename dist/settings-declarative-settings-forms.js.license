@@ -118,9 +118,6 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 3.5.44
 	- license: MIT
-- @nextcloud/password-confirmation
-	- version: 6.2.1
-	- license: MIT
 - @nextcloud/paths
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
