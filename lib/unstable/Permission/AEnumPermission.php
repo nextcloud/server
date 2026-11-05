@@ -19,7 +19,7 @@ use OCP\Server;
  * @experimental 36.0.0
  */
 #[Implementable(since: '36.0.0')]
-abstract class AEnumPermission implements IPermission {
+abstract class AEnumPermission extends APermission {
 	/**
 	 * Options ordered from most restrictive to most permissive. Option values must be unique.
 	 *
@@ -27,22 +27,6 @@ abstract class AEnumPermission implements IPermission {
 	 * @experimental 36.0.0
 	 */
 	abstract public function getOptions(): array;
-
-	/**
-	 * @experimental 36.0.0
-	 */
-	#[\Override]
-	public function getHint(): ?string {
-		return null;
-	}
-
-	/**
-	 * @experimental 36.0.0
-	 */
-	#[\Override]
-	public function getRequiredPermissionIds(): array {
-		return [];
-	}
 
 	/**
 	 * @experimental 36.0.0
@@ -89,6 +73,15 @@ abstract class AEnumPermission implements IPermission {
 	#[\Override]
 	final public function getMostRestrictiveValue(): string {
 		return $this->getOptions()[0]->value;
+	}
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	#[\Override]
+	final public function getMostPermissiveValue(): string {
+		$options = $this->getOptions();
+		return $options[array_key_last($options)]->value;
 	}
 
 	/**

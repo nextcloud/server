@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Permission;
 
+use NCU\Permission\ABooleanPermission;
 use NCU\Permission\AEnumPermission;
 use NCU\Permission\PermissionOption;
 use NCU\Permission\PermissionValueType;
@@ -51,6 +52,59 @@ class AEnumPermissionTest extends TestCase {
 	public function testValueType(): void {
 		$this->assertSame(PermissionValueType::Enum, $this->permission->getValueType());
 		$this->assertSame('none', $this->permission->getMostRestrictiveValue());
+		$this->assertSame('all', $this->permission->getMostPermissiveValue());
+		$this->assertNull($this->permission->getParentPermissionId());
+	}
+
+	private static function booleanParent(): ABooleanPermission {
+		return new class extends ABooleanPermission {
+			public function getId(): string {
+				return 'app:share';
+			}
+
+			public function getDisplayName(): string {
+				return 'Share';
+			}
+
+			public function getPriority(): int {
+				return 50;
+			}
+
+			public function getDefaultValue(): string {
+				return self::VALUE_TRUE;
+			}
+		};
+	}
+
+	public static function dataInheritValueFromBoolean(): array {
+		return [
+			['false', 'none'],
+			['true', 'all'],
+		];
+	}
+
+	#[DataProvider('dataInheritValueFromBoolean')]
+	public function testInheritValueFromBoolean(string $parentValue, string $expected): void {
+		$this->assertSame($expected, $this->permission->inheritValue(self::booleanParent(), $parentValue));
+	}
+
+	public static function dataInheritValueFromEnum(): array {
+		return [
+			['none', 'none'],
+			['own', 'own'],
+			['all', 'all'],
+		];
+	}
+
+	#[DataProvider('dataInheritValueFromEnum')]
+	public function testInheritValueFromEnum(string $parentValue, string $expected): void {
+		$parent = clone $this->permission;
+		$this->assertSame($expected, $this->permission->inheritValue($parent, $parentValue));
+	}
+
+	public function testInheritInvalidParentValue(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->permission->inheritValue(self::booleanParent(), 'all');
 	}
 
 	public static function dataValidateValue(): array {

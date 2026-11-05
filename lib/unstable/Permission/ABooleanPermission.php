@@ -21,7 +21,7 @@ use OCP\Server;
  * @experimental 36.0.0
  */
 #[Implementable(since: '36.0.0')]
-abstract class ABooleanPermission implements IPermission {
+abstract class ABooleanPermission extends APermission {
 	/**
 	 * @experimental 36.0.0
 	 */
@@ -31,22 +31,6 @@ abstract class ABooleanPermission implements IPermission {
 	 * @experimental 36.0.0
 	 */
 	final public const string VALUE_FALSE = 'false';
-
-	/**
-	 * @experimental 36.0.0
-	 */
-	#[\Override]
-	public function getHint(): ?string {
-		return null;
-	}
-
-	/**
-	 * @experimental 36.0.0
-	 */
-	#[\Override]
-	public function getRequiredPermissionIds(): array {
-		return [];
-	}
 
 	/**
 	 * @experimental 36.0.0
@@ -88,5 +72,13 @@ abstract class ABooleanPermission implements IPermission {
 	#[\Override]
 	final public function getMostRestrictiveValue(): string {
 		return self::VALUE_FALSE;
+	}
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	#[\Override]
+	final public function getMostPermissiveValue(): string {
+		return self::VALUE_TRUE;
 	}
 }

@@ -16,13 +16,16 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class PermissionManager implements IPermissionManager {
-	private const string ID_PATTERN ='/^[a-z0-9_]+:[a-z0-9_.]+$/';
+	private const string ID_PATTERN = '/^[a-z0-9_]+:[a-z0-9_.]+$/';
 
 	/** @var array<class-string<IPermission>, true> */
 	private array $permissionClasses = [];
 
 	/** @var ?array<non-empty-string, IPermission> */
 	private ?array $permissions = null;
+
+	/** @var array<non-empty-string, list<IPermission>> */
+	private array $childPermissions = [];
 
 	public function __construct(
 		private readonly ContainerInterface $container,
@@ -38,12 +41,23 @@ class PermissionManager implements IPermissionManager {
 
 	#[\Override]
 	public function getPermissions(): array {
-		return $this->permissions ??= $this->loadPermissions();
+		if ($this->permissions === null) {
+			$this->permissions = $this->loadPermissions();
+			$this->childPermissions = $this->loadChildPermissions($this->permissions);
+		}
+
+		return $this->permissions;
 	}
 
 	#[\Override]
 	public function getPermission(string $id): ?IPermission {
 		return $this->getPermissions()[$id] ?? null;
+	}
+
+	#[\Override]
+	public function getChildPermissions(string $id): array {
+		$this->getPermissions();
+		return $this->childPermissions[$id] ?? [];
 	}
 
 	/**
@@ -93,6 +107,41 @@ class PermissionManager implements IPermissionManager {
 		);
 
 		return $permissions;
+	}
+
+	/**
+	 * @param array<non-empty-string, IPermission> $permissions
+	 * @return array<non-empty-string, list<IPermission>>
+	 */
+	private function loadChildPermissions(array $permissions): array {
+		$childPermissions = [];
+		foreach ($permissions as $id => $permission) {
+			$parentId = $permission->getParentPermissionId();
+			if ($parentId === null) {
+				continue;
+			}
+
+			$context = ['id' => $id, 'parentId' => $parentId];
+			if ($parentId === $id) {
+				$this->logger->error('The permission {id} cannot be its own parent', $context);
+				continue;
+			}
+
+			$parent = $permissions[$parentId] ?? null;
+			if ($parent === null) {
+				$this->logger->warning('The permission {id} has the unknown parent {parentId}', $context);
+				continue;
+			}
+
+			if ($parent->getParentPermissionId() !== null) {
+				$this->logger->error('The permission {id} has the parent {parentId} which has a parent itself, only one level is allowed', $context);
+				continue;
+			}
+
+			$childPermissions[$parentId][] = $permission;
+		}
+
+		return $childPermissions;
 	}
 
 	/**

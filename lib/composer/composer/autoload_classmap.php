@@ -20,6 +20,7 @@ return array(
     'NCU\\Federation\\ISignedCloudFederationProvider' => $baseDir . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
     'NCU\\Permission\\ABooleanPermission' => $baseDir . '/lib/unstable/Permission/ABooleanPermission.php',
     'NCU\\Permission\\AEnumPermission' => $baseDir . '/lib/unstable/Permission/AEnumPermission.php',
+    'NCU\\Permission\\APermission' => $baseDir . '/lib/unstable/Permission/APermission.php',
     'NCU\\Permission\\CorePermission' => $baseDir . '/lib/unstable/Permission/CorePermission.php',
     'NCU\\Permission\\IPermission' => $baseDir . '/lib/unstable/Permission/IPermission.php',
     'NCU\\Permission\\IPermissionManager' => $baseDir . '/lib/unstable/Permission/IPermissionManager.php',

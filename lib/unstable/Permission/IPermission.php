@@ -20,6 +20,11 @@ use OCP\AppFramework\Attribute\Consumable;
  * Values are ordered from most restrictive to most permissive, so that values from multiple sources
  * can be combined without knowing what the permission does.
  *
+ * A permission can specialize a more generic parent permission, e.g. "may forward a mail" is a kind of
+ * "may share with others". Permissions are grouped by their parent, and a value of the parent limits
+ * the values of its children, see {@see self::inheritValue()}.
+ * Unlike required permissions, a parent has the same meaning as its children.
+ *
  * Implement a permission by extending {@see ABooleanPermission} or {@see AEnumPermission}.
  *
  * @experimental 36.0.0
@@ -92,6 +97,29 @@ interface IPermission {
 	 * @experimental 36.0.0
 	 */
 	public function getMostRestrictiveValue(): string;
+
+	/**
+	 * @experimental 36.0.0
+	 */
+	public function getMostPermissiveValue(): string;
+
+	/**
+	 * ID of the permission this permission specializes, e.g. `core:share` for `mail:forward`.
+	 *
+	 * The parent must not have a parent itself.
+	 *
+	 * @return ?non-empty-string
+	 * @experimental 36.0.0
+	 */
+	public function getParentPermissionId(): ?string;
+
+	/**
+	 * Returns the most permissive value this permission may have, given the value of its parent.
+	 *
+	 * @throws \InvalidArgumentException if the value is not valid for the parent
+	 * @experimental 36.0.0
+	 */
+	public function inheritValue(IPermission $parent, string $parentValue): string;
 
 	/**
 	 * IDs of permissions this permission depends on, e.g. updating requires reading.

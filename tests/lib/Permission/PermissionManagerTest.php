@@ -44,14 +44,19 @@ class PermissionManagerTest extends TestCase {
 	/**
 	 * @param list<string> $requiredPermissionIds
 	 */
-	private function registerPermission(string $id, int $priority = 50, string $defaultValue = 'true', array $requiredPermissionIds = []): IPermission {
-		$permission = new class($id, $priority, $defaultValue, $requiredPermissionIds) extends ABooleanPermission {
+	private function registerPermission(string $id, int $priority = 50, string $defaultValue = 'true', array $requiredPermissionIds = [], ?string $parentId = null): IPermission {
+		$permission = new class($id, $priority, $defaultValue, $requiredPermissionIds, $parentId) extends ABooleanPermission {
 			public function __construct(
 				private readonly string $id,
 				private readonly int $priority,
 				private readonly string $defaultValue,
 				private readonly array $requiredPermissionIds,
+				private readonly ?string $parentId,
 			) {
+			}
+
+			public function getParentPermissionId(): ?string {
+				return $this->parentId;
 			}
 
 			public function getId(): string {
@@ -136,6 +141,35 @@ class PermissionManagerTest extends TestCase {
 		$this->logger->expects($this->exactly(2))->method('warning');
 
 		$this->assertNotNull($this->manager->getPermission('app:update'));
+	}
+
+	public function testChildPermissions(): void {
+		$this->registerPermission('core:share');
+		$forward = $this->registerPermission('mail:forward', 10, parentId: 'core:share');
+		$shareTable = $this->registerPermission('tables:share', 90, parentId: 'core:share');
+		$this->registerPermission('app:other');
+
+		$this->assertSame([$shareTable, $forward], $this->manager->getChildPermissions('core:share'));
+		$this->assertSame([], $this->manager->getChildPermissions('mail:forward'));
+		$this->assertSame([], $this->manager->getChildPermissions('app:other'));
+		$this->assertSame([], $this->manager->getChildPermissions('app:unknown'));
+	}
+
+	public function testInvalidParentsAreIgnored(): void {
+		$this->registerPermission('core:share');
+		$this->registerPermission('mail:forward', parentId: 'core:share');
+		$this->registerPermission('mail:forward_external', parentId: 'mail:forward');
+		$this->registerPermission('app:self', parentId: 'app:self');
+		$this->registerPermission('app:orphan', parentId: 'app:unknown');
+
+		$this->logger->expects($this->exactly(2))->method('error');
+		$this->logger->expects($this->once())->method('warning');
+
+		$this->assertCount(5, $this->manager->getPermissions());
+		$this->assertCount(1, $this->manager->getChildPermissions('core:share'));
+		$this->assertSame([], $this->manager->getChildPermissions('mail:forward'));
+		$this->assertSame([], $this->manager->getChildPermissions('app:self'));
+		$this->assertSame([], $this->manager->getChildPermissions('app:unknown'));
 	}
 
 	public function testCorePermissionsAreRegistered(): void {

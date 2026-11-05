@@ -40,4 +40,14 @@ interface IPermissionManager {
 	 * @experimental 36.0.0
 	 */
 	public function getPermission(string $id): ?IPermission;
+
+	/**
+	 * Permissions specializing the given permission, ordered by priority.
+	 *
+	 * Permissions with an unknown or invalid parent are not returned as children of any permission.
+	 *
+	 * @return list<IPermission>
+	 * @experimental 36.0.0
+	 */
+	public function getChildPermissions(string $id): array;
 }
