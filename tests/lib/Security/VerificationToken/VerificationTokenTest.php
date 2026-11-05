@@ -171,7 +171,7 @@ class VerificationTokenTest extends TestCase {
 
 		$this->crypto->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
-			->willReturn('604800:mY70K3n');
+			->willReturn('604800:barfoo');
 
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
@@ -179,7 +179,7 @@ class VerificationTokenTest extends TestCase {
 
 		$this->expectException(InvalidTokenException::class);
 		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
-		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar');
 	}
 
 	public function testTokenExpiredByLogin(): void {
@@ -203,7 +203,7 @@ class VerificationTokenTest extends TestCase {
 
 		$this->crypto->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
-			->willReturn('604800:mY70K3n');
+			->willReturn('604800:barfoo');
 
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
@@ -211,7 +211,7 @@ class VerificationTokenTest extends TestCase {
 
 		$this->expectException(InvalidTokenException::class);
 		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
-		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar', true);
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar', true);
 	}
 
 	public function testTokenNotExpiredBySessionRevalidation(): void {
