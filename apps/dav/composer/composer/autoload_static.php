@@ -302,6 +302,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Controller\\OutOfOfficeController' => __DIR__ . '/..' . '/../lib/Controller/OutOfOfficeController.php',
         'OCA\\DAV\\Controller\\UpcomingEventsController' => __DIR__ . '/..' . '/../lib/Controller/UpcomingEventsController.php',
         'OCA\\DAV\\DAV\\CustomPropertiesBackend' => __DIR__ . '/..' . '/../lib/DAV/CustomPropertiesBackend.php',
+        'OCA\\DAV\\DAV\\CustomPropertiesService' => __DIR__ . '/..' . '/../lib/DAV/CustomPropertiesService.php',
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
         'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/RemoteUserPrincipalBackend.php',
