@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "A apărut o eroare la procesarea cererii. Nu se poate continua.",
     "Could not update an exApp. Please try again later." : "O aplicație ExApp nu a putut fi actualizată. Încearcă din nou mai târziu.",
     "Could not update {app}. Please try again later." : "{app} nu a putut fi actualizată. Încearcă din nou mai târziu.",
-    "Could not update an app. Please try again later." : "O aplicație nu a putut fi actualizată. Încearcă din nou mai târziu.",
-    "Failed to update app {appName}" : "Aplicația {appName} nu a putut fi actualizată"
+    "Could not update an app. Please try again later." : "O aplicație nu a putut fi actualizată. Încearcă din nou mai târziu."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
