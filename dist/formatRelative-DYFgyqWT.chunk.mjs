@@ -1,2 +1,0 @@
-import{_ as t}from"./Web-rYtAFWqv.chunk.mjs";import{o as n,g as s}from"./folder-49qzbBts.chunk.mjs";const i={name:"NcActionSeparator"},c={class:"action action-separator action--disabled",role:"separator"};function p(e,o,a,r,u,m){return n(),s("li",c)}const f=t(i,[["render",p],["__scopeId","data-v-3e2324b7"]]),d={lastWeek:"eeee 'dernier à' p",yesterday:"'hier à' p",today:"'aujourd’hui à' p",tomorrow:"'demain à' p'",nextWeek:"eeee 'prochain à' p",other:"P"},h=(e,o,a,r)=>d[e];export{f as N,h as f};
-//# sourceMappingURL=formatRelative-DYFgyqWT.chunk.mjs.map
