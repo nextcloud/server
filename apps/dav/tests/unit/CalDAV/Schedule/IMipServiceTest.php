@@ -2572,4 +2572,123 @@ class IMipServiceTest extends TestCase {
 		$this->assertSame(htmlspecialchars($data['meeting_occurring']), $actualHtmlValues[4]);
 		$this->assertSame(htmlspecialchars($data['meeting_description']), $actualHtmlValues[5]);
 	}
+
+	/**
+	 * instanceKey() is what IMipPlugin::schedule() uses to pair a new
+	 * instance with its old counterpart - two unrelated events that happen
+	 * to share a RECURRENCE-ID (or lack one) must never produce the same
+	 * key just because their UID differs.
+	 */
+	public function testInstanceKeyNeverMatchesAcrossDifferentUids(): void {
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', ['UID' => 'uid-old']);
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', ['UID' => 'uid-new']);
+
+		$this->assertNotSame($this->service->instanceKey($vEventOld), $this->service->instanceKey($vEventNew));
+	}
+
+	/**
+	 * A recurring event's master and one of its overrides share a UID but
+	 * differ by RECURRENCE-ID - schedule()'s pairing relies on instanceKey()
+	 * telling them apart, and on it matching the same instance's old and
+	 * new version to each other.
+	 */
+	public function testInstanceKeyDistinguishesMasterFromOverrideButMatchesAcrossVersions(): void {
+		$recurrenceId = new \DateTime('2016-01-02 00:00:00');
+
+		$vCalendarOld = new VCalendar();
+		$oldMaster = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234']);
+		$oldOverride = $vCalendarOld->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId]);
+
+		$vCalendarNew = new VCalendar();
+		$newMaster = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'SEQUENCE' => 3]);
+		$newOverride = $vCalendarNew->add('VEVENT', ['UID' => 'uid-1234', 'RECURRENCE-ID' => $recurrenceId, 'SEQUENCE' => 2]);
+
+		$this->assertNotSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($oldOverride));
+		$this->assertSame($this->service->instanceKey($oldMaster), $this->service->instanceKey($newMaster));
+		$this->assertSame($this->service->instanceKey($oldOverride), $this->service->instanceKey($newOverride));
+	}
+
+	// First test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithoutZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			// 'SEQUENCE' => 0,			// sequence number may not be set to zero during event creation and instead fully omitted
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	// Second test to certify fix for issue nextcloud/server#41084
+	public function testDiffInstanceSequenceNumberIncrementDetectedForFirstModificationToEventWithZeroInit(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$vEventNew = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+		]);
+
+		$this->assertContains('SEQUENCE', $this->service->diffInstance($vEventNew, $vEventOld));
+	}
+
+	/**
+	 * RDATE/EXDATE decide which occurrences of a recurring master exist, so
+	 * adding an extra occurrence or excluding one must register as a change
+	 * even when RRULE/SEQUENCE/LAST-MODIFIED are untouched - matching iTip's
+	 * own significantChangeProperties list.
+	 */
+	public function testDiffInstanceDetectsRdateAndExdateChanges(): void {
+		$vEventOld = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+		]);
+
+		$vEventNewRdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-05 00:00:00'),
+			'RDATE' => new \DateTime('2016-03-01 00:00:00'),
+		]);
+		$this->assertContains('RDATE', $this->service->diffInstance($vEventNewRdate, $vEventOld));
+
+		$vEventNewExdate = (new VCalendar())->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+			'EXDATE' => new \DateTime('2016-01-06 00:00:00'),
+		]);
+		$this->assertContains('EXDATE', $this->service->diffInstance($vEventNewExdate, $vEventOld));
+	}
+
+	/**
+	 * eventInstances() is what IMipPlugin::schedule() relies on to extract
+	 * the VEVENT(s) from an iTip message and from the stored old calendar:
+	 * it must return only the VEVENT components, in document order,
+	 * ignoring sibling components like VTIMEZONE.
+	 */
+	public function testEventInstancesReturnsOnlyVeventComponentsInOrder(): void {
+		$vCalendar = new VCalendar();
+		$vCalendar->add('VTIMEZONE', ['TZID' => 'America/Toronto']);
+		$vEvent1 = $vCalendar->add('VEVENT', ['UID' => 'uid-1234']);
+		$vEvent2 = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-02 00:00:00'),
+		]);
+
+		$this->assertSame([$vEvent1, $vEvent2], $this->service->eventInstances($vCalendar));
+	}
 }

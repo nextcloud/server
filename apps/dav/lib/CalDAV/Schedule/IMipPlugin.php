@@ -10,7 +10,6 @@
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -65,7 +64,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		private Defaults $defaults,
 		private IUserSession $userSession,
 		private IMipService $imipService,
-		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
 		private IEmailValidator $emailValidator,
 		private IAccountManager $accountManager,
@@ -146,29 +144,82 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
-		$newEvents = $iTipMessage->message;
-		$oldEvents = $this->getVCalendar();
+		$newObjects = $iTipMessage->message;
+		$oldObjects = $this->getVCalendar();
 
-		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
-		/** @var VEvent $vEvent */
-		$vEvent = array_pop($modified['new']);
-		/** @var VEvent $oldVevent */
-		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
-		$isModified = isset($oldVevent);
+		$method = match (strtolower($iTipMessage->method)) {
+			'reply' => self::METHOD_REPLY,
+			'cancel' => self::METHOD_CANCEL,
+			default => self::METHOD_REQUEST,
+		};
 
-		// No changed events after all - this shouldn't happen if there is significant change yet here we are
+		// For REQUEST method, we need to determine which instances have changed by comparing new and old events
+		if ($method === self::METHOD_REQUEST) {
+			$newEvents = $this->imipService->eventInstances($newObjects);
+			$oldEventsByInstance = [];
+			if ($oldObjects !== null) {
+				foreach ($this->imipService->eventInstances($oldObjects) as $oldEvent) {
+					$oldEventsByInstance[$this->imipService->instanceKey($oldEvent)] = $oldEvent;
+				}
+			}
+
+			$allInstances = array_map(
+				fn (VEvent $newEvent) => ['new' => $newEvent, 'old' => $oldEventsByInstance[$this->imipService->instanceKey($newEvent)] ?? null],
+				$newEvents,
+			);
+
+			$changedInstances = array_values(array_filter(
+				$allInstances,
+				fn (array $pair) => $pair['old'] === null || $this->imipService->diffInstance($pair['new'], $pair['old']) !== [],
+			));
+
+			$modifiedInstances = $changedInstances !== [] ? $changedInstances : $allInstances;
+		}
+		// For CANCEL/REPLY only ever consume the new instance, so there's no old instance to diff against or compare
+		else {
+			$modifiedInstances = array_map(
+				static fn (VEvent $event) => ['new' => $event, 'old' => null],
+				$this->imipService->eventInstances($newObjects),
+			);
+		}
+
+		// No VEvents in the message at all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
-		if (empty($vEvent)) {
-			$this->logger->warning('iTip message said the change was significant but comparison did not detect any updated VEvents');
+		if (empty($modifiedInstances)) {
+			$this->logger->warning('iTip message said the change was significant but the message contained no VEvents');
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
 
-		// we (should) have one event component left
-		// as the ITip\Broker creates one iTip message per change
-		// and triggers the "schedule" event once per message
-		// we also might not have an old event as this could be a new
-		// invitation, or a new recurrence exception
+		if (count($modifiedInstances) > 1) {
+			$this->logger->debug('iTip message contains multiple instances; only the primary instance is reflected in the invitation email', [
+				'uid' => $iTipMessage->uid,
+				'instanceCount' => count($modifiedInstances),
+			]);
+		}
+
+		// we (should) have one instance per message, as the ITip\Broker creates
+		// one iTip message per attendee and triggers the "schedule" event once
+		// per message; a message can still bundle several instances (e.g.
+		// primary + overrides edited together), in which case only the primary
+		// instance is reflected in the email for now
+		$primaryInstance = null;
+		foreach ($modifiedInstances as $instance) {
+			if (!isset($instance['new']->{'RECURRENCE-ID'})) {
+				$primaryInstance = $instance;
+				break;
+			}
+		}
+		$primaryInstance ??= $modifiedInstances[0];
+
+		/** @var VEvent $vEvent */
+		$vEvent = $primaryInstance['new'];
+		/** @var VEvent|null $oldVevent */
+		$oldVevent = $primaryInstance['old'];
+		$isModified = $oldVevent !== null;
+
+		// we might not have an old event as this could be a new invitation,
+		// or a new recurrence exception
 		$attendee = $this->imipService->getCurrentAttendee($iTipMessage);
 		if ($attendee === null) {
 			$uid = $vEvent->UID ?? 'no UID found';
@@ -199,18 +250,15 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		$replyingAttendee = null;
-		switch (strtolower($iTipMessage->method)) {
+		switch ($method) {
 			case self::METHOD_REPLY:
-				$method = self::METHOD_REPLY;
 				$data = $this->imipService->buildReplyBodyData($vEvent);
 				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
 				break;
 			case self::METHOD_CANCEL:
-				$method = self::METHOD_CANCEL;
 				$data = $this->imipService->buildCancelledBodyData($vEvent);
 				break;
 			default:
-				$method = self::METHOD_REQUEST;
 				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
 				break;
 		}
