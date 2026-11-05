@@ -24,6 +24,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -274,7 +275,14 @@ class AppConfigControllerTest extends TestCase {
 
 			$this->appConfig->expects($this->once())
 				->method($configValueSetter)
-				->with($app, $key, $configValueSetter === 'setValueArray' ? json_decode($value, true) : $value);
+				->with($app, $key, $configValueSetter === 'setValueArray' ? json_decode($value, true) : $value)
+				->willReturn(true);
+
+			$this->expectAuditEvent('config.app_value.updated', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was changed');
+		}
+		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+			$this->eventDispatcher->expects($this->never())
+				->method('dispatchTyped');
 		}
 
 		$result = $api->setValue($app, $key, $value);
@@ -287,6 +295,39 @@ class AppConfigControllerTest extends TestCase {
 		} else {
 			$this->assertEquals([], $result->getData());
 		}
+	}
+
+	public function testSetUnchangedValueIsNotAudited(): void {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->method('getUid')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($adminUser);
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
+
+		$this->appConfig->method('getDetails')->willReturn(['type' => IAppConfig::VALUE_STRING]);
+		$this->appConfig->expects($this->once())
+			->method('setValueString')
+			->with('app2', 'key', 'value')
+			->willReturn(false);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(BeforeAppConfigSetEvent::class));
+
+		$api->setValue('app2', 'key', 'value');
+	}
+
+	/**
+	 * Expects the before event of the change, followed by the audit event
+	 */
+	private function expectAuditEvent(string $operation, array $parameters, string $message): void {
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->callback(fn (object $event): bool => $event instanceof BeforeAppConfigSetEvent
+				|| $event instanceof BeforeAppConfigDeletedEvent
+				|| ($event instanceof CriticalActionPerformedEvent
+					&& $event->getOperation() === $operation
+					&& $event->getParameters() === $parameters
+					&& $event->getLogMessage() === $message)));
 	}
 
 	public static function dataDeleteValue(): array {
@@ -332,6 +373,12 @@ class AppConfigControllerTest extends TestCase {
 			$this->appConfig->expects($this->once())
 				->method('deleteKey')
 				->with($app, $key);
+
+			$this->expectAuditEvent('config.app_value.deleted', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was deleted');
+		}
+		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+			$this->eventDispatcher->expects($this->never())
+				->method('dispatchTyped');
 		}
 
 		$result = $api->deleteKey($app, $key);

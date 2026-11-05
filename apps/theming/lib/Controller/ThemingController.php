@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
@@ -37,6 +38,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 /**
  * Class ThemingController
@@ -60,6 +62,7 @@ class ThemingController extends Controller {
 		private ImageManager $imageManager,
 		private ThemesService $themesService,
 		private INavigationManager $navigationManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -158,6 +161,7 @@ class ThemingController extends Controller {
 		if (!$saved) {
 			$this->themingDefaults->set($setting, $value);
 		}
+		$this->dispatchSettingUpdatedEvent($setting);
 
 		return new DataResponse([
 			'data' => [
@@ -196,6 +200,7 @@ class ThemingController extends Controller {
 				'status' => 'error'
 			], Http::STATUS_BAD_REQUEST);
 		}
+		$this->dispatchSettingUpdatedEvent($setting);
 
 		return new DataResponse([
 			'data' => [
@@ -203,6 +208,15 @@ class ThemingController extends Controller {
 			],
 			'status' => 'success'
 		]);
+	}
+
+	private function dispatchSettingUpdatedEvent(string $setting): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming setting "%s" was updated',
+			['setting' => $setting],
+			false,
+			'theming.setting.updated',
+		));
 	}
 
 	/**
@@ -278,6 +292,13 @@ class ThemingController extends Controller {
 			);
 		}
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming image "%s" was uploaded',
+			['key' => $key],
+			false,
+			'theming.image.uploaded',
+		));
+
 		$name = $image['name'];
 
 		return new DataResponse(
@@ -310,6 +331,12 @@ class ThemingController extends Controller {
 			default => $setting,
 		};
 		$value = $this->themingDefaults->undo($setting);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming setting "%s" was reset to its default value',
+			['setting' => $setting],
+			false,
+			'theming.setting.reset',
+		));
 
 		return new DataResponse(
 			[
@@ -333,6 +360,12 @@ class ThemingController extends Controller {
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
 		$this->navigationManager->setDefaultEntryIds([]);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'All theming settings were reset to their default values',
+			[],
+			false,
+			'theming.setting.reset',
+		));
 
 		return new DataResponse(
 			[

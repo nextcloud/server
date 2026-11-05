@@ -26,6 +26,7 @@ use OCP\Files\File;
 use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 
@@ -97,6 +98,16 @@ class DirectController extends OCSController {
 		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
 
 		$this->mapper->insert($direct);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Direct download link for file "%s" was created, valid for %s seconds',
+			[
+				'fileId' => $fileId,
+				'expirationTime' => $expirationTime,
+			],
+			false,
+			'dav.direct_link.created',
+		));
 
 		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/' . $token);
 

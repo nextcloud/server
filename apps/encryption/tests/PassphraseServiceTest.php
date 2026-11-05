@@ -15,9 +15,11 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -32,6 +34,7 @@ class PassphraseServiceTest extends TestCase {
 	protected KeyManager&MockObject $keyManager;
 	protected IUserManager&MockObject $userManager;
 	protected IUserSession&MockObject $userSession;
+	protected IEventDispatcher&MockObject $eventDispatcher;
 
 	protected PassphraseService $instance;
 
@@ -45,6 +48,7 @@ class PassphraseServiceTest extends TestCase {
 		$this->keyManager = $this->createMock(KeyManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->instance = new PassphraseService(
 			$this->util,
@@ -55,6 +59,7 @@ class PassphraseServiceTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->userManager,
 			$this->userSession,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -95,6 +100,7 @@ class PassphraseServiceTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 				$this->userManager,
 				$this->userSession,
+				$this->eventDispatcher,
 			])
 			->getMock();
 
@@ -137,6 +143,7 @@ class PassphraseServiceTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 				$this->userManager,
 				$this->userSession,
+				$this->eventDispatcher,
 			])
 			->getMock();
 
@@ -175,6 +182,7 @@ class PassphraseServiceTest extends TestCase {
 				$this->createMock(LoggerInterface::class),
 				$this->userManager,
 				$this->userSession,
+				$this->eventDispatcher,
 			])
 			->getMock();
 
@@ -192,4 +200,52 @@ class PassphraseServiceTest extends TestCase {
 		$this->assertFalse($instance->setPassphraseForUser('testUser', 'password'));
 	}
 
+	public function testSetPassphrase_otherUserRegeneratesKeys(): void {
+		$instance = $this->getMockBuilder(PassphraseService::class)
+			->onlyMethods(['initMountPoints'])
+			->setConstructorArgs([
+				$this->util,
+				$this->crypt,
+				$this->session,
+				$this->recovery,
+				$this->keyManager,
+				$this->createMock(LoggerInterface::class),
+				$this->userManager,
+				$this->userSession,
+				$this->eventDispatcher,
+			])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testUser');
+		$admin = $this->createMock(IUser::class);
+		$admin->method('getUID')->willReturn('admin');
+		$this->userManager->method('get')
+			->with('testUser')
+			->willReturn($user);
+		$this->userSession->method('getUser')
+			->willReturn($admin);
+		$this->keyManager->method('getRecoveryKeyId')->willReturn('recovery');
+		$this->keyManager->method('getSystemPrivateKey')->willReturn('recovery-key');
+		$this->crypt->method('decryptPrivateKey')->willReturn('decrypted-recovery-key');
+		$this->recovery->method('isRecoveryEnabledForUser')->with('testUser')->willReturn(true);
+		$this->crypt->method('createKeyPair')->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
+		$this->crypt->method('encryptPrivateKey')->willReturn('encrypted-key');
+		$this->crypt->method('generateHeader')->willReturn('crypt-header: ');
+		$this->keyManager->expects(self::once())
+			->method('setPrivateKey')
+			->with('testUser', 'crypt-header: encrypted-key');
+		$this->recovery->expects(self::once())
+			->method('recoverUsersFiles')
+			->with('recovery-password', 'testUser');
+
+		$this->eventDispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'encryption.user_keys.regenerated'
+				&& $event->getParameters() === ['userId' => 'testUser']
+				&& $event->getLogMessage() === 'Encryption keys of user "%s" were regenerated'));
+
+		$this->assertTrue($instance->setPassphraseForUser('testUser', 'password', 'recovery-password'));
+	}
 }

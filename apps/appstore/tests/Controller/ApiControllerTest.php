@@ -9,9 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\Appstore\Tests\Controller;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\Installer;
 use OCA\Appstore\Controller\ApiController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -62,5 +67,36 @@ final class ApiControllerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateProxyPreviewUrl')]
 	public function testCreateProxyPreviewUrl(string $url, string $expected): void {
 		$this->assertSame($expected, self::invokePrivate($this->apiController, 'createProxyPreviewUrl', [$url]));
+	}
+
+	public function testUninstallApp(): void {
+		$this->mocks[AppManager::class]->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->mocks[AppManager::class]->method('isEnabledForAnyone')
+			->willReturn(false);
+		$this->mocks[Installer::class]->expects($this->once())
+			->method('removeApp')
+			->with('myapp')
+			->willReturn(true);
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'apps.app.uninstalled'
+				&& $event->getLogMessage() === 'App "%s" uninstalled'
+				&& $event->getParameters() === ['app' => 'myapp']));
+
+		$this->apiController->uninstallApp('myapp');
+	}
+
+	public function testUninstallAppFailed(): void {
+		$this->mocks[AppManager::class]->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->mocks[Installer::class]->method('removeApp')
+			->willReturn(false);
+		$this->mocks[IEventDispatcher::class]->expects($this->never())
+			->method('dispatchTyped');
+
+		$this->expectException(OCSException::class);
+		$this->apiController->uninstallApp('myapp');
 	}
 }

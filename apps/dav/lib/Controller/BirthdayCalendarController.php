@@ -15,11 +15,13 @@ use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 class BirthdayCalendarController extends Controller {
 
@@ -33,6 +35,7 @@ class BirthdayCalendarController extends Controller {
 	 * @param IJobList $jobList
 	 * @param IUserManager $userManager
 	 * @param CalDavBackend $caldavBackend
+	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		$appName,
@@ -42,6 +45,7 @@ class BirthdayCalendarController extends Controller {
 		protected IJobList $jobList,
 		protected IUserManager $userManager,
 		protected CalDavBackend $caldavBackend,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -60,6 +64,13 @@ class BirthdayCalendarController extends Controller {
 			]);
 		});
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Birthday calendars were enabled',
+			[],
+			false,
+			'dav.birthday_calendar.enabled',
+		));
+
 		return new JSONResponse([]);
 	}
 
@@ -72,6 +83,13 @@ class BirthdayCalendarController extends Controller {
 
 		$this->jobList->remove(GenerateBirthdayCalendarBackgroundJob::class);
 		$this->caldavBackend->deleteAllBirthdayCalendars();
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Birthday calendars were disabled',
+			[],
+			false,
+			'dav.birthday_calendar.disabled',
+		));
 
 		return new JSONResponse([]);
 	}
