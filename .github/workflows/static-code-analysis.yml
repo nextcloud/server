@@ -105,8 +105,9 @@ jobs:
       - name: Composer install
         run: composer i
 
+      # psalm:security already sets --threads=$(nproc); passing --threads again makes Psalm fall back to a single thread
       - name: Psalm taint analysis
-        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif --report-show-info=false
+        run: composer run psalm:security -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif --report-show-info=false
 
       # Psalm exits 0 on taint findings when a report file is generated
       - name: Fail on taint analysis findings
