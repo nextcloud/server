@@ -80,7 +80,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	#[Override]
 	public function deletePreview(Preview $preview): void {
-		if (defined('PHPUNIT_RUN') && $preview->getLocationId() === null) {
+                 if ($preview->getLocationId() === null) {
 			// Should only be the case in unit tests when adding dummy previews in the database.
 			return;
 		}
