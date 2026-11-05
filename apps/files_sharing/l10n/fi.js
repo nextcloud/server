@@ -337,7 +337,6 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Ylläpitäjä on estänyt ryhmäjakamisen",
     "Public link sharing is disabled by the administrator" : "Ylläpitäjä on estänyt julkisen linkin jakamisen",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tietovarasto ei salli %2$s tyyppisiä jakoja",
-    "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen",
-    "Via “{folder}”" : "“{folder}” kautta"
+    "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen"
 },
 "nplurals=2; plural=(n != 1);");
