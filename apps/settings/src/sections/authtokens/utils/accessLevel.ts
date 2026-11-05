@@ -5,6 +5,7 @@
 
 import type { ITokenScope } from '../store/authtoken.ts'
 
+import { loadState } from '@nextcloud/initial-state'
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
@@ -15,8 +16,20 @@ export type Grant = Area | Service | 'filesShare' | 'filesTrash' | 'filesVersion
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
 type AreaState = 'all' | 'partial' | 'none'
 
+export interface IGrantableApp {
+	id: string
+	name: string
+	icon: string
+	/** Whether the app shows other apps' data */
+	acrossApps: boolean
+}
+
+export const GRANTABLE_APPS = loadState<IGrantableApp[]>('settings', 'grantable_apps', [])
+
 export interface Selection {
 	preset: Preset
+	/** Ticked apps, stored as their app id */
+	apps: string[]
 	/** Ticked grants, only used when the preset is not `all` */
 	grants: Grant[]
 }
@@ -71,17 +84,18 @@ const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
  */
 export function fromScopes(scopes?: string[]): { selection: Selection, kept: string[] } {
 	if (scopes === undefined) {
-		return { selection: { preset: 'all', grants: [] }, kept: [] }
+		return { selection: { preset: 'all', grants: [], apps: [] }, kept: [] }
 	}
 
 	const held = GRANTS.filter((grant) => GRANT_SCOPES[grant].every((scope) => scopes.includes(scope)))
 	const grants = held.filter((grant) => held.includes(parentOf(grant)))
-	const shown = grants.flatMap((grant) => GRANT_SCOPES[grant])
+	const apps = GRANTABLE_APPS.map((app) => app.id).filter((id) => scopes.includes(id))
+	const shown = [...grants.flatMap((grant) => GRANT_SCOPES[grant]), ...apps]
 	const kept = scopes.filter((scope) => !shown.includes(scope))
 
 	const presets = Object.keys(PRESET_GRANTS) as (keyof typeof PRESET_GRANTS)[]
-	const preset = kept.length === 0 ? presets.find((name) => sameItems(PRESET_GRANTS[name], grants)) : undefined
-	return { selection: { preset: preset ?? 'custom', grants }, kept }
+	const preset = kept.length === 0 && apps.length === 0 ? presets.find((name) => sameItems(PRESET_GRANTS[name], grants)) : undefined
+	return { selection: { preset: preset ?? 'custom', grants, apps }, kept }
 }
 
 /**
@@ -94,7 +108,7 @@ export function toScopes(selection: Selection, kept: string[]): string[] | null 
 	if (selection.preset === 'all') {
 		return null
 	}
-	return [...new Set([...selection.grants.flatMap((grant) => GRANT_SCOPES[grant]), ...kept])]
+	return [...new Set([...selection.grants.flatMap((grant) => GRANT_SCOPES[grant]), ...selection.apps, ...kept])]
 }
 
 /**
@@ -149,6 +163,7 @@ export function accessLabel(scope: ITokenScope): string {
 		return [(state === 'partial' && readOnly[area]) || GRANT_LABELS[area]]
 	})
 	parts.push(...SERVICES.filter((service) => selection.grants.includes(service)).map((service) => GRANT_LABELS[service]))
+	parts.push(...GRANTABLE_APPS.filter((app) => selection.apps.includes(app.id)).map(appLabel))
 	if (kept.length > 0) {
 		// TRANSLATORS Last item of a list such as "Files and other access"
 		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
@@ -157,6 +172,14 @@ export function accessLabel(scope: ITokenScope): string {
 		return t('settings', 'No access')
 	}
 	return new Intl.ListFormat(getLanguage(), { type: 'conjunction' }).format(parts)
+}
+
+/**
+ * @param app An app the app password can be limited to
+ */
+export function appLabel(app: IGrantableApp): string {
+	// TRANSLATORS {app} is an app name, e.g. "Activity". The app password then reads that app's data from all other apps
+	return app.acrossApps ? t('settings', '{app} across all apps', { app: app.name }) : app.name
 }
 
 /**
