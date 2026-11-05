@@ -49,6 +49,7 @@ interface IManager {
 	 * @throws IncompleteActivityException if required values have not been set
 	 * @since 8.2.0
 	 * @since 30.0.0 throws {@see IncompleteActivityException} instead of \BadMethodCallException
+	 * @since 36.0.0 drops the event while an import runs ({@see \OCP\Import\IImportScope})
 	 */
 	public function publish(IEvent $event): void;
 
@@ -63,6 +64,7 @@ interface IManager {
 	 * @param IEvent $event
 	 * @throws IncompleteActivityException if required values have not been set
 	 * @since 32.0.0
+	 * @since 36.0.0 drops the event while an import runs ({@see \OCP\Import\IImportScope})
 	 */
 	public function bulkPublish(IEvent $event, array $affectedUserIds, ISetting $setting): void;
 

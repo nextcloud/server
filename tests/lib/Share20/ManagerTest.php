@@ -10,6 +10,7 @@ namespace Test\Share20;
 
 use DateTimeZone;
 use OC\Files\Utils\PathHelper;
+use OC\Import\ImportScope;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\ProviderException;
@@ -108,6 +109,7 @@ class ManagerTest extends \Test\TestCase {
 	protected IDateTimeZone&MockObject $dateTimeZone;
 	protected IAppConfig&MockObject $appConfig;
 	protected IDBConnection&MockObject $connection;
+	protected ImportScope $importScope;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -124,6 +126,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->connection = $this->createMock(IDBConnection::class);
+		$this->importScope = new ImportScope();
 
 		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
@@ -193,6 +196,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->dateTimeZone,
 			$this->appConfig,
 			$this->connection,
+			$this->importScope,
 		);
 	}
 
@@ -219,6 +223,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->dateTimeZone,
 				$this->appConfig,
 				$this->connection,
+				$this->importScope,
 			]);
 	}
 
@@ -3570,6 +3575,52 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame('password', $mailedPassword);
 		$this->assertSame($storedPassword, $createdShare->getPassword());
 		$this->assertTrue($createdShare->isPasswordHashed());
+	}
+
+	public function testCreateShareDuringImportSendsNoMail(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'generalChecks',
+				'pathCreateChecks',
+				'validateExpirationDateLink',
+				'setLinkParent',
+			])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getName')->willReturn('target');
+		$path->method('getId')->willReturn(1);
+		$path->method('getStorage')->willReturn($this->createMock(IStorage::class));
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_EMAIL)
+			->setNode($path)
+			->setSharedBy('sharedBy')
+			->setPermissions(Constants::PERMISSION_ALL)
+			->setMailSend(true);
+
+		$manager->method('validateExpirationDateLink')->willReturnArgument(0);
+		$this->secureRandom->method('generate')
+			->willReturn('token');
+		$this->config->method('getSystemValueBool')
+			->with('sharing.enable_share_mail', true)
+			->willReturn(true);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('create')
+			->willReturnCallback(fn (Share $share): Share => (clone $share)->setId('42'));
+		$this->defaultProvider
+			->expects($this->never())
+			->method('sendMailNotification');
+
+		$createdShare = $this->importScope->run(fn () => $manager->createShare($share));
+
+		$this->assertSame('42', $createdShare->getId());
 	}
 
 	public function testCreateShareHookError(): void {

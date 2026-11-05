@@ -15,6 +15,7 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Notification\Manager;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\Import\IImportScope;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -122,6 +123,7 @@ class ManagerTest extends TestCase {
 				$this->getAutoMock(LoggerInterface::class),
 				$this->getAutoMock(Coordinator::class),
 				$this->getAutoMock(IRichTextFormatter::class),
+				$this->getAutoMock(IImportScope::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -129,6 +131,33 @@ class ManagerTest extends TestCase {
 		$manager->expects($this->once())
 			->method('getApps')
 			->willReturn([]);
+
+		$manager->notify($notification);
+	}
+
+	public function testNotifyDuringImport(): void {
+		$notification = $this->createMock(INotification::class);
+		$notification->method('isValid')
+			->willReturn(true);
+		$this->getAutoMock(IImportScope::class)->method('isActive')
+			->willReturn(true);
+
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->getAutoMock(IValidator::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ICacheFactory::class),
+				$this->getAutoMock(IRegistry::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(IRichTextFormatter::class),
+				$this->getAutoMock(IImportScope::class),
+			])
+			->onlyMethods(['getApps'])
+			->getMock();
+
+		$manager->expects($this->never())
+			->method('getApps');
 
 		$manager->notify($notification);
 	}
@@ -153,6 +182,7 @@ class ManagerTest extends TestCase {
 				$this->getAutoMock(LoggerInterface::class),
 				$this->getAutoMock(Coordinator::class),
 				$this->getAutoMock(IRichTextFormatter::class),
+				$this->getAutoMock(IImportScope::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -178,6 +208,7 @@ class ManagerTest extends TestCase {
 				$this->getAutoMock(LoggerInterface::class),
 				$this->getAutoMock(Coordinator::class),
 				$this->getAutoMock(IRichTextFormatter::class),
+				$this->getAutoMock(IImportScope::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -204,6 +235,7 @@ class ManagerTest extends TestCase {
 				$this->getAutoMock(LoggerInterface::class),
 				$this->getAutoMock(Coordinator::class),
 				$this->getAutoMock(IRichTextFormatter::class),
+				$this->getAutoMock(IImportScope::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();

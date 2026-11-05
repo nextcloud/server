@@ -19,6 +19,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Import\IImportScope;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
@@ -37,12 +38,18 @@ class ContactInteractionListener implements IEventListener {
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
 		private LoggerInterface $logger,
+		private IImportScope $importScope,
 	) {
 	}
 
 	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof ContactInteractedWithEvent)) {
+			return;
+		}
+
+		if ($this->importScope->isActive()) {
+			// Shares an import makes are not people its users contacted
 			return;
 		}
 
