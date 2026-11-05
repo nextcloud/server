@@ -404,7 +404,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Condivisione di %1$s non riuscita poiché il motore non consente condivisioni del tipo %2$s",
     "Public upload disabled by the administrator" : "Caricamento pubblico disabilitato dall'amministratore",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "I token devono contenere almeno 1 carattere e possono contenere solo lettere, numeri o un trattino",
-    "Via “{folder}”" : "Tramite “{folder}”",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Imposta il token del collegamento di condivisione pubblica su qualcosa di facile da ricordare o genera un nuovo token. Non è consigliabile usare un token indovinabile per le condivisioni che contengono informazioni sensibili."
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Imposta il token del collegamento di condivisione pubblica su qualcosa di facile da ricordare o genera un nuovo token. Non è consigliabile usare un token indovinabile per le condivisioni che contengono informazioni sensibili.",
+    "Via “{folder}”" : "Tramite “{folder}”"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

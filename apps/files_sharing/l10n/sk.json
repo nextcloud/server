@@ -420,7 +420,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Zdieľanie %1$s zlyhalo, pretože backend nepovoľuje zdieľania typu %2$s",
     "Public upload disabled by the administrator" : "Verejné nahrávanie je zakázané administrátorom",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny musia obsahovať aspoň 1 znak a môžu obsahovať iba písmená, čísla alebo spojovník",
-    "Via “{folder}”" : "Prostredníctvom „{folder}“",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie."
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie.",
+    "Via “{folder}”" : "Prostredníctvom „{folder}“"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
