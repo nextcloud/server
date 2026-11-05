@@ -4,17 +4,12 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
 import { createApp } from 'vue'
 import BackgroundJob from './BackgroundJob.vue'
 import ProfileSettings from './ProfileSettings.vue'
 
-createApp(BackgroundJob)
-	.mixin({ methods: { t } })
-	.mount('#vue-admin-background-job')
+createApp(BackgroundJob).mount('#vue-admin-background-job')
 
 if (loadState('settings', 'profileEnabledGlobally', true)) {
-	createApp(ProfileSettings)
-		.mixin({ methods: { t } })
-		.mount('#vue-admin-profile-settings')
+	createApp(ProfileSettings).mount('#vue-admin-profile-settings')
 }

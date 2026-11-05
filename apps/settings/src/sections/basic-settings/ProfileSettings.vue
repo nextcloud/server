@@ -3,10 +3,47 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import logger from '../../logger.ts'
+import { saveProfileDefault, saveProfilePicker, saveProfilePrivate } from '../../service/ProfileService.js'
+import { validateBoolean } from '../../utils/validate.js'
+
+const profileEnabledByDefault = ref(loadState('settings', 'profileEnabledByDefault', true))
+const profilePickerEnabled = ref(loadState('settings', 'profilePickerEnabled', true))
+const profilePrivate = ref(loadState('settings', 'profilePrivate', true))
+
+/**
+ * @param save The service call that stores the setting
+ * @param isEnabled The new value
+ * @param errorMessage Shown when saving fails
+ */
+async function updateSetting(save: (isEnabled: boolean) => Promise<{ ocs?: { meta?: { status?: string } } }>, isEnabled: boolean, errorMessage: string) {
+	if (!validateBoolean(isEnabled)) {
+		return
+	}
+	try {
+		const responseData = await save(isEnabled)
+		if (responseData.ocs?.meta?.status === 'ok') {
+			return
+		}
+	} catch (error) {
+		logger.error(errorMessage, { error })
+	}
+	showError(errorMessage)
+}
+</script>
+
 <template>
 	<div
 		id="profile-settings"
-		class="section">
+		class="section"
+		:class="[$style.profileSettings]">
 		<h2 class="inlineblock">
 			{{ t('settings', 'Profile') }}
 		</h2>
@@ -16,9 +53,9 @@
 		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
-			v-model="initialProfileEnabledByDefault"
+			v-model="profileEnabledByDefault"
 			type="switch"
-			@update:modelValue="onProfileDefaultChange">
+			@update:modelValue="updateSetting(saveProfileDefault, $event, t('settings', 'Unable to update profile default setting'))">
 			{{ t('settings', 'Enable by default') }}
 		</NcCheckboxRadioSwitch>
 
@@ -27,131 +64,23 @@
 		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
-			v-model="initialProfilePickerEnabled"
+			v-model="profilePickerEnabled"
 			type="switch"
-			@update:modelValue="onProfilePickerChange">
+			@update:modelValue="updateSetting(saveProfilePicker, $event, t('settings', 'Unable to update profile picker setting'))">
 			{{ t('settings', 'Enable the profile picker') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
-			v-model="initialProfilePrivate"
+			v-model="profilePrivate"
 			type="switch"
-			@update:modelValue="onProfilePrivateChange">
+			@update:modelValue="updateSetting(saveProfilePrivate, $event, t('settings', 'Unable to update profile private setting'))">
 			{{ t('settings', 'Prevent unauthenticated users from seeing user profiles') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>
 
-<script>
-import { showError } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import logger from '../../logger.ts'
-import { saveProfileDefault, saveProfilePicker, saveProfilePrivate } from '../../service/ProfileService.js'
-import { validateBoolean } from '../../utils/validate.js'
-
-const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
-const profilePickerEnabled = loadState('settings', 'profilePickerEnabled', true)
-const profilePrivate = loadState('settings', 'profilePrivate', true)
-
-export default {
-	name: 'ProfileSettings',
-
-	components: {
-		NcCheckboxRadioSwitch,
-		NcNoteCard,
-	},
-
-	data() {
-		return {
-			initialProfileEnabledByDefault: profileEnabledByDefault,
-			initialProfilePickerEnabled: profilePickerEnabled,
-			initialProfilePrivate: profilePrivate,
-		}
-	},
-
-	methods: {
-		async onProfileDefaultChange(isEnabled) {
-			if (validateBoolean(isEnabled)) {
-				await this.updateProfileDefault(isEnabled)
-			}
-		},
-
-		async updateProfileDefault(isEnabled) {
-			try {
-				const responseData = await saveProfileDefault(isEnabled)
-				this.handleResponse({
-					isEnabled,
-					key: 'initialProfileEnabledByDefault',
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update profile default setting'),
-					error: e,
-				})
-			}
-		},
-
-		async onProfilePickerChange(isEnabled) {
-			if (validateBoolean(isEnabled)) {
-				await this.updateProfilePicker(isEnabled)
-			}
-		},
-
-		async updateProfilePicker(isEnabled) {
-			try {
-				const responseData = await saveProfilePicker(isEnabled)
-				this.handleResponse({
-					isEnabled,
-					key: 'initialProfilePickerEnabled',
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update profile picker setting'),
-					error: e,
-				})
-			}
-		},
-
-		async onProfilePrivateChange(isEnabled) {
-			if (validateBoolean(isEnabled)) {
-				await this.updateProfilePrivate(isEnabled)
-			}
-		},
-
-		async updateProfilePrivate(isEnabled) {
-			try {
-				const responseData = await saveProfilePrivate(isEnabled)
-				this.handleResponse({
-					isEnabled,
-					key: 'initialProfilePrivate',
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update profile private setting'),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ isEnabled, key, status, errorMessage, error }) {
-			if (status === 'ok') {
-				this[key] = isEnabled
-			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
-			}
-		},
-	},
-}
-</script>
-
-<style scoped lang="scss">
-#profile-settings {
+<style module>
+.profileSettings {
 	max-width: 600px;
 }
 </style>

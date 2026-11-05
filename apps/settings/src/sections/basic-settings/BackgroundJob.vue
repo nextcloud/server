@@ -3,6 +3,91 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { formatRelativeTime, t } from '@nextcloud/l10n'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl } from '@nextcloud/router'
+import { computed, ref } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../../logger.ts'
+
+const lastCron = loadState<number>('settings', 'lastCron')
+const cronMaxAge = loadState<number | ''>('settings', 'cronMaxAge', '')
+const cliBasedCronPossible = loadState('settings', 'cliBasedCronPossible', true)
+const cliBasedCronUser = loadState('settings', 'cliBasedCronUser', 'www-data')
+const backgroundJobsDocUrl = loadState<string>('settings', 'backgroundJobsDocUrl')
+
+const backgroundJobsMode = ref(loadState('settings', 'backgroundJobsMode', 'cron'))
+const relativeTime = formatRelativeTime(lastCron * 1000)
+const maxAgeRelativeTime = formatRelativeTime(Number(cronMaxAge) * 1000)
+
+const cronLabel = computed(() => {
+	let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
+	if (cliBasedCronPossible) {
+		desc += '<br>' + t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: cliBasedCronUser })
+	} else {
+		desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
+			linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
+			linkend: '</a>',
+		}, undefined, { escape: false })
+	}
+	return desc
+})
+
+const oldExecution = Date.now() / 1000 - lastCron > 600
+const longExecutionNotCron = computed(() => Date.now() / 1000 - Number(cronMaxAge) > 12 * 3600 && backgroundJobsMode.value !== 'cron')
+const longExecutionCron = computed(() => Date.now() / 1000 - Number(cronMaxAge) > 24 * 3600 && backgroundJobsMode.value === 'cron')
+
+/**
+ * @param mode The background jobs mode picked by the admin
+ */
+async function onBackgroundJobModeChanged(mode: string) {
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'core',
+		key: 'backgroundjobs_mode',
+	})
+
+	await confirmPassword()
+
+	try {
+		const { data } = await axios.post(url, {
+			value: mode,
+		})
+		if (data.ocs?.meta?.status === 'ok') {
+			await deleteError()
+			return
+		}
+	} catch (error) {
+		logger.error('Unable to update background job mode', { error })
+	}
+	showError(t('settings', 'Unable to update background job mode'))
+}
+
+/**
+ * Clear the cron errors, they belong to the previous mode
+ */
+async function deleteError() {
+	// clear cron errors on background job mode change
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'core',
+		key: 'cronErrors',
+	})
+
+	await confirmPassword()
+
+	try {
+		await axios.delete(url)
+	} catch (error) {
+		logger.error(error)
+	}
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('settings', 'Background jobs')"
@@ -35,7 +120,7 @@
 			type="radio"
 			name="backgroundJobsMode"
 			value="ajax"
-			class="ajaxSwitch"
+			:class="$style.ajaxSwitch"
 			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
@@ -65,145 +150,7 @@
 	</NcSettingsSection>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
-import { formatRelativeTime } from '@nextcloud/l10n'
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import { generateOcsUrl } from '@nextcloud/router'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import logger from '../../logger.ts'
-
-const lastCron = loadState('settings', 'lastCron')
-const cronMaxAge = loadState('settings', 'cronMaxAge', '')
-const backgroundJobsMode = loadState('settings', 'backgroundJobsMode', 'cron')
-const cliBasedCronPossible = loadState('settings', 'cliBasedCronPossible', true)
-const cliBasedCronUser = loadState('settings', 'cliBasedCronUser', 'www-data')
-const backgroundJobsDocUrl = loadState('settings', 'backgroundJobsDocUrl')
-
-export default {
-	name: 'BackgroundJob',
-
-	components: {
-		NcCheckboxRadioSwitch,
-		NcSettingsSection,
-		NcNoteCard,
-	},
-
-	data() {
-		return {
-			lastCron,
-			cronMaxAge,
-			backgroundJobsMode,
-			cliBasedCronPossible,
-			cliBasedCronUser,
-			backgroundJobsDocUrl,
-			relativeTime: formatRelativeTime(lastCron * 1000),
-			maxAgeRelativeTime: formatRelativeTime(cronMaxAge * 1000),
-		}
-	},
-
-	computed: {
-		cronLabel() {
-			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
-			if (this.cliBasedCronPossible) {
-				desc += '<br>' + t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: this.cliBasedCronUser })
-			} else {
-				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
-					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
-					linkend: '</a>',
-				}, undefined, { escape: false })
-			}
-			return desc
-		},
-
-		oldExecution() {
-			return Date.now() / 1000 - this.lastCron > 600
-		},
-
-		longExecutionNotCron() {
-			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
-		},
-
-		longExecutionCron() {
-			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
-		},
-	},
-
-	methods: {
-		async onBackgroundJobModeChanged(backgroundJobsMode) {
-			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
-				appId: 'core',
-				key: 'backgroundjobs_mode',
-			})
-
-			await confirmPassword()
-
-			try {
-				const { data } = await axios.post(url, {
-					value: backgroundJobsMode,
-				})
-				this.handleResponse({
-					status: data.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update background job mode'),
-					error: e,
-				})
-			}
-		},
-
-		async handleResponse({ status, errorMessage, error }) {
-			if (status === 'ok') {
-				await this.deleteError()
-			} else {
-				showError(errorMessage)
-				logger.error(errorMessage, error)
-			}
-		},
-
-		async deleteError() {
-			// clear cron errors on background job mode change
-			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
-				appId: 'core',
-				key: 'cronErrors',
-			})
-
-			await confirmPassword()
-
-			try {
-				await axios.delete(url)
-			} catch (error) {
-				logger.error(error)
-			}
-		},
-	},
-}
-</script>
-
-<style lang="scss" scoped>
-.error {
-	margin-top: 8px;
-	padding: 5px;
-	border-radius: var(--border-radius);
-	color: var(--color-primary-element-text);
-	background-color: var(--color-error);
-	width: initial;
-}
-
-.warning {
-	margin-top: 8px;
-	padding: 5px;
-	border-radius: var(--border-radius);
-	color: var(--color-primary-element-text);
-	background-color: var(--color-warning);
-	width: initial;
-}
-
+<style module>
 .ajaxSwitch {
 	margin-top: 1rem;
 }

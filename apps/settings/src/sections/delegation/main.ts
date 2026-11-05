@@ -4,13 +4,10 @@
  */
 
 import axios from '@nextcloud/axios'
-import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import { createApp } from 'vue'
 import AdminDelegating from './AdminDelegating.vue'
 
 addPasswordConfirmationInterceptors(axios)
 
-const app = createApp(AdminDelegating)
-app.mixin({ methods: { t } })
-app.mount('#admin-right-sub-granting')
+createApp(AdminDelegating).mount('#admin-right-sub-granting')

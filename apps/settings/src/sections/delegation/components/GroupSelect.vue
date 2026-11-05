@@ -2,11 +2,58 @@
   - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import type { AuthorizedGroup, DelegatedSetting, Group } from '../types.ts'
+
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import { ref, watch } from 'vue'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import logger from '../../../logger.ts'
+
+const props = withDefaults(defineProps<{
+	/** Groups that can be picked */
+	availableGroups?: Group[]
+	/** The setting to delegate */
+	setting: DelegatedSetting
+	/** Groups currently allowed to access any delegated setting */
+	authorizedGroups: AuthorizedGroup[]
+}>(), {
+	availableGroups: () => [],
+})
+
+const selected = ref(props.authorizedGroups
+	.filter((group) => group.class === props.setting.class)
+	.map((groupToMap) => props.availableGroups.find((group) => group.gid === groupToMap.group_id))
+	.filter((group) => group !== undefined))
+
+watch(selected, saveGroups)
+
+/**
+ * Save the selected groups for this setting
+ */
+async function saveGroups() {
+	const data = {
+		newGroups: selected.value,
+		class: props.setting.class,
+	}
+	try {
+		await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data, { confirmPassword: PwdConfirmationMode.Strict })
+	} catch (e) {
+		showError(t('settings', 'Unable to modify setting'))
+		logger.error('Unable to modify setting', e)
+	}
+}
+</script>
+
 <template>
 	<NcSelect
 		v-model="selected"
 		:inputId="setting.id"
-		class="group-select"
+		:class="$style.groupSelect"
 		:placeholder="t('settings', 'None')"
 		label="displayName"
 		:options="availableGroups"
@@ -14,72 +61,8 @@
 		keepOpen />
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
-import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { generateUrl } from '@nextcloud/router'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import logger from '../../../logger.ts'
-
-export default {
-	name: 'GroupSelect',
-	components: {
-		NcSelect,
-	},
-
-	props: {
-		availableGroups: {
-			type: Array,
-			default: () => [],
-		},
-
-		setting: {
-			type: Object,
-			required: true,
-		},
-
-		authorizedGroups: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			selected: this.authorizedGroups
-				.filter((group) => group.class === this.setting.class)
-				.map((groupToMap) => this.availableGroups.find((group) => group.gid === groupToMap.group_id))
-				.filter((group) => group !== undefined),
-		}
-	},
-
-	watch: {
-		selected() {
-			this.saveGroups()
-		},
-	},
-
-	methods: {
-		async saveGroups() {
-			const data = {
-				newGroups: this.selected,
-				class: this.setting.class,
-			}
-			try {
-				await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data, { confirmPassword: PwdConfirmationMode.Strict })
-			} catch (e) {
-				showError(t('settings', 'Unable to modify setting'))
-				logger.error('Unable to modify setting', e)
-			}
-		},
-	},
-}
-</script>
-
-<style lang="scss">
-.group-select {
+<style module>
+.groupSelect {
 	width: 100%;
 }
 </style>
