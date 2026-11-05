@@ -24,18 +24,18 @@
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 import { languageFilterBy } from './userFormUtils.ts'
 
-const store = useStore()
+const usersStore = useUsersStore()
 
 const formData = inject(formDataKey)!
 
-const showConfig = computed(() => store.getters.getShowConfig)
+const showConfig = computed(() => usersStore.showConfig)
 
 const languages = computed(() => {
-	const { commonLanguages, otherLanguages } = store.getters.getServerData.languages
+	const { commonLanguages, otherLanguages } = usersStore.serverData.languages
 	return [
 		{ name: t('settings', 'Common languages'), languages: commonLanguages },
 		...commonLanguages,

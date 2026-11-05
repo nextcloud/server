@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Udaljeno dijeljenje",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Želite li dodati udaljeni udjel {name} od {owner} u {remote}?",
     "Remote share password" : "Zaporka za udaljeno dijeljenje",
-    "Incoming share could not be processed" : "Dolazno dijeljenje nije moguće obraditi",
-    "X (formerly Twitter)" : "X (bivši Twitter)",
-    "formerly Twitter" : "bivši Twitter"
+    "Incoming share could not be processed" : "Dolazno dijeljenje nije moguće obraditi"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

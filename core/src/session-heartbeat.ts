@@ -123,17 +123,34 @@ function registerAutoLogout() {
 		return
 	}
 
+	const logoutCheckInterval = 1000
 	let lastActive = Date.now()
-	window.addEventListener('mousemove', () => {
+	let lastStored = 0
+	const markActive = () => {
 		lastActive = Date.now()
-		localStorage.setItem('lastActive', JSON.stringify(lastActive))
-	})
+		if (lastActive - lastStored < logoutCheckInterval) {
+			return
+		}
+		lastStored = lastActive
+		try {
+			localStorage.setItem('lastActive', JSON.stringify(lastActive))
+		} catch (error) {
+			logger.debug('Could not share the last activity with other tabs', { error })
+		}
+	}
 
-	window.addEventListener('touchstart', () => {
-		lastActive = Date.now()
-		localStorage.setItem('lastActive', JSON.stringify(lastActive))
-	})
+	// Capture phase, as editors may stop the propagation of input events
+	window.addEventListener('mousemove', markActive, { capture: true })
+	// Touch, pen and clicks, including clicks by assistive technology that do not move the mouse
+	window.addEventListener('pointerdown', markActive, { capture: true })
+	window.addEventListener('keydown', markActive, { capture: true })
+	// Text insertion without key events, e.g. dictation
+	window.addEventListener('beforeinput', markActive, { capture: true })
+	// Wheel instead of scroll events, as scripts fire scroll events too
+	window.addEventListener('wheel', markActive, { capture: true, passive: true })
 
+	// Besides other tabs, apps with cross-origin editors (e.g. richdocuments) dispatch
+	// this event in the same window to report activity inside their iframes
 	window.addEventListener('storage', (event) => {
 		if (event.key !== 'lastActive') {
 			return
@@ -154,5 +171,5 @@ function registerAutoLogout() {
 			window.location.href = logoutUrl
 		}
 	}
-	intervalId = window.setInterval(logoutCheck, 1000)
+	intervalId = window.setInterval(logoutCheck, logoutCheckInterval)
 }

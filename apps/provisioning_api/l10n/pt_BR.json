@@ -1,5 +1,7 @@
 { "translations": {
     "Logged in account must be an administrator or have authorization to edit this setting." : "A conta logada deve ser um administrador ou ter autorização para editar esta configuração.",
+    "The given value was rejected" : "O valor fornecido foi rejeitado",
+    "Deleting the given key was rejected" : "A exclusão da chave indicada foi rejeitada",
     "Could not create non-existing user ID" : "Não foi possível criar um ID de usuário inexistente",
     "User already exists" : "Usuário já existe",
     "Group %1$s does not exist" : "O grupo %1$s não existe",

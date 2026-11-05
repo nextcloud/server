@@ -57,6 +57,7 @@
     "Custom MIME type" : "Egendefinert MIME-type",
     "e.g. httpd/unix-directory" : "f.eks. httpd/unix-mappe",
     "Select a file type" : "Velg filtype",
+    "Tag" : "Tagg",
     "Please enter a valid time span" : "Vennligst skriv inn en gyldig tidsperiode",
     "Timezone" : "Tidssone",
     "Files WebDAV" : "Filer WebDAV",
@@ -118,7 +119,6 @@
     "Request user agent" : "Ønsket brukeragent",
     "Group membership" : "Gruppemedlemskap",
     "is member of" : "er medlem av",
-    "is not member of" : "er ikke medlem av",
-    "Type to search for group …" : "Skriv for å søke etter gruppe..."
+    "is not member of" : "er ikke medlem av"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

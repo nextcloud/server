@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "Collaborative tags …" : "İş birlikli etiketler…",
-    "Loading …" : "Yükleniyor…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Bir dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
-    "Loading collaborative tags …" : "İş birlikli etiketler yükleniyor…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."]
 },
 "nplurals=2; plural=(n > 1);");

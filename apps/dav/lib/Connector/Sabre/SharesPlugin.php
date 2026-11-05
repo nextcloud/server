@@ -12,6 +12,7 @@ use OC\Share20\Exception\BackendError;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Node as DavNode;
 use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
@@ -87,7 +88,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param Node $node
 	 * @return IShare[]
 	 */
-	private function getShare(Node $node, bool $includeIncoming = true): array {
+	private function getShare(Node $node, bool $includeIncoming = true, bool $reshares = false): array {
 		$result = [];
 		$requestedShareTypes = [
 			IShare::TYPE_USER,
@@ -105,7 +106,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				$this->userId,
 				$requestedShareType,
 				$node,
-				false,
+				$reshares,
 				-1
 			);
 
@@ -273,7 +274,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$sourceStorage = $sourceNode->getStorage();
 		$sourceIsShare = $sourceStorage->instanceOfStorage(ISharedStorage::class);
-		if (!$sourceIsShare && $sourceNode->getMountPoint() instanceof IShareOwnerlessMount) {
+		if (!$sourceIsShare && ($sourceNode->getMountPoint() instanceof IShareOwnerlessMount || $sourceStorage->instanceOfStorage(IHomeStorage::class))) {
 			// we use the parent because we already know the source is not a share
 			$sourceParent = $sourceNode->getParent();
 			if (!$this->operationAddsShares($sourceParent, $targetNode->getNode())) {
@@ -323,8 +324,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * the node where it is now.
 	 *
 	 * NOTE: shares are only looked up on the target and its ancestors. Manager::getSharesBy() returns every share
-	 * on a path only for share-ownerless mounts and otherwise filters by initiator, so the same-mount shortcut is
-	 * only safe on share-ownerless mounts.
+	 * on a path only for share-ownerless mounts, or including reshares for nodes owned by the user, so the same-mount
+	 * shortcut is only safe on share-ownerless mounts and the user's home storage.
 	 */
 	private function operationAddsShares(Folder $sourceParent, Node $targetNode): bool {
 		$targetMountPoint = $targetNode->getMountPoint();
@@ -341,7 +342,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 
 			// note: getShare only returns shares originating from the node itself and not shares that contain the node
-			if ($this->getShare($targetOrAncestor, $includeIncoming) !== []) {
+			if ($this->getShare($targetOrAncestor, $includeIncoming, true) !== []) {
 				return true;
 			}
 		}

@@ -58,22 +58,24 @@ class SyncLivePhotosListener implements IEventListener {
 		if ($event instanceof BeforeNodeCopiedEvent || $event instanceof NodeCopiedEvent) {
 			$this->handleCopyRecursive($event, $event->getSource(), $event->getTarget());
 		} else {
-			$peerFileId = null;
-
+			$node = null;
 			if ($event instanceof BeforeNodeRenamedEvent) {
-				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource());
+				$node = $event->getSource();
 			} elseif ($event instanceof BeforeNodeDeletedEvent) {
-				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getNode());
+				$node = $event->getNode();
 			} elseif ($event instanceof CacheEntriesRemovedEvent) {
 				$this->handleCacheEntriesRemovedEvent($event);
+				return;
 			}
+
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($node);
 
 			if ($peerFileId === null) {
 				return; // Not a live photo.
 			}
 
 			// Check the user's folder.
-			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
+			$peerFile = $this->getPeerById($node, $peerFileId);
 
 			if ($peerFile === null) {
 				return; // Peer file not found.
@@ -88,21 +90,50 @@ class SyncLivePhotosListener implements IEventListener {
 		}
 	}
 
+	/**
+	 * Look for a peer file in the same directory as a file.
+	 *
+	 * If it's in a different folder, we consider the peer-relationship invalid
+	 */
+	private function getPeerById(Node $node, int $peerId): ?Node {
+		$parent = $node->getParent();
+		foreach ($parent->getDirectoryListing() as $sibling) {
+			if ($sibling->getId() === $peerId) {
+				return $sibling;
+			}
+		}
+		return null;
+	}
+
 	public function handleCacheEntriesRemovedEvent(CacheEntriesRemovedEvent $cacheEntriesRemovedEvent): void {
 		$entries = $cacheEntriesRemovedEvent->getCacheEntryRemovedEvents();
 		$fileIds = [];
+		$eventsById = [];
 		foreach ($entries as $entry) {
 			$fileIds[] = $entry->getFileId();
+			$eventsById[$entry->getFileId()] = $entry;
 		}
 
 		$peerFileIds = $this->livePhotosService->getLivePhotoPeerIds($fileIds);
 
-		foreach ($peerFileIds as $peerFileId) {
+		foreach ($peerFileIds as $sourceFileId => $peerFileId) {
+			if (in_array($peerFileId, $this->pendingRenames, true)) {
+				continue; // The file is moved to another storage along with its peer.
+			}
+
 			// Check the user's folder.
 			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
+			$sourceFile = $eventsById[$sourceFileId];
 
 			if ($peerFile === null) {
 				continue; // Peer file not found.
+			}
+
+			if (
+				$sourceFile->getStorageId() !== $peerFile->getData()->getStorageId()
+				|| dirname($sourceFile->getPath()) !== dirname($peerFile->getInternalPath())
+			) {
+				continue; // Peer file is not in the same folder as the deleted file
 			}
 			$peerFile->delete();
 		}
@@ -251,7 +282,7 @@ class SyncLivePhotosListener implements IEventListener {
 			if ($peerFileId === null) {
 				return;
 			}
-			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
+			$peerFile = $this->getPeerById($sourceNode, $peerFileId);
 			if ($peerFile === null) {
 				return;
 			}

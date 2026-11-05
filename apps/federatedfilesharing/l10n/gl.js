@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Quere engadir a compartición remota {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasinal da compartición remota",
-    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante",
-    "X (formerly Twitter)" : "X (anteriormente Twitter).",
-    "formerly Twitter" : "anteriormente Twitter"
+    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante"
 },
 "nplurals=2; plural=(n != 1);");

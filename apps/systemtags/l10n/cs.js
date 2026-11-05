@@ -109,10 +109,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Nepodařilo se načíst štítky pro soubor",
     "Failed to set tag for file" : "Nepodařilo se nastavit štítek pro soubor",
     "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor",
-    "Collaborative tags …" : "Štítky pro spolupráci …",
-    "Loading …" : "Načítání …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bude nastaven a {tag2} odebrán z 1 souboru.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odebrán z 1 souboru.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů."],
-    "Loading collaborative tags …" : "Načítání štítků pro spolupráci …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odebrán z 1 souboru.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů."]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -16,6 +16,8 @@ use OC\Files\SetupManager;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OC\Share20\ShareDisableChecker;
 use OCA\Files_Trashbin\Trash\ITrashManager;
@@ -730,14 +732,9 @@ class ViewTest extends \Test\TestCase {
 
 	private $hookWritePath;
 	private $hookCreatePath;
-	private $hookUpdatePath;
 
 	public function dummyHookWrite($params) {
 		$this->hookWritePath = $params['path'];
-	}
-
-	public function dummyHookUpdate($params) {
-		$this->hookUpdatePath = $params['path'];
 	}
 
 	public function dummyHookCreate($params) {
@@ -751,26 +748,22 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage1, [], '/');
 		Filesystem::mount($storage2, [], $defaultRoot);
 		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyHookCreate');
-		\OC_Hook::connect('OC_Filesystem', 'post_update', $this, 'dummyHookUpdate');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHookWrite');
 
 		$view = new View($defaultRoot);
-		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
+		$this->hookWritePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
 		$this->assertEquals('/asd.txt', $this->hookCreatePath);
-		$this->assertNull($this->hookUpdatePath);
 		$this->assertEquals('/asd.txt', $this->hookWritePath);
 
-		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
+		$this->hookWritePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
 		$this->assertNull($this->hookCreatePath);
-		$this->assertEquals('/asd.txt', $this->hookUpdatePath);
 		$this->assertEquals('/asd.txt', $this->hookWritePath);
 
 		\OC_Hook::clear('OC_Filesystem', 'post_create');
-		\OC_Hook::clear('OC_Filesystem', 'post_update');
 		\OC_Hook::clear('OC_Filesystem', 'post_write');
 	}
 
@@ -1170,6 +1163,40 @@ class ViewTest extends \Test\TestCase {
 		$view->rename('/test/foo', '/test/sub/storage/foo');
 
 		$this->assertEquals($time, $view->filemtime('/test/sub/storage/foo/bar.txt'));
+	}
+
+	public static function renameFromNonDeletableJailProvider(): array {
+		return [
+			'local' => [Temporary::class, false],
+			'local, same storage' => [Temporary::class, true],
+			'common' => [TemporaryNoCross::class, false],
+			'common, same storage' => [TemporaryNoCross::class, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('renameFromNonDeletableJailProvider')]
+	public function testRenameFromNonDeletableJail(string $class, bool $sameStorage): void {
+		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
+
+		$storage = new $class([]);
+		$sourceStorage = $sameStorage ? $storage : new $class([]);
+		$sourceStorage->mkdir('shared');
+		$sourceStorage->file_put_contents('shared/foo.txt', 'foo');
+		$sourceStorage->getScanner()->scan('');
+
+		Filesystem::mount($storage, [], '/test/');
+		Filesystem::mount(new Jail([
+			'storage' => new PermissionsMask([
+				'storage' => $sourceStorage,
+				'mask' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_DELETE,
+			]),
+			'root' => 'shared',
+		]), [], '/test/readonly');
+
+		$view = new View('/test');
+		$this->assertFalse($view->rename('readonly/foo.txt', 'foo.txt'));
+		$this->assertTrue($sourceStorage->file_exists('shared/foo.txt'));
+		$this->assertFalse($storage->file_exists('foo.txt'));
 	}
 
 	public function testRenameFailDeleteTargetKeepSource(): void {

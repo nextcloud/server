@@ -129,7 +129,12 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		try {
 			$remoteShare = $this->getShareFromExternalShareTable($share->getShareOwner(), $share->getTarget());
-		} catch (ShareNotFound $e) {
+			// The target only carries the name of the node, make sure the node is the mounted federated share
+			$mountedShare = $this->rootFolder->getUserFolder($share->getShareOwner())->get($remoteShare['mountpoint']);
+			if ($mountedShare->getId() !== $itemSource) {
+				$remoteShare = null;
+			}
+		} catch (ShareNotFound|NotFoundException) {
 			$remoteShare = null;
 		}
 
@@ -201,7 +206,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 				$ownerCloudId->getId(),
 				$share->getSharedBy(),
 				$sharedByFederatedId,
-				$share->getShareType()
+				$share->getShareType(),
+				$share->getPermissions()
 			);
 
 			if ($send === false) {

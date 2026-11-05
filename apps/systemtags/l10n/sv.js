@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Det gick inte att läsa in filens taggar",
     "Failed to set tag for file" : "Det gick inte att ange filens tagg",
     "Failed to delete tag for file" : "Det gick inte att ta bort filens tagg",
-    "Collaborative tags …" : "Samarbetstaggar …",
-    "Loading …" : "Läser in …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} kommer att sättas och {tag2} kommer att tas bort från 1 fil.","{tag1} kommer att sättas och {tag2} kommer att tas bort från {count} filer."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kommer att tas bort från 1 fil.","{tag} kommer att tas bort från {count} filer."],
-    "Loading collaborative tags …" : "Läser in samarbetstaggar …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kommer att tas bort från 1 fil.","{tag} kommer att tas bort från {count} filer."]
 },
 "nplurals=2; plural=(n != 1);");

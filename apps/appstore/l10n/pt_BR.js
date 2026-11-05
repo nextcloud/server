@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Ocorreu um erro durante a solicitação. Não é possível prosseguir.",
     "Could not update an exApp. Please try again later." : "Não foi possível atualizar o exApp. Por favor, tente novamente mais tarde.",
     "Could not update {app}. Please try again later." : "Não foi possível atualizar {app}. Por favor, tente novamente mais tarde.",
-    "Could not update an app. Please try again later." : "Não foi possível atualizar um aplicativo. Por favor, tente novamente mais tarde.",
-    "Failed to update app {appName}" : "Falha ao atualizar o aplicativo {appName}"
+    "Could not update an app. Please try again later." : "Não foi possível atualizar um aplicativo. Por favor, tente novamente mais tarde."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

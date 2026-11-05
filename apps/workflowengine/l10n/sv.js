@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextclouds arbetsflödesmotor",
     "Filter" : "Filtrera",
     "Select a filter" : "Välj ett filter",
+    "Comparator" : "Jämförelseoperator",
     "Select a comparator" : "Välj en jämförelseoperator",
     "Remove filter" : "Ta bort filter",
     "Audio" : "Ljud",
@@ -73,6 +74,7 @@ OC.L10N.register(
     "iOS client" : "iOS-klient",
     "Desktop client" : "Skrivbordsklient",
     "Thunderbird & Outlook addons" : "Tillägg för Thunderbird och Outlook",
+    "User agent" : "Användaragent",
     "Custom user agent" : "Anpassad användaragent",
     "Select a user agent" : "Välj en användaragent",
     "Select groups" : "Välj grupper",
@@ -80,6 +82,7 @@ OC.L10N.register(
     "Type to search for group …" : "Skriv för att söka efter en grupp …",
     "Select a trigger" : "Välj en utlösare",
     "At least one event must be selected" : "Minst en händelse måste väljas",
+    "Trigger" : "Utlösare",
     "Add new flow" : "Lägg till ett nytt flöde",
     "The configuration is invalid" : "Konfigurationen är ogiltig",
     "Active" : "Aktiv",
@@ -125,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "Begärans användaragent",
     "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i",
-    "Type to search for group …" : "Skriv för att söka efter en grupp …"
+    "is not member of" : "är inte medlem i"
 },
 "nplurals=2; plural=(n != 1);");

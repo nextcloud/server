@@ -22,7 +22,7 @@ use OCP\IDBConnection;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GroupMappingTest extends AbstractMappingTestCase {
-	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): GroupMapping {
-		return new GroupMapping($dbMock, $cacheFactory, $appConfig, true);
+	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig, bool $isCLI = true): GroupMapping {
+		return new GroupMapping($dbMock, $cacheFactory, $appConfig, $isCLI);
 	}
 }

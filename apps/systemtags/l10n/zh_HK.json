@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "無法載入檔案的標籤",
     "Failed to set tag for file" : "無法設定檔案的標籤",
     "Failed to delete tag for file" : "無法刪除檔案的標籤",
-    "Collaborative tags …" : "協作的標籤 ...",
-    "Loading …" : "加載中 …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["將設定 {tag1} 並從 {count} 個檔案中刪除 {tag2}。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["將從 {count} 個檔案中刪除 {tag}。"],
-    "Loading collaborative tags …" : "正在載入協作標籤 ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["將從 {count} 個檔案中刪除 {tag}。"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

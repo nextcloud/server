@@ -29,8 +29,6 @@ OC.L10N.register(
     "This weekend" : "Wikendi hii",
     "Set reminder for this weekend" : "Weka kikumbusho cha wikendi hii",
     "Next week" : "Wiki ijayo",
-    "Set reminder for next week" : " Weka kikumbusho cha wiki ijayo",
-    "Set reminder for \"{fileName}\"" : "Weka kikumbusho kwa \"{fileName}\"",
-    "We will remind you of this file" : "Tutakukumbusha kuhusu faili hii"
+    "Set reminder for next week" : " Weka kikumbusho cha wiki ijayo"
 },
 "nplurals=2; plural=(n != 1);");

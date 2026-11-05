@@ -14,6 +14,9 @@ use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Config\BeforeAppConfigDeletedEvent;
+use OCP\Config\BeforeAppConfigSetEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
@@ -21,6 +24,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -41,6 +45,7 @@ class AppConfigControllerTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private IAppManager $appManager;
 	private ConfigManager $configManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,6 +57,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = Server::get(IAppManager::class);
 		$this->configManager = Server::get(ConfigManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	/**
@@ -72,6 +78,7 @@ class AppConfigControllerTest extends TestCase {
 				$this->settingManager,
 				$this->appManager,
 				$this->configManager,
+				$this->eventDispatcher,
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -85,6 +92,7 @@ class AppConfigControllerTest extends TestCase {
 					$this->settingManager,
 					$this->appManager,
 					$this->configManager,
+					$this->eventDispatcher,
 				])
 				->onlyMethods($methods)
 				->getMock();
@@ -267,7 +275,14 @@ class AppConfigControllerTest extends TestCase {
 
 			$this->appConfig->expects($this->once())
 				->method($configValueSetter)
-				->with($app, $key, $configValueSetter === 'setValueArray' ? json_decode($value, true) : $value);
+				->with($app, $key, $configValueSetter === 'setValueArray' ? json_decode($value, true) : $value)
+				->willReturn(true);
+
+			$this->expectAuditEvent('config.app_value.updated', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was changed');
+		}
+		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+			$this->eventDispatcher->expects($this->never())
+				->method('dispatchTyped');
 		}
 
 		$result = $api->setValue($app, $key, $value);
@@ -280,6 +295,39 @@ class AppConfigControllerTest extends TestCase {
 		} else {
 			$this->assertEquals([], $result->getData());
 		}
+	}
+
+	public function testSetUnchangedValueIsNotAudited(): void {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->method('getUid')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($adminUser);
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
+
+		$this->appConfig->method('getDetails')->willReturn(['type' => IAppConfig::VALUE_STRING]);
+		$this->appConfig->expects($this->once())
+			->method('setValueString')
+			->with('app2', 'key', 'value')
+			->willReturn(false);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(BeforeAppConfigSetEvent::class));
+
+		$api->setValue('app2', 'key', 'value');
+	}
+
+	/**
+	 * Expects the before event of the change, followed by the audit event
+	 */
+	private function expectAuditEvent(string $operation, array $parameters, string $message): void {
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->callback(fn (object $event): bool => $event instanceof BeforeAppConfigSetEvent
+				|| $event instanceof BeforeAppConfigDeletedEvent
+				|| ($event instanceof CriticalActionPerformedEvent
+					&& $event->getOperation() === $operation
+					&& $event->getParameters() === $parameters
+					&& $event->getLogMessage() === $message)));
 	}
 
 	public static function dataDeleteValue(): array {
@@ -325,6 +373,12 @@ class AppConfigControllerTest extends TestCase {
 			$this->appConfig->expects($this->once())
 				->method('deleteKey')
 				->with($app, $key);
+
+			$this->expectAuditEvent('config.app_value.deleted', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was deleted');
+		}
+		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+			$this->eventDispatcher->expects($this->never())
+				->method('dispatchTyped');
 		}
 
 		$result = $api->deleteKey($app, $key);
@@ -337,6 +391,45 @@ class AppConfigControllerTest extends TestCase {
 		} else {
 			$this->assertEquals([], $result->getData());
 		}
+	}
+
+	public function testSetValueRejected(): void {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->method('getUid')
+			->willReturn('admin');
+		$this->userSession->method('getUser')
+			->willReturn($adminUser);
+		$this->groupManager->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigSetEvent $event): void {
+				$this->assertSame('app1', $event->getAppId());
+				$this->assertSame('key', $event->getConfigKey());
+				$this->assertSame('value', $event->getConfigValue());
+				$event->setValid(false);
+			});
+		$this->appConfig->expects($this->never())
+			->method('setValueMixed');
+
+		$result = $this->getInstance(['verifyAppId', 'verifyConfigKey'])->setValue('app1', 'key', 'value');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+	}
+
+	public function testDeleteValueRejected(): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$this->assertSame('app1', $event->getAppId());
+				$this->assertSame('key', $event->getConfigKey());
+				$event->setValid(false);
+			});
+		$this->appConfig->expects($this->never())
+			->method('deleteKey');
+
+		$result = $this->getInstance(['verifyAppId', 'verifyConfigKey'])->deleteKey('app1', 'key');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 	}
 
 	public function testVerifyAppId(): void {

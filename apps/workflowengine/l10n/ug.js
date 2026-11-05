@@ -124,7 +124,6 @@ OC.L10N.register(
     "Request user agent" : "ئىشلەتكۈچى ۋاكالەتچىسىنى تەلەپ قىلىڭ",
     "Group membership" : "گۇرۇپپا ئەزالىقى",
     "is member of" : "نىڭ ئەزاسى",
-    "is not member of" : "ئەزا ئەمەس",
-    "Type to search for group …" : "گۇرۇپپا ئىزدەش ئۈچۈن كىرگۈزۈڭ…"
+    "is not member of" : "ئەزا ئەمەس"
 },
 "nplurals=2; plural=(n != 1);");

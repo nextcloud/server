@@ -129,21 +129,6 @@
     "Misc accessibility options" : "Diverse tillgänglighetsalternativ",
     "Enable blur background filter (may increase GPU load)" : "Aktivera filter för oskärpa i bakgrunden (kan öka GPU-belastningen).",
     "Customization has been disabled by your administrator" : "Anpassning har inaktiverats av din administratör",
-    "Disable-user-theming should be true or false" : "Inaktivera teman för användare ska vara sant eller falskt",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Primärfärgen används för att markera element som viktiga knappar. Den kan komma att justeras något beroende på det aktuella färgschemat.",
-    "Header logo" : "Huvud-logga",
-    "Upload new header logo" : "Ladda upp en ny sidhuvudslogotyp",
-    "Upload new favicon" : "Ladda upp en ny favicon",
-    "User settings" : "Användarinställningar",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Istället för en bakgrundsbild kan du konfigurera en vanlig bakgrundsfärg. Om du använder en bakgrundsbild kommer ändring av denna färg att påverka färgen på appens menyikoner.",
-    "Upload new logo" : "Ladda upp ny logotyp",
-    "Upload new background and login image" : "Ladda upp ny bakgrund och inloggningsbild",
-    "Background and login image" : "Bakgrund och inloggningsbild",
-    "Advanced options" : "Avancerade inställningar",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
-    "Unable to apply the setting." : "Det gick inte att tillämpa inställningen.",
-    "No background has been selected" : "Ingen bakgrund har valts",
-    "Select a custom color" : "Välj en anpassad färg",
-    "Upload" : "Ladda upp"
+    "Unable to apply the setting." : "Det gick inte att tillämpa inställningen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

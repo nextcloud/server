@@ -8,15 +8,16 @@ declare(strict_types=1);
  */
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Then;
 use PHPUnit\Framework\Assert;
 
 trait Activity {
 	use BasicStructure;
 
 	/**
-	 * @Then last activity should be
 	 * @param TableNode $activity
 	 */
+	#[Then('last activity should be')]
 	public function lastActivityIs(TableNode $activity): void {
 		$this->sendRequestForJSON('GET', '/apps/activity/api/v2/activity');
 		$this->theHTTPStatusCodeShouldBe('200');

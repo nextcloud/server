@@ -91,9 +91,10 @@ class UserConfigTest extends TestCase {
 		]);
 		$this->getAutoMock(IUserConfig::class)->method('getValueBool')->willReturnMap([
 			['alice', 'viewer', 'muted', false, false, true],
+			['alice', 'viewer', 'original_images', false, false, true],
 		]);
 
-		$this->assertSame(['slideshow_delay' => 10, 'volume' => 40, 'muted' => true], $this->config->getConfigs());
+		$this->assertSame(['slideshow_delay' => 10, 'volume' => 40, 'muted' => true, 'original_images' => true], $this->config->getConfigs());
 	}
 
 	public function testNeedsAUser(): void {

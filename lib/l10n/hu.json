@@ -456,7 +456,6 @@
     "Settings" : "Beállítások",
     "Log out" : "Kijelentkezés",
     "Accounts" : "Fiókok",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "A macOS nem támogatott, és a %s nem fog helyesen működni ezen a platform. A saját felelősségére használja!",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "A(z) %s megosztási alrendszernek meg kell valósítania az OCP\\Share_Backend interfészt",
     "Sharing backend %s not found" : "A(z) %s megosztási alrendszer nem található",
     "Sharing backend for %s not found" : "A(z) %s megosztási alrendszere nem található",

@@ -18,6 +18,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
@@ -78,15 +79,52 @@ class IconControllerTest extends TestCase {
 		return new SimpleFile($icon);
 	}
 
-	public function testGetThemedIcon(): void {
-		$file = $this->iconFileMock('icon-core-filetypes_folder.svg', 'filecontent');
+	public static function dataGetThemedIcon(): array {
+		return [
+			['filetypes/folder.svg', 'icon-core-filetypes_folder.svg'],
+			['filetypes/x-office-document.svg', 'icon-core-filetypes_x-office-document.svg'],
+			['actions/add.svg', 'icon-core-actions_add.svg'],
+			['app_dark.svg', 'icon-core-app_dark.svg'],
+			['logo/logo.v2.svg', 'icon-core-logo_logo.v2.svg'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetThemedIcon')]
+	public function testGetThemedIcon(string $image, string $cacheKey): void {
+		$file = $this->iconFileMock($cacheKey, 'filecontent');
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
-			->with('icon-core-filetypes_folder.svg')
+			->with($cacheKey)
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400, false, true);
-		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
+		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', $image));
+	}
+
+	public static function dataGetThemedIconInvalidImage(): array {
+		return [
+			'not an svg' => ['background/eduardo-neves-pedra-azul.jpg'],
+			'png' => ['favicon.png'],
+			'missing extension' => ['filetypes/folder'],
+			'double dot' => ['filetypes/fol..der.svg'],
+			'dot segment' => ['filetypes/./folder.svg'],
+			'parent segment' => ['filetypes/../filetypes/folder.svg'],
+			'leading slash' => ['/filetypes/folder.svg'],
+			'double slash' => ['filetypes//folder.svg'],
+			'trailing newline' => ["filetypes/folder.svg\n"],
+			'extension only' => ['.svg'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetThemedIconInvalidImage')]
+	public function testGetThemedIconInvalidImage(string $image): void {
+		$this->imageManager->expects($this->never())
+			->method('getCachedImage');
+		$this->imageManager->expects($this->never())
+			->method('setCachedImage');
+		$this->iconBuilder->expects($this->never())
+			->method('colorSvg');
+		$this->assertInstanceOf(NotFoundResponse::class, $this->iconController->getThemedIcon('core', $image));
 	}
 
 	public function testGetFaviconThemed(): void {

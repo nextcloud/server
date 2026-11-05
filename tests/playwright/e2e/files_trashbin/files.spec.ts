@@ -9,7 +9,7 @@ import type { TrashbinListPage } from '../../support/sections/TrashbinListPage.t
 import { readFile } from 'node:fs/promises'
 import { expect, test } from '../../support/fixtures/files-trashbin-page.ts'
 import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
-import { createShare, ShareType } from '../../support/utils/sharing.ts'
+import { createShare, ShareType, waitForShare } from '../../support/utils/sharing.ts'
 import { setUserDisplayName } from '../../support/utils/users.ts'
 
 test.describe('files_trashbin: download files', () => {
@@ -71,6 +71,7 @@ test.describe('files_trashbin: file row', () => {
 
 		const fileId = Number(await uploadContent(aliceRequest, user, '<content>', 'text/plain', '/Shared/test-file.txt'))
 		// Bob (the sharee) deletes the file from his view of the shared folder
+		await waitForShare(bobRequest, bob, 'Shared', 'test-file.txt')
 		await rm(bobRequest, bob, '/Shared/test-file.txt')
 
 		await filesListPage.open('trashbin')

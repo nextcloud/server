@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
 use OCP\SystemTag\Events\TagDeletedEvent;
 use OCP\SystemTag\Events\TagUpdatedEvent;
@@ -451,10 +452,8 @@ class SystemTagManager implements ISystemTagManager {
 					'systemtagid' => $query->createNamedParameter($tag->getId()),
 					'gid' => $query->createParameter('gid'),
 				]);
+			$groupIds = array_values(array_filter($groupIds, static fn ($groupId): bool => $groupId !== ''));
 			foreach ($groupIds as $groupId) {
-				if ($groupId === '') {
-					continue;
-				}
 				$query->setParameter('gid', $groupId);
 				$query->executeStatement();
 			}
@@ -464,6 +463,16 @@ class SystemTagManager implements ISystemTagManager {
 			$this->connection->rollBack();
 			throw $e;
 		}
+
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Groups allowed to assign system tag %s were set to "%s"',
+			[
+				'tagId' => $tag->getId(),
+				'groupIds' => implode(', ', $groupIds),
+			],
+			false,
+			'systemtags.tag_groups.updated',
+		));
 	}
 
 	#[\Override]

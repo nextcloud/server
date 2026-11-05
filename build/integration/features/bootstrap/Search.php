@@ -5,25 +5,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 trait Search {
 	// BasicStructure trait is expected to be used in the class that uses this
 	// trait.
-
 	/**
-	 * @When /^searching for "([^"]*)"$/
 	 * @param string $query
 	 */
+	#[When('/^searching for "([^"]*)"$/')]
 	public function searchingFor(string $query) {
 		$this->searchForInApp($query, '');
 	}
 
 	/**
-	 * @When /^searching for "([^"]*)" in app "([^"]*)"$/
 	 * @param string $query
 	 * @param string $app
 	 */
+	#[When('/^searching for "([^"]*)" in app "([^"]*)"$/')]
 	public function searchingForInApp(string $query, string $app) {
 		$url = '/index.php/core/search';
 
@@ -35,9 +36,7 @@ trait Search {
 		$this->sendingAToWithRequesttoken('GET', $url);
 	}
 
-	/**
-	 * @Then /^the list of search results has "(\d+)" results$/
-	 */
+	#[Then('/^the list of search results has "(\d+)" results$/')]
 	public function theListOfSearchResultsHasResults(int $count) {
 		$this->theHTTPStatusCodeShouldBe(200);
 
@@ -47,11 +46,11 @@ trait Search {
 	}
 
 	/**
-	 * @Then /^search result "(\d+)" contains$/
 	 *
 	 * @param int $number
 	 * @param TableNode $body
 	 */
+	#[Then('/^search result "(\d+)" contains$/')]
 	public function searchResultXContains(int $number, TableNode $body) {
 		if (!($body instanceof TableNode)) {
 			return;

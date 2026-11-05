@@ -25,6 +25,7 @@ class ConfigLexicon implements ILexicon {
 	public const SLIDESHOW_DELAY = 'slideshow_delay';
 	public const VOLUME = 'volume';
 	public const MUTED = 'muted';
+	public const ORIGINAL_IMAGES = 'original_images';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -56,6 +57,12 @@ class ConfigLexicon implements ILexicon {
 				ValueType::BOOL,
 				defaultRaw: false,
 				definition: 'Whether videos and audio start muted',
+			),
+			new Entry(
+				self::ORIGINAL_IMAGES,
+				ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether images are shown from the file itself rather than from a preview',
 			),
 		];
 	}

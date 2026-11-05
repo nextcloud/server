@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OCA\Files\Db\OpenLocalEditor;
 use OCA\Files\Db\OpenLocalEditorMapper;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -25,6 +27,7 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 final class OpenLocalEditorController extends OCSController {
 	public const int TOKEN_LENGTH = 128;
 

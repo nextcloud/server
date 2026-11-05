@@ -7,7 +7,6 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\Template\TemplateManager;
 use OC\Setup;

@@ -5,8 +5,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-\OCP\Util::addScript('settings', 'vue-settings-personal-webauthn', 'core');
+\OCP\Util::addScript('settings', 'personal-webauthn', 'core');
+\OCP\Util::addStyle('settings', 'personal-webauthn');
 
 ?>
 
-<div id="security-webauthn" class="section"></div>
+<div id="security-webauthn"></div>

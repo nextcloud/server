@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Kustuta klient",
     "Make sure you store the secret key, it cannot be recovered." : "Salvesta salajane võti, seda ei saa taastada.",
     "Add client" : "Lisa klient",
-    "Add" : "Lisa",
-    "Client Identifier" : "Klienditunnus",
-    "Show client secret" : "Näita kliendi salakoodi",
-    "Hide client secret" : "Peida kliendisaladus"
+    "Add" : "Lisa"
 },
 "nplurals=2; plural=(n != 1);");

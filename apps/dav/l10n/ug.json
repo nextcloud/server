@@ -345,10 +345,6 @@
     "Location:" : "ئورنى:",
     "Link:" : "ئۇلىنىش:",
     "Occurring:" : "يۈز بەرگەن ئىشلار:",
-    "More options at %s" : "%s دىكى تېخىمۇ كۆپ تاللاشلار",
-    "The system address book contains contact information for all users in your instance." : "سىستېما ئادرېس دەپتىرىدە سىزنىڭ مىسالىڭىزدىكى بارلىق ئىشلەتكۈچىلەرنىڭ ئالاقە ئۇچۇرلىرى بار.",
-    "Enable System Address Book" : "سېستىما ئادىرىس دەپتىرىنى قوزغات",
-    "No results." : "ھېچقانداق نەتىجە يوق.",
-    "Start typing." : "يېزىشنى باشلاڭ."
+    "More options at %s" : "%s دىكى تېخىمۇ كۆپ تاللاشلار"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

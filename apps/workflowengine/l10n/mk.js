@@ -48,6 +48,7 @@ OC.L10N.register(
     "File type" : "Вид на датотека",
     "e.g. httpd/unix-directory" : "Пр. httpd/unix-directory",
     "Select a file type" : "Изберете вид на датотека",
+    "Tag" : "Ознака",
     "Start time" : "Време на почеток",
     "Please enter a valid time span" : "Внесете валиден времески осег",
     "Timezone" : "Временска зона",

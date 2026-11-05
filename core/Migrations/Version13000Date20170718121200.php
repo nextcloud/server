@@ -630,7 +630,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['ip'], 'bruteforce_attempts_ip');
 			$table->addIndex(['subnet'], 'bruteforce_attempts_subnet');
 		}
 

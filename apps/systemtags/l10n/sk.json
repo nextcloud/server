@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Nepodarilo sa načítať štítky pre súbor",
     "Failed to set tag for file" : "Nepodarilo sa nastaviť štítok pre súbor",
     "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
-    "Collaborative tags …" : "Štítky pre spoluprácu ...",
-    "Loading …" : "Načítavam …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bude nastavené a {tag2} bude odstránené z 1 súboru.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odstránené z 1 súboru.","{tag} bude odstránené z {count} súborov.","{tag} bude odstránené z {count}súborov.","{tag} bude odstránené z {count} súborov."],
-    "Loading collaborative tags …" : "Načítavanie štítkov pre spoluprácu ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odstránené z 1 súboru.","{tag} bude odstránené z {count} súborov.","{tag} bude odstránené z {count}súborov.","{tag} bude odstránené z {count} súborov."]
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

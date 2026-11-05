@@ -64,6 +64,7 @@ OC.L10N.register(
     "Update" : "Oppdater",
     "Delete" : "Slett",
     "Reset" : "Tilbakestill",
+    "Loading …" : "Laster inn ...",
     "{displayName} (hidden)" : "{displayName} (skjult)",
     "{displayName} (restricted)" : "{displayName} (begrenset tilgang)",
     "Failed to apply tags changes" : "Kunne ikke utføre endring av merkelapper",
@@ -92,9 +93,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "En merkelapp med det navnet finnes allerede",
     "Failed to load tags for file" : "Lasting av merkelapper for filen feilet",
     "Failed to set tag for file" : "Kunne ikke angi merkelapp for fil",
-    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet",
-    "Collaborative tags …" : "Samarbeidende merkelapper...",
-    "Loading …" : "Laster ...",
-    "Loading collaborative tags …" : "Laster samarbeidende merkelapper..."
+    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet"
 },
 "nplurals=2; plural=(n != 1);");

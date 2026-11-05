@@ -42,6 +42,7 @@ use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -64,7 +65,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	private IL10N $l10n;
 
 	public function __construct(
-		IEventDispatcher $eventDispatcher,
+		private IEventDispatcher $eventDispatcher,
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
 		private ISnowflakeGenerator $snowflakeGenerator,
@@ -78,7 +79,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
 
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
+		$this->eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -175,6 +176,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = $this->backend->getShare($accessContext, $id);
 		[$share] = $this->processShareUpdates([$share]);
 
+		$this->audit('Share "%s" was created by "%s"', [
+			'shareId' => $share->id,
+			'owner' => $share->owner->userId,
+		], 'unified_sharing.share.created');
+
 		return $share;
 	}
 
@@ -215,6 +221,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('State of share "%s" was set to "%s"', [
+			'shareId' => $share->id,
+			'state' => $state->value,
+		], 'unified_sharing.share.state_updated');
+
 		return $share;
 	}
 
@@ -245,6 +257,13 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s" was set to "%s" by recipient "%s"', [
+			'shareId' => $share->id,
+			'userStatus' => $userStatus->value,
+			'user' => $currentUser->getUID(),
+		], 'unified_sharing.share.user_status_updated');
+
 		return $share;
 	}
 
@@ -297,6 +316,13 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		[$share] = $this->backend->ensureDefaults([$share]);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": source %s "%s" was added', [
+			'shareId' => $share->id,
+			'sourceClass' => $source->class,
+			'sourceValue' => $source->value,
+		], 'unified_sharing.source.added');
+
 		return $share;
 	}
 
@@ -333,6 +359,13 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": source %s "%s" was removed', [
+			'shareId' => $share->id,
+			'sourceClass' => $source->class,
+			'sourceValue' => $source->value,
+		], 'unified_sharing.source.removed');
+
 		return $share;
 	}
 
@@ -431,6 +464,14 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		[$share] = $this->backend->ensureDefaults([$share]);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": recipient %s "%s" on "%s" was added', [
+			'shareId' => $share->id,
+			'recipientClass' => $recipient->class,
+			'recipientValue' => $recipient->value,
+			'instance' => $recipient->instance ?? 'local',
+		], 'unified_sharing.recipient.added');
+
 		return $share;
 	}
 
@@ -469,6 +510,14 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": recipient %s "%s" on "%s" was removed', [
+			'shareId' => $share->id,
+			'recipientClass' => $recipient->class,
+			'recipientValue' => $recipient->value,
+			'instance' => $recipient->instance ?? 'local',
+		], 'unified_sharing.recipient.removed');
+
 		return $share;
 	}
 
@@ -568,6 +617,13 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": the secret of recipient %s "%s" was changed', [
+			'shareId' => $share->id,
+			'recipientClass' => $recipient->class,
+			'recipientValue' => $recipient->value,
+		], 'unified_sharing.recipient_secret.updated');
+
 		return $share;
 	}
 
@@ -612,6 +668,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": property %s was changed', [
+			'shareId' => $share->id,
+			'propertyClass' => $property->class,
+		], 'unified_sharing.property.updated');
+
 		return $share;
 	}
 
@@ -648,6 +710,13 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->backend->updateSharePermission($share->id, $permission);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": permission %s was %s', [
+			'shareId' => $share->id,
+			'permissionClass' => $permission->class,
+			'enabled' => $permission->enabled ? 'enabled' : 'disabled',
+		], 'unified_sharing.permission.updated');
+
 		return $share;
 	}
 
@@ -703,6 +772,15 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": permission %s of recipient %s "%s" was %s', [
+			'shareId' => $share->id,
+			'permissionClass' => $permission->class,
+			'recipientClass' => $recipient->class,
+			'recipientValue' => $recipient->value,
+			'enabled' => $permission->enabled ? 'enabled' : 'disabled',
+		], 'unified_sharing.recipient_permission.updated');
+
 		return $share;
 	}
 
@@ -740,6 +818,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		);
 
 		[$share] = $this->processShareUpdates([$share]);
+
+		$this->audit('Share "%s": permission preset %s was selected', [
+			'shareId' => $share->id,
+			'presetClass' => $permissionPresetClass,
+		], 'unified_sharing.permission_preset.selected');
+
 		return $share;
 	}
 
@@ -750,6 +834,18 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->validateShareEditPermissions($accessContext, $share);
 
 		$this->backend->deleteShare($share->id);
+
+		$this->audit('Share "%s" of "%s" was deleted', [
+			'shareId' => $share->id,
+			'owner' => $share->owner->userId,
+		], 'unified_sharing.share.deleted');
+	}
+
+	/**
+	 * @param array<string, scalar> $params
+	 */
+	private function audit(string $message, array $params, string $operation): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent($message, $params, false, $operation));
 	}
 
 	#[\Override]

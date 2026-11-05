@@ -15,9 +15,6 @@ OC.L10N.register(
     "Delete client" : "Futa mteja",
     "Make sure you store the secret key, it cannot be recovered." : "Hakikisha umehifadhi ufunguo wa siri, hauwezi kurejeshwa.",
     "Add client" : "Ongeza mteja",
-    "Add" : "Ongeza",
-    "Client Identifier" : "Kitambulisho cha Mteja",
-    "Show client secret" : "Onyesha siri ya mteja",
-    "Hide client secret" : "Ficha siri ya mteja"
+    "Add" : "Ongeza"
 },
 "nplurals=2; plural=(n != 1);");

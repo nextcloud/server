@@ -107,10 +107,7 @@
     "Failed to load tags for file" : "Gagal memuat tag untuk berkas",
     "Failed to set tag for file" : "Gagal menetapkan tag untuk berkas",
     "Failed to delete tag for file" : "Gagal menghapus tag untuk berkas",
-    "Collaborative tags …" : "Tag kolaboratif …",
-    "Loading …" : "Memuat …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} akan ditetapkan dan {tag2} akan dihapus dari {count} berkas."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} akan dihapus dari {count} berkas."],
-    "Loading collaborative tags …" : "Memuat tag kolaboratif …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} akan dihapus dari {count} berkas."]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

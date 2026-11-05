@@ -1,0 +1,6 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Эзэмшигч байхгүй байна: %s",
+    "Sharing" : "Түгээх",
+    "This app provides APIs and occ commands to manage shares." : "Энэ апп нь түгээлтүүдийг удирдах API болон occ командуудыг өгдөг."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

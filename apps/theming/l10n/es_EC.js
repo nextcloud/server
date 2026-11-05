@@ -69,18 +69,6 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Deshabilitar todos los atajos de teclado",
     "Reset to default" : "Restablecer al predeterminado",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentras algún problema, no dudes en informarlo en {issuetracker}nuestro sistema de seguimiento de problemas{linkend}. ¡Y si quieres participar, únete a {designteam}nuestro equipo de diseño{linkend}!",
-    "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por tu administrador",
-    "Disable-user-theming should be true or false" : "disable-user-theming debe ser verdadero (true) o falso (false)",
-    "Header logo" : "Logo del encabezado",
-    "Upload new header logo" : "Cargar un nuevo logotipo del encabezado",
-    "Upload new favicon" : "Cargar un nuevo favicon",
-    "User settings" : "Configuración de usuario",
-    "Upload new logo" : "Cargar nuevo logotipo",
-    "Upload new background and login image" : "Cargar nueva imagen de fondo y de inicio de sesión",
-    "Background and login image" : "Imagen de fondo y de inicio de sesión",
-    "Advanced options" : "Opciones avanzadas",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP ImageMagick con soporte para imágenes SVG para generar automáticamente los favicons basados en el logotipo y color cargados.",
-    "Select a custom color" : "Seleccionar un color personalizado",
-    "Upload" : "Cargar"
+    "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por tu administrador"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

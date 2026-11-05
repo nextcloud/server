@@ -89,17 +89,6 @@ OC.L10N.register(
     "Appearance and accessibility settings" : "Ulkoasun ja saavutettavuuden asetukset",
     "Themes" : "Teemat",
     "Fonts" : "Fontit",
-    "Customization has been disabled by your administrator" : "Mukauttaminen on poistettu käytöstä ylläpitäjän toimesta",
-    "Header logo" : "Otsakelogo",
-    "Upload new header logo" : "Lähetä uusi otsakelogo",
-    "Upload new favicon" : "Lähetä uusi favicon",
-    "User settings" : "Käyttäjäasetukset",
-    "Upload new logo" : "Lähetä uusi logo",
-    "Upload new background and login image" : "Lähetä uusi taustakuva ja kirjautumissivun kuva",
-    "Background and login image" : "Tausta- ja kirjautumiskuva",
-    "Advanced options" : "Lisävalinnat",
-    "No background has been selected" : "Taustaa ei ole valittu",
-    "Select a custom color" : "Valitse mukautettu väri",
-    "Upload" : "Lähetä"
+    "Customization has been disabled by your administrator" : "Mukauttaminen on poistettu käytöstä ylläpitäjän toimesta"
 },
 "nplurals=2; plural=(n != 1);");

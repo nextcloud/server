@@ -15,7 +15,9 @@ use OC\AppFramework\Bootstrap\MiddlewareRegistration;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
+use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
@@ -70,6 +72,22 @@ class DIContainerTest extends \Test\TestCase {
 		}
 
 		$this->assertTrue($found);
+	}
+
+	public function testTokenScopeMiddlewareRefusesPagesBeforeTheirListenersRun(): void {
+		$this->container->registerService('Request', fn () => new Request(
+			['method' => 'GET'],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		));
+		$middlewares = $this->container->get('MiddlewareDispatcher')->getMiddlewares();
+		$classes = array_map(get_class(...), $middlewares);
+
+		// After-hooks run in reverse, so registering later means checking the page earlier
+		$this->assertGreaterThan(
+			array_search(AdditionalScriptsMiddleware::class, $classes, true),
+			array_search(TokenScopeMiddleware::class, $classes, true),
+		);
 	}
 
 	public function testMiddlewareDispatcherIncludesBootstrapMiddlewares(): void {

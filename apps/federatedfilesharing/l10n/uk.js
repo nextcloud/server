@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Віддалений каталог",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
     "Remote share password" : "Пароль для віддаленого каталогу",
-    "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
-    "X (formerly Twitter)" : "X (раніше відома як Twitter)",
-    "formerly Twitter" : "раніше відома як Twitter"
+    "Incoming share could not be processed" : "Неможливо обробити вхідну частку"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

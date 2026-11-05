@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Urruneko partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}(r)en {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
-    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu",
-    "X (formerly Twitter)" : "X (lehen Twitter)",
-    "formerly Twitter" : "lehen Twitter"
+    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu"
 },
 "nplurals=2; plural=(n != 1);");

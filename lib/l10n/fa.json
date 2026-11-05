@@ -468,7 +468,6 @@
     "Settings" : "تنظیمات",
     "Log out" : "خروج",
     "Accounts" : "حساب‌ها",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "سیستم عامل Mac OS X پشتیبانی نمی‌شود و %s روی این پلتفرم به درستی کار نخواهد کرد. استفاده از آن با مسئولیت خودتان است!",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "بک‌اند اشتراک‌گذاری %s باید رابط OCP\\Share_Backend را پیاده‌سازی کند",
     "Sharing backend %s not found" : "بک‌اند اشتراک‌گذاری %s یافت نشد",
     "Sharing backend for %s not found" : "بک‌اند اشتراک‌گذاری برای %s یافت نشد",
