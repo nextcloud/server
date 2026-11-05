@@ -48,9 +48,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'NCU\\Actor\\Actor' => __DIR__ . '/../../..' . '/lib/unstable/Actor/Actor.php',
-        'NCU\\Actor\\Principal' => __DIR__ . '/../../..' . '/lib/unstable/Actor/Principal.php',
-        'NCU\\Actor\\PrincipalType' => __DIR__ . '/../../..' . '/lib/unstable/Actor/PrincipalType.php',
         'NCU\\AppFramework\\Http\\Attribute\\TokenScope' => __DIR__ . '/../../..' . '/lib/unstable/AppFramework/Http/Attribute/TokenScope.php',
         'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
         'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
@@ -150,6 +147,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Activity\\IManager' => __DIR__ . '/../../..' . '/lib/public/Activity/IManager.php',
         'OCP\\Activity\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Activity/IProvider.php',
         'OCP\\Activity\\ISetting' => __DIR__ . '/../../..' . '/lib/public/Activity/ISetting.php',
+        'OCP\\Actor\\Actor' => __DIR__ . '/../../..' . '/lib/public/Actor/Actor.php',
+        'OCP\\Actor\\Principal' => __DIR__ . '/../../..' . '/lib/public/Actor/Principal.php',
+        'OCP\\Actor\\PrincipalType' => __DIR__ . '/../../..' . '/lib/public/Actor/PrincipalType.php',
         'OCP\\AppFramework\\ApiController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ApiController.php',
         'OCP\\AppFramework\\App' => __DIR__ . '/../../..' . '/lib/public/AppFramework/App.php',
         'OCP\\AppFramework\\Attribute\\ASince' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/ASince.php',
