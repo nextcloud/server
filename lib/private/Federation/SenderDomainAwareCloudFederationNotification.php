@@ -19,6 +19,19 @@ class SenderDomainAwareCloudFederationNotification extends CloudFederationNotifi
 	}
 
 	#[\Override]
+	public function getMessage(): array {
+		$message = parent::getMessage();
+		if ($this->senderDomain !== null) {
+			$message['senderDomain'] = $this->senderDomain;
+		}
+		if ($this->shareType !== null) {
+			$message['shareType'] = $this->shareType;
+		}
+
+		return $message;
+	}
+
+	#[\Override]
 	public function getNotificationType(): string {
 		return (string)($this->getMessage()['notificationType'] ?? '');
 	}

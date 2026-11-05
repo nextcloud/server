@@ -363,13 +363,13 @@ class RequestHandlerController extends Controller {
 		}
 
 		try {
-			$this->ocmDiscoveryService->getIncomingSignedRequestFromDomain($senderDomain);
+			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequestFromDomain($senderDomain);
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('incoming request exception', ['exception' => $e]);
 			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
 		}
 
-		$notificationObject = new SenderDomainAwareCloudFederationNotification($senderDomain, $shareType);
+		$notificationObject = new SenderDomainAwareCloudFederationNotification($signedRequest->getOrigin(), $shareType);
 		$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification ?? []);
 		$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
 
