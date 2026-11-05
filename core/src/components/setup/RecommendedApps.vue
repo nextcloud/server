@@ -174,14 +174,10 @@ export default {
 
 			logger.debug(`Installing ${appsToInstall.length} recommended apps`, { appIds: appsToInstall.map((app) => app.id) })
 			this.installingApps = true
-			/** @type {Promise<void>[]} */
-			const promises = []
 			for (const app of appsToInstall) {
 				app.loading = true
-				promises.push(appstoreApi.enableApp(app.id))
 			}
-
-			const results = await Promise.allSettled(promises)
+			const results = await Promise.allSettled(await appstoreApi.enableApps(appsToInstall))
 			for (let i = 0; i < results.length; i++) {
 				const result = results[i]
 				const app = appsToInstall[i]
