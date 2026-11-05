@@ -177,10 +177,7 @@ export default {
 			for (const app of appsToInstall) {
 				app.loading = true
 			}
-			/** @type {Promise<void>[]} */
-			const promises = appstoreApi.enableApps(appsToInstall)
-
-			const results = await Promise.allSettled(promises)
+			const results = await Promise.allSettled(await appstoreApi.enableApps(appsToInstall))
 			for (let i = 0; i < results.length; i++) {
 				const result = results[i]
 				const app = appsToInstall[i]
