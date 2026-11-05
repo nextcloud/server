@@ -70,6 +70,26 @@ class OCMProviderTest extends TestCase {
 		);
 	}
 
+	public static function invitationCapabilitiesProvider(): array {
+		return [
+			'standard' => [['invites'], true],
+			'legacy' => [['invite-accepted'], true],
+			'both' => [['invites', 'invite-accepted'], true],
+			'none' => [[], false],
+			'unrelated' => [['shares'], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invitationCapabilitiesProvider')]
+	public function testInvitationCapabilities(array $capabilities, bool $expected): void {
+		$this->provider->setCapabilities($capabilities);
+		$actual = $this->provider->getCapabilities();
+
+		$this->assertSame($expected, $actual->hasInvites());
+		$this->assertSame($expected, $actual->hasInviteAccepted());
+		$this->assertSame($capabilities, $actual->toArray());
+	}
+
 	public function testJwksUriImportedFromDiscoveryData(): void {
 		$this->provider->import([
 			'enabled' => true,

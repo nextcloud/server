@@ -28,8 +28,6 @@ OC.L10N.register(
     "This weekend" : "ສຸດສັບປະດານີ້",
     "Set reminder for this weekend" : "ຕັ້ງການແຈ້ງເຕືອນສຸດສັບປະດານີ້",
     "Next week" : "ອາທິດໜ້າ",
-    "Set reminder for next week" : "ຕັ້ງການແຈ້ງເຕືອນອາທິດໜ້າ",
-    "Set reminder for \"{fileName}\"" : "ຕັ້ງການແຈ້ງເຕືອນສຳລັບ \"{fileName}\"",
-    "We will remind you of this file" : "ພວກເຮົາຈະແຈ້ງເຕືອນທ່ານກ່ຽວກັບໄຟລ໌ນີ້"
+    "Set reminder for next week" : "ຕັ້ງການແຈ້ງເຕືອນອາທິດໜ້າ"
 },
 "nplurals=1; plural=0;");

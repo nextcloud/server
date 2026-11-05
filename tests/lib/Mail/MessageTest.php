@@ -8,6 +8,7 @@
 
 namespace Test\Mail;
 
+use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
@@ -253,6 +254,28 @@ class MessageTest extends TestCase {
 			->method('renderSubject');
 
 		$message->useTemplate($template);
+	}
+
+	public function testUseTemplateEmbedsInlineImages(): void {
+		$symfonyEmail = new Email();
+		$template = $this->createMock(EMailTemplate::class);
+		$template->method('renderSubject')->willReturn('Subject');
+		$template->method('renderText')->willReturn('Text');
+		$template->expects($this->never())->method('renderHtml');
+		$template->expects($this->once())
+			->method('renderHtmlWithInlineImages')
+			->willReturn('<img src="cid:logo">');
+		$template->method('getInlineImages')
+			->willReturn([['name' => 'logo', 'content' => 'PNGDATA', 'mimeType' => 'image/png']]);
+
+		$message = new Message($symfonyEmail, false);
+		$message->useTemplate($template);
+
+		$this->assertSame('<img src="cid:logo">', $symfonyEmail->getHtmlBody());
+		$attachments = $symfonyEmail->getAttachments();
+		$this->assertCount(1, $attachments);
+		$this->assertSame('logo', $attachments[0]->getFilename());
+		$this->assertSame('PNGDATA', $attachments[0]->getBody());
 	}
 
 	public function testSetAutoSubmitted1(): void {

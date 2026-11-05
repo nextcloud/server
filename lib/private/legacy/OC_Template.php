@@ -15,19 +15,6 @@ use OCP\Template\ITemplateManager;
  */
 class OC_Template extends Template {
 	/**
-	 * Shortcut to print a simple page for guests
-	 * @param string $application The application we render the template for
-	 * @param string $name Name of the template
-	 * @param array $parameters Parameters for the template
-	 * @return bool
-	 * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
-	 */
-	public static function printGuestPage($application, $name, $parameters = []) {
-		Server::get(ITemplateManager::class)->printGuestPage($application, $name, $parameters);
-		return true;
-	}
-
-	/**
 	 * Print a fatal error page and terminates the script
 	 * @param string $error_msg The error message to show
 	 * @param string $hint An optional hint message - needs to be properly escape
@@ -37,16 +24,5 @@ class OC_Template extends Template {
 	 */
 	public static function printErrorPage($error_msg, $hint = '', $statusCode = 500) {
 		Server::get(ITemplateManager::class)->printErrorPage($error_msg, $hint, $statusCode);
-	}
-
-	/**
-	 * print error page using Exception details
-	 * @param Exception|Throwable $exception
-	 * @param int $statusCode
-	 * @return never
-	 * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
-	 */
-	public static function printExceptionErrorPage($exception, $statusCode = 503) {
-		Server::get(ITemplateManager::class)->printExceptionErrorPage($exception, $statusCode);
 	}
 }

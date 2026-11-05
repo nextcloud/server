@@ -151,8 +151,9 @@ class ViewController extends Controller {
 
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
-		// in the correct folder
-		if ($fileid && $dir !== '') {
+		// in the correct folder. Only where dir is a path in the
+		// user's files: other views use it for their own ids (tags).
+		if ($fileid && $dir !== '' && in_array($view, ['', 'files', 'personal'], true)) {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
 			$nodes = $baseFolder->getById((int)$fileid);
 			if (!empty($nodes)) {

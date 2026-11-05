@@ -127,7 +127,8 @@ interface IComment extends JsonSerializable {
 	 *
 	 * @param bool $supportMarkdown
 	 * @return array each mention provides a 'type' and an 'id', see example below
-	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
+	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'matrix'|'user', id: non-empty-lowercase-string}>
+	 * @since 36.0.0 Type 'matrix' is supported
 	 * @since 33.0.1 Parameter $supportMarkdown was added to decide if mentions inside markdown code blocks should be ignored (default to true)
 	 * @since 30.0.2 Type 'email' is supported
 	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported

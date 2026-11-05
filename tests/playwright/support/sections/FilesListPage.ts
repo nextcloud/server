@@ -232,7 +232,27 @@ export class FilesListPage {
 		return menu
 	}
 
+	/**
+	 * Trigger a row action wherever it renders: as an inline button next to the
+	 * actions menu button, or as an entry of that menu. Inline actions move into
+	 * the menu once the list runs out of room for the name column, so where an
+	 * action renders depends on the view's columns and the viewport.
+	 */
 	private async triggerActionForRow(row: Locator, actionId: string): Promise<void> {
+		await expect(row).toBeVisible({ timeout: 15_000 })
+		await row.hover()
+
+		// Inline buttons and the menu button render in the same pass, so once any
+		// button of the actions cell is visible the inline button is there if it
+		// renders at all
+		await expect(row.locator('[data-cy-files-list-row-actions] button').first()).toBeVisible()
+
+		const inlineButton = row.locator(`button[data-cy-files-list-row-action="${actionId}"]`)
+		if (await inlineButton.isVisible()) {
+			await inlineButton.click()
+			return
+		}
+
 		const menu = await this.openActionsMenuForRow(row)
 		const actionEntry = this.getActionButtonInMenu(menu, actionId)
 		await actionEntry.waitFor({ state: 'visible' })
@@ -291,34 +311,12 @@ export class FilesListPage {
 	/**
 	 * An inline row action rendered directly in the row's action area (an action
 	 * declared `inline: () => true`, e.g. the external-storage credentials action),
-	 * as opposed to one nested in the overflow menu.
+	 * as opposed to one nested in the overflow menu. Only use this to assert on
+	 * the inline rendering itself; to click an action use {@link triggerActionForFile}.
 	 */
 	getInlineActionEntryForFile(filename: string, actionId: string): Locator {
 		return this.getRowForFile(filename)
 			.locator(`[data-cy-files-list-row-action="${actionId}"]`)
-	}
-
-	/**
-	 * Hover a row and click one of its inline actions. The action area only
-	 * renders on hover, so the row must be hovered first.
-	 */
-	async triggerInlineActionForFile(filename: string, actionId: string): Promise<void> {
-		await this.triggerInlineActionForRow(this.getRowForFile(filename), actionId)
-	}
-
-	/**
-	 * Like {@link triggerInlineActionForFile} but addresses the row by file id.
-	 * Trashbin rows carry a `.dNNN` deletion suffix on their name, so they are
-	 * keyed by id (e.g. to restore a specific trashed file).
-	 */
-	async triggerInlineActionForFileId(fileid: number, actionId: string): Promise<void> {
-		await this.triggerInlineActionForRow(this.getRowForFileId(fileid), actionId)
-	}
-
-	private async triggerInlineActionForRow(row: Locator, actionId: string): Promise<void> {
-		await row.hover()
-		const button = row.locator(`button[data-cy-files-list-row-action="${actionId}"]`)
-		await button.click()
 	}
 
 	/**
@@ -379,16 +377,16 @@ export class FilesListPage {
 	}
 
 	async selectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().check({ force: true })
 	}
 
 	/**
 	 * Clear the current selection via the master checkbox. It is a toggle, so it
-	 * clicks the same control as {@link selectAll}; call it while rows are
+	 * uses the same control as {@link selectAll}; call it while all rows are
 	 * selected to deselect them all.
 	 */
 	async deselectAll(): Promise<void> {
-		await this.getSelectAllCheckbox().click({ force: true })
+		await this.getSelectAllCheckbox().uncheck({ force: true })
 	}
 
 	/**

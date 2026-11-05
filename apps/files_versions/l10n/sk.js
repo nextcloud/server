@@ -11,7 +11,7 @@ OC.L10N.register(
     "Current version" : "Aktuálna verzia",
     "Initial version" : "Úvodná verzia",
     "You" : "Vy",
-    "Actions for version from {versionHumanExplicitDate}" : "Akcie pre verziu od {versionHumanExplicitDate}",
+    "Actions for version from {versionHumanExplicitDate}" : "Akcie pre verziu z {versionHumanExplicitDate}",
     "Name this version" : "Pomenovať túto verziu",
     "Edit version name" : "Upraviť názov verzie",
     "Compare to current version" : "Porovnať s aktuálnou verziou",

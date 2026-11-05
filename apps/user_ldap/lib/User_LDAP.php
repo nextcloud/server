@@ -713,7 +713,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		$filter = "($attribute=$searchTerm)";
 
 		$records = $this->access->searchUsers($filter, ['dn']);
-		$this->logger->error($filter);
 		if (count($records) === 1) {
 			return $this->access->dn2username($records[0]['dn'][0]) ?: null;
 		} elseif (count($records) > 1) {

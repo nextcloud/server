@@ -15,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
-use OC_User;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
@@ -50,6 +49,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -64,6 +64,10 @@ use Psr\Log\LoggerInterface;
 class Trashbin implements IEventListener {
 	// unit: percentage; 50% of available disk space/quota
 	public const DEFAULTMAXSIZE = 50;
+
+	private static function getUser(): string|false {
+		return Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
+	}
 
 	/**
 	 * Ensure we don't need to scan the file during the move to trash
@@ -92,14 +96,14 @@ class Trashbin implements IEventListener {
 		// to a remote user with a federated cloud ID we use the current logged-in
 		// user. We need a valid local user to move the file to the right trash bin
 		if (!$userManager->userExists($uid)) {
-			$uid = OC_User::getUser();
+			$uid = self::getUser();
 		}
 		if (!$uid) {
 			// no owner, usually because of share link from ext storage
 			return [null, null];
 		}
 		Filesystem::initMountPoints($uid);
-		if ($uid !== OC_User::getUser()) {
+		if ($uid !== self::getUser()) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/' . $uid . '/files');
 			try {
@@ -453,7 +457,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
-			$user = OC_User::getUser();
+			$user = self::getUser();
 			$rootView = new View('/');
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
@@ -527,7 +531,7 @@ class Trashbin implements IEventListener {
 	 * @return bool true on success, false otherwise
 	 */
 	public static function restore($file, $filename, $timestamp) {
-		$user = OC_User::getUser();
+		$user = self::getUser();
 		if (!$user) {
 			throw new \Exception('Tried to restore a file while not logged in');
 		}
@@ -631,7 +635,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			$user = OC_User::getUser();
+			$user = self::getUser();
 			$rootView = new View('/');
 
 			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
@@ -667,7 +671,7 @@ class Trashbin implements IEventListener {
 	 * delete all files from the trash
 	 */
 	public static function deleteAll() {
-		$user = OC_User::getUser();
+		$user = self::getUser();
 		$userRoot = Server::get(IRootFolder::class)->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
@@ -824,7 +828,7 @@ class Trashbin implements IEventListener {
 	 * @return bool true if file exists, otherwise false
 	 */
 	public static function file_exists($filename, $timestamp = null) {
-		$user = OC_User::getUser();
+		$user = self::getUser();
 		$view = new View('/' . $user);
 
 		if ($timestamp) {

@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Περιορισμός της χρήσης της εφαρμογής {app} στα μέλη των ακόλουθων ομάδων.",
     "Reset limitation" : "Επαναφορά περιορισμού",
     "Save" : "Αποθήκευση",
-    "Failed to update app {appName}" : "Αποτυχία ενημέρωσης της εφαρμογής {appName}",
     "Update all apps" : "Ενημέρωση όλων των εφαρμογών",
     "Are you sure you want to update all apps?" : "Είστε βέβαιοι ότι θέλετε να ενημερώσετε όλες τις εφαρμογές;",
     "Update done" : "Η ενημέρωση ολοκληρώθηκε",

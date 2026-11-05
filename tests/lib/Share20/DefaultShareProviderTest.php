@@ -39,6 +39,7 @@ use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -1062,6 +1063,19 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
+	}
+
+	#[TestWith([[], 0])]
+	#[TestWith([['group1', 'group2'], 1])]
+	public function testGetSharedWithGroupWithoutGroupShares(array $groups, int $expectedQueries): void {
+		$this->groupManager->method('getUserGroupIds')->willReturn($groups);
+		$connection = $this->dbConn->getInner();
+
+		$queriesBefore = $connection->getStats()['executed'];
+		$shares = $this->provider->getSharedWithByPath('sharedWith', IShare::TYPE_GROUP, '/sharedWith/files/target', false, -1, 0);
+
+		$this->assertSame([], $shares);
+		$this->assertSame($expectedQueries, $connection->getStats()['executed'] - $queriesBefore);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]

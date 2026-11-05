@@ -109,10 +109,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "بارگذاری برچسب‌های فایل انجام نشد",
     "Failed to set tag for file" : "تنظیم برچسب برای فایل انجام نشد",
     "Failed to delete tag for file" : "حذف برچسب برای فایل انجام نشد",
-    "Collaborative tags …" : "برچسب‌های مشارکتی …",
-    "Loading …" : "در حال بارگذاری …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} تنظیم می‌شود و {tag2} از ۱ فایل حذف می‌شود.","{tag1} تنظیم می‌شود و {tag2} از {count} فایل حذف می‌شود."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} از ۱ فایل حذف می‌شود.","{tag} از {count} فایل حذف می‌شود."],
-    "Loading collaborative tags …" : "در حال بارگذاری برچسب‌های مشارکتی …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} از ۱ فایل حذف می‌شود.","{tag} از {count} فایل حذف می‌شود."]
 },
 "nplurals=2; plural=(n > 1);");

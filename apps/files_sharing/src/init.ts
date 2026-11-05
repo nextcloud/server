@@ -20,6 +20,7 @@ registerSharingViews()
 addNewFileMenuEntry(newFileRequest)
 
 registerDavProperty('nc:note', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:original-displayname', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:sharees', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:hide-download', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:share-attributes', { nc: 'http://nextcloud.org/ns' })

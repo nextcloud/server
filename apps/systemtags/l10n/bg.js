@@ -65,8 +65,6 @@ OC.L10N.register(
     "Open in Files" : "Отворете във Файлове",
     "No tags found" : "Не са открити етикети",
     "Failed to load last used tags" : "Неуспешно зареждане на последно използвани етикети",
-    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/.",
-    "Collaborative tags …" : "Съвместни етикети ...",
-    "Loading …" : "Зареждане …"
+    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/."
 },
 "nplurals=2; plural=(n != 1);");

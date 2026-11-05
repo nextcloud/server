@@ -16,7 +16,9 @@ use OC\Preview\PreviewMigrationService;
 use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\FileInfo;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -88,7 +90,10 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->mimeTypeDetector->method('detectPath')->willReturn('image/png');
 		$this->mimeTypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->mimeTypeLoader->method('getId')->with('image/png')->willReturn(42);
+		$this->mimeTypeLoader->method('getId')->willReturnMap([
+			['image/png', 42],
+			[FileInfo::MIMETYPE_FOLDER, Server::get(IMimeTypeLoader::class)->getId(FileInfo::MIMETYPE_FOLDER)],
+		]);
 		$this->mimeTypeLoader->method('getMimetypeById')->with(42)->willReturn('image/png');
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
@@ -116,8 +121,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = $this->createJob();
-		$this->invokePrivate($job, 'run', [[]]);
+		$this->runAllPartitions();
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 	}
@@ -143,8 +147,16 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
 			),
+			Server::get(IJobList::class),
 			$this->logger,
 		);
+	}
+
+	private function runAllPartitions(): void {
+		$job = $this->createJob();
+		for ($partition = 0; $partition < PreviewMigrationJob::PARTITIONS; $partition++) {
+			$this->invokePrivate($job, 'run', [['partition' => $partition]]);
+		}
 	}
 
 	private function insertFilecacheRow(string $path, string $etag): int {
@@ -187,7 +199,7 @@ class PreviewMigrationJobTest extends TestCase {
 			$hierFolder = $this->previewAppData->newFolder(self::getInternalFolder((string)$otherFileId));
 			$hierFolder->newFile('128-128.png', 'abcdefg');
 
-			$this->invokePrivate($this->createJob(), 'run', [[]]);
+			$this->runAllPartitions();
 
 			$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 			$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
@@ -218,7 +230,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$existing->generateId();
 		$this->previewMapper->insert($existing);
 
-		$this->invokePrivate($this->createJob(), 'run', [[]]);
+		$this->runAllPartitions();
 
 		// No duplicate preview row was inserted, but the legacy folder and its stale
 		// filecache row were still cleaned up.
@@ -232,17 +244,54 @@ class PreviewMigrationJobTest extends TestCase {
 		$folder = $this->previewAppData->newFolder((string)$orphanFileId);
 		$folder->newFile('64-64-crop.jpg', 'abcdefg');
 
-		$this->invokePrivate($this->createJob(), 'run', [[]]);
+		$this->runAllPartitions();
 
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile($orphanFileId))));
+	}
+
+	#[TestDox('Orphaned preview files must be removed from the storage and the filecache even when their filecache rows are not readable')]
+	public function testMigrationDeletesUnreadableOrphanedPreview(): void {
+		$orphanFileId = 9999997;
+		$folder = $this->previewAppData->newFolder((string)$orphanFileId);
+		$file = $folder->newFile('64-64-crop.jpg', 'abcdefg');
+		$fileId = $file->getId();
+		$storage = Server::get(IRootFolder::class)->getMountPoint()->getStorage();
+		$internalPath = $storage->getCache()->getPathById($fileId);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('filecache')
+			->set('permissions', $qb->createNamedParameter(0))
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
+			->executeStatement();
+
+		$this->runAllPartitions();
+
+		$this->assertFalse($storage->file_exists($internalPath));
+		$this->assertEquals(-1, $storage->getCache()->getId($internalPath));
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+	}
+
+	#[TestDox('A partition must only migrate the legacy preview folders belonging to it')]
+	public function testMigrationOnlyMigratesOwnPartition(): void {
+		$folder = $this->previewAppData->newFolder('5');
+		$folder->newFile('64-64-crop.jpg', 'abcdefg');
+
+		$job = $this->createJob();
+		$this->invokePrivate($job, 'run', [['partition' => 4]]);
+		$this->assertEquals(1, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+
+		$this->invokePrivate($job, 'run', [['partition' => 5]]);
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 	}
 
 	#[TestDox('run() must complete without error when there is nothing to migrate')]
 	public function testMigrationWithoutAnyPreviews(): void {
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 
-		$this->invokePrivate($this->createJob(), 'run', [[]]);
+		$this->runAllPartitions();
 
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
@@ -258,25 +307,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
-			Server::get(ITimeFactory::class),
-			$this->appConfig,
-			$this->config,
-			Server::get(IRootFolder::class),
-			new PreviewMigrationService(
-				$this->config,
-				Server::get(IRootFolder::class),
-				$this->logger,
-				$this->mimeTypeDetector,
-				$this->mimeTypeLoader,
-				Server::get(IDBConnection::class),
-				$this->previewMapper,
-				$this->storageFactory,
-				Server::get(IAppDataFactory::class),
-			),
-			$this->logger,
-		);
-		$this->invokePrivate($job, 'run', [[]]);
+		$this->runAllPartitions();
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 	}
@@ -303,25 +334,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(9, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
-			Server::get(ITimeFactory::class),
-			$this->appConfig,
-			$this->config,
-			Server::get(IRootFolder::class),
-			new PreviewMigrationService(
-				$this->config,
-				Server::get(IRootFolder::class),
-				$this->logger,
-				$this->mimeTypeDetector,
-				$this->mimeTypeLoader,
-				Server::get(IDBConnection::class),
-				$this->previewMapper,
-				$this->storageFactory,
-				Server::get(IAppDataFactory::class),
-			),
-			$this->logger,
-		);
-		$this->invokePrivate($job, 'run', [[]]);
+		$this->runAllPartitions();
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));
 		$this->assertEquals(9, count($previews));
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));

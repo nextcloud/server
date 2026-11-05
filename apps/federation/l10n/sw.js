@@ -14,9 +14,6 @@ OC.L10N.register(
     "Add" : "Ongeza",
     "Delete" : "Futa",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Shirikisho hukuruhusu kuunganishwa na seva zingine zinazoaminika ili kubadilishana saraka ya akaunti. Kwa mfano hii itatumika kukamilisha kiotomatiki akaunti za nje kwa kushiriki kwa shirikisho. Sio lazima kuongeza seva kama seva inayoaminika ili kuunda sehemu iliyoshirikishwa.",
-    "Each server must validate the other. This process may require a few cron cycles." : " Kila seva lazima ithibitishe nyingine. Mchakato huu unaweza kuhitaji mizunguko michache ya cron.",
-    "External documentation for Federated Cloud Sharing" : "Hati za nje za Ushirikiano wa Nextcloud Ulioshirikishwa",
-    "+ Add trusted server" : "+ ongeza seva inayoaminiwa",
-    "Trusted server" : "Seva inayoaminiwa"
+    "Each server must validate the other. This process may require a few cron cycles." : " Kila seva lazima ithibitishe nyingine. Mchakato huu unaweza kuhitaji mizunguko michache ya cron."
 },
 "nplurals=2; plural=(n != 1);");

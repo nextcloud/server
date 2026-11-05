@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
@@ -25,6 +26,7 @@ use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -33,6 +35,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -409,8 +412,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getHeader')
 			->willReturn('');
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$expected = new RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -500,8 +502,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->with('MyClientIdentifier')
 			->willReturn($client);
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$expected = new RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken', 'MyClientIdentifier'));
@@ -575,8 +576,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getHeader')
 			->willReturn('');
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$expected = new RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -706,10 +706,28 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getHeader')
 			->willReturnMap($headers);
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$expected = new RedirectResponse('nc://login/server:' . $expected . '://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
+	}
+
+	/**
+	 * Expects the AppPasswordCreatedEvent followed by its audit log entry.
+	 */
+	private function expectAppPasswordCreatedEvents(): void {
+		$calls = 0;
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$calls): void {
+				if (++$calls === 1) {
+					$this->assertInstanceOf(AppPasswordCreatedEvent::class, $event);
+					return;
+				}
+				$this->assertInstanceOf(CriticalActionPerformedEvent::class, $event);
+				$this->assertSame('auth.app_password.created', $event->getOperation());
+				$this->assertSame('App password with ID "%s" and name "%s" was created', $event->getLogMessage());
+				$this->assertSame(['tokenId', 'tokenName'], array_keys($event->getParameters()));
+			});
 	}
 }

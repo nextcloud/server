@@ -29,8 +29,6 @@ OC.L10N.register(
     "This weekend" : "این آخر هفته",
     "Set reminder for this weekend" : "تنظیم یادآوری برای این آخر هفته",
     "Next week" : "هفته آینده",
-    "Set reminder for next week" : "تنظیم یادآوری برای هفته آینده",
-    "Set reminder for \"{fileName}\"" : "تنظیم یادآوری برای \"{fileName}\"",
-    "We will remind you of this file" : "ما این فایل را به شما یادآوری خواهیم کرد"
+    "Set reminder for next week" : "تنظیم یادآوری برای هفته آینده"
 },
 "nplurals=2; plural=(n > 1);");

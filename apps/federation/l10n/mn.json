@@ -23,9 +23,6 @@
     "Failed to delete trusted server. Please try again later." : "Найдвартай сервер устгах боломжгүй байна. Дараа дахин оролдоно уу.",
     "Delete" : "Устгах",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation нь бүртгэлийн лавлагааг солилцохын тулд бусад итгэмжлэгдсэн серверүүдтэй холбогдох боломж олгодог. Жишээлбэл, federated хуваалцалтад зориулж гадаад бүртгэлүүдийг автоматаар дуусгахад ашиглагдана. Federated хуваалцалт үүсгэхийн тулд серверийг итгэмжлэгдсэн сервер болгон нэмэх шаардлагагүй.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Сервер бүр нөгөөгийнхөө хүчинтэй байдлыг баталгаажуулах ёстой. Энэ процесс хэдэн cron мөчлөг шаардаж болно.",
-    "External documentation for Federated Cloud Sharing" : "Холбогдсон үүлэн хуваалцалтын гадаад баримт бичиг",
-    "+ Add trusted server" : "+ найдвартай сервер нэмэх",
-    "Trusted server" : "найдвартай сервер"
+    "Each server must validate the other. This process may require a few cron cycles." : "Сервер бүр нөгөөгийнхөө хүчинтэй байдлыг баталгаажуулах ёстой. Энэ процесс хэдэн cron мөчлөг шаардаж болно."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

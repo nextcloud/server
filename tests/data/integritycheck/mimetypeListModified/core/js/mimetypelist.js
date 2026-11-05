@@ -258,6 +258,7 @@ OC.MimeTypeList={
 'image/heif': t('core', "HEIF image"),
 'image/jp2': t('core', "JPEG-2000 JP2 image"),
 'image/jpeg': t('core', "JPEG image"),
+'image/jxl': t('core', "JPEG XL image"),
 'image/png': t('core', "PNG image"),
 'image/svg+xml': t('core', "SVG image"),
 'image/tga': t('core', "Truevision Targa image"),

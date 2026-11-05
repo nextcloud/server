@@ -291,11 +291,13 @@ class Message implements IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
 		if (!$this->plainTextOnly) {
-			$this->setHtmlBody($emailTemplate->renderHtml());
 			if ($emailTemplate instanceof EMailTemplate) {
+				$this->setHtmlBody($emailTemplate->renderHtmlWithInlineImages());
 				foreach ($emailTemplate->getInlineImages() as $image) {
 					$this->attachInline($image['content'], $image['name'], $image['mimeType']);
 				}
+			} else {
+				$this->setHtmlBody($emailTemplate->renderHtml());
 			}
 		}
 		return $this;

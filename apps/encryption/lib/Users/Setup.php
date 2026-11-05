@@ -24,12 +24,11 @@ class Setup {
 		$this->cache = $cacheFactory->createLocal('encryption-setup');
 	}
 
-	/**
-	 * @param string $uid user id
-	 * @param string $password user password
-	 * @return bool
-	 */
-	public function setupUser($uid, $password) {
+	public function setupUser(
+		string $uid,
+		#[\SensitiveParameter]
+		string $password,
+	): bool {
 		if (!$this->keyManager->userHasKeys($uid)) {
 			$keyPair = $this->crypt->createKeyPair();
 			return is_array($keyPair) ? $this->keyManager->storeKeyPair($uid, $password, $keyPair) : false;

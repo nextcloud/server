@@ -156,7 +156,7 @@ class PreviewManager implements IPreview {
 				$this->config,
 				$this->container->get(IAppConfig::class),
 				$this,
-				new GeneratorHelper(),
+				$this->helper,
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),

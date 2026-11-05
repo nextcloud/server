@@ -40,9 +40,11 @@ test.describe('Files: Rename nodes', () => {
 		const input = filesListPage.getRenameInputForFile('file.txt')
 		await expect(input).toBeVisible()
 
-		const { selectionStart, selectionEnd } = await input.evaluate((el) => ({ selectionStart: (el as HTMLInputElement).selectionStart, selectionEnd: (el as HTMLInputElement).selectionEnd }))
-		expect(selectionStart).toBe(0)
-		expect(selectionEnd).toBe('file'.length)
+		// The selection is applied after the input is shown
+		await expect.poll(() => input.evaluate((el) => {
+			const { selectionStart, selectionEnd } = el as HTMLInputElement
+			return { selectionStart, selectionEnd }
+		})).toEqual({ selectionStart: 0, selectionEnd: 'file'.length })
 	})
 
 	test('shows validation error on invalid filename', async ({ filesListPage }) => {

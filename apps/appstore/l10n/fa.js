@@ -97,7 +97,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "استفاده از {app} را به اعضای گروه‌های زیر محدود کنید.",
     "Reset limitation" : "بازنشانی محدودیت",
     "Save" : "ذخیره",
-    "Failed to update app {appName}" : "به‌روزرسانی کاره {appName} ناموفق بود",
     "Update all apps" : "به‌روزرسانی همهٔ کاره‌ها",
     "Are you sure you want to update all apps?" : "آیا مطمئن هستید که می‌خواهید همهٔ کاره‌ها را به‌روزرسانی کنید؟",
     "Update done" : "به‌روزرسانی انجام شد",

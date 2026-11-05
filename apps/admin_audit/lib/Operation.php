@@ -36,6 +36,22 @@ enum Operation: string {
 	case ShareExpirationRemoved = 'sharing.share.expiration_removed';
 	case ShareLinkAccessed = 'sharing.share.link_accessed';
 
+	// Unified sharing API
+	// TODO: Merge with the legacy sharing.share.* operations above once the legacy sharing API is removed
+	case UnifiedShareCreated = 'unified_sharing.share.created';
+	case UnifiedShareDeleted = 'unified_sharing.share.deleted';
+	case UnifiedShareStateUpdated = 'unified_sharing.share.state_updated';
+	case UnifiedShareUserStatusUpdated = 'unified_sharing.share.user_status_updated';
+	case UnifiedShareSourceAdded = 'unified_sharing.source.added';
+	case UnifiedShareSourceRemoved = 'unified_sharing.source.removed';
+	case UnifiedShareRecipientAdded = 'unified_sharing.recipient.added';
+	case UnifiedShareRecipientRemoved = 'unified_sharing.recipient.removed';
+	case UnifiedShareRecipientSecretUpdated = 'unified_sharing.recipient_secret.updated';
+	case UnifiedSharePropertyUpdated = 'unified_sharing.property.updated';
+	case UnifiedSharePermissionUpdated = 'unified_sharing.permission.updated';
+	case UnifiedShareRecipientPermissionUpdated = 'unified_sharing.recipient_permission.updated';
+	case UnifiedSharePermissionPresetSelected = 'unified_sharing.permission_preset.selected';
+
 	// Trash bin and versions
 	case TrashbinFileDeleted = 'trashbin.file.deleted';
 	case TrashbinFileRestored = 'trashbin.file.restored';
@@ -49,6 +65,8 @@ enum Operation: string {
 	case LogoutPerformed = 'auth.logout.performed';
 	case TwoFactorPassed = 'auth.twofactor.passed';
 	case TwoFactorFailed = 'auth.twofactor.failed';
+	case PasswordResetRequested = 'auth.password_reset.requested';
+	case RemoteWipeFinished = 'auth.remote_wipe.finished';
 
 	// Users
 	case UserCreated = 'users.user.created';

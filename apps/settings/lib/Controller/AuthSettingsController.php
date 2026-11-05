@@ -14,6 +14,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Authentication\Token\TokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\ConfigLexicon;
 use OCP\Activity\IManager;
@@ -52,17 +53,19 @@ class AuthSettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IConfig $serverConfig,
 		private IL10N $l,
+		private TokenScopes $tokenScopes,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
+	 * @param list<string>|null $scopes Scopes the app password is limited to, null for all access. Ignored for QR code logins
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
+	public function create(string $name = '', bool $qrcodeLogin = false, ?array $scopes = null): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
@@ -109,7 +112,11 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		} else {
 			$type = IToken::PERMANENT_TOKEN;
-			$scope = null;
+			try {
+				$scope = $scopes === null ? null : $this->tokenScopes->updateScope([], [TokenScopes::KEY => $scopes]);
+			} catch (\InvalidArgumentException) {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -245,10 +252,22 @@ class AuthSettingsController extends Controller {
 		}
 
 		$currentName = $token->getName();
+		$currentScope = $token->getScopeAsArray();
 
-		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
-			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		try {
+			$newScope = $this->tokenScopes->updateScope($currentScope, $scope);
+		} catch (\InvalidArgumentException) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($newScope !== $currentScope) {
+			$token->setScope($newScope);
+			if ($this->tokenScopes->fromBlob($newScope) !== $this->tokenScopes->fromBlob($currentScope)) {
+				$this->publishActivity(Provider::APP_TOKEN_SCOPES_CHANGED, $token->getId(), ['name' => $currentName]);
+			} elseif ($newScope[IToken::SCOPE_FILESYSTEM] !== ($currentScope[IToken::SCOPE_FILESYSTEM] ?? false)) {
+				// Only legacy tokens without scopes flip filesystem on its own
+				$this->publishActivity($newScope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -261,7 +280,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->updateToken($token);
-		return new JSONResponse([]);
+		return new JSONResponse(['scope' => $newScope]);
 	}
 
 	/**

@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "Batasi penggunaan {app} hanya untuk anggota dari grup berikut.",
     "Reset limitation" : "Atur ulang pembatasan",
     "Save" : "Simpan",
-    "Failed to update app {appName}" : "Gagal memperbarui aplikasi {appName}",
     "Update all apps" : "Perbarui semua aplikasi",
     "Are you sure you want to update all apps?" : "Apakah Anda yakin ingin memperbarui semua aplikasi?",
     "Update done" : "Pembaruan selesai",

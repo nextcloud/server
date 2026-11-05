@@ -8,9 +8,11 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
@@ -40,6 +42,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
@@ -78,6 +81,7 @@ class ShareController extends AuthPublicShareController {
 		protected ISecureRandom $secureRandom,
 		protected Defaults $defaults,
 		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+		private IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
 	}
@@ -275,7 +279,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// Check whether share exists
 		try {
@@ -327,8 +331,9 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
 

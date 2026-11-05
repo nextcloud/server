@@ -142,11 +142,15 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($userInSession === null) {
+			return;
+		}
+		$absNewPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $oldPath);
 
 		$mountManager = Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . $userInSession . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {

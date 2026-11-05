@@ -35,6 +35,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10NFactory;
@@ -297,6 +298,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 		$this->overwriteService(IBus::class, $this->commandBus);
 
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$urlGeneratorReflection = new \ReflectionClass($urlGenerator);
+		$baseUrlProp = $urlGeneratorReflection->getProperty('baseUrl');
+		$baseUrlProp->setValue($urlGenerator, 'http://localhost');
+
 		// detect database access
 		self::$wasDatabaseAllowed = true;
 		if (!$this->IsDatabaseAccessAllowed()) {
@@ -397,7 +403,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		if ($reflection->hasMethod($methodName)) {
 			$method = $reflection->getMethod($methodName);
-			return $method->invokeArgs($object, $parameters);
+			return $method->invokeArgs((is_string($object) ? null : $object), $parameters);
 		} elseif ($reflection->hasProperty($methodName)) {
 			$property = $reflection->getProperty($methodName);
 
@@ -614,10 +620,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::logout();
 		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
-		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
+		$userSession = Server::get(IUserSession::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
+			$userSession->setUser($userObject);
 			$userObject->updateLastLoginTimestamp();
 			$setupManager->setupForUser($userObject);
 			$rootFolder = Server::get(IRootFolder::class);

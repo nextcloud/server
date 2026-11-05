@@ -53,6 +53,7 @@
     "updatenotification",
     "user_ldap",
     "user_status",
+    "viewer",
     "weather_status",
     "webhook_listeners",
     "workflowengine"
@@ -101,6 +102,7 @@
     "twofactor_totp",
     "updatenotification",
     "user_status",
+    "viewer",
     "weather_status",
     "webhook_listeners"
   ],
@@ -118,6 +120,7 @@
     "sharing",
     "theming",
     "twofactor_backupcodes",
+    "viewer",
     "workflowengine"
   ]
 }

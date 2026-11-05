@@ -12,6 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\Memcached;
 use OC\Memcache\Redis;
@@ -72,7 +73,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * exceeds this value would fail with "Missing metadata for chunked upload"
 	 * even while chunks are still actively being uploaded.
 	 */
-	private const UPLOAD_SESSION_TTL = 24 * 60 * 60;
+	private const UPLOAD_SESSION_TTL = 72 * 60 * 60;
 
 	public function __construct(ICacheFactory $cacheFactory) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
@@ -318,6 +319,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 		if (!$this->uploadFolder->getStorage()->instanceOfStorage(IChunkedFileWrite::class)) {
 			throw new StorageInvalidException('Storage does not support chunked file writing');
 		}
+		if ($this->uploadFolder->getStorage()->instanceOfStorage(Encryption::class)) {
+			throw new StorageInvalidException('Chunked file writing is not supported with server-side encryption');
+		}
 		if ($this->uploadFolder->getStorage()->instanceOfStorage(ObjectStoreStorage::class) && !$this->uploadFolder->getStorage()->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
 			throw new StorageInvalidException('Storage does not support multi part uploads');
 		}
@@ -415,10 +419,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
 				Filesystem::signal_param_path => $hookPath,
 			]);
-		} else {
-			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $hookPath,
-			]);
 		}
 		OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $hookPath,
@@ -429,10 +429,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$hookPath = $this->getHookPath($target);
 		if (!$exists) {
 			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $hookPath,
-			]);
-		} else {
-			OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath,
 			]);
 		}

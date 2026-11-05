@@ -90,7 +90,6 @@ use RuntimeException;
 class Manager implements IManager {
 
 	private ?IL10N $l;
-	private LegacyHooks $legacyHooks;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -112,9 +111,6 @@ class Manager implements IManager {
 		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
-		// The constructor of LegacyHooks registers the listeners of share events
-		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**
@@ -536,6 +532,7 @@ class Manager implements IManager {
 			}
 		}
 
+		$plainTextPassword = null;
 		try {
 			// Verify share type
 			if ($share->getShareType() === IShare::TYPE_USER) {
@@ -569,7 +566,8 @@ class Manager implements IManager {
 
 				// If a password is set. Hash it!
 				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
-					$share->setPasswordHash($this->hasher->hash($share->getPassword()));
+					$plainTextPassword = $share->getPassword();
+					$share->setPasswordHash($this->hasher->hash($plainTextPassword));
 				}
 			}
 
@@ -641,7 +639,13 @@ class Manager implements IManager {
 			if ($share->getMailSend()) {
 				$provider = $this->factory->getProviderForType($share->getShareType());
 				if ($provider instanceof IShareProviderWithNotification) {
-					$provider->sendMailNotification($share);
+					$notifiedShare = $share;
+					if ($plainTextPassword !== null) {
+						// The share only holds the hash, the mail needs the clear password given by the caller
+						$notifiedShare = clone $share;
+						$notifiedShare->setPassword($plainTextPassword);
+					}
+					$provider->sendMailNotification($notifiedShare);
 				} else {
 					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}
@@ -708,6 +712,16 @@ class Manager implements IManager {
 			// mail.
 			$plainTextPassword = $share->getPassword();
 			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
+
+			if ($share->getToken() !== '') {
+				try {
+					$shareFound = $this->getShareByToken($share->getToken());
+					if ($share->getId() !== $shareFound->getId()) {
+						throw new ShareTokenException('Unable to update share. Share token already exists');
+					}
+				} catch (ShareNotFound $e) {
+				}
+			}
 
 			/**
 			 * Cannot enable the getSendPasswordByTalk if there is no password set

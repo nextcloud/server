@@ -94,7 +94,6 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Restringir o uso de {app} aos membros dos seguintes grupos.",
     "Reset limitation" : "Redefinir limitação",
     "Save" : "Guardar",
-    "Failed to update app {appName}" : "Falha ao atualizar o aplicativo {appName}",
     "Update all apps" : "Atualizar todos os aplicativos",
     "Are you sure you want to update all apps?" : "Você tem certeza de que deseja atualizar todos os aplicativos?",
     "Update done" : "Atualização concluída",

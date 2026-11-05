@@ -225,11 +225,14 @@ class EMailTemplateTest extends TestCase {
 		$this->defaults->method('getName')->willReturn('TestCloud');
 		$this->defaults->method('getLogoImage')
 			->willReturn(['content' => 'PNGDATA', 'mimeType' => 'image/png']);
-		$this->urlGenerator->expects($this->never())->method('getAbsoluteURL');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
 
 		$this->emailTemplate->addHeader();
 
-		$this->assertStringContainsString('src="cid:logo"', $this->emailTemplate->renderHtml());
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertStringContainsString('src="cid:logo"', $html);
+		$this->assertStringNotContainsString('https://example.org/img/logo-mail-header.png', $html);
 		$this->assertSame(
 			[['name' => 'logo', 'content' => 'PNGDATA', 'mimeType' => 'image/png']],
 			$this->emailTemplate->getInlineImages()
@@ -457,5 +460,82 @@ class EMailTemplateTest extends TestCase {
 		$template->setLanguage('ar');
 		$template->addFooter();
 		$template->renderHtml();
+	}
+
+	public function testEMailTemplateLinksLogoWhenRenderedWithoutInlineImages(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->expects($this->never())->method('getLogoImage');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+
+		$html = $this->emailTemplate->renderHtml();
+		$this->assertStringContainsString('src="https://example.org/img/logo-mail-header.png"', $html);
+		$this->assertStringNotContainsString('cid:logo', $html);
+		$this->assertSame([], $this->emailTemplate->getInlineImages());
+	}
+
+	public function testEMailTemplateLinksLogoWhenNoLogoImageAvailable(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogoImage')->willReturn(null);
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertStringContainsString('src="https://example.org/img/logo-mail-header.png"', $html);
+		$this->assertSame([], $this->emailTemplate->getInlineImages());
+	}
+	public function testEMailTemplateEmbedsOnlyTheHeaderLogo(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogoImage')
+			->willReturn(['content' => 'PNGDATA', 'mimeType' => 'image/png']);
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addBodyListItem('Item', '', 'https://example.org/img/logo-mail-header.png');
+
+		$html = $this->emailTemplate->renderHtmlWithInlineImages();
+		$this->assertSame(1, substr_count($html, 'src="cid:logo"'));
+		$this->assertSame(1, substr_count($html, 'src="https://example.org/img/logo-mail-header.png"'));
+	}
+
+	public function testEMailTemplateKeepsCustomHeaderWithoutLogo(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->expects($this->never())->method('getLogoImage');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturn('https://example.org/img/logo-mail-header.png');
+
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			protected string $header = '<img class="logo" src="https://brand.example/logo.png">';
+		};
+		$template->addHeader();
+
+		$this->assertSame($template->renderHtml(), $template->renderHtmlWithInlineImages());
+		$this->assertSame([], $template->getInlineImages());
+	}
+
+	public function testEMailTemplateKeepsOwnHeaderImplementation(): void {
+		$this->defaults->expects($this->never())->method('getLogoImage');
+
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			// a subclass may keep its own logo URL in a property of the same name
+			private string $logoUrl = 'https://brand.example/logo.png';
+
+			public function addHeader(): void {
+				$this->htmlBody .= '<img class="logo" src="' . $this->logoUrl . '">';
+			}
+		};
+		$template->addHeader();
+
+		$this->assertSame($template->renderHtml(), $template->renderHtmlWithInlineImages());
+		$this->assertSame([], $template->getInlineImages());
 	}
 }

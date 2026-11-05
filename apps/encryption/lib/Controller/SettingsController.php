@@ -53,14 +53,14 @@ class SettingsController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @param string $oldPassword
-	 * @param string $newPassword
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
 	#[UseSession]
-	public function updatePrivateKeyPassword($oldPassword, $newPassword) {
+	public function updatePrivateKeyPassword(
+		#[\SensitiveParameter]
+		string $oldPassword,
+		#[\SensitiveParameter]
+		string $newPassword,
+	): DataResponse {
 		$result = false;
 		$uid = $this->userSession->getUser()->getUID();
 		$errorMessage = $this->l->t('Could not update the private key password.');

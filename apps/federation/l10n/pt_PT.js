@@ -18,9 +18,6 @@ OC.L10N.register(
     "Connection to the remote server failed or the remote server is misconfigured." : "Falha na conexão com o servidor remoto ou o servidor remoto está mal configurado.",
     "Failed to delete trusted server. Please try again later." : "Não foi possível excluir o servidor confiável. Tente novamente mais tarde.",
     "Delete" : "Eliminar",
-    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "A federação permite que você se conecte a outros servidores confiáveis ​​para trocar o diretório de contas. Por exemplo, isso será usado para preencher automaticamente contas externas para compartilhamento federado. Não é necessário adicionar um servidor como servidor confiável para criar um compartilhamento federado.",
-    "External documentation for Federated Cloud Sharing" : "Documentação externa para Compartilhamento de Nuvem Federada",
-    "+ Add trusted server" : "+ Adicionar servidor confiável",
-    "Trusted server" : "Servidor confiável"
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "A federação permite que você se conecte a outros servidores confiáveis ​​para trocar o diretório de contas. Por exemplo, isso será usado para preencher automaticamente contas externas para compartilhamento federado. Não é necessário adicionar um servidor como servidor confiável para criar um compartilhamento federado."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

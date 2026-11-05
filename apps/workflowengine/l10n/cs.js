@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud engine pro pracovní postupy",
     "Filter" : "Filtr",
     "Select a filter" : "Vybrat filtr",
+    "Comparator" : "Porovnávač",
     "Select a comparator" : "Vyberte porovnání",
     "Remove filter" : "Odebrat filtr",
     "Audio" : "Zvuk",
@@ -80,6 +81,7 @@ OC.L10N.register(
     "Type to search for group …" : "Skupinu vyhledáte psaním …",
     "Select a trigger" : "Vybrat spouštěč",
     "At least one event must be selected" : "Je třeba vybrat alespoň jednu událost",
+    "Trigger" : "Spouštěč",
     "Add new flow" : "Přidat nový tok",
     "The configuration is invalid" : "Nastavení není platné",
     "Active" : "Aktivní",
@@ -125,7 +127,6 @@ OC.L10N.register(
     "Request user agent" : "User agent požadavku",
     "Group membership" : "Členství ve skupinách",
     "is member of" : "je členem",
-    "is not member of" : "není členem",
-    "Type to search for group …" : "Skupinu vyhledáte psaním …"
+    "is not member of" : "není členem"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

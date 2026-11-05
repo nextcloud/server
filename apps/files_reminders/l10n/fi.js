@@ -21,8 +21,6 @@ OC.L10N.register(
     "This weekend" : "Tämä viikonloppu",
     "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
     "Next week" : "Seuraava viikko",
-    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
-    "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
-    "We will remind you of this file" : "Muistutamme sinua tästä tiedostosta"
+    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle"
 },
 "nplurals=2; plural=(n != 1);");

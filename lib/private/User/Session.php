@@ -20,7 +20,6 @@ use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
-use OC_User;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -58,7 +57,6 @@ use Psr\Log\LoggerInterface;
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
  * - postLogin(\OC\User\User $user, string $loginName, string $password, boolean $isTokenLogin)
- * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  * - postLogout()
  *
@@ -68,6 +66,9 @@ class Session implements IUserSession, Emitter {
 	use TTransactional;
 
 	protected ?IUser $activeUser = null;
+
+	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
+	private bool $incognitoMode = false;
 
 	public function __construct(
 		private Manager $manager,
@@ -172,9 +173,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	#[\Override]
 	public function getUser() {
-		// FIXME: This is a quick'n dirty work-around for the incognito mode as
-		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
-		if (OC_User::isIncognitoMode()) {
+		if ($this->isIncognitoMode()) {
 			return null;
 		}
 		if (is_null($this->activeUser)) {
@@ -189,6 +188,16 @@ class Session implements IUserSession, Emitter {
 			$this->validateSession();
 		}
 		return $this->activeUser;
+	}
+
+	#[\Override]
+	public function isIncognitoMode(): bool {
+		return $this->incognitoMode;
+	}
+
+	#[\Override]
+	public function setIncognitoMode(bool $mode): void {
+		$this->incognitoMode = $mode;
 	}
 
 	/**
@@ -984,7 +993,6 @@ class Session implements IUserSession, Emitter {
 			// Ignore
 		}
 		$this->dispatcher->dispatchTyped(new UserLoggedInWithCookieEvent($user, $password));
-		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user, $password]);
 		return true;
 	}
 

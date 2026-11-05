@@ -14,9 +14,6 @@ OC.L10N.register(
     "Redirection URI" : "URI de redireición",
     "Delete client" : "Desaniciar el veceru",
     "Add client" : "Amestar el veceru",
-    "Add" : "Amestar",
-    "Client Identifier" : "Identificador del veceru",
-    "Show client secret" : "Amosar el secretu del veceru",
-    "Hide client secret" : "Anubrir el secretu del veceru"
+    "Add" : "Amestar"
 },
 "nplurals=2; plural=(n != 1);");

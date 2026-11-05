@@ -46,7 +46,7 @@ class SecurityEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				$this->equalTo('Failed two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit', 'operation' => 'auth.twofactor.failed']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.failed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
 		$this->listener->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
@@ -57,7 +57,7 @@ class SecurityEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				$this->equalTo('Successful two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit', 'operation' => 'auth.twofactor.passed']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.passed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
 		$this->listener->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));

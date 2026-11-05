@@ -8,7 +8,9 @@
 
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Files\View;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
@@ -21,6 +23,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -722,6 +725,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['File shared with user'] = [$share, $expected, true];
 
@@ -780,6 +784,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['Folder shared with group'] = [$share, $expected, true];
 
@@ -842,6 +847,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['File shared by link with Expire'] = [$share, $expected, false];
 
@@ -971,6 +977,82 @@ class ShareAPIControllerTest extends TestCase {
 
 		$data = $ocs->getShare((string)$share->getId())->getData()[0];
 		$this->assertEquals($result, $data);
+	}
+
+	public function testGetShareIncludesTheSourceNameWhenTheReceivedShareWasRenamed(): void {
+		$cacheEntry = $this->createMock(ICacheEntry::class);
+		$cacheEntry->method('getName')->willReturn('Project-A');
+
+		$mountedShare = $this->createMock(IShare::class);
+		$mountedShare->method('getNodeCacheEntry')->willReturn($cacheEntry);
+		$mountedShare->method('getTarget')->willReturn('/Project-A-with-Alice');
+
+		$cache = $this->createMock(ICache::class);
+		$cache->method('getNumericStorageId')->willReturn(101);
+
+		$storage = $this->getMockBuilder(SharedStorage::class)
+			->setConstructorArgs([[
+				'ownerView' => $this->createMock(View::class),
+				'logger' => $this->logger,
+				'shareManager' => $this->shareManager,
+				'cacheDependencies' => $this->createMock(CacheDependencies::class),
+				'rootFolder' => $this->rootFolder,
+				'appConfig' => $this->appConfig,
+				'superShare' => $mountedShare,
+				'groupedShares' => [],
+				'user' => $this->currentUser,
+			]])
+			->onlyMethods(['getId', 'getCache'])
+			->getMock();
+		$storage->method('getId')->willReturn('STORAGE');
+		$storage->method('getCache')->willReturn($cache);
+
+		$parentFolder = $this->createMock(Folder::class);
+		$parentFolder->method('getId')->willReturn(3);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('');
+
+		$node = $this->createMock(File::class);
+		$node->method('getId')->willReturn(1);
+		$node->method('getPath')->willReturn('Project-A-with-Alice');
+		$node->method('getInternalPath')->willReturn('');
+		$node->method('getStorage')->willReturn($storage);
+		$node->method('getParent')->willReturn($parentFolder);
+		$node->method('getSize')->willReturn(123465);
+		$node->method('getMTime')->willReturn(1234567890);
+		$node->method('getMimeType')->willReturn('text/plain');
+		$node->method('getMountPoint')->willReturn($mountPoint);
+
+		$share = $this->createShare(
+			'100',
+			IShare::TYPE_USER,
+			'currentUser',
+			'initiatorId',
+			'ownerId',
+			$node,
+			Constants::PERMISSION_READ,
+			5,
+			null,
+			6,
+			'/Project-A-with-Alice',
+			0,
+		);
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getRelativePath')->willReturnArgument(0);
+		$userFolder->method('getFirstNodeById')->willReturn($node);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$this->shareManager
+			->method('getShareById')
+			->with('ocinternal:100', 'currentUser')
+			->willReturn($share);
+
+		$data = $this->ocs->getShare('100')->getData()[0];
+		$this->assertSame('Project-A', $data['original_displayname']);
 	}
 
 	public function testGetShareInvalidNode(): void {
@@ -3696,6 +3778,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_mtime' => 1234567890,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 			'item_permissions' => 1,
 			...$attributesExpectations,
 			...$nodeExpectations,
@@ -4259,6 +4342,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], false, []
@@ -4299,6 +4383,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 9,
 			], true, [

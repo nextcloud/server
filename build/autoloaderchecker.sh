@@ -47,8 +47,7 @@ for app in ${REPODIR}/apps/*; do
 		echo "${app} is not shipped. Ignoring autoloader regeneration"
 		continue
 	fi
-    # apps/viewer is not an app and has no autoloader of its own, the server's covers it
-    if [[ -d $app && -f $app/appinfo/info.xml ]]; then
+    if [[ -d $app ]]; then
 		echo
 		echo "Regenerating composer files for ${app}"
 		$COMPOSER_COMMAND i --no-dev -d ${app}/composer || exit 1

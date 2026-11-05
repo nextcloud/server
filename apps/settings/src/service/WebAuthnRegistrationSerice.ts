@@ -11,6 +11,11 @@ import { generateUrl } from '@nextcloud/router'
 import { startRegistration as registerWebAuthn } from '@simplewebauthn/browser'
 import logger from '../logger.ts'
 
+export interface WebAuthnDevice {
+	id: number
+	name: string | null
+}
+
 /**
  * Start registering a new device
  *
@@ -43,7 +48,7 @@ export async function startRegistration() {
 export async function finishRegistration(name: string, data: RegistrationResponseJSON) {
 	const url = generateUrl('/settings/api/personal/webauthn/registration')
 
-	const resp = await axios.post(url, { name, data: JSON.stringify(data) })
+	const resp = await axios.post<WebAuthnDevice>(url, { name, data: JSON.stringify(data) })
 	return resp.data
 }
 

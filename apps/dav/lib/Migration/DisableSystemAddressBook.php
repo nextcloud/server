@@ -62,7 +62,8 @@ class DisableSystemAddressBook implements IRepairStep {
 			$notification->setApp(Application::APP_ID)
 				->setUser($user->getUID())
 				->setDateTime(new \DateTime())
-				->setSubject('SystemSystemAddressBookDisabled', []);
+				->setObject('system_addressbook', 'system')
+				->setSubject('SystemAddressBookDisabled', []);
 			$this->notificationManager->notify($notification);
 		}
 	}

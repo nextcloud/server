@@ -137,6 +137,7 @@
   "image/heif": "HEIF image",
   "image/jp2": "JPEG-2000 JP2 image",
   "image/jpeg": "JPEG image",
+  "image/jxl": "JPEG XL image",
   "image/png": "PNG image",
   "image/sgi": "",
   "image/svg+xml": "SVG image",

@@ -17,8 +17,8 @@ const modules = {
 	},
 	core: {
 		'ajax-cron': resolve(import.meta.dirname, 'core/src', 'ajax-cron.ts'),
+		appmenu: resolve(import.meta.dirname, 'core/src', 'appmenu.ts'),
 		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
-		'legacy-unified-search': resolve(import.meta.dirname, 'core/src', 'legacy-unified-search.ts'),
 		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
 		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),
 		main: resolve(import.meta.dirname, 'core/src', 'main.ts'),
@@ -96,10 +96,14 @@ const modules = {
 		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
 	},
 	settings: {
-		// Only the app password section is migrated to Vue 3 so far, the rest
-		// of the app is still built by the Vue 2 frontend. It is referenced by path
-		// rather than through `apps/` so it resolves the Vue 3 dependencies.
-		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/authtokens', 'main.ts'),
+		// Only some sections are migrated to Vue 3 so far, the rest of the app
+		// is still built by the Vue 2 frontend. They are referenced by path
+		// rather than through `apps/` so they resolve the Vue 3 dependencies.
+		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sharing', 'main.ts'),
+		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/authtokens', 'main.ts'),
+		'personal-password': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/password', 'main.ts'),
+		'personal-webauthn': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/webauthn', 'main.ts'),
+		'personal-language-locale': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/language-locale', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

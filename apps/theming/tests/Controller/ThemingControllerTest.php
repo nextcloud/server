@@ -11,6 +11,7 @@ namespace OCA\Theming\Tests\Controller;
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -782,5 +783,37 @@ class ThemingControllerTest extends TestCase {
 		]);
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
+	/**
+	 * @param list<array{name: string, content: string}> $meta
+	 */
+	private function getThemeStylesheet(array $meta, bool $plain): string {
+		$theme = $this->createMock(ITheme::class);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000']);
+		$theme->method('getCustomCss')->willReturn('');
+		$theme->method('getMeta')->willReturn($meta);
+		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
+
+		return $this->themingController->getThemeStylesheet('dark', $plain)->render();
+	}
+
+	public function testGetThemeStylesheetSetsColorScheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], true);
+
+		$this->assertMatchesRegularExpression('/^:root \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+	}
+
+	public function testGetThemeStylesheetSetsColorSchemeOnRootForScopedTheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], false);
+
+		$this->assertMatchesRegularExpression('/\[data-theme-dark\] \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+		$this->assertStringContainsString(':root:has(> body[data-theme-dark]) { color-scheme:dark; }', $css);
+	}
+
+	public function testGetThemeStylesheetWithoutColorScheme(): void {
+		$css = $this->getThemeStylesheet([], false);
+
+		$this->assertStringNotContainsString('color-scheme', $css);
 	}
 }

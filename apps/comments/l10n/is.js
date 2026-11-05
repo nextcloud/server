@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Villa átti sér stað við að breyta athugasemdinni",
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
-    "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
-    "Write a comment …" : "Skrifa athugasemd ..."
+    "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

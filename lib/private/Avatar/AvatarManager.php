@@ -60,7 +60,8 @@ class AvatarManager implements IAvatarManager {
 	public function getAvatar(string $userId): IAvatar {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
-			if ($this->cloudIdManager->isValidCloudId($userId)) {
+			// Remote avatars are only fetched for logged-in users, e.g. to show the owner of a federated share
+			if ($this->userSession->getUser() !== null && $this->cloudIdManager->isValidCloudId($userId)) {
 				return $this->getRemoteAvatar($userId);
 			}
 

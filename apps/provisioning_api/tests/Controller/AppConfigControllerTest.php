@@ -14,6 +14,9 @@ use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Config\BeforeAppConfigDeletedEvent;
+use OCP\Config\BeforeAppConfigSetEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
@@ -41,6 +44,7 @@ class AppConfigControllerTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private IAppManager $appManager;
 	private ConfigManager $configManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,6 +56,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = Server::get(IAppManager::class);
 		$this->configManager = Server::get(ConfigManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	/**
@@ -72,6 +77,7 @@ class AppConfigControllerTest extends TestCase {
 				$this->settingManager,
 				$this->appManager,
 				$this->configManager,
+				$this->eventDispatcher,
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -85,6 +91,7 @@ class AppConfigControllerTest extends TestCase {
 					$this->settingManager,
 					$this->appManager,
 					$this->configManager,
+					$this->eventDispatcher,
 				])
 				->onlyMethods($methods)
 				->getMock();
@@ -337,6 +344,45 @@ class AppConfigControllerTest extends TestCase {
 		} else {
 			$this->assertEquals([], $result->getData());
 		}
+	}
+
+	public function testSetValueRejected(): void {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->method('getUid')
+			->willReturn('admin');
+		$this->userSession->method('getUser')
+			->willReturn($adminUser);
+		$this->groupManager->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigSetEvent $event): void {
+				$this->assertSame('app1', $event->getAppId());
+				$this->assertSame('key', $event->getConfigKey());
+				$this->assertSame('value', $event->getConfigValue());
+				$event->setValid(false);
+			});
+		$this->appConfig->expects($this->never())
+			->method('setValueMixed');
+
+		$result = $this->getInstance(['verifyAppId', 'verifyConfigKey'])->setValue('app1', 'key', 'value');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+	}
+
+	public function testDeleteValueRejected(): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function (BeforeAppConfigDeletedEvent $event): void {
+				$this->assertSame('app1', $event->getAppId());
+				$this->assertSame('key', $event->getConfigKey());
+				$event->setValid(false);
+			});
+		$this->appConfig->expects($this->never())
+			->method('deleteKey');
+
+		$result = $this->getInstance(['verifyAppId', 'verifyConfigKey'])->deleteKey('app1', 'key');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 	}
 
 	public function testVerifyAppId(): void {

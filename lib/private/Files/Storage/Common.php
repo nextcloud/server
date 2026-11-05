@@ -40,6 +40,7 @@ use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -412,7 +413,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	#[\Override]
 	public function getOwner(string $path): string|false {
 		if ($this->owner === null) {
-			$this->owner = \OC_User::getUser();
+			$this->owner = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 		}
 
 		return $this->owner;
@@ -602,6 +603,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
+		// check before resolving the jail, as that also drops any permission mask of the source
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		if (
 			!$sourceStorage->instanceOfStorage(Encryption::class)
 			&& $this->isSameStorage($sourceStorage)
@@ -616,10 +622,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			}
 
 			return $this->rename($sourceInternalPath, $targetInternalPath);
-		}
-
-		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
-			return false;
 		}
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);

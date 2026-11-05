@@ -67,4 +67,14 @@ test.describe('Settings: Devices & sessions', () => {
 		await expect(devicesSessionsPage.tokenRows()).toHaveCount(2)
 		await expect(devicesSessionsPage.tokenRow('Playwright device')).toBeVisible()
 	})
+
+	test('creates an app password with limited access and changes it', async ({ devicesSessionsPage }) => {
+		await devicesSessionsPage.open()
+
+		await devicesSessionsPage.createAppPassword('Thunderbird', 'Files only')
+		await expect(devicesSessionsPage.tokenRow('Thunderbird')).toContainText('Files')
+
+		await devicesSessionsPage.editAccess('Thunderbird', 'Calendar and contacts')
+		await expect(devicesSessionsPage.tokenRow('Thunderbird')).toContainText('Calendar and Contacts')
+	})
 })
