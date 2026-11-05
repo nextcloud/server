@@ -404,7 +404,6 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Ushirikishaji %1$s kumeshindwa kwa sababu sehemu ya nyuma hairuhusu kushiriki kutoka kwa aina %2$s",
     "Public upload disabled by the administrator" : "Upakiaji wa umma umezimwa na msimamizi",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni lazima ziwe na angalau herufi moja 1 na zinaweza kuwa na herufi, nambari, au alama ya mkato pekee.",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Weka tokeni ya kiungo cha kushiriki hadharani iwe kitu ambacho ni rahisi kukumbuka au kutengeneza tokeni mpya. Haipendekezi kutumia tokeni inayoweza kukisiwa kwa hisa ambazo zina taarifa nyeti.",
-    "Via “{folder}”" : "Kupitia \"{folder}\""
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Weka tokeni ya kiungo cha kushiriki hadharani iwe kitu ambacho ni rahisi kukumbuka au kutengeneza tokeni mpya. Haipendekezi kutumia tokeni inayoweza kukisiwa kwa hisa ambazo zina taarifa nyeti."
 },
 "nplurals=2; plural=(n != 1);");
