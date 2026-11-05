@@ -21,6 +21,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -750,6 +751,47 @@ class ShareControllerTest extends \Test\TestCase {
 		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new DataResponse('Share has no download permission', Http::STATUS_FORBIDDEN);
 		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public static function dataDownloadShareRedirectEncodesPath(): array {
+		return [
+			'plain folder' => ['folder', null, 'folder', '/public.php/dav/files/validtoken/folder?accept=zip'],
+			'hash in folder' => ['a#b', null, 'a#b', '/public.php/dav/files/validtoken/a%23b?accept=zip'],
+			'nested special chars' => ['sub dir/50% ?x', null, 'sub dir/50% ?x', '/public.php/dav/files/validtoken/sub%20dir/50%25%20%3Fx?accept=zip'],
+			'legacy file name' => ['', 'notes #1.txt', 'notes #1.txt', '/public.php/dav/files/validtoken/notes%20%231.txt'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataDownloadShareRedirectEncodesPath')]
+	public function testDownloadShareRedirectEncodesPath(string $path, ?string $files, string $relativePath, string $expectedUrl): void {
+		$target = $files === null ? $this->createMock(Folder::class) : $this->createMock(File::class);
+		$target->method('getPath')->willReturn('/owner/files/shared/' . $relativePath);
+
+		$shareNode = $this->createMock(Folder::class);
+		$shareNode->method('isReadable')->willReturn(true);
+		$shareNode->method('isShareable')->willReturn(true);
+		$shareNode->method('getPath')->willReturn('/owner/files/shared');
+		$shareNode->method('get')
+			->with($files ?? $path)
+			->willReturn($target);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
+		$share->method('getNode')->willReturn($shareNode);
+
+		$this->shareManager
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		$this->urlGenerator->expects(self::once())
+			->method('getAbsoluteURL')
+			->with($expectedUrl)
+			->willReturn('https://cloud.example.com' . $expectedUrl);
+
+		$response = $this->shareController->downloadShare('validtoken', $files, $path);
+		$this->assertInstanceOf(RedirectResponse::class, $response);
+		$this->assertSame('https://cloud.example.com' . $expectedUrl, $response->getRedirectURL());
 	}
 
 	public function testDisabledOwner(): void {
