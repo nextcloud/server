@@ -53,8 +53,6 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 
-import '@nextcloud/dialogs/style.css'
-
 export default defineComponent({
 	name: 'PublicPageUserMenu',
 	components: {

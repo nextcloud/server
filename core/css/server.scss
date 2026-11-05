@@ -15,5 +15,4 @@
 @use 'public.scss';
 
 // If you include .css, it will be imported as url
-@use '../../node_modules/@nextcloud/dialogs/dist/style.css' as *;
 @use '../../node_modules/@nextcloud/password-confirmation/dist/style.css' as *;
