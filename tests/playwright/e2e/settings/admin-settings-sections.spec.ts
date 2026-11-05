@@ -7,7 +7,7 @@ import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect } from '@playwright/test'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
 
-// Every test fails on an uncaught page error, so a section that fails to mount is caught
+// Auto fixture: an uncaught page error fails the test
 const test = adminTest.extend<{ pageErrors: void }>({
 	pageErrors: [async ({ page }, use) => {
 		const errors: string[] = []

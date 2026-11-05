@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/** An admin settings section whose access can be delegated */
 export interface DelegatedSetting {
 	id: string
 	class: string
@@ -15,7 +14,6 @@ export interface Group {
 	displayName: string
 }
 
-/** A group allowed to access a delegated setting */
 export interface AuthorizedGroup {
 	group_id: string
 	class: string
