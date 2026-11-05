@@ -99,6 +99,7 @@ class ApiController extends Controller {
 	#[NoCSRFRequired]
 	#[StrictCookiesRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
@@ -248,6 +249,7 @@ class ApiController extends Controller {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getRecentFiles() {
 		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
@@ -330,6 +332,7 @@ class ApiController extends Controller {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getFolderTree(string $path = '/', int $depth = 1, bool $withParents = false): JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!($user instanceof IUser)) {
@@ -371,6 +374,7 @@ class ApiController extends Controller {
 	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getStorageStats($dir = '/'): JSONResponse {
 		$storageInfo = \OC_Helper::getStorageInfo($dir ?: '/');
 		$response = new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
@@ -403,6 +407,7 @@ class ApiController extends Controller {
 	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getViewConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfigs()]);
 	}
@@ -431,6 +436,7 @@ class ApiController extends Controller {
 	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->userConfig->getConfigs()]);
 	}
@@ -478,6 +484,7 @@ class ApiController extends Controller {
 	 * Get default settings for the grid view
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getGridView() {
 		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);

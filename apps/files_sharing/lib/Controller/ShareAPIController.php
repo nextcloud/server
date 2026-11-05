@@ -514,6 +514,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_READ)]
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -956,6 +957,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_READ)]
 	public function getShares(
 		string $shared_with_me = 'false',
 		string $reshares = 'false',
@@ -1148,6 +1150,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_READ)]
 	public function getInheritedShares(string $path): DataResponse {
 		// get Node from (string) path.
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
@@ -1425,6 +1428,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Pending shares returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_READ)]
 	public function pendingShares(): DataResponse {
 		$pendingShares = [];
 

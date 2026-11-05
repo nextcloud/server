@@ -654,7 +654,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, [TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], 'Renamed');
+		$response = $this->controller->update($tokenId, [TokenScopes::KEY => [FilesTokenScopes::FILES_WRITE]], 'Renamed');
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
