@@ -4,6 +4,7 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
+import logger from '../../logger.ts'
 
 const hasPdf = loadState('settings', 'has-reasons-use-nextcloud-pdf') === true
 const path = '/Reasons to use Nextcloud.pdf'
@@ -26,12 +27,17 @@ async function openInViewer() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-	const link = document.getElementById('open-reasons-use-nextcloud-pdf')
+	const link = document.querySelector<HTMLAnchorElement>('#open-reasons-use-nextcloud-pdf')
 	if (!link || !hasPdf) {
 		return
 	}
-	link.addEventListener('click', (event) => {
+	link.addEventListener('click', async (event) => {
 		event.preventDefault()
-		openInViewer()
+		try {
+			await openInViewer()
+		} catch (error) {
+			logger.error('Could not open the PDF in the viewer', { error })
+			window.open(link.href, '_blank', 'noopener')
+		}
 	})
 })

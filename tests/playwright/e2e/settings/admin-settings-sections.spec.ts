@@ -67,6 +67,22 @@ test.describe('Settings: admin sections', () => {
 		await expect(checked).toHaveAttribute('value', initial!)
 	})
 
+	test('profile setting is reset when saving fails', async ({ page }) => {
+		await page.route('**/config/apps/settings/profile_picker_enabled', (route) => route.fulfill({ status: 500 }))
+		await page.goto('settings/admin/server')
+
+		const picker = page.getByRole('switch', { name: 'Enable the profile picker' })
+		await expect(picker).toBeChecked()
+		try {
+			await picker.uncheck({ force: true })
+
+			await expect(page.getByText('Unable to update profile picker setting')).toBeVisible()
+			await expect(picker).toBeChecked()
+		} finally {
+			await runOcc(['config:app:delete', 'settings', 'profile_picker_enabled'])
+		}
+	})
+
 	test('delegation page renders', async ({ page }) => {
 		await page.goto('settings/admin/admindelegation')
 		await expect(page.getByRole('heading', { level: 2, name: /^Administration privileges/ })).toBeVisible()
