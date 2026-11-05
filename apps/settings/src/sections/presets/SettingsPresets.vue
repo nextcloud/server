@@ -53,7 +53,7 @@ async function saveSelectedPreset() {
 		<PresetVisualisation :presets="presets" :selectedPreset="selectedPreset" />
 
 		<NcButton
-			class="save-button"
+			:class="$style.saveButton"
 			:disabled="selectedPreset === currentPreset || savingPreset"
 			variant="primary"
 			@click="saveSelectedPreset()">
@@ -66,8 +66,8 @@ async function saveSelectedPreset() {
 	</NcSettingsSection>
 </template>
 
-<style lang="scss" scoped>
-.save-button {
+<style module>
+.saveButton {
 	margin-top: 16px;
 }
 </style>

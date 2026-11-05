@@ -50,11 +50,11 @@ const PresetsIcons = {
 </script>
 
 <template>
-	<form class="presets-form">
+	<form :class="$style.form">
 		<label
 			v-for="(presetName, presetId) in PresetNames"
 			:key="presetId"
-			class="presets-form__option">
+			:class="$style.option">
 
 			<component :is="PresetsIcons[presetId]" :size="32" />
 
@@ -65,46 +65,47 @@ const PresetsIcons = {
 				name="preset"
 				@update:modelValue="selectedPreset = presetId" />
 
-			<span class="presets-form__option__name">{{ presetName }}</span>
+			<span :class="$style.optionName">{{ presetName }}</span>
 		</label>
 	</form>
 </template>
 
-<style lang="scss" scoped>
-.presets-form {
+<style module>
+.form {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 24px;
 	margin-top: 32px;
+}
 
-	&__option {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		width: 250px;
-		min-height: 100px;
-		padding: 16px;
-		border-radius: var(--border-radius-large);
-		background-color: var(--color-background-dark);
-		font-size: 20px;
+.option {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 250px;
+	min-height: 100px;
+	padding: 16px;
+	border-radius: var(--border-radius-large);
+	background-color: var(--color-background-dark);
+	font-size: 20px;
+}
 
-		&:hover {
-			background-color: var(--color-background-darker);
-		}
+.option:hover {
+	background-color: var(--color-background-darker);
+}
 
-		&:has(input[type=radio]:checked) {
-			border: 2px solid var(--color-main-text);
-			padding: 14px;
-		}
+.option:has(input[type=radio]:checked) {
+	border: 2px solid var(--color-main-text);
+	padding: 14px;
+}
 
-		&__name {
-			flex-basis: 250px;
-			margin-top: 8px;
-		}
+.optionName {
+	flex-basis: 250px;
+	margin-top: 8px;
+}
 
-		&__name, .material-design-icon {
-			cursor: pointer;
-		}
-	}
+.optionName,
+.option :global(.material-design-icon) {
+	cursor: pointer;
 }
 </style>
