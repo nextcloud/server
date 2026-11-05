@@ -12,6 +12,7 @@ import { computed } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
+	/** The setup check result to show */
 	setupCheck: ISetupCheck
 }>()
 
@@ -60,56 +61,54 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 </script>
 
 <template>
-	<li
-		class="settings-setup-checks-item"
-		:class="{
-			[`settings-setup-checks-item--${setupCheck.severity}`]: true,
-		}">
-		<NcIconSvgWrapper class="settings-setup-checks-item__icon" :path="leadingIcon" />
-		<div class="settings-setup-checks-item__wrapper">
-			<div class="settings-setup-checks-item__name">
+	<li :class="[$style.item, $style[setupCheck.severity]]">
+		<NcIconSvgWrapper :class="$style.icon" :path="leadingIcon" />
+		<div :class="$style.wrapper">
+			<div>
 				{{ setupCheck.name }}
 			</div>
 			<!-- eslint-disable-next-line vue/no-v-html -->
-			<div class="settings-setup-checks-item__description" v-html="descriptionHtml" />
+			<div :class="$style.description" v-html="descriptionHtml" />
 		</div>
 	</li>
 </template>
 
-<style scope lang="scss">
-.settings-setup-checks-item {
+<style module>
+.item {
 	border-radius: var(--border-radius-element);
 	display: flex;
 	align-items: start;
 	flex-direction: row;
+}
 
-	&:hover {
-		background-color: var(--color-background-hover);
-	}
+.item:hover {
+	background-color: var(--color-background-hover);
+}
 
-	&__wrapper {
-		display: flex;
-		flex-direction: column;
-		// align with icon
-		padding-top: calc((var(--default-clickable-area) - 1lh) / 2);
-	}
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	/* align with icon */
+	padding-top: calc((var(--default-clickable-area) - 1lh) / 2);
+}
 
-	&__description {
-		color: var(--color-text-maxcontrast);
-	}
+.description {
+	color: var(--color-text-maxcontrast);
+}
 
-	&__icon {
-		border-radius: calc(var(--default-clickable-area) / 2);
-	}
+.icon {
+	border-radius: calc(var(--default-clickable-area) / 2);
+}
 
-	&--error &__icon {
-		color: var(--color-element-error);
-	}
-	&--warning &__icon {
-		color: var(--color-element-warning);
-	}
-	&--info &__icon {
-		color: var(--color-element-info);
-	}
+.error .icon {
+	color: var(--color-element-error);
+}
+
+.warning .icon {
+	color: var(--color-element-warning);
+}
+
+.info .icon {
+	color: var(--color-element-info);
 }
 </style>

@@ -113,7 +113,7 @@ async function loadSetupChecks() {
 		</NcEmptyContent>
 
 		<template v-else>
-			<p v-if="hasErrors || hasWarnings" class="settings-security-warnings__result-hint">
+			<p v-if="hasErrors || hasWarnings">
 				{{ hasErrors
 					? t('settings', 'There are some errors regarding your setup.')
 					: t('settings', 'There are some warnings regarding your setup.')
@@ -125,22 +125,20 @@ async function loadSetupChecks() {
 			<SettingsSetupChecksList :setupChecks="setupChecks" severity="info" />
 
 			<!-- eslint-disable-next-line vue/no-v-html -->
-			<p class="settings-security-warnings__hint" v-html="adminDocsHtml" />
+			<p :class="$style.hint" v-html="adminDocsHtml" />
 		</template>
 
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<p class="settings-security-warnings__footer" v-html="footerHtml" />
+		<p :class="$style.footer" v-html="footerHtml" />
 	</NcSettingsSection>
 </template>
 
-<style scope lang="scss">
-.settings-security-warnings {
-	&__hint {
-		margin-top: calc(2 * var(--default-grid-baseline));
-	}
+<style module>
+.hint {
+	margin-top: calc(2 * var(--default-grid-baseline));
+}
 
-	&__footer {
-		margin-top: calc(3 * var(--default-grid-baseline));
-	}
+.footer {
+	margin-top: calc(3 * var(--default-grid-baseline));
 }
 </style>
