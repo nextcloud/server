@@ -91,7 +91,9 @@ class IconControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetThemedIcon')]
+	/**
+	 * @dataProvider dataGetThemedIcon
+	 */
 	public function testGetThemedIcon(string $image, string $cacheKey): void {
 		$file = $this->iconFileMock($cacheKey, 'filecontent');
 		$this->imageManager->expects($this->once())
@@ -118,7 +120,9 @@ class IconControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetThemedIconInvalidImage')]
+	/**
+	 * @dataProvider dataGetThemedIconInvalidImage
+	 */
 	public function testGetThemedIconInvalidImage(string $image): void {
 		$this->imageManager->expects($this->never())
 			->method('getCachedImage');
