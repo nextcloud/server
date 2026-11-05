@@ -8,6 +8,7 @@
 
 namespace OC\Core\AppInfo;
 
+use NCU\Permission\IPermissionManager;
 use NCU\Sharing\ISharingRegistry;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
@@ -27,6 +28,12 @@ use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\Core\Permission\CreatePermission;
+use OC\Core\Permission\DeletePermission;
+use OC\Core\Permission\DownloadPermission;
+use OC\Core\Permission\ReadPermission;
+use OC\Core\Permission\SharePermission;
+use OC\Core\Permission\UpdatePermission;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
@@ -123,6 +130,14 @@ class Application extends App implements IBootstrap {
 		// Direct Editing
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
+
+		$permissionManager = Server::get(IPermissionManager::class);
+		$permissionManager->registerPermission(ReadPermission::class);
+		$permissionManager->registerPermission(UpdatePermission::class);
+		$permissionManager->registerPermission(CreatePermission::class);
+		$permissionManager->registerPermission(DeletePermission::class);
+		$permissionManager->registerPermission(SharePermission::class);
+		$permissionManager->registerPermission(DownloadPermission::class);
 
 		$registry = Server::get(ISharingRegistry::class);
 

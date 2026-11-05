@@ -101,6 +101,7 @@ use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
 use OC\OCS\CoreCapabilities;
 use OC\OCS\DiscoveryService;
+use OC\Permission\PermissionManager;
 use OC\Preview\MimeIconProvider;
 use OC\Preview\WatcherConnector;
 use OC\Profile\ProfileManager;
@@ -1108,6 +1109,8 @@ class Server extends ServerContainer {
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 		$this->registerAlias(IJobRuns::class, JobRuns::class);
 		$this->registerAlias(IServerInfo::class, ServerInfo::class);
+
+		$this->registerAlias(\NCU\Permission\IPermissionManager::class, PermissionManager::class);
 
 		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
