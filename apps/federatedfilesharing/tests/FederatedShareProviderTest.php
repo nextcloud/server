@@ -24,7 +24,6 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\IUserFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -241,7 +240,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$mountedShare = $this->createMock(Folder::class);
 		$mountedShare->method('getId')->willReturn(43);
-		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('get')
 			->with('/myFile')
 			->willReturn($mountedShare);
