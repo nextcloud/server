@@ -9,7 +9,7 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { reactive } from 'vue'
-import logger from '../../logger.ts'
+import logger from '../../../logger.ts'
 import { setCoreConfigValue } from '../services/appConfig.ts'
 
 /**

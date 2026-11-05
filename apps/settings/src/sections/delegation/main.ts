@@ -5,15 +5,9 @@
 
 import axios from '@nextcloud/axios'
 import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
-import Vue from 'vue'
-import App from './components/AdminDelegating.vue'
+import { createApp } from 'vue'
+import AdminDelegating from './AdminDelegating.vue'
 
 addPasswordConfirmationInterceptors(axios)
 
-// bind to window
-Vue.prototype.OC = OC
-Vue.prototype.t = t
-
-const View = Vue.extend(App)
-const accessibility = new View()
-accessibility.$mount('#admin-right-sub-granting')
+createApp(AdminDelegating).mount('#admin-right-sub-granting')

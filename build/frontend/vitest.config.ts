@@ -47,7 +47,6 @@ export default defineConfig({
 		include: [
 			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
 			'../../apps/settings/src/sections/**/*.spec.ts',
-			'../../apps/settings/src/sharing/**/*.spec.ts',
 		],
 		env: {
 			LANG: 'en_US',
@@ -63,7 +62,6 @@ export default defineConfig({
 			include: [
 				'apps/*/src/**',
 				'../../apps/settings/src/sections/**',
-				'../../apps/settings/src/sharing/**',
 				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],

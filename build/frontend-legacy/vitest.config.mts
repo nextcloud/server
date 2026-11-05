@@ -57,7 +57,7 @@ export default defineConfig({
 		},
 		coverage: {
 			include: ['./apps/*/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', './apps/settings/src/sections/**', './apps/settings/src/sharing/**'],
+			exclude: ['**.spec.*', '**.test.*', '**.cy.*', './apps/settings/src/sections/**'],
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
@@ -70,7 +70,6 @@ export default defineConfig({
 			...gitIgnore,
 			// these sections are Vue 3, they are tested by the Vue 3 frontend
 			'**/apps/settings/src/sections/**',
-			'**/apps/settings/src/sharing/**',
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {

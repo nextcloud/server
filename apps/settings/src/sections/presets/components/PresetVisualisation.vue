@@ -11,15 +11,13 @@ import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
-const props = defineProps({
-	presets: {
-		type: Object as () => PresetAppConfigs,
-		required: true,
-	},
-	selectedPreset: {
-		type: String as () => PresetIds,
-		default: 'NONE',
-	},
+const props = withDefaults(defineProps<{
+	/** App configs of every preset */
+	presets: PresetAppConfigs
+	/** The preset whose values are shown */
+	selectedPreset?: PresetIds
+}>(), {
+	selectedPreset: 'NONE',
 })
 
 const applicationsStates = loadState('settings', 'settings-presets-apps', {}) as PresetAppsStates
@@ -35,28 +33,28 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 </script>
 
 <template>
-	<div class="presets">
-		<h3 class="presets__title">
+	<div :class="$style.presets">
+		<h3 :class="$style.title">
 			{{ t('settings', 'Default config values') }}
 		</h3>
 
-		<div v-if="appsConfigPresets.length > 0" class="presets__config-list">
-			<h4 class="presets__config-list__subtitle">
+		<div v-if="appsConfigPresets.length > 0" :class="$style.configList">
+			<h4 :class="$style.configListSubtitle">
 				{{ t('settings', 'Applications config') }}
 			</h4>
 			<template v-for="[appId, appConfigPresets] in appsConfigPresets">
 				<div
 					v-for="configPreset in appConfigPresets"
 					:key="appId + '-' + configPreset.entry.key"
-					class="presets__config-list__item">
+					:class="$style.configItem">
 					<span>
 						<div>{{ configPreset.entry.definition }}</div>
-						<code class="presets__config-list__item__key">{{ configPreset.entry.key }}</code>
+						<code :class="$style.configKey">{{ configPreset.entry.key }}</code>
 					</span>
 					<span>
 						<NcCheckboxRadioSwitch
 							v-if="configPreset.entry.type === 'BOOL'"
-							:model-value="configPreset.defaults[selectedPreset] === '1'"
+							:modelValue="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
 					</span>
@@ -64,23 +62,23 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 			</template>
 		</div>
 
-		<div v-if="userConfigPresets.length > 0" class="presets__config-list">
-			<h4 class="presets__config-list__subtitle">
+		<div v-if="userConfigPresets.length > 0" :class="$style.configList">
+			<h4 :class="$style.configListSubtitle">
 				{{ t('settings', 'User config') }}
 			</h4>
 			<template v-for="[appId, userPresets] in userConfigPresets">
 				<div
 					v-for="configPreset in userPresets"
 					:key="appId + '-' + configPreset.entry.key"
-					class="presets__config-list__item">
+					:class="$style.configItem">
 					<span>
 						<div>{{ configPreset.entry.definition }}</div>
-						<code class="presets__config-list__item__key">{{ configPreset.entry.key }}</code>
+						<code :class="$style.configKey">{{ configPreset.entry.key }}</code>
 					</span>
 					<span>
 						<NcCheckboxRadioSwitch
 							v-if="configPreset.entry.type === 'BOOL'"
-							:model-value="configPreset.defaults[selectedPreset] === '1'"
+							:modelValue="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
 					</span>
@@ -89,13 +87,13 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 		</div>
 
 		<template v-if="hasApplicationsPreset">
-			<h3 class="presets__title">
+			<h3 :class="$style.title">
 				{{ t('settings', 'Bundled applications') }}
 			</h3>
 
-			<div class="presets__app-list">
-				<div class="presets__app-list__enabled">
-					<h4 class="presets__app-list__title">
+			<div :class="$style.appList">
+				<div>
+					<h4 :class="$style.appListTitle">
 						{{ t('settings', 'Enabled applications') }}
 					</h4>
 					<ul>
@@ -106,8 +104,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 						</li>
 					</ul>
 				</div>
-				<div class="presets__app-list__disabled">
-					<h4 class="presets__app-list__title">
+				<div>
+					<h4 :class="$style.appListTitle">
 						{{ t('settings', 'Disabled applications') }}
 					</h4>
 					<ul>
@@ -123,43 +121,43 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 	</div>
 </template>
 
-<style lang="scss" scoped>
+<style module>
 .presets {
 	margin-top: 16px;
+}
 
-	&__title {
-		font-size: 16px;
-		margin-bottom: 0;
-	}
+.title {
+	font-size: 16px;
+	margin-bottom: 0;
+}
 
-	&__config-list {
-		margin-top: 8px;
-		width: 55%;
+.configList {
+	margin-top: 8px;
+	width: 55%;
+}
 
-		&__subtitle {
-			font-size: 14px;
-		}
+.configListSubtitle {
+	font-size: 14px;
+}
 
-		&__item {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 2px 0;
+.configItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 2px 0;
+}
 
-			&__key {
-				font-size: 12px;
-				color: var(--color-text-maxcontrast);
-			}
-		}
-	}
+.configKey {
+	font-size: 12px;
+	color: var(--color-text-maxcontrast);
+}
 
-	&__app-list {
-		display: flex;
-		gap: 32px;
+.appList {
+	display: flex;
+	gap: 32px;
+}
 
-		&__title {
-			font-size: 14px;
-		}
-	}
+.appListTitle {
+	font-size: 14px;
 }
 </style>

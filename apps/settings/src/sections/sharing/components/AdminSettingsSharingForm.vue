@@ -14,7 +14,7 @@ import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGro
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import SelectSharingPermissions from './SelectSharingPermissions.vue'
-import logger from '../../logger.ts'
+import logger from '../../../logger.ts'
 import { useSharingSettings } from '../composables/useSharingSettings.ts'
 import { deleteCoreConfigValue, setCoreConfigValue } from '../services/appConfig.ts'
 

@@ -10,15 +10,18 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
-import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcPasswordField } from '@nextcloud/vue'
 import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../logger.ts'
+import logger from '../../logger.ts'
 
 const settingsAdminMail = loadState<{
 	configIsReadonly: boolean
@@ -101,10 +104,9 @@ async function testEmail() {
  * Submit the mail settings form
  */
 async function onSubmit() {
-	await confirmPassword()
-
 	isSaving.value = true
 	try {
+		await confirmPassword()
 		if (mailConfig.value.mail_smtpauth && hasCredentialChanges.value) {
 			await axios.post(generateUrl('/settings/admin/mailsettings/credentials'), {
 				mail_smtppassword: hasPasswordChanges.value ? mailConfig.value.mail_smtppassword : undefined,
@@ -130,7 +132,7 @@ async function onSubmit() {
 
 <template>
 	<NcSettingsSection
-		:doc-url="settingsAdminMail.docUrl"
+		:docUrl="settingsAdminMail.docUrl"
 		:name="t('settings', 'Email server')"
 		:description="t('settings', 'It is important to set up this server to be able to send emails, like for password reset and notifications.')">
 		<NcNoteCard v-if="settingsAdminMail.configIsReadonly" type="info">
@@ -145,20 +147,20 @@ async function onSubmit() {
 			<NcFormBox>
 				<NcSelect
 					v-model="smtpMode"
-					:input-label="t('settings', 'Send mode')"
+					:inputLabel="t('settings', 'Send mode')"
 					:options="settingsAdminMail.smtpModeOptions"
 					required />
 
 				<NcSelect
 					v-if="smtpMode?.id === 'smtp'"
 					v-model="smtpEncryption"
-					:input-label="t('settings', 'Transport encryption')"
+					:inputLabel="t('settings', 'Transport encryption')"
 					:options="settingsAdminMail.smtpEncryptionOptions"
 					required />
 				<NcSelect
 					v-else-if="smtpMode?.id === 'sendmail'"
 					v-model="smtpSendmailMode"
-					:input-label="t('settings', 'Sendmail mode')"
+					:inputLabel="t('settings', 'Sendmail mode')"
 					:options="settingsAdminMail.smtpSendmailModeOptions"
 					required />
 
@@ -215,7 +217,7 @@ async function onSubmit() {
 					<NcPasswordField
 						v-model="mailConfig.mail_smtppassword"
 						:label="t('settings', 'Password')"
-						:show-trailing-button="hasPasswordChanges"
+						:showTrailingButton="hasPasswordChanges"
 						name="mail_smtppassword" />
 				</NcFormBox>
 			</NcFormGroup>

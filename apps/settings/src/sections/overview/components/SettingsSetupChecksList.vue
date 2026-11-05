@@ -4,14 +4,16 @@
 -->
 
 <script setup lang="ts">
-import type { ISetupCheck } from '../../settings-types.ts'
+import type { ISetupCheck } from '../settings-types.ts'
 
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import SettingsSetupChecksListItem from './SettingsSetupChecksListItem.vue'
 
 const props = defineProps<{
+	/** Only checks of this severity are listed */
 	severity: 'info' | 'warning' | 'error'
+	/** All setup check results */
 	setupChecks: ISetupCheck[]
 }>()
 
@@ -28,23 +30,21 @@ const shownChecks = computed(() => props.setupChecks.filter(({ severity }) => se
 </script>
 
 <template>
-	<ul class="settings-setup-checks-list" :aria-label="ariaLabel">
+	<ul :class="$style.list" :aria-label="ariaLabel">
 		<SettingsSetupChecksListItem
 			v-for="(setupCheck, index) in shownChecks"
 			:key="index"
-			class="settings-setup-checks-list__item"
-			:setup-check="setupCheck" />
+			:class="$style.item"
+			:setupCheck="setupCheck" />
 	</ul>
 </template>
 
-<style scope lang="scss">
-.settings-setup-checks-list {
-	&:not(:first-of-type) {
-		margin-top: calc(2 * var(--default-grid-baseline));
-	}
+<style module>
+.list:not(:first-of-type) {
+	margin-top: calc(2 * var(--default-grid-baseline));
+}
 
-	&__item:not(:last-of-type) {
-		margin-bottom: var(--default-grid-baseline);
-	}
+.item:not(:last-of-type) {
+	margin-bottom: var(--default-grid-baseline);
 }
 </style>

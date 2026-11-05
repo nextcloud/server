@@ -33,7 +33,8 @@ class Overview implements IDelegatedSettings {
 	 */
 	#[\Override]
 	public function getForm() {
-		Util::addScript('settings', 'vue-settings-admin-overview');
+		Util::addScript('settings', 'admin-overview');
+		Util::addStyle('settings', 'admin-overview');
 		$this->initialState->provideInitialState('setup-checks-section', [
 			'sectionDocsUrl' => $this->urlGenerator->linkToDocs('admin-warnings'),
 			'installationGuidesDocsUrl' => $this->urlGenerator->linkToDocs('admin-install'),
