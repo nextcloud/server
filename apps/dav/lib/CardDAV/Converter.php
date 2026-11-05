@@ -9,8 +9,10 @@
 namespace OCA\DAV\CardDAV;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use Exception;
 use OCP\Accounts\IAccountManager;
+use OCP\Config\IUserConfig;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -38,6 +40,7 @@ class Converter {
 		private IUserManager $userManager,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
+		private IUserConfig $userConfig,
 	) {
 	}
 
@@ -49,7 +52,7 @@ class Converter {
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
-		$vCard->VERSION = '3.0';
+		$vCard->VERSION = '4.0';
 		$vCard->UID = $uid;
 
 		$publish = false;
@@ -73,7 +76,10 @@ class Converter {
 					break;
 				case IAccountManager::PROPERTY_AVATAR:
 					if ($image !== null) {
-						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType(), ['X-NC-SCOPE' => $scope]]);
+						$vCard->add('PHOTO', 'data:' . $image->mimeType() . ';base64,' . base64_encode($image->data()), [
+							'VALUE' => 'URI',
+							'X-NC-SCOPE' => $scope,
+						]);
 					}
 					break;
 				case IAccountManager::COLLECTION_EMAIL:
@@ -158,6 +164,21 @@ class Converter {
 					'X-NC-SCOPE' => IAccountManager::SCOPE_LOCAL,
 				]));
 			}
+		}
+
+		$language = $this->userConfig->getValueString($uid, 'core', 'lang');
+		if ($language !== '') {
+			// LANG takes a BCP 47 tag, Nextcloud uses underscores (e.g. de_DE)
+			$vCard->add(new Text($vCard, 'LANG', str_replace('_', '-', $language), [
+				'X-NC-SCOPE' => IAccountManager::SCOPE_LOCAL,
+			]));
+		}
+
+		$timezone = $this->userConfig->getValueString($uid, 'core', 'timezone');
+		if ($timezone !== '' && in_array($timezone, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC), true)) {
+			$vCard->add(new Text($vCard, 'TZ', $timezone, [
+				'X-NC-SCOPE' => IAccountManager::SCOPE_LOCAL,
+			]));
 		}
 
 		if ($publish && !empty($cloudId)) {

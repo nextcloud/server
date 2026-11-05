@@ -1294,27 +1294,27 @@ class UserConfig implements IUserConfig {
 			$update->executeStatement();
 		}
 
-		$this->dispatcher->dispatchTyped(new UserConfigChangedEvent($userId, $app, $key, $value, $oldValue));
-
 		if ($refreshCache) {
 			$this->clearCache($userId);
-			return true;
+		} else {
+			// update local cache
+			$entry = new UserConfigEntry(
+				value: $value,
+				type: $type,
+				flags: $flags,
+				crypto:$this->crypto,
+			);
+			if ($lazy) {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+				$this->lazyCache[$userId][$app][$key] = $entry;
+			} else {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
+				$this->fastCache[$userId][$app][$key] = $entry;
+			}
 		}
 
-		// update local cache
-		$entry = new UserConfigEntry(
-			value: $value,
-			type: $type,
-			flags: $flags,
-			crypto:$this->crypto,
-		);
-		if ($lazy) {
-			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
-			$this->lazyCache[$userId][$app][$key] = $entry;
-		} else {
-			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
-			$this->fastCache[$userId][$app][$key] = $entry;
-		}
+		// dispatched once the cache is updated, so listeners read the new value
+		$this->dispatcher->dispatchTyped(new UserConfigChangedEvent($userId, $app, $key, $value, $oldValue));
 
 		return true;
 	}
