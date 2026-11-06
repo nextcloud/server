@@ -26,6 +26,7 @@ use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\BeforeAppConfigSetListener;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
@@ -51,6 +52,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
+use OCP\Config\BeforeAppConfigSetEvent;
 use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -93,6 +95,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeAddedToFavorite::class, NodeAddedToFavoriteListener::class);
 		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
 		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserFirstTimeLoggedInListener::class);
+		$context->registerEventListener(BeforeAppConfigSetEvent::class, BeforeAppConfigSetListener::class);
 
 		$context->registerEventListener(ShareCreatedEvent::class, Listener::class);
 		$context->registerEventListener(ShareDeletedEvent::class, Listener::class);
