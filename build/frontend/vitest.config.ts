@@ -35,6 +35,10 @@ export default defineConfig({
 	},
 	resolve: {
 		preserveSymlinks: true,
+		alias: [
+			// allow to import from the repository root (cross reference other apps)
+			{ find: /^~\//, replacement: `${resolve(import.meta.dirname, '../..')}/` },
+		],
 	},
 	server: {
 		fs: {

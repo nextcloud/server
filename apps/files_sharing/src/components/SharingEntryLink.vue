@@ -54,10 +54,10 @@
 		<!-- Auto placement prevents top/bottom placement flip on items toggle -->
 		<NcActions
 			v-if="!pending && pendingDataIsMissing"
+			v-model:open="open"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
-			:open.sync="open"
 			placement="auto"
 			@close="onCancel">
 			<!-- pending data menu -->
@@ -146,10 +146,10 @@
 		<!-- actions -->
 		<NcActions
 			v-else-if="!loading"
+			v-model:open="open"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
-			menu-align="right"
-			:open.sync="open">
+			menu-align="right">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton
@@ -241,8 +241,8 @@
 		<!-- Modal to open whenever we have a QR code -->
 		<NcDialog
 			v-if="showQRCode"
+			v-model:open="showQRCode"
 			size="normal"
-			:open.sync="showQRCode"
 			:name="title"
 			:close-on-click-outside="true"
 			@close="showQRCode = false">
@@ -257,8 +257,7 @@
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime, t } from '@nextcloud/l10n'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarInlineActions } from '@nextcloud/sharing/ui'
@@ -448,13 +447,13 @@ export default {
 				return null
 			}
 
-			const expirationTime = moment(this.share.passwordExpirationTime)
+			const expirationTime = new Date(this.share.passwordExpirationTime)
 
-			if (expirationTime.diff(moment()) < 0) {
+			if (expirationTime.getTime() < Date.now()) {
 				return false
 			}
 
-			return expirationTime.fromNow()
+			return formatRelativeTime(expirationTime)
 		},
 
 		/**
@@ -664,7 +663,7 @@ export default {
 				const share = new Share(shareDefaults)
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					this.$set(share, 'newPassword', await GeneratePassword(true))
+					share.newPassword = await GeneratePassword(true)
 				}
 
 				const component = await new Promise((resolve) => {
@@ -822,7 +821,7 @@ export default {
 		 * @param {string} password the changed password
 		 */
 		onPasswordChange(password) {
-			this.$set(this.share, 'newPassword', password)
+			this.share.newPassword = password
 		},
 
 		/**
@@ -833,7 +832,7 @@ export default {
 		 */
 		onPasswordDisable() {
 			// reset password state after sync
-			this.$set(this.share, 'newPassword', '')
+			this.share.newPassword = ''
 
 			// only update if valid share.
 			if (this.share.id) {

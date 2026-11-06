@@ -55,6 +55,7 @@ class LoadPublicFileRequestAuthListener implements IEventListener {
 			// Ignore, this is not a file request or the share does not exist
 		}
 
+		Util::addStyle(Application::APP_ID, 'public-nickname-handler');
 		Util::addScript(Application::APP_ID, 'public-nickname-handler');
 
 		// Add file-request script if needed

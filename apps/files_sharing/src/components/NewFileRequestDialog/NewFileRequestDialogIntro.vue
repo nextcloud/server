@@ -17,7 +17,7 @@
 				:placeholder="t('files_sharing', 'Birthday party photos, History assignment…')"
 				:required="false"
 				name="label"
-				@update:value="$emit('update:label', $event)" />
+				@update:model-value="$emit('update:label', $event)" />
 		</fieldset>
 
 		<!-- Request destination -->
@@ -25,6 +25,7 @@
 			<legend>
 				{{ t('files_sharing', 'Where should these files go?') }}
 			</legend>
+			<!-- typing and pasting are prevented, the destination is chosen with the picker -->
 			<NcTextField
 				:model-value="destination"
 				:disabled="disabled"
@@ -38,8 +39,8 @@
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
 				name="destination"
 				@click="onPickDestination"
-				@keypress.prevent.stop="/* prevent typing in the input, we use the picker */"
-				@paste.prevent.stop="/* prevent pasting in the input, we use the picker */"
+				@keypress.prevent.stop
+				@paste.prevent.stop
 				@trailing-button-click="$emit('update:destination', '')">
 				<IconFolder :size="18" />
 			</NcTextField>
@@ -62,7 +63,7 @@
 				:placeholder="t('files_sharing', 'Add a note to help people understand what you are requesting.')"
 				:required="false"
 				name="note"
-				@update:value="$emit('update:note', $event)" />
+				@update:model-value="$emit('update:note', $event)" />
 
 			<p class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />

@@ -144,7 +144,7 @@
 							:helper-text="errorPasswordLabel || passwordHint"
 							:required="isPasswordEnforced && isNewShare"
 							:label="t('files_sharing', 'Password')"
-							@update:value="onPasswordChange" />
+							@update:model-value="onPasswordChange" />
 
 						<!-- Migrate icons and remote -> icon="icon-info"-->
 						<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
@@ -301,8 +301,7 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { getLanguage } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime, getLanguage } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarActions } from '@nextcloud/sharing/ui'
 import { toRaw } from 'vue'
@@ -746,13 +745,13 @@ export default {
 				return null
 			}
 
-			const expirationTime = moment(this.share.passwordExpirationTime)
+			const expirationTime = new Date(this.share.passwordExpirationTime)
 
-			if (expirationTime.diff(moment()) < 0) {
+			if (expirationTime.getTime() < Date.now()) {
 				return false
 			}
 
-			return expirationTime.fromNow()
+			return formatRelativeTime(expirationTime)
 		},
 
 		/**
@@ -953,7 +952,7 @@ export default {
 		 */
 		setShareAttribute(scope, key, value) {
 			if (!this.share.attributes) {
-				this.$set(this.share, 'attributes', [])
+				this.share.attributes = []
 			}
 
 			const attribute = this.share.attributes
@@ -1005,7 +1004,7 @@ export default {
 			this.share.sendPasswordByTalk = this.initialSendPasswordByTalk
 			this.share.hasDownloadPermission = this.initialHasDownloadPermission
 
-			this.$set(this.share, 'newPassword', undefined)
+			this.share.newPassword = undefined
 
 			this.$emit('close-sharing-details')
 		},
@@ -1053,7 +1052,7 @@ export default {
 					this.passwordProtectedState = true
 					const generatedPassword = await GeneratePassword(true)
 					if (!this.share.newPassword) {
-						this.$set(this.share, 'newPassword', generatedPassword)
+						this.share.newPassword = generatedPassword
 					}
 					this.advancedSectionAccordionExpanded = true
 				}
@@ -1245,9 +1244,8 @@ export default {
 					}
 				}
 
-				this.share = share
 				this.creating = false
-				this.$emit('add:share', this.share)
+				this.$emit('add:share', share)
 			} else {
 				// Let's update after creation as some attrs are only available after creation
 				await this.queueUpdate(...permissionsAndAttributes)
@@ -1265,16 +1263,16 @@ export default {
 
 			if (this.$refs.externalLinkActions?.length > 0) {
 				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
-					if (typeof action.$children.at(0)?.onSave !== 'function') {
+					if (typeof action.$refs.component?.onSave !== 'function') {
 						return Promise.resolve()
 					}
-					return action.$children.at(0)?.onSave?.()
+					return action.$refs.component.onSave()
 				}))
 			}
 
 			// clear the password after saving
 			if (this.share.newPassword) {
-				this.$set(this.share, 'newPassword', undefined)
+				this.share.newPassword = undefined
 			}
 
 			this.$emit('close-sharing-details')
@@ -1327,12 +1325,12 @@ export default {
 		 */
 		onPasswordChange(password) {
 			if (password === '') {
-				this.$set(this.share, 'newPassword', undefined)
+				this.share.newPassword = undefined
 				this.passwordError = this.isNewShare && this.isPasswordEnforced
 				return
 			}
 			this.passwordError = !this.isValidShareAttribute(password)
-			this.$set(this.share, 'newPassword', password)
+			this.share.newPassword = password
 		},
 
 		isValidShareAttribute(value) {

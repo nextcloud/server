@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { ShareType } from '@nextcloud/sharing'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { reactive } from 'vue'
 
 // The component reads the theme at module scope, so it must exist before import.
 vi.hoisted(() => {
@@ -99,5 +101,74 @@ describe('getUnifiedShares', () => {
 		await SharingTab.methods.getUnifiedShares.call(ctx)
 		expect(ctx.error).toBe('Nope')
 		expect(ctx.loading).toBe(false)
+	})
+})
+
+describe('awaitForShare', () => {
+	/**
+	 * Build a fake list component rendering the given entries.
+	 *
+	 * @param entries The rendered entry components
+	 */
+	function list(entries: { share: object }[]) {
+		return { $refs: { entries } }
+	}
+
+	it('resolves with the entry of the share list rendering the share', () => {
+		const share = { id: 1, type: ShareType.User }
+		const entry = { share: reactive(share) }
+		const ctx = {
+			$nextTick: (callback: () => void) => callback(),
+			$refs: { shareList: list([entry]), linkShareList: list([]) },
+		}
+		const resolve = vi.fn()
+
+		SharingTab.methods.awaitForShare.call(ctx, share, resolve)
+
+		expect(resolve.mock.calls[0][0]).toBe(entry)
+	})
+
+	it('looks up mail shares in the link share list', () => {
+		const share = { id: 1, type: ShareType.Email }
+		const entry = { share: reactive(share) }
+		const ctx = {
+			$nextTick: (callback: () => void) => callback(),
+			$refs: { shareList: list([]), linkShareList: list([entry]) },
+		}
+		const resolve = vi.fn()
+
+		SharingTab.methods.awaitForShare.call(ctx, share, resolve)
+
+		expect(resolve.mock.calls[0][0]).toBe(entry)
+	})
+})
+
+describe('updateExpirationSubtitle', () => {
+	beforeEach(() => {
+		vi.useFakeTimers({ now: new Date('2026-01-01T00:00:00Z') })
+		vi.stubGlobal('t', (_app: string, text: string, vars?: Record<string, string>) => text.replace('{relativetime}', vars?.relativetime ?? ''))
+	})
+
+	afterEach(() => {
+		vi.useRealTimers()
+		vi.unstubAllGlobals()
+	})
+
+	it('shows the time left until the share expires', () => {
+		const ctx = { sharedWithMe: reactive<Record<string, string>>({}), expirationInterval: undefined }
+
+		SharingTab.methods.updateExpirationSubtitle.call(ctx, { expireDate: '2026-01-03T00:00:00Z' })
+
+		expect(ctx.sharedWithMe.extra).toBe('Expires in 2 days')
+	})
+
+	it('stops updating once the share expired', () => {
+		const clearInterval = vi.spyOn(window, 'clearInterval')
+		const ctx = { sharedWithMe: reactive<Record<string, string>>({}), expirationInterval: 42 }
+
+		SharingTab.methods.updateExpirationSubtitle.call(ctx, { expireDate: '2025-12-31T00:00:00Z' })
+
+		expect(ctx.sharedWithMe.extra).toBe('this share just expired.')
+		expect(clearInterval).toHaveBeenCalledWith(42)
 	})
 })

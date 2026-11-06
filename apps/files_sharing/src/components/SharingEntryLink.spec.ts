@@ -46,14 +46,16 @@ function mountEntry() {
 	})
 
 	return shallowMount(SharingEntryLink, {
-		propsData: { share, fileInfo: { path: '/', name: 'file.txt' } },
-		mocks: {
-			t: (_app: string, text: string) => text,
-		},
-		stubs: {
-			NcActions: { template: '<div><slot /></div>' },
-			NcActionButton: { template: '<button @click="$emit(\'click\', $event)"><slot /></button>' },
-			NcDialog: { template: '<div class="dialog"><slot /></div>' },
+		props: { share, fileInfo: { path: '/', name: 'file.txt' } },
+		global: {
+			mocks: {
+				t: (_app: string, text: string) => text,
+			},
+			stubs: {
+				NcActions: { template: '<div><slot /></div>' },
+				NcActionButton: { template: '<button @click="$emit(\'click\', $event)"><slot /></button>' },
+				NcDialog: { template: '<div class="dialog"><slot /></div>' },
+			},
 		},
 	})
 }

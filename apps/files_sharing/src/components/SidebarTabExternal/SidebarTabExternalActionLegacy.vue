@@ -6,6 +6,7 @@
 <template>
 	<component
 		:is="data.is"
+		ref="component"
 		v-bind="data"
 		v-on="action.handlers">
 		{{ data.text }}

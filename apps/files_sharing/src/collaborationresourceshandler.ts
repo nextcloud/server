@@ -3,11 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import { FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-
-__webpack_nonce__ = getCSPNonce()
 
 window.OCP.Collaboration.registerType('file', {
 	typeString: t('files_sharing', 'Link to a file'),

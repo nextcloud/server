@@ -5,15 +5,6 @@
 const path = require('path')
 
 module.exports = {
-	files_sharing: {
-		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
-		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
-		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files-sidebar.ts'),
-		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
-		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
-		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
-		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
-	},
 	settings: {
 		main: path.join(__dirname, 'apps/settings/src', 'main-settings.ts'),
 		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
