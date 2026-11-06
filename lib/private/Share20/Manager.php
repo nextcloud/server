@@ -1327,7 +1327,7 @@ class Manager implements IManager {
 			return [];
 		}
 
-		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+		if ($onlyValid && $this->hidesDisabledUserSharesOfType($shareType)) {
 			/*
 			 * If shares from disabled users are hidden, check user status first to avoid useless work.
 			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
@@ -1580,6 +1580,27 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Whether shares of the given type are hidden when an account involved in them
+	 * is disabled. Public, mail and federated shares are external, any other type
+	 * is internal.
+	 */
+	private function hidesDisabledUserSharesOfType(?int $shareType): bool {
+		$external = in_array($shareType, [
+			IShare::TYPE_LINK,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_REMOTE_GROUP,
+			IShare::TYPE_SCIENCEMESH,
+		], true);
+
+		return $this->appConfig->getValueBool(
+			'files_sharing',
+			$external ? 'hide_disabled_user_external_shares' : 'hide_disabled_user_shares',
+			true,
+		);
+	}
+
+	/**
 	 * Whether a share has to be hidden because one of the accounts involved in it
 	 * is disabled.
 	 *
@@ -1589,7 +1610,7 @@ class Manager implements IManager {
 	 * @param ?string $viewer Account the share is checked for, if known
 	 */
 	private function isHiddenDisabledUserShare(IShare $share, ?string $viewer = null): bool {
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') !== 'yes') {
+		if (!$this->hidesDisabledUserSharesOfType($share->getShareType())) {
 			return false;
 		}
 
