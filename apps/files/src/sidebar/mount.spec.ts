@@ -4,7 +4,7 @@
  */
 
 import type { logger as Logger } from '../utils/logger.ts'
-import type { isSidebarMounted as IsSidebarMounted, mountSidebar as MountSidebar } from './mount.ts'
+import type { isSidebarMounted as IsSidebarMounted, mountSidebar as MountSidebar, unmountSidebar as UnmountSidebar } from './mount.ts'
 
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
@@ -13,6 +13,7 @@ vi.mock('@nextcloud/auth')
 
 // the sidebar is only rendered once per page, so every test needs a fresh state
 let mountSidebar: typeof MountSidebar
+let unmountSidebar: typeof UnmountSidebar
 let isSidebarMounted: typeof IsSidebarMounted
 let logger: typeof Logger
 
@@ -38,7 +39,7 @@ describe('Sidebar rendering', () => {
 		document.body.innerHTML = '';
 
 		({ logger } = await import('../utils/logger.ts'));
-		({ isSidebarMounted, mountSidebar } = await import('./mount.ts'))
+		({ isSidebarMounted, mountSidebar, unmountSidebar } = await import('./mount.ts'))
 	})
 
 	test('is not rendered by default', () => {
@@ -86,5 +87,24 @@ describe('Sidebar rendering', () => {
 		expect(mountSidebar(target)).toBe(true)
 		expect(content.querySelector('aside')).toBeNull()
 		expect(target.querySelector('aside')).not.toBeNull()
+	})
+
+	test('is removed again', () => {
+		const content = buildPageContent()
+
+		mountSidebar(content)
+		unmountSidebar()
+
+		expect(isSidebarMounted()).toBe(false)
+		expect(content.children).toHaveLength(0)
+
+		// can be rendered again afterwards
+		expect(mountSidebar(content)).toBe(true)
+		expect(content.querySelector('aside')).not.toBeNull()
+	})
+
+	test('ignores removing a sidebar which is not rendered', () => {
+		expect(() => unmountSidebar()).not.toThrow()
+		expect(isSidebarMounted()).toBe(false)
 	})
 })

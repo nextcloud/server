@@ -83,6 +83,7 @@ import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
+import { getBreadcrumbDirs } from '../utils/breadcrumbs.ts'
 import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
@@ -97,6 +98,12 @@ export default defineComponent({
 
 	props: {
 		path: {
+			type: String,
+			default: '/',
+		},
+
+		/** The directory to start the breadcrumbs with */
+		root: {
 			type: String,
 			default: '/',
 		},
@@ -159,11 +166,7 @@ export default defineComponent({
 
 	computed: {
 		dirs(): string[] {
-			const cumulativePath = (acc: string) => (value: string) => (acc += `${value}/`)
-			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
-			const paths: string[] = this.path.split('/').filter(Boolean).map(cumulativePath('/'))
-			// Strip away trailing slash
-			return ['/', ...paths.map((path: string) => path.replace(/^(.+)\/$/, '$1'))]
+			return getBreadcrumbDirs(this.path, this.root)
 		},
 
 		sections() {
