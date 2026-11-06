@@ -156,7 +156,7 @@ import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUpIcon from 'vue-material-design-icons/ChevronUp.vue'
 import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
-import logger from '../logger.ts'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'AdminAI',

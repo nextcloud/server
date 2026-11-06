@@ -16,8 +16,8 @@ module.exports = {
 	},
 	settings: {
 		main: path.join(__dirname, 'apps/settings/src', 'main-settings.ts'),
-		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
-		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
+		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src/sections/ai', 'main.js'),
+		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src/sections/security', 'main.js'),
 		'vue-settings-profile-contact': path.join(__dirname, 'apps/settings/src', 'main-profile-contact.js'),
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),

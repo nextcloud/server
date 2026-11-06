@@ -4,7 +4,7 @@
  */
 import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
-import ArtificialIntelligence from './components/AdminAI.vue'
+import ArtificialIntelligence from './AdminAI.vue'
 
 __webpack_nonce__ = getCSPNonce()
 

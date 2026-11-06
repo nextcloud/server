@@ -6,8 +6,8 @@ import { getCSPNonce } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
-import AdminTwoFactor from './components/AdminTwoFactor.vue'
-import EncryptionSettings from './components/Encryption/EncryptionSettings.vue'
+import AdminTwoFactor from './AdminTwoFactor.vue'
+import EncryptionSettings from './encryption/EncryptionSettings.vue'
 
 addPasswordConfirmationInterceptors(axios)
 
