@@ -13,12 +13,17 @@ use OC\Files\Stream\SeekableHttpStream;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 use OCP\Server;
 
 /**
  * Object store backed by an Azure Blob Storage container.
+ *
+ * Metadata names are stored with "_" instead of "-", as Azure only allows C# identifiers.
+ *
+ * @psalm-import-type ObjectMetaData from IObjectStoreMetaData
  *
  * Supported arguments:
  * - container, account_name, account_key: required
@@ -31,7 +36,7 @@ use OCP\Server;
  * - use_nextcloud_bundle: use the CA bundle managed by Nextcloud
  * - use_presigned_url: allow direct downloads from Azure with shared access signatures
  */
-class Azure implements IObjectStore {
+class Azure implements IObjectStore, IObjectStoreMetaData {
 	public const DEFAULT_BLOCK_SIZE = 32 * 1024 * 1024;
 
 	private string $containerName;
@@ -134,14 +139,19 @@ class Azure implements IObjectStore {
 		return RetryWrapper::wrap($handle);
 	}
 
+	#[\Override]
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
+		$this->writeObjectWithMetaData($urn, $stream, $mimetype ? ['mimetype' => $mimetype] : []);
+	}
+
 	/**
 	 * The size of the stream is never relied upon: uploads reach this method as
 	 * php://input wrapped in other streams, which can neither seek nor report a size.
 	 */
 	#[\Override]
-	public function writeObject($urn, $stream, ?string $mimetype = null) {
+	public function writeObjectWithMetaData(string $urn, $stream, array $metaData): void {
 		$client = $this->getBlobClient();
-		$headers = $mimetype ? ['x-ms-blob-content-type' => $mimetype] : [];
+		$headers = $this->buildMetaDataHeaders($metaData);
 
 		$uploadId = bin2hex(random_bytes(16));
 		$blockIds = [];
@@ -163,6 +173,41 @@ class Azure implements IObjectStore {
 		} while ($size === $this->blockSize);
 
 		$client->putBlockList($this->containerName, $urn, $blockIds, $headers);
+	}
+
+	/**
+	 * @param array<string, mixed> $metaData
+	 * @return array<string, string>
+	 */
+	private function buildMetaDataHeaders(array $metaData): array {
+		$headers = [];
+		foreach ($metaData as $key => $value) {
+			if ($key === 'mimetype') {
+				$headers['x-ms-blob-content-type'] = (string)$value;
+			} elseif ($key !== 'size') {
+				$value = (string)$value;
+				if (preg_match('/^[\x20-\x7E]*$/', $value) !== 1 || trim($value) !== $value) {
+					$value = 'base64:' . base64_encode($value);
+				}
+				$headers['x-ms-meta-' . preg_replace('/[^a-z0-9_]/', '_', strtolower($key))] = $value;
+			}
+		}
+		return $headers;
+	}
+
+	/**
+	 * @param array<string, string> $metadata metadata names without prefix and their values
+	 * @return array<string, string>
+	 */
+	private function parseMetaData(array $metadata): array {
+		$result = [];
+		foreach ($metadata as $name => $value) {
+			if (str_starts_with($value, 'base64:')) {
+				$value = base64_decode(substr($value, 7));
+			}
+			$result[str_replace('_', '-', strtolower($name))] = $value;
+		}
+		return $result;
 	}
 
 	/**
@@ -210,6 +255,60 @@ class Azure implements IObjectStore {
 	#[\Override]
 	public function copyObject($from, $to) {
 		$this->getBlobClient()->copyBlob($this->containerName, $from, $to);
+	}
+
+	#[\Override]
+	public function getObjectMetaData(string $urn): array {
+		$properties = $this->getBlobClient()->getBlobProperties($this->containerName, $urn);
+
+		$metadata = [];
+		foreach ($properties as $name => $value) {
+			if (str_starts_with($name, 'x-ms-meta-')) {
+				$metadata[substr($name, strlen('x-ms-meta-'))] = $value;
+			}
+		}
+		return $this->toObjectMetaData($properties, $metadata);
+	}
+
+	#[\Override]
+	public function listObjects(string $prefix = ''): \Iterator {
+		foreach ($this->getBlobClient()->listBlobs($this->containerName, $prefix) as $blob) {
+			yield [
+				'urn' => $blob['name'],
+				'metadata' => $this->toObjectMetaData($blob['properties'], $blob['metadata']),
+			];
+		}
+	}
+
+	/**
+	 * @param array<string, string> $properties blob properties with lower case names
+	 * @param array<string, string> $metadata metadata names without prefix and their values
+	 * @return ObjectMetaData
+	 */
+	private function toObjectMetaData(array $properties, array $metadata): array {
+		/** @var ObjectMetaData */
+		return $this->formatMetaData($properties) + $this->parseMetaData($metadata);
+	}
+
+	/**
+	 * @param array<string, string> $properties blob properties with lower case names
+	 * @return array{mtime?: \DateTime, etag?: string, size?: int, mimetype?: string}
+	 */
+	private function formatMetaData(array $properties): array {
+		$result = [];
+		if (isset($properties['last-modified'])) {
+			$result['mtime'] = new \DateTime($properties['last-modified']);
+		}
+		if (isset($properties['etag'])) {
+			$result['etag'] = trim($properties['etag'], '"');
+		}
+		if (isset($properties['content-length'])) {
+			$result['size'] = (int)$properties['content-length'];
+		}
+		if (isset($properties['content-type'])) {
+			$result['mimetype'] = $properties['content-type'];
+		}
+		return $result;
 	}
 
 	#[\Override]
