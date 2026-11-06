@@ -3,15 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type * as FilesDav from '@nextcloud/files/dav'
+
+import { Folder } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath, getClient, resultToNode } from '@nextcloud/files/dav'
+import { join as joinUrl } from '@nextcloud/paths'
 import { join } from 'node:path'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { dataTransferToFileTree } from './DropService.ts'
-import { Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
+import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
 
 vi.mock('@nextcloud/dialogs')
+vi.mock('@nextcloud/files/dav', async (importOriginal) => ({
+	...await importOriginal<typeof FilesDav>(),
+	getClient: vi.fn(),
+	getDefaultPropfind: vi.fn(),
+	resultToNode: vi.fn(),
+}))
 vi.mock('../utils/newNodeDialog.ts')
 vi.mock('@nextcloud/capabilities', () => ({
 	getCapabilities: () => ({
@@ -162,6 +173,81 @@ describe('renameInvalidDroppedEntries', () => {
 
 		expect(await renameInvalidDroppedEntries(tree)).toBe(false)
 		expect(tree.contents[0].name).toBe('folder\\')
+	})
+})
+
+describe('createDirectoryIfNotExists', () => {
+	const client = {
+		exists: vi.fn(),
+		createDirectory: vi.fn(),
+		stat: vi.fn(),
+	}
+
+	function destinationAt(path: string) {
+		return new Folder({
+			id: 1,
+			source: `http://localhost/remote.php/dav/files/admin/${path}`,
+			root: '/files/admin',
+			owner: 'admin',
+		})
+	}
+
+	beforeEach(() => {
+		vi.mocked(getClient).mockReset().mockReturnValue(client as unknown as ReturnType<typeof getClient>)
+		vi.mocked(resultToNode).mockReset().mockReturnValue('node' as unknown as ReturnType<typeof resultToNode>)
+		client.exists.mockReset().mockResolvedValue(false)
+		client.createDirectory.mockReset().mockResolvedValue(undefined)
+		client.stat.mockReset().mockResolvedValue({ data: 'stat' })
+	})
+
+	it('builds the client from the encoded destination and keeps the decoded source for the node', async () => {
+		const destination = destinationAt('#dir/q?x')
+
+		await createDirectoryIfNotExists('sub', destination)
+
+		expect(getClient).toHaveBeenCalledWith('http://localhost/remote.php/dav/files/admin/%23dir/q%3Fx')
+		expect(client.createDirectory).toHaveBeenCalledWith('sub', { recursive: true })
+		expect(resultToNode).toHaveBeenCalledWith('stat', '/files/admin', 'http://localhost/remote.php/dav/files/admin/#dir/q?x')
+	})
+
+	it('uses the encoded destination for every level of a nested drop', async () => {
+		const destination = destinationAt('#dir/q?x')
+
+		for (const path of ['a', 'a/b', 'a/b/c']) {
+			await createDirectoryIfNotExists(path, destination)
+		}
+
+		expect(getClient).toHaveBeenCalledTimes(3)
+		for (const [url] of vi.mocked(getClient).mock.calls) {
+			expect(url).toBe('http://localhost/remote.php/dav/files/admin/%23dir/q%3Fx')
+		}
+		expect(client.createDirectory.mock.calls.map(([path]) => path)).toEqual(['a', 'a/b', 'a/b/c'])
+	})
+
+	it('does not encode an already encoded character twice', async () => {
+		const destination = destinationAt('100% done #1')
+
+		await createDirectoryIfNotExists('sub', destination)
+
+		expect(getClient).toHaveBeenCalledWith('http://localhost/remote.php/dav/files/admin/100%25%20done%20%231')
+		expect(resultToNode).toHaveBeenCalledWith('stat', '/files/admin', 'http://localhost/remote.php/dav/files/admin/100% done #1')
+	})
+
+	it('falls back to the default user root without a destination', async () => {
+		await createDirectoryIfNotExists('sub')
+
+		const url = joinUrl(defaultRemoteURL, defaultRootPath)
+		expect(getClient).toHaveBeenCalledWith(url)
+		expect(resultToNode).toHaveBeenCalledWith('stat', defaultRootPath, url)
+	})
+
+	it('does not create an existing directory', async () => {
+		client.exists.mockResolvedValue(true)
+
+		await createDirectoryIfNotExists('sub', destinationAt('#dir'))
+
+		expect(client.createDirectory).not.toHaveBeenCalled()
+		expect(resultToNode).not.toHaveBeenCalled()
 	})
 })
 
