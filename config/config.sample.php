@@ -2221,6 +2221,9 @@ $CONFIG = [
 			'timeout' => 0,
 			// optional: use the CA bundle managed by Nextcloud instead of the system bundle. Default: false
 			'use_nextcloud_bundle' => false,
+			// optional: let clients download files directly from Azure with short-lived read-only
+			// shared access signatures instead of through Nextcloud. Default: false
+			'use_presigned_url' => false,
 		],
 	],
 
