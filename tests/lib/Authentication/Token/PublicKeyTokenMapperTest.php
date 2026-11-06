@@ -258,4 +258,74 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
+
+	public function testGetTokensOfLogin(): void {
+		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$renewed = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+		$sibling = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+		$this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$this->insertToken('user1', IToken::PERMANENT_TOKEN, null);
+		// Only the tokens of the user count, whatever they name as their login
+		$this->insertToken('user2', IToken::TEMPORARY_TOKEN, $first);
+
+		$this->assertSame([$first, $renewed, $sibling], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
+		$this->assertSame([], $this->mapper->getTokensOfLogin('user2', $renewed));
+
+		$this->mapper->deleteSessionToken($first);
+		$this->assertSame([$renewed, $sibling], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
+	}
+
+	public function testGetTokensOfLoginForUpdate(): void {
+		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$sibling = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+
+		$this->dbConnection->beginTransaction();
+		try {
+			$this->assertSame([$first, $sibling], $this->getIds($this->mapper->getTokensOfLogin('user1', $first, true)));
+			$this->assertSame($sibling, $this->mapper->getTokenById($sibling, true)->getId());
+		} finally {
+			$this->dbConnection->rollBack();
+		}
+	}
+
+	public function testDeleteSessionToken(): void {
+		$sessionToken = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
+		$appPassword = $this->insertToken('user1', IToken::PERMANENT_TOKEN, null);
+
+		$this->assertTrue($this->mapper->deleteSessionToken($sessionToken));
+		// A concurrent request deleted it first
+		$this->assertFalse($this->mapper->deleteSessionToken($sessionToken));
+		$this->assertFalse($this->mapper->deleteSessionToken($appPassword));
+		$this->assertSame($appPassword, $this->mapper->getTokenById($appPassword)->getId());
+	}
+
+	/**
+	 * Store a token of $uid that belongs to the login $loginId, or starts its own login if null
+	 *
+	 * @return int The id of the token
+	 */
+	private function insertToken(string $uid, int $type, ?int $loginId): int {
+		$token = new PublicKeyToken();
+		$token->setUid($uid);
+		$token->setLoginName($uid);
+		$token->setName('Firefox on Linux');
+		$token->setToken(bin2hex(random_bytes(32)));
+		$token->setType($type);
+		$token->setRemember($type === IToken::TEMPORARY_TOKEN ? IToken::REMEMBER : IToken::DO_NOT_REMEMBER);
+		$token->setLastActivity($this->time);
+		$token->setLastCheck($this->time);
+		$token->setPublicKey('public key');
+		$token->setPrivateKey('private key');
+		$token->setVersion(PublicKeyToken::VERSION);
+		$token->setLoginId($loginId);
+		return $this->mapper->insert($token)->getId();
+	}
+
+	/**
+	 * @param list<PublicKeyToken> $tokens
+	 * @return list<int>
+	 */
+	private function getIds(array $tokens): array {
+		return array_map(fn (PublicKeyToken $token): int => $token->getId(), $tokens);
+	}
 }

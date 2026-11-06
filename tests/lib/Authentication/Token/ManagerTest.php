@@ -268,6 +268,68 @@ class ManagerTest extends TestCase {
 		$this->manager->renewSessionToken('oldId', 'newId');
 	}
 
+	public function testGetLoginOfUserPublicKey(): void {
+		$token = $this->createMock(PublicKeyToken::class);
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('getLoginOfUser')
+			->with('user', 42)
+			->willReturn($token);
+
+		$this->assertSame($token, $this->manager->getLoginOfUser('user', 42));
+	}
+
+	public function testGetLoginsOfUserPublicKey(): void {
+		$logins = [42 => $this->createMock(PublicKeyToken::class)];
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('getLoginsOfUser')
+			->with('user')
+			->willReturn($logins);
+
+		$this->assertSame($logins, $this->manager->getLoginsOfUser('user'));
+	}
+
+	public function testUpdateLoginPublicKey(): void {
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('updateLogin')
+			->with('user', 42, 'Laptop', null);
+
+		$this->manager->updateLogin('user', 42, 'Laptop', null);
+	}
+
+	public function testGetLoginIdPublicKey(): void {
+		$token = $this->createMock(PublicKeyToken::class);
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('getLoginId')
+			->with($token)
+			->willReturn(42);
+
+		$this->assertSame(42, $this->manager->getLoginId($token));
+	}
+
+	public function testInvalidateOtherTokensOfLoginPublicKey(): void {
+		$token = $this->createMock(PublicKeyToken::class);
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('invalidateOtherTokensOfLogin')
+			->with($token);
+
+		$this->manager->invalidateOtherTokensOfLogin($token);
+	}
+
+	public function testMarkForWipePublicKey(): void {
+		$token = $this->createMock(PublicKeyToken::class);
+		$this->getAutoMock(PublicKeyTokenProvider::class)->expects($this->once())
+			->method('markForWipe')
+			->with($token);
+
+		$this->manager->markForWipe($token);
+	}
+
+	public function testMarkForWipeInvalidToken(): void {
+		$this->expectException(InvalidTokenException::class);
+
+		$this->manager->markForWipe($this->createMock(IToken::class));
+	}
+
 	public function testGetTokenByIdPublicKey(): void {
 		$token = $this->createMock(IToken::class);
 
@@ -358,9 +420,9 @@ class ManagerTest extends TestCase {
 
 		$this->getAutoMock(PublicKeyTokenProvider::class)
 			->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('theUser')
-			->willReturn([$t1, $t2]);
+			->willReturn([123 => $t1, 456 => $t2]);
 
 		$calls = [
 			['theUser', 123],
@@ -389,9 +451,9 @@ class ManagerTest extends TestCase {
 
 		$this->getAutoMock(PublicKeyTokenProvider::class)
 			->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('theUser')
-			->willReturn([$t1, $t2, $t3]);
+			->willReturn([123 => $t1, 456 => $t2, 789 => $t3]);
 		$this->getAutoMock(PublicKeyTokenProvider::class)
 			->expects($this->once())
 			->method('invalidateTokenById')

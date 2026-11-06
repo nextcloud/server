@@ -9,11 +9,9 @@ declare(strict_types=1);
 
 namespace Test\Session;
 
-use OC\Authentication\Token\IProvider;
 use OC\Session\Internal;
 use OC\User\Session as UserSession;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Authentication\Token\IToken;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Server;
@@ -364,10 +362,10 @@ class InternalTest extends TestCase {
 		$session->set('foo', 'bar');
 		$oldId = $session->getId();
 
-		$tokenProvider = $this->createMock(IProvider::class);
-		$this->overwriteService(IProvider::class, $tokenProvider);
-		$tokenProvider->expects($this->never())
-			->method('renewSessionToken');
+		$userSession = $this->createMock(UserSession::class);
+		$this->overwriteService(UserSession::class, $userSession);
+		$userSession->expects($this->never())
+			->method('followRegeneratedSessionId');
 		$this->logger->expects($this->once())
 			->method('warning')
 			->with('Could not regenerate the session id');
@@ -429,31 +427,26 @@ class InternalTest extends TestCase {
 		$this->assertFalse($newSession->exists(Internal::SUPERSEDED_AT));
 	}
 
-	public function testRegenerateIdRenewsSessionTokenFromOldToNewId(): void {
+	public function testRegenerateIdLetsTheUserSessionFollowTheNewId(): void {
 		$session = $this->startRequest();
 		$session->close();
 		$session->set('foo', 'bar');
 		$oldId = $session->getId();
 
-		$tokenProvider = $this->createMock(IProvider::class);
 		$userSession = $this->createMock(UserSession::class);
-		$this->overwriteService(IProvider::class, $tokenProvider);
 		$this->overwriteService(UserSession::class, $userSession);
-		$renewed = null;
-		$tokenProvider->expects($this->once())
-			->method('renewSessionToken')
-			->willReturnCallback(function (string $oldSessionId, string $sessionId) use (&$renewed): IToken {
-				$renewed = ['oldSessionId' => $oldSessionId, 'sessionId' => $sessionId];
-				return $this->createMock(IToken::class);
-			});
+		$followed = null;
 		$userSession->expects($this->once())
-			->method('renewMagicSessionId')
-			->with($oldId);
+			->method('followRegeneratedSessionId')
+			->willReturnCallback(function (string $oldSessionId, string $sessionId) use (&$followed): void {
+				$followed = ['oldSessionId' => $oldSessionId, 'sessionId' => $sessionId];
+			});
 
 		$session->regenerateId(true, true);
 
 		$this->assertNotSame($oldId, $session->getId());
-		$this->assertSame(['oldSessionId' => $oldId, 'sessionId' => $session->getId()], $renewed);
+		$this->assertSame(['oldSessionId' => $oldId, 'sessionId' => $session->getId()], $followed);
+		$this->assertSame('bar', $session->get('foo'));
 	}
 
 	public function testFailedRestartKeepsSessionWritable(): void {

@@ -9,7 +9,6 @@
 namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
-use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -26,7 +25,6 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -230,16 +228,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 124;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 		$this->mockActivityManager();
-
-		$token->expects($this->exactly(2))
-			->method('getId')
-			->willReturn($tokenId);
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('jane');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
@@ -248,41 +238,12 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
-	public function testDestroyExpired(): void {
-		$tokenId = 124;
-		$token = $this->createMock(PublicKeyToken::class);
-
-		$token->expects($this->exactly(2))
-			->method('getId')
-			->willReturn($tokenId);
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn($this->uid);
-
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo($tokenId))
-			->willThrowException(new ExpiredTokenException($token));
-
-		$this->tokenProvider->expects($this->once())
-			->method('invalidateTokenById')
-			->with($this->uid, $tokenId);
-
-		$this->assertSame([], $this->controller->destroy($tokenId)->getData());
-	}
-
 	public function testDestroyWipePendingEmitsCancelledSubject(): void {
 		$tokenId = 125;
-		$token = $this->createMock(PublicKeyToken::class);
-
-		$token->method('getId')->willReturn($tokenId);
+		$token = $this->mockAuthToken($tokenId, IToken::WIPE_TOKEN);
 		$token->method('getName')->willReturn('My phone');
 
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($tokenId)
-			->willThrowException(new WipeTokenException($token));
+		$this->mockLoginOfUser($tokenId, $token);
 
 		// The token is still invalidated (the user opted into cancelling the wipe).
 		$this->tokenProvider->expects($this->once())
@@ -319,10 +280,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getToken')
 			->with('sessionid')
 			->willReturn($currentToken);
+		$this->tokenProvider->method('getLoginId')
+			->with($currentToken)
+			->willReturn(10);
 		$this->tokenProvider->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with($this->uid)
-			->willReturn([$currentToken, $otherToken, $appPassword]);
+			->willReturn([10 => $currentToken, 11 => $otherToken, 12 => $appPassword]);
 
 		$revokedIds = [];
 		$this->tokenProvider->expects($this->exactly(2))
@@ -347,7 +311,8 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->session->method('getId')->willReturn('sessionid');
 		$this->tokenProvider->method('getToken')->willReturn($currentToken);
-		$this->tokenProvider->method('getTokenByUser')->willReturn([$currentToken, $otherToken, $wipingToken]);
+		$this->tokenProvider->method('getLoginId')->willReturn(10);
+		$this->tokenProvider->method('getLoginsOfUser')->willReturn([10 => $currentToken, 11 => $otherToken, 12 => $wipingToken]);
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
@@ -363,8 +328,9 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->session->method('getId')->willReturn('sessionid');
 		$this->tokenProvider->method('getToken')->willReturn($currentToken);
-		$this->tokenProvider->method('getTokenByUser')
-			->willReturn([$currentToken, $this->mockAuthToken(11), $this->mockAuthToken(12)]);
+		$this->tokenProvider->method('getLoginId')->willReturn(10);
+		$this->tokenProvider->method('getLoginsOfUser')
+			->willReturn([10 => $currentToken, 11 => $this->mockAuthToken(11), 12 => $this->mockAuthToken(12)]);
 
 		$event = $this->createMock(IEvent::class);
 		$event->method('setApp')->willReturnSelf();
@@ -393,12 +359,35 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->session->method('getId')->willReturn('sessionid');
 		$this->tokenProvider->method('getToken')->willReturn($currentToken);
-		$this->tokenProvider->method('getTokenByUser')->willReturn([$currentToken]);
+		$this->tokenProvider->method('getLoginId')->willReturn(10);
+		$this->tokenProvider->method('getLoginsOfUser')->willReturn([10 => $currentToken]);
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 		$this->activityManager->expects($this->never())->method('publish');
 
 		$this->assertSame(['revoked' => []], $this->controller->destroyOthers()->getData());
+	}
+
+	public function testDestroyOthersKeepsOnlyTheSessionTokenOfThisSessionInItsLogin(): void {
+		$currentToken = $this->mockAuthToken(13, IToken::TEMPORARY_TOKEN);
+
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->willReturn($currentToken);
+		$this->tokenProvider->method('getLoginId')->willReturn(10);
+		$this->tokenProvider->method('getLoginsOfUser')
+			->willReturn([10 => $currentToken, 11 => $this->mockAuthToken(11)]);
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with($this->uid, 11);
+		// The other session tokens of this browser login
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateOtherTokensOfLogin')
+			->with($currentToken);
+		$this->mockActivityManager();
+
+		// The entry of this session stays in the list
+		$this->assertSame(['revoked' => [11]], $this->controller->destroyOthers()->getData());
 	}
 
 	public function testDestroyOthersWithAppPassword(): void {
@@ -445,13 +434,11 @@ class AuthSettingsControllerTest extends TestCase {
 
 	public function testDestroyWrongUser(): void {
 		$tokenId = 124;
-		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('foobar');
+		// The login belongs to another user
+		$this->mockLoginOfUser($tokenId, null);
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateTokenById');
 
 		$response = $this->controller->destroy($tokenId);
 		$this->assertSame([], $response->getData());
@@ -470,12 +457,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 		$this->mockActivityManager();
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('jane');
 
 		$token->expects($this->once())
 			->method('getName')
@@ -485,13 +468,10 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getScopeAsArray')
 			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
-		$token->expects($this->once())
-			->method('setName')
-			->with($this->equalTo($newName));
-
+		// Renames every token of the login
 		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($this->equalTo($token));
+			->method('updateLogin')
+			->with($this->uid, $tokenId, $newName, null);
 
 		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
 	}
@@ -508,12 +488,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 		$this->mockActivityManager();
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('jane');
 
 		$token->expects($this->once())
 			->method('getName')
@@ -523,13 +499,9 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getScopeAsArray')
 			->willReturn([IToken::SCOPE_FILESYSTEM => $filesystem]);
 
-		$token->expects($this->once())
-			->method('setScope')
-			->with($this->equalTo([IToken::SCOPE_FILESYSTEM => $newFilesystem]));
-
 		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($this->equalTo($token));
+			->method('updateLogin')
+			->with($this->uid, $tokenId, null, [IToken::SCOPE_FILESYSTEM => $newFilesystem]);
 
 		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => $newFilesystem]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
@@ -538,11 +510,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('jane');
+		$this->mockLoginOfUser($tokenId, $token);
 
 		$token->expects($this->once())
 			->method('getName')
@@ -552,15 +520,8 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getScopeAsArray')
 			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
-		$token->expects($this->never())
-			->method('setName');
-
-		$token->expects($this->never())
-			->method('setScope');
-
-		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($this->equalTo($token));
+		$this->tokenProvider->expects($this->never())
+			->method('updateLogin');
 
 		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
@@ -579,22 +540,15 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 		$this->mockActivityManager();
 
-		$token->method('getUID')->willReturn('jane');
 		$token->method('getName')->willReturn('App password');
 		$token->method('getScopeAsArray')->willReturn($stored);
 
-		$token->expects($this->never())
-			->method('setScope');
-		$token->expects($this->once())
-			->method('setName')
-			->with('Renamed');
-
 		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($token);
+			->method('updateLogin')
+			->with($this->uid, $tokenId, 'Renamed', null);
 
 		$this->assertSame(['scope' => $stored], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
 	}
@@ -612,20 +566,15 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 		$this->mockActivityManager(Provider::APP_TOKEN_SCOPES_CHANGED);
 
-		$token->method('getUID')->willReturn('jane');
 		$token->method('getName')->willReturn('App password');
 		$token->method('getScopeAsArray')->willReturn($stored);
 
-		$token->expects($this->once())
-			->method('setScope')
-			->with($expected);
-
 		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($token);
+			->method('updateLogin')
+			->with($this->uid, $tokenId, null, $expected);
 
 		$this->assertSame(['scope' => $expected], $this->controller->update($tokenId, $scope, 'App password')->getData());
 	}
@@ -634,18 +583,13 @@ class AuthSettingsControllerTest extends TestCase {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		$this->mockLoginOfUser($tokenId, $token);
 
-		$token->method('getUID')->willReturn('jane');
 		$token->method('getName')->willReturn('App password');
 		$token->method('getScopeAsArray')->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
-		$token->expects($this->never())
-			->method('setScope');
-		$token->expects($this->never())
-			->method('setName');
 		$this->tokenProvider->expects($this->never())
-			->method('updateToken');
+			->method('updateLogin');
 
 		$response = $this->controller->update($tokenId, [TokenScopes::KEY => [FilesTokenScopes::FILES_READ]], 'Renamed');
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
@@ -659,40 +603,14 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertTrue($attributes[0]->newInstance()->getStrict());
 	}
 
-	public function testUpdateExpired(): void {
-		$tokenId = 42;
-		$token = $this->createMock(PublicKeyToken::class);
-
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn($this->uid);
-
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo($tokenId))
-			->willThrowException(new ExpiredTokenException($token));
-
-		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($this->equalTo($token));
-
-		$this->assertSame(['scope' => [IToken::SCOPE_FILESYSTEM => true]], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
-	}
-
 	public function testUpdateTokenWrongUser(): void {
 		$tokenId = 42;
-		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->mockGetTokenById($tokenId, $token);
+		// The login belongs to another user
+		$this->mockLoginOfUser($tokenId, null);
 
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('foobar');
-
-		$token->expects($this->never())
-			->method('setScope');
 		$this->tokenProvider->expects($this->never())
-			->method('updateToken');
+			->method('updateLogin');
 
 		$response = $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
@@ -700,17 +618,25 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public function testUpdateTokenNonExisting(): void {
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo(42))
-			->willThrowException(new InvalidTokenException('Token does not exist'));
+		$this->mockLoginOfUser(42, null);
 
 		$this->tokenProvider->expects($this->never())
-			->method('updateToken');
+			->method('updateLogin');
 
 		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public function testUpdateOfAWipePendingLoginIsNotFound(): void {
+		$token = $this->mockAuthToken(42, IToken::WIPE_TOKEN);
+		$this->mockLoginOfUser(42, $token);
+
+		$this->tokenProvider->expects($this->never())
+			->method('updateLogin');
+
+		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'Laptop');
+		$this->assertSame(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
 	private function mockSessionForCreate(): void {
@@ -752,22 +678,18 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	/**
-	 * @param int $tokenId
-	 * @param $token
+	 * @param list<IToken> $tokens The tokens of the login $loginId of the current user, none if it has no such login
 	 */
-	private function mockGetTokenById(int $tokenId, $token): void {
+	private function mockLoginOfUser(int $id, ?IToken $token): void {
 		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo($tokenId))
+			->method('getLoginOfUser')
+			->with($this->uid, $id)
 			->willReturn($token);
 	}
 
 	public function testRemoteWipeNotSuccessful(): void {
 		$token = $this->createMock(IToken::class);
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn($this->uid);
-		$this->mockGetTokenById(123, $token);
+		$this->mockLoginOfUser(123, $token);
 
 		$this->remoteWipe->expects($this->once())
 			->method('markTokenForWipe')
@@ -781,11 +703,8 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public function testRemoteWipeWrongUser(): void {
-		$token = $this->createMock(IToken::class);
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn('definetly-not-' . $this->uid);
-		$this->mockGetTokenById(123, $token);
+		// The login belongs to another user
+		$this->mockLoginOfUser(123, null);
 
 		$this->remoteWipe->expects($this->never())
 			->method('markTokenForWipe');
@@ -796,12 +715,19 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
+	public function testRemoteWipeOfAWipePendingLoginIsNotFound(): void {
+		$token = $this->mockAuthToken(123, IToken::WIPE_TOKEN);
+		$this->mockLoginOfUser(123, $token);
+
+		$this->remoteWipe->expects($this->never())
+			->method('markTokenForWipe');
+
+		$this->assertEquals(new JSONResponse([], Http::STATUS_NOT_FOUND), $this->controller->wipe(123));
+	}
+
 	public function testRemoteWipeSuccessful(): void {
 		$token = $this->createMock(IWipeableToken::class);
-		$token->expects($this->once())
-			->method('getUID')
-			->willReturn($this->uid);
-		$this->mockGetTokenById(123, $token);
+		$this->mockLoginOfUser(123, $token);
 
 		$this->remoteWipe->expects($this->once())
 			->method('markTokenForWipe')
