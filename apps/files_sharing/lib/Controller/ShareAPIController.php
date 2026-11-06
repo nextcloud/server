@@ -23,6 +23,7 @@ use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
+use OCA\Files_Sharing\ViewOnly;
 use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -2112,14 +2113,13 @@ class ShareAPIController extends OCSController {
 
 				/** @var SharedStorage $storage */
 				$originalShare = $storage->getShare();
-				$inheritedAttributes = $originalShare->getAttributes();
 
 				// For federated shares: users can only be MORE restrictive, never LESS restrictive
 				// If parent has hideDownload=true, child MUST have hideDownload=true
 				$parentHidesDownload = $originalShare->getHideDownload();
 
 				// Check if download permission is available from parent
-				$parentAllowsDownload = $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+				$parentAllowsDownload = ViewOnly::canDownloadThroughMount($node);
 
 				// Apply inheritance rules:
 				// 1. If parent hides download, child must hide download
