@@ -5,6 +5,7 @@
 
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect } from '@playwright/test'
+import { resolve } from 'node:path'
 import { test } from '../../support/fixtures/personal-settings-page.ts'
 import { Scope, Visibility } from '../../support/sections/ProfileContactSettingsPage.ts'
 
@@ -321,6 +322,36 @@ test.describe('Settings: Change personal information', () => {
 			await expect(page.getByText(uniqueValue)).toBeVisible()
 		})
 	}
+
+	// ── Profile picture and date of birth ────────────────────────────────────
+
+	test('can upload and delete the profile picture', async ({ page, profileContactPage }) => {
+		await profileContactPage.open()
+		const deleteButton = page.getByRole('button', { name: 'Delete picture' })
+		await expect(deleteButton).toHaveCount(0)
+
+		const fileChooser = page.waitForEvent('filechooser')
+		await page.getByRole('button', { name: 'Upload profile picture' }).click()
+		await (await fileChooser).setFiles(resolve(import.meta.dirname, '../../../../core/img/favicon-touch.png'))
+
+		const uploaded = page.waitForResponse((r) => new URL(r.url()).pathname.endsWith('/avatar') && r.request().method() === 'POST')
+		await page.getByRole('button', { name: 'Set as profile picture' }).click()
+		expect((await uploaded).ok()).toBe(true)
+		await expect(deleteButton).toBeVisible()
+
+		const deleted = page.waitForResponse((r) => new URL(r.url()).pathname.endsWith('/avatar') && r.request().method() === 'DELETE')
+		await deleteButton.click()
+		expect((await deleted).ok()).toBe(true)
+		await expect(deleteButton).toHaveCount(0)
+	})
+
+	test('can set the date of birth', async ({ profileContactPage }) => {
+		await profileContactPage.open()
+		await profileContactPage.setProperty('Date of birth', '1987-12-01')
+
+		await profileContactPage.reload()
+		await expect(profileContactPage.property('Date of birth')).toHaveValue('1987-12-01')
+	})
 
 	// ── Profile visibility ────────────────────────────────────────────────────
 
