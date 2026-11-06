@@ -9,7 +9,6 @@
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
@@ -25,9 +24,7 @@ use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
-use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -186,31 +183,27 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$subject = Provider::APP_TOKEN_DELETED;
-		try {
-			$token = $this->findTokenByIdAndUser($id);
-		} catch (WipeTokenException $e) {
-			// Deleting a wipe-pending token cancels the pending wipe; the device
-			// may already be uninstalled so we allow it, but record it under a
-			// distinct subject so the audit trail captures the consequence.
-			$token = $e->getToken();
-			$subject = Provider::APP_TOKEN_DELETED_WIPE_CANCELLED;
-		} catch (InvalidTokenException $e) {
+		$token = $this->tokenProvider->getLoginOfUser($this->userId, $id);
+		if ($token === null) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$tokenId = $token->getId();
-		$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
-		$this->publishActivity($subject, $tokenId, ['name' => $token->getName()]);
-		$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
+		// Deleting a wipe-pending token cancels the pending wipe; the device
+		// may already be uninstalled so we allow it, but record it under a
+		// distinct subject so the audit trail captures the consequence.
+		$subject = $token->getType() === IToken::WIPE_TOKEN ? Provider::APP_TOKEN_DELETED_WIPE_CANCELLED : Provider::APP_TOKEN_DELETED;
+
+		$this->tokenProvider->invalidateTokenById($this->userId, $id);
+		$this->publishActivity($subject, $id, ['name' => $token->getName()]);
+		$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $id], 'auth.app_password.deleted');
 		return new JSONResponse([]);
 	}
 
 	/**
-	 * Revoke the tokens of the current user other than the session's own.
+	 * Revoke the logins of the current user other than the session's own.
 	 *
-	 * Wipe-pending tokens are kept too: revoking one cancels its pending wipe, so
-	 * that stays a per-token decision.
+	 * Wipe-pending logins are kept too: revoking one cancels its pending wipe, so
+	 * that stays a per-login decision.
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
@@ -225,25 +218,27 @@ class AuthSettingsController extends Controller {
 		}
 
 		try {
-			$currentTokenId = $this->tokenProvider->getToken($this->session->getId())->getId();
+			$currentToken = $this->tokenProvider->getToken($this->session->getId());
+			$currentLoginId = $this->tokenProvider->getLoginId($currentToken);
 		} catch (SessionNotAvailableException|InvalidTokenException) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
 		$revoked = [];
-		foreach ($this->tokenProvider->getTokenByUser($this->userId) as $token) {
-			if ($token->getId() === $currentTokenId || $token->getType() === IToken::WIPE_TOKEN) {
+		foreach ($this->tokenProvider->getLoginsOfUser($this->userId) as $loginId => $token) {
+			if ($loginId === $currentLoginId || $token->getType() === IToken::WIPE_TOKEN) {
 				continue;
 			}
 
-			$tokenId = $token->getId();
-			$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
-			$revoked[] = $tokenId;
-			$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
+			$this->tokenProvider->invalidateTokenById($this->userId, $loginId);
+			$revoked[] = $loginId;
+			$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $loginId], 'auth.app_password.deleted');
 		}
+		// The other session tokens of this browser login
+		$this->tokenProvider->invalidateOtherTokensOfLogin($currentToken);
 
 		if ($revoked !== []) {
-			// One aggregate entry rather than one per token, so a bulk revoke does not bury the feed.
+			// One aggregate entry rather than one per login, so a bulk revoke does not bury the feed.
 			$this->publishActivity(Provider::APP_TOKEN_DELETED_ALL, null, ['count' => count($revoked)]);
 		}
 
@@ -258,9 +253,8 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		try {
-			$token = $this->findTokenByIdAndUser($id);
-		} catch (InvalidTokenException $e) {
+		$token = $this->tokenProvider->getLoginOfUser($this->userId, $id);
+		if ($token === null || $token->getType() === IToken::WIPE_TOKEN) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -280,22 +274,23 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		$changedScope = null;
 		if ($newScope !== $currentScope) {
-			$token->setScope($newScope);
+			$changedScope = $newScope;
 			$newScopes = $this->tokenScopes->fromBlob($newScope);
 			if ($newScopes !== $this->tokenScopes->fromBlob($currentScope)) {
-				$this->publishActivity(Provider::APP_TOKEN_SCOPES_CHANGED, $token->getId(), ['name' => $currentName]);
+				$this->publishActivity(Provider::APP_TOKEN_SCOPES_CHANGED, $id, ['name' => $currentName]);
 				$this->auditLog(
 					'Scopes of app password with ID "%s" were changed to "%s"',
-					['tokenId' => $token->getId(), 'scopes' => $newScopes === null ? 'all' : implode(', ', $newScopes)],
+					['tokenId' => $id, 'scopes' => $newScopes === null ? 'all' : implode(', ', $newScopes)],
 					'auth.app_password.scope_changed',
 				);
 			} elseif ($newScope[IToken::SCOPE_FILESYSTEM] !== ($currentScope[IToken::SCOPE_FILESYSTEM] ?? false)) {
 				// Only legacy tokens without scopes flip filesystem on its own
-				$this->publishActivity($newScope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+				$this->publishActivity($newScope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $id, ['name' => $currentName]);
 				$this->auditLog(
 					'Filesystem access of app password with ID "%s" was %s',
-					['tokenId' => $token->getId(), 'filesystemAccess' => $newScope[IToken::SCOPE_FILESYSTEM] ? 'granted' : 'revoked'],
+					['tokenId' => $id, 'filesystemAccess' => $newScope[IToken::SCOPE_FILESYSTEM] ? 'granted' : 'revoked'],
 					'auth.app_password.scope_changed',
 				);
 			}
@@ -305,17 +300,20 @@ class AuthSettingsController extends Controller {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
 
+		$newName = null;
 		if ($token instanceof INamedToken && $name !== $currentName) {
-			$token->setName($name);
-			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $token->getId(), ['name' => $currentName, 'newName' => $name]);
+			$newName = $name;
+			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $id, ['name' => $currentName, 'newName' => $name]);
 		}
 
-		$this->tokenProvider->updateToken($token);
+		if ($newName !== null || $changedScope !== null) {
+			$this->tokenProvider->updateLogin($this->userId, $id, $newName, $changedScope);
+		}
 		return new JSONResponse(['scope' => $newScope]);
 	}
 
 	/**
-	 * @param int|null $id Token the event is about, or null for events that span several tokens
+	 * @param int|null $id Login the event is about, or null for events that span several logins
 	 */
 	private function publishActivity(string $subject, ?int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
@@ -341,26 +339,7 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * Find a token by given id and check if uid for current session belongs to this token
-	 *
 	 * @throws InvalidTokenException
-	 */
-	private function findTokenByIdAndUser(int $id): IToken {
-		try {
-			$token = $this->tokenProvider->getTokenById($id);
-		} catch (ExpiredTokenException $e) {
-			$token = $e->getToken();
-		}
-		if ($token->getUID() !== $this->userId) {
-			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
-			throw new OcInvalidTokenException('This token does not belong to you!');
-		}
-		return $token;
-	}
-
-	/**
-	 * @throws InvalidTokenException
-	 * @throws ExpiredTokenException
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
@@ -370,16 +349,15 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		try {
-			$token = $this->findTokenByIdAndUser($id);
-		} catch (InvalidTokenException $e) {
+		$token = $this->tokenProvider->getLoginOfUser($this->userId, $id);
+		if ($token === null || $token->getType() === IToken::WIPE_TOKEN) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		if (!$this->remoteWipe->markTokenForWipe($token)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
-		$this->auditLog('Remote wipe was requested for app password with ID "%s"', ['tokenId' => $token->getId()], 'auth.remote_wipe.requested');
+		$this->auditLog('Remote wipe was requested for app password with ID "%s"', ['tokenId' => $id], 'auth.remote_wipe.requested');
 
 		return new JSONResponse([]);
 	}

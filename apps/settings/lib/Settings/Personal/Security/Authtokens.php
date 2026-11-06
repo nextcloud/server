@@ -11,18 +11,17 @@ namespace OCA\Settings\Settings\Personal\Security;
 
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
-use OC\Authentication\Token\IToken;
 use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
 use OCP\Util;
-use function array_map;
 
 class Authtokens implements ISettings {
 
@@ -65,8 +64,11 @@ class Authtokens implements ISettings {
 		return 100;
 	}
 
+	/**
+	 * One entry per login, so a browser keeps one entry with the same id while it renews its session token
+	 */
 	private function getAppTokens(): array {
-		$tokens = $this->tokenProvider->getTokenByUser($this->userId);
+		$logins = $this->tokenProvider->getLoginsOfUser($this->userId);
 
 		try {
 			$sessionId = $this->session->getId();
@@ -74,21 +76,24 @@ class Authtokens implements ISettings {
 			return [];
 		}
 		try {
-			$sessionToken = $this->tokenProvider->getToken($sessionId);
+			$currentLoginId = $this->tokenProvider->getLoginId($this->tokenProvider->getToken($sessionId));
 		} catch (InvalidTokenException $ex) {
 			return [];
 		}
 
-		return array_map(function (IToken $token) use ($sessionToken) {
+		$entries = [];
+		foreach ($logins as $loginId => $token) {
 			$data = $token->jsonSerialize();
+			$data['id'] = $loginId;
 			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken && $data['type'] !== IToken::WIPE_TOKEN;
-			if ($sessionToken->getId() === $token->getId()) {
+			$data['canRename'] = $token instanceof INamedToken && $token->getType() !== IToken::WIPE_TOKEN;
+			if ($loginId === $currentLoginId) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;
 				$data['current'] = true;
 			}
-			return $data;
-		}, $tokens);
+			$entries[] = $data;
+		}
+		return $entries;
 	}
 }

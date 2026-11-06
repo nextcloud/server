@@ -10,11 +10,9 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
-use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OC\User\Session as UserSession;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
@@ -146,18 +144,7 @@ class Internal extends Session {
 		$this->cookieAllowed = true;
 
 		if ($updateToken && $oldId !== '') {
-			// Get the new id to update the token
-			$newId = $this->getId();
-
-			/** @var IProvider $tokenProvider */
-			$tokenProvider = Server::get(IProvider::class);
-
-			try {
-				$tokenProvider->renewSessionToken($oldId, $newId);
-				Server::get(UserSession::class)->renewMagicSessionId($oldId);
-			} catch (InvalidTokenException $e) {
-				// Just ignore
-			}
+			Server::get(UserSession::class)->followRegeneratedSessionId($oldId, $this->getId());
 		}
 	}
 

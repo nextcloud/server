@@ -31,6 +31,7 @@ use OCP\DB\Types;
  * @method bool getPasswordInvalid()
  * @method string getPasswordHash()
  * @method setPasswordHash(string $hash)
+ * @method void setLoginId(?int $loginId)
  */
 class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	public const VERSION = 2;
@@ -83,6 +84,9 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	/** @var bool */
 	protected $passwordInvalid;
 
+	/** @var int|null id of the first token of the login, null for that token itself */
+	protected $loginId;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -100,12 +104,20 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('privateKey', 'string');
 		$this->addType('version', Types::INTEGER);
 		$this->addType('passwordInvalid', Types::BOOLEAN);
+		$this->addType('loginId', Types::BIGINT);
 	}
 
 	#[\Override]
 	public function getId(): int {
 		assert(!is_string($this->id) && $this->id !== null);
 		return $this->id;
+	}
+
+	/**
+	 * The login this token belongs to, identified by the id of the login's first token
+	 */
+	public function getLoginId(): int {
+		return $this->getter('loginId') ?? $this->getId();
 	}
 
 	#[\Override]

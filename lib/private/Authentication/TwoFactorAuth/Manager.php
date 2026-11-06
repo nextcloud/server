@@ -14,7 +14,6 @@ use Exception;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\User\Session;
 use OCP\Activity\IManager;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
@@ -336,11 +335,7 @@ class Manager {
 
 		foreach ($tokensNeeding2FA as $tokenId) {
 			$this->config->deleteUserValue($userId, 'login_token_2fa', $tokenId);
-
-			try {
-				$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
-			} catch (DoesNotExistException $e) {
-			}
+			$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
 		}
 	}
 }
