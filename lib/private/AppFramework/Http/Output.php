@@ -88,4 +88,29 @@ class Output implements IOutput {
 			'samesite' => $sameSite
 		]);
 	}
+
+	#[\Override]
+	public function finishRequest(): bool {
+		// php-fpm, and the SAPIs aliasing it (recent LiteSpeed, FrankenPHP)
+		if (function_exists('fastcgi_finish_request')) {
+			fastcgi_finish_request();
+			return true;
+		}
+
+		if (function_exists('litespeed_finish_request')) {
+			litespeed_finish_request();
+			return true;
+		}
+
+		// mod_php, cgi, cli, … cannot give the connection back to the web server,
+		// so only push out what we have. ob_flush() instead of ob_end_flush() keeps
+		// the buffer around for error handling, and is silenced because output
+		// handlers are allowed to be non-flushable.
+		if (ob_get_level() > 0) {
+			@ob_flush();
+		}
+		flush();
+
+		return false;
+	}
 }
