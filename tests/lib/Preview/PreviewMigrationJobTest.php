@@ -46,6 +46,7 @@ class PreviewMigrationJobTest extends TestCase {
 	private IMimeTypeLoader&MockObject $mimeTypeLoader;
 	private IMimeTypeDetector&MockObject $mimeTypeDetector;
 	private LoggerInterface&MockObject $logger;
+	private int $maxParallelJobs = -1;
 
 	#[\Override]
 	public function setUp(): void {
@@ -60,6 +61,11 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->appConfig->expects($this->any())
 			->method('setValueBool')
 			->willReturn(true);
+		$this->appConfig->expects($this->any())
+			->method('getValueInt')
+			->willReturnCallback(fn (string $app, string $key): int => match ([$app, $key]) {
+				['core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS] => $this->maxParallelJobs,
+			});
 		$this->storageFactory = Server::get(StorageFactory::class);
 		$this->previewService = Server::get(PreviewService::class);
 		$this->db = Server::get(IDBConnection::class);
@@ -292,9 +298,7 @@ class PreviewMigrationJobTest extends TestCase {
 
 	#[TestDox('A partition must not be migrated while the maximum number of parallel jobs are already running')]
 	public function testMigrationRespectsMaxParallelJobs(): void {
-		$this->appConfig->method('getValueInt')
-			->with('core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS)
-			->willReturn(2);
+		$this->maxParallelJobs = 2;
 
 		$folder = $this->previewAppData->newFolder('5');
 		$folder->newFile('64-64-crop.jpg', 'abcdefg');
