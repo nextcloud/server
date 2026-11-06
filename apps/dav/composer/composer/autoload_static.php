@@ -206,6 +206,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\Sharing\\Backend' => __DIR__ . '/..' . '/../lib/CardDAV/Sharing/Backend.php',
         'OCA\\DAV\\CardDAV\\Sharing\\Service' => __DIR__ . '/..' . '/../lib/CardDAV/Sharing/Service.php',
         'OCA\\DAV\\CardDAV\\SyncService' => __DIR__ . '/..' . '/../lib/CardDAV/SyncService.php',
+        'OCA\\DAV\\CardDAV\\SystemAddressBookVisibility' => __DIR__ . '/..' . '/../lib/CardDAV/SystemAddressBookVisibility.php',
         'OCA\\DAV\\CardDAV\\SystemAddressbook' => __DIR__ . '/..' . '/../lib/CardDAV/SystemAddressbook.php',
         'OCA\\DAV\\CardDAV\\UserAddressBooks' => __DIR__ . '/..' . '/../lib/CardDAV/UserAddressBooks.php',
         'OCA\\DAV\\CardDAV\\Validation\\CardDavValidatePlugin' => __DIR__ . '/..' . '/../lib/CardDAV/Validation/CardDavValidatePlugin.php',

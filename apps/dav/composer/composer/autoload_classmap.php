@@ -191,6 +191,7 @@ return array(
     'OCA\\DAV\\CardDAV\\Sharing\\Backend' => $baseDir . '/../lib/CardDAV/Sharing/Backend.php',
     'OCA\\DAV\\CardDAV\\Sharing\\Service' => $baseDir . '/../lib/CardDAV/Sharing/Service.php',
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
+    'OCA\\DAV\\CardDAV\\SystemAddressBookVisibility' => $baseDir . '/../lib/CardDAV/SystemAddressBookVisibility.php',
     'OCA\\DAV\\CardDAV\\SystemAddressbook' => $baseDir . '/../lib/CardDAV/SystemAddressbook.php',
     'OCA\\DAV\\CardDAV\\UserAddressBooks' => $baseDir . '/../lib/CardDAV/UserAddressBooks.php',
     'OCA\\DAV\\CardDAV\\Validation\\CardDavValidatePlugin' => $baseDir . '/../lib/CardDAV/Validation/CardDavValidatePlugin.php',
