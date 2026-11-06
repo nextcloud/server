@@ -21,6 +21,8 @@ use OCP\Migration\SimpleMigrationStep;
 
 #[AddColumn(table: 'authtoken', name: 'login_id', type: ColumnType::BIGINT, description: 'id of the first token of the login a renewed session token belongs to')]
 #[AddIndex(table: 'authtoken', type: IndexType::INDEX, description: 'finds the tokens of a login')]
+#[AddColumn(table: 'authtoken', name: 'superseded_at', type: ColumnType::INTEGER, description: 'when a renewal replaced the session token, which stays valid for a grace period')]
+#[AddIndex(table: 'authtoken', type: IndexType::INDEX, description: 'finds the session tokens whose grace period ended')]
 class Version36000Date20261027192721 extends SimpleMigrationStep {
 
 	/**
@@ -31,16 +33,22 @@ class Version36000Date20261027192721 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('authtoken');
-		if ($table->hasColumn('login_id')) {
-			return null;
+		if (!$table->hasColumn('login_id')) {
+			// Holds values of `id`, which is an integer or, after `occ db:convert-filecache-bigint`, a bigint
+			$table->addColumn('login_id', Types::BIGINT, [
+				'notnull' => false,
+				'unsigned' => true,
+			]);
+			$table->addIndex(['login_id'], 'authtoken_login_id_idx');
 		}
-
-		// Holds values of `id`, which is an integer or, after `occ db:convert-filecache-bigint`, a bigint
-		$table->addColumn('login_id', Types::BIGINT, [
-			'notnull' => false,
-			'unsigned' => true,
-		]);
-		$table->addIndex(['login_id'], 'authtoken_login_id_idx');
+		if (!$table->hasColumn('superseded_at')) {
+			$table->addColumn('superseded_at', Types::INTEGER, [
+				'notnull' => false,
+				'length' => 4,
+				'unsigned' => true,
+			]);
+			$table->addIndex(['superseded_at'], 'authtoken_superseded_at_idx');
+		}
 		return $schema;
 	}
 }

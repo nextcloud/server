@@ -194,9 +194,14 @@ class PublicKeyTokenProvider implements IProvider {
 		return $token;
 	}
 
-	private function checkToken($token): void {
+	private function checkToken(PublicKeyToken $token): void {
 		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
+		}
+
+		if ($token->getSupersededAt() !== null
+			&& $token->getSupersededAt() < $this->time->getTime() - self::SUPERSEDED_GRACE_PERIOD) {
+			throw new InvalidTokenException('The session token was renewed');
 		}
 
 		if ($token->getType() === OCPIToken::WIPE_TOKEN) {
@@ -211,6 +216,25 @@ class PublicKeyTokenProvider implements IProvider {
 
 	#[\Override]
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken {
+		return $this->renew($oldSessionId, $sessionId, false);
+	}
+
+	#[\Override]
+	public function renewSessionTokenWithGracePeriod(string $oldSessionId, string $sessionId): OCPIToken {
+		return $this->renew($oldSessionId, $sessionId, true);
+	}
+
+	/**
+	 * @param bool $keepSource Keep the old token valid for the grace period instead of deleting it
+	 * @throws InvalidTokenException
+	 */
+	private function renew(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+		bool $keepSource,
+	): PublicKeyToken {
 		$token = $this->getToken($oldSessionId);
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -218,21 +242,34 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 
 		$keyPair = $this->keyPairLike($token);
-		$newToken = $this->atomic(function () use ($token, $oldSessionId, $sessionId, $keyPair): PublicKeyToken {
+		$renewal = $this->atomic(function () use ($token, $oldSessionId, $sessionId, $keyPair, $keepSource): array {
 			$source = $this->lockSessionToken($token);
 			$newToken = $this->newSessionTokenOfLogin($source, $oldSessionId, $sessionId, $keyPair);
-			// Without row locks, as on SQLite, deleting first is what lets only one request renew the token
-			if (!$this->mapper->deleteSessionToken($source->getId())) {
-				throw new InvalidTokenException('The session token was renewed or invalidated meanwhile');
+			if ($keepSource) {
+				// Written on every renewal, as some database clusters detect conflicting writes but don't share row locks
+				$source->setLastActivity($this->time->getTime());
+				if ($source->getSupersededAt() === null) {
+					$source->setSupersededAt($this->time->getTime());
+				}
+				$this->mapper->update($source);
+			} else {
+				// Without row locks, as on SQLite, deleting first is what lets only one request renew the token
+				if (!$this->mapper->deleteSessionToken($source->getId())) {
+					throw new InvalidTokenException('The session token was renewed or invalidated meanwhile');
+				}
 			}
 			$this->mapper->insert($newToken);
 
-			return $newToken;
+			return ['source' => $source, 'newToken' => $newToken];
 		}, $this->db);
-		$this->cacheInvalidHash($token->getToken());
-		$this->cacheToken($newToken);
+		if ($keepSource) {
+			$this->cacheToken($renewal['source']);
+		} else {
+			$this->cacheInvalidHash($token->getToken());
+		}
+		$this->cacheToken($renewal['newToken']);
 
-		return $newToken;
+		return $renewal['newToken'];
 	}
 
 	/**
@@ -482,6 +519,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$authTokenThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_token_retention', 60 * 60 * 24 * 365);
 		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
+
+		$supersededThreshold = $this->time->getTime() - self::SUPERSEDED_GRACE_PERIOD;
+		$this->logger->debug('Deleting session tokens superseded before ' . date('c', $supersededThreshold), ['app' => 'cron']);
+		$this->mapper->deleteSuperseded($supersededThreshold);
 	}
 
 	#[\Override]

@@ -12,6 +12,7 @@ namespace Test\Authentication\Token;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
 use OC\Authentication\Token\PublicKeyTokenProvider;
@@ -543,6 +544,9 @@ class PublicKeyTokenProviderTest extends TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
+		$this->mapper->expects($this->once())
+			->method('deleteSuperseded')
+			->with($this->time - IProvider::SUPERSEDED_GRACE_PERIOD);
 
 		$this->tokenProvider->invalidateOldTokens();
 	}
@@ -795,6 +799,87 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->expectException(OCPInvalidTokenException::class);
 
 		$this->tokenProvider->renewSessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewSessionTokenWithGracePeriodKeepsTheSource(): void {
+		$source = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $source);
+		$source->setId(9);
+		$source->setLoginId(5);
+		$source->setLastActivity($this->time - 30);
+		$this->mapper->method('getToken')->willReturn($source);
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($source);
+
+		$this->mapper->expects($this->never())
+			->method('deleteSessionToken');
+		// Requests that still send the old session id can renew it as well during the grace period
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($this->callback(fn (PublicKeyToken $token): bool => $token->getId() === 9
+				&& $token->getSupersededAt() === $this->time
+				&& $token->getLastActivity() === $this->time));
+		$this->mapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (PublicKeyToken $token): bool => $token->getLoginId() === 5 && $token->getSupersededAt() === null));
+
+		$this->tokenProvider->renewSessionTokenWithGracePeriod('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewSessionTokenWithGracePeriodOfASupersededSource(): void {
+		$source = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $source);
+		$source->setId(9);
+		// A concurrent request renewed it already
+		$source->setSupersededAt($this->time - 30);
+		$source->setLastActivity($this->time - 30);
+		$this->mapper->method('getToken')->willReturn($source);
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($source);
+
+		// Its grace period doesn't start again, but the renewal still writes it
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($this->callback(fn (PublicKeyToken $token): bool => $token->getSupersededAt() === $this->time - 30
+				&& $token->getLastActivity() === $this->time));
+		$this->mapper->expects($this->once())
+			->method('insert');
+
+		$this->tokenProvider->renewSessionTokenWithGracePeriod('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public static function supersededTokenData(): array {
+		return [
+			'within the grace period' => ['supersededAgo' => IProvider::SUPERSEDED_GRACE_PERIOD, 'valid' => true],
+			'after the grace period' => ['supersededAgo' => IProvider::SUPERSEDED_GRACE_PERIOD + 1, 'valid' => false],
+		];
+	}
+
+	#[DataProvider(methodName: 'supersededTokenData')]
+	public function testGetSupersededToken(int $supersededAgo, bool $valid): void {
+		$token = $this->tokenProvider->generateToken('sessionIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $token);
+		$token->setSupersededAt($this->time - $supersededAgo);
+		$this->mapper->method('getToken')->willReturn($token);
+
+		if (!$valid) {
+			$this->expectException(InvalidTokenException::class);
+		}
+		$this->assertSame($token, $this->tokenProvider->getToken('sessionIdtokentokentokentoken'));
+	}
+
+	public function testRenewSessionTokenWithGracePeriodAfterTheGracePeriod(): void {
+		$source = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $source);
+		$source->setId(9);
+		$this->mapper->method('getToken')->willReturn(clone $source);
+		// The grace period ended while this request waited for the lock
+		$source->setSupersededAt($this->time - IProvider::SUPERSEDED_GRACE_PERIOD - 1);
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($source);
+
+		$this->mapper->expects($this->never())
+			->method('insert');
+		$this->expectException(InvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionTokenWithGracePeriod('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
 
 	public function testGetToken(): void {

@@ -917,10 +917,13 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
+		$now = $this->timeFactory->getTime();
+		$lifetime = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		// When the token was issued, moved back for a replaced token so that its lifetime ends with the grace period
+		$storedValue = $this->config->getUserValue($uid, 'login_token', $currentToken);
+		$issuedAt = $storedValue === '' ? null : (int)$storedValue;
 		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
+		if ($issuedAt === null || $issuedAt < $now - $lifetime) {
 			$this->logger->info('Tried to log in but could not verify token', [
 				'app' => 'core',
 				'user' => $uid,
@@ -951,10 +954,14 @@ class Session implements IUserSession, Emitter {
 		// fork the session, as concurrent requests would otherwise lose its data.
 		$this->session->regenerateId();
 
-		// replace successfully used token with a new one
-		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+		// replace successfully used token with a new one, and keep it valid for requests that were sent with it
+		// before this response arrives
+		$replacedUntil = $now - $lifetime + IProvider::SUPERSEDED_GRACE_PERIOD;
+		if ($issuedAt > $replacedUntil) {
+			$this->config->setUserValue($uid, 'login_token', $currentToken, (string)$replacedUntil);
+		}
 		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$now);
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -962,7 +969,7 @@ class Session implements IUserSession, Emitter {
 
 		try {
 			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$token = $this->tokenProvider->renewSessionTokenWithGracePeriod($oldSessionId, $sessionId);
 			$this->logger->debug('Session token replaced', [
 				'app' => 'core',
 				'user' => $uid,

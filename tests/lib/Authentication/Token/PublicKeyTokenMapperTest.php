@@ -275,6 +275,18 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame([$renewed, $sibling], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
 	}
 
+	public function testDeleteSuperseded(): void {
+		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null, 100);
+		$renewed = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first, 200);
+		$current = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
+		$otherUser = $this->insertToken('user2', IToken::TEMPORARY_TOKEN, null, 100);
+
+		$this->mapper->deleteSuperseded(200);
+
+		$this->assertSame([$renewed, $current], $this->getIds($this->mapper->getTokensOfLogin('user1', $first)));
+		$this->assertSame([], $this->getIds($this->mapper->getTokensOfLogin('user2', $otherUser)));
+	}
+
 	public function testGetTokensOfLoginForUpdate(): void {
 		$first = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, null);
 		$sibling = $this->insertToken('user1', IToken::TEMPORARY_TOKEN, $first);
@@ -304,7 +316,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	 *
 	 * @return int The id of the token
 	 */
-	private function insertToken(string $uid, int $type, ?int $loginId): int {
+	private function insertToken(string $uid, int $type, ?int $loginId, ?int $supersededAt = null): int {
 		$token = new PublicKeyToken();
 		$token->setUid($uid);
 		$token->setLoginName($uid);
@@ -318,6 +330,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$token->setPrivateKey('private key');
 		$token->setVersion(PublicKeyToken::VERSION);
 		$token->setLoginId($loginId);
+		$token->setSupersededAt($supersededAt);
 		return $this->mapper->insert($token)->getId();
 	}
 

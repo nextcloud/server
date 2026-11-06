@@ -18,6 +18,11 @@ use OCP\Authentication\Token\IToken as OCPIToken;
 
 interface IProvider {
 	/**
+	 * Seconds a session token stays valid after a renewal superseded it, for requests sent before the renewing
+	 * response arrived
+	 */
+	public const SUPERSEDED_GRACE_PERIOD = 60;
+	/**
 	 * Create and persist a new token
 	 *
 	 * @param string $token
@@ -66,6 +71,9 @@ interface IProvider {
 	/**
 	 * Move the session token of $oldSessionId to $sessionId. The new token belongs to the same login.
 	 *
+	 * The old token is deleted at once. A regenerated session id needs that, for example after unlocking a
+	 * password-protected share: a request still sent with the old id must not log in on a session of its own.
+	 *
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException also when a concurrent request renewed or invalidated the token first
@@ -73,6 +81,16 @@ interface IProvider {
 	 * @return OCPIToken The new token
 	 */
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken;
+
+	/**
+	 * Renew the session token of $oldSessionId for $sessionId, but keep the old token valid for a grace period, so
+	 * requests that still send it can renew it as well. The new token belongs to the same login.
+	 *
+	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * @return OCPIToken The new token
+	 */
+	public function renewSessionTokenWithGracePeriod(string $oldSessionId, string $sessionId): OCPIToken;
 
 	/**
 	 * Invalidate (delete) the given token and the other tokens of its login
