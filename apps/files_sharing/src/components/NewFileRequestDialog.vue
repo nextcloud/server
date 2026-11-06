@@ -9,7 +9,7 @@
 		data-cy-file-request-dialog
 		:close-on-click-outside="false"
 		:name="currentStep !== STEP.LAST ? t('files_sharing', 'Create a file request') : t('files_sharing', 'File request created')"
-		:set-return-focus="returnFocusTarget"
+		:setReturnFocus="returnFocusTarget"
 		size="normal"
 		@closing="onCancel">
 		<!-- Header -->
