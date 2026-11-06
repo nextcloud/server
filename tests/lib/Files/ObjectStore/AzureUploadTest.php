@@ -12,6 +12,7 @@ use Icewind\Streams\CountWrapper;
 use OC\Files\ObjectStore\Azure;
 use OC\Files\ObjectStore\AzureBlobClient;
 use OC\Files\ObjectStore\AzureException;
+use OC\Files\ObjectStore\ContentDisposition;
 use OCP\Files\NotFoundException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,8 +30,8 @@ class AzureUploadTest extends TestCase {
 		$this->blobClient = $this->createMock(AzureBlobClient::class);
 	}
 
-	private function getInstance(int $blockSize = 4): Azure {
-		return new Azure([
+	private function getInstance(int $blockSize = 4, array $arguments = []): Azure {
+		return new Azure($arguments + [
 			'container' => 'test',
 			'account_name' => 'nextcloud',
 			'account_key' => 'bmV4dGNsb3Vk',
@@ -157,6 +158,31 @@ class AzureUploadTest extends TestCase {
 		$this->assertFalse($instance->objectExists('missing'));
 		$this->expectException(AzureException::class);
 		$instance->objectExists('forbidden');
+	}
+
+	public function testPreSignedUrlDisabledByDefault(): void {
+		$this->blobClient->expects($this->never())->method('getReadSasUrl');
+		$this->assertNull($this->getInstance()->preSignedUrl('urn:oid:1', new \DateTimeImmutable('+1 hour'), 'a.txt'));
+	}
+
+	public function testPreSignedUrl(): void {
+		$expiration = new \DateTimeImmutable('+1 hour');
+		$this->blobClient->method('supportsSas')->willReturn(true);
+		$this->blobClient->expects($this->once())
+			->method('getReadSasUrl')
+			->with('test', 'urn:oid:1', $expiration, ContentDisposition::attachment('a b.txt'))
+			->willReturn('https://example.com/signed');
+
+		$instance = $this->getInstance(arguments: ['use_presigned_url' => true]);
+		$this->assertSame('https://example.com/signed', $instance->preSignedUrl('urn:oid:1', $expiration, 'a b.txt'));
+	}
+
+	public function testPreSignedUrlUnsupportedVersion(): void {
+		$this->blobClient->method('supportsSas')->willReturn(false);
+		$this->blobClient->expects($this->never())->method('getReadSasUrl');
+
+		$instance = $this->getInstance(arguments: ['use_presigned_url' => true]);
+		$this->assertNull($instance->preSignedUrl('urn:oid:1', new \DateTimeImmutable('+1 hour')));
 	}
 
 	public function testStorageId(): void {
