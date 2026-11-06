@@ -33,7 +33,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 
 	public function testGetName(): void {
 		$this->assertEquals(
-			'Regenerating birthday calendars to use new icons and fix old birthday events without year',
+			'Regenerating birthday calendars to use new icons, fix old birthday events without year and update reminders',
 			$this->migration->getName()
 		);
 	}

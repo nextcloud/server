@@ -32,7 +32,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	 */
 	#[\Override]
 	public function getName() {
-		return 'Regenerating birthday calendars to use new icons and fix old birthday events without year';
+		return 'Regenerating birthday calendars to use new icons, fix old birthday events without year and update reminders';
 	}
 
 	/**
