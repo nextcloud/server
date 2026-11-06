@@ -81,6 +81,13 @@ function move(i: number, delta: number) {
 }
 
 /**
+ * @param providerClass Class or ID of the translation provider
+ */
+function translationProviderName(providerClass: string) {
+	return translationProviders.find((p) => p.class === providerClass)?.name ?? ''
+}
+
+/**
  * Save all AI settings, restore the last saved state if that fails
  */
 async function saveChanges() {
@@ -175,13 +182,13 @@ function getTextProcessingTaskType(type: string) {
 					<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" :class="$style.draggableItem">
 						<NcIconSvgWrapper :path="mdiDragVertical" />
 						<span :class="$style.draggableNumber">{{ i + 1 }}</span>
-						{{ translationProviders.find(p => p.class === providerClass)?.name }}
-						<NcButton :aria-label="t('settings', 'Move up')" variant="tertiary" @click="move(i, -1)">
+						{{ translationProviderName(providerClass) }}
+						<NcButton :aria-label="t('settings', 'Move {provider} up', { provider: translationProviderName(providerClass) })" variant="tertiary" @click="move(i, -1)">
 							<template #icon>
 								<NcIconSvgWrapper :path="mdiArrowUp" />
 							</template>
 						</NcButton>
-						<NcButton :aria-label="t('settings', 'Move down')" variant="tertiary" @click="move(i, 1)">
+						<NcButton :aria-label="t('settings', 'Move {provider} down', { provider: translationProviderName(providerClass) })" variant="tertiary" @click="move(i, 1)">
 							<template #icon>
 								<NcIconSvgWrapper :path="mdiArrowDown" />
 							</template>
