@@ -9,7 +9,8 @@
 			:user="contact.isUser ? contact.uid : undefined"
 			:is-no-user="!contact.isUser"
 			:disable-menu="true"
-			:display-name="contact.avatarLabel"
+			:display-name="contact.fullName"
+			:url="contact.isUser ? undefined : contact.avatar"
 			:preloaded-user-status="preloadedUserStatus" />
 		<a class="contact__body"
 			:href="contact.profileUrl || contact.topAction?.hyperlink">
