@@ -27,6 +27,11 @@ const props = withDefaults(defineProps<{
 	 * visible while the search input keeps focus.
 	 */
 	active?: boolean
+	/**
+	 * Render the row as a listbox option. The option itself opens the result,
+	 * because a focusable link inside an option is hidden from assistive technology.
+	 */
+	option?: boolean
 }>(), {
 	thumbnailUrl: null,
 	subline: null,
@@ -36,6 +41,7 @@ const props = withDefaults(defineProps<{
 	query: '',
 	elementId: undefined,
 	active: false,
+	option: false,
 })
 
 const thumbnailHasError = ref(false)
@@ -51,6 +57,9 @@ const iconIsUrl = computed(() => isValidIconOrPreviewUrl(props.icon))
  * flag it by marking the entry rounded with an icon URL and no thumbnail.
  */
 const isAppIcon = computed(() => props.rounded && iconIsUrl.value && !hasThumbnail.value)
+
+// null, not undefined: NcListItem defaults href to "#", which keeps the anchor focusable.
+const href = computed(() => (props.option ? null : props.resourceUrl ?? undefined) as string | undefined)
 
 watch(() => props.thumbnailUrl, () => {
 	thumbnailHasError.value = false
@@ -69,6 +78,34 @@ function isValidIconOrPreviewUrl(url: string | null): boolean {
 function thumbnailErrorHandler() {
 	thumbnailHasError.value = true
 }
+
+/**
+ * Mimic a link: new tab on middle or modifier click, same tab otherwise.
+ *
+ * @param event - The click or auxclick event
+ */
+function openOption(event: MouseEvent) {
+	// auxclick also fires for the right, back and forward buttons
+	if (!props.option || !props.resourceUrl || event.button > 1) {
+		return
+	}
+	if (event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey) {
+		window.open(props.resourceUrl, '_blank', 'noopener')
+	} else {
+		window.location.assign(props.resourceUrl)
+	}
+}
+
+/**
+ * Middle-click on a non-link starts autoscroll on Windows, which swallows the auxclick.
+ *
+ * @param event - The mousedown event
+ */
+function preventAutoscroll(event: MouseEvent) {
+	if (props.option && event.button === 1) {
+		event.preventDefault()
+	}
+}
 </script>
 
 <template>
@@ -77,9 +114,13 @@ function thumbnailErrorHandler() {
 		class="result-item"
 		:name="title"
 		:bold="false"
+		:role="option ? 'option' : undefined"
 		:active="active"
-		:href="resourceUrl ?? undefined"
-		target="_self">
+		:href="href"
+		target="_self"
+		@click="openOption"
+		@auxclick="openOption"
+		@mousedown="preventAutoscroll">
 		<template #icon>
 			<AppIcon
 				v-if="isAppIcon"
@@ -117,6 +158,7 @@ function thumbnailErrorHandler() {
 	padding-inline: 0;
 
 	:deep(a) {
+		cursor: pointer;
 		border: 2px solid transparent;
 		border-radius: var(--border-radius-large) !important;
 
