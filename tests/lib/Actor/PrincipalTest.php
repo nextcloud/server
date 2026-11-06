@@ -11,22 +11,24 @@ namespace Test\Actor;
 
 use Closure;
 use InvalidArgumentException;
-use NCU\Actor\Principal;
-use NCU\Actor\PrincipalType;
+use OCP\Actor\Principal;
+use OCP\Actor\PrincipalType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
 	public static function dataFactories(): array {
 		return [
-			'user' => [fn () => Principal::user('alice'), PrincipalType::User, 'alice', null, null, 'user:alice'],
-			'federated' => [fn () => Principal::federated('bob', 'cloud.example'), PrincipalType::FederatedUser, 'bob', 'cloud.example', null, 'federated_user:bob@cloud.example'],
-			'external with token' => [fn () => Principal::external('spreed.guest', 'g1', 'room'), PrincipalType::External, 'g1', 'room', 'spreed.guest', 'external:g1@room:spreed.guest'],
-			'external' => [fn () => Principal::external('spreed.email', 'external_user'), PrincipalType::External, 'external_user', null, 'spreed.email', 'external:external_user:spreed.email'],
-			'bot' => [fn () => Principal::bot('summarizer'), PrincipalType::Bot, 'summarizer', null, null, 'bot:summarizer'],
-			'bot with source' => [fn () => Principal::bot('summarizer', 'spreed'), PrincipalType::Bot, 'summarizer', null, 'spreed', 'bot:summarizer:spreed'],
-			'system' => [fn () => Principal::system('files.retention'), PrincipalType::System, 'files.retention', null, null, 'system:files.retention'],
-			'system with source' => [fn () => Principal::system('retention', 'governance'), PrincipalType::System, 'retention', null, 'governance', 'system:retention:governance'],
+			'user' => [fn () => Principal::user('alice'), PrincipalType::User, 'alice', null, null, 'user|alice'],
+			'federated user' => [fn () => Principal::federatedUser('bob', 'cloud.example'), PrincipalType::User, 'bob', 'cloud.example', null, 'user|bob@cloud.example'],
+			'anonymous' => [
+				fn () => Principal::anonymous('nickname', 'sharetoken', 'files_sharing:visitor'),
+				PrincipalType::Anonymous, 'nickname', 'sharetoken', 'files_sharing:visitor', 'anonymous|nickname@sharetoken|files_sharing:visitor',
+			],
+			'bot' => [fn () => Principal::bot('summarizer'), PrincipalType::Bot, 'summarizer', null, null, 'bot|summarizer'],
+			'bot with source' => [fn () => Principal::bot('summarizer', 'spreed'), PrincipalType::Bot, 'summarizer', null, 'spreed', 'bot|summarizer|spreed'],
+			'system' => [fn () => Principal::system('calendar'), PrincipalType::System, 'calendar', null, null, 'system|calendar'],
+			'system with source' => [fn () => Principal::system('files_versions', 'retention'), PrincipalType::System, 'files_versions', null, 'retention', 'system|files_versions|retention'],
 		];
 	}
 
@@ -43,30 +45,35 @@ class PrincipalTest extends TestCase {
 
 	public static function dataInvalid(): array {
 		return [
-			'federated with empty remote' => [fn () => Principal::federated('bob', ''), 'Invalid origin for principal of type "federated_user"'],
-			'external with empty token' => [fn () => Principal::external('spreed.email', 'external_user', ''), 'Invalid origin for principal of type "external"'],
-			'external with empty source' => [fn () => Principal::external('', 'external_user'), 'Invalid source for principal of type "external"'],
+			'federated user with empty remote' => [fn () => Principal::federatedUser('bob', ''), 'Invalid origin for principal of type "user"'],
+			'anonymous with empty token' => [fn () => Principal::anonymous('nickname', '', 'files_sharing:visitor'), 'Invalid origin for principal of type "anonymous"'],
+			'anonymous without source' => [fn () => Principal::anonymous('nickname', 'sharetoken'), 'Invalid source for principal of type "anonymous"'],
+			'anonymous with empty source' => [fn () => Principal::anonymous('nickname', 'sharetoken', ''), 'Invalid source for principal of type "anonymous"'],
 			'bot with empty source' => [fn () => Principal::bot('summarizer', ''), 'Invalid source for principal of type "bot"'],
-			'system with empty source' => [fn () => Principal::system('retention', ''), 'Invalid source for principal of type "system"'],
+			'system with empty source' => [fn () => Principal::system('files_versions', ''), 'Invalid source for principal of type "system"'],
 			'empty type' => [fn () => Principal::fromArray(['type' => '', 'id' => 'alice']), 'Invalid principal data'],
 			'empty id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => '']), 'Invalid principal data'],
-			'empty origin' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
-			'empty source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user', 'source' => '']), 'Invalid principal data'],
-			'user with origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'origin' => 'x']), 'Invalid origin for principal of type "user"'],
-			'user with source' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'source' => 'spreed']), 'Invalid source for principal of type "user"'],
-			'federated with source' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => 'cloud.example', 'source' => 'spreed']), 'Invalid source for principal of type "federated_user"'],
-			'federated without remote' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob']), 'Invalid origin for principal of type "federated_user"'],
-			'external without source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user']), 'Invalid source for principal of type "external"'],
+			'empty origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'bob', 'origin' => '']), 'Invalid principal data'],
+			'empty source' => [fn () => Principal::fromArray(['type' => 'anonymous', 'id' => 'nickname', 'source' => '']), 'Invalid principal data'],
 			'missing type' => [fn () => Principal::fromArray(['id' => 'alice']), 'Invalid principal data'],
 			'missing id' => [fn () => Principal::fromArray(['type' => 'user']), 'Invalid principal data'],
+			'non-string type' => [fn () => Principal::fromArray(['type' => 1, 'id' => 'alice']), 'Invalid principal data'],
 			'non-string id' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 1]), 'Invalid principal data'],
-			'non-string origin' => [fn () => Principal::fromArray(['type' => 'federated_user', 'id' => 'bob', 'origin' => 1]), 'Invalid principal data'],
-			'non-string source' => [fn () => Principal::fromArray(['type' => 'external', 'id' => 'external_user', 'source' => 1]), 'Invalid principal data'],
+			'non-string origin' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'bob', 'origin' => 1]), 'Invalid principal data'],
+			'non-string source' => [fn () => Principal::fromArray(['type' => 'bot', 'id' => 'summarizer', 'source' => 1]), 'Invalid principal data'],
 			'unknown type' => [fn () => Principal::fromArray(['type' => 'nope', 'id' => 'alice']), 'Unknown principal type "nope"'],
+			'user with source' => [fn () => Principal::fromArray(['type' => 'user', 'id' => 'alice', 'source' => 'spreed']), 'Invalid source for principal of type "user"'],
+			'federated user with source' => [
+				fn () => Principal::fromArray(['type' => 'user', 'id' => 'bob', 'origin' => 'cloud.example', 'source' => 'spreed']),
+				'Invalid source for principal of type "user"',
+			],
+			'anonymous without source from array' => [fn () => Principal::fromArray(['type' => 'anonymous', 'id' => 'nickname', 'origin' => 'sharetoken']), 'Invalid source for principal of type "anonymous"'],
+			'bot with origin' => [fn () => Principal::fromArray(['type' => 'bot', 'id' => 'summarizer', 'origin' => 'cloud.example']), 'Invalid origin for principal of type "bot"'],
+			'system with origin' => [fn () => Principal::fromArray(['type' => 'system', 'id' => 'calendar', 'origin' => 'cloud.example']), 'Invalid origin for principal of type "system"'],
 		];
 	}
 
-	#[DataProvider('dataInvalid')]
+	#[DataProvider(methodName: 'dataInvalid')]
 	public function testInvalid(Closure $create, string $message): void {
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage($message);
@@ -74,20 +81,22 @@ class PrincipalTest extends TestCase {
 	}
 
 	public static function dataEquals(): array {
-		$external = fn () => Principal::external('spreed.email', 'external_user', 'room');
+		$anonymous = fn () => Principal::anonymous('nickname', 'sharetoken', 'files_sharing:visitor');
 		return [
-			'same' => [$external, fn () => Principal::external('spreed.email', 'external_user', 'room'), true],
-			'different source' => [$external, fn () => Principal::external('spreed.guest', 'external_user', 'room'), false],
-			'different id' => [$external, fn () => Principal::external('spreed.email', 'other_user', 'room'), false],
-			'different origin' => [$external, fn () => Principal::external('spreed.email', 'external_user', 'other'), false],
-			'no origin' => [$external, fn () => Principal::external('spreed.email', 'external_user'), false],
+			'same' => [$anonymous, fn () => Principal::anonymous('nickname', 'sharetoken', 'files_sharing:visitor'), true],
+			'different source' => [$anonymous, fn () => Principal::anonymous('nickname', 'sharetoken', 'spreed:guest'), false],
+			'different id' => [$anonymous, fn () => Principal::anonymous('other', 'sharetoken', 'files_sharing:visitor'), false],
+			'different origin' => [$anonymous, fn () => Principal::anonymous('nickname', 'other', 'files_sharing:visitor'), false],
 			'different type' => [fn () => Principal::user('alice'), fn () => Principal::bot('alice'), false],
+			'local and federated user' => [fn () => Principal::user('bob'), fn () => Principal::federatedUser('bob', 'cloud.example'), false],
+			'federated users of different remotes' => [fn () => Principal::federatedUser('bob', 'cloud.example'), fn () => Principal::federatedUser('bob', 'other.example'), false],
 			'bots of different apps' => [fn () => Principal::bot('summarizer', 'spreed'), fn () => Principal::bot('summarizer', 'assistant'), false],
 			'bot with and without app' => [fn () => Principal::bot('summarizer', 'spreed'), fn () => Principal::bot('summarizer'), false],
+			'same component name of different apps' => [fn () => Principal::system('files', 'retention'), fn () => Principal::system('files_versions', 'retention'), false],
 		];
 	}
 
-	#[DataProvider('dataEquals')]
+	#[DataProvider(methodName: 'dataEquals')]
 	public function testEquals(Closure $createA, Closure $createB, bool $expected): void {
 		$a = $createA();
 		$b = $createB();
@@ -96,7 +105,14 @@ class PrincipalTest extends TestCase {
 		$this->assertSame($expected, $a->key() === $b->key());
 	}
 
-	#[DataProvider('dataFactories')]
+	public function testJsonSerialize(): void {
+		$this->assertSame(
+			['type' => 'user', 'id' => 'bob', 'origin' => 'cloud.example', 'source' => null],
+			Principal::federatedUser('bob', 'cloud.example')->jsonSerialize(),
+		);
+	}
+
+	#[DataProvider(methodName: 'dataFactories')]
 	public function testRoundTrip(Closure $create): void {
 		$principal = $create();
 		$restored = Principal::fromArray(json_decode(json_encode($principal), true));
