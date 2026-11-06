@@ -9,6 +9,7 @@ namespace OC\Files\Stream;
 
 use Icewind\Streams\File;
 use Icewind\Streams\Wrapper;
+use OCP\Http\Client\IResponse;
 
 /**
  * A stream wrapper that uses http range requests to provide a seekable stream for http reading
@@ -32,7 +33,8 @@ class SeekableHttpStream implements File {
 	/**
 	 * Open a readonly-seekable http stream
 	 *
-	 * The provided callback will be called with byte range and should return an http stream for the requested range
+	 * The provided callback will be called with byte range and should return an http stream opened by the http:// wrapper
+	 * or a streamed response for the requested range
 	 *
 	 * @param callable $callback
 	 * @return false|resource
@@ -71,37 +73,22 @@ class SeekableHttpStream implements File {
 			fclose($this->current);
 		}
 
-		$stream = ($this->openCallback)($range);
+		$result = ($this->openCallback)($range);
 
-		if ($stream === false) {
+		if ($result instanceof IResponse) {
+			$stream = $result->getBody();
+			$content = $result->getHeader('Content-Range');
+		} else {
+			$stream = $result;
+			$content = is_resource($stream) ? $this->getContentRangeFromWrapperData($stream) : '';
+		}
+
+		if (!is_resource($stream) || $content === '') {
 			$this->current = null;
 			return false;
 		}
 		$this->current = $stream;
 
-		$responseHead = stream_get_meta_data($this->current)['wrapper_data'];
-
-		while ($responseHead instanceof Wrapper) {
-			$wrapperOptions = stream_context_get_options($responseHead->context);
-			foreach ($wrapperOptions as $options) {
-				if (isset($options['source']) && is_resource($options['source'])) {
-					$responseHead = stream_get_meta_data($options['source'])['wrapper_data'];
-					continue 2;
-				}
-			}
-			throw new \Exception('Failed to get source stream from stream wrapper of ' . get_class($responseHead));
-		}
-
-		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {
-			return preg_match('#^content-range:#i', $v) === 1;
-		}));
-		if (!$rangeHeaders) {
-			$this->current = null;
-			return false;
-		}
-		$contentRange = $rangeHeaders[0];
-
-		$content = trim(explode(':', $contentRange)[1]);
 		$range = trim(explode(' ', $content)[1]);
 		$begin = intval(explode('-', $range)[0]);
 		$length = intval(explode('/', $range)[1]);
@@ -118,6 +105,33 @@ class SeekableHttpStream implements File {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the Content-Range header from the response head of a stream opened by the http:// wrapper.
+	 *
+	 * @param resource $stream
+	 */
+	private function getContentRangeFromWrapperData($stream): string {
+		$responseHead = stream_get_meta_data($stream)['wrapper_data'];
+
+		while ($responseHead instanceof Wrapper) {
+			$wrapperOptions = stream_context_get_options($responseHead->context);
+			foreach ($wrapperOptions as $options) {
+				if (isset($options['source']) && is_resource($options['source'])) {
+					$responseHead = stream_get_meta_data($options['source'])['wrapper_data'];
+					continue 2;
+				}
+			}
+			throw new \Exception('Failed to get source stream from stream wrapper of ' . get_class($responseHead));
+		}
+
+		foreach ($responseHead ?? [] as $header) {
+			if (preg_match('#^content-range:#i', $header) === 1) {
+				return trim(explode(':', $header, 2)[1]);
+			}
+		}
+		return '';
 	}
 
 	/**
