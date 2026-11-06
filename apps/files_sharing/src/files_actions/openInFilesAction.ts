@@ -19,7 +19,7 @@ export const action: IFileAction = {
 		sharedWithYouViewId,
 		sharedWithOthersViewId,
 		sharingByLinksViewId,
-		// Deleted and pending shares are not
+		// Deleted shares are not
 		// accessible in the files app.
 	].includes(view.id),
 

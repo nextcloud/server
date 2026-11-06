@@ -7,7 +7,7 @@ import type { IFolder, IView } from '@nextcloud/files'
 
 import { DefaultType, File, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares.ts'
+import { deletedSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares.ts'
 import { action } from './openInFilesAction.ts'
 
 import '../main.ts'
@@ -26,7 +26,6 @@ const validViews = [
 
 const invalidViews = [
 	deletedSharesViewId,
-	pendingSharesViewId,
 ].map((id) => ({ id, name: id })) as IView[]
 
 describe('Open in files action conditions tests', () => {
