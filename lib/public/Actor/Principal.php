@@ -19,7 +19,7 @@ use Override;
  * It specifies who the actor is and where that identity lives.
  *
  * @psalm-immutable
- * @experimental 36.0.0
+ * @since 36.0.0
  */
 #[Consumable(since: '36.0.0')]
 final readonly class Principal implements JsonSerializable {
@@ -65,7 +65,7 @@ final readonly class Principal implements JsonSerializable {
 	 * Identifies a local user of this Nextcloud instance.
 	 *
 	 * @param non-empty-string $userId - user id
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function user(string $userId): self {
 		return new self(PrincipalType::User, $userId);
@@ -78,7 +78,7 @@ final readonly class Principal implements JsonSerializable {
 	 *
 	 * @param non-empty-string $userId - federated user id
 	 * @param non-empty-string $remote - remote instance
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function federatedUser(string $userId, string $remote): self {
 		return new self(PrincipalType::User, $userId, $remote);
@@ -90,7 +90,7 @@ final readonly class Principal implements JsonSerializable {
 	 * @param non-empty-string $externalId - anonymous user id (e.g. the nickname set by the public visitor)
 	 * @param non-empty-string $token - e.g. the share or room token
 	 * @param ?non-empty-string $source app-namespaced kind of external user, e.g. `files_sharing:visitor` or `spreed:guest`
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function anonymous(string $externalId, string $token, ?string $source = null): self {
 		return new self(PrincipalType::Anonymous, $externalId, $token, $source);
@@ -99,7 +99,7 @@ final readonly class Principal implements JsonSerializable {
 	/**
 	 * @param non-empty-string $botId - bot id
 	 * @param ?non-empty-string $source - app owning the bot, e.g. "spreed"
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function bot(string $botId, ?string $source = null): self {
 		return new self(PrincipalType::Bot, $botId, null, $source);
@@ -112,7 +112,7 @@ final readonly class Principal implements JsonSerializable {
 	 *
 	 * @param non-empty-string $appId - app id (e.g. "files_versions")
 	 * @param ?non-empty-string $source - component name (e.g. "retention" for the retention component of the "files_versions" app)
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function system(string $appId, ?string $source = null): self {
 		// todo: consider if we want to call IAppManager::cleanAppId here - or even validate the app is installed
@@ -120,14 +120,14 @@ final readonly class Principal implements JsonSerializable {
 	}
 
 	/**
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function is(PrincipalType $type): bool {
 		return $this->type === $type;
 	}
 
 	/**
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function equals(self $other): bool {
 		return $this->type === $other->type
@@ -142,7 +142,7 @@ final readonly class Principal implements JsonSerializable {
 	 * e.g. a federated user: `user|bob@cloud.example`
 	 * or an anonymous user on a public share: `anonymous|nickname@sharetoken|files_sharing:visitor`
 	 *
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function key(): string {
 		return $this->type->value . '|'
@@ -153,7 +153,7 @@ final readonly class Principal implements JsonSerializable {
 
 	/**
 	 * @return array{type: non-empty-string, id: non-empty-string, origin?: ?non-empty-string, source?: ?non-empty-string}
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	#[Override]
 	public function jsonSerialize(): array {
@@ -163,7 +163,7 @@ final readonly class Principal implements JsonSerializable {
 	/**
 	 * @param array<string, mixed> $data - see `Principal::jsonSerialize`
 	 * @throws InvalidArgumentException if the data is invalid or the type is unknown
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function fromArray(array $data): self {
 		self::assertValidData($data);

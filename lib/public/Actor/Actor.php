@@ -53,7 +53,7 @@ use Override;
  * ```
  *
  * @psalm-immutable
- * @experimental 36.0.0
+ * @since 36.0.0
  */
 #[Consumable(since: '36.0.0')]
 final readonly class Actor implements JsonSerializable {
@@ -66,7 +66,7 @@ final readonly class Actor implements JsonSerializable {
 	/**
 	 * Actor with no delegation.
 	 *
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function of(Principal $principal): self {
 		return new self($principal);
@@ -75,14 +75,14 @@ final readonly class Actor implements JsonSerializable {
 	/**
 	 * $this acts as $target with the target's full view.
 	 *
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function impersonate(Principal $target): self {
 		return new self($target, $this->principal);
 	}
 
 	/**
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function isDelegated(): bool {
 		return $this->delegate !== null;
@@ -91,7 +91,7 @@ final readonly class Actor implements JsonSerializable {
 	/**
 	 * Get a unique key for the Actor.
 	 *
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public function key(): string {
 		return $this->principal->key() . ($this->delegate !== null ? '#' . $this->delegate->key() : '');
@@ -101,7 +101,7 @@ final readonly class Actor implements JsonSerializable {
 	 * Serialize the Actor to an array.
 	 *
 	 * @return array{principal: Principal, delegate: ?Principal}
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	#[Override]
 	public function jsonSerialize(): array {
@@ -116,7 +116,7 @@ final readonly class Actor implements JsonSerializable {
 	 *
 	 * @param array<string, mixed> $data - see `Actor::jsonSerialize`
 	 * @throws InvalidArgumentException - if the data is invalid
-	 * @experimental 36.0.0
+	 * @since 36.0.0
 	 */
 	public static function fromArray(array $data): self {
 		self::assertValidActorData($data);
