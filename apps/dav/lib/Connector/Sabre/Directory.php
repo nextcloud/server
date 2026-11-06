@@ -372,7 +372,7 @@ class Directory extends Node implements
 	/**
 	 * Moves a node into this collection.
 	 *
-	 * It is up to the implementors to:
+	 * It is up to the implementers to:
 	 *   1. Create the new resource.
 	 *   2. Remove the old resource.
 	 *   3. Transfer any properties or other data.
