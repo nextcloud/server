@@ -51,6 +51,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['click'],
 }
 </script>
 

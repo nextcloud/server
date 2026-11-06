@@ -77,6 +77,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['abort', 'update:username'],
+
 	data() {
 		return {
 			error: false,

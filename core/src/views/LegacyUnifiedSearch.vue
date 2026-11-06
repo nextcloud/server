@@ -60,7 +60,7 @@
 
 			<NcEmptyContent
 				v-else-if="isValidQuery"
-				:title="validQueryTitle">
+				:name="validQueryTitle">
 				<template #icon>
 					<Magnify />
 				</template>
@@ -68,7 +68,7 @@
 
 			<NcEmptyContent
 				v-else-if="!isLoading || isShortQuery"
-				:title="t('core', 'Start typing to search')"
+				:name="t('core', 'Start typing to search')"
 				:description="shortQueryDescription">
 				<template #icon>
 					<Magnify />

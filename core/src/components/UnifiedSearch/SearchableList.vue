@@ -94,6 +94,8 @@ export default {
 		},
 	},
 
+	emits: ['item-selected', 'search-term-change'],
+
 	data() {
 		return {
 			opened: false,
