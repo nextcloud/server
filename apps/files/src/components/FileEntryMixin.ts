@@ -180,6 +180,11 @@ export default defineComponent({
 				this.actionsMenuStore.opened = opened
 					? this.uniqueId.toString()
 					: null
+
+				// Not opened by right click, so the menu belongs under its trigger
+				if (opened) {
+					this.setMenuPosition()
+				}
 			},
 		},
 
@@ -273,13 +278,8 @@ export default defineComponent({
 			// Checking if the menu is really closed and not
 			// just a change in the open state to another file entry.
 			if (this.actionsMenuStore.opened === null) {
-				// Reset any right menu position potentially set
 				logger.debug('All actions menu closed, resetting right menu position...')
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				if (root !== null) {
-					root.style.removeProperty('--mouse-pos-x')
-					root.style.removeProperty('--mouse-pos-y')
-				}
+				this.setMenuPosition()
 			}
 		},
 	},
@@ -312,19 +312,10 @@ export default defineComponent({
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
-				// Actions menu is contained within the app content
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				const contentRect = root.getBoundingClientRect()
-				// Using Math.min/max to prevent the menu from going out of the AppContent
-				// 200 = max width of the menu
 				logger.debug('Setting actions menu position...')
-				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
-				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
+				this.setMenuPosition(event)
 			} else {
-				// Reset any right menu position potentially set
-				const root = this.$el?.closest('main.app-content') as HTMLElement
-				root.style.removeProperty('--mouse-pos-x')
-				root.style.removeProperty('--mouse-pos-y')
+				this.setMenuPosition()
 			}
 
 			// If the clicked row is in the selection, open global menu
@@ -334,6 +325,48 @@ export default defineComponent({
 			// Prevent any browser defaults
 			event.preventDefault()
 			event.stopPropagation()
+		},
+
+		/**
+		 * Position the next opened actions menu at the mouse, or under its trigger without an event.
+		 * Menus still open keep their current position while they close.
+		 *
+		 * @param event The right click event
+		 */
+		setMenuPosition(event?: MouseEvent) {
+			// Actions menu is contained within the app content
+			const root = this.$el?.closest('main.app-content') as HTMLElement | null
+			if (!root) {
+				return
+			}
+
+			for (const popper of root.querySelectorAll<HTMLElement>('.v-popper__popper')) {
+				// A menu is still visible during its hide transition
+				const style = getComputedStyle(popper)
+				const visible = style.visibility !== 'hidden' && style.opacity !== '0'
+				for (const property of ['--mouse-pos-x', '--mouse-pos-y']) {
+					if (visible) {
+						// Keep a position frozen by a previous call, the root one may be reset already
+						if (!popper.style.getPropertyValue(property)) {
+							popper.style.setProperty(property, root.style.getPropertyValue(property))
+						}
+					} else {
+						popper.style.removeProperty(property)
+					}
+				}
+			}
+
+			if (!event) {
+				root.style.removeProperty('--mouse-pos-x')
+				root.style.removeProperty('--mouse-pos-y')
+				return
+			}
+
+			const contentRect = root.getBoundingClientRect()
+			// Using Math.max to prevent the menu from going out of the AppContent
+			// 200 = max width of the menu
+			root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
+			root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 		},
 
 		execDefaultAction(event: MouseEvent) {
