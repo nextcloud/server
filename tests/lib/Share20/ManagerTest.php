@@ -3542,8 +3542,12 @@ class ManagerTest extends \Test\TestCase {
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 		$this->config->method('getSystemValueBool')
-			->with('sharing.enable_share_mail', true)
-			->willReturn(true);
+			->willReturnCallback(function (string $key, bool $default = false): bool {
+				if ($key === 'sharing.enable_share_mail') {
+					return true;
+				}
+				return $default;
+			});
 
 		$storedPassword = null;
 		$this->defaultProvider
@@ -3570,6 +3574,77 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame('password', $mailedPassword);
 		$this->assertSame($storedPassword, $createdShare->getPassword());
 		$this->assertTrue($createdShare->isPasswordHashed());
+	}
+
+	public function testCreateShareByMailWithPasswordSetsExpirationTime(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'generalChecks',
+				'pathCreateChecks',
+				'validateExpirationDateLink',
+				'verifyPassword',
+				'setLinkParent',
+			])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getName')->willReturn('target');
+		$path->method('getId')->willReturn(1);
+		$path->method('getStorage')->willReturn($this->createMock(IStorage::class));
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_EMAIL)
+			->setNode($path)
+			->setSharedBy('sharedBy')
+			->setPermissions(Constants::PERMISSION_ALL)
+			->setPassword('password');
+
+		$manager->method('validateExpirationDateLink')->willReturnArgument(0);
+		$manager->expects($this->once())
+			->method('verifyPassword')
+			->with('password');
+
+		$this->secureRandom->method('generate')
+			->willReturn('token');
+
+		$this->config->method('getSystemValueBool')
+			->willReturnCallback(function (string $key, bool $default = false): bool {
+				if ($key === 'sharing.enable_mail_link_password_expiration') {
+					return true;
+				}
+				if ($key === 'sharing.enable_share_mail') {
+					return false;
+				}
+				return $default;
+			});
+
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function (string $key, $default = null) {
+				if ($key === 'sharing.mail_link_password_expiration_interval') {
+					return 3600;
+				}
+				return $default;
+			});
+
+		$createdPasswordExpirationTime = null;
+		$this->defaultProvider
+			->expects($this->once())
+			->method('create')
+			->willReturnCallback(function (Share $share) use (&$createdPasswordExpirationTime): Share {
+				$createdPasswordExpirationTime = $share->getPasswordExpirationTime();
+				$storedShare = clone $share;
+				return $storedShare->setId('42');
+			});
+
+		$createdShare = $manager->createShare($share);
+
+		$this->assertInstanceOf(\DateTimeInterface::class, $createdPasswordExpirationTime);
+		$this->assertInstanceOf(\DateTimeInterface::class, $createdShare->getPasswordExpirationTime());
+		$this->assertEquals($createdPasswordExpirationTime, $createdShare->getPasswordExpirationTime());
 	}
 
 	public function testCreateShareHookError(): void {
