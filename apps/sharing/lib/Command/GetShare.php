@@ -26,7 +26,7 @@ final class GetShare extends SharingBase {
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		/** @var string $id */
+		/** @var non-empty-string $id */
 		$id = $input->getArgument('id');
 
 		return $this->wrapExecution($input, $output, fn (): Share => $this->manager->getShare($this->accessContext, $id));

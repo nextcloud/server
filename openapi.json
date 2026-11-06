@@ -38440,7 +38440,8 @@
                             "items": {
                                 "type": "string",
                                 "minLength": 1
-                            }
+                            },
+                            "minItems": 1
                         }
                     },
                     {
@@ -38482,7 +38483,8 @@
                         "schema": {
                             "type": "string",
                             "nullable": true,
-                            "default": null
+                            "default": null,
+                            "minLength": 1
                         }
                     },
                     {
@@ -38820,7 +38822,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -39027,7 +39030,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -39211,7 +39215,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -39397,7 +39402,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -39607,7 +39613,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -39793,7 +39800,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -40019,7 +40027,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -40232,7 +40241,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -40445,7 +40455,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -40676,7 +40687,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -40854,7 +40866,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -41042,7 +41055,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -41198,7 +41212,8 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -41344,7 +41359,8 @@
                         "description": "The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "minLength": 1
                         }
                     },
                     {

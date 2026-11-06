@@ -17,6 +17,7 @@ use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\Sharing\SharingManager;
 use OC\User\Database;
+use OC\User\LazyUser;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCP\Contacts\IManager;
@@ -95,8 +96,13 @@ final class UserShareRecipientTypeTest extends TestCase {
 		$this->assertFalse($this->recipientType->validateRecipient('invalid'));
 	}
 
-	public function testGetRecipientValues(): void {
-		$this->assertEquals(['user1'], $this->recipientType->getRecipients($this->user1, null));
+	public function testGetRecipients(): void {
+		$this->assertEquals([$this->user1->getUID()], $this->recipientType->getRecipients($this->user1, null));
+	}
+
+	public function testGetUsers(): void {
+		/** @psalm-suppress ArgumentTypeCoercion, MixedReturnStatement */
+		$this->assertEquals([$this->user1], array_map(fn (LazyUser $user): IUser => $this->invokePrivate($user, 'getUser'), $this->recipientType->getUsers($this->user1->getUID())));
 	}
 
 	public function testGetRecipientDisplayName(): void {

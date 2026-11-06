@@ -19,7 +19,6 @@ use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ISharePropertyTypeFilter;
-use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -94,7 +93,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$result = $qb->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -206,7 +205,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->andWhere($qb->expr()->eq('source_value', $qb->createNamedParameter($source->value)))
 			->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -300,7 +299,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->andWhere($this->isNullOrEqual($qb, 'recipient_instance_id', $this->instanceMapper->getInstanceId($recipient->instance)))
 			->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -334,7 +333,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$result = $qb->executeQuery();
 
-		/** @var list<string|int> $ids */
+		/** @var list<non-empty-string|int> $ids */
 		$ids = $result->fetchFirstColumn();
 		if ($ids === []) {
 			return [];
@@ -381,38 +380,13 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function updateShareProperty(string $id, ShareProperty $property): ?string {
+	public function updateShareProperty(string $id, ShareProperty $property): void {
 		$this->assertInTransaction();
-
-		$value = $property->value;
-
-		$propertyType = $this->registry->getPropertyTypes()[$property->class];
-
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->select('sp.property_value')
-				->from('sharing_share_properties', 'sp')
-				->where($qb->expr()->eq('sp.share_id', $qb->createNamedParameter($id)))
-				->andWhere(
-					$qb->expr()->eq(
-						'sp.property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT)
-					)
-				);
-
-			/** @var string|false $oldValue */
-			$oldValue = $qb->executeQuery()->fetchOne();
-			if ($oldValue === false) {
-				$oldValue = null;
-			}
-
-			$value = $propertyType->modifyValueOnSave($oldValue, $property->value);
-		}
 
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_properties')
-			->set('property_value', $qb->createNamedParameter($value))
+			->set('property_value', $qb->createNamedParameter($property->value))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
 			->andWhere(
 				$qb->expr()->eq('property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT))
@@ -425,9 +399,29 @@ final readonly class SharingBackend implements ISharingBackend {
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
 					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
-					'property_value' => $qb->createNamedParameter($value),
+					'property_value' => $qb->createNamedParameter($property->value),
 				])
 				->executeStatement();
+		}
+	}
+
+	#[\Override]
+	public function getSharePropertyValue(string $id, string $propertyTypeClass): ?string {
+		$qb = $this->connection->getQueryBuilder();
+		$qb
+			->select('sp.property_value')
+			->from('sharing_share_properties', 'sp')
+			->where($qb->expr()->eq('sp.share_id', $qb->createNamedParameter($id)))
+			->andWhere(
+				$qb->expr()->eq(
+					'sp.property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($propertyTypeClass), IQueryBuilder::PARAM_INT)
+				)
+			);
+
+		/** @var string|false $value */
+		$value = $qb->executeQuery()->fetchOne();
+		if ($value === false) {
+			return null;
 		}
 
 		return $value;
@@ -550,7 +544,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
 		$this->assertInTransaction();
 
-		$shares = $this->list($accessContext, $id, null, null, null, null, null, null);
+		$shares = $this->list($accessContext, [$id], null, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
 		}
@@ -561,6 +555,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	#[\Override]
 	public function getShares(
 		ShareAccessContext $accessContext,
+		?array $filterShareIDs,
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
 		?ShareState $filterState,
@@ -570,22 +565,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	): array {
 		$this->assertInTransaction();
 
-		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
-	}
-
-	#[\Override]
-	public function hasShare(string $id): bool {
-		$this->assertInTransaction();
-
-		$qb = $this->connection->getQueryBuilder();
-
-		$result = $qb
-			->select('id')
-			->from('sharing_share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->executeQuery();
-
-		return $result->fetchOne() !== false;
+		return $this->list($accessContext, $filterShareIDs, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -638,13 +618,14 @@ final readonly class SharingBackend implements ISharingBackend {
 	// TODO: Split up the method
 
 	/**
+	 * @param ?non-empty-list<non-empty-string> $filterShareIDs
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
 	 * @param ?non-empty-string $filterSourceTypeValue
 	 * @return list<Share>
 	 */
 	private function list(
 		ShareAccessContext $accessContext,
-		?string $filterShareID,
+		?array $filterShareIDs,
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
 		?ShareState $filterState,
@@ -672,7 +653,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			if ($accessContext->currentUser instanceof IUser) {
 				$qb = $this->connection->getQueryBuilder();
 				// if we're filtering by source or id, we need to also check for non-owned shares
-				if ($filterSourceTypeValue === null && $filterShareID === null) {
+				if ($filterSourceTypeValue === null && $filterShareIDs === null) {
 					$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
 				}
 
@@ -714,7 +695,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$queries[] = $qb;
 			}
 
-			if ($filterShareID !== null && $accessContext->secret !== null) {
+			if ($filterShareIDs !== null && $accessContext->secret !== null) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
 					's', 'sharing_share_recipients', 'sr', $qb->expr()->andX(
@@ -743,8 +724,8 @@ final readonly class SharingBackend implements ISharingBackend {
 				->from('sharing_share', 's')
 				->orderBy('s.id', 'ASC');
 
-			if ($filterShareID !== null) {
-				$qb->andWhere($qb->expr()->eq('s.id', $qb->createNamedParameter($filterShareID)));
+			if ($filterShareIDs !== null) {
+				$qb->andWhere($qb->expr()->in('s.id', $qb->createNamedParameter($filterShareIDs, IQueryBuilder::PARAM_STR_ARRAY)));
 			}
 
 			if ($filterSourceType !== null && $filterSourceTypeClass !== null) {
@@ -1132,12 +1113,6 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				/** @var ?string $value */
 				$value = $row['property_value'];
-
-				$propertyType = $registryPropertyTypes[$propertyTypeClass];
-				if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-					$value = $propertyType->modifyValueOnLoad($value);
-				}
-
 				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
@@ -1304,15 +1279,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$value = $this->updateShareProperty($share->id, $property);
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
-		}
-
-		$property = new ShareProperty(
-			$property->class,
-			$value,
-		);
+		$this->updateShareProperty($share->id, $property);
 
 		$properties = $share->properties;
 		$properties[$propertyTypeClass] = $property;
@@ -1456,7 +1423,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}, $rows)));
 	}
 
-	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
+	public static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
 		if (method_exists(\DateTimeImmutable::class, 'createFromTimestamp')) {
 			// with php 8.3 the method doesn't exist and psalm doesn't know the return type
 			/** @psalm-suppress MixedReturnStatement */
@@ -1481,5 +1448,28 @@ final readonly class SharingBackend implements ISharingBackend {
 		return ($value === null)
 			? $query->expr()->isNull($field)
 			: $query->expr()->eq($field, $query->createNamedParameter($value), is_int($value) ? IQueryBuilder::PARAM_INT : IQueryBuilder::PARAM_STR);
+	}
+
+	#[\Override]
+	public function getUserStatuses(string $id, array $userIds): array {
+		$this->assertInTransaction();
+
+		$userStatuses = [];
+		foreach (array_chunk($userIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$result = $qb
+				->select('user_id', 'status_id')
+				->from('sharing_share_user_status')
+				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+				->andWhere($qb->expr()->in('user_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->executeQuery();
+			/** @var list<array{user_id: string, status_id: int}> */
+			$rows = $result->fetchAll();
+			foreach ($rows as $row) {
+				$userStatuses[$row['user_id']] = ShareUserStatus::decode($row['status_id']);
+			}
+		}
+
+		return $userStatuses;
 	}
 }

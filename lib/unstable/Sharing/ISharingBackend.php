@@ -13,6 +13,7 @@ use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -28,6 +29,7 @@ interface ISharingBackend {
 	/**
 	 * Create a new share.
 	 *
+	 * @param non-empty-string $id
 	 * @experimental 35.0.0
 	 */
 	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void;
@@ -35,7 +37,7 @@ interface ISharingBackend {
 	/**
 	 * Perform all updates when the owner was deleted.
 	 *
-	 * @return list<string>
+	 * @return list<non-empty-string>
 	 * @experimental 35.0.0
 	 */
 	public function onOwnerDeleted(ShareUser $owner): array;
@@ -43,6 +45,7 @@ interface ISharingBackend {
 	/**
 	 * Update the state of a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -51,6 +54,8 @@ interface ISharingBackend {
 	/**
 	 * Update the user status for a share.
 	 *
+	 * @param non-empty-string $id
+	 * @param non-empty-string $userId
 	 * @experimental 35.0.0
 	 */
 	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void;
@@ -58,6 +63,7 @@ interface ISharingBackend {
 	/**
 	 * Add a new source to a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
@@ -67,6 +73,7 @@ interface ISharingBackend {
 	/**
 	 * Remove an existing source from a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -75,7 +82,7 @@ interface ISharingBackend {
 	/**
 	 * Perform all updates when the source was deleted.
 	 *
-	 * @return list<string>
+	 * @return list<non-empty-string>
 	 * @experimental 35.0.0
 	 */
 	public function onSourceDeleted(ShareSource $source): array;
@@ -83,6 +90,7 @@ interface ISharingBackend {
 	/**
 	 * Add a new recipient to a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
@@ -92,6 +100,7 @@ interface ISharingBackend {
 	/**
 	 * Remove an existing recipient from a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -100,7 +109,7 @@ interface ISharingBackend {
 	/**
 	 * Perform all updates when the recipient was deleted.
 	 *
-	 * @return list<string>
+	 * @return list<non-empty-string>
 	 * @experimental 35.0.0
 	 */
 	public function onRecipientDeleted(ShareRecipient $recipient): array;
@@ -108,7 +117,7 @@ interface ISharingBackend {
 	/**
 	 * Perform all updates when the initiator was deleted.
 	 *
-	 * @return list<string>
+	 * @return list<non-empty-string>
 	 * @experimental 35.0.0
 	 */
 	public function onInitiatorDeleted(ShareUser $initiator): array;
@@ -116,6 +125,8 @@ interface ISharingBackend {
 	/**
 	 * Update the secret of a recipient.
 	 *
+	 * @param non-empty-string $id
+	 * @param non-empty-string $secret
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -124,14 +135,26 @@ interface ISharingBackend {
 	/**
 	 * Update a property of a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareProperty(string $id, ShareProperty $property): ?string;
+	public function updateShareProperty(string $id, ShareProperty $property): void;
+
+	/**
+	 * Get the value of a property of a share.
+	 *
+	 * @param non-empty-string $id
+	 * @param class-string<ISharePropertyType> $propertyTypeClass
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function getSharePropertyValue(string $id, string $propertyTypeClass): ?string;
 
 	/**
 	 * Update a permission of a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -140,6 +163,7 @@ interface ISharingBackend {
 	/**
 	 * Update a permission for a recipient of a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -148,6 +172,7 @@ interface ISharingBackend {
 	/**
 	 * Select a permission preset for a share.
 	 *
+	 * @param non-empty-string $id
 	 * @param class-string<ISharePermissionPreset> $permissionPresetClass
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
@@ -157,6 +182,7 @@ interface ISharingBackend {
 	/**
 	 * Delete a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -165,6 +191,7 @@ interface ISharingBackend {
 	/**
 	 * Get a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -173,24 +200,20 @@ interface ISharingBackend {
 	/**
 	 * Get multiple shares.
 	 *
+	 * @param ?non-empty-list<non-empty-string> $filterShareIDs
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
 	 * @param ?non-empty-string $filterSourceTypeValue
+	 * @param ?non-empty-string $lastShareID
 	 * @param ?positive-int $limit
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
-
-	/**
-	 * Check if a share ID belongs to this backend.
-	 *
-	 * @experimental 35.0.0
-	 */
-	public function hasShare(string $id): bool;
+	public function getShares(ShareAccessContext $accessContext, ?array $filterShareIDs, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 
 	/**
 	 * Get the owner of a share.
 	 *
+	 * @param non-empty-string $id
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -199,7 +222,7 @@ interface ISharingBackend {
 	/**
 	 * Set the last updated timestamp for multiple shares.
 	 *
-	 * @param non-empty-list<string> $ids
+	 * @param non-empty-list<non-empty-string> $ids
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
@@ -219,7 +242,7 @@ interface ISharingBackend {
 	 *
 	 * "shared with" includes both shares owned by the user, and reshares initiated by the user
 	 *
-	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
+	 * @param ?non-empty-list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
 	 * @param null|non-empty-string $notInShare
 	 * @param non-negative-int $count
 	 * @return list<ShareRecipient>
@@ -232,4 +255,11 @@ interface ISharingBackend {
 		int $count = 5,
 		int $offset = 0,
 	): array;
+
+	/**
+	 * @param list<string> $userIds
+	 * @return array<string, ShareUserStatus>
+	 * @experimental 35.0.0
+	 */
+	public function getUserStatuses(string $id, array $userIds): array;
 }
