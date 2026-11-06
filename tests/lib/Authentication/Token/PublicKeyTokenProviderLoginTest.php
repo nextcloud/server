@@ -10,12 +10,20 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -26,15 +34,29 @@ class PublicKeyTokenProviderLoginTest extends TestCase {
 	private const UID = 'login-test-user';
 
 	private PublicKeyTokenProvider $tokenProvider;
-	/** Keeps the session ids of each test apart in the token cache of the shared provider */
+	/** Keeps the session ids of each test apart in the shared token cache */
 	private string $sessionPrefix;
+	private int $now;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->deleteTokens();
-		$this->tokenProvider = Server::get(PublicKeyTokenProvider::class);
+		$this->now = time();
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')->willReturnCallback(fn (): int => $this->now);
+		$this->tokenProvider = new PublicKeyTokenProvider(
+			Server::get(PublicKeyTokenMapper::class),
+			Server::get(ICrypto::class),
+			Server::get(IConfig::class),
+			Server::get(IDBConnection::class),
+			Server::get(LoggerInterface::class),
+			$timeFactory,
+			Server::get(IHasher::class),
+			Server::get(ICacheFactory::class),
+			Server::get(IEventDispatcher::class),
+		);
 		$this->sessionPrefix = bin2hex(random_bytes(4));
 	}
 
@@ -125,6 +147,44 @@ class PublicKeyTokenProviderLoginTest extends TestCase {
 
 		$this->expectException(InvalidTokenException::class);
 		$this->tokenProvider->renewSessionToken($this->sessionId('session0'), $this->sessionId('session2'));
+	}
+
+	public function testRequestsThatLostTheRaceRenewTheSessionTokenDuringTheGracePeriod(): void {
+		$first = $this->login('session0');
+		$this->tokenProvider->renewSessionTokenWithGracePeriod($this->sessionId('session0'), $this->sessionId('session1'));
+		$this->tokenProvider->renewSessionTokenWithGracePeriod($this->sessionId('session0'), $this->sessionId('session2'));
+
+		$this->assertTrue($this->hasToken('session0'));
+		$this->assertTrue($this->hasToken('session1'));
+		$this->assertTrue($this->hasToken('session2'));
+		$this->assertCount(3, $this->tokensOfLogin($first->getId()));
+	}
+
+	public function testASupersededSessionTokenEndsWithItsGracePeriod(): void {
+		$first = $this->login('session0');
+		$this->tokenProvider->renewSessionTokenWithGracePeriod($this->sessionId('session0'), $this->sessionId('session1'));
+		$this->now += IProvider::SUPERSEDED_GRACE_PERIOD + 1;
+
+		$this->assertFalse($this->hasToken('session0'));
+		try {
+			$this->tokenProvider->renewSessionTokenWithGracePeriod($this->sessionId('session0'), $this->sessionId('session2'));
+			$this->fail('A session token superseded before the grace period must not be renewed');
+		} catch (InvalidTokenException) {
+		}
+
+		// The token cleanup removes it
+		Server::get(PublicKeyTokenMapper::class)->deleteSuperseded($this->now - IProvider::SUPERSEDED_GRACE_PERIOD);
+		$this->assertCount(1, $this->tokensOfLogin($first->getId()));
+	}
+
+	public function testRevokingALoginEndsItsSupersededSessionTokens(): void {
+		$first = $this->login('session0');
+		$this->tokenProvider->renewSessionTokenWithGracePeriod($this->sessionId('session0'), $this->sessionId('session1'));
+
+		$this->tokenProvider->invalidateTokenById(self::UID, $first->getId());
+
+		$this->assertFalse($this->hasToken('session0'));
+		$this->assertFalse($this->hasToken('session1'));
 	}
 
 	public function testWipeMarksTheWholeLogin(): void {

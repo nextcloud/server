@@ -241,5 +241,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'authtoken_login_id_idx',
 			['login_id']
 		);
+
+		$event->addMissingIndex(
+			'authtoken',
+			'authtoken_superseded_at_idx',
+			['superseded_at']
+		);
 	}
 }
