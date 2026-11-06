@@ -1131,12 +1131,39 @@ class Session implements IUserSession, Emitter {
 	 * Point the remember-me cookie at the regenerated session id, so cookie
 	 * login can still find the token that was renewed along with it.
 	 */
-	public function renewMagicSessionId(string $oldSessionId): void {
+	private function renewMagicSessionId(string $oldSessionId): void {
 		$cookies = $this->getRememberMeCookies();
 		if ($cookies === null || $cookies['nc_session_id'] !== $oldSessionId) {
 			return;
 		}
 		$this->setMagicInCookie($cookies['nc_username'], $cookies['nc_token']);
+	}
+
+	/**
+	 * Move the session token of the regenerated session $oldSessionId to its new id $sessionId, and point the
+	 * remember-me cookie at it
+	 *
+	 * When another request moved or ended the session token meanwhile, the session loses its login instead. Without a
+	 * session token, its next request would log out and remove the remember-me cookies, which may still be valid.
+	 * Sessions of app passwords don't depend on a session token.
+	 */
+	public function followRegeneratedSessionId(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): void {
+		try {
+			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		} catch (InvalidTokenException) {
+			if (!$this->session->exists('app_password')) {
+				$this->setUser(null);
+				$this->setLoginName(null);
+				$this->setToken(null);
+			}
+			return;
+		}
+		$this->renewMagicSessionId($oldSessionId);
 	}
 
 	/**

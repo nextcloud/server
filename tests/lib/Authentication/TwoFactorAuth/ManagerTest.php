@@ -16,7 +16,6 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -685,43 +684,6 @@ class ManagerTest extends TestCase {
 			->willReturnCallback(function () use (&$invalidateCalls): void {
 				$expected = array_shift($invalidateCalls);
 				$this->assertEquals($expected, func_get_args());
-			});
-
-		$this->manager->clearTwoFactorPending('theUserId');
-	}
-
-	public function testClearTwoFactorPendingTokenDoesNotExist() {
-		$this->getAutoMock(IConfig::class)->method('getUserKeys')
-			->with('theUserId', 'login_token_2fa')
-			->willReturn([
-				'42', '43', '44'
-			]);
-
-		$deleteUserValueCalls = [
-			['theUserId', 'login_token_2fa', '42'],
-			['theUserId', 'login_token_2fa', '43'],
-			['theUserId', 'login_token_2fa', '44'],
-		];
-		$this->getAutoMock(IConfig::class)->expects($this->exactly(3))
-			->method('deleteUserValue')
-			->willReturnCallback(function () use (&$deleteUserValueCalls): void {
-				$expected = array_shift($deleteUserValueCalls);
-				$this->assertEquals($expected, func_get_args());
-			});
-
-		$invalidateCalls = [
-			['theUserId', 42],
-			['theUserId', 43],
-			['theUserId', 44],
-		];
-		$this->getAutoMock(TokenProvider::class)->expects($this->exactly(3))
-			->method('invalidateTokenById')
-			->willReturnCallback(function ($user, $tokenId) use (&$invalidateCalls): void {
-				$expected = array_shift($invalidateCalls);
-				$this->assertEquals($expected, func_get_args());
-				if ($tokenId === 43) {
-					throw new DoesNotExistException('token does not exist');
-				}
 			});
 
 		$this->manager->clearTwoFactorPending('theUserId');

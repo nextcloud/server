@@ -11,7 +11,6 @@ namespace Test\Authentication\Listeners;
 
 use Exception;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
@@ -32,7 +31,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 
 	public function testHandleUnrelated(): void {
 		$event = new Event();
-		$this->getAutoMock(Manager::class)->expects($this->never())->method('getTokenByUser');
+		$this->getAutoMock(Manager::class)->expects($this->never())->method('invalidateTokensOfUser');
 		$this->getAutoMock(LoggerInterface::class)->expects($this->never())->method('error');
 
 		$this->listener->handle($event);
@@ -44,8 +43,8 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$event = new UserDeletedEvent($user);
 		$exception = new Exception('nope');
 		$this->getAutoMock(Manager::class)->expects($this->once())
-			->method('getTokenByUser')
-			->with('user123')
+			->method('invalidateTokensOfUser')
+			->with('user123', null)
 			->willThrowException($exception);
 		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
@@ -57,32 +56,9 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$event = new UserDeletedEvent($user);
-		$token1 = $this->createMock(IToken::class);
-		$token1->method('getId')->willReturn(1);
-		$token2 = $this->createMock(IToken::class);
-		$token2->method('getId')->willReturn(2);
-		$token3 = $this->createMock(IToken::class);
-		$token3->method('getId')->willReturn(3);
 		$this->getAutoMock(Manager::class)->expects($this->once())
-			->method('getTokenByUser')
-			->with('user123')
-			->willReturn([
-				$token1,
-				$token2,
-				$token3,
-			]);
-
-		$calls = [
-			['user123', 1],
-			['user123', 2],
-			['user123', 3],
-		];
-		$this->getAutoMock(Manager::class)->expects($this->exactly(3))
-			->method('invalidateTokenById')
-			->willReturnCallback(function () use (&$calls): void {
-				$expected = array_shift($calls);
-				$this->assertEquals($expected, func_get_args());
-			});
+			->method('invalidateTokensOfUser')
+			->with('user123', null);
 		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 

@@ -17,14 +17,18 @@ use OC\Authentication\Token\PublicKeyTokenMapper;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\TokenInvalidatedEvent;
+use OCP\Authentication\Exceptions\InvalidTokenException as OCPInvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -42,7 +46,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private int $time;
 	private IHasher $hasher;
 	private ICrypto $crypto;
-	private IEventDispatcher $eventDispatcher;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -68,7 +72,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$this->hasher = Server::get(IHasher::class);
 		$this->crypto = Server::get(ICrypto::class);
-		$this->eventDispatcher = Server::get(IEventDispatcher::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->tokenProvider = new PublicKeyTokenProvider(
 			$this->mapper,
@@ -300,29 +304,218 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testInvalidateToken(): void {
-		$calls = [
-			[hash('sha512', 'token7' . '1f4h9s')],
-			[hash('sha512', 'token7')]
-		];
-
-		$this->mapper->expects($this->exactly(2))
+		$token = $this->loginToken(42, null);
+		$sibling = $this->loginToken(43, 42);
+		$this->mapper->method('getToken')
+			->with(hash('sha512', 'token7' . '1f4h9s'))
+			->willReturn($token);
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$token, $sibling]);
+		$deleted = $this->recordDeletedTokens();
+		// A token stored while the instance had no secret
+		$this->mapper->expects($this->once())
 			->method('invalidate')
-			->willReturnCallback(function () use (&$calls): void {
-				$expected = array_shift($calls);
-				$this->assertEquals($expected, func_get_args());
-			});
+			->with(hash('sha512', 'token7'));
+
+		$this->tokenProvider->invalidateToken('token7');
+
+		$this->assertSame([42, 43], $deleted->getArrayCopy());
+	}
+
+	public function testInvalidateTokenThatIsNotStored(): void {
+		$this->mapper->method('getToken')
+			->willThrowException(new DoesNotExistException('nope'));
+		$this->mapper->expects($this->never())
+			->method('getTokensOfLogin');
+		$this->mapper->expects($this->once())
+			->method('invalidate')
+			->with(hash('sha512', 'token7'));
 
 		$this->tokenProvider->invalidateToken('token7');
 	}
 
 	public function testInvalidateTokenById(): void {
-		$id = 123;
+		$this->mapper->method('getTokenById')
+			->with(43)
+			->willReturn($this->loginToken(43, 42));
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$this->loginToken(42, null), $this->loginToken(43, 42)]);
+		$deleted = $this->recordDeletedTokens();
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(TokenInvalidatedEvent::class));
 
+		$this->tokenProvider->invalidateTokenById('user', 43);
+
+		$this->assertSame([42, 43], $deleted->getArrayCopy());
+	}
+
+	public function testInvalidateTokenByIdOfALoginWhoseFirstTokenIsGone(): void {
+		$this->mapper->method('getTokenById')
+			->with(42)
+			->willThrowException(new DoesNotExistException('nope'));
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$this->loginToken(43, 42)]);
+		$deleted = $this->recordDeletedTokens();
+
+		$this->tokenProvider->invalidateTokenById('user', 42);
+
+		$this->assertSame([43], $deleted->getArrayCopy());
+	}
+
+	public function testInvalidateTokenByIdOfAnInvalidatedLogin(): void {
+		$this->mapper->method('getTokenById')
+			->willThrowException(new DoesNotExistException('nope'));
+		$this->mapper->method('getTokensOfLogin')
+			->willReturn([]);
+		$this->mapper->expects($this->never())
+			->method('delete');
+
+		$this->tokenProvider->invalidateTokenById('user', 42);
+	}
+
+	public function testInvalidateTokenByIdAlsoInvalidatesTokensRenewedTwiceWhileWaitingForTheLocks(): void {
+		$this->mapper->method('getTokenById')
+			->willReturn($this->loginToken(42, null));
+		// Scan 1 waits for a renewal of 42 into 43, scan 2 for a renewal of 43 into 44 that its snapshot misses
+		$this->mapper->expects($this->exactly(4))
+			->method('getTokensOfLogin')
+			->willReturnOnConsecutiveCalls(
+				[],
+				[$this->loginToken(43, 42)],
+				[$this->loginToken(44, 42)],
+				[$this->loginToken(44, 42)],
+			);
+		$deleted = $this->recordDeletedTokens();
+
+		$this->tokenProvider->invalidateTokenById('user', 42);
+
+		$this->assertSame([44], $deleted->getArrayCopy());
+	}
+
+	public function testInvalidateOtherTokensOfLogin(): void {
+		$current = $this->loginToken(43, 42);
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$this->loginToken(42, null), $current, $this->loginToken(44, 42)]);
+		$deleted = $this->recordDeletedTokens();
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(TokenInvalidatedEvent::class));
+
+		$this->tokenProvider->invalidateOtherTokensOfLogin($current);
+
+		$this->assertSame([42, 44], $deleted->getArrayCopy());
+	}
+
+	public function testGetLoginId(): void {
+		$this->assertSame(42, $this->tokenProvider->getLoginId($this->loginToken(43, 42)));
+		$this->assertSame(42, $this->tokenProvider->getLoginId($this->loginToken(42, null)));
+	}
+
+	public function testGetLoginIdOfAnotherTokenType(): void {
+		$this->expectException(InvalidTokenException::class);
+
+		$this->tokenProvider->getLoginId($this->createMock(IToken::class));
+	}
+
+	public function testRenewalCachesTheNewTokenAndForgetsTheOldOne(): void {
+		$cache = $this->createMock(ICache::class);
+		$cached = [];
+		$cache->method('set')
+			->willReturnCallback(function (string $key, mixed $value) use (&$cached): bool {
+				$cached[$key] = $value;
+				return true;
+			});
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createInMemory')->willReturn($cache);
+		$tokenProvider = new PublicKeyTokenProvider($this->mapper, $this->crypto, $this->config, $this->db, $this->logger, $this->timeFactory, $this->hasher, $cacheFactory, $this->eventDispatcher);
+		$source = $tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $source);
+		$source->setId(9);
+		$this->mapper->method('getToken')->willReturn($source);
+		$this->mapper->method('getTokenById')->willReturn($source);
+		$this->mapper->method('deleteSessionToken')->willReturn(true);
+
+		$tokenProvider->renewSessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+
+		$this->assertFalse($cached[hash('sha512', 'sourceIdtokentokentokentoken' . '1f4h9s')]);
+		$this->assertArrayHasKey(hash('sha512', 'newIdtokentokentokentoken' . '1f4h9s'), $cached);
+	}
+
+	public function testGetLoginOfUserResolvesAnyTokenOfTheLogin(): void {
+		$first = $this->loginToken(42, null);
+		$first->setLastActivity(1000);
+		$sibling = $this->loginToken(43, 42);
+		$sibling->setLastActivity(1500);
+		$this->mapper->method('getTokenById')
+			->with(43)
+			->willReturn($this->loginToken(43, 42));
 		$this->mapper->expects($this->once())
-			->method('getTokenById')
-			->with($id);
+			->method('getTokensOfLogin')
+			->with('user', 42)
+			->willReturn([$first, $sibling]);
 
-		$this->tokenProvider->invalidateTokenById('uid', $id);
+		// The most recently used token
+		$this->assertSame($sibling, $this->tokenProvider->getLoginOfUser('user', 43));
+	}
+
+	public function testGetLoginOfUserWhoseFirstTokenIsGone(): void {
+		$sibling = $this->loginToken(43, 42);
+		$this->mapper->method('getTokenById')
+			->with(42)
+			->willThrowException(new DoesNotExistException('nope'));
+		$this->mapper->expects($this->once())
+			->method('getTokensOfLogin')
+			->with('user', 42)
+			->willReturn([$sibling]);
+
+		$this->assertSame($sibling, $this->tokenProvider->getLoginOfUser('user', 42));
+	}
+
+	public function testGetLoginOfUserWithoutSuchLogin(): void {
+		$this->mapper->method('getTokenById')
+			->willThrowException(new DoesNotExistException('nope'));
+		$this->mapper->method('getTokensOfLogin')
+			->willReturn([]);
+
+		$this->assertNull($this->tokenProvider->getLoginOfUser('user', 42));
+	}
+
+	public function testGetLoginsOfUser(): void {
+		$first = $this->loginToken(42, null);
+		$first->setLastActivity(1000);
+		$sibling = $this->loginToken(43, 42);
+		$sibling->setLastActivity(1500);
+		$appPassword = $this->loginToken(50, null);
+		$appPassword->setType(IToken::PERMANENT_TOKEN);
+		$this->mapper->method('getTokenByUser')
+			->with('user')
+			->willReturn([$first, $appPassword, $sibling]);
+
+		// Each login as its most recently used token
+		$this->assertSame([42 => $sibling, 50 => $appPassword], $this->tokenProvider->getLoginsOfUser('user'));
+	}
+
+	public function testMarkForWipe(): void {
+		$first = $this->loginToken(42, null);
+		$sibling = $this->loginToken(43, 42);
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$first, $sibling]);
+		$updated = [];
+		$this->mapper->method('update')
+			->willReturnCallback(function (PublicKeyToken $token) use (&$updated): PublicKeyToken {
+				$updated[$token->getId()] = $token->getType();
+				return $token;
+			});
+
+		$this->tokenProvider->markForWipe($sibling);
+
+		$this->assertSame([42 => IToken::WIPE_TOKEN, 43 => IToken::WIPE_TOKEN], $updated);
 	}
 
 	public function testInvalidateOldTokens(): void {
@@ -368,9 +561,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$user = 'User';
 		$password = null;
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
-		$type = IToken::PERMANENT_TOKEN;
+		$type = IToken::TEMPORARY_TOKEN;
 
 		$oldToken = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $oldToken);
+		$oldToken->setId(7);
+		$this->mapper->method('getTokenById')->with(7, true)->willReturn($oldToken);
 
 		$this->mapper
 			->expects($this->once())
@@ -380,20 +576,21 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('insert')
-			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name) {
+			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name, $oldToken) {
 				return $token->getUID() === $uid
 					&& $token->getLoginName() === $user
 					&& $token->getName() === $name
 					&& $token->getType() === IToken::DO_NOT_REMEMBER
 					&& $token->getLastActivity() === $this->time
-					&& $token->getPassword() === null;
+					&& $token->getPassword() === null
+					&& $token->getLoginId() === 7
+					&& $token->getPublicKey() !== $oldToken->getPublicKey();
 			}));
 		$this->mapper
 			->expects($this->once())
-			->method('delete')
-			->with($this->callback(function ($token) use ($oldToken) {
-				return $token === $oldToken;
-			}));
+			->method('deleteSessionToken')
+			->with(7)
+			->willReturn(true);
 
 		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
@@ -404,13 +601,16 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$user = 'User';
 		$password = 'password';
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
-		$type = IToken::PERMANENT_TOKEN;
+		$type = IToken::TEMPORARY_TOKEN;
 
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([
 				['auth.storeCryptedPassword', true, true],
 			]);
 		$oldToken = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $oldToken);
+		$oldToken->setId(7);
+		$this->mapper->method('getTokenById')->with(7, true)->willReturn($oldToken);
 
 		$this->mapper
 			->expects($this->once())
@@ -420,23 +620,181 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('insert')
-			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name): bool {
+			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name, $oldToken): bool {
 				return $token->getUID() === $uid
 					&& $token->getLoginName() === $user
 					&& $token->getName() === $name
 					&& $token->getType() === IToken::DO_NOT_REMEMBER
 					&& $token->getLastActivity() === $this->time
 					&& $token->getPassword() !== null
-					&& $this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password';
+					&& $this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password'
+					&& $token->getPasswordHash() === $oldToken->getPasswordHash()
+					&& $token->getLoginId() === 7;
 			}));
 		$this->mapper
 			->expects($this->once())
-			->method('delete')
-			->with($this->callback(function ($token) use ($oldToken): bool {
-				return $token === $oldToken;
-			}));
+			->method('deleteSessionToken')
+			->with(7)
+			->willReturn(true);
 
 		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewSessionTokenThatWasRenewedOrInvalidatedMeanwhile(): void {
+		$oldToken = $this->tokenProvider->generateToken('oldIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $oldToken);
+		$oldToken->setId(7);
+		// Found by the lookup and, without row locks, by the read that follows it
+		$this->mapper->method('getToken')->willReturn($oldToken);
+		$this->mapper->method('getTokenById')->with(7, true)->willReturn($oldToken);
+		$this->mapper->method('deleteSessionToken')->with(7)->willReturn(false);
+
+		$this->mapper->expects($this->never())
+			->method('insert');
+		$this->expectException(InvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewSessionTokenThatIsGoneOnceLocked(): void {
+		$oldToken = $this->tokenProvider->generateToken('oldIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $oldToken);
+		$oldToken->setId(7);
+		$this->mapper->method('getToken')->willReturn($oldToken);
+		// A concurrent renewal or an invalidation deleted it while this request waited for the lock
+		$this->mapper->method('getTokenById')->with(7, true)->willThrowException(new DoesNotExistException('nope'));
+
+		$this->mapper->expects($this->never())
+			->method('insert');
+		$this->expectException(InvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewedSessionTokenTakesTheCurrentStateOfTheSource(): void {
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+		// Renamed, restricted and given a new password by other requests after this one read it from the cache
+		$current = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', 'new password', 'Laptop', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $current);
+		$current->setId(9);
+		$current->setScope([IToken::SCOPE_FILESYSTEM => false]);
+		$cached = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', 'old password', 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $cached);
+		$cached->setId(9);
+		$this->mapper->method('getToken')->willReturn($cached);
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($current);
+		$this->mapper->method('deleteSessionToken')->willReturn(true);
+
+		$this->mapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(fn (PublicKeyToken $token): bool => $token->getName() === 'Laptop'
+				&& $token->getScopeAsArray() === [IToken::SCOPE_FILESYSTEM => false]
+				&& $this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'new password'));
+
+		$this->tokenProvider->renewSessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testUpdateLogin(): void {
+		$first = $this->loginToken(42, null);
+		$first->setName('Firefox');
+		$sibling = $this->loginToken(43, 42);
+		$sibling->setName('Firefox');
+		$this->mapper->method('getTokenById')
+			->with(43)
+			->willReturn($this->loginToken(43, 42));
+		$this->mapper->method('getTokensOfLogin')
+			->with('user', 42, true)
+			->willReturn([$first, $sibling]);
+		$updated = [];
+		$this->mapper->method('update')
+			->willReturnCallback(function (PublicKeyToken $token) use (&$updated): PublicKeyToken {
+				$updated[$token->getId()] = ['name' => $token->getName(), 'scope' => $token->getScopeAsArray()];
+				return $token;
+			});
+
+		// By any token of the login
+		$this->tokenProvider->updateLogin('user', 43, 'Laptop', null);
+
+		$this->assertSame([
+			42 => ['name' => 'Laptop', 'scope' => [IToken::SCOPE_FILESYSTEM => true]],
+			43 => ['name' => 'Laptop', 'scope' => [IToken::SCOPE_FILESYSTEM => true]],
+		], $updated);
+	}
+
+	public function testRenewSessionTokenThatCannotBeDecrypted(): void {
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+		$oldToken = $this->tokenProvider->generateToken('oldIdtokentokentokentoken', 'user', 'User', 'password', 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $oldToken);
+		$oldToken->setId(7);
+		$oldToken->setPrivateKey('not encrypted with this session id');
+		$this->mapper->method('getToken')->willReturn($oldToken);
+		$this->mapper->method('getTokenById')->with(7, true)->willReturn($oldToken);
+
+		// The renewal fails as a whole, it does not invalidate the login on the side
+		$this->mapper->expects($this->never())
+			->method('getTokensOfLogin');
+		$this->mapper->expects($this->never())
+			->method('invalidate');
+		$this->mapper->expects($this->never())
+			->method('deleteSessionToken');
+		$this->expectException(InvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public static function refusedRenewalSourceData(): array {
+		return [
+			'app password' => ['type' => IToken::PERMANENT_TOKEN, 'wipedMeanwhile' => false],
+			'one-time token' => ['type' => IToken::ONETIME_TOKEN, 'wipedMeanwhile' => false],
+			'session token marked for wipe meanwhile' => ['type' => IToken::TEMPORARY_TOKEN, 'wipedMeanwhile' => true],
+		];
+	}
+
+	#[DataProvider(methodName: 'refusedRenewalSourceData')]
+	public function testRenewSessionTokenRefusesTheSource(int $type, bool $wipedMeanwhile): void {
+		$sourceToken = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', $type);
+		$this->assertInstanceOf(PublicKeyToken::class, $sourceToken);
+		$sourceToken->setId(9);
+		// The token as this request found it, in the cache or the database
+		$this->mapper->method('getToken')->willReturn(clone $sourceToken);
+		if ($wipedMeanwhile) {
+			$sourceToken->wipe();
+		}
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($sourceToken);
+
+		$this->mapper->expects($this->never())
+			->method('insert');
+		// Includes the exceptions for expired and wiped tokens
+		$this->expectException(OCPInvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
+	}
+
+	public function testRenewSessionTokenWhoseIdBelongsToAnotherTokenNow(): void {
+		$sourceToken = $this->tokenProvider->generateToken('sourceIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $sourceToken);
+		$sourceToken->setId(9);
+		$this->mapper->method('getToken')->willReturn($sourceToken);
+		// Deleted meanwhile, and its id reused for another session token, as SQLite can do
+		$otherToken = $this->tokenProvider->generateToken('otherIdtokentokentokentoken', 'user', 'User', null, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
+		$this->assertInstanceOf(PublicKeyToken::class, $otherToken);
+		$otherToken->setId(9);
+		$this->mapper->method('getTokenById')->with(9, true)->willReturn($otherToken);
+
+		// Neither the other token is deleted, nor a new one stored
+		$this->mapper->expects($this->never())
+			->method('deleteSessionToken');
+		$this->mapper->expects($this->never())
+			->method('insert');
+		$this->expectException(OCPInvalidTokenException::class);
+
+		$this->tokenProvider->renewSessionToken('sourceIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
 
 	public function testGetToken(): void {
@@ -641,5 +999,32 @@ class PublicKeyTokenProviderTest extends TestCase {
 			}));
 
 		$this->tokenProvider->updatePasswords($uid, 'bar2');
+	}
+
+	/**
+	 * A session token $id of $uid that belongs to the login $loginId, or starts its own login if null
+	 */
+	private function loginToken(int $id, ?int $loginId): PublicKeyToken {
+		$token = new PublicKeyToken();
+		$token->setId($id);
+		$token->setUid('user');
+		$token->setLoginId($loginId);
+		$token->setToken('hash' . $id);
+		$token->setType(IToken::TEMPORARY_TOKEN);
+		$token->setRemember(IToken::REMEMBER);
+		return $token;
+	}
+
+	/**
+	 * @return \ArrayObject<int, int> The ids of the tokens the mapper deletes, in order
+	 */
+	private function recordDeletedTokens(): \ArrayObject {
+		$deleted = new \ArrayObject();
+		$this->mapper->method('delete')
+			->willReturnCallback(function (PublicKeyToken $token) use ($deleted): PublicKeyToken {
+				$deleted[] = $token->getId();
+				return $token;
+			});
+		return $deleted;
 	}
 }

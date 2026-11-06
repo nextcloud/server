@@ -1286,7 +1286,7 @@ class SessionTest extends TestCase {
 			->with('u', 't');
 		$this->mockRequestCookies($cookies);
 
-		$this->userSession->renewMagicSessionId('old');
+		$this->userSession->followRegeneratedSessionId('old', 'new');
 	}
 
 	#[RunInSeparateProcess]
@@ -1308,7 +1308,7 @@ class SessionTest extends TestCase {
 
 		// Unlocking a password-protected share in the same request moves the session again
 		$sessionId = 'sess789';
-		$userSession->renewMagicSessionId('sess456');
+		$userSession->followRegeneratedSessionId('sess456', 'sess789');
 
 		$this->assertSame(['sess456', 'sess789'], $issuedFor);
 	}
@@ -1324,7 +1324,7 @@ class SessionTest extends TestCase {
 			->method('getId');
 
 		$userSession->unsetMagicInCookie();
-		$userSession->renewMagicSessionId('sess123');
+		$userSession->followRegeneratedSessionId('sess123', 'sess456');
 
 		$this->assertNull($userSession->getRememberMeCookies());
 	}
@@ -1388,8 +1388,59 @@ class SessionTest extends TestCase {
 		$this->userSession->endInactiveSession();
 	}
 
-	private function createUserSessionWithRealCookies(): Session {
-		return new Session($this->manager, $this->session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+	public function testFollowRegeneratedSessionIdWithoutTheSessionTokenRemovesOnlyTheLogin(): void {
+		$session = new Memory();
+		$session->set('user_id', 'foo');
+		$session->set('loginname', 'foo');
+		$session->set('token-id', 42);
+		$session->set('foo', 'bar');
+		$userSession = $this->createUserSessionWithRealCookies($session);
+		// A concurrent request moved it first
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$userSession->followRegeneratedSessionId('oldId', 'newId');
+
+		$this->assertFalse($session->exists('user_id'));
+		$this->assertFalse($session->exists('loginname'));
+		$this->assertFalse($session->exists('token-id'));
+		$this->assertSame('bar', $session->get('foo'));
+	}
+
+	public function testFollowRegeneratedSessionIdWithoutTheSessionTokenKeepsTheRememberMeCookies(): void {
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'oldId']);
+		$this->session->method('exists')->with('app_password')->willReturn(false);
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$this->session->expects($this->never())
+			->method('clear');
+		$this->userSession->expects($this->never())
+			->method('unsetMagicInCookie');
+		$this->userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
+		$this->userSession->followRegeneratedSessionId('oldId', 'newId');
+	}
+
+	public function testFollowRegeneratedSessionIdKeepsAppPasswordSessions(): void {
+		$session = new Memory();
+		$session->set('app_password', 'appPasswordToken');
+		$session->set('user_id', 'foo');
+		$userSession = $this->createUserSessionWithRealCookies($session);
+		// Their session id has no session token
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$userSession->followRegeneratedSessionId('oldId', 'newId');
+
+		$this->assertSame('foo', $session->get('user_id'));
+	}
+
+	private function createUserSessionWithRealCookies(?ISession $session = null): Session {
+		return new Session($this->manager, $session ?? $this->session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 	}
 
 	private function mockRequestCookies(array $cookies): void {

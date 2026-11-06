@@ -9,7 +9,6 @@ namespace Tests\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Token\IProvider;
 use OC\Core\Command\User\AuthTokens\Delete;
-use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -175,10 +174,11 @@ class DeleteTest extends TestCase {
 		$this->mockOptions();
 
 		$wipeToken = $this->createMock(IToken::class);
+		$wipeToken->method('getType')->willReturn(IToken::WIPE_TOKEN);
 		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with(42)
-			->willThrowException(new WipeTokenException($wipeToken));
+			->method('getLoginOfUser')
+			->with('user', 42)
+			->willReturn($wipeToken);
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
@@ -201,8 +201,8 @@ class DeleteTest extends TestCase {
 		$this->mockOptions(null, true);
 
 		// With --cancel-wipe, the wipe-state pre-check is skipped entirely
-		// (the operator has already opted in), so getTokenById should not run.
-		$this->tokenProvider->expects($this->never())->method('getTokenById');
+		// (the operator has already opted in), so getLoginOfUser should not run.
+		$this->tokenProvider->expects($this->never())->method('getLoginOfUser');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
