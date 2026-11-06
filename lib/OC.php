@@ -1299,12 +1299,9 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
-		// From $_COOKIE, where an earlier logout or Apache auth in this request removes them. They can be arrays.
-		$username = $_COOKIE['nc_username'] ?? null;
-		$token = $_COOKIE['nc_token'] ?? null;
-		$sessionId = $_COOKIE['nc_session_id'] ?? null;
-		if (is_string($username) && is_string($token) && is_string($sessionId)
-			&& $userSession->loginWithCookie($username, $token, $sessionId)) {
+		// Without the cookies an earlier logout or Apache auth in this request removed
+		$cookies = $userSession->getRememberMeCookies();
+		if ($cookies !== null && $userSession->loginWithCookie($cookies['nc_username'], $cookies['nc_token'], $cookies['nc_session_id'])) {
 			return true;
 		}
 		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {

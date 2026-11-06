@@ -70,6 +70,13 @@ class Session implements IUserSession, Emitter {
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private bool $incognitoMode = false;
 
+	/**
+	 * The remember-me cookies as this request last set or removed them, null while it keeps the ones it came with
+	 *
+	 * @var ?array{nc_username: ?string, nc_token: ?string, nc_session_id: ?string}
+	 */
+	private ?array $rememberMeCookies = null;
+
 	public function __construct(
 		private Manager $manager,
 		private ISession $session,
@@ -1036,10 +1043,7 @@ class Session implements IUserSession, Emitter {
 	 * dropped, so the remember-me login signs the user in again.
 	 */
 	public function endInactiveSession(): void {
-		$request = Server::get(IRequest::class);
-		if (!is_string($request->getCookie('nc_username'))
-			|| !is_string($request->getCookie('nc_token'))
-			|| !is_string($request->getCookie('nc_session_id'))) {
+		if ($this->getRememberMeCookies() === null) {
 			$this->logout();
 			return;
 		}
@@ -1082,10 +1086,12 @@ class Session implements IUserSession, Emitter {
 			true,
 			CookieHelper::SAMESITE_LAX
 		);
+		$sessionId = null;
 		try {
+			$sessionId = $this->session->getId();
 			CookieHelper::setCookie(
 				'nc_session_id',
-				$this->session->getId(),
+				$sessionId,
 				$maxAge,
 				$webRoot,
 				$domain,
@@ -1096,6 +1102,29 @@ class Session implements IUserSession, Emitter {
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+		$this->rememberMeCookies = ['nc_username' => $username, 'nc_token' => $token, 'nc_session_id' => $sessionId];
+	}
+
+	/**
+	 * The remember-me cookies as this request last set them, otherwise as it came with them. Null once it removed
+	 * them, or when one is missing or not a string, as clients can send arrays.
+	 *
+	 * @return ?array{nc_username: string, nc_token: string, nc_session_id: string}
+	 */
+	public function getRememberMeCookies(): ?array {
+		$cookies = $this->rememberMeCookies;
+		if ($cookies === null) {
+			$request = Server::get(IRequest::class);
+			$cookies = [
+				'nc_username' => $request->getCookie('nc_username'),
+				'nc_token' => $request->getCookie('nc_token'),
+				'nc_session_id' => $request->getCookie('nc_session_id'),
+			];
+		}
+		if (!is_string($cookies['nc_username']) || !is_string($cookies['nc_token']) || !is_string($cookies['nc_session_id'])) {
+			return null;
+		}
+		return ['nc_username' => $cookies['nc_username'], 'nc_token' => $cookies['nc_token'], 'nc_session_id' => $cookies['nc_session_id']];
 	}
 
 	/**
@@ -1103,14 +1132,11 @@ class Session implements IUserSession, Emitter {
 	 * login can still find the token that was renewed along with it.
 	 */
 	public function renewMagicSessionId(string $oldSessionId): void {
-		$request = Server::get(IRequest::class);
-		$username = $request->getCookie('nc_username');
-		$token = $request->getCookie('nc_token');
-		$sessionId = $request->getCookie('nc_session_id');
-		if (!is_string($username) || !is_string($token) || $sessionId !== $oldSessionId) {
+		$cookies = $this->getRememberMeCookies();
+		if ($cookies === null || $cookies['nc_session_id'] !== $oldSessionId) {
 			return;
 		}
-		$this->setMagicInCookie($username, $token);
+		$this->setMagicInCookie($cookies['nc_username'], $cookies['nc_token']);
 	}
 
 	/**
@@ -1121,9 +1147,7 @@ class Session implements IUserSession, Emitter {
 		$secureCookie = Server::get(IRequest::class)->getServerProtocol() === 'https';
 		$domain = $this->config->getSystemValueString('cookie_domain');
 
-		unset($_COOKIE['nc_username']); //TODO: DI
-		unset($_COOKIE['nc_token']);
-		unset($_COOKIE['nc_session_id']);
+		$this->rememberMeCookies = ['nc_username' => null, 'nc_token' => null, 'nc_session_id' => null];
 		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
