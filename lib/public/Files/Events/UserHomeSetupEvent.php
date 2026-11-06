@@ -17,11 +17,11 @@ use OCP\IUser;
  * Event triggered after the users home mount has been setup, before any other
  * mounts are setup.
  *
- * @since 34.0.0
+ * @since 33.0.3
  */
 class UserHomeSetupEvent extends Event {
 	/**
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 */
 	public function __construct(
 		private readonly IUser $user,
@@ -31,14 +31,14 @@ class UserHomeSetupEvent extends Event {
 	}
 
 	/**
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
 	/**
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 */
 	public function getHomeMount(): IMountPoint {
 		return $this->homeMount;
