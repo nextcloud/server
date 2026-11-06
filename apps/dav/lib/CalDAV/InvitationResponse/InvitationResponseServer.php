@@ -25,11 +25,11 @@ use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
@@ -89,9 +89,10 @@ class InvitationResponseServer {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
-		$this->server->addPlugin(new SharingPlugin(Server::get(IAppConfig::class)));
+		$this->server->addPlugin(new SharingPlugin(Server::get(IShareManager::class)));
 		$this->server->addPlugin(new PublishPlugin(
-			Server::get(IURLGenerator::class)
+			Server::get(IURLGenerator::class),
+			Server::get(IShareManager::class),
 		));
 
 		// wait with registering these until auth is handled and the filesystem is setup

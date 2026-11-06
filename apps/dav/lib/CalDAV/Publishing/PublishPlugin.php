@@ -14,6 +14,8 @@ use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCA\DAV\DAV\Sharing\CanChangeSharingTrait;
 use OCP\AppFramework\Http;
 use OCP\IURLGenerator;
+use OCP\Share\IManager as IShareManager;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -31,6 +33,7 @@ class PublishPlugin extends ServerPlugin {
 
 	public function __construct(
 		protected IURLGenerator $urlGenerator,
+		private IShareManager $shareManager,
 	) {
 	}
 
@@ -154,6 +157,9 @@ class PublishPlugin extends ServerPlugin {
 				$this->server->transactionType = 'post-publish-calendar';
 
 				$this->canChangeSharing($path, true);
+				if (!$this->shareManager->shareApiAllowLinks()) {
+					throw new Forbidden('Publishing calendars via link is not allowed');
+				}
 
 				$node->setPublishStatus(true);
 

@@ -6,7 +6,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\CanChangeSharingTrait;
-use OCP\IAppConfig;
+use OCP\Share\IManager as IShareManager;
 use Override;
 use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
 use Sabre\DAV\INode;
@@ -22,7 +22,7 @@ class SharingPlugin extends ServerPlugin {
 	protected Server $server;
 
 	public function __construct(
-		private readonly IAppConfig $config,
+		private readonly IShareManager $shareManager,
 	) {
 	}
 
@@ -47,7 +47,7 @@ class SharingPlugin extends ServerPlugin {
 		if ($node instanceof Calendar) {
 			$propFind->handle('{' . self::NS_CALENDARSERVER . '}allowed-sharing-modes', function () use ($propFind, $node) {
 				$canShare = !$node->isSubscription() && $this->canChangeSharing($propFind->getPath());
-				$canPublish = $canShare && $this->config->getValueBool('core', 'shareapi_allow_links', true);
+				$canPublish = $canShare && $this->shareManager->shareApiAllowLinks();
 
 				return new AllowedSharingModes($canShare, $canPublish);
 			});
