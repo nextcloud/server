@@ -13,6 +13,7 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\ObjectStore\ContentDisposition;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OC\Files\Storage\Common;
@@ -801,7 +802,7 @@ class AmazonS3 extends Common {
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $path,
-			'ResponseContentDisposition' => $this->attachmentContentDisposition(basename($path)),
+			'ResponseContentDisposition' => ContentDisposition::attachment(basename($path)),
 		]);
 		$expiration = new \DateTimeImmutable('+60 minutes');
 
