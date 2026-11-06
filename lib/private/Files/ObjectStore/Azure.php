@@ -29,6 +29,7 @@ use OCP\Server;
  * - connect_timeout, timeout: in seconds, timeout 0 waits indefinitely
  * - retries: number of retries for failed requests
  * - use_nextcloud_bundle: use the CA bundle managed by Nextcloud
+ * - use_presigned_url: allow direct downloads from Azure with shared access signatures
  */
 class Azure implements IObjectStore {
 	public const DEFAULT_BLOCK_SIZE = 32 * 1024 * 1024;
@@ -42,6 +43,7 @@ class Azure implements IObjectStore {
 	private string $apiVersion;
 	private array $requestOptions;
 	private int $retries;
+	private bool $usePresignedUrl;
 
 	public function __construct(
 		array $parameters,
@@ -63,6 +65,7 @@ class Azure implements IObjectStore {
 			'verify' => CertificateBundle::getPath((bool)($parameters['use_nextcloud_bundle'] ?? false), true) ?? true,
 		];
 		$this->retries = (int)($parameters['retries'] ?? 3);
+		$this->usePresignedUrl = (bool)($parameters['use_presigned_url'] ?? false);
 	}
 
 	private function getBlobClient(): AzureBlobClient {
@@ -211,6 +214,14 @@ class Azure implements IObjectStore {
 
 	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
-		return null;
+		if (!$this->usePresignedUrl) {
+			return null;
+		}
+
+		$client = $this->getBlobClient();
+		if (!$client->supportsSas()) {
+			return null;
+		}
+		return $client->getReadSasUrl($this->containerName, $urn, $expiration, ContentDisposition::attachment($filename));
 	}
 }
