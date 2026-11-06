@@ -57,6 +57,13 @@ class PreviewMigrationJob extends TimedJob {
 		}
 
 		$maxParallelJobs = $this->appConfig->getValueInt('core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS);
+		if ($maxParallelJobs === 0) {
+			$this->logger->debug('Preview migration of partition {partition} postponed: background migration is disabled.', [
+				'partition' => $partition,
+			]);
+			return;
+		}
+
 		if ($maxParallelJobs > 0 && $this->countOtherRunningJobs() >= $maxParallelJobs) {
 			$this->logger->debug('Preview migration of partition {partition} postponed: {max} jobs are already running.', [
 				'partition' => $partition,

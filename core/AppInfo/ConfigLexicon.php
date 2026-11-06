@@ -111,8 +111,8 @@ class ConfigLexicon implements ILexicon {
 			new Entry(
 				key: self::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS,
 				type: ValueType::INT,
-				defaultRaw: 0,
-				definition: 'Maximum number of preview migration background jobs running in parallel, 0 for no limit.',
+				defaultRaw: 2,
+				definition: 'Maximum number of preview migration background jobs running in parallel, -1 for no limit and 0 to disable the migration.',
 			),
 			new Entry(
 				key: self::APPSTORE_LINK_SHOWN,
