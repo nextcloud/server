@@ -40,6 +40,8 @@ use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -1287,6 +1289,62 @@ class SessionTest extends TestCase {
 		$this->userSession->renewMagicSessionId('old');
 	}
 
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(enabled: false)]
+	public function testRenewMagicSessionIdFollowsTheCookiesThisRequestSet(): void {
+		// The request came with cookies for sess123, then a remember-me login moved its session to sess456
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'oldToken', 'nc_session_id' => 'sess123']);
+		/** @var string $sessionId */
+		$sessionId = 'sess456';
+		/** @var list<string> $issuedFor */
+		$issuedFor = [];
+		// Read once for every nc_session_id cookie
+		$this->session->method('getId')->willReturnCallback(function () use (&$sessionId, &$issuedFor): string {
+			$issuedFor[] = $sessionId;
+			return $sessionId;
+		});
+		$userSession = $this->createUserSessionWithRealCookies();
+		$userSession->setMagicInCookie('foo', 'newToken');
+
+		// Unlocking a password-protected share in the same request moves the session again
+		$sessionId = 'sess789';
+		$userSession->renewMagicSessionId('sess456');
+
+		$this->assertSame(['sess456', 'sess789'], $issuedFor);
+	}
+
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(enabled: false)]
+	public function testRenewMagicSessionIdAfterTheCookiesWereRemoved(): void {
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123']);
+		$userSession = $this->createUserSessionWithRealCookies();
+
+		// Issuing an nc_session_id cookie reads the session id
+		$this->session->expects($this->never())
+			->method('getId');
+
+		$userSession->unsetMagicInCookie();
+		$userSession->renewMagicSessionId('sess123');
+
+		$this->assertNull($userSession->getRememberMeCookies());
+	}
+
+	public static function rememberMeCookiesData(): array {
+		$cookies = ['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'];
+		return [
+			'all three are strings' => ['cookies' => $cookies, 'expected' => $cookies],
+			'no session id cookie' => ['cookies' => ['nc_username' => 'foo', 'nc_token' => 'fooToken'], 'expected' => null],
+			'token cookie is an array' => ['cookies' => ['nc_token' => ['fooToken']] + $cookies, 'expected' => null],
+		];
+	}
+
+	#[DataProvider(methodName: 'rememberMeCookiesData')]
+	public function testGetRememberMeCookiesTheRequestCameWith(array $cookies, ?array $expected): void {
+		$this->mockRequestCookies($cookies);
+
+		$this->assertSame($expected, $this->userSession->getRememberMeCookies());
+	}
+
 	public function testEndInactiveSessionKeepsTheRememberMeCookies(): void {
 		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123']);
 		$this->userSession->setVolatileActiveUser($this->createMock(IUser::class));
@@ -1328,6 +1386,10 @@ class SessionTest extends TestCase {
 			->method('clear');
 
 		$this->userSession->endInactiveSession();
+	}
+
+	private function createUserSessionWithRealCookies(): Session {
+		return new Session($this->manager, $this->session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 	}
 
 	private function mockRequestCookies(array $cookies): void {
