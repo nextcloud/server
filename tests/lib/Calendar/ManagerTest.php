@@ -348,7 +348,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
@@ -388,7 +388,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message does not contain any event(s)');
 		// construct parameters
 		$userId = 'attendee1';
@@ -475,9 +475,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->VEVENT->remove('ORGANIZER');
-		// Logger expects warning
+		// Logger expects info
 		$this->logger->expects($this->once())
-			->method('warning')
+			->method('info')
 			->with('iMip message event does not contain an organizer and no recipient was provided');
 
 		$result = $manager->handleIMip($userId, $calendar->serialize(), []);
@@ -511,7 +511,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$userId = 'attendee1';
@@ -555,7 +555,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$userId = 'attendee1';
@@ -591,7 +591,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
@@ -726,8 +726,8 @@ class ManagerTest extends TestCase {
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
-		// construct logger returns - should log warning since event not found and absent=ignore
-		$this->logger->expects(self::once())->method('warning')
+		// construct logger returns - should log info since event not found and absent=ignore
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$userId = 'attendee1';
@@ -770,7 +770,7 @@ class ManagerTest extends TestCase {
 		$manager->expects(self::never())
 			->method('getPrimaryCalendar');
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
+		$this->logger->expects(self::once())->method('info')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
