@@ -5,18 +5,13 @@
 
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/random-user-session.ts'
-import { WorkflowSettingsPage } from '../../support/sections/WorkflowSettingsPage.ts'
 
 test.describe('Flow personal settings', () => {
-	test('offers nothing while no flow is available to users', async ({ page }) => {
-		const workflowSettings = new WorkflowSettingsPage(page)
-		await workflowSettings.open('personal')
+	test('hides the Flow entry when no flow is available to users', async ({ page }) => {
+		await page.goto('settings/user/profile-contact')
 
-		// the only operation this repository ships is admin scoped
-		await expect(workflowSettings.noFlowsInstalled()).toBeVisible()
-		await expect(workflowSettings.askAdministratorHint()).toBeVisible()
-
-		// without an available flow there is nothing to configure either
-		await expect(workflowSettings.configuredFlowsHeading()).toBeHidden()
+		const personalSettings = page.getByRole('list', { name: 'Personal', exact: true })
+		await expect(personalSettings).toBeVisible()
+		await expect(personalSettings.getByRole('link', { name: 'Flow', exact: true })).toHaveCount(0)
 	})
 })
