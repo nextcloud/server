@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
 use OC\Files\Mount\MountPoint;
+use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Server;
@@ -49,6 +50,10 @@ class Updater {
 		$src = $userFolder->get($path);
 
 		$shareManager = \OC::$server->getShareManager();
+
+		if ($shareManager instanceof Manager) {
+			$shareManager->restrictDownloadOfReshares($src);
+		}
 
 		// FIXME: should CIRCLES be included here ??
 		$shares = $shareManager->getSharesBy($user->getUID(), IShare::TYPE_USER, $src, false, -1);

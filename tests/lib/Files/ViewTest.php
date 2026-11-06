@@ -23,7 +23,9 @@ use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
@@ -1745,6 +1747,46 @@ class ViewTest extends \Test\TestCase {
 
 		$shareManager->deleteShare($share);
 		$userObject->delete();
+	}
+
+	public function testMoveMountPointIntoLinkSharedFolder(): void {
+		self::loginAsUser($this->user);
+
+		[$mount1] = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+		]);
+		$mount1->expects($this->never())
+			->method('moveMount');
+
+		$view = new View('/' . $this->user . '/files/');
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user);
+		$shareManager = Server::get(IShareManager::class);
+		$shares = [];
+		// More links than a single page of shares, created before the shared target
+		for ($i = 0; $i <= 50; $i++) {
+			$view->mkdir('other' . $i);
+			$shares[] = $this->createLinkShare($shareManager, $userFolder->get('other' . $i));
+		}
+		$view->mkdir('linkdir');
+		$shares[] = $this->createLinkShare($shareManager, $userFolder->get('linkdir'));
+
+		try {
+			$this->expectException(ForbiddenException::class);
+			$view->rename('mount1', 'linkdir/mount1');
+		} finally {
+			foreach ($shares as $share) {
+				$shareManager->deleteShare($share);
+			}
+		}
+	}
+
+	private function createLinkShare(IShareManager $shareManager, Node $node): IShare {
+		$share = $shareManager->newShare();
+		$share->setSharedBy($this->user)
+			->setShareType(IShare::TYPE_LINK)
+			->setPermissions(Constants::PERMISSION_READ)
+			->setNode($node);
+		return $shareManager->createShare($share);
 	}
 
 	public function basicOperationProviderForLocks() {
