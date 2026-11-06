@@ -118,6 +118,34 @@ class AzureBlobClient {
 	}
 
 	/**
+	 * List the staged blocks that are not committed yet.
+	 *
+	 * @return list<array{name: string, size: int}> base64 encoded block ids and block sizes
+	 * @throws AzureException
+	 */
+	public function getUncommittedBlocks(string $container, string $blob): array {
+		try {
+			$response = $this->send('GET', $this->getPath($container, $blob), ['comp' => 'blocklist', 'blocklisttype' => 'uncommitted'], [], null, [200]);
+		} catch (AzureException $e) {
+			// No blocks have been staged for a blob that does not exist
+			if ($e->getStatusCode() === 404) {
+				return [];
+			}
+			throw $e;
+		}
+
+		$xml = $this->parseXml((string)$response->getBody());
+		if ($xml === null) {
+			throw new AzureException("Invalid response when listing the blocks of $blob", 0, 'InvalidXml');
+		}
+		$blocks = [];
+		foreach ($xml->UncommittedBlocks?->Block ?? [] as $block) {
+			$blocks[] = ['name' => (string)$block->Name, 'size' => (int)$block->Size];
+		}
+		return $blocks;
+	}
+
+	/**
 	 * @param string|null $range byte range, e.g. "bytes=0-"
 	 * @return IResponse streamed response, the body is a resource
 	 * @throws AzureException

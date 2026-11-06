@@ -294,6 +294,27 @@ class AzureBlobClientTest extends TestCase {
 		], $blobs);
 	}
 
+	public function testGetUncommittedBlocks(): void {
+		$responses = [
+			$this->response(200, [], "\xEF\xBB\xBF<?xml version=\"1.0\" encoding=\"utf-8\"?><BlockList><CommittedBlocks/><UncommittedBlocks>"
+				. '<Block><Name>YWJjMDAwMDAx</Name><Size>5</Size></Block><Block><Name>YWJjMDAwMDAy</Name><Size>3</Size></Block>'
+				. '</UncommittedBlocks></BlockList>'),
+			$this->response(404, ['x-ms-error-code' => 'BlobNotFound']),
+		];
+		$this->httpClient->expects($this->exactly(2))
+			->method('request')
+			->with('GET', 'http://localhost:10000/devstoreaccount1/test/blob?comp=blocklist&blocklisttype=uncommitted')
+			->willReturnCallback(function () use (&$responses) {
+				return array_shift($responses);
+			});
+
+		$this->assertSame([
+			['name' => 'YWJjMDAwMDAx', 'size' => 5],
+			['name' => 'YWJjMDAwMDAy', 'size' => 3],
+		], $this->client->getUncommittedBlocks('test', 'blob'));
+		$this->assertSame([], $this->client->getUncommittedBlocks('test', 'blob'));
+	}
+
 	public function testCopyFailure(): void {
 		$responses = [
 			$this->response(202, ['x-ms-copy-status' => 'pending', 'x-ms-copy-id' => 'copy']),
