@@ -18,6 +18,18 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
+	/** Timestamps (in seconds) to make attempts to generate a still */
+	public const TIME_ATTEMPTS = [5, 1, 0];
+
+	/** ffprobe arguments (without the input) that print the color transfer of the first video stream */
+	public const HDR_PROBE_ARGS = ['-select_streams', 'v:0', '-show_entries', 'stream=color_transfer', '-of', 'default=noprint_wrappers=1:nokey=1'];
+
+	/**
+	 * Tonemaps HDR to SDR. Forces colorspace to '2020_ncl' because some videos are
+	 * tagged incorrectly as 'reserved' resulting in fail if not forced.
+	 */
+	public const HDR_FILTER = 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p';
+
 	private IConfig $config;
 
 	private ?string $binary = null;
@@ -77,8 +89,7 @@ class Movie extends ProviderV2 {
 
 		$connectDirect = $this->connectDirect($file);
 
-		// Timestamps to make attempts to generate a still
-		$timeAttempts = [5, 1, 0];
+		$timeAttempts = self::TIME_ATTEMPTS;
 
 		// If HTTP/HTTPS direct connect is not available or if the file is encrypted,
 		// process normally
@@ -281,10 +292,7 @@ class Movie extends ProviderV2 {
 		// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
 		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
 		// run ffprobe on the video file to get value of "color_transfer"
-		$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
-			'-show_entries', 'stream=color_transfer',
-			'-of', 'default=noprint_wrappers=1:nokey=1',
-			$absPath];
+		$test_hdr_cmd = [$ffprobe_binary, ...self::HDR_PROBE_ARGS, $absPath];
 		$test_hdr_proc = proc_open($test_hdr_cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $test_hdr_pipes);
 		if ($test_hdr_proc === false) {
 			return false;
@@ -294,15 +302,34 @@ class Movie extends ProviderV2 {
 		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
 		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 		proc_close($test_hdr_proc);
+		return self::isHdr($test_hdr_stdout, $test_hdr_stderr);
+	}
+
+	/**
+	 * Whether the output of ffprobe with HDR_PROBE_ARGS describes an HDR video that can be tonemapped
+	 */
+	public static function isHdr(string $ffprobeStdout, string $ffprobeStderr): bool {
 		// search build options for libzimg (provides zscale filter)
-		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
+		$ffmpeg_libzimg_installed = strpos($ffprobeStderr, '--enable-libzimg');
 		// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video.
 		// Only return true if video is detected as HDR and libzimg is installed.
-		if (($test_hdr_stdout === 'smpte2084' || $test_hdr_stdout === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false) {
-			return true;
-		} else {
-			return false;
-		}
+		$colorTransfer = trim($ffprobeStdout);
+		return ($colorTransfer === 'smpte2084' || $colorTransfer === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false;
+	}
+
+	/**
+	 * ffmpeg arguments that write a single still of $input at $second as JPEG to $output
+	 *
+	 * @return list<string>
+	 */
+	public static function getStillArgs(string $input, int $second, bool $hdr, string $output): array {
+		return [
+			'-y', '-ss', (string)$second,
+			'-i', $input,
+			'-f', 'mjpeg', '-vframes', '1',
+			...($hdr ? ['-vf', self::HDR_FILTER] : []),
+			$output,
+		];
 	}
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
@@ -318,21 +345,7 @@ class Movie extends ProviderV2 {
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
 		if ($binaryType === 'ffmpeg') {
-			if ($this->useHdr($absPath)) {
-				// Force colorspace to '2020_ncl' because some videos are
-				// tagged incorrectly as 'reserved' resulting in fail if not forced.
-				$cmd = [$this->binary, '-y', '-ss', (string)$second,
-					'-i', $absPath,
-					'-f', 'mjpeg', '-vframes', '1',
-					'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
-					$tmpPath];
-			} else {
-				// always default to generating preview using non-HDR command
-				$cmd = [$this->binary, '-y', '-ss', (string)$second,
-					'-i', $absPath,
-					'-f', 'mjpeg', '-vframes', '1',
-					$tmpPath];
-			}
+			$cmd = [$this->binary, ...self::getStillArgs($absPath, $second, $this->useHdr($absPath), $tmpPath)];
 		} else {
 			// Not supported
 			unlink($tmpPath);
