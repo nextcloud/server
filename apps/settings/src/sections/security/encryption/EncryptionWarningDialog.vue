@@ -12,19 +12,19 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 
 const emit = defineEmits<{
-	(e: 'close', encrypt: boolean): void
+	/** Closed with whether encryption should be enabled */
+	close: [encrypt: boolean]
 }>()
 
 const buttons: IDialogButton[] = [
 	{
 		label: t('settings', 'Cancel encryption'),
-		// @ts-expect-error Needs to be fixed in the dialogs library - value is allowed but missing from the types
-		type: 'tertiary',
+		variant: 'tertiary',
 		callback: () => emit('close', false),
 	},
 	{
 		label: t('settings', 'Enable encryption'),
-		type: 'error',
+		variant: 'error',
 		callback: () => emit('close', true),
 	},
 ]
@@ -50,7 +50,7 @@ function onUpdateOpen(isOpen: boolean) {
 		<NcNoteCard type="warning">
 			<p>
 				{{ t('settings', 'Please read carefully before activating server-side encryption:') }}
-				<ul>
+				<ul :class="$style.list">
 					<li>
 						{{ t('settings', 'Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met.') }}
 					</li>
@@ -73,21 +73,20 @@ function onUpdateOpen(isOpen: boolean) {
 				</ul>
 			</p>
 		</NcNoteCard>
-		<p>
+		<p :class="$style.finalWarning">
 			{{ t('settings', 'This is the final warning: Do you really want to enable encryption?') }}
 		</p>
 	</NcDialog>
 </template>
 
-<style scoped>
-li {
+<style module>
+.list li {
 	list-style-type: initial;
 	margin-inline-start: 1rem;
 	padding: 0.25rem 0;
 }
 
-p + p,
-div + p {
+.finalWarning {
 	margin-block: 0.75rem;
 }
 </style>
