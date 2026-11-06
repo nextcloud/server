@@ -790,6 +790,19 @@ describe('UnifiedSearchModal live region', () => {
 		expect(wrapper.vm.liveMessage).not.toContain('Searching')
 	})
 
+	it('announces the count on mobile, where no rows are navigable', async () => {
+		mobile.value = true
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.liveMessage).toBe('2 results')
+	})
+
 	it('announces no results when a settled search is empty', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
