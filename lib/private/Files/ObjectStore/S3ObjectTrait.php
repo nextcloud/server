@@ -311,7 +311,7 @@ trait S3ObjectTrait {
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->getBucket(),
 			'Key' => $urn,
-			'ResponseContentDisposition' => $this->attachmentContentDisposition($filename),
+			'ResponseContentDisposition' => ContentDisposition::attachment($filename),
 		]);
 
 		try {
@@ -321,18 +321,5 @@ trait S3ObjectTrait {
 		} catch (AwsException) {
 			return null;
 		}
-	}
-
-	/**
-	 * Content-Disposition for a direct download. The name is percent-encoded so it cannot break the header.
-	 */
-	protected function attachmentContentDisposition(?string $filename): string {
-		$filename = str_replace(["\r", "\n"], '', (string)$filename);
-		if ($filename === '' || $filename === '.' || $filename === '..') {
-			return 'attachment';
-		}
-
-		$encoded = rawurlencode($filename);
-		return 'attachment; filename="' . $encoded . '"; filename*=UTF-8\'\'' . $encoded;
 	}
 }

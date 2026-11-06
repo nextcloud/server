@@ -7,65 +7,91 @@
 
 namespace OC\Files\ObjectStore;
 
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
-use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+use GuzzleHttp\Psr7\Stream;
+use Icewind\Streams\RetryWrapper;
+use OC\Files\Stream\SeekableHttpStream;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
+use OCP\Server;
 
+/**
+ * Object store backed by an Azure Blob Storage container.
+ *
+ * Supported arguments:
+ * - container, account_name, account_key: required
+ * - endpoint: blob service endpoint, defaults to https://<account_name>.blob.core.windows.net
+ * - autocreate: create the container if it does not exist
+ * - upload_block_size: objects larger than this are uploaded in blocks of this size, defaults to 32 MiB
+ * - api_version: Azure Storage service version, for environments that lag behind the public cloud
+ * - connect_timeout, timeout: in seconds, timeout 0 waits indefinitely
+ * - retries: number of retries for failed requests
+ * - use_nextcloud_bundle: use the CA bundle managed by Nextcloud
+ */
 class Azure implements IObjectStore {
-	/** @var string */
-	private $containerName;
-	/** @var string */
-	private $accountName;
-	/** @var string */
-	private $accountKey;
-	/** @var BlobRestProxy|null */
-	private $blobClient = null;
-	/** @var string|null */
-	private $endpoint = null;
-	/** @var bool */
-	private $autoCreate = false;
+	public const DEFAULT_BLOCK_SIZE = 32 * 1024 * 1024;
 
-	/**
-	 * @param array $parameters
-	 */
-	public function __construct(array $parameters) {
+	private string $containerName;
+	private string $accountName;
+	private string $accountKey;
+	private string $endpoint;
+	private bool $autoCreate;
+	private int $blockSize;
+	private string $apiVersion;
+	private array $requestOptions;
+	private int $retries;
+
+	public function __construct(
+		array $parameters,
+		private ?AzureBlobClient $blobClient = null,
+	) {
 		$this->containerName = $parameters['container'];
 		$this->accountName = $parameters['account_name'];
 		$this->accountKey = $parameters['account_key'];
-		if (isset($parameters['endpoint'])) {
-			$this->endpoint = $parameters['endpoint'];
+		$this->endpoint = $parameters['endpoint'] ?? 'https://' . $this->accountName . '.blob.core.windows.net';
+		$this->autoCreate = (bool)($parameters['autocreate'] ?? false);
+		$this->blockSize = (int)($parameters['upload_block_size'] ?? self::DEFAULT_BLOCK_SIZE);
+		if ($this->blockSize < 1 || $this->blockSize > AzureBlobClient::MAX_BLOCK_SIZE) {
+			throw new \InvalidArgumentException('upload_block_size must be between 1 and ' . AzureBlobClient::MAX_BLOCK_SIZE . ' bytes');
 		}
-		if (isset($parameters['autocreate'])) {
-			$this->autoCreate = $parameters['autocreate'];
-		}
+		$this->apiVersion = $parameters['api_version'] ?? AzureBlobClient::DEFAULT_API_VERSION;
+		$this->requestOptions = [
+			'connect_timeout' => $parameters['connect_timeout'] ?? 5,
+			'timeout' => $parameters['timeout'] ?? 0,
+			'verify' => CertificateBundle::getPath((bool)($parameters['use_nextcloud_bundle'] ?? false), true) ?? true,
+		];
+		$this->retries = (int)($parameters['retries'] ?? 3);
 	}
 
-	/**
-	 * @return BlobRestProxy
-	 */
-	private function getBlobClient() {
-		if (!$this->blobClient) {
-			$protocol = $this->endpoint ? substr($this->endpoint, 0, strpos($this->endpoint, ':')) : 'https';
-			$connectionString = 'DefaultEndpointsProtocol=' . $protocol . ';AccountName=' . $this->accountName . ';AccountKey=' . $this->accountKey;
-			if ($this->endpoint) {
-				$connectionString .= ';BlobEndpoint=' . $this->endpoint;
-			}
-			$this->blobClient = BlobRestProxy::createBlobService($connectionString);
+	private function getBlobClient(): AzureBlobClient {
+		if ($this->blobClient === null) {
+			$this->blobClient = new AzureBlobClient(
+				Server::get(IClientService::class)->newClient(),
+				new AzureSharedKeySigner($this->accountName, $this->accountKey),
+				Server::get(ITimeFactory::class),
+				$this->endpoint,
+				$this->apiVersion,
+				$this->requestOptions,
+				$this->retries,
+			);
 
 			if ($this->autoCreate) {
-				try {
-					$this->blobClient->createContainer($this->containerName);
-				} catch (ServiceException $e) {
-					if ($e->getCode() === 409) {
-						// already exists
-					} else {
-						throw $e;
-					}
-				}
+				$this->createContainerIfNeeded($this->blobClient);
 			}
 		}
 		return $this->blobClient;
+	}
+
+	private function createContainerIfNeeded(AzureBlobClient $client): void {
+		$cache = Server::get(ICacheFactory::class)->createLocal('azure-container-exists');
+		$cacheKey = $this->endpoint . '/' . $this->containerName;
+		if ($cache->get($cacheKey) === true) {
+			return;
+		}
+		$client->createContainer($this->containerName);
+		$cache->set($cacheKey, true);
 	}
 
 	/**
@@ -79,21 +105,80 @@ class Azure implements IObjectStore {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
+	 * @throws NotFoundException if the object does not exist
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
 	#[\Override]
 	public function readObject($urn) {
-		$blob = $this->getBlobClient()->getBlob($this->containerName, $urn);
-		return $blob->getContentStream();
+		$client = $this->getBlobClient();
+		$error = null;
+		$handle = SeekableHttpStream::open(function (string $range) use ($client, $urn, &$error) {
+			try {
+				return $client->getBlob($this->containerName, $urn, 'bytes=' . $range);
+			} catch (AzureException $e) {
+				$error = $e;
+				return false;
+			}
+		});
+
+		if ($handle === false) {
+			/** @var AzureException|null $error set by the callback */
+			if ($error instanceof AzureException && $error->getStatusCode() === 404) {
+				throw new NotFoundException("Object $urn not found in Azure container {$this->containerName}", 0, $error);
+			}
+			throw new \Exception("Failed to read object $urn", 0, $error);
+		}
+		return RetryWrapper::wrap($handle);
 	}
 
+	/**
+	 * The size of the stream is never relied upon: uploads reach this method as
+	 * php://input wrapped in other streams, which can neither seek nor report a size.
+	 */
 	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
-		$options = new CreateBlockBlobOptions();
-		if ($mimetype) {
-			$options->setContentType($mimetype);
+		$client = $this->getBlobClient();
+		$headers = $mimetype ? ['x-ms-blob-content-type' => $mimetype] : [];
+
+		$uploadId = bin2hex(random_bytes(16));
+		$blockIds = [];
+		do {
+			[$block, $size] = $this->readBlock($stream);
+			try {
+				if ($blockIds === [] && $size < $this->blockSize) {
+					$client->putBlob($this->containerName, $urn, $block, $size, $headers);
+					return;
+				}
+				if ($size > 0) {
+					$blockId = AzureBlobClient::blockId($uploadId, count($blockIds));
+					$client->putBlock($this->containerName, $urn, $blockId, $block, $size);
+					$blockIds[] = $blockId;
+				}
+			} finally {
+				$block->close();
+			}
+		} while ($size === $this->blockSize);
+
+		$client->putBlockList($this->containerName, $urn, $blockIds, $headers);
+	}
+
+	/**
+	 * Read the next block of the stream into a temporary buffer.
+	 *
+	 * @param resource $stream
+	 * @return array{Stream, int} the buffer and its size, smaller than the block size only at the end of the stream
+	 */
+	private function readBlock($stream): array {
+		$buffer = fopen('php://temp', 'w+b');
+		if ($buffer === false) {
+			throw new \Exception('Failed to create a buffer for the upload');
 		}
-		$this->getBlobClient()->createBlockBlob($this->containerName, $urn, $stream, $options);
+		$size = stream_copy_to_stream($stream, $buffer, $this->blockSize);
+		if ($size === false) {
+			fclose($buffer);
+			throw new \Exception('Failed to read from the upload stream');
+		}
+		return [new Stream($buffer), $size];
 	}
 
 	/**
@@ -109,20 +194,19 @@ class Azure implements IObjectStore {
 	#[\Override]
 	public function objectExists($urn) {
 		try {
-			$this->getBlobClient()->getBlobMetadata($this->containerName, $urn);
+			$this->getBlobClient()->getBlobProperties($this->containerName, $urn);
 			return true;
-		} catch (ServiceException $e) {
-			if ($e->getCode() === 404) {
+		} catch (AzureException $e) {
+			if ($e->getStatusCode() === 404) {
 				return false;
-			} else {
-				throw $e;
 			}
+			throw $e;
 		}
 	}
 
 	#[\Override]
 	public function copyObject($from, $to) {
-		$this->getBlobClient()->copyBlob($this->containerName, $to, $this->containerName, $from);
+		$this->getBlobClient()->copyBlob($this->containerName, $from, $to);
 	}
 
 	#[\Override]
