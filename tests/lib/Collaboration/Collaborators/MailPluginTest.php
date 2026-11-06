@@ -58,6 +58,9 @@ class MailPluginTest extends TestCase {
 				$user
 					->method('getUID')
 					->willReturn($uid);
+				$user
+					->method('isEnabled')
+					->willReturn(!str_starts_with($uid, 'disabled'));
 
 				return $user;
 			});
