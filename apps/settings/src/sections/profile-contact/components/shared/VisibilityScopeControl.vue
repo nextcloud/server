@@ -3,105 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<FederationControl
-		v-if="!showCombined"
-		:readable="readable"
-		:scope="scope"
-		:additional="additional"
-		:additional-value="additionalValue"
-		:disabled="disabled"
-		:handle-additional-scope-change="handleAdditionalScopeChange"
-		@update:scope="(value) => emit('update:scope', value)" />
-
-	<NcPopover v-else :shown.sync="open">
-		<template #trigger="{ attrs }">
-			<NcButton
-				v-bind="attrs"
-				:aria-label="ariaLabel"
-				:disabled="disabled"
-				variant="tertiary"
-				type="button">
-				<template #icon>
-					<NcIconSvgWrapper :path="scopeIcon" />
-				</template>
-			</NcButton>
-		</template>
-
-		<div class="visibility-scope">
-			<h3 class="visibility-scope__heading">
-				{{ t('settings', 'Visibility & Scope') }}
-			</h3>
-			<p class="visibility-scope__description">
-				{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
-			</p>
-
-			<NcSelect
-				class="visibility-scope__select"
-				:aria-label-combobox="t('settings', 'Visibility')"
-				:aria-label-listbox="t('settings', 'Visibility')"
-				:clearable="false"
-				:options="visibilityOptions"
-				:model-value="visibilityOption"
-				label="label"
-				label-outside
-				@option:selected="onVisibilityChange">
-				<template #option="{ label, icon }">
-					<span class="visibility-scope__option">
-						<NcIconSvgWrapper :path="icon" :size="20" />
-						<span>{{ label }}</span>
-					</span>
-				</template>
-				<template #selected-option="{ label, icon }">
-					<span class="visibility-scope__option">
-						<NcIconSvgWrapper :path="icon" :size="20" />
-						<span>{{ label }}</span>
-					</span>
-				</template>
-			</NcSelect>
-
-			<NcSelect
-				class="visibility-scope__select"
-				:aria-label-combobox="t('settings', 'Scope')"
-				:aria-label-listbox="t('settings', 'Scope')"
-				:clearable="false"
-				:options="scopeOptions"
-				:model-value="scopeOption"
-				label="displayName"
-				label-outside
-				@option:selected="onScopeChange">
-				<template #option="{ displayName, tooltip, icon }">
-					<span class="visibility-scope__option">
-						<NcIconSvgWrapper :path="icon" :size="20" />
-						<span class="visibility-scope__option-text">
-							<span>{{ displayName }}</span>
-							<span class="visibility-scope__option-description">{{ tooltip }}</span>
-						</span>
-					</span>
-				</template>
-				<template #selected-option="{ displayName, icon }">
-					<span class="visibility-scope__option">
-						<NcIconSvgWrapper :path="icon" :size="20" />
-						<span>{{ displayName }}</span>
-					</span>
-				</template>
-			</NcSelect>
-
-			<NcButton
-				class="visibility-scope__done"
-				variant="primary"
-				wide
-				@click="open = false">
-				{{ t('settings', 'Done') }}
-			</NcButton>
-		</div>
-	</NcPopover>
-</template>
-
 <script setup lang="ts">
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -120,55 +25,43 @@ import { savePrimaryAccountPropertyScope } from '../../../../service/PersonalInf
 import { saveProfileParameterVisibility } from '../../../../service/ProfileService.js'
 import { handleError } from '../../../../utils/handlers.ts'
 
-const props = defineProps({
-	readable: {
-		type: String,
-		required: true,
-	},
-
-	name: {
-		type: String,
-		required: true,
-	},
-
-	scope: {
-		type: String,
-		required: true,
-	},
-
-	additional: {
-		type: Boolean,
-		default: false,
-	},
-
-	additionalValue: {
-		type: String,
-		default: '',
-	},
-
-	handleAdditionalScopeChange: {
-		type: Function,
-		default: null,
-	},
-
-	disabled: {
-		type: Boolean,
-		default: false,
-	},
+const props = withDefaults(defineProps<{
+	/** Human readable name of the property */
+	readable: string
+	/** Key of the account property */
+	name: string
+	/** Federation scope of the property */
+	scope: string
+	/** Whether this controls an additional value, e.g. a secondary email */
+	additional?: boolean
+	/** The additional value this scope belongs to */
+	additionalValue?: string
+	/** Saves the scope of an additional value */
+	handleAdditionalScopeChange?: (value: string, scope: string) => Promise<{ ocs?: { meta?: { status?: string } } }>
+	/** Disable changing the scope */
+	disabled?: boolean
+}>(), {
+	additional: false,
+	additionalValue: '',
+	handleAdditionalScopeChange: undefined,
+	disabled: false,
 })
 
 const emit = defineEmits<{
-	(e: 'update:scope', scope: string): void
+	/** The scope was changed, and reverted if saving it failed */
+	'update:scope': [scope: string]
 }>()
 
-const { profileConfig } = loadState('settings', 'profileParameters', { profileConfig: {} })
-const { profileEnabled: initialProfileEnabled, profileEnabledGlobally } = loadState('settings', 'personalInfoParameters', {})
-const { federationEnabled, lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
+const { profileConfig } = loadState<{ profileConfig: Record<string, { visibility: string }> }>('settings', 'profileParameters', { profileConfig: {} })
+const { profileEnabled: initialProfileEnabled, profileEnabledGlobally } = loadState<{ profileEnabled?: boolean, profileEnabledGlobally?: boolean }>('settings', 'personalInfoParameters', {})
+const { federationEnabled, lookupServerUploadEnabled } = loadState<{ federationEnabled?: boolean, lookupServerUploadEnabled?: boolean }>('settings', 'accountParameters', {})
 
 const open = ref(false)
 const profileEnabled = ref(initialProfileEnabled)
 const localScope = ref(props.scope)
 const visibility = ref(profileConfig[props.name]?.visibility ?? null)
+let savedScope = localScope.value
+let savedVisibility = visibility.value
 
 const showCombined = computed(() => Boolean(profileEnabledGlobally)
 	&& profileEnabled.value
@@ -206,7 +99,10 @@ watch(() => props.scope, (value) => {
 	localScope.value = value
 })
 
-function handleProfileEnabledUpdate(value) {
+/**
+ * @param value Whether the profile is enabled now
+ */
+function handleProfileEnabledUpdate(value: boolean) {
 	profileEnabled.value = value
 }
 
@@ -218,33 +114,38 @@ onBeforeUnmount(() => {
 	unsubscribe('settings:profile-enabled:updated', handleProfileEnabledUpdate)
 })
 
-async function onVisibilityChange(option) {
+/**
+ * @param option The picked visibility
+ */
+async function onVisibilityChange(option: { name: string } | null) {
 	if (!option) {
 		return
 	}
-	const previous = visibility.value
 	visibility.value = option.name
 	try {
 		const responseData = await saveProfileParameterVisibility(props.name, option.name)
 		if (responseData.ocs?.meta?.status !== 'ok') {
 			throw new Error('Unexpected response')
 		}
-	} catch (e) {
-		visibility.value = previous
-		handleError(e, t('settings', 'Unable to update visibility of {property}', { property: props.readable.toLocaleLowerCase() }))
+		savedVisibility = option.name
+	} catch (error) {
+		visibility.value = savedVisibility
+		handleError(error, t('settings', 'Unable to update visibility of {property}', { property: props.readable.toLocaleLowerCase() }))
 	}
 }
 
-async function onScopeChange(option) {
+/**
+ * @param option The picked scope
+ */
+async function onScopeChange(option: { name: string } | null) {
 	if (!option) {
 		return
 	}
-	const previous = localScope.value
 	localScope.value = option.name
 	emit('update:scope', option.name)
 	try {
 		let responseData
-		if (props.additional && typeof props.handleAdditionalScopeChange === 'function') {
+		if (props.additional && props.handleAdditionalScopeChange) {
 			responseData = await props.handleAdditionalScopeChange(props.additionalValue, option.name)
 		} else {
 			responseData = await savePrimaryAccountPropertyScope(PROPERTY_READABLE_KEYS_ENUM[props.readable], option.name)
@@ -252,13 +153,109 @@ async function onScopeChange(option) {
 		if (responseData.ocs?.meta?.status !== 'ok') {
 			throw new Error('Unexpected response')
 		}
-	} catch (e) {
-		localScope.value = previous
-		emit('update:scope', previous)
-		handleError(e, t('settings', 'Unable to update scope of {property}', { property: props.readable.toLocaleLowerCase() }))
+		savedScope = option.name
+	} catch (error) {
+		localScope.value = savedScope
+		emit('update:scope', savedScope)
+		handleError(error, t('settings', 'Unable to update scope of {property}', { property: props.readable.toLocaleLowerCase() }))
 	}
 }
 </script>
+
+<template>
+	<FederationControl
+		v-if="!showCombined"
+		:readable="readable"
+		:scope="scope"
+		:additional="additional"
+		:additionalValue="additionalValue"
+		:disabled="disabled"
+		:handleAdditionalScopeChange="handleAdditionalScopeChange"
+		@update:scope="(value) => emit('update:scope', value)" />
+
+	<NcPopover v-else v-model:shown="open">
+		<template #trigger="{ attrs }">
+			<NcButton
+				v-bind="attrs"
+				:aria-label="ariaLabel"
+				:disabled="disabled"
+				variant="tertiary"
+				type="button">
+				<template #icon>
+					<NcIconSvgWrapper :path="scopeIcon" />
+				</template>
+			</NcButton>
+		</template>
+
+		<div class="visibility-scope">
+			<h3 class="visibility-scope__heading">
+				{{ t('settings', 'Visibility & Scope') }}
+			</h3>
+			<p class="visibility-scope__description">
+				{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
+			</p>
+
+			<NcSelect
+				class="visibility-scope__select"
+				:ariaLabelCombobox="t('settings', 'Visibility')"
+				:ariaLabelListbox="t('settings', 'Visibility')"
+				:clearable="false"
+				:options="visibilityOptions"
+				:modelValue="visibilityOption"
+				label="label"
+				labelOutside
+				@option:selected="onVisibilityChange">
+				<template #option="{ label, icon }">
+					<span class="visibility-scope__option">
+						<NcIconSvgWrapper :path="icon" :size="20" />
+						<span>{{ label }}</span>
+					</span>
+				</template>
+				<template #selected-option="{ label, icon }">
+					<span class="visibility-scope__option">
+						<NcIconSvgWrapper :path="icon" :size="20" />
+						<span>{{ label }}</span>
+					</span>
+				</template>
+			</NcSelect>
+
+			<NcSelect
+				class="visibility-scope__select"
+				:ariaLabelCombobox="t('settings', 'Scope')"
+				:ariaLabelListbox="t('settings', 'Scope')"
+				:clearable="false"
+				:options="scopeOptions"
+				:modelValue="scopeOption"
+				label="displayName"
+				labelOutside
+				@option:selected="onScopeChange">
+				<template #option="{ displayName, tooltip, icon }">
+					<span class="visibility-scope__option">
+						<NcIconSvgWrapper :path="icon" :size="20" />
+						<span class="visibility-scope__option-text">
+							<span>{{ displayName }}</span>
+							<span class="visibility-scope__option-description">{{ tooltip }}</span>
+						</span>
+					</span>
+				</template>
+				<template #selected-option="{ displayName, icon }">
+					<span class="visibility-scope__option">
+						<NcIconSvgWrapper :path="icon" :size="20" />
+						<span>{{ displayName }}</span>
+					</span>
+				</template>
+			</NcSelect>
+
+			<NcButton
+				class="visibility-scope__done"
+				variant="primary"
+				wide
+				@click="open = false">
+				{{ t('settings', 'Done') }}
+			</NcButton>
+		</div>
+	</NcPopover>
+</template>
 
 <style lang="scss" scoped>
 .visibility-scope {

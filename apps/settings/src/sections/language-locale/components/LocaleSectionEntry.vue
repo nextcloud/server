@@ -4,7 +4,6 @@
 -->
 
 <script setup lang="ts">
-import type { AxiosError } from '@nextcloud/axios'
 import type { LanguageOption } from '../../../components/Users/userFormUtils.ts'
 
 import { getCanonicalLocale, t } from '@nextcloud/l10n'
@@ -62,7 +61,7 @@ async function updateLocale(newLocale: LanguageOption) {
 		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE, newLocale.code)
 		window.location.reload()
 	} catch (error) {
-		handleError(error as AxiosError, t('settings', 'Unable to update locale'))
+		handleError(error, t('settings', 'Unable to update locale'))
 	}
 }
 </script>

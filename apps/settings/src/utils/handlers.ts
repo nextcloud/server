@@ -3,24 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { AxiosError } from '@nextcloud/axios'
-
+import { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import logger from '../logger.ts'
 
 /**
  * @param error the error
  * @param message the message to display
  */
-export function handleError(error: AxiosError, message: string) {
+export function handleError(error: unknown, message: string) {
 	let fullMessage = ''
 
 	if (message) {
 		fullMessage += message
 	}
 
-	if (error.response?.status === 429) {
+	if (isAxiosError(error) && error.response?.status === 429) {
 		if (fullMessage) {
 			fullMessage += '\n'
 		}

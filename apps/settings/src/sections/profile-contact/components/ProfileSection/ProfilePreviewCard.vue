@@ -3,109 +3,89 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+
+withDefaults(defineProps<{
+	/** Display name of the user */
+	displayName: string
+	/** Status message shown below the name */
+	statusMessage?: string
+	/** User id for the avatar */
+	userId: string
+}>(), {
+	statusMessage: '',
+})
+</script>
+
 <template>
-	<div class="preview-card">
-		<div class="preview-card__banner" />
-		<div class="preview-card__body" />
+	<div :class="$style.previewCard">
+		<div :class="$style.banner" />
+		<div :class="$style.body" />
 		<NcAvatar
-			class="preview-card__avatar"
+			:class="$style.avatar"
 			:user="userId"
 			:size="106"
-			:disable-menu="true"
-			:disable-tooltip="true" />
-		<div class="preview-card__text">
-			<span class="preview-card__name">{{ displayName }}</span>
-			<span class="preview-card__secondary">{{ secondary }}</span>
+			disableMenu
+			disableTooltip />
+		<div :class="$style.text">
+			<span :class="$style.name">{{ displayName }}</span>
+			<span :class="$style.secondary">{{ statusMessage }}</span>
 		</div>
 	</div>
 </template>
 
-<script>
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-
-export default {
-	name: 'ProfilePreviewCard',
-
-	components: {
-		NcAvatar,
-	},
-
-	props: {
-		displayName: {
-			type: String,
-			required: true,
-		},
-
-		statusMessage: {
-			type: String,
-			default: '',
-		},
-
-		userId: {
-			type: String,
-			required: true,
-		},
-	},
-
-	computed: {
-		secondary() {
-			return this.statusMessage
-		},
-	},
-}
-</script>
-
-<style lang="scss" scoped>
-.preview-card {
+<style module lang="scss">
+.previewCard {
 	position: relative;
 	height: 180px;
 	border: 2px solid var(--color-border);
 	border-radius: var(--border-radius-large);
 	overflow: hidden;
 	background-color: var(--color-main-background);
+}
 
-	&__banner {
-		height: 60%;
-		background-color: var(--color-primary-element-light);
-	}
+.banner {
+	height: 60%;
+	background-color: var(--color-primary-element-light);
+}
 
-	&__body {
-		height: 40%;
-	}
+.body {
+	height: 40%;
+}
 
-	&__avatar {
-		position: absolute !important;
-		top: 23px;
-		inset-inline-start: 20px;
-		border-radius: 50%;
-		// !important is required to override NcAvatar's own box-shadow
-		box-shadow: 0 0 0 5px var(--color-main-background) !important;
-	}
+.avatar {
+	position: absolute !important;
+	top: 23px;
+	inset-inline-start: 20px;
+	border-radius: 50%;
+	// !important is required to override NcAvatar's own box-shadow
+	box-shadow: 0 0 0 5px var(--color-main-background) !important;
+}
 
-	&__text {
-		position: absolute;
-		top: 52px;
-		inset-inline-start: 146px;
-		inset-inline-end: 16px;
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-	}
+.text {
+	position: absolute;
+	top: 52px;
+	inset-inline-start: 146px;
+	inset-inline-end: 16px;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
 
-	&__name {
-		font-weight: bold;
-		font-size: 20px;
-		line-height: 1.3;
-		color: var(--color-main-text);
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+.name {
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 1.3;
+	color: var(--color-main-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
-	&__secondary {
-		color: var(--color-text-maxcontrast);
-		font-size: 14px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+.secondary {
+	color: var(--color-text-maxcontrast);
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 </style>

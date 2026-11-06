@@ -5,8 +5,9 @@
 
 <script setup lang="ts">
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import SettingsColumn from '../../components/SettingsColumn.vue'
 import AvatarSection from './components/AvatarSection.vue'
 import BiographySection from './components/BiographySection.vue'
 import BirthdaySection from './components/BirthdaySection.vue'
@@ -24,13 +25,12 @@ import PronounsSection from './components/PronounsSection.vue'
 import RoleSection from './components/RoleSection.vue'
 import TwitterSection from './components/TwitterSection.vue'
 import WebsiteSection from './components/WebsiteSection.vue'
-import SettingsColumn from '../../components/SettingsColumn.vue'
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 </script>
 
 <template>
-	<SettingsColumn class="profile-contact-settings">
+	<SettingsColumn>
 		<NcSettingsSection :name="t('settings', 'Profile & contact')">
 			<ProfileSection v-if="profileEnabledGlobally" />
 			<AvatarSection />
@@ -41,17 +41,17 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 			<template v-if="profileEnabledGlobally">
 				<HeadlineSection />
 				<BiographySection />
-				<h3 class="profile-contact-settings__subheading">
+				<h3 :class="$style.subheading">
 					{{ t('settings', 'Organization') }}
 				</h3>
 				<OrganisationSection />
 				<RoleSection />
 			</template>
 
-			<h3 class="profile-contact-settings__subheading">
+			<h3 :class="$style.subheading">
 				{{ t('settings', 'Contact') }}
 			</h3>
-			<p class="profile-contact-settings__hint">
+			<p :class="$style.hint">
 				{{ t('settings', 'Notifications and password reset requests will be sent to your primary email') }}
 			</p>
 			<EmailSection />
@@ -65,19 +65,17 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 	</SettingsColumn>
 </template>
 
-<style lang="scss" scoped>
-.profile-contact-settings {
-	&__subheading {
-		margin: 16px 0 0;
-		padding: 0 10px;
-		font-size: 16px;
-		font-weight: bold;
-	}
+<style module>
+.subheading {
+	margin: calc(var(--default-grid-baseline) * 4) 0 0;
+	padding: 0 10px;
+	font-size: 16px;
+	font-weight: bold;
+}
 
-	&__hint {
-		margin: 0 0 4px;
-		padding: 0 10px;
-		color: var(--color-text-maxcontrast);
-	}
+.hint {
+	margin: 0 0 var(--default-grid-baseline);
+	padding: 0 10px;
+	color: var(--color-text-maxcontrast);
 }
 </style>

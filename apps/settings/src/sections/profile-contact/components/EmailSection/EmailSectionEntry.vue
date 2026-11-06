@@ -3,82 +3,17 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="property-section">
-		<div class="property">
-			<NcTextField
-				:id="inputIdWithDefault"
-				ref="email"
-				v-model="emailAddress"
-				class="property__field"
-				autocapitalize="none"
-				autocomplete="email"
-				:error="hasError || !!helperText"
-				:helper-text="helperTextWithNonConfirmed"
-				:label="entryLabel"
-				spellcheck="false"
-				:success="isSuccess"
-				type="email" />
-
-			<FederationControl
-				v-if="!federationDisabled"
-				class="property__scope"
-				:readable="propertyReadable"
-				:additional="!primary"
-				:additional-value="email"
-				:disabled="federationDisabled"
-				:handle-additional-scope-change="saveAdditionalEmailScope"
-				:scope.sync="localScope"
-				@update:scope="onScopeChange">
-				<NcActionButton
-					v-if="!primary || !isNotificationEmail"
-					close-after-click
-					:disabled="!isConfirmedAddress"
-					@click="setNotificationMail">
-					<template #icon>
-						<NcIconSvgWrapper v-if="isNotificationEmail" :path="mdiStar" />
-						<NcIconSvgWrapper v-else :path="mdiStarOutline" />
-					</template>
-					{{ setNotificationMailLabel }}
-				</NcActionButton>
-				<NcActionButton
-					close-after-click
-					:disabled="deleteDisabled"
-					@click="deleteEmail">
-					<template #icon>
-						<NcIconSvgWrapper :path="mdiTrashCanOutline" />
-					</template>
-					{{ deleteEmailLabel }}
-				</NcActionButton>
-			</FederationControl>
-
-			<NcActions
-				v-else
-				class="property__scope"
-				:aria-label="actionsLabel">
-				<NcActionButton
-					close-after-click
-					:disabled="deleteDisabled"
-					@click="deleteEmail">
-					<template #icon>
-						<NcIconSvgWrapper :path="mdiTrashCanOutline" />
-					</template>
-					{{ deleteEmailLabel }}
-				</NcActionButton>
-			</NcActions>
-		</div>
-	</div>
-</template>
-
-<script>
-import { mdiArrowLeft, mdiLockOutline, mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
-import debounce from 'debounce'
+<script setup lang="ts">
+import { mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { useDebounceFn } from '@vueuse/core'
+import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import FederationControl from '../shared/FederationControl.vue'
-import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../../constants/AccountPropertyConstants.ts'
 import {
 	removeAdditionalEmail,
 	saveAdditionalEmail,
@@ -90,352 +25,336 @@ import {
 import { handleError } from '../../../../utils/handlers.ts'
 import { validateEmail } from '../../../../utils/validate.js'
 
-export default {
-	name: 'EmailSectionEntry',
+/** The email address */
+const email = defineModel<string>('email', { required: true })
 
-	components: {
-		NcActions,
-		NcActionButton,
-		NcIconSvgWrapper,
-		NcTextField,
-		FederationControl,
-	},
+/** Federation scope of the address */
+const scope = defineModel<string>('scope', { required: true })
 
-	props: {
-		email: {
-			type: String,
-			required: true,
-		},
+const props = withDefaults(defineProps<{
+	/** Position of an additional address */
+	index?: number
+	/** Whether this is the primary address */
+	primary?: boolean
+	/** The address notifications are sent to, empty for the primary one */
+	activeNotificationEmail?: string
+	/** Verification state of an additional address */
+	localVerificationState?: number
+	/** Id of the text field */
+	inputId?: string
+}>(), {
+	index: 0,
+	primary: false,
+	activeNotificationEmail: '',
+	localVerificationState: VERIFICATION_ENUM.NOT_VERIFIED,
+	inputId: '',
+})
 
-		index: {
-			type: Number,
-			default: 0,
-		},
+const emit = defineEmits<{
+	/** Another address was picked for notifications, empty for the primary one */
+	'update:notificationEmail': [email: string]
+	/** The primary address was deleted on the server */
+	deletePrimaryEmail: []
+	/** The additional address was deleted on the server */
+	deleteAdditionalEmail: []
+}>()
 
-		primary: {
-			type: Boolean,
-			default: false,
-		},
+const propertyReadable = ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL
 
-		scope: {
-			type: String,
-			required: true,
-		},
+const emailField = useTemplateRef('emailField')
 
-		activeNotificationEmail: {
-			type: String,
-			default: '',
-		},
+const hasError = ref(false)
+const helperText = ref<string | null>(null)
+const initialEmail = ref(email.value)
+const isSuccess = ref(false)
 
-		localVerificationState: {
-			type: Number,
-			default: VERIFICATION_ENUM.NOT_VERIFIED,
-		},
+const actionsLabel = computed(() => props.primary
+	? t('settings', 'Email options')
+	: t('settings', 'Options for additional email address {index}', { index: props.index + 1 }))
 
-		inputId: {
-			type: String,
-			required: false,
-			default: '',
-		},
-	},
+const deleteDisabled = computed(() => {
+	if (props.primary) {
+		// Disable for empty primary email as there is nothing to delete
+		// OR when initialEmail (reflects server state) and email (current input) are not the same
+		return email.value === '' || initialEmail.value !== email.value
+	} else if (initialEmail.value !== '') {
+		return initialEmail.value !== email.value
+	}
+	return false
+})
 
-	setup() {
-		return {
-			mdiArrowLeft,
-			mdiLockOutline,
-			mdiStar,
-			mdiStarOutline,
-			mdiTrashCanOutline,
-			saveAdditionalEmailScope,
+const deleteEmailLabel = computed(() => props.primary
+	? t('settings', 'Remove primary email')
+	: t('settings', 'Delete email'))
+
+const isConfirmedAddress = computed(() => props.primary || props.localVerificationState === VERIFICATION_ENUM.VERIFIED)
+
+const helperTextWithNonConfirmed = computed(() => {
+	if (helperText.value || hasError.value || isSuccess.value) {
+		return helperText.value || ''
+	}
+	return isConfirmedAddress.value ? '' : t('settings', 'This address is not confirmed')
+})
+
+const isNotificationEmail = computed(() => (email.value && email.value === props.activeNotificationEmail)
+	|| (props.primary && props.activeNotificationEmail === ''))
+
+const setNotificationMailLabel = computed(() => isNotificationEmail.value
+	? t('settings', 'Unset as primary email')
+	: t('settings', 'Set as primary email'))
+
+const entryLabel = computed(() => {
+	const label = props.primary
+		? t('settings', 'Primary email address')
+		: t('settings', 'Additional email address {index}', { index: props.index + 1 })
+	if (!props.primary && initialEmail.value && !isConfirmedAddress.value) {
+		return t('settings', '{label} (confirmation sent)', { label })
+	}
+	return label
+})
+
+onMounted(async () => {
+	if (!props.primary && initialEmail.value === '') {
+		// nextTick is needed here, otherwise it may not always work
+		// https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
+		await nextTick()
+		emailField.value?.focus()
+	}
+})
+
+const debounceEmailChange = useDebounceFn(async (newEmail: string) => {
+	helperText.value = emailField.value?.$el.querySelector('input')?.validationMessage || null
+	if (helperText.value !== null) {
+		return
+	}
+	if (!validateEmail(newEmail) && newEmail !== '') {
+		return
+	}
+	if (props.primary) {
+		await updatePrimaryEmail(newEmail)
+	} else if (newEmail) {
+		if (initialEmail.value === '') {
+			await saveEmail(() => saveAdditionalEmail(newEmail), newEmail, t('settings', 'Unable to add additional email address'))
+		} else {
+			await saveEmail(() => updateAdditionalEmail(initialEmail.value, newEmail), newEmail, t('settings', 'Unable to update additional email address'))
 		}
-	},
+	}
+}, 1000)
 
-	data() {
-		return {
-			hasError: false,
-			helperText: null,
-			initialEmail: this.email,
-			isSuccess: false,
-			localScope: this.scope,
-			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			showFederationSettings: false,
+/**
+ * @param newEmail The entered address
+ */
+function onInput(newEmail: string | number) {
+	// the model only updates once the parent re-renders, so don't read it back here
+	const entered = String(newEmail)
+	email.value = entered
+	debounceEmailChange(entered.trim())
+}
+
+/**
+ * Delete the address on the server
+ */
+async function deleteEmail() {
+	if (props.primary) {
+		// the parent promotes an additional address into this entry
+		if (await updatePrimaryEmail('')) {
+			email.value = ''
+			emit('deletePrimaryEmail')
 		}
-	},
+	} else {
+		await deleteAdditionalEmail()
+	}
+}
 
-	computed: {
-		actionsLabel() {
-			if (this.primary) {
-				return t('settings', 'Email options')
-			} else {
-				return t('settings', 'Options for additional email address {index}', { index: this.index + 1 })
-			}
-		},
+/**
+ * @param newEmail The new primary address, empty to remove it
+ * @return Whether it was saved
+ */
+async function updatePrimaryEmail(newEmail: string): Promise<boolean> {
+	return saveEmail(
+		() => savePrimaryEmail(newEmail),
+		newEmail,
+		newEmail === ''
+			? t('settings', 'Unable to delete primary email address')
+			: t('settings', 'Unable to update primary email address'),
+	)
+}
 
-		deleteDisabled() {
-			if (this.primary) {
-				// Disable for empty primary email as there is nothing to delete
-				// OR when initialEmail (reflects server state) and email (current input) are not the same
-				return this.email === '' || this.initialEmail !== this.email
-			} else if (this.initialEmail !== '') {
-				return this.initialEmail !== this.email
-			}
-			return false
-		},
-
-		deleteEmailLabel() {
-			if (this.primary) {
-				return t('settings', 'Remove primary email')
-			}
-			return t('settings', 'Delete email')
-		},
-
-		isConfirmedAddress() {
-			return this.primary || this.localVerificationState === VERIFICATION_ENUM.VERIFIED
-		},
-
-		isNotConfirmedHelperText() {
-			if (!this.isConfirmedAddress) {
-				return t('settings', 'This address is not confirmed')
-			}
-			return ''
-		},
-
-		helperTextWithNonConfirmed() {
-			if (this.helperText || this.hasError || this.isSuccess) {
-				return this.helperText || ''
-			}
-			return this.isNotConfirmedHelperText
-		},
-
-		setNotificationMailLabel() {
-			if (this.isNotificationEmail) {
-				return t('settings', 'Unset as primary email')
-			}
-			return t('settings', 'Set as primary email')
-		},
-
-		federationDisabled() {
-			return !this.initialEmail
-		},
-
-		inputIdWithDefault() {
-			return this.inputId || `account-property-email--${this.index}`
-		},
-
-		entryLabel() {
-			const label = this.primary
-				? t('settings', 'Primary email address')
-				: t('settings', 'Additional email address {index}', { index: this.index + 1 })
-			if (!this.primary && this.initialEmail && !this.isConfirmedAddress) {
-				return t('settings', '{label} (confirmation sent)', { label })
-			}
-			return label
-		},
-
-		isNotificationEmail() {
-			return (this.email && this.email === this.activeNotificationEmail)
-				|| (this.primary && this.activeNotificationEmail === '')
-		},
-
-		emailAddress: {
-			get() {
-				return this.email
-			},
-
-			set(value) {
-				this.$emit('update:email', value)
-				this.debounceEmailChange(value.trim())
-			},
-		},
-	},
-
-	mounted() {
-		if (!this.primary && this.initialEmail === '') {
-			// $nextTick is needed here, otherwise it may not always work
-			// https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
-			this.$nextTick(() => this.$refs.email?.focus())
+/**
+ * @param save Stores the address on the server
+ * @param newEmail The address being stored
+ * @param errorMessage Shown when saving fails
+ * @return Whether it was saved
+ */
+async function saveEmail(save: () => Promise<{ ocs?: { meta?: { status?: string } } }>, newEmail: string, errorMessage: string): Promise<boolean> {
+	hasError.value = false
+	try {
+		const responseData = await save()
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
 		}
-	},
-
-	methods: {
-		debounceEmailChange: debounce(async function(email) {
-			// TODO: provide method to get native input in NcTextField
-			this.helperText = this.$refs.email.$refs.inputField.$refs.input.validationMessage || null
-			if (this.helperText !== null) {
-				return
+		// Ensure that local state reflects server state
+		if (newEmail) {
+			// the server stores addresses lower-cased and later matches them exactly
+			initialEmail.value = newEmail.toLowerCase()
+			if (email.value.trim() === newEmail) {
+				email.value = initialEmail.value
 			}
-			if (validateEmail(email) || email === '') {
-				if (this.primary) {
-					await this.updatePrimaryEmail(email)
-				} else {
-					if (email) {
-						if (this.initialEmail === '') {
-							await this.addAdditionalEmail(email)
-						} else {
-							await this.updateAdditionalEmail(email)
-						}
-					}
-				}
-			}
-		}, 1000),
+		}
+		showSuccess()
+		return true
+	} catch (error) {
+		// the field still holds the unsaved address, so keep the error until the next attempt
+		handleError(error, errorMessage)
+		hasError.value = true
+		return false
+	}
+}
 
-		async deleteEmail() {
-			if (this.primary) {
-				this.$emit('update:email', '')
-				await this.updatePrimaryEmail('')
-			} else {
-				await this.deleteAdditionalEmail()
-			}
-		},
+/**
+ * Pick this address for notifications, or go back to the primary one
+ */
+async function setNotificationMail() {
+	const newNotificationEmail = (props.primary || isNotificationEmail.value) ? '' : initialEmail.value
+	try {
+		const responseData = await saveNotificationEmail(newNotificationEmail)
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
+		}
+		emit('update:notificationEmail', newNotificationEmail)
+		showSuccess()
+	} catch (error) {
+		showFailure(error, t('settings', 'Unable to choose this email for notifications'))
+	}
+}
 
-		async updatePrimaryEmail(email) {
-			try {
-				const responseData = await savePrimaryEmail(email)
-				this.handleResponse({
-					email,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				if (email === '') {
-					this.handleResponse({
-						errorMessage: t('settings', 'Unable to delete primary email address'),
-						error: e,
-					})
-				} else {
-					this.handleResponse({
-						errorMessage: t('settings', 'Unable to update primary email address'),
-						error: e,
-					})
-				}
-			}
-		},
+/**
+ * Delete the additional address on the server
+ */
+async function deleteAdditionalEmail() {
+	try {
+		const responseData = await removeAdditionalEmail(initialEmail.value)
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
+		}
+		emit('deleteAdditionalEmail')
+		if (isNotificationEmail.value) {
+			emit('update:notificationEmail', '')
+		}
+	} catch (error) {
+		showFailure(error, t('settings', 'Unable to delete additional email address'))
+	}
+}
 
-		async addAdditionalEmail(email) {
-			try {
-				const responseData = await saveAdditionalEmail(email)
-				this.handleResponse({
-					email,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to add additional email address'),
-					error: e,
-				})
-			}
-		},
+/**
+ * Highlight the field as saved for a moment
+ */
+function showSuccess() {
+	isSuccess.value = true
+	setTimeout(() => {
+		isSuccess.value = false
+	}, 2000)
+}
 
-		async setNotificationMail() {
-			try {
-				const newNotificationMailValue = (this.primary || this.isNotificationEmail) ? '' : this.initialEmail
-				const responseData = await saveNotificationEmail(newNotificationMailValue)
-				this.handleResponse({
-					notificationEmail: newNotificationMailValue,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: 'Unable to choose this email for notifications',
-					error: e,
-				})
-			}
-		},
-
-		async updateAdditionalEmail(email) {
-			try {
-				const responseData = await updateAdditionalEmail(this.initialEmail, email)
-				this.handleResponse({
-					email,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update additional email address'),
-					error: e,
-				})
-			}
-		},
-
-		async deleteAdditionalEmail() {
-			try {
-				const responseData = await removeAdditionalEmail(this.initialEmail)
-				this.handleDeleteAdditionalEmail(responseData.ocs?.meta?.status)
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to delete additional email address'),
-					error: e,
-				})
-			}
-		},
-
-		handleDeleteAdditionalEmail(status) {
-			if (status === 'ok') {
-				this.$emit('delete-additional-email')
-				if (this.isNotificationEmail) {
-					this.$emit('update:notification-email', '')
-				}
-			} else {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to delete additional email address'),
-				})
-			}
-		},
-
-		handleResponse({ email, notificationEmail, status, errorMessage, error }) {
-			if (status === 'ok') {
-				// Ensure that local state reflects server state
-				if (email) {
-					this.initialEmail = email
-				} else if (notificationEmail !== undefined) {
-					this.$emit('update:notification-email', notificationEmail)
-				}
-				this.isSuccess = true
-				setTimeout(() => {
-					this.isSuccess = false
-				}, 2000)
-			} else {
-				handleError(error, errorMessage)
-				this.hasError = true
-				setTimeout(() => {
-					this.hasError = false
-				}, 2000)
-			}
-		},
-
-		onScopeChange(scope) {
-			this.$emit('update:scope', scope)
-		},
-	},
+/**
+ * @param error The error that occurred
+ * @param errorMessage Shown to the user
+ */
+function showFailure(error: unknown, errorMessage: string) {
+	handleError(error, errorMessage)
+	hasError.value = true
+	setTimeout(() => {
+		hasError.value = false
+	}, 2000)
 }
 </script>
 
-<style lang="scss" scoped>
-.property-section {
-	padding: 6px 0;
+<template>
+	<div :class="$style.propertySection">
+		<div :class="$style.property">
+			<NcTextField
+				:id="inputId || `account-property-email--${index}`"
+				ref="emailField"
+				:modelValue="email"
+				:class="$style.field"
+				autocapitalize="none"
+				autocomplete="email"
+				:error="hasError || !!helperText"
+				:helperText="helperTextWithNonConfirmed"
+				:label="entryLabel"
+				spellcheck="false"
+				:success="isSuccess"
+				type="email"
+				@update:modelValue="onInput" />
 
-	&__note {
-		display: block;
-		margin-top: 4px;
-		color: var(--color-text-maxcontrast);
-	}
+			<div :class="$style.scope">
+				<FederationControl
+					v-if="initialEmail"
+					v-model:scope="scope"
+					:readable="propertyReadable"
+					:additional="!primary"
+					:additionalValue="initialEmail"
+					:handleAdditionalScopeChange="saveAdditionalEmailScope">
+					<NcActionButton
+						v-if="!primary || !isNotificationEmail"
+						closeAfterClick
+						:disabled="!isConfirmedAddress"
+						@click="setNotificationMail">
+						<template #icon>
+							<NcIconSvgWrapper :path="isNotificationEmail ? mdiStar : mdiStarOutline" />
+						</template>
+						{{ setNotificationMailLabel }}
+					</NcActionButton>
+					<NcActionButton
+						closeAfterClick
+						:disabled="deleteDisabled"
+						@click="deleteEmail">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+						</template>
+						{{ deleteEmailLabel }}
+					</NcActionButton>
+				</FederationControl>
+
+				<NcActions
+					v-else
+					:aria-label="actionsLabel">
+					<NcActionButton
+						closeAfterClick
+						:disabled="deleteDisabled"
+						@click="deleteEmail">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+						</template>
+						{{ deleteEmailLabel }}
+					</NcActionButton>
+				</NcActions>
+			</div>
+		</div>
+	</div>
+</template>
+
+<style module>
+.propertySection {
+	padding: 6px 0;
 }
 
 .property {
 	position: relative;
+}
 
-	&__field {
-		width: 100%;
-	}
+.field {
+	width: 100%;
+}
 
-	&__scope {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: calc(100% + 8px);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--default-clickable-area);
-		height: var(--default-clickable-area);
-	}
+.scope {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: calc(100% + 8px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
 }
 </style>

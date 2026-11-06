@@ -5,6 +5,7 @@
 
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { h } from 'vue'
 import VisibilityScopeControl from './VisibilityScopeControl.vue'
 
 // The settings constants reference these l10n helpers as build-provided globals.
@@ -30,7 +31,7 @@ vi.mock('../../../../service/ProfileService.js', () => ({
 }))
 vi.mock('../../../../utils/handlers.ts', () => ({ handleError: mocks.handleError }))
 vi.mock('./FederationControl.vue', () => ({
-	default: { name: 'FederationControl', render: (h) => h('div', { class: 'federation-control' }) },
+	default: { name: 'FederationControl', render: () => h('div', { class: 'federation-control' }) },
 }))
 
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
@@ -43,17 +44,19 @@ const NcPopoverStub = {
 
 function mountControl(props = {}) {
 	return mount(VisibilityScopeControl, {
-		propsData: {
+		props: {
 			readable: 'Phone number',
 			name: 'phone',
 			scope: 'v2-local',
 			...props,
 		},
-		stubs: {
-			NcButton: true,
-			NcIconSvgWrapper: true,
-			NcPopover: NcPopoverStub,
-			NcSelect: NcSelectStub,
+		global: {
+			stubs: {
+				NcButton: true,
+				NcIconSvgWrapper: true,
+				NcPopover: NcPopoverStub,
+				NcSelect: NcSelectStub,
+			},
 		},
 	})
 }

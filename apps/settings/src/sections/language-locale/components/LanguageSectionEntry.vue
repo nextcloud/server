@@ -4,14 +4,14 @@
 -->
 
 <script setup lang="ts">
-import type { AxiosError } from '@nextcloud/axios'
 import type { LanguageOption } from '../../../components/Users/userFormUtils.ts'
 
+import { mdiOpenInNew } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
@@ -52,7 +52,7 @@ async function onLanguageChange(newLanguage: LanguageOption) {
 		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE, newLanguage.code)
 		window.location.reload()
 	} catch (error) {
-		handleError(error as AxiosError, t('settings', 'Unable to update language'))
+		handleError(error, t('settings', 'Unable to update language'))
 	}
 }
 </script>
@@ -75,7 +75,7 @@ async function onLanguageChange(newLanguage: LanguageOption) {
 			href="https://explore.transifex.com/nextcloud/"
 			target="_blank">
 			<template #icon>
-				<OpenInNew :size="20" />
+				<NcIconSvgWrapper :path="mdiOpenInNew" :size="20" />
 			</template>
 		</NcFormBoxButton>
 	</div>

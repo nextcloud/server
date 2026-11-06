@@ -3,229 +3,170 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<section class="property-section">
-		<div class="property">
-			<NcTextArea
-				v-if="multiLine"
-				:id="inputId"
-				v-model="inputValue"
-				class="property__field"
-				autocapitalize="none"
-				autocomplete="off"
-				:disabled="!isEditable"
-				:error="hasError || !!helperText"
-				:helper-text="helperText"
-				:label="readable"
-				:placeholder="placeholder"
-				rows="8"
-				spellcheck="false"
-				:success="isSuccess" />
-			<NcInputField
-				v-else
-				:id="inputId"
-				ref="input"
-				v-model="inputValue"
-				class="property__field"
-				autocapitalize="none"
-				:autocomplete="autocomplete"
-				:disabled="!isEditable"
-				:error="hasError || !!helperText"
-				:helper-text="helperText"
-				:label="readable"
-				:placeholder="placeholder"
-				spellcheck="false"
-				:success="isSuccess"
-				:type="type" />
-
-			<VisibilityScopeControl
-				class="property__scope"
-				:readable="readable"
-				:name="name"
-				:scope="scope"
-				:disabled="!isEditable"
-				@update:scope="(scope) => $emit('update:scope', scope)" />
-		</div>
-	</section>
-</template>
-
-<script>
-import debounce from 'debounce'
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { useDebounceFn } from '@vueuse/core'
+import { ref, useTemplateRef } from 'vue'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import VisibilityScopeControl from './VisibilityScopeControl.vue'
 import { savePrimaryAccountProperty } from '../../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../../utils/handlers.ts'
 
-export default {
-	name: 'AccountPropertySection',
+/** Value of the property */
+const value = defineModel<string>('value', { required: true })
 
-	components: {
-		NcInputField,
-		NcTextArea,
-		VisibilityScopeControl,
-	},
+/** Federation scope of the property */
+const scope = defineModel<string>('scope', { required: true })
 
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
+const props = withDefaults(defineProps<{
+	/** Key of the account property */
+	name: string
+	/** Human readable name of the property, used as label */
+	readable: string
+	/** Placeholder of the field */
+	placeholder: string
+	/** Input type of the single line field */
+	type?: 'text' | 'url' | 'tel' | 'email'
+	/** Whether the property can not be changed */
+	disabled?: boolean
+	/** Show a text area instead of a single line field */
+	multiLine?: boolean
+	/** Whether a value may be saved */
+	onValidate?: (value: string) => boolean
+	/** Called with the value after it was saved */
+	onSave?: (value: string) => void
+	/** Autocomplete hint of the single line field */
+	autocomplete?: string
+}>(), {
+	type: 'text',
+	disabled: false,
+	multiLine: false,
+	onValidate: undefined,
+	onSave: undefined,
+	autocomplete: undefined,
+})
 
-		value: {
-			type: String,
-			required: true,
-		},
+const inputField = useTemplateRef('inputField')
 
-		scope: {
-			type: String,
-			required: true,
-		},
+const helperText = ref('')
+const isSuccess = ref(false)
+const hasError = ref(false)
 
-		readable: {
-			type: String,
-			required: true,
-		},
+const debouncePropertyChange = useDebounceFn(async (newValue: string) => {
+	helperText.value = inputField.value?.$el.querySelector('input')?.validationMessage ?? ''
+	if (helperText.value !== '') {
+		return
+	}
+	hasError.value = props.onValidate !== undefined && !props.onValidate(newValue)
+	if (hasError.value) {
+		helperText.value = t('settings', 'Invalid value')
+		return
+	}
+	await updateProperty(newValue)
+}, 1000)
 
-		placeholder: {
-			type: String,
-			required: true,
-		},
+/**
+ * @param newValue The entered value
+ */
+function onInput(newValue: string | number) {
+	// the model only updates once the parent re-renders, so don't read it back here
+	const entered = String(newValue)
+	value.value = entered
+	debouncePropertyChange(entered.trim())
+}
 
-		type: {
-			type: String,
-			default: 'text',
-		},
-
-		isEditable: {
-			type: Boolean,
-			default: true,
-		},
-
-		multiLine: {
-			type: Boolean,
-			default: false,
-		},
-
-		onValidate: {
-			type: Function,
-			default: null,
-		},
-
-		onSave: {
-			type: Function,
-			default: null,
-		},
-
-		autocomplete: {
-			type: String,
-			default: null,
-		},
-	},
-
-	emits: ['update:scope', 'update:value'],
-
-	data() {
-		return {
-			initialValue: this.value,
-			helperText: '',
-			isSuccess: false,
-			hasError: false,
+/**
+ * @param newValue The value to store
+ */
+async function updateProperty(newValue: string) {
+	hasError.value = false
+	try {
+		const responseData = await savePrimaryAccountProperty(props.name, newValue)
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
 		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.name}`
-		},
-
-		inputValue: {
-			get() {
-				return this.value
-			},
-
-			set(value) {
-				this.$emit('update:value', value)
-				this.debouncePropertyChange(value.trim())
-			},
-		},
-
-		debouncePropertyChange() {
-			return debounce(async function(value) {
-				this.helperText = this.$refs.input?.$refs.input?.validationMessage || ''
-				if (this.helperText !== '') {
-					return
-				}
-				this.hasError = this.onValidate && !this.onValidate(value)
-				if (this.hasError) {
-					this.helperText = t('settings', 'Invalid value')
-					return
-				}
-				await this.updateProperty(value)
-			}, 1000)
-		},
-	},
-
-	methods: {
-		async updateProperty(value) {
-			try {
-				this.hasError = false
-				const responseData = await savePrimaryAccountProperty(
-					this.name,
-					value,
-				)
-				this.handleResponse({
-					value,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update {property}', { property: this.readable.toLocaleLowerCase() }),
-					error: e,
-				})
-			}
-		},
-
-		handleResponse({ value, status, errorMessage, error }) {
-			if (status === 'ok') {
-				this.initialValue = value
-				if (this.onSave) {
-					this.onSave(value)
-				}
-				this.isSuccess = true
-				setTimeout(() => {
-					this.isSuccess = false
-				}, 2000)
-			} else {
-				handleError(error, errorMessage)
-				this.hasError = true
-			}
-		},
-	},
+		props.onSave?.(newValue)
+		isSuccess.value = true
+		setTimeout(() => {
+			isSuccess.value = false
+		}, 2000)
+	} catch (error) {
+		handleError(error, t('settings', 'Unable to update {property}', { property: props.readable.toLocaleLowerCase() }))
+		hasError.value = true
+	}
 }
 </script>
 
-<style lang="scss" scoped>
-.property-section {
+<template>
+	<section :class="$style.propertySection">
+		<div :class="$style.property">
+			<NcTextArea
+				v-if="multiLine"
+				:id="`account-property-${name}`"
+				:class="$style.field"
+				:modelValue="value"
+				autocapitalize="none"
+				autocomplete="off"
+				:disabled="disabled"
+				:error="hasError || !!helperText"
+				:helperText="helperText"
+				:label="readable"
+				:placeholder="placeholder"
+				rows="8"
+				spellcheck="false"
+				:success="isSuccess"
+				@update:modelValue="onInput" />
+			<NcInputField
+				v-else
+				:id="`account-property-${name}`"
+				ref="inputField"
+				:class="$style.field"
+				:modelValue="value"
+				autocapitalize="none"
+				:autocomplete="autocomplete"
+				:disabled="disabled"
+				:error="hasError || !!helperText"
+				:helperText="helperText"
+				:label="readable"
+				:placeholder="placeholder"
+				spellcheck="false"
+				:success="isSuccess"
+				:type="type"
+				@update:modelValue="onInput" />
+
+			<div :class="$style.scope">
+				<VisibilityScopeControl
+					v-model:scope="scope"
+					:readable="readable"
+					:name="name"
+					:disabled="disabled" />
+			</div>
+		</div>
+	</section>
+</template>
+
+<style module>
+.propertySection {
 	padding: 6px 0;
 }
 
 .property {
 	position: relative;
+}
 
-	&__field {
-		width: 100%;
-	}
+.field {
+	width: 100%;
+}
 
-	&__scope {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: calc(100% + 8px);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--default-clickable-area);
-		height: var(--default-clickable-area);
-	}
+.scope {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: calc(100% + 8px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
 }
 </style>

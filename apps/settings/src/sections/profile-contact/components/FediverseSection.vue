@@ -3,27 +3,18 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<AccountPropertySection
-		v-bind.sync="value"
-		:readable="readable"
-		:on-validate="onValidate"
-		:placeholder="t('settings', 'Your handle')" />
-</template>
-
 <script setup lang="ts">
-import type { AccountProperties } from '../../../constants/AccountPropertyConstants.js'
+import type { IAccountProperty } from '../../../constants/AccountPropertyConstants.ts'
 
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { ref } from 'vue'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 
-const { fediverse } = loadState<AccountProperties>('settings', 'personalInfoParameters')
+const { fediverse } = loadState<{ fediverse: IAccountProperty }>('settings', 'personalInfoParameters')
 
-const value = ref({ ...fediverse })
-const readable = NAME_READABLE_ENUM[fediverse.name]
+const property = ref({ ...fediverse, readable: NAME_READABLE_ENUM[fediverse.name] })
 
 /**
  * Validate a fediverse handle
@@ -50,3 +41,12 @@ function onValidate(text: string): boolean {
 	}
 }
 </script>
+
+<template>
+	<AccountPropertySection
+		v-bind="property"
+		v-model:value="property.value"
+		v-model:scope="property.scope"
+		:onValidate="onValidate"
+		:placeholder="t('settings', 'Your handle')" />
+</template>

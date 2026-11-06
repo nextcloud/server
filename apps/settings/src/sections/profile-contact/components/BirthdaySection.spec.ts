@@ -29,11 +29,7 @@ vi.mock('../../../service/PersonalInfo/PersonalInfoService.js', () => ({
 
 async function mountBirthdaySection() {
 	const BirthdaySection = await import('./BirthdaySection.vue')
-	return mount(BirthdaySection.default, {
-		mocks: {
-			t: (_app, text) => text,
-		},
-	})
+	return mount(BirthdaySection.default)
 }
 
 // The component reads its initial state at module scope, so every test has to import it freshly.
@@ -44,7 +40,7 @@ beforeAll(async () => {
 
 beforeEach(() => {
 	vi.resetModules()
-	savePrimaryAccountProperty.mockClear()
+	savePrimaryAccountProperty.mockReset()
 })
 
 afterEach(() => {
@@ -114,6 +110,43 @@ describe('BirthdaySection', () => {
 		expect(input.element.value).toBe('1987-12-01')
 	})
 
+	it('resets the value when saving fails', async () => {
+		personalInfoParameters = {
+			birthdate: {
+				name: 'birthdate',
+				value: '1987-12-15T00:00:00.000Z',
+			},
+		}
+		savePrimaryAccountProperty.mockRejectedValue(new Error('Network error'))
+		const wrapper = await mountBirthdaySection()
+
+		const input = wrapper.find('input')
+		await input.setValue('1990-01-01')
+
+		await expect.poll(() => savePrimaryAccountProperty.mock.calls.length).toBe(1)
+		await expect.poll(() => input.element.value).toBe('1987-12-15')
+	})
+
+	it('unsets the saved value when the input is cleared', async () => {
+		personalInfoParameters = {
+			birthdate: {
+				name: 'birthdate',
+				value: '1987-12-15T00:00:00.000Z',
+			},
+		}
+		savePrimaryAccountProperty.mockReturnValue(Promise.resolve({
+			ocs: { meta: { status: 'ok' } },
+		}))
+		const wrapper = await mountBirthdaySection()
+
+		const input = wrapper.find('input')
+		await input.setValue('')
+
+		await expect.poll(() => savePrimaryAccountProperty.mock.calls.length).toBe(1)
+		expect(savePrimaryAccountProperty).toHaveBeenCalledWith('birthdate', '')
+		expect(input.element.value).toBe('')
+	})
+
 	it('ignores null value from partially filled picker and does not save', async () => {
 		personalInfoParameters = {
 			birthdate: {
@@ -173,7 +206,7 @@ describe('BirthdaySection', () => {
 
 		await new Promise((resolve) => setTimeout(resolve, 550))
 		expect(savePrimaryAccountProperty).not.toHaveBeenCalled()
-		expect(wrapper.vm.birthdate.value).toBe(null)
+		expect(input.element.value).toBe('')
 	})
 
 	it('settles a burst of picker updates into a single save of the final date', async () => {
@@ -194,7 +227,7 @@ describe('BirthdaySection', () => {
 			picker.vm.$emit('update:modelValue', date)
 			await new Promise((resolve) => setTimeout(resolve, 50))
 		}
-		expect(wrapper.vm.birthdate.value).toBe(null)
+		expect(wrapper.find('input').element.value).toBe('')
 
 		await new Promise((resolve) => setTimeout(resolve, 550))
 		expect(savePrimaryAccountProperty).toHaveBeenCalledTimes(1)
@@ -202,7 +235,7 @@ describe('BirthdaySection', () => {
 			'birthdate',
 			'2008-07-07T00:00:00.000Z',
 		)
-		expect(wrapper.vm.birthdate.value).toBe('2008-07-07')
+		await nextTick()
 		expect(wrapper.find('input').element.value).toBe('2008-07-07')
 	})
 
@@ -249,7 +282,7 @@ describe('BirthdaySection', () => {
 
 		await new Promise((resolve) => setTimeout(resolve, 550))
 		expect(savePrimaryAccountProperty).not.toHaveBeenCalled()
-		expect(wrapper.vm.birthdate.value).toBe(null)
+		expect(wrapper.find('input').element.value).toBe('')
 	})
 
 	it('saves dates at the lower and upper year boundary', async () => {
@@ -279,7 +312,8 @@ describe('BirthdaySection', () => {
 			'birthdate',
 			'9999-12-31T00:00:00.000Z',
 		)
-		expect(wrapper.vm.birthdate.value).toBe('9999-12-31')
+		await nextTick()
+		expect(wrapper.find('input').element.value).toBe('9999-12-31')
 	})
 
 	it('limits the picker to years 1 to 9999', async () => {

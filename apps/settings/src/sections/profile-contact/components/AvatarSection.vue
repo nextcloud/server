@@ -3,108 +3,32 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<section class="avatar-section">
-		<div v-show="showCropper" class="avatar-section__cropper">
-			<VueCropper
-				ref="cropper"
-				class="avatar-section__cropper-canvas"
-				v-bind="cropperOptions" />
-			<div class="avatar-section__cropper-buttons">
-				<NcButton @click="cancel">
-					{{ t('settings', 'Cancel') }}
-				</NcButton>
-				<NcButton
-					variant="primary"
-					@click="saveAvatar">
-					{{ t('settings', 'Set as profile picture') }}
-				</NcButton>
-			</div>
-			<span class="avatar-section__hint">{{ t('settings', 'Please note that it can take up to 24 hours for your profile picture to be updated everywhere.') }}</span>
-		</div>
+<script setup lang="ts">
+import type { IAccountProperty } from '../../../constants/AccountPropertyConstants.ts'
 
-		<template v-if="!showCropper">
-			<div v-if="!profileEnabledGlobally" class="avatar-section__preview">
-				<NcAvatar
-					v-if="!loading"
-					:key="version"
-					:user="userId"
-					:aria-label="t('settings', 'Your profile picture')"
-					:disable-tooltip="true"
-					hide-status
-					:size="120" />
-				<div v-else class="icon-loading" />
-			</div>
-
-			<template v-if="avatarChangeSupported">
-				<div class="avatar-section__actions">
-					<NcFormBox class="avatar-section__buttons">
-						<NcFormBoxButton
-							:label="t('settings', 'Upload profile picture')"
-							@click="activateLocalFilePicker">
-							<template #icon>
-								<Upload :size="20" />
-							</template>
-						</NcFormBoxButton>
-						<NcFormBoxButton
-							:label="t('settings', 'Choose from Nextcloud Files')"
-							@click="openFilePicker">
-							<template #icon>
-								<Folder :size="20" />
-							</template>
-						</NcFormBoxButton>
-						<NcFormBoxButton
-							v-if="!isGenerated"
-							:label="t('settings', 'Delete picture')"
-							@click="removeAvatar">
-							<template #icon>
-								<Delete :size="20" />
-							</template>
-						</NcFormBoxButton>
-					</NcFormBox>
-					<VisibilityScopeControl
-						class="avatar-section__scope"
-						:readable="avatar.readable"
-						:name="avatar.name"
-						:scope="avatar.scope"
-						@update:scope="onScopeChange" />
-				</div>
-				<span class="avatar-section__hint">{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input
-					ref="input"
-					type="file"
-					:accept="validMimeTypes.join(',')"
-					@change="onChange">
-			</template>
-			<span v-else class="avatar-section__hint">
-				{{ t('settings', 'Picture provided by original account') }}
-			</span>
-		</template>
-	</section>
-</template>
-
-<script>
+import { mdiFolder, mdiTrashCanOutline, mdiTrayArrowUp } from '@mdi/js'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import VueCropper from 'vue-cropperjs'
+import Cropper from 'cropperjs'
+import { onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
-import Folder from 'vue-material-design-icons/Folder.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
-import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
+import logger from '../../../logger.ts'
 
 import 'cropperjs/dist/cropper.css'
 
-const { avatar } = loadState('settings', 'personalInfoParameters', {})
-const { avatarChangeSupported } = loadState('settings', 'accountParameters', {})
+const { avatar } = loadState<{ avatar: IAccountProperty }>('settings', 'personalInfoParameters')
+const { avatarChangeSupported } = loadState<{ avatarChangeSupported: boolean }>('settings', 'accountParameters')
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
 const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
@@ -116,223 +40,318 @@ const picker = getFilePickerBuilder(t('settings', 'Choose your profile picture')
 	.allowDirectories(false)
 	.build()
 
-export default {
-	name: 'AvatarSection',
+const userId = getCurrentUser()!.uid
+const readable = NAME_READABLE_ENUM[avatar.name]
 
-	components: {
-		Delete,
-		Folder,
-		NcAvatar,
-		NcButton,
-		NcFormBox,
-		NcFormBoxButton,
-		Upload,
-		VisibilityScopeControl,
-		VueCropper,
-	},
+const scope = ref(avatar.scope)
+const showCropper = ref(false)
+const loading = ref(false)
+const version = ref(window.oc_userconfig.avatar.version)
+const isGenerated = ref(window.oc_userconfig.avatar.generated)
 
-	data() {
-		return {
-			avatar: { ...avatar, readable: NAME_READABLE_ENUM[avatar.name] },
-			avatarChangeSupported,
-			profileEnabledGlobally,
-			showCropper: false,
-			loading: false,
-			userId: getCurrentUser().uid,
-			displayName: getCurrentUser().displayName,
-			version: window.oc_userconfig.avatar.version,
-			isGenerated: window.oc_userconfig.avatar.generated,
-			validMimeTypes: VALID_MIME_TYPES,
-			cropperOptions: {
-				aspectRatio: 1 / 1,
-				viewMode: 1,
-				guides: false,
-				center: false,
-				highlight: false,
-				autoCropArea: 1,
-				minContainerWidth: 300,
-				minContainerHeight: 300,
-			},
+const fileInput = useTemplateRef('fileInput')
+const cropperImage = useTemplateRef('cropperImage')
+let cropper: Cropper | undefined
+
+onMounted(() => {
+	cropper = new Cropper(cropperImage.value!, {
+		aspectRatio: 1 / 1,
+		viewMode: 1,
+		guides: false,
+		center: false,
+		highlight: false,
+		autoCropArea: 1,
+		minContainerWidth: 300,
+		minContainerHeight: 300,
+	})
+	subscribe('settings:display-name:updated', handleDisplayNameUpdate)
+})
+
+onBeforeUnmount(() => {
+	cropper?.destroy()
+	unsubscribe('settings:display-name:updated', handleDisplayNameUpdate)
+})
+
+/**
+ * Open the native file picker
+ */
+function activateLocalFilePicker() {
+	// Set to null so that selecting the same file will trigger the change event
+	fileInput.value!.value = ''
+	fileInput.value!.click()
+}
+
+/**
+ * @param event Change event of the file input
+ */
+function onChange(event: Event) {
+	loading.value = true
+	const file = (event.target as HTMLInputElement).files![0]
+	if (!VALID_MIME_TYPES.includes(file.type)) {
+		showError(t('settings', 'Please select a valid png or jpg file'))
+		cancel()
+		return
+	}
+
+	const reader = new FileReader()
+	reader.onload = () => {
+		cropper!.replace(reader.result as string)
+		showCropper.value = true
+	}
+	reader.readAsDataURL(file)
+}
+
+/**
+ * Pick the picture from the user's files
+ */
+async function openFilePicker() {
+	let path: string
+	try {
+		path = await picker.pick()
+	} catch (error) {
+		if (!(error instanceof FilePickerClosed)) {
+			logger.error('Could not pick a profile picture', { error })
 		}
-	},
+		return
+	}
 
-	created() {
-		subscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
+	loading.value = true
+	try {
+		const { data } = await axios.post(generateUrl('/avatar'), { path })
+		if (data.status === 'success') {
+			handleAvatarUpdate(false)
+		} else if (data.data === 'notsquare') {
+			cropper!.replace(data.image)
+			showCropper.value = true
+		} else {
+			showError(data.data.message)
+			cancel()
+		}
+	} catch {
+		showError(t('settings', 'Error setting profile picture'))
+		cancel()
+	}
+}
 
-	beforeDestroy() {
-		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
+/**
+ * Upload the cropped picture
+ */
+function saveAvatar() {
+	showCropper.value = false
+	loading.value = true
 
-	methods: {
-		onScopeChange(scope) {
-			this.avatar.scope = scope
-		},
+	const canvasData = cropper!.getCroppedCanvas()
+	const scaleFactor = canvasData.width > 512 ? 512 / canvasData.width : 1
 
-		activateLocalFilePicker() {
-			// Set to null so that selecting the same file will trigger the change event
-			this.$refs.input.value = null
-			this.$refs.input.click()
-		},
+	cropper!.scale(scaleFactor, scaleFactor).getCroppedCanvas().toBlob(async (blob) => {
+		if (blob === null) {
+			showError(t('settings', 'Error cropping profile picture'))
+			cancel()
+			return
+		}
 
-		onChange(e) {
-			this.loading = true
-			const file = e.target.files[0]
-			if (!this.validMimeTypes.includes(file.type)) {
-				showError(t('settings', 'Please select a valid png or jpg file'))
-				this.cancel()
-				return
-			}
+		const formData = new FormData()
+		formData.append('files[]', blob)
+		try {
+			await axios.post(generateUrl('/avatar'), formData)
+			handleAvatarUpdate(false)
+		} catch {
+			showError(t('settings', 'Error saving profile picture'))
+			handleAvatarUpdate(isGenerated.value)
+		}
+	})
+}
 
-			const reader = new FileReader()
-			reader.onload = (e) => {
-				this.$refs.cropper.replace(e.target.result)
-				this.showCropper = true
-			}
-			reader.readAsDataURL(file)
-		},
+/**
+ * Delete the uploaded picture
+ */
+async function removeAvatar() {
+	loading.value = true
+	try {
+		await axios.delete(generateUrl('/avatar'))
+		handleAvatarUpdate(true)
+	} catch {
+		showError(t('settings', 'Error removing profile picture'))
+		handleAvatarUpdate(isGenerated.value)
+	}
+}
 
-		async openFilePicker() {
-			const path = await picker.pick()
-			this.loading = true
-			try {
-				const { data } = await axios.post(generateUrl('/avatar'), { path })
-				if (data.status === 'success') {
-					this.handleAvatarUpdate(false)
-				} else if (data.data === 'notsquare') {
-					this.$refs.cropper.replace(data.image)
-					this.showCropper = true
-				} else {
-					showError(data.data.message)
-					this.cancel()
-				}
-			} catch {
-				showError(t('settings', 'Error setting profile picture'))
-				this.cancel()
-			}
-		},
+/**
+ * Leave the cropper without saving
+ */
+function cancel() {
+	showCropper.value = false
+	loading.value = false
+}
 
-		saveAvatar() {
-			this.showCropper = false
-			this.loading = true
+/**
+ * @param generated Whether the avatar is generated now
+ */
+function handleAvatarUpdate(generated: boolean) {
+	// Update the avatar version so that avatar update handlers refresh correctly
+	version.value = window.oc_userconfig.avatar.version = Date.now()
+	isGenerated.value = window.oc_userconfig.avatar.generated = generated
+	loading.value = false
+	emit('settings:avatar:updated', window.oc_userconfig.avatar.version)
+}
 
-			const canvasData = this.$refs.cropper.getCroppedCanvas()
-			const scaleFactor = canvasData.width > 512 ? 512 / canvasData.width : 1
-
-			this.$refs.cropper.scale(scaleFactor, scaleFactor).getCroppedCanvas().toBlob(async (blob) => {
-				if (blob === null) {
-					showError(t('settings', 'Error cropping profile picture'))
-					this.cancel()
-					return
-				}
-
-				const formData = new FormData()
-				formData.append('files[]', blob)
-				try {
-					await axios.post(generateUrl('/avatar'), formData)
-					this.handleAvatarUpdate(false)
-				} catch {
-					showError(t('settings', 'Error saving profile picture'))
-					this.handleAvatarUpdate(this.isGenerated)
-				}
-			})
-		},
-
-		async removeAvatar() {
-			this.loading = true
-			try {
-				await axios.delete(generateUrl('/avatar'))
-				this.handleAvatarUpdate(true)
-			} catch {
-				showError(t('settings', 'Error removing profile picture'))
-				this.handleAvatarUpdate(this.isGenerated)
-			}
-		},
-
-		cancel() {
-			this.showCropper = false
-			this.loading = false
-		},
-
-		handleAvatarUpdate(isGenerated) {
-			// Update the avatar version so that avatar update handlers refresh correctly
-			this.version = window.oc_userconfig.avatar.version = Date.now()
-			this.isGenerated = window.oc_userconfig.avatar.generated = isGenerated
-			this.loading = false
-			emit('settings:avatar:updated', window.oc_userconfig.avatar.version)
-		},
-
-		handleDisplayNameUpdate() {
-			this.version = window.oc_userconfig.avatar.version
-		},
-	},
+/**
+ * Refresh a generated avatar, it shows the initials of the display name
+ */
+function handleDisplayNameUpdate() {
+	version.value = window.oc_userconfig.avatar.version
 }
 </script>
 
-<style lang="scss" scoped>
-.avatar-section {
+<template>
+	<section :class="$style.avatarSection">
+		<div v-show="showCropper" :class="$style.cropper">
+			<div :class="$style.cropperCanvas">
+				<img ref="cropperImage" alt="">
+			</div>
+			<div :class="$style.cropperButtons">
+				<NcButton @click="cancel">
+					{{ t('settings', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					variant="primary"
+					@click="saveAvatar">
+					{{ t('settings', 'Set as profile picture') }}
+				</NcButton>
+			</div>
+			<span :class="$style.hint">{{ t('settings', 'Please note that it can take up to 24 hours for your profile picture to be updated everywhere.') }}</span>
+		</div>
+
+		<template v-if="!showCropper">
+			<div v-if="!profileEnabledGlobally" :class="$style.preview">
+				<NcAvatar
+					v-if="!loading"
+					:key="version"
+					:user="userId"
+					:aria-label="t('settings', 'Your profile picture')"
+					disableTooltip
+					hideStatus
+					:size="120" />
+				<div v-else class="icon-loading" />
+			</div>
+
+			<template v-if="avatarChangeSupported">
+				<div :class="$style.actions">
+					<NcFormBox :class="$style.buttons">
+						<NcFormBoxButton
+							:label="t('settings', 'Upload profile picture')"
+							@click="activateLocalFilePicker">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrayArrowUp" :size="20" />
+							</template>
+						</NcFormBoxButton>
+						<NcFormBoxButton
+							:label="t('settings', 'Choose from Nextcloud Files')"
+							@click="openFilePicker">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiFolder" :size="20" />
+							</template>
+						</NcFormBoxButton>
+						<NcFormBoxButton
+							v-if="!isGenerated"
+							:label="t('settings', 'Delete picture')"
+							@click="removeAvatar">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrashCanOutline" :size="20" />
+							</template>
+						</NcFormBoxButton>
+					</NcFormBox>
+					<div :class="$style.scope">
+						<VisibilityScopeControl
+							v-model:scope="scope"
+							:readable="readable"
+							:name="avatar.name" />
+					</div>
+				</div>
+				<span :class="$style.hint">{{ t('settings', 'The file must be a PNG or JPG') }}</span>
+				<input
+					ref="fileInput"
+					:class="$style.fileInput"
+					type="file"
+					:accept="VALID_MIME_TYPES.join(',')"
+					@change="onChange">
+			</template>
+			<span v-else :class="$style.hint">
+				{{ t('settings', 'Picture provided by original account') }}
+			</span>
+		</template>
+	</section>
+</template>
+
+<style module lang="scss">
+.avatarSection {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: calc(var(--default-grid-baseline) * 2);
 	padding: 6px 0;
+}
 
-	&__preview {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 120px;
-		height: 120px;
-		margin: 0 auto;
+.preview {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 120px;
+	height: 120px;
+	margin: 0 auto;
+}
+
+.actions {
+	position: relative;
+}
+
+.buttons {
+	width: 100%;
+}
+
+.scope {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: calc(100% + 8px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
+}
+
+.hint {
+	color: var(--color-text-maxcontrast);
+}
+
+.cropper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
+.cropperCanvas {
+	width: 300px;
+	height: 300px;
+	overflow: hidden;
+
+	img {
+		display: block;
+		max-width: 100%;
 	}
 
-	&__actions {
-		position: relative;
-	}
-
-	&__buttons {
-		width: 100%;
-	}
-
-	&__scope {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: calc(100% + 8px);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--default-clickable-area);
-		height: var(--default-clickable-area);
-	}
-
-	&__hint {
-		color: var(--color-text-maxcontrast);
-	}
-
-	&__cropper {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 16px;
-
-		&-canvas {
-			width: 300px;
-			height: 300px;
-			overflow: hidden;
-
-			:deep(.cropper-view-box) {
-				border-radius: 50%;
-			}
-		}
-
-		&-buttons {
-			width: 100%;
-			display: flex;
-			justify-content: space-between;
-		}
+	:global(.cropper-view-box) {
+		border-radius: 50%;
 	}
 }
 
-input[type="file"] {
+.cropperButtons {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.fileInput {
 	display: none;
 }
 </style>

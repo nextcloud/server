@@ -4,8 +4,6 @@
  -->
 
 <script setup lang="ts">
-import type { AxiosError } from '@nextcloud/axios'
-
 import { loadState } from '@nextcloud/initial-state'
 import { getCanonicalLocale, getDayNames, getFirstDay, t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
@@ -65,7 +63,7 @@ async function updateFirstDayOfWeek(option: DayOption): Promise<void> {
 		firstDay.value = option.value
 		window.location.reload()
 	} catch (error) {
-		handleError(error as AxiosError, t('settings', 'Unable to update first day of week'))
+		handleError(error, t('settings', 'Unable to update first day of week'))
 	}
 }
 </script>

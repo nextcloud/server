@@ -3,16 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<AccountPropertySection
-		v-bind.sync="value"
-		:readable="readable"
-		:on-validate="onValidate"
-		:placeholder="t('settings', 'Bluesky handle')" />
-</template>
-
 <script setup lang="ts">
-import type { AccountProperties } from '../../../constants/AccountPropertyConstants.js'
+import type { IAccountProperty } from '../../../constants/AccountPropertyConstants.ts'
 
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
@@ -20,10 +12,9 @@ import { ref } from 'vue'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
 import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 
-const { bluesky } = loadState<AccountProperties>('settings', 'personalInfoParameters')
+const { bluesky } = loadState<{ bluesky: IAccountProperty }>('settings', 'personalInfoParameters')
 
-const value = ref({ ...bluesky })
-const readable = NAME_READABLE_ENUM[bluesky.name]
+const property = ref({ ...bluesky, readable: NAME_READABLE_ENUM[bluesky.name] })
 
 /**
  * Validate that the text might be a bluesky handle
@@ -66,3 +57,12 @@ function onValidate(text: string): boolean {
 	}
 }
 </script>
+
+<template>
+	<AccountPropertySection
+		v-bind="property"
+		v-model:value="property.value"
+		v-model:scope="property.scope"
+		:onValidate="onValidate"
+		:placeholder="t('settings', 'Bluesky handle')" />
+</template>
