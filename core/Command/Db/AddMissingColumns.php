@@ -59,14 +59,20 @@ class AddMissingColumns extends Command {
 				if ($schema->hasTable($missingColumn['tableName'])) {
 					$table = $schema->getTable($missingColumn['tableName']);
 					if (!$table->hasColumn($missingColumn['columnName'])) {
-						$output->writeln('<info>Adding additional ' . $missingColumn['columnName'] . ' column to the ' . $missingColumn['tableName'] . ' table, this can take some time...</info>');
+						if ($dryRun) {
+							$output->writeln('<info>Missing ' . $missingColumn['columnName'] . ' column in the ' . $missingColumn['tableName'] . ' table</info>');
+						} else {
+							$output->writeln('<info>Adding additional ' . $missingColumn['columnName'] . ' column to the ' . $missingColumn['tableName'] . ' table, this can take some time...</info>');
+						}
 						$table->addColumn($missingColumn['columnName'], $missingColumn['typeName'], $missingColumn['options']);
 						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
 						if ($dryRun && $sqlQueries !== null) {
 							$output->writeln($sqlQueries);
 						}
 						$updated = true;
-						$output->writeln('<info>' . $missingColumn['tableName'] . ' table updated successfully.</info>');
+						if (!$dryRun) {
+							$output->writeln('<info>' . $missingColumn['tableName'] . ' table updated successfully.</info>');
+						}
 					}
 				}
 			}
