@@ -5,19 +5,20 @@
 
 <template>
 	<AccountPropertySection
-		v-bind.sync="headline"
-		:placeholder="t('settings', 'Your headline')" />
+		v-bind.sync="organisation"
+		autocomplete="organization"
+		:placeholder="t('settings', 'Your organisation')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
-const { headline } = loadState('settings', 'personalInfoParameters', {})
+const { organisation } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
-	name: 'HeadlineSection',
+	name: 'OrganisationSection',
 
 	components: {
 		AccountPropertySection,
@@ -25,7 +26,7 @@ export default {
 
 	data() {
 		return {
-			headline: { ...headline, readable: NAME_READABLE_ENUM[headline.name] },
+			organisation: { ...organisation, readable: NAME_READABLE_ENUM[organisation.name] },
 		}
 	},
 }

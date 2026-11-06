@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts">
-import type { IAccountProperty } from '../../constants/AccountPropertyConstants.ts'
+import type { IAccountProperty } from '../../../constants/AccountPropertyConstants.ts'
 
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.ts'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 
 const { pronouns } = loadState<{ pronouns: IAccountProperty }>('settings', 'personalInfoParameters')
 

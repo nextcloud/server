@@ -17,7 +17,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const { displayName } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})

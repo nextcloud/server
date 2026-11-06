@@ -78,7 +78,7 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import FederationControl from '../shared/FederationControl.vue'
-import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../../constants/AccountPropertyConstants.js'
 import {
 	removeAdditionalEmail,
 	saveAdditionalEmail,
@@ -86,9 +86,9 @@ import {
 	saveNotificationEmail,
 	savePrimaryEmail,
 	updateAdditionalEmail,
-} from '../../../service/PersonalInfo/EmailService.js'
-import { handleError } from '../../../utils/handlers.ts'
-import { validateEmail } from '../../../utils/validate.js'
+} from '../../../../service/PersonalInfo/EmailService.js'
+import { handleError } from '../../../../utils/handlers.ts'
+import { validateEmail } from '../../../../utils/validate.js'
 
 export default {
 	name: 'EmailSectionEntry',

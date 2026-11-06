@@ -6,7 +6,7 @@
 import { getCSPNonce } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
-import ProfileContactSettings from './views/ProfileContactSettings.vue'
+import ProfileContactSettings from './ProfileContactSettings.vue'
 
 __webpack_nonce__ = getCSPNonce()
 

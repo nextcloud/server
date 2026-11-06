@@ -16,7 +16,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const {
 	defaultPhoneRegion,

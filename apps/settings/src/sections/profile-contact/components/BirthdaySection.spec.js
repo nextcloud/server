@@ -23,7 +23,7 @@ vi.mock('@nextcloud/initial-state', () => ({
 }))
 
 const savePrimaryAccountProperty = vi.hoisted(() => vi.fn())
-vi.mock('../../service/PersonalInfo/PersonalInfoService.js', () => ({
+vi.mock('../../../service/PersonalInfo/PersonalInfoService.js', () => ({
 	savePrimaryAccountProperty,
 }))
 

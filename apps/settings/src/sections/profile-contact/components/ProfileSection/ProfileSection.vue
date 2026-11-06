@@ -39,9 +39,9 @@ import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import ProfilePreviewCard from './ProfilePreviewCard.vue'
-import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.ts'
+import { ACCOUNT_PROPERTY_ENUM } from '../../../../constants/AccountPropertyConstants.js'
+import { savePrimaryAccountProperty } from '../../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../../utils/handlers.ts'
 
 const {
 	statusMessage,

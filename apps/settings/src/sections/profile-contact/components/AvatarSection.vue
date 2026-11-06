@@ -99,7 +99,7 @@ import Folder from 'vue-material-design-icons/Folder.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 import 'cropperjs/dist/cropper.css'
 

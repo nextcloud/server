@@ -54,8 +54,8 @@ import debounce from 'debounce'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import VisibilityScopeControl from './VisibilityScopeControl.vue'
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.ts'
+import { savePrimaryAccountProperty } from '../../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../../utils/handlers.ts'
 
 export default {
 	name: 'AccountPropertySection',

@@ -52,10 +52,10 @@ import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import EmailSectionEntry from './EmailSectionEntry.vue'
-import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants.js'
-import { removeAdditionalEmail, savePrimaryEmail } from '../../../service/PersonalInfo/EmailService.js'
-import { handleError } from '../../../utils/handlers.ts'
-import { validateEmail } from '../../../utils/validate.js'
+import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../../constants/AccountPropertyConstants.js'
+import { removeAdditionalEmail, savePrimaryEmail } from '../../../../service/PersonalInfo/EmailService.js'
+import { handleError } from '../../../../utils/handlers.ts'
+import { validateEmail } from '../../../../utils/validate.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { emailChangeSupported } = loadState('settings', 'accountParameters', {})

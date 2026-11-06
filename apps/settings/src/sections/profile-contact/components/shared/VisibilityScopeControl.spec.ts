@@ -22,13 +22,13 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('@nextcloud/initial-state', () => ({ loadState: mocks.loadState }))
 vi.mock('@nextcloud/event-bus', () => ({ subscribe: vi.fn(), unsubscribe: vi.fn() }))
-vi.mock('../../../service/PersonalInfo/PersonalInfoService.js', () => ({
+vi.mock('../../../../service/PersonalInfo/PersonalInfoService.js', () => ({
 	savePrimaryAccountPropertyScope: mocks.savePrimaryAccountPropertyScope,
 }))
-vi.mock('../../../service/ProfileService.js', () => ({
+vi.mock('../../../../service/ProfileService.js', () => ({
 	saveProfileParameterVisibility: mocks.saveProfileParameterVisibility,
 }))
-vi.mock('../../../utils/handlers.ts', () => ({ handleError: mocks.handleError }))
+vi.mock('../../../../utils/handlers.ts', () => ({ handleError: mocks.handleError }))
 vi.mock('./FederationControl.vue', () => ({
 	default: { name: 'FederationControl', render: (h) => h('div', { class: 'federation-control' }) },
 }))

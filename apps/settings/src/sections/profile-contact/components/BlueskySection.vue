@@ -12,13 +12,13 @@
 </template>
 
 <script setup lang="ts">
-import type { AccountProperties } from '../../constants/AccountPropertyConstants.js'
+import type { AccountProperties } from '../../../constants/AccountPropertyConstants.js'
 
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { ref } from 'vue'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.ts'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 
 const { bluesky } = loadState<AccountProperties>('settings', 'personalInfoParameters')
 

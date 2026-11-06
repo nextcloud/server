@@ -29,9 +29,9 @@ import { loadState } from '@nextcloud/initial-state'
 import debounce from 'debounce'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
-import { NAME_READABLE_ENUM, SCOPE_ENUM } from '../../constants/AccountPropertyConstants.ts'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../utils/handlers.js'
+import { NAME_READABLE_ENUM, SCOPE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../utils/handlers.js'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
 

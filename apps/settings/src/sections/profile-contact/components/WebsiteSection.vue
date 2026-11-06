@@ -15,8 +15,8 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
-import { validateUrl } from '../../utils/validate.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { validateUrl } from '../../../utils/validate.js'
 
 const { website } = loadState('settings', 'personalInfoParameters', {})
 

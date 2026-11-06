@@ -5,20 +5,20 @@
 
 <template>
 	<AccountPropertySection
-		v-bind.sync="biography"
-		:placeholder="t('settings', 'Your biography. Markdown is supported.')"
-		:multi-line="true" />
+		v-bind.sync="role"
+		autocomplete="organization-title"
+		:placeholder="t('settings', 'Your role')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
-const { biography } = loadState('settings', 'personalInfoParameters', {})
+const { role } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
-	name: 'BiographySection',
+	name: 'RoleSection',
 
 	components: {
 		AccountPropertySection,
@@ -26,7 +26,7 @@ export default {
 
 	data() {
 		return {
-			biography: { ...biography, readable: NAME_READABLE_ENUM[biography.name] },
+			role: { ...role, readable: NAME_READABLE_ENUM[role.name] },
 		}
 	},
 }

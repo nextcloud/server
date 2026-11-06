@@ -48,9 +48,9 @@ import {
 	SCOPE_ENUM,
 	SCOPE_PROPERTY_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
-} from '../../../constants/AccountPropertyConstants.ts'
-import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.ts'
+} from '../../../../constants/AccountPropertyConstants.ts'
+import { savePrimaryAccountPropertyScope } from '../../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../../utils/handlers.ts'
 
 const {
 	federationEnabled,

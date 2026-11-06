@@ -114,11 +114,11 @@ import {
 	SCOPE_ENUM,
 	SCOPE_PROPERTY_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
-} from '../../../constants/AccountPropertyConstants.ts'
-import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
-import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
-import { handleError } from '../../../utils/handlers.ts'
+} from '../../../../constants/AccountPropertyConstants.ts'
+import { VISIBILITY_PROPERTY_ENUM } from '../../../../constants/ProfileConstants.js'
+import { savePrimaryAccountPropertyScope } from '../../../../service/PersonalInfo/PersonalInfoService.js'
+import { saveProfileParameterVisibility } from '../../../../service/ProfileService.js'
+import { handleError } from '../../../../utils/handlers.ts'
 
 const props = defineProps({
 	readable: {
