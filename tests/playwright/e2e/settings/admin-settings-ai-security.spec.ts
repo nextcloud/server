@@ -7,6 +7,7 @@ import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect } from '@playwright/test'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
 import { awaitPasswordGuardedRequest } from '../../support/utils/password-confirmation.ts'
+import { pickSelectOption } from '../../support/utils/select.ts'
 
 const test = adminTest.extend<{ pageErrors: void }>({
 	pageErrors: [async ({ page }, use) => {
@@ -47,6 +48,19 @@ test.describe('Settings: artificial intelligence', () => {
 		}
 	})
 
+	test('guest usage setting is reset when saving fails', async ({ page }) => {
+		await page.route('**/settings/api/admin/ai', (route) => route.fulfill({ status: 500 }))
+		await page.goto('settings/admin/ai')
+
+		const guests = page.getByRole('switch', { name: 'Allow AI usage for guest users' })
+		await expect(guests).not.toBeChecked()
+		// check() would fail once the rollback unchecks the switch again
+		await guests.click({ force: true })
+
+		await expect(page.getByText('Could not save the AI settings')).toBeVisible()
+		await expect(guests).not.toBeChecked()
+	})
+
 	test('legacy image generation provider is saved', async ({ page }) => {
 		await page.goto('settings/admin/ai')
 		await page.getByRole('button', { name: 'Show legacy provider settings' }).click()
@@ -78,9 +92,7 @@ test.describe('Settings: security', () => {
 		await page.goto('settings/admin/security')
 		await page.getByRole('switch', { name: 'Enforce two-factor authentication' }).check({ force: true })
 
-		await page.getByRole('combobox', { name: 'Enforced groups' }).fill(group)
-		// the option's accessible name is not its text, so filter by text
-		await page.getByRole('option').filter({ hasText: group }).click()
+		await pickSelectOption(page, page.getByRole('combobox', { name: 'Enforced groups' }), group, group)
 
 		const saved = page.waitForResponse((r) => r.url().includes('/settings/api/admin/twofactorauth') && r.request().method() === 'PUT')
 		await page.getByRole('button', { name: 'Save changes' }).click()

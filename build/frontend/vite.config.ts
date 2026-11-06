@@ -110,6 +110,8 @@ const modules = {
 		'admin-delegation': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/delegation', 'main.ts'),
 		'admin-presets': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/presets', 'main.ts'),
 		'admin-basic-settings': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/basic-settings', 'main.ts'),
+		'admin-ai': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/ai', 'main.ts'),
+		'admin-security': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/security', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

@@ -2,67 +2,132 @@
   - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import { useDebounceFn } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../../logger.ts'
+
+interface TwoFactorState {
+	enforced: boolean
+	enforcedGroups: string[]
+	excludedGroups: string[]
+}
+
+const twoFactorAdminDoc = loadState<string>('settings', 'two-factor-admin-doc')
+const twoFactorState = ref(loadState<TwoFactorState>('settings', 'mandatory2FAState'))
+
+const loading = ref(false)
+const dirty = ref(false)
+const loadingGroups = ref(false)
+// Groups are loaded dynamically, but the assigned ones *should*
+// be valid groups, so let's add them as initial state
+const groups = ref(unique(twoFactorState.value.enforcedGroups, twoFactorState.value.excludedGroups))
+
+watch(twoFactorState, () => {
+	dirty.value = true
+}, { deep: true })
+
+const searchGroup = useDebounceFn(async (query: string) => {
+	loadingGroups.value = true
+	try {
+		const { data } = await axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
+		groups.value = unique(groups.value, data.ocs.data.groups)
+	} catch (error) {
+		logger.error('could not search groups', { error })
+	} finally {
+		loadingGroups.value = false
+	}
+}, 500)
+
+// Populate the groups with a first set so the dropdown is not empty
+// when opening the page the first time
+searchGroup('')
+
+/**
+ * @param lists Group lists to merge
+ */
+function unique(...lists: string[][]): string[] {
+	return [...new Set(lists.flat())]
+}
+
+/**
+ * Store the enforcement state, keeps the form dirty if that fails
+ */
+async function saveChanges() {
+	loading.value = true
+	try {
+		await axios.put(generateUrl('/settings/api/admin/twofactorauth'), twoFactorState.value, { confirmPassword: PwdConfirmationMode.Strict })
+		dirty.value = false
+	} catch (error) {
+		logger.error('could not save changes', { error })
+		showError(t('settings', 'Could not save the two-factor authentication settings'))
+	} finally {
+		loading.value = false
+	}
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
-		:doc-url="twoFactorAdminDoc">
-		<p v-if="loading">
-			<span class="icon-loading-small two-factor-loading" />
-			<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>
-		</p>
+		:docUrl="twoFactorAdminDoc">
 		<NcCheckboxRadioSwitch
-			v-else
 			id="two-factor-enforced"
 			v-model="twoFactorState.enforced"
+			:loading="loading"
+			:disabled="loading"
 			type="switch">
 			{{ t('settings', 'Enforce two-factor authentication') }}
 		</NcCheckboxRadioSwitch>
 		<template v-if="twoFactorState.enforced">
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
-			<p class="top-margin">
+			<p :class="$style.topMargin">
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
-			<p>
-				<label for="enforcedGroups">
-					<span>{{ t('settings', 'Enforced groups') }}</span>
-				</label>
-				<NcSelect
-					v-model="twoFactorState.enforcedGroups"
-					input-id="enforcedGroups"
-					:options="groups"
-					:disabled="loading"
-					:multiple="true"
-					:loading="loadingGroups"
-					keep-open
-					@search="searchGroup" />
-			</p>
-			<p class="top-margin">
+			<NcSelect
+				v-model="twoFactorState.enforcedGroups"
+				inputId="enforcedGroups"
+				:inputLabel="t('settings', 'Enforced groups')"
+				:options="groups"
+				:disabled="loading"
+				multiple
+				:loading="loadingGroups"
+				keepOpen
+				@search="searchGroup" />
+			<p :class="$style.topMargin">
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
-			<p>
-				<label for="excludedGroups">
-					<span>{{ t('settings', 'Excluded groups') }}</span>
-				</label>
-				<NcSelect
-					v-model="twoFactorState.excludedGroups"
-					input-id="excludedGroups"
-					:options="groups"
-					:disabled="loading"
-					:multiple="true"
-					:loading="loadingGroups"
-					keep-open
-					@search="searchGroup" />
-			</p>
-			<p class="top-margin">
+			<NcSelect
+				v-model="twoFactorState.excludedGroups"
+				inputId="excludedGroups"
+				:inputLabel="t('settings', 'Excluded groups')"
+				:options="groups"
+				:disabled="loading"
+				multiple
+				:loading="loadingGroups"
+				keepOpen
+				@search="searchGroup" />
+			<p :class="$style.topMargin">
 				<em>
 					<!-- this text is also found in the documentation. update it there as well if it ever changes -->
 					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
 				</em>
 			</p>
 		</template>
-		<p class="top-margin">
+		<p :class="$style.topMargin">
 			<NcButton
 				v-if="dirty"
 				variant="primary"
@@ -74,101 +139,8 @@
 	</NcSettingsSection>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
-import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import debounce from 'lodash/debounce.js'
-import sortedUniq from 'lodash/sortedUniq.js'
-import uniq from 'lodash/uniq.js'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import logger from '../../logger.ts'
-
-export default {
-	name: 'AdminTwoFactor',
-	components: {
-		NcSelect,
-		NcButton,
-		NcCheckboxRadioSwitch,
-		NcSettingsSection,
-	},
-
-	data() {
-		return {
-			loading: false,
-			dirty: false,
-			groups: [],
-			loadingGroups: false,
-			twoFactorAdminDoc: loadState('settings', 'two-factor-admin-doc'),
-			twoFactorState: loadState('settings', 'mandatory2FAState'),
-		}
-	},
-
-	watch: {
-		twoFactorState: {
-			deep: true,
-			handler() {
-				this.dirty = true
-			},
-		},
-	},
-
-	mounted() {
-		// Groups are loaded dynamically, but the assigned ones *should*
-		// be valid groups, so let's add them as initial state
-		this.groups = sortedUniq(uniq(this.twoFactorState.enforcedGroups.concat(this.twoFactorState.excludedGroups)))
-
-		// Populate the groups with a first set so the dropdown is not empty
-		// when opening the page the first time
-		this.searchGroup('')
-	},
-
-	methods: {
-		searchGroup: debounce(function(query) {
-			this.loadingGroups = true
-			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
-				.then((res) => res.data.ocs)
-				.then((ocs) => ocs.data.groups)
-				.then((groups) => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
-				.catch((error) => logger.error('could not search groups', { error }))
-				.then(() => { this.loadingGroups = false })
-		}, 500),
-
-		saveChanges() {
-			this.loading = true
-
-			const data = {
-				enforced: this.twoFactorState.enforced,
-				enforcedGroups: this.twoFactorState.enforcedGroups,
-				excludedGroups: this.twoFactorState.excludedGroups,
-			}
-			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })
-				.then((resp) => resp.data)
-				.then((state) => {
-					this.state = state
-					this.dirty = false
-				})
-				.catch((error) => {
-					logger.error('could not save changes', { error })
-				})
-				.then(() => { this.loading = false })
-		},
-	},
+<style module>
+.topMargin {
+	margin-block-start: 0.5rem;
 }
-</script>
-
-<style scoped>
-	.two-factor-loading {
-		display: inline-block;
-		vertical-align: sub;
-		margin-inline: -2px 1px;
-	}
-
-	.top-margin {
-		margin-top: 0.5rem;
-	}
 </style>

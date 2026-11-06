@@ -1,22 +1,15 @@
-import { getCSPNonce } from '@nextcloud/auth'
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import axios from '@nextcloud/axios'
 import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import AdminTwoFactor from './AdminTwoFactor.vue'
 import EncryptionSettings from './encryption/EncryptionSettings.vue'
 
 addPasswordConfirmationInterceptors(axios)
 
-__webpack_nonce__ = getCSPNonce()
-
-Vue.prototype.t = t
-
-const View = Vue.extend(AdminTwoFactor)
-new View().$mount('#two-factor-auth-settings')
-
-const EncryptionView = Vue.extend(EncryptionSettings)
-new EncryptionView().$mount('#vue-admin-encryption')
+createApp(AdminTwoFactor).mount('#two-factor-auth-settings')
+createApp(EncryptionSettings).mount('#vue-admin-encryption')

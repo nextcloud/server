@@ -70,7 +70,6 @@
     "vue-frag": "^1.4.3",
     "vue-material-design-icons": "^5.4.0",
     "vue-router": "^3.6.5",
-    "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "webdav": "^5.11.0"
   },
