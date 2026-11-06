@@ -7,8 +7,6 @@
 
 namespace OC\Preview;
 
-use GuzzleHttp\Psr7\AppendStream;
-use GuzzleHttp\Psr7\Utils;
 use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
@@ -108,15 +106,9 @@ class Imaginary extends ProviderV2 {
 			default:
 		}
 
-		$body = $stream;
 		if ($autorotate && $file->getMimeType() === 'image/jpeg') {
 			// Each pipeline operation re-encodes the full image, only rotate when needed
-			$head = fread($stream, self::EXIF_HEAD_SIZE);
-			if ($head === false) {
-				return null;
-			}
-			$autorotate = $this->needsRotation($head);
-			$body = new AppendStream([Utils::streamFor($head), Utils::streamFor($stream)]);
+			$autorotate = $this->needsRotation($file);
 		}
 
 		$operations = [];
@@ -166,7 +158,7 @@ class Imaginary extends ProviderV2 {
 					'headers' => [
 						'Content-Type' => $file->getMimeType(),
 					],
-					'body' => $body,
+					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
 					'timeout' => 120,
 					'connect_timeout' => 3,
@@ -201,8 +193,18 @@ class Imaginary extends ProviderV2 {
 		return $image->valid() ? $image : null;
 	}
 
-	private function needsRotation(string $head): bool {
+	private function needsRotation(File $file): bool {
 		if (!is_callable('exif_read_data')) {
+			return true;
+		}
+		// Read separately, the stream sent to Imaginary has to start at the beginning of the file
+		$stream = $file->fopen('r');
+		if (!is_resource($stream)) {
+			return true;
+		}
+		$head = fread($stream, self::EXIF_HEAD_SIZE);
+		fclose($stream);
+		if ($head === false) {
 			return true;
 		}
 		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($head), 'IFD0');
