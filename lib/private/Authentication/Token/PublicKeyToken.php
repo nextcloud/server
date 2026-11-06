@@ -32,6 +32,8 @@ use OCP\DB\Types;
  * @method string getPasswordHash()
  * @method setPasswordHash(string $hash)
  * @method void setLoginId(?int $loginId)
+ * @method ?int getSupersededAt()
+ * @method void setSupersededAt(?int $supersededAt)
  */
 class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	public const VERSION = 2;
@@ -87,6 +89,9 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	/** @var int|null id of the first token of the login, null for that token itself */
 	protected $loginId;
 
+	/** @var int|null when a renewal replaced this session token, which stays valid for a grace period */
+	protected $supersededAt;
+
 	public function __construct() {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
@@ -105,6 +110,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('version', Types::INTEGER);
 		$this->addType('passwordInvalid', Types::BOOLEAN);
 		$this->addType('loginId', Types::BIGINT);
+		$this->addType('supersededAt', Types::INTEGER);
 	}
 
 	#[\Override]

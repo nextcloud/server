@@ -171,6 +171,11 @@ class Manager implements IProvider, OCPIProvider {
 		}
 	}
 
+	#[\Override]
+	public function renewSessionTokenWithGracePeriod(string $oldSessionId, string $sessionId): OCPIToken {
+		return $this->publicKeyTokenProvider->renewSessionTokenWithGracePeriod($oldSessionId, $sessionId);
+	}
+
 	/**
 	 * @param OCPIToken $savedToken
 	 * @param string $tokenId session token

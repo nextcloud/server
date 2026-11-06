@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
+use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OC\User\Session as UserSession;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -37,7 +38,7 @@ class Internal extends Session {
 	/**
 	 * Seconds after a regeneration in which requests on the old id get no cookie, as the browser may hold the new id
 	 */
-	public const SUPERSEDED_GRACE_PERIOD = 60;
+	public const SUPERSEDED_GRACE_PERIOD = IProvider::SUPERSEDED_GRACE_PERIOD;
 
 	/**
 	 * False while the browser may hold a newer id than this request, see leaveSupersededSession()

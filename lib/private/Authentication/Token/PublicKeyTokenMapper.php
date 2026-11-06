@@ -177,6 +177,16 @@ class PublicKeyTokenMapper extends QBMapper {
 	}
 
 	/**
+	 * Delete the session tokens that a renewal superseded before $before
+	 */
+	public function deleteSuperseded(int $before): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->lt('superseded_at', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+	}
+
+	/**
 	 * Lock the selected rows until the end of the transaction. SQLite has no row locks and allows only one writer at
 	 * a time.
 	 */
