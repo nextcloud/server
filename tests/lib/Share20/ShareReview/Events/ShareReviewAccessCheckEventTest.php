@@ -79,7 +79,7 @@ final class ShareReviewAccessCheckEventTest extends TestCase {
 	public function testDenyThenGrantRemainesDenied(): void {
 		$event = $this->makeEvent();
 		$event->denyAccess('not allowed');
-		$event->grantAccess(); // must be ignored — deny wins
+		$event->grantAccess(); // must be ignored - deny wins
 
 		$this->assertFalse($event->isGranted());
 		$this->assertSame('not allowed', $event->getReason());
@@ -92,5 +92,58 @@ final class ShareReviewAccessCheckEventTest extends TestCase {
 
 		$this->assertTrue($event->isGranted());
 		$this->assertFalse($event->isPropagationStopped());
+	}
+
+	public function testActionContextDefaultsToOperatorDeletionBySessionUser(): void {
+		$event = $this->makeEvent();
+
+		$this->assertSame(ShareReviewAccessCheckEvent::ACTION_DELETE, $event->getAction());
+		$this->assertNull($event->getActingUserId());
+		$this->assertSame(ShareReviewAccessCheckEvent::SCOPE_OPERATOR, $event->getScope());
+	}
+
+	public function testActionContextPayload(): void {
+		$event = new ShareReviewAccessCheckEvent(
+			'Tables',
+			'7',
+			ShareReviewAccessCheckEvent::ACTION_REMEDIATE,
+			'alice',
+			ShareReviewAccessCheckEvent::SCOPE_SELF,
+		);
+
+		$this->assertSame(ShareReviewAccessCheckEvent::ACTION_REMEDIATE, $event->getAction());
+		$this->assertSame('alice', $event->getActingUserId());
+		$this->assertSame(ShareReviewAccessCheckEvent::SCOPE_SELF, $event->getScope());
+		$this->assertFalse($event->isHandled());
+	}
+
+	public function testRestoreAction(): void {
+		$event = new ShareReviewAccessCheckEvent('Deck', '3', ShareReviewAccessCheckEvent::ACTION_RESTORE);
+
+		$this->assertSame(ShareReviewAccessCheckEvent::ACTION_RESTORE, $event->getAction());
+	}
+
+	public function testConstantListsCoverEveryValue(): void {
+		$this->assertSame([
+			ShareReviewAccessCheckEvent::ACTION_DELETE,
+			ShareReviewAccessCheckEvent::ACTION_REMEDIATE,
+			ShareReviewAccessCheckEvent::ACTION_RESTORE,
+		], ShareReviewAccessCheckEvent::ACTIONS);
+		$this->assertSame([
+			ShareReviewAccessCheckEvent::SCOPE_OPERATOR,
+			ShareReviewAccessCheckEvent::SCOPE_SELF,
+		], ShareReviewAccessCheckEvent::SCOPES);
+	}
+
+	public function testRejectsUnknownAction(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		new ShareReviewAccessCheckEvent('Deck', '3', 'purge');
+	}
+
+	public function testRejectsUnknownScope(): void {
+		$this->expectException(\InvalidArgumentException::class);
+
+		new ShareReviewAccessCheckEvent('Deck', '3', ShareReviewAccessCheckEvent::ACTION_DELETE, null, 'admin');
 	}
 }
