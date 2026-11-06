@@ -30,6 +30,7 @@ use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\MkCol;
+use Sabre\VObject\Reader;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
@@ -231,5 +232,49 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	public function calendarSearch(array $filters, $limit = null, $offset = null) {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string|null
+	 */
+	#[\Override]
+	public function getCalendarObjectByUID($uid) {
+		$path = parent::getCalendarObjectByUID($uid);
+		if ($path !== null || !$this->caldavBackend instanceof CalDavBackend) {
+			return $path;
+		}
+
+		// events organized by this user may be stored in a writable calendar shared with them
+		$addresses = $this->getPrincipalAddresses();
+		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
+			if ($calendar['{http://owncloud.org/ns}owner-principal'] === $this->principalInfo['uri']
+				|| !empty($calendar['{http://owncloud.org/ns}read-only'])) {
+				continue;
+			}
+
+			$object = $this->caldavBackend->findCalendarObjectByUid((int)$calendar['id'], $uid);
+			if ($object === null || $object['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {
+				continue;
+			}
+
+			$organizer = Reader::read($object['calendardata'])->getBaseComponent()?->ORGANIZER;
+			if ($organizer !== null && in_array(strtolower($organizer->getNormalizedValue()), $addresses, true)) {
+				return $calendar['uri'] . '/' . $object['uri'];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private function getPrincipalAddresses(): array {
+		$addresses = $this->principalInfo['{DAV:}alternate-URI-set'] ?? [];
+		if (isset($this->principalInfo['{http://sabredav.org/ns}email-address'])) {
+			$addresses[] = 'mailto:' . $this->principalInfo['{http://sabredav.org/ns}email-address'];
+		}
+		return array_map('strtolower', $addresses);
 	}
 }

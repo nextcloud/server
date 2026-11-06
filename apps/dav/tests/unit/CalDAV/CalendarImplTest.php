@@ -210,6 +210,27 @@ class CalendarImplTest extends \Test\TestCase {
 	}
 
 	public function testHandleImipRequest(): void {
+		$vObject = $this->vCalendar1a;
+		$vObject->add('METHOD', 'REQUEST');
+
+		$calendarImpl = $this->createCalendarImplWithScheduleStatus('1.2;Message delivered locally');
+
+		$calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
+	}
+
+	public function testHandleImipRequestNotDelivered(): void {
+		$vObject = $this->vCalendar1a;
+		$vObject->add('METHOD', 'REQUEST');
+
+		$calendarImpl = $this->createCalendarImplWithScheduleStatus('3.7;Could not find principal.');
+
+		$this->expectException(CalendarException::class);
+		$this->expectExceptionMessage('iMip message could not be processed: 3.7;Could not find principal.');
+
+		$calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
+	}
+
+	private function createCalendarImplWithScheduleStatus(string $scheduleStatus): CalendarImpl&MockObject {
 		$userAddressSet = new class([ 'mailto:attendee1@testing.com', '/remote.php/dav/principals/users/attendee1/', ]) {
 			public function __construct(
 				private array $hrefs,
@@ -219,18 +240,6 @@ class CalendarImplTest extends \Test\TestCase {
 				return $this->hrefs;
 			}
 		};
-
-		$vObject = $this->vCalendar1a;
-		$vObject->add('METHOD', 'REQUEST');
-
-		$iTip = new Message();
-		$iTip->method = 'REQUEST';
-		$iTip->sender = $vObject->VEVENT->ORGANIZER->getValue();
-		$iTip->recipient = $vObject->VEVENT->ATTENDEE->getValue();
-		$iTip->component = 'VEVENT';
-		$iTip->uid = $vObject->VEVENT->UID->getValue();
-		$iTip->sequence = (int)$vObject->VEVENT->SEQUENCE->getValue() ?? 0;
-		$iTip->message = $vObject;
 
 		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
 		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
@@ -262,7 +271,13 @@ class CalendarImplTest extends \Test\TestCase {
 				'{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => $userAddressSet,
 			]);
 		$server->expects(self::once())
-			->method('emit');
+			->method('emit')
+			->willReturnCallback(function (string $eventName, array $arguments) use ($scheduleStatus): bool {
+				/** @var Message $iTip */
+				$iTip = $arguments[0];
+				$iTip->scheduleStatus = $scheduleStatus;
+				return true;
+			});
 		$invitationResponseServer = $this->createMock(InvitationResponseServer::class, ['getServer']);
 		$invitationResponseServer->server = $server;
 		$invitationResponseServer->expects($this->any())
@@ -276,6 +291,6 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getInvitationResponseServer')
 			->willReturn($invitationResponseServer);
 
-		$calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
+		return $calendarImpl;
 	}
 }
