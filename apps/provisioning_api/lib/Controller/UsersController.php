@@ -1382,7 +1382,10 @@ class UsersController extends AUserData {
 		// If they're not an admin, check they are a subadmin of the group in question
 		$loggedInUser = $this->userSession->getUser();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		if (
+			!$this->groupManager->isAdmin($loggedInUser->getUID())
+			&& !($subAdminManager->isSubAdminOfGroup($loggedInUser, $group) && $subAdminManager->isUserAccessible($loggedInUser, $targetUser))
+		) {
 			throw new OCSException('', 104);
 		}
 
