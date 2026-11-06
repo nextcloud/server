@@ -1971,6 +1971,8 @@ return array(
     'OC\\Files\\Notify\\RenameChange' => $baseDir . '/lib/private/Files/Notify/RenameChange.php',
     'OC\\Files\\ObjectStore\\AppdataPreviewObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/AppdataPreviewObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\Azure' => $baseDir . '/lib/private/Files/ObjectStore/Azure.php',
+    'OC\\Files\\ObjectStore\\CertificateBundle' => $baseDir . '/lib/private/Files/ObjectStore/CertificateBundle.php',
+    'OC\\Files\\ObjectStore\\ContentDisposition' => $baseDir . '/lib/private/Files/ObjectStore/ContentDisposition.php',
     'OC\\Files\\ObjectStore\\HomeObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/HomeObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\InvalidObjectStoreConfigurationException' => $baseDir . '/lib/private/Files/ObjectStore/InvalidObjectStoreConfigurationException.php',
     'OC\\Files\\ObjectStore\\Mapper' => $baseDir . '/lib/private/Files/ObjectStore/Mapper.php',
