@@ -57,6 +57,42 @@ Feature: dav-v2-public
 		When Downloading public file "/image.png" without ajax header
 		Then the downloaded file has the content of "/testshare/image.png" from "user1" data
 
+	Scenario: Downloading a zip file from public share using POST with requesttoken and disabled s2s share
+		Given using new dav path
+		And As an "admin"
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And User "user1" uploads file "data/green-square-256.png" to "/testshare/image.png"
+		And User "user1" uploads file with content "text" to "/testshare/text.txt"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 3 |
+		  | permissions | 1 |
+		And parameter "outgoing_server2server_share_enabled" of app "files_sharing" is set to "no"
+		Given using new public dav path
+		When Downloading public zip file for entries '"image.png","text.txt"' using POST with requesttoken
+		Then the HTTP status code should be "200"
+		And the downloaded file is a zip file
+		And the downloaded zip file contains a file named "image.png" with the contents of "/testshare/image.png" from "user1" data
+		And the downloaded zip file contains a file named "text.txt" with the contents of "/testshare/text.txt" from "user1" data
+
+	Scenario: Downloading a zip file from public share using POST without requesttoken and disabled s2s share
+		Given using new dav path
+		And As an "admin"
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And User "user1" uploads file with content "text" to "/testshare/text.txt"
+		And as "user1" creating a share with
+		  | path | testshare |
+		  | shareType | 3 |
+		  | permissions | 1 |
+		And parameter "outgoing_server2server_share_enabled" of app "files_sharing" is set to "no"
+		Given using new public dav path
+		When Downloading public zip file for entries '"text.txt"' using POST
+		Then the HTTP status code should be "401"
+
 	Scenario: Finalizing a public chunked upload with COPY is not allowed
 		Given using new dav path
 		And user "user0" exists
