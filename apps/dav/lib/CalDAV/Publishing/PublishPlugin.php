@@ -11,6 +11,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCA\DAV\DAV\Sharing\CanChangeSharingTrait;
 use OCP\AppFramework\Http;
 use OCP\IURLGenerator;
 use Sabre\DAV\Exception\NotFound;
@@ -22,6 +23,8 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class PublishPlugin extends ServerPlugin {
+	use CanChangeSharingTrait;
+
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	protected Server $server;
@@ -184,13 +187,5 @@ class PublishPlugin extends ServerPlugin {
 				// Breaking the event chain
 				return false;
 		}
-	}
-
-	private function canChangeSharing(string $path, bool $throwExceptions = false): bool {
-		$acl = $this->server->getPlugin('acl');
-		if (!$acl instanceof \Sabre\DAVACL\Plugin) {
-			return true;
-		}
-		return $acl->checkPrivileges($path, '{DAV:}write-acl', \Sabre\DAVACL\Plugin::R_PARENT, $throwExceptions);
 	}
 }
