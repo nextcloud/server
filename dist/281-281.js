@@ -1,2 +1,0 @@
-"use strict";(globalThis.webpackChunknextcloud_ui_legacy||=[]).push([[281],{9281(e,l,c){const i=(0,c(85471).$V)(()=>Promise.all([c.e(208),c.e(650)]).then(()=>c(53650)));c.d(l,["FilePickerVue",0,i])}}]);
-//# sourceMappingURL=281-281.js.map?v=0c6a64f3d21f30d5fcc1
