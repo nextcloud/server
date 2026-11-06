@@ -697,14 +697,16 @@ export default defineComponent({
 			if (this.searching || !this.initialized) {
 				return t('core', 'Searching …')
 			}
-			if (this.navigableRows.length === 0) {
+			// Count the rendered rows, not navigableRows: that one is always empty on mobile.
+			const count = this.renderedGroups.reduce((total, group) => total + group.results.length, 0)
+			if (count === 0) {
 				return t('core', 'No matching results')
 			}
 			// In detail view, name the category and keep the count so "Load more" re-announces the grown set.
 			if (this.detailCategory && this.detailGroup) {
-				return n('core', 'Showing %n result from {name}', 'Showing %n results from {name}', this.navigableRows.length, { name: this.detailGroup.name })
+				return n('core', 'Showing %n result from {name}', 'Showing %n results from {name}', count, { name: this.detailGroup.name })
 			}
-			return n('core', '%n result', '%n results', this.navigableRows.length)
+			return n('core', '%n result', '%n results', count)
 		},
 
 		hasVisibleResults() {
