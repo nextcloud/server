@@ -675,13 +675,13 @@ class Crypt {
 	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $privateKey
 	 * @throws MultiKeyDecryptException
 	 */
-	public function multiKeyDecryptLegacy(string $encKeyFile, string $shareKey, $privateKey): string {
+	public function multiKeyDecryptLegacy(string $encKeyFile, string $shareKey, #[\SensitiveParameter] $privateKey): string {
 		if (!$encKeyFile) {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
 		$plainContent = '';
-		if ($this->opensslOpen($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
+		if ($this->opensslOpen($encKeyFile, $plainContent, $shareKey, #[\SensitiveParameter] $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
