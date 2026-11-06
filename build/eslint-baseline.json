@@ -14,7 +14,7 @@
   },
   "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogDatePassword.vue": {
     "vue/attribute-hyphenation": {
-      "count": 6
+      "count": 5
     },
     "vue/v-on-event-hyphenation": {
       "count": 2
