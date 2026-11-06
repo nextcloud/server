@@ -3,23 +3,19 @@ SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: BSD-2-Clause
-SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
-SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
-SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -57,9 +53,6 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/utils
 	- version: 0.2.12
 	- license: MIT
-- @linusborg/vue-simple-portal
-	- version: 0.1.5
-	- license: Apache-2.0
 - unist-util-is
 	- version: 3.0.0
 	- license: MIT
@@ -117,9 +110,6 @@ This file is generated from multiple sources. Included packages:
 - focus-trap
 	- version: 7.8.0
 	- license: MIT
-- p-queue
-	- version: 8.1.1
-	- license: MIT
 - @nextcloud/vue
 	- version: 8.42.0
 	- license: AGPL-3.0-or-later
@@ -137,9 +127,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - axios
 	- version: 1.20.0
-	- license: MIT
-- char-regex
-	- version: 2.0.2
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -308,9 +295,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - splitpanes
 	- version: 2.4.1
-	- license: MIT
-- strip-ansi
-	- version: 7.1.2
 	- license: MIT
 - striptags
 	- version: 3.2.0

@@ -21,11 +21,13 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -53,6 +55,7 @@ class UserGlobalStoragesController extends StoragesController {
 		IGroupManager $groupManager,
 		IConfig $config,
 		BackendService $backendService,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct(
 			$appName,
@@ -153,6 +156,12 @@ class UserGlobalStoragesController extends StoragesController {
 			$authMechanism = $storage->getAuthMechanism();
 			if ($authMechanism instanceof IUserProvided || $authMechanism instanceof  UserGlobalAuth) {
 				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'User credentials for external storage "%s" were updated',
+					['storageId' => $id],
+					false,
+					'files_external.user_credentials.updated',
+				));
 				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
 			} else {
 				return new DataResponse(

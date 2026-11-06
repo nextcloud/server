@@ -63,7 +63,6 @@ export default defineConfig([
 			'**/apps/files_sharing/src/public/',
 			// these sections are Vue 3, they are linted by the Vue 3 frontend
 			'**/apps/settings/src/sections/',
-			'**/apps/settings/src/sharing/',
 		],
 	},
 ])

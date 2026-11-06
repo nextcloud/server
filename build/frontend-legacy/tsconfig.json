@@ -1,7 +1,7 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./*.d.ts"],
-	"exclude": ["./**/*.cy.ts", "./apps/settings/src/sections", "./apps/settings/src/sharing"],
+	"exclude": ["./**/*.cy.ts", "./apps/settings/src/sections"],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"types": ["node", "vue", "vue-router"],

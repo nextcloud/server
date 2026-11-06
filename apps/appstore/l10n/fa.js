@@ -157,7 +157,6 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "بارگذاری دسته‌بندی‌های برنامه ممکن نیست. لطفاً بعداً دوباره تلاش کنید.",
     "Could not load apps list. Please try again later." : "بارگذاری لیست برنامه‌ها ممکن نیست. لطفاً بعداً دوباره تلاش کنید.",
     "Could not update the app. Please try again later." : "امکان به‌روزرسانی برنامه وجود نداشت. لطفاً بعداً دوباره تلاش کنید.",
-    "An error occurred during the request. Unable to proceed." : "در طول درخواست خطایی رخ داد. امکان ادامه وجود ندارد.",
-    "Failed to update app {appName}" : "به‌روزرسانی کاره {appName} ناموفق بود"
+    "An error occurred during the request. Unable to proceed." : "در طول درخواست خطایی رخ داد. امکان ادامه وجود ندارد."
 },
 "nplurals=2; plural=(n > 1);");

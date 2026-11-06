@@ -12,11 +12,13 @@ use OC\Mail\Message;
 use OC\User\User;
 use OCA\Settings\Controller\MailSettingsController;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,6 +34,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	private IL10N&MockObject $l;
 	private IURLGenerator&MockObject $urlGenerator;
 	private LoggerInterface&MockObject $logger;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private MailSettingsController $mailController;
 
 	protected function setUp(): void {
@@ -43,6 +46,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		/** @var IRequest&MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
@@ -54,6 +58,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->mailer,
 			$this->logger,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -88,6 +93,18 @@ class MailSettingsControllerTest extends \Test\TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'settings.mail.updated'
+				&& $event->getParameters() === [
+					'mailSmtpMode' => 'smtp',
+					'mailSmtpHost' => 'mx.nextcloud.org',
+					'mailSmtpPort' => '25',
+					'mailSmtpSecure' => 'ssl',
+					'mailFromAddress' => 'demo@nextcloud.com',
+					'mailDomain' => 'nextcloud.com',
+				]
+				&& $event->getLogMessage() === 'Mail server settings were changed: mode "%s", host "%s", port "%s", security "%s", from address "%s", domain "%s"'));
 
 		// With authentication
 		$response = $this->mailController->setMailSettings(
@@ -124,6 +141,11 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->willReturnCallback(function (string $key, ?string $value) use (&$calls): void {
 				$calls[] = [$key, $value];
 			});
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'settings.mail_credentials.updated'
+				&& $event->getParameters() === ['mailSmtpName' => 'UsernameToStore']
+				&& $event->getLogMessage() === 'Mail server credentials were changed for SMTP user "%s"'));
 
 		$response = $this->mailController->storeCredentials('UsernameToStore', 'PasswordToStore');
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());

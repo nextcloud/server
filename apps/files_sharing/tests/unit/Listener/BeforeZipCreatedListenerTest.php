@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Tests\unit\Listener;
 
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
-use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -270,7 +270,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 
 	private function createSharedFile(bool $downloadable, string $path): File&MockObject {
 		$file = $this->createMock(File::class);
-		$file->method('getStorage')->willReturn($this->createSharedStorage($downloadable));
+		$file->method('getMountPoint')->willReturn($this->createSharedMount($downloadable));
 		$file->method('getPath')->willReturn($path);
 		$file->method('getName')->willReturn(basename($path));
 
@@ -282,7 +282,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 	 */
 	private function createSharedFolder(bool $downloadable, string $path, array $children = []): Folder&MockObject {
 		$folder = $this->createMock(Folder::class);
-		$folder->method('getStorage')->willReturn($this->createSharedStorage($downloadable));
+		$folder->method('getMountPoint')->willReturn($this->createSharedMount($downloadable));
 		$folder->method('getDirectoryListing')->willReturn($children);
 		$folder->method('getPath')->willReturn($path);
 		$folder->method('getName')->willReturn(basename($path));
@@ -290,20 +290,16 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		return $folder;
 	}
 
-	private function createSharedStorage(bool $downloadable): SharedStorage&MockObject {
+	private function createSharedMount(bool $downloadable): SharedMount&MockObject {
 		$attributes = $this->createMock(IAttributes::class);
 		$attributes->method('getAttribute')->with('permissions', 'download')->willReturn($downloadable);
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getAttributes')->willReturn($attributes);
 
-		$storage = $this->getMockBuilder(SharedStorage::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['instanceOfStorage', 'getShare'])
-			->getMock();
-		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
-		$storage->method('getShare')->willReturn($share);
+		$mount = $this->createMock(SharedMount::class);
+		$mount->method('getGroupedShares')->willReturn([$share]);
 
-		return $storage;
+		return $mount;
 	}
 }

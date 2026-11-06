@@ -43,7 +43,7 @@ class ServerDevNotice implements ISettings {
 		}
 
 		// Always load the script
-		Util::addScript('settings', 'vue-settings-nextcloud-pdf');
+		Util::addScript('settings', 'personal-nextcloud-pdf');
 		$this->initialState->provideInitialState('has-reasons-use-nextcloud-pdf', $hasInitialState);
 
 		return new TemplateResponse('settings', 'settings/personal/development.notice', [

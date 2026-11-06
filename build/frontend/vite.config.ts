@@ -99,11 +99,17 @@ const modules = {
 		// Only some sections are migrated to Vue 3 so far, the rest of the app
 		// is still built by the Vue 2 frontend. They are referenced by path
 		// rather than through `apps/` so they resolve the Vue 3 dependencies.
-		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sharing', 'main.ts'),
+		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/sharing', 'main.ts'),
 		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/authtokens', 'main.ts'),
 		'personal-password': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/password', 'main.ts'),
 		'personal-webauthn': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/webauthn', 'main.ts'),
 		'personal-language-locale': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/language-locale', 'main.ts'),
+		'personal-nextcloud-pdf': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/nextcloud-pdf', 'main.ts'),
+		'admin-overview': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/overview', 'main.ts'),
+		'admin-mail': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/mail', 'main.ts'),
+		'admin-delegation': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/delegation', 'main.ts'),
+		'admin-presets': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/presets', 'main.ts'),
+		'admin-basic-settings': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/basic-settings', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
