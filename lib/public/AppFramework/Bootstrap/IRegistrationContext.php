@@ -462,7 +462,7 @@ interface IRegistrationContext {
 	 * Register an implementation of {@see IGlobalScaleService}.
 	 *
 	 * @param class-string<IGlobalScaleService> $globalScaleServiceClass
-	 * @since 34.0.3
+	 * @since 33.0.9
 	 */
 	public function registerGlobalScaleService(string $globalScaleServiceClass): void;
 }

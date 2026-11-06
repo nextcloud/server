@@ -16,7 +16,7 @@ use OCP\IUser;
  *
  * This service is only available when the globalsiteselector application is enabled.
  *
- * @since 34.0.3
+ * @since 33.0.9
  */
 interface IGlobalScaleService {
 	/**
@@ -28,7 +28,7 @@ interface IGlobalScaleService {
 	 * @param non-empty-string $path
 	 * @return string The url of the secondary
 	 * @throws \Exception When unable to send the payload.
-	 * @since 34.0.3
+	 * @since 33.0.9
 	 */
 	public function sendToSecondary(IUser $user, string $path, array $payload): string;
 
@@ -39,7 +39,7 @@ interface IGlobalScaleService {
 	 *
 	 * @param non-empty-string $jwt The payload encoded as a JWT
 	 * @return array The original payload as sent by {@see IGlobalScaleService::sendToSecondary}
-	 * @since 34.0.3
+	 * @since 33.0.9
 	 */
 	public function decodePayload(string $jwt): array;
 }

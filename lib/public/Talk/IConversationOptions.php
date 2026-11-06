@@ -41,7 +41,7 @@ interface IConversationOptions {
 	 * @param \DateTimeInterface $meetingStartDate
 	 * @param \DateTimeInterface $meetingEndDate
 	 * @return $this
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 * @since 33.0.3
 	 * @since 32.0.9
 	 */
@@ -51,7 +51,7 @@ interface IConversationOptions {
 	 * Start date of the meeting
 	 *
 	 * @return ?\DateTimeInterface
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 * @since 33.0.3
 	 * @since 32.0.9
 	 */
@@ -61,7 +61,7 @@ interface IConversationOptions {
 	 * End date of the meeting
 	 *
 	 * @return ?\DateTimeInterface
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 * @since 33.0.3
 	 * @since 32.0.9
 	 */

@@ -275,7 +275,7 @@ interface IUserManager {
 	 *
 	 * @param \OCP\Federation\ICloudId $federatedUserId A cloud ID of the federated user
 	 * @return IUser
-	 * @since 35.0.0
+	 * @since 33.0.8
 	 */
 	public function getFederatedUser(\OCP\Federation\ICloudId $cloudId): IUser;
 }

@@ -27,7 +27,7 @@ interface IProvideUserSecretBackend {
 	 *                       secret but is unable to do so.
 	 *
 	 * @since 23.0.0
-	 * @since 35.0.0 The returns value is now optional.
+	 * @since 33.0.7 The returns value is now optional.
 	 */
 	public function getCurrentUserSecret(): ?string;
 }

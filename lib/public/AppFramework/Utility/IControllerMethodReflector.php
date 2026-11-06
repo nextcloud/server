@@ -55,7 +55,7 @@ interface IControllerMethodReflector {
 	 * Log a debug line if the annotation is used.
 	 *
 	 * @param class-string<T> $attributeClass
-	 * @since 34.0.0
+	 * @since 33.0.1
 	 */
 	public function hasAnnotationOrAttribute(?string $annotationName, string $attributeClass): bool;
 }
