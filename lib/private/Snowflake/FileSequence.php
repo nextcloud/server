@@ -50,7 +50,7 @@ class FileSequence implements ISequence {
 	private function ensureWorkdirExists(): void {
 		if (is_dir($this->workDir)) {
 			if (!is_writable($this->workDir)) {
-				throw new \Exception('File sequence directory exists but is not writable');
+				throw new \Exception('File sequence directory exists but is not writable at: ' . $this->workDir);
 			}
 			return;
 		}
@@ -64,7 +64,7 @@ class FileSequence implements ISequence {
 			return;
 		}
 
-		throw new \Exception('Fail to create file sequence directory');
+		throw new \Exception('Failed to create file sequence directory at: ' . $this->workDir);
 	}
 
 	#[Override]
