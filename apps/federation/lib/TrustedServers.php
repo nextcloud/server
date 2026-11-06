@@ -80,6 +80,13 @@ class TrustedServers {
 	}
 
 	/**
+	 * Get the token used to exchange the shared secret with the given server
+	 */
+	public function getToken(string $url): string {
+		return $this->dbHandler->getToken($url);
+	}
+
+	/**
 	 * Get shared secret for the given server
 	 */
 	public function getSharedSecret(string $url): string {
