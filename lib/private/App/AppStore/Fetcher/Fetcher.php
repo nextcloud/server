@@ -139,13 +139,14 @@ abstract class Fetcher {
 		}
 
 		$rootFolder = $this->appData->getFolder('/');
+		$fileName = $allowUnstable ? str_replace('.json', '-unstable.json', $this->fileName) : $this->fileName;
 
 		$ETag = '';
 		$content = '';
 
 		try {
 			// File does already exists
-			$file = $rootFolder->getFile($this->fileName);
+			$file = $rootFolder->getFile($fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
 
 			if (is_array($jsonBlob)) {
@@ -170,7 +171,7 @@ abstract class Fetcher {
 			}
 		} catch (NotFoundException $e) {
 			// File does not already exist
-			$file = $rootFolder->newFile($this->fileName);
+			$file = $rootFolder->newFile($fileName);
 		} catch (GenericFileException $e) {
 			try {
 				$file->delete();
@@ -179,7 +180,7 @@ abstract class Fetcher {
 				return [];
 			}
 			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
-			$file = $rootFolder->newFile($this->fileName);
+			$file = $rootFolder->newFile($fileName);
 		}
 
 		// Refresh the file content
