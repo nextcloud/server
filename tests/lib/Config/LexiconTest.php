@@ -91,6 +91,43 @@ class LexiconTest extends TestCase {
 		$this->appConfig->getValueInt(TestLexicon_E::APPID, 'key1');
 	}
 
+	public static function dataAppLexiconSetMixedValue(): array {
+		return [
+			['key2', '42', true],
+			['key2', 'banana', false],
+			['key2', '4.2', false],
+			['key4', 'yes', true],
+			['key4', '0', true],
+			['key4', 'banana', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAppLexiconSetMixedValue')]
+	public function testAppLexiconSetMixedValue(string $key, string $value, bool $valid): void {
+		if (!$valid) {
+			$this->expectException(AppConfigTypeConflictException::class);
+		}
+		$this->assertTrue($this->appConfig->setValueMixed(TestConfigLexicon_I::APPID, $key, $value));
+		$this->assertSame($value, $this->appConfig->getDetails(TestConfigLexicon_I::APPID, $key)['value']);
+	}
+
+	public static function dataUserLexiconSetMixedValue(): array {
+		return [
+			['42', true],
+			['banana', false],
+			['4.2', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUserLexiconSetMixedValue')]
+	public function testUserLexiconSetMixedValue(string $value, bool $valid): void {
+		if (!$valid) {
+			$this->expectException(TypeConflictException::class);
+		}
+		$this->assertTrue($this->userConfig->setValueMixed('user1', TestConfigLexicon_I::APPID, 'key2', $value));
+		$this->assertSame($value, $this->userConfig->getValueMixed('user1', TestConfigLexicon_I::APPID, 'key2'));
+	}
+
 	public function testAppLexiconIgnore() {
 		$this->appConfig->setValueString(TestConfigLexicon_I::APPID, 'key_ignore', 'new_value');
 		$this->assertSame('new_value', $this->appConfig->getValueString(TestConfigLexicon_I::APPID, 'key_ignore', ''));
