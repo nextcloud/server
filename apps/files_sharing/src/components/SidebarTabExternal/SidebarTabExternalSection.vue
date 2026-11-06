@@ -25,7 +25,7 @@ const props = defineProps({
 	},
 })
 
-// TOOD: Remove with Vue 3
+// TODO: Remove with Vue 3
 const sectionElement = ref()
 watchEffect(() => {
 	if (sectionElement.value) {
