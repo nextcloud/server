@@ -41,11 +41,10 @@ class RemoteWipeTest extends TestCase {
 
 	public function testMarkTokenForWipe(): void {
 		$token = $this->createMock(IWipeableToken::class);
-		$token->expects($this->once())
-			->method('wipe');
 
+		// The provider marks the other tokens of its login as well
 		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
-			->method('updateToken')
+			->method('markForWipe')
 			->with($token);
 
 		$result = $this->remoteWipe->markTokenForWipe($token);
@@ -59,9 +58,11 @@ class RemoteWipeTest extends TestCase {
 		$token1 = $this->createMock(IToken::class);
 		$token2 = $this->createMock(IToken::class);
 		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('user123')
-			->willReturn([$token1, $token2]);
+			->willReturn([1 => $token1, 2 => $token2]);
+		$this->getAutoMock(ITokenProvider::class)->expects($this->never())
+			->method('markForWipe');
 
 		$result = $this->remoteWipe->markAllTokensForWipe($user);
 
@@ -74,19 +75,23 @@ class RemoteWipeTest extends TestCase {
 		$user->method('getUID')->willReturn('user123');
 		$token1 = $this->createMock(IToken::class);
 		$token2 = $this->createMock(IWipeableToken::class);
+		$token3 = $this->createMock(IWipeableToken::class);
 		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
-			->method('getTokenByUser')
+			->method('getLoginsOfUser')
 			->with('user123')
-			->willReturn([$token1, $token2]);
-		$token2->expects($this->once())
-			->method('wipe');
-		$this->getAutoMock(ITokenProvider::class)->expects($this->once())
-			->method('updateToken')
-			->with($token2);
+			->willReturn([1 => $token1, 2 => $token2, 3 => $token3]);
+		// Once per login, which marks the other tokens of the login as well
+		$marked = [];
+		$this->getAutoMock(ITokenProvider::class)->expects($this->exactly(2))
+			->method('markForWipe')
+			->willReturnCallback(function ($token) use (&$marked): void {
+				$marked[] = $token;
+			});
 
 		$result = $this->remoteWipe->markAllTokensForWipe($user);
 
 		$this->assertTrue($result);
+		$this->assertSame([$token2, $token3], $marked);
 	}
 
 	public function testStartWipingNotAWipeToken(): void {

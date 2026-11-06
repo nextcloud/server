@@ -40,6 +40,8 @@ use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -735,7 +737,16 @@ class SessionTest extends TestCase {
 		self::assertTrue($loginResult);
 	}
 
-	public function testRememberLoginValidToken(): void {
+	public static function rememberLoginValidTokenData(): array {
+		// The clock of the tests says 10000, a remember-me token lives 15 days, a replaced one until its grace period ends
+		return [
+			'token issued now' => ['storedValue' => '10000', 'replacedUntil' => (string)(10000 - 60 * 60 * 24 * 15 + IProvider::SUPERSEDED_GRACE_PERIOD)],
+			'token replaced by a concurrent request' => ['storedValue' => (string)(10000 - 60 * 60 * 24 * 15 + IProvider::SUPERSEDED_GRACE_PERIOD), 'replacedUntil' => null],
+		];
+	}
+
+	#[DataProvider(methodName: 'rememberLoginValidTokenData')]
+	public function testRememberLoginValidToken(string $storedValue, ?string $replacedUntil): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
@@ -767,19 +778,21 @@ class SessionTest extends TestCase {
 			->with('foo')
 			->willReturn($user);
 		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
+			->method('getUserValue')
+			->with('foo', 'login_token', $token)
+			->willReturn($storedValue);
+		$this->mockRememberMeLifetime();
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
 		$this->random->expects($this->once())
 			->method('generate')
 			->with(32)
 			->willReturn('abcdefg123456');
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('foo', 'login_token', 'abcdefg123456', 10000);
+		$stored = [];
+		$this->config->method('setUserValue')
+			->willReturnCallback(function (string $userId, string $app, string $key, string $value) use (&$stored): void {
+				$stored[$key] = $value;
+			});
 
 		$tokenObject = $this->createMock(IToken::class);
 		$tokenObject->expects($this->once())
@@ -792,7 +805,7 @@ class SessionTest extends TestCase {
 			->method('getId')
 			->willReturn($sessionId);
 		$this->tokenProvider->expects($this->once())
-			->method('renewSessionToken')
+			->method('renewSessionTokenWithGracePeriod')
 			->with($oldSessionId, $sessionId)
 			->willReturn($tokenObject);
 
@@ -829,6 +842,8 @@ class SessionTest extends TestCase {
 		$this->assertTrue($setUID);
 
 		$this->assertTrue($granted);
+		// Requests that were sent with the replaced token can still use it for the grace period
+		$this->assertSame(array_filter([$token => $replacedUntil, 'abcdefg123456' => '10000']), $stored);
 	}
 
 	public function testRememberLoginInvalidSessionToken(): void {
@@ -862,21 +877,19 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
-		$this->config->expects($this->once())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
-		$this->config->expects($this->once())
-			->method('setUserValue'); // TODO: mock new random value
+		$this->config->method('getUserValue')
+			->willReturn('10000');
+		$this->mockRememberMeLifetime();
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+		$this->config->expects($this->exactly(2))
+			->method('setUserValue');
 
 		$session->expects($this->once())
 			->method('getId')
 			->willReturn($sessionId);
 		$this->tokenProvider->expects($this->once())
-			->method('renewSessionToken')
+			->method('renewSessionTokenWithGracePeriod')
 			->with($oldSessionId, $sessionId)
 			->willThrowException(new InvalidTokenException());
 
@@ -935,19 +948,18 @@ class SessionTest extends TestCase {
 			->method('get')
 			->with('foo')
 			->willReturn($user);
-		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn([$token]);
+		$this->config->method('getUserValue')
+			->willReturn('10000');
+		$this->mockRememberMeLifetime();
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($oldSessionId)
 			->willThrowException(new InvalidTokenException());
 
 		$this->config->expects($this->never())
-			->method('deleteUserValue');
+			->method('setUserValue');
 		$this->tokenProvider->expects($this->never())
-			->method('renewSessionToken');
+			->method('renewSessionTokenWithGracePeriod');
 		$userSession->expects($this->never())
 			->method('setMagicInCookie');
 		$session->expects($this->never())
@@ -959,7 +971,15 @@ class SessionTest extends TestCase {
 		$this->assertFalse($granted);
 	}
 
-	public function testRememberLoginInvalidToken(): void {
+	public static function rememberLoginInvalidTokenData(): array {
+		return [
+			'token not stored' => ['storedValue' => ''],
+			'token older than its lifetime' => ['storedValue' => (string)(10000 - 60 * 60 * 24 * 15 - 1)],
+		];
+	}
+
+	#[DataProvider(methodName: 'rememberLoginInvalidTokenData')]
+	public function testRememberLoginInvalidToken(string $storedValue): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
 		//keep following methods intact in order to ensure hooks are working
@@ -990,15 +1010,16 @@ class SessionTest extends TestCase {
 			->with('foo')
 			->willReturn($user);
 		$this->config->expects($this->once())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
+			->method('getUserValue')
+			->with('foo', 'login_token', $token)
+			->willReturn($storedValue);
+		$this->mockRememberMeLifetime();
 		$this->config->expects($this->never())
-			->method('deleteUserValue')
-			->with('foo', 'login_token', $token);
-
+			->method('setUserValue');
 		$this->tokenProvider->expects($this->never())
-			->method('renewSessionToken');
+			->method('getToken');
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionTokenWithGracePeriod');
 		$userSession->expects($this->never())
 			->method('setMagicInCookie');
 		$user->expects($this->never())
@@ -1041,12 +1062,10 @@ class SessionTest extends TestCase {
 			->with('foo')
 			->willReturn(null);
 		$this->config->expects($this->never())
-			->method('getUserKeys')
-			->with('foo', 'login_token')
-			->willReturn(['anothertoken']);
+			->method('getUserValue');
 
 		$this->tokenProvider->expects($this->never())
-			->method('renewSessionToken');
+			->method('renewSessionTokenWithGracePeriod');
 		$userSession->expects($this->never())
 			->method('setMagicInCookie');
 		$session->expects($this->never())
@@ -1284,7 +1303,63 @@ class SessionTest extends TestCase {
 			->with('u', 't');
 		$this->mockRequestCookies($cookies);
 
-		$this->userSession->renewMagicSessionId('old');
+		$this->userSession->followRegeneratedSessionId('old', 'new');
+	}
+
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(enabled: false)]
+	public function testRenewMagicSessionIdFollowsTheCookiesThisRequestSet(): void {
+		// The request came with cookies for sess123, then a remember-me login moved its session to sess456
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'oldToken', 'nc_session_id' => 'sess123']);
+		/** @var string $sessionId */
+		$sessionId = 'sess456';
+		/** @var list<string> $issuedFor */
+		$issuedFor = [];
+		// Read once for every nc_session_id cookie
+		$this->session->method('getId')->willReturnCallback(function () use (&$sessionId, &$issuedFor): string {
+			$issuedFor[] = $sessionId;
+			return $sessionId;
+		});
+		$userSession = $this->createUserSessionWithRealCookies();
+		$userSession->setMagicInCookie('foo', 'newToken');
+
+		// Unlocking a password-protected share in the same request moves the session again
+		$sessionId = 'sess789';
+		$userSession->followRegeneratedSessionId('sess456', 'sess789');
+
+		$this->assertSame(['sess456', 'sess789'], $issuedFor);
+	}
+
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(enabled: false)]
+	public function testRenewMagicSessionIdAfterTheCookiesWereRemoved(): void {
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123']);
+		$userSession = $this->createUserSessionWithRealCookies();
+
+		// Issuing an nc_session_id cookie reads the session id
+		$this->session->expects($this->never())
+			->method('getId');
+
+		$userSession->unsetMagicInCookie();
+		$userSession->followRegeneratedSessionId('sess123', 'sess456');
+
+		$this->assertNull($userSession->getRememberMeCookies());
+	}
+
+	public static function rememberMeCookiesData(): array {
+		$cookies = ['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'];
+		return [
+			'all three are strings' => ['cookies' => $cookies, 'expected' => $cookies],
+			'no session id cookie' => ['cookies' => ['nc_username' => 'foo', 'nc_token' => 'fooToken'], 'expected' => null],
+			'token cookie is an array' => ['cookies' => ['nc_token' => ['fooToken']] + $cookies, 'expected' => null],
+		];
+	}
+
+	#[DataProvider(methodName: 'rememberMeCookiesData')]
+	public function testGetRememberMeCookiesTheRequestCameWith(array $cookies, ?array $expected): void {
+		$this->mockRequestCookies($cookies);
+
+		$this->assertSame($expected, $this->userSession->getRememberMeCookies());
 	}
 
 	public function testEndInactiveSessionKeepsTheRememberMeCookies(): void {
@@ -1328,6 +1403,66 @@ class SessionTest extends TestCase {
 			->method('clear');
 
 		$this->userSession->endInactiveSession();
+	}
+
+	public function testFollowRegeneratedSessionIdWithoutTheSessionTokenRemovesOnlyTheLogin(): void {
+		$session = new Memory();
+		$session->set('user_id', 'foo');
+		$session->set('loginname', 'foo');
+		$session->set('token-id', 42);
+		$session->set('foo', 'bar');
+		$userSession = $this->createUserSessionWithRealCookies($session);
+		// A concurrent request moved it first
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$userSession->followRegeneratedSessionId('oldId', 'newId');
+
+		$this->assertFalse($session->exists('user_id'));
+		$this->assertFalse($session->exists('loginname'));
+		$this->assertFalse($session->exists('token-id'));
+		$this->assertSame('bar', $session->get('foo'));
+	}
+
+	public function testFollowRegeneratedSessionIdWithoutTheSessionTokenKeepsTheRememberMeCookies(): void {
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'oldId']);
+		$this->session->method('exists')->with('app_password')->willReturn(false);
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$this->session->expects($this->never())
+			->method('clear');
+		$this->userSession->expects($this->never())
+			->method('unsetMagicInCookie');
+		$this->userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
+		$this->userSession->followRegeneratedSessionId('oldId', 'newId');
+	}
+
+	public function testFollowRegeneratedSessionIdKeepsAppPasswordSessions(): void {
+		$session = new Memory();
+		$session->set('app_password', 'appPasswordToken');
+		$session->set('user_id', 'foo');
+		$userSession = $this->createUserSessionWithRealCookies($session);
+		// Their session id has no session token
+		$this->tokenProvider->method('renewSessionToken')
+			->willThrowException(new InvalidTokenException());
+
+		$userSession->followRegeneratedSessionId('oldId', 'newId');
+
+		$this->assertSame('foo', $session->get('user_id'));
+	}
+
+	private function createUserSessionWithRealCookies(?ISession $session = null): Session {
+		return new Session($this->manager, $session ?? $this->session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+	}
+
+	private function mockRememberMeLifetime(): void {
+		$this->config->method('getSystemValueInt')
+			->willReturnMap([['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 60 * 60 * 24 * 15]]);
 	}
 
 	private function mockRequestCookies(array $cookies): void {

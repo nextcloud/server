@@ -70,6 +70,13 @@ class Session implements IUserSession, Emitter {
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private bool $incognitoMode = false;
 
+	/**
+	 * The remember-me cookies as this request last set or removed them, null while it keeps the ones it came with
+	 *
+	 * @var ?array{nc_username: ?string, nc_token: ?string, nc_session_id: ?string}
+	 */
+	private ?array $rememberMeCookies = null;
+
 	public function __construct(
 		private Manager $manager,
 		private ISession $session,
@@ -910,10 +917,13 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
+		$now = $this->timeFactory->getTime();
+		$lifetime = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		// When the token was issued, moved back for a replaced token so that its lifetime ends with the grace period
+		$storedValue = $this->config->getUserValue($uid, 'login_token', $currentToken);
+		$issuedAt = $storedValue === '' ? null : (int)$storedValue;
 		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
+		if ($issuedAt === null || $issuedAt < $now - $lifetime) {
 			$this->logger->info('Tried to log in but could not verify token', [
 				'app' => 'core',
 				'user' => $uid,
@@ -944,10 +954,14 @@ class Session implements IUserSession, Emitter {
 		// fork the session, as concurrent requests would otherwise lose its data.
 		$this->session->regenerateId();
 
-		// replace successfully used token with a new one
-		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+		// replace successfully used token with a new one, and keep it valid for requests that were sent with it
+		// before this response arrives
+		$replacedUntil = $now - $lifetime + IProvider::SUPERSEDED_GRACE_PERIOD;
+		if ($issuedAt > $replacedUntil) {
+			$this->config->setUserValue($uid, 'login_token', $currentToken, (string)$replacedUntil);
+		}
 		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$now);
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -955,7 +969,7 @@ class Session implements IUserSession, Emitter {
 
 		try {
 			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$token = $this->tokenProvider->renewSessionTokenWithGracePeriod($oldSessionId, $sessionId);
 			$this->logger->debug('Session token replaced', [
 				'app' => 'core',
 				'user' => $uid,
@@ -1036,10 +1050,7 @@ class Session implements IUserSession, Emitter {
 	 * dropped, so the remember-me login signs the user in again.
 	 */
 	public function endInactiveSession(): void {
-		$request = Server::get(IRequest::class);
-		if (!is_string($request->getCookie('nc_username'))
-			|| !is_string($request->getCookie('nc_token'))
-			|| !is_string($request->getCookie('nc_session_id'))) {
+		if ($this->getRememberMeCookies() === null) {
 			$this->logout();
 			return;
 		}
@@ -1082,10 +1093,12 @@ class Session implements IUserSession, Emitter {
 			true,
 			CookieHelper::SAMESITE_LAX
 		);
+		$sessionId = null;
 		try {
+			$sessionId = $this->session->getId();
 			CookieHelper::setCookie(
 				'nc_session_id',
-				$this->session->getId(),
+				$sessionId,
 				$maxAge,
 				$webRoot,
 				$domain,
@@ -1096,21 +1109,68 @@ class Session implements IUserSession, Emitter {
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+		$this->rememberMeCookies = ['nc_username' => $username, 'nc_token' => $token, 'nc_session_id' => $sessionId];
+	}
+
+	/**
+	 * The remember-me cookies as this request last set them, otherwise as it came with them. Null once it removed
+	 * them, or when one is missing or not a string, as clients can send arrays.
+	 *
+	 * @return ?array{nc_username: string, nc_token: string, nc_session_id: string}
+	 */
+	public function getRememberMeCookies(): ?array {
+		$cookies = $this->rememberMeCookies;
+		if ($cookies === null) {
+			$request = Server::get(IRequest::class);
+			$cookies = [
+				'nc_username' => $request->getCookie('nc_username'),
+				'nc_token' => $request->getCookie('nc_token'),
+				'nc_session_id' => $request->getCookie('nc_session_id'),
+			];
+		}
+		if (!is_string($cookies['nc_username']) || !is_string($cookies['nc_token']) || !is_string($cookies['nc_session_id'])) {
+			return null;
+		}
+		return ['nc_username' => $cookies['nc_username'], 'nc_token' => $cookies['nc_token'], 'nc_session_id' => $cookies['nc_session_id']];
 	}
 
 	/**
 	 * Point the remember-me cookie at the regenerated session id, so cookie
 	 * login can still find the token that was renewed along with it.
 	 */
-	public function renewMagicSessionId(string $oldSessionId): void {
-		$request = Server::get(IRequest::class);
-		$username = $request->getCookie('nc_username');
-		$token = $request->getCookie('nc_token');
-		$sessionId = $request->getCookie('nc_session_id');
-		if (!is_string($username) || !is_string($token) || $sessionId !== $oldSessionId) {
+	private function renewMagicSessionId(string $oldSessionId): void {
+		$cookies = $this->getRememberMeCookies();
+		if ($cookies === null || $cookies['nc_session_id'] !== $oldSessionId) {
 			return;
 		}
-		$this->setMagicInCookie($username, $token);
+		$this->setMagicInCookie($cookies['nc_username'], $cookies['nc_token']);
+	}
+
+	/**
+	 * Move the session token of the regenerated session $oldSessionId to its new id $sessionId, and point the
+	 * remember-me cookie at it
+	 *
+	 * When another request moved or ended the session token meanwhile, the session loses its login instead. Without a
+	 * session token, its next request would log out and remove the remember-me cookies, which may still be valid.
+	 * Sessions of app passwords don't depend on a session token.
+	 */
+	public function followRegeneratedSessionId(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+	): void {
+		try {
+			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+		} catch (InvalidTokenException) {
+			if (!$this->session->exists('app_password')) {
+				$this->setUser(null);
+				$this->setLoginName(null);
+				$this->setToken(null);
+			}
+			return;
+		}
+		$this->renewMagicSessionId($oldSessionId);
 	}
 
 	/**
@@ -1121,9 +1181,7 @@ class Session implements IUserSession, Emitter {
 		$secureCookie = Server::get(IRequest::class)->getServerProtocol() === 'https';
 		$domain = $this->config->getSystemValueString('cookie_domain');
 
-		unset($_COOKIE['nc_username']); //TODO: DI
-		unset($_COOKIE['nc_token']);
-		unset($_COOKIE['nc_session_id']);
+		$this->rememberMeCookies = ['nc_username' => null, 'nc_token' => null, 'nc_session_id' => null];
 		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);

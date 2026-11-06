@@ -171,6 +171,11 @@ class Manager implements IProvider, OCPIProvider {
 		}
 	}
 
+	#[\Override]
+	public function renewSessionTokenWithGracePeriod(string $oldSessionId, string $sessionId): OCPIToken {
+		return $this->publicKeyTokenProvider->renewSessionTokenWithGracePeriod($oldSessionId, $sessionId);
+	}
+
 	/**
 	 * @param OCPIToken $savedToken
 	 * @param string $tokenId session token
@@ -198,6 +203,36 @@ class Manager implements IProvider, OCPIProvider {
 	#[\Override]
 	public function invalidateTokenById(string $uid, int $id) {
 		$this->publicKeyTokenProvider->invalidateTokenById($uid, $id);
+	}
+
+	#[\Override]
+	public function getLoginOfUser(string $uid, int $id): ?OCPIToken {
+		return $this->publicKeyTokenProvider->getLoginOfUser($uid, $id);
+	}
+
+	#[\Override]
+	public function getLoginsOfUser(string $uid): array {
+		return $this->publicKeyTokenProvider->getLoginsOfUser($uid);
+	}
+
+	#[\Override]
+	public function updateLogin(string $uid, int $id, ?string $name, ?array $scope): void {
+		$this->publicKeyTokenProvider->updateLogin($uid, $id, $name, $scope);
+	}
+
+	#[\Override]
+	public function invalidateOtherTokensOfLogin(OCPIToken $token): void {
+		$this->getProvider($token)->invalidateOtherTokensOfLogin($token);
+	}
+
+	#[\Override]
+	public function getLoginId(OCPIToken $token): int {
+		return $this->getProvider($token)->getLoginId($token);
+	}
+
+	#[\Override]
+	public function markForWipe(OCPIToken $token): void {
+		$this->getProvider($token)->markForWipe($token);
 	}
 
 	#[\Override]
@@ -253,10 +288,9 @@ class Manager implements IProvider, OCPIProvider {
 
 	#[\Override]
 	public function invalidateTokensOfUser(string $uid, ?string $clientName) {
-		$tokens = $this->getTokenByUser($uid);
-		foreach ($tokens as $token) {
+		foreach ($this->getLoginsOfUser($uid) as $loginId => $token) {
 			if ($clientName === null || ($token->getName() === $clientName)) {
-				$this->invalidateTokenById($uid, $token->getId());
+				$this->invalidateTokenById($uid, $loginId);
 			}
 		}
 	}

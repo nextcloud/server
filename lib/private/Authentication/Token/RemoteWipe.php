@@ -17,7 +17,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
-use function array_filter;
 
 class RemoteWipe {
 	public function __construct(
@@ -28,6 +27,8 @@ class RemoteWipe {
 	}
 
 	/**
+	 * Mark the token and the other tokens of its login for remote wipe
+	 *
 	 * @param IToken $token
 	 * @return bool
 	 *
@@ -39,8 +40,7 @@ class RemoteWipe {
 			return false;
 		}
 
-		$token->wipe();
-		$this->tokenProvider->updateToken($token);
+		$this->tokenProvider->markForWipe($token);
 
 		return true;
 	}
@@ -51,23 +51,12 @@ class RemoteWipe {
 	 * @return bool true if any tokens have been marked for remote wipe
 	 */
 	public function markAllTokensForWipe(IUser $user): bool {
-		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
-
-		/** @var IWipeableToken[] $wipeable */
-		$wipeable = array_filter($tokens, function (IToken $token) {
-			return $token instanceof IWipeableToken;
-		});
-
-		if (empty($wipeable)) {
-			return false;
+		$marked = false;
+		foreach ($this->tokenProvider->getLoginsOfUser($user->getUID()) as $token) {
+			$marked = $this->markTokenForWipe($token) || $marked;
 		}
 
-		foreach ($wipeable as $token) {
-			$token->wipe();
-			$this->tokenProvider->updateToken($token);
-		}
-
-		return true;
+		return $marked;
 	}
 
 	/**

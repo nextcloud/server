@@ -194,9 +194,14 @@ class PublicKeyTokenProvider implements IProvider {
 		return $token;
 	}
 
-	private function checkToken($token): void {
+	private function checkToken(PublicKeyToken $token): void {
 		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
+		}
+
+		if ($token->getSupersededAt() !== null
+			&& $token->getSupersededAt() < $this->time->getTime() - self::SUPERSEDED_GRACE_PERIOD) {
+			throw new InvalidTokenException('The session token was renewed');
 		}
 
 		if ($token->getType() === OCPIToken::WIPE_TOKEN) {
@@ -211,65 +216,290 @@ class PublicKeyTokenProvider implements IProvider {
 
 	#[\Override]
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken {
-		return $this->atomic(function () use ($oldSessionId, $sessionId) {
-			$token = $this->getToken($oldSessionId);
+		return $this->renew($oldSessionId, $sessionId, false);
+	}
 
-			if (!($token instanceof PublicKeyToken)) {
-				throw new InvalidTokenException('Invalid token type');
+	#[\Override]
+	public function renewSessionTokenWithGracePeriod(string $oldSessionId, string $sessionId): OCPIToken {
+		return $this->renew($oldSessionId, $sessionId, true);
+	}
+
+	/**
+	 * @param bool $keepSource Keep the old token valid for the grace period instead of deleting it
+	 * @throws InvalidTokenException
+	 */
+	private function renew(
+		#[\SensitiveParameter]
+		string $oldSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+		bool $keepSource,
+	): PublicKeyToken {
+		$token = $this->getToken($oldSessionId);
+
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException('Invalid token type');
+		}
+
+		$keyPair = $this->keyPairLike($token);
+		$renewal = $this->atomic(function () use ($token, $oldSessionId, $sessionId, $keyPair, $keepSource): array {
+			$source = $this->lockSessionToken($token);
+			$newToken = $this->newSessionTokenOfLogin($source, $oldSessionId, $sessionId, $keyPair);
+			if ($keepSource) {
+				// Written on every renewal, as some database clusters detect conflicting writes but don't share row locks
+				$source->setLastActivity($this->time->getTime());
+				if ($source->getSupersededAt() === null) {
+					$source->setSupersededAt($this->time->getTime());
+				}
+				$this->mapper->update($source);
+			} else {
+				// Without row locks, as on SQLite, deleting first is what lets only one request renew the token
+				if (!$this->mapper->deleteSessionToken($source->getId())) {
+					throw new InvalidTokenException('The session token was renewed or invalidated meanwhile');
+				}
 			}
+			$this->mapper->insert($newToken);
 
-			$password = null;
-			if (!is_null($token->getPassword())) {
-				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
-				$password = $this->decryptPassword($token->getPassword(), $privateKey);
-			}
-
-			$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
-			$newToken = $this->generateToken(
-				$sessionId,
-				$token->getUID(),
-				$token->getLoginName(),
-				$password,
-				$token->getName(),
-				OCPIToken::TEMPORARY_TOKEN,
-				$token->getRemember(),
-				$scope,
-				$token->getExpires(),
-			);
-			$this->cacheToken($newToken);
-
-			$this->cacheInvalidHash($token->getToken());
-			$this->mapper->delete($token);
-
-			return $newToken;
+			return ['source' => $source, 'newToken' => $newToken];
 		}, $this->db);
+		if ($keepSource) {
+			$this->cacheToken($renewal['source']);
+		} else {
+			$this->cacheInvalidHash($token->getToken());
+		}
+		$this->cacheToken($renewal['newToken']);
+
+		return $renewal['newToken'];
+	}
+
+	/**
+	 * Lock the session token $token until the end of the transaction, and read its current state
+	 *
+	 * @throws InvalidTokenException when its row holds another token now, or it can't be used
+	 */
+	private function lockSessionToken(PublicKeyToken $token): PublicKeyToken {
+		try {
+			$current = $this->mapper->getTokenById($token->getId(), true);
+		} catch (DoesNotExistException $e) {
+			throw new InvalidTokenException('The session token was renewed or invalidated meanwhile', 0, $e);
+		}
+		$this->checkToken($current);
+		if ($current->getToken() !== $token->getToken()
+			|| $current->getType() !== OCPIToken::TEMPORARY_TOKEN) {
+			throw new InvalidTokenException('Only session tokens can be renewed');
+		}
+		return $current;
+	}
+
+	/**
+	 * A key pair of the size of the key of $token. Generated before locking the token, as that takes a while.
+	 *
+	 * @return array{privateKey: string, publicKey: string}
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 */
+	private function keyPairLike(PublicKeyToken $token): array {
+		$publicKey = openssl_pkey_get_public($token->getPublicKey());
+		$details = $publicKey === false ? false : openssl_pkey_get_details($publicKey);
+		return $this->generateKeyPair($details === false ? 2048 : $details['bits']);
+	}
+
+	/**
+	 * A new, not yet stored session token for $sessionId in the login of $token, the session token of $sourceSessionId
+	 *
+	 * @param array{privateKey: string, publicKey: string} $keyPair
+	 */
+	private function newSessionTokenOfLogin(
+		PublicKeyToken $token,
+		#[\SensitiveParameter]
+		string $sourceSessionId,
+		#[\SensitiveParameter]
+		string $sessionId,
+		#[\SensitiveParameter]
+		array $keyPair,
+	): PublicKeyToken {
+		$password = null;
+		if (!is_null($token->getPassword())) {
+			try {
+				// Not invalidated on failure, the transaction this runs in is rolled back
+				$privateKey = $this->decryptWithSecret($token->getPrivateKey(), $sourceSessionId);
+			} catch (\Exception $e) {
+				throw new InvalidTokenException('Could not decrypt token password: ' . $e->getMessage(), 0, $e);
+			}
+			$password = $this->decryptPassword($token->getPassword(), $privateKey);
+		}
+
+		$newToken = $this->newToken(
+			$sessionId,
+			$token->getUID(),
+			$token->getLoginName(),
+			$password,
+			$token->getName(),
+			OCPIToken::TEMPORARY_TOKEN,
+			$token->getRemember(),
+			$token->getExpires(),
+			$token->getPasswordHash(),
+			$keyPair,
+		);
+		if ($token->getScope() !== '') {
+			$newToken->setScope($token->getScopeAsArray());
+		}
+		$newToken->setLoginId($token->getLoginId());
+
+		return $newToken;
 	}
 
 	#[\Override]
 	public function invalidateToken(string $token) {
 		$tokenHash = $this->hashToken($token);
-		$tokenEntry = null;
 		try {
 			$tokenEntry = $this->mapper->getToken($tokenHash);
+			$this->invalidateTokensOfLogin($tokenEntry->getUID(), $tokenEntry->getLoginId());
 		} catch (DoesNotExistException) {
 		}
-		$this->mapper->invalidate($this->hashToken($token));
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 		$this->cacheInvalidHash($tokenHash);
-		if ($tokenEntry !== null) {
-			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($tokenEntry));
-		}
 	}
 
 	#[\Override]
 	public function invalidateTokenById(string $uid, int $id) {
-		$token = $this->mapper->getTokenById($id);
-		if ($token->getUID() !== $uid) {
-			return;
+		$this->invalidateTokensOfLogin($uid, $this->resolveLoginId($id));
+	}
+
+	#[\Override]
+	public function invalidateOtherTokensOfLogin(OCPIToken $token): void {
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException('Invalid token type');
 		}
-		$this->mapper->invalidate($token->getToken());
-		$this->cacheInvalidHash($token->getToken());
-		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
+
+		$this->invalidateTokensOfLogin($token->getUID(), $token->getLoginId(), $token->getId());
+	}
+
+	/**
+	 * Delete every token of the login $loginId of $uid, except the token $keptTokenId
+	 */
+	private function invalidateTokensOfLogin(string $uid, int $loginId, ?int $keptTokenId = null): void {
+		$tokens = $this->changeLogin($uid, $loginId, function (PublicKeyToken $token) use ($keptTokenId): bool {
+			if ($token->getId() === $keptTokenId) {
+				return false;
+			}
+			$this->mapper->delete($token);
+			return true;
+		});
+		foreach ($tokens as $token) {
+			$this->cacheInvalidHash($token->getToken());
+			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
+		}
+	}
+
+	/**
+	 * Apply $change to every token of the login $loginId of $uid in one transaction
+	 *
+	 * Renewals lock their source until the new token is stored. A scan waits for those locks, but its snapshot can
+	 * miss the tokens they stored, so scans repeat until one finds exactly the tokens the previous one locked. Every
+	 * token of the login is then locked, which blocks later renewals.
+	 *
+	 * @param \Closure(PublicKeyToken): bool $change Changes the token and tells whether it did
+	 * @return list<PublicKeyToken> The changed tokens
+	 */
+	private function changeLogin(string $uid, int $loginId, \Closure $change): array {
+		return $this->atomic(function () use ($uid, $loginId, $change): array {
+			$ids = null;
+			do {
+				$lockedIds = $ids;
+				$tokens = $this->mapper->getTokensOfLogin($uid, $loginId, true);
+				$ids = array_map(static fn (PublicKeyToken $token): int => $token->getId(), $tokens);
+			} while ($ids !== $lockedIds);
+
+			$changed = [];
+			foreach ($tokens as $token) {
+				if ($change($token)) {
+					$changed[] = $token;
+				}
+			}
+			return $changed;
+		}, $this->db);
+	}
+
+	/**
+	 * The login of the token $id, or $id itself when that token is gone, as the id of a login outlives its first token
+	 */
+	private function resolveLoginId(int $id): int {
+		try {
+			return $this->mapper->getTokenById($id)->getLoginId();
+		} catch (DoesNotExistException) {
+			return $id;
+		}
+	}
+
+	#[\Override]
+	public function getLoginOfUser(string $uid, int $id): ?OCPIToken {
+		$tokens = $this->mapper->getTokensOfLogin($uid, $this->resolveLoginId($id));
+		return $tokens === [] ? null : $this->mostRecentlyUsed($tokens);
+	}
+
+	#[\Override]
+	public function getLoginsOfUser(string $uid): array {
+		$logins = [];
+		foreach ($this->mapper->getTokenByUser($uid) as $token) {
+			$logins[$token->getLoginId()][] = $token;
+		}
+		return array_map($this->mostRecentlyUsed(...), $logins);
+	}
+
+	/**
+	 * @param non-empty-list<PublicKeyToken> $tokens
+	 */
+	private function mostRecentlyUsed(array $tokens): PublicKeyToken {
+		usort($tokens, fn (PublicKeyToken $a, PublicKeyToken $b): int => $b->getLastActivity() <=> $a->getLastActivity());
+		return $tokens[0];
+	}
+
+	#[\Override]
+	public function updateLogin(string $uid, int $id, ?string $name, ?array $scope): void {
+		$this->updateTokensOfLogin($uid, $this->resolveLoginId($id), static function (PublicKeyToken $token) use ($name, $scope): void {
+			if ($name !== null) {
+				$token->setName($name);
+			}
+			if ($scope !== null) {
+				$token->setScope($scope);
+			}
+		});
+	}
+
+	#[\Override]
+	public function getLoginId(OCPIToken $token): int {
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException('Invalid token type');
+		}
+
+		return $token->getLoginId();
+	}
+
+	#[\Override]
+	public function markForWipe(OCPIToken $token): void {
+		if (!($token instanceof PublicKeyToken)) {
+			throw new InvalidTokenException('Invalid token type');
+		}
+
+		$this->updateTokensOfLogin($token->getUID(), $token->getLoginId(), static function (PublicKeyToken $loginToken): void {
+			$loginToken->wipe();
+		});
+	}
+
+	/**
+	 * Apply $change to every token of the login $loginId of $uid and store them, caching them once committed
+	 *
+	 * @param \Closure(PublicKeyToken): void $change
+	 */
+	private function updateTokensOfLogin(string $uid, int $loginId, \Closure $change): void {
+		$tokens = $this->changeLogin($uid, $loginId, function (PublicKeyToken $token) use ($change): bool {
+			$change($token);
+			$this->mapper->update($token);
+			return true;
+		});
+		foreach ($tokens as $token) {
+			$this->cacheToken($token);
+		}
 	}
 
 	#[\Override]
@@ -289,6 +519,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$authTokenThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_token_retention', 60 * 60 * 24 * 365);
 		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
+
+		$supersededThreshold = $this->time->getTime() - self::SUPERSEDED_GRACE_PERIOD;
+		$this->logger->debug('Deleting session tokens superseded before ' . date('c', $supersededThreshold), ['app' => 'cron']);
+		$this->mapper->deleteSuperseded($supersededThreshold);
 	}
 
 	#[\Override]
@@ -397,18 +631,25 @@ class PublicKeyTokenProvider implements IProvider {
 	 * @throws InvalidTokenException
 	 */
 	private function decrypt(string $cipherText, string $token): string {
+		try {
+			return $this->decryptWithSecret($cipherText, $token);
+		} catch (\Exception $ex) {
+			// Delete the invalid token
+			$this->invalidateToken($token);
+			throw new InvalidTokenException('Could not decrypt token password: ' . $ex->getMessage(), 0, $ex);
+		}
+	}
+
+	/**
+	 * @throws \Exception when $cipherText can't be decrypted with $token
+	 */
+	private function decryptWithSecret(string $cipherText, string $token): string {
 		$secret = $this->config->getSystemValueString('secret');
 		try {
 			return $this->crypto->decrypt($cipherText, $token . $secret);
-		} catch (\Exception $ex) {
+		} catch (\Exception) {
 			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-			try {
-				return $this->crypto->decrypt($cipherText, $token);
-			} catch (\Exception $ex2) {
-				// Delete the invalid token
-				$this->invalidateToken($token);
-				throw new InvalidTokenException('Could not decrypt token password: ' . $ex->getMessage(), 0, $ex2);
-			}
+			return $this->crypto->decrypt($cipherText, $token);
 		}
 	}
 
@@ -439,6 +680,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
+	 * @param ?string $passwordHash The hash of $password if already known
+	 * @param ?array{privateKey: string, publicKey: string} $keyPair The key pair of the token if already generated
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	private function newToken(string $token,
@@ -449,31 +692,15 @@ class PublicKeyTokenProvider implements IProvider {
 		int $type,
 		int $remember,
 		?int $expires,
+		?string $passwordHash = null,
+		?array $keyPair = null,
 	): PublicKeyToken {
 		$dbToken = new PublicKeyToken();
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
-		$config = array_merge([
-			'digest_alg' => 'sha512',
-			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
-		], $this->config->getSystemValue('openssl', []));
-
-		// Generate new key
-		$res = openssl_pkey_new($config);
-		if ($res === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
-		}
-
-		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
-			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
-		}
-
-		// Extract the public key from $res to $pubKey
-		$publicKey = openssl_pkey_get_details($res);
-		$publicKey = $publicKey['key'];
+		['privateKey' => $privateKey, 'publicKey' => $publicKey] = $keyPair
+			?? $this->generateKeyPair($password !== null && strlen($password) > 250 ? 4096 : 2048);
 
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
@@ -483,7 +710,7 @@ class PublicKeyTokenProvider implements IProvider {
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
-			$dbToken->setPasswordHash($this->hashPassword($password));
+			$dbToken->setPasswordHash($passwordHash ?? $this->hashPassword($password));
 		}
 
 		$dbToken->setName($name);
@@ -503,6 +730,34 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 
 		return $dbToken;
+	}
+
+	/**
+	 * @return array{privateKey: string, publicKey: string}
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 */
+	private function generateKeyPair(int $bits): array {
+		$config = array_merge([
+			'digest_alg' => 'sha512',
+			'private_key_bits' => $bits,
+		], $this->config->getSystemValue('openssl', []));
+
+		// Generate new key
+		$res = openssl_pkey_new($config);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+
+		// Extract the public key from $res to $pubKey
+		$publicKey = openssl_pkey_get_details($res);
+
+		return ['privateKey' => $privateKey, 'publicKey' => $publicKey['key']];
 	}
 
 	#[\Override]
