@@ -92,7 +92,7 @@
     "babel-loader": "^10.1.1",
     "babel-loader-exclude-node-modules-except": "^1.2.4",
     "babel-plugin-module-resolver": "^5.0.3",
-    "mime": "^4.1.1",
+    "mime": "^4.1.2",
     "patch-package": "^8.0.1",
     "sass": "^1.107.1",
     "terser-webpack-plugin": "^5.6.1",
