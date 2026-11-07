@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "Kopiér",
     "Send link via email" : "Send link via e-mail",
     "Enter an email address or paste a list" : "Angiv en e-mailadresse eller indsæt en liste",
-    "Remove email" : "Fjern e-mail",
     "Select a destination" : "Vælg en destination",
     "Select" : "Vælg",
     "What are you requesting?" : "Hvad beder du om?",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling af %1$s mislykkedes fordi backenden ikke tillader delinger fra typen %2$s",
     "Public upload disabled by the administrator" : "Offentlig overførsel er slået fra af administratoren",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens skal indeholde minimum 1 karakter og må kun indeholde bogstaver, tal, eller en bindestreg",
+    "Remove email" : "Fjern e-mail",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sæt det offentlige delingslink til noget der er let at huske eller generer en ny token. Det anbefales ikke at anvende en token der er let at gætte, til delinger som indeholder følsomme informationer."
 },
 "nplurals=2; plural=(n != 1);");

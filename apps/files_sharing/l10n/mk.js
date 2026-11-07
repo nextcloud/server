@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "Копирај",
     "Send link via email" : "Испрати линк преку е-пошта",
     "Enter an email address or paste a list" : "Внеси е-пошта адреса или цела листа",
-    "Remove email" : "Отстрани е-пошта",
     "Select a destination" : "Изберете дестинација",
     "Select" : "Избери",
     "What are you requesting?" : "Што барате?",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделувањето на %1$s е неуспешно бидејќи позадината не дозволува споделувања од видот %2$s",
     "Public upload disabled by the administrator" : "Јавно прикачување е оневозможено од страна на администраторот",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токените мора да содржат најмалку 1 знак и може да содржат само букви, бројки или цртичка",
+    "Remove email" : "Отстрани е-пошта",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Поставете го токенот за јавен линкза споделување на нешто лесно за паметење или генерирајте нов токен. Не се препорачува да се користи токен што може да се погоди за акции што содржат чувствителни информации."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

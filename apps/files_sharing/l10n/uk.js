@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "Копіювати",
     "Send link via email" : "Надіслати посилання електронною поштою",
     "Enter an email address or paste a list" : "Зазначте ел. адресу або список адрес",
-    "Remove email" : "Вилучити ел. адресу",
     "Select a destination" : "Вибрати призначення",
     "Select" : "Вибрати",
     "What are you requesting?" : "Що ви хочете отримати?",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Неможливо поділитися %1$s, оскільки бекенд не дозволяє надавати доступ категорії %2$s",
     "Public upload disabled by the administrator" : "Публічне завантаження вимкнено адміністратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токени мають містити щонайменше 1 символ, можуть складатися тільки з літер, цифр або дефісу",
+    "Remove email" : "Вилучити ел. адресу",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановіть токен для публічного посилання на спільний ресурс з простою для запам'ятовування назвою або створіть новий токен. Не рекомендується використовувати токени, які можна легко вгадати, для спільних ресурсів, що містять чутливі дані."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "Kopieren",
     "Send link via email" : "Link per E-Mail verschicken",
     "Enter an email address or paste a list" : "E-Mail-Adresse eingeben oder eine Liste einfügen",
-    "Remove email" : "E-Mail-Adresse entfernen",
     "Select a destination" : "Ein Ziel wählen",
     "Select" : "Auswählen",
     "What are you requesting?" : "Was fragen Sie an?",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Freigabe von %1$s fehlgeschlagen, da das Backend die Freigabe vom Typ %2$s nicht erlaubt",
     "Public upload disabled by the administrator" : "Das öffentliche Hochladen ist durch die Administration deaktiviert",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token müssen mindestens 1 Zeichen enthalten und dürfen nur aus Buchstaben, Zahlen oder einen Bindestrich bestehen",
+    "Remove email" : "E-Mail-Adresse entfernen",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Das öffentliche Freigabelink-Token auf einen Begriff festlegen, der leicht zu merken ist, oder ein neues Token erstellen. Es ist nicht zu empfehlen, für Freigaben , die vertrauliche Informationen enthalten, ein erratbares Token zu verwenden."
 },
 "nplurals=2; plural=(n != 1);");
