@@ -14,6 +14,7 @@ use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\ResponseDefinitions;
 use OC\Core\Service\LoginFlowV2Service;
+use OC\Security\Ip\Address;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -30,7 +31,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -56,7 +56,6 @@ class ClientFlowLoginV2Controller extends Controller {
 		private ISession $session,
 		private IUserSession $userSession,
 		private ISecureRandom $random,
-		private Defaults $defaults,
 		private ?string $userId,
 		private IL10N $l10n,
 		private IInitialState $initialState,
@@ -109,7 +108,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow')]
-	public function showAuthPickerPage(string $user = '', int $direct = 0): StandaloneTemplateResponse {
+	public function showAuthPickerPage(string $user = '', int $direct = 0): Response {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -123,13 +122,17 @@ class ClientFlowLoginV2Controller extends Controller {
 			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+		$loginRedirectUrl = $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.grantPage', ['stateToken' => $stateToken, 'user' => $user, 'direct' => $direct]);
+		if ($this->userSession->getUser() !== null) {
+			return new RedirectResponse($loginRedirectUrl);
+		}
 
-		$this->initialState->provideInitialState('loginFlowState', 'auth');
+		$this->provideFlowContext($flow);
+		$this->initialState->provideInitialState('loginFlowState', 'auth-v2');
 		$this->initialState->provideInitialState('loginFlowAuth', [
-			'client' => $flow->getClientName(),
-			'instanceName' => $this->defaults->getName(),
 			'stateToken' => $stateToken,
-			'loginRedirectUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.grantPage', ['stateToken' => $stateToken, 'user' => $user, 'direct' => $direct]),
+			'direct' => $direct === 1,
+			'loginRedirectUrl' => $loginRedirectUrl,
 			'appTokenUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.apptokenRedirect'),
 		]);
 
@@ -164,16 +167,10 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenClientResponse();
 		}
 
-		$user = $this->userSession->getUser();
-		\assert($user !== null);
-
-		$this->initialState->provideInitialState('loginFlowState', 'grant');
+		$this->provideFlowContext($flow);
+		$this->initialState->provideInitialState('loginFlowState', 'grant-v2');
 		$this->initialState->provideInitialState('loginFlowGrant', [
 			'actionUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.generateAppPassword'),
-			'userId' => $user->getUID(),
-			'userDisplayName' => $user->getDisplayName(),
-			'client' => $flow->getClientName(),
-			'instanceName' => $this->defaults->getName(),
 			'stateToken' => $stateToken,
 			'direct' => $direct === 1,
 		]);
@@ -188,6 +185,33 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	#[PublicPage]
+	#[UseSession]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/decline')]
+	public function decline(?string $stateToken): JSONResponse {
+		if ($stateToken === null || !$this->isValidStateToken($stateToken)) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$this->getFlowByLoginToken();
+		} catch (LoginFlowV2NotFoundException $e) {
+			return new JSONResponse([], Http::STATUS_GONE);
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if (!$this->loginFlowV2Service->decline($this->session->get(self::TOKEN_NAME))) {
+			return new JSONResponse([], Http::STATUS_CONFLICT);
+		}
+
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
+		return new JSONResponse([]);
+	}
+
+	#[PublicPage]
+	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
@@ -270,6 +294,9 @@ class ClientFlowLoginV2Controller extends Controller {
 			Util::addScript('core', 'login_flow');
 			Util::addStyle('core', 'login_flow');
 			$this->initialState->provideInitialState('loginFlowState', 'done');
+			$this->initialState->provideInitialState('loginFlowDone', [
+				'securitySettingsUrl' => $this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']),
+			]);
 			return new StandaloneTemplateResponse(
 				$this->appName,
 				'loginflow',
@@ -304,7 +331,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('user-agent');
 
-		$tokens = $this->loginFlowV2Service->createTokens($userAgent);
+		$tokens = $this->loginFlowV2Service->createTokens($userAgent, $this->request->getRemoteAddress());
 
 		$data = [
 			'poll' => [
@@ -315,6 +342,29 @@ class ClientFlowLoginV2Controller extends Controller {
 		];
 
 		return new JSONResponse($data);
+	}
+
+	private function provideFlowContext(LoginFlowV2 $flow): void {
+		$clientIp = $flow->getClientIp();
+		$browserIp = $this->request->getRemoteAddress();
+		$sameIp = null;
+		if ($clientIp !== null && Address::isValid($clientIp) && Address::isValid($browserIp)) {
+			$sameIp = (string)new Address($clientIp) === (string)new Address($browserIp);
+		}
+
+		$user = $this->userSession->getUser();
+		$this->initialState->provideInitialState('loginFlowContext', [
+			'userAgent' => $flow->getClientName(),
+			'serverUrl' => $this->getServerPath(),
+			'userId' => $user?->getUID(),
+			'userDisplayName' => $user?->getDisplayName(),
+			'declineUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.decline'),
+			'securitySettingsUrl' => $this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']),
+			'createdAt' => $flow->getTimestamp(),
+			'clientIp' => $clientIp,
+			'browserIp' => $browserIp,
+			'sameIp' => $sameIp,
+		]);
 	}
 
 	private function isValidStateToken(string $stateToken): bool {
