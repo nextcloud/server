@@ -132,7 +132,6 @@ OC.L10N.register(
     "Copy" : "Copiar",
     "Send link via email" : "Enviar la liga por correo electrónico",
     "Enter an email address or paste a list" : "Ingrese una dirección de correo electrónico o pegue una lista",
-    "Remove email" : "Eliminar correo electrónico",
     "Select a destination" : "Seleccionar un destino",
     "Select" : "Seleccionar",
     "What are you requesting?" : "¿Qué está solicitando?",
@@ -322,6 +321,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Public link sharing is disabled by the administrator" : "Compartir ligas públicas está deshabilitado por el administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s falló porque el servidor no permite compartir recursos del tipo %2$s",
-    "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador"
+    "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
+    "Remove email" : "Eliminar correo electrónico"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

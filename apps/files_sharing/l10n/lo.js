@@ -140,7 +140,6 @@ OC.L10N.register(
     "Copy" : "ສຳເນົາ",
     "Send link via email" : "ສົ່ງລິງຜ່ານອີເມວ",
     "Enter an email address or paste a list" : "ໃສ່ທີ່ຢູ່ອີເມວ ຫຼື ວາງລາຍຊື່",
-    "Remove email" : "ລຶບອີເມວ",
     "Select a destination" : "ເລືອກປາຍທາງ",
     "Select" : "ເລືອກ",
     "What are you requesting?" : "ທ່ານກຳລັງຮ້ອງຂໍຫຍັງ?",
@@ -404,6 +403,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "ການແບ່ງປັນ %1$s ລົ້ມເຫຼວ ເນື່ອງຈາກລະບົບຫຼັງບ້ານບໍ່ອະນຸຍາດໃຫ້ແບ່ງປັນປະເພດ %2$s",
     "Public upload disabled by the administrator" : "ການອັບໂຫຼດສາທາລະນະຖືກປິດການໃຊ້ງານໂດຍຜູ້ເບິ່ງແຍງລະບົບ",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "ໂທເຄັນຕ້ອງມີຢ່າງໜ້ອຍ 1 ຕົວອັກສອນ ແລະ ສາມາດປະກອບດ້ວຍຕົວໜັງສື, ຕົວເລກ ຫຼື ຂີດຕໍ່ເທົ່ານັ້ນ",
+    "Remove email" : "ລຶບອີເມວ",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ກຳນົດໂທເຄັນລິ້ງແບ່ງປັນສາທາລະນະໃຫ້ເປັນສິ່ງທີ່ຈື່ງ່າຍ ຫຼື ສ້າງໂທເຄັນໃໝ່. ບໍ່ແນະນຳໃຫ້ໃຊ້ໂທເຄັນທີ່ຄາດເດົາໄດ້ສຳລັບການແບ່ງປັນທີ່ມີຂໍ້ມູນທີ່ລະອຽດອ່ອນ."
 },
 "nplurals=1; plural=0;");

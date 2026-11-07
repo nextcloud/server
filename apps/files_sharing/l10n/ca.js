@@ -140,7 +140,6 @@ OC.L10N.register(
     "Copy" : "Còpia",
     "Send link via email" : "Envia l'enllaç per correu electrònic",
     "Enter an email address or paste a list" : "Introduïu una adreça de correu electrònic o enganxeu una llista",
-    "Remove email" : "Elimina el correu electrònic",
     "Select a destination" : "Seleccioneu una destinació",
     "Select" : "Seleccioneu",
     "What are you requesting?" : "Què esteu demanant?",
@@ -376,6 +375,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "No s'ha pogut compartir %1$s perquè el rerefons no permet elements compartits de tipus %2$s",
     "Public upload disabled by the administrator" : "L'administrador ha inhabilitat la pujada pública",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Els testimonis han de contenir almenys 1 caràcter i només poden contenir lletres, números o un guió",
+    "Remove email" : "Elimina el correu electrònic",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Estableix el testimoni d'enllaç de compartició pública en una cosa fàcil de recordar o genera un testimoni nou. No es recomana utilitzar un testimoni endevinable per a elements compartits que continguin informació sensible."
 },
 "nplurals=2; plural=(n != 1);");
