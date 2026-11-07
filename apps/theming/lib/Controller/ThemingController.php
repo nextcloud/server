@@ -547,6 +547,7 @@ class ThemingController extends Controller {
 			'name' => $name,
 			'short_name' => $shortName,
 			'start_url' => $startUrl,
+			'scope' => $this->urlGenerator->getBaseUrl(),
 			'theme_color' => $this->themingDefaults->getColorPrimary(),
 			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'description' => $description,
