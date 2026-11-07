@@ -73,7 +73,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @since 13.0.0
 	 */
 	public function getDisplayName(): ?string {
-		return $this->calendarInfo['{DAV:}displayname'];
+		return $this->calendarInfo['{DAV:}displayname'] ?? null;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @since 13.0.0
 	 */
 	public function getDisplayColor(): ?string {
-		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
+		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'] ?? null;
 	}
 
 	public function getSchedulingTransparency(): ?ScheduleCalendarTransp {
