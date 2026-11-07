@@ -716,6 +716,11 @@ class Manager implements IManager {
 			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
 
 			if ($share->getToken() !== '') {
+				// getShareByToken() never finds a token that equals a username
+				if ($share->getToken() !== $originalShare->getToken() && $this->userManager->userExists($share->getToken())) {
+					throw new ShareTokenException('Unable to update share. Share token already exists');
+				}
+
 				try {
 					$shareFound = $this->getShareByToken($share->getToken());
 					if ($share->getId() !== $shareFound->getId()) {
@@ -2087,6 +2092,12 @@ class Manager implements IManager {
 					$tokenLength,
 					ISecureRandom::CHAR_HUMAN_READABLE,
 				);
+
+				// getShareByToken() never finds a token that equals a username
+				if ($this->userManager->userExists($token)) {
+					$tokenExists = true;
+					continue;
+				}
 
 				try {
 					// Try to fetch a share with the generated token
