@@ -146,7 +146,6 @@
     "Copy" : "Копировать",
     "Send link via email" : "Отправить ссылку по электронной почте",
     "Enter an email address or paste a list" : "Введите адрес электронной почты или вставьте список",
-    "Remove email" : "Удалить адрес эл. почты",
     "Select a destination" : "Выберите папку назначения",
     "Select" : "Выбрать",
     "What are you requesting?" : "Что нужно прислать?",
@@ -420,6 +419,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",
     "Public upload disabled by the administrator" : "Выгрузка в общедоступную папку запрещена администратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токен должен содержать хотя бы 1 символ и может состоять только из букв, цифр и дефисов",
+    "Remove email" : "Удалить адрес эл. почты",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Задайте для общедоступной ссылки легко запоминаемый токен или создайте новый. Для общих ресурсов с конфиденциальными данными не используйте легко угадываемый токен."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

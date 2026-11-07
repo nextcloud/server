@@ -133,7 +133,6 @@ OC.L10N.register(
     "Copy" : "Kopi",
     "Send link via email" : "Send lenke via e-post",
     "Enter an email address or paste a list" : "Skriv inn en e-postadresse eller lim inn en liste",
-    "Remove email" : "Fjern e-post",
     "Select a destination" : "Velg en destinasjon",
     "Select" : "Velg",
     "What are you requesting?" : "Hva ber du om?",
@@ -339,6 +338,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Public link sharing is disabled by the administrator" : "Administratoren har skrudd av offentlig lenkedeling",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
-    "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren"
+    "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
+    "Remove email" : "Fjern e-post"
 },
 "nplurals=2; plural=(n != 1);");
