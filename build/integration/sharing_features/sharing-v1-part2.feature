@@ -1373,6 +1373,29 @@ Scenario: getting all shares of a file with a received share after revoking the 
     And Downloading file "/sharedviewonly/document.odt"
     Then the HTTP status code should be "200"
 
+  Scenario: Cannot download a file from a view-only link share without shareapi_allow_view_without_download
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
+    Given user "user0" exists
+    And User "user0" created a folder "/sharedviewonly"
+    And User "user0" moves file "/textfile0.txt" to "/sharedviewonly/document.odt"
+    And As an "user0"
+    And creating a share with
+      | path        | /sharedviewonly |
+      | shareType   | 3 |
+      | permissions | 1 |
+      | attributes  | [{"scope":"permissions","key":"download","value":false}] |
+    When Downloading public file "document.odt"
+    Then the HTTP status code should be "403"
+    When Downloading public file "document.odt" from legacy public webdav
+    Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    When Downloading public file "document.odt"
+    Then the HTTP status code should be "200"
+    When Downloading public file "document.odt" from legacy public webdav
+    Then the HTTP status code should be "200"
+
   Scenario: Cannot copy a file when it's shared view-only even with shareapi_allow_view_without_download enabled
     Given As an "admin"
     And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"

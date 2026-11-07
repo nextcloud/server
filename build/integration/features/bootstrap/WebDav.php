@@ -287,6 +287,26 @@ trait WebDav {
 		}
 	}
 
+	#[When('Downloading public file :filename from legacy public webdav')]
+	public function downloadingPublicFileFromLegacyWebdav(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav/$filename";
+
+		$client = new GClient();
+		$options = [
+			'auth' => [$token, ''],
+			'headers' => [
+				'X-Requested-With' => 'XMLHttpRequest',
+			]
+		];
+
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
 	#[When('Downloading public file :filename without ajax header')]
 	public function downloadingPublicFileWithoutHeader(string $filename) {
 		$token = $this->lastShareData->data->token;
