@@ -146,7 +146,6 @@
     "Copy" : "Kopiera",
     "Send link via email" : "Skicka länk via e-post",
     "Enter an email address or paste a list" : "Ange en e-postadress eller klistra in en lista",
-    "Remove email" : "Ta bort e-postadress",
     "Select a destination" : "Välj en destination",
     "Select" : "Välj",
     "What are you requesting?" : "Vad begär du?",
@@ -420,6 +419,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Det gick inte att dela %1$s eftersom bakomliggande system inte tillåter delningar av typen %2$s",
     "Public upload disabled by the administrator" : "Offentlig uppladdning har inaktiverats av administratören",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token måste innehålla minst ett tecken och får endast innehålla bokstäver, siffror eller bindestreck",
+    "Remove email" : "Ta bort e-postadress",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

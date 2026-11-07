@@ -140,7 +140,6 @@ OC.L10N.register(
     "Copy" : "کپی",
     "Send link via email" : "ارسال لینک از طریق ایمیل",
     "Enter an email address or paste a list" : "یک آدرس ایمیل وارد کنید یا یک لیست بچسبانید",
-    "Remove email" : "حذف ایمیل",
     "Select a destination" : "انتخاب مقصد",
     "Select" : "انتخاب",
     "What are you requesting?" : "چه چیزی درخواست می‌کنید؟",
@@ -404,6 +403,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "اشتراک‌گذاری %1$s انجام نشد زیرا سیستم پشتیبان اجازه اشتراک‌گذاری از نوع %2$s را نمی‌دهد",
     "Public upload disabled by the administrator" : "آپلود عمومی توسط مدیر غیرفعال شده است",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "توکن‌ها باید حداقل ۱ کاراکتر داشته باشند و فقط می‌توانند شامل حروف، اعداد یا خط تیره باشند",
+    "Remove email" : "حذف ایمیل",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "توکن لینک اشتراک عمومی را به چیزی به‌یادماندنی تنظیم کنید یا یک توکن جدید ایجاد کنید. برای اشتراک‌هایی که حاوی اطلاعات حساس هستند، استفاده از توکن قابل حدس توصیه نمی‌شود."
 },
 "nplurals=2; plural=(n > 1);");

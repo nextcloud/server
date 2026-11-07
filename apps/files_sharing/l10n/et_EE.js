@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "Kopeeri",
     "Send link via email" : "Saada link e-kirjaga",
     "Enter an email address or paste a list" : "Sisesta e-posti aadress või lisa loend",
-    "Remove email" : "Eemalda e-posti aadress",
     "Select a destination" : "Vali sihtkaust",
     "Select" : "Vali",
     "What are you requesting?" : "Missugust faili soovid saada?",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "„%1$s“ jagamine ei õnnestunud, sest server ei luba „%2$s“ tüüpi jagamisi",
     "Public upload disabled by the administrator" : "Avalik üleslaadimine on administraatori poolt keelatud",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tunnuslubades peab olema vähemalt 1 tähemärk ning võib olla vaid tähti, numbreid ja sisekriipse",
+    "Remove email" : "Eemalda e-posti aadress",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sisesta avaliku jagamislingi jaoks midagi lihtsalt meeldejäetavat või genereeri uus tunnusluba. Kui link viitab delikaatsetele andmetele, siis palun ära kasuta kergesti aimatavaid tunnuslube."
 },
 "nplurals=2; plural=(n != 1);");

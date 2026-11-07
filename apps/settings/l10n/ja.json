@@ -612,6 +612,7 @@
     "Error while creating device token" : "デバイストークンの作成中にエラーが発生しました",
     "Create new app password" : "新しいアプリパスワードを作成",
     "App name" : "アプリ名",
+    "Choose at least one area" : "少なくとも1つの場所を選んでください",
     "Access" : "アクセス",
     "Calendar and contacts" : "カレンダーと連絡先",
     "Custom" : "カスタム",
