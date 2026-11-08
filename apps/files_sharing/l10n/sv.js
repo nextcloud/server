@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "Kopiera",
     "Send link via email" : "Skicka länk via e-post",
     "Enter an email address or paste a list" : "Ange en e-postadress eller klistra in en lista",
+    "Recipient emails" : "Mottagarnas e-postadresser",
+    "Remove email: {email}" : "Ta bort e-postadress: {email}",
     "Select a destination" : "Välj en destination",
     "Select" : "Välj",
     "What are you requesting?" : "Vad begär du?",

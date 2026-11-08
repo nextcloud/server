@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Abmelden",
     "Sharing is not allowed." : "Teilen ist nicht erlaubt.",
     "Sharing is not allowed for you." : "Teilen ist für Sie nicht erlaubt.",
+    "Cannot share with a disabled account." : "Kann nicht mit einem deaktivierten Konto geteilt werden.",
     "Sharing is only allowed with group members." : "Teilen ist nur mit Gruppenmitgliedern erlaubt.",
     "Sharing is only allowed within your own groups." : "Teilen ist nur innerhalb der eigenen Gruppen erlaubt.",
     "Group sharing is not allowed." : "Gruppenfreigabe ist nicht erlaubt",

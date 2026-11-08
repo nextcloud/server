@@ -146,6 +146,8 @@
     "Copy" : "Копировать",
     "Send link via email" : "Отправить ссылку по электронной почте",
     "Enter an email address or paste a list" : "Введите адрес электронной почты или вставьте список",
+    "Recipient emails" : "Адреса эл. почты получателей",
+    "Remove email: {email}" : "Удалить адрес эл. почты: {email}",
     "Select a destination" : "Выберите папку назначения",
     "Select" : "Выбрать",
     "What are you requesting?" : "Что нужно прислать?",

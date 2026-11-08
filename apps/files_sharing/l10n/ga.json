@@ -146,6 +146,8 @@
     "Copy" : "Cóipeáil",
     "Send link via email" : "Seol an nasc trí ríomhphost",
     "Enter an email address or paste a list" : "Cuir isteach seoladh ríomhphoist nó greamaigh liosta",
+    "Recipient emails" : "Ríomhphoist na bhfaighteoirí",
+    "Remove email: {email}" : "Bain ríomhphost: {email}",
     "Select a destination" : "Roghnaigh ceann scríbe",
     "Select" : "Roghnaigh",
     "What are you requesting?" : "Cad atá á iarraidh agat?",
