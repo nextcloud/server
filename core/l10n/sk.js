@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Odhlásiť sa",
     "Sharing is not allowed." : "Zdieľanie nie je povolené.",
     "Sharing is not allowed for you." : "Zdieľanie pre vás nie je povolené.",
+    "Cannot share with a disabled account." : "Nie je možné zdieľať s deaktivovaným účtom.",
     "Sharing is only allowed with group members." : "Zdieľanie je povolené iba s členmi skupiny.",
     "Sharing is only allowed within your own groups." : "Zdieľanie je povolené iba v rámci vašich vlastných skupín.",
     "Group sharing is not allowed." : "Zdieľanie so skupinami nie je povolené.",

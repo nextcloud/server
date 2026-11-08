@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "Kopieren",
     "Send link via email" : "Link per E-Mail verschicken",
     "Enter an email address or paste a list" : "E-Mail-Adresse eingeben oder eine Liste einfügen",
+    "Recipient emails" : "Empfänger E-Mailadresse",
+    "Remove email: {email}" : "E.-Mailadresse entfernen: {email}",
     "Select a destination" : "Ein Ziel wählen",
     "Select" : "Auswählen",
     "What are you requesting?" : "Was fragen Sie an?",

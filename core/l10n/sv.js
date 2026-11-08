@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Logga ut",
     "Sharing is not allowed." : "Delning är inte tillåten.",
     "Sharing is not allowed for you." : "Du har inte behörighet att dela.",
+    "Cannot share with a disabled account." : "Kan inte dela med ett inaktiverat konto.",
     "Sharing is only allowed with group members." : "Delning är endast tillåten med gruppmedlemmar.",
     "Sharing is only allowed within your own groups." : "Delning är endast tillåten inom dina egna grupper.",
     "Group sharing is not allowed." : "Gruppdelning är inte tillåten.",
