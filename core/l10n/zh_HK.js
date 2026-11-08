@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "登出",
     "Sharing is not allowed." : "不允許分享。",
     "Sharing is not allowed for you." : "您無法分享此內容。",
+    "Cannot share with a disabled account." : "無法與已停用的帳戶分享。",
     "Sharing is only allowed with group members." : "僅允許與群組成員分享。",
     "Sharing is only allowed within your own groups." : "僅允許與您自己的群組分享。",
     "Group sharing is not allowed." : "不允許群組分享。",

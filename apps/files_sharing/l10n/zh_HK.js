@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "複製",
     "Send link via email" : "透過電郵寄送連結",
     "Enter an email address or paste a list" : "請輸入電郵地址或粘貼一個清單",
+    "Recipient emails" : "收件人電郵",
+    "Remove email: {email}" : "移除電郵地址：{email}",
     "Select a destination" : "選擇目的地",
     "Select" : "選擇",
     "What are you requesting?" : "您正在請求什麼？",
