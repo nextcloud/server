@@ -79,6 +79,7 @@
     "Log out" : "Выйти из системы",
     "Sharing is not allowed." : "Общий доступ запрещён.",
     "Sharing is not allowed for you." : "Общий доступ для вас запрещён.",
+    "Cannot share with a disabled account." : "Нельзя поделиться с отключённой учётной записью.",
     "Sharing is only allowed with group members." : "Общий доступ разрешён только для участников группы.",
     "Sharing is only allowed within your own groups." : "Общий доступ разрешён только внутри ваших групп.",
     "Group sharing is not allowed." : "Общий доступ для групп запрещён.",

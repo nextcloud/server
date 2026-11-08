@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "Kopyala",
     "Send link via email" : "Bağlantıyı e-posta ile gönder",
     "Enter an email address or paste a list" : "Bir e-posta adresi yazın ya da bir e-posta adresi listesi yapıştırın",
+    "Recipient emails" : "Alcı e-posta adresleri",
+    "Remove email: {email}" : "E-posta adresini kaldır: {email}",
     "Select a destination" : "Bir hedef seçin",
     "Select" : "Seçin",
     "What are you requesting?" : "Ne yapmak istiyorsunuz?",

@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "Kopírovať",
     "Send link via email" : "Odoslať odkaz e-mailom",
     "Enter an email address or paste a list" : "Zadajte e-mailovú adresu alebo vložte zoznam",
+    "Recipient emails" : "E-maily príjemcov",
+    "Remove email: {email}" : "Odstrániť e-mail: {email}",
     "Select a destination" : "Vybrať cieľ",
     "Select" : "Vybrať",
     "What are you requesting?" : "Čo požadujete?",
