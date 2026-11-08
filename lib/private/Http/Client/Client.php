@@ -53,19 +53,6 @@ class Client implements IClient {
 		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
-		if ($options['nextcloud']['allow_local_address'] === false) {
-			$onRedirectFunction = function (
-				\Psr\Http\Message\RequestInterface $request,
-				\Psr\Http\Message\ResponseInterface $response,
-				\Psr\Http\Message\UriInterface $uri,
-			) use ($options): void {
-				$this->preventLocalAddress($uri->__toString(), $options);
-			};
-
-			$defaults[RequestOptions::ALLOW_REDIRECTS] = [
-				'on_redirect' => $onRedirectFunction
-			];
-		}
 
 		// Only add RequestOptions::PROXY if Nextcloud is explicitly
 		// configured to use a proxy. This is needed in order not to override
@@ -75,6 +62,10 @@ class Client implements IClient {
 		}
 
 		$options = array_merge($defaults, $options);
+
+		if ($options['nextcloud']['allow_local_address'] === false) {
+			$options = $this->addRedirectHostCheck($options);
+		}
 
 		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
 			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
@@ -178,6 +169,32 @@ class Client implements IClient {
 		if (!$this->remoteHostValidator->isValid($host)) {
 			throw new LocalServerException('Host "' . $host . '" violates local access rules');
 		}
+	}
+
+	private function addRedirectHostCheck(array $options): array {
+		$allowRedirects = array_key_exists(RequestOptions::ALLOW_REDIRECTS, $options)
+			? $options[RequestOptions::ALLOW_REDIRECTS]
+			: true;
+		if ($allowRedirects === true) {
+			$allowRedirects = [];
+		} elseif (!is_array($allowRedirects) || $allowRedirects === []) {
+			return $options;
+		}
+
+		$callerOnRedirect = $allowRedirects['on_redirect'] ?? null;
+		$allowRedirects['on_redirect'] = function (
+			\Psr\Http\Message\RequestInterface $request,
+			\Psr\Http\Message\ResponseInterface $response,
+			\Psr\Http\Message\UriInterface $uri,
+		) use ($options, $callerOnRedirect): void {
+			$this->preventLocalAddress($uri->__toString(), $options);
+			if ($callerOnRedirect !== null) {
+				$callerOnRedirect($request, $response, $uri);
+			}
+		};
+
+		$options[RequestOptions::ALLOW_REDIRECTS] = $allowRedirects;
+		return $options;
 	}
 
 	/**
