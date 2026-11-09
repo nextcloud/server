@@ -72,7 +72,7 @@ describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 		createShare('folder', sharee.userId, { read: true, download: true, note: 'Hello, this is the note.' })
 
 		// reload just to be sure
-		cy.reload()
+		cy.visit('/apps/files')
 
 		// open the sharing tab
 		openSharingPanel('folder')
