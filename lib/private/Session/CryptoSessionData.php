@@ -77,7 +77,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 					'exception' => $e,
 				]);
 				$this->sessionValues = [];
-				$this->regenerateId(true, false);
+				$this->regenerateId(false, false);
 			}
 		}
 	}
@@ -172,7 +172,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param bool $updateToken Wheater to update the associated auth token
 	 * @return void
 	 */
-	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+	public function regenerateId(bool $deleteOldSession = false, bool $updateToken = false) {
+		$deleteOldSession = false; // force it off intentionally
 		$this->session->regenerateId($deleteOldSession, $updateToken);
 	}
 
