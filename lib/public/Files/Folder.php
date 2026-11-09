@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP\Files;
 
@@ -17,19 +15,19 @@ use OCP\Files\Search\ISearchQuery;
  */
 interface Folder extends Node {
 	/**
-	 * Get the full path of an item in the folder within owncloud's filesystem
+	 * Get the absolute path for a relative path inside this folder.
 	 *
-	 * @param string $path relative path of an item in the folder
+	 * @param string $path Relative path of an item in this folder
 	 * @return string
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException If the path is invalid
 	 * @since 6.0.0
 	 */
 	public function getFullPath($path);
 
 	/**
-	 * Get the path of an item in the folder relative to the folder
+	 * Get the relative path for an absolute path inside this folder.
 	 *
-	 * @param string $path absolute path of an item in the folder
+	 * @param string $path Absolute path of an item in this folder
 	 * @throws \OCP\Files\NotFoundException
 	 * @return string|null
 	 * @since 6.0.0
@@ -37,7 +35,7 @@ interface Folder extends Node {
 	public function getRelativePath($path);
 
 	/**
-	 * check if a node is a (grand-)child of the folder
+	 * Check whether a node is contained anywhere inside this folder's subtree.
 	 *
 	 * @param \OCP\Files\Node $node
 	 * @return bool
@@ -46,7 +44,7 @@ interface Folder extends Node {
 	public function isSubNode($node);
 
 	/**
-	 * Get the content of this directory.
+	 * Get the contents of this folder.
 	 *
 	 * @param ?non-empty-string $mimetypeFilter Limit the returned content to this mimetype or mimepart
 	 * @throws \OCP\Files\NotFoundException
@@ -56,9 +54,9 @@ interface Folder extends Node {
 	public function getDirectoryListing(?string $mimetypeFilter = null): array;
 
 	/**
-	 * Get the node at $path
+	 * Get the node at the specified relative path in this folder.
 	 *
-	 * @param string $path relative path of the file or folder
+	 * @param string $path Relative path inside this folder
 	 * @return \OCP\Files\Node
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
@@ -67,27 +65,27 @@ interface Folder extends Node {
 	public function get($path);
 
 	/**
-	 * Get or create new folder if the folder does not already exist.
+	 * Get or create the folder at the specified relative path.
 	 *
-	 * @param string $path relative path of the file or folder
-	 * @throw \OCP\Files\NotPermittedException
+	 * @param string $path Relative path inside this folder
+	 * @throws \OCP\Files\NotPermittedException If the folder cannot be loaded or created
 	 * @since 33.0.0
 	 */
 	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder;
 
 	/**
-	 * Check if a file or folder exists in the folder
+	 * Check if a file or folder exists in this folder.
 	 *
-	 * @param string $path relative path of the file or folder
+	 * @param string $path Relative path inside this folder
 	 * @return bool
 	 * @since 6.0.0
 	 */
 	public function nodeExists($path);
 
 	/**
-	 * Create a new folder
+	 * Create a new folder in this folder.
 	 *
-	 * @param string $path relative path of the new folder
+	 * @param string $path Relative path inside this folder
 	 * @return \OCP\Files\Folder
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
@@ -95,7 +93,7 @@ interface Folder extends Node {
 	public function newFolder($path);
 
 	/**
-	 * Create a new file
+	 * Create a new file in this folder.
 	 *
 	 * @param string $path relative path of the new file
 	 * @param string|resource|null $content content for the new file, since 19.0.0
@@ -106,16 +104,21 @@ interface Folder extends Node {
 	public function newFile($path, $content = null);
 
 	/**
-	 * search for files with the name matching $query
+	 * Search for items that match the specified query within this folder.
+	 *
+	 * If $query is a string, it is treated as a name LIKE search (`%$query%`).
+	 * If $query is an ISearchQuery, it is executed as-is.
 	 *
 	 * @param string|ISearchQuery $query
 	 * @return \OCP\Files\Node[]
+	 * @throws \InvalidArgumentException When attempting to search by owner outside a user's home folder.
 	 * @since 6.0.0
 	 */
 	public function search($query);
 
 	/**
-	 * search for files by mimetype
+	 * Search for files by mimetype within this folder.
+	 *
 	 * $mimetype can either be a full mimetype (image/png) or a wildcard mimetype (image)
 	 *
 	 * @param string $mimetype
@@ -125,7 +128,7 @@ interface Folder extends Node {
 	public function searchByMime($mimetype);
 
 	/**
-	 * search for files by tag
+	 * Search for files by tag within this folder.
 	 *
 	 * @param string|int $tag tag name or tag id
 	 * @param string $userId owner of the tags
@@ -135,7 +138,7 @@ interface Folder extends Node {
 	public function searchByTag($tag, $userId);
 
 	/**
-	 * search for files by system tag
+	 * Search for files by system tag within this folder.
 	 *
 	 * @param string|int $tag tag name
 	 * @param string $userId user id to ensure access on returned nodes
@@ -145,12 +148,12 @@ interface Folder extends Node {
 	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0);
 
 	/**
-	 * get a file or folder inside the folder by its internal id
+	 * Retrieve the node(s) matching the specified internal ID within this folder.
 	 *
-	 * This method could return multiple entries. For example once the file/folder
+	 * This method can return multiple nodes. For example, if the file or folder
 	 * is shared or mounted (files_external) to the user multiple times.
 	 *
-	 * Note that the different entries can have different permissions.
+	 * Please note that permissions may vary by entry.
 	 *
 	 * @param int $id
 	 * @return \OCP\Files\Node[]
@@ -159,16 +162,16 @@ interface Folder extends Node {
 	public function getById($id);
 
 	/**
-	 * get a file or folder inside the folder by its internal id
+	 * Retrieve an arbitrary node matching the specified internal ID within this folder.
 	 *
-	 * Unlike getById, this method only returns a single node even if the user has
-	 * access to the file with the requested id multiple times.
+	 * Unlike getById, this method returns only a single node, even if the user has
+	 * access to the file or folder in multiple ways.
 	 *
-	 * This method provides no guarantee about which of the nodes in returned and the
-	 * returned node might, for example, have less permissions than other nodes for the same file
+	 * There is no guarantee which node is returned. The returned node might, for
+	 * example, have fewer permissions than other nodes for the same file.
 	 *
-	 * Apps that require accurate information about the users access to the file should use getById
-	 * instead of pick the correct node out of the result.
+	 * Apps requiring accurate information about the user's access should use getById
+	 * instead and select the correct node from the result.
 	 *
 	 * @param int $id
 	 * @return Node|null
@@ -177,7 +180,7 @@ interface Folder extends Node {
 	public function getFirstNodeById(int $id): ?Node;
 
 	/**
-	 * Get the amount of free space inside the folder
+	 * Get the amount of free space inside the folder.
 	 *
 	 * @return int
 	 * @since 6.0.0
@@ -185,7 +188,7 @@ interface Folder extends Node {
 	public function getFreeSpace();
 
 	/**
-	 * Check if new files or folders can be created within the folder
+	 * Check if new files or folders can be created within the folder.
 	 *
 	 * @return bool
 	 * @since 6.0.0
@@ -194,7 +197,7 @@ interface Folder extends Node {
 	public function isCreatable();
 
 	/**
-	 * Add a suffix to the name in case the file exists
+	 * Return a non-existing filename by appending a numeric suffix if needed.
 	 *
 	 * @param string $filename
 	 * @return string
@@ -204,20 +207,30 @@ interface Folder extends Node {
 	public function getNonExistingName($filename);
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
+	 * Retrieve recently modified files and empty folders.
+	 *
+	 * Results are ordered by modification time (descending). Non-empty folders
+	 * are excluded from the result set.
+	 *
+	 * When called with an offset of 0 and a limit of at most 100, the search is
+	 * restricted to items modified within the last two weeks for faster retrieval.
+	 *
+	 * @param int $limit Maximum number of results to return
+	 * @param int $offset Number of results to skip
 	 * @return \OCP\Files\Node[]
 	 * @since 9.1.0
 	 */
 	public function getRecent($limit, $offset = 0);
 
 	/**
-	 * Verify if the given path is valid and allowed from this folder.
+	 * Verify that a file name is valid and allowed inside this folder.
 	 *
-	 * @param string $path the path from this folder
-	 * @param string $fileName
-	 * @param bool $readonly Check only if the path is allowed for read-only access
-	 * @throws InvalidPathException
+	 * This checks whether the resulting path is permitted for read-only or
+	 * read-write access.
+	 *
+	 * @param string $fileName The file name to validate relative to this folder
+	 * @param bool $readonly Set to true to check only for read-only access
+	 * @throws InvalidPathException If the file name or resulting path is invalid or not allowed
 	 * @since 32.0.0
 	 */
 	public function verifyPath($fileName, $readonly = false): void;
