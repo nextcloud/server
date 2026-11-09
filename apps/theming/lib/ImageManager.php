@@ -329,18 +329,12 @@ class ImageManager {
 
 	/**
 	 * Returns a list of supported mime types for image uploads.
-	 * "favicon" images are only allowed to be SVG when imagemagick with SVG support is available.
 	 *
 	 * @param string $key The image key, e.g. "favicon"
 	 * @return string[]
 	 */
 	public function getSupportedUploadImageFormats(string $key): array {
-		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-
-		if ($key !== 'favicon' || $this->canConvert('SVG') === true) {
-			$supportedFormats[] = 'image/svg+xml';
-			$supportedFormats[] = 'image/svg';
-		}
+		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/svg'];
 
 		if ($key === 'favicon') {
 			$supportedFormats[] = 'image/x-icon';
