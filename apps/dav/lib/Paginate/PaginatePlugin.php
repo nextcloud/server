@@ -144,11 +144,6 @@ class PaginatePlugin extends ServerPlugin {
 
 			$items = $this->cache->get($url, $token, $offset, $count, $context);
 
-			$response->setStatus(207);
-			$response->addHeader(self::PAGINATE_HEADER, 'true');
-			$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
-			$response->setHeader('Vary', 'Brief,Prefer');
-
 			// as we cached strings of XML, rebuild the multistatus response
 			// and output the RAW entries, as stored in the cache
 			$writer = $this->server->xml->getWriter();
@@ -157,10 +152,18 @@ class PaginatePlugin extends ServerPlugin {
 			$writer->startDocument();
 			$writer->startElement('{DAV:}multistatus');
 			foreach ($items as $item) {
+				if ($item === null) {
+					return;
+				}
 				$writer->writeRaw($item);
 			}
 			$writer->endElement();
 			$writer->endDocument();
+
+			$response->setStatus(207);
+			$response->addHeader(self::PAGINATE_HEADER, 'true');
+			$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
+			$response->setHeader('Vary', 'Brief,Prefer');
 
 			$response->setBody($writer->flush());
 
