@@ -79,6 +79,7 @@ use OC\Files\View;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
+use OC\Import\ImportScope;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
@@ -230,6 +231,7 @@ use OCP\IEmojiHelper;
 use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
+use OCP\Import\IImportScope;
 use OCP\INavigationManager;
 use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
@@ -553,6 +555,7 @@ class Server extends ServerContainer {
 				$c->get(IRichTextFormatter::class),
 				$l10n,
 				$c->get(ITimeFactory::class),
+				$c->get(IImportScope::class),
 			);
 		});
 
@@ -1067,6 +1070,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(IAppDataFactory::class, \OC\Files\AppData\Factory::class);
 		$this->registerAlias(IFilenameValidator::class, FilenameValidator::class);
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
+		$this->registerAlias(IImportScope::class, ImportScope::class);
 		$this->registerAlias(IPublicShareTemplateFactory::class, PublicShareTemplateFactory::class);
 		$this->registerAlias(ITranslationManager::class, TranslationManager::class);
 		$this->registerAlias(IConversionManager::class, ConversionManager::class);

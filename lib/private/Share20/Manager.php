@@ -39,6 +39,7 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\Import\IImportScope;
 use OCP\Interaction\Actions\ShareAction;
 use OCP\Interaction\Receivers\CircleReceiver;
 use OCP\Interaction\Receivers\DeckReceiver;
@@ -111,6 +112,7 @@ class Manager implements IManager {
 		private IDateTimeZone $dateTimeZone,
 		private IAppConfig $appConfig,
 		private IDBConnection $connection,
+		private IImportScope $importScope,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 	}
@@ -637,7 +639,9 @@ class Manager implements IManager {
 		$this->dispatchEvent(new ShareCreatedEvent($share), 'share created');
 
 		// Send email if needed
-		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)) {
+		if ($this->importScope->isActive()) {
+			$this->logger->debug('Share notification not sent because the share was created by an import.', ['app' => 'share']);
+		} elseif ($this->config->getSystemValueBool('sharing.enable_share_mail', true)) {
 			if ($share->getMailSend()) {
 				$provider = $this->factory->getProviderForType($share->getShareType());
 				if ($provider instanceof IShareProviderWithNotification) {

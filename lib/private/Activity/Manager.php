@@ -22,6 +22,7 @@ use OCP\Activity\ISetting;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Import\IImportScope;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -51,6 +52,7 @@ class Manager implements IManager {
 		protected IRichTextFormatter $richTextFormatter,
 		protected IL10N $l10n,
 		protected ITimeFactory $timeFactory,
+		protected IImportScope $importScope,
 	) {
 	}
 
@@ -115,6 +117,10 @@ class Manager implements IManager {
 			throw new IncompleteActivityException('The given event is invalid');
 		}
 
+		if ($this->importScope->isActive()) {
+			return;
+		}
+
 		foreach ($this->getConsumers() as $c) {
 			$c->receive($event);
 		}
@@ -139,6 +145,10 @@ class Manager implements IManager {
 
 		if (!$event->isValid()) {
 			throw new IncompleteActivityException('The given event is invalid');
+		}
+
+		if ($this->importScope->isActive()) {
+			return;
 		}
 
 		foreach ($this->getConsumers() as $c) {
