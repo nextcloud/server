@@ -18,7 +18,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import EncryptionWarningDialog from './EncryptionWarningDialog.vue'
-import logger from '../../logger.ts'
+import logger from '../../../logger.ts'
 import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 
 interface EncryptionModule {
@@ -30,7 +30,8 @@ const allEncryptionModules = loadState<never[] | Record<string, EncryptionModule
 /** Available encryption modules on the backend */
 const encryptionModules = Array.isArray(allEncryptionModules) ? [] : Object.entries(allEncryptionModules).map(([id, module]) => ({ ...module, id }))
 /** ID of the default encryption module */
-const defaultCheckedModule = encryptionModules.find((module) => module.default)?.id
+const defaultCheckedModule = ref(encryptionModules.find((module) => module.default)?.id)
+let savedModule = defaultCheckedModule.value
 
 /** Is the server side encryptio ready to be enabled */
 const encryptionReady = loadState<boolean>('settings', 'encryption-ready')
@@ -74,14 +75,13 @@ function displayWarning(enabled: boolean) {
  * @param value The new value
  */
 async function update(key: string, value: string) {
-	await confirmPassword()
-
 	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
 		appId: 'core',
 		key,
 	})
 
 	try {
+		await confirmPassword()
 		const { data } = await axios.post<OCSResponse>(url, {
 			value,
 		})
@@ -98,10 +98,14 @@ async function update(key: string, value: string) {
 
 /**
  * Choose the default encryption module
+ *
+ * @param module ID of the picked module
  */
-async function checkDefaultModule(): Promise<void> {
-	if (defaultCheckedModule) {
-		await update('default_encryption_module', defaultCheckedModule)
+async function checkDefaultModule(module: string): Promise<void> {
+	if (await update('default_encryption_module', module)) {
+		savedModule = module
+	} else {
+		defaultCheckedModule.value = savedModule
 	}
 }
 
@@ -117,20 +121,20 @@ async function enableEncryption(): Promise<void> {
 	<NcSettingsSection
 		:name="t('settings', 'Server-side encryption')"
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
-		:doc-url="encryptionAdminDoc">
+		:docUrl="encryptionAdminDoc">
 		<NcNoteCard v-if="encryptionEnabled" type="info">
 			<p>
 				{{ textExistingFilesNotEncrypted }}
 				{{ t('settings', 'To encrypt all existing files run this OCC command:') }}
 			</p>
-			<code>
+			<code :class="$style.code">
 				<pre>occ encryption:encrypt-all</pre>
 			</code>
 		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
-			:class="{ disabled: encryptionEnabled }"
-			:model-value="encryptionEnabled"
+			:class="{ [$style.disabled]: encryptionEnabled }"
+			:modelValue="encryptionEnabled"
 			:aria-disabled="encryptionEnabled ? 'true' : undefined"
 			:aria-describedby="encryptionEnabled ? 'server-side-encryption-disable-hint' : undefined"
 			:loading="loadingEncryptionState"
@@ -138,7 +142,7 @@ async function enableEncryption(): Promise<void> {
 			@update:modelValue="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
 		</NcCheckboxRadioSwitch>
-		<p v-if="encryptionEnabled" id="server-side-encryption-disable-hint" class="disable-hint">
+		<p v-if="encryptionEnabled" id="server-side-encryption-disable-hint" :class="$style.disableHint">
 			{{ t('settings', 'Disabling server side encryption is only possible using OCC, please refer to the documentation.') }}
 		</p>
 
@@ -177,8 +181,8 @@ async function enableEncryption(): Promise<void> {
 	</NcSettingsSection>
 </template>
 
-<style scoped>
-code {
+<style module>
+.code {
 	background-color: var(--color-background-dark);
 	color: var(--color-main-text);
 
@@ -192,11 +196,11 @@ code {
 	opacity: .75;
 }
 
-.disabled :deep(*) {
+.disabled :global(*) {
 	cursor: not-allowed !important;
 }
 
-.disable-hint {
+.disableHint {
 	color: var(--color-text-maxcontrast);
 	padding-inline-start: 10px;
 }
