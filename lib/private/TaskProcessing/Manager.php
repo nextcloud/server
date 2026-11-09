@@ -1899,7 +1899,7 @@ class Manager implements IManager {
 		} elseif (is_string($id) && ctype_digit($id)) {
 			$normalizedFileId = (int)$id;
 		} else {
-			throw new \InvalidArgumentException('File ID must be an integer: ' . $id);
+			throw new ValidationException('File ID must be an integer: ' . $id);
 		}
 		$node = $this->rootFolder->getFirstNodeById($normalizedFileId);
 		if ($node === null) {
