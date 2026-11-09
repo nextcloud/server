@@ -938,6 +938,7 @@ return array(
     'OCP\\User\\Events\\UserChangedEvent' => $baseDir . '/lib/public/User/Events/UserChangedEvent.php',
     'OCP\\User\\Events\\UserCreatedEvent' => $baseDir . '/lib/public/User/Events/UserCreatedEvent.php',
     'OCP\\User\\Events\\UserDeletedEvent' => $baseDir . '/lib/public/User/Events/UserDeletedEvent.php',
+    'OCP\\User\\Events\\UserEnumerationFilterEvent' => $baseDir . '/lib/public/User/Events/UserEnumerationFilterEvent.php',
     'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => $baseDir . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',
     'OCP\\User\\Events\\UserIdAssignedEvent' => $baseDir . '/lib/public/User/Events/UserIdAssignedEvent.php',
     'OCP\\User\\Events\\UserIdUnassignedEvent' => $baseDir . '/lib/public/User/Events/UserIdUnassignedEvent.php',
