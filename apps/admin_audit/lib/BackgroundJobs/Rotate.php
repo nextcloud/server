@@ -13,6 +13,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
+use Psr\Log\LoggerInterface;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
@@ -21,26 +22,32 @@ class Rotate extends TimedJob {
 		ITimeFactory $time,
 		private IAppConfig $appConfig,
 		private IConfig $config,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-
-		$this->setInterval(60 * 60 * 3);
+		$this->setInterval(self::DEFAULT_ROTATION_INTERVAL);
 	}
 
 	#[\Override]
 	protected function run($argument): void {
-		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-		$this->filePath = $this->appConfig->getAppValueString('logfile', $default);
-
+		$defaultFilePath = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
+		$this->filePath = $this->appConfig->getAppValueString('logfile', $defaultFilePath);
 		if ($this->filePath === '') {
-			// default log file, nothing to do
 			return;
 		}
 
-		$this->maxSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
-
+		$this->maxSize = $this->config->getSystemValueInt('log_rotate_size', self::DEFAULT_MAX_SIZE);
 		if ($this->shouldRotateBySize()) {
-			$this->rotate();
+			$rotatedFile = $this->rotate();
+			$this->logger->info(
+				'Log file "{filePath}" reached the configured rotation size of {maxSize} bytes and was moved to "{rotatedFile}"',
+				[
+					'app' => self::class,
+					'filePath' => $this->filePath,
+					'maxSize' => $this->maxSize,
+					'rotatedFile' => $rotatedFile,
+				],
+			);
 		}
 	}
 }
