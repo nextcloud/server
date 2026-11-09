@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Se déconnecter",
     "Sharing is not allowed." : "Le partage n’est pas autorisé.",
     "Sharing is not allowed for you." : "Vous n’êtes pas autorisé à partager.",
+    "Cannot share with a disabled account." : "Impossible de partager avec un compte désactivé.",
     "Sharing is only allowed with group members." : "Le partage est uniquement autorisé avec les membres du groupe.",
     "Sharing is only allowed within your own groups." : "Le partage est uniquement autorisé au sein de vos propres groupes.",
     "Group sharing is not allowed." : "Le partage avec des groupes n’est pas autorisé.",
