@@ -96,6 +96,39 @@ class AudioToImage implements ITaskType {
 	}
 }
 
+class TextToTextWithOptionalFile implements ITaskType {
+	public const ID = 'test:texttotext-with-optional-file';
+
+	#[\Override]
+	public function getId(): string {
+		return self::ID;
+	}
+
+	#[\Override]
+	public function getName(): string {
+		return self::class;
+	}
+
+	#[\Override]
+	public function getDescription(): string {
+		return self::class;
+	}
+
+	#[\Override]
+	public function getInputShape(): array {
+		return [
+			'input' => new ShapeDescriptor('Input', 'The input', EShapeType::Text),
+		];
+	}
+
+	#[\Override]
+	public function getOutputShape(): array {
+		return [
+			'output' => new ShapeDescriptor('Output', 'The output', EShapeType::Text),
+		];
+	}
+}
+
 class AsyncProvider implements IProvider {
 	#[\Override]
 	public function getId(): string {
@@ -129,6 +162,70 @@ class AsyncProvider implements IProvider {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
+	}
+
+	#[\Override]
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	#[\Override]
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	#[\Override]
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	#[\Override]
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	#[\Override]
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	#[\Override]
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
+}
+
+class OptionalFileInputProvider implements IProvider {
+	#[\Override]
+	public function getId(): string {
+		return 'test:optional-file-input-provider';
+	}
+
+	#[\Override]
+	public function getName(): string {
+		return self::class;
+	}
+
+	#[\Override]
+	public function getTaskTypeId(): string {
+		return TextToTextWithOptionalFile::ID;
+	}
+
+	#[\Override]
+	public function getExpectedRuntime(): int {
+		return 10;
+	}
+
+	#[\Override]
+	public function getOptionalInputShape(): array {
+		return [
+			'file' => new ShapeDescriptor('Optional file', 'An optional file', EShapeType::File),
+		];
+	}
+
+	#[\Override]
+	public function getOptionalOutputShape(): array {
+		return [];
 	}
 
 	#[\Override]
@@ -798,6 +895,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			BrokenSyncProvider::class => new BrokenSyncProvider(),
 			AsyncProvider::class => new AsyncProvider(),
 			AudioToImage::class => new AudioToImage(),
+			TextToTextWithOptionalFile::class => new TextToTextWithOptionalFile(),
+			OptionalFileInputProvider::class => new OptionalFileInputProvider(),
 			SuccessfulTextProcessingSummaryProvider::class => new SuccessfulTextProcessingSummaryProvider(),
 			FailingTextProcessingSummaryProvider::class => new FailingTextProcessingSummaryProvider(),
 			SuccessfulTextToImageProvider::class => new SuccessfulTextToImageProvider(),
@@ -1268,6 +1367,27 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertNotNull($node);
 		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('World', $node->getContent());
+	}
+
+	public function testScheduleTaskWithOmittedOptionalFileInput(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', TextToTextWithOptionalFile::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', OptionalFileInputProvider::class)
+		]);
+
+		$availableTaskTypes = $this->manager->getAvailableTaskTypes();
+		self::assertArrayHasKey(TextToTextWithOptionalFile::ID, $availableTaskTypes);
+		self::assertEquals(EShapeType::File, $availableTaskTypes[TextToTextWithOptionalFile::ID]['optionalInputShape']['file']->getShapeType());
+
+		$task = new Task(TextToTextWithOptionalFile::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		$task2 = $this->manager->getTask($task->getId());
+		self::assertEquals(['input' => 'Hello'], $task2->getInput());
 	}
 
 	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileShapedData(): void {

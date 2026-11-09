@@ -1744,6 +1744,11 @@ class Manager implements IManager {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
 				/** @var list<int>|int $inputSlot */
 				$inputSlot = $task->getInput()[$key];
+				// an optional file slot that the caller omitted resolves to null here;
+				// treating it as a file id crashes file resolution (TypeError, HTTP 500)
+				if ($inputSlot === null) {
+					continue;
+				}
 				if (is_array($inputSlot)) {
 					$ids += $inputSlot;
 				} else {
