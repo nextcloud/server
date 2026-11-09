@@ -58,6 +58,15 @@ class SetConfigTest extends TestCase {
 				false,
 				'comment',
 			],
+			[
+				'name',
+				'newvalue',
+				true,
+				true,
+				true,
+				'info',
+				IAppConfig::VALUE_MIXED | IAppConfig::FLAG_SENSITIVE,
+			],
 		];
 	}
 
