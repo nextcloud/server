@@ -9,6 +9,7 @@ namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
 use OCP\App\IAppManager;
+use OCP\IGroupManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListApps extends Base {
 	public function __construct(
 		protected IAppManager $appManager,
+		protected IGroupManager $groupManager,
 	) {
 		parent::__construct();
 	}
@@ -83,7 +85,14 @@ class ListApps extends Base {
 
 			sort($enabledApps);
 			foreach ($enabledApps as $app) {
-				$apps['enabled'][$app] = $versions[$app] ?? true;
+				$appDetails = $versions[$app] ?? true;
+				$appRestrictions = $this->appManager->getAppRestriction($app);
+
+				if ($appRestrictions !== []) {
+					$appDetails .= $this->formatAppRestrictions($appRestrictions);
+				}
+
+				$apps['enabled'][$app] = $appDetails;
 			}
 		}
 
@@ -98,6 +107,15 @@ class ListApps extends Base {
 
 		$this->writeAppList($input, $output, $apps);
 		return 0;
+	}
+
+	/**
+	 * @param string[] $groupIds - List of groups the app is restricted to
+	 */
+	private function formatAppRestrictions(array $groupIds): string {
+		$groups = array_map(fn (string $groupId): string => $this->groupManager->get($groupId)?->getDisplayName() ?? $groupId, $groupIds);
+
+		return ' (enabled for groups: ' . implode(', ', $groups) . ')';
 	}
 
 	/**
