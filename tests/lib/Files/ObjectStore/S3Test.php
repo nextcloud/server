@@ -9,6 +9,9 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OC\Memcache\ArrayCache;
+use OCP\Files\ObjectStore\ObjectAlreadyExistsException;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Server;
 
@@ -189,5 +192,108 @@ class S3Test extends ObjectStoreTestCase {
 		self::assertTrue(feof($result), 'End of file reached after read attempt');
 
 		$this->assertNoUpload('testfilesizes');
+	}
+
+	private function getConfiguredArguments(): array {
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
+		if (!is_array($config) || $config['class'] !== S3::class) {
+			$this->markTestSkipped('objectstore not configured for s3');
+		}
+		// Conditional writes are opt-in (default off); enable them for these tests.
+		return ['conditional_writes' => 'auto'] + $config['arguments'];
+	}
+
+	public function testConditionalWriteRejectsOverwrite(): void {
+		$this->cleanupAfter('conditional-write');
+		$s3 = new S3($this->getConfiguredArguments());
+		if (!$s3->supportsConditionalWrites()) {
+			$this->markTestSkipped('the configured object store does not enforce conditional writes');
+		}
+
+		$s3->writeObjectIfNotExists('conditional-write', $this->stringToStream('first'));
+		self::assertSame('first', stream_get_contents($s3->readObject('conditional-write')));
+
+		$thrown = false;
+		try {
+			$s3->writeObjectIfNotExists('conditional-write', $this->stringToStream('second'));
+		} catch (ObjectAlreadyExistsException) {
+			$thrown = true;
+		}
+
+		self::assertTrue($thrown, 'A conditional write to an existing key must be refused');
+		// The original data must be preserved.
+		self::assertSame('first', stream_get_contents($s3->readObject('conditional-write')));
+	}
+
+	public function testConditionalWriteRejectsOverwriteMultipart(): void {
+		$this->cleanupAfter('conditional-write-mpu');
+		$arguments = $this->getConfiguredArguments();
+		// Force the multipart-upload path even for tiny objects.
+		$arguments['putSizeLimit'] = 1;
+		$arguments['uploadPartSize'] = 5 * 1024 * 1024;
+		$s3 = new S3($arguments);
+		if (!$s3->supportsConditionalWrites()) {
+			$this->markTestSkipped('the configured object store does not enforce conditional writes');
+		}
+
+		$s3->writeObjectIfNotExists('conditional-write-mpu', $this->stringToStream('first'));
+		self::assertSame('first', stream_get_contents($s3->readObject('conditional-write-mpu')));
+
+		$thrown = false;
+		try {
+			$s3->writeObjectIfNotExists('conditional-write-mpu', $this->stringToStream('second'));
+		} catch (ObjectAlreadyExistsException) {
+			$thrown = true;
+		}
+
+		self::assertTrue($thrown, 'A conditional multipart write to an existing key must be refused');
+		self::assertSame('first', stream_get_contents($s3->readObject('conditional-write-mpu')));
+	}
+
+	public function testConditionalWritesDisabledByConfig(): void {
+		$arguments = $this->getConfiguredArguments();
+		$arguments['conditional_writes'] = false;
+		$s3 = new S3($arguments);
+		self::assertFalse($s3->supportsConditionalWrites());
+	}
+
+	public function testConditionalWriteSupportUsesCachedResult(): void {
+		$arguments = $this->getConfiguredArguments();
+
+		// Back the cache with a single shared in-memory instance so a stored probe
+		// result is observable. In production the distributed cache (e.g. Redis) is a
+		// shared backend; the phpunit bootstrap otherwise hands out a fresh, isolated
+		// ArrayCache per createDistributed() call, which cannot be observed across calls.
+		$cache = new ArrayCache('');
+		$factory = $this->createMock(ICacheFactory::class);
+		$factory->method('createDistributed')->willReturn($cache);
+		$factory->method('createLocal')->willReturn($cache);
+		$this->overwriteService(ICacheFactory::class, $factory);
+
+		// Distinct buckets so the process-level probe memo does not carry the first
+		// result over into the second assertion, and a pinned hostname so the cache key
+		// matches without depending on the configured arguments carrying one.
+		$hostname = 'conditional-writes.test';
+		$negative = ['bucket' => $arguments['bucket'] . '-cw-neg', 'hostname' => $hostname] + $arguments;
+		$positive = ['bucket' => $arguments['bucket'] . '-cw-pos', 'hostname' => $hostname] + $arguments;
+
+		try {
+			// A cached negative result is honoured (in 'auto' mode) without probing the store.
+			$cache->set($hostname . '::' . $negative['bucket'], 0);
+			self::assertFalse((new S3($negative))->supportsConditionalWrites());
+
+			// A cached positive result is likewise reused.
+			$cache->set($hostname . '::' . $positive['bucket'], 1);
+			self::assertTrue((new S3($positive))->supportsConditionalWrites());
+
+			// An empty or unrecognized mode falls back to disabled, never to 'auto': it
+			// must not pick up that positive result, nor probe the store at all.
+			foreach (['', 'off'] as $mode) {
+				$invalid = ['conditional_writes' => $mode] + $positive;
+				self::assertFalse((new S3($invalid))->supportsConditionalWrites(), 'mode: ' . var_export($mode, true));
+			}
+		} finally {
+			$this->restoreService(ICacheFactory::class);
+		}
 	}
 }
