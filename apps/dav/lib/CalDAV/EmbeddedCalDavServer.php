@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Server;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
 class EmbeddedCalDavServer {
@@ -92,8 +93,10 @@ class EmbeddedCalDavServer {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new SharingPlugin(Server::get(IShareManager::class)));
 		$this->server->addPlugin(new PublishPlugin(
-			Server::get(IURLGenerator::class)
+			Server::get(IURLGenerator::class),
+			Server::get(IShareManager::class),
 		));
 		if ($appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SEND_INVITATIONS)) {
 			$this->server->addPlugin(Server::get(IMipPlugin::class));

@@ -11,9 +11,11 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCA\DAV\DAV\Sharing\CanChangeSharingTrait;
 use OCP\AppFramework\Http;
 use OCP\IURLGenerator;
-use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
+use OCP\Share\IManager as IShareManager;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -23,17 +25,15 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class PublishPlugin extends ServerPlugin {
+	use CanChangeSharingTrait;
+
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-	/**
-	 * Reference to SabreDAV server object.
-	 *
-	 * @var \Sabre\DAV\Server
-	 */
-	protected $server;
+	protected Server $server;
 
 	public function __construct(
 		protected IURLGenerator $urlGenerator,
+		private IShareManager $shareManager,
 	) {
 	}
 
@@ -46,9 +46,9 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string[]
 	 */
 	#[\Override]
-	public function getFeatures() {
+	public function getFeatures(): array {
 		// May have to be changed to be detected
-		return ['oc-calendar-publishing', 'calendarserver-sharing'];
+		return ['oc-calendar-publishing'];
 	}
 
 	/**
@@ -60,7 +60,7 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string
 	 */
 	#[\Override]
-	public function getPluginName() {
+	public function getPluginName(): string {
 		return 'oc-calendar-publishing';
 	}
 
@@ -106,12 +106,6 @@ class PublishPlugin extends ServerPlugin {
 
 					return new Publisher($publishUrl, true);
 				}
-			});
-
-			$propFind->handle('{' . self::NS_CALENDARSERVER . '}allowed-sharing-modes', function () use ($propFind, $node) {
-				$canShare = !$node->isSubscription() && $this->canChangeSharing($propFind->getPath());
-
-				return new AllowedSharingModes($canShare, $canShare);
 			});
 		}
 	}
@@ -163,6 +157,9 @@ class PublishPlugin extends ServerPlugin {
 				$this->server->transactionType = 'post-publish-calendar';
 
 				$this->canChangeSharing($path, true);
+				if (!$this->shareManager->shareApiAllowLinks()) {
+					throw new Forbidden('Publishing calendars via link is not allowed');
+				}
 
 				$node->setPublishStatus(true);
 
@@ -196,13 +193,5 @@ class PublishPlugin extends ServerPlugin {
 				// Breaking the event chain
 				return false;
 		}
-	}
-
-	private function canChangeSharing(string $path, bool $throwExceptions = false): bool {
-		$acl = $this->server->getPlugin('acl');
-		if (!$acl instanceof \Sabre\DAVACL\Plugin) {
-			return true;
-		}
-		return $acl->checkPrivileges($path, '{DAV:}write-acl', \Sabre\DAVACL\Plugin::R_PARENT, $throwExceptions);
 	}
 }
