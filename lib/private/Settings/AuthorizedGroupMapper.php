@@ -29,20 +29,23 @@ class AuthorizedGroupMapper extends QBMapper {
 	}
 
 	/**
+	 * Returns the class names associated with groups the user belongs to.
+	 * A class may appear more than once if multiple of the user's groups authorize it.
+	 *
+	 * @return list<string>
 	 * @throws Exception
 	 */
 	public function findAllClassesForUser(IUser $user): array {
-		$qb = $this->db->getQueryBuilder();
-
 		$groupManager = Server::get(IGroupManager::class);
 		$groupIds = $groupManager->getUserGroupIds($user);
-		if (count($groupIds) === 0) {
+		if ($groupIds === []) {
 			return [];
 		}
 
+		$qb = $this->db->getQueryBuilder();
 		/** @var list<string> $rows */
 		$rows = $qb->select('class')
-			->from($this->getTableName(), 'auth')
+			->from($this->getTableName())
 			->where($qb->expr()->in('group_id', $qb->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)))
 			->executeQuery()
 			->fetchFirstColumn();
@@ -51,31 +54,38 @@ class AuthorizedGroupMapper extends QBMapper {
 	}
 
 	/**
+	 * Finds an authorization mapping by its database ID.
+	 *
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
 	 * @throws Exception
 	 */
 	public function find(int $id): AuthorizedGroup {
-		$queryBuilder = $this->db->getQueryBuilder();
-		$queryBuilder->select('*')
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
 			->from($this->getTableName())
-			->where($queryBuilder->expr()->eq('id', $queryBuilder->createNamedParameter($id)));
-		return $this->findEntity($queryBuilder);
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($qb);
 	}
 
 	/**
-	 * Get all the authorizations stored in the database.
+	 * Returns all stored group-to-class authorization mappings.
 	 *
-	 * @return AuthorizedGroup[]
+	 * @return list<AuthorizedGroup>
 	 * @throws Exception
 	 */
 	public function findAll(): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('*')->from($this->getTableName());
+		$qb->select('*')
+			->from($this->getTableName());
+
 		return $this->findEntities($qb);
 	}
 
 	/**
+	 * Finds the authorization mapping for a group and class.
+	 *
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -86,10 +96,13 @@ class AuthorizedGroupMapper extends QBMapper {
 			->from($this->getTableName())
 			->where($qb->expr()->eq('group_id', $qb->createNamedParameter($groupId)))
 			->andWhere($qb->expr()->eq('class', $qb->createNamedParameter($class)));
+
 		return $this->findEntity($qb);
 	}
 
 	/**
+	 * Returns all group authorization mappings for a class.
+	 *
 	 * @return list<AuthorizedGroup>
 	 * @throws Exception
 	 */
@@ -98,10 +111,13 @@ class AuthorizedGroupMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('class', $qb->createNamedParameter($class)));
+
 		return $this->findEntities($qb);
 	}
 
 	/**
+	 * Removes all authorization mappings for a group.
+	 *
 	 * @throws Exception
 	 */
 	public function removeGroup(string $gid): void {

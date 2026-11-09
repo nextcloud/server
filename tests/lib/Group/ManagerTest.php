@@ -9,8 +9,10 @@
 namespace Test\Group;
 
 use OC\Group\Database;
+use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Manager;
 use OC\User\User;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -19,6 +21,7 @@ use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -470,6 +473,90 @@ class ManagerTest extends TestCase {
 		$manager->addBackend($backend);
 
 		$this->assertFalse($manager->isAdmin('user1'));
+	}
+
+	private function mockAuthorizedGroupMapper(): AuthorizedGroupMapper&MockObject {
+		// overwriteService() resolves the original mapper before replacing it.
+		$this->overwriteService(IDBConnection::class, $this->getAutoMock(IDBConnection::class));
+		$mapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->overwriteService(AuthorizedGroupMapper::class, $mapper);
+
+		return $mapper;
+	}
+
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
+	public function testIsDelegatedAdminForNonexistentUser(): void {
+		$this->getAutoMock(Manager::class)
+			->expects($this->once())
+			->method('get')
+			->with('missing-user')
+			->willReturn(null);
+
+		$mapper = $this->mockAuthorizedGroupMapper();
+		$mapper->expects($this->never())
+			->method('findAllClassesForUser');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+
+		$this->assertFalse($manager->isDelegatedAdmin('missing-user'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
+	public function testIsDelegatedAdminWhenAdminActionsAreDenied(): void {
+		$remoteAddress = $this->createMock(IRemoteAddress::class);
+		$remoteAddress->expects($this->once())
+			->method('allowsAdminActions')
+			->willReturn(false);
+
+		$this->getAutoMock(Manager::class)
+			->expects($this->never())
+			->method('get');
+
+		$mapper = $this->mockAuthorizedGroupMapper();
+		$mapper->expects($this->never())
+			->method('findAllClassesForUser');
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class, [
+			'remoteAddress' => $remoteAddress,
+		]);
+
+		$this->assertFalse($manager->isDelegatedAdmin('user1'));
+	}
+
+	public static function delegatedAdminClassesProvider(): array {
+		return [
+			'no delegation' => [[], false],
+			'other settings only' => [['OtherSettingsClass'], false],
+			'user administration' => [[Users::class], true],
+			'user administration among other settings' => [
+				['OtherSettingsClass', Users::class],
+				true,
+			],
+		];
+	}
+
+	/**
+	 * @param list<string> $authorizedClasses
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('delegatedAdminClassesProvider')]
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
+	public function testIsDelegatedAdminForExistingUser(array $authorizedClasses, bool $expected): void {
+		$user = $this->getTestUser('user1');
+		$this->getAutoMock(Manager::class)
+			->expects($this->once())
+			->method('get')
+			->with('user1')
+			->willReturn($user);
+
+		$mapper = $this->mockAuthorizedGroupMapper();
+		$mapper->expects($this->once())
+			->method('findAllClassesForUser')
+			->with($this->identicalTo($user))
+			->willReturn($authorizedClasses);
+
+		$manager = $this->createInstanceWithMocks(\OC\Group\Manager::class);
+
+		$this->assertSame($expected, $manager->isDelegatedAdmin('user1'));
 	}
 
 	public function testGetUserGroupsMultipleBackends(): void {
