@@ -57,11 +57,20 @@ class SetConfigTest extends TestCase {
 				false,
 				'comment',
 			],
+			[
+				'name',
+				'newvalue',
+				true,
+				true,
+				true,
+				'info',
+				IAppConfig::VALUE_MIXED | IAppConfig::FLAG_SENSITIVE,
+			],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSet')]
-	public function testSet(string $configName, mixed $newValue, bool $configExists, bool $updateOnly, bool $updated, string $expectedMessage): void {
+	public function testSet(string $configName, mixed $newValue, bool $configExists, bool $updateOnly, bool $updated, string $expectedMessage, int $storedType = IAppConfig::VALUE_MIXED): void {
 		$this->appConfig->method('hasKey')
 			->with('app-name', $configName)
 			->willReturn($configExists);
@@ -71,7 +80,7 @@ class SetConfigTest extends TestCase {
 				->willThrowException(new AppConfigUnknownKeyException());
 		} else {
 			$this->appConfig->method('getValueType')
-				->willReturn(IAppConfig::VALUE_MIXED);
+				->willReturn($storedType);
 		}
 
 		if ($updated) {
