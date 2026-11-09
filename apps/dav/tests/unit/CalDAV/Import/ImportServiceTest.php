@@ -17,6 +17,7 @@ use OCP\Calendar\CalendarImportOptions;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Writer;
 
 class ImportServiceTest extends \Test\TestCase {
 
@@ -156,5 +157,47 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->assertInstanceOf(ImportObjectEvent::class, $result[0]);
 		$this->assertSame($longUID, $result[0]->identifier);
 		$this->assertSame(ImportDisposition::Created, $result[0]->disposition);
+	}
+
+	public static function importWithoutUIDProvider(): array {
+		return [
+			'ical' => ['ical'],
+			'xcal' => ['xcal'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('importWithoutUIDProvider')]
+	public function testImportWithoutUID(string $format): void {
+		// Arrange
+		// construct calendar with an event that has no UID
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->remove('UID');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Event Without UID');
+		// construct stream from mock calendar
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $format === 'xcal' ? Writer::writeXml($vCalendar) : $vCalendar->serialize());
+		rewind($stream);
+		// construct import options
+		$options = new CalendarImportOptions();
+		$options->setFormat($format);
+		$options->setErrors(CalendarImportOptions::ERROR_CONTINUE);
+
+		// Mock backend methods
+		$this->backend->expects($this->never())
+			->method('createCalendarObject');
+
+		// Act
+		$result = iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
+
+		// Assert
+		$this->assertCount(1, $result, 'Import result should contain one item');
+		$this->assertInstanceOf(ImportObjectEvent::class, $result[0]);
+		$this->assertNull($result[0]->identifier);
+		$this->assertSame(ImportDisposition::Error, $result[0]->disposition);
+		$this->assertSame(['One or more objects discovered without a UID'], $result[0]->errors);
 	}
 }
