@@ -29,9 +29,9 @@ class FeaturePolicyManagerTest extends TestCase {
 		$this->manager = new FeaturePolicyManager($this->dispatcher);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testAddDefaultPolicy(): void {
 		$this->manager->addDefaultPolicy(new FeaturePolicy());
-		$this->addToAssertionCount(1);
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent(): void {
