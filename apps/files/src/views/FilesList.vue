@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, IFileListAction, INode, Node } from '@nextcloud/files'
+import type { ContentsWithRoot, IFileListAction, IFolder, INode, IView, Node } from '@nextcloud/files'
 import type { IUpload } from '@nextcloud/files/upload'
 import type { ComponentPublicInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
@@ -192,6 +192,7 @@ import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { deleteCachedListing, getCachedListing, setCachedListing } from '../services/FolderCache.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -569,45 +570,79 @@ export default defineComponent({
 
 			// Fetch the current dir contents
 			this.controller = new AbortController()
-			this.promise = currentView.getContents(dir, { signal: this.controller.signal })
-			try {
-				const { folder, contents } = await this.promise
-				logger.debug('Fetched contents', { dir, folder, contents })
+			const promise = currentView.getContents(dir, { signal: this.controller.signal })
+			this.promise = promise
 
-				// Update store
-				this.filesStore.updateNodes(contents)
-
-				// Define current directory children
-				// TODO: make it more official
-				folder._children = contents.map((node) => node.source)
-
-				// If we're in the root dir, define the root
-				if (dir === '/') {
-					this.filesStore.setRoot({ service: currentView.id, root: folder })
-				} else {
-					// Otherwise, add the folder to the store
-					if (folder.fileid) {
-						this.filesStore.updateNodes([folder])
-						this.pathsStore.addPath({ service: currentView.id, source: folder.source, path: dir })
-					} else {
-						// If we're here, the view API messed up
-						logger.fatal('Invalid root folder returned', { dir, folder, currentView })
-					}
+			// Show the last known listing until the server answers
+			let settled = false
+			let cachedFolder: IFolder | undefined
+			getCachedListing(currentView.id, dir).then((listing) => {
+				if (listing && !settled && this.promise === promise) {
+					logger.debug('Showing cached contents', { dir, listing })
+					this.setContents(currentView, dir, listing.folder, listing.contents)
+					cachedFolder = listing.folder
 				}
+			})
 
-				// Update paths store
-				const folders = contents.filter((node) => node.type === 'folder')
-				folders.forEach((node) => {
-					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
-				})
-
-				this.activeStore.activeFolder = folder
+			try {
+				const { folder, contents } = await promise
+				settled = true
+				logger.debug('Fetched contents', { dir, folder, contents })
+				this.setContents(currentView, dir, folder, contents)
+				setCachedListing(currentView.id, dir, folder, contents)
 			} catch (error) {
+				settled = true
 				logger.error('Error while fetching content', { error })
 				this.error = humanizeWebDAVError(error)
+				if ((error as { status?: number }).status === 404) {
+					deleteCachedListing(currentView.id, dir)
+					// The folder is gone, do not keep showing its cached contents over the error
+					if (cachedFolder && this.activeStore.activeFolder?.source === cachedFolder.source) {
+						this.activeStore.activeFolder._children = []
+					}
+				}
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Put a folder listing in the stores and make it the active folder
+		 *
+		 * @param currentView - The view the listing belongs to
+		 * @param dir - The folder path within the view
+		 * @param folder - The folder
+		 * @param contents - The folder contents
+		 */
+		setContents(currentView: IView, dir: string, folder: IFolder, contents: INode[]) {
+			// Update store
+			this.filesStore.updateNodes(contents)
+
+			// Define current directory children
+			// TODO: make it more official
+			folder._children = contents.map((node) => node.source)
+
+			// If we're in the root dir, define the root
+			if (dir === '/') {
+				this.filesStore.setRoot({ service: currentView.id, root: folder })
+			} else {
+				// Otherwise, add the folder to the store
+				if (folder.fileid) {
+					this.filesStore.updateNodes([folder])
+					this.pathsStore.addPath({ service: currentView.id, source: folder.source, path: dir })
+				} else {
+					// If we're here, the view API messed up
+					logger.fatal('Invalid root folder returned', { dir, folder, currentView })
+				}
+			}
+
+			// Update paths store
+			const folders = contents.filter((node) => node.type === 'folder')
+			folders.forEach((node) => {
+				this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
+			})
+
+			this.activeStore.activeFolder = folder
 		},
 
 		/**
