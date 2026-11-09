@@ -52,12 +52,12 @@ class JSResourceLocator extends ResourceLocator {
 		if (str_contains($resource, '/l10n/')) {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
-			$found = $this->appendScriptIfExist($this->serverroot, 'core/' . $resource)
-				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $resource)
-				|| $this->appendScriptIfExist($this->serverroot, $resource)
-				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . $resource)
-				|| $this->appendScriptIfExist($appRoot, $resource, $appWebRoot)
-				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $resource);
+			$found = $this->appendScriptIfExist($this->serverroot, 'core/' . $resource);
+			$found = $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $resource) || $found;
+			$found = $this->appendScriptIfExist($this->serverroot, $resource) || $found;
+			$found = $this->appendScriptIfExist($this->serverroot, $theme_dir . $resource) || $found;
+			$found = $this->appendScriptIfExist($appRoot, $resource, $appWebRoot) || $found;
+			$found = $this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $resource) || $found;
 
 			if ($found) {
 				return;
