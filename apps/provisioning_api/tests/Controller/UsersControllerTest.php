@@ -3502,6 +3502,11 @@ class UsersControllerTest extends TestCase {
 			->with($loggedInUser, $targetGroup)
 			->willReturn(true);
 
+		$subAdminManager->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->willReturn(true);
+
 		$this->groupManager->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
@@ -3520,6 +3525,61 @@ class UsersControllerTest extends TestCase {
 			->willReturn($loggedInUser);
 
 		$this->assertEquals(new DataResponse(), $this->api->addToGroup('TargetUser', 'GroupToAddTo'));
+	}
+
+	public function testAddInvisibleUserToGroupFailAsSubadmin(): void {
+		$targetUser = $this->createMock(IUser::class);
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('subadmin');
+
+		$targetGroup = $this->createMock(IGroup::class);
+
+		$this->groupManager
+			->expects($this->once())
+			->method('get')
+			->with('GroupToAddTo')
+			->willReturn($targetGroup);
+
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$subAdminManager
+			->expects($this->once())
+			->method('isSubAdminOfGroup')
+			->with($loggedInUser, $targetGroup)
+			->willReturn(true);
+
+		$subAdminManager
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->willReturn(false);
+
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($subAdminManager);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('subadmin')
+			->willReturn(false);
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('TargetUser')
+			->willReturn($targetUser);
+
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(104);
+		$this->api->addToGroup('TargetUser', 'GroupToAddTo');
 	}
 
 	public function testAddToGroupSuccessAsAdmin(): void {
