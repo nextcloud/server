@@ -14,12 +14,14 @@ use OCA\DAV\CardDAV\Converter;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Config\IUserConfig;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\VCard;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
@@ -27,6 +29,7 @@ class ConverterTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IURLGenerator&MockObject $urlGenerator;
 	private LoggerInterface&MockObject $logger;
+	private IUserConfig&MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -35,6 +38,8 @@ class ConverterTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->config = $this->createMock(IUserConfig::class);
+		$this->config->method('getValueString')->willReturn('');
 	}
 
 	/**
@@ -85,7 +90,7 @@ class ConverterTest extends TestCase {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger, $this->config);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -106,7 +111,7 @@ class ConverterTest extends TestCase {
 			->willReturn('Manager');
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger, $this->config);
 		$vCard = $converter->createCardFromUser($user);
 
 		$this->compareData(
@@ -148,7 +153,7 @@ class ConverterTest extends TestCase {
 				[
 					'cloud' => 'foo@cloud.net',
 					'email' => 'foo@bar.net',
-					'photo' => 'MTIzNDU2Nzg5',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
 				],
 				null,
 				'foo@bar.net',
@@ -159,7 +164,7 @@ class ConverterTest extends TestCase {
 					'cloud' => 'foo@cloud.net',
 					'email' => 'foo@bar.net',
 					'fn' => 'Dr. Foo Bar',
-					'photo' => 'MTIzNDU2Nzg5',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
 				],
 				'Dr. Foo Bar',
 				'foo@bar.net',
@@ -169,7 +174,7 @@ class ConverterTest extends TestCase {
 				[
 					'cloud' => 'foo@cloud.net',
 					'fn' => 'Dr. Foo Bar',
-					'photo' => 'MTIzNDU2Nzg5',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
 				],
 				'Dr. Foo Bar',
 				null,
@@ -179,7 +184,7 @@ class ConverterTest extends TestCase {
 				[
 					'cloud' => 'foo@cloud.net',
 					'fn' => 'Dr. Foo Bar',
-					'photo' => 'MTIzNDU2Nzg5',
+					'photo' => 'data:image/jpeg;base64,MTIzNDU2Nzg5',
 				],
 				'Dr. Foo Bar',
 				'',
@@ -188,9 +193,65 @@ class ConverterTest extends TestCase {
 		];
 	}
 
+	public function testCreatesValidVCard4(): void {
+		$user = $this->getUserMock('Foo Bar', 'foo@bar.net', 'foo@cloud.net');
+		$converter = new Converter($this->getAccountManager($user), $this->userManager, $this->urlGenerator, $this->logger, $this->config);
+
+		$vCard = $converter->createCardFromUser($user);
+
+		$this->assertSame('4.0', $vCard->VERSION->getValue());
+		$this->assertSame([], $vCard->validate());
+	}
+
+	public function testPhotoKeepsItsScope(): void {
+		$user = $this->getUserMock('Foo Bar', 'foo@bar.net', 'foo@cloud.net');
+		$converter = new Converter($this->getAccountManager($user), $this->userManager, $this->urlGenerator, $this->logger, $this->config);
+
+		$photo = $converter->createCardFromUser($user)->PHOTO;
+
+		$this->assertSame('URI', $photo->getValueType());
+		$this->assertSame(IAccountManager::SCOPE_FEDERATED, $photo['X-NC-SCOPE']->getValue());
+	}
+
+	public static function providesLanguageAndTimezone(): array {
+		return [
+			'both' => ['de_DE', 'Europe/Berlin', 'de-DE', 'Europe/Berlin'],
+			'plain language' => ['fr', 'America/Montreal', 'fr', 'America/Montreal'],
+			'nothing set' => ['', '', null, null],
+			'invalid timezone' => ['en', 'Mars/Olympus_Mons', 'en', null],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesLanguageAndTimezone')]
+	public function testLanguageAndTimezone(string $language, string $timezone, ?string $expectedLanguage, ?string $expectedTimezone): void {
+		$config = $this->createMock(IUserConfig::class);
+		$config->method('getValueString')->willReturnMap([
+			['12345', 'core', 'lang', '', false, $language],
+			['12345', 'core', 'timezone', '', false, $timezone],
+		]);
+		$user = $this->getUserMock('Foo Bar', 'foo@bar.net', 'foo@cloud.net');
+		$converter = new Converter($this->getAccountManager($user), $this->userManager, $this->urlGenerator, $this->logger, $config);
+
+		$vCard = $converter->createCardFromUser($user);
+
+		$this->assertLocalProperty($vCard, 'LANG', $expectedLanguage);
+		$this->assertLocalProperty($vCard, 'TZ', $expectedTimezone);
+		$this->assertSame([], $vCard->validate());
+	}
+
+	private function assertLocalProperty(VCard $vCard, string $name, ?string $expected): void {
+		if ($expected === null) {
+			$this->assertNull($vCard->$name);
+			return;
+		}
+		$this->assertSame($expected, $vCard->$name->getValue());
+		// Kept off the federated copies on trusted servers
+		$this->assertSame(IAccountManager::SCOPE_LOCAL, $vCard->$name['X-NC-SCOPE']->getValue());
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNames')]
 	public function testNameSplitter(string $expected, string $fullName): void {
-		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
+		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger, $this->config);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);

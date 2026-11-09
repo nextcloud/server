@@ -21,6 +21,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Events\UserConfigChangedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -192,5 +193,26 @@ class UserEventsListenerTest extends TestCase {
 			->with('principals/groups/testGroup');
 
 		$this->userEventsListener->postDeleteGroup('testGroup');
+	}
+
+	public static function providesUserConfigChanges(): array {
+		return [
+			'language' => ['core', 'lang', true],
+			'timezone' => ['core', 'timezone', true],
+			'other core key' => ['core', 'locale', false],
+			'other app' => ['files', 'lang', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesUserConfigChanges')]
+	public function testUserConfigChangeUpdatesTheSystemAddressBook(string $appId, string $key, bool $updates): void {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')->with('alice')->willReturn($user);
+
+		$this->syncService->expects($updates ? $this->once() : $this->never())
+			->method('updateUser')
+			->with($user);
+
+		$this->userEventsListener->handle(new UserConfigChangedEvent('alice', $appId, $key, 'new', 'old'));
 	}
 }
