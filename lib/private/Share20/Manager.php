@@ -11,7 +11,9 @@ use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -22,6 +24,7 @@ use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -33,6 +36,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
@@ -887,6 +891,12 @@ class Manager implements IManager {
 			$share = $provider->update($share);
 		}
 
+		if (in_array($share->getShareType(), [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK], true)
+			&& $originalShare->getAttributes()?->getAttribute('permissions', 'download') !== false
+			&& $share->getAttributes()?->getAttribute('permissions', 'download') === false) {
+			$this->restrictDownloadOfReshares($share->getNode(), [$share->getFullId() => true]);
+		}
+
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
@@ -925,6 +935,121 @@ class Manager implements IManager {
 		}
 
 		return $share;
+	}
+
+	/**
+	 * Restrict downloads of the reshares of the given node and its descendants
+	 * whose sharer cannot download them through a chain of received shares
+	 * that allow downloads, starting at the owner.
+	 *
+	 * @param array<string, true> $restrictedShareIds full ids of received shares to treat as restricted
+	 */
+	public function restrictDownloadOfReshares(Node $node, array $restrictedShareIds = []): void {
+		$reshares = $this->getResharesOf($node);
+
+		// Grow the allowed reshares from received shares outside of them, so that
+		// reshares which only allow each other (cycles) end up restricted.
+		$allowed = [];
+		$allowsDownload = function (IShare $receivedShare) use ($restrictedShareIds, $reshares, &$allowed): bool {
+			$id = $receivedShare->getFullId();
+			return !isset($restrictedShareIds[$id])
+				&& $receivedShare->getAttributes()?->getAttribute('permissions', 'download') !== false
+				&& (!isset($reshares[$id]) || isset($allowed[$id]));
+		};
+		do {
+			$changed = false;
+			foreach ($reshares as $id => $reshare) {
+				if (isset($allowed[$id]) || $reshare->getAttributes()?->getAttribute('permissions', 'download') === false) {
+					continue;
+				}
+				if ($this->canDownloadThroughReceivedShares($reshare->getSharedBy(), $reshare->getNodeId(), $allowsDownload)) {
+					$allowed[$id] = true;
+					$changed = true;
+				}
+			}
+		} while ($changed);
+
+		foreach ($reshares as $id => $reshare) {
+			if (isset($allowed[$id]) || $reshare->getAttributes()?->getAttribute('permissions', 'download') === false) {
+				continue;
+			}
+			$attributes = $reshare->getAttributes() ?? $reshare->newAttributes();
+			$attributes->setAttribute('permissions', 'download', false);
+			$reshare->setAttributes($attributes);
+			$this->factory->getProviderForType($reshare->getShareType())->update($reshare);
+		}
+	}
+
+	/**
+	 * Get the shares of the node and its descendants that were not created by the node owner.
+	 *
+	 * @return array<string, IShare> shares indexed by their full id
+	 */
+	private function getResharesOf(Node $node): array {
+		$internalPath = $node->getInternalPath();
+
+		$connection = Server::get(IDBConnection::class);
+		$qb = $connection->getQueryBuilder();
+		$qb->select('s.id', 's.share_type')
+			->from('share', 's')
+			->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+			->where($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getStorage()->getCache()->getNumericStorageId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->in('s.item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->neq('s.share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)));
+
+		$owner = $node->getOwner()?->getUID();
+		if ($owner !== null) {
+			$qb->andWhere($qb->expr()->neq('s.uid_initiator', $qb->createNamedParameter($owner)));
+		}
+		if ($internalPath !== '') {
+			$qb->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('f.fileid', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)),
+				$qb->expr()->like('f.path', $qb->createNamedParameter($connection->escapeLikeParameter($internalPath) . '/%')),
+			));
+		}
+
+		$reshares = [];
+		$result = $qb->executeQuery();
+		while ($row = $result->fetch()) {
+			try {
+				$reshare = $this->factory->getProviderForType((int) $row['share_type'])->getShareById((int) $row['id']);
+				$reshares[$reshare->getFullId()] = $reshare;
+			} catch (ProviderException|ShareNotFound) {
+			}
+		}
+		$result->closeCursor();
+
+		return $reshares;
+	}
+
+	/**
+	 * Whether the user can download the node through their own storage or
+	 * through one of the shares they received it from.
+	 *
+	 * @param callable(IShare): bool $allowsDownload whether a received share allows downloads
+	 */
+	private function canDownloadThroughReceivedShares(string $userId, int $nodeId, callable $allowsDownload): bool {
+		try {
+			$nodes = $this->rootFolder->getUserFolder($userId)->getById($nodeId);
+		} catch (\Exception $e) {
+			$this->logger->warning('Could not resolve the received shares of ' . $userId . ', restricting downloads of their reshares', ['exception' => $e]);
+			return false;
+		}
+
+		foreach ($nodes as $node) {
+			$mount = $node->getMountPoint();
+			if (!$mount instanceof SharedMount) {
+				return true;
+			}
+
+			foreach ($mount->getGroupedShares() as $receivedShare) {
+				if ($allowsDownload($receivedShare)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
