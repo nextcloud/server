@@ -17,6 +17,7 @@ use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -949,6 +950,281 @@ class QueryBuilderTest extends \Test\TestCase {
 			'INSERT INTO `*PREFIX*data` ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
+	}
+
+	public function testAddValuesWithoutValuesActsLikeValues(): void {
+		$this->queryBuilder->insert('data');
+		$this->queryBuilder->addValues(['foo' => '1', 'bar' => '2']);
+
+		$this->assertSame(
+			'INSERT INTO `*PREFIX*data` (`foo`, `bar`) VALUES(1, 2)',
+			$this->queryBuilder->getSQL()
+		);
+	}
+
+	public function testAddValuesMultipleRows(): void {
+		$this->queryBuilder->insert('data');
+		$this->queryBuilder->setValue('foo', '1');
+		$this->queryBuilder->setValue('bar', '2');
+		$this->queryBuilder->addValues(['bar' => '4', 'foo' => '3']);
+		$this->queryBuilder->addValues(['foo' => '5', 'bar' => '6']);
+
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
+			$expected = 'INSERT ALL INTO `*PREFIX*data` (`foo`, `bar`) VALUES (1, 2) INTO `*PREFIX*data` (`foo`, `bar`) VALUES (3, 4) INTO `*PREFIX*data` (`foo`, `bar`) VALUES (5, 6) SELECT 1 FROM DUAL';
+		} else {
+			$expected = 'INSERT INTO `*PREFIX*data` (`foo`, `bar`) VALUES (1, 2), (3, 4), (5, 6)';
+		}
+		$this->assertSame($expected, $this->queryBuilder->getSQL());
+	}
+
+	public function testValuesResetsAddedRows(): void {
+		$this->queryBuilder->insert('data');
+		$this->queryBuilder->addValues(['foo' => '1']);
+		$this->queryBuilder->addValues(['foo' => '2']);
+		$this->queryBuilder->values(['foo' => '3']);
+
+		$this->assertSame(
+			'INSERT INTO `*PREFIX*data` (`foo`) VALUES(3)',
+			$this->queryBuilder->getSQL()
+		);
+	}
+
+	public static function dataAddValuesMismatchingColumns(): array {
+		return [
+			'missing column' => [['foo' => '3']],
+			'extra column' => [['foo' => '3', 'bar' => '4', 'baz' => '5']],
+			'different column' => [['foo' => '3', 'baz' => '4']],
+		];
+	}
+
+	#[DataProvider('dataAddValuesMismatchingColumns')]
+	public function testAddValuesMismatchingColumns(array $row): void {
+		$this->queryBuilder->insert('data');
+		$this->queryBuilder->addValues(['foo' => '1', 'bar' => '2']);
+		$this->queryBuilder->addValues($row);
+
+		$this->expectException(QueryException::class);
+		$this->queryBuilder->getSQL();
+	}
+
+	public function testAddValuesExecute(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig');
+		for ($i = 1; $i <= 3; $i++) {
+			$qb->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter('key' . $i),
+				'configvalue' => $qb->createNamedParameter('value' . $i),
+			]);
+		}
+
+		try {
+			$this->assertSame(3, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->orderBy('configkey', 'ASC')
+				->executeQuery();
+			$this->assertSame([
+				['configkey' => 'key1', 'configvalue' => 'value1'],
+				['configkey' => 'key2', 'configvalue' => 'value2'],
+				['configkey' => 'key3', 'configvalue' => 'value3'],
+			], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testAddValuesExecuteWithNull(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig')
+			->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter('key1'),
+				'configvalue' => $qb->createNamedParameter(null, IQueryBuilder::PARAM_NULL),
+			])
+			->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter('key2'),
+				'configvalue' => $qb->createNamedParameter('value2'),
+			]);
+
+		try {
+			$this->assertSame(2, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->orderBy('configkey', 'ASC')
+				->executeQuery();
+			$this->assertSame([
+				['configkey' => 'key1', 'configvalue' => null],
+				['configkey' => 'key2', 'configvalue' => 'value2'],
+			], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testAddValuesExecuteColumnOrderMayDiffer(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig')
+			->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter('key1'),
+				'configvalue' => $qb->createNamedParameter('value1'),
+			])
+			->addValues([
+				'configvalue' => $qb->createNamedParameter('value2'),
+				'configkey' => $qb->createNamedParameter('key2'),
+				'appid' => $qb->createNamedParameter('testAddValues'),
+			]);
+
+		try {
+			$this->assertSame(2, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->orderBy('configkey', 'ASC')
+				->executeQuery();
+			$this->assertSame([
+				['configkey' => 'key1', 'configvalue' => 'value1'],
+				['configkey' => 'key2', 'configvalue' => 'value2'],
+			], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testAddValuesExecuteMixedValueKinds(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig')
+			->setValue('appid', $qb->createNamedParameter('testAddValues'))
+			->setValue('configkey', $qb->createNamedParameter('key1'))
+			->setValue('configvalue', $qb->expr()->literal('value1'))
+			->addValues([
+				'appid' => $qb->expr()->literal('testAddValues'),
+				'configkey' => $qb->func()->lower($qb->expr()->literal('KEY2')),
+				'configvalue' => $qb->createNamedParameter('value2'),
+			]);
+
+		try {
+			$this->assertSame(2, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->orderBy('configkey', 'ASC')
+				->executeQuery();
+			$this->assertSame([
+				['configkey' => 'key1', 'configvalue' => 'value1'],
+				['configkey' => 'key2', 'configvalue' => 'value2'],
+			], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testAddValuesExecuteLargeBatch(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig');
+		$expected = [];
+		for ($i = 0; $i < 300; $i++) {
+			$key = sprintf('key%03d', $i);
+			$qb->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter($key),
+				'configvalue' => $qb->createNamedParameter('value' . $i),
+			]);
+			$expected[] = ['configkey' => $key, 'configvalue' => 'value' . $i];
+		}
+
+		try {
+			$this->assertSame(300, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->orderBy('configkey', 'ASC')
+				->executeQuery();
+			$this->assertSame($expected, $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testValuesDiscardsAddedRowsOnExecute(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig');
+		for ($i = 1; $i <= 2; $i++) {
+			$qb->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter('key' . $i),
+				'configvalue' => $qb->createNamedParameter('value' . $i),
+			]);
+		}
+		$qb->values([
+			'appid' => $qb->createNamedParameter('testAddValues'),
+			'configkey' => $qb->createNamedParameter('key3'),
+			'configvalue' => $qb->createNamedParameter('value3'),
+		]);
+
+		try {
+			$this->assertSame(1, $qb->executeStatement());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey', 'configvalue')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->executeQuery();
+			$this->assertSame([
+				['configkey' => 'key3', 'configvalue' => 'value3'],
+			], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
+	}
+
+	public function testAddValuesExecuteConstraintViolationInsertsNothing(): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('appconfig');
+		foreach (['key1', 'key2', 'key1'] as $key) {
+			$qb->addValues([
+				'appid' => $qb->createNamedParameter('testAddValues'),
+				'configkey' => $qb->createNamedParameter($key),
+				'configvalue' => $qb->createNamedParameter('value'),
+			]);
+		}
+
+		try {
+			$qb->executeStatement();
+			$this->fail('Expected unique constraint violation');
+		} catch (Exception $e) {
+			$this->assertSame(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION, $e->getReason());
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('configkey')
+				->from('appconfig')
+				->where($select->expr()->eq('appid', $select->createNamedParameter('testAddValues')))
+				->executeQuery();
+			$this->assertSame([], $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$this->deleteTestingRows('testAddValues');
+		}
 	}
 
 	public static function dataHaving(): array {
