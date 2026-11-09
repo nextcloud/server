@@ -42,6 +42,7 @@ class Remove extends Command implements CompletionAwareInterface {
 				. "By default, this command runs the app's uninstall steps (which may delete data) and then removes the app files.\n"
 				. "Use `--keep-data` to skip uninstall steps and preserve app data (database tables, configuration, and stored files).\n"
 				. "Note: Some apps may still preserve data either way, depending on their uninstall implementation.\n"
+				. "To delete what an app leaves behind, disable it and run `occ app:purge` before removing it.\n"
 			)
 			->addArgument(
 				'app-id',

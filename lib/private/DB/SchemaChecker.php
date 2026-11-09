@@ -15,6 +15,7 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OC\App\AppManager;
 use OC\Migration\NullOutput;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -96,6 +97,57 @@ class SchemaChecker {
 			}
 			return $finding;
 		}, array_values($findings));
+	}
+
+	/**
+	 * The tables a disabled app's migrations create, with the table prefix, or null when its code is gone and there
+	 * are no migrations to read them from.
+	 *
+	 * Core's and the enabled apps' migrations are replayed first, so the app's own migrations can change their
+	 * tables without failing, and only the tables that are new with the app count as its own. Unlike
+	 * getFindings(), a migration that cannot be replayed is an error rather than a warning: a partial list
+	 * would leave tables behind while seeming complete.
+	 *
+	 * @return list<string>|null
+	 * @throws \Throwable when the app's migrations cannot be replayed
+	 */
+	public function getTablesCreatedBy(string $app): ?array {
+		try {
+			$appPath = $this->appManager->getAppPath($app);
+		} catch (AppPathNotFoundException) {
+			return null;
+		}
+
+		$schema = new Schema();
+		$this->applyMigrations('core', $schema);
+		foreach ($this->appManager->getEnabledApps() as $enabledApp) {
+			if ($enabledApp === $app) {
+				continue;
+			}
+			try {
+				$this->applyMigrations($enabledApp, $schema);
+			} catch (AppPathNotFoundException) {
+			}
+		}
+
+		$before = [];
+		foreach ($schema->getTables() as $table) {
+			$before[$table->getName()] = true;
+		}
+
+		// As when an app is installed or updated: its migrations may need its other classes
+		if ($this->appManager instanceof AppManager) {
+			$this->appManager->registerAutoloading($app, $appPath);
+		}
+		$this->applyMigrations($app, $schema);
+
+		$tables = [];
+		foreach ($schema->getTables() as $table) {
+			if (!isset($before[$table->getName()])) {
+				$tables[] = $table->getName();
+			}
+		}
+		return $tables;
 	}
 
 	/**
