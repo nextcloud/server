@@ -152,6 +152,8 @@ class PredefinedStatusService {
 				return '⏳';
 			case self::CALL:
 				return '💬';
+			case IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE:
+				return '🔴';
 			default:
 				return null;
 		}
@@ -180,6 +182,8 @@ class PredefinedStatusService {
 				return $this->l10n->t('In a call');
 			case self::BE_RIGHT_BACK:
 				return $this->l10n->t('Be right back');
+			case IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE:
+				return $this->l10n->t('Busy');
 			default:
 				return null;
 		}
@@ -203,6 +207,7 @@ class PredefinedStatusService {
 			IUserStatus::MESSAGE_VACATION,
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
+			IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE,
 		], true);
 	}
 }
