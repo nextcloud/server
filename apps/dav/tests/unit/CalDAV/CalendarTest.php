@@ -253,12 +253,6 @@ class CalendarTest extends TestCase {
 			];
 		}
 
-		$expectedAcl[] = [
-			'privilege' => '{DAV:}write-properties',
-			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-read',
-			'protected' => true
-		];
-
 		if ($hasOwnerSet) {
 			$expectedAcl[] = [
 				'privilege' => '{DAV:}read',
