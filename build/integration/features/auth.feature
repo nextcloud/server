@@ -135,6 +135,16 @@ Feature: auth
 		When requesting "/ocs/v2.php/search/providers" with "GET" using scoped basic token auth
 		Then the HTTP status code should be "403"
 
+	Scenario: a files token with search reaches unified search
+		Given a new client token limited to "files:files:read files:files:write core:search:read" is added
+		When requesting "/ocs/v2.php/search/providers" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a files token with people lookup reaches the hovercard
+		Given a new client token limited to "files:files:read files:files:write core:people:read" is added
+		When requesting "/ocs/v2.php/hovercard/v1/user0" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
 	Scenario: a files token gets no page render
 		Given a new client token limited to "files:files:read files:files:write" is added
 		When requesting "/index.php/apps/files" with "GET" using scoped basic token auth
