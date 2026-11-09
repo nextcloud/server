@@ -22,25 +22,16 @@
 namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\Mapper;
-use OCP\IConfig;
 use OCP\IUser;
 
 class MapperTest extends \Test\TestCase {
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var Mapper */
-	private $mapper;
-
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->mapper = new Mapper($this->user, $this->config);
 	}
 
 	public function dataGetBucket() {
@@ -62,16 +53,12 @@ class MapperTest extends \Test\TestCase {
 	 * @param string $expectedBucket
 	 */
 	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket) {
+		$mapper = new Mapper($this->user, ['arguments' => ['min_bucket' => $bucketShift]]);
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($username);
 
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('objectstore_multibucket')
-			->willReturn(['arguments' => ['min_bucket' => $bucketShift]]);
-
-		$result = $this->mapper->getBucket($numBuckets);
+		$result = $mapper->getBucket($numBuckets);
 		$this->assertEquals($expectedBucket, $result);
 	}
 }
