@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\AppFramework\Http\Request;
+use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\CardDAV\SystemAddressbook;
 use OCA\Federation\TrustedServers;
@@ -424,5 +425,107 @@ VCF;
 		$cards = $this->addressBook->getMultipleChildren(['Database:user1.vcf', 'LDAP:user2.vcf']);
 
 		self::assertCount(2, $cards);
+	}
+
+	private function createQueryableAddressBook(CardDavBackend $backend, ?IGroupManager $groupManager): SystemAddressbook {
+		return new SystemAddressbook(
+			$backend,
+			$this->addressBookInfo,
+			$this->l10n,
+			$this->config,
+			$this->userSession,
+			$this->request,
+			$this->trustedServers,
+			$groupManager,
+		);
+	}
+
+	public function testAddressBookQueryWithoutUser(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$this->userSession->method('getUser')->willReturn(null);
+		$backend->expects(self::never())->method('queryCards');
+
+		$result = $this->createQueryableAddressBook($backend, $this->groupManager)->addressBookQuery([], 'anyof', 10, null);
+
+		self::assertSame(['cards' => [], 'hasMore' => false], $result);
+	}
+
+	public function testAddressBookQueryWithGroupRestrictionWithoutGroupManager(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('Database');
+		$this->userSession->method('getUser')->willReturn($user);
+		$backend->expects(self::never())->method('queryCards');
+
+		$result = $this->createQueryableAddressBook($backend, null)->addressBookQuery([], 'anyof', 10, null);
+
+		self::assertSame(['cards' => [], 'hasMore' => false], $result);
+	}
+
+	public function testAddressBookQueryWithGroupRestriction(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('Database');
+		$other = $this->createMock(IUser::class);
+		$other->method('getUID')->willReturn('other');
+		$other->method('getBackendClassName')->willReturn('LDAP');
+		$guest = $this->createMock(IUser::class);
+		$guest->method('getUID')->willReturn('guest');
+		$guest->method('getBackendClassName')->willReturn('Guests');
+		$this->userSession->method('getUser')->willReturn($user);
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getUsers')->willReturn([$user, $other, $guest]);
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getUsers')->willReturn([$other]);
+		$this->groupManager->method('getUserGroups')->with($user)->willReturn([$group1, $group2]);
+		$page = ['cards' => [['name' => 'Database:user.vcf', 'continuationToken' => 'next']], 'hasMore' => true];
+		$backend->expects(self::once())
+			->method('queryCards')
+			->with(123, [], 'anyof', 1, 'token', ['Database:user.vcf', 'LDAP:other.vcf'])
+			->willReturn($page);
+
+		$result = $this->createQueryableAddressBook($backend, $this->groupManager)->addressBookQuery([], 'anyof', 1, 'token');
+
+		self::assertSame($page, $result);
+	}
+
+	public function testAddressBookQueryWithFullEnumerationExcludesGuests(): void {
+		$backend = $this->createMock(CardDavBackend::class);
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('Database');
+		$this->userSession->method('getUser')->willReturn($user);
+		$page = ['cards' => [['name' => 'Database:user.vcf', 'continuationToken' => 'next']], 'hasMore' => false];
+		$backend->expects(self::once())
+			->method('queryCards')
+			->with(123, [], 'anyof', null, null, null, 'Guests:')
+			->willReturn($page);
+
+		$result = $this->createQueryableAddressBook($backend, $this->groupManager)->addressBookQuery([], 'anyof', null, null);
+
+		self::assertSame($page, $result);
 	}
 }

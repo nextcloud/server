@@ -95,15 +95,20 @@ class PaginatePlugin extends ServerPlugin {
 		$writer->flush();
 
 		foreach ($fileProperties as $entry) {
-			$href = $entry['href'];
-			unset($entry['href']);
-			if ($minimal) {
-				unset($entry[404]);
+			if ($entry instanceof Response) {
+				// Prebuilt responses (e.g. a 507 for a truncated result set) are rendered as they are
+				$response = $entry;
+			} else {
+				$href = $entry['href'];
+				unset($entry['href']);
+				if ($minimal) {
+					unset($entry[404]);
+				}
+				$response = new Response(
+					ltrim($href, '/'),
+					$entry
+				);
 			}
-			$response = new Response(
-				ltrim($href, '/'),
-				$entry
-			);
 			$writer->write([
 				'name' => '{DAV:}response',
 				'value' => $response,

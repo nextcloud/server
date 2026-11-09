@@ -15,6 +15,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -30,6 +31,7 @@ use function in_array;
 
 class SystemAddressbook extends AddressBook {
 	public const URI_SHARED = 'z-server-generated--system';
+	private const GUEST_URI_PREFIX = 'Guests:';
 
 	public function __construct(
 		BackendInterface $carddavBackend,
@@ -56,9 +58,7 @@ class SystemAddressbook extends AddressBook {
 	 */
 	#[\Override]
 	public function getChildren() {
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		[$shareEnumeration, $shareEnumerationGroup, $shareEnumerationPhone] = $this->getEnumerationSettings();
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			// Should never happen because we don't allow anonymous access
@@ -77,25 +77,64 @@ class SystemAddressbook extends AddressBook {
 				// Group manager is not available, so we can't determine which data is safe
 				return [];
 			}
-			$groups = $this->groupManager->getUserGroups($user);
-			$names = [];
-			foreach ($groups as $group) {
-				$users = $group->getUsers();
-				foreach ($users as $groupUser) {
-					if ($groupUser->getBackendClassName() === 'Guests') {
-						continue;
-					}
-					$names[] = SyncService::getCardUri($groupUser);
-				}
-			}
-			return parent::getMultipleChildren(array_unique($names));
+			return parent::getMultipleChildren($this->getGroupCardUris($this->groupManager, $user));
 		}
 
 		$children = parent::getChildren();
 		return array_filter($children, function (Card $child) {
 			// check only for URIs that begin with Guests:
-			return !str_starts_with($child->getName(), 'Guests:');
+			return !str_starts_with($child->getName(), self::GUEST_URI_PREFIX);
 		});
+	}
+
+	/**
+	 * Restricted to the cards getChildren() returns
+	 */
+	#[\Override]
+	public function addressBookQuery(array $filters, string $test, ?int $limit, ?string $continuationToken): array {
+		[$shareEnumeration, $shareEnumerationGroup, $shareEnumerationPhone] = $this->getEnumerationSettings();
+		$addressBookId = (int)$this->addressBookInfo['id'];
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			return ['cards' => [], 'hasMore' => false];
+		}
+		if ($user->getBackendClassName() === 'Guests' || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
+			return $this->carddavBackend->queryCards($addressBookId, $filters, $test, $limit, $continuationToken, [SyncService::getCardUri($user)]);
+		}
+		if ($shareEnumerationGroup) {
+			if ($this->groupManager === null) {
+				return ['cards' => [], 'hasMore' => false];
+			}
+			return $this->carddavBackend->queryCards($addressBookId, $filters, $test, $limit, $continuationToken, $this->getGroupCardUris($this->groupManager, $user));
+		}
+		return $this->carddavBackend->queryCards($addressBookId, $filters, $test, $limit, $continuationToken, null, self::GUEST_URI_PREFIX);
+	}
+
+	/**
+	 * @return array{bool, bool, bool} whether user enumeration is allowed, restricted to groups, restricted to phone numbers
+	 */
+	private function getEnumerationSettings(): array {
+		return [
+			$this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
+			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes',
+			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes',
+		];
+	}
+
+	/**
+	 * @return list<string> card URIs of the non-guest users sharing a group with $user
+	 */
+	private function getGroupCardUris(IGroupManager $groupManager, IUser $user): array {
+		$names = [];
+		foreach ($groupManager->getUserGroups($user) as $group) {
+			foreach ($group->getUsers() as $groupUser) {
+				if ($groupUser->getBackendClassName() === 'Guests') {
+					continue;
+				}
+				$names[] = SyncService::getCardUri($groupUser);
+			}
+		}
+		return array_values(array_unique($names));
 	}
 
 	/**
