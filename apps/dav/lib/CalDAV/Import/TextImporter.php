@@ -109,12 +109,12 @@ class TextImporter {
 						$componentEnd
 					];
 				} else {
-					$this->structure[$componentType][] = [
+					$this->structure[$componentType][] = [[
 						$componentType,
 						$componentId,
 						$componentStart,
 						$componentEnd
-					];
+					]];
 				}
 				$componentId = null;
 				$componentType = null;

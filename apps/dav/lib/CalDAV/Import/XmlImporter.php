@@ -113,13 +113,13 @@ class XmlImporter {
 					implode('/', $this->prasePath)
 				];
 			} else {
-				$this->structure[$this->componentType][] = [
+				$this->structure[$this->componentType][] = [[
 					$this->componentType,
 					$this->componentId,
 					$this->componentStart,
 					$this->componentEnd,
 					implode('/', $this->prasePath)
-				];
+				]];
 			}
 			$this->componentStart = null;
 			$this->componentEnd = null;
