@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @brief Optional interface for group backends
  * @since 14.0.0
  */
+#[Implementable(since: '14.0.0')]
 interface IGroupDetailsBackend {
 	/**
 	 * @brief Get additional details for a group, for example the display name.

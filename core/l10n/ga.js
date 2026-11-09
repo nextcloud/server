@@ -80,6 +80,7 @@ OC.L10N.register(
     "Log out" : "Logáil Amach",
     "Sharing is not allowed." : "Ní cheadaítear comhroinnt.",
     "Sharing is not allowed for you." : "Ní cheadaítear duit rud a roinnt.",
+    "Cannot share with a disabled account." : "Ní féidir a roinnt le cuntas díchumasaithe.",
     "Sharing is only allowed with group members." : "Ní cheadaítear comhroinnt ach le baill an ghrúpa.",
     "Sharing is only allowed within your own groups." : "Ní cheadaítear comhroinnt ach laistigh de do ghrúpaí féin.",
     "Group sharing is not allowed." : "Ní cheadaítear comhroinnt grúpa.",

@@ -79,6 +79,7 @@
     "Log out" : "Log ud",
     "Sharing is not allowed." : "Deling er ikke tilladt.",
     "Sharing is not allowed for you." : "Du har ikke tilladelse til at dele.",
+    "Cannot share with a disabled account." : "Du kan ikke dele med en deaktiveret konto.",
     "Sharing is only allowed with group members." : "Deling er kun tilladt med gruppemedlemmer.",
     "Sharing is only allowed within your own groups." : "Deling er kun tilladt inden for dine egne grupper.",
     "Group sharing is not allowed." : "Deling med grupper er ikke tilladt.",

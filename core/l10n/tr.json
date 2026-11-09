@@ -79,6 +79,7 @@
     "Log out" : "Oturumu kapat",
     "Sharing is not allowed." : "Paylaşıma izin verilmiyor.",
     "Sharing is not allowed for you." : "Paylaşım yapmanıza izin verilmiyor.",
+    "Cannot share with a disabled account." : "Kullanımdan kaldırılmış bir kullanıcı hesabı ile paylaşım yapılamaz",
     "Sharing is only allowed with group members." : "Paylaşım yalnızca grup üyeleri ile yapılabilir.",
     "Sharing is only allowed within your own groups." : "Paylaşım yalnızca kendi gruplarınız ile yapılabilir.",
     "Group sharing is not allowed." : "Grup paylaşımına izin verilmiyor.",

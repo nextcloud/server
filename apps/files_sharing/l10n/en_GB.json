@@ -146,6 +146,8 @@
     "Copy" : "Copy",
     "Send link via email" : "Send link via email",
     "Enter an email address or paste a list" : "Enter an email address or paste a list",
+    "Recipient emails" : "Recipient emails",
+    "Remove email: {email}" : "Remove email: {email}",
     "Select a destination" : "Select a destination",
     "Select" : "Select",
     "What are you requesting?" : "What are you requesting?",

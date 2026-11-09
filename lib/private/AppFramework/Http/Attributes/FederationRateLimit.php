@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Http\Attributes;
 
 use Attribute;
+use OC\AppFramework\Utility\QueryNotFoundException;
 use OC\OCM\OCMDiscoveryService;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
@@ -31,7 +32,11 @@ class FederationRateLimit extends AnonRateLimit {
 		parent::__construct($limit, $period);
 
 		$this->discoveryService = Server::get(OCMDiscoveryService::class);
-		$this->trustedServers = Server::get(TrustedServers::class);
+		try {
+			$this->trustedServers = Server::get(TrustedServers::class);
+		} catch (QueryNotFoundException) {
+			$this->trustedServers = null;
+		}
 	}
 
 	#[\Override]

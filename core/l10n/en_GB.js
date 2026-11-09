@@ -81,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Log out",
     "Sharing is not allowed." : "Sharing is not allowed.",
     "Sharing is not allowed for you." : "Sharing is not allowed for you.",
+    "Cannot share with a disabled account." : "Cannot share with a disabled account.",
     "Sharing is only allowed with group members." : "Sharing is only allowed with group members.",
     "Sharing is only allowed within your own groups." : "Sharing is only allowed within your own groups.",
     "Group sharing is not allowed." : "Group sharing is not allowed.",

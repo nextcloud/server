@@ -8,7 +8,10 @@ import type { ITokenScope } from '../store/authtoken.ts'
 import { getLanguage, t } from '@nextcloud/l10n'
 
 export type Area = 'files' | 'calendar' | 'contacts'
-export type Grant = Area | 'filesShare' | 'filesTrash' | 'filesVersions' | 'calendarWrite' | 'contactsWrite'
+/** Services that mix every app's data */
+export const SERVICES = ['search', 'people'] as const
+export type Service = typeof SERVICES[number]
+export type Grant = Area | Service | 'filesShare' | 'filesTrash' | 'filesVersions' | 'calendarWrite' | 'contactsWrite'
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
 type AreaState = 'all' | 'partial' | 'none'
 
@@ -28,6 +31,8 @@ const GRANT_SCOPES: Record<Grant, string[]> = {
 	calendarWrite: ['dav:calendar:write'],
 	contacts: ['dav:contacts:read'],
 	contactsWrite: ['dav:contacts:write'],
+	search: ['core:search:read'],
+	people: ['core:people:read'],
 }
 
 export const AREA_OPTIONS: Record<Area, Grant[]> = {
@@ -52,6 +57,8 @@ export const GRANT_LABELS: Record<Grant, string> = {
 	calendarWrite: t('settings', 'Can edit calendars'),
 	contacts: t('settings', 'Contacts'),
 	contactsWrite: t('settings', 'Can edit contacts'),
+	search: t('settings', 'Search across all apps'),
+	people: t('settings', 'People lookup across all apps'),
 }
 const GRANTS = Object.keys(GRANT_SCOPES) as Grant[]
 
@@ -68,7 +75,7 @@ export function fromScopes(scopes?: string[]): { selection: Selection, kept: str
 	}
 
 	const held = GRANTS.filter((grant) => GRANT_SCOPES[grant].every((scope) => scopes.includes(scope)))
-	const grants = held.filter((grant) => held.includes(areaOf(grant)))
+	const grants = held.filter((grant) => held.includes(parentOf(grant)))
 	const shown = grants.flatMap((grant) => GRANT_SCOPES[grant])
 	const kept = scopes.filter((scope) => !shown.includes(scope))
 
@@ -113,7 +120,7 @@ export function setGrant(grants: Grant[], grant: Grant, on: boolean): Grant[] {
 	if (!on) {
 		return grants.filter((held) => !changed.includes(held))
 	}
-	return [...new Set([...grants, areaOf(grant), ...changed])]
+	return [...new Set([...grants, parentOf(grant), ...changed])]
 }
 
 /**
@@ -141,6 +148,7 @@ export function accessLabel(scope: ITokenScope): string {
 		}
 		return [(state === 'partial' && readOnly[area]) || GRANT_LABELS[area]]
 	})
+	parts.push(...SERVICES.filter((service) => selection.grants.includes(service)).map((service) => GRANT_LABELS[service]))
 	if (kept.length > 0) {
 		// TRANSLATORS Last item of a list such as "Files and other access"
 		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
@@ -152,10 +160,10 @@ export function accessLabel(scope: ITokenScope): string {
 }
 
 /**
- * @param grant An area or sub-option
+ * @param grant An area, sub-option or service
  */
-function areaOf(grant: Grant): Area {
-	return AREAS.find((area) => area === grant || AREA_OPTIONS[area].includes(grant))!
+function parentOf(grant: Grant): Grant {
+	return AREAS.find((area) => AREA_OPTIONS[area].includes(grant)) ?? grant
 }
 
 /**

@@ -79,6 +79,7 @@
     "Log out" : "Logi välja",
     "Sharing is not allowed." : "Jagamine pole lubatud.",
     "Sharing is not allowed for you." : "Jagamine pole sinu jaoks lubatud.",
+    "Cannot share with a disabled account." : "Sa ei saa jagada kasutuselt eemaldatud kontole.",
     "Sharing is only allowed with group members." : "Jagamine on lubatud vaid grupi liikmetele.",
     "Sharing is only allowed within your own groups." : "Jagamine on lubatud vaid sinu oma grupi piires.",
     "Group sharing is not allowed." : "Grupile jagamine pole lubatud.",
