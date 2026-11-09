@@ -7,8 +7,10 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+namespace OCA\Files_Trashbin\Tests;
+
 use OC\Files\FileInfo;
-use OCA\Files\Helper;
+use OCA\Files_Trashbin\Helper;
 
 class HelperTest extends \Test\TestCase {
 	private static function makeFileInfo($name, $size, $mtime, $isDir = false): FileInfo {
