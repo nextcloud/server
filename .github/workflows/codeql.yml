@@ -6,8 +6,37 @@ name: "CodeQL Advanced"
 on:
   push:
     branches: [ "master", "stable*" ]
+    paths: &codeql_paths
+      - '.github/workflows/**'
+      - '.github/actions/**'
+      - '.github/codeql-config.yml'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/package.json'
+      - '**/package-lock.json'
+      - '**/npm-shrinkwrap.json'
+      - '**/pnpm-lock.yaml'
+      - '**/yarn.lock'
+      - '**/tsconfig*.json'
+      - '**/jsconfig*.json'
+      - '**/.eslintrc'
+      - '**/.eslintrc.*'
+      - '**/eslint.config.*'
+      - '**/babel.config.*'
+      - '**/webpack.config.*'
+      - '**/vite.config.*'
+      - '**/vitest.config.*'
+      - '**/jest.config.*'
+      - '**/rollup.config.*'
+      - '**/postcss.config.*'
+      - '**/tailwind.config.*'
   pull_request:
     branches: [ "master", "stable*" ]
+    paths: *codeql_paths
   schedule:
     - cron: '28 18 * * 1'
 
