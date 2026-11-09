@@ -25,6 +25,7 @@ use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -342,7 +343,12 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 * Tests for flowDone
 	 */
 
-	public function testFlowDone(): void {
+	public static function completionProvider(): array {
+		return [[true, false], [false, false], [false, true]];
+	}
+
+	#[DataProvider('completionProvider')]
+	public function testFlowDone(bool $completed, bool $databaseError): void {
 		[,, $publicKey] = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
 
 		$loginFlowV2 = new LoginFlowV2();
@@ -353,8 +359,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->method('getByLoginToken')
 			->willReturn($loginFlowV2);
 
-		$this->mapper->expects($this->once())
-			->method('update');
+		$completion = $this->mapper->expects($this->once())->method('complete');
+		if ($databaseError) {
+			$completion->willThrowException(new \RuntimeException('Database unavailable'));
+			$this->expectException(\RuntimeException::class);
+		} else {
+			$completion->willReturn($completed);
+		}
 
 		$this->secureRandom->expects($this->once())
 			->method('generate')
@@ -392,7 +403,9 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			)
 			->willReturn($appToken);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->tokenProvider->expects($completed ? $this->never() : $this->once())
+			->method('invalidateTokenById')->with('user_id', 7);
+		$this->eventDispatcher->expects($completed ? $this->once() : $this->never())
 			->method('dispatchTyped')
 			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.app_password.created'
 				&& $event->getParameters() === ['tokenId' => 7, 'tokenName' => 'client_name']));
@@ -403,7 +416,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'server',
 			'user_id'
 		);
-		$this->assertTrue($result);
+		$this->assertSame($completed, $result);
 
 		// app password is encrypted and must look like:
 		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==
@@ -427,6 +440,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	}
 
 	public function testFlowDonePasswordlessTokenException(): void {
+		$this->mapper->method('getByLoginToken')->willReturn(new LoginFlowV2());
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->willThrowException(new InvalidTokenException(''));
@@ -438,6 +452,55 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'user_id'
 		);
 		$this->assertFalse($result);
+	}
+
+	public function testDecline(): void {
+		$this->mapper->expects($this->once())->method('deletePending')->with('login-token')->willReturn(true);
+		$this->tokenProvider->expects($this->never())->method('generateToken');
+
+		$this->assertTrue($this->subjectUnderTest->decline('login-token'));
+	}
+
+	public function testDeclineCompletedOrMissingRequest(): void {
+		$this->mapper->method('deletePending')->willReturn(false);
+
+		$this->assertFalse($this->subjectUnderTest->decline('login-token'));
+	}
+
+	public function testCompletedRequestCannotGenerateAnotherPassword(): void {
+		$flow = new LoginFlowV2();
+		$flow->setAppPassword('already-encrypted-password');
+		$this->mapper->method('getByLoginToken')->willReturn($flow);
+		$this->tokenProvider->expects($this->never())->method('generateToken');
+		$this->mapper->expects($this->never())->method('complete');
+
+		$this->assertFalse($this->subjectUnderTest->flowDone('login-token', 'session-id', 'server', 'user'));
+		$this->assertFalse($this->subjectUnderTest->flowDoneWithAppPassword('login-token', 'server', 'user', 'password'));
+	}
+
+	public function testAppPasswordCannotCompleteMissingRequest(): void {
+		$this->mapper->method('getByLoginToken')->willThrowException(new DoesNotExistException(''));
+		$this->mapper->expects($this->never())->method('complete');
+
+		$this->assertFalse($this->subjectUnderTest->flowDoneWithAppPassword('login-token', 'server', 'user', 'password'));
+	}
+
+	public static function appPasswordCompletionProvider(): array {
+		return [[true], [false]];
+	}
+
+	#[DataProvider('appPasswordCompletionProvider')]
+	public function testAppPasswordCompletion(bool $completed): void {
+		[,, $publicKey] = $this->getOpenSSLEncryptedPublicAndPrivateKey('password');
+		$flow = new LoginFlowV2();
+		$flow->setPublicKey($publicKey);
+		$this->mapper->method('getByLoginToken')->willReturn($flow);
+		$this->mapper->expects($this->once())->method('complete')
+			->with($this->callback(fn (LoginFlowV2 $data): bool => $data->getServer() === 'server' && $data->getLoginName() === 'user' && $data->getAppPassword() !== null))
+			->willReturn($completed);
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$this->assertSame($completed, $this->subjectUnderTest->flowDoneWithAppPassword('login-token', 'server', 'user', 'password'));
 	}
 
 	/*
@@ -453,12 +516,19 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			});
 
 		$this->mapper->expects($this->once())
-			->method('insert');
+			->method('insert')
+			->with($this->callback(function (LoginFlowV2 $flow): bool {
+				return $flow->getClientIp() === '2001:db8::1'
+					&& $flow->getClientName() === 'user_agent'
+					&& $flow->getTimestamp() === 1700000000;
+			}));
+
+		$this->timeFactory->method('getTime')->willReturn(1700000000);
 
 		$this->secureRandom->expects($this->exactly(2))
 			->method('generate');
 
-		$token = $this->subjectUnderTest->createTokens('user_agent');
+		$token = $this->subjectUnderTest->createTokens('user_agent', '2001:db8::1');
 		$this->assertTrue($token instanceof LoginFlowV2Tokens);
 	}
 }
