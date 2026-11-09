@@ -794,6 +794,33 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->isLocal();
 	}
 
+	/**
+	 * A direct download serves the stored bytes, which are encrypted for encrypted files.
+	 */
+	#[\Override]
+	public function getDirectDownload(string $path): array|false {
+		if ($this->isEncryptedInCache($path)) {
+			return false;
+		}
+		return $this->getWrapperStorage()->getDirectDownload($path);
+	}
+
+	#[\Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		if ($this->isEncryptedInCache((int)$fileId)) {
+			return false;
+		}
+		return $this->getWrapperStorage()->getDirectDownloadById($fileId);
+	}
+
+	/**
+	 * Files without a cache entry are treated as encrypted.
+	 */
+	private function isEncryptedInCache(string|int $file): bool {
+		$info = $this->getCache()->get($file);
+		return $info === false || !empty($info['encrypted']);
+	}
+
 	#[\Override]
 	public function stat(string $path): array|false {
 		$stat = $this->getWrapperStorage()->stat($path);
