@@ -342,6 +342,11 @@ class ShareController extends AuthPublicShareController {
 			return new \OCP\AppFramework\Http\DataResponse('Share has no read permission');
 		}
 
+		$attributes = $share->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return new \OCP\AppFramework\Http\DataResponse('Share has no download permission', \OCP\AppFramework\Http::STATUS_FORBIDDEN);
+		}
+
 		$files_list = null;
 		if (!is_null($files)) { // download selected files
 			$files_list = json_decode($files);
