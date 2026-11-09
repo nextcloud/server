@@ -17,10 +17,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\UnknownNotificationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -65,7 +67,7 @@ class NotifierTest extends TestCase {
 			->with('678')
 			->willReturn($node);
 
-		$this->notification->expects($this->exactly(2))
+		$this->notification->expects($this->once())
 			->method('getUser')
 			->willReturn('you');
 		$this->notification
@@ -176,7 +178,7 @@ class NotifierTest extends TestCase {
 			->with('678')
 			->willReturn($node);
 
-		$this->notification->expects($this->exactly(2))
+		$this->notification->expects($this->once())
 			->method('getUser')
 			->willReturn('you');
 		$this->notification
@@ -473,6 +475,53 @@ class NotifierTest extends TestCase {
 			->method('getDisplayName')
 			->with('huraga')
 			->willReturn($displayName);
+
+		$this->notifier->prepare($this->notification, $this->lc);
+	}
+
+	public static function dataPrepareReadMark(): array {
+		return [
+			'read after comment' => ['2026-01-02 00:00:00', true],
+			'read at comment time' => ['2026-01-01 12:00:00', true],
+			'read before comment' => ['2026-01-01 00:00:00', false],
+			'never read' => [null, false],
+		];
+	}
+
+	#[DataProvider('dataPrepareReadMark')]
+	public function testPrepareReadMark(?string $readMark, bool $alreadyRead): void {
+		$this->expectException(AlreadyProcessedException::class);
+
+		$user = $this->createMock(IUser::class);
+		$this->getAutoMock(IUserManager::class)
+			->method('get')
+			->with('you')
+			->willReturn($user);
+
+		$this->notification->method('getUser')->willReturn('you');
+		$this->notification->method('getApp')->willReturn('comments');
+		$this->notification->method('getSubject')->willReturn('mention');
+		$this->notification->method('getSubjectParameters')->willReturn(['files', '678']);
+
+		$this->comment->method('getActorId')->willReturn('huraga');
+		$this->comment->method('getActorType')->willReturn('users');
+		$this->comment->method('getCreationDateTime')->willReturn(new \DateTime('2026-01-01 12:00:00'));
+
+		$this->getAutoMock(ICommentsManager::class)
+			->method('get')
+			->willReturn($this->comment);
+		$this->getAutoMock(ICommentsManager::class)
+			->expects($this->once())
+			->method('getReadMark')
+			->with('files', '678', $user)
+			->willReturn($readMark === null ? null : new \DateTime($readMark));
+
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')->willReturn(null);
+		$this->getAutoMock(IRootFolder::class)->expects($alreadyRead ? $this->never() : $this->once())
+			->method('getUserFolder')
+			->with('you')
+			->willReturn($userFolder);
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
