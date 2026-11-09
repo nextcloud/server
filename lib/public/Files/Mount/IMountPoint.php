@@ -40,7 +40,7 @@ interface IMountPoint {
 	/**
 	 * Get the id of the storages
 	 *
-	 * @return string|null
+	 * @return string
 	 * @since 8.0.0
 	 */
 	public function getStorageId();
@@ -48,7 +48,7 @@ interface IMountPoint {
 	/**
 	 * Get the id of the storages
 	 *
-	 * @return int|null
+	 * @return int
 	 * @since 9.1.0
 	 */
 	public function getNumericStorageId();

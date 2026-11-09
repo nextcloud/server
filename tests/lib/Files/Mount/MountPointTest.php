@@ -64,7 +64,7 @@ class MountPointTest extends \Test\TestCase {
 		// call it again to make sure the init code only ran once
 		$this->assertNull($mountPoint->getStorage());
 
-		$this->assertNull($mountPoint->getStorageId());
+		$this->assertEquals('invalid', $mountPoint->getStorageId());
 
 		// wrapping doesn't fail
 		$mountPoint->wrapStorage($wrapper);

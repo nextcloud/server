@@ -8,6 +8,7 @@
 
 namespace OCP\Files\Config;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
 use OCP\IUser;
 
@@ -78,4 +79,10 @@ interface ICachedMountInfo {
 	 * @since 28.0.0
 	 */
 	public function getKey(): string;
+
+	/**
+	 * @return ICacheEntry
+	 * @since 36.0.0
+	 */
+	public function getRootCacheEntry(): ICacheEntry;
 }
