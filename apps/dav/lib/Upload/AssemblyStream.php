@@ -78,12 +78,12 @@ class AssemblyStream implements \Icewind\Streams\File {
 			$offset = $this->size + $offset;
 		}
 
-		if ($offset === $this->pos) {
-			return true;
+		if ($offset < 0 || $offset > $this->size) {
+			return false;
 		}
 
-		if ($offset > $this->size) {
-			return false;
+		if ($offset === $this->pos) {
+			return true;
 		}
 
 		$nodeIndex = 0;
