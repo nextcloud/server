@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Expensive;
+
 /**
  * This interface defines method for accessing the file based user cache.
  * @since 6.0.0
@@ -55,9 +57,14 @@ interface ICache {
 
 	/**
 	 * Clear the user cache of all entries starting with a prefix
+	 *
+	 * Distributed backends have to iterate their whole keyspace to find the
+	 * entries (KEYS/SCAN on Redis), independent of how many entries match.
+	 *
 	 * @return bool
 	 * @since 6.0.0
 	 */
+	#[Expensive]
 	public function clear(string $prefix = '');
 
 	/**
