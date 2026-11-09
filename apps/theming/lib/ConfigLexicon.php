@@ -37,6 +37,10 @@ class ConfigLexicon implements ILexicon {
 	public const INSTANCE_IMPRINT_URL = 'imprintUrl';
 	/** Privacy URL of this instance */
 	public const INSTANCE_PRIVACY_URL = 'privacyUrl';
+	/** Text of the freely configurable custom link of this instance */
+	public const INSTANCE_CUSTOM_LINK_TEXT = 'customLinkText';
+	/** URL of the freely configurable custom link of this instance */
+	public const INSTANCE_CUSTOM_LINK_URL = 'customLinkUrl';
 
 	// legacy theming
 	/** Base URL of this instance */
@@ -96,6 +100,18 @@ class ConfigLexicon implements ILexicon {
 				ValueType::STRING,
 				defaultRaw: '',
 				definition: 'Privacy URL of this instance.',
+			),
+			new Entry(
+				self::INSTANCE_CUSTOM_LINK_TEXT,
+				ValueType::STRING,
+				defaultRaw: '',
+				definition: 'Text of the freely configurable custom link of this instance.',
+			),
+			new Entry(
+				self::INSTANCE_CUSTOM_LINK_URL,
+				ValueType::STRING,
+				defaultRaw: '',
+				definition: 'URL of the freely configurable custom link of this instance.',
 			),
 
 			// legacy theming
