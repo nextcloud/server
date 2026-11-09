@@ -68,6 +68,16 @@ class SetConfig extends Base {
 		if (count($configNames) > 1) {
 			$existingValue = $this->systemConfig->getValue($configName);
 
+			if ($this->hasNestedValue($existingValue, array_slice($configNames, 1))
+				&& $this->valuesEqual(
+					$this->getNestedValue($existingValue, array_slice($configNames, 1)),
+					$configValue['value']
+				)) {
+				$readableValue = $this->getReadableValue($configNames, $configValue);
+				$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' already set to ' . $readableValue . '</info>');
+				return 0;
+			}
+
 			$newValue = $this->mergeArrayValue(
 				array_slice($configNames, 1), $existingValue, $configValue['value'], $updateOnly
 			);
@@ -78,13 +88,51 @@ class SetConfig extends Base {
 				throw new \UnexpectedValueException('Config parameter does not exist');
 			}
 
+			if (in_array($configName, $this->systemConfig->getKeys(), true)
+				&& $this->valuesEqual($this->systemConfig->getValue($configName), $configValue['value'])) {
+				$readableValue = $this->getReadableValue($configNames, $configValue);
+				$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' already set to ' . $readableValue . '</info>');
+				return 0;
+			}
+
 			$this->systemConfig->setValue($configName, $configValue['value']);
 		}
 
 		$readableValue = $this->getReadableValue($configNames, $configValue);
-
 		$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' set to ' . $readableValue . '</info>');
 		return 0;
+	}
+
+	/**
+	 * @param mixed $existingValues
+	 * @param string[] $path
+	 */
+	protected function hasNestedValue(mixed $existingValues, array $path): bool {
+		$current = $existingValues;
+		foreach ($path as $key) {
+			if (!is_array($current) || !array_key_exists($key, $current)) {
+				return false;
+			}
+			$current = $current[$key];
+		}
+		return true;
+	}
+
+	/**
+	 * @param mixed $existingValues
+	 * @param string[] $path
+	 * @return mixed
+	 */
+	protected function getNestedValue(mixed $existingValues, array $path): mixed {
+		$current = $existingValues;
+		foreach ($path as $key) {
+			$current = $current[$key];
+		}
+		return $current;
+	}
+
+	protected function valuesEqual(mixed $current, mixed $new): bool {
+		return $current === $new;
 	}
 
 	/**
