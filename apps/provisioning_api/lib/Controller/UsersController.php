@@ -1566,7 +1566,12 @@ class UsersController extends AUserData {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		if (
+			!$isAdmin
+			&& !($isDelegatedAdmin && $groupid !== 'admin')
+			// Group admin can add users to its groups only if it can see them
+			&& !($subAdminManager->isSubAdminOfGroup($loggedInUser, $group) && $subAdminManager->isUserAccessible($loggedInUser, $targetUser))
+		) {
 			throw new OCSException('', 104);
 		}
 

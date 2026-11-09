@@ -3110,6 +3110,11 @@ class UsersControllerTest extends TestCase {
 			->with($loggedInUser, $targetGroup)
 			->willReturn(true);
 
+		$subAdminManager->expects($this->once())
+			->method('isUserAccessible')
+			->with($loggedInUser, $targetUser)
+			->willReturn(true);
+
 		$this->groupManager->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
