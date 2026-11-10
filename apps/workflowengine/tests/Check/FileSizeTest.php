@@ -18,30 +18,30 @@ class FileSizeTest extends TestCase {
 	public static function dataExecuteCheck(): array {
 		// Expected results: less, !greater, !less, greater.
 		return [
-			'missing PUT headers' =>
-				['PUT', '', '', '5 B', [false, false, false, false]],
-			'missing POST headers' =>
-				['POST', '', '', '5 B', [false, false, false, false]],
-			'missing size at zero threshold' =>
-				['PUT', '', '', '0 B', [false, false, false, false]],
-			'invalid total length does not fall back' =>
-				['PUT', 'invalid', '3', '5 B', [false, false, false, false]],
-			'invalid content length' =>
-				['PUT', '', 'invalid', '5 B', [false, false, false, false]],
-			'no content length fallback for MOVE' =>
-				['MOVE', '', '3', '5 B', [false, false, false, false]],
-			'total length takes precedence' =>
-				['PUT', '7', '3', '5 B', [false, false, true, true]],
-			'PUT content length fallback' =>
-				['PUT', '', '3', '5 B', [true, true, false, false]],
-			'POST content length fallback' =>
-				['POST', '', '3', '5 B', [true, true, false, false]],
-			'size equals threshold' =>
-				['PUT', '5', '', '5 B', [false, true, true, false]],
-			'zero total length' =>
-				['PUT', '0', '7', '5 B', [true, true, false, false]],
-			'zero content length' =>
-				['PUT', '', '0', '0 B', [false, true, true, false]],
+			'missing PUT headers'
+				=> ['PUT', '', '', '5 B', [false, false, false, false]],
+			'missing POST headers'
+				=> ['POST', '', '', '5 B', [false, false, false, false]],
+			'missing size at zero threshold'
+				=> ['PUT', '', '', '0 B', [false, false, false, false]],
+			'invalid total length does not fall back'
+				=> ['PUT', 'invalid', '3', '5 B', [false, false, false, false]],
+			'invalid content length'
+				=> ['PUT', '', 'invalid', '5 B', [false, false, false, false]],
+			'no content length fallback for MOVE'
+				=> ['MOVE', '', '3', '5 B', [false, false, false, false]],
+			'total length takes precedence'
+				=> ['PUT', '7', '3', '5 B', [false, false, true, true]],
+			'PUT content length fallback'
+				=> ['PUT', '', '3', '5 B', [true, true, false, false]],
+			'POST content length fallback'
+				=> ['POST', '', '3', '5 B', [true, true, false, false]],
+			'size equals threshold'
+				=> ['PUT', '5', '', '5 B', [false, true, true, false]],
+			'zero total length'
+				=> ['PUT', '0', '7', '5 B', [true, true, false, false]],
+			'zero content length'
+				=> ['PUT', '', '0', '0 B', [false, true, true, false]],
 		];
 	}
 
