@@ -35,6 +35,7 @@ class CapabilitiesTest extends TestCase {
 				'search_supports_creation_time' => true,
 				'search_supports_upload_time' => true,
 				'search_supports_last_activity' => true,
+				'attendee_guests' => true,
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
@@ -58,6 +59,7 @@ class CapabilitiesTest extends TestCase {
 				'search_supports_creation_time' => true,
 				'search_supports_upload_time' => true,
 				'search_supports_last_activity' => true,
+				'attendee_guests' => true,
 				'bulkupload' => '1.0',
 			],
 		];
@@ -82,6 +84,7 @@ class CapabilitiesTest extends TestCase {
 				'search_supports_creation_time' => true,
 				'search_supports_upload_time' => true,
 				'search_supports_last_activity' => true,
+				'attendee_guests' => true,
 				'absence-supported' => true,
 				'absence-replacement' => true,
 			],
