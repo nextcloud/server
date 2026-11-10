@@ -264,6 +264,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 		$appConfig = Server::get(IAppConfig::class);
 		$cacheDependencies = Server::get(CacheDependencies::class);
 		$rootFolder = Server::get(IRootFolder::class);
+		$storagesCache = (Server::get(ICacheFactory::class))->createInMemory();
 
 		foreach ($superShares as $share) {
 			[$parentShare, $groupedShares] = $share;
@@ -296,6 +297,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 						'appConfig' => $appConfig,
 						'cacheDependencies' => $cacheDependencies,
 						'rootFolder' => $rootFolder,
+						'storagesCache' => $storagesCache,
 					],
 					$loader,
 					$this->eventDispatcher,
