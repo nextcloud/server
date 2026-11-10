@@ -576,6 +576,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		string $targetInternalPath,
 		bool $preserveMtime = false,
 	): bool {
+		if (!$sourceStorage->isReadable($sourceInternalPath)) {
+			return false;
+		}
+
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			if ($sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
