@@ -1124,6 +1124,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextTranslate' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextTranslate.php',
         'OCP\\Teams\\ITeamFolderProvider' => __DIR__ . '/../../..' . '/lib/public/Teams/ITeamFolderProvider.php',
         'OCP\\Teams\\ITeamManager' => __DIR__ . '/../../..' . '/lib/public/Teams/ITeamManager.php',
+        'OCP\\Teams\\ITeamOwnedResourceProvider' => __DIR__ . '/../../..' . '/lib/public/Teams/ITeamOwnedResourceProvider.php',
         'OCP\\Teams\\ITeamResourceProvider' => __DIR__ . '/../../..' . '/lib/public/Teams/ITeamResourceProvider.php',
         'OCP\\Teams\\Team' => __DIR__ . '/../../..' . '/lib/public/Teams/Team.php',
         'OCP\\Teams\\TeamFolder' => __DIR__ . '/../../..' . '/lib/public/Teams/TeamFolder.php',

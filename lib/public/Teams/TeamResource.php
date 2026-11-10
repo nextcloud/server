@@ -22,6 +22,7 @@ class TeamResource implements \JsonSerializable {
 		private ?string $iconSvg = null,
 		private ?string $iconURL = null,
 		private ?string $iconEmoji = null,
+		private ?string $referenceUrl = null,
 	) {
 	}
 
@@ -58,6 +59,15 @@ class TeamResource implements \JsonSerializable {
 	 */
 	public function getUrl(): string {
 		return $this->url;
+	}
+
+	/**
+	 * Optional URL to resolve for an embedded reference, in addition to the navigation URL.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getReferenceUrl(): ?string {
+		return $this->referenceUrl;
 	}
 
 	/**
@@ -98,6 +108,7 @@ class TeamResource implements \JsonSerializable {
 	 *     id: string,
 	 *     label: string,
 	 *     url: string,
+	 *     referenceUrl: ?string,
 	 *     iconSvg: ?string,
 	 *     iconURL: ?string,
 	 *     iconEmoji: ?string,
@@ -116,6 +127,7 @@ class TeamResource implements \JsonSerializable {
 			'id' => $this->resourceId,
 			'label' => $this->label,
 			'url' => $this->url,
+			'referenceUrl' => $this->referenceUrl,
 			'iconSvg' => $this->iconSvg,
 			'iconURL' => $this->iconURL,
 			'iconEmoji' => $this->iconEmoji,
