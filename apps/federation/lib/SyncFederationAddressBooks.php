@@ -69,6 +69,10 @@ class SyncFederationAddressBooks {
 						$targetBookProperties,
 						$this->appConfig->getAppValueBool(ConfigLexicon::IGNORE_REMOTE_SYSTEM_ADDRESS_BOOK),
 					);
+					if ($truncated && $syncToken !== null) {
+						// Keep the progress of completed pages in case a later page fails
+						$this->dbHandler->setServerSyncToken($url, $syncToken);
+					}
 				} while ($truncated);
 
 				if ($full) {
