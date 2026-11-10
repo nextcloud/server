@@ -13,6 +13,7 @@ use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CachedSubscriptionImpl;
 use OCA\DAV\CalDAV\CalDavBackend;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Test\TestCase;
 
 class CachedSubscriptionImplTest extends TestCase {
@@ -69,6 +70,28 @@ class CachedSubscriptionImplTest extends TestCase {
 
 	public function testGetSource(): void {
 		$this->assertEquals($this->cachedSubscriptionImpl->getSource(), 'https://test.localhost/calendar1');
+	}
+
+	public static function isTransparentData(): array {
+		return [
+			'transparent' => [new ScheduleCalendarTransp(ScheduleCalendarTransp::TRANSPARENT), true],
+			'opaque' => [new ScheduleCalendarTransp(ScheduleCalendarTransp::OPAQUE), false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('isTransparentData')]
+	public function testIsTransparent(ScheduleCalendarTransp $transp, bool $expected): void {
+		$cachedSubscriptionImpl = new CachedSubscriptionImpl(
+			$this->cachedSubscription,
+			$this->cachedSubscriptionInfo + ['{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp' => $transp],
+			$this->backend
+		);
+
+		$this->assertSame($expected, $cachedSubscriptionImpl->isTransparent());
+	}
+
+	public function testIsTransparentWhenMissing(): void {
+		$this->assertFalse($this->cachedSubscriptionImpl->isTransparent());
 	}
 
 	public function testSearch(): void {

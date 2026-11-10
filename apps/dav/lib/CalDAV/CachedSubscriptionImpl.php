@@ -12,10 +12,12 @@ namespace OCA\DAV\CalDAV;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsTransparent;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Constants;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 
-class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendarIsShared, ICalendarIsWritable {
+class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendarIsShared, ICalendarIsTransparent, ICalendarIsWritable {
 
 	public function __construct(
 		private CachedSubscription $calendar,
@@ -109,5 +111,14 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 
 	public function getSource(): string {
 		return $this->calendarInfo['source'];
+	}
+
+	/**
+	 * @since 36.0.0
+	 */
+	#[\Override]
+	public function isTransparent(): bool {
+		$transp = $this->calendarInfo['{' . \OCA\DAV\CalDAV\Schedule\Plugin::NS_CALDAV . '}schedule-calendar-transp'] ?? null;
+		return $transp instanceof ScheduleCalendarTransp && strtolower($transp->getValue()) === ScheduleCalendarTransp::TRANSPARENT;
 	}
 }
