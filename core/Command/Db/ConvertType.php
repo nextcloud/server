@@ -8,6 +8,7 @@
 
 namespace OC\Core\Command\Db;
 
+use RuntimeException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
