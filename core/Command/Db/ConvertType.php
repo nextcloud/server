@@ -268,7 +268,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
-	
+
 		$toTables = $this->sortTablesByForeignKeys($db, $toTables, true);
 	
 		foreach ($toTables as $table) {
