@@ -88,10 +88,7 @@ function onInput(date: Date | null) {
  */
 async function updateProperty(newValue: string) {
 	try {
-		const responseData = await savePrimaryAccountProperty(birthdate.name, newValue ? new Date(newValue).toISOString() : '')
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await savePrimaryAccountProperty(birthdate.name, newValue ? new Date(newValue).toISOString() : '')
 		savedValue = newValue
 	} catch (error) {
 		value.value = savedValue

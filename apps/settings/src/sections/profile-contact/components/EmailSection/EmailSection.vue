@@ -53,10 +53,7 @@ async function onDeletePrimaryEmail() {
 	}
 
 	try {
-		const removed = await removeAdditionalEmail(firstAdditionalEmail)
-		if (removed.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await removeAdditionalEmail(firstAdditionalEmail)
 		additionalEmails.value.splice(0, 1)
 	} catch (error) {
 		handleError(error, t('settings', 'Unable to delete additional email address'))
@@ -69,10 +66,7 @@ async function onDeletePrimaryEmail() {
 	}
 	primaryEmail.value = { ...primaryEmail.value, value: firstAdditionalEmail, key: generateUniqueKey() }
 	try {
-		const saved = await savePrimaryEmail(firstAdditionalEmail)
-		if (saved.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await savePrimaryEmail(firstAdditionalEmail)
 	} catch (error) {
 		handleError(error, t('settings', 'Unable to update primary email address'))
 	}

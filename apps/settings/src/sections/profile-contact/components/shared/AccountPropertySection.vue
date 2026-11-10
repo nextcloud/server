@@ -82,10 +82,7 @@ function onInput(newValue: string | number) {
 async function updateProperty(newValue: string) {
 	hasError.value = false
 	try {
-		const responseData = await savePrimaryAccountProperty(props.name, newValue)
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await savePrimaryAccountProperty(props.name, newValue)
 		props.onSave?.(newValue)
 		isSuccess.value = true
 		setTimeout(() => {

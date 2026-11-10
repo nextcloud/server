@@ -30,3 +30,16 @@ export function handleError(error: unknown, message: string) {
 	showError(fullMessage)
 	logger.error(fullMessage, { error })
 }
+
+/**
+ * @param response Response of an OCS request
+ * @param response.data The response body
+ * @return The response body
+ * @throws {Error} If the server did not report success
+ */
+export function ocsData<T extends { ocs?: { meta?: { status?: string } } }>(response: { data: T }): T {
+	if (response.data.ocs?.meta?.status !== 'ok') {
+		throw new Error('Unexpected response')
+	}
+	return response.data
+}

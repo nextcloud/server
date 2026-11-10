@@ -53,10 +53,7 @@ onBeforeUnmount(() => unsubscribe('settings:display-name:updated', handleDisplay
 async function saveEnableProfile(enabled: boolean) {
 	loading.value = true
 	try {
-		const responseData = await savePrimaryAccountProperty(ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED, enabled)
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await savePrimaryAccountProperty(ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED, enabled)
 		emit('settings:profile-enabled:updated', enabled)
 	} catch (error) {
 		profileEnabled.value = !enabled

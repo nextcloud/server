@@ -7,6 +7,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
+import { ocsData } from '../utils/handlers.ts'
 
 /**
  * Save the visibility of the profile parameter
@@ -26,7 +27,7 @@ export async function saveProfileParameterVisibility(paramId, visibility) {
 		visibility,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -50,7 +51,7 @@ export async function saveProfileDefault(isEnabled) {
 		value: isEnabled,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -74,7 +75,7 @@ export async function saveProfilePicker(isEnabled) {
 		value: isEnabled,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -98,5 +99,5 @@ export async function saveProfilePrivate(isEnabled) {
 		value: isEnabled,
 	})
 
-	return res.data
+	return ocsData(res)
 }

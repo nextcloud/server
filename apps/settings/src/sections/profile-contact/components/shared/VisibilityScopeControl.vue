@@ -13,17 +13,11 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import FederationControl from './FederationControl.vue'
-import {
-	PROPERTY_READABLE_KEYS_ENUM,
-	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
-	SCOPE_ENUM,
-	SCOPE_PROPERTY_ENUM,
-	UNPUBLISHED_READABLE_PROPERTIES,
-} from '../../../../constants/AccountPropertyConstants.ts'
+import { SCOPE_PROPERTY_ENUM } from '../../../../constants/AccountPropertyConstants.ts'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../../constants/ProfileConstants.js'
-import { savePrimaryAccountPropertyScope } from '../../../../service/PersonalInfo/PersonalInfoService.js'
 import { saveProfileParameterVisibility } from '../../../../service/ProfileService.js'
 import { handleError } from '../../../../utils/handlers.ts'
+import { useScopeChange } from '../../composables/useScopeChange.ts'
 
 const props = withDefaults(defineProps<{
 	/** Human readable name of the property */
@@ -37,7 +31,7 @@ const props = withDefaults(defineProps<{
 	/** The additional value this scope belongs to */
 	additionalValue?: string
 	/** Saves the scope of an additional value */
-	handleAdditionalScopeChange?: (value: string, scope: string) => Promise<{ ocs?: { meta?: { status?: string } } }>
+	handleAdditionalScopeChange?: (value: string, scope: string) => Promise<unknown>
 	/** Disable changing the scope */
 	disabled?: boolean
 }>(), {
@@ -54,13 +48,11 @@ const emit = defineEmits<{
 
 const { profileConfig } = loadState<{ profileConfig: Record<string, { visibility: string }> }>('settings', 'profileParameters', { profileConfig: {} })
 const { profileEnabled: initialProfileEnabled, profileEnabledGlobally } = loadState<{ profileEnabled?: boolean, profileEnabledGlobally?: boolean }>('settings', 'personalInfoParameters', {})
-const { federationEnabled, lookupServerUploadEnabled } = loadState<{ federationEnabled?: boolean, lookupServerUploadEnabled?: boolean }>('settings', 'accountParameters', {})
 
 const open = ref(false)
 const profileEnabled = ref(initialProfileEnabled)
 const localScope = ref(props.scope)
 const visibility = ref(profileConfig[props.name]?.visibility ?? null)
-let savedScope = localScope.value
 let savedVisibility = visibility.value
 
 const showCombined = computed(() => Boolean(profileEnabledGlobally)
@@ -76,20 +68,14 @@ const visibilityOptions = computed(() => Object.values(VISIBILITY_PROPERTY_ENUM)
 
 const visibilityOption = computed(() => VISIBILITY_PROPERTY_ENUM[visibility.value])
 
-const supportedScopes = computed(() => {
-	// copy to avoid mutating the shared constant
-	const scopes = [...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[props.readable]]
-	if (UNPUBLISHED_READABLE_PROPERTIES.includes(props.readable)) {
-		return scopes
-	}
-	if (federationEnabled) {
-		scopes.push(SCOPE_ENUM.FEDERATED)
-	}
-	if (lookupServerUploadEnabled) {
-		scopes.push(SCOPE_ENUM.PUBLISHED)
-	}
-	return scopes
-})
+const { supportedScopes, changeScope } = useScopeChange(
+	props,
+	(scope) => {
+		localScope.value = scope
+		emit('update:scope', scope)
+	},
+	() => t('settings', 'Unable to update scope of {property}', { property: props.readable.toLocaleLowerCase() }),
+)
 
 const scopeOptions = computed(() => supportedScopes.value.map((scope) => SCOPE_PROPERTY_ENUM[scope]))
 
@@ -123,10 +109,7 @@ async function onVisibilityChange(option: { name: string } | null) {
 	}
 	visibility.value = option.name
 	try {
-		const responseData = await saveProfileParameterVisibility(props.name, option.name)
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await saveProfileParameterVisibility(props.name, option.name)
 		savedVisibility = option.name
 	} catch (error) {
 		visibility.value = savedVisibility
@@ -138,26 +121,8 @@ async function onVisibilityChange(option: { name: string } | null) {
  * @param option The picked scope
  */
 async function onScopeChange(option: { name: string } | null) {
-	if (!option) {
-		return
-	}
-	localScope.value = option.name
-	emit('update:scope', option.name)
-	try {
-		let responseData
-		if (props.additional && props.handleAdditionalScopeChange) {
-			responseData = await props.handleAdditionalScopeChange(props.additionalValue, option.name)
-		} else {
-			responseData = await savePrimaryAccountPropertyScope(PROPERTY_READABLE_KEYS_ENUM[props.readable], option.name)
-		}
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
-		savedScope = option.name
-	} catch (error) {
-		localScope.value = savedScope
-		emit('update:scope', savedScope)
-		handleError(error, t('settings', 'Unable to update scope of {property}', { property: props.readable.toLocaleLowerCase() }))
+	if (option) {
+		await changeScope(option.name)
 	}
 }
 </script>

@@ -8,6 +8,7 @@ import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
+import { ocsData } from '../../utils/handlers.ts'
 
 /**
  * Save the primary email of the user
@@ -26,7 +27,7 @@ export async function savePrimaryEmail(email) {
 		value: email,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -48,7 +49,7 @@ export async function saveAdditionalEmail(email) {
 		value: email,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -68,7 +69,7 @@ export async function saveNotificationEmail(email) {
 		value: email,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -88,7 +89,7 @@ export async function removeAdditionalEmail(email) {
 		value: '',
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -109,7 +110,7 @@ export async function updateAdditionalEmail(prevEmail, newEmail) {
 		value: newEmail,
 	})
 
-	return res.data
+	return ocsData(res)
 }
 
 /**
@@ -130,5 +131,5 @@ export async function saveAdditionalEmailScope(email, scope) {
 		value: scope,
 	})
 
-	return res.data
+	return ocsData(res)
 }

@@ -186,13 +186,10 @@ async function updatePrimaryEmail(newEmail: string): Promise<boolean> {
  * @param errorMessage Shown when saving fails
  * @return Whether it was saved
  */
-async function saveEmail(save: () => Promise<{ ocs?: { meta?: { status?: string } } }>, newEmail: string, errorMessage: string): Promise<boolean> {
+async function saveEmail(save: () => Promise<unknown>, newEmail: string, errorMessage: string): Promise<boolean> {
 	hasError.value = false
 	try {
-		const responseData = await save()
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await save()
 		// Ensure that local state reflects server state
 		if (newEmail) {
 			// the server stores addresses lower-cased and later matches them exactly
@@ -217,10 +214,7 @@ async function saveEmail(save: () => Promise<{ ocs?: { meta?: { status?: string 
 async function setNotificationMail() {
 	const newNotificationEmail = (props.primary || isNotificationEmail.value) ? '' : initialEmail.value
 	try {
-		const responseData = await saveNotificationEmail(newNotificationEmail)
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await saveNotificationEmail(newNotificationEmail)
 		emit('update:notificationEmail', newNotificationEmail)
 		showSuccess()
 	} catch (error) {
@@ -233,10 +227,7 @@ async function setNotificationMail() {
  */
 async function deleteAdditionalEmail() {
 	try {
-		const responseData = await removeAdditionalEmail(initialEmail.value)
-		if (responseData.ocs?.meta?.status !== 'ok') {
-			throw new Error('Unexpected response')
-		}
+		await removeAdditionalEmail(initialEmail.value)
 		emit('deleteAdditionalEmail')
 		if (isNotificationEmail.value) {
 			emit('update:notificationEmail', '')
