@@ -162,6 +162,7 @@ class UserMountCache implements IUserMountCache {
 				if (
 					$newMount->getMountId() !== $cachedMount->getMountId()
 					|| $newMount->getMountProvider() !== $cachedMount->getMountProvider()
+					|| $newMount->getStorageId() !== $cachedMount->getStorageId()
 				) {
 					$changed[] = [$cachedMount, $newMount];
 				}
