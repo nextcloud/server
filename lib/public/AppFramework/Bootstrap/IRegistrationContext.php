@@ -414,6 +414,15 @@ interface IRegistrationContext {
 	public function registerSystemReportSection(string $sectionClass): void;
 
 	/**
+	 * Register an implementation of \OCP\Security\Guard\IRequestGuard that
+	 * may refuse web requests before the session is started
+	 *
+	 * @param class-string<\OCP\Security\Guard\IRequestGuard> $guardClass
+	 * @since 36.0.0
+	 */
+	public function registerRequestGuard(string $guardClass): void;
+
+	/**
 	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that
 	 * will handle the implementation of declarative settings
 	 *

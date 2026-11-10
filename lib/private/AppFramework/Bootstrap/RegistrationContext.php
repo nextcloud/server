@@ -36,6 +36,7 @@ use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Security\Guard\IRequestGuard;
 use OCP\Server;
 use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\SetupCheck\ISetupCheck;
@@ -150,6 +151,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ISystemReportSection>[] */
 	private array $systemReportSections = [];
+
+	/** @var ServiceRegistration<IRequestGuard>[] */
+	private array $requestGuards = [];
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
@@ -472,6 +476,14 @@ class RegistrationContext {
 			}
 
 			#[\Override]
+			public function registerRequestGuard(string $guardClass): void {
+				$this->context->registerRequestGuard(
+					$this->appId,
+					$guardClass
+				);
+			}
+
+			#[\Override]
 			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
 				$this->context->registerDeclarativeSettings(
 					$this->appId,
@@ -710,6 +722,13 @@ class RegistrationContext {
 	 */
 	public function registerSystemReportSection(string $appId, string $sectionClass): void {
 		$this->systemReportSections[] = new ServiceRegistration($appId, $sectionClass);
+	}
+
+	/**
+	 * @psalm-param class-string<IRequestGuard> $guardClass
+	 */
+	public function registerRequestGuard(string $appId, string $guardClass): void {
+		$this->requestGuards[] = new ServiceRegistration($appId, $guardClass);
 	}
 
 	/**
@@ -1108,6 +1127,13 @@ class RegistrationContext {
 	 */
 	public function getSystemReportSections(): array {
 		return $this->systemReportSections;
+	}
+
+	/**
+	 * @return ServiceRegistration<IRequestGuard>[]
+	 */
+	public function getRequestGuards(): array {
+		return $this->requestGuards;
 	}
 
 	/**
