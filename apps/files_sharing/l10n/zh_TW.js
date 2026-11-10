@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "複製",
     "Send link via email" : "透過 email 寄送連結",
     "Enter an email address or paste a list" : "請輸入電子郵件地址或貼上清單",
-    "Remove email" : "移除電子郵件",
     "Select a destination" : "選取目的地",
     "Select" : "選取",
     "What are you requesting?" : "您正在請求什麼？",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "後端不允許 %2$s 類型的分享，因此 %1$s 分享失敗",
     "Public upload disabled by the administrator" : "公開上傳已被管理員停用",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "權杖必須至少包含 1 個字元，且只能包含字母、數字或連字符。",
+    "Remove email" : "移除電子郵件",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "將公開分享連結權杖設定為容易記住的權杖，或產生新的權杖。不建議對包含敏感資訊的分享使用可猜測的權杖。"
 },
 "nplurals=1; plural=0;");

@@ -108,7 +108,6 @@ OC.L10N.register(
     "Share link" : "Povezava za souporabo",
     "Copy" : "Kopiraj",
     "Send link via email" : "Pošlji povezavo po elektronski pošti",
-    "Remove email" : "Odstrani elektronski naslov",
     "Select a destination" : "Izbor cilja",
     "Select" : "Izbor",
     "Where should these files go?" : "Kam želite poslati te datoteke?",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Public link sharing is disabled by the administrator" : "Souporaba z uporabo javne povezave je skrbniško onemogočena",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
-    "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno"
+    "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
+    "Remove email" : "Odstrani elektronski naslov"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

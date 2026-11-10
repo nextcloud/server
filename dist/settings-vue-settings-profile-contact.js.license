@@ -190,6 +190,9 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/core
 	- version: 0.3.1
 	- license: MIT
+- @floating-ui/dom
+	- version: 0.1.10
+	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT

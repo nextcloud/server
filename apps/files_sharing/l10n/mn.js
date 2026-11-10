@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "хуулах",
     "Send link via email" : "Холбоосыг имэйлээр илгээх",
     "Enter an email address or paste a list" : "Имэйл хаяг оруулах эсвэл жагсаалт буулгах",
-    "Remove email" : "Имэйл устгах",
     "Select a destination" : "Очих газар сонгох",
     "Select" : "Сонгох",
     "What are you requesting?" : "Та юу хүсэж байна вэ?",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s-г хуваалцах амжилтгүй боллоо, учир нь систем %2$s төрлийн хуваалцалтыг зөвшөөрдөггүй",
     "Public upload disabled by the administrator" : "Нийтийн байршуулалт админаар идэвхгүй болгогдсон",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токен нь дор хаяж 1 тэмдэгт агуулсан байх бөгөөд зөвхөн үсэг, тоо эсвэл зураас агуулж болно",
+    "Remove email" : "Имэйл устгах",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Нийтийн хуваалцах холбоосын токеныг санахад хялбар зүйл болгож тохируулна уу эсвэл шинэ токен үүсгэнэ үү. Нууц мэдээлэл агуулсан хуваалцалтад таахад хялбар токен ашиглахыг зөвлөдөггүй."
 },
 "nplurals=2; plural=(n != 1);");

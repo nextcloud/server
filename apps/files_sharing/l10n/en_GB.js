@@ -148,7 +148,8 @@ OC.L10N.register(
     "Copy" : "Copy",
     "Send link via email" : "Send link via email",
     "Enter an email address or paste a list" : "Enter an email address or paste a list",
-    "Remove email" : "Remove email",
+    "Recipient emails" : "Recipient emails",
+    "Remove email: {email}" : "Remove email: {email}",
     "Select a destination" : "Select a destination",
     "Select" : "Select",
     "What are you requesting?" : "What are you requesting?",
@@ -422,6 +423,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sharing %1$s failed because the back end does not allow shares from type %2$s",
     "Public upload disabled by the administrator" : "Public upload disabled by the administrator",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen",
+    "Remove email" : "Remove email",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information."
 },
 "nplurals=2; plural=(n != 1);");

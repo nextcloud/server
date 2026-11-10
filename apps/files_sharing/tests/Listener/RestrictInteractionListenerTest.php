@@ -197,7 +197,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 			new RemoteGroupReceiver(''),
 			new RemoteUserReceiver(''),
 			new RoomReceiver(''),
-			new UserReceiver(''),
+			new UserReceiver($this->user->getUID(), $this->user),
 		] as $receiver) {
 			foreach ([
 				new ShareAction(Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ),

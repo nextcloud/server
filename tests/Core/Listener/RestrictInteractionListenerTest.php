@@ -86,6 +86,21 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$this->assertTrue($group->delete());
 	}
 
+	public function testShareActionUserReceiverDisabled(): void {
+		$user2 = Server::get(IUserManager::class)->createUser('user2', 'password');
+		$this->assertNotFalse($user2);
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new UserReceiver($user2->getUID(), $user2)]);
+		$this->assertFalse($event->isInteractionRestricted());
+
+		$user2->setEnabled(false);
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new UserReceiver($user2->getUID(), $user2)]);
+		$this->assertEquals('Cannot share with a disabled account.', $event->isInteractionRestricted());
+
+		$this->assertTrue($user2->delete());
+	}
+
 	/** @psalm-suppress DeprecatedMethod The configs are not migrated to IAppConfig, so using deprecated IConfig is required for now. */
 	public function testShareActionUserReceiverGroupMembersOnly(): void {
 		$user2 = Server::get(IUserManager::class)->createUser('user2', 'password');

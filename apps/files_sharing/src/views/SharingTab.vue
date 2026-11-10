@@ -207,10 +207,11 @@ import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarSections } from '@nextcloud/sharing/ui'
+import { toRaw } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
@@ -504,16 +505,16 @@ export default {
 		 * @param {Share} share the sharedWith Share object
 		 */
 		updateExpirationSubtitle(share) {
-			const expiration = moment(share.expireDate).unix()
-			this.$set(this.sharedWithMe, 'extra', t('files_sharing', 'Expires {relativetime}', {
-				relativetime: moment(expiration * 1000).fromNow(),
-			}))
+			const expiration = new Date(share.expireDate).getTime()
+			this.sharedWithMe.extra = t('files_sharing', 'Expires {relativetime}', {
+				relativetime: formatRelativeTime(expiration),
+			})
 
 			// share have expired
-			if (moment().unix() > expiration) {
+			if (Date.now() > expiration) {
 				clearInterval(this.expirationInterval)
 				// TODO: clear ui if share is expired
-				this.$set(this.sharedWithMe, 'extra', t('files_sharing', 'this share just expired.'))
+				this.sharedWithMe.extra = t('files_sharing', 'this share just expired.')
 			}
 		},
 
@@ -574,7 +575,7 @@ export default {
 
 				// If we have an expiration date, use it as extra
 				// Refresh the status every 10s and clear if expired
-				if (share.expireDate && moment(share.expireDate).unix() > moment().unix()) {
+				if (share.expireDate && new Date(share.expireDate).getTime() > Date.now()) {
 					// first update
 					this.updateExpirationSubtitle(share)
 					// interval update
@@ -656,7 +657,7 @@ export default {
 				if (share.type === ShareType.Email) {
 					listComponent = this.$refs.linkShareList
 				}
-				const newShare = listComponent.$children.find((component) => component.share === share)
+				const newShare = listComponent?.$refs.entries?.find((component) => toRaw(component.share) === toRaw(share))
 				if (newShare) {
 					resolve(newShare)
 				}

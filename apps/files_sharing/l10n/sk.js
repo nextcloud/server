@@ -148,7 +148,8 @@ OC.L10N.register(
     "Copy" : "Kopírovať",
     "Send link via email" : "Odoslať odkaz e-mailom",
     "Enter an email address or paste a list" : "Zadajte e-mailovú adresu alebo vložte zoznam",
-    "Remove email" : "Odobrať e-mail",
+    "Recipient emails" : "E-maily príjemcov",
+    "Remove email: {email}" : "Odstrániť e-mail: {email}",
     "Select a destination" : "Vybrať cieľ",
     "Select" : "Vybrať",
     "What are you requesting?" : "Čo požadujete?",
@@ -422,6 +423,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Zdieľanie %1$s zlyhalo, pretože backend nepovoľuje zdieľania typu %2$s",
     "Public upload disabled by the administrator" : "Verejné nahrávanie je zakázané administrátorom",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny musia obsahovať aspoň 1 znak a môžu obsahovať iba písmená, čísla alebo spojovník",
+    "Remove email" : "Odobrať e-mail",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @since 17.0.0
  */
+#[Implementable(since: '17.0.0')]
 interface IGetDisplayNameBackend {
 	/**
 	 * @param string $gid

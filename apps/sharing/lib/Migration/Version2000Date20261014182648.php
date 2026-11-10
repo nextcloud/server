@@ -33,7 +33,7 @@ final class Version2000Date20261014182648 extends SimpleMigrationStep {
 			]);
 			$mappingTable->addColumn('instance_url', Types::STRING, ['length' => 256]);
 			$mappingTable->setPrimaryKey(['instance_id']);
-			$mappingTable->addUniqueIndex(['instance_url']);
+			$mappingTable->addUniqueIndex(['instance_url'], 'sharing_instance_map_url');
 		} else {
 			$mappingTable = $schema->getTable('sharing_instance_map');
 		}
@@ -46,7 +46,7 @@ final class Version2000Date20261014182648 extends SimpleMigrationStep {
 		if (!$shareTable->hasColumn('owner_instance_id')) {
 			$shareTable->addColumn('owner_instance_id', Types::INTEGER, ['notnull' => false]);
 			$shareTable->addForeignKeyConstraint($mappingTable->getName(), ['owner_instance_id'], ['instance_id']);
-			$shareTable->addIndex(['owner_user_id', 'owner_instance_id']);
+			$shareTable->addIndex(['owner_user_id', 'owner_instance_id'], 'sharing_share_owner');
 		}
 
 		$recipientsTable = $schema->getTable('sharing_share_recipients');
@@ -61,12 +61,12 @@ final class Version2000Date20261014182648 extends SimpleMigrationStep {
 		if (!$recipientsTable->hasColumn('recipient_instance_id')) {
 			$recipientsTable->addColumn('recipient_instance_id', Types::INTEGER, ['notnull' => false]);
 			$recipientsTable->addForeignKeyConstraint($mappingTable->getName(), ['recipient_instance_id'], ['instance_id']);
-			$recipientsTable->addUniqueIndex(['share_id', 'recipient_class_id', 'recipient_value', 'recipient_instance_id']);
+			$recipientsTable->addUniqueIndex(['share_id', 'recipient_class_id', 'recipient_value', 'recipient_instance_id'], 'sharing_uniq_recipient');
 		}
 
 		if (!$recipientsTable->hasColumn('initiator_instance_id')) {
 			$recipientsTable->addColumn('initiator_instance_id', Types::INTEGER, ['notnull' => false]);
-			$recipientsTable->addForeignKeyConstraint($mappingTable->getName(), ['initiator_instance_id'], ['instance_id']);
+			$recipientsTable->addForeignKeyConstraint($mappingTable->getName(), ['initiator_instance_id'], ['instance_id'], name: 'sharing_fkey_initiator');
 		}
 
 		return $schema;

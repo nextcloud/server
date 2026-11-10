@@ -221,8 +221,10 @@ class Server {
 			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\SharingPlugin(\OCP\Server::get(\OCP\Share\IManager::class)));
 			$this->server->addPlugin(new PublishPlugin(
-				\OCP\Server::get(IURLGenerator::class)
+				\OCP\Server::get(IURLGenerator::class),
+				\OCP\Server::get(\OCP\Share\IManager::class),
 			));
 
 			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));

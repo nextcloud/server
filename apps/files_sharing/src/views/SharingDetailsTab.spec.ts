@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import SharingDetailsTab from './SharingDetailsTab.vue'
 
 type Ctx = ReturnType<typeof buildContext>
@@ -199,5 +199,74 @@ describe('SharingDetailsTab.allPermissions — capped by what the resharer holds
 
 	it('falls back to full permissions when the DAV property is missing', () => {
 		expect(permissionsFor(undefined)).toBe('31')
+	})
+})
+
+describe('SharingDetailsTab.saveShare — notifying the share list', () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
+	it('emits the share created on the server', async () => {
+		const created = { id: 42, _share: { id: 42 } }
+		const ctx = buildContext({
+			isPublicShare: false,
+			addShare: vi.fn().mockResolvedValue(created),
+		})
+
+		await callSaveShare(ctx)
+
+		expect(ctx.$emit).toHaveBeenCalledWith('add:share', created)
+		expect(ctx.share._share.id).toBe(42)
+	})
+
+	it('saves the legacy external actions through their rendered component', async () => {
+		const onSave = vi.fn().mockResolvedValue(undefined)
+		const ctx = buildContext({
+			isNewShare: false,
+			share: { ...buildContext().share, id: 42, _share: { id: 42 } },
+			$refs: {
+				externalShareActions: [],
+				externalLinkActions: [{ $refs: { component: { onSave } } }, { $refs: {} }],
+			},
+		})
+
+		await callSaveShare(ctx)
+
+		expect(onSave).toHaveBeenCalledOnce()
+		expect(ctx.$emit).toHaveBeenCalledWith('close-sharing-details')
+	})
+})
+
+describe('SharingDetailsTab.passwordExpirationTime', () => {
+	beforeEach(() => {
+		vi.useFakeTimers({ now: new Date('2026-01-01T00:00:00Z') })
+	})
+
+	afterEach(() => {
+		vi.useRealTimers()
+	})
+
+	/**
+	 * @param passwordExpirationTime The password expiration time of the share
+	 */
+	function expirationFor(passwordExpirationTime: string | null) {
+		const ctx = {
+			share: { passwordExpirationTime },
+			isValidShareAttribute: (v: unknown) => typeof v === 'string' && v.length > 0,
+		}
+		return SharingDetailsTab.computed.passwordExpirationTime.call(ctx as never)
+	}
+
+	it('shows the time left until the password expires', () => {
+		expect(expirationFor('2026-01-03T00:00:00Z')).toBe('in 2 days')
+	})
+
+	it('reports an expired password', () => {
+		expect(expirationFor('2025-12-31T00:00:00Z')).toBe(false)
+	})
+
+	it('reports no expiration when the password does not expire', () => {
+		expect(expirationFor(null)).toBe(null)
 	})
 })
