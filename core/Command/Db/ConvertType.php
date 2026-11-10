@@ -270,7 +270,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		$toTables = $this->sortTablesByForeignKeys($db, $toTables, true);
-	
+
 		foreach ($toTables as $table) {
 			$db->createSchemaManager()->dropTable($table);
 		}
