@@ -24,6 +24,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
+use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\IL10N;
 use OCP\Image;
 use OCP\IRequest;
@@ -69,6 +70,18 @@ class AvatarController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
 	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
+		if ($size === 512) {
+			$path = \OC::$SERVERROOT . '/core/img/caldav/organizer.svg';
+			$content = file_get_contents($path);
+			$response = new FileDisplayResponse(
+				new InMemoryFile('organizer.svg', $content),
+				Http::STATUS_OK,
+				['Content-Type' => 'image/svg+xml', 'X-NC-IsCustomAvatar' => 0]
+			);
+			$response->cacheFor(3600, false, true);
+			return $response;
+		}
+
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -119,6 +132,18 @@ class AvatarController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
 	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
+		if ($size === 512) {
+			$path = \OC::$SERVERROOT . '/core/img/caldav/organizer.svg';
+			$content = file_get_contents($path);
+			$response = new FileDisplayResponse(
+				new InMemoryFile('organizer.svg', $content),
+				Http::STATUS_OK,
+				['Content-Type' => 'image/svg+xml', 'X-NC-IsCustomAvatar' => 0]
+			);
+			$response->cacheFor(3600, false, true);
+			return $response;
+		}
+
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
