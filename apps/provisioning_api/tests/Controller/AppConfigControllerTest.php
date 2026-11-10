@@ -262,7 +262,7 @@ class AppConfigControllerTest extends TestCase {
 
 			$this->expectAuditEvent('config.app_value.updated', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was changed');
 		}
-		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+		if ($appThrows instanceof \Exception) {
 			$this->eventDispatcher->expects($this->never())
 				->method('dispatchTyped');
 		}
@@ -282,7 +282,7 @@ class AppConfigControllerTest extends TestCase {
 		$adminUser->method('getUid')->willReturn('admin');
 		$this->userSession->method('getUser')->willReturn($adminUser);
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
-		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
+		$api = $this->getInstance(['verifyAppId']);
 
 		$this->appConfig->method('getDetails')->willReturn(['type' => IAppConfig::VALUE_STRING]);
 		$this->appConfig->expects($this->once())
@@ -338,7 +338,7 @@ class AppConfigControllerTest extends TestCase {
 
 			$this->expectAuditEvent('config.app_value.deleted', ['configKey' => $key, 'appId' => $app], 'App config key "%s" of app "%s" was deleted');
 		}
-		if ($appThrows instanceof \Exception || $keyThrows instanceof \Exception) {
+		if ($appThrows instanceof \Exception) {
 			$this->eventDispatcher->expects($this->never())
 				->method('dispatchTyped');
 		}
