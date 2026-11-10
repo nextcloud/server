@@ -219,11 +219,18 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 			$exportData = [];
 			foreach ($subscriptions as $subscription) {
+				$credentials = null;
+				if (isset($subscription['credentials'])) {
+					[$username, $password] = $subscription['credentials'];
+					$credentials = ['username' => $username, 'password' => $password];
+				}
+
 				$exportData[] = [
 					'uri' => $subscription[self::DAV_PROPERTY_URI],
 					'displayname' => $subscription[self::DAV_PROPERTY_DISPLAYNAME] ?? null,
 					'color' => $subscription[self::DAV_PROPERTY_CALENDAR_COLOR] ?? null,
 					'source' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_SOURCE] ?? null,
+					'credentials' => $credentials,
 					'striptodos' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS] ?? null,
 					'stripalarms' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS] ?? null,
 					'stripattachments' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS] ?? null,
@@ -496,7 +503,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 					$principalUri,
 					$subscription['uri'] ? self::MIGRATED_URI_PREFIX . $subscription['uri'] : self::MIGRATED_URI_PREFIX . bin2hex(random_bytes(16)),
 					[
-						'{http://calendarserver.org/ns/}source' => new Href($subscription['source']),
+						'{http://calendarserver.org/ns/}source' => new Href($this->importSubscriptionSource($subscription)),
 						self::DAV_PROPERTY_DISPLAYNAME => $subscription['displayname'] ?? null,
 						self::DAV_PROPERTY_CALENDAR_COLOR => $subscription['color'] ?? null,
 						self::DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS => $subscription['striptodos'] ?? null,
@@ -511,6 +518,20 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		} catch (Throwable $e) {
 			throw new CalendarMigratorException('Could not import calendar subscriptions', 0, $e);
 		}
+	}
+
+	/**
+	 * Returns the source url of an imported subscription with its credentials as user info
+	 */
+	private function importSubscriptionSource(array $subscription): string {
+		$source = (string)$subscription['source'];
+		$credentials = $subscription['credentials'] ?? null;
+		if (!is_array($credentials) || !is_string($credentials['username'] ?? null) || !is_string($credentials['password'] ?? null)) {
+			return $source;
+		}
+
+		$userInfo = rawurlencode($credentials['username']) . ':' . rawurlencode($credentials['password']) . '@';
+		return preg_replace('/^([a-z][a-z0-9+.\-]*:\/\/)/i', '${1}' . $userInfo, $source, 1);
 	}
 
 	/**
