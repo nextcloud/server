@@ -570,6 +570,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		string $targetInternalPath,
 		bool $preserveMtime = false,
 	): bool {
+		if (!$sourceStorage->isReadable($sourceInternalPath)) {
+			return false;
+		}
+
 		// the shortcuts below copy the object verbatim, an encrypted source has to be
 		// read through its encryption wrapper instead
 		if ($sourceStorage->instanceOfStorage(Encryption::class)
