@@ -14,7 +14,9 @@ use OCA\DAV\CardDAV\Import\ImportDisposition;
 use OCA\DAV\CardDAV\Import\ImportObjectEvent;
 use OCA\DAV\CardDAV\Import\ImportService;
 use OCP\Contacts\ContactsImportOptions;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\VObject\Reader;
 
 class ImportServiceTest extends \Test\TestCase {
 
@@ -30,40 +32,67 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->addressBook = $this->createMock(AddressBookImpl::class);
 	}
 
-	public function testImportWithoutUID(): void {
-		// Arrange
-		// construct stream with two cards that have no UID
+	public static function validationProvider(): array {
+		return [
+			'default validation' => [ContactsImportOptions::VALIDATE_SKIP],
+			'no validation' => [ContactsImportOptions::VALIDATE_NONE],
+			'strict validation' => [ContactsImportOptions::VALIDATE_FAIL],
+		];
+	}
+
+	#[DataProvider('validationProvider')]
+	public function testImportWithoutUID(int $validation): void {
 		$stream = fopen('php://memory', 'r+');
 		fwrite($stream, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Erika Mustermann\r\nN:Mustermann;Erika;;;\r\nEND:VCARD\r\n"
+			. "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:existing-uid\r\nFN:Existing Contact\r\nN:Contact;Existing;;;\r\nEND:VCARD\r\n"
 			. "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Max Mustermann\r\nN:Mustermann;Max;;;\r\nEND:VCARD\r\n");
 		rewind($stream);
-		// construct import options
 		$options = new ContactsImportOptions();
-		$options->setFormat('vcf');
 		$options->setCounts(true);
-		$options->setErrors(ContactsImportOptions::ERROR_CONTINUE);
+		$options->setValidate($validation);
 
-		// Mock address book methods
 		$this->addressBook->expects($this->once())
 			->method('getKey')
 			->willReturn('1');
 
-		// Mock backend methods
-		$this->backend->expects($this->never())
-			->method('createCard');
+		$lookedUpUIDs = [];
+		$this->backend->expects($this->exactly(3))
+			->method('getCardByUID')
+			->willReturnCallback(function (int $addressBookId, string $uid) use (&$lookedUpUIDs): ?array {
+				$this->assertSame(1, $addressBookId);
+				$this->assertNotSame('', $uid);
+				$lookedUpUIDs[] = $uid;
+				return null;
+			});
 
-		// Act
-		$result = iterator_to_array($this->service->import($stream, $this->addressBook, $options), false);
+		$cards = [];
+		$this->backend->expects($this->exactly(3))
+			->method('createCard')
+			->willReturnCallback(function (int $addressBookId, string $uri, string $data) use (&$cards): string {
+				$this->assertSame(1, $addressBookId);
+				$cards[] = Reader::read($data);
+				return 'etag';
+			});
+		$this->backend->expects($this->never())->method('updateCard');
 
-		// Assert
-		$this->assertCount(3, $result, 'Import result should contain counts and two items');
+		try {
+			$result = iterator_to_array($this->service->import($stream, $this->addressBook, $options), false);
+		} finally {
+			fclose($stream);
+		}
+
+		$this->assertCount(4, $result);
 		$this->assertInstanceOf(ImportCountEvent::class, $result[0]);
-		$this->assertSame(2, $result[0]->vcard);
-		foreach ([$result[1], $result[2]] as $event) {
+		$this->assertSame(3, $result[0]->vcard);
+		$this->assertCount(3, array_unique($lookedUpUIDs));
+		$this->assertSame('existing-uid', $lookedUpUIDs[1]);
+		$this->assertSame(['Erika Mustermann', 'Existing Contact', 'Max Mustermann'], array_map(fn ($card) => (string)$card->FN, $cards));
+		foreach ($cards as $index => $card) {
+			$this->assertSame($lookedUpUIDs[$index], (string)$card->UID);
+			$event = $result[$index + 1];
 			$this->assertInstanceOf(ImportObjectEvent::class, $event);
-			$this->assertNull($event->identifier);
-			$this->assertSame(ImportDisposition::Error, $event->disposition);
-			$this->assertSame(['One or more objects discovered without a UID'], $event->errors);
+			$this->assertSame($lookedUpUIDs[$index], $event->identifier);
+			$this->assertSame(ImportDisposition::Created, $event->disposition);
 		}
 	}
 }
