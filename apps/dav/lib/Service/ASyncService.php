@@ -20,6 +20,9 @@ use Sabre\Xml\ParseException;
  * Abstract sync service to sync CalDAV and CardDAV data from federated instances.
  */
 abstract class ASyncService {
+	/** Maximum number of resources requested in one multiget REPORT */
+	protected const int MULTIGET_BATCH_SIZE = 100;
+
 	private ?IClient $client = null;
 
 	public function __construct(
@@ -105,7 +108,121 @@ abstract class ASyncService {
 		return $this->parseMultiStatus($body, $absoluteUrl);
 	}
 
-	protected function download(
+	/**
+	 * Fetch the data of several resources of a collection with one multiget REPORT.
+	 *
+	 * @param list<string> $hrefs Resource hrefs as returned by the sync report
+	 * @param string $reportName Report element in clark notation, e.g. {urn:ietf:params:xml:ns:carddav}addressbook-multiget
+	 * @param string $dataProperty Data property in clark notation, e.g. {urn:ietf:params:xml:ns:carddav}address-data
+	 *
+	 * @return array<string, string> Resource data keyed by href, resources the remote did not return are omitted
+	 */
+	protected function requestMultiGet(
+		string $absoluteUrl,
+		string $userName,
+		string $sharedSecret,
+		array $hrefs,
+		string $reportName,
+		string $dataProperty,
+	): array {
+		$client = $this->getClient();
+
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'body' => $this->buildMultiGetRequestBody($hrefs, $reportName, $dataProperty),
+			'headers' => ['Content-Type' => 'application/xml'],
+			'timeout' => $this->config->getSystemValueInt(
+				'carddav_sync_request_timeout',
+				IClient::DEFAULT_REQUEST_TIMEOUT,
+			),
+			'verify' => !$this->config->getSystemValue(
+				'sharing.federation.allowSelfSignedCertificates',
+				false,
+			),
+		];
+
+		$response = $client->request(
+			'REPORT',
+			$absoluteUrl,
+			$options,
+		);
+
+		$body = $response->getBody();
+		assert(is_string($body));
+
+		/** @var MultiStatus $multiStatus */
+		$multiStatus = (new SabreXmlService())->expect('{DAV:}multistatus', $body);
+
+		$result = [];
+		foreach ($multiStatus->getResponses() as $resourceResponse) {
+			$data = $resourceResponse->getResponseProperties()[200][$dataProperty] ?? null;
+			if (is_string($data)) {
+				$result[$resourceResponse->getHref()] = $data;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Check whether a collection supports a REPORT by reading its supported-report-set.
+	 *
+	 * @param string $reportName Report element in clark notation, e.g. {urn:ietf:params:xml:ns:carddav}addressbook-multiget
+	 */
+	protected function requestReportSupport(
+		string $absoluteUrl,
+		string $userName,
+		string $sharedSecret,
+		string $reportName,
+	): bool {
+		$client = $this->getClient();
+
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'body' => '<?xml version="1.0" encoding="UTF-8"?><d:propfind xmlns:d="DAV:"><d:prop><d:supported-report-set/></d:prop></d:propfind>',
+			'headers' => ['Content-Type' => 'application/xml', 'Depth' => '0'],
+			'timeout' => $this->config->getSystemValueInt(
+				'carddav_sync_request_timeout',
+				IClient::DEFAULT_REQUEST_TIMEOUT,
+			),
+			'verify' => !$this->config->getSystemValue(
+				'sharing.federation.allowSelfSignedCertificates',
+				false,
+			),
+		];
+
+		$response = $client->request(
+			'PROPFIND',
+			$absoluteUrl,
+			$options,
+		);
+
+		$body = $response->getBody();
+		assert(is_string($body));
+
+		/** @var MultiStatus $multiStatus */
+		$multiStatus = (new SabreXmlService())->expect('{DAV:}multistatus', $body);
+
+		foreach ($multiStatus->getResponses() as $resourceResponse) {
+			$supportedReports = $resourceResponse->getResponseProperties()[200]['{DAV:}supported-report-set'] ?? [];
+			if (!is_array($supportedReports)) {
+				continue;
+			}
+			foreach ($supportedReports as $supportedReport) {
+				foreach ($supportedReport['value'] ?? [] as $report) {
+					foreach ($report['value'] ?? [] as $reportType) {
+						if (($reportType['name'] ?? null) === $reportName) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	protected function requestGet(
 		string $absoluteUrl,
 		string $userName,
 		string $sharedSecret,
@@ -141,6 +258,29 @@ abstract class ASyncService {
 		$prop->appendChild($etag);
 		$root->appendChild($sync);
 		$root->appendChild($prop);
+		$dom->appendChild($root);
+		return $dom->saveXML();
+	}
+
+	/**
+	 * @param list<string> $hrefs
+	 */
+	private function buildMultiGetRequestBody(array $hrefs, string $reportName, string $dataProperty): string {
+		[$reportNamespace, $reportElement] = SabreXmlService::parseClarkNotation($reportName);
+		[$dataNamespace, $dataElement] = SabreXmlService::parseClarkNotation($dataProperty);
+
+		$dom = new \DOMDocument('1.0', 'UTF-8');
+		$dom->formatOutput = true;
+		$root = $dom->createElementNS($reportNamespace, 'r:' . $reportElement);
+		$prop = $dom->createElementNS('DAV:', 'd:prop');
+		$prop->appendChild($dom->createElementNS('DAV:', 'd:getetag'));
+		$prop->appendChild($dom->createElementNS($dataNamespace, 'p:' . $dataElement));
+		$root->appendChild($prop);
+		foreach ($hrefs as $href) {
+			$hrefElement = $dom->createElementNS('DAV:', 'd:href');
+			$hrefElement->appendChild($dom->createTextNode($href));
+			$root->appendChild($hrefElement);
+		}
 		$dom->appendChild($root);
 		return $dom->saveXML();
 	}
