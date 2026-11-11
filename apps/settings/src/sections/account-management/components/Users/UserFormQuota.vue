@@ -18,13 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import type { QuotaOption } from './userFormUtils.ts'
+import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { formDataKey } from './injectionKeys.ts'
-import { validateQuota as validateQuotaOption } from './userFormUtils.ts'
+import { validateQuota as validateQuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 const props = defineProps<{
 	quotaOptions: QuotaOption[]

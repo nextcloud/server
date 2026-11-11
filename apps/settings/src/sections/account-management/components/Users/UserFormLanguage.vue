@@ -26,7 +26,7 @@ import { computed, inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
-import { languageFilterBy } from './userFormUtils.ts'
+import { languageFilterBy } from '../../../../components/Users/userFormUtils.ts'
 
 const usersStore = useUsersStore()
 

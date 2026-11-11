@@ -40,7 +40,7 @@
 import { vElementVisibility } from '@vueuse/components'
 import debounce from 'debounce'
 import Vue from 'vue'
-import logger from '../../logger.ts'
+import logger from '../../../../logger.ts'
 
 Vue.directive('elementVisibility', vElementVisibility)
 

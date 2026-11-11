@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FormData, QuotaOption } from './userFormUtils.ts'
+import type { FormData, QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { computed, onMounted, provide, ref } from 'vue'

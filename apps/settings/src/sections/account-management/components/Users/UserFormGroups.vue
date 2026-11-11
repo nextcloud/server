@@ -43,16 +43,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IGroup } from '../../views/user-types.d.ts'
+import type { IGroup } from '../../../../views/user-types.d.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import logger from '../../logger.ts'
-import { searchGroups as searchGroupsApi } from '../../service/groups.ts'
+import logger from '../../../../logger.ts'
+import { searchGroups as searchGroupsApi } from '../../../../service/groups.ts'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
-import { isSelectableGroup } from './userFormUtils.ts'
+import { isSelectableGroup } from '../../../../components/Users/userFormUtils.ts'
 
 const usersStore = useUsersStore()
 
