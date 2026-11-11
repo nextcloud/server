@@ -135,7 +135,6 @@ OC.L10N.register(
     "Test Base DN" : "Testi Baas DN-i",
     "Listing and searching for users is constrained by these criteria:" : "Kasutajate loendite koostamine ja nende otsing on piiratud järgmiste tingimustega:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Leivinuimad objektiklassid kasutajate jaoks on organizationalPerson, person, user ja inetOrgPerson. Kui sa pole kindel, millist objektiklassi valida, pöördu kataloogi haldaja poole.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filter määrab millised LDAP-i kasutajad pääsevad ligi {instanceName} serverile.",
     "Verify settings and count users" : "Kinnita seadistused ja loetle kasutajad",
     "User count: {usersCount}" : "Kasutajaid: {usersCount}",
     "Test Configuration" : "Testi seadistust",
@@ -170,6 +169,7 @@ OC.L10N.register(
     "Failed to clear mapping" : "Vastenduste eemaldamine ei õnnestunud",
     "An error occurred" : "Tekkis viga",
     "Mode switch" : "Režiimi lüliti",
-    "Confirm" : "Kinnita"
+    "Confirm" : "Kinnita",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filter määrab millised LDAP-i kasutajad pääsevad ligi {instanceName} serverile."
 },
 "nplurals=2; plural=(n != 1);");

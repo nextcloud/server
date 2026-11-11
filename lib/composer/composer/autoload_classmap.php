@@ -1669,6 +1669,7 @@ return array(
     'OC\\Core\\Listener\\AddMissingIndicesListener' => $baseDir . '/core/Listener/AddMissingIndicesListener.php',
     'OC\\Core\\Listener\\AddMissingPrimaryKeyListener' => $baseDir . '/core/Listener/AddMissingPrimaryKeyListener.php',
     'OC\\Core\\Listener\\AvatarVersionListener' => $baseDir . '/core/Listener/AvatarVersionListener.php',
+    'OC\\Core\\Listener\\BeforeAppConfigChangedListener' => $baseDir . '/core/Listener/BeforeAppConfigChangedListener.php',
     'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => $baseDir . '/core/Listener/BeforeMessageLoggedEventListener.php',
     'OC\\Core\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/core/Listener/BeforeTemplateRenderedListener.php',
     'OC\\Core\\Listener\\FeedBackHandler' => $baseDir . '/core/Listener/FeedBackHandler.php',
