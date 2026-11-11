@@ -424,6 +424,50 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getNodeForPath('/my/deep/folder/');
 	}
 
+	public function testGetNodeForPathFailsWithNoReadPermissionsForMissingParentInfo(): void {
+		$directoryNode = $this->createMock(Folder::class);
+		$pathNode = $this->createMock(Folder::class);
+		$storage = $this->createMock(IStorage::class);
+
+		$directoryNode->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$storage->expects($this->once())
+			->method('instanceOfStorage')
+			->willReturn(false);
+
+		$directoryNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$directoryNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/');
+		$directoryNode->expects($this->once())
+			->method('get')
+			->willReturn($pathNode);
+
+		$pathNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/my/deep/folder/');
+		$pathNode->expects($this->once())
+			->method('getMimetype')
+			->willReturn(FileInfo::MIMETYPE_FOLDER);
+
+		$this->view->method('getRelativePath')
+			->willReturnCallback(function ($path) {
+				return str_replace('/admin/files/', '', $path);
+			});
+
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->willReturn(false);
+
+		$this->expectException(NotFound::class);
+
+		$dir = new Directory($this->view, $directoryNode);
+		$dir->getNodeForPath('/my/deep/folder/');
+	}
+
 	public function testGetNodeForPathFailsWithNoReadPermissionsForPath(): void {
 		$this->view
 			->method('getRelativePath')
