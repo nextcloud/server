@@ -9,6 +9,7 @@
 namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\Scanner as CacheScanner;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\Storage\FailedStorage;
@@ -206,10 +207,10 @@ class Scanner extends PublicEmitter {
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage): void {
 				$this->triggerPropagator($storage, $path);
-				if ($fileId !== -1) {
-					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
-				} else {
+				if ($fileId === CacheScanner::FILE_ID_NOT_IN_CACHE) {
 					$this->eventDispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+				} else {
+					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 				}
 			});
 
