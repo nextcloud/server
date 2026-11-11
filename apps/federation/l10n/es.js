@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Fallo al eliminar el servidor compartido. Por favor, inténtalo de nuevo más tarde.",
     "Delete" : "Eliminar",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "La Federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se utilizará para auto-completar a los usuarios externos para el intercambio federado. No es necesario añadir un servidor como servidor de confianza para crear una recurso compartido federado.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor debe validar al otro. Este proceso puede necesitar algunos ciclos de cron.",
-    "External documentation for Federated Cloud Sharing" : "Documentación externa para Compartir con Nube Federada",
-    "+ Add trusted server" : "+ Añadir servidor de confianza",
-    "Trusted server" : "Servidor de confianza"
+    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor debe validar al otro. Este proceso puede necesitar algunos ciclos de cron."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

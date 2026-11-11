@@ -76,7 +76,12 @@ class ExternalShareMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
-	public function getByMountPointAndUser(string $mountPoint, IUser $user) {
+	/**
+	 * Get share by mount point and user.
+	 *
+	 * @throws DoesNotExistException
+	 */
+	public function getByMountPointAndUser(string $mountPoint, IUser $user): ExternalShare {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)

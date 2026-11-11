@@ -219,4 +219,35 @@ describe('DropService dataTransferToFileTree', () => {
 		expect(logger.warn).toHaveBeenNthCalledWith(4, 'Could not get FilesystemEntry of item, falling back to file')
 		expect(logger.warn).toHaveBeenCalledTimes(4)
 	})
+
+	it('Should keep files with an unknown mime type for server-side detection', async () => {
+		const { showWarning } = await import('@nextcloud/dialogs')
+		const file = new File(['data'], 'notes.unknown-ext', { type: '' })
+		const item = Object.create(DataTransferItemMock.prototype)
+		Object.defineProperties(item, {
+			kind: { value: 'file' },
+			getAsFile: { value: () => file },
+		})
+
+		const fileTree = await dataTransferToFileTree([item as unknown as DataTransferItem])
+
+		expect(fileTree.contents).toHaveLength(1)
+		expect(fileTree.contents[0].name).toBe('notes.unknown-ext')
+		expect(showWarning).not.toHaveBeenCalled()
+	})
+
+	it('Should still skip unix directories with a warning', async () => {
+		const { showWarning } = await import('@nextcloud/dialogs')
+		const file = new File([], 'mydir', { type: 'httpd/unix-directory' })
+		const item = Object.create(DataTransferItemMock.prototype)
+		Object.defineProperties(item, {
+			kind: { value: 'file' },
+			getAsFile: { value: () => file },
+		})
+
+		const fileTree = await dataTransferToFileTree([item as unknown as DataTransferItem])
+
+		expect(fileTree.contents).toHaveLength(0)
+		expect(showWarning).toHaveBeenCalledTimes(1)
+	})
 })

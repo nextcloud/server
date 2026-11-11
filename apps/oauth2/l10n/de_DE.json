@@ -16,9 +16,6 @@
     "Delete client" : "Client löschen",
     "Make sure you store the secret key, it cannot be recovered." : "Bewahren Sie den geheimen Schlüssel unbedingt auf, er kann nicht wiederhergestellt werden.",
     "Add client" : "Client hinzufügen",
-    "Add" : "Hinzufügen",
-    "Client Identifier" : "Client-Identifikationsmerkmal",
-    "Show client secret" : "Geheime Zeichenkette des Clients anzeigen",
-    "Hide client secret" : "Geheime Zeichenkette des Clients ausblenden"
+    "Add" : "Hinzufügen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -34,6 +34,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager as IShareManager;
@@ -224,6 +225,18 @@ class OwnershipTransferService {
 			$shares,
 			$output
 		);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Ownership of "%s" was transferred from user "%s" to user "%s" into "%s"',
+			[
+				'path' => $path,
+				'sourceUser' => $sourceUid,
+				'targetUser' => $destinationUid,
+				'targetPath' => $finalTarget,
+				'move' => $move,
+			],
+			false,
+			'files.ownership.transferred',
+		));
 		if ($sizeDifference !== 0) {
 			$output->writeln("Transferred folder have a size difference of: $sizeDifference Bytes which means the transfer may be incomplete. Please check the logs if there was any issue during the transfer operation.");
 		}

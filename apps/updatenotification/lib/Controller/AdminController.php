@@ -16,10 +16,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
@@ -37,6 +39,7 @@ class AdminController extends Controller {
 		private IL10N $l10n,
 		private LoggerInterface $logger,
 		private ServerVersion $serverVersion,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -47,6 +50,12 @@ class AdminController extends Controller {
 	public function setChannel(string $channel): DataResponse {
 		$this->serverVersion->setChannel($channel);
 		$this->appConfig->setValueInt('core', 'lastupdatedat', 0);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Update channel was changed to "%s"',
+			['channel' => $channel],
+			false,
+			'updatenotification.channel.updated',
+		));
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}
 
@@ -71,6 +80,12 @@ class AdminController extends Controller {
 		$this->config->setSystemValue('updater.secret', password_hash($newToken, PASSWORD_DEFAULT));
 
 		$this->logger->warning('Created new `updater.secret`', ['app' => 'updatenotification']);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Web updater token was created',
+			[],
+			false,
+			'updatenotification.updater_token.created',
+		));
 
 		return new DataResponse($newToken);
 	}

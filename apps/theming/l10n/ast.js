@@ -93,19 +93,6 @@ OC.L10N.register(
     "Appearance and accessibility settings" : "Configuración del aspeutu y l'accesibilidá",
     "Themes" : "Estilos",
     "Fonts" : "Fontes",
-    "Customization has been disabled by your administrator" : "L'alministración desactivó la personalización",
-    "Disable-user-theming should be true or false" : "«Disable-user-theming» ha ser «true» o «false»",
-    "Header logo" : "Logotipu de la testera",
-    "Upload new header logo" : "Xubir un logotipu nuevu pa la testera",
-    "Upload new favicon" : "Xubir un favicon",
-    "User settings" : "Configuración del usuariu",
-    "Upload new logo" : "Xubir un logotipu nuevu",
-    "Upload new background and login image" : "Xubir una imaxe nueva pal fondu y la páxina d'aniciar la sesión",
-    "Background and login image" : "Imaxe pal fondu y la páxina d'aniciar la sesión",
-    "Advanced options" : "Opciones avanzaes",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la estensión de PHP ImageMagick con compatibilidá pa imáxenes SVG y xenerar favicons basaos nel logotipu xubíu y nos colores",
-    "No background has been selected" : "Nun se seleicionó nengún fondu",
-    "Select a custom color" : "Seleicionar un color personalizáu",
-    "Upload" : "Xunir"
+    "Customization has been disabled by your administrator" : "L'alministración desactivó la personalización"
 },
 "nplurals=2; plural=(n != 1);");

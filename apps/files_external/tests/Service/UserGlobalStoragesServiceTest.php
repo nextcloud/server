@@ -277,22 +277,22 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHooksAddStorage($a = null, $b = null, $c = null): void {
+	public function testEventsAddStorage(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHooksUpdateStorage($a = null, $b = null, $c = null, $d = null, $e = null): void {
+	public function testEventsUpdateStorage(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHooksRenameMountPoint(): void {
+	public function testEventsRenameMountPoint(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHooksDeleteStorage($a = null, $b = null, $c = null): void {
+	public function testEventsDeleteStorage(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
@@ -328,6 +328,11 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	}
 
 	public function testUpdateStorageMountPoint(): void {
+		// we don't test this here
+		$this->addToAssertionCount(1);
+	}
+
+	public function testAuditEvents(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}

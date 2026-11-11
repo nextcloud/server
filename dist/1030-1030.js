@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunknextcloud_ui_legacy||=[]).push([[1030],{51030(u,a,e){e.r(a),e.d(a,{default:()=>l.N});var l=e(76613)}}]);

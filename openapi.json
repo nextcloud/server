@@ -172,7 +172,9 @@
                             "previews": {
                                 "type": "object",
                                 "required": [
-                                    "enabled_providers"
+                                    "enabled_providers",
+                                    "max_width",
+                                    "max_height"
                                 ],
                                 "properties": {
                                     "enabled_providers": {
@@ -180,6 +182,14 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "max_width": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_height": {
+                                        "type": "integer",
+                                        "format": "int64"
                                     }
                                 }
                             },
@@ -1779,13 +1789,7 @@
                         "type": "object",
                         "required": [
                             "windows_compatible_filenames",
-                            "$comment",
                             "bigfilechunking",
-                            "blacklisted_files",
-                            "forbidden_filenames",
-                            "forbidden_filename_basenames",
-                            "forbidden_filename_characters",
-                            "forbidden_filename_extensions",
                             "chunked_upload",
                             "file_conversions",
                             "directEditing"
@@ -1794,42 +1798,8 @@
                             "windows_compatible_filenames": {
                                 "type": "boolean"
                             },
-                            "$comment": {
-                                "type": "string",
-                                "nullable": true
-                            },
                             "bigfilechunking": {
                                 "type": "boolean"
-                            },
-                            "blacklisted_files": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object"
-                                }
-                            },
-                            "forbidden_filenames": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_basenames": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_characters": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "forbidden_filename_extensions": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
                             },
                             "chunked_upload": {
                                 "type": "object",
@@ -1921,6 +1891,61 @@
                             "type": "array",
                             "items": {
                                 "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "FilesPublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "object",
+                        "required": [
+                            "$comment",
+                            "blacklisted_files",
+                            "forbidden_filenames",
+                            "forbidden_filename_basenames",
+                            "forbidden_filename_characters",
+                            "forbidden_filename_extensions"
+                        ],
+                        "properties": {
+                            "$comment": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "blacklisted_files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "forbidden_filenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_basenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_extensions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -8088,6 +8113,9 @@
                                                                 },
                                                                 {
                                                                     "$ref": "#/components/schemas/FilesCapabilities"
+                                                                },
+                                                                {
+                                                                    "$ref": "#/components/schemas/FilesPublicCapabilities"
                                                                 },
                                                                 {
                                                                     "$ref": "#/components/schemas/FilesSharingCapabilities"
@@ -26745,6 +26773,142 @@
                 }
             }
         },
+        "/ocs/v2.php/apps/files/api/v1/opened": {
+            "post": {
+                "operationId": "files-opened-opened",
+                "summary": "Report that the current user opened a file or folder",
+                "description": "Clients call this when the user actually opens a node, not when they read its content (sync, previews, downloads). Apps can listen to it to know what the user works with. It is for statistics only: clients send it when they choose to, so it must not be relied on for access or auditing.",
+                "tags": [
+                    "files/opened"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "fileId"
+                                ],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "ID of the opened file or folder"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Open reported",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The file or folder was not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/files_external/api/v1/mounts": {
             "get": {
                 "operationId": "files_external-api-get-user-mounts",
@@ -32456,6 +32620,16 @@
                         }
                     },
                     {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -33572,6 +33746,52 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Deletion rejected",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "403": {
                         "description": "App or key is not allowed",
                         "content": {
@@ -33759,6 +33979,52 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Value rejected",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -34200,6 +34466,16 @@
                             "type": "integer",
                             "format": "int64",
                             "default": 0
+                        }
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -34686,6 +34962,16 @@
                             "type": "integer",
                             "format": "int64",
                             "default": 0
+                        }
+                    },
+                    {
+                        "name": "enabled",
+                        "in": "query",
+                        "description": "Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+\OCP\Util::addStyle(\OCA\Files_Sharing\AppInfo\Application::APP_ID, 'personal-settings');
 \OCP\Util::addScript(\OCA\Files_Sharing\AppInfo\Application::APP_ID, 'personal-settings', 'core');
 
 ?>

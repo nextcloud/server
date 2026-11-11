@@ -24,6 +24,8 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Pārbaude %s ir nederīga vai nepastāv",
     "Flow" : "Plūsma",
     "Nextcloud workflow engine" : "Nextcloud darbplūsmu dzinis",
+    "Filter" : "Filtrs",
+    "Remove filter" : "Noņemt filtru",
     "Audio" : "Audio",
     "Folder" : "Mape",
     "Images" : "Attēli",

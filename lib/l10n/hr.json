@@ -454,7 +454,6 @@
     "Settings" : "Postavke",
     "Log out" : "Odjava",
     "Accounts" : "Korisnički računi",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X nije podržan i %s na ovoj platformi neće raditi kako treba. Koristite na vlastiti rizik!",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Pozadina za dijeljenje %s mora implementirati sučelje OCP\\Share_Backend",
     "Sharing backend %s not found" : "Pozadina za dijeljenje %s nije pronađena",
     "Sharing backend for %s not found" : "Pozadina za dijeljenje za %s nije pronađena",

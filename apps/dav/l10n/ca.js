@@ -295,10 +295,6 @@ OC.L10N.register(
     "Location:" : "Ubicació:",
     "Link:" : "Enllaç:",
     "Occurring:" : "Ocorrent:",
-    "More options at %s" : "Més opcions a %s",
-    "The system address book contains contact information for all users in your instance." : "La llibreta d'adreces del sistema conté informació de contacte de tots els usuaris de la vostra instància.",
-    "Enable System Address Book" : "Habilita la llibreta d'adreces del sistema",
-    "No results." : "Cap resultat.",
-    "Start typing." : "Comença a escriure."
+    "More options at %s" : "Més opcions a %s"
 },
 "nplurals=2; plural=(n != 1);");

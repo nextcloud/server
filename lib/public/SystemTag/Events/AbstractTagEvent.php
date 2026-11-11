@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\SystemTag\Events;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\SystemTag\ISystemTag;
 
@@ -18,7 +18,7 @@ use OCP\SystemTag\ISystemTag;
  *
  * @since 35.0.0
  */
-#[Consumable(since: '35.0.0')]
+#[Listenable(since: '35.0.0')]
 abstract class AbstractTagEvent extends Event {
 	/**
 	 * AbstractTagEvent constructor

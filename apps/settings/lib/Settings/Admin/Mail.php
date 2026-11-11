@@ -85,7 +85,8 @@ class Mail implements IDelegatedSettings {
 			'mail_noverify' => $smtpOptions['ssl']['allow_self_signed'] ?? false,
 		]);
 
-		Util::addScript('settings', 'vue-settings-admin-mail');
+		Util::addScript('settings', 'admin-mail');
+		Util::addStyle('settings', 'admin-mail');
 		return new TemplateResponse('settings', 'settings/admin/additional-mail', renderAs: '');
 	}
 

@@ -8,6 +8,7 @@
 		<SharingEntry
 			v-for="share in shares"
 			:key="share.id"
+			ref="entries"
 			:file-info="fileInfo"
 			:share="share"
 			:is-unique="isUnique(share)"

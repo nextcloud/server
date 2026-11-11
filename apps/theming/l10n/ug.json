@@ -102,21 +102,6 @@
     "Misc accessibility options" : "قولايلىق تاللاش تاللانمىلىرى",
     "Enable blur background filter (may increase GPU load)" : "تۇتۇق تەگلىك سۈزگۈچنى قوزغىتىڭ (GPU يۈكىنى ئاشۇرۇشى مۇمكىن)",
     "Customization has been disabled by your administrator" : "باشقۇرغۇچىڭىز تەرىپىدىن خاسلاشتۇرۇش چەكلەنگەن",
-    "Disable-user-theming should be true or false" : "چەكلەش-ئىشلەتكۈچى باش تېمىسى راست ياكى يالغان بولۇشى كېرەك",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "دەسلەپكى رەڭ مۇھىم كۇنۇپكىلارغا ئوخشاش ئېلېمېنتلارنى گەۋدىلەندۈرۈشكە ئىشلىتىلىدۇ. ئۇ ھازىرقى رەڭ لايىھىسىگە ئاساسەن ئازراق تەڭشىلىشى مۇمكىن.",
-    "Header logo" : "بەت بەلگىسى",
-    "Upload new header logo" : "يېڭى ماۋزۇ بەلگىسىنى يۈكلەڭ",
-    "Upload new favicon" : "يېڭى favicon نى يۈكلەڭ",
-    "User settings" : "ئىشلەتكۈچى تەڭشەكلىرى",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "تەگلىك رەسىمنىڭ ئورنىغا ئاددىي تەگلىك رەڭگىمۇ تەڭشىيەلەيسىز. تەگلىك سۈرىتىنى ئىشلەتسىڭىز بۇ رەڭنى ئۆزگەرتسىڭىز ئەپ تىزىملىكى سىنبەلگىسىنىڭ رەڭگىگە تەسىر كۆرسىتىدۇ.",
-    "Upload new logo" : "يېڭى بەلگە يۈكلەڭ",
-    "Upload new background and login image" : "يېڭى تەگلىك ۋە كىرىش سۈرىتىنى يۈكلەڭ",
-    "Background and login image" : "تەگلىك ۋە كىرىش سۈرىتى",
-    "Advanced options" : "ئىلغار تاللاشلار",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "يۈكلەنگەن لوگو ۋە رەڭگە ئاساسەن SVG رەسىملىرىنى قوللاپ ImageMagick PHP كېڭەيتىلمىسىنى قاچىلاڭ.",
-    "Unable to apply the setting." : "بۇ تەڭشەكنى قوللانغىلى بولمىدى.",
-    "No background has been selected" : "تەگلىك تاللانمىدى",
-    "Select a custom color" : "ئىختىيارى رەڭنى تاللاڭ",
-    "Upload" : "يۈكلە"
+    "Unable to apply the setting." : "بۇ تەڭشەكنى قوللانغىلى بولمىدى."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

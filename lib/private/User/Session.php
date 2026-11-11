@@ -25,6 +25,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -57,7 +58,6 @@ use Psr\Log\LoggerInterface;
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
  * - postLogin(\OC\User\User $user, string $loginName, string $password, boolean $isTokenLogin)
- * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  * - postLogout()
  *
@@ -666,11 +666,30 @@ class Session implements IUserSession, Emitter {
 		try {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
-			// Make sure the current sessionId has no leftover tokens
-			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
-				$this->tokenProvider->invalidateToken($sessionId);
-				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
-			}, Server::get(IDBConnection::class));
+			try {
+				// Make sure the current sessionId has no leftover tokens
+				$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
+					$this->tokenProvider->invalidateToken($sessionId);
+					$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
+				}, Server::get(IDBConnection::class));
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				// It's rare, but if two requests of the same session (e.g. env-based SAML)
+				// try to create the session token they might end up here at the same time
+				// because we use the session ID as token and a new db token is created
+				// with every request.
+				//
+				// This has to happen after the transaction was rolled back, as PostgreSQL
+				// rejects any further query in a transaction that had an error.
+				//
+				// If the UIDs match, then this should be fine.
+				$existing = $this->tokenProvider->getToken($sessionId);
+				if ($existing->getUID() !== $uid) {
+					throw new \Exception('Token conflict handled, but UIDs do not match. This should not happen', 0, $e);
+				}
+			}
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
@@ -815,21 +834,39 @@ class Session implements IUserSession, Emitter {
 	 * Check if login names match
 	 */
 	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
-		if (mb_strtolower($token->getLoginName()) !== mb_strtolower($loginName ?? '')) {
-			// TODO: this makes it impossible to use different login names on browser and client
-			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
-			//      allow to use the client token with the login name 'user'.
-			$this->logger->error('App token login name does not match', [
-				'tokenLoginName' => $token->getLoginName(),
-				'sessionLoginName' => $loginName,
+		$tokenLoginName = mb_strtolower($token->getLoginName());
+		$givenLoginName = mb_strtolower($loginName ?? '');
+
+		if ($tokenLoginName === $givenLoginName) {
+			return true;
+		}
+
+		// Some clients percent-encode the login name before putting it into the
+		// Authorization header, so an account called "user@example.com" arrives
+		// as "user%40example.com" and no longer matches the token it was created
+		// with. Decode once and compare again before giving up.
+		// rawurldecode and not urldecode: a "+" in a login name is a literal
+		// plus sign here, not an encoded space.
+		if ($givenLoginName !== '' && mb_strtolower(rawurldecode($givenLoginName)) === $tokenLoginName) {
+			$this->logger->debug('App token login name only matched after decoding, the client percent-encodes it', [
 				'app' => 'core',
 				'user' => $token->getUID(),
 			]);
 
-			return false;
+			return true;
 		}
 
-		return true;
+		// TODO: this makes it impossible to use different login names on browser and client
+		// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
+		//      allow to use the client token with the login name 'user'.
+		$this->logger->error('App token login name does not match', [
+			'tokenLoginName' => $token->getLoginName(),
+			'sessionLoginName' => $loginName,
+			'app' => 'core',
+			'user' => $token->getUID(),
+		]);
+
+		return false;
 	}
 
 	/**
@@ -994,7 +1031,6 @@ class Session implements IUserSession, Emitter {
 			// Ignore
 		}
 		$this->dispatcher->dispatchTyped(new UserLoggedInWithCookieEvent($user, $password));
-		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user, $password]);
 		return true;
 	}
 

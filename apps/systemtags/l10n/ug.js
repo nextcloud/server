@@ -109,10 +109,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "ھۆججەتنىڭ خەتكۈچلىرىنى يۈكلىيەلمىدى",
     "Failed to set tag for file" : "ھۆججەتكە بەلگە بەلگىلەش مەغلۇپ بولدى",
     "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
-    "Collaborative tags …" : "ھەمكارلىق خەتكۈچلىرى…",
-    "Loading …" : "يۈكلەۋاتىدۇ…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["1 ھۆججەتكە{tag1} ئورنىتىلدۇ ھەمدە {tag2} چىقىرۋېتىلدۇ.","{count} ھۆججەتكە {tag1} ئورنىتىلدۇ ھەمدە {tag2} ئۆچۈرۈلدۇ"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} بولسا 1 ھۆججەتتىن چىقىرۋېتىلدۇ.","{tag} بولسا {count} ھۆججەتلەردىن چىقىرۋېتىلدۇ."],
-    "Loading collaborative tags …" : "ھەمكارلىق خەتكۈچلىرىنى يۈكلەۋاتىدۇ…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} بولسا 1 ھۆججەتتىن چىقىرۋېتىلدۇ.","{tag} بولسا {count} ھۆججەتلەردىن چىقىرۋېتىلدۇ."]
 },
 "nplurals=2; plural=(n != 1);");

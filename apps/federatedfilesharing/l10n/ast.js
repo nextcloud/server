@@ -46,7 +46,6 @@ OC.L10N.register(
     "Add remote share" : "Amestar un elementu compartíu remotu",
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota «{name}» de {owner}@{remote}?",
-    "Remote share password" : "Contraseña de la compartición remota",
-    "X (formerly Twitter)" : "X (anteriormente Twitter)"
+    "Remote share password" : "Contraseña de la compartición remota"
 },
 "nplurals=2; plural=(n != 1);");

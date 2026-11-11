@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Hitilafu ilitokea wakati wa kujaribu kuhariri maoni",
     "Comment deleted" : "Maoni yamefutwa",
     "An error occurred while trying to delete the comment" : "Hitilafu ilitokea wakati wa kujaribu kufuta maoni",
-    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni",
-    "Write a comment …" : "Andika maoni..."
+    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni"
 },
 "nplurals=2; plural=(n != 1);");

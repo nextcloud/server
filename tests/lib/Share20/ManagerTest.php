@@ -46,6 +46,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -58,6 +59,7 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -1284,8 +1286,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->userManager->method('userExists')->willReturnCallBack(fn (string $userId) => $userId === 'user0' || $userId === 'user1');
 
 		$this->userManager->method('get')->willReturnMap([
-			['user0', $this->createMock(IUser::class)],
-			['user1', $this->createMock(IUser::class)],
+			['user0', $this->createEnabledUser(true)],
+			['user1', $this->createEnabledUser(true)],
 		]);
 
 		$this->groupManager->method('groupExists')->willReturnMap([
@@ -1365,8 +1367,8 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->userManager->method('get')->willReturnMap([
-			['user0', $this->createMock(IUser::class)],
-			['user1', $this->createMock(IUser::class)],
+			['user0', $this->createEnabledUser(true)],
+			['user1', $this->createEnabledUser(true)],
 		]);
 
 		$userFolder = $this->createMock(IUserFolder::class);
@@ -2044,8 +2046,8 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions(Constants::PERMISSION_ALL);
 
-		$sharedBy = $this->createMock(IUser::class);
-		$sharedWith = $this->createMock(IUser::class);
+		$sharedBy = $this->createEnabledUser(true);
+		$sharedWith = $this->createEnabledUser(true);
 
 		$this->groupManager
 			->method('getUserGroupIds')
@@ -2111,11 +2113,11 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions(Constants::PERMISSION_ALL);
 
-		$sharedBy = $this->createMock(IUser::class);
+		$sharedBy = $this->createEnabledUser(true);
 		$sharedBy
 			->method('getUID')
 			->willReturn('sharedBy');
-		$sharedWith = $this->createMock(IUser::class);
+		$sharedWith = $this->createEnabledUser(true);
 
 		$this->groupManager
 			->method('getUserGroupIds')
@@ -2299,8 +2301,8 @@ class ManagerTest extends \Test\TestCase {
 			->setProviderId('foo')
 			->setId('bar');
 
-		$sharedWith = $this->createMock(IUser::class);
-		$sharedBy = $this->createMock(IUser::class);
+		$sharedWith = $this->createEnabledUser(true);
+		$sharedBy = $this->createEnabledUser(true);
 		$sharedBy
 			->method('getUID')
 			->willReturn('sharedBy');
@@ -3101,15 +3103,17 @@ class ManagerTest extends \Test\TestCase {
 			->with('user1')
 			->willReturn($userFolder);
 
-		$user1 = $this->createMock(IUser::class);
+		$user1 = $this->createEnabledUser(true);
 		$user1
 			->method('getUID')
 			->willReturn('user1');
 
 		$this->userManager
 			->method('get')
-			->with('user1')
-			->willReturn($user1);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $this->createEnabledUser(true)],
+			]);
 
 		$share = $this->manager->newShare()
 			->setShareType(IShare::TYPE_USER)
@@ -4696,6 +4700,121 @@ class ManagerTest extends \Test\TestCase {
 		$manager->updateShare($share);
 	}
 
+	public function testUpdateShareLogsAttributesAndTokenChanges(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('oldtoken')
+			->setPermissions(1);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$attributes = $this->manager->newShare()->newAttributes();
+		$attributes->setAttribute('permissions', 'download', false);
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('newtoken')
+			->setHideDownload(true)
+			->setAttributes($attributes)
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($file)
+			->setPermissions(1);
+
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($share)
+			->willReturn($share);
+
+		$auditEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[$event->getOperation()] = $event;
+				}
+			});
+
+		$manager->updateShare($share);
+
+		$this->assertSame(['sharing.share.attributes_updated', 'sharing.share.token_updated'], array_keys($auditEvents));
+		$this->assertSame(
+			'The attributes of the share of the %s with ID "%s" were updated: hide download "%s", attributes "%s" (Share ID: %s)',
+			$auditEvents['sharing.share.attributes_updated']->getLogMessage(),
+		);
+		$this->assertSame([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'hideDownload' => 'enabled',
+			'attributes' => 'permissions.download=false',
+			'id' => '42',
+			'shareType' => IShare::TYPE_LINK,
+		], $auditEvents['sharing.share.attributes_updated']->getParameters());
+		$this->assertSame(
+			'The link token of the share of the %s with ID "%s" was changed (Share ID: %s)',
+			$auditEvents['sharing.share.token_updated']->getLogMessage(),
+		);
+		$this->assertSame([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'id' => '42',
+			'shareType' => IShare::TYPE_LINK,
+		], $auditEvents['sharing.share.token_updated']->getParameters());
+	}
+
+	public function testUpdateShareWithoutAttributesOrTokenChangeDoesNotLog(): void {
+		$manager = $this->createManagerMock()
+			->onlyMethods([
+				'getShareById',
+				'generalChecks',
+				'pathCreateChecks',
+			])
+			->getMock();
+
+		$attributes = $this->manager->newShare()->newAttributes();
+		$attributes->setAttribute('permissions', 'download', false);
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(IShare::TYPE_LINK)
+			->setToken('token')
+			->setHideDownload(true)
+			->setAttributes($attributes)
+			->setPermissions(1);
+
+		$sameAttributes = $this->manager->newShare()->newAttributes();
+		$sameAttributes->setAttribute('permissions', 'download', false);
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(IShare::TYPE_LINK)
+			->setToken('token')
+			->setHideDownload(true)
+			->setAttributes($sameAttributes)
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setNode($this->createMock(File::class))
+			->setPermissions(1);
+
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($share)
+			->willReturn($share);
+
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+
+		$manager->updateShare($share);
+	}
+
 	public function testUpdateShareMail(): void {
 		$manager = $this->createManagerMock()
 			->onlyMethods([
@@ -5814,6 +5933,102 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$this->assertSame($expected, $manager->currentUserCanEnumerateTargetUser($currentUser, $targetUser));
+	}
+
+	public function testDuplicateCustomTokens(): void {
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
+		$manager = $this->createManager($factory);
+		$factory->setProvider($this->defaultProvider);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_enabled', 'yes', 'yes'],
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_links_exclude_groups', '[]', '[]'],
+			]);
+
+		$owner1 = $this->createMock(IUser::class);
+		$owner1->method('getUID')->willReturn('alice');
+		$owner1->method('isEnabled')->willReturn(true);
+
+		$this->userManager->method('get')->willReturn($owner1);
+
+		$storage1 = $this->createMock(IStorage::class);
+		$storage1->method('instanceOfStorage')->willReturn(false);
+
+		$node1 = $this->createMock(File::class);
+		$node1->method('getId')->willReturn(1);
+		$node1->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$node1->method('getStorage')->willReturn($storage1);
+
+		$userFolder1 = $this->createMock(IUserFolder::class);
+		$userFolder1->method('getById')->willReturn([$node1]);
+		$userFolder1->method('getFirstNodeById')->willReturn($node1);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder1);
+
+		$share1 = $manager->newShare();
+		$share1->setId(1)
+			->setProviderId('prov')
+			->setShareType(IShare::TYPE_LINK)
+			->setSharedBy('alice')
+			->setShareOwner('alice')
+			->setNode($node1)
+			->setPermissions(Constants::PERMISSION_READ)
+			->setToken('abc123');
+
+		$owner2 = $this->createMock(IUser::class);
+		$owner2->method('getUID')->willReturn('bob');
+		$owner2->method('isEnabled')->willReturn(true);
+
+		$this->userManager->method('get')->willReturn($owner2);
+
+		$storage2 = $this->createMock(IStorage::class);
+		$storage2->method('instanceOfStorage')->willReturn(false);
+
+		$node2 = $this->createMock(File::class);
+		$node2->method('getId')->willReturn(2);
+		$node2->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$node2->method('getStorage')->willReturn($storage2);
+
+		$userFolder2 = $this->createMock(IUserFolder::class);
+		$userFolder2->method('getById')->willReturn([$node2]);
+		$userFolder2->method('getFirstNodeById')->willReturn($node2);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder2);
+
+		$share2 = $manager->newShare();
+		$share2->setId(2)
+			->setProviderId('prov')
+			->setShareType(IShare::TYPE_LINK)
+			->setSharedBy('bob')
+			->setShareOwner('bob')
+			->setNode($node2)
+			->setPermissions(Constants::PERMISSION_READ)
+			->setToken('def456');
+
+		$this->defaultProvider
+			->method('create')
+			->willReturnCallback(fn (IShare $share) => $share->getId() === $share2->getId() ? $share2 : $share1);
+		$this->defaultProvider
+			->method('getShareById')
+			->willReturnCallback(fn ($id) => $id === '2' ? $share2 : $share1);
+		$this->defaultProvider->method('update')
+			->willReturnCallback(fn (IShare $share) => $share->getId() === $share2->getId() ? $share2 : $share1);
+		$this->defaultProvider->method('getShareByToken')->with('abc123')->willReturn($share1);
+
+		$this->manager->createShare($share1);
+
+		// It is currently not possible to set a custome token on share creation
+		// so emulate the behavior by creating the share first with a randomly
+		// generated unique share token and then update the share with the
+		// duplicate token
+		$share2 = $manager->createShare($share2);
+		$share2->setToken('abc123');
+
+		$this->expectException(ShareTokenException::class);
+		$share2 = $manager->updateShare($share2);
+
+		$this->assertNotEquals($share1->getToken(), $share2->getToken());
 	}
 }
 

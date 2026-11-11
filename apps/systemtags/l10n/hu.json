@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Nem sikerült a fájl címkéinek betöltése",
     "Failed to set tag for file" : "Nem sikerült a fájl címkéjének beállítása",
     "Failed to delete tag for file" : "Nem sikerült a fájl címkéjének törlése",
-    "Collaborative tags …" : "Együttműködési címkék…",
-    "Loading …" : "Betöltés…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
-    "Loading collaborative tags …" : "Együttműködési címkék betöltése…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

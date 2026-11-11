@@ -5,6 +5,7 @@
 
 import { login } from '@nextcloud/e2e-test-server/playwright'
 import { installPasswordConfirmationHandler } from '../utils/password-confirmation.ts'
+import { retryWithBackoff } from '../utils/retry.ts'
 import { test as randomUserTest } from './random-user.ts'
 
 /**
@@ -14,13 +15,7 @@ import { test as randomUserTest } from './random-user.ts'
 export const test = randomUserTest.extend({
 	page: async ({ browser, user }, use) => {
 		const page = await browser.newPage()
-		try {
-			await login(page.request, user)
-		} catch (error) {
-			console.info('Failed to authenticate as random user, retrying', error)
-			await new Promise((resolve) => setTimeout(resolve, 800))
-			await login(page.request, user)
-		}
+		await retryWithBackoff('Authenticating as random user', () => login(page.request, user))
 		await installPasswordConfirmationHandler(page, user.password)
 		await use(page)
 	},

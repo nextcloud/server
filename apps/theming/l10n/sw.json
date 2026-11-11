@@ -102,21 +102,6 @@
     "Misc accessibility options" : "Chaguo mbalimbali za ufikivu",
     "Enable blur background filter (may increase GPU load)" : "Washa kichujio cha mandharinyuma ya ukungu (kinaweza kuongeza upakiaji wa GPU)",
     "Customization has been disabled by your administrator" : "Uwekaji maalum umezimwa na msimamizi wako",
-    "Disable-user-theming should be true or false" : "Lemaza mandhari ya mtumiaji inapaswa kuwa kweli au si kweli",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Rangi ya msingi hutumiwa kuangazia vipengee kama vile vitufe muhimu. Inaweza kurekebishwa kidogo kulingana na schema ya sasa ya rangi.",
-    "Header logo" : "Nembo ya kichwa",
-    "Upload new header logo" : "Pakia nembo mpya ya kichwa",
-    "Upload new favicon" : "Pakia favicon mpya",
-    "User settings" : "Mipangilio ya mtumiaji",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Badala ya picha ya mandharinyuma unaweza pia kusanidi rangi ya mandharinyuma ya wazi. Ukitumia picha ya usuli kubadilisha rangi hii itaathiri rangi ya aikoni za menyu ya programu.",
-    "Upload new logo" : "Pakia nembo mpya",
-    "Upload new background and login image" : "Pakia picha mpya ya mandharinyuma na kuingia",
-    "Background and login image" : "Picha ya mandharinyuma na kuingia",
-    "Advanced options" : "Chaguzi za juu",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Sakinisha kiendelezi cha PHP cha ImageMagick kwa usaidizi wa picha za SVG ili kutengeneza favikoni kiotomatiki kulingana na nembo na rangi iliyopakiwa.",
-    "Unable to apply the setting." : "Haiwezi kutumia mpangilio.",
-    "No background has been selected" : "Hakuna mandharinyuma ambayo imechaguliwa",
-    "Select a custom color" : "Chagua rangi maalum",
-    "Upload" : "Pakia"
+    "Unable to apply the setting." : "Haiwezi kutumia mpangilio."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

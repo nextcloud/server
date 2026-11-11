@@ -22,5 +22,6 @@ class RenderReferenceEventListener implements IEventListener {
 		}
 
 		Util::addScript('files', 'reference-files');
+		Util::addStyle('files', 'reference-files');
 	}
 }

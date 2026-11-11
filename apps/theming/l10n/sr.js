@@ -106,21 +106,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Разне опције приступаности",
     "Enable blur background filter (may increase GPU load)" : "Укључи филтер замућења позадине (може да повећа оптерећење GPU)",
     "Customization has been disabled by your administrator" : "Администратор је искључио могућност прилагођавања",
-    "Disable-user-theming should be true or false" : "Искључи-корисничке-теме би требало да буде true или false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Примарна боја се користи за истицање елемената као што су важни дугмићи. Може се донекле изменити у зависности од текуће схеме боја.",
-    "Header logo" : "Лого заглавља",
-    "Upload new header logo" : "Отпремите нови лого заглавља",
-    "Upload new favicon" : "Отпремите нову иконицу",
-    "User settings" : "Корисничка подешавања",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Уместо позадинске слике, такође можете да подесите и просту једнобојну позадину. Ако користите позадинску слику, измена ове боје ће утицати на боју икона у менију апликације.",
-    "Upload new logo" : "Отпремите нови лого",
-    "Upload new background and login image" : "Отпреми нову слику позадине и пријављивања",
-    "Background and login image" : "Позадина и слика пријављивања",
-    "Advanced options" : "Напредне опције",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте ImageMagick PHP проширење са подшком за SVG слике да би било могуће аутоматско генерисање favicons према отпремљеном логоу и боји.",
-    "Unable to apply the setting." : "Подешавање није могло да се примени.",
-    "No background has been selected" : "Није изабрана ниједна позадина",
-    "Select a custom color" : "Изаберите прилагођену боју",
-    "Upload" : "Отпреми"
+    "Unable to apply the setting." : "Подешавање није могло да се примени."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -17,7 +17,6 @@ use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
-use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files;
@@ -439,11 +438,6 @@ class File extends Node implements IFile {
 				Filesystem::signal_param_path => $hookPath,
 				Filesystem::signal_param_run => &$run,
 			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
-				Filesystem::signal_param_path => $hookPath,
-				Filesystem::signal_param_run => &$run,
-			]);
 		}
 		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
 			Filesystem::signal_param_path => $hookPath,
@@ -463,10 +457,6 @@ class File extends Node implements IFile {
 		}
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
-				Filesystem::signal_param_path => $hookPath
-			]);
-		} else {
-			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
 				Filesystem::signal_param_path => $hookPath
 			]);
 		}
@@ -582,9 +572,6 @@ class File extends Node implements IFile {
 	 * @throws NotPermittedException
 	 */
 	public function getDirectDownload(): array|false {
-		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
-			return false;
-		}
 		$node = $this->getNode();
 		$storage = $node->getStorage();
 		if (!$storage) {

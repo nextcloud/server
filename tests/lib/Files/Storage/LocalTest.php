@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Server;
 
@@ -142,6 +143,61 @@ class LocalTest extends Storage {
 		$this->instance = new Local(['datadir' => $this->tmpDir . '/unexist']);
 		// no exception thrown
 		$this->assertNotNull($this->instance);
+	}
+
+	public function testFreeSpaceWithoutReservedMargin(): void {
+		$realFree = disk_free_space($this->tmpDir);
+		if ($realFree === false) {
+			$this->markTestSkipped('disk_free_space is not available');
+		}
+
+		// without the config set, free space is reported as-is
+		$reported = $this->instance->free_space('');
+		$this->assertGreaterThan(0, $reported);
+	}
+
+	public function testFreeSpaceReducedByReservedMargin(): void {
+		$realFree = disk_free_space($this->tmpDir);
+		if ($realFree === false) {
+			$this->markTestSkipped('disk_free_space is not available');
+		}
+
+		$margin = 1024 * 1024;
+
+		$config = Server::get(IConfig::class);
+		$oldValue = $config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024);
+		try {
+			$config->setSystemValue('localstorage.min_free_space', 0);
+			$baseline = (new Local(['datadir' => $this->tmpDir]))->free_space('');
+
+			$config->setSystemValue('localstorage.min_free_space', $margin);
+			$reported = (new Local(['datadir' => $this->tmpDir]))->free_space('');
+		} finally {
+			$config->setSystemValue('localstorage.min_free_space', $oldValue);
+		}
+
+		// the reported free space must be reduced by (about) the margin;
+		// allow a small delta because the real free space can fluctuate
+		$this->assertEqualsWithDelta($baseline - $margin, $reported, 64 * 1024);
+	}
+
+	public function testFreeSpaceNeverNegativeWithLargeMargin(): void {
+		if (disk_free_space($this->tmpDir) === false) {
+			$this->markTestSkipped('disk_free_space is not available');
+		}
+
+		$config = Server::get(IConfig::class);
+		$oldValue = $config->getSystemValue('localstorage.min_free_space', 100 * 1024 * 1024);
+		// a margin larger than any plausible disk forces the clamp to 0
+		$config->setSystemValue('localstorage.min_free_space', PHP_INT_MAX);
+		try {
+			$storage = new Local(['datadir' => $this->tmpDir]);
+			$reported = $storage->free_space('');
+		} finally {
+			$config->setSystemValue('localstorage.min_free_space', $oldValue);
+		}
+
+		$this->assertSame(0, $reported);
 	}
 
 	public function testMoveNestedJail(): void {

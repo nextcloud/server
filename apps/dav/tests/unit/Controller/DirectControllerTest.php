@@ -23,6 +23,7 @@ use OCP\Files\Folder;
 use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -128,7 +129,19 @@ class DirectControllerTest extends TestCase {
 				return 'https://my.nextcloud/' . $url;
 			});
 
+		$events = [];
+		$this->eventDispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$events): void {
+				$events[] = $event;
+			});
+
 		$result = $this->controller->getUrl(101);
+
+		$auditEvents = array_values(array_filter($events, static fn (object $event): bool => $event instanceof CriticalActionPerformedEvent));
+		$this->assertCount(1, $auditEvents);
+		$this->assertSame('dav.direct_link.created', $auditEvents[0]->getOperation());
+		$this->assertSame('Direct download link for file "%s" was created, valid for %s seconds', $auditEvents[0]->getLogMessage());
+		$this->assertSame(['fileId' => 101, 'expirationTime' => 60 * 60 * 8], $auditEvents[0]->getParameters());
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$this->assertSame([

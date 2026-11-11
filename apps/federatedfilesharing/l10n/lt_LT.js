@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Nuotolinis viešinys",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį bendrinimą {name} iš {owner}@{remote}?",
     "Remote share password" : "Nuotolinio bendrinimo slaptažodis",
-    "Incoming share could not be processed" : "Gaunamo bendrinimo apdoroti nepavyko",
-    "X (formerly Twitter)" : "X (anksčiau „Twitter“)",
-    "formerly Twitter" : "anksčiau „Twitter“"
+    "Incoming share could not be processed" : "Gaunamo bendrinimo apdoroti nepavyko"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

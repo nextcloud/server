@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Алсын хуваалцалт",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Та {owner}@{remote}-с {name} алсын хуваалцалт нэмэхийг хүсэж байна уу?",
     "Remote share password" : "Алсын хуваалцалтын нууц үг",
-    "Incoming share could not be processed" : "Ирж буй хуваалцалтыг боловсруулж чадсангүй",
-    "X (formerly Twitter)" : "X (өмнө нь Twitter)",
-    "formerly Twitter" : "өмнө нь Twitter"
+    "Incoming share could not be processed" : "Ирж буй хуваалцалтыг боловсруулж чадсангүй"
 },
 "nplurals=2; plural=(n != 1);");

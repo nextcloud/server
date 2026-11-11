@@ -19,6 +19,8 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Проверка за компатибилност на апликациите со новата верзија",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Бидете сигурни дека во config.php датотеката параматарот <samp>appstoreenabled</samp> е поставен на false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможе да се поврзе со appstore или одговорот е дека нема ажурирање. Пребарајте рачно за ажурирање или бидете сигурни дека серверот има пристап до интернет и може да се поврзе со продавницата.",
+    "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Сите</strong> апликации се компатибилни со оваа {productName} достапна верзија.",
+    "_<strong>%n</strong> app has no compatible version for this {productName} version available._::_<strong>%n</strong> apps have no compatible version for this {productName} version available._" : ["<strong>%n</strong> апликација нема компатибилност со оваа {productName} достапна веријза.","<strong>%n</strong> апликации немаат компатибилност со оваа {productName} достапна веријза."],
     "Enterprise" : "Професионален",
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најнова стабилна верзија. Корисно за редовна употреба и секогаш ќе се ажурира до последната најнова верзија.",

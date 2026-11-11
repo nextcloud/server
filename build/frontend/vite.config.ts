@@ -17,8 +17,8 @@ const modules = {
 	},
 	core: {
 		'ajax-cron': resolve(import.meta.dirname, 'core/src', 'ajax-cron.ts'),
+		appmenu: resolve(import.meta.dirname, 'core/src', 'appmenu.ts'),
 		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
-		'legacy-unified-search': resolve(import.meta.dirname, 'core/src', 'legacy-unified-search.ts'),
 		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
 		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),
 		main: resolve(import.meta.dirname, 'core/src', 'main.ts'),
@@ -76,10 +76,14 @@ const modules = {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
 	},
 	files_sharing: {
-		// Only the public share entry point is migrated to Vue 3 so far, the rest
-		// of the app is still built by the Vue 2 frontend. It is referenced by path
-		// rather than through `apps/` so it resolves the Vue 3 dependencies.
-		'init-public': resolve(import.meta.dirname, '../..', 'apps/files_sharing/src/public', 'init.ts'),
+		additionalScripts: resolve(import.meta.dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
+		collaboration: resolve(import.meta.dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.ts'),
+		files_sharing_tab: resolve(import.meta.dirname, 'apps/files_sharing/src', 'files-sidebar.ts'),
+		init: resolve(import.meta.dirname, 'apps/files_sharing/src', 'init.ts'),
+		'init-public': resolve(import.meta.dirname, 'apps/files_sharing/src/public', 'init.ts'),
+		main: resolve(import.meta.dirname, 'apps/files_sharing/src', 'main.ts'),
+		'personal-settings': resolve(import.meta.dirname, 'apps/files_sharing/src', 'personal-settings.js'),
+		'public-nickname-handler': resolve(import.meta.dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
 	files_trashbin: {
 		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
@@ -96,10 +100,22 @@ const modules = {
 		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
 	},
 	settings: {
-		// Only the app password section is migrated to Vue 3 so far, the rest
-		// of the app is still built by the Vue 2 frontend. It is referenced by path
-		// rather than through `apps/` so it resolves the Vue 3 dependencies.
-		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/authtokens', 'main.ts'),
+		// Only some sections are migrated to Vue 3 so far, the rest of the app
+		// is still built by the Vue 2 frontend. They are referenced by path
+		// rather than through `apps/` so they resolve the Vue 3 dependencies.
+		'admin-sharing': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/sharing', 'main.ts'),
+		'personal-security-authtokens': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/authtokens', 'main.ts'),
+		'personal-password': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/password', 'main.ts'),
+		'personal-webauthn': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/webauthn', 'main.ts'),
+		'personal-language-locale': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/language-locale', 'main.ts'),
+		'personal-nextcloud-pdf': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/nextcloud-pdf', 'main.ts'),
+		'admin-overview': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/overview', 'main.ts'),
+		'admin-mail': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/mail', 'main.ts'),
+		'admin-delegation': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/delegation', 'main.ts'),
+		'admin-presets': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/presets', 'main.ts'),
+		'admin-basic-settings': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/basic-settings', 'main.ts'),
+		'admin-ai': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/ai', 'main.ts'),
+		'admin-security': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/security', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

@@ -316,10 +316,6 @@ OC.L10N.register(
     "Location:" : "ທີ່ຢູ່:",
     "Link:" : "Link:",
     "Occurring:" : "Occurring:",
-    "More options at %s" : "More options at %s",
-    "The system address book contains contact information for all users in your instance." : "The system address book contains contact information for all users in your instance.",
-    "Enable System Address Book" : "Enable System Address Book",
-    "No results." : "No results.",
-    "Start typing." : "Start typing."
+    "More options at %s" : "More options at %s"
 },
 "nplurals=1; plural=0;");

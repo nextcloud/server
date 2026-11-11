@@ -28,8 +28,6 @@ OC.L10N.register(
     "This weekend" : "Questo fine settimana",
     "Set reminder for this weekend" : "Imposta promemoria per questo fine settimana",
     "Next week" : "Settimana successiva",
-    "Set reminder for next week" : "Imposta promemoria per la prossima settimana",
-    "Set reminder for \"{fileName}\"" : "Imposta promemoria per \"{fileName}\"",
-    "We will remind you of this file" : "Ti ricorderemo questo file"
+    "Set reminder for next week" : "Imposta promemoria per la prossima settimana"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

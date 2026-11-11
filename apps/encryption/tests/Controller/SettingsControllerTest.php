@@ -17,12 +17,14 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -40,6 +42,7 @@ class SettingsControllerTest extends TestCase {
 	protected IUser&MockObject $user;
 	protected ISession&MockObject $ocSessionMock;
 	protected Util&MockObject $utilMock;
+	protected IEventDispatcher&MockObject $eventDispatcherMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -83,6 +86,8 @@ class SettingsControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->eventDispatcherMock = $this->createMock(IEventDispatcher::class);
+
 		$this->controller = new SettingsController(
 			'encryption',
 			$this->requestMock,
@@ -93,7 +98,8 @@ class SettingsControllerTest extends TestCase {
 			$this->cryptMock,
 			$this->sessionMock,
 			$this->ocSessionMock,
-			$this->utilMock
+			$this->utilMock,
+			$this->eventDispatcherMock,
 		);
 	}
 
@@ -112,6 +118,10 @@ class SettingsControllerTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('checkPassword')
 			->willReturn(false);
+
+		$this->eventDispatcherMock
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$result = $this->controller->updatePrivateKeyPassword($oldPassword, $newPassword);
 
@@ -138,6 +148,10 @@ class SettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('decryptPrivateKey')
 			->willReturn(false);
+
+		$this->eventDispatcherMock
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$result = $this->controller->updatePrivateKeyPassword($oldPassword, $newPassword);
 
@@ -221,6 +235,14 @@ class SettingsControllerTest extends TestCase {
 			->method('setStatus')
 			->with($this->equalTo(Session::INIT_SUCCESSFUL));
 
+		$this->eventDispatcherMock
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'encryption.private_key.password_changed'
+				&& $event->getParameters() === ['userId' => 'testUserUid']
+				&& $event->getLogMessage() === 'Private key password of user "%s" was changed'));
+
 		$result = $this->controller->updatePrivateKeyPassword($oldPassword, $newPassword);
 
 		$data = $result->getData();
@@ -230,9 +252,23 @@ class SettingsControllerTest extends TestCase {
 			$data['message']);
 	}
 
-	public function testSetEncryptHomeStorage(): void {
-		$value = true;
+	public static function dataSetEncryptHomeStorage(): array {
+		return [
+			[true, 'enabled'],
+			[false, 'disabled'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSetEncryptHomeStorage')]
+	public function testSetEncryptHomeStorage(bool $value, string $status): void {
 		$this->utilMock->expects($this->once())->method('setEncryptHomeStorage')->with($value);
+		$this->eventDispatcherMock
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'encryption.home_storage.updated'
+				&& $event->getParameters() === ['status' => $status]
+				&& $event->getLogMessage() === 'Encryption of home storages was %s'));
 		$this->controller->setEncryptHomeStorage($value);
 	}
 }

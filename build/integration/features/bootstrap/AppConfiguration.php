@@ -8,6 +8,9 @@
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Given;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -26,11 +29,11 @@ trait AppConfiguration {
 	abstract public function theHTTPStatusCodeShouldBe($statusCode);
 
 	/**
-	 * @Given /^parameter "([^"]*)" of app "([^"]*)" is set to "([^"]*)"$/
 	 * @param string $parameter
 	 * @param string $app
 	 * @param string $value
 	 */
+	#[Given('/^parameter "([^"]*)" of app "([^"]*)" is set to "([^"]*)"$/')]
 	public function serverParameterIsSetTo($parameter, $app, $value) {
 		$user = $this->currentUser;
 		$this->currentUser = 'admin';
@@ -86,12 +89,11 @@ trait AppConfiguration {
 	abstract protected function resetAppConfigs();
 
 	/**
-	 * @BeforeScenario
-	 *
 	 * Enable the testing app before the first scenario of the feature and
 	 * reset the configs before each scenario
 	 * @param BeforeScenarioScope $event
 	 */
+	#[BeforeScenario]
 	public function prepareParameters(BeforeScenarioScope $event) {
 		$user = $this->currentUser;
 		$this->currentUser = 'admin';
@@ -107,11 +109,10 @@ trait AppConfiguration {
 	}
 
 	/**
-	 * @AfterScenario
-	 *
 	 * Reset the values after the last scenario of the feature and disable the testing app
 	 * @param AfterScenarioScope $event
 	 */
+	#[AfterScenario]
 	public function undoChangingParameters(AfterScenarioScope $event) {
 		$scenarios = $event->getFeature()->getScenarios();
 		if ($event->getScenario() === end($scenarios)) {
