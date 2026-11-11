@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Bonn Tástála DN",
     "Listing and searching for users is constrained by these criteria:" : "Tá liostú agus cuardach úsáideoirí srianta ag na critéir seo:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Is iad na haicmí oibiachta is coitianta d’úsáideoirí ná Duine eagraíochtúil, duine, úsáideoir, agus inetOrgPerson. Mura bhfuil tú cinnte cén aicme oibiachta le roghnú, téigh i gcomhairle le riarthóir do eolaire le do thoil.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Sonraíonn an scagaire cé na húsáideoirí LDAP a mbeidh rochtain acu ar an gcás {instanceName}.",
     "Verify settings and count users" : "Fíoraigh socruithe agus comhaireamh úsáideoirí",
     "User count: {usersCount}" : "Líon úsáideoirí: {usersCount}",
     "Test Configuration" : "Cumraíocht Tástála",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "Athrú mód",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Cumasóidh sé fiosruithe uathoibríocha LDAP má aistrítear an modh. Ag brath ar do mhéid LDAP féadfaidh siad tamall a ghlacadh. An bhfuil tú fós ag iarraidh an mód a athrú?",
     "Confirm" : "Deimhnigh",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Sainmhíníonn sé seo an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuireann `%%uid` ionad an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Sainmhíníonn sé seo an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuireann `%%uid` ionad an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Sonraíonn an scagaire cé na húsáideoirí LDAP a mbeidh rochtain acu ar an gcás {instanceName}."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

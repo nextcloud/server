@@ -159,7 +159,6 @@
     "Test Base DN" : "测试 Base DN",
     "Listing and searching for users is constrained by these criteria:" : "列表搜索用户受到标准约束：",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "用户最常用的对象类为 organizationalPerson，person，user 和 inetOrgPerson。如果您不确定选择哪些对象类，请咨询您的目录管理员。",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "筛选条件指定哪些 LDAP 用户应该具有访问 {instanceName} 实例的权限。",
     "Verify settings and count users" : "验证设置和统计用户",
     "User count: {usersCount}" : "用户计数：{usersCount}",
     "Test Configuration" : "测试配置",
@@ -197,6 +196,7 @@
     "Mode switch" : "切换模式",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "切换模式将启用自动 LDAP 查询。根据您的 LDAP 规模，可能需要一段时间。是否继续切换模式？",
     "Confirm" : "确认",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定义尝试登录时要应用的筛选条件。`%%uid` 替换登录操作中的用户名。示例：`uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定义尝试登录时要应用的筛选条件。`%%uid` 替换登录操作中的用户名。示例：`uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "筛选条件指定哪些 LDAP 用户应该具有访问 {instanceName} 实例的权限。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

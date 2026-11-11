@@ -146,6 +146,8 @@
     "Copy" : "複製",
     "Send link via email" : "透過 email 寄送連結",
     "Enter an email address or paste a list" : "請輸入電子郵件地址或貼上清單",
+    "Recipient emails" : "收件者電子郵件",
+    "Remove email: {email}" : "移除電子郵件：{email}",
     "Select a destination" : "選取目的地",
     "Select" : "選取",
     "What are you requesting?" : "您正在請求什麼？",

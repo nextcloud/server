@@ -161,7 +161,6 @@ OC.L10N.register(
     "Test Base DN" : "Sprawdź bazowy DN",
     "Listing and searching for users is constrained by these criteria:" : "Wyświetlanie i wyszukiwanie użytkowników jest ograniczony tymi kryteriami:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najbardziej wspólną klasą obiektów dla użytkowników jest organizationalPerson, person, user i InetOrgPerson. Jeśli nie wiesz, którą klasę obiektów wybrać, skonsultuj to ze swoim administratorem usługi katalogowej.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr określa, którzy użytkownicy LDAP mają mieć dostęp do instancji {instanceName}",
     "Verify settings and count users" : "Sprawdź ustawienia i policz użytkowników",
     "User count: {usersCount}" : "Liczba użytkowników: {usersCount}",
     "Test Configuration" : "Sprawdź konfigurację",
@@ -199,6 +198,7 @@ OC.L10N.register(
     "Mode switch" : "Przełącznik trybów",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Zmiana trybu włączy automatyczne odpytywanie LDAP-a. W zależności od jego wielkości może to trochę potrwać. Nadal chcesz zmienić tryb?",
     "Confirm" : "Potwierdź",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definiuje filter do zastosowania podczas próby logowania. \"%%uid\" zastępuje nazwę użytkownika podczas logowania. Przykład: \"uid=%%uid\""
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definiuje filter do zastosowania podczas próby logowania. \"%%uid\" zastępuje nazwę użytkownika podczas logowania. Przykład: \"uid=%%uid\"",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr określa, którzy użytkownicy LDAP mają mieć dostęp do instancji {instanceName}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
