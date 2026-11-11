@@ -150,9 +150,6 @@ class TemplateManager implements ITemplateManager {
 		die();
 	}
 
-	/**
-	 * Setting the status code once output has started only triggers a warning
-	 */
 	private function setStatusCode(int $statusCode): void {
 		if (!headers_sent()) {
 			http_response_code($statusCode);
