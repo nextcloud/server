@@ -4,7 +4,7 @@
 	"exclude": ["./**/*.cy.ts", "./apps/settings/src/sections"],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"types": ["node", "vue", "vue-router"],
+		"types": ["node", "vue"],
 		"outDir": "./dist/",
 		"target": "ESNext",
 		"module": "ESNext",

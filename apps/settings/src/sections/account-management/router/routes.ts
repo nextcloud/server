@@ -3,19 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { RouteConfig } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
-const routes: RouteConfig[] = [
+// The page reads the route params itself, so the routes render nothing.
+// An object, a plain function would be taken for a lazy loaded component.
+const component = { render: () => null }
+
+// Siblings instead of nested routes, so the "All accounts" link is not active on group pages too
+const routes: RouteRecordRaw[] = [
 	{
 		name: 'users',
 		path: '/:index(index.php/)?settings/users',
-		props: true,
-		children: [
-			{
-				path: ':selectedGroup',
-				name: 'group',
-			},
-		],
+		component,
+	},
+	{
+		name: 'group',
+		path: '/:index(index.php/)?settings/users/:selectedGroup',
+		component,
 	},
 ]
 

@@ -3,231 +3,181 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<Fragment>
-		<NcModal
-			v-if="showRemoveGroupModal"
-			@close="showRemoveGroupModal = false">
-			<div class="modal__content">
-				<h2 class="modal__header">
-					{{ t('settings', 'Please confirm the group removal') }}
-				</h2>
-				<NcNoteCard
-					type="warning"
-					show-alert>
-					{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
-				</NcNoteCard>
-				<div class="modal__button-row">
-					<NcButton
-						variant="secondary"
-						@click="showRemoveGroupModal = false">
-						{{ t('settings', 'Cancel') }}
-					</NcButton>
-					<NcButton
-						variant="primary"
-						@click="removeGroup">
-						{{ t('settings', 'Confirm') }}
-					</NcButton>
-				</div>
-			</div>
-		</NcModal>
-
-		<NcAppNavigationItem
-			:key="id"
-			ref="listItem"
-			:exact="true"
-			:name="name"
-			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
-			:loading="loadingRenameGroup"
-			:menu-open="openGroupMenu"
-			@click="$emit('select')"
-			@update:menuOpen="handleGroupMenuOpen">
-			<template #icon>
-				<AccountGroup :size="20" />
-			</template>
-			<template #counter>
-				<NcCounterBubble
-					v-if="count"
-					:type="active ? 'highlighted' : undefined">
-					{{ count }}
-				</NcCounterBubble>
-			</template>
-			<template #actions>
-				<NcActionInput
-					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
-					ref="displayNameInput"
-					:trailing-button-label="t('settings', 'Submit')"
-					type="text"
-					:model-value="name"
-					:label=" t('settings', 'Rename group')"
-					@submit="renameGroup(id)">
-					<template #icon>
-						<Pencil :size="20" />
-					</template>
-				</NcActionInput>
-				<NcActionButton
-					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
-					@click="showRemoveGroupModal = true">
-					<template #icon>
-						<Delete :size="20" />
-					</template>
-					{{ t('settings', 'Delete group') }}
-				</NcActionButton>
-			</template>
-		</NcAppNavigationItem>
-	</Fragment>
-</template>
-
-<script>
-import { showError } from '@nextcloud/dialogs'
-import { Fragment } from 'vue-frag'
+<script setup lang="ts">
+import { mdiAccountGroupOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
-import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import { groupRouteParam } from '../composables/useGroupsNavigation.ts'
 import { useUsersStore } from '../store/users.ts'
 
-export default {
-	name: 'GroupListItem',
-	components: {
-		AccountGroup,
-		Delete,
-		Fragment,
-		NcActionButton,
-		NcActionInput,
-		NcAppNavigationItem,
-		NcButton,
-		NcCounterBubble,
-		NcModal,
-		NcNoteCard,
-		Pencil,
-	},
+const props = withDefaults(defineProps<{
+	/** If this group is currently selected */
+	active: boolean
+	/** Number of members within this group */
+	count?: number | null
+	/** Identifier of this group */
+	id: string
+	/** Name of this group */
+	name: string
+}>(), {
+	count: null,
+})
 
-	props: {
-		/**
-		 * If this group is currently selected
-		 */
-		active: {
-			type: Boolean,
-			required: true,
-		},
+const emit = defineEmits<{
+	/** The group was picked */
+	select: []
+}>()
 
-		/**
-		 * Number of members within this group
-		 */
-		count: {
-			type: Number,
-			default: null,
-		},
+const usersStore = useUsersStore()
 
-		/**
-		 * Identifier of this group
-		 */
-		id: {
-			type: String,
-			required: true,
-		},
+const listItem = useTemplateRef('listItem')
+defineExpose({ listItem })
 
-		/**
-		 * Name of this group
-		 */
-		name: {
-			type: String,
-			required: true,
-		},
-	},
+const loadingRenameGroup = ref(false)
+const openGroupMenu = ref(false)
+const showRemoveGroupModal = ref(false)
+/** Name entered in the rename field */
+const newName = ref(props.name)
 
-	emits: ['select'],
+const settings = computed(() => usersStore.serverData)
+/** Admins and disabled accounts are no real groups and cannot be renamed or deleted */
+const canEdit = computed(() => props.id !== 'admin' && props.id !== 'disabled' && (settings.value.isAdmin || settings.value.isDelegatedAdmin))
 
-	setup() {
-		return {
-			usersStore: useUsersStore(),
-		}
-	},
+// drop a name that was entered but not submitted
+watch(openGroupMenu, (open) => {
+	if (!open && !loadingRenameGroup.value) {
+		newName.value = props.name
+	}
+})
+watch(() => props.name, (name) => {
+	if (!openGroupMenu.value) {
+		newName.value = name
+	}
+})
 
-	data() {
-		return {
-			loadingRenameGroup: false,
-			openGroupMenu: false,
-			showRemoveGroupModal: false,
-		}
-	},
+/**
+ * Rename the group to the entered name
+ */
+async function renameGroup() {
+	const displayName = newName.value.trim()
+	if (props.id.trim() === '' || displayName === '') {
+		return
+	}
 
-	computed: {
-		settings() {
-			return this.usersStore.serverData
-		},
-	},
+	try {
+		loadingRenameGroup.value = true
+		openGroupMenu.value = false
+		await usersStore.renameGroup({
+			groupid: props.id.trim(),
+			displayName,
+		})
+	} catch {
+		// the store already shows the error, the entered name stays for another try
+		openGroupMenu.value = true
+	} finally {
+		loadingRenameGroup.value = false
+	}
+}
 
-	methods: {
-		handleGroupMenuOpen() {
-			this.openGroupMenu = true
-		},
-
-		async renameGroup(gid) {
-			// check if group id is valid
-			if (gid.trim() === '') {
-				return
-			}
-
-			const displayName = this.$refs.displayNameInput.$el.querySelector('input[type="text"]').value
-
-			// check if group name is valid
-			if (displayName.trim() === '') {
-				return
-			}
-
-			try {
-				this.openGroupMenu = false
-				this.loadingRenameGroup = true
-				await this.usersStore.renameGroup({
-					groupid: gid.trim(),
-					displayName: displayName.trim(),
-				})
-
-				this.loadingRenameGroup = false
-			} catch {
-				this.openGroupMenu = true
-				this.loadingRenameGroup = false
-			}
-		},
-
-		async removeGroup() {
-			try {
-				await this.usersStore.removeGroup(this.id)
-				this.showRemoveGroupModal = false
-			} catch {
-				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))
-			}
-		},
-	},
+/**
+ * Delete the group, the store shows an error if that fails
+ */
+async function removeGroup() {
+	await usersStore.removeGroup(props.id)
+	showRemoveGroupModal.value = false
 }
 </script>
 
-<style lang="scss" scoped>
-.modal {
-	&__header {
-		margin: 0;
-	}
+<template>
+	<NcModal
+		v-if="showRemoveGroupModal"
+		@close="showRemoveGroupModal = false">
+		<div :class="$style.modalContent">
+			<h2 :class="$style.modalHeader">
+				{{ t('settings', 'Please confirm the group removal') }}
+			</h2>
+			<NcNoteCard
+				type="warning"
+				showAlert>
+				{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
+			</NcNoteCard>
+			<div :class="$style.modalButtonRow">
+				<NcButton
+					variant="secondary"
+					@click="showRemoveGroupModal = false">
+					{{ t('settings', 'Cancel') }}
+				</NcButton>
+				<NcButton
+					variant="primary"
+					@click="removeGroup">
+					{{ t('settings', 'Confirm') }}
+				</NcButton>
+			</div>
+		</div>
+	</NcModal>
 
-	&__content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 20px;
-		gap: 4px 0;
-	}
+	<NcAppNavigationItem
+		:key="id"
+		ref="listItem"
+		v-model:menuOpen="openGroupMenu"
+		:name="name"
+		:to="{ name: 'group', params: { selectedGroup: groupRouteParam(id) } }"
+		:loading="loadingRenameGroup"
+		@click="emit('select')">
+		<template #icon>
+			<NcIconSvgWrapper :path="mdiAccountGroupOutline" :size="20" />
+		</template>
+		<template #counter>
+			<NcCounterBubble
+				v-if="count"
+				:type="active ? 'highlighted' : undefined"
+				:count="count" />
+		</template>
+		<template v-if="canEdit" #actions>
+			<NcActionInput
+				v-model="newName"
+				:trailingButtonLabel="t('settings', 'Submit')"
+				type="text"
+				:label="t('settings', 'Rename group')"
+				@submit="renameGroup">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiPencilOutline" :size="20" />
+				</template>
+			</NcActionInput>
+			<NcActionButton @click="showRemoveGroupModal = true">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiTrashCanOutline" :size="20" />
+				</template>
+				{{ t('settings', 'Delete group') }}
+			</NcActionButton>
+		</template>
+	</NcAppNavigationItem>
+</template>
 
-	&__button-row {
-		display: flex;
-		width: 100%;
-		justify-content: space-between;
-	}
+<style module>
+.modalHeader {
+	margin: 0;
+}
+
+.modalContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: calc(5 * var(--default-grid-baseline));
+	gap: var(--default-grid-baseline) 0;
+}
+
+.modalButtonRow {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 }
 </style>

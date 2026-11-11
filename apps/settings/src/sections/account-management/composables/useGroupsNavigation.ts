@@ -3,9 +3,40 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ComputedRef, Ref } from 'vue'
-import type { IGroup } from '../views/user-types.ts'
+import type { IGroup } from '../../../views/user-types.d.ts'
 
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+/**
+ * Route param of a group. The id is encoded once more than the router does,
+ * so a `/` in the id never reaches the server as a bare `%2F`, which Apache
+ * rejects by default.
+ *
+ * @param id The group id
+ */
+export function groupRouteParam(id: string) {
+	return encodeURIComponent(id)
+}
+
+/**
+ * The group or internal view (e.g. `disabled`) that is shown, null for all accounts
+ */
+export function useSelectedGroup() {
+	const route = useRoute()
+	return computed(() => {
+		const param = route.params.selectedGroup as string | undefined
+		if (param === undefined) {
+			return null
+		}
+		try {
+			return decodeURIComponent(param)
+		} catch {
+			// not encoded by groupRouteParam, e.g. typed by hand
+			return param
+		}
+	})
+}
 
 /**
  * Format a group to a menu entry

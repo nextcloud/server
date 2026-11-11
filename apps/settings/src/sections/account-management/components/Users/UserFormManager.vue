@@ -3,24 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="user-form__item user-form__managers">
-		<NcSelectUsers
-			:modelValue="managerModel"
-			class="user-form__select"
-			:inputLabel="t('settings', 'Manager')"
-			:placeholder="t('settings', 'Search for a manager…')"
-			:options="managerOptions"
-			:loading="loading"
-			@update:modelValue="onManagerChange"
-			@search="searchUserManager" />
-	</div>
-</template>
-
 <script setup lang="ts">
 import type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers'
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import logger from '../../../../logger.ts'
@@ -103,3 +89,17 @@ async function fetchManagers(query: string) {
 	}
 }
 </script>
+
+<template>
+	<div class="user-form__item user-form__managers">
+		<NcSelectUsers
+			:modelValue="managerModel"
+			class="user-form__select"
+			:inputLabel="t('settings', 'Manager')"
+			:placeholder="t('settings', 'Search for a manager…')"
+			:options="managerOptions"
+			:loading="loading"
+			@update:modelValue="onManagerChange"
+			@search="searchUserManager" />
+	</div>
+</template>

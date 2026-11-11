@@ -6,7 +6,7 @@
 import type { TestingPinia } from '@pinia/testing'
 
 import { createTestingPinia } from '@pinia/testing'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 // `<script setup>` children are invisible to VTU stubs, so swap them via
@@ -18,7 +18,7 @@ vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogT
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NewUserDialog from './NewUserDialog.vue'
 import { useUsersStore } from '../../store/users.ts'
-import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
+import { NcDialogStub } from './dialogTestHelpers.ts'
 
 let pinia: TestingPinia
 let store: ReturnType<typeof useUsersStore>
@@ -38,14 +38,13 @@ function makeNewUser(overrides = {}) {
 	}
 }
 
-function mountDialog({ loading = { all: false } } = {}) {
+function mountDialog() {
 	return mount(NewUserDialog, {
-		propsData: {
-			loading,
+		props: {
 			newUser: makeNewUser(),
 			quotaOptions: [],
 		},
-		pinia,
+		global: { plugins: [pinia] },
 	})
 }
 
@@ -118,13 +117,11 @@ describe('NewUserDialog loading feedback', () => {
 	it('re-enables the form when the request fails', async () => {
 		const error = { response: { data: { ocs: { meta: { statuscode: 0 } } } } }
 		vi.mocked(store.addUser).mockRejectedValue(error)
-		const loading = { all: false }
-		const wrapper = mountDialog({ loading })
+		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 		await flushPromises()
 
-		expect(loading.all).toBe(false)
 		expect(wrapper.find('form').attributes('aria-busy')).toBe('false')
 	})
 })

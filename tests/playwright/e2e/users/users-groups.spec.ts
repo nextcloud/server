@@ -30,6 +30,7 @@ test('Account Management: Can create a group', async ({ page }) => {
 		await awaitPasswordGuardedRequest(page, createGroupsResponsePromise)
 
 		await expect(settingsPage.customGroupsList()).toContainText(groupName)
+		await expect(page.getByLabel('Group name')).toBeHidden()
 	} finally {
 		await runOcc(['group:delete', groupName]).catch(() => {})
 	}
@@ -234,7 +235,8 @@ async function checkGroupOrder(order: string[], settingsPage: SettingsUsersPage)
 	}
 
 	const contents = (await listItems.allTextContents())
-		.map((text) => text.trim().replaceAll(/\s+.*/g, '')) // trim and remove member count
-		.filter((text) => order.includes(text)) // filter out other groups that might be in the list
+		// the member count follows the name directly, so match the name at the start
+		.map((text) => order.find((group) => text.trim().startsWith(group)))
+		.filter((group) => group !== undefined) // filter out other groups that might be in the list
 	expect(contents).toEqual(order)
 }

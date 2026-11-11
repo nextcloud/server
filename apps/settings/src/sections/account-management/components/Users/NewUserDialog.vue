@@ -3,48 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<NcDialog
-		class="dialog"
-		size="small"
-		:name="t('settings', 'New account')"
-		outTransition
-		:noClose="loading.all"
-		@closing="$emit('closing')">
-		<form
-			id="new-user-form"
-			class="dialog__form"
-			data-test="form"
-			:inert="loading.all"
-			:aria-busy="loading.all ? 'true' : 'false'"
-			@submit.prevent="createUser">
-			<UserFormFields
-				ref="fields"
-				:fieldConfig="fieldConfig"
-				:quotaOptions="quotaOptions" />
-		</form>
-
-		<template #actions>
-			<NcButton
-				class="dialog__submit"
-				data-test="submit"
-				form="new-user-form"
-				variant="primary"
-				type="submit"
-				:aria-disabled="loading.all ? 'true' : 'false'">
-				<template v-if="loading.all" #icon>
-					<NcLoadingIcon />
-				</template>
-				{{ loading.all ? t('settings', 'Adding new account …') : t('settings', 'Add new account') }}
-			</NcButton>
-		</template>
-	</NcDialog>
-</template>
-
 <script setup lang="ts">
 import type { FormData, QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, onMounted, provide, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
@@ -54,12 +16,14 @@ import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 
 const props = defineProps<{
-	loading: { all: boolean }
+	/** Form state of the new account, kept by the parent between openings */
 	newUser: FormData
+	/** Quota presets to pick from */
 	quotaOptions: QuotaOption[]
 }>()
 
 const emit = defineEmits<{
+	/** The dialog was closed */
 	closing: []
 }>()
 
@@ -104,6 +68,9 @@ const fieldConfig = computed(() => ({
 	showPasswordEmailHint: !settings.value.newUserRequireEmail,
 }))
 
+/** True while the account is being created */
+const creating = ref(false)
+
 onMounted(() => fields.value?.focusField('username'))
 
 /**
@@ -112,10 +79,10 @@ onMounted(() => fields.value?.focusField('username'))
 async function createUser() {
 	// Guard against re-submit while a request is already running. The
 	// button is only aria-disabled (not disabled), so it can still fire.
-	if (props.loading.all) {
+	if (creating.value) {
 		return
 	}
-	props.loading.all = true
+	creating.value = true
 	try {
 		await usersStore.addUser({
 			userid: props.newUser.username,
@@ -131,7 +98,7 @@ async function createUser() {
 
 		emit('closing')
 	} catch (error) {
-		props.loading.all = false
+		creating.value = false
 		const meta = (error as { response?: { data?: { ocs?: { meta?: { statuscode?: number } } } } })
 			.response?.data?.ocs?.meta
 		if (meta) {
@@ -146,6 +113,44 @@ async function createUser() {
 	}
 }
 </script>
+
+<template>
+	<NcDialog
+		class="dialog"
+		size="small"
+		:name="t('settings', 'New account')"
+		outTransition
+		:noClose="creating"
+		@closing="emit('closing')">
+		<form
+			id="new-user-form"
+			class="dialog__form"
+			data-test="form"
+			:inert="creating"
+			:aria-busy="creating ? 'true' : 'false'"
+			@submit.prevent="createUser">
+			<UserFormFields
+				ref="fields"
+				:fieldConfig="fieldConfig"
+				:quotaOptions="quotaOptions" />
+		</form>
+
+		<template #actions>
+			<NcButton
+				class="dialog__submit"
+				data-test="submit"
+				form="new-user-form"
+				variant="primary"
+				type="submit"
+				:aria-disabled="creating ? 'true' : 'false'">
+				<template v-if="creating" #icon>
+					<NcLoadingIcon />
+				</template>
+				{{ creating ? t('settings', 'Adding new account …') : t('settings', 'Add new account') }}
+			</NcButton>
+		</template>
+	</NcDialog>
+</template>
 
 <style lang="scss" scoped>
 .dialog {

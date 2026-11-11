@@ -3,10 +3,169 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
+
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { parseFileSize } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { computed, nextTick, ref } from 'vue'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcAppSettingsShortcutsSection from '@nextcloud/vue/components/NcAppSettingsShortcutsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcHotkey from '@nextcloud/vue/components/NcHotkey'
+import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { validateQuota } from '../../../../components/Users/userFormUtils.ts'
+import { GroupSorting } from '../../../../constants/GroupManagement.ts'
+import logger from '../../../../logger.ts'
+import { unlimitedQuota } from '../../../../utils/userUtils.ts'
+import { useUsersStore } from '../../store/users.ts'
+
+type ColumnKey = 'showLanguages' | 'showFirstLogin' | 'showLastLogin' | 'showUserBackend' | 'showStoragePath'
+
+/** Whether the dialog is open */
+const open = defineModel<boolean>('open', { required: true })
+
+const usersStore = useUsersStore()
+
+// ? opens the settings dialog on the keyboard shortcuts section
+useHotKey('?', async () => {
+	open.value = true
+	await nextTick()
+	document.getElementById('settings-section_keyboard-shortcuts')?.scrollIntoView({
+		behavior: 'smooth',
+		inline: 'nearest',
+	})
+}, { stop: true, prevent: true })
+
+const loadingSendMail = ref(false)
+
+const settings = computed(() => usersStore.serverData)
+
+const groupSorting = computed({
+	get: () => usersStore.orderBy === GroupSorting.GroupName ? 'name' : 'member-count',
+	set: (sorting: string) => usersStore.setGroupSorting(sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount),
+})
+
+/** Admin has configured `sort_groups_by_name` in the system config */
+const isGroupSortingEnforced = computed(() => settings.value.forceSortGroupByName)
+
+/**
+ * @param key The column to show or hide
+ */
+function columnModel(key: ColumnKey) {
+	return computed({
+		get: () => usersStore.showConfig[key],
+		set: (value: boolean) => usersStore.setShowConfig({ key, value }),
+	})
+}
+
+const showLanguages = columnModel('showLanguages')
+const showFirstLogin = columnModel('showFirstLogin')
+const showLastLogin = columnModel('showLastLogin')
+const showUserBackend = columnModel('showUserBackend')
+const showStoragePath = columnModel('showStoragePath')
+
+const quotaOptions = computed(() => {
+	// convert the preset array into objects
+	const quotaPreset: QuotaOption[] = settings.value.quotaPreset.map((quota: string) => ({ id: quota, label: quota }))
+	// add default presets
+	if (settings.value.allowUnlimitedQuota) {
+		quotaPreset.unshift(unlimitedQuota)
+	}
+	return quotaPreset
+})
+
+/**
+ * The default quota stored on the server
+ */
+function serverDefaultQuota(): QuotaOption {
+	const quota = settings.value.defaultQuota
+	const size = parseFileSize(quota, true)
+	if (quota !== unlimitedQuota.id && size !== null && size >= 0) {
+		// if value is valid, let's map the quotaOptions or return custom quota
+		return { id: quota, label: quota }
+	}
+	return unlimitedQuota
+}
+
+const defaultQuota = ref<QuotaOption>(serverDefaultQuota())
+let savedDefaultQuota = defaultQuota.value
+
+const sendWelcomeMail = computed({
+	get: () => settings.value.newUserSendEmail,
+	set: (value: boolean) => setSendWelcomeMail(value),
+})
+
+/**
+ * @param value Whether new accounts get a welcome email
+ */
+async function setSendWelcomeMail(value: boolean) {
+	loadingSendMail.value = true
+	usersStore.serverData = {
+		...settings.value,
+		newUserSendEmail: value,
+	}
+	try {
+		await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
+	} catch (error) {
+		logger.error('Could not update newUser.sendEmail preference', { error })
+		usersStore.serverData = {
+			...settings.value,
+			newUserSendEmail: !value,
+		}
+		showError(t('settings', 'Could not update the welcome email setting'))
+	} finally {
+		loadingSendMail.value = false
+	}
+}
+
+/**
+ * Check if a quota matches the current search.
+ * This is a custom filter function to allow to map "1GB" to the label "1 GB" (ignoring whitespaces).
+ *
+ * @param option The quota to check
+ * @param label The label of the quota
+ * @param search The search string
+ */
+function filterQuotas(option: QuotaOption, label: string, search: string) {
+	const searchValue = search.toLocaleLowerCase().replaceAll(/\s/g, '')
+	return (label || '')
+		.toLocaleLowerCase()
+		.replaceAll(/\s/g, '')
+		.indexOf(searchValue) > -1
+}
+
+/**
+ * Save the picked default quota, or go back to the saved one if that fails
+ *
+ * @param option The picked quota
+ */
+async function setDefaultQuota(option: QuotaOption) {
+	// the store shows the error and resolves without a response if saving fails
+	const response = await usersStore.setAppConfig({
+		app: 'files',
+		key: 'default_quota',
+		value: option.id,
+	})
+	if (response) {
+		savedDefaultQuota = option
+		usersStore.serverData = { ...settings.value, defaultQuota: option.id }
+	}
+	defaultQuota.value = savedDefaultQuota
+}
+</script>
+
 <template>
 	<NcAppSettingsDialog
-		:open.sync="isModalOpen"
-		:show-navigation="true"
+		v-model:open="open"
+		showNavigation
 		:name="t('settings', 'Account management settings')">
 		<NcAppSettingsSection
 			id="visibility-settings"
@@ -49,10 +208,10 @@
 			<NcNoteCard v-if="isGroupSortingEnforced" type="warning">
 				{{ t('settings', 'The system config enforces sorting the groups by name. This also disables showing the member count.') }}
 			</NcNoteCard>
-			<fieldset>
+			<fieldset :class="$style.fieldset">
 				<legend>{{ t('settings', 'Group list sorting') }}</legend>
 				<NcNoteCard
-					class="dialog__note"
+					:class="$style.note"
 					type="info"
 					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
 				<NcCheckboxRadioSwitch
@@ -94,9 +253,9 @@
 			<NcSelect
 				v-model="defaultQuota"
 				:clearable="false"
-				:create-option="validateQuota"
-				:filter-by="filterQuotas"
-				:input-label="t('settings', 'Default quota')"
+				:createOption="(quota: string) => validateQuota(quota, unlimitedQuota)"
+				:filterBy="filterQuotas"
+				:inputLabel="t('settings', 'Default quota')"
 				:options="quotaOptions"
 				placement="top"
 				:placeholder="t('settings', 'Select default quota')"
@@ -115,281 +274,12 @@
 	</NcAppSettingsDialog>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { formatFileSize, parseFileSize } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
-import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { nextTick } from 'vue'
-import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
-import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
-import NcAppSettingsShortcutsSection from '@nextcloud/vue/components/NcAppSettingsShortcutsSection'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcHotkey from '@nextcloud/vue/components/NcHotkey'
-import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { GroupSorting } from '../../../../constants/GroupManagement.ts'
-import logger from '../../../../logger.ts'
-import { useUsersStore } from '../../store/users.ts'
-import { unlimitedQuota } from '../../../../utils/userUtils.ts'
-
-export default {
-	name: 'UserSettingsDialog',
-
-	components: {
-		NcAppSettingsDialog,
-		NcAppSettingsSection,
-		NcAppSettingsShortcutsSection,
-		NcCheckboxRadioSwitch,
-		NcHotkey,
-		NcHotkeyList,
-		NcNoteCard,
-		NcSelect,
-	},
-
-	props: {
-		open: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	emits: ['update:open'],
-
-	setup(_, { emit }) {
-		// ? opens the settings dialog on the keyboard shortcuts section
-		useHotKey('?', async () => {
-			emit('update:open', true)
-			await nextTick()
-			document.getElementById('settings-section_keyboard-shortcuts')?.scrollIntoView({
-				behavior: 'smooth',
-				inline: 'nearest',
-			})
-		}, { stop: true, prevent: true })
-
-		return {
-			usersStore: useUsersStore(),
-		}
-	},
-
-	data() {
-		return {
-			selectedQuota: false,
-			loadingSendMail: false,
-		}
-	},
-
-	computed: {
-		groupSorting: {
-			get() {
-				return this.usersStore.orderBy === GroupSorting.GroupName ? 'name' : 'member-count'
-			},
-
-			set(sorting) {
-				this.usersStore.setGroupSorting(sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount)
-			},
-		},
-
-		/**
-		 * Admin has configured `sort_groups_by_name` in the system config
-		 */
-		isGroupSortingEnforced() {
-			return this.usersStore.serverData.forceSortGroupByName
-		},
-
-		isModalOpen: {
-			get() {
-				return this.open
-			},
-
-			set(open) {
-				this.$emit('update:open', open)
-			},
-		},
-
-		showConfig() {
-			return this.usersStore.showConfig
-		},
-
-		settings() {
-			return this.usersStore.serverData
-		},
-
-		showLanguages: {
-			get() {
-				return this.showConfig.showLanguages
-			},
-
-			set(status) {
-				this.setShowConfig('showLanguages', status)
-			},
-		},
-
-		showFirstLogin: {
-			get() {
-				return this.showConfig.showFirstLogin
-			},
-
-			set(status) {
-				this.setShowConfig('showFirstLogin', status)
-			},
-		},
-
-		showLastLogin: {
-			get() {
-				return this.showConfig.showLastLogin
-			},
-
-			set(status) {
-				this.setShowConfig('showLastLogin', status)
-			},
-		},
-
-		showUserBackend: {
-			get() {
-				return this.showConfig.showUserBackend
-			},
-
-			set(status) {
-				this.setShowConfig('showUserBackend', status)
-			},
-		},
-
-		showStoragePath: {
-			get() {
-				return this.showConfig.showStoragePath
-			},
-
-			set(status) {
-				this.setShowConfig('showStoragePath', status)
-			},
-		},
-
-		quotaOptions() {
-			// convert the preset array into objects
-			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
-			// add default presets
-			if (this.settings.allowUnlimitedQuota) {
-				quotaPreset.unshift(unlimitedQuota)
-			}
-			return quotaPreset
-		},
-
-		defaultQuota: {
-			get() {
-				if (this.selectedQuota !== false) {
-					return this.selectedQuota
-				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
-					// if value is valid, let's map the quotaOptions or return custom quota
-					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
-				}
-				return unlimitedQuota // unlimited
-			},
-
-			set(quota) {
-				this.selectedQuota = quota
-			},
-		},
-
-		sendWelcomeMail: {
-			get() {
-				return this.settings.newUserSendEmail
-			},
-
-			async set(value) {
-				try {
-					this.loadingSendMail = true
-					this.usersStore.serverData = {
-						...this.settings,
-						newUserSendEmail: value,
-					}
-					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
-				} catch (error) {
-					logger.error('Could not update newUser.sendEmail preference', { error })
-				} finally {
-					this.loadingSendMail = false
-				}
-			},
-		},
-	},
-
-	methods: {
-		/**
-		 * Check if a quota matches the current search.
-		 * This is a custom filter function to allow to map "1GB" to the label "1 GB" (ignoring whitespaces).
-		 *
-		 * @param {object} option The quota to check
-		 * @param {string} label The label of the quota
-		 * @param {string} search The search string
-		 */
-		filterQuotas(option, label, search) {
-			const searchValue = search.toLocaleLowerCase().replaceAll(/\s/g, '')
-			return (label || '')
-				.toLocaleLowerCase()
-				.replaceAll(/\s/g, '')
-				.indexOf(searchValue) > -1
-		},
-
-		setShowConfig(key, status) {
-			this.usersStore.setShowConfig({ key, value: status })
-		},
-
-		/**
-		 * Validate quota string to make sure it's a valid human file size
-		 *
-		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 * @return {object} The validated quota object or unlimited quota if input is invalid
-		 */
-		validateQuota(quota) {
-			if (typeof quota === 'object') {
-				quota = quota?.id || quota.label
-			}
-			// only used for new presets sent through @Tag
-			const validQuota = parseFileSize(quota, true)
-			if (validQuota === null) {
-				return unlimitedQuota
-			}
-			// unify format output
-			quota = formatFileSize(validQuota)
-			return { id: quota, label: quota }
-		},
-
-		/**
-		 * Dispatch default quota set request
-		 *
-		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 */
-		setDefaultQuota(quota = 'none') {
-			// Make sure correct label is set for unlimited quota
-			if (quota === 'none') {
-				quota = unlimitedQuota
-			}
-			this.usersStore.setAppConfig({
-				app: 'files',
-				key: 'default_quota',
-				// ensure we only send the preset id
-				value: quota.id ? quota.id : quota,
-			}).then(() => {
-				if (typeof quota !== 'object') {
-					quota = { id: quota, label: quota }
-				}
-				this.defaultQuota = quota
-			})
-		},
-	},
-}
-</script>
-
-<style scoped lang="scss">
-.dialog {
-	&__note {
-		font-weight: normal;
-	}
-}
-
-fieldset {
+<style module>
+.fieldset {
 	font-weight: bold;
+}
+
+.note {
+	font-weight: normal;
 }
 </style>

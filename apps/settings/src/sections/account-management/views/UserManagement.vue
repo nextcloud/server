@@ -3,102 +3,77 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<NcContent app-name="settings">
-		<UserManagementNavigation />
-		<NcAppContent :page-heading="pageHeading">
-			<UserList
-				:selected-group="selectedGroupDecoded"
-				:external-actions="externalActions" />
-		</NcAppContent>
-	</NcContent>
-</template>
+<script setup lang="ts">
+import type { UserAction } from '../../../views/user-types.d.ts'
 
-<script>
 import { emit } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { computed, ref } from 'vue'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import UserList from '../components/UserList.vue'
 import UserManagementNavigation from './UserManagementNavigation.vue'
+import { useSelectedGroup } from '../composables/useGroupsNavigation.ts'
 
-export default defineComponent({
-	name: 'UserManagement',
+const externalActions = ref<UserAction[]>([])
 
-	components: {
-		NcContent,
-		NcAppContent,
-		UserList,
-		UserManagementNavigation,
-	},
+/** The group or internal view (e.g. `disabled`) that is shown, null for all accounts */
+const selectedGroup = useSelectedGroup()
 
-	data() {
-		return {
-			// temporary value used for multiselect change
-			externalActions: [],
-		}
-	},
-
-	computed: {
-		pageHeading() {
-			if (this.selectedGroupDecoded === null) {
-				return t('settings', 'All accounts')
-			}
-			const matchHeading = {
-				admin: t('settings', 'Admins'),
-				disabled: t('settings', 'Disabled accounts'),
-			}
-			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'Account group: {group}', { group: this.selectedGroupDecoded })
-		},
-
-		selectedGroup() {
-			return this.$route.params.selectedGroup
-		},
-
-		selectedGroupDecoded() {
-			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
-		},
-	},
-
-	created() {
-		// init the OCA.Settings.UserList object
-		window.OCA = window.OCA ?? {}
-		window.OCA.Settings = window.OCA.Settings ?? {}
-		window.OCA.Settings.UserList = window.OCA.Settings.UserList ?? {}
-		// and add the registerAction method
-		window.OCA.Settings.UserList.registerAction = this.registerAction
-		emit('settings:user-management:loaded')
-	},
-
-	methods: {
-		t,
-
-		/**
-		 * Register a new action for the user menu
-		 *
-		 * @param {string} icon the icon class
-		 * @param {string} text the text to display
-		 * @param {Function} action the function to run
-		 * @param {(user: Record<string, unknown>) => boolean} enabled return true if the action is enabled for the user
-		 * @return {Array}
-		 */
-		registerAction(icon, text, action, enabled) {
-			this.externalActions.push({
-				icon,
-				text,
-				action,
-				enabled,
-			})
-			return this.externalActions
-		},
-	},
+const pageHeading = computed(() => {
+	if (selectedGroup.value === null) {
+		return t('settings', 'All accounts')
+	}
+	const matchHeading: Record<string, string> = {
+		admin: t('settings', 'Admins'),
+		disabled: t('settings', 'Disabled accounts'),
+	}
+	// rendered as text, which Vue escapes already
+	return matchHeading[selectedGroup.value] ?? t('settings', 'Account group: {group}', { group: selectedGroup.value }, { escape: false })
 })
+
+/**
+ * Register a new action for the user menu
+ *
+ * @param icon The icon class or an SVG string
+ * @param text The text to display
+ * @param action The function to run
+ * @param enabled Returns true if the action is enabled for the user
+ */
+function registerAction(icon: UserAction['icon'], text: UserAction['text'], action: UserAction['action'], enabled?: UserAction['enabled']) {
+	externalActions.value.push({
+		icon,
+		text,
+		action,
+		enabled,
+	})
+	return externalActions.value
+}
+
+// init the OCA.Settings.UserList object
+window.OCA = window.OCA ?? {}
+window.OCA.Settings = window.OCA.Settings ?? {}
+const settingsNamespace = window.OCA.Settings as { UserList?: { registerAction?: typeof registerAction } }
+settingsNamespace.UserList = settingsNamespace.UserList ?? {}
+// and add the registerAction method
+settingsNamespace.UserList.registerAction = registerAction
+emit('settings:user-management:loaded')
 </script>
 
-<style lang="scss" scoped>
-.app-content {
-	// Virtual list needs to be full height and is scrollable
+<template>
+	<NcContent appName="settings">
+		<UserManagementNavigation />
+		<NcAppContent :class="$style.appContent" :pageHeading="pageHeading">
+			<UserList
+				:selectedGroup="selectedGroup"
+				:externalActions="externalActions" />
+		</NcAppContent>
+	</NcContent>
+</template>
+
+<style module>
+.appContent {
+	/* Virtual list needs to be full height and is scrollable */
 	display: flex;
 	overflow: hidden;
 	flex-direction: column;

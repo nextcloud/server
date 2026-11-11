@@ -3,8 +3,93 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { Component } from 'vue'
+
+import { useDebounceFn, useElementVisibility, useResizeObserver } from '@vueuse/core'
+import { computed, ref, useTemplateRef, watch } from 'vue'
+import logger from '../../../../logger.ts'
+
+const props = withDefaults(defineProps<{
+	/** Component that renders one item, it gets the item as `user` prop */
+	dataComponent: Component
+	/** Item property with a unique key */
+	dataKey: string
+	/** All items, only the visible ones are rendered */
+	dataSources: Record<string, unknown>[]
+	/** Height of one rendered item in pixels */
+	itemHeight: number
+	/** Props passed to every rendered item */
+	extraProps?: Record<string, unknown>
+}>(), {
+	extraProps: () => ({}),
+})
+
+const emit = defineEmits<{
+	/** The end of the list became visible */
+	scrollEnd: []
+}>()
+
+defineSlots<{
+	/** Content before the table header, e.g. a caption */
+	before?: () => unknown
+	/** Table header rows */
+	header?: () => unknown
+	/** Table footer rows */
+	footer?: () => unknown
+}>()
+
+// Items to render before and after the visible area
+const bufferItems = 3
+
+const root = useTemplateRef('root')
+const thead = useTemplateRef('thead')
+const tfoot = useTemplateRef('tfoot')
+
+const index = ref(0)
+const headerHeight = ref(0)
+const tableHeight = ref(0)
+
+const startIndex = computed(() => Math.max(0, index.value - bufferItems))
+const shownItems = computed(() => Math.ceil((tableHeight.value - headerHeight.value) / props.itemHeight) + bufferItems * 2)
+const renderedItems = computed(() => props.dataSources.slice(startIndex.value, startIndex.value + shownItems.value))
+
+const tbodyStyle = computed(() => {
+	const isOverScrolled = startIndex.value + shownItems.value > props.dataSources.length
+	const lastIndex = props.dataSources.length - startIndex.value - shownItems.value
+	const hiddenAfterItems = Math.min(props.dataSources.length - startIndex.value, lastIndex)
+	return {
+		paddingTop: `${startIndex.value * props.itemHeight}px`,
+		paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * props.itemHeight}px`,
+	}
+})
+
+const updateSizes = useDebounceFn(() => {
+	headerHeight.value = thead.value?.clientHeight ?? 0
+	tableHeight.value = root.value?.clientHeight ?? 0
+	logger.debug('VirtualList resizeObserver updated')
+	onScroll()
+}, 100)
+useResizeObserver([root, tfoot, thead], updateSizes)
+
+const isFooterVisible = useElementVisibility(tfoot)
+watch(isFooterVisible, (visible) => {
+	if (visible) {
+		emit('scrollEnd')
+	}
+})
+
+/**
+ * Track the first visible item
+ */
+function onScroll() {
+	// Max 0 to prevent negative index
+	index.value = Math.max(0, Math.round((root.value?.scrollTop ?? 0) / props.itemHeight))
+}
+</script>
+
 <template>
-	<table class="user-list">
+	<table ref="root" class="user-list" @scroll="onScroll">
 		<slot name="before" />
 
 		<thead
@@ -28,128 +113,12 @@
 
 		<tfoot
 			ref="tfoot"
-			v-element-visibility="handleFooterVisibility"
 			role="rowgroup"
 			class="user-list__footer">
 			<slot name="footer" />
 		</tfoot>
 	</table>
 </template>
-
-<script lang="ts">
-import { vElementVisibility } from '@vueuse/components'
-import debounce from 'debounce'
-import Vue from 'vue'
-import logger from '../../../../logger.ts'
-
-Vue.directive('elementVisibility', vElementVisibility)
-
-// Items to render before and after the visible area
-const bufferItems = 3
-
-export default Vue.extend({
-	name: 'VirtualList',
-
-	props: {
-		dataComponent: {
-			type: [Object, Function],
-			required: true,
-		},
-
-		dataKey: {
-			type: String,
-			required: true,
-		},
-
-		dataSources: {
-			type: Array,
-			required: true,
-		},
-
-		itemHeight: {
-			type: Number,
-			required: true,
-		},
-
-		extraProps: {
-			type: Object,
-			default: () => ({}),
-		},
-	},
-
-	data() {
-		return {
-			bufferItems,
-			index: 0,
-			headerHeight: 0,
-			tableHeight: 0,
-			resizeObserver: null as ResizeObserver | null,
-		}
-	},
-
-	computed: {
-		startIndex() {
-			return Math.max(0, this.index - bufferItems)
-		},
-
-		shownItems() {
-			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + bufferItems * 2
-		},
-
-		renderedItems() {
-			return this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems)
-		},
-
-		tbodyStyle() {
-			const isOverScrolled = this.startIndex + this.shownItems > this.dataSources.length
-			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
-			const hiddenAfterItems = Math.min(this.dataSources.length - this.startIndex, lastIndex)
-			return {
-				paddingTop: `${this.startIndex * this.itemHeight}px`,
-				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
-			}
-		},
-	},
-
-	mounted() {
-		const root = this.$el as HTMLElement
-		const tfoot = this.$refs?.tfoot as HTMLElement
-		const thead = this.$refs?.thead as HTMLElement
-
-		this.resizeObserver = new ResizeObserver(debounce(() => {
-			this.headerHeight = thead?.clientHeight ?? 0
-			this.tableHeight = root?.clientHeight ?? 0
-			logger.debug('VirtualList resizeObserver updated')
-			this.onScroll()
-		}, 100))
-
-		this.resizeObserver.observe(root)
-		this.resizeObserver.observe(tfoot)
-		this.resizeObserver.observe(thead)
-
-		this.$el.addEventListener('scroll', this.onScroll)
-	},
-
-	beforeDestroy() {
-		if (this.resizeObserver) {
-			this.resizeObserver.disconnect()
-		}
-	},
-
-	methods: {
-		handleFooterVisibility(visible: boolean) {
-			if (visible) {
-				this.$emit('scroll-end')
-			}
-		},
-
-		onScroll() {
-			// Max 0 to prevent negative index
-			this.index = Math.max(0, Math.round(this.$el.scrollTop / this.itemHeight))
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .user-list {

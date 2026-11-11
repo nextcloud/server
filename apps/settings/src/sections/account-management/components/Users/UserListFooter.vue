@@ -3,6 +3,42 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { n, t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
+const props = defineProps<{
+	/** Whether more accounts are being loaded */
+	loading: boolean
+	/** The accounts the list shows */
+	filteredUsers: unknown[]
+}>()
+
+const userCount = computed(() => {
+	if (props.loading) {
+		return n(
+			'settings',
+			'{userCount} account …',
+			'{userCount} accounts …',
+			props.filteredUsers.length,
+			{
+				userCount: props.filteredUsers.length,
+			},
+		)
+	}
+	return n(
+		'settings',
+		'{userCount} account',
+		'{userCount} accounts',
+		props.filteredUsers.length,
+		{
+			userCount: props.filteredUsers.length,
+		},
+	)
+})
+</script>
+
 <template>
 	<tr class="footer">
 		<th scope="row">
@@ -12,7 +48,7 @@
 		<td class="footer__cell footer__cell--loading">
 			<NcLoadingIcon
 				v-if="loading"
-				:title="t('settings', 'Loading accounts …')"
+				:name="t('settings', 'Loading accounts …')"
 				:size="32" />
 		</td>
 		<td class="footer__cell footer__cell--count footer__cell--multiline">
@@ -25,65 +61,6 @@
 		</td>
 	</tr>
 </template>
-
-<script lang="ts">
-import {
-	translatePlural as n,
-	translate as t,
-} from '@nextcloud/l10n'
-import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-export default Vue.extend({
-	name: 'UserListFooter',
-
-	components: {
-		NcLoadingIcon,
-	},
-
-	props: {
-		loading: {
-			type: Boolean,
-			required: true,
-		},
-
-		filteredUsers: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	computed: {
-		userCount(): string {
-			if (this.loading) {
-				return this.n(
-					'settings',
-					'{userCount} account …',
-					'{userCount} accounts …',
-					this.filteredUsers.length,
-					{
-						userCount: this.filteredUsers.length,
-					},
-				)
-			}
-			return this.n(
-				'settings',
-				'{userCount} account',
-				'{userCount} accounts',
-				this.filteredUsers.length,
-				{
-					userCount: this.filteredUsers.length,
-				},
-			)
-		},
-	},
-
-	methods: {
-		t,
-		n,
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 @use './shared/styles.scss';
