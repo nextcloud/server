@@ -5,43 +5,23 @@
 
 // Shared scaffolding for the NewUserDialog / EditUserDialog specs. The mount
 // factories stay per-spec (they differ in props, store state, and mocks);
-// only the version-agnostic stubs and helpers live here.
+// only the stubs live here.
 //
 // The dialogs use `<script setup>`, so child components resolve from local
 // imports. VTU's `stubs` don't reach them, so each spec swaps them with
 // `vi.mock`; the store comes from a testing pinia passed to `mount`. Stubs are
 // render functions, not `template`: the runtime-only test build has no compiler.
 
-// Minimal local typings so the stubs don't depend on a particular Vue version's
-// type exports (the IDE resolves bare `vue` to the Vue 3 types).
-type StubChild = unknown
-type CreateElement = (tag: string, data?: Record<string, unknown> | StubChild[], children?: StubChild[]) => StubChild
-interface StubVm {
-	$attrs: Record<string, string>
-	$scopedSlots: Record<string, ((props: object) => StubChild) | undefined>
-}
-
-// The dialogs translate via the imported `translate`, but some helpers still
-// call the bare globals. Provide identity stand-ins on import.
-globalThis.t = (_app: string, text: string) => text
-globalThis.n = (_app: string, singular: string, plural: string, count: number) => (count === 1 ? singular : plural)
-
-/**
- * Let pending microtasks (awaited promises) settle.
- *
- * Defined locally rather than imported from `@vue/test-utils`: the v1 (legacy
- * Vue 2) pipeline these specs also run under does not export flushPromises.
- */
-export const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
+import { h } from 'vue'
 
 /** Stub that records the props NcDialog receives and renders both slots. */
 export const NcDialogStub = {
 	name: 'NcDialog',
 	props: ['name', 'size', 'noClose', 'closeOnClickOutside', 'outTransition'],
-	render(this: StubVm, h: CreateElement) {
+	render() {
 		return h('div', [
-			this.$scopedSlots.default?.({}),
-			h('div', { attrs: { 'data-test': 'actions' } }, [this.$scopedSlots.actions?.({})]),
+			this.$slots.default?.(),
+			h('div', { 'data-test': 'actions' }, [this.$slots.actions?.()]),
 		])
 	},
 }
@@ -50,10 +30,10 @@ export const NcDialogStub = {
 export const NcButtonStub = {
 	name: 'NcButton',
 	inheritAttrs: false,
-	render(this: StubVm, h: CreateElement) {
-		return h('button', { attrs: this.$attrs }, [
-			this.$scopedSlots.icon?.({}),
-			this.$scopedSlots.default?.({}),
+	render() {
+		return h('button', this.$attrs, [
+			this.$slots.icon?.(),
+			this.$slots.default?.(),
 		])
 	},
 }
@@ -62,5 +42,5 @@ export const NcButtonStub = {
 export const UserFormFieldsStub = {
 	name: 'UserFormFields',
 	methods: { focusField() {} },
-	render: (h: CreateElement) => h('div'),
+	render: () => h('div'),
 }

@@ -3,157 +3,41 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<tr
-		class="user-list__row"
-		:data-cy-user-row="user.id">
-		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
-			<NcLoadingIcon
-				v-if="isLoadingUser"
-				:name="t('settings', 'Loading account …')"
-				:size="32" />
-			<NcAvatar
-				v-else-if="visible"
-				disableMenu
-				hideStatus
-				:user="user.id" />
-		</td>
-
-		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
-			<strong
-				v-if="!isObfuscated"
-				:title="user.displayname?.length > 20 ? user.displayname : undefined">
-				{{ user.displayname }}
-			</strong>
-		</td>
-
-		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
-			<span class="row__subtitle">{{ user.id }}</span>
-		</td>
-
-		<td class="row__cell" data-cy-user-list-cell-email>
-			<span
-				v-if="!isObfuscated"
-				:title="user.email && user.email.length > 20 ? user.email : undefined">
-				{{ user.email }}
-			</span>
-		</td>
-
-		<td class="row__cell row__cell--groups row__cell--multiline" data-cy-user-list-cell-groups>
-			<span
-				v-if="!isObfuscated"
-				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : undefined">
-				{{ userGroupsLabels }}
-			</span>
-		</td>
-
-		<td
-			v-if="settings.isAdmin || settings.isDelegatedAdmin"
-			data-cy-user-list-cell-subadmins
-			class="row__cell row__cell--large row__cell--multiline">
-			<span
-				v-if="!isObfuscated"
-				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : undefined">
-				{{ userSubAdminGroupsLabels }}
-			</span>
-		</td>
-
-		<td class="row__cell" data-cy-user-list-cell-quota>
-			<template v-if="!isObfuscated">
-				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
-				<NcProgressBar
-					:aria-labelledby="'quota-progress' + uniqueId"
-					class="row__progress"
-					:class="{
-						'row__progress--warn': usedQuota > 80,
-					}"
-					:value="usedQuota" />
-			</template>
-		</td>
-
-		<td
-			v-if="showConfig.showLanguages"
-			class="row__cell row__cell--large"
-			data-cy-user-list-cell-language>
-			<span v-if="!isObfuscated">
-				{{ userLanguage.name }}
-			</span>
-		</td>
-
-		<td
-			v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-			data-cy-user-list-cell-storage-location
-			class="row__cell row__cell--large">
-			<template v-if="!isObfuscated">
-				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
-				<span
-					v-if="showConfig.showStoragePath"
-					:title="user.storageLocation"
-					class="row__subtitle">
-					{{ user.storageLocation }}
-				</span>
-			</template>
-		</td>
-
-		<td
-			v-if="showConfig.showFirstLogin"
-			class="row__cell"
-			data-cy-user-list-cell-first-login>
-			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
-		</td>
-
-		<td
-			v-if="showConfig.showLastLogin"
-			:title="userLastLoginTooltip"
-			class="row__cell"
-			data-cy-user-list-cell-last-login>
-			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
-		</td>
-
-		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
-			<span v-if="!isObfuscated">
-				{{ user.manager }}
-			</span>
-		</td>
-
-		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
-			<UserRowActions
-				v-if="visible && !isObfuscated && canEdit && !loading.all"
-				:actions="userActions"
-				:disabled="isLoadingField"
-				:user="user"
-				@update:edit="toggleEdit" />
-		</td>
-	</tr>
-</template>
-
 <script setup lang="ts">
-import type { ServerData } from '../../store/users.ts'
-import type { IUser, UserAction } from '../../../../views/user-types.d.ts'
 import type { LanguageOption, QuotaOption } from '../../../../components/Users/userFormUtils.ts'
+import type { IUser, UserAction } from '../../../../views/user-types.d.ts'
+import type { ServerData } from '../../store/users.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess } from '@nextcloud/dialogs'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import { useFormatTime } from '@nextcloud/vue'
+import { useFormatTime } from '@nextcloud/vue/composables/useFormatDateTime'
 import { computed, reactive } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import UserRowActions from './UserRowActions.vue'
-import { useUsersStore } from '../../store/users.ts'
 import { isObfuscated as isObfuscatedUser } from '../../../../utils/userUtils.ts'
+import { useUsersStore } from '../../store/users.ts'
 
 const props = withDefaults(defineProps<{
+	/** The account of this row */
 	user: IUser
+	/** Whether the row is in view, hidden rows skip expensive parts */
 	visible: boolean
+	/** All loaded accounts */
 	users: IUser[]
+	/** Quota presets to pick from */
 	quotaOptions: QuotaOption[]
+	/** Languages grouped into common and other ones */
 	languages: { languages: LanguageOption[] }[]
+	/** Server settings for the current user */
 	settings: ServerData
+	/** Account actions registered by other apps */
 	externalActions?: UserAction[]
+	/** Opens the edit dialog for an account */
 	onEditUser?: ((user: IUser) => void) | null
 }>(), {
 	externalActions: () => [],
@@ -324,7 +208,12 @@ function toggleEdit() {
  */
 async function wipeUserDevices() {
 	const userid = props.user.id
-	await confirmPassword()
+	try {
+		await confirmPassword()
+	} catch {
+		// cancelled, nothing to do
+		return
+	}
 	OC.dialogs.confirmDestructive(
 		t(
 			'settings',
@@ -359,7 +248,12 @@ async function wipeUserDevices() {
  */
 async function deleteUser() {
 	const userid = props.user.id
-	await confirmPassword()
+	try {
+		await confirmPassword()
+	} catch {
+		// cancelled, nothing to do
+		return
+	}
 	OC.dialogs.confirmDestructive(
 		t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
 		t('settings', 'Account deletion'),
@@ -414,6 +308,130 @@ function sendWelcomeMail() {
 		})
 }
 </script>
+
+<template>
+	<tr
+		class="user-list__row"
+		:data-cy-user-row="user.id">
+		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
+			<NcLoadingIcon
+				v-if="isLoadingUser"
+				:name="t('settings', 'Loading account …')"
+				:size="32" />
+			<NcAvatar
+				v-else-if="visible"
+				disableMenu
+				hideStatus
+				:user="user.id" />
+		</td>
+
+		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
+			<strong
+				v-if="!isObfuscated"
+				:title="user.displayname?.length > 20 ? user.displayname : undefined">
+				{{ user.displayname }}
+			</strong>
+		</td>
+
+		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
+			<span class="row__subtitle">{{ user.id }}</span>
+		</td>
+
+		<td class="row__cell" data-cy-user-list-cell-email>
+			<span
+				v-if="!isObfuscated"
+				:title="user.email && user.email.length > 20 ? user.email : undefined">
+				{{ user.email }}
+			</span>
+		</td>
+
+		<td class="row__cell row__cell--groups row__cell--multiline" data-cy-user-list-cell-groups>
+			<span
+				v-if="!isObfuscated"
+				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : undefined">
+				{{ userGroupsLabels }}
+			</span>
+		</td>
+
+		<td
+			v-if="settings.isAdmin || settings.isDelegatedAdmin"
+			data-cy-user-list-cell-subadmins
+			class="row__cell row__cell--large row__cell--multiline">
+			<span
+				v-if="!isObfuscated"
+				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : undefined">
+				{{ userSubAdminGroupsLabels }}
+			</span>
+		</td>
+
+		<td class="row__cell" data-cy-user-list-cell-quota>
+			<template v-if="!isObfuscated">
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar
+					:aria-labelledby="'quota-progress' + uniqueId"
+					class="row__progress"
+					:class="{
+						'row__progress--warn': usedQuota > 80,
+					}"
+					:value="usedQuota" />
+			</template>
+		</td>
+
+		<td
+			v-if="showConfig.showLanguages"
+			class="row__cell row__cell--large"
+			data-cy-user-list-cell-language>
+			<span v-if="!isObfuscated">
+				{{ userLanguage.name }}
+			</span>
+		</td>
+
+		<td
+			v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+			data-cy-user-list-cell-storage-location
+			class="row__cell row__cell--large">
+			<template v-if="!isObfuscated">
+				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
+				<span
+					v-if="showConfig.showStoragePath"
+					:title="user.storageLocation"
+					class="row__subtitle">
+					{{ user.storageLocation }}
+				</span>
+			</template>
+		</td>
+
+		<td
+			v-if="showConfig.showFirstLogin"
+			class="row__cell"
+			data-cy-user-list-cell-first-login>
+			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
+		</td>
+
+		<td
+			v-if="showConfig.showLastLogin"
+			:title="userLastLoginTooltip"
+			class="row__cell"
+			data-cy-user-list-cell-last-login>
+			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
+		</td>
+
+		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
+			<span v-if="!isObfuscated">
+				{{ user.manager }}
+			</span>
+		</td>
+
+		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
+			<UserRowActions
+				v-if="visible && !isObfuscated && canEdit && !loading.all"
+				:actions="userActions"
+				:disabled="isLoadingField"
+				:user="user"
+				@update:edit="toggleEdit" />
+		</td>
+	</tr>
+</template>
 
 <style lang="scss" scoped>
 @use './shared/styles.scss';

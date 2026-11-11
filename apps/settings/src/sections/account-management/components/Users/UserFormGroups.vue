@@ -3,64 +3,23 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="user-form-groups">
-		<div class="user-form__item">
-			<NcSelect
-				v-model="formData.groups"
-				class="user-form__select"
-				data-test="groups"
-				:inputLabel="groupsLabel"
-				:placeholder="t('settings', 'Set account groups')"
-				:disabled="creatingGroup"
-				:options="availableGroups"
-				label="name"
-				keepOpen
-				:multiple="true"
-				:taggable="settings.isAdmin || settings.isDelegatedAdmin"
-				:required="!settings.isAdmin && !settings.isDelegatedAdmin"
-				:createOption="(value) => ({ id: value, name: value, isCreating: true })"
-				@search="searchGroups"
-				@option:created="createGroup" />
-		</div>
-
-		<div
-			v-if="settings.isAdmin || settings.isDelegatedAdmin"
-			class="user-form__item">
-			<NcSelect
-				v-model="formData.subadminGroups"
-				class="user-form__select"
-				:inputLabel="t('settings', 'Admin of the following groups')"
-				:placeholder="t('settings', 'Set account as admin for …')"
-				:disabled="creatingGroup"
-				:options="availableSubAdminGroups"
-				keepOpen
-				:multiple="true"
-				label="name"
-				@search="searchGroups" />
-		</div>
-	</div>
-</template>
-
 <script setup lang="ts">
 import type { IGroup } from '../../../../views/user-types.d.ts'
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, inject, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { isSelectableGroup } from '../../../../components/Users/userFormUtils.ts'
 import logger from '../../../../logger.ts'
-import { searchGroups as searchGroupsApi } from '../../../../service/groups.ts'
+import { useGroupSearch } from '../../composables/useGroupSearch.ts'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
-import { isSelectableGroup } from '../../../../components/Users/userFormUtils.ts'
 
 const usersStore = useUsersStore()
 
 const formData = inject(formDataKey)!
 
 const creatingGroup = ref(false)
-// Kept so a new search can cancel the in-flight one.
-let promise: ReturnType<typeof searchGroupsApi> | null = null
 
 const settings = computed(() => usersStore.serverData)
 
@@ -79,31 +38,41 @@ const groupsLabel = computed(() => !settings.value.isAdmin && !settings.value.is
 	: t('settings', 'Member of the following groups'))
 
 /**
- * Search groups from the backend and add them to the store.
- *
- * @param query The current search string
- * @param toggleLoading NcSelect callback to toggle its spinner
+ * Create the search handler of one select, each select needs its own so
+ * their searches don't abort each other.
  */
-async function searchGroups(query: string, toggleLoading: (loading: boolean) => void) {
-	if (!settings.value.isAdmin && !settings.value.isDelegatedAdmin) {
-		return
-	}
-	if (promise) {
-		promise.cancel()
-	}
-	toggleLoading(true)
-	try {
-		promise = searchGroupsApi({ search: query, offset: 0, limit: 25 })
-		const groups = await promise
-		for (const group of groups) {
-			usersStore.addGroup(group)
+function createGroupSearchHandler() {
+	const searchLatestGroups = useGroupSearch()
+
+	/**
+	 * Search groups from the backend and add them to the store.
+	 *
+	 * @param query The current search string
+	 * @param toggleLoading NcSelect callback to toggle its spinner
+	 */
+	return async function searchGroups(query: string, toggleLoading: (loading: boolean) => void) {
+		if (!settings.value.isAdmin && !settings.value.isDelegatedAdmin) {
+			return
 		}
-	} catch (error) {
-		logger.error(t('settings', 'Failed to search groups'), { error })
+		toggleLoading(true)
+		try {
+			const groups = await searchLatestGroups({ search: query, offset: 0, limit: 25 })
+			if (groups === null) {
+				// a newer search took over and resets the state itself
+				return
+			}
+			for (const group of groups) {
+				usersStore.addGroup(group)
+			}
+		} catch (error) {
+			logger.error(t('settings', 'Failed to search groups'), { error })
+		}
+		toggleLoading(false)
 	}
-	promise = null
-	toggleLoading(false)
 }
+
+const searchMemberGroups = createGroupSearchHandler()
+const searchSubAdminGroups = createGroupSearchHandler()
 
 /**
  * Create a tagged group and add it to the selection.
@@ -123,6 +92,45 @@ async function createGroup({ name: gid }: { name: string }) {
 	creatingGroup.value = false
 }
 </script>
+
+<template>
+	<div class="user-form-groups">
+		<div class="user-form__item">
+			<NcSelect
+				v-model="formData.groups"
+				class="user-form__select"
+				data-test="groups"
+				:inputLabel="groupsLabel"
+				:placeholder="t('settings', 'Set account groups')"
+				:disabled="creatingGroup"
+				:options="availableGroups"
+				label="name"
+				keepOpen
+				:multiple="true"
+				:taggable="settings.isAdmin || settings.isDelegatedAdmin"
+				:required="!settings.isAdmin && !settings.isDelegatedAdmin"
+				:createOption="(value) => ({ id: value, name: value, isCreating: true })"
+				@search="searchMemberGroups"
+				@option:created="createGroup" />
+		</div>
+
+		<div
+			v-if="settings.isAdmin || settings.isDelegatedAdmin"
+			class="user-form__item">
+			<NcSelect
+				v-model="formData.subadminGroups"
+				class="user-form__select"
+				:inputLabel="t('settings', 'Admin of the following groups')"
+				:placeholder="t('settings', 'Set account as admin for …')"
+				:disabled="creatingGroup"
+				:options="availableSubAdminGroups"
+				keepOpen
+				:multiple="true"
+				label="name"
+				@search="searchSubAdminGroups" />
+		</div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .user-form-groups {

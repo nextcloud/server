@@ -3,6 +3,34 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { UserAction } from '../../../../views/user-types.d.ts'
+
+import { mdiPencilOutline } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import isSvg from 'is-svg'
+import { computed } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+
+const props = defineProps<{
+	/** Actions of the menu */
+	actions: readonly UserAction[]
+	/** Disable the actions, e.g. while the row is saving */
+	disabled: boolean
+	/** The account the actions run for */
+	user: Record<string, unknown>
+}>()
+
+defineEmits<{
+	/** The edit dialog should open */
+	'update:edit': [value: boolean]
+}>()
+
+const enabledActions = computed<UserAction[]>(() => props.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(props.user) : true))
+</script>
+
 <template>
 	<NcActions
 		:aria-label="t('settings', 'Toggle account actions menu')"
@@ -14,7 +42,7 @@
 			@click="$emit('update:edit', true)">
 			{{ t('settings', 'Edit') }}
 			<template #icon>
-				<NcIconSvgWrapper :svg="SvgPencil" aria-hidden="true" />
+				<NcIconSvgWrapper :path="mdiPencilOutline" />
 			</template>
 		</NcActionButton>
 		<NcActionButton
@@ -32,27 +60,3 @@
 		</NcActionButton>
 	</NcActions>
 </template>
-
-<script setup lang="ts">
-import type { UserAction } from '../../../../views/user-types.d.ts'
-
-import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
-import { translate as t } from '@nextcloud/l10n'
-import isSvg from 'is-svg'
-import { computed } from 'vue'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
-const props = defineProps<{
-	actions: readonly UserAction[]
-	disabled: boolean
-	user: Record<string, unknown>
-}>()
-
-defineEmits<{
-	'update:edit': [value: boolean]
-}>()
-
-const enabledActions = computed<UserAction[]>(() => props.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(props.user) : true))
-</script>

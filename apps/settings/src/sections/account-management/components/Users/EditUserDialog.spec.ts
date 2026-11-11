@@ -6,15 +6,15 @@
 import type { TestingPinia } from '@pinia/testing'
 
 import { createTestingPinia } from '@pinia/testing'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 // `<script setup>` children are invisible to VTU stubs, so swap them via
 // `vi.mock` (see dialogTestHelpers).
-const { confirmPassword } = vi.hoisted(() => ({ confirmPassword: vi.fn() }))
+const { confirmPassword, showError } = vi.hoisted(() => ({ confirmPassword: vi.fn(), showError: vi.fn() }))
 
 vi.mock('@nextcloud/password-confirmation', () => ({ confirmPassword }))
-vi.mock('@nextcloud/dialogs', () => ({ showError: vi.fn(), showSuccess: vi.fn() }))
+vi.mock('@nextcloud/dialogs', () => ({ showError, showSuccess: vi.fn() }))
 vi.mock('@nextcloud/vue/components/NcDialog', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcDialogStub }))
 vi.mock('@nextcloud/vue/components/NcButton', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcButtonStub }))
 vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogTestHelpers.ts')).UserFormFieldsStub }))
@@ -41,18 +41,18 @@ vi.mock('../../../../components/Users/userFormUtils.ts', async (importActual) =>
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import EditUserDialog from './EditUserDialog.vue'
 import { useUsersStore } from '../../store/users.ts'
-import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
+import { NcDialogStub } from './dialogTestHelpers.ts'
 
 let pinia: TestingPinia
 let store: ReturnType<typeof useUsersStore>
 
 function mountDialog() {
 	return mount(EditUserDialog, {
-		propsData: {
+		props: {
 			user: { id: 'bob', backendCapabilities: { setPassword: true } },
 			quotaOptions: [],
 		},
-		pinia,
+		global: { plugins: [pinia] },
 	})
 }
 
@@ -124,5 +124,17 @@ describe('EditUserDialog loading feedback', () => {
 		await wrapper.find('form').trigger('submit')
 
 		expect(dialog.props('noClose')).toBe(true)
+	})
+
+	it('stops quietly when the password dialog is cancelled', async () => {
+		confirmPassword.mockRejectedValue(new Error('cancelled'))
+		const wrapper = mountDialog()
+
+		await wrapper.find('form').trigger('submit')
+		await flushPromises()
+
+		expect(store.editUserMultiField).not.toHaveBeenCalled()
+		expect(showError).not.toHaveBeenCalled()
+		expect(wrapper.findComponent(NcDialogStub).props('noClose')).toBe(false)
 	})
 })

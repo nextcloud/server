@@ -3,6 +3,85 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
+
+import { t } from '@nextcloud/l10n'
+import { computed, inject, ref } from 'vue'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import UserFormGroups from './UserFormGroups.vue'
+import UserFormLanguage from './UserFormLanguage.vue'
+import UserFormManager from './UserFormManager.vue'
+import UserFormQuota from './UserFormQuota.vue'
+import { useUsersStore } from '../../store/users.ts'
+import { formDataKey } from './injectionKeys.ts'
+
+interface FieldConfig {
+	username?: { show?: boolean, disabled?: boolean, label?: string, required?: boolean }
+	password?: { show?: boolean, label?: string, required?: boolean }
+	email?: { label?: string, required?: boolean }
+	showPasswordEmailHint?: boolean
+}
+
+const props = withDefaults(defineProps<{
+	/** Quota presets to pick from */
+	quotaOptions: QuotaOption[]
+	/** Labels and required state per field */
+	fieldConfig?: FieldConfig
+	/** Server-side validation errors by field */
+	errors?: Record<string, string>
+}>(), {
+	fieldConfig: () => ({}),
+	errors: () => ({}),
+})
+
+const usersStore = useUsersStore()
+
+const formData = inject(formDataKey)!
+
+const username = ref<{ focus?: () => void } | null>(null)
+const password = ref<{ focus?: () => void } | null>(null)
+
+const minPasswordLength = computed(() => usersStore.minPasswordLength)
+
+/**
+ * Customize the browser-native constraint validation message.
+ *
+ * @param event Input/blur event from the underlying input element
+ */
+function updateUsernameValidity(event: Event) {
+	const input = event.target as HTMLInputElement | null
+	if (!input) {
+		return
+	}
+
+	// Clear first so native constraint flags are evaluated without a stale customError.
+	input.setCustomValidity('')
+	if (input.validity.patternMismatch) {
+		input.setCustomValidity(t('settings', 'Only letters, numbers, spaces, and _.@-\' are allowed'))
+	}
+}
+
+// Errors not bound to a dedicated input, shown in the catch-all live region.
+const unhandledErrors = computed(() => {
+	const handled = new Set(['displayName', 'password', 'email'])
+	return Object.fromEntries(Object.entries(props.errors).filter(([key]) => !handled.has(key)))
+})
+
+/**
+ * Focus a field. Exposed so the parent dialog can call it on mount or on a 422.
+ *
+ * @param name The field to focus
+ */
+function focusField(name: 'username' | 'password') {
+	const field = name === 'username' ? username : password
+	field.value?.focus?.()
+}
+
+defineExpose({ focusField })
+</script>
+
 <template>
 	<div class="user-form-fields">
 		<!-- Static display for non-editable username (edit dialog) -->
@@ -100,82 +179,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
-
-import { translate as t } from '@nextcloud/l10n'
-import { computed, inject, ref } from 'vue'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import UserFormGroups from './UserFormGroups.vue'
-import UserFormLanguage from './UserFormLanguage.vue'
-import UserFormManager from './UserFormManager.vue'
-import UserFormQuota from './UserFormQuota.vue'
-import { useUsersStore } from '../../store/users.ts'
-import { formDataKey } from './injectionKeys.ts'
-
-interface FieldConfig {
-	username?: { show?: boolean, disabled?: boolean, label?: string, required?: boolean }
-	password?: { show?: boolean, label?: string, required?: boolean }
-	email?: { label?: string, required?: boolean }
-	showPasswordEmailHint?: boolean
-}
-
-const props = withDefaults(defineProps<{
-	quotaOptions: QuotaOption[]
-	fieldConfig?: FieldConfig
-	errors?: Record<string, string>
-}>(), {
-	fieldConfig: () => ({}),
-	errors: () => ({}),
-})
-
-const usersStore = useUsersStore()
-
-const formData = inject(formDataKey)!
-
-const username = ref<{ focus?: () => void } | null>(null)
-const password = ref<{ focus?: () => void } | null>(null)
-
-const minPasswordLength = computed(() => usersStore.minPasswordLength)
-
-/**
- * Customize the browser-native constraint validation message.
- *
- * @param event Input/blur event from the underlying input element
- */
-function updateUsernameValidity(event: Event) {
-	const input = event.target as HTMLInputElement | null
-	if (!input) {
-		return
-	}
-
-	// Clear first so native constraint flags are evaluated without a stale customError.
-	input.setCustomValidity('')
-	if (input.validity.patternMismatch) {
-		input.setCustomValidity(t('settings', 'Only letters, numbers, spaces, and _.@-\' are allowed'))
-	}
-}
-
-// Errors not bound to a dedicated input, shown in the catch-all live region.
-const unhandledErrors = computed(() => {
-	const handled = new Set(['displayName', 'password', 'email'])
-	return Object.fromEntries(Object.entries(props.errors).filter(([key]) => !handled.has(key)))
-})
-
-/**
- * Focus a field. Exposed so the parent dialog can call it on mount or on a 422.
- *
- * @param name The field to focus
- */
-function focusField(name: 'username' | 'password') {
-	const field = name === 'username' ? username : password
-	field.value?.focus?.()
-}
-
-defineExpose({ focusField })
-</script>
 
 <style lang="scss" scoped>
 .user-form-fields {

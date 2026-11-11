@@ -3,80 +3,15 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<Fragment>
-		<NewUserDialog
-			v-if="showConfig.showNewUserForm"
-			:loading="loading"
-			:newUser="newUser"
-			:quotaOptions="quotaOptions"
-			@closing="closeDialog" />
-
-		<EditUserDialog
-			v-if="editingUser"
-			:user="editingUser"
-			:quotaOptions="quotaOptions"
-			@closing="editingUser = null" />
-
-		<NcEmptyContent
-			v-if="filteredUsers.length === 0"
-			class="empty"
-			:name="loading.users ? undefined : t('settings', 'No accounts')">
-			<template #icon>
-				<NcLoadingIcon
-					v-if="loading.users"
-					:name="t('settings', 'Loading accounts …')"
-					:size="64" />
-				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
-			</template>
-		</NcEmptyContent>
-
-		<VirtualList
-			v-else
-			:data-component="UserRow"
-			:data-sources="filteredUsers"
-			data-key="id"
-			data-cy-user-list
-			:itemHeight="rowHeight"
-			:style="style"
-			:extraProps="{
-				users,
-				settings,
-				quotaOptions,
-				languages,
-				externalActions,
-				onEditUser: openEditDialog,
-			}"
-			@scroll-end="handleScrollEnd">
-			<template #before>
-				<caption class="hidden-visually">
-					{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
-				</caption>
-			</template>
-
-			<template #header>
-				<UserListHeader />
-			</template>
-
-			<template #footer>
-				<UserListFooter
-					:loading="loading.users"
-					:filteredUsers="filteredUsers" />
-			</template>
-		</VirtualList>
-	</Fragment>
-</template>
-
 <script setup lang="ts">
-import type { IUser, UserAction } from '../../../views/user-types.d.ts'
 import type { FormData } from '../../../components/Users/userFormUtils.ts'
+import type { IUser, UserAction } from '../../../views/user-types.d.ts'
 
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError, showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, reactive, ref, watch } from 'vue'
-import { Fragment } from 'vue-frag'
-import { useRouter } from 'vue-router/composables'
+import { useRouter } from 'vue-router'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
@@ -87,11 +22,13 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../../../logger.ts'
-import { useUsersStore } from '../store/users.ts'
 import { defaultQuota, unlimitedQuota } from '../../../utils/userUtils.ts'
+import { useUsersStore } from '../store/users.ts'
 
 const props = withDefaults(defineProps<{
+	/** The group or internal view (e.g. `disabled`) to list the accounts of, null for all accounts */
 	selectedGroup?: string | null
+	/** Account actions registered by other apps */
 	externalActions?: UserAction[]
 }>(), {
 	selectedGroup: null,
@@ -117,11 +54,7 @@ const defaultNewUser = Object.freeze({
 const usersStore = useUsersStore()
 const router = useRouter()
 
-const loading = reactive({
-	all: false,
-	groups: false,
-	users: false,
-})
+const loadingUsers = ref(false)
 const newUser = reactive<FormData>({ ...defaultNewUser })
 const editingUser = ref<IUser | null>(null)
 
@@ -210,7 +143,7 @@ async function handleScrollEnd() {
  * Load accounts for the current selection (disabled, recent, or a group).
  */
 async function loadUsers() {
-	loading.users = true
+	loadingUsers.value = true
 	try {
 		if (props.selectedGroup === 'disabled') {
 			await usersStore.getDisabledUsers({
@@ -237,9 +170,9 @@ async function loadUsers() {
 		logger.debug(`${users.value.length} total user(s) loaded`)
 	} catch (error) {
 		logger.error('Failed to load accounts', { error })
-		showError('Failed to load accounts')
+		showError(t('settings', 'Failed to load accounts'))
 	}
-	loading.users = false
+	loadingUsers.value = false
 }
 
 /**
@@ -278,7 +211,6 @@ function initForm() {
 		newUser.language.code = settings.value.defaultLanguage
 	}
 	setNewUserDefaultGroup(props.selectedGroup)
-	loading.all = false
 }
 
 /**
@@ -335,6 +267,67 @@ if (!settings.value.canChangePassword) {
 initForm()
 redirectIfDisabled()
 </script>
+
+<template>
+	<NewUserDialog
+		v-if="showConfig.showNewUserForm"
+		:newUser="newUser"
+		:quotaOptions="quotaOptions"
+		@closing="closeDialog" />
+
+	<EditUserDialog
+		v-if="editingUser"
+		:user="editingUser"
+		:quotaOptions="quotaOptions"
+		@closing="editingUser = null" />
+
+	<NcEmptyContent
+		v-if="filteredUsers.length === 0"
+		class="empty"
+		:name="loadingUsers ? undefined : t('settings', 'No accounts')">
+		<template #icon>
+			<NcLoadingIcon
+				v-if="loadingUsers"
+				:name="t('settings', 'Loading accounts …')"
+				:size="64" />
+			<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
+		</template>
+	</NcEmptyContent>
+
+	<VirtualList
+		v-else
+		:dataComponent="UserRow"
+		:dataSources="filteredUsers"
+		dataKey="id"
+		data-cy-user-list
+		:itemHeight="rowHeight"
+		:style="style"
+		:extraProps="{
+			users,
+			settings,
+			quotaOptions,
+			languages,
+			externalActions,
+			onEditUser: openEditDialog,
+		}"
+		@scrollEnd="handleScrollEnd">
+		<template #before>
+			<caption class="hidden-visually">
+				{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
+			</caption>
+		</template>
+
+		<template #header>
+			<UserListHeader />
+		</template>
+
+		<template #footer>
+			<UserListFooter
+				:loading="loadingUsers"
+				:filteredUsers="filteredUsers" />
+		</template>
+	</VirtualList>
+</template>
 
 <style lang="scss" scoped>
 @use './Users/shared/styles.scss' as *;

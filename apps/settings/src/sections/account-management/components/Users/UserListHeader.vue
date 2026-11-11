@@ -3,6 +3,17 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import { useUsersStore } from '../../store/users.ts'
+
+const usersStore = useUsersStore()
+
+const showConfig = computed(() => usersStore.showConfig)
+const settings = computed(() => usersStore.serverData)
+</script>
+
 <template>
 	<tr class="header">
 		<th
@@ -106,36 +117,6 @@
 		</th>
 	</tr>
 </template>
-
-<script lang="ts">
-import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
-import { useUsersStore } from '../../store/users.ts'
-
-export default Vue.extend({
-	name: 'UserListHeader',
-
-	setup() {
-		return {
-			usersStore: useUsersStore(),
-		}
-	},
-
-	computed: {
-		showConfig() {
-			return this.usersStore.showConfig
-		},
-
-		settings() {
-			return this.usersStore.serverData
-		},
-	},
-
-	methods: {
-		t,
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 @use './shared/styles.scss';

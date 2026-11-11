@@ -3,67 +3,32 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<NcDialog
-		class="edit-dialog"
-		size="small"
-		:name="t('settings', 'Edit account')"
-		outTransition
-		:noClose="saving"
-		@closing="$emit('closing')">
-		<form
-			id="edit-user-form"
-			class="edit-dialog__form"
-			data-test="form"
-			:inert="saving"
-			:aria-busy="saving ? 'true' : 'false'"
-			@submit.prevent="save">
-			<UserFormFields
-				:fieldConfig="fieldConfig"
-				:errors="fieldErrors"
-				:quotaOptions="quotaOptions" />
-		</form>
-
-		<template #actions>
-			<NcButton
-				class="edit-dialog__submit"
-				data-test="submit"
-				form="edit-user-form"
-				variant="primary"
-				type="submit"
-				:aria-disabled="saving ? 'true' : 'false'">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon />
-				</template>
-				{{ saving ? t('settings', 'Saving\u00A0…') : t('settings', 'Save') }}
-			</NcButton>
-		</template>
-	</NcDialog>
-</template>
-
 <script setup lang="ts">
-import type { IUser } from '../../../../views/user-types.d.ts'
 import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
+import type { IUser } from '../../../../views/user-types.d.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { computed, provide, reactive, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
+import { diffPayload, userToFormData } from '../../../../components/Users/userFormUtils.ts'
 import logger from '../../../../logger.ts'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
-import { diffPayload, userToFormData } from '../../../../components/Users/userFormUtils.ts'
 
 const props = defineProps<{
+	/** The account to edit */
 	user: IUser
+	/** Quota presets to pick from */
 	quotaOptions: QuotaOption[]
 }>()
 
 const emit = defineEmits<{
+	/** The dialog was closed */
 	closing: []
 }>()
 
@@ -117,6 +82,12 @@ async function save() {
 	saving.value = true
 	try {
 		await confirmPassword()
+	} catch {
+		// cancelled, nothing to do
+		saving.value = false
+		return
+	}
+	try {
 		await usersStore.editUserMultiField({
 			userid: props.user.id,
 			payload,
@@ -137,6 +108,44 @@ async function save() {
 	}
 }
 </script>
+
+<template>
+	<NcDialog
+		class="edit-dialog"
+		size="small"
+		:name="t('settings', 'Edit account')"
+		outTransition
+		:noClose="saving"
+		@closing="emit('closing')">
+		<form
+			id="edit-user-form"
+			class="edit-dialog__form"
+			data-test="form"
+			:inert="saving"
+			:aria-busy="saving ? 'true' : 'false'"
+			@submit.prevent="save">
+			<UserFormFields
+				:fieldConfig="fieldConfig"
+				:errors="fieldErrors"
+				:quotaOptions="quotaOptions" />
+		</form>
+
+		<template #actions>
+			<NcButton
+				class="edit-dialog__submit"
+				data-test="submit"
+				form="edit-user-form"
+				variant="primary"
+				type="submit"
+				:aria-disabled="saving ? 'true' : 'false'">
+				<template v-if="saving" #icon>
+					<NcLoadingIcon />
+				</template>
+				{{ saving ? t('settings', 'Saving\u00A0…') : t('settings', 'Save') }}
+			</NcButton>
+		</template>
+	</NcDialog>
+</template>
 
 <style lang="scss" scoped>
 .edit-dialog {
