@@ -99,22 +99,31 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
-	 * Select the rendering font based on the user's display name and language
+	 * Font file for each character of the avatar initials.
+	 *
+	 * @return list<string>
 	 */
-	private function getFont(string $userDisplayName): string {
-		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
-			switch ($this->getAvatarLanguage()) {
-				case 'zh_TW':
-					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
-				case 'zh_HK':
-					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
-				case 'ja':
-					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
-				case 'ko':
-					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
-				default:
-					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
-			}
+	private function getAvatarFonts(string $text): array {
+		$fonts = [];
+		foreach (mb_str_split($text) as $character) {
+			$fonts[] = $this->getCharacterFont($character);
+		}
+		return $fonts;
+	}
+
+	/**
+	 * Bundled font for one character, chosen from its Unicode script.
+	 * Han code points are shared, so the profile language picks that glyph style.
+	 */
+	private function getCharacterFont(string $character): string {
+		if (preg_match('/\p{Hangul}/u', $character) === 1) {
+			return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+		}
+		if (preg_match('/[\p{Hiragana}\p{Katakana}]/u', $character) === 1) {
+			return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+		}
+		if (preg_match('/\p{Han}/u', $character) === 1) {
+			return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
 		}
 		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 	}
@@ -132,8 +141,12 @@ abstract class Avatar implements IAvatar {
 			return null;
 		}
 		$text = $this->getAvatarText();
+		$fonts = $this->getAvatarFonts($text);
+		if (count(array_unique($fonts)) === 0) {
+			return null;
+		}
 		try {
-			$font = $this->getFont($text);
+			$font = $fonts[0];
 			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
@@ -176,14 +189,16 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = $this->getFont($text);
-
-		$fontSize = $size * 0.4;
-		[$x, $y] = $this->imageTTFCenter(
-			$im, $text, $font, (int)$fontSize
-		);
-
-		imagettftext($im, $fontSize, 0, $x, $y, $textColor, $font, $text);
+		$fonts = $this->getAvatarFonts($text);
+		if (count(array_unique($fonts)) === 1) {
+			$fontSize = $size * 0.4;
+			[$x, $y] = $this->imageTTFCenter(
+				$im, $text, $fonts[0], (int)$fontSize
+			);
+			imagettftext($im, $fontSize, 0, $x, $y, $textColor, $fonts[0], $text);
+		} else {
+			$this->drawAvatarInitials($im, $text, $fonts, $size, $textColor);
+		}
 
 		ob_start();
 		imagepng($im);
@@ -191,6 +206,33 @@ abstract class Avatar implements IAvatar {
 		ob_end_clean();
 
 		return $data ?: '';
+	}
+
+	/**
+	 * Draw initials that need more than one font, centered on one baseline.
+	 *
+	 * @param list<string> $fonts font file for each character of $text
+	 */
+	private function drawAvatarInitials(\GdImage $image, string $text, array $fonts, int $size, int $color): void {
+		$fontSize = (int)($size * 0.4);
+		$characters = mb_str_split($text);
+		$widths = [];
+		$ascent = 0;
+		foreach ($characters as $index => $character) {
+			$box = imagettfbbox($fontSize, 0, $fonts[$index], $character);
+			if ($box === false) {
+				throw new \Exception('Failed to measure avatar text');
+			}
+			$widths[] = abs(max($box[2], $box[4]));
+			$ascent = max($ascent, abs(max($box[5], $box[7])));
+		}
+
+		$x = (int)(($size - array_sum($widths)) / 2);
+		$y = (int)(($size + $ascent) / 2);
+		foreach ($characters as $index => $character) {
+			imagettftext($image, $fontSize, 0, $x, $y, $color, $fonts[$index], $character);
+			$x += $widths[$index];
+		}
 	}
 
 	/**
