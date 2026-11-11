@@ -46,8 +46,6 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 		private ISharingManager $manager,
 		private IFileAccess $fileAccess,
 	) {
-		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, self::class);
-		$eventDispatcher->addServiceListener(MoveToTrashEvent::class, self::class);
 	}
 
 	#[\Override]

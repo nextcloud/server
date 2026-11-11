@@ -42,7 +42,6 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		private readonly IDBConnection $dbConnection,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(DestroyingCircleEvent::class, self::class);
 	}
 
 	// CirclesManager class is not registered yet when the class is instantiated.

@@ -77,8 +77,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
-
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
