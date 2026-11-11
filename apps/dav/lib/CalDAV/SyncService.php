@@ -64,7 +64,7 @@ class SyncService extends ASyncService {
 			$objectUri = basename($resource);
 			if (isset($status[200])) {
 				$absoluteUrl = $this->prepareUri($url, $resource);
-				$vCard = $this->download($absoluteUrl, $username, $sharedSecret);
+				$vCard = $this->requestGet($absoluteUrl, $username, $sharedSecret);
 				$existingObject = $this->backend->getCalendarObject($calendar->getId(), $objectUri, CalDavBackend::CALENDAR_TYPE_FEDERATED);
 				if (!$existingObject) {
 					$this->backend->createCalendarObject($calendar->getId(), $objectUri, $vCard, CalDavBackend::CALENDAR_TYPE_FEDERATED);
