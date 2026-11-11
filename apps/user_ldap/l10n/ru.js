@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Проверить базовый DN",
     "Listing and searching for users is constrained by these criteria:" : "Список и поиск пользователей ограничены этими критериями:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Наиболее распространённые классы объектов для пользователей: organizationalPerson, person, user и inetOrgPerson. Если вы не уверены, какой класс выбрать, обратитесь к администратору каталога.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Этот фильтр указывает, какие пользователи LDAP должны иметь доступ к экземпляру {instanceName}.",
     "Verify settings and count users" : "Проверить настройки и пересчитать пользователей",
     "User count: {usersCount}" : "Число пользователей: {usersCount}",
     "Test Configuration" : "Проверить конфигурацию",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "Переключение режима",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Переключение режима включит автоматические запросы LDAP. В зависимости от размера каталога LDAP они могут занять много времени. Переключить режим?",
     "Confirm" : "Подтвердить",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр, применяемый при попытке входа. `%%uid` заменяется именем пользователя в запросе на вход. Пример: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр, применяемый при попытке входа. `%%uid` заменяется именем пользователя в запросе на вход. Пример: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Этот фильтр указывает, какие пользователи LDAP должны иметь доступ к экземпляру {instanceName}."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

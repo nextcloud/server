@@ -159,7 +159,6 @@
     "Test Base DN" : "Vyzkoušet základ DN",
     "Listing and searching for users is constrained by these criteria:" : "Získávání a vyhledávání uživatelů je omezeno následujícími kritérii:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Nejčastější třídy objektů pro uživatele jsou organizationalPerson, person, user a inetOrgPerson. Pokud si nejste jisti které třídy objektů zvolit, obraťte se na správce svého adresáře kontaktů.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr určuje, kteří uživatelé z LDAP mají mít přístup k instanci {instanceName}.",
     "Verify settings and count users" : "Ověřit nastavení a spočítat uživatele",
     "User count: {usersCount}" : "Počet uživatelů: {usersCount}",
     "Test Configuration" : "Vyzkoušet nastavení",
@@ -197,6 +196,7 @@
     "Mode switch" : "Přepnutí režimu",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Přepnutí režimu povolí automatické LDAP dotazy. V závislosti na velikosti vašeho LDAP může vyhledávání chvíli trvat. Opravdu si přejete přepnout mód?",
     "Confirm" : "Potvrdit",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filtr který použít při pokusu o přihlášení. `%%uid` je nahrazeno uživatelským jménem z přihlašovací akce. Příklad: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filtr který použít při pokusu o přihlášení. `%%uid` je nahrazeno uživatelským jménem z přihlašovací akce. Příklad: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr určuje, kteří uživatelé z LDAP mají mít přístup k instanci {instanceName}."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

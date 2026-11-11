@@ -160,7 +160,6 @@ OC.L10N.register(
     "Test Base DN" : "Ispitaj Base DN",
     "Listing and searching for users is constrained by these criteria:" : "Unošenje i traženje korisnika ograničuje se sljedećim kriterijima:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najčešća klasa objekata za korisnike su organizationalPerson, person, user i inetOrgPerson. Ako niste sigurni koju vrstu objekta odabrati, obratite se administratoru imenika.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtar određuje koji će LDAP korisnici imati pristup instanci {instanceName}.",
     "Verify settings and count users" : "Provjerite postavke i prebrojite korisnike",
     "User count: {usersCount}" : "Broj korisnika: {usersCount}",
     "Test Configuration" : "Ispitaj konfiguraciju",
@@ -198,6 +197,7 @@ OC.L10N.register(
     "Mode switch" : "Prebaci način rada",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Promjena načina rada omogućit će automatske LDAP upite. Ovisno o veličini LDAP-a, upiti mogu potrajati neko duže vrijeme. Želite li još uvijek prebaciti način rada?",
     "Confirm" : "Potvrdi",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definira filtar koji se primjenjuje prilikom prijave. „%%uid” zamjenjuje korisničko tijekom prijave. Primjer: „uid=%%uid”"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definira filtar koji se primjenjuje prilikom prijave. „%%uid” zamjenjuje korisničko tijekom prijave. Primjer: „uid=%%uid”",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtar određuje koji će LDAP korisnici imati pristup instanci {instanceName}."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -158,7 +158,6 @@ OC.L10N.register(
     "Test Base DN" : "سىناق ئاساسى DN",
     "Listing and searching for users is constrained by these criteria:" : "ئابونتلارنى تىزىش ۋە ئىزدەش بۇ ئۆلچەملەر تەرىپىدىن چەكلەنگەن:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "ئىشلەتكۈچىلەر ئۈچۈن ئەڭ كۆپ ئۇچرايدىغان ئوبيېكت سىنىپلىرى تەشكىلىي شەخس ، ئادەم ، ئىشلەتكۈچى ۋە inetOrgPerson. قايسى ئوبيېكت سىنىپىنى تاللاشنى بىلمىسىڭىز مۇندەرىجە باشقۇرغۇچىڭىز بىلەن مەسلىھەتلىشىڭ.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "بۇ سۈزگۈچ قايسى LDAP ئىشلەتكۈچىلەرنىڭ {instanceName} مىسالىغا كىرەلەيدىغانلىقىنى بەلگىلەيدۇ.",
     "Verify settings and count users" : "تەڭشەكلەرنى تەكشۈرۈپ ، ئىشلەتكۈچىنى ساناپ بېقىڭ",
     "User count: {usersCount}" : "ئىشلەتكۈچى سانى: {usersCount}",
     "Test Configuration" : "سىناق سەپلىمىسى",
@@ -194,6 +193,7 @@ OC.L10N.register(
     "Mode switch" : "ھالەت ئالماشتۇرۇش",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "ھالەتنى ئالماشتۇرغاندا ئاپتوماتىك LDAP سوئاللىرىنى قوزغىتىدۇ. LDAP چوڭلۇقىڭىزغا ئاساسەن ئۇلار بىر ئاز ۋاقىت كېتىشى مۇمكىن. سىز يەنىلا ھالەتنى ئالماشتۇرامسىز؟",
     "Confirm" : "جەزملەشتۈرۈڭ",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "كىرىشكە ئۇرۇنغاندا قوللىنىلىدىغان سۈزگۈچنى بەلگىلەيدۇ. كىرىش ھەرىكىتىدىكى ئىشلەتكۈچى ئىسمىنىڭ ئورنىنى `%%uid` ئالىدۇ. مىسال: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "كىرىشكە ئۇرۇنغاندا قوللىنىلىدىغان سۈزگۈچنى بەلگىلەيدۇ. كىرىش ھەرىكىتىدىكى ئىشلەتكۈچى ئىسمىنىڭ ئورنىنى `%%uid` ئالىدۇ. مىسال: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "بۇ سۈزگۈچ قايسى LDAP ئىشلەتكۈچىلەرنىڭ {instanceName} مىسالىغا كىرەلەيدىغانلىقىنى بەلگىلەيدۇ."
 },
 "nplurals=2; plural=(n != 1);");

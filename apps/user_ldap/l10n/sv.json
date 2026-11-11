@@ -163,7 +163,6 @@
     "Test Base DN" : "Testa bas-DN",
     "Listing and searching for users is constrained by these criteria:" : "Listning och sökning efter användare begränsas av följande kriterier:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "De vanligaste objektklasserna för användare är organizationalPerson, person, user och inetOrgPerson. Kontakta katalogadministratören om du är osäker på vilken objektklass du ska välja.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtret anger vilka LDAP-användare som ska ha åtkomst till {instanceName}-instansen.",
     "Verify settings and count users" : "Verifiera inställningar och räkna användare",
     "User count: {usersCount}" : "Antal användare: {usersCount}",
     "Test Configuration" : "Testa konfigurationen",
@@ -189,7 +188,7 @@
     "Current password" : "Nuvarande lösenord",
     "New password" : "Nytt lösenord",
     "Cancel" : "Avbryt",
-    "Renewing…" : "Förnyar …",
+    "Renewing…" : "Förnyar …",
     "Renew password" : "Förnya lösenord",
     "Confirm action" : "Bekräfta åtgärd",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Är du säker på att du vill ta bort den här LDAP-konfigurationen? Detta kan inte ångras.",
@@ -201,6 +200,7 @@
     "Mode switch" : "Lägesbyte",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Om du byter läge aktiveras automatiska LDAP-frågor. Beroende på LDAP-katalogens storlek kan de ta en stund. Vill du ändå byta läge?",
     "Confirm" : "Bekräfta",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Anger filtret som används vid inloggningsförsök. `%%uid` ersätts med användarnamnet vid inloggningen. Exempel: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Anger filtret som används vid inloggningsförsök. `%%uid` ersätts med användarnamnet vid inloggningen. Exempel: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtret anger vilka LDAP-användare som ska ha åtkomst till {instanceName}-instansen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
