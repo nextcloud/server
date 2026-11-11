@@ -10,6 +10,16 @@ declare(strict_types=1);
 namespace OCA\Dashboard;
 
 /**
+ * @psalm-type DashboardTeamWidget = array{
+ *     id: string,
+ *     title: string,
+ *     order: int,
+ *     icon_url: string,
+ *     icon_class: string,
+ *     item_icons_round: bool,
+ * }
+ * @psalm-type DashboardTeamWidgetResult = array{status: 'unavailable'}|array{status: 'error'}|array{status: 'ok', data: DashboardWidgetItems}
+ *
  * @psalm-type DashboardWidget = array{
  *     id: string,
  *     title: string,
