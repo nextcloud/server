@@ -4,6 +4,7 @@
  */
 
 import { expect } from '@playwright/test'
+import { resolve } from 'node:path'
 import { test } from '../../support/fixtures/random-user-session.ts'
 import { UnifiedSearchPage } from '../../support/sections/UnifiedSearchPage.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
@@ -13,14 +14,15 @@ import { uploadContent } from '../../support/utils/dav.ts'
 const TOKEN = 'kbdnav'
 
 test.describe('Header: unified search keyboard navigation', () => {
+	let fileIdsByName: Map<string, string>
+
 	// Seed a few matching files for this test's own user, then land on the Files
 	// app — a page that does not own the Ctrl+F / Ctrl+K shortcut. Read-only per
 	// user, so the specs stay parallel-safe.
 	test.beforeEach(async ({ page, user }) => {
 		const request = page.request
-		await uploadContent(request, user, 'content', 'text/plain', `/${TOKEN}-alpha.txt`)
-		await uploadContent(request, user, 'content', 'text/plain', `/${TOKEN}-bravo.txt`)
-		await uploadContent(request, user, 'content', 'text/plain', `/${TOKEN}-charlie.txt`)
+		const names = [`${TOKEN}-alpha.txt`, `${TOKEN}-bravo.txt`, `${TOKEN}-charlie.txt`]
+		fileIdsByName = new Map(await Promise.all(names.map(async (name) => [name, await uploadContent(request, user, 'content', 'text/plain', `/${name}`)] as const)))
 		await page.goto('apps/files')
 	})
 
@@ -88,10 +90,10 @@ test.describe('Header: unified search keyboard navigation', () => {
 		await search.waitForSettledResults()
 
 		const activeId = await search.activeOptionId()
-		// The row is an NcListItem link to the file's short URL (/f/<id>), which the
-		// server redirects into the Files viewer. Grab the id and assert we land on it.
-		const href = await search.option(activeId).getByRole('link').getAttribute('href')
-		const fileId = href?.match(/\/f\/(\d+)/)?.[1]
+		// The row opens the file's short URL (/f/<id>), which the server redirects
+		// into the Files viewer.
+		const rowText = await search.option(activeId).textContent()
+		const fileId = [...fileIdsByName].find(([name]) => rowText?.includes(name))?.[1]
 		expect(fileId).toBeTruthy()
 
 		// Arm the wait before the key press: the URL is only reached after a
@@ -100,6 +102,18 @@ test.describe('Header: unified search keyboard navigation', () => {
 		const opened = page.waitForURL(new RegExp(`/files/${fileId}(?:[/?]|$)`), { timeout: 15_000 })
 		await page.keyboard.press('Enter')
 		await opened
+	})
+
+	test('result options contain no nested interactive controls', async ({ page }) => {
+		const search = new UnifiedSearchPage(page)
+		await search.input().fill(TOKEN)
+		await search.waitForSettledResults()
+		await expect(search.options().first()).toBeVisible()
+
+		await page.addScriptTag({ path: resolve(process.cwd(), 'node_modules/axe-core/axe.min.js') })
+		const violations = await page.evaluate(async () => (await (window as any).axe.run('#unified-search-results', { runOnly: ['nested-interactive'] })).violations)
+
+		expect(violations).toEqual([])
 	})
 
 	test('Escape closes the open results popover', async ({ page }) => {
