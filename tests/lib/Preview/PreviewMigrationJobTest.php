@@ -157,7 +157,6 @@ class PreviewMigrationJobTest extends TestCase {
 			),
 			Server::get(IJobList::class),
 			$this->logger,
-			$this->db,
 		);
 	}
 
