@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Files\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -20,6 +21,7 @@ use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Template\ITemplateManager;
@@ -40,7 +42,7 @@ class TemplateController extends OCSController {
 		IRequest $request,
 		protected ITemplateManager $templateManager,
 		private IRootFolder $rootFolder,
-		private string $userId,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -58,7 +60,7 @@ class TemplateController extends OCSController {
 		$available = false;
 		if ($path !== '') {
 			try {
-				$folder = $this->rootFolder->getUserFolder($this->userId)->get($path);
+				$folder = $this->getUserFolder()->get($path);
 				$available = $folder instanceof Folder && $folder->isReadable();
 			} catch (NotFoundException|NotPermittedException|InvalidPathException $e) {
 			}
@@ -78,29 +80,40 @@ class TemplateController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function setPath(string $templatePath): DataResponse {
-		if ($templatePath !== '') {
-			try {
-				$userFolder = $this->rootFolder->getUserFolder($this->userId);
-				$folder = $userFolder->get($templatePath);
-				if (!$folder instanceof Folder) {
-					throw new OCSBadRequestException('The template path must be an existing folder');
-				}
-				if (!$folder->isReadable()) {
-					throw new OCSForbiddenException('The template folder must be readable');
-				}
-				$templatePath = $userFolder->getRelativePath($folder->getPath());
-				if ($templatePath === null) {
-					throw new OCSBadRequestException('Invalid template folder');
-				}
-				$templatePath = '/' . trim($templatePath, '/');
-			} catch (NotFoundException|InvalidPathException $e) {
+		if ($templatePath === '') {
+			$this->templateManager->setTemplatePath('');
+			return new DataResponse(['template_path' => '', 'available' => false]);
+		}
+
+		try {
+			$userFolder = $this->getUserFolder();
+			$folder = $userFolder->get($templatePath);
+			if (!$folder instanceof Folder) {
 				throw new OCSBadRequestException('The template path must be an existing folder');
-			} catch (NotPermittedException $e) {
+			}
+			if (!$folder->isReadable()) {
 				throw new OCSForbiddenException('The template folder must be readable');
 			}
+			$relativePath = $userFolder->getRelativePath($folder->getPath());
+			if ($relativePath === null) {
+				throw new OCSBadRequestException('Invalid template folder');
+			}
+		} catch (NotFoundException|InvalidPathException $e) {
+			throw new OCSBadRequestException('The template path must be an existing folder');
+		} catch (NotPermittedException $e) {
+			throw new OCSForbiddenException('The template folder must be readable');
 		}
+
+		$templatePath = '/' . trim($relativePath, '/');
 		$this->templateManager->setTemplatePath($templatePath);
-		return new DataResponse(['template_path' => $templatePath, 'available' => $templatePath !== '']);
+		return new DataResponse(['template_path' => $templatePath, 'available' => true]);
+	}
+
+	private function getUserFolder(): IUserFolder {
+		if ($this->userId === null) {
+			throw new NotLoggedInException();
+		}
+		return $this->rootFolder->getUserFolder($this->userId);
 	}
 
 	/**

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Tests\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Files\Controller\TemplateController;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -16,6 +17,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Template\ITemplateManager;
@@ -27,14 +29,14 @@ use Test\TestCase;
 class TemplateControllerTest extends TestCase {
 	private ITemplateManager&MockObject $manager;
 	private IRootFolder&MockObject $root;
-	private Folder&MockObject $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	private TemplateController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->manager = $this->createMock(ITemplateManager::class);
 		$this->root = $this->createMock(IRootFolder::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->root->method('getUserFolder')->with('alice')->willReturn($this->userFolder);
 		$this->controller = new TemplateController('files', $this->createMock(IRequest::class), $this->manager, $this->root, 'alice');
 		$this->manager->expects(self::never())->method('initializeTemplateDirectory');
@@ -118,5 +120,22 @@ class TemplateControllerTest extends TestCase {
 		$this->userFolder->expects(self::never())->method('get');
 		$this->manager->expects(self::once())->method('setTemplatePath')->with('');
 		self::assertSame(['template_path' => '', 'available' => false], $this->controller->setPath('')->getData());
+	}
+
+	public static function guestCalls(): array {
+		return [
+			'get' => [static fn (TemplateController $controller) => $controller->getPath()],
+			'set' => [static fn (TemplateController $controller) => $controller->setPath('/Templates')],
+		];
+	}
+
+	#[DataProvider('guestCalls')]
+	public function testRequiresLoggedInUser(\Closure $call): void {
+		$this->manager->method('getTemplatePath')->willReturn('/Templates');
+		$this->root->expects(self::never())->method('getUserFolder');
+		$this->manager->expects(self::never())->method('setTemplatePath');
+		$controller = new TemplateController('files', $this->createMock(IRequest::class), $this->manager, $this->root, null);
+		$this->expectException(NotLoggedInException::class);
+		$call($controller);
 	}
 }
