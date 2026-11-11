@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Test base-DN",
     "Listing and searching for users is constrained by these criteria:" : "Visning og søgning efter brugere begrænses af disse kriterier:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "De mest almindelige objektklasser for brugere er organizationalPerson, person, user og inetOrgPerson. Hvis du ikke er sikker på, hvilken objektklasse du skal vælge, så spørg din katalogadministrator.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filteret angiver, hvilke LDAP-brugere der skal have adgang til {instanceName}-instansen.",
     "Verify settings and count users" : "Verificer indstillinger og tæl brugere",
     "User count: {usersCount}" : "Antal brugere: {usersCount}",
     "Test Configuration" : "Test konfiguration",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "Skift tilstand",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Når du skifter tilstand, slås automatiske LDAP-forespørgsler til. Afhængigt af størrelsen på dit LDAP kan de tage et stykke tid. Vil du stadig skifte tilstand?",
     "Confirm" : "Bekræft",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Angiver det filter, der bruges ved forsøg på login. `%%uid` erstatter brugernavnet ved login. Eksempel: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Angiver det filter, der bruges ved forsøg på login. `%%uid` erstatter brugernavnet ved login. Eksempel: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filteret angiver, hvilke LDAP-brugere der skal have adgang til {instanceName}-instansen."
 },
 "nplurals=2; plural=(n != 1);");

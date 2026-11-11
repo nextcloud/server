@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Otestovať základnú DN",
     "Listing and searching for users is constrained by these criteria:" : "Zoznam a vyhľadávanie používateľov je obmedzené týmito kritériami:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najčastejšie triedy objektov pre používateľov sú organizationalPerson, user a inetOrgPerson. Ak si nie ste istí, ktoré triedy máte zvoliť, obráťte sa na správcu LDAP.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr zabezpečuje, ktorí LDAP používatelia budú mať prístup k {instanceName} inštancii.",
     "Verify settings and count users" : "Overiť nastavenia a spočítať používateľov",
     "User count: {usersCount}" : "Počet používateľov: {usersCount}",
     "Test Configuration" : "Test nastavenia",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "Prepínač režimov",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Prepnutie režimu povolí automatické LDAP požiadavky. V závislosti na veľkosti vášho LDAP môže vyhľadávanie chvíľu trvať. Naozaj chcete prepnúť režim?",
     "Confirm" : "Potvrdiť",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtr zabezpečuje, ktorí LDAP používatelia budú mať prístup k {instanceName} inštancii."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
