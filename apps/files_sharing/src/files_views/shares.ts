@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import AccountClockSvg from '@mdi/svg/svg/account-clock-outline.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
@@ -22,7 +21,6 @@ export const sharedWithYouViewId = 'sharingin'
 export const sharedWithOthersViewId = 'sharingout'
 export const sharingByLinksViewId = 'sharinglinks'
 export const deletedSharesViewId = 'deletedshares'
-export const pendingSharesViewId = 'pendingshares'
 export const fileRequestViewId = 'filerequest'
 
 export default () => {
@@ -139,22 +137,5 @@ export default () => {
 		columns: [],
 
 		getContents: () => getContents(false, false, false, true),
-	}))
-
-	Navigation.register(new View({
-		id: pendingSharesViewId,
-		name: t('files_sharing', 'Pending shares'),
-		caption: t('files_sharing', 'List of unapproved shares.'),
-
-		emptyTitle: t('files_sharing', 'No pending shares'),
-		emptyCaption: t('files_sharing', 'Shares you have received but not approved will show up here'),
-
-		icon: AccountClockSvg,
-		order: 6,
-		parent: sharesViewId,
-
-		columns: [],
-
-		getContents: () => getContents(false, false, true, false),
 	}))
 }
