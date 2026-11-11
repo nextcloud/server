@@ -78,6 +78,25 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 	expect(groups).toContain(testGroup)
 })
 
+// ── Rename group ──────────────────────────────────────────────────────────────
+
+userGroupTest('Settings: Rename a group', async ({ page, testGroup }) => {
+	const newName = `Renamed ${testGroup.slice(0, 8)}`
+	const settingsPage = new SettingsUsersPage(page)
+	await settingsPage.open()
+
+	await settingsPage.openGroupActionsMenu(testGroup)
+	const renameRequest = page.waitForResponse((r) => r.request().method() === 'PUT' && r.url().includes(`/ocs/v2.php/cloud/groups/${testGroup}`))
+	const nameInput = page.getByRole('textbox', { name: 'Rename group' })
+	await nameInput.fill(newName)
+	await nameInput.press('Enter')
+	await awaitPasswordGuardedRequest(page, renameRequest)
+
+	await expect(settingsPage.groupListItem(newName)).toBeVisible()
+	await page.reload()
+	await expect(settingsPage.groupListItem(newName)).toBeVisible()
+})
+
 // ── Delete an empty group ─────────────────────────────────────────────────────
 
 test.describe('Settings: Delete an empty group', () => {
