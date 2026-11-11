@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "Testează DN-ul de bază",
     "Listing and searching for users is constrained by these criteria:" : "Listarea și căutarea utilizatorilor sunt restricționate de aceste criterii:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Cele mai comune clase de obiecte pentru utilizatori sunt organizationalPerson, person, user și inetOrgPerson. Dacă nu știi sigur ce clasă de obiecte să selectezi, consultă administratorul directorului.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtrul specifică ce utilizatori LDAP vor avea acces la instanța {instanceName}.",
     "Verify settings and count users" : "Verifică setările și numără utilizatorii",
     "User count: {usersCount}" : "Număr de utilizatori: {usersCount}",
     "Test Configuration" : "Testează configurația",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "Comutare mod",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Comutarea modului va activa interogările LDAP automate. În funcție de dimensiunea LDAP, acestea pot dura ceva timp. Vrei totuși să comuți modul?",
     "Confirm" : "Confirmă",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definește filtrul aplicat la încercarea de autentificare. `%%uid` înlocuiește numele de utilizator în acțiunea de autentificare. Exemplu: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definește filtrul aplicat la încercarea de autentificare. `%%uid` înlocuiește numele de utilizator în acțiunea de autentificare. Exemplu: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filtrul specifică ce utilizatori LDAP vor avea acces la instanța {instanceName}."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

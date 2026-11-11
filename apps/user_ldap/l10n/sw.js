@@ -155,7 +155,6 @@ OC.L10N.register(
     "Test Base DN" : "Jaribio Msingi DN",
     "Listing and searching for users is constrained by these criteria:" : "Kuorodhesha na kutafuta watumiaji kunakabiliwa na vigezo hivi:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Madaraja ya vitu ya kawaida kwa watumiaji ni ya shirika, mtu, mtumiaji, na inetOrgPerson. Ikiwa huna uhakika ni darasa la kitu gani cha kuchagua, tafadhali wasiliana na msimamizi wako wa saraka.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Kichujio kinabainisha ni watumiaji gani wa LDAP wataweza kufikia mfano wa {instanceName}.",
     "Verify settings and count users" : "Thibitisha mipangilio na uhesabu watumiaji",
     "User count: {usersCount}" : "Idadi ya watumiaji: {usersCount}",
     "Test Configuration" : "Usanidi wa Jaribio",
@@ -190,6 +189,7 @@ OC.L10N.register(
     "Mode switch" : "Kubadili hali",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Kubadilisha modi kutawezesha hoja otomatiki za LDAP. Kulingana na saizi yako ya LDAP inaweza kuchukua muda. Je, bado ungependa kubadilisha hali?",
     "Confirm" : "Thibitisha",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Inafafanua kichujio cha kutumia, kuingia unapojaribiwa. `%%uid` inachukua nafasi ya jina la mtumiaji katika kitendo cha kuingia. Mfano: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Inafafanua kichujio cha kutumia, kuingia unapojaribiwa. `%%uid` inachukua nafasi ya jina la mtumiaji katika kitendo cha kuingia. Mfano: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Kichujio kinabainisha ni watumiaji gani wa LDAP wataweza kufikia mfano wa {instanceName}."
 },
 "nplurals=2; plural=(n != 1);");

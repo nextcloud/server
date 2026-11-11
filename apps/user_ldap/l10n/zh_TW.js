@@ -165,7 +165,6 @@ OC.L10N.register(
     "Test Base DN" : "測試 Base DN",
     "Listing and searching for users is constrained by these criteria:" : "列出和搜尋以下條件限定的使用者：",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "使用者最常見的物件類別是 organizationalPerson、person、user、inetOrgPerson 等。如果不確定要選取哪個物件類別，則請諮詢您的目錄管理員。",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "過濾條件指定哪些 LDAP 使用者應具備 {instanceName} 站台的存取權。",
     "Verify settings and count users" : "驗證設定並計算使用者",
     "User count: {usersCount}" : "使用者數量：{usersCount}",
     "Test Configuration" : "測試組態設定",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Mode switch" : "模式切換",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "切換模式將會啟用自動 LDAP 查詢。取決於您的 LDAP 大小，可能需要一些時間。您仍然想要切換模式嗎？",
     "Confirm" : "確認",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要套用的過濾條件。「%%uid」會在登入動作時取代使用者名稱。範例：「uid=%%uid」"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要套用的過濾條件。「%%uid」會在登入動作時取代使用者名稱。範例：「uid=%%uid」",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "過濾條件指定哪些 LDAP 使用者應具備 {instanceName} 站台的存取權。"
 },
 "nplurals=1; plural=0;");
