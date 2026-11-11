@@ -10,7 +10,7 @@ namespace OCP\Files\Search;
 /**
  * @since 12.0.0
  *
- * @psalm-type ParamSingleValue = \DateTime|int|string|bool
+ * @psalm-type ParamSingleValue = \DateTime|int|float|string|bool
  * @psalm-type ParamValue = ParamSingleValue|list<ParamSingleValue>
  */
 interface ISearchComparison extends ISearchOperator {
@@ -96,5 +96,5 @@ interface ISearchComparison extends ISearchOperator {
 	 * @return ParamValue
 	 * @since 12.0.0
 	 */
-	public function getValue(): string|int|bool|\DateTime|array;
+	public function getValue(): string|int|float|bool|\DateTime|array;
 }

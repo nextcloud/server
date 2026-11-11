@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\DB\Types;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
@@ -290,7 +291,8 @@ class SearchBuilder {
 				}
 			}
 		} else {
-			if (gettype($operator->getValue()) !== $type) {
+			$value = $operator->getValue();
+			if (gettype($value) !== $type && !($type === 'integer' && is_float($value) && is_finite($value) && floor($value) === $value)) {
 				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
 			}
 		}
@@ -327,6 +329,12 @@ class SearchBuilder {
 	private function getParameterForValue(IQueryBuilder $builder, $value, string $paramType): IParameter {
 		if ($value instanceof \DateTime) {
 			$value = $value->getTimestamp();
+		}
+		if ($paramType === 'integer' && is_float($value)) {
+			return $builder->createNamedParameter(
+				sprintf('%.0f', $value),
+				Types::BIGINT,
+			);
 		}
 		if (is_array($value)) {
 			$type = self::PARAM_ARRAY_TYPE_MAP[$paramType];

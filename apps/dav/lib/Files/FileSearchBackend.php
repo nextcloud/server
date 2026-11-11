@@ -33,6 +33,7 @@ use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IUser;
 use OCP\Share\IManager;
+use OCP\Util;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use SearchDAV\Backend\ISearchBackend;
@@ -531,14 +532,26 @@ class FileSearchBackend implements ISearchBackend {
 			case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
 				return 0 + $value;
 			case SearchPropertyDefinition::DATATYPE_DATETIME:
-				if (is_numeric($value)) {
-					return max(0, 0 + $value);
-				}
-				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$value);
-				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
+				return $this->castDateTimeValue($value);
 			default:
 				return $value;
 		}
+	}
+
+	private function castDateTimeValue($value) {
+		if (is_numeric($value)) {
+			return max(0, 0 + $value);
+		}
+
+		$date = \DateTime::createFromFormat(
+			\DateTimeInterface::ATOM,
+			(string)$value,
+		);
+		if (!$date instanceof \DateTime) {
+			return 0;
+		}
+
+		return Util::numericToNumber($date->format('U'));
 	}
 
 	/**
