@@ -112,6 +112,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Import\\XmlImporter' => __DIR__ . '/..' . '/../lib/CalDAV/Import/XmlImporter.php',
         'OCA\\DAV\\CalDAV\\Integration\\ExternalCalendar' => __DIR__ . '/..' . '/../lib/CalDAV/Integration/ExternalCalendar.php',
         'OCA\\DAV\\CalDAV\\Integration\\ICalendarProvider' => __DIR__ . '/..' . '/../lib/CalDAV/Integration/ICalendarProvider.php',
+        'OCA\\DAV\\CalDAV\\InvitationResponse\\InvitationResponseAclPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/InvitationResponse/InvitationResponseAclPlugin.php',
         'OCA\\DAV\\CalDAV\\InvitationResponse\\InvitationResponseServer' => __DIR__ . '/..' . '/../lib/CalDAV/InvitationResponse/InvitationResponseServer.php',
         'OCA\\DAV\\CalDAV\\Outbox' => __DIR__ . '/..' . '/../lib/CalDAV/Outbox.php',
         'OCA\\DAV\\CalDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/Plugin.php',
