@@ -12,7 +12,12 @@ import { templateDirectory } from '../../store/templateDirectory.ts'
 
 vi.mock('@nextcloud/vue/components/NcAppSettingsSection', async () => {
 	const { h } = await import('vue')
-	return { default: { setup: (_props, { slots }) => () => h('section', slots.default?.()) } }
+	return {
+		default: {
+			props: ['description'],
+			setup: (props, { slots }) => () => h('section', { 'data-description': props.description }, slots.default?.()),
+		},
+	}
 })
 vi.mock('@nextcloud/axios', () => ({ default: { get: vi.fn(), put: vi.fn(), post: vi.fn(), delete: vi.fn() } }))
 vi.mock('@nextcloud/dialogs', () => ({
@@ -55,8 +60,9 @@ describe('Personal template folder settings', () => {
 	it('loads the current directory and links to it', async () => {
 		const component = await mount()
 		expect(component.getByText('/Templates')).toBeVisible()
+		expect(component.container.querySelector('section')).toHaveAttribute('data-description', expect.stringContaining('personal document templates'))
 		expect(component.queryByRole('button', { name: 'Choose folder' })).toBeNull()
-		expect(component.getByRole('button', { name: 'Open folder' })).toHaveAttribute('href', expect.stringContaining('dir=%2FTemplates'))
+		expect(component.getByRole('link', { name: 'Open folder' })).toHaveAttribute('href', expect.stringContaining('dir=%2FTemplates'))
 	})
 
 	it('selects an existing folder without invoking initialization', async () => {
@@ -82,7 +88,7 @@ describe('Personal template folder settings', () => {
 		expect(axios.put).toHaveBeenCalledWith(expect.any(String), { templatePath: '' })
 		expect(axios.delete).not.toHaveBeenCalled()
 		expect(pickNodes).not.toHaveBeenCalled()
-		expect(component.queryByRole('button', { name: 'Open folder' })).toBeNull()
+		expect(component.queryByRole('link', { name: 'Open folder' })).toBeNull()
 	})
 
 	it('keeps the old selection when saving fails', async () => {
@@ -114,7 +120,7 @@ describe('Personal template folder settings', () => {
 		pickNodes.mockResolvedValue([])
 		const component = await mount()
 		expect(component.getByText(/This folder is no longer available/)).toBeVisible()
-		expect(component.queryByRole('button', { name: 'Open folder' })).toBeNull()
+		expect(component.queryByRole('link', { name: 'Open folder' })).toBeNull()
 		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		expect(builder.startAt).toHaveBeenCalledWith('/')
 		expect(axios.put).not.toHaveBeenCalled()

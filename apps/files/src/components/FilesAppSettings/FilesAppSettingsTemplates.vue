@@ -87,8 +87,10 @@ async function chooseFolder() {
 </script>
 
 <template>
-	<NcAppSettingsSection id="templates" :name="t('files', 'Templates')">
-		<p>{{ t('files', 'Choose a folder containing your personal document templates. Changing the folder does not move or copy any files.') }}</p>
+	<NcAppSettingsSection
+		id="templates"
+		:name="t('files', 'Templates')"
+		:description="t('files', 'Choose a folder containing your personal document templates. Changing the folder does not move or copy any files.')">
 		<NcNoteCard v-if="loadFailed" type="error">
 			{{ t('files', 'Unable to load the template folder') }}
 			<NcButton @click="load">
