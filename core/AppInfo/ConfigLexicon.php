@@ -102,6 +102,12 @@ class ConfigLexicon implements ILexicon {
 				definition: 'Whether on demand preview migration is enabled.'
 			),
 			new Entry(
+				key: self::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS,
+				type: ValueType::INT,
+				defaultRaw: 2,
+				definition: 'Maximum number of preview migration background jobs running in parallel, -1 for no limit and 0 to disable the migration.',
+			),
+			new Entry(
 				key: self::SHARE_REPAIR_REMOVED_TRAILING_SLASHES,
 				type: ValueType::BOOL,
 				defaultRaw: false,
