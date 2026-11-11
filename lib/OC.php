@@ -21,7 +21,6 @@ use OCP\App\Events\AppsLoadedEvent;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
-use OCP\Files\ISetupManager;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
@@ -1040,8 +1039,6 @@ class OC {
 					$request = Server::get(IRequest::class);
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
-
-					Server::get(ISetupManager::class)->setupForUser($user);
 				}
 			});
 		}
