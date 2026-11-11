@@ -23,7 +23,7 @@ import type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
-import logger from '../../logger.ts'
+import logger from '../../../../logger.ts'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 

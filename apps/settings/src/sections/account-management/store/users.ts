@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IGroup, IUser } from '../views/user-types.d.ts'
+import type { IGroup, IUser } from '../../../views/user-types.d.ts'
 
 import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
@@ -12,9 +12,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import { GroupSorting } from '../constants/GroupManagement.ts'
-import logger from '../logger.ts'
-import { naturalCollator } from '../utils/sorting.ts'
+import { GroupSorting } from '../../../constants/GroupManagement.ts'
+import logger from '../../../logger.ts'
+import { naturalCollator } from '../../../utils/sorting.ts'
 import api from './api.js'
 
 /** The parts of the `usersSettings` initial state the store itself reads. */

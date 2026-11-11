@@ -129,8 +129,8 @@
 
 <script setup lang="ts">
 import type { ServerData } from '../../store/users.ts'
-import type { IUser, UserAction } from '../../views/user-types.d.ts'
-import type { LanguageOption, QuotaOption } from './userFormUtils.ts'
+import type { IUser, UserAction } from '../../../../views/user-types.d.ts'
+import type { LanguageOption, QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess } from '@nextcloud/dialogs'
@@ -144,7 +144,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import UserRowActions from './UserRowActions.vue'
 import { useUsersStore } from '../../store/users.ts'
-import { isObfuscated as isObfuscatedUser } from '../../utils/userUtils.ts'
+import { isObfuscated as isObfuscatedUser } from '../../../../utils/userUtils.ts'
 
 const props = withDefaults(defineProps<{
 	user: IUser

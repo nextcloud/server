@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import type CancelablePromise from 'cancelable-promise'
-import type { IGroup } from '../views/user-types.d.ts'
+import type { IGroup } from '../../../views/user-types.d.ts'
 
 import { mdiAccountGroupOutline, mdiPlus } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
@@ -76,8 +76,8 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import GroupListItem from './GroupListItem.vue'
 import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
-import logger from '../logger.ts'
-import { searchGroups } from '../service/groups.ts'
+import logger from '../../../logger.ts'
+import { searchGroups } from '../../../service/groups.ts'
 import { useUsersStore } from '../store/users.ts'
 
 const emit = defineEmits<{

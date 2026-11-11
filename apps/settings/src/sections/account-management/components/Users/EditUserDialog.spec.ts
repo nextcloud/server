@@ -22,7 +22,7 @@ vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogT
 // Decouple the dialog test from form-data diffing internals: always report a
 // non-empty change set so save() proceeds past its early return. Other exports
 // (used transitively by the form sub-components) are kept real.
-vi.mock('./userFormUtils.ts', async (importActual) => ({
+vi.mock('../../../../components/Users/userFormUtils.ts', async (importActual) => ({
 	...(await importActual()),
 	userToFormData: () => ({
 		username: 'bob',

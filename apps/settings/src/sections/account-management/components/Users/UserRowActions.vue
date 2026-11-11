@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import type { UserAction } from '../../views/user-types.d.ts'
+import type { UserAction } from '../../../../views/user-types.d.ts'
 
 import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { translate as t } from '@nextcloud/l10n'

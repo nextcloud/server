@@ -42,8 +42,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser } from '../../views/user-types.d.ts'
-import type { QuotaOption } from './userFormUtils.ts'
+import type { IUser } from '../../../../views/user-types.d.ts'
+import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -53,10 +53,10 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
-import logger from '../../logger.ts'
+import logger from '../../../../logger.ts'
 import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
-import { diffPayload, userToFormData } from './userFormUtils.ts'
+import { diffPayload, userToFormData } from '../../../../components/Users/userFormUtils.ts'
 
 const props = defineProps<{
 	user: IUser

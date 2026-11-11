@@ -129,10 +129,10 @@ import NcHotkey from '@nextcloud/vue/components/NcHotkey'
 import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { GroupSorting } from '../../constants/GroupManagement.ts'
-import logger from '../../logger.ts'
+import { GroupSorting } from '../../../../constants/GroupManagement.ts'
+import logger from '../../../../logger.ts'
 import { useUsersStore } from '../../store/users.ts'
-import { unlimitedQuota } from '../../utils/userUtils.ts'
+import { unlimitedQuota } from '../../../../utils/userUtils.ts'
 
 export default {
 	name: 'UserSettingsDialog',

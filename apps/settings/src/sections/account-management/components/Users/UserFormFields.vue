@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import type { QuotaOption } from './userFormUtils.ts'
+import type { QuotaOption } from '../../../../components/Users/userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, ref } from 'vue'

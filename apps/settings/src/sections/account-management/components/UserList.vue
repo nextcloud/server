@@ -68,8 +68,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser, UserAction } from '../views/user-types.d.ts'
-import type { FormData } from './Users/userFormUtils.ts'
+import type { IUser, UserAction } from '../../../views/user-types.d.ts'
+import type { FormData } from '../../../components/Users/userFormUtils.ts'
 
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError, showWarning } from '@nextcloud/dialogs'
@@ -86,9 +86,9 @@ import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
-import logger from '../logger.ts'
+import logger from '../../../logger.ts'
 import { useUsersStore } from '../store/users.ts'
-import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
+import { defaultQuota, unlimitedQuota } from '../../../utils/userUtils.ts'
 
 const props = withDefaults(defineProps<{
 	selectedGroup?: string | null

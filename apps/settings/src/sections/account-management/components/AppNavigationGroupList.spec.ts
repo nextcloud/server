@@ -15,7 +15,7 @@ vi.mock('vue-router/composables', async (importActual) => ({
 	useRouter: () => ({ push: vi.fn() }),
 }))
 
-vi.mock('../service/groups.ts', () => ({
+vi.mock('../../../service/groups.ts', () => ({
 	searchGroups: () => Promise.resolve([]),
 }))
 

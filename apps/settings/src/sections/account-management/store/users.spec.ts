@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IGroup, IUser } from '../views/user-types.d.ts'
+import type { IGroup, IUser } from '../../../views/user-types.d.ts'
 
 import { showError } from '@nextcloud/dialogs'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { GroupSorting } from '../constants/GroupManagement.ts'
+import { GroupSorting } from '../../../constants/GroupManagement.ts'
 import { useUsersStore } from './users.ts'
 
 const axios = vi.hoisted(() => ({
