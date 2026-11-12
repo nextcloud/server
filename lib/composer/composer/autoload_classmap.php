@@ -1783,6 +1783,7 @@ return array(
     'OC\\Core\\Migrations\\Version35000Date20260527162338' => $baseDir . '/core/Migrations/Version35000Date20260527162338.php',
     'OC\\Core\\Migrations\\Version36000Date20261028100000' => $baseDir . '/core/Migrations/Version36000Date20261028100000.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
+    'OC\\Core\\Resource\\Permission\\ACorePermission' => $baseDir . '/core/Resource/Permission/ACorePermission.php',
     'OC\\Core\\Resource\\Permission\\CreatePermission' => $baseDir . '/core/Resource/Permission/CreatePermission.php',
     'OC\\Core\\Resource\\Permission\\DeletePermission' => $baseDir . '/core/Resource/Permission/DeletePermission.php',
     'OC\\Core\\Resource\\Permission\\DownloadPermission' => $baseDir . '/core/Resource/Permission/DownloadPermission.php',

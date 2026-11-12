@@ -10,16 +10,8 @@ declare(strict_types=1);
 namespace OC\Core\Resource\Permission;
 
 use NCU\Resource\Permission\CorePermission;
-use NCU\Resource\Permission\IPermission;
-use OC\Core\AppInfo\Application;
-use OCP\L10N\IFactory;
 
-final class CreatePermission implements IPermission {
-	public function __construct(
-		private readonly IFactory $l10nFactory,
-	) {
-	}
-
+final class CreatePermission extends ACorePermission {
 	#[\Override]
 	public function getId(): string {
 		return CorePermission::Create->value;
@@ -27,16 +19,6 @@ final class CreatePermission implements IPermission {
 
 	#[\Override]
 	public function getDisplayName(): string {
-		return $this->l10nFactory->get(Application::APP_ID)->t('Create');
-	}
-
-	#[\Override]
-	public function getHint(): ?string {
-		return null;
-	}
-
-	#[\Override]
-	public function getKindOf(): ?CorePermission {
-		return null;
+		return $this->getL10N()->t('Create');
 	}
 }
