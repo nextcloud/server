@@ -30,4 +30,9 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('string_agg(' . $castedExpression . ', ' . $separator . ')');
 	}
+
+	#[\Override]
+	public function regexSubstring($input, $pattern): IQueryFunction {
+		return new QueryFunction('substring(' . $this->helper->quoteColumnName($input) . ' from ' . $this->helper->quoteColumnName($pattern) . ')');
+	}
 }
