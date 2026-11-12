@@ -972,8 +972,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($newToken, $result[0]['token']);
 		$this->assertSame($share->getToken(), $result[0]['token']);
 		$this->assertSame(
-			json_encode([['fileRequest', 'enabled', true]]),
-			$result[0]['attributes']
+			[['fileRequest', 'enabled', true]],
+			json_decode($result[0]['attributes'], true)
 		);
 
 		$resolved = $instance->getShareByToken($newToken);
