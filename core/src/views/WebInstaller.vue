@@ -258,7 +258,6 @@
 			class="setup-form__button"
 			:class="{ 'setup-form__button--loading': loading }"
 			:disabled="loading"
-			:loading="loading"
 			:wide="true"
 			alignment="center-reverse"
 			data-cy-setup-form-submit
