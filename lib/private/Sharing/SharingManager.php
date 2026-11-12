@@ -11,6 +11,8 @@ namespace OC\Sharing;
 
 use Exception;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\SharesDeletedEvent;
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -51,9 +53,7 @@ use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 use RuntimeException;
 
-// TODO: Test sharing to federated users, groups and circles
 // TODO: Implement share transfers
-// TODO: Cache share owner
 
 /**
  * @psalm-import-type SharingShare from Share
@@ -78,8 +78,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
-
-		$this->eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -192,7 +190,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
-		$this->backend->onOwnerDeleted($owner);
+		$ids = $this->backend->onOwnerDeleted($owner);
+		if ($ids !== []) {
+			$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent($ids));
+		}
 	}
 
 	#[\Override]
@@ -642,15 +643,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$time = $this->getTime();
 		$this->backend->setLastUpdated([$share->id], $time);
 
-		$value = $this->backend->updateShareProperty($share->id, $property);
+		$value = $property->value;
 		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
+			$value = $propertyType->modifyValueOnSave($this->backend->getSharePropertyValue($share->id, $property->class), $value);
 		}
 
 		$property = new ShareProperty(
 			$property->class,
 			$value,
 		);
+
+		$this->backend->updateShareProperty($share->id, $property);
 
 		$properties = $share->properties;
 		$properties[$property->class] = $property;
@@ -731,11 +734,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$this->validateReshareOperation($accessContext, $share, $recipient);
 		}
 
-		if ($permission->enabled) {
-			$enabledPermissions = $share->getEffectiveEnabledPermissions($accessContext);
-			if (!isset($enabledPermissions[$permission->class])) {
-				throw new ShareOperationForbiddenException();
-			}
+		if ($permission->enabled && !in_array($permission->class, $share->getEffectiveEnabledPermissions($accessContext), true)) {
+			throw new ShareOperationForbiddenException();
 		}
 
 		$this->backend->updateShareRecipientPermission($share->id, $recipient, $permission);
@@ -839,6 +839,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'shareId' => $share->id,
 			'owner' => $share->owner->userId,
 		], 'unified_sharing.share.deleted');
+
+		$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent([$share->id]));
 	}
 
 	/**
@@ -863,7 +865,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		?string $lastShareID,
 		?int $limit,
 	): array {
-		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
+		return $this->backend->getShares($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -873,8 +875,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$keys = array_keys($shares);
 			$shares = $this->processShareUpdates(array_values($shares));
 			$event->setShares(array_combine($keys, $shares));
+
+			return;
 		}
 
+		/** @psalm-suppress RedundantConditionGivenDocblockType */
 		if ($event instanceof BeforeUserDeletedEvent) {
 			$shareUser = new ShareUser($event->getUser()->getUID(), null);
 
@@ -887,6 +892,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
+
+			return;
 		}
 	}
 
@@ -927,7 +934,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 * @throws ShareOperationForbiddenException
 	 */
 	private function validatePermission(ShareAccessContext $accessContext, Share $share, string $permissionTypeClass): void {
-		if (!isset($share->getEffectiveEnabledPermissions($accessContext)[$permissionTypeClass])) {
+		if (!in_array($permissionTypeClass, $share->getEffectiveEnabledPermissions($accessContext), true)) {
 			throw new ShareOperationForbiddenException();
 		}
 	}
@@ -958,7 +965,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 */
 	private function validateInteraction(ShareAccessContext $accessContext, Share $share): void {
 		$action = new ShareAction(
-			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEffectiveEnabledPermissions($accessContext)))
+			null,
+			$share->getEffectiveEnabledPermissions($accessContext),
 		);
 
 		if ($share->owner->instance !== null) {
@@ -1071,6 +1079,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				}
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new SharesUpdatedEvent(array_map(static fn (Share $share): string => $share->id, $shares)));
 
 		return $shares;
 	}

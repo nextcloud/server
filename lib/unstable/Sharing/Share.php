@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace NCU\Sharing;
 
+use DateTimeImmutable;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
@@ -24,6 +25,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Snowflake\ISnowflakeDecoder;
 
 /**
  * Keep the following types in sync with apps/sharing/lib/ResponseDefinitions.php:
@@ -150,10 +152,12 @@ use OCP\Server;
  */
 #[Consumable(since: '35.0.0')]
 final class Share {
+	private ?DateTimeImmutable $createdAt = null;
+
 	/** @var array<string, list<ShareRecipient>> $recipientsCache */
 	private array $recipientsCache = [];
 
-	/** @var array<string, array<class-string<ISharePermissionType>, SharePermission>> $enabledPermissionsCache */
+	/** @var array<string, list<class-string<ISharePermissionType>>> $enabledPermissionsCache */
 	private array $enabledPermissionsCache = [];
 
 	/**
@@ -175,6 +179,13 @@ final class Share {
 		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
 		public readonly array $permissions,
 	) {
+	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function getCreatedAt(): DateTimeImmutable {
+		return $this->createdAt ??= Server::get(ISnowflakeDecoder::class)->decode($this->id)->getCreatedAt();
 	}
 
 	/**
@@ -214,7 +225,7 @@ final class Share {
 	}
 
 	/**
-	 * @return array<class-string<ISharePermissionType>, SharePermission>
+	 * @return list<class-string<ISharePermissionType>>
 	 * @experimental 35.0.0
 	 */
 	public function getEffectiveEnabledPermissions(ShareAccessContext $accessContext): array {
@@ -223,29 +234,42 @@ final class Share {
 			return $enabledPermissions;
 		}
 
+		if ($accessContext->overrideChecks || $this->owner->isCurrentUser($accessContext)) {
+			$enabledPermissions = array_keys(array_filter($this->permissions, static fn (SharePermission $permission): bool => $permission->enabled));
+		} else {
+			$enabledPermissions = $this->getEffectiveEnabledPermissionsForRecipients($this->getEffectiveRecipients($accessContext));
+		}
+
+		return $this->enabledPermissionsCache[$hash] = $enabledPermissions;
+	}
+
+	/**
+	 * @param list<ShareRecipient> $recipients
+	 * @return list<class-string<ISharePermissionType>>
+	 * @experimental 35.0.0
+	 */
+	public function getEffectiveEnabledPermissionsForRecipients(array $recipients): array {
 		$enabledPermissions = array_filter($this->permissions, static fn (SharePermission $permission): bool => $permission->enabled);
 
-		if (!$accessContext->overrideChecks && !$this->owner->isCurrentUser($accessContext)) {
-			/** @var array<class-string<ISharePermissionType>, SharePermission> $recipientsEnabledPermissions */
-			$recipientsEnabledPermissions = [];
-			foreach ($this->getEffectiveRecipients($accessContext) as $recipient) {
-				foreach ($recipient->permissions as $permission) {
-					// If any recipient has the permission enabled, we grant it.
-					if (!isset($recipientsEnabledPermissions[$permission->class]) || ($permission->enabled && !$recipientsEnabledPermissions[$permission->class]->enabled)) {
-						$recipientsEnabledPermissions[$permission->class] = $permission;
-					}
-				}
-			}
-
-			foreach ($recipientsEnabledPermissions as $permission) {
-				// If the permission was disabled by any recipient and not enabled by another, we deny it.
-				if (!$permission->enabled) {
-					unset($enabledPermissions[$permission->class]);
+		/** @var array<class-string<ISharePermissionType>, SharePermission> $recipientsEnabledPermissions */
+		$recipientsEnabledPermissions = [];
+		foreach ($recipients as $recipient) {
+			foreach ($recipient->permissions as $permission) {
+				// If any recipient has the permission enabled, we grant it.
+				if (!isset($recipientsEnabledPermissions[$permission->class]) || ($permission->enabled && !$recipientsEnabledPermissions[$permission->class]->enabled)) {
+					$recipientsEnabledPermissions[$permission->class] = $permission;
 				}
 			}
 		}
 
-		return $this->enabledPermissionsCache[$hash] = $enabledPermissions;
+		foreach ($recipientsEnabledPermissions as $permission) {
+			// If the permission was disabled by any recipient and not enabled by another, we deny it.
+			if (!$permission->enabled) {
+				unset($enabledPermissions[$permission->class]);
+			}
+		}
+
+		return array_keys($enabledPermissions);
 	}
 
 	/**
@@ -273,7 +297,7 @@ final class Share {
 
 		$selectedPermissionPresetClass = null;
 
-		$enabledPermissionTypeClasses = array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $this->getEffectiveEnabledPermissions($accessContext)));
+		$enabledPermissionTypeClasses = $this->getEffectiveEnabledPermissions($accessContext);
 		sort($enabledPermissionTypeClasses);
 
 		$requiredPermissionTypeClasses = [];

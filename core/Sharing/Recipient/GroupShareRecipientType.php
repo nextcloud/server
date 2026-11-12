@@ -42,7 +42,6 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 		private readonly IGroupManager $groupManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(BeforeGroupDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -62,6 +61,11 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 		}
 
 		return $this->groupManager->getUserGroupIds($currentUser);
+	}
+
+	#[\Override]
+	public function getUsers(string $recipient): array {
+		return array_values($this->groupManager->get($recipient)?->getUsers() ?? []);
 	}
 
 	#[\Override]

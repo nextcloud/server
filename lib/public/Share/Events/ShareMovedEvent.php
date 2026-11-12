@@ -21,7 +21,7 @@ class ShareMovedEvent extends Event {
 	 * @since 33.0.0
 	 */
 	public function __construct(
-		private readonly IShare $share,
+		private IShare $share,
 		private readonly IUser $user,
 	) {
 		parent::__construct();
@@ -39,5 +39,12 @@ class ShareMovedEvent extends Event {
 	 */
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function setShare(IShare $share): void {
+		$this->share = $share;
 	}
 }

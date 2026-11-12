@@ -41,7 +41,6 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		private readonly IUserManager $userManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -61,6 +60,14 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		}
 
 		return [$currentUser->getUID()];
+	}
+
+	/**
+	 * @return list<IUser>
+	 */
+	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [$this->userManager->getExistingUser($recipient)];
 	}
 
 	#[\Override]

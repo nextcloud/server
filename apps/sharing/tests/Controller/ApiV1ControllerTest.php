@@ -149,7 +149,6 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 
 	#[Override]
 	protected function updateShareRecipientSecret(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, string $secret): array {
-		/** @psalm-suppress ArgumentTypeCoercion */
 		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareRecipientSecret($share->id, $recipient->class, $recipient->value, $recipient->instance, $secret));
 	}

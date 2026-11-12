@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\ISharingRegistry;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
@@ -45,7 +46,10 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Property\NodeNicknameSharePropertyType;
+use OCA\Files\Sharing\SharesUpdatedListener;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
+use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -58,6 +62,7 @@ use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Interaction\RestrictInteractionEvent;
@@ -111,6 +116,16 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 
+		$context->registerEventListener(SharesUpdatedEvent::class, SharesUpdatedListener::class);
+
+		$this->registerSharing();
+
+		$context->registerEventListener(NodeDeletedEvent::class, NodeShareSourceType::class);
+		$context->registerEventListener(MoveToTrashEvent::class, NodeShareSourceType::class);
+		$context->registerEventListener(SharesUpdatedEvent::class, SharesUpdatedListener::class);
+	}
+
+	private function registerSharing(): void {
 		$registry = Server::get(ISharingRegistry::class);
 
 		$registry->registerSourceType(Server::get(NodeShareSourceType::class));
@@ -122,6 +137,10 @@ class Application extends App implements IBootstrap {
 		$registry->registerPropertyType(new NodeGridViewSharePropertyType());
 		$registry->markPropertyTypeCompatibleWithSourceType(NodeGridViewSharePropertyType::class, NodeShareSourceType::class);
 		$registry->markPropertyTypeCompatibleWithRecipientType(NodeGridViewSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new NodeNicknameSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithSourceType(NodeNicknameSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NodeNicknameSharePropertyType::class, TokenShareRecipientType::class);
 
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeCreateSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeCreateSharePermissionType::class, EditSharePermissionPreset::class);
