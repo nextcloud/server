@@ -882,6 +882,8 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$stat['size'] = $size;
 				$stat['mtime'] = $mtime;
 				$stat['mimetype'] = $this->getMimeType($targetPath);
+				$stat['etag'] = $this->getETag($targetPath);
+				$stat['checksum'] = '';
 				$this->getCache()->update($stat['fileid'], $stat);
 			}
 		} catch (S3MultipartUploadException|S3Exception $e) {
