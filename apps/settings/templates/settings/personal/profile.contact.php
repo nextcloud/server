@@ -8,7 +8,8 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
-\OCP\Util::addScript('settings', 'vue-settings-profile-contact');
+\OCP\Util::addScript('settings', 'personal-profile-contact');
+\OCP\Util::addStyle('settings', 'personal-profile-contact');
 ?>
 <?php if (!$_['isFairUseOfFreePushService']) : ?>
 	<div class="section">

@@ -4,7 +4,6 @@
 -->
 
 <script setup lang="ts">
-import type { AxiosError } from '@nextcloud/axios'
 import type { LanguageOption } from '../../../components/Users/userFormUtils.ts'
 
 import { t } from '@nextcloud/l10n'
@@ -52,7 +51,7 @@ async function onLanguageChange(newLanguage: LanguageOption) {
 		await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE, newLanguage.code)
 		window.location.reload()
 	} catch (error) {
-		handleError(error as AxiosError, t('settings', 'Unable to update language'))
+		handleError(error, t('settings', 'Unable to update language'))
 	}
 }
 </script>
