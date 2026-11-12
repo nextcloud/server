@@ -363,6 +363,14 @@ interface IRegistrationContext {
 	public function registerTeamResourceProvider(string $class): void;
 
 	/**
+	 * Register app-owned navigation and embedded views for the Teams page.
+	 *
+	 * @param class-string<\OCP\Teams\ITeamAppProvider> $class
+	 * @since 36.0.0
+	 */
+	public function registerTeamAppProvider(string $class): void;
+
+	/**
 	 * Register an implementation of \OCP\UserMigration\IMigrator that
 	 * will handle the implementation of a migrator
 	 *

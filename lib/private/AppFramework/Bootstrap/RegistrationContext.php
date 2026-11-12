@@ -45,6 +45,7 @@ use OCP\Support\CrashReport\IReporter;
 use OCP\SystemReport\ISystemReportSection;
 use OCP\Talk\ITalkBackend;
 use OCP\TaskProcessing\ITaskType;
+use OCP\Teams\ITeamAppProvider;
 use OCP\Teams\ITeamResourceProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Translation\ITranslationProvider;
@@ -162,6 +163,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
+
+	/** @var ServiceRegistration<ITeamAppProvider>[] */
+	private array $teamAppProviders = [];
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
 	private array $taskProcessingProviders = [];
@@ -423,6 +427,11 @@ class RegistrationContext {
 			}
 
 			#[\Override]
+			public function registerTeamAppProvider(string $class): void {
+				$this->context->registerTeamAppProvider($this->appId, $class);
+			}
+
+			#[\Override]
 			public function registerCalendarRoomBackend(string $class): void {
 				$this->context->registerCalendarRoomBackend(
 					$this->appId,
@@ -680,6 +689,13 @@ class RegistrationContext {
 			$appId,
 			$class
 		);
+	}
+
+	/**
+	 * @psalm-param class-string<ITeamAppProvider> $class
+	 */
+	public function registerTeamAppProvider(string $appId, string $class): void {
+		$this->teamAppProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -1115,6 +1131,13 @@ class RegistrationContext {
 	 */
 	public function getTeamResourceProviders(): array {
 		return $this->teamResourceProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ITeamAppProvider>[]
+	 */
+	public function getTeamAppProviders(): array {
+		return $this->teamAppProviders;
 	}
 
 	/**

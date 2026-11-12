@@ -15,6 +15,7 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Teams\ITeamAppProvider;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -144,6 +145,17 @@ class RegistrationContextTest extends TestCase {
 			],
 			$this->context->getUserMigrators(),
 		);
+	}
+
+	public function testRegisterTeamAppProvider(): void {
+		$this->context->for('text')->registerTeamAppProvider(ITeamAppProvider::class);
+		$this->context->for('whiteboard')->registerTeamAppProvider(ITeamAppProvider::class);
+
+		$this->assertEquals([
+			new ServiceRegistration('text', ITeamAppProvider::class),
+			new ServiceRegistration('whiteboard', ITeamAppProvider::class),
+		], $this->context->getTeamAppProviders());
+		$this->assertSame([], $this->context->getTeamResourceProviders());
 	}
 
 	public static function dataProvider_TrueFalse(): array {
