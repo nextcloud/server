@@ -720,6 +720,10 @@ class ShareAPIController extends OCSController {
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
 				throw new OCSNotFoundException($this->l->t('Please specify a valid account to share with'));
 			}
+			$shareWithUser = $this->userManager->get($shareWith);
+			if ($shareWithUser !== null && !$shareWithUser->isEnabled()) {
+				throw new OCSForbiddenException($this->l->t('Cannot share with a disabled account.'));
+			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_GROUP) {
