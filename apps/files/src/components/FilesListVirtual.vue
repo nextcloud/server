@@ -676,7 +676,7 @@ export default defineComponent({
 		}
 
 		.files-list__skeleton-column {
-			width: calc(var(--row-height) * 2.5);
+			width: calc(var(--clickable-area-large) * 2.3);
 			height: 20px;
 			border-radius: 4px;
 			background: linear-gradient(
