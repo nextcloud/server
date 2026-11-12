@@ -163,6 +163,7 @@
     "Test Base DN" : "測試 Base DN",
     "Listing and searching for users is constrained by these criteria:" : "列出和搜尋以下條件限定的使用者：",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "使用者最常見的物件類別是 organizationalPerson、person、user、inetOrgPerson 等。如果不確定要選取哪個物件類別，則請諮詢您的目錄管理員。",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "此篩選器用於指定哪些 LDAP 使用者會列於 {instanceName} 站台中。若要控制哪些使用者可以登入，請使用「登入屬性」分頁。",
     "Verify settings and count users" : "驗證設定並計算使用者",
     "User count: {usersCount}" : "使用者數量：{usersCount}",
     "Test Configuration" : "測試組態設定",
