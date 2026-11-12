@@ -17,6 +17,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\Exception\DeadlockException;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
@@ -855,7 +856,26 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	#[\Override]
 	public function commit() {
-		$result = parent::commit();
+		try {
+			$result = parent::commit();
+		} catch (Driver\Exception $e) {
+			if ($this->getTransactionNestingLevel() === 0) {
+				// Doctrine already considers the transaction finished, but the driver (e.g. PDO) may still
+				// consider it open, which makes the next beginTransaction() fail
+				try {
+					$this->getWrappedConnection()->rollBack();
+				} catch (Driver\Exception) {
+				}
+			}
+			// Doctrine does not convert driver exceptions raised on COMMIT, e.g. Galera certification failures,
+			// which only carry the SQLSTATE and not the vendor error code
+			if ($e->getSQLState() === '40001') {
+				/** @psalm-suppress InternalMethod */
+				throw new DeadlockException($e, null);
+			}
+			/** @psalm-suppress InternalMethod */
+			throw $this->convertException($e);
+		}
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
