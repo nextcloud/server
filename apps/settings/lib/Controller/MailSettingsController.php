@@ -14,11 +14,13 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
@@ -42,6 +44,7 @@ class MailSettingsController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private IMailer $mailer,
 		private LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -97,6 +100,20 @@ class MailSettingsController extends Controller {
 
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Mail server settings were changed: mode "%s", host "%s", port "%s", security "%s", from address "%s", domain "%s"',
+			[
+				'mailSmtpMode' => $mail_smtpmode,
+				'mailSmtpHost' => $mail_smtphost,
+				'mailSmtpPort' => $mail_smtpport,
+				'mailSmtpSecure' => $mail_smtpsecure,
+				'mailFromAddress' => $mail_from_address,
+				'mailDomain' => $mail_domain,
+			],
+			false,
+			'settings.mail.updated',
+		));
+
 		return new DataResponse();
 	}
 
@@ -115,6 +132,13 @@ class MailSettingsController extends Controller {
 		}
 		$this->config->setSystemValue('mail_smtpname', $mail_smtpname);
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Mail server credentials were changed for SMTP user "%s"',
+			['mailSmtpName' => $mail_smtpname],
+			false,
+			'settings.mail_credentials.updated',
+		));
 
 		return new DataResponse();
 	}

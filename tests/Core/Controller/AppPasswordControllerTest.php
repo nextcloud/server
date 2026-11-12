@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -19,11 +20,13 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -170,8 +173,7 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::DO_NOT_REMEMBER
 			);
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$this->controller->getAppPassword();
 	}
@@ -215,8 +217,7 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::DO_NOT_REMEMBER
 			);
 
-		$this->eventDispatcher->expects($this->once())
-			->method('dispatchTyped');
+		$this->expectAppPasswordCreatedEvents();
 
 		$this->controller->getAppPassword();
 	}
@@ -289,8 +290,62 @@ class AppPasswordControllerTest extends TestCase {
 				42
 			);
 
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.app_password.deleted'
+				&& $event->getParameters() === ['tokenId' => 42]
+				&& $event->getLogMessage() === 'App password with ID "%s" was deleted'));
+
 		$result = $this->controller->deleteAppPassword();
 
 		$this->assertEquals(new DataResponse(), $result);
+	}
+
+	public function testGetAppPasswordWithOneTimePassword(): void {
+		$credentials = $this->createMock(ICredentials::class);
+
+		$this->session->method('exists')
+			->with('one_time_token')
+			->willReturn(true);
+		$this->credentialStore->method('getLoginCredentials')
+			->willReturn($credentials);
+		$credentials->method('getUid')
+			->willReturn('myUID');
+		$credentials->method('getPassword')
+			->willReturn('myPassword');
+		$credentials->method('getLoginName')
+			->willReturn('myLoginName');
+		$this->request->method('getHeader')
+			->with('user-agent')
+			->willReturn('myUA');
+		$this->random->method('generate')
+			->willReturn('myToken');
+
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with('myToken', 'myUID', 'myLoginName', 'myPassword', 'myUA', IToken::PERMANENT_TOKEN);
+
+		$this->expectAppPasswordCreatedEvents();
+
+		$this->assertEquals(new DataResponse(['apppassword' => 'myToken']), $this->controller->getAppPasswordWithOneTimePassword());
+	}
+
+	/**
+	 * Expects the AppPasswordCreatedEvent followed by its audit log entry.
+	 */
+	private function expectAppPasswordCreatedEvents(): void {
+		$calls = 0;
+		$this->eventDispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$calls): void {
+				if (++$calls === 1) {
+					$this->assertInstanceOf(AppPasswordCreatedEvent::class, $event);
+					return;
+				}
+				$this->assertInstanceOf(CriticalActionPerformedEvent::class, $event);
+				$this->assertSame('auth.app_password.created', $event->getOperation());
+				$this->assertSame('App password with ID "%s" and name "%s" was created', $event->getLogMessage());
+				$this->assertSame(['tokenId', 'tokenName'], array_keys($event->getParameters()));
+			});
 	}
 }

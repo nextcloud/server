@@ -10,16 +10,20 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
+use OCA\Files\TokenScopes as FilesTokenScopes;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Sharing\TokenScopes as SharingTokenScopes;
+use OCA\Files_Sharing\ViewOnly;
 use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -74,6 +78,7 @@ use Psr\Log\LoggerInterface;
  *
  * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
+#[TokenScope(scope: FilesTokenScopes::FILES_WRITE)]
 class ShareAPIController extends OCSController {
 
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
@@ -111,6 +116,23 @@ class ShareAPIController extends OCSController {
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	/**
+	 * Source name for a received share root, when the mount name differs from it.
+	 */
+	private function originalDisplayName(Node $node): ?string {
+		if ($node->getInternalPath() !== '') {
+			return null;
+		}
+
+		$storage = $node->getStorage();
+		if (!$storage->instanceOfStorage(SharedStorage::class)) {
+			return null;
+		}
+
+		/** @var SharedStorage $storage */
+		return $storage->getOriginalDisplayName();
 	}
 
 	/**
@@ -209,6 +231,7 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+		$result['original_displayname'] = $isOwnShare ? null : $this->originalDisplayName($node);
 
 		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)) {
 			$result['is_trusted_server'] = false;
@@ -529,6 +552,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share deleted successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function deleteShare(string $id): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -592,7 +616,8 @@ class ShareAPIController extends OCSController {
 	 * 200: Share created
 	 */
 	#[NoAdminRequired]
-	#[UserRateLimit(limit: 20, period: 600)]
+	#[UserRateLimit(limit: 60, period: 600)]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -1229,6 +1254,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share updated successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function updateShare(
 		string $id,
 		?int $permissions = null,
@@ -1371,6 +1397,8 @@ class ShareAPIController extends OCSController {
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
+		} catch (ShareTokenException $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException('Failed to update share.', $e);
@@ -2085,14 +2113,13 @@ class ShareAPIController extends OCSController {
 
 				/** @var SharedStorage $storage */
 				$originalShare = $storage->getShare();
-				$inheritedAttributes = $originalShare->getAttributes();
 
 				// For federated shares: users can only be MORE restrictive, never LESS restrictive
 				// If parent has hideDownload=true, child MUST have hideDownload=true
 				$parentHidesDownload = $originalShare->getHideDownload();
 
 				// Check if download permission is available from parent
-				$parentAllowsDownload = $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+				$parentAllowsDownload = ViewOnly::canDownloadThroughMount($node);
 
 				// Apply inheritance rules:
 				// 1. If parent hides download, child must hide download
@@ -2142,6 +2169,7 @@ class ShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 600)]
+	#[TokenScope(scope: SharingTokenScopes::SHARES_WRITE)]
 	public function sendShareEmail(string $id, $password = ''): DataResponse {
 		try {
 			$share = $this->getShareById($id);

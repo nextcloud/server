@@ -13,6 +13,7 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
@@ -21,6 +22,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Exception\UidConflict;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\NullLogger;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
@@ -182,10 +184,11 @@ EOD;
 		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
 
 		// delete the calendar
-		$this->dispatcher->expects(self::once())
+		$this->dispatcher->expects(self::exactly(2))
 			->method('dispatchTyped')
 			->with(self::callback(function ($event) {
-				return $event instanceof CalendarDeletedEvent;
+				return $event instanceof CalendarDeletedEvent
+					|| ($event instanceof CriticalActionPerformedEvent && $event->getOperation() === 'dav.calendar.deleted');
 			}));
 		$this->backend->deleteCalendar($calendars[0]['id'], true);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
@@ -264,6 +267,50 @@ EOD;
 		$this->backend->deleteCalendarObject($calendarId, $uri);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(0, $calendarObjects);
+	}
+
+	public function testUpdatePropertiesHandlesFourByteIndexedParameters(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+		$calendarId = $this->createTestCalendar();
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+UID:indexed-parameter-four-byte-test
+DTSTAMP:20240101T000000Z
+DTSTART:20240101T100000Z
+DTEND:20240101T110000Z
+ATTENDEE;CN=Attendee 🙈:mailto:attendee@example.com
+ORGANIZER;CN=Organizer 🙈:mailto:organizer@example.com
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+		$object = $this->backend->getCalendarObject($calendarId, $uri);
+		self::assertNotNull($object);
+
+		$supported = $this->db->supports4ByteText();
+		$expectedValues = [
+			'ATTENDEE' => 'Attendee ' . ($supported ? '🙈' : "\u{FFFD}"),
+			'ORGANIZER' => 'Organizer ' . ($supported ? '🙈' : "\u{FFFD}"),
+		];
+
+		foreach ($expectedValues as $property => $expectedValue) {
+			$query = $this->db->getQueryBuilder();
+			$result = $query->select('value')
+				->from('calendarobjects_props')
+				->where($query->expr()->eq('objectid', $query->createNamedParameter((int)$object['id'])))
+				->andWhere($query->expr()->eq('name', $query->createNamedParameter($property)))
+				->andWhere($query->expr()->eq('parameter', $query->createNamedParameter('CN')))
+				->setMaxResults(1)
+				->executeQuery();
+			$indexedValue = $result->fetchOne();
+			$result->closeCursor();
+
+			self::assertSame($expectedValue, $indexedValue, "$property CN index value");
+		}
 	}
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
@@ -409,6 +456,112 @@ EOD;
 		$objects = $this->backend->getCalendarObjects($calendarId);
 		self::assertCount(1, $objects);
 		self::assertSame('second.ics', $objects[0]['uri']);
+	}
+
+	public function testCalendarObjectChangesAreAuditLogged(): void {
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Source', []);
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Target', []);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$sourceCalendarId = (int)$calendars[0]['id'];
+		$targetCalendarId = (int)$calendars[1]['id'];
+		$auditEvents = $this->captureAuditEvents();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+UID:audit-1
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Secret meeting
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($sourceCalendarId, 'event.ics', $calData);
+		$this->backend->updateCalendarObject($sourceCalendarId, 'event.ics', str_replace('Secret meeting', 'Other meeting', $calData));
+		$this->backend->deleteCalendarObject($sourceCalendarId, 'event.ics');
+		$trashedObject = $this->backend->getCalendarObject($sourceCalendarId, 'event-deleted.ics');
+		$this->backend->restoreCalendarObject($trashedObject);
+		$this->backend->moveCalendarObject(self::UNIT_TEST_USER, (int)$trashedObject['id'], self::UNIT_TEST_USER, $targetCalendarId, 'moved.ics');
+		$this->backend->deleteCalendarObject($targetCalendarId, 'moved.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
+
+		$objectParameters = static fn (string $uri, int $calendarId): array => [
+			'objectUri' => $uri,
+			'calendarId' => $calendarId,
+			'owner' => self::UNIT_TEST_USER,
+		];
+		$this->assertSame([
+			['dav.calendar_object.created', 'Calendar object "%s" in calendar "%s" of "%s" was created', $objectParameters('event.ics', $sourceCalendarId)],
+			['dav.calendar_object.updated', 'Calendar object "%s" in calendar "%s" of "%s" was updated', $objectParameters('event.ics', $sourceCalendarId)],
+			['dav.calendar_object.trashed', 'Calendar object "%s" in calendar "%s" of "%s" was moved to trash', $objectParameters('event.ics', $sourceCalendarId)],
+			['dav.calendar_object.restored', 'Calendar object "%s" in calendar "%s" of "%s" was restored from trash', $objectParameters('event.ics', $sourceCalendarId)],
+			['dav.calendar_object.moved', 'Calendar object "%s" was moved from calendar "%s" to calendar "%s" of "%s"', [
+				'objectUri' => 'moved.ics',
+				'sourceCalendarId' => $sourceCalendarId,
+				'targetCalendarId' => $targetCalendarId,
+				'owner' => self::UNIT_TEST_USER,
+			]],
+			['dav.calendar_object.deleted', 'Calendar object "%s" in calendar "%s" of "%s" was deleted', $objectParameters('moved.ics', $targetCalendarId)],
+		], array_map(
+			static fn (CriticalActionPerformedEvent $event): array => [$event->getOperation(), $event->getLogMessage(), $event->getParameters()],
+			$auditEvents->getArrayCopy(),
+		));
+	}
+
+	public function testBirthdayCalendarObjectsAreNotAuditLogged(): void {
+		$calendarId = $this->backend->createCalendar(self::UNIT_TEST_USER, BirthdayService::BIRTHDAY_CALENDAR_URI, []);
+		$auditEvents = $this->captureAuditEvents();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+UID:birthday-1
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Birthday
+DTSTART;VALUE=DATE:20130912
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, 'birthday.ics', $calData);
+		$this->backend->updateCalendarObject($calendarId, 'birthday.ics', str_replace('Birthday', 'Anniversary', $calData));
+		$this->backend->deleteCalendarObject($calendarId, 'birthday.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
+
+		$this->assertCount(0, $auditEvents);
+	}
+
+	public function testCalendarLifecycleIsAuditLogged(): void {
+		$auditEvents = $this->captureAuditEvents();
+
+		$calendarId = $this->createTestCalendar();
+		$calendar = new Calendar($this->backend, $this->backend->getCalendarById($calendarId), $this->createMock(IL10N::class), $this->createMock(IConfig::class), new NullLogger());
+		$publicUri = $this->backend->setPublishStatus(true, $calendar);
+		$this->backend->setPublishStatus(false, $calendar);
+		$this->backend->deleteCalendar($calendarId);
+		$this->backend->restoreCalendar($calendarId);
+		$this->backend->deleteCalendar($calendarId, true);
+
+		$calendarParameters = [
+			'calendarId' => $calendarId,
+			'owner' => self::UNIT_TEST_USER,
+		];
+		$this->assertSame([
+			['dav.calendar.created', $calendarParameters + ['uri' => 'Example']],
+			['dav.calendar.published', $calendarParameters],
+			['dav.calendar.unpublished', $calendarParameters],
+			['dav.calendar.trashed', $calendarParameters],
+			['dav.calendar.restored', $calendarParameters],
+			['dav.calendar.deleted', $calendarParameters + ['sharees' => '']],
+		], array_map(
+			static fn (CriticalActionPerformedEvent $event): array => [$event->getOperation(), $event->getParameters()],
+			$auditEvents->getArrayCopy(),
+		));
+		foreach ($auditEvents as $event) {
+			$this->assertStringNotContainsString($publicUri, json_encode($event->getParameters()));
+		}
 	}
 
 	public function testMultiCalendarObjects(): void {
@@ -2085,8 +2238,7 @@ EOD;
 		$this->groupManager->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$this->dispatcher->expects($this->exactly(2))
-			->method('dispatchTyped');
+		$auditEvents = $this->captureAuditEvents();
 
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = $this->backend->getCalendarById($calendarId);
@@ -2106,6 +2258,22 @@ EOD;
 			principal: $principalUser
 		);
 
+		$this->assertSame([
+			['dav.calendar.created', [
+				'calendarId' => $calendarId,
+				'owner' => self::UNIT_TEST_USER,
+				'uri' => 'Example',
+			]],
+			['dav.calendar_share.updated', [
+				'calendarId' => $calendarId,
+				'owner' => self::UNIT_TEST_USER,
+				'added' => $principalGroup,
+				'removed' => '',
+			]],
+		], array_map(
+			static fn (CriticalActionPerformedEvent $event): array => [$event->getOperation(), $event->getParameters()],
+			$auditEvents->getArrayCopy(),
+		));
 	}
 
 	public function testDefaultAlarmProperties(): void {

@@ -9,9 +9,9 @@ import { getGuestNickname } from '@nextcloud/auth'
 import { getBuilder } from '@nextcloud/browser-storage'
 import { showGuestUserPrompt } from '@nextcloud/dialogs'
 import { subscribe } from '@nextcloud/event-bus'
+import { getUploader } from '@nextcloud/files/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { getUploader } from '@nextcloud/upload'
 import logger from './services/logger.ts'
 
 const storage = getBuilder('files_sharing').build()

@@ -29,7 +29,7 @@ const allApps = loadState<INavigationEntry[]>('core', 'apps')
 	.map(({ id, name, icon }) => ({ label: name, id, icon }))
 
 /**
- * Currently selected app, wrapps the setter
+ * Currently selected app, wraps the setter
  */
 const selectedApps = ref(defaultApps.map((id) => allApps.find((app) => app.id === id)!).filter(Boolean))
 watch(selectedApps, async (value) => {

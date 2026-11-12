@@ -450,6 +450,18 @@ $CONFIG = [
 	'session_keepalive' => true,
 
 	/**
+	 * When enabled, this flag allows the download of a directory to proceed
+	 * even if some files or subdirectories are marked as non-downloadable.
+	 * If files are corrupted, missing, or the server encounter temporary errors
+	 * they are logged in a `missing_files[_unique_id].json` within the archive,
+	 * along with the cause. When disabled, the download is denied if any file
+	 * or subdirectory is marked as non-downloadable. Files that cannot be read
+	 * while the archive is being streamed are left out or incomplete, and only
+	 * logged in the server log.
+	 */
+	'archive_report_missing_files' => true,
+
+	/**
 	 * Enable or disable the automatic logout after session_lifetime, even if session
 	 * keepalive is enabled. This will make sure that an inactive browser will log itself out
 	 * even if requests to the server might extend the session lifetime.
@@ -1622,16 +1634,61 @@ $CONFIG = [
 	'preview_imaginary_key' => 'secret',
 
 	/**
+	 * Set the address of an ffmpeg-over-ip server to generate video previews on,
+	 * as ``host:port``, ``tls://host:port`` or ``unix:/path/to/socket``. This is
+	 * not an HTTP URL. Also requires the ``OC\Preview\MovieRemote`` provider to
+	 * be enabled in the ``enabledPreviewProviders`` array. Neither ffmpeg nor the
+	 * ffmpeg-over-ip client is needed on the Nextcloud server in that case.
+	 *
+	 * The server reads the videos from Nextcloud over the same connection, so
+	 * it needs no access to the data directory. ffmpeg-over-ip itself does not
+	 * encrypt the connection and does not authenticate the server, so anyone
+	 * answering on this address can read the videos. Either only use it within
+	 * a trusted network, or put a TLS terminating proxy (e.g. stunnel) in front
+	 * of the server and use a ``tls://`` address. Like for other outgoing
+	 * connections of Nextcloud, its certificate is verified against Nextcloud's
+	 * certificate bundle, so a certificate of an internal CA has to be imported
+	 * with ``occ security:certificates:import``.
+	 *
+	 * Like with ``OC\Preview\Movie``, the server can only read up to 20 MB of
+	 * videos on storages that are not local (e.g. S3 or external storage), and
+	 * only the first 10 MB of videos on storages that cannot seek (e.g. WebDAV
+	 * or FTP external storage).
+	 *
+	 * If ``OC\Preview\Movie`` is enabled as well, the server is tried first and
+	 * the local ffmpeg is only used if the server could not generate a preview.
+	 *
+	 * See https://github.com/steelbrain/ffmpeg-over-ip
+	 */
+	'preview_ffmpeg_address' => 'ffmpeg-over-ip:5050',
+
+	/**
+	 * The ``authSecret`` configured on the ffmpeg-over-ip server.
+	 */
+	'preview_ffmpeg_key' => 'secret',
+
+	/**
+	 * Seconds generating a single video preview on the ffmpeg-over-ip server
+	 * may take in total. Values below 1 use the default.
+	 *
+	 * Defaults to ``120``
+	 */
+	'preview_ffmpeg_timeout' => 120,
+
+	/**
 	 * Only register providers that have been explicitly enabled
 	 *
 	 * The following providers are disabled by default due to performance or privacy
 	 * concerns:
 	 *
+	 *  - ``OC\Preview\AVIFImagick``
 	 *  - ``OC\Preview\EMF``
 	 *  - ``OC\Preview\Font``
 	 *  - ``OC\Preview\HEIC``
 	 *  - ``OC\Preview\Illustrator``
+	 *  - ``OC\Preview\JP2``
 	 *  - ``OC\Preview\Movie``
+	 *  - ``OC\Preview\MovieRemote``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``
@@ -1649,6 +1706,13 @@ $CONFIG = [
 	 *   - ``OC\Preview\Imaginary``
 	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
+	 * AVIF has two providers for the same mimetype. ``OC\Preview\AVIF`` is enabled
+	 * by default and decodes with GD, which handles AVIF only when PHP was built
+	 * against a libgd that supports it. ``OC\Preview\AVIFImagick`` covers the
+	 * builds where it was not, and registers only when ImageMagick reports an
+	 * AVIF delegate. Enabling it alongside the default is the useful case: GD is
+	 * tried first, and ImageMagick is tried after it if GD returns nothing.
+	 *
 	 * Defaults to the following providers:
 	 *
 	 *  - ``OC\Preview\PNG``
@@ -1658,6 +1722,7 @@ $CONFIG = [
 	 *  - ``OC\Preview\XBitmap``
 	 *  - ``OC\Preview\Krita``
 	 *  - ``OC\Preview\WebP``
+	 *  - ``OC\Preview\AVIF``
 	 *  - ``OC\Preview\MarkDown``
 	 *  - ``OC\Preview\TXT``
 	 *  - ``OC\Preview\OpenDocument``
@@ -1671,6 +1736,7 @@ $CONFIG = [
 		'OC\Preview\XBitmap',
 		'OC\Preview\Krita',
 		'OC\Preview\WebP',
+		'OC\Preview\AVIF',
 		'OC\Preview\MarkDown',
 		'OC\Preview\TXT',
 		'OC\Preview\OpenDocument',
@@ -2376,6 +2442,14 @@ $CONFIG = [
 	'sqlite.journal_mode' => 'DELETE',
 
 	/**
+	 * Number of milliseconds a SQLite3 connection will wait for a lock held by
+	 * another connection to clear before giving up with a "database is locked"
+	 * error. See https://www.sqlite.org/pragma.html#pragma_busy_timeout for
+	 * more details.
+	 */
+	'sqlite.busy_timeout' => 30000,
+
+	/**
 	 * During setup, if requirements are met (see below), this setting is set to true
 	 * to enable MySQL to handle 4-byte characters instead of 3-byte characters.
 	 *
@@ -2620,6 +2694,22 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'localstorage.unlink_on_truncate' => false,
+
+	/**
+	 * Amount of physical disk space (in bytes) to keep available on the data
+	 * directory's filesystem. The free space reported for local storage is
+	 * reduced by this margin, so uploads are rejected before the disk is
+	 * actually full. This prevents users (in particular those with unlimited
+	 * quota) from filling up all available space, which would starve the
+	 * database, temporary files and logs and can render the instance
+	 * unrecoverable.
+	 *
+	 * Set this to a value large enough to keep the instance operational, or
+	 * to ``0`` to report the free space as-is.
+	 *
+	 * Defaults to 100 MiB
+	 */
+	'localstorage.min_free_space' => 100 * 1024 * 1024,
 
 	/**
 	 * Include external storage mounts in quota calculations.
@@ -3090,13 +3180,6 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'reference_opengraph' => true,
-
-	/**
-	 * Enable the legacy unified search.
-	 *
-	 * Defaults to ``false``
-	 */
-	'unified_search.enabled' => false,
 
 	/**
 	 * Enable features that do not yet comply with accessibility standards.

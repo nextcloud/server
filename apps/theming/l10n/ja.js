@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "その他のアクセシビリティオプション",
     "Enable blur background filter (may increase GPU load)" : "背景ぼかしフィルターを有効にする (GPU負荷が増加する可能性があります)",
     "Customization has been disabled by your administrator" : "カスタマイズは管理者によって無効にされています",
-    "Disable-user-theming should be true or false" : "Disable-user-themingは、trueまたはfalseで指定してください",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "基本色は、重要なボタンなどの要素を強調表示するために使用されます。現在のカラースキーマに応じて若干調整される場合があります。",
-    "Header logo" : "ヘッダーロゴ",
-    "Upload new header logo" : "新しいヘッダーロゴをアップロード",
-    "Upload new favicon" : "新しいfaviconをアップロード",
-    "User settings" : "ユーザー設定",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "背景画像の代わりに、無地の背景色を設定することもできます。背景画像を使用する場合、この色を変更すると、アプリメニューアイコンの色に影響します。",
-    "Upload new logo" : "新しいロゴをアップロード",
-    "Upload new background and login image" : "新しい背景とログイン画像",
-    "Background and login image" : "背景とログイン画像",
-    "Advanced options" : "詳細オプション",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG画像をサポートするPHP拡張機能 ImageMagick をインストールすると、アップロードされたロゴと色に基づいてファビコンを自動生成することができます。",
-    "Unable to apply the setting." : "設定を適用できません。",
-    "No background has been selected" : "選択済みの背景はありません",
-    "Select a custom color" : "カスタムカラーを選択",
-    "Upload" : "アップロード"
+    "Unable to apply the setting." : "設定を適用できません。"
 },
 "nplurals=1; plural=0;");

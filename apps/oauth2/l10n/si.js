@@ -11,8 +11,6 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 බාහිර සේවාවන්ට {instanceName} වෙත ප්‍රවේශය ඉල්ලීමට ඉඩ දෙයි.",
     "Name" : "නම",
     "Add client" : "අනුග්‍රාහකයක් එකතු කරන්න",
-    "Add" : "එකතු කරන්න",
-    "Client Identifier" : "අනුග්‍රාහක හඳුන්වනය",
-    "Show client secret" : "අනුග්‍රාහකයේ රහස්‍යතාව පෙන්වන්න"
+    "Add" : "එකතු කරන්න"
 },
 "nplurals=2; plural=(n != 1);");

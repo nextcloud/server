@@ -13,8 +13,6 @@ OC.L10N.register(
     "Name" : "이름",
     "Redirection URI" : "전환될 URI",
     "Add client" : "클라이언트 추가",
-    "Add" : "추가",
-    "Client Identifier" : "클라이언트 식별자",
-    "Show client secret" : "클라이언트 비밀 값 표시"
+    "Add" : "추가"
 },
 "nplurals=1; plural=0;");

@@ -14,6 +14,7 @@ use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -21,6 +22,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use phpseclib3\Crypt\RSA as CryptRSA;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -34,6 +36,7 @@ class AjaxControllerTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IL10N&MockObject $l10n;
 	private AuthorizedGroupMapper&MockObject $authorizedGroupMapper;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private AjaxController $ajaxController;
 
 	protected function setUp(): void {
@@ -49,6 +52,7 @@ class AjaxControllerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->ajaxController = new AjaxController(
 			'files_external',
@@ -60,6 +64,7 @@ class AjaxControllerTest extends TestCase {
 			$this->userManager,
 			$this->l10n,
 			$this->authorizedGroupMapper,
+			$this->eventDispatcher,
 		);
 
 		$this->l10n->expects($this->any())
@@ -160,6 +165,9 @@ class AjaxControllerTest extends TestCase {
 		$this->globalAuth
 			->expects($this->never())
 			->method('saveAuth');
+		$this->eventDispatcher
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$response = $this->ajaxController->saveGlobalCredentials('UidOfTestUser', 'test', 'password');
 		$this->assertSame($response->getStatus(), 403);
@@ -180,6 +188,7 @@ class AjaxControllerTest extends TestCase {
 			->expects($this->once())
 			->method('saveAuth')
 			->with('MyAdminUid', 'test', 'password');
+		$this->expectCredentialsAuditEvent('MyAdminUid', 'Global credentials for external storages of user "%s" were updated');
 
 		$response = $this->ajaxController->saveGlobalCredentials('MyAdminUid', 'test', 'password');
 		$this->assertSame($response->getStatus(), 200);
@@ -212,6 +221,9 @@ class AjaxControllerTest extends TestCase {
 		$this->globalAuth
 			->expects($this->never())
 			->method('saveAuth');
+		$this->eventDispatcher
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$response = $this->ajaxController->saveGlobalCredentials('AnotherUserUid', 'test', 'password');
 		$this->assertSame($response->getStatus(), 403);
@@ -234,6 +246,7 @@ class AjaxControllerTest extends TestCase {
 			->expects($this->once())
 			->method('saveAuth')
 			->with('', 'test', 'password');
+		$this->expectCredentialsAuditEvent('', 'Admin-defined global credentials for external storages were updated');
 
 		$response = $this->ajaxController->saveGlobalCredentials('', 'test', 'password');
 		$this->assertSame(200, $response->getStatus());
@@ -276,6 +289,9 @@ class AjaxControllerTest extends TestCase {
 		$this->globalAuth
 			->expects($this->never())
 			->method('saveAuth');
+		$this->eventDispatcher
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$response = $this->ajaxController->saveGlobalCredentials('OtherUserUid', 'test', 'password');
 		$this->assertSame(403, $response->getStatus());
@@ -299,9 +315,22 @@ class AjaxControllerTest extends TestCase {
 		$this->globalAuth
 			->expects($this->never())
 			->method('saveAuth');
+		$this->eventDispatcher
+			->expects($this->never())
+			->method('dispatchTyped');
 
 		$response = $this->ajaxController->saveGlobalCredentials('', 'test', 'password');
 		$this->assertSame(403, $response->getStatus());
 		$this->assertSame('Permission denied', $response->getData()['message']);
+	}
+
+	private function expectCredentialsAuditEvent(string $uid, string $message): void {
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'files_external.credentials.updated'
+				&& $event->getParameters() === ['targetUserId' => $uid]
+				&& $event->getLogMessage() === $message));
 	}
 }

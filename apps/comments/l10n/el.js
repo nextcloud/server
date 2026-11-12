@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επεξεργασίας του σχολίου",
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
-    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "Write a comment …" : "Γράψτε ένα σχόλιο …"
+    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου"
 },
 "nplurals=2; plural=(n != 1);");

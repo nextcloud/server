@@ -7,7 +7,6 @@
 import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
 import { mdiCheck, mdiInformationOutline, mdiUpdate, mdiWeb } from '@mdi/js'
-import { showError } from '@nextcloud/dialogs'
 import { getLanguage, t } from '@nextcloud/l10n'
 import { NcButton, NcDialog, NcIconSvgWrapper, NcLoadingIcon, NcNoteCard } from '@nextcloud/vue'
 import { computed, ref } from 'vue'
@@ -47,13 +46,11 @@ const changelogText = computed(() => {
  */
 async function onUpdate() {
 	isUpdating.value = true
-	for (const app of props.apps) {
-		try {
-			await store.updateApp(app.id)
-		} catch (error) {
-			logger.error(`Failed to update app ${app.id}`, { error })
-			showError(t('appstore', 'Failed to update app {appName}', { appName: app.name }))
-		}
+	const appIds = props.apps.map((app) => app.id)
+	try {
+		await store.updateApps(appIds)
+	} catch (error) {
+		logger.error('Failed to update all apps', { error, appIds })
 	}
 	isUpdating.value = false
 	emit('close')

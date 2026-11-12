@@ -131,21 +131,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Çeşitli erişilebilirlik seçenekleri",
     "Enable blur background filter (may increase GPU load)" : "Arka plan bulanıklaştırılsın (grafik işlemci yükünü artırabilir)",
     "Customization has been disabled by your administrator" : "Özelleştirme özelliği yöneticiniz tarafından kapatılmış",
-    "Disable-user-theming should be true or false" : "Disable-user-theming seçeneği true ya da false olmalıdır",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Birincil renk, önemli düğmeler gibi ögeleri vurgulamak için kullanılır. Geçerli renk temasına bağlı olarak biraz değiştirilebilir.",
-    "Header logo" : "Üst bilgi logosu",
-    "Upload new header logo" : "Yeni üst bilgi logosu yükle",
-    "Upload new favicon" : "Yeni site simgesi yükle",
-    "User settings" : "Kullanıcı ayarları",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Arka plan görseli yerine düz bir arka plan rengi de yapılandırabilirsiniz. Arka plan görseli kullanıyorsanız bu rengi değiştirmek uygulama menüsü simgelerinin rengini etkiler.",
-    "Upload new logo" : "Yeni logo yükle",
-    "Upload new background and login image" : "Yeni arka plan ve oturum açma görselini yükleyin",
-    "Background and login image" : "Arka plan ve oturum açma görseli",
-    "Advanced options" : "Gelişmiş ayarlar",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon oluşturulması için ImageMagick PHP eklentisini SVG desteği ile kurun.",
-    "Unable to apply the setting." : "Ayar uygulanamadı.",
-    "No background has been selected" : "Herhangi bir arka plan seçilmemiş",
-    "Select a custom color" : "Özel bir renk seçin",
-    "Upload" : "Yükle"
+    "Unable to apply the setting." : "Ayar uygulanamadı."
 },
 "nplurals=2; plural=(n > 1);");

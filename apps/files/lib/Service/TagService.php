@@ -55,6 +55,9 @@ class TagService {
 			throw new \RuntimeException('No homeFolder set');
 		}
 
+		// Only handle the favorite tag
+		$tags = array_filter($tags, static fn (string $tag): bool => $tag === ITags::TAG_FAVORITE);
+
 		$fileId = $this->homeFolder->get($path)->getId();
 
 		$currentTags = $this->tagger->getTagsForObjects([$fileId]);

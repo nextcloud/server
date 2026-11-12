@@ -207,10 +207,11 @@ import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarSections } from '@nextcloud/sharing/ui'
+import { toRaw } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
@@ -234,7 +235,7 @@ import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 import { openShareCreateDialog } from '../services/SharingDialog.ts'
 import { getSharesForNode } from '../services/unifiedShares.ts'
-import { shareWithTitle } from '../utils/SharedWithMe.js'
+import { originalShareLabel, shareWithTitle } from '../utils/SharedWithMe.js'
 
 const productName = window.OC.theme.productName
 
@@ -366,6 +367,15 @@ export default {
 				// TRANSLATORS: Type as in with a keyboard
 				: t('files_sharing', 'Type an email or federated cloud ID')
 		},
+
+		/**
+		 * Source name of the received share when it differs from the current name.
+		 *
+		 * @return {string}
+		 */
+		originalDisplayName() {
+			return this.fileInfo?.attributes?.['original-displayname'] || ''
+		},
 	},
 
 	watch: {
@@ -489,22 +499,22 @@ export default {
 		},
 
 		/**
-		 * Update sharedWithMe.subtitle with the appropriate
+		 * Update sharedWithMe.extra with the appropriate
 		 * expiration time left
 		 *
 		 * @param {Share} share the sharedWith Share object
 		 */
 		updateExpirationSubtitle(share) {
-			const expiration = moment(share.expireDate).unix()
-			this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'Expires {relativetime}', {
-				relativetime: moment(expiration * 1000).fromNow(),
-			}))
+			const expiration = new Date(share.expireDate).getTime()
+			this.sharedWithMe.extra = t('files_sharing', 'Expires {relativetime}', {
+				relativetime: formatRelativeTime(expiration),
+			})
 
 			// share have expired
-			if (moment().unix() > expiration) {
+			if (Date.now() > expiration) {
 				clearInterval(this.expirationInterval)
 				// TODO: clear ui if share is expired
-				this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'this share just expired.'))
+				this.sharedWithMe.extra = t('files_sharing', 'this share just expired.')
 			}
 		},
 
@@ -551,19 +561,21 @@ export default {
 			if (data.ocs && data.ocs.data && data.ocs.data[0]) {
 				const share = new Share(data)
 				const title = shareWithTitle(share)
+				const originalDisplayName = share.originalDisplayName || this.originalDisplayName
 				const displayName = share.ownerDisplayName
 				const user = share.owner
 
 				this.sharedWithMe = {
 					displayName,
 					title,
+					subtitle: originalShareLabel(originalDisplayName),
 					user,
 				}
 				this.reshare = share
 
-				// If we have an expiration date, use it as subtitle
+				// If we have an expiration date, use it as extra
 				// Refresh the status every 10s and clear if expired
-				if (share.expireDate && moment(share.expireDate).unix() > moment().unix()) {
+				if (share.expireDate && new Date(share.expireDate).getTime() > Date.now()) {
 					// first update
 					this.updateExpirationSubtitle(share)
 					// interval update
@@ -573,14 +585,12 @@ export default {
 				// Fallback to compare owner and current user.
 				this.sharedWithMe = {
 					displayName: this.fileInfo.shareOwner,
-					title: t(
-						'files_sharing',
-						'Shared with you by {owner}',
-						{ owner: this.fileInfo.shareOwner },
-						undefined,
-						{ escape: false },
-					),
+					title: shareWithTitle({
+						type: ShareType.User,
+						ownerDisplayName: this.fileInfo.shareOwner,
+					}),
 
+					subtitle: originalShareLabel(this.originalDisplayName),
 					user: this.fileInfo.shareOwnerId,
 				}
 			}
@@ -647,7 +657,7 @@ export default {
 				if (share.type === ShareType.Email) {
 					listComponent = this.$refs.linkShareList
 				}
-				const newShare = listComponent.$children.find((component) => component.share === share)
+				const newShare = listComponent?.$refs.entries?.find((component) => toRaw(component.share) === toRaw(share))
 				if (newShare) {
 					resolve(newShare)
 				}

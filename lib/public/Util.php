@@ -572,7 +572,8 @@ class Util {
 	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
-		return \OC_Util::isPublicLinkPasswordRequired($checkGroupMembership);
+		$shareManager = Server::get(\OCP\Share\IManager::class);
+		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
 	}
 
 	/**
@@ -583,7 +584,8 @@ class Util {
 	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		return \OC_Util::isDefaultExpireDateEnforced();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
+		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
 	/**

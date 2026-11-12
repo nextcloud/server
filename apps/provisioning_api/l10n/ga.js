@@ -2,6 +2,8 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Ní mór gur riarthóir é cuntas logáilte isteach nó údarú a bheith agat an socrú seo a chur in eagar.",
+    "The given value was rejected" : "Diúltaíodh don luach a tugadh",
+    "Deleting the given key was rejected" : "Diúltaíodh don eochair shonraithe a scriosadh",
     "Could not create non-existing user ID" : "Níorbh fhéidir aitheantas úsáideora nach bhfuil ann cheana a chruthú",
     "User already exists" : "Úsáideoir ann cheana féin",
     "Group %1$s does not exist" : "Níl grúpa %1$s ann",

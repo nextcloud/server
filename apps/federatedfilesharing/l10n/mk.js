@@ -23,6 +23,14 @@ OC.L10N.register(
     "Federated file sharing" : "Федерално споделување на датотеки",
     "Provide federated file sharing across servers" : "Обезбедете федерално споделување на датотеки помеѓу сервери",
     "Unable to update federated files sharing config" : "Неможе да се ажурираат параметрите за федерално споделување",
+    "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Прилагодете како луѓето можат да споделуваат помеѓу серверите. Ова ги вклучува споделувањата помеѓу корисниците на овој сервер, како и доколку користат федерално споделување.",
+    "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери (оваа можност истотака дозволува WebDAV пристап до јавни споделувања)",
+    "Allow people on this server to receive shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од други сервери",
+    "Allow people on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со групи на други сервери",
+    "Allow people on this server to receive group shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од други сервери",
+    "The lookup server is only available for global scale." : "Серверот за пребарување е достапен само на глобално ниво.",
+    "Search global and public address book for people" : "Пребарај глобален и јавен именик на корисници",
+    "Allow people to publish their data to a global and public address book" : "Дозволи им на корисниците да објавуваат информации во глобалниот и јавниот именик",
     "Trusted federation" : "Доверлива федерација",
     "Automatically accept shares from trusted federated accounts and groups by default" : "Автоматски прифаќај споделувања од други доверливи корисници и групи",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Споделете со мене преку мојот Федерален Cloud ID, види {url}",
@@ -45,7 +53,6 @@ OC.L10N.register(
     "Remote share" : "Далечинско споделување",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Дали сакате да додадете далечинско споделување на {name} од {owner}@{remote}?",
     "Remote share password" : "Лозинка за далечинско споделување",
-    "X (formerly Twitter)" : "X (поранешен Twitter)",
-    "formerly Twitter" : "поранешен Twitter"
+    "Incoming share could not be processed" : "Долдовен споделен ресурс не може да се обработи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

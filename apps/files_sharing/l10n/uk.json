@@ -146,7 +146,6 @@
     "Copy" : "Копіювати",
     "Send link via email" : "Надіслати посилання електронною поштою",
     "Enter an email address or paste a list" : "Зазначте ел. адресу або список адрес",
-    "Remove email" : "Вилучити ел. адресу",
     "Select a destination" : "Вибрати призначення",
     "Select" : "Вибрати",
     "What are you requesting?" : "Що ви хочете отримати?",
@@ -323,7 +322,6 @@
     "Unable to load the shares list" : "Не вдалося завантажити список спільних ресурсів",
     "Expires {relativetime}" : "Термін дії закінчується {relativetime}",
     "this share just expired." : "термін дії спільного доступу вичерпано.",
-    "Shared with you by {owner}" : "{owner} поділив(-ла-)ся з вами",
     "Internal shares" : "Внутрішні спільні ресурси",
     "Internal shares explanation" : "Опис внутрішніх спільних ресурсів",
     "External shares" : "Зовнішні спільні ресурси",
@@ -409,6 +407,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} надав доступ вам та колу {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} надав доступ вам та у чаті {conversation}",
     "Shared with you in a conversation by {owner}" : "{owner} поділив(-ла-)ся з вами у чаті",
+    "Shared with you by {owner}" : "{owner} поділив(-ла-)ся з вами",
     "%1$s shared %2$s with you" : "%1$s поділив(ла)ся %2$s з вами",
     "Do you want to accept this share?" : "Прийняти пропозицію на доступ до спільного ресурсу?",
     "Share not found" : "Спільний ресурс не знайдено",
@@ -417,13 +416,9 @@
     "Group sharing is disabled by the administrator" : "Груповий спільний доступ вимкнено адміністратором",
     "Public link sharing is disabled by the administrator" : "Адміністратор вимкнув спільний доступ за публічним посиланням",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Неможливо поділитися %1$s, оскільки бекенд не дозволяє надавати доступ категорії %2$s",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
     "Public upload disabled by the administrator" : "Публічне завантаження вимкнено адміністратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токени мають містити щонайменше 1 символ, можуть складатися тільки з літер, цифр або дефісу",
-    "Via “{folder}”" : "Через “{folder}”",
-    "Name or email …" : "Ім'я або електронна адреса …",
-    "Name, email, or Federated Cloud ID …" : "Ім’я, адреса електронної пошти або ідентифікатор хмари…",
-    "Searching …" : "Пошук...",
+    "Remove email" : "Вилучити ел. адресу",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановіть токен для публічного посилання на спільний ресурс з простою для запам'ятовування назвою або створіть новий токен. Не рекомендується використовувати токени, які можна легко вгадати, для спільних ресурсів, що містять чутливі дані."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

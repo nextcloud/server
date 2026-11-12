@@ -18,9 +18,6 @@ OC.L10N.register(
     "Delete client" : "Ta bort klient",
     "Make sure you store the secret key, it cannot be recovered." : "Spara den hemliga nyckeln. Den kan inte återskapas.",
     "Add client" : "Lägg till klient",
-    "Add" : "Lägg till",
-    "Client Identifier" : "Klientidentifierare",
-    "Show client secret" : "Visa klienthemlighet",
-    "Hide client secret" : "Dölj klienthemlighet"
+    "Add" : "Lägg till"
 },
 "nplurals=2; plural=(n != 1);");

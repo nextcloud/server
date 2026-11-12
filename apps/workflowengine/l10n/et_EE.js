@@ -125,7 +125,6 @@ OC.L10N.register(
     "Request user agent" : "Päri rakenduse tunnust",
     "Group membership" : "Grupi liikmelisus",
     "is member of" : "on liige",
-    "is not member of" : "ei ole liige",
-    "Type to search for group …" : "Grupi otsimiseks kirjuta midagi…"
+    "is not member of" : "ei ole liige"
 },
 "nplurals=2; plural=(n != 1);");

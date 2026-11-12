@@ -31,6 +31,7 @@ use OC\Preview\JPEG;
 use OC\Preview\Krita;
 use OC\Preview\MarkDown;
 use OC\Preview\Movie;
+use OC\Preview\MovieRemote;
 use OC\Preview\MP3;
 use OC\Preview\MSOffice2003;
 use OC\Preview\MSOffice2007;
@@ -156,7 +157,7 @@ class PreviewManager implements IPreview {
 				$this->config,
 				$this->container->get(IAppConfig::class),
 				$this,
-				new GeneratorHelper(),
+				$this->helper,
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),
@@ -364,7 +365,14 @@ class PreviewManager implements IPreview {
 
 		$this->registerCoreProvidersOffice();
 
-		// Video requires ffmpeg
+		// Video requires an ffmpeg-over-ip server or ffmpeg, the server is tried first
+		if (in_array(MovieRemote::class, $this->getEnabledDefaultProvider(), true)) {
+			if ($this->config->getSystemValueString('preview_ffmpeg_address', '') === '') {
+				$this->container->get(LoggerInterface::class)->error('MovieRemote preview provider is enabled, but no address is configured. Please provide the address of your ffmpeg-over-ip server to the \'preview_ffmpeg_address\' config variable.');
+			} else {
+				$this->registerCoreProvider(MovieRemote::class, '/video\/.*/');
+			}
+		}
 		if (in_array(Movie::class, $this->getEnabledDefaultProvider(), true)) {
 			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
 			if (!is_string($movieBinary)) {

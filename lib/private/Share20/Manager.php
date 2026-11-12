@@ -19,6 +19,7 @@ use OC\Share20\Exception\ProviderException;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Sharing\ViewOnly;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -54,6 +55,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -90,7 +92,6 @@ use RuntimeException;
 class Manager implements IManager {
 
 	private ?IL10N $l;
-	private LegacyHooks $legacyHooks;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -112,9 +113,6 @@ class Manager implements IManager {
 		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
-		// The constructor of LegacyHooks registers the listeners of share events
-		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**
@@ -536,6 +534,7 @@ class Manager implements IManager {
 			}
 		}
 
+		$plainTextPassword = null;
 		try {
 			// Verify share type
 			if ($share->getShareType() === IShare::TYPE_USER) {
@@ -569,7 +568,8 @@ class Manager implements IManager {
 
 				// If a password is set. Hash it!
 				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
-					$share->setPasswordHash($this->hasher->hash($share->getPassword()));
+					$plainTextPassword = $share->getPassword();
+					$share->setPasswordHash($this->hasher->hash($plainTextPassword));
 				}
 			}
 
@@ -641,7 +641,13 @@ class Manager implements IManager {
 			if ($share->getMailSend()) {
 				$provider = $this->factory->getProviderForType($share->getShareType());
 				if ($provider instanceof IShareProviderWithNotification) {
-					$provider->sendMailNotification($share);
+					$notifiedShare = $share;
+					if ($plainTextPassword !== null) {
+						// The share only holds the hash, the mail needs the clear password given by the caller
+						$notifiedShare = clone $share;
+						$notifiedShare->setPassword($plainTextPassword);
+					}
+					$provider->sendMailNotification($notifiedShare);
 				} else {
 					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}
@@ -709,6 +715,16 @@ class Manager implements IManager {
 			$plainTextPassword = $share->getPassword();
 			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
 
+			if ($share->getToken() !== '') {
+				try {
+					$shareFound = $this->getShareByToken($share->getToken());
+					if ($share->getId() !== $shareFound->getId()) {
+						throw new ShareTokenException('Unable to update share. Share token already exists');
+					}
+				} catch (ShareNotFound $e) {
+				}
+			}
+
 			/**
 			 * Cannot enable the getSendPasswordByTalk if there is no password set
 			 */
@@ -754,6 +770,12 @@ class Manager implements IManager {
 			$share = $provider->update($share);
 		}
 
+		if (in_array($share->getShareType(), [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK], true)
+			&& $originalShare->getAttributes()?->getAttribute('permissions', 'download') !== false
+			&& $share->getAttributes()?->getAttribute('permissions', 'download') === false) {
+			$this->restrictDownloadOfReshares($share->getNode(), [$share->getFullId() => true]);
+		}
+
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
@@ -791,7 +813,157 @@ class Manager implements IManager {
 			]);
 		}
 
+		$attributes = $this->formatShareAttributes($share);
+		if ($share->getHideDownload() !== $originalShare->getHideDownload()
+			|| $attributes !== $this->formatShareAttributes($originalShare)) {
+			$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The attributes of the share of the %s with ID "%s" were updated: hide download "%s", attributes "%s" (Share ID: %s)',
+				[
+					'itemType' => $share->getNodeType(),
+					'itemSource' => $share->getNodeId(),
+					'hideDownload' => $share->getHideDownload() ? 'enabled' : 'disabled',
+					'attributes' => $attributes,
+					'id' => $share->getId(),
+					'shareType' => $share->getShareType(),
+				],
+				false,
+				'sharing.share.attributes_updated',
+			));
+		}
+
+		if ($share->getToken() !== $originalShare->getToken()) {
+			$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'The link token of the share of the %s with ID "%s" was changed (Share ID: %s)',
+				[
+					'itemType' => $share->getNodeType(),
+					'itemSource' => $share->getNodeId(),
+					'id' => $share->getId(),
+					'shareType' => $share->getShareType(),
+				],
+				false,
+				'sharing.share.token_updated',
+			));
+		}
+
 		return $share;
+	}
+
+	/**
+	 * Format the share attributes as a comma-separated list of `scope.key=value`
+	 */
+	private function formatShareAttributes(IShare $share): string {
+		$attributes = $share->getAttributes()?->toArray() ?? [];
+		return implode(', ', array_map(
+			static fn (array $attribute): string => $attribute['scope'] . '.' . $attribute['key'] . '=' . json_encode($attribute['value']),
+			$attributes,
+		));
+	}
+
+	/**
+	 * Restrict downloads of the reshares of the given node and its descendants
+	 * whose sharer cannot download them through a chain of received shares
+	 * that allow downloads, starting at the owner.
+	 *
+	 * @param array<string, true> $restrictedShareIds full ids of received shares to treat as restricted
+	 */
+	public function restrictDownloadOfReshares(Node $node, array $restrictedShareIds = []): void {
+		$reshares = $this->getResharesOf($node);
+
+		// Grow the allowed reshares from received shares outside of them, so that
+		// reshares which only allow each other (cycles) end up restricted.
+		$allowed = [];
+		$allowsDownload = function (IShare $receivedShare) use ($restrictedShareIds, $reshares, &$allowed): bool {
+			$id = $receivedShare->getFullId();
+			return !isset($restrictedShareIds[$id])
+				&& $receivedShare->getAttributes()?->getAttribute('permissions', 'download') !== false
+				&& (!isset($reshares[$id]) || isset($allowed[$id]));
+		};
+		do {
+			$changed = false;
+			foreach ($reshares as $id => $reshare) {
+				if (isset($allowed[$id]) || $reshare->getAttributes()?->getAttribute('permissions', 'download') === false) {
+					continue;
+				}
+				if ($this->canDownloadThroughReceivedShares($reshare->getSharedBy(), $reshare->getNodeId(), $allowsDownload)) {
+					$allowed[$id] = true;
+					$changed = true;
+				}
+			}
+		} while ($changed);
+
+		foreach ($reshares as $id => $reshare) {
+			if (isset($allowed[$id]) || $reshare->getAttributes()?->getAttribute('permissions', 'download') === false) {
+				continue;
+			}
+			$attributes = $reshare->getAttributes() ?? $reshare->newAttributes();
+			$attributes->setAttribute('permissions', 'download', false);
+			$reshare->setAttributes($attributes);
+			$this->factory->getProviderForType($reshare->getShareType())->update($reshare);
+		}
+	}
+
+	/**
+	 * Get the shares of the node and its descendants that were not created by the node owner.
+	 *
+	 * @return array<string, IShare> shares indexed by their full id
+	 */
+	private function getResharesOf(Node $node): array {
+		$internalPath = $node->getInternalPath();
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('s.id', 's.share_type')
+			->from('share', 's')
+			->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+			->where($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getStorage()->getCache()->getNumericStorageId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->in('s.item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->neq('s.share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)));
+
+		$owner = $node->getOwner()?->getUID();
+		if ($owner !== null) {
+			$qb->andWhere($qb->expr()->neq('s.uid_initiator', $qb->createNamedParameter($owner)));
+		}
+		if ($internalPath !== '') {
+			$qb->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('f.fileid', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)),
+				$qb->expr()->like('f.path', $qb->createNamedParameter($this->connection->escapeLikeParameter($internalPath) . '/%')),
+			));
+		}
+
+		$reshares = [];
+		$result = $qb->executeQuery();
+		while ($row = $result->fetchAssociative()) {
+			try {
+				$reshare = $this->factory->getProviderForType((int)$row['share_type'])->getShareById((string)$row['id']);
+				$reshares[$reshare->getFullId()] = $reshare;
+			} catch (ProviderException|ShareNotFound) {
+			}
+		}
+		$result->closeCursor();
+
+		return $reshares;
+	}
+
+	/**
+	 * Whether the user can download the node through their own storage or
+	 * through one of the shares they received it from.
+	 *
+	 * @param callable(IShare): bool $allowsDownload whether a received share allows downloads
+	 */
+	private function canDownloadThroughReceivedShares(string $userId, int $nodeId, callable $allowsDownload): bool {
+		try {
+			$nodes = $this->rootFolder->getUserFolder($userId)->getById($nodeId);
+		} catch (\Exception $e) {
+			$this->logger->warning('Could not resolve the received shares of ' . $userId . ', restricting downloads of their reshares', ['exception' => $e]);
+			return false;
+		}
+
+		foreach ($nodes as $node) {
+			if (ViewOnly::canDownloadThroughMount($node, $allowsDownload)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	#[Override]

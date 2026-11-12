@@ -152,7 +152,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		if ($unverified !== []) {
 			$sentences[] = $l->n(
 				'The signature of %s is missing or invalid, so it could not be verified.',
-				'The signatures of %s are missing or invalid, so they could not be verified.',
+				'The %n signatures of %s are missing or invalid, so they could not be verified.',
 				count($unverified),
 				[implode(', ', $unverified)],
 			);

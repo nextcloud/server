@@ -74,13 +74,15 @@ class Hasher implements IHasher {
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
-		$version = match ($alg) {
-			PASSWORD_ARGON2ID => 3,
-			PASSWORD_ARGON2I => 2,
-			PASSWORD_BCRYPT => 1,
-		};
+		if (\defined('PASSWORD_ARGON2ID') && $alg === PASSWORD_ARGON2ID) {
+			return 3 . '|' . password_hash($message, PASSWORD_ARGON2ID, $this->options);
+		}
 
-		return $version . '|' . password_hash($message, $alg, $this->options);
+		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
+			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
+		}
+
+		return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
 	}
 
 	/**
@@ -206,8 +208,8 @@ class Hasher implements IHasher {
 	#[\Override]
 	public function validate(string $prefixedHash): bool {
 		$splitHash = $this->splitHash($prefixedHash);
-		if (empty($splitHash)) {
-			return false;
+		if ($splitHash === null) {
+			return strlen($prefixedHash) === 60 || strlen($prefixedHash) === 40;
 		}
 		$validVersions = [3, 2, 1];
 		$version = $splitHash['version'];

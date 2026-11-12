@@ -105,10 +105,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "تعذّر تحميل وسوم الملف",
     "Failed to set tag for file" : "تعذّر وضع وسم على الملف",
     "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
-    "Collaborative tags …" : "وسوم تعاونية...",
-    "Loading …" : "التحميل جارٍ …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} سوف يتم تعيينها؛ بينما {tag2} سوف تتم إزالتها عن {count} ملف.","{tag1} سوف يتم تعيينها؛ بينما {tag2} ستتم إزالتها عن 1 ملف.","{tag1} سوف يتم تعيينها؛ بينما {tag2} سوف تتم إزالتها عن {count} ملف.","{tag1} سوف يتم تعيينها؛ بينما {tag2} سوف تتم إزالتها عن {count} ملفات.","{tag1} سوف يتم تعيينها؛ بينما {tag2} ستتم إزالتها عن {count} ملف.","{tag1} سوف يتم تعيينها؛ بينما {tag2} ستتم إزالتها عن {count} ملف.."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن 1 ملف.","{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن {count} ملفات.","{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن {count} ملف."],
-    "Loading collaborative tags …" : "تحميل الوسوم التعاونية ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن 1 ملف.","{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن {count} ملفات.","{tag} ستتم إزالتها عن {count} ملف.","{tag} ستتم إزالتها عن {count} ملف."]
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

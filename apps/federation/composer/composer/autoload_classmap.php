@@ -12,6 +12,7 @@ return array(
     'OCA\\Federation\\BackgroundJob\\RequestSharedSecret' => $baseDir . '/../lib/BackgroundJob/RequestSharedSecret.php',
     'OCA\\Federation\\Command\\SyncFederationAddressBooks' => $baseDir . '/../lib/Command/SyncFederationAddressBooks.php',
     'OCA\\Federation\\Command\\SyncFederationCalendars' => $baseDir . '/../lib/Command/SyncFederationCalendars.php',
+    'OCA\\Federation\\ConfigLexicon' => $baseDir . '/../lib/ConfigLexicon.php',
     'OCA\\Federation\\Controller\\OCSAuthAPIController' => $baseDir . '/../lib/Controller/OCSAuthAPIController.php',
     'OCA\\Federation\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Federation\\DAV\\FedAuth' => $baseDir . '/../lib/DAV/FedAuth.php',

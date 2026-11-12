@@ -29,8 +29,6 @@ OC.L10N.register(
     "This weekend" : "بۇ ھەپتە ئاخىرى",
     "Set reminder for this weekend" : "بۇ ھەپتە ئاخىرىدا ئەسكەرتىش بەلگىلەڭ",
     "Next week" : "كېلەر ھەپتە",
-    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش بەلگىلەڭ",
-    "We will remind you of this file" : "بۇ ھۆججەتنى ئەسكەرتىمىز"
+    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ"
 },
 "nplurals=2; plural=(n != 1);");

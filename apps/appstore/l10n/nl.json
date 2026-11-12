@@ -95,7 +95,6 @@
     "Restrict the usage of {app} to members of the following groups." : "Beperk het gebruik van {app} tot leden van de volgende groepen.",
     "Reset limitation" : "Beperking opheffen",
     "Save" : "Opslaan",
-    "Failed to update app {appName}" : "Het is niet gelukt om de app {appName} bij te werken",
     "Update all apps" : "Alle apps bijwerken",
     "Are you sure you want to update all apps?" : "Weet je zeker dat je alle apps wilt bijwerken?",
     "Update done" : "Update voltooid",

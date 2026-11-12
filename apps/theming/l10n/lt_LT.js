@@ -124,21 +124,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Įvairios prieinamumo parinktys",
     "Enable blur background filter (may increase GPU load)" : "Įjunkite fono suliejimo filtrą (gali padidėti GPU apkrova)",
     "Customization has been disabled by your administrator" : "Administratorius yra išjungęs tinkinimus",
-    "Disable-user-theming should be true or false" : "„Disable-user-theming“ reikėtų nustatyti kaip „true“ arba „false“",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Pagrindinė spalva naudojama tokiems elementams kaip svarbūs mygtukai išskirti. Ji gali būti šiek tiek pakoreguota, priklausomai nuo esamos spalvų schemos.",
-    "Header logo" : "Antraštės logotipas",
-    "Upload new header logo" : "Įkelti naują antraštės logotipą",
-    "Upload new favicon" : "Įkelti naują svetainės piktogramą",
-    "User settings" : "Naudotojo nustatymai",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Vietoj fono paveikslėlio taip pat galite nustatyti vienspalvį foną. Jei naudojate fono paveikslėlį, šios spalvos pakeitimas turės įtakos programėlės meniu piktogramų spalvai.",
-    "Upload new logo" : "Įkelti naują logotipą",
-    "Upload new background and login image" : "Įkelkite naują fono ir prisijungimo paveikslėlį",
-    "Background and login image" : "Fono ir prisijungimo paveikslėlis",
-    "Advanced options" : "Išplėstinės parinktys",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Įdiekite „ImageMagick“ PHP plėtinį, palaikantį SVG vaizdus, kad būtų automatiškai generuojami Tinklalapio ženkleliai pagal įkeltą logotipą ir spalvą.",
-    "Unable to apply the setting." : "Nepavyko pritaikyti nustatymo.",
-    "No background has been selected" : "Fonas nepasirinktas",
-    "Select a custom color" : "Pasirinkti norimą spalvą",
-    "Upload" : "Įkelti"
+    "Unable to apply the setting." : "Nepavyko pritaikyti nustatymo."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

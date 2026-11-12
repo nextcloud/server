@@ -7,11 +7,10 @@ import { runOcc } from '@nextcloud/e2e-test-server'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/systemtags-files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
-import { clearTags, createTag } from '../../support/utils/systemtags.ts'
+import { createTag } from '../../support/utils/systemtags.ts'
 
 test.beforeAll(async () => await runOcc(['config:app:set', 'systemtags', 'restrict_creation_to_admin', '--value', '1']))
 test.afterAll(async () => await runOcc(['config:app:delete', 'systemtags', 'restrict_creation_to_admin']))
-test.afterAll(async () => await clearTags())
 
 test.beforeEach(async ({ filesListPage, page, user }) => {
 	await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', '/file1.txt')
@@ -19,8 +18,8 @@ test.beforeEach(async ({ filesListPage, page, user }) => {
 	await filesListPage.open()
 })
 
-test('Cannot create tag if restriction is in place', async ({ filesListPage }) => {
-	const tag = crypto.randomUUID()
+test('Cannot create tag if restriction is in place', async ({ filesListPage, tagName }) => {
+	const tag = tagName()
 	await createTag(tag, 'public')
 
 	await filesListPage.expectInlineTagsForFile('file1.txt', [])

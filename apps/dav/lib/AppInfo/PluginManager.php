@@ -56,6 +56,9 @@ class PluginManager {
 	 */
 	private $calendarPlugins = [];
 
+	/** @var array<string, string> collection name => app id */
+	private array $collectionApps = [];
+
 	/** @var bool */
 	private $populated = false;
 
@@ -89,6 +92,11 @@ class PluginManager {
 	public function getAppCollections() {
 		$this->populate();
 		return $this->collections;
+	}
+
+	public function getCollectionApp(string $name): ?string {
+		$this->populate();
+		return $this->collectionApps[$name] ?? null;
 	}
 
 	/**
@@ -134,6 +142,7 @@ class PluginManager {
 			$collections = $this->loadSabreCollectionsFromInfoXml($this->extractCollectionList($info));
 			foreach ($collections as $collection) {
 				$this->collections[] = $collection;
+				$this->collectionApps[$collection->getName()] = $app;
 			}
 
 			$addresbookPlugins = $this->loadSabreAddressBookPluginsFromInfoXml($this->extractAddressBookPluginList($info));

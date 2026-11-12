@@ -14,13 +14,16 @@ use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Share\IShare;
 use OCP\User\Exceptions\UserNotFoundException;
 
 class FileReferenceProvider extends ADiscoverableReferenceProvider {
@@ -122,6 +125,12 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 				$reference->setImageUrl($fileTypeIconUrl);
 			}
 
+			// What the share allows, and whether it asks to hide the download
+			// on top, as the share attributes and hide-download say over DAV
+			$share = $this->getShare($file);
+			$canDownload = $share?->canDownload() ?? true;
+			$hideDownload = !$canDownload || ($share?->getHideDownload() ?? false);
+
 			$reference->setRichObject('file', [
 				'id' => $file->getId(),
 				'name' => $file->getName(),
@@ -130,11 +139,27 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 				'link' => $reference->getUrl(),
 				'mimetype' => $file->getMimetype(),
 				'mtime' => $file->getMTime(),
-				'preview-available' => $this->previewManager->isAvailable($file)
+				'preview-available' => $this->previewManager->isAvailable($file),
+				'permissions' => $file->getPermissions(),
+				'hide-download' => $hideDownload ? 'yes' : 'no',
+				'can-download' => $canDownload ? 'yes' : 'no',
 			]);
 		} catch (InvalidPathException|NotFoundException|NotPermittedException|UserNotFoundException $e) {
 			throw new NotFoundException();
 		}
+	}
+
+	/**
+	 * The share the user received the file through, if they did
+	 */
+	private function getShare(Node $file): ?IShare {
+		$storage = $file->getStorage();
+		if (!$storage->instanceOfStorage(ISharedStorage::class)) {
+			return null;
+		}
+
+		/** @var ISharedStorage $storage */
+		return $storage->getShare();
 	}
 
 	#[\Override]

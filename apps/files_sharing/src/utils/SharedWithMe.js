@@ -3,7 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
+
+/**
+ * Whether the source name should be shown.
+ * It is set when any sharer in between renamed the node.
+ *
+ * @param {string} originalDisplayName
+ */
+function wasRenamed(originalDisplayName) {
+	return typeof originalDisplayName === 'string' && originalDisplayName !== ''
+}
 
 /**
  *
@@ -66,4 +77,24 @@ function shareWithTitle(share) {
 	}
 }
 
-export { shareWithTitle }
+/**
+ * Source name of a received share, shown on its own line.
+ * Empty when no sharer in the chain renamed the node.
+ *
+ * @param {string} [originalDisplayName]
+ * @return {string}
+ */
+function originalShareLabel(originalDisplayName = '') {
+	if (!wasRenamed(originalDisplayName)) {
+		return ''
+	}
+	return t(
+		'files_sharing',
+		'Originally as {name}',
+		{ name: originalDisplayName },
+		undefined,
+		{ escape: false },
+	)
+}
+
+export { originalShareLabel, shareWithTitle }

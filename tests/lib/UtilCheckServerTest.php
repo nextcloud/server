@@ -116,7 +116,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * when ".ncdata" is present.
 	 */
 	public function testCheckDataDirValidity(): void {
-		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
+		$result = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$this->datadir]);
 		$this->assertEmpty($result);
 	}
 
@@ -126,7 +126,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 */
 	public function testCheckDataDirValidityWhenFileMissing(): void {
 		unlink($this->datadir . '/.ncdata');
-		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
+		$result = $this->invokePrivate('OC_Util', 'checkDataDirectoryValidity', [$this->datadir]);
 		$this->assertEquals(1, count($result));
 
 		$result = \OC_Util::checkServer($this->getConfig([

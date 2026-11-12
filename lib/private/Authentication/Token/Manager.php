@@ -15,7 +15,6 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\Authentication\Token\IToken as OCPIToken;
-use OCP\DB\Exception;
 
 class Manager implements IProvider, OCPIProvider {
 	public function __construct(
@@ -50,34 +49,17 @@ class Manager implements IProvider, OCPIProvider {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
 
-		try {
-			return $this->publicKeyTokenProvider->generateToken(
-				$token,
-				$uid,
-				$loginName,
-				$password,
-				$name,
-				$type,
-				$remember,
-				$scope,
-				$expires,
-			);
-		} catch (Exception $e) {
-			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw $e;
-			}
-			// It's rare, but if two requests of the same session (e.g. env-based SAML)
-			// try to create the session token they might end up here at the same time
-			// because we use the session ID as token and the db token is created anew
-			// with every request.
-			//
-			// If the UIDs match, then this should be fine.
-			$existing = $this->getToken($token);
-			if ($existing->getUID() !== $uid) {
-				throw new \Exception('Token conflict handled, but UIDs do not match. This should not happen', 0, $e);
-			}
-			return $existing;
-		}
+		return $this->publicKeyTokenProvider->generateToken(
+			$token,
+			$uid,
+			$loginName,
+			$password,
+			$name,
+			$type,
+			$remember,
+			$scope,
+			$expires,
+		);
 	}
 
 	/**

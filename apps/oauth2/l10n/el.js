@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "Διαγραφή πελάτη",
     "Make sure you store the secret key, it cannot be recovered." : "Βεβαιωθείτε ότι αποθηκεύετε το μυστικό κλειδί, δεν μπορεί να ανακτηθεί.",
     "Add client" : "Προσθήκη πελάτη",
-    "Add" : "Προσθήκη",
-    "Client Identifier" : "Αναγνωριστικό πελάτη",
-    "Show client secret" : "Εμφάνιση μυστικού εφαρμογής υπολογιστή",
-    "Hide client secret" : "Απόκρυψη μυστικού εφαρμογής υπολογιστή"
+    "Add" : "Προσθήκη"
 },
 "nplurals=2; plural=(n != 1);");

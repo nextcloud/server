@@ -309,6 +309,38 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(0, count($tagger->getIdsForTag('Family')));
 	}
 
+	public function testTagById(): void {
+		$tagger = $this->tagMgr->load($this->objectType);
+		$tagId = $tagger->add('Family');
+
+		$this->assertTrue($tagger->tagAs(1, (string)$tagId));
+		$this->assertEquals([1], $tagger->getIdsForTag('Family'));
+		$this->assertEquals([1], $tagger->getIdsForTag($tagId));
+		$this->assertTrue($tagger->unTag(1, (string)$tagId));
+		$this->assertEquals([], $tagger->getIdsForTag('Family'));
+		$this->assertEquals(1, count($tagger->getTags()));
+	}
+
+	public function testTagByNumericValue(): void {
+		$otherTagger = $this->tagMgr->load($this->objectType, [], false, self::getUniqueID('user_'));
+		$otherTagId = $otherTagger->add('Family');
+		$this->assertTrue($otherTagger->tagAs(1, 'Family'));
+
+		$tagger = $this->tagMgr->load($this->objectType);
+
+		// Treated as the name of an own tag
+		$this->assertTrue($tagger->tagAs(2, (string)$otherTagId));
+		$this->assertTrue($tagger->hasTag((string)$otherTagId));
+		$this->assertEquals([2], $tagger->getIdsForTag((string)$otherTagId));
+		$this->assertEquals([1], $otherTagger->getIdsForTag('Family'));
+
+		$tagger->unTag(1, (string)$otherTagId);
+		$this->assertEquals([1], $otherTagger->getIdsForTag('Family'));
+
+		$tagger->unTag(2, (string)$otherTagId);
+		$this->assertEquals([], $tagger->getIdsForTag((string)$otherTagId));
+	}
+
 	public function testFavorite(): void {
 		$tagger = $this->tagMgr->load($this->objectType);
 		$this->assertTrue($tagger->addToFavorites(1));

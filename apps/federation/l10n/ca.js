@@ -14,9 +14,6 @@ OC.L10N.register(
     "Add" : "Afegeix",
     "Delete" : "Suprimir",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "La federació us permet connectar-vos amb altres servidors de confiança per a intercanviar carpetes de compte. Per exemple, s'utilitzarà per a proporcionar resultats d'emplenament automàtic de comptes externs per a l'ús compartit federat. No cal afegir un servidor com a servidor de confiança per a crear un recurs d'ús compartit federat.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor ha de validar l'altre. Aquest procés pot requerir uns quants cicles cron.",
-    "External documentation for Federated Cloud Sharing" : "Documentació externa per a compartició federada de núvol",
-    "+ Add trusted server" : "+ Afegeix un servidor de confiança",
-    "Trusted server" : "Servidor de confiança"
+    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor ha de validar l'altre. Aquest procés pot requerir uns quants cicles cron."
 },
 "nplurals=2; plural=(n != 1);");

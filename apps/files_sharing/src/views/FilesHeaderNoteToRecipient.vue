@@ -7,9 +7,9 @@
 		v-if="note.length > 0"
 		class="note-to-recipient"
 		type="info">
-		<p v-if="displayName" class="note-to-recipient__heading">
+		<p v-if="user && displayName" class="note-to-recipient__heading">
 			{{ t('files_sharing', 'Note from') }}
-			<NcUserBubble :user="user.id" :display-name="user.displayName" />
+			<NcUserBubble :user="user.id" :displayName="user.displayName" />
 		</p>
 		<p v-else class="note-to-recipient__heading">
 			{{ t('files_sharing', 'Note:') }}
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Folder } from '@nextcloud/files'
+import type { IFolder } from '@nextcloud/files'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
@@ -27,12 +27,12 @@ import { computed, ref } from 'vue'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
-const folder = ref<Folder>()
+const folder = ref<IFolder>()
 const note = computed<string>(() => folder.value?.attributes.note ?? '')
 const displayName = computed<string>(() => folder.value?.attributes['owner-display-name'] ?? '')
 const user = computed(() => {
 	const id = folder.value?.owner
-	if (id !== getCurrentUser()?.uid) {
+	if (id && id !== getCurrentUser()?.uid) {
 		return {
 			id,
 			displayName: displayName.value,
@@ -46,7 +46,7 @@ const user = computed(() => {
  *
  * @param newFolder the new folder to show note for
  */
-function updateFolder(newFolder: Folder) {
+function updateFolder(newFolder: IFolder) {
 	folder.value = newFolder
 }
 

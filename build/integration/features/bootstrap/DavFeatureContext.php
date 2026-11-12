@@ -8,11 +8,11 @@ declare(strict_types=1);
  */
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Step\Given;
 
 require __DIR__ . '/autoload.php';
 
-class DavFeatureContext implements Context, SnippetAcceptingContext {
+class DavFeatureContext implements Context {
 	use AppConfiguration;
 	use ContactsMenu;
 	use ExternalStorage;
@@ -20,7 +20,14 @@ class DavFeatureContext implements Context, SnippetAcceptingContext {
 	use WebDav;
 	use Trashbin;
 
+	#[Given('link sharing is disabled for group :group')]
+	public function linkSharingIsDisabledForGroup(string $group): void {
+		$this->serverParameterIsSetTo('shareapi_allow_links_exclude_groups', 'core', json_encode([$group]));
+	}
+
 	protected function resetAppConfigs() {
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_allow_links');
+		$this->deleteServerConfig('core', 'shareapi_allow_links_exclude_groups');
 	}
 }

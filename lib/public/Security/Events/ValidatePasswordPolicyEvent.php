@@ -19,6 +19,7 @@ use SensitiveParameter;
  * If a password policy app is installed and the password
  * is invalid, an `\OCP\HintException` will be thrown.
  * @since 18.0.0
+ * @since 31.0.0 Provides ``getContext`` to apply different rules per password context, e.g. account or share passwords.
  */
 class ValidatePasswordPolicyEvent extends Event {
 

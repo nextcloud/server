@@ -1,0 +1,7 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: p-queue developers
+
+This file is generated from multiple sources. Included packages:
+- p-queue
+	- version: 10.0.0
+	- license: MIT

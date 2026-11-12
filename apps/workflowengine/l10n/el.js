@@ -125,7 +125,6 @@ OC.L10N.register(
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
     "Group membership" : "Συμμετοχή σε ομάδα",
     "is member of" : "είναι μέλος του",
-    "is not member of" : "δεν είναι μέλος του",
-    "Type to search for group …" : "Πληκτρολογήστε για αναζήτηση ομάδας …"
+    "is not member of" : "δεν είναι μέλος του"
 },
 "nplurals=2; plural=(n != 1);");

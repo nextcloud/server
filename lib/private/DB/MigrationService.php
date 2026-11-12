@@ -14,9 +14,12 @@ use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OC\App\InfoParser;
+use OC\DB\Types\TimestampImmutableType;
+use OC\DB\Types\TinyIntType;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Schema\ColumnType;
 use OCP\DB\Schema\SchemaException;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -54,6 +57,14 @@ class MigrationService {
 			$this->output = new SimpleOutput($this->logger, $this->appName);
 		} else {
 			$this->output = $output;
+		}
+
+		// Set custom Nextcloud types
+		if (!Type::hasType(ColumnType::TinyInt->value)) {
+			Type::addType(ColumnType::TinyInt->value, TinyIntType::class);
+		}
+		if (!Type::hasType(ColumnType::TimestampImmutable->value)) {
+			Type::addType(ColumnType::TimestampImmutable->value, TimestampImmutableType::class);
 		}
 
 		if ($this->appName === 'core') {

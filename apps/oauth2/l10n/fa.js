@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "حذف کلاینت",
     "Make sure you store the secret key, it cannot be recovered." : "مطمئن شوید که کلید مخفی را ذخیره کرده‌اید، زیرا قابل بازیابی نیست.",
     "Add client" : "افزودن کلاینت",
-    "Add" : "افزودن",
-    "Client Identifier" : "شناسه کلاینت",
-    "Show client secret" : "نمایش کلید مخفی کلاینت",
-    "Hide client secret" : "مخفی کردن کلید مخفی کلاینت"
+    "Add" : "افزودن"
 },
 "nplurals=2; plural=(n > 1);");

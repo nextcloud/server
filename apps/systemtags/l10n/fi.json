@@ -67,9 +67,6 @@
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
-    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "Collaborative tags …" : "Yhteistyölliset tunnisteet…",
-    "Loading …" : "Ladataan…",
-    "Loading collaborative tags …" : "Ladataan yhteistyöllisiä tunnisteita…"
+    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

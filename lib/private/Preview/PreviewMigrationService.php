@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Preview;
 
+use OC\Files\Cache\CacheEntry;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\SimpleFS\SimpleFile;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\StorageFactory;
@@ -17,6 +20,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\FileInfo;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -50,8 +54,7 @@ class PreviewMigrationService {
 	 * @return Preview[]
 	 */
 	public function migrateFileId(int $fileId, bool $flatPath, ?array $entries = null): array {
-		$previews = [];
-		$internalPath = $this->getInternalFolder((string)$fileId, $flatPath);
+		$internalPath = self::getInternalFolder((string)$fileId, $flatPath);
 
 		if ($entries === null) {
 			try {
@@ -61,111 +64,238 @@ class PreviewMigrationService {
 			}
 		}
 
-		/**
-		 * @var list<Preview> $previewsToInsert
-		 */
-		$previewsToInsert = [];
-
-		foreach ($entries as $entry) {
-			$path = $fileId . '/' . $entry->getName();
-			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
-			if ($preview === false) {
-				$this->logger->error('Unable to import old preview at path.');
-				continue;
-			}
-			$preview->generateId();
-			$preview->setSize($entry->getSize());
-			$preview->setMtime($entry->getMTime());
-			$preview->setOldFileId($entry->getId());
-			$preview->setEncrypted(false);
-
-			$previewsToInsert[] = $preview;
-		}
-
-		if (empty($previewsToInsert)) {
+		$source = $this->getSourceFiles([$fileId])[$fileId] ?? null;
+		if ($source === null) {
+			$this->deleteOrphanedPreviews($internalPath, $entries);
 			$this->deleteFolder($internalPath);
-
-			return $previews;
+			return [];
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('storage', 'etag', 'mimetype')
-			->from('filecache')
-			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
-			->setMaxResults(1);
-
-		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAssociative();
-		$cursor->closeCursor();
-
-		if ($result !== false) {
-			$oldFileIdsToDelete = [];
-			try {
-				foreach ($previewsToInsert as $preview) {
-					$preview->setStorageId($result['storage']);
-					$preview->setEtag($result['etag']);
-					$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
-					$preview->generateId();
-
-					// Commit the insert and the storage migration together, one commit per preview.
-					$this->connection->beginTransaction();
-					try {
-						$preview = $this->previewMapper->insert($preview);
-					} catch (Exception $e) {
-						$this->connection->rollBack();
-						if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-							throw $e;
-						}
-
-						// We already have this preview in the preview table, skip
-						$oldFileIdsToDelete[] = $preview->getOldFileId();
-						continue;
-					}
-
-					try {
-						$this->storageFactory->migratePreview($preview);
-						// Do not delete the old file via a Node here, as that would also
-						// delete it from the file system; only its filecache row is stale.
-						$this->connection->commit();
-					} catch (\Exception $e) {
-						// Also rolls back the insert above.
-						$this->connection->rollBack();
+		$previews = [];
+		$oldFileIdsToDelete = [];
+		try {
+			foreach ($this->createPreviews($fileId, $entries, $source) as $preview) {
+				// Commit the storage migration and the insert together, one commit per preview.
+				// Do not delete the old file via a Node afterwards, as that would also
+				// delete it from the file system; only its filecache row is stale.
+				$this->connection->beginTransaction();
+				try {
+					$this->storageFactory->migratePreviews([$preview]);
+					$previews[] = $this->previewMapper->insert($preview);
+					$this->connection->commit();
+				} catch (Exception $e) {
+					$this->connection->rollBack();
+					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						throw $e;
 					}
-
-					$oldFileIdsToDelete[] = $preview->getOldFileId();
-					$previews[] = $preview;
+					// We already have this preview in the preview table, skip
+				} catch (\Exception $e) {
+					$this->connection->rollBack();
+					throw $e;
 				}
-			} finally {
-				$this->deleteOldFileCacheEntries($oldFileIdsToDelete);
+				$oldFileIdsToDelete[] = $preview->getOldFileId();
 			}
-		} else {
-			// No matching fileId, delete the orphaned preview files themselves.
-			$transactionStarted = false;
-			try {
-				$folder = $this->appData->getFolder($internalPath);
-				$this->connection->beginTransaction();
-				$transactionStarted = true;
-				foreach ($folder->getDirectoryListing() as $file) {
-					$file->delete();
-				}
-				$this->connection->commit();
-			} catch (NotFoundException) {
-				// Folder already gone, nothing to clean up.
-			} catch (\Throwable $e) {
-				// Also catches non-DB failures from $file->delete(), e.g. an unreachable objectstore.
-				if ($transactionStarted) {
-					$this->connection->rollback();
-				}
-				$this->logger->error('Unable to delete orphaned preview at ' . $internalPath, [
-					'exception' => $e,
-				]);
-			}
+		} finally {
+			$this->deleteOldFileCacheEntries($oldFileIdsToDelete);
 		}
 
 		$this->deleteFolder($internalPath);
 
 		return $previews;
+	}
+
+	/**
+	 * Migrate the previews of many legacy preview folders at once.
+	 *
+	 * The inserts of the whole batch share one transaction. If any of them fails,
+	 * e.g. because a preview was migrated concurrently, the batch is rolled back
+	 * and each folder is retried individually with migrateFileId().
+	 *
+	 * @param list<array{fileId: int, folderId: int, flat: bool, entries: list<ICacheEntry>}> $folders
+	 */
+	public function migrateFolders(array $folders): void {
+		if ($folders === []) {
+			return;
+		}
+
+		$sources = $this->getSourceFiles(array_column($folders, 'fileId'));
+		$previews = [];
+		$folderIds = [];
+		foreach ($folders as $folder) {
+			$source = $sources[$folder['fileId']] ?? null;
+			if ($source === null) {
+				$this->deleteOrphanedPreviews(self::getInternalFolder((string)$folder['fileId'], $folder['flat']), $folder['entries']);
+			} else {
+				array_push($previews, ...$this->createPreviews($folder['fileId'], $folder['entries'], $source));
+			}
+			$folderIds[] = $folder['folderId'];
+		}
+
+		$this->connection->beginTransaction();
+		try {
+			$this->storageFactory->migratePreviews($previews);
+			$this->previewMapper->insertMany($previews);
+			$this->deleteOldFileCacheEntries([
+				...array_map(static fn (Preview $preview): int => $preview->getOldFileId(), $previews),
+				...$folderIds,
+			]);
+			$this->connection->commit();
+			return;
+		} catch (\Exception $e) {
+			$this->connection->rollBack();
+			$this->logger->info('Batch preview migration failed, retrying folder by folder.', ['exception' => $e]);
+		}
+
+		foreach ($folders as $folder) {
+			if (!isset($sources[$folder['fileId']])) {
+				continue;
+			}
+			try {
+				$this->migrateFileId($folder['fileId'], $folder['flat'], $folder['entries']);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to migrate preview with fileId: ' . $folder['fileId'], [
+					'exception' => $e,
+				]);
+			}
+		}
+	}
+
+	/**
+	 * List the children of the given folders of the root storage.
+	 *
+	 * @param list<int> $folderIds
+	 * @return array<int, array{folders: list<array{id: int, name: string}>, files: list<ICacheEntry>}> by parent folder id
+	 */
+	public function getFolderChildren(array $folderIds): array {
+		$children = array_fill_keys($folderIds, ['folders' => [], 'files' => []]);
+		if ($folderIds === []) {
+			return $children;
+		}
+
+		$folderMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid', 'parent', 'name', 'mimetype', 'size', 'mtime')
+			->from('filecache')
+			->where($qb->expr()->in('parent', $qb->createNamedParameter($folderIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId());
+		$cursor = $qb->executeQuery();
+		while ($row = $cursor->fetchAssociative()) {
+			$parent = (int)$row['parent'];
+			if ((int)$row['mimetype'] === $folderMimeTypeId) {
+				$children[$parent]['folders'][] = ['id' => (int)$row['fileid'], 'name' => $row['name']];
+			} else {
+				$children[$parent]['files'][] = new CacheEntry($row);
+			}
+		}
+		$cursor->closeCursor();
+
+		return $children;
+	}
+
+	/**
+	 * Delete the given folders of the root storage that have no children anymore.
+	 *
+	 * @param array<int, list<int>> $folderIdsByDepth
+	 */
+	public function deleteEmptyFolders(array $folderIdsByDepth): void {
+		// Deepest first, so that a parent is empty once its children are gone.
+		krsort($folderIdsByDepth);
+		foreach ($folderIdsByDepth as $folderIds) {
+			foreach (array_chunk($folderIds, 1000) as $chunk) {
+				$qb = $this->connection->getQueryBuilder();
+				$qb->selectDistinct('parent')
+					->from('filecache')
+					->where($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+					->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId());
+				$nonEmpty = array_map('intval', $qb->executeQuery()->fetchFirstColumn());
+				$this->deleteOldFileCacheEntries(array_values(array_diff($chunk, $nonEmpty)));
+			}
+		}
+	}
+
+	/**
+	 * @param list<int> $fileIds
+	 * @return array<int, array{storage: int, etag: string, mimetype: int}> by file id
+	 */
+	private function getSourceFiles(array $fileIds): array {
+		$sources = [];
+		foreach (array_chunk(array_values(array_unique($fileIds)), 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->select('fileid', 'storage', 'etag', 'mimetype')
+				->from('filecache')
+				->where($qb->expr()->in('fileid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$cursor = $qb->executeQuery();
+			while ($row = $cursor->fetchAssociative()) {
+				$sources[(int)$row['fileid']] = [
+					'storage' => (int)$row['storage'],
+					'etag' => (string)$row['etag'],
+					'mimetype' => (int)$row['mimetype'],
+				];
+			}
+			$cursor->closeCursor();
+		}
+		return $sources;
+	}
+
+	/**
+	 * @param list<ICacheEntry|SimpleFile> $entries
+	 * @param array{storage: int, etag: string, mimetype: int} $source
+	 * @return list<Preview>
+	 */
+	private function createPreviews(int $fileId, array $entries, array $source): array {
+		$sourceMimeType = $this->mimeTypeLoader->getMimetypeById($source['mimetype']);
+		$previews = [];
+		foreach ($entries as $entry) {
+			$preview = Preview::fromPath($fileId . '/' . $entry->getName(), $this->mimeTypeDetector);
+			if ($preview === false) {
+				$this->logger->error('Unable to import old preview at path.');
+				continue;
+			}
+			$preview->setSize($entry->getSize());
+			$preview->setMtime($entry->getMTime());
+			$preview->setOldFileId($entry->getId());
+			$preview->setEncrypted(false);
+			$preview->setStorageId($source['storage']);
+			$preview->setEtag($source['etag']);
+			$preview->setSourceMimeType($sourceMimeType);
+			$previews[] = $preview;
+		}
+		return $previews;
+	}
+
+	/**
+	 * Delete preview files whose source file no longer exists, together with their filecache rows.
+	 *
+	 * @param list<ICacheEntry|SimpleFile> $entries
+	 */
+	private function deleteOrphanedPreviews(string $internalPath, array $entries): void {
+		$storage = $this->rootFolder->getMountPoint()->getStorage();
+		// Delete objects by urn directly, the filecache rows are removed in bulk below.
+		$objectStoreStorage = null;
+		if ($storage->instanceOfStorage(ObjectStoreStorage::class)) {
+			$objectStoreStorage = $storage instanceof Wrapper ? $storage->getInstanceOfStorage(ObjectStoreStorage::class) : $storage;
+		}
+
+		$fileIds = [];
+		foreach ($entries as $entry) {
+			try {
+				if ($objectStoreStorage instanceof ObjectStoreStorage) {
+					$objectStoreStorage->getObjectStore()->deleteObject($objectStoreStorage->getURN($entry->getId()));
+				} else {
+					$storage->unlink($this->previewRootPath . $internalPath . '/' . $entry->getName());
+				}
+			} catch (\Exception $e) {
+				// An object that is already gone only leaves its filecache row to remove.
+				if ($e->getCode() !== 404) {
+					$this->logger->error('Unable to delete orphaned preview at ' . $internalPath . '/' . $entry->getName(), [
+						'exception' => $e,
+					]);
+					continue;
+				}
+			}
+			$fileIds[] = $entry->getId();
+		}
+		$this->deleteOldFileCacheEntries($fileIds);
 	}
 
 	private static function getInternalFolder(string $name, bool $flatPath): string {

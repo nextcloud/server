@@ -128,7 +128,6 @@ OC.L10N.register(
     "Request user agent" : "索取 user agent",
     "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
-    "is not member of" : "非以下群組的成員：",
-    "Type to search for group …" : "輸入以搜尋群組 …"
+    "is not member of" : "非以下群組的成員："
 },
 "nplurals=1; plural=0;");

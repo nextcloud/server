@@ -11,6 +11,7 @@ namespace OCA\Theming\Tests\Controller;
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -22,6 +23,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
@@ -30,6 +32,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -46,6 +49,7 @@ class ThemingControllerTest extends TestCase {
 	private IURLGenerator&MockObject $urlGenerator;
 	private ThemesService&MockObject $themesService;
 	private INavigationManager&MockObject $navigationManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	private ThemingController $themingController;
 
@@ -60,6 +64,7 @@ class ThemingControllerTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->expects($this->any())
@@ -80,9 +85,19 @@ class ThemingControllerTest extends TestCase {
 			$this->imageManager,
 			$this->themesService,
 			$this->navigationManager,
+			$this->eventDispatcher,
 		);
 
 		parent::setUp();
+	}
+
+	private function expectAuditEvent(string $operation, string $message, array $parameters): void {
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === $operation
+				&& $event->getLogMessage() === $message
+				&& $event->getParameters() === $parameters));
 	}
 
 	public static function dataUpdateStylesheetSuccess(): array {
@@ -105,6 +120,7 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->once())
 			->method('set')
 			->with($realSetting ?? $setting, $value);
+		$this->expectAuditEvent('theming.setting.updated', 'Theming setting "%s" was updated', ['setting' => $realSetting ?? $setting]);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
@@ -163,6 +179,8 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->never())
 			->method('set')
 			->with($setting, $value);
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -383,6 +401,8 @@ class ThemingControllerTest extends TestCase {
 		$this->imageManager->expects($this->once())
 			->method('updateImage');
 
+		$this->expectAuditEvent('theming.image.uploaded', 'Theming image "%s" was uploaded', ['key' => 'logo']);
+
 		$expected = new DataResponse(
 			[
 				'data'
@@ -587,6 +607,7 @@ class ThemingControllerTest extends TestCase {
 			->method('undo')
 			->with('MySetting')
 			->willReturn('MyValue');
+		$this->expectAuditEvent('theming.setting.reset', 'Theming setting "%s" was reset to its default value', ['setting' => 'MySetting']);
 
 		$expected = new DataResponse(
 			[
@@ -599,6 +620,32 @@ class ThemingControllerTest extends TestCase {
 			]
 		);
 		$this->assertEquals($expected, $this->themingController->undo('MySetting'));
+	}
+
+	public function testUndoAll(): void {
+		$this->themingDefaults->expects($this->once())
+			->method('undoAll');
+		$this->expectAuditEvent('theming.setting.reset', 'All theming settings were reset to their default values', []);
+
+		$this->themingController->undoAll();
+	}
+
+	public function testUpdateAppMenu(): void {
+		$this->navigationManager->expects($this->once())
+			->method('setDefaultEntryIds')
+			->with(['files', 'dashboard']);
+		$this->expectAuditEvent('theming.setting.updated', 'Theming setting "%s" was updated', ['setting' => 'defaultApps']);
+
+		$this->themingController->updateAppMenu('defaultApps', ['files', 'dashboard']);
+	}
+
+	public function testUpdateAppMenuInvalid(): void {
+		$this->navigationManager->expects($this->never())
+			->method('setDefaultEntryIds');
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+
+		$this->themingController->updateAppMenu('defaultApps', 'files');
 	}
 
 	public static function dataUndoDelete(): array {
@@ -782,5 +829,37 @@ class ThemingControllerTest extends TestCase {
 		]);
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
+	/**
+	 * @param list<array{name: string, content: string}> $meta
+	 */
+	private function getThemeStylesheet(array $meta, bool $plain): string {
+		$theme = $this->createMock(ITheme::class);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000']);
+		$theme->method('getCustomCss')->willReturn('');
+		$theme->method('getMeta')->willReturn($meta);
+		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
+
+		return $this->themingController->getThemeStylesheet('dark', $plain)->render();
+	}
+
+	public function testGetThemeStylesheetSetsColorScheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], true);
+
+		$this->assertMatchesRegularExpression('/^:root \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+	}
+
+	public function testGetThemeStylesheetSetsColorSchemeOnRootForScopedTheme(): void {
+		$css = $this->getThemeStylesheet([['name' => 'color-scheme', 'content' => 'dark']], false);
+
+		$this->assertMatchesRegularExpression('/\[data-theme-dark\] \{[^}]*color-scheme:dark;[^}]*\}/', $css);
+		$this->assertStringContainsString(':root:has(> body[data-theme-dark]) { color-scheme:dark; }', $css);
+	}
+
+	public function testGetThemeStylesheetWithoutColorScheme(): void {
+		$css = $this->getThemeStylesheet([], false);
+
+		$this->assertStringNotContainsString('color-scheme', $css);
 	}
 }

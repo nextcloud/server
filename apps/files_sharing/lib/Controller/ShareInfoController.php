@@ -7,6 +7,8 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
@@ -27,6 +29,7 @@ use OCP\Share\IManager;
 /**
  * @psalm-import-type Files_SharingShareInfo from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::FILES_READ)]
 class ShareInfoController extends ApiController {
 
 	/**

@@ -519,6 +519,7 @@
                     "mimetype",
                     "mount-type",
                     "note",
+                    "original_displayname",
                     "parent",
                     "path",
                     "permissions",
@@ -632,6 +633,10 @@
                     },
                     "note": {
                         "type": "string"
+                    },
+                    "original_displayname": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "parent": {
                         "nullable": true

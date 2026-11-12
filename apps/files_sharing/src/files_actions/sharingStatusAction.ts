@@ -74,6 +74,11 @@ export const action: IFileAction = {
 
 	iconSvgInline({ nodes }) {
 		const node = nodes[0]!
+		// Shared by someone else, like the title. The share types also hold the received share in some responses
+		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+			return generateAvatarSvg(node.owner, isExternal(node))
+		}
+
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		// Mixed share types
@@ -96,10 +101,6 @@ export const action: IFileAction = {
 		// Circle shares
 		if (shareTypes.includes(ShareType.Team)) {
 			return CircleSvg
-		}
-
-		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
-			return generateAvatarSvg(node.owner, isExternal(node))
 		}
 
 		return AccountPlusSvg

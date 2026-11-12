@@ -365,10 +365,6 @@ OC.L10N.register(
     "Link:" : "پیوند:",
     "Occurring:" : "زمان وقوع:",
     "More options at %s" : "گزینه‌های بیشتر در %s",
-    "The system address book contains contact information for all users in your instance." : "دفترچه آدرس سیستم شامل اطلاعات تماس همه کاربران در نمونه شما است",
-    "Enable System Address Book" : "فعال‌سازی دفترچه آدرس سیستم",
-    "No results." : "نتیجه‌ای یافت نشد.",
-    "Start typing." : "شروع به تایپ کنید.",
     "Delegate:" : "نماینده:"
 },
 "nplurals=2; plural=(n > 1);");

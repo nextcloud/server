@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Nepodařilo se smazat důvěryhodný server. Zkuste to prosím později znovu.",
     "Delete" : "Smazat",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federování umožňuje propojit se s ostatními servery, kterým věříte a vyměňovat si tak adresář uživatelských účtů. Používá se toho například pro automatické dokončování externích účtů při federovaném sdílení. Nicméně pro vytvoření federovaného sdílení jako takového není nezbytné přidávat server jako důvěryhodný.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Je třeba, aby každý server ověřil ten druhý. Tento proces může vyžadovat několik cyklů plánovače.",
-    "External documentation for Federated Cloud Sharing" : "Externí dokumentace pro sdílení v rámci federovaného cloudu",
-    "+ Add trusted server" : "+ Přidat důvěryhodný server",
-    "Trusted server" : "Důvěryhodný server"
+    "Each server must validate the other. This process may require a few cron cycles." : "Je třeba, aby každý server ověřil ten druhý. Tento proces může vyžadovat několik cyklů plánovače."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

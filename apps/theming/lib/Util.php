@@ -171,7 +171,7 @@ class Util {
 	}
 
 	/**
-	 * Calculat the color contrast according to WCAG 2
+	 * Calculate the color contrast according to WCAG 2
 	 * http://www.w3.org/TR/WCAG20/#contrast-ratiodef
 	 * @param string $color1 The first color
 	 * @param string $color2 The second color

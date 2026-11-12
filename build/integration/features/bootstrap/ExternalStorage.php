@@ -5,6 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\AfterScenario;
+use Behat\Step\Then;
+use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -14,9 +17,7 @@ trait ExternalStorage {
 
 	private array $lastExternalStorageData;
 
-	/**
-	 * @AfterScenario
-	 **/
+	#[AfterScenario]
 	public function deleteCreatedStorages(): void {
 		foreach ($this->storageIds as $storageId) {
 			$this->deleteStorage($storageId);
@@ -44,10 +45,9 @@ trait ExternalStorage {
 	}
 
 	/**
-	 * @When logged in user creates external global storage
-	 *
 	 * @param TableNode $fields
 	 */
+	#[When('logged in user creates external global storage')]
 	public function loggedInUserCreatesExternalGlobalStorage(TableNode $fields): void {
 		$this->sendJsonWithRequestTokenAndBasicAuth('POST', '/index.php/apps/files_external/globalstorages', $fields);
 		$this->theHTTPStatusCodeShouldBe('201');
@@ -58,10 +58,9 @@ trait ExternalStorage {
 	}
 
 	/**
-	 * @When logged in user updates last external userglobal storage
-	 *
 	 * @param TableNode $fields
 	 */
+	#[When('logged in user updates last external userglobal storage')]
 	public function loggedInUserUpdatesLastExternalUserglobalStorage(TableNode $fields): void {
 		$this->sendJsonWithRequestTokenAndBasicAuth('PUT', '/index.php/apps/files_external/userglobalstorages/' . $this->lastExternalStorageData['id'], $fields);
 		$this->theHTTPStatusCodeShouldBe('200');
@@ -70,10 +69,9 @@ trait ExternalStorage {
 	}
 
 	/**
-	 * @Then fields of last external storage match with
-	 *
 	 * @param TableNode $fields
 	 */
+	#[Then('fields of last external storage match with')]
 	public function fieldsOfLastExternalStorageMatchWith(TableNode $fields): void {
 		foreach ($fields->getRowsHash() as $expectedField => $expectedValue) {
 			if (!array_key_exists($expectedField, $this->lastExternalStorageData)) {

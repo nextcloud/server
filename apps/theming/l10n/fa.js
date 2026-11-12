@@ -119,21 +119,6 @@ OC.L10N.register(
     "Misc accessibility options" : "تنظیمات متفرقه دسترسی‌پذیری",
     "Enable blur background filter (may increase GPU load)" : "فعال‌سازی فیلتر محو پس‌زمینه (ممکن است بار پردازنده گرافیکی را افزایش دهد)",
     "Customization has been disabled by your administrator" : "شخصی‌سازی توسط مدیر شما غیرفعال شده است",
-    "Disable-user-theming should be true or false" : "غیرفعال‌سازی تم‌پذیری کاربر باید true یا false باشد",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "رنگ اصلی برای برجسته‌سازی عناصری مانند دکمه‌های مهم استفاده می‌شود. ممکن است بسته به طرح رنگ فعلی کمی تنظیم شود.",
-    "Header logo" : "لوگوی هدر",
-    "Upload new header logo" : "بارگذاری لوگوی جدید هدر",
-    "Upload new favicon" : "بارگذاری فاوآیکون جدید",
-    "User settings" : "تنظیمات کاربر",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "به جای تصویر پس‌زمینه، می‌توانید یک رنگ پس‌زمینه ساده تنظیم کنید. اگر از تصویر پس‌زمینه استفاده می‌کنید، تغییر این رنگ بر رنگ آیکون‌های منوی برنامه تأثیر می‌گذارد.",
-    "Upload new logo" : "بارگذاری لوگوی جدید",
-    "Upload new background and login image" : "بارگذاری تصویر پس‌زمینه و ورود جدید",
-    "Background and login image" : "تصویر پس‌زمینه و ورود",
-    "Advanced options" : "گزینه‌های پیشرفته",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "افزونه ImageMagick PHP را با پشتیبانی از تصاویر SVG نصب کنید تا به طور خودکار فاوآیکون‌ها بر اساس لوگو و رنگ بارگذاری‌شده تولید شوند.",
-    "Unable to apply the setting." : "اعمال تنظیمات ممکن نیست.",
-    "No background has been selected" : "هیچ پس‌زمینه‌ای انتخاب نشده است",
-    "Select a custom color" : "انتخاب یک رنگ سفارشی",
-    "Upload" : "بارگذاری"
+    "Unable to apply the setting." : "اعمال تنظیمات ممکن نیست."
 },
 "nplurals=2; plural=(n > 1);");

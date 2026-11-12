@@ -125,7 +125,6 @@ OC.L10N.register(
     "Request user agent" : "عامل کاربر درخواست",
     "Group membership" : "عضویت در گروه",
     "is member of" : "عضو است",
-    "is not member of" : "عضو نیست",
-    "Type to search for group …" : "برای جستجوی گروه تایپ کنید …"
+    "is not member of" : "عضو نیست"
 },
 "nplurals=2; plural=(n > 1);");

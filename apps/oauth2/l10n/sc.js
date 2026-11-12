@@ -13,8 +13,6 @@ OC.L10N.register(
     "Name" : "Nùmene",
     "Redirection URI" : "URI de torrada a deretare",
     "Add client" : "Agiunghe cliente",
-    "Add" : "Agiunghe",
-    "Client Identifier" : "Identificadore cliente",
-    "Show client secret" : "Mustra su segretu de su cliente"
+    "Add" : "Agiunghe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Cache\FileAccess;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
+use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -65,6 +66,10 @@ class Updater {
 		}
 
 		$shareManager = Server::get(\OCP\Share\IManager::class);
+
+		if ($shareManager instanceof Manager) {
+			$shareManager->restrictDownloadOfReshares($src);
+		}
 
 		// We intentionally include invalid shares, as they have been automatically invalidated due to the node no longer
 		// being accessible for the user. Only in this case where we adjust the share after it was moved we want to ignore
@@ -142,11 +147,15 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID();
+		if ($userInSession === null) {
+			return;
+		}
+		$absNewPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . $userInSession . '/files/' . $oldPath);
 
 		$mountManager = Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . $userInSession . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {

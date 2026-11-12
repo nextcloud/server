@@ -8,14 +8,13 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 
 require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
  */
-class ShareesContext implements Context, SnippetAcceptingContext {
+class ShareesContext implements Context {
 	use Sharing;
 	use AppConfiguration;
 

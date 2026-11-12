@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Не вдалося завантажити мітки для файлу",
     "Failed to set tag for file" : "Не вдалося встановити мітку для файлу",
     "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
-    "Collaborative tags …" : "Спільні мітки...",
-    "Loading …" : "Завантаження …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} буде встановлено та {tag2} буде видалено для 1 файлу.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} буде видалено з 1 файлу.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів."],
-    "Loading collaborative tags …" : "Завантажую спільні мітки ..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} буде видалено з 1 файлу.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів."]
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

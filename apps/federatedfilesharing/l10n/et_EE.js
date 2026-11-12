@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Kaugjagamine",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share password" : "Kaugjagamise salasõna",
-    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda",
-    "X (formerly Twitter)" : "X (varasemalt Twitter)",
-    "formerly Twitter" : "varasemalt Twitter"
+    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda"
 },
 "nplurals=2; plural=(n != 1);");

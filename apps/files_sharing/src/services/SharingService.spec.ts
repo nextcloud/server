@@ -214,6 +214,7 @@ describe('SharingService share to Node mapping', () => {
 		file_source: 530936,
 		file_parent: 419336,
 		file_target: '/document.md',
+		original_displayname: 'Notes.md',
 		item_size: 123,
 		item_mtime: 1688721600,
 		share_with: 'user00',
@@ -284,7 +285,7 @@ describe('SharingService share to Node mapping', () => {
 		id: 4,
 		share_type: ShareType.User,
 		parent: null,
-		remote: 'http://exampe.com',
+		remote: 'http://example.com',
 		remote_id: '12345',
 		share_token: 'share-token',
 		name: '/test.md',
@@ -303,7 +304,7 @@ describe('SharingService share to Node mapping', () => {
 		id: 4,
 		share_type: ShareType.User,
 		parent: null,
-		remote: 'http://exampe.com',
+		remote: 'http://example.com',
 		remote_id: '12345',
 		share_token: 'share-token',
 		name: '/test.md',
@@ -376,6 +377,7 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes['has-preview']).toBe(true)
+		expect(file.attributes['original-displayname']).toBe('Notes.md')
 		expect(file.attributes.sharees).toEqual({
 			sharee: {
 				id: 'user00',

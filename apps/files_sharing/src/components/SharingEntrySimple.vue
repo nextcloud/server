@@ -11,6 +11,9 @@
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
+			<p v-if="extra">
+				{{ extra }}
+			</p>
 		</div>
 		<!-- Standalone action(s) shown before the overflow menu (e.g. a caret) -->
 		<slot name="action" />
@@ -43,6 +46,12 @@ export default {
 		},
 
 		subtitle: {
+			type: String,
+			default: '',
+		},
+
+		// Third line, truncated when it is longer than the sidebar.
+		extra: {
 			type: String,
 			default: '',
 		},
@@ -90,6 +99,9 @@ export default {
 		min-width: 0;
 		p {
 			color: var(--color-text-maxcontrast);
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 	}
 	&__title {

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\AutoComplete;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -21,7 +21,7 @@ use OCP\EventDispatcher\Event;
  * @since 28.0.0
  * @template T of array
  */
-#[Consumable(since: '28.0.0')]
+#[Listenable(since: '28.0.0')]
 class AutoCompleteFilterEvent extends Event {
 	/**
 	 * @since 28.0.0

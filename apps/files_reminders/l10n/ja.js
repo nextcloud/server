@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "この週末",
     "Set reminder for this weekend" : "今週末のリマインダーを設定する",
     "Next week" : "来週",
-    "Set reminder for next week" : "来週のリマインダーを設定する",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定",
-    "We will remind you of this file" : "このファイルをリマインドします"
+    "Set reminder for next week" : "来週のリマインダーを設定する"
 },
 "nplurals=1; plural=0;");

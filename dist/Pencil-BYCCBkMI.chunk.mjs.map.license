@@ -1,0 +1,14 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+
+This file is generated from multiple sources. Included packages:
+- @vueuse/core
+	- version: 15.0.0
+	- license: MIT
+- @vueuse/shared
+	- version: 15.0.0
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT

@@ -54,7 +54,7 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
 import logger from '../../logger.ts'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 import { diffPayload, userToFormData } from './userFormUtils.ts'
 
@@ -67,10 +67,10 @@ const emit = defineEmits<{
 	closing: []
 }>()
 
-const store = useStore()
+const usersStore = useUsersStore()
 
-const allGroups = store.getters.getGroups
-const serverLanguages = store.getters.getServerData.languages
+const allGroups = usersStore.groups
+const serverLanguages = usersStore.serverData.languages
 const formData = userToFormData(props.user, allGroups, props.quotaOptions, serverLanguages)
 
 const initialData = structuredClone(formData)
@@ -82,7 +82,7 @@ const fieldErrors = ref<Record<string, string>>({})
 
 provide(formDataKey, editedUser)
 
-const settings = computed(() => store.getters.getServerData)
+const settings = computed(() => usersStore.serverData)
 
 const fieldConfig = computed(() => ({
 	username: {
@@ -117,7 +117,7 @@ async function save() {
 	saving.value = true
 	try {
 		await confirmPassword()
-		await store.dispatch('editUserMultiField', {
+		await usersStore.editUserMultiField({
 			userid: props.user.id,
 			payload,
 		})

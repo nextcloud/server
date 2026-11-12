@@ -2,6 +2,8 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "登錄帳戶必須是管理員或有編輯此設置的授權。",
+    "The given value was rejected" : "所提供的數值已被拒絕",
+    "Deleting the given key was rejected" : "刪除指定密鑰的請求遭拒絕",
     "Could not create non-existing user ID" : "無法建立不存在的用戶 ID",
     "User already exists" : "用戶已存在",
     "Group %1$s does not exist" : "群組 %1$s 不存在",

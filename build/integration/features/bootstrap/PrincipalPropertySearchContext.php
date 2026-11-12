@@ -8,6 +8,9 @@
 require __DIR__ . '/autoload.php';
 
 use Behat\Behat\Context\Context;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\BodySummarizer;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -29,7 +32,7 @@ class PrincipalPropertySearchContext implements Context {
 		}
 	}
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function setUpScenario(): void {
 		$this->client = $this->createGuzzleInstance();
 	}
@@ -50,10 +53,10 @@ class PrincipalPropertySearchContext implements Context {
 	}
 
 	/**
-	 * @When searching for a principal matching :match
 	 * @param string $match
 	 * @throws \Exception
 	 */
+	#[When('searching for a principal matching :match')]
 	public function principalPropertySearch(string $match) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/';
 		$user = 'admin';
@@ -115,10 +118,10 @@ class PrincipalPropertySearchContext implements Context {
 	}
 
 	/**
-	 * @Then The search HTTP status code should be :code
 	 * @param string $code
 	 * @throws \Exception
 	 */
+	#[Then('The search HTTP status code should be :code')]
 	public function theHttpStatusCodeShouldBe(string $code): void {
 		if ((int)$code !== $this->response->getStatusCode()) {
 			throw new \Exception('Expected ' . (int)$code . ' got ' . $this->response->getStatusCode());
@@ -126,10 +129,10 @@ class PrincipalPropertySearchContext implements Context {
 	}
 
 	/**
-	 * @Then The search response should contain :needle
 	 * @param string $needle
 	 * @throws \Exception
 	 */
+	#[Then('The search response should contain :needle')]
 	public function theResponseShouldContain(string $needle): void {
 		$body = $this->response->getBody()->getContents();
 

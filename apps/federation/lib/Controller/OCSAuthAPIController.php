@@ -34,6 +34,9 @@ use Psr\Log\LoggerInterface;
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class OCSAuthAPIController extends OCSController {
+	// Tokens are generated with 16 characters, see TrustedServers::addServer()
+	private const MAX_TOKEN_LENGTH = 64;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -102,16 +105,13 @@ class OCSAuthAPIController extends OCSController {
 			throw new OCSForbiddenException();
 		}
 
-		// if both server initiated the exchange of the shared secret the greater
-		// token wins
-		$localToken = $this->dbHandler->getToken($url);
-		if (strcmp($localToken, $token) > 0) {
-			$this->logger->info(
-				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
-			);
-			return new DataResponse();
+		if (strlen($token) > self::MAX_TOKEN_LENGTH) {
+			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
+			$this->logger->error('remote server (' . $url . ') presented an invalid token while requesting shared secret');
+			throw new OCSForbiddenException();
 		}
 
+		// Which server asks for the shared secret, if both initiated the exchange, is decided by the job
 		$this->jobList->add(
 			'OCA\Federation\BackgroundJob\GetSharedSecret',
 			[

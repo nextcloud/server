@@ -15,8 +15,8 @@ use OCP\Server;
 use Test\TestCase;
 
 /**
- * The viewer app is gone, but apps still construct its event without
- * checking that it exists: that has to keep working until 39.
+ * Nothing listens to the viewer's event any more, but apps still construct
+ * it without checking that it exists: that has to keep working until 39.
  */
 class LoadViewerTest extends TestCase {
 	public function testAppsCanStillDispatchIt(): void {

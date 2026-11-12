@@ -58,6 +58,7 @@ OC.L10N.register(
     "Custom MIME type" : "Tipo de MIME personalizado",
     "e.g. httpd/unix-directory" : "p. ej. httpd/unix-directory",
     "Select a file type" : "Seleccionar un tipo de archivo",
+    "Tag" : "Etiqueta",
     "Start time" : "Hora de inicio",
     "Please enter a valid time span" : "Por favor introduzca un período de tiempo válido",
     "Timezone" : "Zona horaria",
@@ -120,7 +121,6 @@ OC.L10N.register(
     "Request user agent" : "Solicitar agente de usuario",
     "Group membership" : "Membresía a grupos",
     "is member of" : "es miembro de",
-    "is not member of" : "no es miembro de",
-    "Type to search for group …" : "Escriba para seleccionar un grupo..."
+    "is not member of" : "no es miembro de"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

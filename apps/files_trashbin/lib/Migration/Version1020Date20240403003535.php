@@ -25,16 +25,17 @@ class Version1020Date20240403003535 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('files_trash')) {
-			return null;
+		if ($schema->hasTable('files_trash')) {
+			$table = $schema->getTable('files_trash');
+			if (!$table->hasColumn('deleted_by')) {
+				$table->addColumn('deleted_by', Types::STRING, [
+					'notnull' => false,
+					'length' => 64,
+				]);
+				return $schema;
+			}
 		}
 
-		$table = $schema->getTable('files_trash');
-		$table->addColumn('deleted_by', Types::STRING, [
-			'notnull' => false,
-			'length' => 64,
-		]);
-
-		return $schema;
+		return null;
 	}
 }

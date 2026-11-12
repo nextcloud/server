@@ -525,7 +525,10 @@ class Backend {
 			->setType($object['type'] === 'event' ? 'calendar_event' : 'calendar_todo')
 			->setAuthor($currentUser);
 
-		$users = $this->getUsersForShares(array_intersect($sourceShares, $targetShares));
+		$users = array_intersect(
+			$this->getUsersForShares($sourceShares),
+			$this->getUsersForShares($targetShares),
+		);
 		$users[] = $targetOwner;
 
 		// Users for share can return the owner itself if the calendar is published

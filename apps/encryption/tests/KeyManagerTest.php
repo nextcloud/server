@@ -562,6 +562,9 @@ class KeyManagerTest extends TestCase {
 				->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
 			$this->keyStorageMock->expects($this->once())->method('setSystemUserKey')
 				->with('systemKeyId.publicKey', 'public', Encryption::ID);
+			$this->keyStorageMock->expects($this->atLeastOnce())->method('getSystemUserKey')
+				->with('systemKeyId.privateKey', Encryption::ID)
+				->willReturn('');
 			$this->cryptMock->expects($this->once())->method('encryptPrivateKey')
 				->with('private', 'masterKeyPassword', 'systemKeyId')
 				->willReturn('EncryptedKey');
@@ -572,6 +575,9 @@ class KeyManagerTest extends TestCase {
 		} else {
 			$this->cryptMock->expects($this->never())->method('createKeyPair');
 			$this->keyStorageMock->expects($this->never())->method('setSystemUserKey');
+			$this->keyStorageMock->expects($this->atLeastOnce())->method('getSystemUserKey')
+				->with('systemKeyId.privateKey', Encryption::ID)
+				->willReturn('systemUserKey');
 			$this->cryptMock->expects($this->never())->method('encryptPrivateKey');
 			$instance->expects($this->never())->method('setSystemPrivateKey');
 		}

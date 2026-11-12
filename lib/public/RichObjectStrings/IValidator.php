@@ -28,6 +28,7 @@ namespace OCP\RichObjectStrings;
  *     mimetype?: string,
  *     'preview-available'?: 'yes'|'no',
  *     'hide-download'?: 'yes'|'no',
+ *     'can-download'?: 'yes'|'no',
  *     mtime?: string,
  *     latitude?: string,
  *     longitude?: string,
