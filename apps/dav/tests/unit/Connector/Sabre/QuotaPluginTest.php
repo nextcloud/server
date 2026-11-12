@@ -40,18 +40,20 @@ class QuotaPluginTest extends TestCase {
 		$this->init($quota);
 
 		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
-		$result = $this->plugin->checkQuota('');
+		$result = $this->plugin->checkQuota('', 0);
 		$this->assertTrue($result);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'quotaExceededProvider')]
-	public function testCheckExceededQuota(int $quota, array $headers): void {
-		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
+	public function testCheckExceededQuota(): void {
+		$quota = 10;
 
 		$this->init($quota);
 
-		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
-		$this->plugin->checkQuota('');
+		$this->plugin->checkQuota('', $quota);
+
+		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
+
+		$this->plugin->checkQuota('', $quota + 1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'quotaOkayProvider')]
@@ -59,7 +61,7 @@ class QuotaPluginTest extends TestCase {
 		$this->init($quota, 'sub/test.txt');
 
 		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
-		$result = $this->plugin->checkQuota('/sub/test.txt');
+		$result = $this->plugin->checkQuota('/sub/test.txt', 0);
 		$this->assertTrue($result);
 	}
 
@@ -79,14 +81,6 @@ class QuotaPluginTest extends TestCase {
 			[FileInfo::SPACE_UNLIMITED, ['X-EXPECTED-ENTITY-LENGTH' => '1024']],
 			[FileInfo::SPACE_UNLIMITED, ['CONTENT-LENGTH' => '512']],
 			[FileInfo::SPACE_UNLIMITED, ['OC-TOTAL-LENGTH' => '1024', 'CONTENT-LENGTH' => '512']],
-		];
-	}
-
-	public static function quotaExceededProvider(): array {
-		return [
-			[1023, ['X-EXPECTED-ENTITY-LENGTH' => '1024']],
-			[511, ['CONTENT-LENGTH' => '512']],
-			[2047, ['OC-TOTAL-LENGTH' => '2048', 'CONTENT-LENGTH' => '1024']],
 		];
 	}
 
