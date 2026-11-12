@@ -612,6 +612,56 @@ class SessionTest extends TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
+	public static function dataLogClientInWithEmailAndTokenPassword(): array {
+		return [
+			'token created with uid' => ['john@example.com', 'john@example.com', 'john', true],
+			'email in other case' => ['John@Example.COM', 'john@example.com', 'john', true],
+			'email of another user' => ['jane@example.com', 'john@example.com', 'john', false],
+			'token created with another login name' => ['john@example.com', 'john@example.com', 'jdoe', false],
+			'owner without email' => ['john@example.com', null, 'john', false],
+			'token created with email, credentials invalid' => ['john@example.com', 'john@example.com', 'john@example.com', false],
+		];
+	}
+
+	#[DataProvider(methodName: 'dataLogClientInWithEmailAndTokenPassword')]
+	public function testLogClientInWithEmailAndTokenPassword(string $loginName, ?string $ownerEmail, string $tokenLoginName, bool $expected): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+		$request->method('getRemoteAddress')->willReturn('192.168.0.1');
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$token = new PublicKeyToken();
+		$token->setUid('john');
+		$token->setLoginName($tokenLoginName);
+		$token->setType(IToken::PERMANENT_TOKEN);
+		$this->tokenProvider->method('getToken')
+			->with('I-AM-AN-APP-PASSWORD')
+			->willReturn($token);
+
+		$owner = $this->createMock(IUser::class);
+		$owner->method('getEMailAddress')->willReturn($ownerEmail);
+		$manager->method('get')->with('john')->willReturn($owner);
+		$manager->expects($this->never())->method('getByEmail');
+
+		$loginCalls = [];
+		$userSession->method('login')
+			->willReturnCallback(function (string $uid, string $password) use (&$loginCalls): bool {
+				$loginCalls[] = $uid;
+				return $uid === 'john';
+			});
+		$session->expects($expected ? $this->once() : $this->never())
+			->method('set')
+			->with('app_password', 'I-AM-AN-APP-PASSWORD');
+
+		$this->assertSame($expected, $userSession->logClientIn($loginName, 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
+		$this->assertSame($expected ? [$loginName, 'john'] : [$loginName], $loginCalls);
+	}
+
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);
 
