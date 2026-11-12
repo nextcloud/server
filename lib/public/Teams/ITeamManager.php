@@ -35,6 +35,13 @@ interface ITeamManager {
 	public function getTeamFolderProvider(): ?ITeamFolderProvider;
 
 	/**
+	 * Whether the user is a member (direct or inherited) of the team.
+	 *
+	 * @since 36.0.0
+	 */
+	public function isMemberOfTeam(string $teamId, string $userId): bool;
+
+	/**
 	 * Returns all team resources for a given team and user
 	 *
 	 * @return list<TeamResource>

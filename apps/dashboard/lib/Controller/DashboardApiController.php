@@ -16,6 +16,8 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
@@ -26,11 +28,14 @@ use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IReloadableWidget;
+use OCP\Dashboard\ITeamWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IRequest;
+use OCP\Teams\ITeamManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-import-type DashboardWidget from ResponseDefinitions
@@ -47,6 +52,8 @@ class DashboardApiController extends OCSController {
 		private IUserConfig $userConfig,
 		private ?string $userId,
 		private DashboardService $service,
+		private ITeamManager $teamManager,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -67,6 +74,44 @@ class DashboardApiController extends OCSController {
 				return in_array($widget->getId(), $widgetIds, true);
 			},
 		);
+	}
+
+	private function resolveTeam(?string $teamId): ?string {
+		if ($teamId === null) {
+			return null;
+		}
+		if ($teamId === '') {
+			throw new OCSBadRequestException('Empty team ID');
+		}
+		if ($this->userId === null || !$this->teamManager->isMemberOfTeam($teamId, $this->userId)) {
+			throw new OCSNotFoundException('Team not found');
+		}
+		return $teamId;
+	}
+
+	/**
+	 * @param list<string> $widgetIds
+	 * @return array<string, ITeamWidget>
+	 */
+	private function getTeamWidgets(string $teamId, array $widgetIds): array {
+		$widgets = [];
+		foreach ($this->dashboardManager->getWidgets() as $id => $widget) {
+			if (!$widget instanceof ITeamWidget || ($widgetIds !== [] && !in_array($id, $widgetIds, true))) {
+				continue;
+			}
+			try {
+				if ($widget->isEnabledForTeam($teamId, $this->userId)) {
+					$widgets[$id] = $widget;
+				}
+			} catch (\Throwable $e) {
+				$this->logger->warning('Failed to check dashboard widget applicability for team', [
+					'widget' => $id,
+					'team' => $teamId,
+					'exception' => $e,
+				]);
+			}
+		}
+		return $widgets;
 	}
 
 	/**
@@ -104,15 +149,34 @@ class DashboardApiController extends OCSController {
 	 * @param int $limit Limit number of result items per widget, not more than 30 are allowed
 	 * @psalm-param int<1, 30> $limit
 	 * @param list<string> $widgets Limit results to specific widgets
+	 * @param ?string $teamId Team to show widgets for; omit for the personal dashboard
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItems>, array{}>
+	 * @throws OCSNotFoundException Team not found
+	 * @throws OCSBadRequestException Empty team ID
 	 *
 	 * 200: Widget items returned
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v2/widget-items')]
-	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
+	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = [], ?string $teamId = null): DataResponse {
+		$teamId = $this->resolveTeam($teamId);
 		$items = [];
+		if ($teamId !== null) {
+			foreach ($this->getTeamWidgets($teamId, $widgets) as $id => $widget) {
+				try {
+					$items[$id] = $widget->getTeamItems($teamId, $this->userId, $sinceIds[$id] ?? null, $limit)->jsonSerialize();
+				} catch (\Throwable $e) {
+					$this->logger->warning('Failed to get dashboard widget items for team', [
+						'widget' => $id,
+						'team' => $teamId,
+						'exception' => $e,
+					]);
+				}
+			}
+			return new DataResponse($items);
+		}
+
 		$widgets = $this->getShownWidgets($widgets);
 		foreach ($widgets as $widget) {
 			if ($widget instanceof IAPIWidgetV2) {
@@ -128,53 +192,78 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Get the widgets
 	 *
+	 * @param ?string $teamId Team to show widgets for; omit for the personal dashboard
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidget>, array{}>
+	 * @throws OCSNotFoundException Team not found
+	 * @throws OCSBadRequestException Empty team ID
 	 *
 	 * 200: Widgets returned
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/widgets')]
-	public function getWidgets(): DataResponse {
-		$widgets = $this->dashboardManager->getWidgets();
-
-		$items = array_map(function (IWidget $widget) {
-			$options = ($widget instanceof IOptionWidget) ? $widget->getWidgetOptions() : WidgetOptions::getDefault();
-			$data = [
-				'id' => $widget->getId(),
-				'title' => $widget->getTitle(),
-				'order' => $widget->getOrder(),
-				'icon_class' => $widget->getIconClass(),
-				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
-				'widget_url' => $widget->getUrl(),
-				'item_icons_round' => $options->withRoundItemIcons(),
-				'item_api_versions' => [],
-				'reload_interval' => 0,
-			];
-			if ($widget instanceof IButtonWidget) {
-				$data += [
-					'buttons' => array_map(function (WidgetButton $button) {
-						return [
-							'type' => $button->getType(),
-							'text' => $button->getText(),
-							'link' => $button->getLink(),
-						];
-					}, $widget->getWidgetButtons($this->userId)),
-				];
+	public function getWidgets(?string $teamId = null): DataResponse {
+		$teamId = $this->resolveTeam($teamId);
+		if ($teamId !== null) {
+			$items = [];
+			foreach ($this->getTeamWidgets($teamId, []) as $id => $widget) {
+				try {
+					$items[$id] = $this->serializeWidget($widget, $widget->getTeamUrl($teamId, $this->userId) ?? $widget->getUrl());
+				} catch (\Throwable $e) {
+					$this->logger->warning('Failed to get dashboard widget metadata for team', [
+						'widget' => $id,
+						'team' => $teamId,
+						'exception' => $e,
+					]);
+				}
 			}
-			if ($widget instanceof IReloadableWidget) {
-				$data['reload_interval'] = $widget->getReloadInterval();
-			}
-			if ($widget instanceof IAPIWidget) {
-				$data['item_api_versions'][] = 1;
-			}
-			if ($widget instanceof IAPIWidgetV2) {
-				$data['item_api_versions'][] = 2;
-			}
-			return $data;
-		}, $widgets);
+		} else {
+			$items = array_map(
+				fn (IWidget $widget) => $this->serializeWidget($widget, $widget->getUrl()),
+				$this->dashboardManager->getWidgets(),
+			);
+		}
 
 		return new DataResponse($items);
+	}
+
+	/**
+	 * @return DashboardWidget
+	 */
+	private function serializeWidget(IWidget $widget, ?string $url): array {
+		$options = ($widget instanceof IOptionWidget) ? $widget->getWidgetOptions() : WidgetOptions::getDefault();
+		$data = [
+			'id' => $widget->getId(),
+			'title' => $widget->getTitle(),
+			'order' => $widget->getOrder(),
+			'icon_class' => $widget->getIconClass(),
+			'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
+			'widget_url' => $url,
+			'item_icons_round' => $options->withRoundItemIcons(),
+			'item_api_versions' => [],
+			'reload_interval' => 0,
+		];
+		if ($widget instanceof IButtonWidget) {
+			$data += [
+				'buttons' => array_map(function (WidgetButton $button) {
+					return [
+						'type' => $button->getType(),
+						'text' => $button->getText(),
+						'link' => $button->getLink(),
+					];
+				}, $widget->getWidgetButtons($this->userId)),
+			];
+		}
+		if ($widget instanceof IReloadableWidget) {
+			$data['reload_interval'] = $widget->getReloadInterval();
+		}
+		if ($widget instanceof IAPIWidget) {
+			$data['item_api_versions'][] = 1;
+		}
+		if ($widget instanceof IAPIWidgetV2) {
+			$data['item_api_versions'][] = 2;
+		}
+		return $data;
 	}
 
 	/**

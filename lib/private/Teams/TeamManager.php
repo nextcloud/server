@@ -83,15 +83,20 @@ class TeamManager implements ITeamManager {
 	}
 
 	#[\Override]
-	public function getSharedWith(string $teamId, string $userId): array {
+	public function isMemberOfTeam(string $teamId, string $userId): bool {
 		if (!$this->hasTeamSupport()) {
-			return [];
+			return false;
 		}
 
 		$probe = new CircleProbe();
 		$probe->mustBeMember();
 
-		if ($this->getTeamInternal($teamId, $userId, $probe) === null) {
+		return $this->getTeamInternal($teamId, $userId, $probe) !== null;
+	}
+
+	#[\Override]
+	public function getSharedWith(string $teamId, string $userId): array {
+		if (!$this->isMemberOfTeam($teamId, $userId)) {
 			return [];
 		}
 
