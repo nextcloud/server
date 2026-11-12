@@ -938,11 +938,9 @@ class Session implements IUserSession, Emitter {
 	 * perform login using the magic cookie (remember login)
 	 *
 	 * @param string $uid the username
-	 * @param string $currentToken
-	 * @param string $oldSessionId
 	 * @return bool
 	 */
-	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
+	public function loginWithCookie(string $uid, string $currentToken, string $oldSessionId) {
 		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -1072,6 +1070,22 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * End a session inactive for longer than session_lifetime. With remember-me cookies, only the session data is
+	 * dropped, so the remember-me login signs the user in again.
+	 */
+	public function endInactiveSession(): void {
+		$request = Server::get(IRequest::class);
+		if (!is_string($request->getCookie('nc_username'))
+			|| !is_string($request->getCookie('nc_token'))
+			|| !is_string($request->getCookie('nc_session_id'))) {
+			$this->logout();
+			return;
+		}
+		$this->setVolatileActiveUser(null);
+		$this->session->clear();
+	}
+
+	/**
 	 * Set cookie value to use in next page load
 	 *
 	 * @param string $username username to be set
@@ -1131,7 +1145,7 @@ class Session implements IUserSession, Emitter {
 		$username = $request->getCookie('nc_username');
 		$token = $request->getCookie('nc_token');
 		$sessionId = $request->getCookie('nc_session_id');
-		if ($username === null || $token === null || $sessionId !== $oldSessionId) {
+		if (!is_string($username) || !is_string($token) || $sessionId !== $oldSessionId) {
 			return;
 		}
 		$this->setMagicInCookie($username, $token);

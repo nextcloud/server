@@ -96,6 +96,7 @@ class SessionTest extends TestCase {
 			])
 			->onlyMethods([
 				'setMagicInCookie',
+				'unsetMagicInCookie',
 			])
 			->getMock();
 	}
@@ -1399,9 +1400,11 @@ class SessionTest extends TestCase {
 
 	public static function renewMagicSessionIdData(): array {
 		return [
-			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
-			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
-			'no remember-me cookies' => [[], false],
+			'cookie holds the old session id' => ['cookies' => ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], 'expectRenewal' => true],
+			'cookie holds another session id' => ['cookies' => ['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], 'expectRenewal' => false],
+			'no remember-me cookies' => ['cookies' => [], 'expectRenewal' => false],
+			'username cookie is an array' => ['cookies' => ['nc_username' => ['u'], 'nc_token' => 't', 'nc_session_id' => 'old'], 'expectRenewal' => false],
+			'token cookie is an array' => ['cookies' => ['nc_username' => 'u', 'nc_token' => ['t'], 'nc_session_id' => 'old'], 'expectRenewal' => false],
 		];
 	}
 
@@ -1410,12 +1413,58 @@ class SessionTest extends TestCase {
 		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
 			->method('setMagicInCookie')
 			->with('u', 't');
+		$this->mockRequestCookies($cookies);
 
+		$this->userSession->renewMagicSessionId('old');
+	}
+
+	public function testEndInactiveSessionKeepsTheRememberMeCookies(): void {
+		$this->mockRequestCookies(['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123']);
+		$this->userSession->setVolatileActiveUser($this->createMock(IUser::class));
+
+		$this->session->expects($this->once())
+			->method('clear');
+		$this->userSession->expects($this->never())
+			->method('unsetMagicInCookie');
+		$this->tokenProvider->expects($this->never())
+			->method($this->anything());
+		$this->dispatcher->expects($this->never())
+			->method('dispatchTyped');
+
+		$this->userSession->endInactiveSession();
+
+		$this->assertNull($this->userSession->getUser());
+	}
+
+	public static function endInactiveSessionLogsOutData(): array {
+		$cookies = ['nc_username' => 'foo', 'nc_token' => 'fooToken', 'nc_session_id' => 'sess123'];
+		return [
+			'no remember-me cookies' => ['cookies' => []],
+			'no username cookie' => ['cookies' => ['nc_token' => 'fooToken', 'nc_session_id' => 'sess123']],
+			'no token cookie' => ['cookies' => ['nc_username' => 'foo', 'nc_session_id' => 'sess123']],
+			'no session id cookie' => ['cookies' => ['nc_username' => 'foo', 'nc_token' => 'fooToken']],
+			'username cookie is an array' => ['cookies' => ['nc_username' => ['foo']] + $cookies],
+			'token cookie is an array' => ['cookies' => ['nc_token' => ['fooToken']] + $cookies],
+			'session id cookie is an array' => ['cookies' => ['nc_session_id' => ['sess123']] + $cookies],
+		];
+	}
+
+	#[DataProvider(methodName: 'endInactiveSessionLogsOutData')]
+	public function testEndInactiveSessionLogsOut(array $cookies): void {
+		$this->mockRequestCookies($cookies);
+
+		$this->userSession->expects($this->once())
+			->method('unsetMagicInCookie');
+		$this->session->expects($this->once())
+			->method('clear');
+
+		$this->userSession->endInactiveSession();
+	}
+
+	private function mockRequestCookies(array $cookies): void {
 		$request = $this->createMock(IRequest::class);
 		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
 		$this->overwriteService(IRequest::class, $request);
-
-		$this->userSession->renewMagicSessionId('old');
 	}
 
 	public function testTryBasicAuthLoginValid(): void {
