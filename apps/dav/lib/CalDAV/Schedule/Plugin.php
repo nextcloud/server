@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\CalendarObject;
+use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\TipBroker;
@@ -151,6 +152,32 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Includes subscriptions in the free/busy lookup by exposing them as
+	 * cached calendars, so their scheduling transparency is honoured.
+	 */
+	#[\Override]
+	protected function getFreeBusyForEmail($email, \DateTimeInterface $start, \DateTimeInterface $end, Component $request) {
+		try {
+			$calendarRoot = $this->server->tree->getNodeForPath(\Sabre\CalDAV\Plugin::CALENDAR_ROOT);
+		} catch (DavException\NotFound) {
+			$calendarRoot = null;
+		}
+		if (!$calendarRoot instanceof CalendarRoot) {
+			return parent::getFreeBusyForEmail($email, $start, $end, $request);
+		}
+
+		// Calendar homes are cached by the tree, so they have to be rebuilt for the flag to apply
+		$calendarRoot->setReturnCachedSubscriptionsForAll(true);
+		$this->server->tree->markDirty(\Sabre\CalDAV\Plugin::CALENDAR_ROOT);
+		try {
+			return parent::getFreeBusyForEmail($email, $start, $end, $request);
+		} finally {
+			$calendarRoot->setReturnCachedSubscriptionsForAll(false);
+			$this->server->tree->markDirty(\Sabre\CalDAV\Plugin::CALENDAR_ROOT);
+		}
 	}
 
 	/**

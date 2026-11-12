@@ -15,6 +15,8 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService as UserStatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsTransparent;
 use OCP\Calendar\IManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -211,6 +213,48 @@ class StatusServiceTest extends TestCase {
 			->method('setUserStatus');
 		$this->userStatusService->expects(self::never())
 			->method('findByUserId');
+
+		$this->service->processCalendarStatus('admin');
+	}
+
+	public function testCalendarTransparency(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'admin',
+		]);
+		$transparentCalendar = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsTransparent::class]);
+		$transparentCalendar->method('getUri')->willReturn('holidays');
+		$transparentCalendar->method('isTransparent')->willReturn(true);
+		$opaqueCalendar = $this->createMockForIntersectionOfInterfaces([ICalendar::class, ICalendarIsTransparent::class]);
+		$opaqueCalendar->method('getUri')->willReturn('team');
+		$opaqueCalendar->method('isTransparent')->willReturn(false);
+		$otherCalendar = $this->createConfiguredMock(ICalendar::class, [
+			'getUri' => 'external',
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->availabilityCoordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
+		$this->cache->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$transparentCalendar, $opaqueCalendar, $otherCalendar]);
+		$this->calendarManager->expects(self::once())
+			->method('newQuery')
+			->willReturn(new CalendarQuery('admin'));
+		$this->timeFactory->expects(self::exactly(2))
+			->method('getDateTime')
+			->willReturn(new \DateTime());
+		$this->calendarManager->expects(self::once())
+			->method('searchForPrincipal')
+			->with(self::callback(fn (CalendarQuery $query): bool => $query->getCalendarUris() === ['team', 'external']))
+			->willReturn([]);
+		$this->userStatusService->expects(self::once())
+			->method('revertUserStatus');
 
 		$this->service->processCalendarStatus('admin');
 	}

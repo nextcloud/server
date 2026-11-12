@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
@@ -20,6 +21,7 @@ use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
@@ -120,6 +122,73 @@ class PluginTest extends TestCase {
 
 		$result = $this->invokePrivate($this->plugin, 'getAddressesForPrincipal', ['MyPrincipal']);
 		$this->assertSame([], $result);
+	}
+
+	public function testGetFreeBusyForEmailIncludesSubscriptions(): void {
+		$cachedSubscriptionsEnabled = false;
+		$calendarRoot = $this->createMock(CalendarRoot::class);
+		$calendarRoot->expects($this->exactly(2))
+			->method('setReturnCachedSubscriptionsForAll')
+			->willReturnCallback(function (bool $enabled) use (&$cachedSubscriptionsEnabled): void {
+				$cachedSubscriptionsEnabled = $enabled;
+			});
+
+		$tree = $this->createMock(Tree::class);
+		$tree->method('getNodeForPath')
+			->with('calendars')
+			->willReturn($calendarRoot);
+		$tree->expects($this->exactly(2))
+			->method('markDirty')
+			->with('calendars');
+		$this->server->tree = $tree;
+
+		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
+		$aclPlugin->expects($this->once())
+			->method('principalSearch')
+			->willReturnCallback(function () use (&$cachedSubscriptionsEnabled): array {
+				$this->assertTrue($cachedSubscriptionsEnabled);
+				return [];
+			});
+		$this->server->method('getPlugin')
+			->with('acl')
+			->willReturn($aclPlugin);
+
+		$result = $this->invokePrivate($this->plugin, 'getFreeBusyForEmail', [
+			'mailto:user@example.com',
+			new \DateTimeImmutable('2026-01-01T00:00:00Z'),
+			new \DateTimeImmutable('2026-01-02T00:00:00Z'),
+			new VCalendar(),
+		]);
+
+		$this->assertSame('3.7;Could not find principal', $result['request-status']);
+		$this->assertFalse($cachedSubscriptionsEnabled);
+	}
+
+	public function testGetFreeBusyForEmailWithoutCalendarRoot(): void {
+		$tree = $this->createMock(Tree::class);
+		$tree->method('getNodeForPath')
+			->with('calendars')
+			->willThrowException(new NotFound());
+		$tree->expects($this->never())
+			->method('markDirty');
+		$this->server->tree = $tree;
+
+		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
+		$aclPlugin->expects($this->once())
+			->method('principalSearch')
+			->willReturn([]);
+		$this->server->method('getPlugin')
+			->with('acl')
+			->willReturn($aclPlugin);
+
+		$result = $this->invokePrivate($this->plugin, 'getFreeBusyForEmail', [
+			'mailto:user@example.com',
+			new \DateTimeImmutable('2026-01-01T00:00:00Z'),
+			new \DateTimeImmutable('2026-01-02T00:00:00Z'),
+			new VCalendar(),
+		]);
+
+		$this->assertSame('3.7;Could not find principal', $result['request-status']);
 	}
 
 	public function testStripOffMailTo(): void {

@@ -285,6 +285,7 @@ return array(
     'OCP\\Calendar\\ICalendarIsEnabled' => $baseDir . '/lib/public/Calendar/ICalendarIsEnabled.php',
     'OCP\\Calendar\\ICalendarIsPublic' => $baseDir . '/lib/public/Calendar/ICalendarIsPublic.php',
     'OCP\\Calendar\\ICalendarIsShared' => $baseDir . '/lib/public/Calendar/ICalendarIsShared.php',
+    'OCP\\Calendar\\ICalendarIsTransparent' => $baseDir . '/lib/public/Calendar/ICalendarIsTransparent.php',
     'OCP\\Calendar\\ICalendarIsWritable' => $baseDir . '/lib/public/Calendar/ICalendarIsWritable.php',
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
     'OCP\\Calendar\\ICalendarQuery' => $baseDir . '/lib/public/Calendar/ICalendarQuery.php',

@@ -326,6 +326,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\ICalendarIsEnabled' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsEnabled.php',
         'OCP\\Calendar\\ICalendarIsPublic' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsPublic.php',
         'OCP\\Calendar\\ICalendarIsShared' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsShared.php',
+        'OCP\\Calendar\\ICalendarIsTransparent' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsTransparent.php',
         'OCP\\Calendar\\ICalendarIsWritable' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsWritable.php',
         'OCP\\Calendar\\ICalendarProvider' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarProvider.php',
         'OCP\\Calendar\\ICalendarQuery' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarQuery.php',
