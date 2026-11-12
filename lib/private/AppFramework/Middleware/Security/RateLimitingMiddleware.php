@@ -79,6 +79,11 @@ class RateLimitingMiddleware extends Middleware {
 			return;
 		}
 
+		if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
+			&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
+			return;
+		}
+
 		if ($this->userSession->isLoggedIn()) {
 			$rateLimit = $this->readLimitFromAnnotationOrAttribute(
 				$controller,
@@ -90,11 +95,6 @@ class RateLimitingMiddleware extends Middleware {
 
 			if ($rateLimit !== null) {
 				if (!$rateLimit->shouldApply($this->request)) {
-					return;
-				}
-
-				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
-					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
 					return;
 				}
 
