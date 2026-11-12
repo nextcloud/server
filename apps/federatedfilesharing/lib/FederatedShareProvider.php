@@ -10,6 +10,7 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
+use OCA\Files_Sharing\External\Storage as ExternalStorage;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -127,14 +128,10 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$share->setSharedWith($cloudId->getId());
 
+		$mountPoint = $this->getFederatedMountPoint($share);
 		try {
-			$remoteShare = $this->getShareFromExternalShareTable($share->getShareOwner(), $share->getTarget());
-			// The target only carries the name of the node, make sure the node is the mounted federated share
-			$mountedShare = $this->rootFolder->getUserFolder($share->getShareOwner())->get($remoteShare['mountpoint']);
-			if ($mountedShare->getId() !== $itemSource) {
-				$remoteShare = null;
-			}
-		} catch (ShareNotFound|NotFoundException) {
+			$remoteShare = $mountPoint === null ? null : $this->getShareFromExternalShareTable($share->getShareOwner(), $mountPoint);
+		} catch (ShareNotFound) {
 			$remoteShare = null;
 		}
 
@@ -229,6 +226,25 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		}
 
 		return $shareId;
+	}
+
+	/**
+	 * Mount point of the federated share, relative to the home of the share owner,
+	 * if the shared node is the root of a federated share mounted for the share owner
+	 */
+	private function getFederatedMountPoint(IShare $share): ?string {
+		$node = $share->getNode();
+		if ($node->getInternalPath() !== '' || !$node->getStorage()->instanceOfStorage(ExternalStorage::class)) {
+			return null;
+		}
+
+		$prefix = '/' . $share->getShareOwner() . '/files/';
+		$mountPoint = $node->getMountPoint()->getMountPoint();
+		if (!str_starts_with($mountPoint, $prefix)) {
+			return null;
+		}
+
+		return '/' . trim(substr($mountPoint, strlen($prefix)), '/');
 	}
 
 	/**
