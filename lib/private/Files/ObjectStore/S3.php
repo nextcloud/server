@@ -53,7 +53,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'ContentLength' => $size,
 			'PartNumber' => $partId,
 			'UploadId' => $uploadId,
-		] + $this->getServerSideEncryptionParameters());
+		] + $this->getReadServerSideEncryptionParameters());
 	}
 
 	#[\Override]
@@ -69,7 +69,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 				'UploadId' => $uploadId,
 				'MaxParts' => 1000,
 				'PartNumberMarker' => $partNumberMarker,
-			] + $this->getServerSideEncryptionParameters());
+			] + $this->getReadServerSideEncryptionParameters());
 			$parts = array_merge($parts, $result->get('Parts') ?? []);
 			$isTruncated = $result->get('IsTruncated');
 			$partNumberMarker = $result->get('NextPartNumberMarker');
@@ -85,11 +85,11 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'Key' => $urn,
 			'UploadId' => $uploadId,
 			'MultipartUpload' => ['Parts' => $result],
-		] + $this->getServerSideEncryptionParameters());
+		] + $this->getReadServerSideEncryptionParameters());
 		$stat = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		] + $this->getServerSideEncryptionParameters());
+		] + $this->getReadServerSideEncryptionParameters());
 		return (int)$stat->get('ContentLength');
 	}
 
@@ -120,7 +120,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$object = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn
-		] + $this->getServerSideEncryptionParameters())->toArray();
+		] + $this->getReadServerSideEncryptionParameters())->toArray();
 		return [
 			'mtime' => $object['LastModified'],
 			'etag' => trim($object['ETag'], '"'),
@@ -133,7 +133,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
 			'Bucket' => $this->bucket,
 			'Prefix' => $prefix,
-		] + $this->getServerSideEncryptionParameters());
+		]);
 
 		foreach ($results as $result) {
 			if (is_array($result['Contents'])) {
