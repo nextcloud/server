@@ -30,6 +30,7 @@
 	</background-jobs>
 
 	<commands>
+		<command>OCA\Federation\Command\ManageTrustedServers</command>
 		<command>OCA\Federation\Command\SyncFederationAddressBooks</command>
 		<command>OCA\Federation\Command\SyncFederationCalendars</command>
 	</commands>
