@@ -53,6 +53,7 @@ interface IPermissionManager {
 	 * With access entries the result is what is left of the permissions granted by them.
 	 * Without access entries the result is what is left of all permissions that apply to
 	 * the resource type, the caller has to intersect it with the access it grants itself.
+	 * If a restriction provider fails or cannot be loaded, no permission is allowed.
 	 *
 	 * @param list<AccessEntry> $entries
 	 * @throws \InvalidArgumentException if the resource type is not registered
@@ -69,4 +70,14 @@ interface IPermissionManager {
 	 * @experimental 36.0.0
 	 */
 	public function checkAll(Actor $actor, array $accesses): array;
+
+	/**
+	 * Forget the results of previous checks.
+	 *
+	 * Results are remembered while the process runs. An {@see IRestrictionProvider} has to call this
+	 * whenever its restrictions change, so that later checks in the same process see the change.
+	 *
+	 * @experimental 36.0.0
+	 */
+	public function clearCache(): void;
 }

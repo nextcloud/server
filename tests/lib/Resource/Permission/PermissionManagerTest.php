@@ -256,9 +256,8 @@ class PermissionManagerTest extends TestCase {
 		$this->instances['wrong'] = new \stdClass();
 		$this->context->registerResourcePermission('tables', 'wrong');
 		$this->context->registerResourceType('tables', 'missing');
-		$this->context->registerResourceRestrictionProvider('governance', 'wrong');
 		$this->registerTables();
-		$this->logger->expects($this->exactly(4))->method('error');
+		$this->logger->expects($this->exactly(3))->method('error');
 
 		$this->assertCount(7, $this->manager->getPermissions());
 		$this->assertCount(2, $this->manager->getResourceTypes());
@@ -415,6 +414,64 @@ class PermissionManagerTest extends TestCase {
 		$this->assertAllowed([CorePermission::Read->value, CorePermission::Update->value, CorePermission::Delete->value], $row);
 	}
 
+	public function testProviderThatCannotBeLoadedRestrictsEverything(): void {
+		$this->registerTables();
+		$this->context->registerResourceRestrictionProvider('governance', 'label-provider');
+		$this->logger->expects($this->once())->method('error');
+
+		$row = new ResourceReference(self::ROW, '1');
+		$this->assertAllowed([], $row);
+
+		$this->instances['label-provider'] = new class implements IRestrictionProvider {
+			public function getRestrictions(Actor $actor, array $accesses): iterable {
+				return [Restriction::forResource($accesses[0]->resource, [CorePermission::Delete->value])];
+			}
+		};
+		$this->assertAllowed([CorePermission::Read->value, CorePermission::Update->value], $row);
+	}
+
+	public function testRegistrationThroughAppContext(): void {
+		$this->registerTables();
+		$this->instances['forms-type'] = new class implements IResourceType {
+			public function getId(): string {
+				return 'forms:form';
+			}
+
+			public function getDisplayName(): string {
+				return 'Form';
+			}
+
+			public function getPermissionIds(): array {
+				return [CorePermission::Read->value, 'forms:results'];
+			}
+		};
+		$this->instances['forms-permission'] = new class extends APermission {
+			public function getId(): string {
+				return 'forms:results';
+			}
+
+			public function getDisplayName(): string {
+				return 'See results';
+			}
+
+			public function getKindOf(): CorePermission {
+				return CorePermission::Read;
+			}
+		};
+		$this->instances['forms-provider'] = new class implements IRestrictionProvider {
+			public function getRestrictions(Actor $actor, array $accesses): iterable {
+				return [Restriction::forResource($accesses[0]->resource, ['forms:results'])];
+			}
+		};
+
+		$context = $this->context->for('forms');
+		$context->registerResourceType('forms-type');
+		$context->registerResourcePermission('forms-permission');
+		$context->registerResourceRestrictionProvider('forms-provider');
+
+		$this->assertAllowed([CorePermission::Read->value], new ResourceReference('forms:form', '1'));
+	}
+
 	public function testCheckAll(): void {
 		$this->registerTables();
 		$this->registerRestrictionProvider(static function (Actor $actor, array $accesses): \Generator {
@@ -466,5 +523,25 @@ class PermissionManagerTest extends TestCase {
 		$this->manager->check(Actor::of(Principal::user('bob')), $row1);
 		$this->manager->check(Actor::of(Principal::bot('summarizer', 'assistant'))->onBehalfOf(Principal::user('alice')), $row1);
 		$this->assertCount(5, $provider->calls);
+
+		$this->manager->clearCache();
+		$this->manager->check($this->alice, $row1);
+		$this->assertCount(6, $provider->calls);
+	}
+
+	public function testApplicablePermissionsAreReadOncePerResourceType(): void {
+		$this->registerCorePermissions();
+		$resourceType = $this->createMock(IResourceType::class);
+		$resourceType->method('getId')->willReturn(self::ROW);
+		$resourceType->expects($this->once())->method('getPermissionIds')->willReturn([CorePermission::Read->value]);
+		$this->instances[self::ROW] = $resourceType;
+		$this->context->registerResourceType('tables', self::ROW);
+
+		$results = $this->manager->checkAll($this->alice, [
+			new ResourceAccess(new ResourceReference(self::ROW, '1')),
+			new ResourceAccess(new ResourceReference(self::ROW, '2')),
+		]);
+
+		$this->assertSame([CorePermission::Read->value], $results['tables:row/2']->getAllowedPermissionIds());
 	}
 }

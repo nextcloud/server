@@ -28,6 +28,8 @@ interface IRestrictionProvider {
 	 * The resources can be of any type, nothing has to be returned for unknown ones.
 	 * If this method throws, every permission on all the resources is restricted.
 	 *
+	 * Results are remembered, call {@see IPermissionManager::clearCache} whenever the restrictions change.
+	 *
 	 * @param list<ResourceAccess> $accesses
 	 * @return iterable<Restriction>
 	 * @experimental 36.0.0
