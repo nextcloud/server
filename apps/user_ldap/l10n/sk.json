@@ -163,6 +163,7 @@
     "Test Base DN" : "Otestovať základnú DN",
     "Listing and searching for users is constrained by these criteria:" : "Zoznam a vyhľadávanie používateľov je obmedzené týmito kritériami:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najčastejšie triedy objektov pre používateľov sú organizationalPerson, user a inetOrgPerson. Ak si nie ste istí, ktoré triedy máte zvoliť, obráťte sa na správcu LDAP.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Filter určuje, ktorí používatelia LDAP sa zobrazujú v inštancii {instanceName}. Ak chcete určiť, kto sa môže prihlásiť, použite kartu Prihlasovacie atribúty.",
     "Verify settings and count users" : "Overiť nastavenia a spočítať používateľov",
     "User count: {usersCount}" : "Počet používateľov: {usersCount}",
     "Test Configuration" : "Test nastavenia",

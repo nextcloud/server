@@ -289,7 +289,7 @@
     "Allow upload and editing" : "Разрешить приём и редактирование",
     "Allow editing" : "Разрешить редактирование",
     "Upload only" : "Только загружать",
-    "Advanced settings" : "Расширенные параметры",
+    "Advanced settings" : "Дополнительные параметры",
     "Share label" : "Метка общего доступа",
     "Share link token" : "Токен ссылки на общий ресурс",
     "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Задайте для общедоступной ссылки легко запоминаемый токен или создайте новый. Токен может быть длиной до {maxLength} символов и содержать только буквы, цифры и дефисы. Для общих ресурсов с конфиденциальными данными не используйте легко угадываемый токен.",
