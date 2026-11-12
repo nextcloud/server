@@ -244,6 +244,47 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
+	/**
+	 * Changing a populated string column to text maps to VARCHAR2 -> CLOB
+	 * on Oracle, which cannot be altered in-place (ORA-22858). This is what
+	 * core Version34000Date20260318095645 does to oc_jobs.argument.
+	 */
+	public function testChangeStringToText(): void {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::STRING, [
+			'notnull' => true,
+			'length' => 4000,
+		]);
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$shortValue = '{"foo":"bar"}';
+		$longValue = json_encode(['data' => str_repeat('x', 3900)]);
+		$this->connection->insert($this->tableName, ['id' => 1, 'argument' => $shortValue]);
+		$this->connection->insert($this->tableName, ['id' => 2, 'argument' => $longValue]);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::TEXT, [
+			'notnull' => true,
+		]);
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$migrator->migrate($endSchema);
+
+		$result = $this->connection->executeQuery(
+			'SELECT ' . $this->connection->quoteIdentifier('argument')
+			. ' FROM ' . $this->connection->quoteIdentifier($this->tableName)
+			. ' ORDER BY ' . $this->connection->quoteIdentifier('id') . ' ASC'
+		);
+		$this->assertSame([$shortValue, $longValue], $result->fetchFirstColumn());
+	}
+
 	public function testAddingForeignKey(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
