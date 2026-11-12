@@ -29,6 +29,9 @@
 	<background-jobs>
 		<job>OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob</job>
 	</background-jobs>
+	<commands>
+		<command>OCA\UserStatus\Command\Repair</command>
+	</commands>
 	<contactsmenu>
 		<provider>OCA\UserStatus\ContactsMenu\StatusProvider</provider>
 	</contactsmenu>
