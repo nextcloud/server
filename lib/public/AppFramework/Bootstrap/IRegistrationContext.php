@@ -486,4 +486,34 @@ interface IRegistrationContext {
 	 * @since 34.0.3
 	 */
 	public function registerGlobalScaleService(string $globalScaleServiceClass): void;
+
+	/**
+	 * Register a type of resource the app owns
+	 *
+	 * `\NCU\Resource\IResourceType` is currently experimental and may still change.
+	 *
+	 * @psalm-param class-string<\NCU\Resource\IResourceType> $class
+	 * @since 36.0.0
+	 */
+	public function registerResourceType(string $class): void;
+
+	/**
+	 * Register a permission that can be allowed or restricted on resources
+	 *
+	 * `\NCU\Resource\Permission\IPermission` is currently experimental and may still change.
+	 *
+	 * @psalm-param class-string<\NCU\Resource\Permission\IPermission> $class
+	 * @since 36.0.0
+	 */
+	public function registerResourcePermission(string $class): void;
+
+	/**
+	 * Register a provider that restricts permissions on resources of other apps
+	 *
+	 * `\NCU\Resource\Permission\IRestrictionProvider` is currently experimental and may still change.
+	 *
+	 * @psalm-param class-string<\NCU\Resource\Permission\IRestrictionProvider> $class
+	 * @since 36.0.0
+	 */
+	public function registerResourceRestrictionProvider(string $class): void;
 }
