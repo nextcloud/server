@@ -42,7 +42,6 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 		private readonly IGroupManager $groupManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(BeforeGroupDeletedEvent::class, self::class);
 	}
 
 	#[\Override]

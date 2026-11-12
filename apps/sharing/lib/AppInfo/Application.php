@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\AppInfo;
 
+use OC\Sharing\SharingManager;
 use OCA\Sharing\Capabilities;
 use OCA\Sharing\Middleware\ShareApiEnabledMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\User\Events\BeforeUserDeletedEvent;
 
 final class Application extends App implements IBootstrap {
 	public const string APP_ID = 'sharing';
@@ -27,6 +29,8 @@ final class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleware(ShareApiEnabledMiddleware::class);
+
+		$context->registerEventListener(BeforeUserDeletedEvent::class, SharingManager::class);
 	}
 
 	#[\Override]
