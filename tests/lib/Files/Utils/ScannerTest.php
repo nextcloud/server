@@ -15,9 +15,12 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\SetupManager;
 use OC\Files\Storage\Temporary;
 use OC\Files\Utils\Scanner;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\FileCacheUpdated;
+use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -286,5 +289,61 @@ class ScannerTest extends TestCase {
 		$this->assertInstanceOf(StorageInvalidException::class, $emitted[0]);
 		$this->assertSame('Remote share not found', $emitted[0]->getMessage());
 		$this->assertTrue($storage->getCache()->inCache('foo.txt'));
+	}
+
+	public function testScanDispatchesEventsForNewAndUpdatedEntries(): void {
+		$storage = new Temporary([]);
+		$mount = new MountPoint($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
+
+		$storage->file_put_contents('existing.txt', 'old');
+		$storage->touch('existing.txt', time() - 200);
+		$storage->getScanner()->scan('');
+
+		$cache = $storage->getCache();
+		$existingId = $cache->getId('existing.txt');
+		$this->assertGreaterThan(0, $existingId);
+		$this->assertFalse($cache->inCache('new.txt'));
+
+		$storage->file_put_contents('existing.txt', 'updated content');
+		$storage->touch('existing.txt', time() - 100);
+		$storage->file_put_contents('new.txt', 'new');
+
+		$events = [];
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->method('dispatchTyped')->willReturnCallback(
+			function (Event $event) use (&$events): void {
+				if (($event instanceof NodeAddedToCache || $event instanceof FileCacheUpdated)
+					&& in_array($event->getPath(), ['new.txt', 'existing.txt'], true)) {
+					$events[] = $event;
+				}
+			},
+		);
+
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$dispatcher,
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
+		$scanner->addMount($mount);
+		$scanner->scan('');
+
+		$added = [];
+		$updated = [];
+		foreach ($events as $event) {
+			$this->assertSame($storage, $event->getStorage());
+			if ($event instanceof NodeAddedToCache) {
+				$added[] = $event->getPath();
+			} else {
+				$updated[] = $event->getPath();
+			}
+		}
+
+		$this->assertSame(['new.txt'], $added);
+		$this->assertSame(['existing.txt'], $updated);
+		$this->assertTrue($cache->inCache('new.txt'));
+		$this->assertSame($existingId, $cache->getId('existing.txt'));
 	}
 }
