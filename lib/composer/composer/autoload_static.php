@@ -2358,6 +2358,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\RepairLogoDimension' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairLogoDimension.php',
         'OC\\Repair\\RepairMimeTypes' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairMimeTypes.php',
         'OC\\Repair\\RepairSanitizeSystemTags' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairSanitizeSystemTags.php',
+        'OC\\Resource\\Permission\\AccessManager' => __DIR__ . '/../../..' . '/lib/private/Resource/Permission/AccessManager.php',
         'OC\\Resource\\Permission\\PermissionManager' => __DIR__ . '/../../..' . '/lib/private/Resource/Permission/PermissionManager.php',
         'OC\\RichObjectStrings\\RichTextFormatter' => __DIR__ . '/../../..' . '/lib/private/RichObjectStrings/RichTextFormatter.php',
         'OC\\RichObjectStrings\\Validator' => __DIR__ . '/../../..' . '/lib/private/RichObjectStrings/Validator.php',
