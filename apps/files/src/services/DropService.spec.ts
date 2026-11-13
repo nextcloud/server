@@ -10,6 +10,7 @@ import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
 import { Folder, Permission } from '@nextcloud/files'
 import { getUploader } from '@nextcloud/files/upload'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { getAllowedFileTypes } from '../utils/allowedFileTypes.ts'
 import { getConflicts } from '../utils/conflicts.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { onDropExternalFiles } from './DropService.ts'
@@ -30,6 +31,10 @@ vi.mock('../utils/conflicts.ts', () => ({
 	getConflicts: vi.fn(),
 }))
 vi.mock('../utils/newNodeDialog.ts')
+vi.mock('../utils/allowedFileTypes.ts', async (importOriginal) => ({
+	...await importOriginal(),
+	getAllowedFileTypes: vi.fn(),
+}))
 vi.mock('./DropServiceUtils.ts', async (importOriginal) => ({
 	...await importOriginal(),
 	createDirectoryIfNotExists: vi.fn(),
@@ -64,6 +69,7 @@ describe('onDropExternalFiles', () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
 		vi.mocked(getConflicts).mockReturnValue([])
+		vi.mocked(getAllowedFileTypes).mockReturnValue([])
 		uploader.destination = folder('current')
 		uploader.upload.mockImplementation(async () => ({}))
 	})
@@ -116,6 +122,18 @@ describe('onDropExternalFiles', () => {
 		expect(uploader.upload).toHaveBeenCalledWith('/dropped.txt', expect.any(File))
 		expect(uploader.destination?.source).toBe(folder('current').source)
 		expect(uploader.start).toHaveBeenCalledOnce()
+	})
+
+	it('skips files whose type is not allowed', async () => {
+		vi.mocked(getAllowedFileTypes).mockReturnValue(['.pdf'])
+		const root = new Directory('root') as RootDirectory
+		root.contents.push(new File(['content'], 'doc.pdf'), new File(['content'], 'run.exe'))
+
+		await onDropExternalFiles(root, folder('current'), [])
+
+		expect(showError).toHaveBeenCalledWith('File type not allowed: run.exe')
+		expect(uploader.upload).toHaveBeenCalledOnce()
+		expect(uploader.upload).toHaveBeenCalledWith('/doc.pdf', expect.any(File))
 	})
 
 	it('restores the uploader destination if queueing fails', async () => {

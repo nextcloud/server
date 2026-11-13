@@ -4873,6 +4873,51 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertSame($expected, $this->invokePrivate($this->ocs, 'validateToken', [$token]));
 	}
 
+	public static function dataValidateAllowedFileTypes(): array {
+		return [
+			'empty list' => [[], true],
+			'extension' => [['.pdf'], true],
+			'multi-part extension' => [['.tar.gz'], true],
+			'mime type' => [['application/pdf'], true],
+			'mime types with suffix and dots' => [['image/svg+xml', 'application/vnd.oasis.opendocument.text'], true],
+			'mime type groups' => [['image/*', 'video/*'], true],
+			'mixed' => [['.pdf', 'image/*'], true],
+			'string instead of list' => ['.pdf', false],
+			'map instead of list' => [['pdf' => '.pdf'], false],
+			'extension without dot' => [['pdf'], false],
+			'dot only' => [['.'], false],
+			'not a string' => [['.pdf', 42], false],
+			'incomplete mime type' => [['image/'], false],
+			'wildcard mime type' => [['*/*'], false],
+			'comma separated' => [['.pdf,.docx'], false],
+			'surrounding whitespace' => [[' .pdf'], false],
+		];
+	}
+
+	#[DataProvider('dataValidateAllowedFileTypes')]
+	public function testValidateAllowedFileTypes(mixed $allowedFileTypes, bool $expected): void {
+		$this->assertSame($expected, $this->invokePrivate($this->ocs, 'validateAllowedFileTypes', [$allowedFileTypes]));
+	}
+
+	public function testSetShareAttributesStoresAllowedFileTypes(): void {
+		$this->shareManager->method('newShare')->willReturn($this->newShare());
+		$attributes = json_encode([['scope' => 'upload', 'key' => 'allowed_types', 'value' => ['.pdf', 'image/*']]]);
+
+		$share = $this->invokePrivate($this->ocs, 'setShareAttributes', [$this->newShare(), $attributes]);
+
+		$this->assertSame(['.pdf', 'image/*'], $share->getAttributes()->getAttribute('upload', 'allowed_types'));
+	}
+
+	public function testSetShareAttributesRejectsInvalidAllowedFileTypes(): void {
+		$this->shareManager->method('newShare')->willReturn($this->newShare());
+		$attributes = json_encode([['scope' => 'upload', 'key' => 'allowed_types', 'value' => 'pdf']]);
+
+		$this->expectException(OCSBadRequestException::class);
+		$this->expectExceptionMessage('Allowed file types must be a list of file extensions like ".pdf" or MIME types like "image/*"');
+
+		$this->invokePrivate($this->ocs, 'setShareAttributes', [$this->newShare(), $attributes]);
+	}
+
 	/**
 	 * Helper to allow testing Talk integration even if Talk
 	 * is not available during tests.

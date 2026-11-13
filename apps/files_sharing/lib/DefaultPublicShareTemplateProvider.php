@@ -119,6 +119,9 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
 		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
 
+		$allowedFileTypes = $attributes?->getAttribute('upload', 'allowed_types');
+		$this->initialState->provideInitialState('allowedFileTypes', is_array($allowedFileTypes) ? $allowedFileTypes : []);
+
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		// Allow external apps to register their scripts

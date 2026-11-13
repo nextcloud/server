@@ -45,6 +45,7 @@
 					:message="disclaimer" />
 			</template>
 			<NcUploadPicker
+				:accept="allowedFileTypes"
 				:content="getContent"
 				:destination="uploadDestination"
 				directory
@@ -72,6 +73,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcUploadPicker from '@nextcloud/vue/components/NcUploadPicker'
+import { getAllowedFileTypes } from '~/apps/files/src/utils/allowedFileTypes.ts'
 
 defineProps<{
 	foldername: string
@@ -80,6 +82,7 @@ defineProps<{
 const disclaimer = loadState<string>('files_sharing', 'disclaimer', '')
 const shareLabel = loadState<string>('files_sharing', 'label', '')
 const shareNote = loadState<string>('files_sharing', 'note', '')
+const allowedFileTypes = getAllowedFileTypes()
 
 const name = shareLabel || t('files_sharing', 'File drop')
 

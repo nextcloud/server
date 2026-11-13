@@ -348,6 +348,7 @@ return array(
     'OCA\\DAV\\Files\\FilesHome' => $baseDir . '/../lib/Files/FilesHome.php',
     'OCA\\DAV\\Files\\LazySearchBackend' => $baseDir . '/../lib/Files/LazySearchBackend.php',
     'OCA\\DAV\\Files\\RootCollection' => $baseDir . '/../lib/Files/RootCollection.php',
+    'OCA\\DAV\\Files\\Sharing\\AllowedFileTypesPlugin' => $baseDir . '/../lib/Files/Sharing/AllowedFileTypesPlugin.php',
     'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => $baseDir . '/../lib/Files/Sharing/FilesDropPlugin.php',
     'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => $baseDir . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
     'OCA\\DAV\\Files\\Sharing\\RootCollection' => $baseDir . '/../lib/Files/Sharing/RootCollection.php',
