@@ -558,6 +558,10 @@ class KeyManagerTest extends TestCase {
 		$this->cryptMock->expects($this->any())->method('generateHeader')->willReturn('header');
 
 		if (empty($masterKey)) {
+			$this->keyStorageMock->method('getSystemUserKey')
+				->willReturnOnConsecutiveCalls('', 'headerEncryptedKey');
+			$this->cryptMock->method('decryptPrivateKey')
+				->willReturn('private');
 			$this->cryptMock->expects($this->once())->method('createKeyPair')
 				->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
 			$this->keyStorageMock->expects($this->once())->method('setSystemUserKey')
