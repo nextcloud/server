@@ -232,16 +232,15 @@ class DBLockingProvider extends AbstractLockingProvider {
 			return $this->sharedLocks[$path];
 		});
 
-		$chunkedPaths = array_chunk($lockedPaths, 100);
-
+		// release one row per statement, multi-row updates from parallel requests can deadlock each other
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('file_locks')
 			->set('lock', $qb->func()->subtract('lock', $qb->expr()->literal(1)))
-			->where($qb->expr()->in('key', $qb->createParameter('chunk')))
+			->where($qb->expr()->eq('key', $qb->createParameter('key')))
 			->andWhere($qb->expr()->gt('lock', new Literal(0)));
 
-		foreach ($chunkedPaths as $chunk) {
-			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+		foreach ($lockedPaths as $path) {
+			$qb->setParameter('key', $path);
 			$qb->executeStatement();
 		}
 	}
