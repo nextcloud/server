@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Locator, Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-session.ts'
 import { pickSelectOption } from '../../support/utils/select.ts'
 
-// Config keys of the testing app's declarative form fields used below
-const KEYS = [
+const CONFIG_KEYS = [
 	'test_ex_app_field_1',
 	'test_ex_app_field_3',
 	'test_ex_app_field_4',
@@ -30,30 +29,38 @@ async function savedValue(key: string): Promise<string> {
 }
 
 /**
- * The combobox of a select field. Its label points at the select wrapper and
- * not at the combobox, so the combobox has no accessible name to look it up by.
+ * Go back to the defaults of the testing app's form
+ */
+async function resetValues(): Promise<void> {
+	for (const key of CONFIG_KEYS) {
+		await runOcc(['config:app:delete', 'testing', key])
+	}
+}
+
+/**
+ * Run an action and wait until the form saved the changed value
  *
  * @param page - The Playwright page object
- * @param fieldId - Id of the form field
+ * @param action - The change to the form
  */
-function select(page: Page, fieldId: string): Locator {
-	return page.locator(`[id="${fieldId}_field"]`).getByRole('combobox')
+async function save(page: Page, action: () => Promise<void>): Promise<void> {
+	const response = page.waitForResponse((r) => r.url().includes('/settings/api/declarative/value') && r.request().method() === 'POST')
+	await action()
+	expect((await response).ok()).toBe(true)
 }
 
 test.describe('Settings: declarative forms', () => {
 	// The testing app registers a declarative form with every field type
 	test.beforeAll(async () => {
 		await runOcc(['app:enable', 'testing'])
+		// a run that was cut short leaves its values behind
+		await resetValues()
 	})
 
 	test.afterAll(async () => {
+		// each test changes its own field, so cleaning up once is enough
+		await resetValues()
 		await runOcc(['app:disable', 'testing'])
-	})
-
-	test.afterEach(async () => {
-		for (const key of KEYS) {
-			await runOcc(['config:app:delete', 'testing', key])
-		}
 	})
 
 	test.beforeEach(async ({ page }) => {
@@ -62,21 +69,21 @@ test.describe('Settings: declarative forms', () => {
 	})
 
 	test('saves a text field and shows it after reload', async ({ page }) => {
-		await page.getByRole('textbox', { name: 'Default text field' }).fill('Hello')
-		await expect.poll(() => savedValue('test_ex_app_field_1')).toBe('Hello')
+		await save(page, () => page.getByRole('textbox', { name: 'Default text field' }).fill('Hello'))
+		expect(await savedValue('test_ex_app_field_1')).toBe('Hello')
 
 		await page.reload()
 		await expect(page.getByRole('textbox', { name: 'Default text field' })).toHaveValue('Hello')
 	})
 
 	test('saves a select', async ({ page }) => {
-		await pickSelectOption(page, select(page, 'test_ex_app_field_3'), 'baz')
-		await expect.poll(() => savedValue('test_ex_app_field_3')).toBe('baz')
+		await save(page, () => pickSelectOption(page, page.getByRole('combobox', { name: 'Selection', exact: true }), 'baz'))
+		expect(await savedValue('test_ex_app_field_3')).toBe('baz')
 	})
 
 	test('saves a multi-select', async ({ page }) => {
-		await pickSelectOption(page, select(page, 'test_ex_app_field_7'), 'baz')
-		await expect.poll(() => savedValue('test_ex_app_field_7')).toContain('baz')
+		await save(page, () => pickSelectOption(page, page.getByRole('combobox', { name: 'Multi-selection' }), 'baz'))
+		expect(JSON.parse(await savedValue('test_ex_app_field_7'))).toEqual(['foo', 'bar', 'baz'])
 	})
 
 	test('saves a switch', async ({ page }) => {
@@ -87,20 +94,21 @@ test.describe('Settings: declarative forms', () => {
 
 	test('saves a group of checkboxes', async ({ page }) => {
 		// NcCheckboxRadioSwitch hides the native input behind its own styling
-		await page.getByRole('checkbox', { name: 'Qux' }).check({ force: true })
-		await expect.poll(async () => JSON.parse(await savedValue('test_ex_app_field_5') || '{}')).toMatchObject({ qux: true })
+		await save(page, () => page.getByRole('checkbox', { name: 'Qux' }).check({ force: true }))
+		expect(JSON.parse(await savedValue('test_ex_app_field_5'))).toMatchObject({ qux: true })
 	})
 
 	test('saves a radio group', async ({ page }) => {
 		// NcCheckboxRadioSwitch hides the native input behind its own styling
-		await page.getByRole('radio', { name: 'Second radio' }).check({ force: true })
-		await expect.poll(() => savedValue('test_ex_app_field_6')).toBe('bar')
+		await save(page, () => page.getByRole('radio', { name: 'Second radio' }).check({ force: true }))
+		expect(await savedValue('test_ex_app_field_6')).toBe('bar')
 	})
 
 	test('stores a sensitive field encrypted', async ({ page }) => {
-		await page.getByRole('textbox', { name: 'Sensitive text field' }).fill('top secret')
+		await save(page, () => page.getByRole('textbox', { name: 'Sensitive text field' }).fill('top secret'))
 
-		await expect.poll(() => savedValue('test_sensitive_field')).not.toBe('')
-		expect(await savedValue('test_sensitive_field')).not.toContain('top secret')
+		const stored = await savedValue('test_sensitive_field')
+		expect(stored).not.toBe('')
+		expect(stored).not.toContain('top secret')
 	})
 })

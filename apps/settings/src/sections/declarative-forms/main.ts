@@ -2,61 +2,21 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ComponentInstance } from 'vue'
+
+import type { DeclarativeForm } from './types.ts'
 
 import { loadState } from '@nextcloud/initial-state'
-import { n, t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import DeclarativeSection from './DeclarativeSection.vue'
 import logger from '../../logger.ts'
 
-interface DeclarativeFormField {
-	id: string
-	title: string
-	description: string
-	type: string
-	placeholder: string
-	label: string
-	options: Array<unknown> | null
-	value: unknown
-	default: unknown
-	sensitive: boolean
-}
-
-interface DeclarativeForm {
-	id: number
-	priority: number
-	section_type: string
-	section_id: string
-	storage_type: string
-	title: string
-	description: string
-	doc_url: string
-	app: string
-	fields: Array<DeclarativeFormField>
-}
-
 const forms = loadState<DeclarativeForm[]>('settings', 'declarative-settings-forms', [])
+logger.debug('Loaded declarative forms', { forms })
 
-/**
- * @param forms The forms to render
- */
-function renderDeclarativeSettingsSections(forms: Array<DeclarativeForm>): ComponentInstance[] {
-	Vue.mixin({ methods: { t, n } })
-	const DeclarativeSettingsSection = Vue.extend(DeclarativeSection as never)
-
-	return forms.map((form) => {
-		const el = `#${form.app}_${form.id}`
-		return new DeclarativeSettingsSection({
-			el,
-			propsData: {
-				form,
-			},
-		})
-	})
+for (const form of forms) {
+	// ids come from the apps and may not be valid CSS selectors
+	const el = document.getElementById(`${form.app}_${form.id}`)
+	if (el) {
+		createApp(DeclarativeSection, { form }).mount(el)
+	}
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-	logger.debug('Loaded declarative forms', { forms })
-	renderDeclarativeSettingsSections(forms)
-})

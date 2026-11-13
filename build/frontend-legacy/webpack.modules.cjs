@@ -7,6 +7,5 @@ const path = require('path')
 module.exports = {
 	settings: {
 		main: path.join(__dirname, 'apps/settings/src', 'main-settings.ts'),
-		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src/sections/declarative-forms', 'main.ts'),
 	},
 }

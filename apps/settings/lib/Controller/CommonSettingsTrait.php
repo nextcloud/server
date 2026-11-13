@@ -166,6 +166,7 @@ trait CommonSettingsTrait {
 
 		if (!empty($declarativeSettings)) {
 			Util::addScript(Application::APP_ID, 'declarative-settings-forms');
+			Util::addStyle(Application::APP_ID, 'declarative-settings-forms');
 			$this->initialState->provideInitialState('declarative-settings-forms', $declarativeSettings);
 		}
 
