@@ -696,6 +696,7 @@ OC.L10N.register(
     "Unable to add additional email address" : "Zusätzliche E-Mail-Adresse konnte nicht hinzugefügt werden",
     "Unable to update additional email address" : "Zusätzliche E-Mail-Adresse konnte nicht aktualisiert werden",
     "Unable to delete primary email address" : "Primäre E-Mail-Adresse konnte nicht gelöscht werden",
+    "Unable to choose this email for notifications" : "Diese E-Mail-Adresse kann nicht für Benachrichtigungen ausgewählt werden",
     "Your handle" : "Dein Online-Name",
     "Your headline" : "Deine Überschrift",
     "Your city" : "Deine Stadt",
