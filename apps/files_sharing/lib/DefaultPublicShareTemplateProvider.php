@@ -110,6 +110,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		Util::addStyle(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init-public');
+		Util::addStyle('files', 'main');
 		Util::addScript('files', 'main');
 		Util::addStyle(Application::APP_ID, 'public-nickname-handler');
 		Util::addScript(Application::APP_ID, 'public-nickname-handler');
