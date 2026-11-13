@@ -6,6 +6,7 @@
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
@@ -101,11 +102,16 @@ export default {
  * @return {string|undefined} the error message if it could be extracted from the response, otherwise undefined
  */
 function getErrorMessage(error) {
-	if (isAxiosError(error) && error.response.data?.ocs) {
-		/** @type {import('@nextcloud/typings/ocs').OCSResponse} */
-		const response = error.response.data
-		if (response.ocs.meta?.message) {
-			return response.ocs.meta.message
+	if (isAxiosError(error)) {
+		if (error.response?.status === 429) {
+			return t('files_sharing', 'Share creation is temporarily rate limited. Please wait a few minutes before creating more shares.')
+		}
+		if (error.response?.data?.ocs) {
+			/** @type {import('@nextcloud/typings/ocs').OCSResponse} */
+			const response = error.response.data
+			if (response.ocs.meta?.message) {
+				return response.ocs.meta.message
+			}
 		}
 	}
 }
