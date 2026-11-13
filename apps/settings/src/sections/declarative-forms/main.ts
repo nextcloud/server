@@ -7,8 +7,8 @@ import type { ComponentInstance } from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { n, t } from '@nextcloud/l10n'
 import Vue from 'vue'
-import DeclarativeSection from './components/DeclarativeSettings/DeclarativeSection.vue'
-import logger from './logger.ts'
+import DeclarativeSection from './DeclarativeSection.vue'
+import logger from '../../logger.ts'
 
 interface DeclarativeFormField {
 	id: string
