@@ -199,7 +199,7 @@ class PassphraseServiceTest extends TestCase {
 	}
 
 	public function testSetPassphraseForUserSkipsRecoveryKeyDecryptionWhenRotationIsNotNeeded(): void {
-		$instance = $this->otherUserService(true, true, false);
+		$instance = $this->createOtherUserService(true, true, false);
 		$this->keyManager->expects(self::never())->method('getSystemPrivateKey');
 		$this->crypt->expects(self::never())->method('decryptPrivateKey');
 		$this->crypt->expects(self::never())->method('createKeyPair');
@@ -209,7 +209,7 @@ class PassphraseServiceTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recoveryDecryptionFailures')]
 	public function testSetPassphraseForUserRejectsFailedRecoveryDecryptionBeforeWritingKeys(bool $throws): void {
-		$instance = $this->otherUserService(true, true, true);
+		$instance = $this->createOtherUserService(true, true, true);
 		$this->keyManager->method('getRecoveryKeyId')->willReturn('recovery');
 		$this->keyManager->method('getSystemPrivateKey')->willReturn('encrypted-recovery-key');
 		if ($throws) {
@@ -232,7 +232,7 @@ class PassphraseServiceTest extends TestCase {
 	}
 
 	public function testSetPassphraseForUserRecoversFilesWhenKeyWritesSucceed(): void {
-		$instance = $this->otherUserService(true, true, true);
+		$instance = $this->createOtherUserService(true, true, true);
 		$this->keyManager->method('getRecoveryKeyId')->willReturn('recovery');
 		$this->keyManager->method('getSystemPrivateKey')->willReturn('encrypted-recovery-key');
 		$this->crypt->expects(self::once())->method('decryptPrivateKey')
@@ -256,7 +256,7 @@ class PassphraseServiceTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'failedKeyWrites')]
 	public function testSetPassphraseForUserReturnsFalseWhenKeyWriteFails(bool $publicWriteSucceeds): void {
-		$instance = $this->otherUserService(false, false, false);
+		$instance = $this->createOtherUserService(false, false, false);
 		$this->crypt->expects(self::never())->method('decryptPrivateKey');
 		$this->crypt->method('createKeyPair')->willReturn([
 			'publicKey' => 'public-key',
