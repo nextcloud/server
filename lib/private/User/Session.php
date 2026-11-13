@@ -964,7 +964,8 @@ class Session implements IUserSession, Emitter {
 		try {
 			$oldToken = $this->tokenProvider->getToken($oldSessionId);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->error('Could not find the session token to renew', [
+			$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+			$this->logger->warning('Could not find the session token to renew', [
 				'app' => 'core',
 				'user' => $uid,
 				'exception' => $ex,
