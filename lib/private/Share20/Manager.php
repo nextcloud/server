@@ -570,6 +570,10 @@ class Manager implements IManager {
 				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
 					$plainTextPassword = $share->getPassword();
 					$share->setPasswordHash($this->hasher->hash($plainTextPassword));
+					if ($share->getShareType() === IShare::TYPE_EMAIL) {
+						// Shares shared by email have temporary passwords
+						$this->setSharePasswordExpirationTime($share);
+					}
 				}
 			}
 
