@@ -696,6 +696,7 @@ OC.L10N.register(
     "Unable to add additional email address" : "Det gick inte att lägga till en ytterligare e-postadress",
     "Unable to update additional email address" : "Det gick inte att uppdatera den ytterligare e-postadressen",
     "Unable to delete primary email address" : "Det gick inte att ta bort den primära e-postadressen",
+    "Unable to choose this email for notifications" : "Det gick inte att välja den här e-postadressen för aviseringar",
     "Your handle" : "Ditt kontonamn",
     "Your headline" : "Din rubrik",
     "Your city" : "Din stad",
