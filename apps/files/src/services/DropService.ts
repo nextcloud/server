@@ -13,9 +13,10 @@ import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
+import { getAllowedFileTypes } from '../utils/allowedFileTypes.ts'
 import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
-import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
+import { createDirectoryIfNotExists, Directory, removeDisallowedFiles, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.
@@ -101,6 +102,11 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	if (!await renameInvalidDroppedEntries(root)) {
 		showInfo(t('files', 'Upload cancelled, drop the files again to retry'))
 		return []
+	}
+
+	const disallowedFiles = removeDisallowedFiles(root, getAllowedFileTypes())
+	if (disallowedFiles.length > 0) {
+		showError(t('files', 'File type not allowed: {files}', { files: disallowedFiles.join(', ') }))
 	}
 
 	const uploader = getUploader()

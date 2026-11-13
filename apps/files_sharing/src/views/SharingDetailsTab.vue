@@ -204,6 +204,18 @@
 						v-model="showInGridView">
 						{{ t('files_sharing', 'Show files in grid view') }}
 					</NcCheckboxRadioSwitch>
+					<template v-if="showAllowedFileTypes">
+						<NcCheckboxRadioSwitch v-model="limitAllowedFileTypesIsChecked">
+							{{ t('files_sharing', 'Limit allowed file types') }}
+						</NcCheckboxRadioSwitch>
+						<NcInputField
+							v-if="limitAllowedFileTypesIsChecked"
+							v-model="allowedFileTypes"
+							autocomplete="off"
+							:label="t('files_sharing', 'Allowed file types')"
+							placeholder=".pdf, image/*"
+							:helperText="t('files_sharing', 'Comma separated file extensions like .pdf or MIME types like image/*')" />
+					</template>
 
 					<SidebarTabExternalAction
 						v-for="action in sortedExternalShareActions"
@@ -397,6 +409,8 @@ export default {
 		return {
 			TOKEN_MAX_LENGTH,
 			writeNoteToRecipientIsChecked: false,
+			limitAllowedFileTypesIsChecked: false,
+			allowedFileTypes: '',
 			sharingPermission: getBundledPermissions().ALL.toString(),
 			revertSharingPermission: getBundledPermissions().ALL.toString(),
 			setCustomPermissions: false,
@@ -501,6 +515,24 @@ export default {
 			set(checked) {
 				this.updateAtomicPermissions({ isCreateChecked: checked })
 			},
+		},
+
+		/**
+		 * Do the selected permissions allow uploads ?
+		 * Bundled permissions are only applied to the share when saving.
+		 */
+		allowsUpload() {
+			if (this.sharingPermission === 'custom') {
+				return this.canCreate
+			}
+			return hasPermissions(parseInt(this.sharingPermission), ATOMIC_PERMISSIONS.CREATE)
+		},
+
+		/**
+		 * Can the file types of uploads be limited ?
+		 */
+		showAllowedFileTypes() {
+			return this.isPublicShare && this.isFolder && this.allowsUpload
 		},
 
 		/**
@@ -981,6 +1013,20 @@ export default {
 			return attribute?.value ?? fallback
 		},
 
+		/**
+		 * Remove a share attribute
+		 *
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 */
+		removeShareAttribute(scope, key) {
+			const index = this.share.attributes?.findIndex((attr) => attr.scope === scope && attr.key === key) ?? -1
+			if (index !== -1) {
+				// eslint-disable-next-line vue/no-mutating-props
+				this.share.attributes.splice(index, 1)
+			}
+		},
+
 		async generateNewToken() {
 			if (this.loadingToken) {
 				return
@@ -1090,6 +1136,13 @@ export default {
 				this.writeNoteToRecipientIsChecked = true
 				this.advancedSectionAccordionExpanded = true
 			}
+
+			const allowedFileTypes = this.getShareAttribute('upload', 'allowed_types', [])
+			if (Array.isArray(allowedFileTypes) && allowedFileTypes.length > 0) {
+				this.limitAllowedFileTypesIsChecked = true
+				this.allowedFileTypes = allowedFileTypes.join(', ')
+				this.advancedSectionAccordionExpanded = true
+			}
 		},
 
 		handleShareType() {
@@ -1178,6 +1231,16 @@ export default {
 			}
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
+			}
+			const allowedFileTypes = this.allowedFileTypes.split(',')
+				.map((type) => type.trim())
+				.filter(Boolean)
+				// Accept extensions entered without the leading dot, e.g. "pdf"
+				.map((type) => (type.startsWith('.') || type.includes('/')) ? type : `.${type}`)
+			if (this.showAllowedFileTypes && this.limitAllowedFileTypesIsChecked && allowedFileTypes.length > 0) {
+				this.setShareAttribute('upload', 'allowed_types', allowedFileTypes)
+			} else {
+				this.removeShareAttribute('upload', 'allowed_types')
 			}
 			if (this.isPasswordProtected) {
 				if (this.isPublicShare && this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {

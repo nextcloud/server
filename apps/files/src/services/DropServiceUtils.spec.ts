@@ -9,7 +9,7 @@ import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fil
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { dataTransferToFileTree } from './DropService.ts'
-import { Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
+import { Directory, removeDisallowedFiles, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
 
 vi.mock('@nextcloud/dialogs')
 vi.mock('../utils/newNodeDialog.ts')
@@ -162,6 +162,32 @@ describe('renameInvalidDroppedEntries', () => {
 
 		expect(await renameInvalidDroppedEntries(tree)).toBe(false)
 		expect(tree.contents[0].name).toBe('folder\\')
+	})
+})
+
+describe('removeDisallowedFiles', () => {
+	it('removes disallowed files from the whole tree and keeps folders', () => {
+		const root = new Directory('root', [
+			new File([], 'doc.pdf', { type: 'application/pdf' }),
+			new File([], 'run.exe', { type: 'application/x-msdownload' }),
+			new Directory('sub', [
+				new File([], 'nested.exe', { type: 'application/x-msdownload' }),
+				new File([], 'nested.pdf', { type: 'application/pdf' }),
+			]),
+		])
+
+		const removed = removeDisallowedFiles(root, ['.pdf'])
+
+		expect(removed).toEqual(['run.exe', 'sub/nested.exe'])
+		expect(root.contents.map((entry) => entry.name)).toEqual(['doc.pdf', 'sub'])
+		expect((root.contents[1] as Directory).contents.map((entry) => entry.name)).toEqual(['nested.pdf'])
+	})
+
+	it('keeps every file without restriction', () => {
+		const root = new Directory('root', [new File([], 'run.exe')])
+
+		expect(removeDisallowedFiles(root, [])).toEqual([])
+		expect(root.contents).toHaveLength(1)
 	})
 })
 

@@ -13,6 +13,9 @@ function buildContext(overrides: Partial<Ctx> = {}) {
 		passwordError: false,
 		creating: false,
 		writeNoteToRecipientIsChecked: true,
+		limitAllowedFileTypesIsChecked: false,
+		allowedFileTypes: '',
+		advancedSectionAccordionExpanded: false,
 		sharingPermission: '31',
 		setCustomPermissions: false,
 
@@ -23,7 +26,7 @@ function buildContext(overrides: Partial<Ctx> = {}) {
 			permissions: 31,
 			type: 3,
 			shareWith: '',
-			attributes: null,
+			attributes: null as Array<{ scope: string, key: string, value: unknown }> | null,
 			note: '',
 			newPassword: undefined as string | undefined,
 		},
@@ -32,12 +35,17 @@ function buildContext(overrides: Partial<Ctx> = {}) {
 		bundledPermissions: { ALL: 31, ALL_FILE: 15 },
 		hasUnsavedPassword: false,
 		hasExpirationDate: false,
+		isExpiryDateEnforced: false,
 		isFolder: false,
 		isNewShare: true,
 		isPasswordProtected: false,
 		isPublicShare: true,
+		showAllowedFileTypes: false,
 
 		isValidShareAttribute: (v: unknown) => typeof v === 'string' && v.length > 0,
+		getShareAttribute: SharingDetailsTab.methods.getShareAttribute,
+		setShareAttribute: SharingDetailsTab.methods.setShareAttribute,
+		removeShareAttribute: SharingDetailsTab.methods.removeShareAttribute,
 		updateAtomicPermissions: vi.fn(),
 		addShare: vi.fn().mockResolvedValue({ id: 42, _share: { id: 42 } }),
 		queueUpdate: vi.fn().mockResolvedValue(undefined),
@@ -163,6 +171,100 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 			const payload = ctx.addShare.mock.calls[0][0] as Record<string, unknown>
 			expect(payload).not.toHaveProperty('password')
 		})
+	})
+})
+
+describe('SharingDetailsTab — allowed file types', () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
+	it('saves the comma separated list as share attribute', async () => {
+		const ctx = buildContext({
+			showAllowedFileTypes: true,
+			limitAllowedFileTypesIsChecked: true,
+			allowedFileTypes: ' .pdf,image/* , ,video/*',
+		})
+
+		await callSaveShare(ctx)
+
+		expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({
+			attributes: [{ scope: 'upload', key: 'allowed_types', value: ['.pdf', 'image/*', 'video/*'] }],
+		}))
+	})
+
+	it('adds the leading dot to extensions entered without it', async () => {
+		const ctx = buildContext({
+			showAllowedFileTypes: true,
+			limitAllowedFileTypesIsChecked: true,
+			allowedFileTypes: 'pdf, image/*',
+		})
+
+		await callSaveShare(ctx)
+
+		expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({
+			attributes: [{ scope: 'upload', key: 'allowed_types', value: ['.pdf', 'image/*'] }],
+		}))
+	})
+
+	it.each([
+		['the limit is disabled', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: false, allowedFileTypes: '.pdf' }],
+		['the field is empty', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: true, allowedFileTypes: ' , ' }],
+		['the share does not allow uploads', { showAllowedFileTypes: false, limitAllowedFileTypesIsChecked: true, allowedFileTypes: '.pdf' }],
+	])('removes the share attribute when %s', async (_, overrides) => {
+		const ctx = buildContext({
+			...overrides,
+			share: {
+				...buildContext().share,
+				attributes: [
+					{ scope: 'permissions', key: 'download', value: true },
+					{ scope: 'upload', key: 'allowed_types', value: ['.pdf'] },
+				],
+			},
+		})
+
+		await callSaveShare(ctx)
+
+		expect(ctx.share.attributes).toEqual([{ scope: 'permissions', key: 'download', value: true }])
+	})
+
+	it('restores the limit when editing an existing share', async () => {
+		const ctx = buildContext({
+			isNewShare: false,
+			share: {
+				...buildContext().share,
+				attributes: [{ scope: 'upload', key: 'allowed_types', value: ['.pdf', 'image/*'] }],
+			},
+		})
+
+		await SharingDetailsTab.methods.initializeAttributes.call(ctx)
+
+		expect(ctx.limitAllowedFileTypesIsChecked).toBe(true)
+		expect(ctx.allowedFileTypes).toBe('.pdf, image/*')
+		expect(ctx.advancedSectionAccordionExpanded).toBe(true)
+	})
+})
+
+describe('SharingDetailsTab.allowsUpload', () => {
+	it.each([
+		['view only', '1', false, false],
+		['upload and editing', '31', false, true],
+		['file request', '4', false, true],
+		['custom permissions without create', 'custom', false, false],
+		['custom permissions with create', 'custom', true, true],
+	])('%s', (_, sharingPermission, canCreate, expected) => {
+		expect(SharingDetailsTab.computed.allowsUpload.call({ sharingPermission, canCreate } as never)).toBe(expected)
+	})
+})
+
+describe('SharingDetailsTab.showAllowedFileTypes', () => {
+	it.each([
+		['public folder share with uploads', true, true, true, true],
+		['public folder share without uploads', true, true, false, false],
+		['public file share', true, false, true, false],
+		['internal folder share', false, true, true, false],
+	])('%s', (_, isPublicShare, isFolder, allowsUpload, expected) => {
+		expect(SharingDetailsTab.computed.showAllowedFileTypes.call({ isPublicShare, isFolder, allowsUpload } as never)).toBe(expected)
 	})
 })
 

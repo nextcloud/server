@@ -13,6 +13,7 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Files\Sharing\AllowedFileTypesPlugin;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
@@ -82,6 +83,7 @@ $requestUri = Server::get(IRequest::class)->getRequestUri();
 
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
+$allowedFileTypesPlugin = Server::get(AllowedFileTypesPlugin::class);
 
 /** @var string $baseuri defined in public.php */
 $server = $serverFactory->createServer(
@@ -93,7 +95,8 @@ $server = $serverFactory->createServer(
 		$authBackend,
 		$bearerAuthBackend,
 		$linkCheckPlugin,
-		$filesDropPlugin
+		$filesDropPlugin,
+		$allowedFileTypesPlugin
 	) {
 		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''), true);
 		/** @var FederatedShareProvider $shareProvider */
@@ -153,12 +156,14 @@ $server = $serverFactory->createServer(
 			$filesDropPlugin->enable();
 		}
 		$filesDropPlugin->setShare($share);
+		$allowedFileTypesPlugin->setShare($share);
 
 		return new View($node->getPath());
 	});
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
+$server->addPlugin($allowedFileTypesPlugin);
 // allow setup of additional plugins
 $event = new BeforeSabrePubliclyLoadedEvent($server);
 $eventDispatcher->dispatchTyped($event);

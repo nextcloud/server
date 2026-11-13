@@ -13,6 +13,7 @@ import { getUniqueName } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
+import { isAllowedFileType } from '../utils/allowedFileTypes.ts'
 import { getFilenameValidity } from '../utils/filenameValidity.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
@@ -128,6 +129,36 @@ export async function renameInvalidDroppedEntries(directory: Directory, path = '
 	}
 
 	return true
+}
+
+/**
+ * Remove every file of a dropped file tree whose type is not allowed.
+ *
+ * @param directory Directory to filter
+ * @param allowedFileTypes The allowed file types, an empty list allows all files
+ * @param path Path of the directory relative to the upload destination
+ * @return The paths of the removed files
+ */
+export function removeDisallowedFiles(directory: Directory, allowedFileTypes: string[], path = ''): string[] {
+	if (allowedFileTypes.length === 0) {
+		return []
+	}
+
+	const removed: string[] = []
+	const contents: (Directory | File)[] = []
+	for (const entry of directory.contents) {
+		const entryPath = join(path, entry.name)
+		if (entry instanceof Directory) {
+			removed.push(...removeDisallowedFiles(entry, allowedFileTypes, entryPath))
+			contents.push(entry)
+		} else if (isAllowedFileType(entry, allowedFileTypes)) {
+			contents.push(entry)
+		} else {
+			removed.push(entryPath)
+		}
+	}
+	directory.contents = contents
+	return removed
 }
 
 /**
