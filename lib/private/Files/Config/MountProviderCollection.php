@@ -12,6 +12,7 @@ use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
@@ -19,6 +20,7 @@ use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Config\MountProviderArgs;
+use OCP\Files\Events\RegisterMountProviderEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -45,10 +47,13 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/** @var list<callable> */
 	private array $mountFilters = [];
 
+	private bool $registerEventEmitted = false;
+
 	public function __construct(
 		private IStorageFactory $loader,
 		private IUserMountCache $mountCache,
 		private IEventLogger $eventLogger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -82,7 +87,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 */
 	#[\Override]
 	public function getMountsForUser(IUser $user): array {
-		return $this->getUserMountsForProviders($user, array_values($this->providers));
+		return $this->getUserMountsForProviders($user, array_values($this->getProvidersByClass()));
 	}
 
 	/**
@@ -99,7 +104,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		bool $forChildren,
 		array $mountProviderArgs,
 	): array {
-		$provider = $this->providers[$providerClass] ?? null;
+		$provider = $this->getProvidersByClass()[$providerClass] ?? null;
 		if ($provider === null) {
 			return [];
 		}
@@ -143,7 +148,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	#[\Override]
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
-			$this->providers,
+			$this->getProvidersByClass(),
 			fn (string $providerClass) => in_array($providerClass, $mountProviderClasses, true),
 			ARRAY_FILTER_USE_KEY
 		);
@@ -158,9 +163,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		// to check for name collisions
 		$firstMounts = [];
 		if ($providerFilter) {
-			$providers = array_filter($this->providers, $providerFilter, ARRAY_FILTER_USE_KEY);
+			$providers = array_filter($this->getProvidersByClass(), $providerFilter, ARRAY_FILTER_USE_KEY);
 		} else {
-			$providers = $this->providers;
+			$providers = $this->getProvidersByClass();
 		}
 		$firstProviders
 			= array_filter(
@@ -289,6 +294,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	public function clearProviders(): void {
+		$this->registerEventEmitted = false;
 		$this->providers = [];
 		$this->homeProviders = [];
 		$this->rootProviders = [];
@@ -298,7 +304,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountProvider>
 	 */
 	public function getProviders(): array {
-		return array_values($this->providers);
+		return array_values($this->getProvidersByClass());
 	}
 
 	/**
@@ -313,5 +319,16 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 */
 	public function getRootProviders(): array {
 		return $this->rootProviders;
+	}
+
+	/**
+	 * @return array<class-string<IMountProvider>, IMountProvider>
+	 */
+	private function getProvidersByClass(): array {
+		if (!$this->registerEventEmitted) {
+			$this->registerEventEmitted = true;
+			$this->eventDispatcher->dispatchTyped(new RegisterMountProviderEvent($this));
+		}
+		return $this->providers;
 	}
 }
