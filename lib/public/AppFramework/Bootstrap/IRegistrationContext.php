@@ -16,6 +16,7 @@ use OCP\Capabilities\ICapability;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\FilesMetadata\Schema\IMetadataSchemaProvider;
 use OCP\GlobalScale\IGlobalScaleService;
 use OCP\IContainer;
 use OCP\Mail\Provider\IProvider as IMailProvider;
@@ -486,4 +487,12 @@ interface IRegistrationContext {
 	 * @since 34.0.3
 	 */
 	public function registerGlobalScaleService(string $globalScaleServiceClass): void;
+
+	/**
+	 * Register an implementation of {@see IMetadataSchemaProvider} to register metadata fields.
+	 *
+	 * @param class-string<IMetadataSchemaProvider> $class
+	 * @since 36.0.0
+	 */
+	public function registerMetadataSchemaProvider(string $class): void;
 }
