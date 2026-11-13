@@ -90,6 +90,7 @@ return array(
     'OCA\\Files\\Migration\\Version2003Date20241021095629' => $baseDir . '/../lib/Migration/Version2003Date20241021095629.php',
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Files\\PublicCapabilities' => $baseDir . '/../lib/PublicCapabilities.php',
+    'OCA\\Files\\Resource\\NodeResourceType' => $baseDir . '/../lib/Resource/NodeResourceType.php',
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => $baseDir . '/../lib/Search/FileAccountScopedSearchProvider.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
