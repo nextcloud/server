@@ -36,10 +36,18 @@ class Version31000Date20240814184402 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('preferences');
-		$table->addColumn('lazy', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'length' => 1, 'unsigned' => true]);
-		$table->addColumn('type', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
-		$table->addColumn('flags', Types::INTEGER, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
-		$table->addColumn('indexed', Types::STRING, ['notnull' => false, 'default' => '', 'length' => 64]);
+		if (!$table->hasColumn('lazy')) {
+			$table->addColumn('lazy', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'length' => 1, 'unsigned' => true]);
+		}
+		if (!$table->hasColumn('type')) {
+			$table->addColumn('type', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
+		}
+		if (!$table->hasColumn('flags')) {
+			$table->addColumn('flags', Types::INTEGER, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
+		}
+		if (!$table->hasColumn('indexed')) {
+			$table->addColumn('indexed', Types::STRING, ['notnull' => false, 'default' => '', 'length' => 64]);
+		}
 
 		// removing this index from Version13000Date20170718121200
 		// $table->addIndex(['appid', 'configkey'], 'preferences_app_key');
@@ -47,8 +55,12 @@ class Version31000Date20240814184402 extends SimpleMigrationStep {
 			$table->dropIndex('preferences_app_key');
 		}
 
-		$table->addIndex(['userid', 'lazy'], 'prefs_uid_lazy_i');
-		$table->addIndex(['appid', 'configkey', 'indexed', 'flags'], 'prefs_app_key_ind_fl_i');
+		if (!$table->hasIndex('prefs_uid_lazy_i')) {
+			$table->addIndex(['userid', 'lazy'], 'prefs_uid_lazy_i');
+		}
+		if (!$table->hasIndex('prefs_app_key_ind_fl_i')) {
+			$table->addIndex(['appid', 'configkey', 'indexed', 'flags'], 'prefs_app_key_ind_fl_i');
+		}
 
 		return $schema;
 	}
