@@ -88,6 +88,15 @@ class ChunkedWriteTest extends TestCase {
 		$this->assertEquals($expected, $view->file_get_contents($target));
 	}
 
+	public function testReadBackZeroByteContent(): void {
+		$view = $this->setUpView();
+		$path = self::getUniqueID('zero') . '.txt';
+
+		$this->assertSame(1, $view->file_put_contents($path, '0'));
+		$this->assertSame(1, $view->filesize($path));
+		$this->assertSame('0', $view->file_get_contents($path));
+	}
+
 	/**
 	 * A part file is never in the file cache. With `part_file_in_storage`
 	 * disabled it is written to the user home while the target can live on
