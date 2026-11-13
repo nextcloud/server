@@ -54,9 +54,4 @@ jobs:
             Please open a new issue if you have a similar problem instead.
             For general discussions, please use our forum: https://help.nextcloud.com
           pr-inactive-days: 7
-          pr-comment: >
-            This pull request has been automatically locked because it has been closed for more than 7 days.
-            As we do not monitor merged or closed pull requests, we are locking this pull request to prevent further comments from getting lost in the noise.
-
-            If you discovered any issues with this pull request, please open a new issue instead.
-            In case you want to discuss this pull request or have further questions, please use our forum: https://help.nextcloud.com
+          pr-comment: ''
