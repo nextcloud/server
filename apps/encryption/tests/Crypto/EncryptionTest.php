@@ -432,7 +432,7 @@ class EncryptionTest extends TestCase {
 		$output .= $this->instance->end($path, '0end');
 
 		$this->assertSame($expectedChunks, $encryptedChunks);
-		$this->assertSame(str_repeat('encrypted', count($expectedChunks)), $output);		
+		$this->assertSame(str_repeat('encrypted', count($expectedChunks)), $output);
 	}
 
 	public static function writeCacheProvider(): array {
