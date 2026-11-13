@@ -170,6 +170,10 @@ export interface IAppstoreExAppRelease extends IAppstoreAppRelease {
 
 export interface IAppstoreExApp extends IAppstoreApp {
 	app_api: true
+	/** Whether the ExApp is listed in the app store (false for ExApps registered by other means) */
+	appstore: boolean
+	/** Available update version, `null` for ExApps that are not listed in the app store */
+	update?: string | null
 	daemon: IDeployDaemon | null | undefined
 	status: IExAppStatus | Record<string, never>
 	error?: string
