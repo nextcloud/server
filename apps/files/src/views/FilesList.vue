@@ -90,6 +90,7 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
+			:navigating="navigating"
 			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
