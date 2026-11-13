@@ -358,7 +358,7 @@ class ImageManager {
 	 */
 	public function cleanup() {
 		$currentFolder = $this->getCacheFolder();
-		$folders = $this->getRootFolder()->getDirectoryListing();
+		$folders = $this->getRootFolder()->getFolderListing();
 		foreach ($folders as $folder) {
 			if ($folder->getName() !== 'images' && $folder->getName() !== $currentFolder->getName()) {
 				$folder->delete();
