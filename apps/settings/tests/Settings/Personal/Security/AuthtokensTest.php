@@ -42,7 +42,7 @@ class AuthtokensTest extends TestCase {
 		$this->serverConfig = $this->createMock(IConfig::class);
 		$this->uid = 'test123';
 		$this->grantableApps = $this->createMock(GrantableApps::class);
-		$this->grantableApps->method('entries')->willReturn([['id' => 'spreed', 'name' => 'Talk', 'icon' => '', 'acrossApps' => false]]);
+		$this->grantableApps->method('entries')->willReturn([['id' => 'spreed', 'name' => 'Talk', 'icon' => '']]);
 
 		$this->section = new Authtokens(
 			$this->authTokenProvider,
@@ -107,7 +107,7 @@ class AuthtokensTest extends TestCase {
 				]
 			],
 			['can_create_app_token', true],
-			['grantable_apps', [['id' => 'spreed', 'name' => 'Talk', 'icon' => '', 'acrossApps' => false]]],
+			['grantable_apps', [['id' => 'spreed', 'name' => 'Talk', 'icon' => '']]],
 		];
 		$this->initialState->expects($this->exactly(3))
 			->method('provideInitialState')

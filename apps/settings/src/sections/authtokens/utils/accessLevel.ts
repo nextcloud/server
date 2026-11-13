@@ -16,12 +16,10 @@ export type Grant = Area | Service | 'filesShare' | 'filesTrash' | 'filesVersion
 export type Preset = 'all' | 'files' | 'calendarContacts' | 'custom'
 type AreaState = 'all' | 'partial' | 'none'
 
-export interface IGrantableApp {
+interface IGrantableApp {
 	id: string
 	name: string
 	icon: string
-	/** Whether the app shows other apps' data */
-	acrossApps: boolean
 }
 
 export const GRANTABLE_APPS = loadState<IGrantableApp[]>('settings', 'grantable_apps', [])
@@ -163,7 +161,7 @@ export function accessLabel(scope: ITokenScope): string {
 		return [(state === 'partial' && readOnly[area]) || GRANT_LABELS[area]]
 	})
 	parts.push(...SERVICES.filter((service) => selection.grants.includes(service)).map((service) => GRANT_LABELS[service]))
-	parts.push(...GRANTABLE_APPS.filter((app) => selection.apps.includes(app.id)).map(appLabel))
+	parts.push(...GRANTABLE_APPS.filter((app) => selection.apps.includes(app.id)).map((app) => app.name))
 	if (kept.length > 0) {
 		// TRANSLATORS Last item of a list such as "Files and other access"
 		parts.push(parts.length === 0 ? t('settings', 'Other access') : t('settings', 'other access'))
@@ -172,14 +170,6 @@ export function accessLabel(scope: ITokenScope): string {
 		return t('settings', 'No access')
 	}
 	return new Intl.ListFormat(getLanguage(), { type: 'conjunction' }).format(parts)
-}
-
-/**
- * @param app An app the app password can be limited to
- */
-export function appLabel(app: IGrantableApp): string {
-	// TRANSLATORS {app} is an app name, e.g. "Activity". The app password then reads that app's data from all other apps
-	return app.acrossApps ? t('settings', '{app} across all apps', { app: app.name }) : app.name
 }
 
 /**

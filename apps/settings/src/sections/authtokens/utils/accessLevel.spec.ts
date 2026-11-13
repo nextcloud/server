@@ -8,8 +8,8 @@ import type { Selection } from './accessLevel.ts'
 import { describe, expect, it, vi } from 'vitest'
 vi.mock('@nextcloud/initial-state', () => ({
 	loadState: () => [
-		{ id: 'spreed', name: 'Talk', icon: '', acrossApps: false },
-		{ id: 'activity', name: 'Activity', icon: '', acrossApps: true },
+		{ id: 'spreed', name: 'Talk', icon: '' },
+		{ id: 'activity', name: 'Activity', icon: '' },
 	],
 }))
 
@@ -39,8 +39,8 @@ describe('accessLevel', () => {
 		expect(toScopes(selection, kept)).toEqual(['spreed', 'deck'])
 	})
 
-	it('labels apps, with the ones that show other apps\' data marked', () => {
-		expect(accessLabel({ filesystem: true, scopes: [...files, 'spreed', 'activity'] })).toBe('Files, Talk, and Activity across all apps')
+	it('labels ticked apps by name', () => {
+		expect(accessLabel({ filesystem: true, scopes: [...files, 'spreed', 'activity'] })).toBe('Files, Talk, and Activity')
 	})
 
 	it('reads a token without scopes as all access', () => {

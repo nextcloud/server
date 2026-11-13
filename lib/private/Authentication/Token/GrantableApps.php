@@ -9,24 +9,22 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
-use OCP\INavigationManager;
+use OCP\App\IAppManager;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 
-/**
- * Apps an app password can be limited to as a whole, by app id
- */
 class GrantableApps {
 	/**
-	 * AI apps, and apps whose access has scopes of its own
+	 * Apps whose data is reached through scopes, like DAV for calendars and contacts
 	 */
-	private const EXCLUDED = ['assistant', 'calendar', 'contacts', 'files', 'tasks'];
-
-	/**
-	 * Apps that show other apps' data
-	 */
-	private const ACROSS_APPS = ['activity', 'dashboard'];
+	private const EXCLUDED = ['calendar', 'contacts', 'dav', 'files', 'files_sharing', 'files_trashbin', 'files_versions', 'notifications', 'tasks'];
 
 	public function __construct(
-		private INavigationManager $navigationManager,
+		private IAppManager $appManager,
+		private IUserSession $userSession,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -34,25 +32,26 @@ class GrantableApps {
 	 * @return list<string>
 	 */
 	public function getAppIds(): array {
-		return array_column($this->entries(), 'id');
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return [];
+		}
+		return array_values(array_diff($this->appManager->getEnabledAppsForUser($user), self::EXCLUDED));
 	}
 
 	/**
-	 * Apps in the current user's navigation, so restricted apps stay out. Apps that show other apps' data come first, then by name
+	 * Sorted by name, for the picker
 	 *
-	 * @return list<array{id: string, name: string, icon: string, acrossApps: bool}>
+	 * @return list<array{id: string, name: string, icon: string}>
 	 */
 	public function entries(): array {
+		$language = $this->l10nFactory->findLanguage();
 		$entries = [];
-		foreach ($this->navigationManager->getAll(INavigationManager::TYPE_APPS) as $entry) {
-			$app = $entry['app'] ?? $entry['id'];
-			// An app's main entry wins over its extra ones, like the Tables contexts
-			if (in_array($app, self::EXCLUDED, true) || (isset($entries[$app]) && $entry['id'] !== $app)) {
-				continue;
-			}
-			$entries[$app] = ['id' => $app, 'name' => $entry['name'], 'icon' => $entry['icon'], 'acrossApps' => in_array($app, self::ACROSS_APPS, true)];
+		foreach ($this->getAppIds() as $app) {
+			$name = $this->appManager->getAppInfo($app, false, $language)['name'] ?? null;
+			$entries[] = ['id' => $app, 'name' => is_string($name) ? $name : $app, 'icon' => $this->appManager->getAppIcon($app) ?? $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg')];
 		}
-		usort($entries, static fn (array $a, array $b): int => [$b['acrossApps'], strcasecmp($a['name'], $b['name'])] <=> [$a['acrossApps'], 0]);
+		usort($entries, static fn (array $a, array $b): int => strcasecmp($a['name'], $b['name']));
 		return $entries;
 	}
 }

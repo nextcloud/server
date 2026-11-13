@@ -11,7 +11,7 @@ import { computed, useTemplateRef, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import { appLabel, AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, GRANTABLE_APPS, PRESET_GRANTS, SERVICES, setGrant, toScopes } from '../utils/accessLevel.ts'
+import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, GRANTABLE_APPS, PRESET_GRANTS, SERVICES, setGrant, toScopes } from '../utils/accessLevel.ts'
 
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
@@ -23,8 +23,6 @@ const props = defineProps<{
 
 const areas = useTemplateRef('areas')
 
-const acrossApps = GRANTABLE_APPS.filter((app) => app.acrossApps)
-const plainApps = GRANTABLE_APPS.filter((app) => !app.acrossApps)
 const filesDescription = t('settings', 'Most apps need this for attachments and other file features.')
 
 const preset = computed({
@@ -109,16 +107,9 @@ function toggleApp(app: string, on: boolean) {
 					@update:modelValue="toggle(service, $event)">
 					{{ GRANT_LABELS[service] }}
 				</NcCheckboxRadioSwitch>
+				<hr v-if="GRANTABLE_APPS.length > 0" :class="$style.accessPicker__divider">
 				<NcCheckboxRadioSwitch
-					v-for="app in acrossApps"
-					:key="app.id"
-					:modelValue="selection.apps.includes(app.id)"
-					@update:modelValue="toggleApp(app.id, $event)">
-					{{ appLabel(app) }}
-				</NcCheckboxRadioSwitch>
-				<hr v-if="plainApps.length > 0" :class="$style.accessPicker__divider">
-				<NcCheckboxRadioSwitch
-					v-for="app in plainApps"
+					v-for="app in GRANTABLE_APPS"
 					:key="app.id"
 					:modelValue="selection.apps.includes(app.id)"
 					@update:modelValue="toggleApp(app.id, $event)">
@@ -168,7 +159,7 @@ function toggleApp(app: string, on: boolean) {
 .accessPicker__appIcon {
 	width: calc(4 * var(--default-grid-baseline));
 	height: calc(4 * var(--default-grid-baseline));
-	/* Navigation icons are white, for the header */
+	/* App icons are white, for the header */
 	filter: var(--background-invert-if-bright);
 }
 </style>
