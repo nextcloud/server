@@ -54,9 +54,9 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	const defaultDaemon = ref(loadState<IDeployDaemon | null>('appstore', 'defaultDaemonConfig', null))
 
 	/**
-	 * The list of daemons that support docker-based deployment, used to show the daemon selection when enabling an app.
+	 * The HaRP daemons (Docker or Kubernetes) ExApps can be installed on, offered when installing an app.
 	 */
-	const dockerDaemons = ref<IDeployDaemon[]>([])
+	const deployDaemons = ref<IDeployDaemon[]>([])
 
 	const initializingOrDeployingApps = computed(() => apps.value
 		.filter((app) => app?.status?.action
@@ -86,8 +86,8 @@ export const useExAppsStore = defineStore('external-apps', () => {
 
 		app.loading = true
 		try {
-			if (dockerDaemons.value.length === 1 && app.needsDownload) {
-				const daemon = dockerDaemons.value[0]!
+			if (deployDaemons.value.length === 1 && app.needsDownload) {
+				const daemon = deployDaemons.value[0]!
 				await exAppApi.enableExApp(app, daemon)
 				app.daemon = daemon
 			} else if (app.needsDownload) {
@@ -236,8 +236,8 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	 * @param force - If the initialization should be forced (to run again)
 	 */
 	async function initialize(force = false) {
-		if (force || (!defaultDaemon.value || !dockerDaemons.value.length)) {
-			await fetchDockerDaemons()
+		if (force || (!defaultDaemon.value || !deployDaemons.value.length)) {
+			await fetchDeployDaemons()
 		}
 		if (force || apps.value.length === 0) {
 			await fetchAllApps()
@@ -250,7 +250,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		apps,
 		updateCount,
 		defaultDaemon,
-		dockerDaemons,
+		deployDaemons,
 		daemonAccessible,
 
 		getById,
@@ -263,15 +263,16 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	}
 
 	/**
-	 * Fetch the configured docker daemons from the backend.
+	 * Fetch the configured daemons from the backend.
 	 */
-	async function fetchDockerDaemons() {
+	async function fetchDeployDaemons() {
 		try {
 			const { data } = await axios.get(generateUrl('/apps/app_api/daemons'))
 			defaultDaemon.value = data.daemons.find((daemon: IDeployDaemon) => daemon.name === data.default_daemon_config)
-			dockerDaemons.value = data.daemons.filter((daemon: IDeployDaemon) => daemon.accepts_deploy_id === 'docker-install')
+			deployDaemons.value = data.daemons.filter((daemon: IDeployDaemon) => ['docker-install', 'kubernetes-install'].includes(daemon.accepts_deploy_id)
+				&& isHarpDaemon(daemon))
 		} catch (error) {
-			logger.error('[app-api-store] Failed to fetch Docker daemons', { error })
+			logger.error('[app-api-store] Failed to fetch deploy daemons', { error })
 			return false
 		}
 		return true
@@ -388,6 +389,17 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		}
 	}
 })
+
+/**
+ * Whether the daemon runs ExApps through HaRP.
+ * AppAPI stores `null` without HaRP and PHP serializes empty settings as `[]`, both mean no HaRP.
+ *
+ * @param daemon - The daemon to check
+ */
+function isHarpDaemon(daemon: IDeployDaemon): boolean {
+	const harp = daemon.deploy_config?.harp
+	return typeof harp === 'object' && harp !== null && Object.keys(harp).length > 0
+}
 
 /**
  * Get the error message AppAPI sent with a failed request, if any.

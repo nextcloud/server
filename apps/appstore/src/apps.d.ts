@@ -123,6 +123,8 @@ export interface IDeployConfig {
 	computeDevice: IComputeDevice
 	net: string
 	nextcloud_url: string
+	/** HaRP settings, empty or unset for daemons without HaRP (manual install, Docker Socket Proxy) */
+	harp?: Record<string, unknown> | unknown[] | null
 }
 
 export interface IDeployDaemon {
