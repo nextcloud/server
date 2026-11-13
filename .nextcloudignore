@@ -57,11 +57,14 @@ window.d.ts
 /.oss-scanner
 /__mocks__
 /__tests__
+/apps/*/l10n/.gitkeep
+/apps/*/src
 /apps/testing
 /autotest*.sh
 /build
 /config/config.php
 /contribute
+/core/src
 /data
 /openapi.json
 /vendor-bin
