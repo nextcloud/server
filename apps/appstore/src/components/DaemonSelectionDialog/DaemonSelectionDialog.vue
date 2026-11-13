@@ -38,7 +38,7 @@ const appApiAdminPage = generateUrl('/settings/admin/app_api')
 		size="normal"
 		@update:open="$event || $emit('close')">
 		<NcEmptyContent
-			v-if="store.dockerDaemons.length === 0"
+			v-if="store.deployDaemons.length === 0"
 			class="daemon-selection-list__empty-content"
 			:name="t('appstore', 'No Deploy daemons configured')"
 			:description="t('appstore', 'Register a custom one or setup from available templates')">

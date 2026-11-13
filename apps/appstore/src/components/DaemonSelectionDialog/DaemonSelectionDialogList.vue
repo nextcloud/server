@@ -23,7 +23,7 @@ const store = useExAppsStore(pinia)
 		:class="$style.DaemonSelectionDialogList"
 		:aria-label="t('appstore', 'Registered Deploy daemons list')">
 		<DaemonSelectionDialogListEntry
-			v-for="daemon in store.dockerDaemons"
+			v-for="daemon in store.deployDaemons"
 			:key="daemon.id"
 			:daemon
 			:isDefault="store.defaultDaemon?.name === daemon.name"

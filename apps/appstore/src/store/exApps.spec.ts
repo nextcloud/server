@@ -26,9 +26,10 @@ vi.mock('@nextcloud/password-confirmation', () => ({ confirmPassword }))
 
 const { useExAppsStore } = await import('./exApps.ts')
 
-const harpDaemon = daemon('harp', 'docker-install')
-const secondDaemon = daemon('second', 'docker-install')
-const manualDaemon = daemon('manual', 'manual-install')
+const harpDaemon = daemon('harp', 'docker-install', { frp_address: 'appapi-harp:8782' })
+const k8sDaemon = daemon('k8s', 'kubernetes-install', { exapp_direct: true })
+const dspDaemon = daemon('dsp', 'docker-install')
+const manualDaemon = daemon('manual', 'manual-install', null)
 
 const deployingStatus: IExAppStatus = { type: 'install', action: 'deploy', deploy: 50, init: 0 }
 const initializingStatus: IExAppStatus = { type: 'install', action: 'init', deploy: 100, init: 50 }
@@ -81,9 +82,28 @@ afterEach(() => {
 	vi.useRealTimers()
 })
 
+describe('deploy daemons', () => {
+	test('offers HaRP daemons on Docker and Kubernetes only', async () => {
+		daemons = [manualDaemon, dspDaemon, harpDaemon, k8sDaemon]
+		const store = useExAppsStore()
+		await store.initialize()
+
+		expect(store.deployDaemons.map(({ name }) => name)).toEqual(['harp', 'k8s'])
+		expect(store.defaultDaemon?.name).toBe('harp')
+	})
+
+	test.each([{ harp: null }, { harp: [] }])('does not offer a Docker daemon with HaRP settings $harp', async ({ harp }) => {
+		daemons = [daemon('empty', 'docker-install', harp), harpDaemon]
+		const store = useExAppsStore()
+		await store.initialize()
+
+		expect(store.deployDaemons.map(({ name }) => name)).toEqual(['harp'])
+	})
+})
+
 describe('installing an ExApp', () => {
-	test('uses the only Docker daemon without asking', async () => {
-		daemons = [manualDaemon, harpDaemon]
+	test('uses the only deploy daemon without asking', async () => {
+		daemons = [manualDaemon, dspDaemon, harpDaemon]
 		const store = useExAppsStore()
 		await store.initialize()
 
@@ -95,20 +115,20 @@ describe('installing an ExApp', () => {
 	})
 
 	test('asks for the daemon when several can be used', async () => {
-		daemons = [harpDaemon, secondDaemon]
-		spawnDialog.mockResolvedValue(secondDaemon)
+		daemons = [harpDaemon, k8sDaemon]
+		spawnDialog.mockResolvedValue(k8sDaemon)
 		const store = useExAppsStore()
 		await store.initialize()
 
 		await store.enableApp('test_app')
 
 		expect(spawnDialog).toHaveBeenCalledOnce()
-		expect(axios.post).toHaveBeenCalledWith('/index.php/apps/app_api/apps/enable/test_app/second', { deployOptions: undefined })
-		expect(store.getById('test_app')!.daemon).toEqual(secondDaemon)
+		expect(axios.post).toHaveBeenCalledWith('/index.php/apps/app_api/apps/enable/test_app/k8s', { deployOptions: undefined })
+		expect(store.getById('test_app')!.daemon).toEqual(k8sDaemon)
 	})
 
 	test('does not show an error when no daemon was chosen', async () => {
-		daemons = [harpDaemon, secondDaemon]
+		daemons = [harpDaemon, k8sDaemon]
 		spawnDialog.mockResolvedValue(undefined)
 		const store = useExAppsStore()
 		await store.initialize()
@@ -120,7 +140,7 @@ describe('installing an ExApp', () => {
 	})
 
 	test('shows the error message sent by AppAPI', async () => {
-		const message = 'Error starting install of ExApp'
+		const message = 'Docker Socket Proxy daemons are no longer supported, use a HaRP daemon.'
 		failures = { '/apps/app_api/apps/enable/': requestError(500, { data: { message } }) }
 		const store = useExAppsStore()
 		await store.initialize()
@@ -363,8 +383,9 @@ describe('uninstalling an ExApp', () => {
  *
  * @param name - The daemon name
  * @param acceptsDeployId - The deploy type of the daemon
+ * @param harp - The HaRP settings, if any
  */
-function daemon(name: string, acceptsDeployId: string): IDeployDaemon {
+function daemon(name: string, acceptsDeployId: string, harp?: IDeployDaemon['deploy_config']['harp']): IDeployDaemon {
 	return {
 		id: 1,
 		name,
@@ -377,6 +398,7 @@ function daemon(name: string, acceptsDeployId: string): IDeployDaemon {
 			computeDevice: { id: 'cpu', label: 'CPU' },
 			net: 'host',
 			nextcloud_url: 'http://nextcloud.local',
+			...(harp === undefined ? {} : { harp }),
 		},
 	}
 }
