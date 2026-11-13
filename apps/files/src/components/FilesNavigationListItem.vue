@@ -7,7 +7,7 @@
 import type { IView } from '@nextcloud/files'
 
 import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
-import { computed, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { useVisibleViews } from '../composables/useViews.ts'
@@ -62,6 +62,8 @@ const sortedChildViews = computed(() => childViews.value.slice().sort((a, b) => 
 	return collator.compare(a.name, b.name)
 }))
 const hasChildViews = computed(() => childViews.value.length > 0)
+const activeViewId = inject('currentNavigationView', ref<string | undefined>(undefined))
+const isActiveView = computed(() => activeViewId.value.id === props.view.id)
 
 const navigationRoute = computed(() => {
 	if (props.view.params) {
@@ -138,6 +140,7 @@ export default {
 <template>
 	<NcAppNavigationItem
 		class="files-navigation__item"
+		:active="isActiveView"
 		allow-collapse
 		:loading="isLoading"
 		:data-cy-files-navigation-item="view.id"
