@@ -314,7 +314,7 @@ interface FileInfo {
 	 * Get the filecache data for the file
 	 *
 	 * @return ICacheEntry
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 */
 	public function getData(): ICacheEntry;
 }
