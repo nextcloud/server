@@ -7,6 +7,7 @@
 
 namespace Test\Files\ObjectStore;
 
+use Icewind\Streams\CountWrapper;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\TestCase;
 
@@ -167,6 +168,21 @@ abstract class ObjectStoreTestCase extends TestCase {
 		$this->assertTrue($instance->objectExists('target'));
 
 		$this->assertEquals('foobar', stream_get_contents($instance->readObject('target')));
+	}
+
+	/**
+	 * Uploads reach the object store as php://input wrapped in a CountWrapper: no seeking and no known size.
+	 */
+	public function testWriteStreamOfUnknownSize(): void {
+		$this->cleanupAfter('unknown-size');
+		$data = file_get_contents(\OC::$SERVERROOT . '/tests/data/lorem.txt');
+
+		$instance = $this->getInstance();
+		$stream = CountWrapper::wrap(NonSeekableStream::wrap($this->stringToStream($data)), function (): void {
+		});
+		$instance->writeObject('unknown-size', $stream);
+
+		$this->assertEquals($data, stream_get_contents($instance->readObject('unknown-size')));
 	}
 
 	public function testFseekSize(): void {
