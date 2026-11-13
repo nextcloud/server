@@ -16,6 +16,7 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
+use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
@@ -259,38 +260,23 @@ class EncryptionTest extends TestCase {
 		$this->instance->begin('/user/files/welcome.txt', 'user', 'r', [], []);
 	}
 
-	/**
-	 *
-	 * @param string $fileKey
-	 * @param boolean $expected
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUpdate')]
-	public function testUpdate($fileKey, $expected): void {
+	public function testUpdateWithoutFileKeyReturnsFalseWithoutChangingKeys(): void {
 		$this->keyManagerMock->expects($this->once())
-			->method('getFileKey')->willReturn($fileKey);
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('');
+		$this->utilMock->expects($this->never())->method('getOwner');
+		$this->keyManagerMock->expects($this->never())->method('getPublicKey');
+		$this->keyManagerMock->expects($this->never())->method('addSystemKeys');
+		$this->cryptMock->expects($this->never())->method('multiKeyEncrypt');
+		$this->keyManagerMock->expects($this->never())->method('deleteAllFileKeys');
+		$this->keyManagerMock->expects($this->never())->method('setShareKey');
 
-		$this->keyManagerMock->expects($this->any())
-			->method('getPublicKey')->willReturn('publicKey');
-
-		$this->keyManagerMock->expects($this->any())
-			->method('addSystemKeys')
-			->willReturnCallback(function ($accessList, $publicKeys) {
-				return $publicKeys;
-			});
-
-		$this->keyManagerMock->expects($this->never())->method('getVersion');
-		$this->keyManagerMock->expects($this->never())->method('setVersion');
-
-		$this->assertSame($expected,
-			$this->instance->update('path', 'user1', ['users' => ['user1']])
-		);
-	}
-
-	public static function dataTestUpdate(): array {
-		return [
-			['', false],
-			['fileKey', true]
-		];
+		$this->assertFalse($this->instance->update(
+			'path',
+			'ignored',
+			['users' => ['owner'], 'public' => false],
+		));
 	}
 
 	public function testUpdateNoUsers(): void {
@@ -305,44 +291,201 @@ class EncryptionTest extends TestCase {
 				$this->assertSame(2, $version);
 				$this->assertTrue($view instanceof View);
 			});
-		$this->instance->update('path', 'user1', []);
+		$this->keyManagerMock->expects($this->never())->method('deleteAllFileKeys');
+		$this->keyManagerMock->expects($this->never())->method('setShareKey');
+
+		$this->assertFalse($this->instance->update('path', 'ignored', []));
 	}
 
-	/**
-	 * Test case if the public key is missing. Nextcloud should still encrypt
-	 * the file for the remaining users
-	 */
-	public function testUpdateMissingPublicKey(): void {
+	public function testUpdateReplacesShareKeysForAvailableRecipients(): void {
+		$accessList = ['users' => ['owner', 'recipient'], 'public' => false];
+		$publicKeys = ['owner' => 'owner-public-key', 'recipient' => 'recipient-public-key'];
+		$shareKeys = ['owner' => 'owner-share-key', 'recipient' => 'recipient-share-key'];
+
 		$this->keyManagerMock->expects($this->once())
-			->method('getFileKey')->willReturn('fileKey');
-
-		$this->keyManagerMock->expects($this->any())
-			->method('getPublicKey')->willReturnCallback(
-				function ($user): void {
-					throw new PublicKeyMissingException($user);
-				}
-			);
-
-		$this->keyManagerMock->expects($this->any())
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('fileKey');
+		$this->utilMock->expects($this->once())
+			->method('getOwner')
+			->with('path')
+			->willReturn('owner');
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('getPublicKey')
+			->willReturnMap([
+				['owner', 'owner-public-key'],
+				['recipient', 'recipient-public-key'],
+			]);
+		$this->keyManagerMock->expects($this->once())
 			->method('addSystemKeys')
-			->willReturnCallback(function ($accessList, $publicKeys) {
-				return $publicKeys;
+			->with($accessList, $publicKeys, 'owner')
+			->willReturn($publicKeys);
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt')
+			->with('fileKey', $publicKeys)
+			->willReturn($shareKeys);
+		$this->keyManagerMock->expects($this->once())
+			->method('deleteAllFileKeys')
+			->with('path')
+			->willReturn(true);
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('setShareKey')
+			->willReturnCallback(function ($path, $uid, $key) use ($shareKeys): bool {
+				$this->assertSame('path', $path);
+				$this->assertSame($shareKeys[$uid], $key);
+				return true;
 			});
 
-		$this->cryptMock->expects($this->once())->method('multiKeyEncrypt')
-			->willReturnCallback(
-				function ($fileKey, $publicKeys) {
-					$this->assertEmpty($publicKeys);
-					$this->assertSame('fileKey', $fileKey);
-					return [];
+		$this->assertTrue($this->instance->update('path', 'ignored', $accessList));
+	}
+
+	public function testUpdateMissingOwnerPublicKeyAbortsBeforeDeletingKeys(): void {
+		$accessList = ['users' => ['owner', 'recipient'], 'public' => false];
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('fileKey');
+		$this->utilMock->expects($this->once())
+			->method('getOwner')
+			->with('path')
+			->willReturn('owner');
+		$this->keyManagerMock->expects($this->once())
+			->method('getPublicKey')
+			->with('owner')
+			->willThrowException(new PublicKeyMissingException('owner'));
+		$this->cryptMock->expects($this->never())->method('multiKeyEncrypt');
+		$this->keyManagerMock->expects($this->never())->method('deleteAllFileKeys');
+		$this->keyManagerMock->expects($this->never())->method('setShareKey');
+
+		$this->expectException(PublicKeyMissingException::class);
+		$this->instance->update('path', 'ignored', $accessList);
+	}
+
+	public function testUpdateMissingNonOwnerPublicKeyContinuesWithAvailableRecipients(): void {
+		$accessList = ['users' => ['owner', 'missing', 'recipient'], 'public' => false];
+		$publicKeys = ['owner' => 'owner-public-key', 'recipient' => 'recipient-public-key'];
+		$shareKeys = ['owner' => 'owner-share-key', 'recipient' => 'recipient-share-key'];
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('fileKey');
+		$this->utilMock->expects($this->once())
+			->method('getOwner')
+			->with('path')
+			->willReturn('owner');
+		$this->keyManagerMock->expects($this->exactly(3))
+			->method('getPublicKey')
+			->willReturnCallback(function ($uid): string {
+				if ($uid === 'missing') {
+					throw new PublicKeyMissingException($uid);
 				}
-			);
+				return $uid . '-public-key';
+			});
+		$this->keyManagerMock->expects($this->once())
+			->method('addSystemKeys')
+			->with($accessList, $publicKeys, 'owner')
+			->willReturn($publicKeys);
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt')
+			->with('fileKey', $publicKeys)
+			->willReturn($shareKeys);
+		$this->keyManagerMock->expects($this->once())
+			->method('deleteAllFileKeys')
+			->with('path')
+			->willReturn(true);
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('setShareKey')
+			->willReturnCallback(function ($path, $uid, $key) use ($shareKeys): bool {
+				$this->assertSame('path', $path);
+				$this->assertSame($shareKeys[$uid], $key);
+				return true;
+			});
 
-		$this->keyManagerMock->expects($this->never())->method('getVersion');
-		$this->keyManagerMock->expects($this->never())->method('setVersion');
+		$this->assertTrue($this->instance->update('path', 'ignored', $accessList));
+	}
 
-		$this->assertTrue(
-			$this->instance->update('path', 'user1', ['users' => ['user1']])
+	public function testUpdateDeleteFailureAbortsBeforeWritingReplacementKeys(): void {
+		$accessList = ['users' => ['owner'], 'public' => false];
+		$publicKeys = ['owner' => 'owner-public-key'];
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('fileKey');
+		$this->utilMock->expects($this->once())
+			->method('getOwner')
+			->with('path')
+			->willReturn('owner');
+		$this->keyManagerMock->expects($this->once())
+			->method('getPublicKey')
+			->with('owner')
+			->willReturn('owner-public-key');
+		$this->keyManagerMock->expects($this->once())
+			->method('addSystemKeys')
+			->willReturn($publicKeys);
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt')
+			->with('fileKey', $publicKeys)
+			->willReturn(['owner' => 'owner-share-key']);
+		$this->keyManagerMock->expects($this->once())
+			->method('deleteAllFileKeys')
+			->with('path')
+			->willReturn(false);
+		$this->keyManagerMock->expects($this->never())->method('setShareKey');
+
+		$this->expectException(MultiKeyEncryptException::class);
+		$this->expectExceptionMessage('Could not remove existing encryption keys');
+		$this->instance->update('path', 'ignored', $accessList);
+	}
+
+	public function testUpdateReplacementWriteFailureReportsFailedRecipient(): void {
+		$accessList = ['users' => ['owner', 'recipient'], 'public' => false];
+		$publicKeys = ['owner' => 'owner-public-key', 'recipient' => 'recipient-public-key'];
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')
+			->with('path', null)
+			->willReturn('fileKey');
+		$this->utilMock->expects($this->once())
+			->method('getOwner')
+			->with('path')
+			->willReturn('owner');
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('getPublicKey')
+			->willReturnMap([
+				['owner', 'owner-public-key'],
+				['recipient', 'recipient-public-key'],
+			]);
+		$this->keyManagerMock->expects($this->once())
+			->method('addSystemKeys')
+			->willReturn($publicKeys);
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt')
+			->with('fileKey', $publicKeys)
+			->willReturn([
+				'owner' => 'owner-share-key',
+				'recipient' => 'recipient-share-key',
+			]);
+		$this->keyManagerMock->expects($this->once())
+			->method('deleteAllFileKeys')
+			->with('path')
+			->willReturn(true);
+		$this->keyManagerMock->expects($this->exactly(2))
+			->method('setShareKey')
+			->willReturnCallback(function ($path, $uid, $key): bool {
+				$this->assertSame('path', $path);
+				$this->assertSame($uid . '-share-key', $key);
+				return $uid !== 'recipient';
+			});
+
+		$this->expectException(MultiKeyEncryptException::class);
+		$this->expectExceptionMessage('recipients: recipient');
+		$this->instance->update(
+			'path',
+			'ignored',
+			['users' => ['owner', 'recipient'], 'public' => false],
 		);
 	}
 
