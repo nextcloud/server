@@ -13,8 +13,10 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
+use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
@@ -29,8 +31,10 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\OCM\IOCMDiscoveryService;
@@ -39,10 +43,15 @@ use OCP\OCM\OCMCapabilities;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+/**
+ * DB group: overwriting TrustedServers resolves the real service first, which needs the database.
+ */
+#[Group('DB')]
 class CloudFederationProviderFilesTest extends TestCase {
 	private IAppManager&MockObject $appManager;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
@@ -359,5 +368,90 @@ class CloudFederationProviderFilesTest extends TestCase {
 		$this->expectExceptionMessage('User does not exists');
 
 		$this->provider->shareReceived($share);
+	}
+
+	/**
+	 * Let the share go through to the activity and expect one published event
+	 * with the given link per recipient.
+	 */
+	private function expectReceivedActivityLink(string $expectedLink, int $recipients): void {
+		$this->enableS2S();
+		$this->addressHandler->method('splitUserRemote')
+			->with('owner@example.com')
+			->willReturn(['owner', 'https://example.com/']);
+		$this->discoveryService->method('discover')
+			->willThrowException(new \Exception('network error'));
+		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
+
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->willReturnCallback(fn (string $route, array $parameters): string => $route . '/' . $parameters['view']);
+
+		$event = $this->createMock(IEvent::class);
+		foreach (['setApp', 'setType', 'setSubject', 'setAffectedUser', 'setObject'] as $method) {
+			$event->method($method)->willReturnSelf();
+		}
+		$event->expects($this->exactly($recipients))
+			->method('setLink')
+			->with($expectedLink)
+			->willReturnSelf();
+		$this->activityManager->method('generateEvent')->willReturn($event);
+		$this->activityManager->expects($this->exactly($recipients))
+			->method('publish')
+			->with($event);
+		$this->overwriteService(IActivityManager::class, $this->activityManager);
+	}
+
+	public function testShareReceivedActivityLinksToPendingShares(): void {
+		$this->expectReceivedActivityLink('files.view.indexView/pendingshares', 1);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
+		$this->userManager->method('get')->with('localuser')->willReturn($user);
+		$this->externalShareManager->expects($this->never())->method('acceptShare');
+
+		$this->provider->shareReceived($this->buildShare());
+	}
+
+	public function testShareReceivedActivityLinksToPendingSharesForGroupMembers(): void {
+		$this->expectReceivedActivityLink('files.view.indexView/pendingshares', 2);
+
+		$member1 = $this->createMock(IUser::class);
+		$member1->method('getUID')->willReturn('member1');
+		$member2 = $this->createMock(IUser::class);
+		$member2->method('getUID')->willReturn('member2');
+		$group = $this->createMock(IGroup::class);
+		$group->method('getUsers')->willReturn([$member1, $member2]);
+		$this->groupManager->method('get')->with('localgroup')->willReturn($group);
+
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getProtocol')->willReturn(['name' => 'webdav', 'webdav' => []]);
+		$share->method('getOwner')->willReturn('owner@example.com');
+		$share->method('getOwnerDisplayName')->willReturn('Owner Name');
+		$share->method('getShareSecret')->willReturn('refresh-token-abc');
+		$share->method('getResourceName')->willReturn('/SharedFolder');
+		$share->method('getShareWith')->willReturn('localgroup');
+		$share->method('getProviderId')->willReturn('42');
+		$share->method('getSharedBy')->willReturn('owner@example.com');
+		$share->method('getShareType')->willReturn('group');
+
+		$this->provider->shareReceived($share);
+	}
+
+	public function testShareReceivedActivityLinksToSharedWithYouWhenAutoAccepted(): void {
+		$this->expectReceivedActivityLink('files.view.indexView/sharingin', 1);
+
+		$this->appManager->method('isEnabledForAnyone')
+			->willReturnCallback(fn (string $app): bool => $app === 'federation');
+		$trustedServers = $this->createMock(TrustedServers::class);
+		$trustedServers->method('isTrustedServer')->with('https://example.com/')->willReturn(true);
+		$this->overwriteService(TrustedServers::class, $trustedServers);
+		$this->federatedShareProvider->method('isFederatedTrustedShareAutoAccept')->willReturn(true);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
+		$this->userManager->method('get')->with('localuser')->willReturn($user);
+		$this->externalShareManager->expects($this->once())->method('acceptShare');
+
+		$this->provider->shareReceived($this->buildShare());
 	}
 }
