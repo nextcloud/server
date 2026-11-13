@@ -694,6 +694,7 @@
     "Unable to add additional email address" : "Kan ikke tilføje yderligere e-mailadresse",
     "Unable to update additional email address" : "Kan ikke opdatere yderligere e-mailadresse",
     "Unable to delete primary email address" : "Den primære e-mailadresse kunne ikke slettes",
+    "Unable to choose this email for notifications" : "Denne e-mail kan ikke vælges til notifikationer",
     "Your handle" : "Dit brugernavn",
     "Your headline" : "Din overskrift",
     "Your city" : "Din by",
