@@ -346,6 +346,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
 			'isFileRequest' => false,
+			'allowedFileTypes' => [],
 			'templates' => [],
 		];
 
@@ -416,6 +417,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->setNode($file)
 			->setTarget("/$filename")
 			->setToken('token');
+		$share->setAttributes($share->newAttributes()->setAttribute('upload', 'allowed_types', ['.pdf', 'image/*']));
 
 		$this->appConfig
 			->expects($this->once())
@@ -493,6 +495,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
 			'isFileRequest' => false,
+			'allowedFileTypes' => ['.pdf', 'image/*'],
 			'note' => 'The note',
 			'label' => 'A label',
 			'templates' => [],

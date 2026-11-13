@@ -13,6 +13,7 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Files\Sharing\AllowedFileTypesPlugin;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
@@ -25,6 +26,7 @@ use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
@@ -89,9 +91,10 @@ $serverFactory = new ServerFactory(
 
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
+$allowedFileTypesPlugin = new AllowedFileTypesPlugin(Server::get(IMimeTypeDetector::class));
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin, $allowedFileTypesPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -175,6 +178,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 		$filesDropPlugin->enable();
 	}
 	$filesDropPlugin->setShare($share);
+	$allowedFileTypesPlugin->setShare($share);
 
 	$view = new View($node->getPath());
 	return $view;
@@ -182,6 +186,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
+$server->addPlugin($allowedFileTypesPlugin);
 $server->addPlugin(new ChunkingV2Plugin(Server::get(ICacheFactory::class)));
 $server->addPlugin(new ChunkingPlugin());
 

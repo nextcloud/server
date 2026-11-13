@@ -363,6 +363,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Files\\FilesHome' => __DIR__ . '/..' . '/../lib/Files/FilesHome.php',
         'OCA\\DAV\\Files\\LazySearchBackend' => __DIR__ . '/..' . '/../lib/Files/LazySearchBackend.php',
         'OCA\\DAV\\Files\\RootCollection' => __DIR__ . '/..' . '/../lib/Files/RootCollection.php',
+        'OCA\\DAV\\Files\\Sharing\\AllowedFileTypesPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/AllowedFileTypesPlugin.php',
         'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/FilesDropPlugin.php',
         'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
         'OCA\\DAV\\Files\\Sharing\\RootCollection' => __DIR__ . '/..' . '/../lib/Files/Sharing/RootCollection.php',

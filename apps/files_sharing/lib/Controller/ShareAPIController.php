@@ -84,6 +84,9 @@ class ShareAPIController extends OCSController {
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
 	private const int TOKEN_MAX_LENGTH = 32;
 
+	/** File extension (`.pdf`), MIME type (`application/pdf`) or MIME type group (`image/*`). */
+	private const string ALLOWED_FILE_TYPE_PATTERN = '/^(\.[^\s\/,*]+|[a-z0-9][a-z0-9!#$&^_.+-]*\/(\*|[a-z0-9][a-z0-9!#$&^_.+-]*))$/i';
+
 	private ?Node $lockedNode = null;
 	/** @var array<bool> $trustedServerCache */
 	private array $trustedServerCache = [];
@@ -2075,10 +2078,27 @@ class ShareAPIController extends OCSController {
 			} else {
 				throw new OCSBadRequestException($this->l->t('Invalid share attributes provided: "%s"', [$attributesString]));
 			}
+
+			$allowedFileTypes = $newShareAttributes->getAttribute('upload', 'allowed_types');
+			if ($allowedFileTypes !== null && !$this->validateAllowedFileTypes($allowedFileTypes)) {
+				throw new OCSBadRequestException($this->l->t('Allowed file types must be a list of file extensions like ".pdf" or MIME types like "image/*"'));
+			}
 		}
 		$share->setAttributes($newShareAttributes);
 
 		return $share;
+	}
+
+	private function validateAllowedFileTypes(mixed $allowedFileTypes): bool {
+		if (!is_array($allowedFileTypes) || !array_is_list($allowedFileTypes)) {
+			return false;
+		}
+		foreach ($allowedFileTypes as $allowedFileType) {
+			if (!is_string($allowedFileType) || !preg_match(self::ALLOWED_FILE_TYPE_PATTERN, $allowedFileType)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private function checkInheritedAttributes(IShare $share): void {

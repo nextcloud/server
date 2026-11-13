@@ -9,6 +9,7 @@
 			<Teleport :disabled="!isNarrow" to="body">
 				<NcUploadPicker
 					v-if="canUpload && !isQuotaExceeded && currentFolder"
+					:accept="allowedFileTypes"
 					:actions="newFileMenuActions"
 					directory
 					:iconOnly="isNarrow"
@@ -133,6 +134,7 @@
 						<!-- Uploader -->
 						<NcUploadPicker
 							v-if="canUpload && !isQuotaExceeded"
+							:accept="allowedFileTypes"
 							:actions="newFileMenuActions"
 							directory
 							class="files-list__header-upload-button"
@@ -202,6 +204,7 @@ import { useSidebarStore } from '../store/sidebar.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
+import { getAllowedFileTypes } from '../utils/allowedFileTypes.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
@@ -267,6 +270,7 @@ export default defineComponent({
 		)
 
 		const newFileMenuActions = useNewFileMenuActions(currentFolder, dirContents)
+		const allowedFileTypes = getAllowedFileTypes()
 
 		// wait until the current folder is set up to notifiy the list is initialized
 		const stopWatching = watch(currentFolder, () => {
@@ -277,6 +281,7 @@ export default defineComponent({
 		}, { immediate: true })
 
 		return {
+			allowedFileTypes,
 			currentFolder,
 			currentView,
 			dirContents,
