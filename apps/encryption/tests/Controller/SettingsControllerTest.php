@@ -60,6 +60,8 @@ class SettingsControllerTest extends TestCase {
 
 		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()->getMock();
+		$this->keyManagerMock->method('getPrivateKey')
+			->willReturn('encrypted-key');
 
 		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()->getMock();
