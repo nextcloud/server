@@ -428,7 +428,11 @@ class CryptTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('encodingProvider')]
 	public function testZeroPlaintextRoundTrip(bool $legacy): void {
-		self::invokePrivate($this->crypt, 'useLegacyBase64Encoding', [$legacy]);
+		$this->config->method('getSystemValueBool')
+			->willReturnCallback(fn (string $key, bool $default): bool =>
+				$key === 'encryption.use_legacy_base64_encoding' ? $legacy : $default
+			);
+		$this->crypt = new Crypt($this->logger, $this->userSession, $this->config, $this->l);
 		$this->config->method('getSystemValueString')->willReturn('AES-256-CTR');
 
 		$key = 'test-key';
