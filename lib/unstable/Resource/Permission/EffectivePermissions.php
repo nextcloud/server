@@ -19,20 +19,24 @@ use OCP\AppFramework\Attribute\Consumable;
  */
 #[Consumable(since: '36.0.0')]
 final readonly class EffectivePermissions {
+	/** @var array<non-empty-string, true> */
+	private array $allowed;
+
 	/**
 	 * @param list<non-empty-string> $allowedPermissionIds
 	 * @experimental 36.0.0
 	 */
-	public function __construct(
-		private array $allowedPermissionIds,
-	) {
+	public function __construct(array $allowedPermissionIds) {
+		$this->allowed = array_fill_keys($allowedPermissionIds, true);
 	}
 
 	/**
+	 * @param string|CorePermission $permission ID of the permission or the core permission
 	 * @experimental 36.0.0
 	 */
-	public function isAllowed(string $permissionId): bool {
-		return in_array($permissionId, $this->allowedPermissionIds, true);
+	public function isAllowed(string|CorePermission $permission): bool {
+		$id = $permission instanceof CorePermission ? $permission->value : $permission;
+		return isset($this->allowed[$id]);
 	}
 
 	/**
@@ -40,6 +44,6 @@ final readonly class EffectivePermissions {
 	 * @experimental 36.0.0
 	 */
 	public function getAllowedPermissionIds(): array {
-		return $this->allowedPermissionIds;
+		return array_keys($this->allowed);
 	}
 }
