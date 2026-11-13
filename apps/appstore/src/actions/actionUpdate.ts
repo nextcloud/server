@@ -9,6 +9,7 @@ import type { AppAction } from './index.ts'
 import { mdiUpdate } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useExAppsStore } from '../store/exApps.ts'
+import { pinia } from '../store/pinia.ts'
 import { useUpdatesStore } from '../store/updates.ts'
 import { canUpdate } from '../utils/appStatus.ts'
 
@@ -25,14 +26,14 @@ export const actionUpdate: AppAction = {
 			if (app.daemon && app.daemon?.accepts_deploy_id === 'manual-install') {
 				return true
 			}
-			const exAppsStore = useExAppsStore()
+			const exAppsStore = useExAppsStore(pinia)
 			return exAppsStore.daemonAccessible
 		}
 		return true
 	},
 	label: (app: IAppstoreApp | IAppstoreExApp) => t('appstore', 'Update to {version}', { version: app.update! }),
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
-		const store = useUpdatesStore()
+		const store = useUpdatesStore(pinia)
 		await store.updateApp(app.id)
 	},
 }

@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import AppstoreApp from './AppstoreApp.vue'
 import router from './router/index.ts'
+import { pinia } from './store/pinia.ts'
 
 import 'vite/modulepreload-polyfill'
 
-const pinia = createPinia()
 const app = createApp(AppstoreApp)
 app.config.idPrefix = 'appstore'
 app.use(pinia)

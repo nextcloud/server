@@ -49,8 +49,8 @@ export const useUpdatesStore = defineStore('updates', () => {
 				app.update = undefined
 				rebuildNavigation()
 			} catch (error) {
+				// the ExApps store already showed the error
 				logger.error('Failed to update ex app', { appId: app.id, error })
-				showError(t('appstore', 'Could not update an exApp. Please try again later.'))
 			}
 		}
 
