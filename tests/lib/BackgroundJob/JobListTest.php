@@ -240,6 +240,43 @@ class JobListTest extends TestCase {
 		$this->assertEquals(2, $nextJob->getArgument());
 	}
 
+	public static function excludedJobClassProvider(): array {
+		return [
+			[TestJob::class],
+			['\\' . TestJob::class],
+		];
+	}
+
+	#[DataProvider(methodName: 'excludedJobClassProvider')]
+	public function testGetNextSkipsExcludedJobClasses(string $excludedClass): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+		$this->createTempJob(TestParallelAwareJob::class, 2, 0, 12346);
+
+		$this->config->method('getSystemValue')
+			->with('excluded_jobs', [])
+			->willReturn([$excludedClass]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+		$nextJob = $this->instance->getNext();
+
+		$this->assertInstanceOf(TestParallelAwareJob::class, $nextJob);
+		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
+	public function testGetNextReturnsNullWhenOnlyExcludedJobsAreLeft(): void {
+		$this->createTempJob(TestJob::class, 1, 0, 12345);
+
+		$this->config->method('getSystemValue')
+			->with('excluded_jobs', [])
+			->willReturn([TestJob::class]);
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		$this->assertNull($this->instance->getNext());
+	}
+
 	/**
 	 * @param $argument
 	 */
