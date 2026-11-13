@@ -18,6 +18,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Cleanup extends Base {
@@ -34,24 +35,55 @@ class Cleanup extends Base {
 	protected function configure(): void {
 		$this
 			->setName('preview:cleanup')
-			->setDescription('Removes existing preview files');
+			->setDescription('Removes existing preview files')
+			->addOption('before', null, InputOption::VALUE_REQUIRED, 'Only remove previews last modified before this date (e.g. 2025-01-01, "-30 days" or @1735689600)')
+			->addOption('after', null, InputOption::VALUE_REQUIRED, 'Only remove previews last modified after this date (e.g. 2025-01-01, "-30 days" or @1735689600)')
+			->setHelp('When --before or --after is used, only previews stored in the previews table are removed. Legacy previews in the appdata preview folder are left untouched.');
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->deletePreviewFromFileCacheTable($output) !== 0) {
+		try {
+			$before = $this->parseDate($input->getOption('before'));
+			$after = $this->parseDate($input->getOption('after'));
+		} catch (\InvalidArgumentException $e) {
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 1;
 		}
 
-		return $this->deletePreviewFromPreviewTable($output);
+		if ($before !== null && $after !== null && $before <= $after) {
+			$output->writeln('<error>--before must be later than --after</error>');
+			return 1;
+		}
+
+		if ($before === null && $after === null && $this->deletePreviewFromFileCacheTable($output) !== 0) {
+			return 1;
+		}
+
+		return $this->deletePreviewFromPreviewTable($output, $before, $after);
+	}
+
+	/**
+	 * @throws \InvalidArgumentException
+	 */
+	private function parseDate(mixed $value): ?int {
+		if ($value === null || $value === '') {
+			return null;
+		}
+
+		try {
+			return (new \DateTimeImmutable((string)$value))->getTimestamp();
+		} catch (\Exception) {
+			throw new \InvalidArgumentException('Invalid date: ' . $value);
+		}
 	}
 
 	/**
 	 * Delete from the new oc_previews table.
 	 */
-	private function deletePreviewFromPreviewTable(OutputInterface $output): int {
+	private function deletePreviewFromPreviewTable(OutputInterface $output, ?int $before, ?int $after): int {
 		try {
-			$this->previewService->deleteAll();
+			$this->previewService->deleteAll($before, $after);
 			return 0;
 		} catch (NotPermittedException|Exception $e) {
 			$this->logger->error("Previews can't be removed: exception occurred: " . $e->getMessage(), ['exception' => $e]);
