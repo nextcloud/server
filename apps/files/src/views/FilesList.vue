@@ -90,6 +90,7 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
+			:navigating="navigating"
 			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
@@ -190,6 +191,7 @@ import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -203,7 +205,6 @@ import { useViewConfigStore } from '../store/viewConfig.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
-import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesList',
