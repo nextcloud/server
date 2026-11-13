@@ -671,6 +671,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetLogoImageConvertedSvg(): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('logo.png');
+		$file->method('getMimeType')->willReturn('image/png');
 		$file->method('getContent')->willReturn('png-content');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
@@ -680,6 +681,21 @@ class ThemingDefaultsTest extends TestCase {
 			->with('logo')
 			->willReturn('image/svg+xml');
 		$this->assertSame(['content' => 'png-content', 'mimeType' => 'image/png'], $this->template->getLogoImage());
+	}
+
+	public function testGetLogoImageOriginal(): void {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo');
+		$file->method('getMimeType')->willReturn('application/octet-stream');
+		$file->method('getContent')->willReturn('svg-content');
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('logo', false)
+			->willReturn($file);
+		$this->imageManager->method('getImageMime')
+			->with('logo')
+			->willReturn('image/svg+xml');
+		$this->assertSame(['content' => 'svg-content', 'mimeType' => 'image/svg+xml'], $this->template->getLogoImage());
 	}
 
 	public function testGetScssVariablesCached(): void {
