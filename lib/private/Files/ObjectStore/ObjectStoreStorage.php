@@ -8,8 +8,6 @@
 
 namespace OC\Files\ObjectStore;
 
-use Aws\S3\Exception\S3Exception;
-use Aws\S3\Exception\S3MultipartUploadException;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
@@ -857,11 +855,11 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 
 		$result = $this->objectStore->uploadMultipartPart($urn, $writeToken, (int)$chunkId, $data, $size);
 
-		$parts[$chunkId] = [
+		$etag = is_array($result) ? $result['ETag'] : $result->get('ETag');
+		return [
 			'PartNumber' => $chunkId,
-			'ETag' => trim($result->get('ETag'), '"'),
+			'ETag' => trim($etag, '"'),
 		];
-		return $parts[$chunkId];
 	}
 
 	#[\Override]
@@ -876,15 +874,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		sort($sortedParts);
 		try {
 			$size = $this->objectStore->completeMultipartUpload($urn, $writeToken, $sortedParts);
-			$stat = $this->stat($targetPath);
-			$mtime = time();
-			if (is_array($stat)) {
-				$stat['size'] = $size;
-				$stat['mtime'] = $mtime;
-				$stat['mimetype'] = $this->getMimeType($targetPath);
-				$this->getCache()->update($stat['fileid'], $stat);
-			}
-		} catch (S3MultipartUploadException|S3Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error(
 				'Unable to complete multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '")',
 				[
@@ -894,7 +884,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			);
 			try {
 				$this->objectStore->abortMultipartUpload($urn, $writeToken);
-			} catch (S3Exception $e) {
+			} catch (\Exception $e) {
 				$this->logger->error(
 					'Unable to abort multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '") after completion error',
 					[
@@ -904,6 +894,14 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				);
 			}
 			throw new GenericFileException('Could not write chunked file');
+		}
+
+		$stat = $this->stat($targetPath);
+		if (is_array($stat)) {
+			$stat['size'] = $size;
+			$stat['mtime'] = time();
+			$stat['mimetype'] = $this->getMimeType($targetPath);
+			$this->getCache()->update($stat['fileid'], $stat);
 		}
 		return $size;
 	}

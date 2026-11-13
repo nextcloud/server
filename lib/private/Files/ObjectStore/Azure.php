@@ -11,9 +11,11 @@ use GuzzleHttp\Psr7\Stream;
 use Icewind\Streams\RetryWrapper;
 use OC\Files\Stream\SeekableHttpStream;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
+use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 use OCP\Server;
@@ -22,6 +24,9 @@ use OCP\Server;
  * Object store backed by an Azure Blob Storage container.
  *
  * Metadata names are stored with "_" instead of "-", as Azure only allows C# identifiers.
+ *
+ * Multipart uploads stage the parts as blocks of the blob, the upload id is part of the block ids.
+ * Azure has no upload sessions: staged blocks that are never committed are removed by Azure after a week.
  *
  * @psalm-import-type ObjectMetaData from IObjectStoreMetaData
  *
@@ -36,7 +41,7 @@ use OCP\Server;
  * - use_nextcloud_bundle: use the CA bundle managed by Nextcloud
  * - use_presigned_url: allow direct downloads from Azure with shared access signatures
  */
-class Azure implements IObjectStore, IObjectStoreMetaData {
+class Azure implements IObjectStore, IObjectStoreMetaData, IObjectStoreMultiPartUpload {
 	public const DEFAULT_BLOCK_SIZE = 32 * 1024 * 1024;
 
 	private string $containerName;
@@ -214,14 +219,15 @@ class Azure implements IObjectStore, IObjectStoreMetaData {
 	 * Read the next block of the stream into a temporary buffer.
 	 *
 	 * @param resource $stream
-	 * @return array{Stream, int} the buffer and its size, smaller than the block size only at the end of the stream
+	 * @param int|null $maxSize maximum size of the block, defaults to the configured block size
+	 * @return array{Stream, int} the buffer and its size, smaller than the maximum size only at the end of the stream
 	 */
-	private function readBlock($stream): array {
+	private function readBlock($stream, ?int $maxSize = null): array {
 		$buffer = fopen('php://temp', 'w+b');
 		if ($buffer === false) {
 			throw new \Exception('Failed to create a buffer for the upload');
 		}
-		$size = stream_copy_to_stream($stream, $buffer, $this->blockSize);
+		$size = stream_copy_to_stream($stream, $buffer, $maxSize ?? $this->blockSize);
 		if ($size === false) {
 			fclose($buffer);
 			throw new \Exception('Failed to read from the upload stream');
@@ -309,6 +315,61 @@ class Azure implements IObjectStore, IObjectStoreMetaData {
 			$result['mimetype'] = $properties['content-type'];
 		}
 		return $result;
+	}
+
+	#[\Override]
+	public function initiateMultipartUpload(string $urn): string {
+		return bin2hex(random_bytes(16));
+	}
+
+	/**
+	 * @return array{ETag: string} the block id of the part
+	 */
+	#[\Override]
+	public function uploadMultipartPart(string $urn, string $uploadId, int $partId, $stream, $size): array {
+		$blockId = AzureBlobClient::blockId($uploadId, $partId);
+		[$block, $blockSize] = $this->readBlock($stream, AzureBlobClient::MAX_BLOCK_SIZE);
+		try {
+			if (!feof($stream) && fread($stream, 1) !== '') {
+				throw new GenericFileException('Parts must not be larger than ' . AzureBlobClient::MAX_BLOCK_SIZE . ' bytes');
+			}
+			$this->getBlobClient()->putBlock($this->containerName, $urn, $blockId, $block, $blockSize);
+		} finally {
+			$block->close();
+		}
+		return ['ETag' => $blockId];
+	}
+
+	#[\Override]
+	public function getMultipartUploads(string $urn, string $uploadId): array {
+		$parts = [];
+		foreach ($this->getBlobClient()->getUncommittedBlocks($this->containerName, $urn) as $block) {
+			$name = base64_decode($block['name'], true);
+			if ($name !== false && str_starts_with($name, $uploadId)) {
+				$parts[] = [
+					'PartNumber' => (int)substr($name, strlen($uploadId)),
+					'ETag' => $block['name'],
+					'Size' => $block['size'],
+					'LastModified' => null,
+				];
+			}
+		}
+		usort($parts, static fn (array $a, array $b): int => $a['PartNumber'] <=> $b['PartNumber']);
+		return $parts;
+	}
+
+	#[\Override]
+	public function completeMultipartUpload(string $urn, string $uploadId, array $result): int {
+		$client = $this->getBlobClient();
+		$client->putBlockList($this->containerName, $urn, array_column($result, 'ETag'));
+		return (int)($client->getBlobProperties($this->containerName, $urn)['content-length'] ?? 0);
+	}
+
+	/**
+	 * Azure removes staged blocks that are not committed after a week, or when the blob is written again.
+	 */
+	#[\Override]
+	public function abortMultipartUpload($urn, $uploadId): void {
 	}
 
 	#[\Override]
