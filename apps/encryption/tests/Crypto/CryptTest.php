@@ -425,4 +425,47 @@ class CryptTest extends TestCase {
 			$this->crypt->multiKeyDecrypt($shareKeys['user1'], $privateKey)
 		);
 	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('encodingProvider')]
+	public function testZeroPlaintextRoundTrip(bool $legacy): void {
+		self::invokePrivate($this->crypt, 'useLegacyBase64Encoding', [$legacy]);
+		$this->config->method('getSystemValueString')->willReturn('AES-256-CTR');
+
+		$key = 'test-key';
+		$encrypted = $this->crypt->symmetricEncryptFileContent('0', $key, 1, '0end');
+
+		$this->assertIsString($encrypted);
+		$this->assertSame(
+			'0',
+			$this->crypt->symmetricDecryptFileContent(
+				$encrypted, $key, 'AES-256-CTR', 1, '0end', !$legacy
+			)
+		);
+	}
+
+	public static function encodingProvider(): array {
+		return ['binary' => [false], 'base64' => [true]];
+	}
+
+	public function testEmptyPlaintextIsRejected(): void {
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Encryption Library, symmetrical encryption failed no content given');
+
+		$this->assertFalse($this->crypt->symmetricEncryptFileContent('', 'key', 1, '0end'));
+	}
+
+	public function testBinaryCiphertextCanBeZero(): void {
+		$key = 'test-key';
+		$iv = str_repeat("\0", 16);
+		$cipher = 'AES-256-CTR';
+
+		// CTR is symmetric: decrypting "0" gives plaintext that encrypts to "0".
+		$plaintext = openssl_decrypt('0', $cipher, $key, OPENSSL_RAW_DATA, $iv);
+		$this->assertIsString($plaintext);
+
+		$this->assertSame('0', self::invokePrivate(
+			$this->crypt, 'encrypt', [$plaintext, $iv, $key, $cipher]
+		));
+	}
 }
