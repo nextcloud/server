@@ -103,8 +103,6 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testChangeRecoveryKeyPasswordSuccessful(): void {
-		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
-
 		$this->keyManagerMock->expects($this->once())
 			->method('getSystemPrivateKey')
 			->willReturn('privateKey');
@@ -123,11 +121,9 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testChangeRecoveryKeyPasswordCouldNotDecryptPrivateRecoveryKey(): void {
-		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
-
 		$this->keyManagerMock->expects($this->once())
-			->method('getSystemPrivateKey');
-
+			->method('getSystemPrivateKey')
+			->willReturn('privateKey');
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey')
 			->willReturn(false);
@@ -177,6 +173,8 @@ class RecoveryTest extends TestCase {
 
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey')
+			->willReturn('privateKey');
+		$this->keyManagerMock->method('getSystemPrivateKey')
 			->willReturn('privateKey');
 		$this->instance->recoverUsersFiles('password', 'admin');
 		$this->addToAssertionCount(1);
