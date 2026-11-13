@@ -13,6 +13,7 @@ use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * The permissions every other permission is a kind of.
+ * The cases are these root permissions; `DOWNLOAD` is a core permission as well but a kind of `Read`, so it is not a case.
  *
  * They are independent of each other, e.g. a file drop allows to create without allowing to read.
  * The app owning a resource applies its own dependencies when enforcing them.
