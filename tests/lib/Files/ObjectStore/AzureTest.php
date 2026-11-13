@@ -9,6 +9,8 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\CountWrapper;
 use OC\Files\ObjectStore\Azure;
+use OC\Files\ObjectStore\ContentDisposition;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Server;
 
@@ -44,6 +46,24 @@ class AzureTest extends ObjectStoreTestCase {
 		$instance->writeObject('block-upload', $stream, 'application/octet-stream');
 
 		$this->assertSame($data, stream_get_contents($instance->readObject('block-upload')));
+	}
+
+	public function testPreSignedUrl(): void {
+		$this->cleanupAfter('presigned');
+		$instance = $this->getInstance(['use_presigned_url' => true]);
+		$instance->writeObject('presigned', $this->stringToStream('foobar'), 'text/plain');
+
+		$url = $instance->preSignedUrl('presigned', new \DateTimeImmutable('+5 minutes'), 'Grüße.txt');
+		$this->assertNotNull($url);
+
+		$client = Server::get(IClientService::class)->newClient();
+		$response = $client->get($url, ['nextcloud' => ['allow_local_address' => true]]);
+		$this->assertSame('foobar', $response->getBody());
+		$this->assertSame(ContentDisposition::attachment('Grüße.txt'), $response->getHeader('Content-Disposition'));
+
+		$expired = $instance->preSignedUrl('presigned', new \DateTimeImmutable('-1 minute'));
+		$response = $client->get($expired, ['nextcloud' => ['allow_local_address' => true], 'http_errors' => false]);
+		$this->assertSame(403, $response->getStatusCode());
 	}
 
 	public function testReadNonExistingThrowsNotFound(): void {
