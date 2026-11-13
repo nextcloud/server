@@ -30,7 +30,7 @@ interface IRestrictionProvider {
 	 *
 	 * Results are remembered, call {@see IPermissionManager::clearCache} whenever the restrictions change.
 	 *
-	 * @param list<ResourceAccess> $accesses
+	 * @param list<ResourceAccess> $accesses The access entries are always set
 	 * @return iterable<Restriction>
 	 * @experimental 36.0.0
 	 */

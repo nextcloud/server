@@ -2317,6 +2317,7 @@ return array(
     'OC\\Repair\\RepairLogoDimension' => $baseDir . '/lib/private/Repair/RepairLogoDimension.php',
     'OC\\Repair\\RepairMimeTypes' => $baseDir . '/lib/private/Repair/RepairMimeTypes.php',
     'OC\\Repair\\RepairSanitizeSystemTags' => $baseDir . '/lib/private/Repair/RepairSanitizeSystemTags.php',
+    'OC\\Resource\\Permission\\AccessManager' => $baseDir . '/lib/private/Resource/Permission/AccessManager.php',
     'OC\\Resource\\Permission\\PermissionManager' => $baseDir . '/lib/private/Resource/Permission/PermissionManager.php',
     'OC\\RichObjectStrings\\RichTextFormatter' => $baseDir . '/lib/private/RichObjectStrings/RichTextFormatter.php',
     'OC\\RichObjectStrings\\Validator' => $baseDir . '/lib/private/RichObjectStrings/Validator.php',

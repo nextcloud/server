@@ -21,6 +21,7 @@ use NCU\Resource\Permission\Restriction;
 use NCU\Resource\ResourceReference;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\Resource\Permission\AccessManager;
 use OC\Resource\Permission\PermissionManager;
 use OCP\Actor\Actor;
 use OCP\Actor\Principal;
@@ -60,7 +61,8 @@ class PermissionManagerTest extends TestCase {
 			};
 		});
 
-		$this->manager = new PermissionManager($coordinator, $container, $this->logger);
+		$this->manager = new PermissionManager($coordinator, $container, $this->logger, new AccessManager($container, $this->logger));
+		$this->instances[IPermissionManager::class] = $this->manager;
 		$this->alice = Actor::of(Principal::user('alice'));
 	}
 
@@ -100,13 +102,31 @@ class PermissionManagerTest extends TestCase {
 
 	/**
 	 * @param list<string> $permissionIds
+	 * @param ?\Closure(Actor, list<ResourceReference>): array<string, list<AccessEntry>> $access defaults to all permissions for every user
+	 * @return object{calls: list<list<ResourceReference>>}&IResourceType
 	 */
-	private function registerResourceType(string $appId, string $id, array $permissionIds): void {
-		$this->instances[$id] = new class($id, $permissionIds) implements IResourceType {
+	private function registerResourceType(string $appId, string $id, array $permissionIds, ?\Closure $access = null): IResourceType {
+		$access ??= static function (Actor $actor, array $resources) use ($permissionIds): array {
+			$entries = [];
+			foreach ($resources as $resource) {
+				$entries[$resource->key()] = [new AccessEntry(AccessEntry::RECIPIENT_USER, $actor->principal->id, $permissionIds)];
+			}
+			return $entries;
+		};
+		$resourceType = new class($id, $permissionIds, $access) implements IResourceType {
+			/** @var list<list<ResourceReference>> */
+			public array $calls = [];
+
 			public function __construct(
 				private readonly string $id,
 				private readonly array $permissionIds,
+				private readonly \Closure $access,
 			) {
+			}
+
+			public function getAccess(Actor $actor, array $resources): array {
+				$this->calls[] = $resources;
+				return ($this->access)($actor, $resources);
 			}
 
 			public function getId(): string {
@@ -121,12 +141,16 @@ class PermissionManagerTest extends TestCase {
 				return $this->permissionIds;
 			}
 		};
+		$this->instances[$id] = $resourceType;
 		$this->context->registerResourceType($appId, $id);
+
+		return $resourceType;
 	}
 
 	/**
 	 * Core permissions, the permission tables:export as a kind of share, and the resource types
 	 * tables:table (read, download, update, share, export) and tables:row (read, update, delete).
+	 * Every user has access to all tables and rows with all permissions.
 	 */
 	private function registerTables(): void {
 		$this->registerCorePermissions();
@@ -174,7 +198,7 @@ class PermissionManagerTest extends TestCase {
 	/**
 	 * @param list<string> $expected
 	 */
-	private function assertAllowed(array $expected, ResourceReference $resource, array $entries = []): void {
+	private function assertAllowed(array $expected, ResourceReference $resource, ?array $entries = null): void {
 		$allowed = $this->manager->check($this->alice, $resource, $entries)->getAllowedPermissionIds();
 		sort($allowed);
 		sort($expected);
@@ -376,7 +400,7 @@ class PermissionManagerTest extends TestCase {
 
 		$this->assertAllowed([CorePermission::Read->value], $resource, [$team]);
 		$this->assertAllowed([CorePermission::Read->value, CorePermission::Update->value], $resource, [$team, $direct]);
-		// Without entries only restrictions of the resource as a whole apply
+		// The access returned by the resource type is a direct one
 		$this->assertAllowed([CorePermission::Read->value, CorePermission::Update->value, CorePermission::Share->value, self::EXPORT], $resource);
 	}
 
@@ -443,6 +467,10 @@ class PermissionManagerTest extends TestCase {
 
 			public function getPermissionIds(): array {
 				return [CorePermission::Read->value, 'forms:results'];
+			}
+
+			public function getAccess(Actor $actor, array $resources): array {
+				return [$resources[0]->key() => [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', $this->getPermissionIds())]];
 			}
 		};
 		$this->instances['forms-permission'] = new class extends APermission {
@@ -514,7 +542,9 @@ class PermissionManagerTest extends TestCase {
 		// Only the resource that was not checked yet is passed to the provider
 		$this->manager->checkAll($this->alice, [new ResourceAccess($row1), new ResourceAccess($row2)]);
 		$this->assertCount(2, $provider->calls);
-		$this->assertEquals([new ResourceAccess($row2)], $provider->calls[1]);
+		$this->assertEquals([new ResourceAccess($row2, [
+			new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value, CorePermission::Update->value, CorePermission::Delete->value]),
+		])], $provider->calls[1]);
 
 		$this->manager->check($this->alice, $row1, $entries);
 		$this->manager->check($this->alice, $row1, $entries);
@@ -529,11 +559,90 @@ class PermissionManagerTest extends TestCase {
 		$this->assertCount(6, $provider->calls);
 	}
 
+	public function testResourceTypeIsAskedOncePerTypeForAccessesWithoutEntries(): void {
+		$this->registerCorePermissions();
+		$share = static fn (string $key): array => [$key => [new AccessEntry(AccessEntry::RECIPIENT_GROUP, 'staff', [CorePermission::Read->value])]];
+		$tables = $this->registerResourceType('tables', self::TABLE, [CorePermission::Read->value, CorePermission::Update->value], static fn (): array => $share('tables:table/1'));
+		$rows = $this->registerResourceType('tables', self::ROW, [CorePermission::Read->value], static fn (): array => $share('tables:row/1'));
+
+		$table1 = new ResourceReference(self::TABLE, '1');
+		$table2 = new ResourceReference(self::TABLE, '2');
+		$table3 = new ResourceReference(self::TABLE, '3');
+		$row1 = new ResourceReference(self::ROW, '1');
+		$results = $this->manager->checkAll($this->alice, [
+			new ResourceAccess($table1),
+			new ResourceAccess($row1),
+			new ResourceAccess($table2),
+			new ResourceAccess($table3, [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Update->value])]),
+		]);
+
+		$this->assertSame(['tables:table/1', 'tables:row/1', 'tables:table/2', 'tables:table/3'], array_keys($results));
+		$this->assertSame([CorePermission::Read->value], $results['tables:table/1']->getAllowedPermissionIds());
+		$this->assertSame([CorePermission::Read->value], $results['tables:row/1']->getAllowedPermissionIds());
+		// Left out by the resource type
+		$this->assertSame([], $results['tables:table/2']->getAllowedPermissionIds());
+		$this->assertSame([CorePermission::Update->value], $results['tables:table/3']->getAllowedPermissionIds());
+		$this->assertEquals([[$table1, $table2]], $tables->calls);
+		$this->assertEquals([[$row1]], $rows->calls);
+	}
+
+	public function testWithoutAccessNothingIsAllowedAndProvidersAreNotAsked(): void {
+		$this->registerTables();
+		$provider = $this->registerRestrictionProvider(static fn (): array => []);
+
+		$this->assertAllowed([], new ResourceReference(self::TABLE, '1'), []);
+		$this->assertSame([], $provider->calls);
+	}
+
+	public function testAccessOfTheResourceTypeIsCached(): void {
+		$this->registerCorePermissions();
+		$rows = $this->registerResourceType('tables', self::ROW, [CorePermission::Read->value]);
+		$provider = $this->registerRestrictionProvider(static fn (): array => []);
+		$row = new ResourceReference(self::ROW, '1');
+
+		$this->manager->check($this->alice, $row);
+		// The result is shared with a check that passes the same entries
+		$this->manager->check($this->alice, $row, [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value])]);
+		$this->manager->check($this->alice, $row);
+		$this->assertCount(1, $rows->calls);
+		$this->assertCount(1, $provider->calls);
+
+		$this->manager->clearCache();
+		$this->manager->check($this->alice, $row);
+		$this->assertCount(2, $rows->calls);
+	}
+
+	public function testFailingResourceTypeAllowsNothingAndIsNotCached(): void {
+		$this->registerCorePermissions();
+		$fail = true;
+		$this->registerResourceType('tables', self::ROW, [CorePermission::Read->value], static function (Actor $actor, array $resources) use (&$fail): array {
+			if ($fail) {
+				throw new \RuntimeException('Share storage not available');
+			}
+			return ['tables:row/1' => [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value])]];
+		});
+		$this->registerResourceType('tables', self::TABLE, [CorePermission::Read->value]);
+		$this->logger->expects($this->once())->method('error');
+
+		$row = new ResourceReference(self::ROW, '1');
+		$table = new ResourceReference(self::TABLE, '1');
+		$results = $this->manager->checkAll($this->alice, [new ResourceAccess($row), new ResourceAccess(new ResourceReference(self::ROW, '2')), new ResourceAccess($table)]);
+		$this->assertSame([], $results[$row->key()]->getAllowedPermissionIds());
+		$this->assertSame([CorePermission::Read->value], $results[$table->key()]->getAllowedPermissionIds());
+
+		$fail = false;
+		$this->assertAllowed([CorePermission::Read->value], $row);
+	}
+
 	public function testApplicablePermissionsAreReadOncePerResourceType(): void {
 		$this->registerCorePermissions();
 		$resourceType = $this->createMock(IResourceType::class);
 		$resourceType->method('getId')->willReturn(self::ROW);
 		$resourceType->expects($this->once())->method('getPermissionIds')->willReturn([CorePermission::Read->value]);
+		$resourceType->method('getAccess')->willReturn([
+			'tables:row/1' => [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value])],
+			'tables:row/2' => [new AccessEntry(AccessEntry::RECIPIENT_USER, 'alice', [CorePermission::Read->value])],
+		]);
 		$this->instances[self::ROW] = $resourceType;
 		$this->context->registerResourceType('tables', self::ROW);
 
