@@ -9,13 +9,21 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Files\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
@@ -33,8 +41,79 @@ class TemplateController extends OCSController {
 		$appName,
 		IRequest $request,
 		protected ITemplateManager $templateManager,
+		private IRootFolder $rootFolder,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	/**
+	 * Get the personal template directory
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{template_path: string, available: bool}, array{}>
+	 *
+	 * 200: Personal template directory returned
+	 */
+	#[NoAdminRequired]
+	public function getPath(): DataResponse {
+		$path = $this->templateManager->getTemplatePath();
+		$available = false;
+		if ($path !== '') {
+			try {
+				$folder = $this->getUserFolder()->get($path);
+				$available = $folder instanceof Folder && $folder->isReadable();
+			} catch (NotFoundException|NotPermittedException|InvalidPathException $e) {
+			}
+		}
+		return new DataResponse(['template_path' => $path, 'available' => $available]);
+	}
+
+	/**
+	 * Select an existing personal template directory, or clear the selection
+	 *
+	 * @param string $templatePath User-relative folder path, or an empty string to clear the selection
+	 * @return DataResponse<Http::STATUS_OK, array{template_path: string, available: bool}, array{}>
+	 * @throws OCSBadRequestException The path does not refer to an existing folder
+	 * @throws OCSForbiddenException The folder is not readable
+	 *
+	 * 200: Personal template directory updated
+	 */
+	#[NoAdminRequired]
+	public function setPath(string $templatePath): DataResponse {
+		if ($templatePath === '') {
+			$this->templateManager->setTemplatePath('');
+			return new DataResponse(['template_path' => '', 'available' => false]);
+		}
+
+		try {
+			$userFolder = $this->getUserFolder();
+			$folder = $userFolder->get($templatePath);
+			if (!$folder instanceof Folder) {
+				throw new OCSBadRequestException('The template path must be an existing folder');
+			}
+			if (!$folder->isReadable()) {
+				throw new OCSForbiddenException('The template folder must be readable');
+			}
+			$relativePath = $userFolder->getRelativePath($folder->getPath());
+			if ($relativePath === null) {
+				throw new OCSBadRequestException('Invalid template folder');
+			}
+		} catch (NotFoundException|InvalidPathException $e) {
+			throw new OCSBadRequestException('The template path must be an existing folder');
+		} catch (NotPermittedException $e) {
+			throw new OCSForbiddenException('The template folder must be readable');
+		}
+
+		$templatePath = '/' . trim($relativePath, '/');
+		$this->templateManager->setTemplatePath($templatePath);
+		return new DataResponse(['template_path' => $templatePath, 'available' => true]);
+	}
+
+	private function getUserFolder(): IUserFolder {
+		if ($this->userId === null) {
+			throw new NotLoggedInException();
+		}
+		return $this->rootFolder->getUserFolder($this->userId);
 	}
 
 	/**
