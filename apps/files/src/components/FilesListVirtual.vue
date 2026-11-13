@@ -8,6 +8,7 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
+		:navigating="navigating"
 		:grid-mode="userConfig.grid_view"
 		:extra-props="{
 			isMimeAvailable,
