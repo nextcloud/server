@@ -9,8 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\AppInfo;
 
+use NCU\Sharing\Event\ShareRecipientAddedEvent;
+use NCU\Sharing\Event\ShareStateUpdatedEvent;
 use OC\Sharing\SharingManager;
 use OCA\Sharing\Capabilities;
+use OCA\Sharing\Listener\FederationSharingListener;
 use OCA\Sharing\Middleware\ShareApiEnabledMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -31,6 +34,8 @@ final class Application extends App implements IBootstrap {
 		$context->registerMiddleware(ShareApiEnabledMiddleware::class);
 
 		$context->registerEventListener(BeforeUserDeletedEvent::class, SharingManager::class);
+		$context->registerEventListener(ShareStateUpdatedEvent::class, FederationSharingListener::class);
+		$context->registerEventListener(ShareRecipientAddedEvent::class, FederationSharingListener::class);
 	}
 
 	#[\Override]

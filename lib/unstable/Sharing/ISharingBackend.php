@@ -83,11 +83,12 @@ interface ISharingBackend {
 	/**
 	 * Add a new recipient to a share.
 	 *
+	 * @return non-empty-string ID of the new recipient
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function addShareRecipient(string $id, ShareRecipient $recipient): void;
+	public function addShareRecipient(string $id, ShareRecipient $recipient): string;
 
 	/**
 	 * Remove an existing recipient from a share.
