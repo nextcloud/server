@@ -186,4 +186,92 @@ class ChunkingPluginTest extends TestCase {
 
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
+
+	public function testBeforeMoveHoldsTheAssemblyLockAroundTheMove(): void {
+		$sourceNode = $this->createMock(FutureFile::class);
+		$sourceNode->expects($this->once())
+			->method('getSize')
+			->willReturn(4);
+		$sourceNode->expects($this->once())
+			->method('lockAssembly');
+		$sourceNode->expects($this->once())
+			->method('unlockAssembly');
+
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+		];
+		$this->tree->expects($this->exactly(2))
+			->method('getNodeForPath')
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
+		$this->tree->expects($this->any())
+			->method('nodeExists')
+			->with('target')
+			->willReturn(false);
+		$this->tree->expects($this->once())
+			->method('move')
+			->with('source', 'target');
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(201);
+		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('OC-Total-Length')
+			->willReturn('4');
+
+		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
+	}
+
+	/**
+	 * The upload session must become deletable again when the move fails, or a
+	 * failed upload leaves a session nobody can clean up until the lock expires.
+	 */
+	public function testBeforeMoveReleasesTheAssemblyLockWhenTheMoveFails(): void {
+		$sourceNode = $this->createMock(FutureFile::class);
+		$sourceNode->expects($this->once())
+			->method('getSize')
+			->willReturn(4);
+		$sourceNode->expects($this->once())
+			->method('lockAssembly');
+		$sourceNode->expects($this->once())
+			->method('unlockAssembly');
+
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+		];
+		$this->tree->expects($this->exactly(2))
+			->method('getNodeForPath')
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
+		$this->tree->expects($this->any())
+			->method('nodeExists')
+			->with('target')
+			->willReturn(false);
+		$this->tree->expects($this->once())
+			->method('move')
+			->willThrowException(new \Sabre\DAV\Exception('the move failed'));
+		$this->response->expects($this->never())
+			->method('setStatus');
+		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('OC-Total-Length')
+			->willReturn('4');
+
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->plugin->beforeMove('source', 'target');
+	}
 }
