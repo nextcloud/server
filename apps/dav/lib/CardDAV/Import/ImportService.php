@@ -100,18 +100,8 @@ class ImportService {
 				continue;
 			}
 			$vObject = $value;
-			// determine if the object has a uid
 			if (!isset($vObject->UID)) {
-				$errorMessage = 'One or more objects discovered without a UID';
-				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
-				}
-				yield new ImportObjectEvent(
-					disposition: ImportDisposition::Error,
-					identifier: null,
-					errors: [$errorMessage]
-				);
-				continue;
+				$vObject->UID = UUIDUtil::getUUID();
 			}
 			$uid = $vObject->UID->getValue();
 			// validate object
