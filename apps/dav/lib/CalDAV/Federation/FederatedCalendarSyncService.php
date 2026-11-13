@@ -88,7 +88,7 @@ class FederatedCalendarSyncService extends ASyncService {
 			if (isset($status[200])) {
 				// Object created or updated
 				$absoluteUrl = $this->prepareUri($credentials['remoteUrl'], $resource);
-				$calendarData = $this->download($absoluteUrl, $credentials['username'], $credentials['token']);
+				$calendarData = $this->requestGet($absoluteUrl, $credentials['username'], $credentials['token']);
 				$existingObject = $this->backend->getCalendarObject(
 					$calendar->getId(),
 					$objectUri,
