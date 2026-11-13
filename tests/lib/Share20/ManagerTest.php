@@ -815,9 +815,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByIdOfDisabledInitiatorAsShareOwner(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 
 		$share = $this->manager->newShare();
@@ -844,9 +844,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(ShareNotFound::class);
 		$this->expectExceptionMessage('The requested share does not exist anymore');
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 
 		$share = $this->manager->newShare();
@@ -867,6 +867,83 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->manager->getShareById('default:42', 'recipient');
+	}
+
+	public static function dataHideDisabledUserSharesByType(): array {
+		$internal = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP, IShare::TYPE_CIRCLE, IShare::TYPE_GUEST, IShare::TYPE_ROOM, IShare::TYPE_DECK, IShare::TYPE_DECK_USER];
+		$external = [IShare::TYPE_LINK, IShare::TYPE_EMAIL, IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP, IShare::TYPE_SCIENCEMESH];
+
+		$data = [];
+		foreach ([[true, true], [true, false], [false, true], [false, false]] as [$hideInternal, $hideExternal]) {
+			foreach ($internal as $shareType) {
+				$data[] = [$shareType, $hideInternal, $hideExternal, $hideInternal];
+			}
+			foreach ($external as $shareType) {
+				$data[] = [$shareType, $hideInternal, $hideExternal, $hideExternal];
+			}
+		}
+
+		return $data;
+	}
+
+	#[DataProvider('dataHideDisabledUserSharesByType')]
+	public function testIsHiddenDisabledUserShareByType(int $shareType, bool $hideInternal, bool $hideExternal, bool $expected): void {
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([
+				['files_sharing', 'hide_disabled_user_shares', true, $hideInternal],
+				['files_sharing', 'hide_disabled_user_external_shares', true, $hideExternal],
+			]);
+
+		$share = $this->manager->newShare();
+		$share->setShareType($shareType)
+			->setShareOwner('owner')
+			->setSharedBy('owner');
+
+		$this->userManager->method('get')->willReturnMap([
+			['owner', $this->createEnabledUser(false)],
+		]);
+
+		$this->assertSame($expected, self::invokePrivate($this->manager, 'isHiddenDisabledUserShare', [$share, 'recipient']));
+	}
+
+	public function testGetSharesByOfDisabledUserKeepsExternalSharesWhenOnlyInternalAreHidden(): void {
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([
+				['files_sharing', 'hide_disabled_user_shares', true, true],
+				['files_sharing', 'hide_disabled_user_external_shares', true, false],
+			]);
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_REMOTE)
+			->setShareOwner('owner')
+			->setSharedBy('owner')
+			->setSharedWith('recipient@remote.example');
+
+		$this->userManager->method('get')->willReturnMap([
+			['owner', $this->createEnabledUser(false)],
+		]);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturn([$share]);
+
+		$this->assertSame([$share], $this->manager->getSharesBy('owner', IShare::TYPE_REMOTE));
+	}
+
+	public function testGetSharesByOfDisabledUserHidesInternalSharesWhenOnlyInternalAreHidden(): void {
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([
+				['files_sharing', 'hide_disabled_user_shares', true, true],
+				['files_sharing', 'hide_disabled_user_external_shares', true, false],
+			]);
+
+		$this->userManager->method('get')->willReturnMap([
+			['owner', $this->createEnabledUser(false)],
+		]);
+
+		$this->defaultProvider->expects($this->never())
+			->method('getSharesBy');
+
+		$this->assertSame([], $this->manager->getSharesBy('owner', IShare::TYPE_USER));
 	}
 
 	public function testGetExpiredShareById(): void {
@@ -3213,9 +3290,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->createShare(null, IShare::TYPE_USER, $path, 'sharedWith', 'sharedBy', null, Constants::PERMISSION_ALL);
 		$existingShare = $this->createShare('42', IShare::TYPE_USER, $path, 'sharedWith', 'shareOwner', 'shareOwner', Constants::PERMISSION_READ);
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 		$this->userManager->method('get')->willReturnMap([
 			['shareOwner', $this->createEnabledUser(true)],
@@ -3253,9 +3330,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->createShare(null, IShare::TYPE_USER, $path, 'sharedWith', 'shareOwner', null, Constants::PERMISSION_ALL);
 		$existingShare = $this->createShare('42', IShare::TYPE_USER, $path, 'sharedWith', 'initiator', 'shareOwner', Constants::PERMISSION_READ);
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 		$this->userManager->method('get')->willReturnMap([
 			['shareOwner', $this->createEnabledUser(true)],
@@ -3760,9 +3837,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesByOfDisabledInitiatorAsShareOwner(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 
 		$share = $this->manager->newShare();
@@ -3787,9 +3864,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesByOfDisabledInitiatorAsOtherUser(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 
 		$share = $this->manager->newShare();
@@ -3814,9 +3891,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharedWithOfDisabledInitiator(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', true, true],
 			]);
 
 		$share = $this->manager->newShare();
@@ -3922,11 +3999,10 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByToken(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
@@ -3951,11 +4027,10 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenRoom(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'no'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
@@ -3987,11 +4062,10 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenWithException(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$factory = $this->createMock(IProviderFactory::class);
@@ -4029,11 +4103,14 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectExceptionMessage('The requested share does not exist anymore');
 
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
+			]);
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([
+				['files_sharing', 'hide_disabled_user_external_shares', true, true],
 			]);
 
 		$this->l->expects($this->once())
@@ -4048,6 +4125,7 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
 		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_LINK);
 		$share->setExpirationDate($date);
 		$share->setShareOwner('owner');
 		$share->setSharedBy('sharedBy');
@@ -4115,11 +4193,10 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenNotExpired(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 			]);
 
 		$date = new \DateTime();
@@ -4151,12 +4228,11 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenPublicUploadDisabled(): void {
 		$this->config
-			->expects($this->exactly(5))
+			->expects($this->exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 				['core', 'shareapi_allow_links_exclude_groups', '[]', '[]'],
 			]);
 
@@ -4189,11 +4265,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectExceptionMessage('The requested share does not exist anymore');
 
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 				['core', 'shareapi_allow_links_exclude_groups', '[]', '["excludedGroup"]'],
 			]);
 
@@ -4229,11 +4304,10 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenShareOwnerNotExcludedFromLinkShares(): void {
 		$this->config
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
 				['core', 'shareapi_allow_links_exclude_groups', '[]', '["excludedGroup"]'],
 			]);
 
