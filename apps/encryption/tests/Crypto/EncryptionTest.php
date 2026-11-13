@@ -401,4 +401,52 @@ class EncryptionTest extends TestCase {
 
 		$this->instance->prepareDecryptAll($input, $output, 'user');
 	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('writeCacheProvider')]
+	public function testWriteCachePreservesZero(bool $legacy, array $writes, array $expectedChunks): void {
+		$path = '/user/files/test.txt';
+		self::invokePrivate($this->instance, 'writeCache', ['']);
+		self::invokePrivate($this->instance, 'isWriteOperation', [true]);
+		self::invokePrivate($this->instance, 'useLegacyBase64Encoding', [$legacy]);
+		self::invokePrivate($this->instance, 'fileKey', ['fileKey']);
+		self::invokePrivate($this->instance, 'path', [$path]);
+		self::invokePrivate($this->instance, 'accessList', [['users' => []]]);
+
+		$this->utilMock->method('getOwner')->willReturn('user');
+		$this->keyManagerMock->method('addSystemKeys')->willReturn([]);
+		$this->keyManagerMock->method('deleteLegacyFileKey')->willReturn(true);
+		$this->cryptMock->method('multiKeyEncrypt')->willReturn([]);
+
+		$encryptedChunks = [];
+		$this->cryptMock->expects($this->exactly(count($expectedChunks)))
+			->method('symmetricEncryptFileContent')
+			->willReturnCallback(function ($content) use (&$encryptedChunks) {
+				$encryptedChunks[] = $content;
+				return 'encrypted';
+			});
+
+		$output = '';
+		foreach ($writes as $write) {
+			$output .= $this->instance->encrypt($write, 0);
+		}
+		$output .= $this->instance->end($path, '0end');
+
+		$this->assertSame($expectedChunks, $encryptedChunks);
+		$this->assertSame(str_repeat('encrypted', count($expectedChunks)), $output);
+	}
+
+	public static function writeCacheProvider(): array {
+		$cases = [];
+		foreach ([false, true] as $legacy) {
+			$blockSize = $legacy ? 6072 : 8096;
+			$format = $legacy ? 'base64' : 'binary';
+			$block = str_repeat('x', $blockSize);
+
+			$cases["$format: empty"] = [$legacy, [], []];
+			$cases["$format: zero"] = [$legacy, ['0'], ['0']];
+			$cases["$format: split writes"] = [$legacy, ['0', '1'], ['01']];
+			$cases["$format: block and zero"] = [$legacy, [$block . '0'], [$block, '0']];
+		}
+		return $cases;
+	}
 }
