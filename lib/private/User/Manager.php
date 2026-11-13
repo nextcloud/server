@@ -711,7 +711,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$users = [];
 		$userConfig = $this->getUserConfig();
 		// looking for 'email' only (and not primary_mail) is intentional
-		$userIds = $userConfig->searchUsersByValueString('settings', 'email', $email, caseInsensitive: true);
+		$userIds = $userConfig->searchUsersByValueString('settings', 'email', strtolower($email));
 		foreach ($userIds as $userId) {
 			$user = $this->get($userId);
 			if ($user !== null) {
