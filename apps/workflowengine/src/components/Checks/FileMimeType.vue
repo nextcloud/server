@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import type { PredefinedValue } from '../../types.ts'
 
+import { mdiFolder, mdiImage } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
 import SelectWithCustomValue from './SelectWithCustomValue.vue'
@@ -31,12 +32,12 @@ const predefinedTypes: PredefinedValue[] = [
 		id: '/audio\\/.*/',
 	},
 	{
-		icon: 'icon-folder',
+		iconPath: mdiFolder,
 		label: t('workflowengine', 'Folder'),
 		id: 'httpd/unix-directory',
 	},
 	{
-		icon: 'icon-picture',
+		iconPath: mdiImage,
 		label: t('workflowengine', 'Images'),
 		id: '/image\\/.*/',
 	},

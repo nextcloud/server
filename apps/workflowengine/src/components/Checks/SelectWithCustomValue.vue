@@ -14,18 +14,26 @@
 			label="label"
 			@update:modelValue="onSelect">
 			<template #option="option">
-				<span v-if="option.icon" :class="[$style.icon, option.icon]" />
-				<span v-else-if="option.iconUrl" :class="$style.iconImage">
-					<img :src="option.iconUrl" alt="">
+				<span :class="$style.icon">
+					<NcIconSvgWrapper
+						v-if="option.iconPath"
+						:path="option.iconPath"
+						:size="20"
+						inline />
+					<img v-else-if="option.iconUrl" :src="option.iconUrl" alt="">
 				</span>
 				<span :class="$style.title">
 					<NcEllipsisedOption :name="String(option.label)" />
 				</span>
 			</template>
 			<template #selected-option="selectedOption">
-				<span v-if="selectedOption.icon" :class="[$style.icon, selectedOption.icon]" />
-				<span v-else-if="selectedOption.iconUrl" :class="$style.iconImage">
-					<img :src="selectedOption.iconUrl" alt="">
+				<span :class="$style.icon">
+					<NcIconSvgWrapper
+						v-if="selectedOption.iconPath"
+						:path="selectedOption.iconPath"
+						:size="20"
+						inline />
+					<img v-else-if="selectedOption.iconUrl" :src="selectedOption.iconUrl" alt="">
 				</span>
 				<span :class="$style.title">
 					<NcEllipsisedOption :name="String(selectedOption.label)" />
@@ -45,8 +53,10 @@
 <script setup lang="ts">
 import type { PredefinedValue } from '../../types.ts'
 
+import { mdiCog } from '@mdi/js'
 import { computed } from 'vue'
 import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useCheckValue } from '../../composables/useCheckValue.ts'
 
@@ -77,7 +87,7 @@ const { newValue, emitValue } = useCheckValue(
 )
 
 const customValue = computed<PredefinedValue>(() => ({
-	icon: 'icon-settings-dark',
+	iconPath: mdiCog,
 	label: props.customLabel,
 	id: '',
 }))
@@ -120,16 +130,11 @@ function onCustomInput(event: Event): void {
 	min-height: 48px;
 }
 
-.icon,
-.iconImage {
+.icon {
 	display: inline-block;
 	min-width: 30px;
-	background-position: center;
-	vertical-align: middle;
-}
-
-.iconImage {
 	text-align: center;
+	vertical-align: middle;
 }
 
 .title {
