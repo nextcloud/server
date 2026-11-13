@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
@@ -33,6 +34,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\ICalendar\CalAddress;
+use Sabre\VObject\Reader;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
@@ -767,5 +769,63 @@ class PluginTest extends TestCase {
 			$modifiedFlag,
 			$newFlag
 		);
+	}
+
+	public function testDeclineDeliveredObject(): void {
+		$calendarData = <<<EOF
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Test//EN
+BEGIN:VEVENT
+UID:room-booking
+DTSTART:20261201T100000Z
+DTEND:20261201T110000Z
+ORGANIZER:mailto:user1@testing.local
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:user1@testing.local
+ATTENDEE;CUTYPE=ROOM;RSVP=TRUE;PARTSTAT=NEEDS-ACTION:mailto:room1@testing.local
+END:VEVENT
+END:VCALENDAR
+EOF;
+
+		$calDAVPlugin = $this->createMock(CalDAVPlugin::class);
+		$calDAVPlugin->expects($this->once())
+			->method('getCalendarHomeForPrincipal')
+			->with('principals/calendar-rooms/room1')
+			->willReturn('calendars/calendar-rooms/room1');
+		$this->server->expects($this->once())
+			->method('getPlugin')
+			->with('caldav')
+			->willReturn($calDAVPlugin);
+
+		$calendarHome = $this->createMock(CalendarHome::class);
+		$calendarHome->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with('room-booking')
+			->willReturn('calendar/room-booking.ics');
+
+		$storedData = null;
+		$calendarObject = $this->createMock(CalendarObject::class);
+		$calendarObject->method('get')
+			->willReturn($calendarData);
+		$calendarObject->expects($this->once())
+			->method('put')
+			->willReturnCallback(function (string $data) use (&$storedData): void {
+				$storedData = $data;
+			});
+
+		$tree = $this->createMock(Tree::class);
+		$tree->method('getNodeForPath')
+			->willReturnMap([
+				['calendars/calendar-rooms/room1', $calendarHome],
+				['calendars/calendar-rooms/room1/calendar/room-booking.ics', $calendarObject],
+			]);
+		$this->server->tree = $tree;
+
+		$this->invokePrivate($this->plugin, 'declineDeliveredObject', ['principals/calendar-rooms/room1', 'mailto:room1@testing.local', 'room-booking', '']);
+
+		$vEvent = Reader::read($storedData)->VEVENT;
+		$this->assertEquals('TRANSPARENT', $vEvent->TRANSP->getValue());
+		$this->assertEquals('ACCEPTED', $vEvent->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertEquals('DECLINED', $vEvent->ATTENDEE[1]['PARTSTAT']->getValue());
 	}
 }
