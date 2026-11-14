@@ -10,6 +10,9 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use NCU\Resource\IResourceType;
+use NCU\Resource\Permission\IPermission;
+use NCU\Resource\Permission\IRestrictionProvider;
 use NCU\Search\IAccountScopedSearchProvider;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
@@ -177,6 +180,15 @@ class RegistrationContext {
 
 	/** @var class-string<IGlobalScaleService>|null */
 	private ?string $globalScaleService = null;
+
+	/** @var list<ServiceRegistration<IResourceType>> */
+	private array $resourceTypes = [];
+
+	/** @var list<ServiceRegistration<IPermission>> */
+	private array $resourcePermissions = [];
+
+	/** @var list<ServiceRegistration<IRestrictionProvider>> */
+	private array $resourceRestrictionProviders = [];
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -525,6 +537,21 @@ class RegistrationContext {
 					$globalScaleServiceClass
 				);
 			}
+
+			#[\Override]
+			public function registerResourceType(string $class): void {
+				$this->context->registerResourceType($this->appId, $class);
+			}
+
+			#[\Override]
+			public function registerResourcePermission(string $class): void {
+				$this->context->registerResourcePermission($this->appId, $class);
+			}
+
+			#[\Override]
+			public function registerResourceRestrictionProvider(string $class): void {
+				$this->context->registerResourceRestrictionProvider($this->appId, $class);
+			}
 		};
 	}
 
@@ -759,6 +786,27 @@ class RegistrationContext {
 	 */
 	public function registerGlobalScaleService(string $class): void {
 		$this->globalScaleService = $class;
+	}
+
+	/**
+	 * @param class-string<IResourceType> $class
+	 */
+	public function registerResourceType(string $appId, string $class): void {
+		$this->resourceTypes[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @param class-string<IPermission> $class
+	 */
+	public function registerResourcePermission(string $appId, string $class): void {
+		$this->resourcePermissions[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @param class-string<IRestrictionProvider> $class
+	 */
+	public function registerResourceRestrictionProvider(string $appId, string $class): void {
+		$this->resourceRestrictionProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -1173,5 +1221,26 @@ class RegistrationContext {
 	 */
 	public function getGlobalScaleService(): ?string {
 		return $this->globalScaleService;
+	}
+
+	/**
+	 * @return list<ServiceRegistration<IResourceType>>
+	 */
+	public function getResourceTypes(): array {
+		return $this->resourceTypes;
+	}
+
+	/**
+	 * @return list<ServiceRegistration<IPermission>>
+	 */
+	public function getResourcePermissions(): array {
+		return $this->resourcePermissions;
+	}
+
+	/**
+	 * @return list<ServiceRegistration<IRestrictionProvider>>
+	 */
+	public function getResourceRestrictionProviders(): array {
+		return $this->resourceRestrictionProviders;
 	}
 }
