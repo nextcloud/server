@@ -68,6 +68,11 @@ interface ICalendarQuery {
 	public const SEARCH_PROPERTY_ORGANIZER = 'ORGANIZER';
 
 	/**
+	 * @since 36.0.0
+	 */
+	public const SEARCH_PROPERTY_CONFERENCE = 'CONFERENCE';
+
+	/**
 	 * Limit the results to the calendar uri(s)
 	 *
 	 * @since 23.0.0
