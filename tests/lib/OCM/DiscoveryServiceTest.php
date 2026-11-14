@@ -139,6 +139,11 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertTrue($local->hasCapability('http-sig'));
 	}
 
+	public function testLocalCapabilitiesAdvertiseNotificationSenderDomainByDefault(): void {
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$this->assertTrue($local->getCapabilities()->hasNotificationSenderDomain());
+	}
+
 	public function testLocalDiscoveryAdvertisesJwksUri(): void {
 		// scheme follows the instance base URL
 		$local = $this->discoveryService->getLocalOCMProvider();

@@ -99,6 +99,15 @@ final class OCMCapabilities implements JsonSerializable {
 	}
 
 	/**
+	 * Whether the peer accepts notifications with a senderDomain field.
+	 *
+	 * @since 36.0.0
+	 */
+	public function hasNotificationSenderDomain(): bool {
+		return $this->has('notification-sender-domain');
+	}
+
+	/**
 	 * Raw list of advertised capability strings (normalized).
 	 *
 	 * @return list<string>

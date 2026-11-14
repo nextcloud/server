@@ -22,13 +22,17 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\ISenderDomainAwareCloudFederationNotification;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -42,10 +46,13 @@ class RequestHandlerControllerTest extends TestCase {
 	private IEventDispatcher&MockObject $dispatcher;
 	private ICloudFederationFactory&MockObject $factory;
 	private ICloudIdManager&MockObject $cloudIdManager;
+	private IOCMDiscoveryService&MockObject $ocmDiscoveryService;
 	private RequestHandlerController $controller;
 
 	/** @var list<Event> */
 	private array $dispatchedEvents = [];
+	/** @var array<string, mixed>|null result set by the simulated OCMNotificationReceivedEvent listener */
+	private ?array $listenerResult = null;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -58,6 +65,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->factory = $this->createMock(ICloudFederationFactory::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->ocmDiscoveryService = $this->createMock(IOCMDiscoveryService::class);
 
 		$appConfig = $this->createMock(IAppConfig::class);
 		$appConfig->method('getValueBool')
@@ -68,6 +76,9 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->dispatcher->method('dispatchTyped')
 			->willReturnCallback(function (Event $event): void {
 				$this->dispatchedEvents[] = $event;
+				if ($event instanceof OCMNotificationReceivedEvent && $this->listenerResult !== null) {
+					$event->setResult($this->listenerResult);
+				}
 			});
 
 		$this->controller = new RequestHandlerController(
@@ -83,7 +94,7 @@ class RequestHandlerControllerTest extends TestCase {
 			$appConfig,
 			$this->factory,
 			$this->cloudIdManager,
-			$this->createMock(IOCMDiscoveryService::class),
+			$this->ocmDiscoveryService,
 		);
 	}
 
@@ -95,6 +106,22 @@ class RequestHandlerControllerTest extends TestCase {
 			$this->dispatchedEvents,
 			static fn (Event $event): bool => $event instanceof CriticalActionPerformedEvent,
 		));
+	}
+
+	/**
+	 * @return list<OCMNotificationReceivedEvent>
+	 */
+	private function getNotificationEvents(): array {
+		return array_values(array_filter(
+			$this->dispatchedEvents,
+			static fn (Event $event): bool => $event instanceof OCMNotificationReceivedEvent,
+		));
+	}
+
+	private function mockSignedRequestFrom(string $origin): void {
+		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
+		$signedRequest->method('getOrigin')->willReturn($origin);
+		$this->ocmDiscoveryService->method('getIncomingSignedRequestFromDomain')->willReturn($signedRequest);
 	}
 
 	public function testAddShareLogsCriticalAction(): void {
@@ -152,7 +179,7 @@ class RequestHandlerControllerTest extends TestCase {
 			->willReturn([]);
 		$this->factory->method('getCloudFederationNotification')->willReturn($this->createMock(ICloudFederationNotification::class));
 
-		$response = $this->controller->receiveNotification('SHARE_ACCEPTED', 'file', '12', ['sharedSecret' => 'secret']);
+		$response = $this->controller->receiveNotification('SHARE_ACCEPTED', 'file', '12', ['sharedSecret' => 'secret'], null, null);
 
 		$this->assertSame(Http::STATUS_CREATED, $response->getStatus());
 		$auditEvents = $this->getAuditEvents();
@@ -169,9 +196,56 @@ class RequestHandlerControllerTest extends TestCase {
 	public function testReceiveNotificationForUnknownShareDoesNotLog(): void {
 		$this->provider->method('notificationReceived')->willThrowException(new ShareNotFound());
 
-		$response = $this->controller->receiveNotification('SHARE_ACCEPTED', 'file', '12', ['sharedSecret' => 'secret']);
+		$response = $this->controller->receiveNotification('SHARE_ACCEPTED', 'file', '12', ['sharedSecret' => 'secret'], null, null);
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 		$this->assertSame([], $this->getAuditEvents());
+	}
+
+	public function testReceiveSenderDomainNotificationReturnsListenerResult(): void {
+		$this->mockSignedRequestFrom('remote.example');
+		$this->listenerResult = ['status' => 'ok'];
+		$this->provider->expects($this->never())->method('notificationReceived');
+
+		$response = $this->controller->receiveNotification('USER_REMOVED', 'circle', null, ['key' => 'value'], 'remote.example', 'user');
+
+		$this->assertSame(Http::STATUS_CREATED, $response->getStatus());
+		$this->assertSame(['status' => 'ok'], $response->getData());
+		$notificationEvents = $this->getNotificationEvents();
+		$this->assertCount(1, $notificationEvents);
+		$notification = $notificationEvents[0]->getNotification();
+		$this->assertInstanceOf(ISenderDomainAwareCloudFederationNotification::class, $notification);
+		$this->assertSame('remote.example', $notification->getSenderDomain());
+		$this->assertSame('USER_REMOVED', $notification->getNotificationType());
+		$this->assertSame('circle', $notification->getResourceType());
+		$this->assertSame('user', $notification->getShareType());
+		$this->assertSame(['key' => 'value'], $notification->getNotification());
+	}
+
+	public function testReceiveSenderDomainNotificationWithoutListenerResult(): void {
+		$this->mockSignedRequestFrom('remote.example');
+
+		$response = $this->controller->receiveNotification('USER_REMOVED', 'circle', null, [], 'remote.example', null);
+
+		$this->assertSame(Http::STATUS_NOT_IMPLEMENTED, $response->getStatus());
+	}
+
+	public function testReceiveSenderDomainNotificationWithInvalidSignature(): void {
+		$this->ocmDiscoveryService->method('getIncomingSignedRequestFromDomain')
+			->willThrowException(new IncomingRequestException('Invalid signature'));
+
+		$response = $this->controller->receiveNotification('USER_REMOVED', 'circle', null, [], 'remote.example', null);
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertSame([], $this->getNotificationEvents());
+	}
+
+	public function testReceiveSenderDomainNotificationWithoutResourceOrShareType(): void {
+		$this->ocmDiscoveryService->expects($this->never())->method('getIncomingSignedRequestFromDomain');
+
+		$response = $this->controller->receiveNotification('USER_REMOVED', null, null, [], 'remote.example', null);
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertSame([], $this->getNotificationEvents());
 	}
 }
