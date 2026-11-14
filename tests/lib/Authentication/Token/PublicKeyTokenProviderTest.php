@@ -328,13 +328,14 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
 		$wipeTokenLifetime = 60 * 60 * 24 * 60;
-		$this->config->expects($this->exactly(4))
+		$this->config->expects($this->exactly(5))
 			->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
 				['token_auth_wipe_token_retention', $wipeTokenLifetime, 500],
 				['token_auth_token_retention', 60 * 60 * 24 * 365, 800],
+				['token_auth_expired_token_retention', 60 * 60 * 24 * 7, 900],
 			]);
 
 		$calls = [
@@ -349,6 +350,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
+
+		$this->mapper->expects($this->once())
+			->method('invalidateExpired')
+			->with($this->time - 900);
 
 		$this->tokenProvider->invalidateOldTokens();
 	}

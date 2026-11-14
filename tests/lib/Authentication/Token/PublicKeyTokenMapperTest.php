@@ -145,6 +145,37 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
+	private function insertTokenWithExpiry(string $token, int $type, int $expires): void {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->insert('authtoken')->values([
+			'uid' => $qb->createNamedParameter('user4'),
+			'login_name' => $qb->createNamedParameter('User4'),
+			'password' => $qb->createNamedParameter(''),
+			'name' => $qb->createNamedParameter('App session'),
+			'token' => $qb->createNamedParameter($token),
+			'type' => $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT),
+			'last_activity' => $qb->createNamedParameter($this->time - 60 * 60 * 24 * 30, IQueryBuilder::PARAM_INT),
+			'last_check' => $this->time - 60 * 60 * 24 * 30,
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
+			'expires' => $qb->createNamedParameter($expires, IQueryBuilder::PARAM_INT),
+		])->executeStatement();
+	}
+
+	public function testInvalidateExpired(): void {
+		$this->insertTokenWithExpiry('expired-long-ago', IToken::PERMANENT_TOKEN, $this->time - 60 * 60 * 24 * 10);
+		$this->insertTokenWithExpiry('expired-recently', IToken::PERMANENT_TOKEN, $this->time - 60 * 60);
+		$this->insertTokenWithExpiry('still-valid', IToken::PERMANENT_TOKEN, $this->time + 60 * 60);
+		$this->insertTokenWithExpiry('wiped', IToken::WIPE_TOKEN, $this->time - 60 * 60 * 24 * 10);
+
+		$deleted = $this->mapper->invalidateExpired($this->time - 60 * 60 * 24 * 7);
+
+		// only the token that expired before the threshold goes; tokens without an expiry are untouched
+		$this->assertSame(1, $deleted);
+		$this->assertSame(8, $this->getNumberOfTokens());
+	}
+
 	public function testInvalidateLastUsedBefore(): void {
 		$before = $this->time - 60 * 2; // Two minutes
 
