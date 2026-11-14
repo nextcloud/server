@@ -696,6 +696,7 @@ OC.L10N.register(
     "Unable to add additional email address" : "Nie je možné pridať ďalšiu e-mailovú adresu",
     "Unable to update additional email address" : "Nie je možné aktualizovať ďalšiu e-mailovú adresu",
     "Unable to delete primary email address" : "Nie je možné zmazať primárnu e-mailovú adresu",
+    "Unable to choose this email for notifications" : "Túto e-mailovú adresu nemožno vybrať na prijímanie upozornení",
     "Your handle" : "Váš identifikátor (handle)",
     "Your headline" : "Váš nadpis",
     "Your city" : "Vaše mesto",
