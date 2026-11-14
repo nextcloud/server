@@ -35,6 +35,18 @@ test.describe('Viewer on public link shares', () => {
 			.toHaveAttribute('src', new RegExp(`/public\\.php/dav/files/${share.token}`))
 	})
 
+	test('keeps the viewer closed when openfile is false', async ({ page, user, ownerRequest, publicShare, viewerPage }) => {
+		await uploadMediaFile(ownerRequest, user, 'video1.mp4', '/video1.mp4', 'video/mp4')
+		const share = await createLinkShare(ownerRequest, '/video1.mp4')
+		const shareUrl = new URL(share.url)
+		shareUrl.searchParams.set('openfile', 'false')
+		await publicShare.open(shareUrl.href)
+
+		const fileRoute = new RegExp(`/s/${share.token}/[0-9]+$`)
+		await expect(page).toHaveURL((url) => fileRoute.test(url.pathname) && url.searchParams.get('openfile') === 'false')
+		await viewerPage.waitForClosed()
+	})
+
 	test('navigates through a shared folder of images', async ({ user, ownerRequest, publicShare, filesListPage, viewerPage }) => {
 		await mkdir(ownerRequest, user, '/Photos')
 		const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg']
