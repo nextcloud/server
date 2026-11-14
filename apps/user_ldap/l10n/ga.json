@@ -163,6 +163,7 @@
     "Test Base DN" : "Bonn Tástála DN",
     "Listing and searching for users is constrained by these criteria:" : "Tá liostú agus cuardach úsáideoirí srianta ag na critéir seo:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Is iad na haicmí oibiachta is coitianta d’úsáideoirí ná Duine eagraíochtúil, duine, úsáideoir, agus inetOrgPerson. Mura bhfuil tú cinnte cén aicme oibiachta le roghnú, téigh i gcomhairle le riarthóir do eolaire le do thoil.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Sonraíonn an scagaire cé na húsáideoirí LDAP atá liostaithe san instans {instanceName}. Chun rialú a dhéanamh ar cé atá in ann logáil isteach, bain úsáid as an táb Tréithe Logála Isteach.",
     "Verify settings and count users" : "Fíoraigh socruithe agus comhaireamh úsáideoirí",
     "User count: {usersCount}" : "Líon úsáideoirí: {usersCount}",
     "Test Configuration" : "Cumraíocht Tástála",
