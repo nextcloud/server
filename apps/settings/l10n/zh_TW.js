@@ -696,6 +696,7 @@ OC.L10N.register(
     "Unable to add additional email address" : "無法新增額外的電子郵件地址",
     "Unable to update additional email address" : "無法更新額外的電子郵件地址",
     "Unable to delete primary email address" : "無法刪除主要電子郵件地址",
+    "Unable to choose this email for notifications" : "無法選擇此電子郵件作為通知信箱",
     "Your handle" : "您的社交帳號",
     "Your headline" : "您的重要經歷",
     "Your city" : "您的城市",
