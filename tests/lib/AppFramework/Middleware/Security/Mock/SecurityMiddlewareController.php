@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Test\AppFramework\Middleware\Security\Mock;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -168,4 +169,21 @@ class SecurityMiddlewareController extends Controller {
 	#[ExAppRequired]
 	public function testAttributeExAppRequired() {
 	}
+
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: FirstAuthorizedSetting::class)]
+	#[AuthorizedAdminSetting(settings: SecondAuthorizedSetting::class)]
+	public function testAttributeRepeatedAuthorizedAdminSetting() {
+	}
+
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: FirstAuthorizedSetting::class)]
+	public function testAttributeSingleAuthorizedAdminSetting() {
+	}
+}
+
+class FirstAuthorizedSetting {
+}
+
+class SecondAuthorizedSetting {
 }

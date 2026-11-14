@@ -40,8 +40,10 @@ use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\AppFramework\Middleware\Security\Mock\FirstAuthorizedSetting;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
 use Test\AppFramework\Middleware\Security\Mock\OCSController;
+use Test\AppFramework\Middleware\Security\Mock\SecondAuthorizedSetting;
 use Test\AppFramework\Middleware\Security\Mock\SecurityMiddlewareController;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -680,5 +682,34 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->expectException(ExAppRequiredException::class);
 		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function testRepeatedAuthorizedAdminSettingCollectsEveryAttribute(): void {
+		$this->reader->reflect($this->controller, 'testAttributeRepeatedAuthorizedAdminSetting');
+
+		$this->assertEqualsCanonicalizing(
+			[FirstAuthorizedSetting::class, SecondAuthorizedSetting::class],
+			$this->middleware->getAuthorizedAdminSettingClasses(),
+		);
+	}
+
+	public function testRepeatedAuthorizedAdminSettingAuthorizesTheSecondSetting(): void {
+		$middleware = $this->getMiddleware(true, false, false);
+		$this->reader->reflect($this->controller, 'testAttributeRepeatedAuthorizedAdminSetting');
+		$this->authorizedGroupMapper->method('findAllClassesForUser')
+			->willReturn([SecondAuthorizedSetting::class]);
+
+		$middleware->beforeController($this->controller, 'testAttributeRepeatedAuthorizedAdminSetting');
+		$this->addToAssertionCount(1);
+	}
+
+	public function testRepeatedAuthorizedAdminSettingDeniesAnUnauthorizedUser(): void {
+		$middleware = $this->getMiddleware(true, false, false);
+		$this->reader->reflect($this->controller, 'testAttributeRepeatedAuthorizedAdminSetting');
+		$this->authorizedGroupMapper->method('findAllClassesForUser')
+			->willReturn([]);
+
+		$this->expectException(NotAdminException::class);
+		$middleware->beforeController($this->controller, 'testAttributeRepeatedAuthorizedAdminSetting');
 	}
 }
