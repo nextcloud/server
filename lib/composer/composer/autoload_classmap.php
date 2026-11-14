@@ -29,6 +29,7 @@ return array(
     'NCU\\Governance\\LabelModification' => $baseDir . '/lib/unstable/Governance/LabelModification.php',
     'NCU\\Governance\\LabelType' => $baseDir . '/lib/unstable/Governance/LabelType.php',
     'NCU\\Governance\\ResourceLabel' => $baseDir . '/lib/unstable/Governance/ResourceLabel.php',
+    'NCU\\Resource\\Events\\ResourceDeletedEvent' => $baseDir . '/lib/unstable/Resource/Events/ResourceDeletedEvent.php',
     'NCU\\Resource\\IResourceType' => $baseDir . '/lib/unstable/Resource/IResourceType.php',
     'NCU\\Resource\\Permission\\APermission' => $baseDir . '/lib/unstable/Resource/Permission/APermission.php',
     'NCU\\Resource\\Permission\\AccessEntry' => $baseDir . '/lib/unstable/Resource/Permission/AccessEntry.php',
