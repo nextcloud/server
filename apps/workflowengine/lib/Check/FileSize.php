@@ -15,7 +15,7 @@ use OCP\WorkflowEngine\ICheck;
 
 class FileSize implements ICheck {
 
-	protected int|float|null $size = null;
+	protected int|float|false|null $size = null;
 
 	public function __construct(
 		protected readonly IL10N $l,
