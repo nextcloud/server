@@ -13,7 +13,7 @@ use OCP\AppFramework\Attribute\Catchable;
 use OCP\AppFramework\Attribute\ExceptionalImplementable;
 
 /**
- * The actor has no access to the resource.
+ * The resource does not exist or the actor may not label it for lack of access.
  *
  * @experimental 36.0.0
  */
