@@ -597,6 +597,19 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	#[\Override]
+	public function removeMountsForRoot(int $rootId, ?IUser $user = null): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('mounts')
+			->where($query->expr()->eq('root_id', $query->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)));
+		if ($user) {
+			$query->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($user->getUID())));
+		}
+		$query->executeStatement();
+
+		$this->clear();
+	}
+
+	#[\Override]
 	public function addMount(
 		IUser $user,
 		string $mountPoint,
