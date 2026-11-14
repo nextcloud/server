@@ -319,7 +319,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyDetails($details);
 		$html = $this->emailTemplate->renderHtml();
 
-		$this->assertStringContainsString('>BP</div>', $html);
+		$this->assertStringContainsString('>bp</div>', $html);
 		$this->assertStringNotContainsString('text-transform:uppercase', $html);
 		// No row, so no separator under the title
 		$this->assertStringNotContainsString('border-bottom:1px solid #ddd;', $html);
