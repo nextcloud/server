@@ -77,4 +77,16 @@ test.describe('Settings: Devices & sessions', () => {
 		await devicesSessionsPage.editAccess('Thunderbird', 'Calendar and contacts')
 		await expect(devicesSessionsPage.tokenRow('Thunderbird')).toContainText('Calendar and Contacts')
 	})
+
+	test('limits an app password to picked areas and apps', async ({ devicesSessionsPage }) => {
+		await devicesSessionsPage.open()
+
+		await devicesSessionsPage.createAppPassword('Script', 'Custom', ['Calendar', 'Dashboard'])
+		await expect(devicesSessionsPage.tokenRow('Script')).toContainText('Calendar and Dashboard')
+
+		const dialog = await devicesSessionsPage.openEditAccess('Script')
+		await expect(dialog.getByRole('radio', { name: 'Custom' })).toBeChecked()
+		await expect(dialog.getByRole('checkbox', { name: 'Dashboard', exact: true })).toBeChecked()
+		await expect(dialog.getByRole('checkbox', { name: 'Files', exact: true })).not.toBeChecked()
+	})
 })

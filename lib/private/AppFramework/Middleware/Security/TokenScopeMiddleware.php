@@ -46,6 +46,10 @@ class TokenScopeMiddleware extends Middleware {
 			throw new TokenScopeException();
 		}
 
+		if ($this->lockdownManager->hasScope($this->appName)) {
+			return;
+		}
+
 		$attribute = $this->tokenScope($controller);
 		if ($attribute instanceof NoTokenScopeRequired && $this->isShipped()) {
 			return;
