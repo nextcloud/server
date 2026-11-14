@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace NCU\Resource;
 
+use NCU\Resource\Permission\AccessEntry;
+use OCP\Actor\Actor;
 use OCP\AppFramework\Attribute\Implementable;
 
 /**
@@ -43,4 +45,22 @@ interface IResourceType {
 	 * @experimental 36.0.0
 	 */
 	public function getPermissionIds(): array;
+
+	/**
+	 * Get the ways the actor has access to the resources, e.g. as the owner or through shares.
+	 *
+	 * Every way is returned as stored without resolving memberships or roles,
+	 * e.g. a share with a team is returned as recipient kind `team` and the ID of the team.
+	 * The owner is returned as an entry with all permissions of the resource.
+	 * If this method throws, the actor is treated as having no access to any of the resources.
+	 *
+	 * Results are remembered, call {@see \NCU\Resource\Permission\IPermissionManager::clearCache}
+	 * whenever the access to a resource changes.
+	 *
+	 * @param list<ResourceReference> $resources Resources of this type
+	 * @return array<non-empty-string, list<AccessEntry>> keyed by {@see ResourceReference::key},
+	 *                                                    resources the actor has no access to are left out
+	 * @experimental 36.0.0
+	 */
+	public function getAccess(Actor $actor, array $resources): array;
 }
