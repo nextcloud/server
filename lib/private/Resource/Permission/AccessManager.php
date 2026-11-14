@@ -11,6 +11,7 @@ namespace OC\Resource\Permission;
 
 use InvalidArgumentException;
 use NCU\Resource\Permission\AccessEntry;
+use NCU\Resource\Permission\IAccessManager;
 use NCU\Resource\Permission\IPermissionManager;
 use NCU\Resource\ResourceReference;
 use OCP\Actor\Actor;
@@ -22,7 +23,7 @@ use Throwable;
 /**
  * Asks the resource types which access an actor has to resources.
  */
-final class AccessManager {
+final class AccessManager implements IAccessManager {
 	/** @var CappedMemoryCache<list<AccessEntry>> access entries by actor key and resource key */
 	private CappedMemoryCache $cache;
 
@@ -31,6 +32,11 @@ final class AccessManager {
 		private readonly LoggerInterface $logger,
 	) {
 		$this->cache = new CappedMemoryCache(2048);
+	}
+
+	#[\Override]
+	public function getAccess(Actor $actor, array $resources): array {
+		return array_filter($this->resolve($actor, $resources));
 	}
 
 	/**
