@@ -767,17 +767,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			'sources' => [],
 			'recipients' => [],
 			'properties' => [],
-			'permissions' => [
-				[
-					'class' => ReshareSharePermissionType::class,
-					'source_class' => null,
-					'display_name' => 'Share with others',
-					'hint' => null,
-					'presets' => [],
-					'enabled' => false,
-					'priority' => 90,
-				],
-			],
+			'permissions' => [],
 			'permission_preset' => null,
 		], $share);
 	}
