@@ -86,6 +86,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Security\\Signature\\ISignatureManager' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/ISignatureManager.php',
         'NCU\\Security\\Signature\\ISignedRequest' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/ISignedRequest.php',
         'NCU\\Security\\Signature\\Model\\Signatory' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/Model/Signatory.php',
+        'NCU\\Sharing\\Event\\ShareRecipientAddedEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/ShareRecipientAddedEvent.php',
+        'NCU\\Sharing\\Event\\ShareStateUpdatedEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/ShareStateUpdatedEvent.php',
         'NCU\\Sharing\\Event\\SharesDefaultSetEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/SharesDefaultSetEvent.php',
         'NCU\\Sharing\\Exception\\AShareException' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Exception/AShareException.php',
         'NCU\\Sharing\\Exception\\ShareInvalidException' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Exception/ShareInvalidException.php',

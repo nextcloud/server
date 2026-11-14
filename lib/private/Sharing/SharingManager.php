@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace OC\Sharing;
 
 use Exception;
+use NCU\Sharing\Event\ShareRecipientAddedEvent;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\ShareStateUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -206,6 +208,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->updateShareState($share->id, $state);
 
+		$previousState = $share->state;
 		$share = new Share(
 			$share->id,
 			$share->owner,
@@ -224,6 +227,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'shareId' => $share->id,
 			'state' => $state->value,
 		], 'unified_sharing.share.state_updated');
+
+		$this->eventDispatcher->dispatchTyped(new ShareStateUpdatedEvent($share, $previousState));
 
 		return $share;
 	}
@@ -443,7 +448,16 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			);
 		}
 
-		$this->backend->addShareRecipient($share->id, $recipient);
+		$recipientId = $this->backend->addShareRecipient($share->id, $recipient);
+		$recipient = new ShareRecipient(
+			$recipient->class,
+			$recipient->value,
+			$recipient->instance,
+			$recipient->secret,
+			$recipient->initiator,
+			$recipient->permissions,
+			$recipientId,
+		);
 
 		$recipients = $share->recipients;
 		$recipients[] = $recipient;
@@ -469,6 +483,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'recipientValue' => $recipient->value,
 			'instance' => $recipient->instance ?? 'local',
 		], 'unified_sharing.recipient.added');
+
+		$this->eventDispatcher->dispatchTyped(new ShareRecipientAddedEvent($share, $recipient));
 
 		return $share;
 	}
@@ -598,6 +614,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					$recipient->instance,
 					$secret,
 					$shareRecipient->initiator,
+					$shareRecipient->permissions,
+					$shareRecipient->id,
 				);
 			}
 		}
@@ -751,6 +769,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					$shareRecipient->secret,
 					$shareRecipient->initiator,
 					$permissions,
+					$shareRecipient->id,
 				);
 
 				break;
