@@ -443,10 +443,13 @@ class Session implements IUserSession, Emitter {
 			}
 
 			if ($isTokenPassword) {
-				$dbToken = $this->tokenProvider->getToken($password);
-				$userFromToken = $this->manager->get($dbToken->getUID());
-				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user
-					&& $this->validateTokenLoginName($userFromToken->getEMailAddress(), $dbToken);
+				// App passwords created after a login with the user id (e.g. SSO) also accept
+				// the owner's email address, the token's own login name is used to log in
+				$email = $this->manager->get($dbToken->getUID())?->getEMailAddress();
+				$isValidEmailLogin = $email !== null
+					&& mb_strtolower($email) === mb_strtolower($user)
+					&& mb_strtolower($dbToken->getLoginName()) === mb_strtolower($dbToken->getUID())
+					&& $this->login($dbToken->getLoginName(), $password);
 			} else {
 				$users = $this->manager->getByEmail($user);
 				$isValidEmailLogin = (\count($users) === 1 && $this->login($users[0]->getUID(), $password));
