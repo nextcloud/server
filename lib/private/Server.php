@@ -1119,6 +1119,7 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(\NCU\Resource\Permission\IPermissionManager::class, \OC\Resource\Permission\PermissionManager::class);
 		$this->registerAlias(\NCU\Resource\Permission\IAccessManager::class, \OC\Resource\Permission\AccessManager::class);
+		$this->registerAlias(\NCU\Governance\ILabelManager::class, \OC\Governance\LabelManager::class);
 
 		$this->registerService(IGlobalScaleService::class, static function (ContainerInterface $c): IGlobalScaleService {
 			/** @var Coordinator $coordinator */
