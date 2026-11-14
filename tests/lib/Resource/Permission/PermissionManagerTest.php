@@ -13,6 +13,7 @@ use NCU\Resource\IResourceType;
 use NCU\Resource\Permission\AccessEntry;
 use NCU\Resource\Permission\APermission;
 use NCU\Resource\Permission\CorePermission;
+use NCU\Resource\Permission\IAccessManager;
 use NCU\Resource\Permission\IPermission;
 use NCU\Resource\Permission\IPermissionManager;
 use NCU\Resource\Permission\IRestrictionProvider;
@@ -41,6 +42,7 @@ class PermissionManagerTest extends TestCase {
 	private RegistrationContext $context;
 	private LoggerInterface&MockObject $logger;
 	private PermissionManager $manager;
+	private AccessManager $accessManager;
 	private Actor $alice;
 
 	/** @var array<string, object> */
@@ -61,7 +63,8 @@ class PermissionManagerTest extends TestCase {
 			};
 		});
 
-		$this->manager = new PermissionManager($coordinator, $container, $this->logger, new AccessManager($container, $this->logger));
+		$this->accessManager = new AccessManager($container, $this->logger);
+		$this->manager = new PermissionManager($coordinator, $container, $this->logger, $this->accessManager);
 		$this->instances[IPermissionManager::class] = $this->manager;
 		$this->alice = Actor::of(Principal::user('alice'));
 	}
@@ -632,6 +635,38 @@ class PermissionManagerTest extends TestCase {
 
 		$fail = false;
 		$this->assertAllowed([CorePermission::Read->value], $row);
+	}
+
+	public function testGetAccess(): void {
+		$this->registerCorePermissions();
+		$entry = new AccessEntry(AccessEntry::RECIPIENT_TEAM, 'sales', [CorePermission::Read->value]);
+		$fail = true;
+		$this->registerResourceType('tables', self::TABLE, [CorePermission::Read->value], static fn (): array => ['tables:table/1' => [$entry], 'tables:table/3' => []]);
+		$this->registerResourceType('tables', self::ROW, [CorePermission::Read->value], static function () use (&$fail, $entry): array {
+			if ($fail) {
+				throw new \RuntimeException('Share storage not available');
+			}
+			return ['tables:row/1' => [$entry]];
+		});
+		$this->logger->expects($this->once())->method('error');
+
+		$resources = [
+			new ResourceReference(self::TABLE, '1'),
+			new ResourceReference(self::TABLE, '2'),
+			new ResourceReference(self::TABLE, '3'),
+			new ResourceReference(self::ROW, '1'),
+		];
+		$this->assertSame(['tables:table/1' => [$entry]], $this->accessManager->getAccess($this->alice, $resources));
+
+		$fail = false;
+		$this->assertSame(['tables:table/1' => [$entry], 'tables:row/1' => [$entry]], $this->accessManager->getAccess($this->alice, $resources));
+	}
+
+	public function testGetAccessForUnregisteredResourceType(): void {
+		$this->assertInstanceOf(AccessManager::class, Server::get(IAccessManager::class));
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->accessManager->getAccess($this->alice, [new ResourceReference('forms:form', '1')]);
 	}
 
 	public function testApplicablePermissionsAreReadOncePerResourceType(): void {

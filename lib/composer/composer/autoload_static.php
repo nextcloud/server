@@ -64,6 +64,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Resource\\Permission\\AccessEntry' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/AccessEntry.php',
         'NCU\\Resource\\Permission\\CorePermission' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/CorePermission.php',
         'NCU\\Resource\\Permission\\EffectivePermissions' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/EffectivePermissions.php',
+        'NCU\\Resource\\Permission\\IAccessManager' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/IAccessManager.php',
         'NCU\\Resource\\Permission\\IPermission' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/IPermission.php',
         'NCU\\Resource\\Permission\\IPermissionManager' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/IPermissionManager.php',
         'NCU\\Resource\\Permission\\IRestrictionProvider' => __DIR__ . '/../../..' . '/lib/unstable/Resource/Permission/IRestrictionProvider.php',
