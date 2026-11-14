@@ -859,6 +859,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Galat saat memperbarui bidang token perangkat",
     "Files" : "File",
     "Contacts" : "Kontak",
+    "No access" : "Tidak ada akses",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "Demi kinerja, saat Anda mengaktifkan enkripsi pada server {productName}, hanya file baru dan yang diubah yang dienkripsi.",
     "Could not register device: Network error" : "Tidak dapat mendaftarkan perangkat: Kesalahan jaringan",
     "Could not register device: Probably already registered" : "Tidak dapat mendaftarkan perangkat: Kemungkinan sudah terdaftar",
