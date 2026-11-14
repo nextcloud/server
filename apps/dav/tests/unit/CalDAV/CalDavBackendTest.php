@@ -20,6 +20,7 @@ use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Exception\UidConflict;
+use OCP\Calendar\ICalendarQuery;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
@@ -1289,6 +1290,43 @@ EOD;
 			[true, ['timerange' => ['start' => new DateTime('2013-09-12 13:00:00'), 'end' => new DateTime('2013-09-12 14:00:00')]], 2],
 			[true, ['timerange' => ['start' => new DateTime('2013-09-12 15:00:00'), 'end' => new DateTime('2013-09-12 16:00:00')]], 0],
 		];
+	}
+
+	public function testSearchConference(): void {
+		$calendarId = $this->createTestCalendar();
+
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-conference
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Hybrid meeting
+LOCATION:Meeting room 2
+CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO,CHAT;LABEL=Nextcloud Talk:https://cloud.example.com/call/abc123
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$this->assertCount(0, $this->backend->search($calendarInfo, '/call/', ['LOCATION'], [], null, null));
+		$result = $this->backend->search($calendarInfo, '/call/', [ICalendarQuery::SEARCH_PROPERTY_CONFERENCE], [], null, null);
+		$this->assertCount(1, $result);
+		$this->assertSame($uri, $result[0]['uri']);
+		$this->assertSame('https://cloud.example.com/call/abc123', $result[0]['objects'][0]['CONFERENCE'][0][0]);
 	}
 
 	public function testSameUriSameIdForDifferentCalendarTypes(): void {
