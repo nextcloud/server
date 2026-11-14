@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
@@ -20,12 +21,14 @@ use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
+use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
+use Sabre\DAVACL\Plugin as ACLPlugin;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
@@ -33,6 +36,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\ICalendar\CalAddress;
+use Sabre\VObject\Reader;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
@@ -767,5 +771,115 @@ class PluginTest extends TestCase {
 			$modifiedFlag,
 			$newFlag
 		);
+	}
+
+	public function testScheduleLocalDeliveryDeclinesBookedRoom(): void {
+		$caldavNS = '{urn:ietf:params:xml:ns:caldav}';
+		// construct the event that already books the room
+		$bookedCalendar = new VCalendar();
+		$bookedEvent = $bookedCalendar->add('VEVENT', []);
+		$bookedEvent->UID->setValue('booked-event');
+		$bookedEvent->add('DTSTART', '20261201T100000Z');
+		$bookedEvent->add('DTEND', '20261201T110000Z');
+		// construct the request for the same time slot
+		$vCalendar = new VCalendar();
+		$vCalendar->add('METHOD', 'REQUEST');
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('new-event');
+		$vEvent->add('DTSTART', '20261201T100000Z');
+		$vEvent->add('DTEND', '20261201T110000Z');
+		$vEvent->add('ORGANIZER', 'mailto:user1@testing.local');
+		$vEvent->add('ATTENDEE', 'mailto:room1@testing.local', [
+			'CUTYPE' => 'ROOM',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'RSVP' => 'TRUE'
+		]);
+		$iTipMessage = new Message();
+		$iTipMessage->uid = 'new-event';
+		$iTipMessage->component = 'VEVENT';
+		$iTipMessage->method = 'REQUEST';
+		$iTipMessage->sender = 'mailto:user1@testing.local';
+		$iTipMessage->recipient = 'mailto:room1@testing.local';
+		$iTipMessage->message = $vCalendar;
+		// construct server plugins
+		$aclPlugin = $this->createMock(ACLPlugin::class);
+		$aclPlugin->method('getPrincipalByUri')
+			->willReturn('principals/calendar-rooms/room1');
+		$aclPlugin->method('checkPrivileges')
+			->willReturn(true);
+		$aclPlugin->method('principalSearch')
+			->willReturn([[200 => [
+				$caldavNS . 'calendar-home-set' => new Href('calendars/room1'),
+				$caldavNS . 'schedule-inbox-URL' => new Href('calendars/room1/inbox'),
+			]]]);
+		$calDAVPlugin = $this->createMock(CalDAVPlugin::class);
+		$calDAVPlugin->method('getCalendarHomeForPrincipal')
+			->willReturn('calendars/room1');
+		$this->server->method('getPlugin')
+			->willReturnMap([
+				['acl', $aclPlugin],
+				['caldav', $calDAVPlugin],
+			]);
+		$this->server->method('getProperties')
+			->willReturnCallback(function (string $path, array $propertyNames) use ($caldavNS) {
+				if ($propertyNames === [Plugin::CALENDAR_USER_TYPE]) {
+					return [Plugin::CALENDAR_USER_TYPE => 'ROOM'];
+				}
+				if ($path === 'principals/calendar-rooms/room1') {
+					return [
+						$caldavNS . 'calendar-home-set' => new Href('calendars/room1'),
+						$caldavNS . 'schedule-inbox-URL' => new Href('calendars/room1/inbox'),
+						$caldavNS . 'schedule-default-calendar-URL' => new Href('calendars/room1/calendar'),
+					];
+				}
+				return [];
+			});
+		// construct server tree
+		$storedData = null;
+		$bookedObject = $this->createMock(CalendarObject::class);
+		$bookedObject->method('get')
+			->willReturn($bookedCalendar->serialize());
+		$calendarNode = $this->createMock(Calendar::class);
+		$calendarNode->method('calendarQuery')
+			->willReturn(['booked-event.ics']);
+		$calendarNode->method('getChild')
+			->with('booked-event.ics')
+			->willReturn($bookedObject);
+		$calendarNode->expects($this->once())
+			->method('createFile')
+			->willReturnCallback(function (string $name, string $data) use (&$storedData): void {
+				$storedData = $data;
+			});
+		$calendarHome = $this->createMock(CalendarHome::class);
+		$calendarHome->method('getCalendarObjectByUID')
+			->willReturnOnConsecutiveCalls(null, 'calendar/new-event.ics');
+		$calendarHome->method('getChildren')
+			->willReturn([$calendarNode]);
+		$deliveredObject = $this->createMock(CalendarObject::class);
+		$deliveredObject->method('get')
+			->willReturnCallback(function () use (&$storedData) {
+				return $storedData;
+			});
+		$deliveredObject->expects($this->once())
+			->method('put')
+			->willReturnCallback(function (string $data) use (&$storedData): void {
+				$storedData = $data;
+			});
+		$tree = $this->createMock(Tree::class);
+		$tree->method('getNodeForPath')
+			->willReturnMap([
+				['calendars/room1', $calendarHome],
+				['calendars/room1/inbox', $this->createMock(Inbox::class)],
+				['calendars/room1/calendar', $calendarNode],
+				['calendars/room1/calendar/new-event.ics', $deliveredObject],
+			]);
+		$this->server->tree = $tree;
+		// execute method
+		$this->plugin->scheduleLocalDelivery($iTipMessage);
+		// test that the copy in the room calendar no longer blocks the slot
+		$this->assertEquals('1.2;Message delivered locally', $iTipMessage->scheduleStatus);
+		$storedEvent = Reader::read($storedData)->VEVENT;
+		$this->assertEquals('DECLINED', $storedEvent->ATTENDEE['PARTSTAT']->getValue());
+		$this->assertEquals('TRANSPARENT', $storedEvent->TRANSP->getValue());
 	}
 }

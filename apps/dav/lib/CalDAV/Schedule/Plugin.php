@@ -338,6 +338,7 @@ EOF;
 			$partStat = 'ACCEPTED';
 		} else {
 			$partStat = 'DECLINED';
+			$this->declineDeliveredObject($principalUri, $iTipMessage->recipient, $uid, $recurrenceId);
 		}
 
 		$vObject = Reader::read(vsprintf($message, [
@@ -504,6 +505,51 @@ EOF;
 		}
 
 		return $properties[$calendarUserType];
+	}
+
+	/**
+	 * Marks the delivered copy as declined, so it doesn't block the slot
+	 *
+	 * @param string $principalUri
+	 * @param string $recipient
+	 * @param string $uid
+	 * @param string $recurrenceId
+	 * @return void
+	 */
+	private function declineDeliveredObject(string $principalUri, string $recipient, string $uid, string $recurrenceId):void {
+		/** @var \OCA\DAV\CalDAV\Plugin $caldavPlugin */
+		$caldavPlugin = $this->server->getPlugin('caldav');
+		$homePath = $caldavPlugin->getCalendarHomeForPrincipal($principalUri);
+		if (!$homePath) {
+			return;
+		}
+
+		/** @var CalendarHome $calendarHome */
+		$calendarHome = $this->server->tree->getNodeForPath($homePath);
+		$objectPath = $calendarHome->getCalendarObjectByUID($uid);
+		if (!$objectPath) {
+			return;
+		}
+
+		/** @var CalendarObject $calendarObject */
+		$calendarObject = $this->server->tree->getNodeForPath($homePath . '/' . $objectPath);
+		/** @var VCalendar $vCalendar */
+		$vCalendar = Reader::read($calendarObject->get());
+		foreach ($vCalendar->VEVENT as $vevent) {
+			$eventRecurrenceId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->serialize() : '';
+			if ($eventRecurrenceId !== $recurrenceId) {
+				continue;
+			}
+
+			foreach ($vevent->select('ATTENDEE') as $attendee) {
+				if (strcasecmp($attendee->getValue(), $recipient) === 0) {
+					$attendee['PARTSTAT'] = 'DECLINED';
+				}
+			}
+			$vevent->TRANSP = 'TRANSPARENT';
+		}
+
+		$calendarObject->put($vCalendar->serialize());
 	}
 
 	/**
