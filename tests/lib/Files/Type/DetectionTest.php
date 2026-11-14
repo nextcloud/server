@@ -104,7 +104,7 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testDetectStringIcon(): void {
-		$result = $this->detection->detectString(file_get_contents(\OC::$SERVERROOT . '/tests/data/media/image.ico'));
+		$result = $this->detection->detectString(file_get_contents(\OC::$SERVERROOT . '/core/img/favicon.ico'));
 		$this->assertEquals('image/vnd.microsoft.icon', $result);
 	}
 
