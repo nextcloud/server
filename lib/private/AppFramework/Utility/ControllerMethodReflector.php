@@ -191,11 +191,23 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return ?\ReflectionAttribute<T>
 	 */
 	public function getAttribute(string $attributeClass): ?\ReflectionAttribute {
-		$attributes = $this->reflectionMethod->getAttributes($attributeClass);
+		$attributes = $this->getAttributes($attributeClass);
 		if (!empty($attributes)) {
 			return $attributes[0];
 		}
 		return null;
+	}
+
+	/**
+	 * @template T
+	 * @param class-string<T> $attributeClass
+	 * @return list<\ReflectionAttribute<T>>
+	 */
+	public function getAttributes(string $attributeClass): array {
+		if ($this->reflectionMethod === null) {
+			return [];
+		}
+		return $this->reflectionMethod->getAttributes($attributeClass);
 	}
 
 	/**
