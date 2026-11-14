@@ -203,6 +203,6 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 			throw new UnsupportedLimitOnInitialSyncException();
 		}
 
-		return parent::getChanges($syncToken, $syncLevel, $limit);
+		return $this->caldavBackend->getChangesForCalendar($this->calendarInfo['id'], $syncToken, $syncLevel, $limit, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 	}
 }
