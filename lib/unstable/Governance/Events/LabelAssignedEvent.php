@@ -12,15 +12,17 @@ namespace NCU\Governance\Events;
 use NCU\Governance\LabelType;
 use NCU\Resource\ResourceReference;
 use OCP\Actor\Actor;
+use OCP\AppFramework\Attribute\ExceptionalImplementable;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
- * Dispatched after a label was assigned to a resource.
+ * Dispatched by the governance app after a label was assigned to a resource.
  *
  * @experimental 36.0.0
  */
 #[Listenable(since: '36.0.0')]
+#[ExceptionalImplementable(app: 'governance')]
 final class LabelAssignedEvent extends Event {
 	/**
 	 * @param non-empty-string $labelId

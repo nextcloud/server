@@ -24,6 +24,9 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  * The labels are managed by the governance app. Without it no labels are returned and they cannot be changed.
  * This is not an extension point, only the governance app implements it.
  *
+ * The governance app decides which labels an actor sees and may change. This usually requires access
+ * to the resource, but not always, e.g. a legal hold is placed by someone the resource is not shared with.
+ *
  * Only labels assigned to the resource itself are returned,
  * e.g. not the ones a file inherits from its parent folders.
  *
@@ -42,7 +45,7 @@ interface ILabelManager {
 	/**
 	 * Get the labels assigned to the resources, the resources can be of different types.
 	 *
-	 * The labels can be of any type. Resources the actor has no access to have no labels.
+	 * The labels can be of any type. A resource has no labels if the actor may not see any of them.
 	 *
 	 * @param list<ResourceReference> $resources
 	 * @return array<non-empty-string, list<ResourceLabel>> keyed by {@see ResourceReference::key}, with an entry for every resource
@@ -64,7 +67,7 @@ interface ILabelManager {
 	 * Get the labels that apply to the resource, including the ones already assigned.
 	 *
 	 * Whether the actor may assign or remove a label is part of the label.
-	 * No labels are returned if the actor has no access to the resource.
+	 * No labels are returned if the actor may not label the resource.
 	 *
 	 * @param ?LabelType $type Only return labels of this type
 	 * @return list<ResourceLabel>
