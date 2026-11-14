@@ -7,7 +7,6 @@ import type { IGroup } from '../views/user-types.d.ts'
 
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import { CancelablePromise } from 'cancelable-promise'
 
 interface Group {
 	id: string
@@ -40,22 +39,12 @@ function formatGroup(group: Group): Required<IGroup> {
  * @param options.search Search query
  * @param options.offset Offset
  * @param options.limit Limit
+ * @param options.signal Aborts the request, e.g. when a newer search replaces it
  */
-export function searchGroups({ search, offset, limit }): CancelablePromise<Required<IGroup>[]> {
-	const controller = new AbortController()
-	return new CancelablePromise(async (resolve, reject, onCancel) => {
-		onCancel(() => controller.abort())
-		try {
-			const { data } = await axios.get(generateOcsUrl('/cloud/groups/details?search={search}&offset={offset}&limit={limit}', { search, offset, limit }), {
-				signal: controller.signal,
-			})
-			const groups: Group[] = data.ocs?.data?.groups ?? []
-			const formattedGroups = groups.map(formatGroup)
-			resolve(formattedGroups)
-		} catch (error) {
-			reject(error)
-		}
-	})
+export async function searchGroups({ search, offset, limit, signal }: { search: string, offset: number, limit: number, signal?: AbortSignal }): Promise<Required<IGroup>[]> {
+	const { data } = await axios.get(generateOcsUrl('/cloud/groups/details?search={search}&offset={offset}&limit={limit}', { search, offset, limit }), { signal })
+	const groups: Group[] = data.ocs?.data?.groups ?? []
+	return groups.map(formatGroup)
 }
 
 /**

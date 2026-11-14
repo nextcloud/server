@@ -30,6 +30,7 @@ test('Account Management: Can create a group', async ({ page }) => {
 		await awaitPasswordGuardedRequest(page, createGroupsResponsePromise)
 
 		await expect(settingsPage.customGroupsList()).toContainText(groupName)
+		await expect(page.getByLabel('Group name')).toBeHidden()
 	} finally {
 		await runOcc(['group:delete', groupName]).catch(() => {})
 	}
@@ -76,6 +77,25 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 	const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
 	const { groups } = JSON.parse(jsonList)
 	expect(groups).toContain(testGroup)
+})
+
+// ── Rename group ──────────────────────────────────────────────────────────────
+
+userGroupTest('Settings: Rename a group', async ({ page, testGroup }) => {
+	const newName = `Renamed ${testGroup.slice(0, 8)}`
+	const settingsPage = new SettingsUsersPage(page)
+	await settingsPage.open()
+
+	await settingsPage.openGroupActionsMenu(testGroup)
+	const renameRequest = page.waitForResponse((r) => r.request().method() === 'PUT' && r.url().includes(`/ocs/v2.php/cloud/groups/${testGroup}`))
+	const nameInput = page.getByRole('textbox', { name: 'Rename group' })
+	await nameInput.fill(newName)
+	await nameInput.press('Enter')
+	await awaitPasswordGuardedRequest(page, renameRequest)
+
+	await expect(settingsPage.groupListItem(newName)).toBeVisible()
+	await page.reload()
+	await expect(settingsPage.groupListItem(newName)).toBeVisible()
 })
 
 // ── Delete an empty group ─────────────────────────────────────────────────────
@@ -215,7 +235,8 @@ async function checkGroupOrder(order: string[], settingsPage: SettingsUsersPage)
 	}
 
 	const contents = (await listItems.allTextContents())
-		.map((text) => text.trim().replaceAll(/\s+.*/g, '')) // trim and remove member count
-		.filter((text) => order.includes(text)) // filter out other groups that might be in the list
+		// the member count follows the name directly, so match the name at the start
+		.map((text) => order.find((group) => text.trim().startsWith(group)))
+		.filter((group) => group !== undefined) // filter out other groups that might be in the list
 	expect(contents).toEqual(order)
 }

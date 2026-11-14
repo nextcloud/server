@@ -147,7 +147,6 @@ const config = {
 					'semver',
 					'striptags',
 					'toastify-js',
-					'v-tooltip',
 					'yocto-queue',
 				]),
 			},
