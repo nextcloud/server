@@ -81,6 +81,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 		$this->eventName = $eventName;
 		$this->event = $event;
+		$this->node = null;
 		$this->actingUser = $this->actingUser ?? $this->userSession->getUser();
 		try {
 			$node = $this->getNode();
