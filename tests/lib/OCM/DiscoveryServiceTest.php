@@ -11,12 +11,16 @@ namespace Test\OCM;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\OCM\OCMDiscoveryService;
+use OC\Security\Signature\Rfc9421\ContentDigest;
 use OCA\CloudFederationAPI\Controller\OCMRequestController;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
+use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
@@ -147,6 +151,37 @@ class DiscoveryServiceTest extends TestCase {
 		$expectedScheme = str_starts_with($baseUrl, 'http://') ? 'http://' : 'https://';
 		$this->assertStringStartsWith($expectedScheme, $jwksUri);
 		$this->assertStringContainsString('cloud_federation_api/api/v1/jwks', $jwksUri);
+	}
+
+	public function testCreateSignedResponse(): void {
+		Server::get(IAppConfig::class)->deleteKey('core', 'ocm_jwks_slot_active');
+
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')
+			->with('Signature-Input')
+			->willReturn('ocm=("@method");created=1;keyid="remote";nonce="nonce-1";tag="ocm"');
+		$request->method('getMethod')->willReturn('GET');
+		$request->method('getServerProtocol')->willReturn('https');
+		$request->method('getServerHost')->willReturn('cloud.example.org');
+		$request->method('getRequestUri')->willReturn('/ocm/mls-key-packages?userId=alice');
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn($request);
+
+		$response = $this->discoveryService->createSignedResponse(
+			$incoming,
+			'{"keyPackages":[]}',
+		);
+		$headers = $response->getHeaders();
+
+		$this->assertSame(200, $response->getStatus());
+		$this->assertSame('{"keyPackages":[]}', $response->render());
+		$this->assertSame(
+			ContentDigest::compute('{"keyPackages":[]}', ContentDigest::ALGO_SHA256),
+			$headers['Content-Digest'],
+		);
+		$this->assertSame('application/json; charset=utf-8', $headers['Content-Type']);
+		$this->assertArrayHasKey('Signature-Input', $headers);
+		$this->assertArrayHasKey('Signature', $headers);
 	}
 
 	public function testLocalAddedCapability(): void {

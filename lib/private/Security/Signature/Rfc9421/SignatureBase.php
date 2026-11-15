@@ -40,6 +40,36 @@ final class SignatureBase {
 	}
 
 	/**
+	 * Build a response signature base with optional components from the
+	 * request that triggered the response.
+	 *
+	 * @param array<string,string> $responseHeaders response headers keyed by lowercase name
+	 * @param array<string,string> $requestHeaders request headers keyed by lowercase name
+	 * @param list<string> $components covered component identifiers, in order
+	 * @param string $signatureParamsLine `(...);params...` for `@signature-params`
+	 */
+	public static function buildResponse(
+		int $status,
+		array $responseHeaders,
+		string $requestMethod,
+		string $requestUri,
+		array $requestHeaders,
+		array $components,
+		string $signatureParamsLine,
+	): string {
+		$lines = [];
+		foreach ($components as $component) {
+			[$name, $request] = self::parseComponentIdentifier($component);
+			$value = $request
+				? self::componentValue($name, $requestMethod, $requestUri, $requestHeaders)
+				: self::responseComponentValue($name, $status, $responseHeaders);
+			$lines[] = self::serializeComponentIdentifier($component) . ': ' . $value;
+		}
+		$lines[] = '"@signature-params": ' . $signatureParamsLine;
+		return implode("\n", $lines);
+	}
+
+	/**
 	 * Serialize `(comp...)` + `;k=v` parameters for `@signature-params` and
 	 * Signature-Input dictionary entries.
 	 *
@@ -47,7 +77,7 @@ final class SignatureBase {
 	 * @param array<string, scalar> $params
 	 */
 	public static function serializeSignatureParams(array $components, array $params): string {
-		$inner = array_map(static fn (string $c): string => '"' . $c . '"', $components);
+		$inner = array_map(self::serializeComponentIdentifier(...), $components);
 		$out = '(' . implode(' ', $inner) . ')';
 		foreach ($params as $name => $value) {
 			$out .= ';' . $name . '=' . self::serializeBareItem($value);
@@ -80,6 +110,42 @@ final class SignatureBase {
 			throw new SignatureException('missing field for signature: ' . $component);
 		}
 		return self::normalizeFieldValue($headers[$lower]);
+	}
+
+	private static function responseComponentValue(string $component, int $status, array $headers): string {
+		if ($component === '@status') {
+			return (string)$status;
+		}
+		if (str_starts_with($component, '@')) {
+			throw new SignatureException('unsupported response derived component: ' . $component);
+		}
+		$lower = strtolower($component);
+		if (!array_key_exists($lower, $headers)) {
+			throw new SignatureException('missing field for signature: ' . $component);
+		}
+		return self::normalizeFieldValue($headers[$lower]);
+	}
+
+	/**
+	 * @return array{string, bool}
+	 */
+	private static function parseComponentIdentifier(string $component): array {
+		if (str_ends_with($component, ';req')) {
+			$name = substr($component, 0, -4);
+			if ($name === '' || str_contains($name, ';')) {
+				throw new InvalidArgumentException('invalid component identifier');
+			}
+			return [$name, true];
+		}
+		if ($component === '' || str_contains($component, ';')) {
+			throw new InvalidArgumentException('unsupported component identifier parameter');
+		}
+		return [$component, false];
+	}
+
+	private static function serializeComponentIdentifier(string $component): string {
+		[$name, $request] = self::parseComponentIdentifier($component);
+		return '"' . $name . '"' . ($request ? ';req' : '');
 	}
 
 	private static function derivedValue(string $component, string $method, string $uri): string {

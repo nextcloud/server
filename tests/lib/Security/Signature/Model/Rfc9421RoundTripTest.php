@@ -12,6 +12,7 @@ namespace Test\Security\Signature\Model;
 use Firebase\JWT\JWK;
 use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421OutgoingSignedResponse;
 use OC\Security\Signature\Rfc9421\Algorithm;
 use OC\Security\Signature\Rfc9421\ContentDigest;
 use OCP\IRequest;
@@ -20,6 +21,7 @@ use OCP\Security\Signature\Enum\SignatureAlgorithm;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\InvalidSignatureException;
 use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatoryManager;
 use OCP\Security\Signature\Model\Signatory;
 use Test\TestCase;
@@ -48,6 +50,65 @@ class Rfc9421RoundTripTest extends TestCase {
 		);
 		$in->verify(); // throws on failure
 		$this->addToAssertionCount(1);
+	}
+
+	public function testSignedResponseVerifiesAndBindsRequest(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+		$request = $this->mockRequest(
+			[
+				'Signature-Input' => 'ocm=("@method" "@target-uri");created=1;keyid="remote";nonce="nonce-1";tag="ocm"',
+			],
+			'GET',
+			'/ocm/mls-key-packages?userId=alice%40sender.example.org',
+			'sender.example.org',
+		);
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn($request);
+		$response = new Rfc9421OutgoingSignedResponse(
+			'{"keyPackages":[]}',
+			$incoming,
+			$signatoryManager,
+		);
+
+		$headers = $response->getHeaders();
+		$this->assertStringContainsString('"@method";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"@target-uri";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"signature-input";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('nonce="nonce-1"', $response->getSignatureBaseString());
+
+		$this->assertSame(
+			1,
+			preg_match('/^ocm=:([^:]+):$/', $headers['Signature'], $matches),
+		);
+		$rawSignature = base64_decode($matches[1], true);
+		$this->assertIsString($rawSignature);
+		$this->assertTrue(Algorithm::verify(
+			$response->getSignatureBaseString(),
+			$rawSignature,
+			$jwk,
+			null,
+		));
+		$this->assertFalse(Algorithm::verify(
+			str_replace('nonce-1', 'nonce-2', $response->getSignatureBaseString()),
+			$rawSignature,
+			$jwk,
+			null,
+		));
+	}
+
+	public function testSignedResponseRequiresRfc9421Request(): void {
+		$incoming = $this->createMock(IIncomingSignedRequest::class);
+		$incoming->method('getRequest')->willReturn(
+			$this->mockRequest([], 'GET', '/ocm/mls-key-packages', 'sender.example.org'),
+		);
+
+		$this->expectException(IncomingRequestException::class);
+		new Rfc9421OutgoingSignedResponse(
+			'body',
+			$incoming,
+			$this->createMock(ISignatoryManager::class),
+		);
 	}
 
 	public function testEd25519VerifyAcceptedWhenSodiumLoaded(): void {

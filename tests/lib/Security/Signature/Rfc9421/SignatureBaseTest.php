@@ -73,6 +73,45 @@ class SignatureBaseTest extends TestCase {
 		$this->assertSame('("@method" "@target-uri");created=100;keyid="kid";expires=200', $line);
 	}
 
+	public function testBuildResponseWithRequestComponents(): void {
+		$components = [
+			'@status',
+			'content-type',
+			'content-digest',
+			'@method;req',
+			'@target-uri;req',
+			'signature-input;req',
+		];
+		$params = SignatureBase::serializeSignatureParams(
+			$components,
+			['created' => 100, 'keyid' => 'kid', 'tag' => 'ocm'],
+		);
+
+		$base = SignatureBase::buildResponse(
+			status: 200,
+			responseHeaders: [
+				'content-type' => 'application/json',
+				'content-digest' => 'sha-256=:response:',
+			],
+			requestMethod: 'GET',
+			requestUri: 'https://example.org/ocm/mls-key-packages?userId=alice',
+			requestHeaders: [
+				'signature-input' => 'ocm=("@method");created=1;nonce="n"',
+			],
+			components: $components,
+			signatureParamsLine: $params,
+		);
+
+		$expected = '"@status": 200' . "\n"
+			. '"content-type": application/json' . "\n"
+			. '"content-digest": sha-256=:response:' . "\n"
+			. '"@method";req: GET' . "\n"
+			. '"@target-uri";req: https://example.org/ocm/mls-key-packages?userId=alice' . "\n"
+			. '"signature-input";req: ocm=("@method");created=1;nonce="n"' . "\n"
+			. '"@signature-params": ("@status" "content-type" "content-digest" "@method";req "@target-uri";req "signature-input";req);created=100;keyid="kid";tag="ocm"';
+		$this->assertSame($expected, $base);
+	}
+
 	public function testSerializeBareItemEscapesQuotes(): void {
 		$this->assertSame('"\\"hi\\""', SignatureBase::serializeBareItem('"hi"'));
 		$this->assertSame('"\\\\"', SignatureBase::serializeBareItem('\\'));

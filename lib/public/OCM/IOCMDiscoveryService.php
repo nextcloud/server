@@ -10,12 +10,15 @@ declare(strict_types=1);
 namespace OCP\OCM;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\IIncomingSignedRequest;
 
 /**
@@ -82,6 +85,25 @@ interface IOCMDiscoveryService {
 	 * @since 35.0.0
 	 */
 	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void;
+
+	/**
+	 * Create an RFC 9421 signed OCM response bound to an incoming request.
+	 *
+	 * The returned response renders the exact bytes supplied in `$body` and
+	 * must be returned without further modification.
+	 *
+	 * @param IIncomingSignedRequest $request verified incoming OCM request
+	 * @param string $body exact response body to sign and return
+	 * @return Response<Http::STATUS_OK, array<string, mixed>>
+	 *
+	 * @throws IncomingRequestException if the request is not an RFC 9421 signed request
+	 * @throws SignatureException if the response cannot be signed
+	 * @since 36.0.0
+	 */
+	public function createSignedResponse(
+		IIncomingSignedRequest $request,
+		string $body,
+	): Response;
 
 	/**
 	 * Request a remote OCM endpoint.
