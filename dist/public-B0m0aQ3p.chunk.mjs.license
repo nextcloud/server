@@ -15,5 +15,5 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.4
 	- license: GPL-3.0-or-later
 - vite
-	- version: 7.3.7
+	- version: 7.3.8
 	- license: MIT
