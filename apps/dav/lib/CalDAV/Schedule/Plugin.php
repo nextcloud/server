@@ -535,7 +535,7 @@ EOF;
 		$calendarObject = $this->server->tree->getNodeForPath($homePath . '/' . $objectPath);
 		/** @var VCalendar $vCalendar */
 		$vCalendar = Reader::read($calendarObject->get());
-		foreach ($vCalendar->VEVENT as $vevent) {
+		foreach ($vCalendar->select('VEVENT') as $vevent) {
 			$eventRecurrenceId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->serialize() : '';
 			if ($eventRecurrenceId !== $recurrenceId) {
 				continue;
