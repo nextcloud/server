@@ -11,6 +11,7 @@ namespace OCP\OCM\Events;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\Federation\ICloudFederationNotification;
+use OCP\Federation\ISenderDomainAwareCloudFederationNotification;
 
 /**
  * @since 35.0.0
@@ -27,6 +28,9 @@ class OCMNotificationReceivedEvent extends Event {
 	}
 
 	/**
+	 * Notifications with senderDomain field are
+	 * {@see ISenderDomainAwareCloudFederationNotification}
+	 *
 	 * @since 35.0.0
 	 */
 	public function getNotification(): ICloudFederationNotification {

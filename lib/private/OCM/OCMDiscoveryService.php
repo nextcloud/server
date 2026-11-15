@@ -293,6 +293,37 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	/**
 	 * @inheritDoc
 	 *
+	 * @throws IncomingRequestException
+	 * @since 36.0.0
+	 */
+	#[\Override]
+	public function getIncomingSignedRequestFromDomain(string $senderDomain): IIncomingSignedRequest {
+		try {
+			$origin = $this->signatureManager->extractIdentityFromUri('https://' . $senderDomain);
+			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager, null, $origin);
+		} catch (IdentityNotFoundException $e) {
+			throw new IncomingRequestException('invalid sender domain: ' . $senderDomain, previous: $e);
+		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
+			$this->logger->debug('remote does not support signed request', ['exception' => $e]);
+			// as per OCM spec, sender should make HTTP request using httpsig
+			throw new IncomingRequestException('Unsigned request', previous: $e);
+		} catch (SignatureException $e) {
+			$this->logger->warning('wrongly signed request', ['exception' => $e]);
+			throw new IncomingRequestException('Invalid signature');
+		}
+
+		if ($signedRequest->getOrigin() !== $origin) {
+			throw new IncomingRequestException(
+				'sender domain ' . $origin . ' does not match signed origin ' . $signedRequest->getOrigin()
+			);
+		}
+
+		return $signedRequest;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
 	 * @since 35.0.0
 	 */
 	#[\Override]
