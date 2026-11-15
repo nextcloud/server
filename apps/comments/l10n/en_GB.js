@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "An error occurred while trying to edit the comment",
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
-    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "Write a comment …" : "Write a comment …"
+    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment"
 },
 "nplurals=2; plural=(n != 1);");

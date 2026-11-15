@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-\OCP\Util::addScript('settings', 'vue-settings-admin-ai');
+\OCP\Util::addScript('settings', 'admin-ai');
+\OCP\Util::addStyle('settings', 'admin-ai');
 ?>
 
 <div id="ai-settings">

@@ -18,8 +18,6 @@
     "This weekend" : "이번 주말",
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
-    "Set reminder for next week" : "알림을 다음주로 설정",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 지정",
-    "We will remind you of this file" : "이 파일에 대해 알림을 드립니다"
+    "Set reminder for next week" : "알림을 다음주로 설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "Usuń klienta",
     "Make sure you store the secret key, it cannot be recovered." : "Upewnij się, że przechowujesz klucz tajny, gdyż nie będzie można go odzyskać.",
     "Add client" : "Dodaj klienta",
-    "Add" : "Dodaj",
-    "Client Identifier" : "Identyfikator Klienta",
-    "Show client secret" : "Pokaż tajny klucz klienta",
-    "Hide client secret" : "Ukryj tajny klucz klienta"
+    "Add" : "Dodaj"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

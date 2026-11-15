@@ -10,12 +10,14 @@ namespace Test\SystemTag;
 
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -489,6 +491,25 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->assertEquals(['group3', 'group4'], $this->tagManager->getTagGroups($tag1));
 		$this->assertEquals([], $this->tagManager->getTagGroups($tag2));
+	}
+
+	public function testSetTagGroupsDispatchesAuditEvent(): void {
+		$tag = $this->tagManager->createTag('tag1', true, false);
+
+		$auditEvents = [];
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (Event $event) use (&$auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+
+		$this->tagManager->setTagGroups($tag, ['group1', '', 'group2']);
+
+		$this->assertCount(1, $auditEvents);
+		$this->assertSame('systemtags.tag_groups.updated', $auditEvents[0]->getOperation());
+		$this->assertSame('Groups allowed to assign system tag %s were set to "%s"', $auditEvents[0]->getLogMessage());
+		$this->assertSame(['tagId' => $tag->getId(), 'groupIds' => 'group1, group2'], $auditEvents[0]->getParameters());
 	}
 
 	/**

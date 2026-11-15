@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Kushiriki kwa mbali",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Je, ungependa kuongeza ushiriki wa mbali {name} tangu {owner}@{remote}?",
     "Remote share password" : "Nenosiri la kushiriki kwa mbali",
-    "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa",
-    "X (formerly Twitter)" : "X (zamani Twitter)",
-    "formerly Twitter" : "zamani Twitter"
+    "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa"
 },
 "nplurals=2; plural=(n != 1);");

@@ -112,7 +112,7 @@ import UserFormGroups from './UserFormGroups.vue'
 import UserFormLanguage from './UserFormLanguage.vue'
 import UserFormManager from './UserFormManager.vue'
 import UserFormQuota from './UserFormQuota.vue'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 
 interface FieldConfig {
@@ -131,14 +131,14 @@ const props = withDefaults(defineProps<{
 	errors: () => ({}),
 })
 
-const store = useStore()
+const usersStore = useUsersStore()
 
 const formData = inject(formDataKey)!
 
 const username = ref<{ focus?: () => void } | null>(null)
 const password = ref<{ focus?: () => void } | null>(null)
 
-const minPasswordLength = computed(() => store.getters.getPasswordPolicyMinLength)
+const minPasswordLength = computed(() => usersStore.minPasswordLength)
 
 /**
  * Customize the browser-native constraint validation message.

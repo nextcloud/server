@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Falha ao carregar etiquetas para arquivo",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "Collaborative tags …" : "Etiquetas colaborativas …",
-    "Loading …" : "Carregando …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} será definido e {tag2} será removido de 1 arquivo","{tag1} será definido e {tag2} será removido de {count} arquivos","{tag1} será definido e {tag2} será removido de {count} arquivos"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} será removido de 1 arquivo.","{tag} será removido de {count} arquivos.","{tag} será removido de {count} arquivos."],
-    "Loading collaborative tags …" : "Carregando etiquetas colaborativas …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} será removido de 1 arquivo.","{tag} será removido de {count} arquivos.","{tag} será removido de {count} arquivos."]
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

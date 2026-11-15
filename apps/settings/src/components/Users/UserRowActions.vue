@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import type { UserAction } from '../../views/user-types.d.ts'
+
 import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { translate as t } from '@nextcloud/l10n'
 import isSvg from 'is-svg'
@@ -41,13 +43,6 @@ import { computed } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
-interface UserAction {
-	action: (event: MouseEvent, user: Record<string, unknown>) => void
-	enabled?: (user: Record<string, unknown>) => boolean
-	icon: string
-	text: string
-}
 
 const props = defineProps<{
 	actions: readonly UserAction[]

@@ -80,9 +80,6 @@ OC.L10N.register(
     "Missing \"Content-Location\" header" : "Falta el encabezado \"Contenido-Ubicación\"",
     "Failed to load tags for file" : "No se pudieron cargar las etiquetas del archivo",
     "Failed to set tag for file" : "No se pudo establecer la etiqueta del archivo",
-    "Failed to delete tag for file" : "No se pudo eliminar la etiqueta del archivo",
-    "Collaborative tags …" : "Etiquetas colaborativas ...",
-    "Loading …" : "Cargando …",
-    "Loading collaborative tags …" : "Cargando las etiquetas colaborativas …"
+    "Failed to delete tag for file" : "No se pudo eliminar la etiqueta del archivo"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

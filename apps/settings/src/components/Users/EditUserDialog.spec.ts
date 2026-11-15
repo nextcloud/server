@@ -3,25 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { TestingPinia } from '@pinia/testing'
+
+import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// `<script setup>` children and `useStore()` are invisible to VTU stubs/mocks,
-// so swap them via `vi.mock` (see dialogTestHelpers).
-const { confirmPassword, dispatch } = vi.hoisted(() => ({ confirmPassword: vi.fn(), dispatch: vi.fn() }))
+// `<script setup>` children are invisible to VTU stubs, so swap them via
+// `vi.mock` (see dialogTestHelpers).
+const { confirmPassword } = vi.hoisted(() => ({ confirmPassword: vi.fn() }))
 
 vi.mock('@nextcloud/password-confirmation', () => ({ confirmPassword }))
 vi.mock('@nextcloud/dialogs', () => ({ showError: vi.fn(), showSuccess: vi.fn() }))
-vi.mock('../../store/index.js', () => ({
-	useStore: () => ({
-		dispatch,
-		getters: {
-			getGroups: [],
-			getServerData: { languages: [], canChangePassword: true },
-			getPasswordPolicyMinLength: 8,
-		},
-	}),
-}))
 vi.mock('@nextcloud/vue/components/NcDialog', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcDialogStub }))
 vi.mock('@nextcloud/vue/components/NcButton', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcButtonStub }))
 vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogTestHelpers.ts')).UserFormFieldsStub }))
@@ -47,7 +40,11 @@ vi.mock('./userFormUtils.ts', async (importActual) => ({
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import EditUserDialog from './EditUserDialog.vue'
+import { useUsersStore } from '../../store/users.ts'
 import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
+
+let pinia: TestingPinia
+let store: ReturnType<typeof useUsersStore>
 
 function mountDialog() {
 	return mount(EditUserDialog, {
@@ -55,17 +52,23 @@ function mountDialog() {
 			user: { id: 'bob', backendCapabilities: { setPassword: true } },
 			quotaOptions: [],
 		},
+		pinia,
 	})
 }
 
 describe('EditUserDialog loading feedback', () => {
 	beforeEach(() => {
+		pinia = createTestingPinia({
+			createSpy: vi.fn,
+			initialState: { 'settings-users': { groups: [], serverData: { languages: [], canChangePassword: true }, minPasswordLength: 8 } },
+		})
+		store = useUsersStore()
 		vi.clearAllMocks()
 		confirmPassword.mockResolvedValue(undefined)
 	})
 
 	it('does not dispatch a second save request while one is in flight', async () => {
-		dispatch.mockReturnValue(new Promise(() => {}))
+		vi.mocked(store.editUserMultiField).mockReturnValue(new Promise<void>(() => {}))
 		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
@@ -73,8 +76,7 @@ describe('EditUserDialog loading feedback', () => {
 		await wrapper.find('form').trigger('submit')
 		await flushPromises()
 
-		const saveCalls = dispatch.mock.calls.filter(([action]) => action === 'editUserMultiField')
-		expect(saveCalls).toHaveLength(1)
+		expect(store.editUserMultiField).toHaveBeenCalledOnce()
 	})
 
 	it('marks the form as busy and inert while saving', async () => {

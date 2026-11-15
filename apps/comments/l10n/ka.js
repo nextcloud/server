@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "კომენტარის ჩასწორებისას აღმოჩენილია შეცდომა",
     "Comment deleted" : "კომენტარი წაიშალა",
     "An error occurred while trying to delete the comment" : "კომენტარის წაშლისას აღმოჩენილია შეცდომა",
-    "An error occurred while trying to create the comment" : "კომენტარის შექმნისას აღმოჩენილია შეცდომა",
-    "Write a comment …" : "კომენტარის დაწერა …"
+    "An error occurred while trying to create the comment" : "კომენტარის შექმნისას აღმოჩენილია შეცდომა"
 },
 "nplurals=2; plural=(n!=1);");

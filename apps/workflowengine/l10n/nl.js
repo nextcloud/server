@@ -123,7 +123,6 @@ OC.L10N.register(
     "Request user agent" : "Useragent aanvraag",
     "Group membership" : "Groepslidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van",
-    "Type to search for group …" : "Type om groep te zoeken …"
+    "is not member of" : "is geen lid van"
 },
 "nplurals=2; plural=(n != 1);");

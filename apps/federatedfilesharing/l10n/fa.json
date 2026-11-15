@@ -64,8 +64,6 @@
     "Remote share" : "اشتراک‌گذاری راه دور",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "آیا می‌خواهید اشتراک‌گذاری راه دور {name} از {owner}@{remote} را اضافه کنید؟",
     "Remote share password" : "رمز عبور اشتراک‌گذاری راه دور",
-    "Incoming share could not be processed" : "اشتراک‌گذاری دریافتی قابل پردازش نیست",
-    "X (formerly Twitter)" : "ایکس (توییتر سابق)",
-    "formerly Twitter" : "توییتر سابق"
+    "Incoming share could not be processed" : "اشتراک‌گذاری دریافتی قابل پردازش نیست"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

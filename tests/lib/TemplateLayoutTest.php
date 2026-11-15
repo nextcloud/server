@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test;
 
+use OC\App\AppStore\AppStoreLinkVisibility;
 use OC\InitialStateService;
 use OC\TemplateLayout;
 use OCP\App\IAppManager;
@@ -17,8 +18,11 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\ServerVersion;
+use OCP\Template\ITemplate;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class TemplateLayoutTest extends \Test\TestCase {
@@ -45,6 +49,13 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->request = $this->createMock(IRequest::class);
+	}
+
+	#[\Override]
+	protected function tearDown(): void {
+		\OC_Util::$styles = [];
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+		parent::tearDown();
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
@@ -110,4 +121,49 @@ class TemplateLayoutTest extends \Test\TestCase {
 		];
 	}
 
+	public static function dataUserLayoutLoadsUnifiedSearch(): array {
+		return [
+			'default configuration' => [[]],
+			'non-accessible features disabled' => [['enable_non-accessible_features' => false]],
+			'removed legacy switch still set' => [['unified_search.enabled' => true]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUserLayoutLoadsUnifiedSearch')]
+	public function testUserLayoutLoadsUnifiedSearch(array $systemConfig): void {
+		\OC_Util::$styles = [];
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+
+		$this->overwriteService(AppStoreLinkVisibility::class, $this->createMock(AppStoreLinkVisibility::class));
+		$this->overwriteService(IUserSession::class, $this->createMock(IUserSession::class));
+
+		$this->config->method('getSystemValueBool')
+			->willReturnCallback(fn (string $key, bool $default) => $systemConfig[$key] ?? ($key === 'installed' ? false : $default));
+		$this->config->method('getSystemValueString')
+			->willReturnArgument(1);
+		$this->request->method('getPathInfo')
+			->willReturn('/apps/files/');
+		$this->navigationManager->method('getAll')
+			->willReturn([]);
+		$this->templateManager->method('getTemplate')
+			->willReturn($this->createMock(ITemplate::class));
+
+		$templateLayout = new TemplateLayout(
+			$this->config,
+			$this->appConfig,
+			$this->appManager,
+			$this->initialState,
+			$this->navigationManager,
+			$this->templateManager,
+			$this->serverVersion,
+			$this->request,
+		);
+		$templateLayout->getPageTemplate(TemplateResponse::RENDER_AS_USER, '');
+
+		$scripts = Util::getScripts();
+		self::assertContains('core/js/unified-search', $scripts);
+		self::assertNotContains('core/js/legacy-unified-search', $scripts);
+		self::assertContains('core/css/unified-search', \OC_Util::$styles);
+		self::assertNotContains('core/css/legacy-unified-search', \OC_Util::$styles);
+	}
 }

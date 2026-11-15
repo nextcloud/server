@@ -417,7 +417,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 
 			$user = $this->userSession->getUser();
-			if (!$user) {
+			if (!$user || !$this->tagManager->canUserAssignTag($node->getSystemTag(), $user)) {
 				throw new Forbidden('You don’t have permissions to update tags');
 			}
 

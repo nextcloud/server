@@ -18,7 +18,7 @@ export async function getDiscoverElements() {
 		throw new Error('No app discover elements available (empty response)')
 	}
 
-	// Parse data to ensure dates are useable and then filter out expired or future elements
+	// Parse data to ensure dates are usable and then filter out expired or future elements
 	const parsedElements = data.map(parseApiResponse)
 		.filter(filterElements)
 

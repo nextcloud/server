@@ -26,8 +26,10 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,6 +44,7 @@ class WebhooksController extends OCSController {
 		private WebhookListenerMapper $mapper,
 		private ?string $userId,
 		private ISession $session,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -164,6 +167,7 @@ class WebhooksController extends OCSController {
 				$authData,
 				$tokenNeeded,
 			);
+			$this->dispatchWebhookAuditEvent('created', $webhookListener);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
@@ -241,6 +245,7 @@ class WebhooksController extends OCSController {
 				$authData,
 				$tokenNeeded,
 			);
+			$this->dispatchWebhookAuditEvent('updated', $webhookListener);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
@@ -271,6 +276,14 @@ class WebhooksController extends OCSController {
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->mapper->deleteById($id);
+			if ($deleted) {
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'Webhook "%s" was deleted',
+					['webhookId' => $id],
+					false,
+					'webhook_listeners.webhook.deleted',
+				));
+			}
 			return new DataResponse($deleted);
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
@@ -301,6 +314,14 @@ class WebhooksController extends OCSController {
 	public function deleteByAppId(string $appid): DataResponse {
 		try {
 			$deletedCount = $this->mapper->deleteByAppId($appid);
+			if ($deletedCount > 0) {
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'Webhooks of app "%s" were deleted, %s removed',
+					['appId' => $appid, 'count' => $deletedCount],
+					false,
+					'webhook_listeners.webhook.deleted_by_app',
+				));
+			}
 			return new DataResponse($deletedCount);
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
@@ -310,5 +331,34 @@ class WebhooksController extends OCSController {
 			$this->logger->error('Error when deleting flows for app id ' . $appid, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
+	}
+
+	/**
+	 * Only the origin of the target URI is logged, as webhook URIs may carry secrets in their path or query
+	 *
+	 * @param 'created'|'updated' $action
+	 */
+	private function dispatchWebhookAuditEvent(string $action, WebhookListener $webhookListener): void {
+		$uri = parse_url($webhookListener->getUri()) ?: [];
+		$uriOrigin = ($uri['scheme'] ?? '') . '://' . ($uri['host'] ?? '') . (isset($uri['port']) ? ':' . $uri['port'] : '');
+
+		$message = 'Webhook "%s" for event "%s" calling %s %s was ' . $action;
+		$params = [
+			'webhookId' => $webhookListener->getId(),
+			'event' => $webhookListener->getEvent(),
+			'httpMethod' => $webhookListener->getHttpMethod(),
+			'uriOrigin' => $uriOrigin,
+		];
+		if ($webhookListener->getAppId() !== null) {
+			$message .= ' for app "%s"';
+			$params['appId'] = $webhookListener->getAppId();
+		}
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			$message,
+			$params,
+			false,
+			'webhook_listeners.webhook.' . $action,
+		));
 	}
 }

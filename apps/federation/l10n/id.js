@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Gagal menghapus server tepercaya. Silakan coba lagi nanti.",
     "Delete" : "Hapus",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federasi memungkinkan Anda terhubung dengan server tepercaya lainnya untuk bertukar direktori akun. Misalnya, ini akan digunakan untuk melengkapi otomatis akun eksternal untuk berbagi terfederasi. Tidak perlu menambahkan server sebagai server tepercaya untuk membuat berbagi terfederasi.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Setiap server harus memvalidasi satu sama lain. Proses ini mungkin memerlukan beberapa siklus cron.",
-    "External documentation for Federated Cloud Sharing" : "Dokumentasi eksternal untuk Berbagi Cloud Terfederasi",
-    "+ Add trusted server" : "+ Tambah server terpercaya",
-    "Trusted server" : "Server terpercaya"
+    "Each server must validate the other. This process may require a few cron cycles." : "Setiap server harus memvalidasi satu sama lain. Proses ini mungkin memerlukan beberapa siklus cron."
 },
 "nplurals=1; plural=0;");

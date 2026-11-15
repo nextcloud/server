@@ -262,6 +262,14 @@
     "Invalid target path" : "Conair sprice neamhbhailí",
     "System is in maintenance mode." : "Tá an córas i mód cothabhála.",
     "Upgrade needed" : "Uasghrádú ag teastáil",
+    "File could not be opened (fopen). Please check the server logs for more information." : "Níorbh fhéidir an comhad a oscailt (fopen). Seiceáil logaí an fhreastalaí le do thoil chun tuilleadh eolais a fháil.",
+    "Unable to check file for consistency check" : "Ní féidir an comhad a sheiceáil chun comhsheasmhacht a fhíorú",
+    "The archive was already finalized, stream was not a stream or was closed" : "The archive was already finalized, stream was not a stream or was closed",
+    "Reading the file failed after %1$d of %2$d bytes." : "Reading the file failed after %1$d of %2$d bytes.",
+    "Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error." : "Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.",
+    "The missing part of the file was filled with empty bytes." : "The missing part of the file was filled with empty bytes.",
+    "The file is larger than its recorded size, only the first %d bytes were added." : "The file is larger than its recorded size, only the first %d bytes were added.",
+    "File could not be added to the archive. Please check the server logs for more information." : "File could not be added to the archive. Please check the server logs for more information.",
     "%1$s created \"%2$s\" on your behalf" : "Chruthaigh %1$s \"%2$s\" ar do shon",
     "%1$s created \"%2$s\" on your calendar \"%3$s\"" : "Chruthaigh %1$s \"%2$s\" ar do fhéilire \"%3$s\"",
     "%1$s updated \"%2$s\" on your behalf" : "Nuashonraigh %1$s \"%2$s\" ar do shon",
@@ -378,10 +386,6 @@
     "Link:" : "Nasc:",
     "Occurring:" : "Ag tarlú:",
     "More options at %s" : "Tuilleadh roghanna ag %s",
-    "The system address book contains contact information for all users in your instance." : "Tá faisnéis teagmhála i leabhar seoltaí an chórais do gach úsáideoir i do chás.",
-    "Enable System Address Book" : "Cumasaigh Leabhar Seoltaí an Chórais",
-    "No results." : "Gan torthaí.",
-    "Start typing." : "Tosaigh ag clóscríobh.",
     "Delegate:" : "Toscaire:"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

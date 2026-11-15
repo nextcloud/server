@@ -21,18 +21,22 @@
 	<div
 		v-else
 		class="predefined-statuses-list">
-		<div class="icon icon-loading-small" />
+		<NcLoadingIcon :size="16" />
 	</div>
 </template>
 
 <script>
 import { t } from '@nextcloud/l10n'
-import { mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'pinia'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import PredefinedStatus from './PredefinedStatus.vue'
+import { usePredefinedStatusesStore } from '../store/predefinedStatuses.ts'
+import { useUserStatusStore } from '../store/userStatus.ts'
 
 export default {
 	name: 'PredefinedStatusesList',
 	components: {
+		NcLoadingIcon,
 		PredefinedStatus,
 	},
 
@@ -45,12 +49,8 @@ export default {
 	},
 
 	computed: {
-		...mapState({
-			predefinedStatuses: (state) => state.predefinedStatuses.predefinedStatuses,
-			messageId: (state) => state.userStatus.messageId,
-		}),
-
-		...mapGetters(['statusesHaveLoaded']),
+		...mapState(usePredefinedStatusesStore, ['predefinedStatuses', 'statusesHaveLoaded']),
+		...mapState(useUserStatusStore, ['messageId']),
 	},
 
 	watch: {
@@ -67,10 +67,11 @@ export default {
 	 * when this component is mounted
 	 */
 	created() {
-		this.$store.dispatch('loadAllPredefinedStatuses')
+		this.loadAllPredefinedStatuses()
 	},
 
 	methods: {
+		...mapActions(usePredefinedStatusesStore, ['loadAllPredefinedStatuses']),
 		t,
 
 		/**

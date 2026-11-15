@@ -18,6 +18,7 @@ use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\Accounts\IAccountManager;
+use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
@@ -256,6 +257,7 @@ class FilesPluginTest extends TestCase {
 			'/dummyPath',
 			[
 				FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME,
+				FilesPlugin::OCM_SHARE_PERMISSIONS_PROPERTYNAME,
 			],
 			0
 		);
@@ -267,7 +269,10 @@ class FilesPluginTest extends TestCase {
 			->willReturn($user);
 
 		$loggedInUser = $this->createMock(User::class);
-		$this->userSession->expects($this->once())
+		$loggedInUser->expects($this->once())->method('getUID')->willReturn('recipient');
+		$node->expects($this->once())->method('getSharePermissions')
+			->with('recipient')->willReturn(Constants::PERMISSION_ALL);
+		$this->userSession->expects($this->exactly(2))
 			->method('getUser')
 			->willReturn($loggedInUser);
 
@@ -285,6 +290,7 @@ class FilesPluginTest extends TestCase {
 		);
 
 		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
+		$this->assertSame('["share","read","write"]', $propFind->get(FilesPlugin::OCM_SHARE_PERMISSIONS_PROPERTYNAME));
 	}
 
 	public function testGetPropertiesStorageNotAvailable(): void {

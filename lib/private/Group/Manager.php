@@ -35,13 +35,8 @@ use function is_string;
  *
  * Hooks available in scope \OC\Group:
  * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
  * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
  * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
  *
  * @package OC\Group
  */
@@ -256,7 +251,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
-			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
 					if ($backend instanceof ICreateNamedGroupBackend) {
@@ -264,13 +258,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 						if (($gid = $backend->createGroup($groupName)) !== null) {
 							$group = $this->getGroupObject($gid);
 							$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-							$this->emit('\OC\Group', 'postCreate', [$group]);
 							return $group;
 						}
 					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
 					}
 				}

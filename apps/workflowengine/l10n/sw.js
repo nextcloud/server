@@ -122,7 +122,6 @@ OC.L10N.register(
     "Request user agent" : "Omba wakala wa mtumiaji",
     "Group membership" : "Uanachama wa kikundi",
     "is member of" : "ni mwanachama wa",
-    "is not member of" : "si mwanachama wa",
-    "Type to search for group …" : "Andika kutafuta kikundi …"
+    "is not member of" : "si mwanachama wa"
 },
 "nplurals=2; plural=(n != 1);");

@@ -71,10 +71,16 @@
 				ref="addressInput"
 				:label="t('weather_status', 'Set custom address')"
 				:disabled="false"
-				icon="icon-rename"
 				type="text"
 				modelValue=""
-				@submit="onAddressSubmit" />
+				@submit="onAddressSubmit">
+				<template #icon>
+					<NcIconSvgWrapper
+						name="Pencil"
+						:svg="pencilOutlineSvg"
+						:size="20" />
+				</template>
+			</NcActionInput>
 			<template v-if="favorites.length > 0">
 				<NcActionCaption :name="t('weather_status', 'Favorites')" />
 				<NcActionButton
@@ -98,6 +104,7 @@
 <script>
 import crosshairsSvg from '@mdi/svg/svg/crosshairs.svg?raw'
 import mapMarkerSvg from '@mdi/svg/svg/map-marker.svg?raw'
+import pencilOutlineSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
 import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import starSvg from '@mdi/svg/svg/star.svg?raw'
 import { showError } from '@nextcloud/dialogs'
@@ -553,6 +560,7 @@ export default {
 		return {
 			crosshairsSvg,
 			mapMarkerSvg,
+			pencilOutlineSvg,
 			starSvg,
 			starOutlineSvg,
 			locale: getLocale(),

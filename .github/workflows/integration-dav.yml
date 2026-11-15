@@ -59,7 +59,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -69,11 +69,6 @@ jobs:
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: LizardByte/actions/actions/setup_python@39c468549cfb87ccb917e5e5342e18abc926dc48 # v2026.909.30231
-        with:
-          python-version: '2.7'
 
       - name: Set up CalDAVTester
         run: |
@@ -104,12 +99,16 @@ jobs:
       - name: Run CalDAVTester
         run: |
           cp "apps/dav/tests/testsuits/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/testsuits/caldavtest/serverinfo.xml"
-          pushd CalDAVTester
-          PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/testsuits/caldavtest" -o cdt.txt \
+          # CalDAVTester requires Python 2.7, which is no longer available on the runner
+          docker run --rm --network host \
+            --user "$(id -u):$(id -g)" \
+            --volume "$PWD:/work" --workdir /work/CalDAVTester \
+            --env PYTHONPATH=../pycalendar/src \
+            python:2.7.18-slim-buster@sha256:6c1ffdff499e29ea663e6e67c9b6b9a3b401d554d2c9f061f9a45344e3992363 \
+            python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/testsuits/caldavtest" -o cdt.txt \
             "${{ matrix.service }}/current-user-principal.xml" \
             "${{ matrix.service }}/sync-report.xml" \
             ${{ matrix.endpoint == 'new' && format('{0}/sharing-{1}.xml', matrix.service, matrix.service == 'CalDAV' && 'calendars' || 'addressbooks') || ';' }}
-          popd
 
       - name: Print Nextcloud logs
         if: always()

@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Nie udało się usunąć zaufanego serwera. Spróbuj ponownie później.",
     "Delete" : "Usuń",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federacja umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu kont. Na przykład zostanie to użyte do automatycznego uzupełniania dla zewnętrznych kont przy udostępnianiu federacyjnym. Nie jest konieczne dodawanie serwera jako serwera zaufanego w celu utworzenia udostępnienia federacyjnego.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Każdy serwer musi zweryfikować inny serwer. Ten proces może wymagać kilku cykli cron.",
-    "External documentation for Federated Cloud Sharing" : "Dokumentacja zewnętrzna dla usługi Udostępnienia Chmury Federacyjnej",
-    "+ Add trusted server" : "+ Dodaj zaufany serwer",
-    "Trusted server" : "Zaufany serwer"
+    "Each server must validate the other. This process may require a few cron cycles." : "Każdy serwer musi zweryfikować inny serwer. Ten proces może wymagać kilku cykli cron."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

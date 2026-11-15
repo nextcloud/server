@@ -169,4 +169,35 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares', 31],
 		];
 	}
+
+	public static function dataCreateFederatedSharePasswordProtected(): array {
+		return [
+			'session for current password' => ['{"token":"password-hash"}', '', false, true],
+			'session for changed password' => ['{"token":"old-password-hash"}', '', false, false],
+			'session for other share' => ['{"other-token":"password-hash"}', '', false, false],
+			'no session, valid password' => [null, 'password', true, true],
+			'no session, invalid password' => [null, 'wrong', false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateFederatedSharePasswordProtected')]
+	public function testCreateFederatedSharePasswordProtected(?string $sessionTokens, string $password, bool $passwordValid, bool $expectSuccess): void {
+		$this->federatedShareProvider->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
+		$this->addressHandler->method('splitUserRemote')->willReturn(['user', 'server']);
+
+		$this->share->setToken('token');
+		$this->share->setPassword('password-hash');
+		$this->share->setPermissions(31);
+		$this->shareManager->method('getShareByToken')->with('token')->willReturn($this->share);
+		$this->shareManager->method('checkPassword')->with($this->share, $password)->willReturn($passwordValid);
+		$this->session->method('get')->with('public_link_authenticated_frontend')->willReturn($sessionTokens);
+
+		$this->federatedShareProvider->expects($expectSuccess ? $this->once() : $this->never())
+			->method('create')
+			->willReturnArgument(0);
+
+		$result = $this->controller->createFederatedShare('user@server', 'token', $password);
+
+		$this->assertSame($expectSuccess ? Http::STATUS_OK : Http::STATUS_BAD_REQUEST, $result->getStatus());
+	}
 }

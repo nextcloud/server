@@ -140,7 +140,6 @@ OC.L10N.register(
     "Copy" : "복사",
     "Send link via email" : "이메일로 링크 보내기",
     "Enter an email address or paste a list" : "이메일 주소를 입력하거나 목록을 붙여넣으세요.",
-    "Remove email" : "이메일 제거",
     "Select a destination" : "목적지 선택",
     "Select" : "선택",
     "What are you requesting?" : "무엇을 요청합니까?",
@@ -402,13 +401,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "관리자가 그룹 공유를 비활성화함",
     "Public link sharing is disabled by the administrator" : "관리자가 공개 링크 공유를 비활성화함",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%1$s을(를) 공유할 수 없습니다. 백엔드에서 %2$s 형식의 공유를 지원하지 않습니다",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "백엔드가 ScienceMesh 공유를 지원하지 않기 때문에 %s의 공유가 실패했습니다.",
     "Public upload disabled by the administrator" : "공개 업로드는 관리자에 의해 비활성화되어 있음",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "토큰은 1 자 이상이어야 하며 문자, 숫자, 하이픈만 포함할 수 있습니다.",
-    "Via “{folder}”" : "“{folder}”(을)를 통하여",
-    "Name or email …" : "이름 또는 이메일 …",
-    "Name, email, or Federated Cloud ID …" : "이름, 이메일, 또는 연합 클라우드 ID …",
-    "Searching …" : "검색 ...",
+    "Remove email" : "이메일 제거",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "공개 공유 링크 토큰을 기억하기 쉬운 것으로 설정하거나 새 토큰을 생성하세요. 민감한 정보가 포함된 공유에는 추측 가능한 토큰을 사용하지 않는 것이 좋습니다."
 },
 "nplurals=1; plural=0;");

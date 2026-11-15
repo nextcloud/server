@@ -21,6 +21,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -95,6 +96,11 @@ class TrustedServersTest extends TestCase {
 		$this->jobList->expects($this->once())->method('add')
 			->with(RequestSharedSecret::class,
 				['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'federation.trusted_server.added'
+				&& $event->getParameters() === ['url' => 'https://url', 'serverId' => 1]
+				&& $event->getLogMessage() === 'Trusted server "%s" was added with ID "%s"'));
 
 		$this->assertSame(
 			1,
@@ -105,6 +111,11 @@ class TrustedServersTest extends TestCase {
 	public function testAddSharedSecret(): void {
 		$this->dbHandler->expects($this->once())->method('addSharedSecret')
 			->with('url', 'secret');
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool
+				=> $event->getOperation() === 'federation.shared_secret.exchanged'
+				&& $event->getParameters() === ['url' => 'url']
+				&& $event->getLogMessage() === 'Shared secret with trusted server "%s" was exchanged'));
 		$this->trustedServers->addSharedSecret('url', 'secret');
 	}
 
@@ -125,15 +136,22 @@ class TrustedServersTest extends TestCase {
 		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
 		$this->dbHandler->expects($this->once())->method('getServerById')->with($id)
 			->willReturn($server);
-		$this->dispatcher->expects($this->once())->method('dispatchTyped')
+		$events = [];
+		$this->dispatcher->expects($this->exactly(2))->method('dispatchTyped')
 			->willReturnCallback(
-				function ($event): void {
-					$this->assertInstanceOf(TrustedServerRemovedEvent::class, $event);
-					$this->assertSame('url', $event->getUrl());
-					$this->assertSame('url_hash', $event->getUrlHash());
+				function ($event) use (&$events): void {
+					$events[] = $event;
 				}
 			);
 		$this->trustedServers->removeServer($id);
+
+		$this->assertInstanceOf(TrustedServerRemovedEvent::class, $events[0]);
+		$this->assertSame('url', $events[0]->getUrl());
+		$this->assertSame('url_hash', $events[0]->getUrlHash());
+		$this->assertInstanceOf(CriticalActionPerformedEvent::class, $events[1]);
+		$this->assertSame('federation.trusted_server.removed', $events[1]->getOperation());
+		$this->assertSame('Trusted server "%s" was removed', $events[1]->getLogMessage());
+		$this->assertSame(['url' => 'url', 'urlHash' => 'url_hash'], $events[1]->getParameters());
 	}
 
 	public function testGetServers(): void {

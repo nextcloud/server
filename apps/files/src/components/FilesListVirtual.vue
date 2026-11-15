@@ -8,6 +8,7 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
+		:navigating="navigating"
 		:gridMode="userConfig.grid_view"
 		:extraProps="{
 			isMimeAvailable,
@@ -47,6 +48,27 @@
 			<slot name="empty" />
 		</template>
 
+		<!-- Loading skeleton while navigating -->
+		<template #navigating>
+			<div class="files-list__loading-skeleton">
+				<!-- Skeleton rows -->
+				<div
+					v-for="index in 5"
+					:key="`skeleton-${index}`"
+					class="files-list__skeleton-row">
+					<!-- Checkbox skeleton -->
+					<div class="files-list__skeleton-checkbox" />
+					<!-- Icon skeleton -->
+					<div class="files-list__skeleton-icon" />
+					<!-- Name skeleton -->
+					<div class="files-list__skeleton-name" />
+					<!-- Other columns skeleton -->
+					<div class="files-list__skeleton-column" />
+					<div class="files-list__skeleton-column" />
+				</div>
+			</div>
+		</template>
+
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter
@@ -69,7 +91,7 @@ import { showError } from '@nextcloud/dialogs'
 import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, provide, watch } from 'vue'
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
 import FileListFilterChips from './FileListFilter/FileListFilterChips.vue'
@@ -80,6 +102,7 @@ import FilesListTableHeader from './FilesListTableHeader.vue'
 import VirtualList from './VirtualList.vue'
 import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
+import { FileListLayoutKey, getFileListLayout, resetInlineActionsWidth, useInlineActionsWidth } from '../composables/useFileListLayout.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActiveStore } from '../store/active.ts'
@@ -118,6 +141,11 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
+		navigating: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	setup(props) {
@@ -125,19 +153,8 @@ export default defineComponent({
 		const activeStore = useActiveStore()
 		const userConfigStore = useUserConfigStore()
 
-		const { isNarrow, isWide } = useFileListWidth()
+		const { width, isNarrow, isWide } = useFileListWidth()
 		const { fileId, openDetails, openFile } = useRouteParameters()
-
-		const isMimeAvailable = computed(() => {
-			if (!userConfigStore.userConfig.show_mime_column) {
-				return false
-			}
-			if (!isWide.value) {
-				return false // only show on wide screens
-			}
-			return props.nodes
-				.some((node: INode) => node.mime !== undefined || node.mime !== 'application/octet-stream')
-		})
 
 		const isMtimeAvailable = computed(() => {
 			// Hide mtime column on narrow screens
@@ -154,6 +171,22 @@ export default defineComponent({
 			}
 			return props.nodes.some((node: INode) => node.size !== undefined)
 		})
+
+		const inlineActionsWidth = useInlineActionsWidth()
+		watch(() => [props.currentFolder, props.currentView], resetInlineActionsWidth, { immediate: true })
+
+		const layout = computed(() => getFileListLayout(width.value, {
+			inlineActions: true,
+			mime: userConfigStore.userConfig.show_mime_column
+				&& isWide.value // only show on wide screens
+				&& props.nodes.some((node: INode) => node.mime !== undefined || node.mime !== 'application/octet-stream'),
+			size: isSizeAvailable.value,
+			mtime: isMtimeAvailable.value,
+			columns: isNarrow.value ? [] : (props.currentView.columns ?? []),
+		}, inlineActionsWidth.value))
+		provide(FileListLayoutKey, layout)
+
+		const isMimeAvailable = computed(() => layout.value.mime)
 
 		return {
 			fileId,
@@ -576,6 +609,94 @@ export default defineComponent({
 			justify-content: center;
 			width: 100%;
 			height: 100%;
+		}
+
+		// Loading skeleton
+		.files-list__loading-skeleton {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.files-list__skeleton-row {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: var(--row-height);
+			border-block-end: 1px solid var(--color-border);
+			box-sizing: border-box;
+			gap: 8px;
+			padding: 0 8px;
+		}
+
+		.files-list__skeleton-checkbox {
+			width: 18px;
+			height: 18px;
+			margin: 6px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-icon {
+			width: 24px;
+			height: 24px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			flex-shrink: 0;
+		}
+
+		.files-list__skeleton-name {
+			flex: 1 1 auto;
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 3.5s infinite;
+			min-width: 100px;
+		}
+
+		.files-list__skeleton-column {
+			width: calc(var(--clickable-area-large) * 2.3);
+			height: 20px;
+			border-radius: 4px;
+			background: linear-gradient(
+				90deg,
+				var(--color-placeholder-light),
+				var(--color-placeholder-dark),
+				var(--color-placeholder-light)
+			);
+			background-size: 200% 100%;
+			animation: skeleton-loading 1.5s infinite;
+			flex-shrink: 0;
+		}
+
+		@keyframes skeleton-loading {
+			0% {
+				background-position: 200% 0;
+			}
+			100% {
+				background-position: -200% 0;
+			}
 		}
 
 		tr {

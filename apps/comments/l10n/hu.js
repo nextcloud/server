@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Hiba történt a megjegyzés szerkesztése közben",
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
-    "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "Write a comment …" : "Hozzászólás írása…"
+    "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben"
 },
 "nplurals=2; plural=(n != 1);");

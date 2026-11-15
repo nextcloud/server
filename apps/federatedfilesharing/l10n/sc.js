@@ -34,8 +34,6 @@ OC.L10N.register(
     "Add remote share" : "Agiunghe cumpartzidura remota",
     "Remote share" : "Cumpartzidura remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
-    "Remote share password" : "Cumpartzidura remota crae",
-    "X (formerly Twitter)" : "X (in antis, Twitter)",
-    "formerly Twitter" : "in antis, Twitter"
+    "Remote share password" : "Cumpartzidura remota crae"
 },
 "nplurals=2; plural=(n != 1);");

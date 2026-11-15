@@ -25,9 +25,6 @@ OC.L10N.register(
     "Failed to delete trusted server. Please try again later." : "Det gick inte att ta bort den betrodda servern. Försök igen senare.",
     "Delete" : "Ta bort",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation gör det möjligt att ansluta till andra betrodda servrar och utbyta kontokatalogen. Informationen används exempelvis för att automatiskt komplettera externa konton vid federerad delning. En server behöver inte läggas till som betrodd server för att en federerad delning ska kunna skapas.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Varje server måste validera den andra. Denna process kan kräva några cron-cykler.",
-    "External documentation for Federated Cloud Sharing" : "Extern dokumentation om federerad molndelning",
-    "+ Add trusted server" : "+ Lägg till betrodd server",
-    "Trusted server" : "Betrodd server"
+    "Each server must validate the other. This process may require a few cron cycles." : "Varje server måste validera den andra. Denna process kan kräva några cron-cykler."
 },
 "nplurals=2; plural=(n != 1);");

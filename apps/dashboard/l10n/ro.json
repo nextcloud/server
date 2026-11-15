@@ -1,6 +1,7 @@
 { "translations": {
-    "Dashboard" : "Panou",
-    "Dashboard app" : "Panou de bord aplicație",
+    "Dashboard" : "Tablou de bord",
+    "Dashboard app" : "Aplicația Tablou de bord",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Începe-ți ziua informat\n\nTabloul de bord Nextcloud este punctul tău de pornire în fiecare zi: îți oferă o privire de ansamblu asupra programărilor viitoare, e-mailurilor urgente, mesajelor de chat, tichetelor primite, celor mai recente postări și multe altele! Fiecare își poate adăuga widgeturile preferate și își poate schimba fundalul după gust.",
     "Weather" : "Vreme",
     "Status" : "Stare",
     "Good morning" : "Bună dimineața",
@@ -9,16 +10,17 @@
     "Good afternoon, {name}" : "Bună ziua, {name}",
     "Good evening" : "Bună seara",
     "Good evening, {name}" : "Bună seara, {name}",
-    "Hello" : "Bună",
-    "Hello, {name}" : "Bună, {name}",
+    "Hello" : "Bună seara",
+    "Hello, {name}" : "Bună seara, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "La mulți ani 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "La mulți ani, {name} 🥳🤩🎂🎉",
     "Customize" : "Personalizează",
-    "Edit widgets" : "Editează widget",
-    "Get more widgets from the App Store" : "Obține mai multe widget-uri din App Store",
-    "Weather service" : "Serviciu de vreme",
-    "Weather data from Met.no" : "Date despre vreme de la Met.no",
-    "geocoding with Nominatim" : "geocoding cu Nominatim",
-    "elevation data from OpenTopoData" : "date despre elevație de la OpenTopoData"
+    "Edit widgets" : "Editează widgeturile",
+    "Get more widgets from the App Store" : "Obține mai multe widgeturi din magazinul de aplicații",
+    "Weather service" : "Serviciul meteo",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Pentru confidențialitatea ta, datele meteo sunt solicitate în numele tău de serverul {productName}, astfel încât serviciul meteo nu primește nicio informație personală.",
+    "Weather data from Met.no" : "Date meteo de la Met.no",
+    "geocoding with Nominatim" : "geocodare cu Nominatim",
+    "elevation data from OpenTopoData" : "date de altitudine de la OpenTopoData"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

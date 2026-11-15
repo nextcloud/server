@@ -275,7 +275,7 @@ class Mailer implements IMailer {
 	 * Returns the SMTP transport
 	 *
 	 * Only supports ssl/tls
-	 * starttls is not enforcable with Symfony Mailer but might be available
+	 * starttls is not enforceable with Symfony Mailer but might be available
 	 * via the automatic config (Symfony Mailer internal)
 	 *
 	 * @return EsmtpTransport

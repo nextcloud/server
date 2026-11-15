@@ -26,11 +26,13 @@ class LoadAdditionalListener implements IEventListener {
 		}
 
 		// After files for the breadcrumb share indicator
+		Util::addStyle(Application::APP_ID, 'additionalScripts');
 		Util::addScript(Application::APP_ID, 'additionalScripts', 'files');
 		Util::addStyle(Application::APP_ID, 'icons');
 
 		$shareManager = Server::get(IManager::class);
 		if ($shareManager->shareApiEnabled()) {
+			Util::addStyle(Application::APP_ID, 'init');
 			Util::addInitScript(Application::APP_ID, 'init');
 		}
 	}

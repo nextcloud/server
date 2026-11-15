@@ -3,25 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
-
-// The component builds a real Vuex store via useStore(); mock it so this stays
-// a focused component test that controls its own data.
-vi.mock('../store/index.js', () => ({
-	useStore: () => ({
-		getters: {
-			getServerData: { isAdmin: false, isDelegatedAdmin: false },
-			getSortedGroups: [],
-			getSubAdminGroups: [],
-			getSearchQuery: '',
-		},
-		commit: vi.fn(),
-		dispatch: vi.fn(),
-	}),
-}))
 
 vi.mock('vue-router/composables', async (importActual) => ({
 	...(await importActual<object>()),
@@ -42,7 +28,14 @@ import AppNavigationGroupList from './AppNavigationGroupList.vue'
 
 describe('AppNavigationGroupList', () => {
 	it('does not expose the group list as a heading (BITV 9.1.3.1a)', () => {
-		const wrapper = mount(AppNavigationGroupList)
+		// A testing pinia stubs the store actions, so this stays a focused
+		// component test that controls its own data.
+		const wrapper = mount(AppNavigationGroupList, {
+			pinia: createTestingPinia({
+				createSpy: vi.fn,
+				initialState: { 'settings-users': { serverData: { isAdmin: false, isDelegatedAdmin: false } } },
+			}),
+		})
 
 		// The sidebar group list is navigation, not document structure. It must
 		// not emit a heading, which would sit before the page <h1> in the DOM

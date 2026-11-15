@@ -53,6 +53,20 @@ class CachedSubscriptionImplTest extends TestCase {
 		$this->assertEquals($this->cachedSubscriptionImpl->getDisplayColor(), '#AABBCC');
 	}
 
+	public function testGetDisplayPropertiesWhenMissing(): void {
+		$calendarInfo = $this->cachedSubscriptionInfo;
+		unset($calendarInfo['{DAV:}displayname']);
+		unset($calendarInfo['{http://apple.com/ns/ical/}calendar-color']);
+		$cachedSubscriptionImpl = new CachedSubscriptionImpl(
+			$this->cachedSubscription,
+			$calendarInfo,
+			$this->backend
+		);
+
+		$this->assertNull($cachedSubscriptionImpl->getDisplayName());
+		$this->assertNull($cachedSubscriptionImpl->getDisplayColor());
+	}
+
 	public function testGetSource(): void {
 		$this->assertEquals($this->cachedSubscriptionImpl->getSource(), 'https://test.localhost/calendar1');
 	}

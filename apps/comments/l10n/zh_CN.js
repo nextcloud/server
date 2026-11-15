@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "编辑评论时出错",
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
-    "An error occurred while trying to create the comment" : "创建评论时出错",
-    "Write a comment …" : "写评论 …"
+    "An error occurred while trying to create the comment" : "创建评论时出错"
 },
 "nplurals=1; plural=0;");

@@ -73,7 +73,7 @@ class RemotePlugin implements ISearchPlugin {
 					}
 
 					$localUser = $this->userManager->get($remoteUser);
-					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
+					if ($localUser !== null && $localUser->isEnabled() && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
 						$result['wide'][] = [
 							'label' => $contact['FN'],
 							'uuid' => $contact['UID'],

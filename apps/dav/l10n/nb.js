@@ -313,10 +313,6 @@ OC.L10N.register(
     "Location:" : "Sted:",
     "Link:" : "Lenke:",
     "Occurring:" : "Forekommer:",
-    "More options at %s" : "Flere alternativer ved %s",
-    "The system address book contains contact information for all users in your instance." : "Systemadresseboken inneholder kontaktinformasjon for alle brukere i din forekomst.",
-    "Enable System Address Book" : "Aktiver systemadressebok",
-    "No results." : "Ingen resultater.",
-    "Start typing." : "Begynn å skrive."
+    "More options at %s" : "Flere alternativer ved %s"
 },
 "nplurals=2; plural=(n != 1);");

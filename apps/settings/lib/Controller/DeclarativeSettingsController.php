@@ -20,8 +20,10 @@ use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Settings\IDeclarativeManager;
 use Psr\Log\LoggerInterface;
 
@@ -35,6 +37,7 @@ class DeclarativeSettingsController extends OCSController {
 		private IUserSession $userSession,
 		private IDeclarativeManager $declarativeManager,
 		private LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -102,13 +105,20 @@ class DeclarativeSettingsController extends OCSController {
 		try {
 			$this->declarativeManager->loadSchemas();
 			$this->declarativeManager->setValue($user, $app, $formId, $fieldId, $value);
-			return new DataResponse(null);
 		} catch (NotAdminException $e) {
 			throw $e;
 		} catch (Exception $e) {
 			$this->logger->error('Failed to set declarative settings value: ' . $e->getMessage());
 			throw new OCSBadRequestException();
 		}
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Declarative setting of app "%s", form "%s", field "%s" was changed',
+			['appId' => $app, 'formId' => $formId, 'fieldId' => $fieldId],
+			false,
+			'settings.declarative_value.updated',
+		));
+		return new DataResponse(null);
 	}
 
 	/**

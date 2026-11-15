@@ -56,10 +56,14 @@ export class AppstorePage {
 	}
 
 	/**
-	 * Gets a specific app row by app name
+	 * Gets a specific app row by app name. The name is matched exactly, so
+	 * "Files" does not also match "Files sharing".
 	 */
 	appRow(appName: string): Locator {
-		return this.appsTable().locator('tr').filter({ hasText: appName }).first()
+		// The details link is named "<app name> (Show details)"
+		const escapedName = appName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+		const detailsLink = this.page.getByRole('link', { name: new RegExp(`^${escapedName} \\(`) })
+		return this.appsTable().getByRole('row').filter({ has: detailsLink })
 	}
 
 	/**

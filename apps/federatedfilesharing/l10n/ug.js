@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "يىراقتىن ئورتاقلىشىش",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{remote} @ {owner} دىن يىراقتىن ئورتاقلىشىش {name} add نى قوشماقچىمۇ؟",
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
-    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
-    "X (formerly Twitter)" : "X (ئىلگىرىكى Twitter)",
-    "formerly Twitter" : "ئىلگىرى Twitter"
+    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ"
 },
 "nplurals=2; plural=(n != 1);");

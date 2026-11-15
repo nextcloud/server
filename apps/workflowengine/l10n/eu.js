@@ -60,6 +60,8 @@ OC.L10N.register(
     "e.g. httpd/unix-directory" : "adib. httpd/unix-direktorioa",
     "Select a file type" : "Hautatu fitxategi mota bat",
     "Tag" : "Etiketa",
+    "Start time" : "Hasiera ordua",
+    "End time" : "Bukaera ordua",
     "Please enter a valid time span" : "Sartu baliozko denbora tarte bat",
     "Timezone" : "Ordu-zona",
     "Files WebDAV" : "WebDAV fitxategiak",

@@ -253,6 +253,38 @@ abstract class AUserDataOCSController extends OCSController {
 	}
 
 	/**
+	 * Collect users matching the filters from a paginated source, skipping missing ones.
+	 *
+	 * Whole source pages are consumed, as sources with multiple backends apply $limit and
+	 * $offset per backend. So more than $limit users may be returned, and fewer if no full
+	 * page was found within 10 source pages.
+	 *
+	 * @param \Closure(?int, int): array<?IUser> $search Returns the source page for a limit and offset
+	 * @param bool $enabled Only collect users with this enabled state
+	 * @return array{list<IUser>, int, bool} The matching users, the source offset of the next page,
+	 *                                       and whether the source may have more users
+	 */
+	protected function searchFilteredUsers(\Closure $search, ?int $limit, int $offset, bool $enabled): array {
+		$users = [];
+		$rounds = 0;
+		while (true) {
+			$page = $search($limit, $offset);
+			foreach ($page as $user) {
+				if ($user !== null && $user->isEnabled() === $enabled) {
+					$users[] = $user;
+				}
+			}
+			if ($limit === null || $limit <= 0 || count($page) === 0) {
+				return [$users, $offset, false];
+			}
+			$offset += $limit;
+			if (count($users) >= $limit || ++$rounds >= 10) {
+				return [$users, $offset, true];
+			}
+		}
+	}
+
+	/**
 	 * A full group has id, name, usercount, disabled, canAdd and canRemove. Only
 	 * the displayname is cached; usercount/disabled are not cached. So this only
 	 * returns an {id, displayname} skeleton instead of the full group.

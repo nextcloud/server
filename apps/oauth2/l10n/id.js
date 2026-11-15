@@ -17,9 +17,6 @@ OC.L10N.register(
     "Delete client" : "Hapus klien",
     "Make sure you store the secret key, it cannot be recovered." : "Pastikan Anda menyimpan kunci rahasia, karena tidak dapat dipulihkan.",
     "Add client" : "Tambahkan klien",
-    "Add" : "Tambah",
-    "Client Identifier" : "Pengenal Klien",
-    "Show client secret" : "Tampilkan rahasia klien",
-    "Hide client secret" : "Sembunyikan rahasia klien"
+    "Add" : "Tambah"
 },
 "nplurals=1; plural=0;");

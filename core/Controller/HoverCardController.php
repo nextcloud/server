@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use NCU\AppFramework\Http\Attribute\TokenScope;
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\ResponseDefinitions;
+use OC\Core\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -22,6 +24,7 @@ use OCP\Share\IShare;
 /**
  * @psalm-import-type CoreContactsAction from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::PEOPLE_READ)]
 class HoverCardController extends OCSController {
 	public function __construct(
 		IRequest $request,

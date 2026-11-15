@@ -104,10 +104,7 @@
     "Failed to load tags for file" : "Imeshindwa kupakia lebo za faili",
     "Failed to set tag for file" : "Imeshindwa kuweka lebo ya faili",
     "Failed to delete tag for file" : "Imeshindwa kufuta lebo ya faili",
-    "Collaborative tags …" : "Lebo za ushirikiano …",
-    "Loading …" : "Inapakia",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from 1 file.","{tag1} itawekwa na {tag2} itaondolewa kwenye faili za {count}."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} itaondolewa kwenye faili {count}."],
-    "Loading collaborative tags …" : "Inapakia lebo za kushirikiana..."
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} itaondolewa kwenye faili {count}."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

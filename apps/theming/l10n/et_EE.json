@@ -129,21 +129,6 @@
     "Misc accessibility options" : "Varia hõlpsuse seadistused",
     "Enable blur background filter (may increase GPU load)" : "Kasuta tausta hägustamise filtrit (suurendab graafikaprotsessori koormust)",
     "Customization has been disabled by your administrator" : "Kujunduse kohendamine pole peakasutaja poolt lubatud",
-    "Disable-user-theming should be true or false" : "„Disable-user-theming“ väärtus saab olla kas „true“ või „false“",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Põhivärv on mõeldud lehe oluliste elementide rõhutamiseks. Vastavalt valitud üldkujundusele võib see värv ka natuke kohenduda.",
-    "Header logo" : "Päiselogo",
-    "Upload new header logo" : "Laadi üles uus päiselogo",
-    "Upload new favicon" : "Laadi üles uus saidi favikon",
-    "User settings" : "Kasutaja seadistused",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Taustapildi asemele võid sa määrata ka lihtsalt ühe värvi. Kui aga taustapilt on olemas, siis see värv mõjutab rakenduste ikoonide värve.",
-    "Upload new logo" : "Laadi üles uus logo",
-    "Upload new background and login image" : "Laadi üles uus taustapilt ja sisselogimise pilt",
-    "Background and login image" : "Taustapilt ja sisselogimise pilt",
-    "Advanced options" : "Täpsemad valikud",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda PHP Imagemagicku lsiamoodul SVG piltide toega, et üleslaaditud logo ja värvi põhjal luua automaatselt favikone. ",
-    "Unable to apply the setting." : "Seadistuse rakendamine ei õnnestu.",
-    "No background has been selected" : "Ühtegi tausta pole valitud",
-    "Select a custom color" : "Vali oma eelistatud värv",
-    "Upload" : "Laadi üles"
+    "Unable to apply the setting." : "Seadistuse rakendamine ei õnnestu."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

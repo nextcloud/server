@@ -366,10 +366,6 @@ OC.L10N.register(
     "Link:" : "链接：",
     "Occurring:" : "发生：",
     "More options at %s" : "在%s的更多选项",
-    "The system address book contains contact information for all users in your instance." : "系统通讯录包含实例中所有用户的联系人信息。",
-    "Enable System Address Book" : "启用系统通讯录",
-    "No results." : "没有结果。",
-    "Start typing." : "开始输入",
     "Delegate:" : "委派："
 },
 "nplurals=1; plural=0;");

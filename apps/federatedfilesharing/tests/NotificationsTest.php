@@ -13,11 +13,14 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\BackgroundJob\RetryJob;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Federation\ICloudFederationShare;
 use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
+use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -76,6 +79,61 @@ class NotificationsTest extends \Test\TestCase {
 			)
 			->onlyMethods($mockedMethods)
 			->getMock();
+	}
+
+	public function testSendRemoteSharePermissions(): void {
+		$permissions = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE;
+		$this->addressHandler->method('splitUserRemote')->willReturn(['recipient', 'https://remote.example']);
+		$this->addressHandler->method('generateRemoteURL')->willReturn('https://local.example');
+		$this->addressHandler->method('urlContainProtocol')->willReturn(true);
+		$share = $this->createMock(ICloudFederationShare::class);
+		$this->cloudFederationFactory->expects($this->once())
+			->method('getCloudFederationShare')
+			->with(
+				'recipient@https://remote.example',
+				'document.odt',
+				'',
+				'123',
+				'owner@local.example',
+				'Owner',
+				'owner@local.example',
+				'Owner',
+				'share-secret',
+				IShare::TYPE_REMOTE,
+				'file',
+				$permissions,
+			)
+			->willReturn($share);
+		$this->cloudFederationProviderManager->expects($this->once())
+			->method('sendShare')->with($share)->willReturn([]);
+		$this->httpClientService->expects($this->never())->method('newClient');
+
+		$this->assertTrue($this->getInstance()->sendRemoteShare(
+			'share-secret', 'recipient@remote.example', 'document.odt', '123',
+			'Owner', 'owner@local.example', 'Owner', 'owner@local.example',
+			IShare::TYPE_REMOTE, $permissions,
+		));
+	}
+
+	public static function legacyPermissionsProvider(): array {
+		return [
+			'new share' => ['share', ['token' => 'share-secret']],
+			'permission update' => ['permissions', ['token' => 'share-secret', 'permissions' => Constants::PERMISSION_READ]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('legacyPermissionsProvider')]
+	public function testLegacyPermissions(string $action, array $expectedFields): void {
+		$this->addressHandler->method('urlContainProtocol')->willReturn(true);
+		$fields = ['token' => 'share-secret', 'permissions' => Constants::PERMISSION_READ];
+		$result = ['success' => true, 'result' => ''];
+		$instance = $this->getInstance(['tryOCMEndPoint', 'tryLegacyEndPoint']);
+		$instance->expects($this->once())->method('tryOCMEndPoint')
+			->with('https://remote.example', $fields, $action)->willReturn(false);
+		$instance->expects($this->once())->method('tryLegacyEndPoint')
+			->with('https://remote.example', '', $expectedFields)->willReturn($result);
+
+		$this->assertSame($result, $this->invokePrivate($instance, 'tryHttpPostToShareEndpoint', ['https://remote.example', '', $fields, $action]));
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSendUpdateToRemote')]

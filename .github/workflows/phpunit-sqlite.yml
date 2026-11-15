@@ -40,7 +40,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -53,18 +53,18 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enable HEIC support in ImageMagick
+      - name: Enable HEIC and PostScript support in ImageMagick
         run: |
-          # The HEIC preview tests need ImageMagick to actually decode HEIC files.
-          # GitHub-hosted runners register the HEIC coder (so the tests are not
-          # skipped) but decoding fails because the libheif delegate is missing
+          # The HEIC and PostScript preview tests need ImageMagick to actually decode
+          # these files. GitHub-hosted runners register the coders (so the tests are
+          # not skipped) but decoding fails because the libheif delegate is missing
           # and/or the coder is blocked by ImageMagick's security policy. Install
-          # the delegate and allow the HEIC/HEIF/AVIF coders so decoding succeeds.
+          # the delegate and allow the coders so decoding succeeds.
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libheif1 libheif-dev
           for policy in /etc/ImageMagick-{6,7}/policy.xml; do
             if [ -f "$policy" ]; then
-              sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF)"/rights="read|write" pattern="\1"/g' "$policy"
+              sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF|PS|EPS)"/rights="read|write" pattern="\1"/g' "$policy"
             fi
           done
 
@@ -111,6 +111,4 @@ jobs:
       - name: Print logs
         if: always()
         run: |
-          gs --version
-          cat /etc/ImageMagick-6/policy.xml
           cat data/nextcloud.log

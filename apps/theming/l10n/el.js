@@ -106,21 +106,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Διάφορες επιλογές προσβασιμότητας",
     "Enable blur background filter (may increase GPU load)" : "Ενεργοποίηση φίλτρου θολής εμφάνισης παρασκηνίου (ενδέχεται να αυξήσει το φορτίο της GPU)",
     "Customization has been disabled by your administrator" : "Η προσαρμογή έχει απενεργοποιηθεί από τον διαχειριστή σας",
-    "Disable-user-theming should be true or false" : "Η επιλογή Disable-user-theming πρέπει να είναι true ή false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Το κύριο χρώμα χρησιμοποιείται για την επισήμανση στοιχείων όπως σημαντικά κουμπιά. Μπορεί να προσαρμοστεί ελαφρώς ανάλογα με το τρέχον σχήμα χρωμάτων.",
-    "Header logo" : "Λογότυπο επικεφαλίδας",
-    "Upload new header logo" : "Μεταφόρτωση νέου λογοτύπου επικεφαλίδας",
-    "Upload new favicon" : "Μεταφόρτωση νέου favicon",
-    "User settings" : "Ρυθμίσεις χρήστη",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Αντί για εικόνα φόντου, μπορείτε επίσης να ρυθμίσετε ένα απλό χρώμα φόντου. Εάν χρησιμοποιείτε εικόνα φόντου, η αλλαγή αυτού του χρώματος θα επηρεάσει το χρώμα των εικονιδίων του μενού εφαρμογών.",
-    "Upload new logo" : "Μεταφόρτωση νέου λογοτύπου",
-    "Upload new background and login image" : "Μεταφόρτωση νέου παρασκηνίου και εικόνας εισόδου",
-    "Background and login image" : "Παρασκήνιο και εικόνα εισόδου",
-    "Advanced options" : "Επιλογές για προχωρημένους",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση ImageMagick για PHP με υποστήριξη για εικόνες SVG για να δημιουργούνται αυτόματα favicons βασισμένα στο λογότυπο και το χρώμα που ανεβάζετε.",
-    "Unable to apply the setting." : "Αδυναμία εφαρμογής της ρύθμισης.",
-    "No background has been selected" : "Δεν έχει επιλεγεί παρασκήνιο",
-    "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
-    "Upload" : "Μεταφόρτωση"
+    "Unable to apply the setting." : "Αδυναμία εφαρμογής της ρύθμισης."
 },
 "nplurals=2; plural=(n != 1);");

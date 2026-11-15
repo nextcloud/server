@@ -65,6 +65,8 @@ class Throttler implements IThrottler {
 				new CriticalActionPerformedEvent(
 					'Bruteforce attempt from "{ip}" detected for action "{action}" not throttled due to allow-list.',
 					['ip' => $ip, 'action' => $action],
+					false,
+					'auth.bruteforce.bypassed',
 				)
 			);
 			return;

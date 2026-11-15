@@ -101,21 +101,6 @@ OC.L10N.register(
     "Appearance and accessibility settings" : "Configuración de apariencia y accesibilidad",
     "Misc accessibility options" : "Opciones de accesibilidad misceláneas",
     "Enable blur background filter (may increase GPU load)" : "Habilitar el filtro de desenfoque de fondo (puede incrementar la carga de la GPU)",
-    "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por su administrador",
-    "Disable-user-theming should be true or false" : "Deshabilitar-temas-de-usuario debe ser verdadero o falso",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "El color primario es usado para destacar elementos como botones importantes. Podría ajustarse ligeramente dependiendo del esquema de color actual.",
-    "Header logo" : "Logo del encabezado",
-    "Upload new header logo" : "Cargar un nuevo logotipo del encabezado",
-    "Upload new favicon" : "Cargar un nuevo favicon",
-    "User settings" : "Configuración de usuario",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "En vez de una imagen de fondo, también puede configurar un fondo de color plano. Si usa una imagen de fondo, cambiar este color influirá en el color de los íconos del menú de aplicaciones.",
-    "Upload new logo" : "Cargar nuevo logotipo",
-    "Upload new background and login image" : "Cargar nueva imagen de fondo e inicio de sesión",
-    "Background and login image" : "Imagen de fondo e inicio de sesión",
-    "Advanced options" : "Opciones avanzadas",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale la extensión PHP ImageMagick con soporte para imágenes SVG para generar automáticamente favicons basados en el logo cargado y el color.",
-    "No background has been selected" : "No se ha seleccionado un fondo",
-    "Select a custom color" : "Seleccionar un color personalizado",
-    "Upload" : "Cargar"
+    "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por su administrador"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

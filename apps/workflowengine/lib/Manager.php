@@ -33,6 +33,7 @@ use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\WorkflowEngine\Events\RegisterChecksEvent;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\Events\RegisterOperationsEvent;
@@ -487,6 +488,8 @@ class Manager implements IManager {
 			throw $e;
 		}
 
+		$this->dispatchRuleAuditEvent('created', $id, $class, $entity, $scope);
+
 		return $this->getOperation($id);
 	}
 
@@ -567,6 +570,8 @@ class Manager implements IManager {
 		unset($this->operations[$scopeContext->getHash()]);
 		$this->cacheFactory->createDistributed('flow')->remove('events');
 
+		$this->dispatchRuleAuditEvent('updated', $id, (string)$row['class'], $entity, $scopeContext);
+
 		return $this->getOperation($id);
 	}
 
@@ -579,6 +584,7 @@ class Manager implements IManager {
 		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
+		$row = $this->getOperation($id);
 		$query = $this->connection->getQueryBuilder();
 		try {
 			$this->connection->beginTransaction();
@@ -603,7 +609,35 @@ class Manager implements IManager {
 
 		$this->cacheFactory->createDistributed('flow')->remove('events');
 
+		if ($result) {
+			$this->dispatchRuleAuditEvent('deleted', $id, (string)$row['class'], (string)$row['entity'], $scopeContext);
+		}
+
 		return $result;
+	}
+
+	/**
+	 * @param 'created'|'updated'|'deleted' $action
+	 */
+	private function dispatchRuleAuditEvent(string $action, int $id, string $class, string $entity, ScopeContext $scope): void {
+		$message = 'Flow rule "%s" with operation "%s" on entity "%s" was ' . $action . ' in the %s scope';
+		$params = [
+			'ruleId' => $id,
+			'operationClass' => $class,
+			'entity' => $entity,
+			'scopeType' => $scope->getScope() === IManager::SCOPE_USER ? 'user' : 'admin',
+		];
+		if ($scope->getScope() === IManager::SCOPE_USER) {
+			$message .= ' of user "%s"';
+			$params['scopeId'] = $scope->getScopeId();
+		}
+
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			$message,
+			$params,
+			false,
+			'workflowengine.rule.' . $action,
+		));
 	}
 
 	/**

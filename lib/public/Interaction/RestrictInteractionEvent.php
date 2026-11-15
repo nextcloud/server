@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Interaction;
 
-use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -22,13 +22,13 @@ use RuntimeException;
  * This event can be emitted to check if a user is allowed to perform an action, such that the receivers would become aware of the resources.
  * If the resources have a distinction between an owner and a initiator, the event must be emitted for each separately.
  * Emitters may omit one or multiple properties, if they are not known.
- * Emitters must call {@see isInteractionRestricted} instead of dispatching the event manually, to ensure exception handling and audit logging is done correctly.
+ * Emitters must call {@see RestrictInteractionEvent::isInteractionRestricted()} instead of dispatching the event manually, to ensure exception handling and audit logging is done correctly.
  * Listeners may ignore any of the properties and only check the ones that are relevant to them.
  * Listeners must throw an {@see InteractionRestrictedException}, if they want to restrict the interaction.
  *
  * @since 34.0.2
  */
-#[Consumable(since: '34.0.2')]
+#[Listenable(since: '34.0.2')]
 final class RestrictInteractionEvent extends Event {
 	/**
 	 * @since 34.0.2
@@ -69,10 +69,10 @@ final class RestrictInteractionEvent extends Event {
 		$eventDispatcher = Server::get(IEventDispatcher::class);
 
 		$params = [
-			$this->action instanceof InteractionAction ? $this->action::class : '?',
-			$this->userId,
-			$this->resources === [] ? '?' : implode(', ', array_map(static fn (InteractionResource $resource): string => $resource->getID(), $this->resources)),
-			$this->receivers === [] ? '?' : implode(', ', array_map(static fn (InteractionReceiver $receiver): string => $receiver->getID() ?? $receiver::class, $this->receivers)),
+			'action' => $this->action instanceof InteractionAction ? $this->action::class : '?',
+			'userId' => $this->userId,
+			'resources' => $this->resources === [] ? '?' : implode(', ', array_map(static fn (InteractionResource $resource): string => $resource->getID(), $this->resources)),
+			'receivers' => $this->receivers === [] ? '?' : implode(', ', array_map(static fn (InteractionReceiver $receiver): string => $receiver->getID() ?? $receiver::class, $this->receivers)),
 		];
 
 		try {
@@ -81,6 +81,8 @@ final class RestrictInteractionEvent extends Event {
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 				'Interaction %s from user %s on %s to %s is allowed.',
 				$params,
+				false,
+				'users.interaction.allowed',
 			));
 
 			return false;
@@ -88,6 +90,8 @@ final class RestrictInteractionEvent extends Event {
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 				'Interaction %s from user %s on %s to %s is restricted: ' . $interactionRestrictedException->getMessage(),
 				$params,
+				false,
+				'users.interaction.restricted',
 			));
 
 			return $interactionRestrictedException->getHint();

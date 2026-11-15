@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "Počas vybavovania požiadavky nastala chyba.  Nie je možné pokračovať.",
     "Could not update an exApp. Please try again later." : "Aplikáciu ExApp sa nepodarilo aktualizovať. Skúste to znova neskôr.",
     "Could not update {app}. Please try again later." : "Aplikáciu {app} sa nepodarilo aktualizovať. Skúste to znova neskôr.",
-    "Could not update an app. Please try again later." : "Aplikáciu sa nepodarilo aktualizovať. Skúste to znova neskôr.",
-    "Failed to update app {appName}" : "Nepodarilo sa aktualizovať aplikáciu {appName}"
+    "Could not update an app. Please try again later." : "Aplikáciu sa nepodarilo aktualizovať. Skúste to znova neskôr."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

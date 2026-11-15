@@ -106,21 +106,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Opciones de accesibilidad misceláneas",
     "Enable blur background filter (may increase GPU load)" : "Activar el desenfoque del fondo (puede aumentar el uso de GPU)",
     "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por su administrador",
-    "Disable-user-theming should be true or false" : "Deshabilitar-tematización-de-usuario debe ser verdadero o falso",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "El color primario se utiliza para destacar elementos, como botones importantes. Podría ajustarse ligeramente en función del esquema de colores actual.",
-    "Header logo" : "Logo del encabezado",
-    "Upload new header logo" : "Subir nuevo logo del encabezado",
-    "Upload new favicon" : "Subir nuevo favicon",
-    "User settings" : "Ajustes de usuario",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "En lugar de una imagen de fondo, también puedes configurar un color de fondo. Si utilizas una imagen de fondo, cambiar este color cambiará el color de los iconos del menú de aplicaciones.",
-    "Upload new logo" : "Subir nuevo logo",
-    "Upload new background and login image" : "Cargar una nueva imagen de fondo y de inicio de sesión",
-    "Background and login image" : "Imágen de fondo y de inicio de sesión",
-    "Advanced options" : "Opciones avanzadas",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale la extensión PHP ImageMagick con soporte a imágenes SVG para generar automáticamente favicons basados en el logo cargado y el color.",
-    "Unable to apply the setting." : "No fue posible aplicar el ajuste.",
-    "No background has been selected" : "No se ha seleccionado un fondo",
-    "Select a custom color" : "Seleccionar un color personalizado",
-    "Upload" : "Subir"
+    "Unable to apply the setting." : "No fue posible aplicar el ajuste."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

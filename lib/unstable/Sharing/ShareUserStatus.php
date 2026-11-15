@@ -28,4 +28,27 @@ enum ShareUserStatus: string {
 	 * @experimental 35.0.0
 	 */
 	case Rejected = 'rejected';
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function encode(): int {
+		return match ($this) {
+			self::Pending => 1,
+			self::Accepted => 2,
+			self::Rejected => 3,
+		};
+	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public static function decode(int $value): self {
+		return match ($value) {
+			1 => self::Pending,
+			2 => self::Accepted,
+			3 => self::Rejected,
+			default => throw new \ValueError('Invalid user share status ' . $value)
+		};
+	}
 }

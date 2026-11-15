@@ -324,10 +324,6 @@
     "Link:" : "Посилання:",
     "Occurring:" : "Відбувається:",
     "More options at %s" : "Більше варіантів на %s",
-    "The system address book contains contact information for all users in your instance." : "Системна адресна книга містить контактну інформацію для всіх користувачів вашого примірника хмари.",
-    "Enable System Address Book" : "Увімкнути системну адресну книгу",
-    "No results." : "Відсутні результати.",
-    "Start typing." : "Почніть вводити.",
     "Delegate:" : "Делегувати:"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

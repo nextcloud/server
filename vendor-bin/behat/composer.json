@@ -6,7 +6,8 @@
 		"sort-packages": true
 	},
 	"require-dev": {
-		"behat/behat": "^3.33",
+		"behat/behat": "^4.0",
+		"behat/phpunit-assertions-extension": "^1.0",
 		"phpunit/phpunit": "^11.5"
 	}
 }

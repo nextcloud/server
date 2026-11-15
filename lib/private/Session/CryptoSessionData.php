@@ -171,7 +171,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Wrapper around session_regenerate_id
 	 *
 	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
-	 * @param bool $updateToken Wheater to update the associated auth token
+	 * @param bool $updateToken Whether to update the associated auth token
 	 * @return void
 	 */
 	#[\Override]

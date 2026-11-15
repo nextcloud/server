@@ -26,8 +26,6 @@ OC.L10N.register(
     "This weekend" : "Овој викенд",
     "Set reminder for this weekend" : "Постави потсетник за овој викенд",
     "Next week" : "Следна недела",
-    "Set reminder for next week" : "Постави потсетник за наредната недела",
-    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\"",
-    "We will remind you of this file" : "Ќе ве потсетиме за оваа датотека"
+    "Set reminder for next week" : "Постави потсетник за наредната недела"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

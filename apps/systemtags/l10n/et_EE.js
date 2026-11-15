@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Faili silte ei õnnestunud laadida",
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
     "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
-    "Collaborative tags …" : "Ühistegevuslikud sildid…",
-    "Loading …" : "Laadin...",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["„{tag1}“ silt lisatakse 1-le failile ja „{tag2}“ silt eemaldatakse sealt.","„{tag1}“ silt lisatakse {count}-le failile ja „{tag2}“ silt eemaldatakse sealt."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["„{tag}“ silt saab olema eemaldatud 1-lt faililt.","„{tag}“ silt saab olema eemaldatud {count}-lt faililt."],
-    "Loading collaborative tags …" : "Laadin ühistegevuslikke silte…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["„{tag}“ silt saab olema eemaldatud 1-lt faililt.","„{tag}“ silt saab olema eemaldatud {count}-lt faililt."]
 },
 "nplurals=2; plural=(n != 1);");

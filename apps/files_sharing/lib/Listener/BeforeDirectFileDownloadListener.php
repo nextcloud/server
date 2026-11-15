@@ -14,6 +14,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 
 /**
@@ -24,6 +25,7 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 	public function __construct(
 		private IUserSession $userSession,
 		private IRootFolder $rootFolder,
+		private ViewOnly $viewOnly,
 	) {
 	}
 
@@ -33,17 +35,22 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 			return;
 		}
 
-		$pathsToCheck = [$event->getPath()];
-		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
-		if ($user) {
-			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder->getUserFolder($user->getUID())
-			);
-			if (!$viewOnlyHandler->check($pathsToCheck)) {
-				$event->setSuccessful(false);
-				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
-			}
+		// Check only for user/group shares. Don't restrict e.g. share links
+		if (!$user) {
+			return;
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		try {
+			$node = $userFolder->get($event->getPath());
+		} catch (NotFoundException) {
+			return;
+		}
+
+		if (!$this->viewOnly->isDownloadable($node)) {
+			$event->setSuccessful(false);
+			$event->setErrorMessage('Access to this resource has been denied.');
 		}
 	}
 }

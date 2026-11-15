@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "댓글을 편집하는 중 오류 발생",
     "Comment deleted" : "댓글이 삭제됨",
     "An error occurred while trying to delete the comment" : "댓글을 삭제하는 중 오류 발생",
-    "An error occurred while trying to create the comment" : "댓글을 작성하는 중 오류 발생",
-    "Write a comment …" : "댓글 쓰기 ..."
+    "An error occurred while trying to create the comment" : "댓글을 작성하는 중 오류 발생"
 },
 "nplurals=1; plural=0;");

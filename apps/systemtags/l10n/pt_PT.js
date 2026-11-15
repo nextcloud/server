@@ -96,9 +96,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Uma etiqueta com o mesmo nome já existe",
     "Failed to load tags for file" : "Falha ao carregar as etiquetas para o ficheiro",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
-    "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "Collaborative tags …" : "Etiquetas colaborativas…",
-    "Loading …" : "Carregando …",
-    "Loading collaborative tags …" : "Carregando etiquetas colaborativas…"
+    "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -34,6 +34,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
@@ -252,6 +253,21 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'A federated share of the %s "%s" with provider ID "%s" owned by "%s" was shared by "%s" with the %s "%s"',
+			[
+				'resourceType' => $resourceType,
+				'name' => $name,
+				'providerId' => $providerId,
+				'owner' => $owner,
+				'sharedBy' => $sharedBy,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+			],
+			false,
+			'cloud_federation_api.share.received',
+		));
+
 		$responseData = ['recipientDisplayName' => ''];
 		if ($shareType === 'user') {
 			$user = $this->userManager->get($shareWith);
@@ -356,6 +372,17 @@ class RequestHandlerController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		}
+
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'A federated %s notification was received for the %s share with provider ID "%s"',
+			[
+				'notificationType' => $notificationType,
+				'resourceType' => $resourceType,
+				'providerId' => $providerId,
+			],
+			false,
+			'cloud_federation_api.notification.received',
+		));
 
 		try {
 			$notificationObject = $this->factory->getCloudFederationNotification();

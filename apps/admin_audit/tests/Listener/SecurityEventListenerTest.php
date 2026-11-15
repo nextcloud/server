@@ -14,6 +14,8 @@ use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -46,7 +48,7 @@ class SecurityEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				$this->equalTo('Failed two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit', 'operation' => 'auth.twofactor.failed']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.failed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
 		$this->listener->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
@@ -57,7 +59,7 @@ class SecurityEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				$this->equalTo('Successful two factor attempt by user mydisplayname (myuid) with provider myprovider'),
-				['app' => 'admin_audit', 'operation' => 'auth.twofactor.passed']
+				['app' => 'admin_audit', 'operation' => 'auth.twofactor.passed', 'params' => ['displayName' => 'mydisplayname', 'uid' => 'myuid', 'provider' => 'myprovider']]
 			);
 
 		$this->listener->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
@@ -68,5 +70,31 @@ class SecurityEventListenerTest extends TestCase {
 			->method($this->anything());
 
 		$this->listener->handle(new Event());
+	}
+
+	public function testTwoFactorProviderForUserRegistered(): void {
+		$this->provider->method('getId')->willReturn('totp');
+
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Two-factor provider totp was enabled for user myuid',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'auth.twofactor_provider.enabled'),
+			);
+
+		$this->listener->handle(new TwoFactorProviderForUserRegistered($this->user, $this->provider));
+	}
+
+	public function testTwoFactorProviderForUserUnregistered(): void {
+		$this->provider->method('getId')->willReturn('totp');
+
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Two-factor provider totp was disabled for user myuid',
+				$this->callback(fn (array $context): bool => $context['app'] === 'admin_audit' && $context['operation'] === 'auth.twofactor_provider.disabled'),
+			);
+
+		$this->listener->handle(new TwoFactorProviderForUserUnregistered($this->user, $this->provider));
 	}
 }

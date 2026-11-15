@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "Апп дэлгүүр",
     "Apps" : "Аппликэйшинууд",
     "App name" : "апп нэр",
     "Version" : "—Ç”©—Ä”©–ª",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Please use the AIO interface to switch between office suites." : "Оффисын багцуудыг сэлгэхийн тулд AIO интерфэйсийг ашиглана уу.",
     "Disable office suites" : "Оффисын багцуудыг идэвхгүй болгох",
     "installed" : "суулгасан",
+    "Features" : "Онцлогууд",
     "Learn more" : "–ò–ª“Ø“Ø –∏—Ö —Å—É–¥–∞–ª–≥–∞–∞",
     "Daemon" : "Daemon",
     "Deploy Daemon" : "Deploy Daemon",

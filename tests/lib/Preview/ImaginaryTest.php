@@ -38,34 +38,46 @@ class ImaginaryTest extends TestCase {
 		parent::tearDown();
 	}
 
-	private function getJpeg(?int $orientation): string {
-		$image = imagecreatetruecolor(40, 30);
-		ob_start();
-		imagejpeg($image);
-		$jpeg = ob_get_clean();
-		if ($orientation === null) {
-			return $jpeg;
+	private function getJpeg(?int $orientation, bool $large = false): string {
+		$image = imagecreatetruecolor($large ? 600 : 40, $large ? 600 : 30);
+		if ($large) {
+			// Noise does not compress, the image data gets larger than the part read for the orientation
+			for ($x = 0; $x < 600; $x++) {
+				for ($y = 0; $y < 600; $y++) {
+					imagesetpixel($image, $x, $y, mt_rand(0, 0xffffff));
+				}
+			}
 		}
+		ob_start();
+		imagejpeg($image, null, 100);
+		$jpeg = ob_get_clean();
 
-		// EXIF segment with only the orientation
-		$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0);
-		$app1 = "\xFF\xE1" . pack('n', 2 + 6 + strlen($tiff)) . "Exif\0\0" . $tiff;
-		return substr($jpeg, 0, 2) . $app1 . substr($jpeg, 2);
+		$segments = '';
+		if ($orientation !== null) {
+			// EXIF segment with only the orientation
+			$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0);
+			$segments .= "\xFF\xE1" . pack('n', 2 + 6 + strlen($tiff)) . "Exif\0\0" . $tiff;
+		}
+		return substr($jpeg, 0, 2) . $segments . substr($jpeg, 2);
 	}
 
-	#[TestWith([null, false])]
-	#[TestWith([1, false])]
-	#[TestWith([6, true])]
-	public function testAutorotateOnlyWhenNeeded(?int $orientation, bool $expectAutorotate): void {
-		$jpeg = $this->getJpeg($orientation);
-		$stream = fopen('php://memory', 'r+');
-		fwrite($stream, $jpeg);
-		rewind($stream);
+	#[TestWith([null, false, false])]
+	#[TestWith([1, false, false])]
+	#[TestWith([6, true, false])]
+	#[TestWith([null, false, true])]
+	#[TestWith([6, true, true])]
+	public function testAutorotateOnlyWhenNeeded(?int $orientation, bool $expectAutorotate, bool $large): void {
+		$jpeg = $this->getJpeg($orientation, $large);
 
 		$file = $this->createMock(File::class);
 		$file->method('getSize')->willReturn(strlen($jpeg));
 		$file->method('getMimeType')->willReturn('image/jpeg');
-		$file->method('fopen')->willReturn($stream);
+		$file->method('fopen')->willReturnCallback(function () use ($jpeg) {
+			$stream = fopen('php://memory', 'r+');
+			fwrite($stream, $jpeg);
+			rewind($stream);
+			return $stream;
+		});
 
 		$response = $this->createMock(IResponse::class);
 		$response->method('getStatusCode')->willReturn(200);
@@ -81,9 +93,9 @@ class ImaginaryTest extends TestCase {
 				$operations = array_column(json_decode($options['query']['operations'], true), 'operation');
 				$this->assertSame($expectAutorotate ? ['autorotate', 'fit'] : ['fit'], $operations);
 
-				// The whole file is sent, including the head read for the orientation
+				// Read from the start, like the HTTP client does
 				$body = $options['body'];
-				$this->assertSame($jpeg, $body instanceof StreamInterface ? $body->getContents() : stream_get_contents($body));
+				$this->assertSame($jpeg, $body instanceof StreamInterface ? (string)$body : stream_get_contents($body, -1, 0));
 				return $response;
 			});
 

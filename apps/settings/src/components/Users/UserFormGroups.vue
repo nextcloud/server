@@ -50,11 +50,11 @@ import { computed, inject, ref } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../logger.ts'
 import { searchGroups as searchGroupsApi } from '../../service/groups.ts'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 import { isSelectableGroup } from './userFormUtils.ts'
 
-const store = useStore()
+const usersStore = useUsersStore()
 
 const formData = inject(formDataKey)!
 
@@ -62,12 +62,12 @@ const creatingGroup = ref(false)
 // Kept so a new search can cancel the in-flight one.
 let promise: ReturnType<typeof searchGroupsApi> | null = null
 
-const settings = computed(() => store.getters.getServerData)
+const settings = computed(() => usersStore.serverData)
 
 const availableGroups = computed(() => {
 	const groups = (settings.value.isAdmin || settings.value.isDelegatedAdmin)
-		? store.getters.getSortedGroups
-		: store.getters.getSubAdminGroups
+		? usersStore.sortedGroups
+		: usersStore.subAdminGroups
 
 	return groups.filter(isSelectableGroup)
 })
@@ -96,7 +96,7 @@ async function searchGroups(query: string, toggleLoading: (loading: boolean) => 
 		promise = searchGroupsApi({ search: query, offset: 0, limit: 25 })
 		const groups = await promise
 		for (const group of groups) {
-			store.commit('addGroup', group)
+			usersStore.addGroup(group)
 		}
 	} catch (error) {
 		logger.error(t('settings', 'Failed to search groups'), { error })
@@ -114,7 +114,7 @@ async function searchGroups(query: string, toggleLoading: (loading: boolean) => 
 async function createGroup({ name: gid }: { name: string }) {
 	creatingGroup.value = true
 	try {
-		await store.dispatch('addGroup', gid)
+		await usersStore.createGroup(gid)
 		// A freshly tagged group has no member counts yet; the form only reads id/name.
 		formData.groups.push({ id: gid, name: gid } as IGroup)
 	} catch (error) {

@@ -132,15 +132,15 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppNavigationGroupList from '../components/AppNavigationGroupList.vue'
 import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 import { useFormatGroups } from '../composables/useGroupsNavigation.js'
-import { useStore } from '../store/index.js'
+import { useUsersStore } from '../store/users.ts'
 
 const route = useRoute()
-const store = useStore()
+const usersStore = useUsersStore()
 
 const searchField = ref<InstanceType<typeof NcAppNavigationSearch>>()
 const searchInput = ref('')
 const commitSearch = debounce((query: string) => {
-	store.commit('setSearchQuery', query)
+	usersStore.searchQuery = query
 }, 300)
 watch(searchInput, (value) => commitSearch(value))
 
@@ -150,7 +150,7 @@ onBeforeUnmount(() => commitSearch.clear())
 function clearSearch() {
 	searchInput.value = ''
 	commitSearch.clear()
-	store.commit('setSearchQuery', '')
+	usersStore.searchQuery = ''
 }
 
 // Intercept Ctrl/Cmd+F to focus the local search. useHotKey ignores the
@@ -167,13 +167,13 @@ const selectedGroup = computed(() => route.params?.selectedGroup)
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
 
 /** Overall user count */
-const userCount = computed(() => store.getters.getUserCount)
+const userCount = computed(() => usersStore.userCount)
 /** All available groups */
-const groups = computed(() => store.getters.getSortedGroups)
+const groups = computed(() => usersStore.sortedGroups)
 const { adminGroup, recentGroup, disabledGroup } = useFormatGroups(groups)
 
 /** Server settings for current user */
-const settings = computed(() => store.getters.getServerData)
+const settings = computed(() => usersStore.serverData)
 /** True if the current user is a (delegated) admin */
 const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || settings.value.isDelegatedAdmin)
 
@@ -181,7 +181,7 @@ const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || setting
  * Open the new-user form dialog
  */
 function showNewUserMenu() {
-	store.dispatch('setShowConfig', {
+	usersStore.setShowConfig({
 		key: 'showNewUserForm',
 		value: true,
 	})

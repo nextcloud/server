@@ -30,7 +30,6 @@
     "An error occurred while trying to edit the comment" : "Tharla earráid agus an nóta tráchta á chur in eagar",
     "Comment deleted" : "Trácht scriosta",
     "An error occurred while trying to delete the comment" : "Tharla earráid agus an nóta tráchta á scriosadh",
-    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú",
-    "Write a comment …" : "Scríobh trácht…"
+    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

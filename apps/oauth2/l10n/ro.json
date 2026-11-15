@@ -1,0 +1,21 @@
+{ "translations": {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Clientul tău nu este autorizat să se conecteze. Anunță-l pe administratorul clientului.",
+    "Client name cannot be empty." : "Numele clientului nu poate fi gol.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL-ul de redirecționare trebuie să fie un URL complet, de exemplu: https://domeniultau.ro/cale",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Permite autentificarea compatibilă OAuth2 din alte aplicații web.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplicația OAuth2 le permite administratorilor să configureze fluxul de autentificare integrat astfel încât să accepte și autentificarea compatibilă OAuth2 din alte aplicații web.",
+    "Secret key" : "Cheie secretă",
+    "Delete" : "Șterge",
+    "An unknown error occurred." : "A apărut o eroare necunoscută.",
+    "OAuth 2.0 clients" : "Clienți OAuth 2.0",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 permite serviciilor externe să solicite acces la {instanceName}.",
+    "Name" : "Nume",
+    "Redirection URI" : "URI de redirecționare",
+    "Client identifier" : "Identificatorul clientului",
+    "Delete client" : "Șterge clientul",
+    "Make sure you store the secret key, it cannot be recovered." : "Asigură-te că salvezi cheia secretă, deoarece nu poate fi recuperată.",
+    "Add client" : "Adaugă un client",
+    "Add" : "Adaugă"
+},"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
+}

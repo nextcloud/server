@@ -11,12 +11,17 @@ namespace OCP\Config;
 use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
+/**
+ * Dispatched before a user preference is deleted via the preferences API; the deletion is rejected unless a listener marks it valid.
+ *
+ * @since 25.0.0
+ */
 #[Listenable(since: '25.0.0')]
 class BeforePreferenceDeletedEvent extends Event {
 	protected string $userId;
 	protected string $appId;
 	protected string $configKey;
-	protected bool $valid = false;
+	protected ?bool $valid = null;
 
 	/**
 	 * @since 25.0.0
@@ -53,7 +58,19 @@ class BeforePreferenceDeletedEvent extends Event {
 	 * @since 25.0.0
 	 */
 	public function isValid(): bool {
-		return $this->valid;
+		return $this->valid === true;
+	}
+
+	/**
+	 * Whether a listener explicitly refused the change via setValid(false)
+	 *
+	 * Admin contexts (e.g. occ) only block the change when it was rejected,
+	 * while user contexts require it to be valid.
+	 *
+	 * @since 36.0.0
+	 */
+	public function isRejected(): bool {
+		return $this->valid === false;
 	}
 
 	/**

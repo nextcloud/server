@@ -129,21 +129,6 @@
     "Misc accessibility options" : "Diverses options d'accessibilité",
     "Enable blur background filter (may increase GPU load)" : "Activer le filtre de flou de l’arrière-plan (peut augmenter la charge du GPU)",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
-    "Disable-user-theming should be true or false" : "Disable-user-theming doit être défini sur true ou false.",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "La couleur principale est utilisée pour mettre en évidence des éléments tels que les boutons importants. Elle peut être légèrement modifiée en fonction du schéma de couleurs actuel.",
-    "Header logo" : "Logo d'en-tête",
-    "Upload new header logo" : "Téléverser un nouveau logo d'en-tête",
-    "Upload new favicon" : "Téléverser un nouveau favicon",
-    "User settings" : "Paramètres personnels",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Au lieu d’une image d’arrière-plan, vous pouvez également définir une couleur d’arrière-plan unie. Si vous utilisez une image d’arrière-plan, la modification de cette couleur influencera la couleur des icônes du menu des applications.",
-    "Upload new logo" : "Téléverser un nouveau logo",
-    "Upload new background and login image" : "Téléverser une nouvelle image d'arrière-plan et de connexion",
-    "Background and login image" : "Image d'arrière-plan et de connexion",
-    "Advanced options" : "Options avancées",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP ImageMagick qui prend en charge les images SVG pour générer automatiquement des favicons à partir du logo téléversé et de la couleur indiquée.",
-    "Unable to apply the setting." : "Impossible d’appliquer le paramètre.",
-    "No background has been selected" : "Aucun arrière-plan n'a été sélectionné",
-    "Select a custom color" : "Sélectionner une couleur personnalisée",
-    "Upload" : "Téléverser"
+    "Unable to apply the setting." : "Impossible d’appliquer le paramètre."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

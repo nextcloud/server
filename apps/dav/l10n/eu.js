@@ -326,10 +326,6 @@ OC.L10N.register(
     "Location:" : "Kokapena:",
     "Link:" : "Esteka:",
     "Occurring:" : "Gertatzen:",
-    "More options at %s" : "Aukera gehiago hemen %s ",
-    "The system address book contains contact information for all users in your instance." : "Sistemaren helbide-liburuak zure instantziako erabiltzaile guztien kontaktu-informazioa dauka.",
-    "Enable System Address Book" : "Gaitu sistemaren helbide-liburua",
-    "No results." : "Ez dago emaitzarik.",
-    "Start typing." : "Hasi idazten."
+    "More options at %s" : "Aukera gehiago hemen %s "
 },
 "nplurals=2; plural=(n != 1);");

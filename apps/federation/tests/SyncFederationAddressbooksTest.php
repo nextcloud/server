@@ -14,6 +14,7 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\Federation\DbHandler;
 use OCA\Federation\SyncFederationAddressBooks;
 use OCA\Federation\TrustedServers;
+use OCP\AppFramework\Services\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -49,7 +50,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->willReturn(['1', false]);
 
 		/** @var SyncService $syncService */
-		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->createMock(IAppConfig::class), $this->logger);
 		$s->syncThemAll(function ($url, $ex): void {
 			$this->callBacks[] = [$url, $ex];
 		});
@@ -73,7 +74,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->willThrowException(new \Exception('something did not work out'));
 
 		/** @var SyncService $syncService */
-		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->createMock(IAppConfig::class), $this->logger);
 		$s->syncThemAll(function ($url, $ex): void {
 			$this->callBacks[] = [$url, $ex];
 		});
@@ -100,7 +101,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->willReturn(['0', false]);
 
 		/** @var SyncService $syncService */
-		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->createMock(IAppConfig::class), $this->logger);
 		$s->syncThemAll(function ($url, $ex): void {
 			$this->callBacks[] = [$url, $ex];
 		});

@@ -12,9 +12,11 @@ use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Config\IUserConfig;
 use OCP\Encryption\IFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\PreConditionNotMetException;
 
 class Recovery {
@@ -28,6 +30,7 @@ class Recovery {
 		private IUserConfig $userConfig,
 		private IFile $file,
 		private View $view,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		$this->user = ($userSession->isLoggedIn()) ? $userSession->getUser() : null;
 	}
@@ -44,6 +47,12 @@ class Recovery {
 
 		if ($this->keyManager->checkRecoveryPassword($password)) {
 			$this->appConfig->setValueBool('encryption', 'recoveryAdminEnabled', true);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Recovery key was enabled',
+				[],
+				false,
+				'encryption.recovery_key.enabled',
+			));
 			return true;
 		}
 
@@ -63,6 +72,12 @@ class Recovery {
 		$header = $this->crypt->generateHeader();
 		if ($encryptedRecoveryKey !== false) {
 			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $header . $encryptedRecoveryKey);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Recovery key password was changed',
+				[],
+				false,
+				'encryption.recovery_key.password_changed',
+			));
 			return true;
 		}
 		return false;
@@ -74,6 +89,12 @@ class Recovery {
 		if ($keyManager->checkRecoveryPassword($recoveryPassword)) {
 			// Set recoveryAdmin as disabled
 			$this->appConfig->setValueBool('encryption', 'recoveryAdminEnabled', false);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Recovery key was disabled',
+				[],
+				false,
+				'encryption.recovery_key.disabled',
+			));
 			return true;
 		}
 		return false;
@@ -105,6 +126,15 @@ class Recovery {
 			} else {
 				$this->removeRecoveryKeys('/' . $this->user->getUID() . '/files/');
 			}
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Recovery key access for the files of user "%s" was %s',
+				[
+					'userId' => $this->user->getUID(),
+					'status' => $value ? 'enabled' : 'disabled',
+				],
+				false,
+				'encryption.user_recovery.updated',
+			));
 
 			return true;
 		} catch (PreConditionNotMetException $e) {
@@ -166,6 +196,12 @@ class Recovery {
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey, $recoveryPassword);
 		if ($privateKey !== false) {
 			$this->recoverAllFiles('/' . $user . '/files/', $privateKey, $user);
+			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+				'Files of user "%s" were recovered with the recovery key',
+				['userId' => $user],
+				false,
+				'encryption.user_files.recovered',
+			));
 		}
 	}
 

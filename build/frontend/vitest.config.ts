@@ -35,6 +35,10 @@ export default defineConfig({
 	},
 	resolve: {
 		preserveSymlinks: true,
+		alias: [
+			// allow to import from the repository root (cross reference other apps)
+			{ find: /^~\//, replacement: `${resolve(import.meta.dirname, '../..')}/` },
+		],
 	},
 	server: {
 		fs: {
@@ -46,7 +50,7 @@ export default defineConfig({
 	test: {
 		include: [
 			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-			'../../apps/settings/src/authtokens/**/*.spec.ts',
+			'../../apps/settings/src/sections/**/*.spec.ts',
 		],
 		env: {
 			LANG: 'en_US',
@@ -61,7 +65,7 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
-				'../../apps/settings/src/authtokens/**',
+				'../../apps/settings/src/sections/**',
 				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],

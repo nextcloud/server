@@ -2,6 +2,8 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Oturum açmış hesap bir yönetici olmalı ya da bu ayarı düzenleme izni olmalıdır.",
+    "The given value was rejected" : "Belirtilen değer reddedildi",
+    "Deleting the given key was rejected" : "Belirtilen anahtarın silinmesi reddedildi",
     "Could not create non-existing user ID" : "Var olmayan kullanıcı kimliği oluşturulamadı",
     "User already exists" : "Kullanıcı zaten var",
     "Group %1$s does not exist" : "%1$s grubu bulunamadı",
@@ -27,7 +29,7 @@ OC.L10N.register(
     "Invalid quota value: %1$s" : "Kota değeri geçersiz: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Kota değeri geçersiz. %1$s en fazla kota değerini aşıyor",
     "Unlimited quota is forbidden on this instance" : "Bu kopyada sınırsız kota kullanılamaz",
-    "Setting the password is not supported by the users backend" : "Kullanıcı arka yüzünden parola ayarlanamaz",
+    "Setting the password is not supported by the users backend" : "Kullanıcı arka ucundan parola ayarlanamaz",
     "Invalid locale" : "Yerel ayar geçersiz",
     "Invalid timezone" : "Saat dilimi geçersiz",
     "Invalid first day of week" : "Haftanın ilk günü geçersiz",

@@ -350,10 +350,6 @@
     "Location:" : "Lokacija:",
     "Link:" : "Poveznica:",
     "Occurring:" : "Događa se:",
-    "More options at %s" : "Više mogućnosti na %s",
-    "The system address book contains contact information for all users in your instance." : "Adresar sustava sadrži kontaktne podatke za sve korisnike u vašoj instanci.",
-    "Enable System Address Book" : "Omogući adresar sustava",
-    "No results." : "Nema rezultata.",
-    "Start typing." : "Započnite s pisanjem."
+    "More options at %s" : "Više mogućnosti na %s"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

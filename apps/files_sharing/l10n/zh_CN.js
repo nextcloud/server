@@ -148,7 +148,6 @@ OC.L10N.register(
     "Copy" : "复制",
     "Send link via email" : "通过邮件发送链接",
     "Enter an email address or paste a list" : "输入电子邮箱地址或粘贴一个列表",
-    "Remove email" : "移除电子邮箱",
     "Select a destination" : "选择目标",
     "Select" : "选择",
     "What are you requesting?" : "你正在请求什么？",
@@ -410,13 +409,9 @@ OC.L10N.register(
     "Group sharing is disabled by the administrator" : "群组共享已被管理员禁用",
     "Public link sharing is disabled by the administrator" : "管理员已禁用公开链接共享",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "共享 %1$s 失败，后端不允许类型为 %2$s 的共享",
-    "Sharing %s failed because the back end does not support ScienceMesh shares" : "共享 %s 失败，因为后端不支持 ScienceMesh 共享。",
     "Public upload disabled by the administrator" : "管理员已禁用公开上传",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "令牌必须至少包含 1 个字符，并且只能包含字母、数字或连字符",
-    "Via “{folder}”" : "通过“{folder}”",
-    "Name or email …" : "名称或电子邮件…",
-    "Name, email, or Federated Cloud ID …" : "名称、电子邮件或联合云 ID…",
-    "Searching …" : "正在搜索…",
+    "Remove email" : "移除电子邮箱",
     "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "将公开共享链接令牌设置为易于记忆的令牌或生成新令牌。不建议对包含敏感信息的共享使用可猜测的令牌。"
 },
 "nplurals=1; plural=0;");

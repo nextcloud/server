@@ -24,10 +24,10 @@ import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import logger from '../../logger.ts'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { formDataKey } from './injectionKeys.ts'
 
-const store = useStore()
+const usersStore = useUsersStore()
 
 const formData = inject(formDataKey)!
 
@@ -89,7 +89,7 @@ function searchUserManager(query: string) {
 async function fetchManagers(query: string) {
 	loading.value = true
 	try {
-		const response = await store.dispatch('searchUsers', {
+		const response = await usersStore.searchUsers({
 			offset: 0,
 			limit: 10,
 			search: query,

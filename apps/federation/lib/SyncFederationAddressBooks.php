@@ -10,6 +10,7 @@ namespace OCA\Federation;
 
 use OCA\DAV\CardDAV\SyncService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
@@ -18,6 +19,7 @@ class SyncFederationAddressBooks {
 		protected DbHandler $dbHandler,
 		private SyncService $syncService,
 		private IDiscoveryService $ocsDiscoveryService,
+		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -64,7 +66,8 @@ class SyncFederationAddressBooks {
 						$syncToken,
 						$targetBookId,
 						$targetPrincipal,
-						$targetBookProperties
+						$targetBookProperties,
+						$this->appConfig->getAppValueBool(ConfigLexicon::IGNORE_REMOTE_SYSTEM_ADDRESS_BOOK),
 					);
 				} while ($truncated);
 

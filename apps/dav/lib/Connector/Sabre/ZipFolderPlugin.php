@@ -16,7 +16,11 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File as NcFile;
 use OCP\Files\Folder as NcFolder;
 use OCP\Files\Node as NcNode;
+use OCP\Files\NotPermittedException;
+use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IL10N;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -38,6 +42,13 @@ class ZipFolderPlugin extends ServerPlugin {
 	 * Reference to main server object
 	 */
 	private ?Server $server = null;
+	private bool $reportMissingFiles;
+	private array $missingInfo = [];
+	private bool $tarArchive = false;
+
+	public const string MISSING_FILES_FILENAME = 'missing_files';
+	public const string MISSING_FILES_EXTENSION = '.json';
+	public const string MISSING_FILES_FULL_FILENAME = self::MISSING_FILES_FILENAME . self::MISSING_FILES_EXTENSION;
 
 	/**
 	 * Whether handleDownload has fully streamed an archive for the current request.
@@ -50,7 +61,10 @@ class ZipFolderPlugin extends ServerPlugin {
 		private LoggerInterface $logger,
 		private IEventDispatcher $eventDispatcher,
 		private IDateTimeZone $timezoneFactory,
+		private IConfig $config,
+		private IL10N $l10n,
 	) {
+		$this->reportMissingFiles = $this->config->getSystemValueBool('archive_report_missing_files', true);
 	}
 
 	/**
@@ -71,27 +85,70 @@ class ZipFolderPlugin extends ServerPlugin {
 
 	/**
 	 * Adding a node to the archive streamer.
-	 * This will recursively add new nodes to the stream if the node is a directory.
+	 * @return ?string an error message if an error occurred and reporting is enabled, null otherwise
+	 * @throws NotPermittedException|LockedException
 	 */
-	protected function streamNode(Streamer $streamer, NcNode $node, string $rootPath): void {
-		// Remove the root path from the filename to make it relative to the requested folder
-		$filename = str_replace($rootPath, '', $node->getPath());
-
+	protected function streamNode(Streamer $streamer, NcNode $node, string $filename): ?string {
 		$mtime = $node->getMTime();
-		if ($node instanceof NcFile) {
-			$resource = $node->fopen('rb');
-			if ($resource === false) {
-				$this->logger->info('Cannot read file for zip stream', ['filePath' => $node->getPath()]);
-				throw new \Sabre\DAV\Exception\ServiceUnavailable('Requested file can currently not be accessed.');
-			}
-			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
-		} elseif ($node instanceof NcFolder) {
+		if ($node instanceof NcFolder) {
 			$streamer->addEmptyDir($filename, $mtime);
-			$content = $node->getDirectoryListing();
-			foreach ($content as $subNode) {
-				$this->streamNode($streamer, $subNode, $rootPath);
+			return null;
+		}
+
+		if ($node instanceof NcFile) {
+
+			$source = $node->fopen('rb');
+			if ($source === false) {
+				return $this->l10n->t('File could not be opened (fopen). Please check the server logs for more information.');
+			}
+			// get the size after fopen, so the file is locked
+			$nodeSize = $node->getSize();
+
+			$entry = null;
+			$stream = ArchiveEntryStream::wrap($source, $nodeSize, $this->tarArchive, static function (ArchiveEntryStream $closed) use (&$entry): void {
+				$entry = $closed;
+			});
+
+			if ($stream === false) {
+				fclose($source);
+				return $this->l10n->t('Unable to check file for consistency check');
+			}
+
+			try {
+				// todo: if tar archive, ask the storage for the size, so outdated files are never truncated or 0-padded
+				$fileAddedToStream = $streamer->addFileFromStream($stream, $filename, $nodeSize, $mtime);
+			} finally {
+				// also closes $source and passes the final read state to the callback
+				fclose($stream);
+			}
+			assert($entry instanceof ArchiveEntryStream);
+
+			if (!$fileAddedToStream) {
+				return $this->l10n->t('The archive was already finalized, stream was not a stream or was closed');
+			}
+
+			$throwable = $entry->getThrowable();
+			if ($throwable !== null) {
+				$this->logger->error('Reading the file failed while adding it to the archive', ['exception' => $throwable, 'path' => $node->getPath()]);
+			}
+
+			$bytesRead = $entry->getBytesRead();
+			if ($entry->hasFailed() || $bytesRead < $nodeSize) {
+				$message = $entry->hasFailed()
+					? $this->l10n->t('Reading the file failed after %1$d of %2$d bytes.', [$bytesRead, $nodeSize])
+					: $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$bytesRead, $nodeSize]);
+				if ($this->tarArchive) {
+					$message .= ' ' . $this->l10n->t('The missing part of the file was filled with empty bytes.');
+				}
+				return $message;
+			}
+
+			if ($entry->isTruncated()) {
+				return $this->l10n->t('The file is larger than its recorded size, only the first %d bytes were added.', [$nodeSize]);
 			}
 		}
+
+		return null;
 	}
 
 	/**
@@ -146,7 +203,7 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$folder = $node->getNode();
-		$event = new BeforeZipCreatedEvent($folder, $files);
+		$event = new BeforeZipCreatedEvent($folder, $files, $this->reportMissingFiles);
 		$this->eventDispatcher->dispatchTyped($event);
 		if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
 			$errorMessage = $event->getErrorMessage();
@@ -171,6 +228,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			$rootPath = dirname($folder->getPath());
 		}
 
+		$this->tarArchive = $tarRequest;
 		$streamer = new Streamer($tarRequest, -1, -1, $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
@@ -181,12 +239,77 @@ class ZipFolderPlugin extends ServerPlugin {
 		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
 		foreach ($content as $node) {
 			assert($node instanceof NcNode);
-			$this->streamNode($streamer, $node, $rootPath);
+			$this->streamTree($streamer, $event, $node, $rootPath);
+		}
+
+		if ($this->reportMissingFiles && !empty($this->missingInfo)) {
+			$json = json_encode($this->missingInfo, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE);
+
+			$missingFilesFileName = self::MISSING_FILES_FULL_FILENAME;
+			if ($files !== []) {
+				$names = array_map(static fn (NcNode $node): string => $node->getName(), $content);
+				// only when filtering there is the risk of a conflict
+				for ($i = 1; in_array($missingFilesFileName, $names, true); $i++) {
+					$missingFilesFileName = self::MISSING_FILES_FILENAME . " ($i)" . self::MISSING_FILES_EXTENSION;
+				}
+			}
+			if ($json !== false) {
+				$stream = fopen('php://temp', 'r+');
+				fwrite($stream, $json);
+				rewind($stream);
+				$streamer->addFileFromStream($stream, $missingFilesFileName, (float)strlen($json), false);
+			} else {
+				$this->logger->error("Error while generating {$missingFilesFileName} when generating archive for '$archiveName', error: " . json_last_error_msg());
+			}
 		}
 		$streamer->finalize();
 		$this->streamed = true; // archive fully streamed
 
 		return false;
+	}
+
+	/**
+	 * Adds the node and, for folders, its content to the archive, skipping
+	 * nodes excluded by the event's node filters.
+	 *
+	 * @throws \Exception if adding a node fails and missing files are not reported
+	 */
+	private function streamTree(Streamer $streamer, BeforeZipCreatedEvent $event, NcNode $node, string $rootPath): void {
+		$filename = ltrim(substr($node->getPath(), strlen($rootPath)), '/');
+		$children = [];
+		try {
+			$reason = $event->getExclusionReason($node);
+			if ($reason !== null) {
+				if ($this->reportMissingFiles) {
+					$this->missingInfo[$filename] = $reason;
+				}
+				return;
+			}
+
+			$streamError = $this->streamNode($streamer, $node, $filename);
+			if ($streamError !== null) {
+				$this->logger->warning('Could not add file to the archive: ' . $streamError, ['path' => $node->getPath()]);
+				if ($this->reportMissingFiles) {
+					$this->missingInfo[$filename] = $streamError;
+				}
+			}
+
+			if ($node instanceof NcFolder) {
+				$children = $node->getDirectoryListing();
+			}
+		} catch (\Exception $e) {
+			if (!$this->reportMissingFiles) {
+				throw $e;
+			}
+
+			$this->logger->error("Error while streaming file '$filename'", ['exception' => $e]);
+			$this->missingInfo[$filename] = $this->l10n->t('File could not be added to the archive. Please check the server logs for more information.');
+			return;
+		}
+
+		foreach ($children as $child) {
+			$this->streamTree($streamer, $event, $child, $rootPath);
+		}
 	}
 
 	/**

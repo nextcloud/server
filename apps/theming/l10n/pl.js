@@ -119,21 +119,6 @@ OC.L10N.register(
     "Misc accessibility options" : "Inne opcje dostępności",
     "Enable blur background filter (may increase GPU load)" : "Włącz filtr rozmycia tła (może zwiększyć obciążenie GPU)",
     "Customization has been disabled by your administrator" : "Dostosowanie zostało wyłączone przez administratora",
-    "Disable-user-theming should be true or false" : "Opcja Wyłącz użytkownika powinna mieć wartość true lub false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Kolor podstawowy jest używany do wyróżniania elementów, takich jak ważne przyciski. Może być lekko dostosowany w zależności od bieżącego schematu kolorów.",
-    "Header logo" : "Logo nagłówka",
-    "Upload new header logo" : "Wyślij nowe logo nagłówka",
-    "Upload new favicon" : "Wyślij nową ikonę favicon",
-    "User settings" : "Ustawienia użytkownika",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Zamiast obrazu tła możesz również ustawić jednolity kolor tła. Jeśli używasz obrazu tła, zmiana tego koloru wpłynie na kolor ikon w menu aplikacji.",
-    "Upload new logo" : "Wyślij nowe logo",
-    "Upload new background and login image" : "Wyślij nowe tło i obraz logowania",
-    "Background and login image" : "Obraz tła i logowania",
-    "Advanced options" : "Opcje zaawansowane",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Zainstaluj rozszerzenie ImageMagick PHP z obsługą obrazów SVG, aby automatycznie generować favikony na podstawie przesłanego logo i koloru.",
-    "Unable to apply the setting." : "Nie można zastosować ustawienia.",
-    "No background has been selected" : "Nie wybrano tła",
-    "Select a custom color" : "Wybierz kolor niestandardowy",
-    "Upload" : "Wyślij"
+    "Unable to apply the setting." : "Nie można zastosować ustawienia."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

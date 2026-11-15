@@ -10,21 +10,23 @@ declare(strict_types=1);
 require __DIR__ . '/autoload.php';
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\BeforeScenario;
+use Behat\Step\When;
 
-class ConversionsContext implements Context, SnippetAcceptingContext {
+class ConversionsContext implements Context {
 	use AppConfiguration;
 	use BasicStructure;
 	use WebDav;
 
-	/** @BeforeScenario */
+	#[BeforeScenario]
 	public function setUpScenario() {
 		$this->asAn('admin');
 		$this->setStatusTestingApp(true);
 	}
 
-	/** @AfterScenario */
+	#[AfterScenario]
 	public function tearDownScenario() {
 		$this->asAn('admin');
 		$this->setStatusTestingApp(false);
@@ -33,16 +35,12 @@ class ConversionsContext implements Context, SnippetAcceptingContext {
 	protected function resetAppConfigs() {
 	}
 
-	/**
-	 * @When /^user "([^"]*)" converts file "([^"]*)" to "([^"]*)"$/
-	 */
+	#[When('/^user "([^"]*)" converts file "([^"]*)" to "([^"]*)"$/')]
 	public function userConvertsTheSavedFileId(string $user, string $path, string $mime) {
 		$this->userConvertsTheSavedFileIdTo($user, $path, $mime, null);
 	}
 
-	/**
-	 * @When /^user "([^"]*)" converts file "([^"]*)" to "([^"]*)" and saves it to "([^"]*)"$/
-	 */
+	#[When('/^user "([^"]*)" converts file "([^"]*)" to "([^"]*)" and saves it to "([^"]*)"$/')]
 	public function userConvertsTheSavedFileIdTo(string $user, string $path, string $mime, ?string $destination) {
 		try {
 			$fileId = $this->getFileIdForPath($user, $path);

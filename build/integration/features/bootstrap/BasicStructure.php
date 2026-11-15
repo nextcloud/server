@@ -6,6 +6,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
+use Behat\Hook\AfterScenario;
+use Behat\Hook\AfterSuite;
+use Behat\Hook\BeforeScenario;
+use Behat\Hook\BeforeSuite;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
@@ -72,9 +79,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @BeforeScenario
-	 */
+	#[BeforeScenario]
 	public function resetAuthState(): void {
 		$this->currentUser = '';
 		$this->currentServer = 'LOCAL';
@@ -84,24 +89,20 @@ trait BasicStructure {
 		$this->cookieJar = new CookieJar();
 	}
 
-	/**
-	 * @Given /^using api version "(\d+)"$/
-	 */
+	#[Given('/^using api version "(\d+)"$/')]
 	public function usingApiVersion(int $version): void {
 		$this->apiVersion = (int)$version;
 	}
 
-	/**
-	 * @Given /^As an "([^"]*)"$/
-	 */
+	#[Given('/^As an "([^"]*)"$/')]
 	public function asAn(string $user): void {
 		$this->currentUser = $user;
 	}
 
 	/**
-	 * @Given /^Using server "(LOCAL|REMOTE)"$/
 	 * @return string Previous used server
 	 */
+	#[Given('/^Using server "(LOCAL|REMOTE)"$/')]
 	public function usingServer(string $server): string {
 		$previousServer = $this->currentServer;
 		if ($server === 'LOCAL') {
@@ -115,9 +116,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @When /^sending "([^"]*)" to "([^"]*)"$/
-	 */
+	#[When('/^sending "([^"]*)" to "([^"]*)"$/')]
 	public function sendingTo(string $verb, string $url): void {
 		$this->sendingToWith($verb, $url, null);
 	}
@@ -153,9 +152,7 @@ trait BasicStructure {
 		return $a;
 	}
 
-	/**
-	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
-	 */
+	#[When('/^sending "([^"]*)" to "([^"]*)" with$/')]
 	public function sendingToWith(string $verb, string $url, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
 		$client = new Client();
@@ -218,10 +215,10 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @When /^sending "([^"]*)" with exact url to "([^"]*)"$/
 	 * @param string $verb
 	 * @param string $url
 	 */
+	#[When('/^sending "([^"]*)" with exact url to "([^"]*)"$/')]
 	public function sendingToDirectUrl($verb, $url) {
 		$this->sendingToWithDirectUrl($verb, $url, null);
 	}
@@ -254,25 +251,25 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 * @param int $statusCode
 	 */
+	#[Then('/^the OCS status code should be "([^"]*)"$/')]
 	public function theOCSStatusCodeShouldBe($statusCode) {
 		Assert::assertEquals($statusCode, $this->getOCSResponseCode($this->response));
 	}
 
 	/**
-	 * @Then /^the HTTP status code should be "([^"]*)"$/
 	 * @param int $statusCode
 	 */
+	#[Then('/^the HTTP status code should be "([^"]*)"$/')]
 	public function theHTTPStatusCodeShouldBe($statusCode) {
 		Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
 
 	/**
-	 * @Then /^the Content-Type should be "([^"]*)"$/
 	 * @param string $contentType
 	 */
+	#[Then('/^the Content-Type should be "([^"]*)"$/')]
 	public function theContentTypeShouldbe($contentType) {
 		Assert::assertEquals($contentType, $this->response->getHeader('Content-Type')[0]);
 	}
@@ -285,9 +282,9 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given Logging in using web as :user
 	 * @param string $user
 	 */
+	#[Given('Logging in using web as :user')]
 	public function loggingInUsingWebAs($user) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 		$loginUrl = $baseUrl . '/index.php/login';
@@ -322,11 +319,11 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @When Sending a :method to :url with requesttoken
 	 * @param string $method
 	 * @param string $url
 	 * @param TableNode|array|null $body
 	 */
+	#[When('Sending a :method to :url with requesttoken')]
 	public function sendingAToWithRequesttoken($method, $url, $body = null) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 
@@ -357,10 +354,10 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @When Sending a :method to :url without requesttoken
 	 * @param string $method
 	 * @param string $url
 	 */
+	#[When('Sending a :method to :url without requesttoken')]
 	public function sendingAToWithoutRequesttoken($method, $url) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 
@@ -385,11 +382,11 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given User :user modifies text of :filename with text :text
 	 * @param string $user
 	 * @param string $filename
 	 * @param string $text
 	 */
+	#[Given('User :user modifies text of :filename with text :text')]
 	public function modifyTextOfFile($user, $filename, $text) {
 		self::removeFile($this->getDataDirectory() . "/$user/files", "$filename");
 		file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename", "$text");
@@ -417,11 +414,11 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given file :filename is created :times times in :user user data
 	 * @param string $filename
 	 * @param string $times
 	 * @param string $user
 	 */
+	#[Given('file :filename is created :times times in :user user data')]
 	public function fileIsCreatedTimesInUserData($filename, $times, $user) {
 		for ($i = 0; $i < $times; $i++) {
 			file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename-$i", "content-$i");
@@ -442,41 +439,37 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given file :filename of size :size is created in local storage
 	 * @param string $filename
 	 * @param string $size
 	 */
+	#[Given('file :filename of size :size is created in local storage')]
 	public function fileIsCreatedInLocalStorageWithSize($filename, $size) {
 		$this->createFileSpecificSize("local_storage/$filename", $size);
 	}
 
 	/**
-	 * @Given file :filename with text :text is created in local storage
 	 * @param string $filename
 	 * @param string $text
 	 */
+	#[Given('file :filename with text :text is created in local storage')]
 	public function fileIsCreatedInLocalStorageWithText($filename, $text) {
 		$this->createFileWithText("local_storage/$filename", $text);
 	}
 
 	/**
-	 * @When Sleep for :seconds seconds
 	 * @param int $seconds
 	 */
+	#[When('Sleep for :seconds seconds')]
 	public function sleepForSeconds($seconds) {
 		sleep((int)$seconds);
 	}
 
-	/**
-	 * @BeforeSuite
-	 */
+	#[BeforeSuite]
 	public static function createPHPUnitConfiguration(): void {
 		(new \PHPUnit\TextUI\Configuration\Builder())->build([]);
 	}
 
-	/**
-	 * @BeforeSuite
-	 */
+	#[BeforeSuite]
 	public static function addFilesToSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
 			file_put_contents('../../core/skeleton/' . 'textfile' . "$i" . '.txt', "Nextcloud test text file\n");
@@ -494,9 +487,7 @@ trait BasicStructure {
 		file_put_contents('../../core/skeleton/PARENT/CHILD/' . 'child.txt', "Nextcloud test text file\n");
 	}
 
-	/**
-	 * @AfterSuite
-	 */
+	#[AfterSuite]
 	public static function removeFilesFromSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
 			self::removeFile('../../core/skeleton/', 'textfile' . "$i" . '.txt');
@@ -514,9 +505,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @BeforeScenario @local_storage
-	 */
+	#[BeforeScenario('@local_storage')]
 	public static function removeFilesFromLocalStorageBefore() {
 		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
@@ -526,9 +515,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @AfterScenario @local_storage
-	 */
+	#[AfterScenario('@local_storage')]
 	public static function removeFilesFromLocalStorageAfter() {
 		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
@@ -538,18 +525,16 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @Given /^cookies are reset$/
-	 */
+	#[Given('/^cookies are reset$/')]
 	public function cookiesAreReset() {
 		$this->cookieJar = new CookieJar();
 	}
 
 	/**
-	 * @Then The following headers should be set
 	 * @param TableNode $table
 	 * @throws \Exception
 	 */
+	#[Then('The following headers should be set')]
 	public function theFollowingHeadersShouldBeSet(TableNode $table) {
 		foreach ($table->getTable() as $header) {
 			$headerName = $header[0];

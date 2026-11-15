@@ -66,6 +66,24 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 		day: dayId,
 	})))]
 
+	// Leave availability unspecified rather than explicitly empty (which would be interpreted as explicitly unavailable RFC 7953) when slots are cleared.
+	if (all.length === 0) {
+		logger.debug('No availability slots, removing availability')
+
+		await getClient().customRequest('inbox', {
+			method: 'PROPPATCH',
+			data: `<?xml version="1.0"?>
+			<x0:propertyupdate xmlns:x0="DAV:">
+			  <x0:remove>
+				<x0:prop>
+				  <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav"/>
+				</x0:prop>
+			  </x0:remove>
+			</x0:propertyupdate>`,
+		})
+		return
+	}
+
 	const vavailability = slotsToVavailability(all, timezoneId)
 
 	logger.debug('New availability ical created', {

@@ -20,7 +20,9 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -41,6 +43,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	private ISecureRandom&MockObject $secureRandom;
 	private ITimeFactory&MockObject $timeFactory;
 	private IProvider&MockObject $tokenProvider;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	#[\Override]
 	public function setUp(): void {
@@ -60,6 +63,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		$this->mapper = $this->createMock(LoginFlowV2Mapper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -70,7 +74,8 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			$this->config,
 			$this->crypto,
 			$this->logger,
-			$this->tokenProvider
+			$this->tokenProvider,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -370,6 +375,10 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->method('getToken')
 			->willReturn($sessionToken);
 
+		$appToken = $this->createMock(IToken::class);
+		$appToken->method('getId')->willReturn(7);
+		$appToken->method('getName')->willReturn('client_name');
+
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with(
@@ -380,7 +389,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 				'client_name',
 				IToken::PERMANENT_TOKEN,
 				IToken::DO_NOT_REMEMBER
-			);
+			)
+			->willReturn($appToken);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (CriticalActionPerformedEvent $event): bool => $event->getOperation() === 'auth.app_password.created'
+				&& $event->getParameters() === ['tokenId' => 7, 'tokenName' => 'client_name']));
 
 		$result = $this->subjectUnderTest->flowDone(
 			'login_token',

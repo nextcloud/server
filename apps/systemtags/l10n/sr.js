@@ -109,10 +109,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Није успело учитавање ознака за фајл",
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
-    "Collaborative tags …" : "Ознаке сарадње...",
-    "Loading …" : "Учитавање…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ће да се постави и {tag2} ће да се уклони из 1 фајла.","{tag1} ће да се постави и {tag2} ће да се уклони из {count} фајла.","{tag1} ће да се постави и {tag2} ће да се уклони из {count} фајлова."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ће се уклонити са 1 фајла.","{tag} ће се уклонити са {count} фајла.","{tag} ће се уклонити са {count} фајлова."],
-    "Loading collaborative tags …" : "Учитавају се ознаке сарадње…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ће се уклонити са 1 фајла.","{tag} ће се уклонити са {count} фајла.","{tag} ће се уклонити са {count} фајлова."]
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -90,22 +90,59 @@ class UserManagementEventListener extends Action implements IEventListener {
 					]
 				);
 				break;
+			case 'displayName':
+				$this->log(
+					Operation::UserDisplayNameChanged,
+					'Display name changed for user %s',
+					['user' => $event->getUser()->getUID()],
+					[
+						'user',
+					]
+				);
+				break;
+			case 'quota':
+				$this->log(
+					Operation::UserQuotaChanged,
+					'Quota of user "%s" was changed to "%s"',
+					[
+						'user' => $event->getUser()->getUID(),
+						'quota' => (string)$event->getValue(),
+					],
+					[
+						'user',
+						'quota',
+					]
+				);
+				break;
+			case 'managers':
+				$this->log(
+					Operation::UserManagersChanged,
+					'Managers of user "%s" were changed to "%s"',
+					[
+						'user' => $event->getUser()->getUID(),
+						'managers' => implode(', ', (array)$event->getValue()),
+					],
+					[
+						'user',
+						'managers',
+					]
+				);
+				break;
 		}
 	}
 
 	private function passwordUpdated(PasswordUpdatedEvent $event): void {
-		if ($event->getUser()->getBackendClassName() === 'Database') {
-			$this->log(
-				Operation::UserPasswordChanged,
-				'Password of user "%s" has been changed',
-				[
-					'user' => $event->getUser()->getUID(),
-				],
-				[
-					'user',
-				]
-			);
-		}
+		$this->log(
+			Operation::UserPasswordChanged,
+			'Password of user "%s" has been changed',
+			[
+				'user' => $event->getUser()->getUID(),
+				'backend' => $event->getUser()->getBackendClassName(),
+			],
+			[
+				'user',
+			]
+		);
 	}
 
 	/**

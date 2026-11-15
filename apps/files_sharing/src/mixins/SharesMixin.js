@@ -9,6 +9,7 @@ import { emit } from '@nextcloud/event-bus'
 import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import PQueue from 'p-queue'
+import { markRaw } from 'vue'
 import { getBundledPermissions } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
@@ -55,7 +56,7 @@ export default {
 
 			// concurrency management queue
 			// we want one queue per share
-			updateQueue: new PQueue({ concurrency: 1 }),
+			updateQueue: markRaw(new PQueue({ concurrency: 1 })),
 
 			/**
 			 * ! This allow vue to make the Share class state reactive
@@ -178,11 +179,11 @@ export default {
 					this.passwordProtectedState = true
 					const generatedPassword = await GeneratePassword(true)
 					if (!this.share.newPassword) {
-						this.$set(this.share, 'newPassword', generatedPassword)
+						this.share.newPassword = generatedPassword
 					}
 				} else {
 					this.passwordProtectedState = false
-					this.$set(this.share, 'newPassword', '')
+					this.share.newPassword = ''
 				}
 			},
 		},
@@ -250,7 +251,6 @@ export default {
 		onExpirationChange(date) {
 			if (!date) {
 				this.share.expireDate = null
-				this.$set(this.share, 'expireDate', null)
 				return
 			}
 			const parsedDate = (date instanceof Date) ? date : new Date(date)
@@ -327,7 +327,7 @@ export default {
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined
-							this.$set(this.share, 'newPassword', undefined)
+							this.share.newPassword = undefined
 
 							// updates password expiration time after sync
 							this.share.passwordExpirationTime = updatedShare.password_expiration_time
@@ -335,7 +335,7 @@ export default {
 
 						// clear any previous errors
 						for (const property of propertyNames) {
-							this.$delete(this.errors, property)
+							delete this.errors[property]
 						}
 						showSuccess(this.updateSuccessMessage(propertyNames))
 					} catch (error) {
@@ -398,7 +398,7 @@ export default {
 				if (this.share.newPassword === this.share.password) {
 					this.share.password = ''
 				}
-				this.$set(this.share, 'newPassword', undefined)
+				this.share.newPassword = undefined
 			}
 
 			// re-open menu if closed
@@ -410,7 +410,7 @@ export default {
 				case 'label':
 				case 'note': {
 				// show error
-					this.$set(this.errors, property, message)
+					this.errors[property] = message
 
 					let propertyEl = this.$refs[property]
 					if (propertyEl) {
@@ -427,10 +427,15 @@ export default {
 				}
 				case 'sendPasswordByTalk': {
 				// show error
-					this.$set(this.errors, property, message)
+					this.errors[property] = message
 
 					// Restore previous state
 					this.share.sendPasswordByTalk = !this.share.sendPasswordByTalk
+					break
+				}
+				case 'token': {
+					this.errors[property] = message
+					this.share.token = this.initialToken
 					break
 				}
 			}

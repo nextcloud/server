@@ -241,7 +241,6 @@ class Scanner extends BasicEmitter implements IScanner {
 	}
 
 	protected function removeFromCache($path) {
-		\OC_Hook::emit('Scanner', 'removeFromCache', ['file' => $path]);
 		$this->emit('\OC\Files\Cache\Scanner', 'removeFromCache', [$path]);
 		if ($this->cacheActive) {
 			$this->cache->remove($path);
@@ -258,7 +257,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (isset($data['scan_permissions'])) {
 			$data['permissions'] = $data['scan_permissions'];
 		}
-		\OC_Hook::emit('Scanner', 'addToCache', ['file' => $path, 'data' => $data]);
 		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', [$path, $this->storageId, $data, $fileId]);
 		if ($this->cacheActive) {
 			if ($fileId !== -1) {
@@ -278,7 +276,6 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $fileId
 	 */
 	protected function updateCache($path, $data, $fileId = -1) {
-		\OC_Hook::emit('Scanner', 'addToCache', ['file' => $path, 'data' => $data]);
 		$this->emit('\OC\Files\Cache\Scanner', 'updateCache', [$path, $this->storageId, $data]);
 		if ($this->cacheActive) {
 			if ($fileId !== -1) {

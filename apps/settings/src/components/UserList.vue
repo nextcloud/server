@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser } from '../views/user-types.d.ts'
+import type { IUser, UserAction } from '../views/user-types.d.ts'
 import type { FormData } from './Users/userFormUtils.ts'
 
 import { mdiAccountGroupOutline } from '@mdi/js'
@@ -87,12 +87,12 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
-import { useStore } from '../store/index.js'
+import { useUsersStore } from '../store/users.ts'
 import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const props = withDefaults(defineProps<{
 	selectedGroup?: string | null
-	externalActions?: { icon: string, text: string, action: (...args: unknown[]) => void }[]
+	externalActions?: UserAction[]
 }>(), {
 	selectedGroup: null,
 	externalActions: () => [],
@@ -114,7 +114,7 @@ const defaultNewUser = Object.freeze({
 	},
 })
 
-const store = useStore()
+const usersStore = useUsersStore()
 const router = useRouter()
 
 const loading = reactive({
@@ -125,11 +125,11 @@ const loading = reactive({
 const newUser = reactive<FormData>({ ...defaultNewUser })
 const editingUser = ref<IUser | null>(null)
 
-const searchQuery = computed(() => store.getters.getSearchQuery)
-const showConfig = computed(() => store.getters.getShowConfig)
-const settings = computed(() => store.getters.getServerData)
+const searchQuery = computed(() => usersStore.searchQuery)
+const showConfig = computed(() => usersStore.showConfig)
+const settings = computed(() => usersStore.serverData)
 const style = computed(() => ({ '--row-height': `${rowHeight}px` }))
-const users = computed(() => store.getters.getUsers)
+const users = computed(() => usersStore.users)
 
 const filteredUsers = computed(() => {
 	if (props.selectedGroup === 'disabled') {
@@ -138,7 +138,7 @@ const filteredUsers = computed(() => {
 	return users.value.filter((user) => user.enabled !== false)
 })
 
-const groups = computed(() => store.getters.getSortedGroups
+const groups = computed(() => usersStore.sortedGroups
 	.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled'))
 
 const quotaOptions = computed(() => {
@@ -155,10 +155,10 @@ const quotaOptions = computed(() => {
 	return quotaPreset
 })
 
-const usersOffset = computed(() => store.getters.getUsersOffset)
-const usersLimit = computed(() => store.getters.getUsersLimit)
-const disabledUsersOffset = computed(() => store.getters.getDisabledUsersOffset)
-const disabledUsersLimit = computed(() => store.getters.getDisabledUsersLimit)
+const usersOffset = computed(() => usersStore.usersOffset)
+const usersLimit = computed(() => usersStore.usersLimit)
+const disabledUsersOffset = computed(() => usersStore.disabledUsersOffset)
+const disabledUsersLimit = computed(() => usersStore.disabledUsersLimit)
 
 /* LANGUAGES */
 const languages = computed(() => [
@@ -173,7 +173,7 @@ const languages = computed(() => [
 ])
 
 watch(searchQuery, async () => {
-	store.commit('resetUsers')
+	usersStore.resetUsers()
 	await loadUsers()
 })
 
@@ -181,7 +181,7 @@ watch(searchQuery, async () => {
 watch(() => props.selectedGroup, async (val) => {
 	// if selected is the disabled group but it's empty
 	await redirectIfDisabled()
-	store.commit('resetUsers')
+	usersStore.resetUsers()
 	await loadUsers()
 	setNewUserDefaultGroup(val)
 })
@@ -213,23 +213,25 @@ async function loadUsers() {
 	loading.users = true
 	try {
 		if (props.selectedGroup === 'disabled') {
-			await store.dispatch('getDisabledUsers', {
+			await usersStore.getDisabledUsers({
 				offset: disabledUsersOffset.value,
 				limit: disabledUsersLimit.value,
 				search: searchQuery.value,
 			})
 		} else if (props.selectedGroup === '__nc_internal_recent') {
-			await store.dispatch('getRecentUsers', {
+			await usersStore.getRecentUsers({
 				offset: usersOffset.value,
 				limit: usersLimit.value,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		} else {
-			await store.dispatch('getUsers', {
+			await usersStore.getUsers({
 				offset: usersOffset.value,
 				limit: usersLimit.value,
 				group: props.selectedGroup,
 				search: searchQuery.value,
+				enabled: true,
 			})
 		}
 		logger.debug(`${users.value.length} total user(s) loaded`)
@@ -244,7 +246,7 @@ async function loadUsers() {
  * Close the new-account dialog and reset the form.
  */
 function closeDialog() {
-	store.dispatch('setShowConfig', {
+	usersStore.setShowConfig({
 		key: 'showNewUserForm',
 		value: false,
 	})
@@ -287,7 +289,7 @@ function initForm() {
 function setNewUserDefaultGroup(value: string | null) {
 	// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
 	if (!value && !settings.value.isAdmin && !settings.value.isDelegatedAdmin) {
-		const subAdminGroups = store.getters.getSubAdminGroups
+		const subAdminGroups = usersStore.subAdminGroups
 		// if there are multiple groups we do not know which to add,
 		// so we cannot make the managers life easier by preselecting it.
 		if (subAdminGroups.length === 1) {
@@ -315,7 +317,7 @@ function setNewUserDefaultGroup(value: string | null) {
  * and we therefore set the usercount to -1 in this specific case
  */
 async function redirectIfDisabled() {
-	const allGroups = store.getters.getGroups
+	const allGroups = usersStore.groups
 	if (props.selectedGroup === 'disabled'
 		&& allGroups.findIndex((group) => group.id === 'disabled' && group.usercount === 0) > -1) {
 		// disabled group is empty, redirection to all users

@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Απομακρυσμένος κοινόχρηστος φάκελος",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
     "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου",
-    "Incoming share could not be processed" : "Η εισερχόμενη κοινή χρήση δεν μπορούσε να επεξεργαστεί",
-    "X (formerly Twitter)" : "X (πρώην Twitter)",
-    "formerly Twitter" : "πρώην Twitter"
+    "Incoming share could not be processed" : "Η εισερχόμενη κοινή χρήση δεν μπορούσε να επεξεργαστεί"
 },
 "nplurals=2; plural=(n != 1);");

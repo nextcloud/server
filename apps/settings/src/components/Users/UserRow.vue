@@ -128,7 +128,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser } from '../../views/user-types.d.ts'
+import type { ServerData } from '../../store/users.ts'
+import type { IUser, UserAction } from '../../views/user-types.d.ts'
 import type { LanguageOption, QuotaOption } from './userFormUtils.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -142,7 +143,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import UserRowActions from './UserRowActions.vue'
-import { useStore } from '../../store/index.js'
+import { useUsersStore } from '../../store/users.ts'
 import { isObfuscated as isObfuscatedUser } from '../../utils/userUtils.ts'
 
 const props = withDefaults(defineProps<{
@@ -151,10 +152,8 @@ const props = withDefaults(defineProps<{
 	users: IUser[]
 	quotaOptions: QuotaOption[]
 	languages: { languages: LanguageOption[] }[]
-	// settings is loose until the store is typed.
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	settings: Record<string, any>
-	externalActions?: { icon: string, text: string, action: (...args: unknown[]) => void }[]
+	settings: ServerData
+	externalActions?: UserAction[]
 	onEditUser?: ((user: IUser) => void) | null
 }>(), {
 	externalActions: () => [],
@@ -163,7 +162,7 @@ const props = withDefaults(defineProps<{
 const OC = window.OC
 const productName = OC.theme.productName
 
-const store = useStore()
+const usersStore = useUsersStore()
 
 const formattedFullTime = useFormatTime(props.user.firstLoginTimestamp * 1000, {
 	format: {
@@ -228,7 +227,7 @@ const userLastLogin = computed(() => {
 	return t('settings', 'Never')
 })
 
-const showConfig = computed(() => store.getters.getShowConfig)
+const showConfig = computed(() => usersStore.showConfig)
 
 const isLoadingUser = computed(() => loading.delete || loading.disable || loading.wipe)
 
@@ -237,7 +236,7 @@ const isLoadingField = computed(() => loading.delete || loading.disable || loadi
 const uniqueId = computed(() => encodeURIComponent(props.user.id + rand))
 
 const userGroupsLabels = computed(() => {
-	const allGroups = store.getters.getGroups
+	const allGroups = usersStore.groups
 	return props.user.groups
 		.map((id) => {
 			const group = allGroups.find((g) => g.id === id)
@@ -247,7 +246,7 @@ const userGroupsLabels = computed(() => {
 })
 
 const userSubAdminGroupsLabels = computed(() => {
-	const allGroups = store.getters.getGroups
+	const allGroups = usersStore.groups
 	return (props.user.subadmin ?? [])
 		.map((id) => {
 			const group = allGroups.find((g) => g.id === id)
@@ -284,7 +283,7 @@ const userQuota = computed(() => {
 })
 
 const userActions = computed(() => {
-	const actions = [
+	const actions: UserAction[] = [
 		{
 			icon: 'icon-delete',
 			text: t('settings', 'Delete account'),
@@ -343,8 +342,8 @@ async function wipeUserDevices() {
 			if (result) {
 				loading.wipe = true
 				loading.all = true
-				store.dispatch('wipeUserDevices', userid)
-					.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
+				usersStore.wipeUserDevices(userid)
+					.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid }), { timeout: 2000 }))
 					.finally(() => {
 						loading.wipe = false
 						loading.all = false
@@ -374,7 +373,7 @@ async function deleteUser() {
 			if (result) {
 				loading.delete = true
 				loading.all = true
-				return store.dispatch('deleteUser', userid)
+				return usersStore.deleteUser(userid)
 					.then(() => {
 						loading.delete = false
 						loading.all = false
@@ -393,7 +392,7 @@ function enableDisableUser() {
 	loading.all = true
 	const userid = props.user.id
 	const enabled = !props.user.enabled
-	return store.dispatch('enableDisableUser', {
+	return usersStore.enableDisableUser({
 		userid,
 		enabled,
 	})
@@ -408,7 +407,7 @@ function enableDisableUser() {
  */
 function sendWelcomeMail() {
 	loading.all = true
-	store.dispatch('sendWelcomeMail', props.user.id)
+	usersStore.sendWelcomeMail(props.user.id)
 		.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
 		.finally(() => {
 			loading.all = false

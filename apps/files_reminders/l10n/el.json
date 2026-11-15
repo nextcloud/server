@@ -26,8 +26,6 @@
     "This weekend" : "Αυτό το Σαββατοκύριακο",
     "Set reminder for this weekend" : "Ορισμός υπενθύμισης για αυτό το Σαββατοκύριακο",
     "Next week" : "Επόμενη εβδομάδα",
-    "Set reminder for next week" : "Ορισμός υπενθύμισης για την επόμενη εβδομάδα",
-    "Set reminder for \"{fileName}\"" : "Ορισμός υπενθύμισης για \"{fileName}\"",
-    "We will remind you of this file" : "Θα σας υπενθυμίσουμε αυτό το αρχείο"
+    "Set reminder for next week" : "Ορισμός υπενθύμισης για την επόμενη εβδομάδα"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

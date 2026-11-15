@@ -9,6 +9,7 @@ namespace OCA\Settings\Settings\Admin;
 
 use OC\Profile\ProfileManager;
 use OC\Profile\TProfileHelper;
+use OCA\Settings\ConfigLexicon;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -56,6 +57,7 @@ class Server implements IDelegatedSettings {
 		$this->initialStateService->provideInitialState('profileEnabledGlobally', $this->profileManager->isProfileEnabled());
 		$this->initialStateService->provideInitialState('profileEnabledByDefault', $this->isProfileEnabledByDefault($this->config));
 		$this->initialStateService->provideInitialState('profilePickerEnabled', $this->isProfilePickerEnabled($this->config));
+		$this->initialStateService->provideInitialState('profilePrivate', $this->appConfig->getValueBool('settings', ConfigLexicon::PROFILE_PRIVATE));
 
 		// Basic settings
 		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $this->appConfig->getValueBool('systemtags', 'restrict_creation_to_admin', false));

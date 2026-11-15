@@ -162,7 +162,6 @@ OC.L10N.register(
     "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
     "Could not update an exApp. Please try again later." : "無法更新 exApp。請稍後再試。",
     "Could not update {app}. Please try again later." : "無法更新 {app}。請稍後再試。",
-    "Could not update an app. Please try again later." : "無法更新應用程式。請稍後再試。",
-    "Failed to update app {appName}" : "更新應用程式 {appName} 失敗"
+    "Could not update an app. Please try again later." : "無法更新應用程式。請稍後再試。"
 },
 "nplurals=1; plural=0;");

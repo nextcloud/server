@@ -60,6 +60,12 @@ class PhpOpcacheSetup implements ISetupCheck {
 		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
 			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply "opcache.file_cache_only=0" to your PHP configuration and use the file cache as second level cache only.');
 		} else {
+			// Checking every script for changes on every request is a noticeable part of the request time
+			if ($this->iniGetWrapper->getBool('opcache.validate_timestamps') !== false
+				&& (int)($this->iniGetWrapper->getNumeric('opcache.revalidate_freq') ?? 2) === 0) {
+				$recommendations[] = $this->l10n->t('OPcache checks all scripts for changes on every request. For better performance, it is recommended to apply `opcache.revalidate_freq=1` to your PHP configuration.');
+			}
+
 			// Check whether opcache_get_status has been explicitly disabled and in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
 			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {

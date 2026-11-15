@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Type;
 
+use finfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\IBinaryFinder;
 use OCP\ITempManager;

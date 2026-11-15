@@ -4,13 +4,13 @@
  */
 
 // Shared scaffolding for the NewUserDialog / EditUserDialog specs. The mount
-// factories stay per-spec (they differ in props, store getters, and mocks);
+// factories stay per-spec (they differ in props, store state, and mocks);
 // only the version-agnostic stubs and helpers live here.
 //
 // The dialogs use `<script setup>`, so child components resolve from local
-// imports and the store from `useStore()`. VTU's `stubs` and `mocks.$store`
-// reach neither, so each spec swaps them with `vi.mock`. Stubs are render
-// functions, not `template`: the runtime-only test build has no compiler.
+// imports. VTU's `stubs` don't reach them, so each spec swaps them with
+// `vi.mock`; the store comes from a testing pinia passed to `mount`. Stubs are
+// render functions, not `template`: the runtime-only test build has no compiler.
 
 // Minimal local typings so the stubs don't depend on a particular Vue version's
 // type exports (the IDE resolves bare `vue` to the Vue 3 types).
@@ -21,8 +21,8 @@ interface StubVm {
 	$scopedSlots: Record<string, ((props: object) => StubChild) | undefined>
 }
 
-// The dialogs translate via the imported `translate`, but the store and some
-// helpers still call the bare globals. Provide identity stand-ins on import.
+// The dialogs translate via the imported `translate`, but some helpers still
+// call the bare globals. Provide identity stand-ins on import.
 globalThis.t = (_app: string, text: string) => text
 globalThis.n = (_app: string, singular: string, plural: string, count: number) => (count === 1 ? singular : plural)
 

@@ -157,7 +157,6 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "De app-categorieën konden niet worden geladen. Probeer het later nog eens.",
     "Could not load apps list. Please try again later." : "De lijst met apps kon niet worden geladen. Probeer het later nog eens.",
     "Could not update the app. Please try again later." : "De app kon niet worden bijgewerkt. Probeer het later nog eens.",
-    "An error occurred during the request. Unable to proceed." : "Er is een fout opgetreden tijdens het verzoek. Kan niet doorgaan.",
-    "Failed to update app {appName}" : "Het is niet gelukt om de app {appName} bij te werken"
+    "An error occurred during the request. Unable to proceed." : "Er is een fout opgetreden tijdens het verzoek. Kan niet doorgaan."
 },
 "nplurals=2; plural=(n != 1);");

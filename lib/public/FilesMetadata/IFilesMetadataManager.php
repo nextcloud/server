@@ -10,6 +10,7 @@ namespace OCP\FilesMetadata;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Node;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
@@ -71,14 +72,14 @@ interface IFilesMetadataManager {
 	/**
 	 * returns metadata of a file id
 	 *
-	 * @param Node $node file id
+	 * @param Node|ICacheEntry $node file id
 	 * @param boolean $generate Generate if metadata does not exist
 	 *
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 36.0.0
 	 */
-	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata;
+	public function getMetadataForNode(Node|ICacheEntry $node, bool $generate = false): IFilesMetadata;
 
 	/**
 	 * returns metadata of multiple file ids

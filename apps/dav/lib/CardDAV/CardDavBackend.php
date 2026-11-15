@@ -28,6 +28,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -409,6 +410,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}, $this->db);
 
 		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent($addressBookId, $addressBookRow));
+		$this->logAuditEvent('Address book "%s" of "%s" was created with URI "%s"', [
+			'addressBookId' => $addressBookId,
+			'owner' => $addressBookRow['principaluri'] ?? null,
+			'uri' => $addressBookRow['uri'] ?? null,
+		], 'dav.addressbook.created');
 
 		return $addressBookId;
 	}
@@ -453,6 +459,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			if ($addressBookData) {
 				$this->dispatcher->dispatchTyped(new AddressBookDeletedEvent($addressBookId, $addressBookData, $shares));
+				$this->logAuditEvent('Address book "%s" of "%s" was deleted, removing the shares with "%s"', [
+					'addressBookId' => $addressBookId,
+					'owner' => $addressBookData['principaluri'] ?? null,
+					'sharees' => $this->implodeShareHrefs($shares),
+				], 'dav.addressbook.deleted');
 			}
 		}, $this->db);
 	}
@@ -687,6 +698,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$shares = $this->getShares($addressBookId);
 			$objectRow = $this->getCard($addressBookId, $cardUri);
 			$this->dispatcher->dispatchTyped(new CardCreatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
+			$this->logCardAuditEvent('created', $addressBookId, $addressBookData, $objectRow, 'dav.card.created');
 
 			return '"' . $etag . '"';
 		}, $this->db);
@@ -757,6 +769,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$shares = $this->getShares($addressBookId);
 			$objectRow = $this->getCard($addressBookId, $cardUri);
 			$this->dispatcher->dispatchTyped(new CardUpdatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
+			$this->logCardAuditEvent('updated', $addressBookId, $addressBookData, $objectRow, 'dav.card.updated');
 			return '"' . $etag . '"';
 		}, $this->db);
 	}
@@ -807,6 +820,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$targetShares = $this->getShares($targetAddressBookId);
 			$sourceAddressBookRow = $this->getAddressBookById($sourceAddressBookId);
 			$this->dispatcher->dispatchTyped(new CardMovedEvent($sourceAddressBookId, $sourceAddressBookRow, $targetAddressBookId, $targetAddressBookRow, $sourceShares, $targetShares, $card));
+			$this->logAuditEvent('Card "%s" was moved from address book "%s" to address book "%s" of "%s"', [
+				'cardUri' => $card['uri'] ?? null,
+				'sourceAddressBookId' => $sourceAddressBookId,
+				'targetAddressBookId' => $targetAddressBookId,
+				'owner' => $targetAddressBookRow['principaluri'] ?? null,
+			], 'dav.card.moved');
 			return true;
 		}, $this->db);
 	}
@@ -841,6 +860,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				if ($cardId !== null) {
 					$this->dispatcher->dispatchTyped(new CardDeletedEvent($addressBookId, $addressBookData, $shares, $objectRow));
+					$this->logCardAuditEvent('deleted', $addressBookId, $addressBookData, $objectRow, 'dav.card.deleted');
 					$this->purgeProperties($addressBookId, $cardId);
 				}
 				return true;
@@ -976,7 +996,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				// Fetching all changes
 				$stmt = $qb->executeQuery();
-				$rowCount = $stmt->rowCount();
+				// rowCount() is not reliable for SELECT statements on all databases
+				$rowCount = 0;
 
 				$changes = [];
 				$highestSyncToken = 0;
@@ -984,6 +1005,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				// This loop ensures that any duplicates are overwritten, only the
 				// last change on a node is relevant.
 				while ($row = $stmt->fetchAssociative()) {
+					$rowCount++;
 					$changes[$row['uri']] = $row['operation'];
 					$highestSyncToken = $row['synctoken'];
 				}
@@ -1144,6 +1166,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$this->sharingBackend->updateShares($shareable, $add, $remove, $oldShares);
 
 			$this->dispatcher->dispatchTyped(new AddressBookShareUpdatedEvent($addressBookId, $addressBookData, $oldShares, $add, $remove));
+			$this->logAuditEvent('Shares of address book "%s" of "%s" were updated, added: "%s", removed: "%s"', [
+				'addressBookId' => $addressBookId,
+				'owner' => $addressBookData['principaluri'] ?? null,
+				'added' => $this->implodeShareHrefs($add),
+				'removed' => implode(', ', $remove),
+			], 'dav.addressbook_share.updated');
 		}, $this->db);
 	}
 
@@ -1634,5 +1662,34 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query->expr()->isNull('lastmodified'));
 
 		return $this->getCardsFromQuery($query);
+	}
+
+	/**
+	 * The system address book is synced from the user accounts, so its cards are not logged.
+	 * Only the URI of the card is logged, never its content.
+	 */
+	private function logCardAuditEvent(string $change, int $addressBookId, array $addressBookData, array $cardData, string $operation): void {
+		if (($addressBookData['principaluri'] ?? null) === 'principals/system/system') {
+			return;
+		}
+		$this->logAuditEvent('Card "%s" in address book "%s" of "%s" was ' . $change, [
+			'cardUri' => $cardData['uri'] ?? null,
+			'addressBookId' => $addressBookId,
+			'owner' => $addressBookData['principaluri'] ?? null,
+		], $operation);
+	}
+
+	/**
+	 * @param array<array{href: string, ...}> $shares
+	 */
+	private function implodeShareHrefs(array $shares): string {
+		return implode(', ', array_map(static fn (array $share): string => $share['href'], $shares));
+	}
+
+	/**
+	 * @param array<string, scalar|null> $parameters
+	 */
+	private function logAuditEvent(string $message, array $parameters, string $operation): void {
+		$this->dispatcher->dispatchTyped(new CriticalActionPerformedEvent($message, $parameters, false, $operation));
 	}
 }

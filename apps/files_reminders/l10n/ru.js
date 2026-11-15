@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "Эти выходные",
     "Set reminder for this weekend" : "Установить напоминание на эти выходные",
     "Next week" : "Следующая неделя",
-    "Set reminder for next week" : "Установить напоминание на следующую неделю",
-    "Set reminder for \"{fileName}\"" : "Установить напоминание о «{fileName}»",
-    "We will remind you of this file" : "Мы напомним вам об этом файле"
+    "Set reminder for next week" : "Установить напоминание на следующую неделю"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

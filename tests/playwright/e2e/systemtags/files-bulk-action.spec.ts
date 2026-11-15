@@ -5,7 +5,7 @@
 
 import { test as baseTest } from '../../support/fixtures/systemtags-files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
-import { assignTagsToFile, clearTags, createTag } from '../../support/utils/systemtags.ts'
+import { assignTagsToFile, createTag } from '../../support/utils/systemtags.ts'
 
 // Extends the base fixture with per-test file IDs so tests in parallel each get
 // their own isolated file IDs rather than sharing module-level mutable state.
@@ -19,11 +19,9 @@ const test = baseTest.extend<{ fileIds: [string, string] }>({
 })
 
 test.describe('Systemtags: Files bulk action', () => {
-	test.afterAll(async () => await clearTags())
-
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Needed to execute the upload by PlayWright
-	test('Can assign tag to selection', async ({ filesListPage, fileIds }) => {
-		const tag = crypto.randomUUID()
+	test('Can assign tag to selection', async ({ filesListPage, fileIds, tagName }) => {
+		const tag = tagName()
 
 		await filesListPage.expectInlineTagsForFile('file1.txt', [])
 		await filesListPage.expectInlineTagsForFile('file2.txt', [])
@@ -39,9 +37,9 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.expectInlineTagsForFile('file2.txt', [tag])
 	})
 
-	test('Can assign multiple tags to selection', async ({ filesListPage }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
+	test('Can assign multiple tags to selection', async ({ filesListPage, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
 
 		await filesListPage.expectInlineTagsForFile('file1.txt', [])
 		await filesListPage.expectInlineTagsForFile('file2.txt', [])
@@ -58,9 +56,9 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.expectInlineTagsForFile('file2.txt', [tag1, tag2])
 	})
 
-	test('Can remove tag from selection', async ({ filesListPage, page, fileIds }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
+	test('Can remove tag from selection', async ({ filesListPage, page, fileIds, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
 		await assignTagsToFile(fileIds[0], [tag1, tag2])
 		await assignTagsToFile(fileIds[1], [tag1, tag2])
 		await page.reload()
@@ -79,10 +77,10 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.expectInlineTagsForFile('file2.txt', [tag1])
 	})
 
-	test('Can remove multiple tags from selection', async ({ filesListPage, page, fileIds }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
-		const tag3 = crypto.randomUUID()
+	test('Can remove multiple tags from selection', async ({ filesListPage, page, fileIds, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
+		const tag3 = tagName()
 		await assignTagsToFile(fileIds[0], [tag1, tag2, tag3])
 		await assignTagsToFile(fileIds[1], [tag1, tag2, tag3])
 		await page.reload()
@@ -102,10 +100,10 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.expectInlineTagsForFile('file2.txt', [tag1])
 	})
 
-	test('Can assign and remove multiple tags', async ({ filesListPage, page, fileIds }) => {
-		const tag1 = crypto.randomUUID()
-		const tag2 = crypto.randomUUID()
-		const tag3 = crypto.randomUUID()
+	test('Can assign and remove multiple tags', async ({ filesListPage, page, fileIds, tagName }) => {
+		const tag1 = tagName()
+		const tag2 = tagName()
+		const tag3 = tagName()
 		await assignTagsToFile(fileIds[0], [tag1, tag2])
 		await assignTagsToFile(fileIds[1], [tag1, tag2])
 		await page.reload()
@@ -125,8 +123,8 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.expectInlineTagsForFile('file2.txt', [tag1, tag3])
 	})
 
-	test('Can search for tags with insensitive case', async ({ filesListPage }) => {
-		const tag = crypto.randomUUID().toLowerCase()
+	test('Can search for tags with insensitive case', async ({ filesListPage, tagName }) => {
+		const tag = tagName()
 		await createTag(tag, 'public')
 
 		await filesListPage.expectInlineTagsForFile('file1.txt', [])

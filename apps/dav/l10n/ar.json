@@ -299,10 +299,6 @@
     "Location:" : "المكان :",
     "Link:" : "الرابط:",
     "Occurring:" : "التكرار:",
-    "More options at %s" : "خيارات أخرى في %s",
-    "The system address book contains contact information for all users in your instance." : "دفتر عناوين النظام يحتوي على معلومات الاتصال لجميع المستخدِمين على خادومك. ",
-    "Enable System Address Book" : "تمكين دفتر عناوين النظام",
-    "No results." : "لا نتائج",
-    "Start typing." : "أبدا الكتابة"
+    "More options at %s" : "خيارات أخرى في %s"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

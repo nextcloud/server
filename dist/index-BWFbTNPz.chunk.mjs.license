@@ -1,0 +1,11 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Sindre Sorhus
+
+This file is generated from multiple sources. Included packages:
+- eventemitter3
+	- version: 5.0.4
+	- license: MIT
+- p-timeout
+	- version: 7.0.2
+	- license: MIT

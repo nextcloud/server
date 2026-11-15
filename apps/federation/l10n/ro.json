@@ -1,0 +1,28 @@
+{ "translations": {
+    "Added to the list of trusted servers" : "Adăugat în lista serverelor de încredere",
+    "No server found with ID: %s" : "Nu a fost găsit niciun server cu ID-ul: %s",
+    "Could not remove server" : "Nu s-a putut elimina serverul",
+    "Server is already in the list of trusted servers." : "Serverul este deja în lista serverelor de încredere.",
+    "No server to federate with found" : "Nu a fost găsit niciun server cu care să se facă federarea",
+    "Could not add server" : "Nu s-a putut adăuga serverul",
+    "Trusted servers" : "Servere de încredere",
+    "Federation" : "Federare",
+    "Federation allows you to connect with other trusted servers to exchange the account directory." : "Federarea îți permite să te conectezi la alte servere de încredere pentru a face schimb de directoare de conturi.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federarea îți permite să te conectezi la alte servere de încredere pentru a face schimb de directoare de conturi. De exemplu, aceasta va fi folosită pentru completarea automată a conturilor externe la partajarea federată.",
+    "Could not add trusted server. Please try again later." : "Nu s-a putut adăuga serverul de încredere. Încearcă din nou mai târziu.",
+    "Add trusted server" : "Adaugă un server de încredere",
+    "Server url" : "URL-ul serverului",
+    "Add" : "Adaugă",
+    "Server ok" : "Server funcțional",
+    "User list was exchanged at least once successfully with the remote server." : "Schimbul listei de utilizatori cu serverul la distanță a reușit cel puțin o dată.",
+    "Server pending" : "Server în așteptare",
+    "Waiting for shared secret or initial user list exchange." : "Se așteaptă secretul partajat sau schimbul inițial al listei de utilizatori.",
+    "Server access revoked" : "Accesul serverului a fost revocat",
+    "Server failure" : "Eroare de server",
+    "Connection to the remote server failed or the remote server is misconfigured." : "Conexiunea cu serverul la distanță a eșuat sau serverul la distanță este configurat greșit.",
+    "Failed to delete trusted server. Please try again later." : "Ștergerea serverului de încredere a eșuat. Încearcă din nou mai târziu.",
+    "Delete" : "Șterge",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federarea îți permite să te conectezi la alte servere de încredere pentru a face schimb de directoare de conturi. De exemplu, aceasta va fi folosită pentru completarea automată a conturilor externe la partajarea federată. Nu este necesar să adaugi un server ca server de încredere pentru a crea o partajare federată.",
+    "Each server must validate the other. This process may require a few cron cycles." : "Fiecare server trebuie să îl valideze pe celălalt. Acest proces poate dura câteva cicluri cron."
+},"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
+}

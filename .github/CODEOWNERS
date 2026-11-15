@@ -107,6 +107,7 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 # Security team
 /build/psalm-baseline-security.xml                        @nickvergessen @nextcloud/server-backend
 /resources/codesigning                                    @nickvergessen @mgallien @miaulalala
+/build/ca-bundle-etag.txt                                 @nickvergessen @miaulalala
 /resources/config/ca-bundle.crt                           @nickvergessen @miaulalala
 
 # App maintainers

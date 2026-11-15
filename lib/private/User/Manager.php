@@ -244,7 +244,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return IUser|false the User object on success, false otherwise
 	 */
 	public function checkPasswordNoLogging($loginName, $password) {
-		$loginName = str_replace("\0", '', $loginName);
+		// A NUL byte in the login name must not turn it into a second name for an
+		// account: the checks done before the password check (e.g. 2FA enforcement
+		// in Session::logClientIn()) see the name as sent, so the name has to stay the same
+		if (str_contains($loginName, "\0")) {
+			return false;
+		}
 		$password = str_replace("\0", '', $password);
 
 		$cachedBackend = $this->cache->get($loginName);

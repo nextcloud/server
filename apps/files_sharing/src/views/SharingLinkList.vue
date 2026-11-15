@@ -10,16 +10,17 @@
 		class="sharing-link-list">
 		<!-- Else we display the list -->
 		<template v-if="hasShares">
-			<!-- using shares[index] to work with .sync -->
+			<!-- using shares[index] to work with v-model -->
 			<SharingEntryLink
 				v-for="(share, index) in shares"
 				:key="share.id"
+				ref="entries"
+				v-model:share="shares[index]"
 				:index="shares.length > 1 ? index + 1 : null"
 				:can-reshare="canReshare"
-				:share.sync="shares[index]"
 				:file-info="fileInfo"
-				@add:share="addShare(...arguments)"
-				@update:share="awaitForShare(...arguments)"
+				@add:share="addShare"
+				@update:share="awaitForShare"
 				@remove:share="removeShare"
 				@open-sharing-details="openSharingDetails(share)" />
 		</template>
@@ -37,6 +38,7 @@
 import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
+import { toRaw } from 'vue'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
 
@@ -121,7 +123,7 @@ export default {
 		 */
 		awaitForShare(share, resolve) {
 			this.$nextTick(() => {
-				const newShare = this.$children.find((component) => component.share === share)
+				const newShare = this.$refs.entries?.find((component) => toRaw(component.share) === toRaw(share))
 				if (newShare) {
 					resolve(newShare)
 				}

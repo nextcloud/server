@@ -5,19 +5,16 @@
 
 import { expect, test } from '../../support/fixtures/systemtags-files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
-import { clearTags } from '../../support/utils/systemtags.ts'
 
 test.describe('Systemtags: Files view', () => {
-	test.afterAll(async () => await clearTags())
-
 	test.beforeEach(async ({ page, user, filesListPage }) => {
 		await mkdir(page.request, user, '/folder')
 		await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', '/file.txt')
 		await filesListPage.open()
 	})
 
-	test('See first assigned tag in the file list', async ({ page, filesListPage }) => {
-		const tag = crypto.randomUUID()
+	test('See first assigned tag in the file list', async ({ page, filesListPage, tagName }) => {
+		const tag = tagName()
 
 		await expect(filesListPage.getRowForFile('folder')).toBeVisible()
 		await expect(filesListPage.getRowForFile('file.txt')).toBeVisible()

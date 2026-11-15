@@ -10,7 +10,7 @@
     "The given start time is invalid" : " эхлэх цаг буруу байна",
     "The given end time is invalid" : "төгсөглийн хугацаа буруу байна",
     "The given group does not exist" : "Өгөгдсөн бүлэг байхгүй байна",
-    "File" : "File",
+    "File" : "Файл",
     "File created" : "Файл үүсгэгдсэн",
     "File updated" : "Файл шинэчлэгдсэн",
     "File renamed" : "Файлын нэр өөрчлөгдсөн",
@@ -44,8 +44,9 @@
     "Check %s is invalid or does not exist" : "%sшалгахад хүчингүй эсвэл байхгүй байна",
     "Flow" : "Урсгал",
     "Nextcloud workflow engine" : "Nextcloud ажлын урсгалын систем",
-    "Filter" : "–®“Ø“Ø–ª—Ç“Ø“Ø—Ä",
+    "Filter" : "Шүүлтүүр",
     "Select a filter" : "Шүүлтүүр сонгох",
+    "Comparator" : "Харьцуулагч",
     "Select a comparator" : "Харьцуулагч сонгох",
     "Remove filter" : "Шүүлтүүр хасах",
     "Audio" : "Аудио",
@@ -59,6 +60,8 @@
     "e.g. httpd/unix-directory" : "жишээ нь httpd/unix-directory",
     "Select a file type" : "Файлын төрөл сонгох",
     "Tag" : "Таг",
+    "Start time" : "Эхлэх цаг",
+    "End time" : "Дуусах цаг",
     "Please enter a valid time span" : "Зөв цагийн хүрээ оруулна уу",
     "Timezone" : "Цагийн бүс",
     "Files WebDAV" : "WebDAV файлууд",
@@ -69,6 +72,7 @@
     "iOS client" : "iOS үйлчлүүлэгч",
     "Desktop client" : "захиалагчийн дэлгэц",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook нэмэлтүүд",
+    "User agent" : "Хэрэглэгчийн агент",
     "Custom user agent" : "Тусгай хэрэглэгчийн агент",
     "Select a user agent" : "Хэрэглэгчийн агент сонгох",
     "Select groups" : "бүлэг сонгох",
@@ -76,6 +80,7 @@
     "Type to search for group …" : "Бүлэг хайхын тулд бичнэ үү …",
     "Select a trigger" : "Триггер сонгох",
     "At least one event must be selected" : "Дор хаяж нэг үйл явдал сонгогдсон байх ёстой",
+    "Trigger" : "Триггер",
     "Add new flow" : "Шинэ урсгал нэмэх",
     "The configuration is invalid" : "Тохиргоо буруу байна",
     "Active" : "Идэвхтэй",
@@ -121,7 +126,6 @@
     "Request user agent" : "Хүсэлтийн хэрэглэгчийн агент",
     "Group membership" : "Бүлгийн гишүүнчлэл",
     "is member of" : "-ын гишүүн ",
-    "is not member of" : "-ын гишүүн биш",
-    "Type to search for group …" : "Бүлэг хайхын тулд бичнэ үү …"
+    "is not member of" : "-ын гишүүн биш"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

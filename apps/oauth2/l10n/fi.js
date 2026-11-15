@@ -13,9 +13,6 @@ OC.L10N.register(
     "Redirection URI" : "Uudelleenohjaus URI",
     "Delete client" : "Poista asiakas",
     "Add client" : "Lisää asiakas",
-    "Add" : "Lisää",
-    "Client Identifier" : "Asiakkaan tunniste",
-    "Show client secret" : "Näytä asiakkaan salaisuus",
-    "Hide client secret" : "Piilota asiakkaan salaisuus"
+    "Add" : "Lisää"
 },
 "nplurals=2; plural=(n != 1);");

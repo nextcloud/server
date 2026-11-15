@@ -47,11 +47,7 @@ export async function getContents(path = '/', options?: { signal: AbortSignal })
 		}) as ResponseDataDetailed<SearchResult>
 
 		const contents = contentsResponse.data.results
-			.map((stat) => {
-				// The search endpoint already includes the dav remote URL so we must not include it in the source
-				stat.filename = stat.filename.replace('/remote.php/dav', '')
-				return resultToNode(stat)
-			})
+			.map((stat) => resultToNode(stat))
 			.filter(filterHidden)
 
 		return {

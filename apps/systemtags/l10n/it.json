@@ -107,10 +107,7 @@
     "Failed to load tags for file" : "Caricamento delle etichette per il file fallito",
     "Failed to set tag for file" : "Impostazione dell'etichetta per il file fallita",
     "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita",
-    "Collaborative tags …" : "Etichette collaborative …",
-    "Loading …" : "Caricamento…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} verrà impostato e {tag2} verrà rimosso da 1 file.","{tag1} verrà impostato e {tag2} verrà rimosso da {count} file.","{tag1} verrà impostato e {tag2} verrà rimosso da {count} file."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} verrà rimosso da 1 file.","{tag} verrà rimosso da {count} file.","{tag} verrà rimosso da {count} file."],
-    "Loading collaborative tags …" : "Caricamento etichette collaborative …"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} verrà rimosso da 1 file.","{tag} verrà rimosso da {count} file.","{tag} verrà rimosso da {count} file."]
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

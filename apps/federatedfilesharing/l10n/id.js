@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Berbagi jarak jauh",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Apakah Anda ingin menambahkan pembagian remote {name} dari {owner}@{remote}?",
     "Remote share password" : "Kata sandi berbagi jarak jauh",
-    "Incoming share could not be processed" : "Berbagi masuk tidak dapat diproses",
-    "X (formerly Twitter)" : "X (sebelumnya Twitter)",
-    "formerly Twitter" : "sebelumnya Twitter"
+    "Incoming share could not be processed" : "Berbagi masuk tidak dapat diproses"
 },
 "nplurals=1; plural=0;");

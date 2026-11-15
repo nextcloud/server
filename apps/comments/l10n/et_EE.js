@@ -32,7 +32,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis viga",
     "Comment deleted" : "Kommentaar on kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis viga",
-    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis viga",
-    "Write a comment …" : "Kommenteeri..."
+    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis viga"
 },
 "nplurals=2; plural=(n != 1);");

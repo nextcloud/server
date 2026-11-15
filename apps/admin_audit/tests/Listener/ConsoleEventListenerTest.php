@@ -29,7 +29,7 @@ class ConsoleEventListenerTest extends TestCase {
 	public function testCommandExecuted(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Console command executed: user:disable carol', ['app' => 'admin_audit', 'operation' => 'console.command.executed']);
+			->with('Console command executed: user:disable carol', ['app' => 'admin_audit', 'operation' => 'console.command.executed', 'params' => ['arguments' => 'user:disable carol']]);
 
 		$this->listener->handle(new ConsoleEvent(ConsoleEvent::EVENT_RUN, ['occ', 'user:disable', 'carol']));
 	}

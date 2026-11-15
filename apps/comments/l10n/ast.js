@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Prodúxose un error mentanto se tentaba d'editar el comentariu",
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
-    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
-    "Write a comment …" : "Escribi un comentariu…"
+    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu"
 },
 "nplurals=2; plural=(n != 1);");

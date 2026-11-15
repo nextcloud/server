@@ -18,6 +18,7 @@ vi.mock('@nextcloud/dialogs', async (importOriginal) => ({
 	...await importOriginal<typeof nextcloudDialogs>(),
 	showError: vi.fn(),
 }))
+vi.mock('@nextcloud/viewer', () => ({ getViewer: () => ({ open: vi.fn() }) }))
 
 const view = {
 	id: 'files',
@@ -155,8 +156,31 @@ describe('Open locally action enabled tests', () => {
 })
 
 describe('Open locally action execute tests', () => {
+	const file = new File({
+		id: 1,
+		source: 'http://nextcloud.local/remote.php/dav/files/admin/foobar.txt',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.UPDATE,
+		root: '/files/admin',
+	})
+
+	/**
+	 * Answer the confirmation dialog with one of its buttons
+	 *
+	 * @param label - The label of the button to click
+	 */
+	function clickDialogButton(label: string) {
+		const setButtons = nextcloudDialogs.DialogBuilder.prototype.setButtons
+		vi.spyOn(nextcloudDialogs.DialogBuilder.prototype, 'setButtons').mockImplementation(function(this: nextcloudDialogs.DialogBuilder, buttons) {
+			buttons.find((button) => button.label === label)!.callback()
+			return setButtons.call(this, buttons)
+		})
+	}
+
 	let spyShowDialog
 	beforeEach(() => {
+		vi.restoreAllMocks()
 		vi.resetAllMocks()
 		spyShowDialog = vi.spyOn(nextcloudDialogs.Dialog.prototype, 'show')
 			.mockImplementation(() => Promise.resolve())
@@ -189,10 +213,47 @@ describe('Open locally action execute tests', () => {
 
 		// Silent action
 		expect(exec).toBe(null)
-		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledTimes(2)
 		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/opened', { fileId: 1 })
 		expect(showError).toBeCalledTimes(0)
 		expect(windowOpenSpy).toBeCalledWith('nc://open/test@nextcloud.local/foobar.txt?token=foobar', '_self')
+	})
+
+	test('Open locally reports the file opened once, even after a retry', async () => {
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({
+			data: { ocs: { data: { token: 'foobar' } } },
+		}))
+		vi.spyOn(window, 'open').mockImplementation(() => null)
+		clickDialogButton('Retry and close')
+
+		await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
+
+		expect(axios.post).toBeCalledTimes(3)
+		expect(vi.mocked(axios.post).mock.calls.filter(([url]) => url.endsWith('/opened'))).toHaveLength(1)
+	})
+
+	test('Open online leaves reporting the file opened to the viewer', async () => {
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({
+			data: { ocs: { data: { token: 'foobar' } } },
+		}))
+		vi.spyOn(window, 'open').mockImplementation(() => null)
+		clickDialogButton('Open online')
+
+		await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
+
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).not.toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/opened', expect.anything())
 	})
 
 	test('Open locally fails and shows error', async () => {

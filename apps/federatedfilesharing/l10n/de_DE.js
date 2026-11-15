@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Externe Freigabe",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzufügt werden?",
     "Remote share password" : "Passwort für die externe Freigabe",
-    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
-    "X (formerly Twitter)" : "X (früher Twitter)",
-    "formerly Twitter" : "früher Twitter"
+    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden"
 },
 "nplurals=2; plural=(n != 1);");

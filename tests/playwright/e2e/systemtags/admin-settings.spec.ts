@@ -4,21 +4,19 @@
  */
 
 import { expect } from '@playwright/test'
-import { test } from '../../support/fixtures/admin-session.ts'
-import { createTag, deleteTag, listTags } from '../../support/utils/systemtags.ts'
+import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { createTag, tagNameFixture } from '../../support/utils/systemtags.ts'
 
-const tagName = 'foo'
-const updatedTagName = 'bar'
+const test = adminTest.extend<{ tagName: () => string }>({
+	tagName: tagNameFixture,
+})
+
+// NcEllipsisedOption splits names of 10+ chars across two spans, which breaks the
+// option's accessible name, so options are matched on their text content instead.
 
 test.describe('System tags admin settings', () => {
-	test.beforeEach(async () => {
-		const tags = await listTags()
-		for (const tag of tags) {
-			await deleteTag(tag.id)
-		}
-	})
-
-	test('Can create a tag', async ({ page }) => {
+	test('Can create a tag', async ({ page, tagName: generateTagName }) => {
+		const tagName = generateTagName()
 		await page.goto('settings/admin/server')
 
 		// Scroll the collaborative tags section into view — the admin settings page is long
@@ -35,10 +33,12 @@ test.describe('System tags admin settings', () => {
 
 		// The form resets after creation — verify the tag now appears in the selection dropdown
 		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
-		await expect(page.getByRole('option', { name: tagName })).toBeVisible()
+		await expect(page.getByRole('option').filter({ hasText: tagName })).toBeVisible()
 	})
 
-	test('Can update a tag', async ({ page }) => {
+	test('Can update a tag', async ({ page, tagName: generateTagName }) => {
+		const tagName = generateTagName()
+		const updatedTagName = generateTagName()
 		await createTag(tagName)
 
 		await page.goto('settings/admin/server')
@@ -46,7 +46,7 @@ test.describe('System tags admin settings', () => {
 
 		// Select the tag to edit
 		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
-		await page.getByRole('option', { name: tagName }).click()
+		await page.getByRole('option').filter({ hasText: tagName }).click()
 
 		// Verify the form reflects the selected tag
 		await expect(page.getByLabel('Tag name')).toHaveValue(tagName)
@@ -65,13 +65,11 @@ test.describe('System tags admin settings', () => {
 		expect((await updateResponse).status()).toBe(207)
 
 		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
-		// NcEllipsisedOption splits names ≥ 10 chars across two spans, breaking the accessible name.
-		// "bar (invisible)" (15 chars) splits at position 8 → accessible name "bar (inv isible)".
-		// Use filter({ hasText }) to match on text content instead of the exact accessible name.
 		await expect(page.getByRole('option').filter({ hasText: updatedTagName })).toBeVisible()
 	})
 
-	test('Can delete a tag', async ({ page }) => {
+	test('Can delete a tag', async ({ page, tagName: generateTagName }) => {
+		const tagName = generateTagName()
 		await createTag(tagName)
 
 		await page.goto('settings/admin/server')

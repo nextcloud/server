@@ -104,10 +104,7 @@
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
-    "Collaborative tags …" : "Etiquetes col·laboratives…",
-    "Loading …" : "S'està carregant…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["S'establirà {tag1} i s'eliminarà {tag2} d'1 fitxer.","S'establirà {tag1} i s'eliminaran {tag2} de {count} fitxers."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."],
-    "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

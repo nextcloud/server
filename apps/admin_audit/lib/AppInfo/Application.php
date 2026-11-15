@@ -37,6 +37,8 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -47,16 +49,25 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
+use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
+use OCP\SystemTag\TagAssignedEvent;
+use OCP\SystemTag\TagUnassignedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -128,6 +139,23 @@ class Application extends App implements IBootstrap {
 
 		// System tag event
 		$context->registerEventListener(TagCreatedEvent::class, TagEventListener::class);
+
+		// Users, groups and two-factor providers
+		$context->registerEventListener(GroupChangedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminAddedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(SubAdminRemovedEvent::class, GroupManagementEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, SecurityEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, SecurityEventListener::class);
+
+		// System tags
+		$context->registerEventListener(TagUpdatedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagDeletedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagAssignedEvent::class, TagEventListener::class);
+		$context->registerEventListener(TagUnassignedEvent::class, TagEventListener::class);
+
+		// Files sharing recipient events
+		$context->registerEventListener(ShareAcceptedEvent::class, SharingEventListener::class);
+		$context->registerEventListener(ShareDeletedFromSelfEvent::class, SharingEventListener::class);
 	}
 
 	#[\Override]

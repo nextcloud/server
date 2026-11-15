@@ -1,0 +1,26 @@
+{ "translations": {
+    "View profile" : "Vezi profilul",
+    "Profile picker" : "Selector de profiluri",
+    "Profile" : "Profil",
+    "This application provides the profile" : "Această aplicație oferă profilul",
+    "Provides a customizable user profile interface." : "Oferă o interfață de profil de utilizator personalizabilă.",
+    "Searching …" : "Se caută …",
+    "Not found" : "Nu a fost găsit",
+    "Search for a user profile" : "Caută un profil de utilizator",
+    "Search for a user profile. Start typing" : "Caută un profil de utilizator. Începe să tastezi",
+    "Insert selected user profile link" : "Inserează linkul profilului de utilizator selectat",
+    "Insert" : "Inserează",
+    "You & {user}" : "Tu și {user}",
+    "You have not added any info yet" : "Încă nu ai adăugat nicio informație",
+    "{user} has not added any info yet" : "{user} nu a adăugat încă nicio informație",
+    "Error opening the user status modal, try hard refreshing the page" : "Eroare la deschiderea dialogului de stare a utilizatorului; încearcă să reîncarci complet pagina",
+    "Edit profile" : "Editează profilul",
+    "The headline and about sections will show up here" : "Secțiunile Titlu și Despre vor apărea aici",
+    "Profile not found" : "Profilul nu a fost găsit",
+    "The profile does not exist or is unavailable." : "Profilul nu există sau nu este disponibil.",
+    "Back to %s" : "Înapoi la %s",
+    "Provides a customisable user profile interface." : "Oferă o interfață de profil de utilizator personalizabilă.",
+    "Edit Profile" : "Editează profilul",
+    "The profile does not exist." : "Profilul nu există."
+},"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
+}

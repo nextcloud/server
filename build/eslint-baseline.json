@@ -1,4 +1,157 @@
 {
+  "apps/files_sharing/src/components/FileListFilterAccount.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/NewFileRequestDialog.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 3
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogDatePassword.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 5
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogFinish.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 8
+    },
+    "vue/custom-event-name-casing": {
+      "count": 3
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogIntro.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 6
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 3
+    }
+  },
+  "apps/files_sharing/src/components/SelectShareFolderDialogue.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/ShareExpiryTime.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntry.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 4
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntryInherited.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntryLink.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 13
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 3
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntryQuickShareSelect.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 4
+    },
+    "vue/custom-event-name-casing": {
+      "count": 1
+    },
+    "vue/no-mutating-props": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntrySimple.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/SharingInput.vue": {
+    "@nextcloud/no-deprecated-library-props": {
+      "count": 1
+    },
+    "vue/attribute-hyphenation": {
+      "count": 4
+    }
+  },
+  "apps/files_sharing/src/components/SidebarTabExternal/SidebarTabExternalAction.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/SidebarTabExternal/SidebarTabExternalSectionLegacy.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/FilesSidebarTab.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingDetailsTab.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 19
+    },
+    "vue/custom-event-name-casing": {
+      "count": 3
+    },
+    "vue/no-mutating-props": {
+      "count": 36
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 3
+    }
+  },
+  "apps/files_sharing/src/views/SharingInherited.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingLinkList.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 4
+    },
+    "vue/no-mutating-props": {
+      "count": 1
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingList.vue": {
+    "vue/attribute-hyphenation": {
+      "count": 2
+    },
+    "vue/v-on-event-hyphenation": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingTab.vue": {
+    "vue/v-on-event-hyphenation": {
+      "count": 6
+    }
+  },
   "core/src/views/Login.vue": {
     "vue/multi-word-component-names": {
       "count": 1

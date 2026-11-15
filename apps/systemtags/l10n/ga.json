@@ -110,10 +110,7 @@
     "Failed to load tags for file" : "Theip ar lódáil clibeanna don chomhad",
     "Failed to set tag for file" : "Theip ar chlib a shocrú don chomhad",
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
-    "Collaborative tags …" : "Clibeanna comhoibríocha…",
-    "Loading …" : "Á lódáil…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Socrófar {tag1} agus bainfear {tag2} de 1 chomhad.","Socrófar {tag1} agus bainfear {tag2} de chomhaid {count}.","Socrófar {tag1} agus bainfear {tag2} de chomhaid {count}.","Socrófar {tag1} agus bainfear {tag2} de chomhaid {count}.","Socrófar {tag1} agus bainfear {tag2} de chomhaid {count}."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bainfear {tag} de 1 chomhad.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}."],
-    "Loading collaborative tags …" : "Clibeanna comhoibritheacha á lódáil…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bainfear {tag} de 1 chomhad.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}.","Bainfear {tag} de chomhaid {count}."]
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

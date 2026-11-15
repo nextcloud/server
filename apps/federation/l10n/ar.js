@@ -14,9 +14,6 @@ OC.L10N.register(
     "Add" : "إضافة",
     "Delete" : "حذف",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "يسمح لك الاتحاد بالاتصال بخوادم موثوقة أخرى لتبادل أدلة الحسابات معها. على سبيل المثال، سيتم استخدام هذا للإكمال التلقائي للحسابات الخارجية عند المشاركة الاتحادية. ليس من الضروري إضافة خادم كخادم موثوق به لإنشاء مشاركة السحابة الموحدة.",
-    "Each server must validate the other. This process may require a few cron cycles." : "يجب على كل خادوم أن يُصادِق على الآخر. هذه العملية يمكن أن تستغرق عدة دورات من مهام الخلفية cron.",
-    "External documentation for Federated Cloud Sharing" : "التوثيق الخارجي لمشاركة السحابة الاتحادية",
-    "+ Add trusted server" : "+ إضافة خادم موثوق",
-    "Trusted server" : "خادم موثوق"
+    "Each server must validate the other. This process may require a few cron cycles." : "يجب على كل خادوم أن يُصادِق على الآخر. هذه العملية يمكن أن تستغرق عدة دورات من مهام الخلفية cron."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

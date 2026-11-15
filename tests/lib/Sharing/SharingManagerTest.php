@@ -19,9 +19,11 @@ use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Sharing\SharingManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -301,6 +303,75 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 		} catch (Exception $exception) {
 			$this->dbConnection->rollBack();
 			throw  $exception;
+		}
+	}
+
+	public function testAuditLog(): void {
+		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(['recipient1' => 'Recipient 1'], [], true, true));
+
+		$auditEvents = [];
+		$listener = static function (CriticalActionPerformedEvent $event) use (&$auditEvents): void {
+			if (str_starts_with($event->getOperation() ?? '', 'unified_sharing.')) {
+				$auditEvents[] = $event;
+			}
+		};
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(CriticalActionPerformedEvent::class, $listener);
+
+		$accessContext = new ShareAccessContext($this->owner);
+		$recipient = new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null);
+		$secretRecipient = new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient1', null);
+
+		try {
+			$this->dbConnection->beginTransaction();
+			$share = $this->manager->createShare($accessContext);
+			$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+			$share = $this->manager->addShareRecipient($accessContext, $share, $recipient);
+			$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+			$share = $this->manager->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyType1::class, 'valid1'));
+			$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+			$share = $this->manager->addShareRecipient($accessContext, $share, $secretRecipient);
+			$share = $this->manager->updateShareRecipientSecret($accessContext, $share, $secretRecipient, 'mysecret');
+			$share = $this->manager->updateShareRecipientPermission($accessContext, $share, $recipient, new SharePermission(TestSharePermissionType1::class, false));
+			$share = $this->manager->selectSharePermissionPreset($accessContext, $share, TestSharePermissionPreset1::class);
+			$recipientContext = new ShareAccessContext($this->user1);
+			$this->manager->updateShareUserStatus($recipientContext, $this->manager->getShare($recipientContext, $share->id), ShareUserStatus::Accepted);
+			$share = $this->manager->removeShareRecipient($accessContext, $share, $secretRecipient);
+			$share = $this->manager->removeShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+			$this->manager->deleteShare($accessContext, $share);
+			$this->dbConnection->commit();
+		} finally {
+			$eventDispatcher->removeListener(CriticalActionPerformedEvent::class, $listener);
+		}
+
+		$this->assertSame([
+			'unified_sharing.share.created',
+			'unified_sharing.source.added',
+			'unified_sharing.recipient.added',
+			'unified_sharing.permission.updated',
+			'unified_sharing.property.updated',
+			'unified_sharing.share.state_updated',
+			'unified_sharing.recipient.added',
+			'unified_sharing.recipient_secret.updated',
+			'unified_sharing.recipient_permission.updated',
+			'unified_sharing.permission_preset.selected',
+			'unified_sharing.share.user_status_updated',
+			'unified_sharing.recipient.removed',
+			'unified_sharing.source.removed',
+			'unified_sharing.share.deleted',
+		], array_map(static fn (CriticalActionPerformedEvent $event): ?string => $event->getOperation(), $auditEvents));
+
+		$this->assertSame([
+			'shareId' => $share->id,
+			'recipientClass' => TestShareRecipientType1::class,
+			'recipientValue' => 'recipient1',
+			'instance' => 'local',
+		], $auditEvents[2]->getParameters());
+		$this->assertSame(['shareId' => $share->id, 'userStatus' => 'accepted', 'user' => 'user1'], $auditEvents[10]->getParameters());
+		$this->assertSame(['shareId' => $share->id, 'owner' => 'owner'], $auditEvents[13]->getParameters());
+
+		foreach ($auditEvents as $event) {
+			$this->assertNotContains('mysecret', $event->getParameters(), 'The recipient secret must not be logged');
 		}
 	}
 }

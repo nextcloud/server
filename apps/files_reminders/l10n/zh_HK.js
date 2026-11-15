@@ -31,8 +31,6 @@ OC.L10N.register(
     "This weekend" : "本週末",
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下星期",
-    "Set reminder for next week" : "設定下星期的提醒",
-    "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
-    "We will remind you of this file" : "我們會提醒您該檔案"
+    "Set reminder for next week" : "設定下星期的提醒"
 },
 "nplurals=1; plural=0;");

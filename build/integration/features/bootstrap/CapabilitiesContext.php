@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Step\Then;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -14,14 +14,14 @@ require __DIR__ . '/autoload.php';
 /**
  * Capabilities context.
  */
-class CapabilitiesContext implements Context, SnippetAcceptingContext {
+class CapabilitiesContext implements Context {
 	use BasicStructure;
 	use AppConfiguration;
 
 	/**
-	 * @Then /^fields of capabilities match with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
+	#[Then('/^fields of capabilities match with$/')]
 	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData) {
 		$capabilitiesXML = simplexml_load_string($this->response->getBody());
 		Assert::assertNotFalse($capabilitiesXML, 'Failed to fetch capabilities');

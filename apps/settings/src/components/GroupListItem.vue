@@ -91,6 +91,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import { useUsersStore } from '../store/users.ts'
 
 export default {
 	name: 'GroupListItem',
@@ -144,6 +145,12 @@ export default {
 
 	emits: ['select'],
 
+	setup() {
+		return {
+			usersStore: useUsersStore(),
+		}
+	},
+
 	data() {
 		return {
 			loadingRenameGroup: false,
@@ -154,7 +161,7 @@ export default {
 
 	computed: {
 		settings() {
-			return this.$store.getters.getServerData
+			return this.usersStore.serverData
 		},
 	},
 
@@ -179,7 +186,7 @@ export default {
 			try {
 				this.openGroupMenu = false
 				this.loadingRenameGroup = true
-				await this.$store.dispatch('renameGroup', {
+				await this.usersStore.renameGroup({
 					groupid: gid.trim(),
 					displayName: displayName.trim(),
 				})
@@ -193,7 +200,7 @@ export default {
 
 		async removeGroup() {
 			try {
-				await this.$store.dispatch('removeGroup', this.id)
+				await this.usersStore.removeGroup(this.id)
 				this.showRemoveGroupModal = false
 			} catch {
 				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))

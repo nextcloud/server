@@ -66,8 +66,6 @@ OC.L10N.register(
     "Remote share" : "Uzak paylaşım",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
     "Remote share password" : "Uzak paylaşım parolası",
-    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi",
-    "X (formerly Twitter)" : "X (eski Twitter)",
-    "formerly Twitter" : "eski Twitter"
+    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi"
 },
 "nplurals=2; plural=(n > 1);");

@@ -117,7 +117,7 @@ OC.L10N.register(
     "Could not generate next recurrence statement" : "Mistókst að útbúa yfirlýsingu fyrir næstu endurtekningu",
     "Cancelled: %1$s" : "Hætt við: %1$s",
     "\"%1$s\" has been canceled" : "Hætt hefur verið við \"%1$s\"",
-    "Re: %1$s" : "Svar: %1s",
+    "Re: %1$s" : "Svar: %1$s",
     "%1$s has accepted your invitation" : "%1$s hefur samþykkt boð þitt",
     "%1$s has tentatively accepted your invitation" : "%1$s hefur samþykkt boð þitt með fyrirvara",
     "%1$s has declined your invitation" : "%1$s hafnaði boði þínu",
@@ -335,10 +335,6 @@ OC.L10N.register(
     "Link:" : "Tengill:",
     "Occurring:" : "Gerist:",
     "More options at %s" : "Fleiri valkostir á %s",
-    "The system address book contains contact information for all users in your instance." : "Kerfisnafnaskráin inniheldur tengiliðaupplýsingar um alla notendur á netþjónstilvikinu þínu.",
-    "Enable System Address Book" : "Virkja kerfisnafnaskrá",
-    "No results." : "Engar niðurstöður.",
-    "Start typing." : "Byrjaðu að skrifa.",
     "Delegate:" : "Framvísa:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

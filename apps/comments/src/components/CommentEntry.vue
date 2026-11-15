@@ -53,7 +53,7 @@
 				</NcActions>
 
 				<!-- Show loading if we're editing or deleting, not on new ones -->
-				<div v-if="id && loading" class="comment_loading icon-loading-small" />
+				<NcLoadingIcon v-if="id && loading" class="comment_loading" :size="16" />
 
 				<!-- Relative time to the comment creation -->
 				<NcDateTime

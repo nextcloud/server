@@ -386,6 +386,42 @@ class EncryptionTest extends Storage {
 		return self::invokePrivate($instance, 'unencryptedSize');
 	}
 
+	public static function dataDirectDownload(): array {
+		return [
+			'encrypted file' => [new CacheEntry(['encrypted' => true, 'fileid' => 42]), false],
+			'unencrypted file' => [new CacheEntry(['encrypted' => false, 'fileid' => 42]), ['url' => 'https://example.com/42']],
+			'no cache entry' => [false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDirectDownload')]
+	public function testGetDirectDownload(CacheEntry|false $cacheEntry, array|false $expected): void {
+		$cache = $this->createMock(Cache::class);
+		$cache->method('get')->with('/test.txt')->willReturn($cacheEntry);
+
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('getDirectDownload')->with('/test.txt')->willReturn(['url' => 'https://example.com/42']);
+
+		$instance = $this->getInstanceWithMockedMethods(['getCache'], $sourceStorage);
+		$instance->method('getCache')->willReturn($cache);
+
+		$this->assertSame($expected, $instance->getDirectDownload('/test.txt'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDirectDownload')]
+	public function testGetDirectDownloadById(CacheEntry|false $cacheEntry, array|false $expected): void {
+		$cache = $this->createMock(Cache::class);
+		$cache->method('get')->with(42)->willReturn($cacheEntry);
+
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('getDirectDownloadById')->with('42')->willReturn(['url' => 'https://example.com/42']);
+
+		$instance = $this->getInstanceWithMockedMethods(['getCache'], $sourceStorage);
+		$instance->method('getCache')->willReturn($cache);
+
+		$this->assertSame($expected, $instance->getDirectDownloadById('42'));
+	}
+
 	public function testUnencryptedSizeIsForgottenOnceStoredInFileCache(): void {
 		$cachedUnencryptedSize = 0;
 
@@ -668,6 +704,67 @@ class EncryptionTest extends Storage {
 			$expected,
 			$this->invokePrivate($instance, 'fixUnencryptedSize', ['legacy.txt', strlen($content), 0])
 		);
+	}
+
+	/**
+	 * filesize() remembers a recalculated size and updates the file cache whenever the
+	 * remembered size is not identical to the cached one, which also dispatches an event.
+	 */
+	public function testFilesizeUpdatesRecalculatedSizeOnce(): void {
+		$module = $this->createMock(IEncryptionModule::class);
+		$module->method('begin')->willReturn([]);
+		$module->method('getUnencryptedBlockSize')->willReturn(6072);
+		$module->method('decrypt')->willReturn(str_repeat('a', 42));
+		$module->method('end')->willReturn('');
+
+		$header = ['cipher' => 'AES-256-CTR', 'signed' => 'true', 'oc_encryption_module' => 'UNIT_TEST_MODULE'];
+		$content = str_pad(Util::HEADER_START, $this->headerSize, '-') . str_repeat('x', 2 * 8192 + 100);
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $content);
+		rewind($stream);
+
+		$entry = new CacheEntry(['fileid' => 42, 'encrypted' => true, 'encryptedVersion' => 1, 'size' => 0, 'unencrypted_size' => 0]);
+		$cache = $this->createMock(ICache::class);
+		$cache->method('get')->with('file.003')->willReturnCallback(function () use (&$entry) {
+			return $entry;
+		});
+		$cache->expects($this->once())->method('update')
+			->willReturnCallback(function (int $id, array $data) use (&$entry): void {
+				$entry = new CacheEntry(array_merge($entry->getData(), $data));
+			});
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('filesize')->with('file.003')->willReturn(strlen($content));
+		$sourceStorage->method('fopen')->with('file.003', 'r')->willReturn($stream);
+		$sourceStorage->method('getCache')->willReturn($cache);
+
+		$instance = $this->getMockBuilder(Encryption::class)
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager,
+					$this->util,
+					$this->logger,
+					$this->file,
+					null,
+					$this->keyStore,
+					$this->mountManager,
+					$this->arrayCache,
+				]
+			)
+			->onlyMethods(['getHeader', 'getHeaderSize', 'getEncryptionModule'])
+			->getMock();
+		$instance->method('getHeader')->willReturn($header);
+		$instance->method('getHeaderSize')->willReturn($this->headerSize);
+		$instance->method('getEncryptionModule')->willReturn($module);
+
+		$expected = 2 * 6072 + 42;
+		$this->assertSame($expected, $instance->filesize('file.003'));
+		$this->assertSame($expected, $instance->filesize('file.003'));
 	}
 
 	/**

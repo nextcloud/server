@@ -117,21 +117,6 @@
     "Misc accessibility options" : "Altre opzioni di accessibilità ",
     "Enable blur background filter (may increase GPU load)" : "Abilita filtro di sfocamento dello sfondo (può aumentare il carico sulla GPU)",
     "Customization has been disabled by your administrator" : "La personalizzazione è stata disattivata dall'amministratore",
-    "Disable-user-theming should be true or false" : "Disattiva-temi-utente deve essere true o false",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Il colore primario è usato per evidenziare elementi, come pulsanti importanti. Può essere regolato un po' a seconda dello schema di colori attuale.",
-    "Header logo" : "Logo dell'intestazione",
-    "Upload new header logo" : "Carica nuovo logo dell'intestazione",
-    "Upload new favicon" : "Carica nuova favicon",
-    "User settings" : "Impostazioni utente",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Al posto di un'immagine, puoi anche configurare un colore di sfondo. Se usi un'immagine di sfondo, cambiare questo colore influenzerà il colore delle icone dei menu.",
-    "Upload new logo" : "Carica nuovo logo",
-    "Upload new background and login image" : "Carica nuova immagine di sfondo e di accesso",
-    "Background and login image" : "Immagine di sfondo e di accesso",
-    "Advanced options" : "Opzioni avanzate",
-    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione ImageMagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore.",
-    "Unable to apply the setting." : "Impossibile applicare l'impostazione.",
-    "No background has been selected" : "Nessuno sfondo selezionato",
-    "Select a custom color" : "Seleziona un colore personalizzato",
-    "Upload" : "Carica"
+    "Unable to apply the setting." : "Impossibile applicare l'impostazione."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

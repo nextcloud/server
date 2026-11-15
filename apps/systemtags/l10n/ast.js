@@ -80,9 +80,6 @@ OC.L10N.register(
     "Missing \"Content-Location\" header" : "Falta la peñera «Content-Location»",
     "Failed to load tags for file" : "Nun se puen cargar les etiquetes pal ficheru",
     "Failed to set tag for file" : "Nun se puen afitar la etiqueta pal ficheru",
-    "Failed to delete tag for file" : "Nun se pue desaniciar la etiqueta pal ficheru",
-    "Collaborative tags …" : "Etiquetes collaboratives…",
-    "Loading …" : "Cargando…",
-    "Loading collaborative tags …" : "Cargando les etiquetes collaboratives…"
+    "Failed to delete tag for file" : "Nun se pue desaniciar la etiqueta pal ficheru"
 },
 "nplurals=2; plural=(n != 1);");

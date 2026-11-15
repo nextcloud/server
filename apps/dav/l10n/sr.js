@@ -320,10 +320,6 @@ OC.L10N.register(
     "Location:" : "Локација:",
     "Link:" : "Веза:",
     "Occurring:" : "Појављивање:",
-    "More options at %s" : "Још опција на %s",
-    "The system address book contains contact information for all users in your instance." : "Системски адресар садржи информације о свим корисницима на вашој инстанци.",
-    "Enable System Address Book" : "Укључи системски адресар",
-    "No results." : "Нема резултата.",
-    "Start typing." : "Почните да куцате"
+    "More options at %s" : "Још опција на %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

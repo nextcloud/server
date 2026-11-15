@@ -112,10 +112,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Nepavyko įkelti failo žymų",
     "Failed to set tag for file" : "Nepavyko nustatyti failo žymės",
     "Failed to delete tag for file" : "Nepavyko ištrinti failo žymės",
-    "Collaborative tags …" : "Bendradarbiavimo žymos…",
-    "Loading …" : "Įkeliama…",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus priskirta, o {tag2} bus pašalinta iš 1 failo.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."],
-    "Loading collaborative tags …" : "Įkeliamos bendradarbiavimo žymos…"
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."]
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

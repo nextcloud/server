@@ -28,6 +28,7 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager as ShareManager;
@@ -157,6 +158,20 @@ abstract class AbstractCalDavBackend extends TestCase {
 		foreach ($subscriptions as $subscription) {
 			$this->backend->deleteSubscription($subscription['id']);
 		}
+	}
+
+	/**
+	 * @return \ArrayObject<int, CriticalActionPerformedEvent>
+	 */
+	protected function captureAuditEvents(): \ArrayObject {
+		$auditEvents = new \ArrayObject();
+		$this->dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use ($auditEvents): void {
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$auditEvents[] = $event;
+				}
+			});
+		return $auditEvents;
 	}
 
 	protected function createTestCalendar(): int {

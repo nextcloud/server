@@ -9,6 +9,7 @@ namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
@@ -29,6 +30,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
@@ -36,6 +38,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 /**
  * Class ThemingController
@@ -59,6 +62,7 @@ class ThemingController extends Controller {
 		private ImageManager $imageManager,
 		private ThemesService $themesService,
 		private INavigationManager $navigationManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -157,6 +161,7 @@ class ThemingController extends Controller {
 		if (!$saved) {
 			$this->themingDefaults->set($setting, $value);
 		}
+		$this->dispatchSettingUpdatedEvent($setting);
 
 		return new DataResponse([
 			'data' => [
@@ -195,6 +200,7 @@ class ThemingController extends Controller {
 				'status' => 'error'
 			], Http::STATUS_BAD_REQUEST);
 		}
+		$this->dispatchSettingUpdatedEvent($setting);
 
 		return new DataResponse([
 			'data' => [
@@ -202,6 +208,15 @@ class ThemingController extends Controller {
 			],
 			'status' => 'success'
 		]);
+	}
+
+	private function dispatchSettingUpdatedEvent(string $setting): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming setting "%s" was updated',
+			['setting' => $setting],
+			false,
+			'theming.setting.updated',
+		));
 	}
 
 	/**
@@ -277,6 +292,13 @@ class ThemingController extends Controller {
 			);
 		}
 
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming image "%s" was uploaded',
+			['key' => $key],
+			false,
+			'theming.image.uploaded',
+		));
+
 		$name = $image['name'];
 
 		return new DataResponse(
@@ -309,6 +331,12 @@ class ThemingController extends Controller {
 			default => $setting,
 		};
 		$value = $this->themingDefaults->undo($setting);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'Theming setting "%s" was reset to its default value',
+			['setting' => $setting],
+			false,
+			'theming.setting.reset',
+		));
 
 		return new DataResponse(
 			[
@@ -332,6 +360,12 @@ class ThemingController extends Controller {
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
 		$this->navigationManager->setDefaultEntryIds([]);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'All theming settings were reset to their default values',
+			[],
+			false,
+			'theming.setting.reset',
+		));
 
 		return new DataResponse(
 			[
@@ -385,6 +419,18 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * The color scheme a theme declares through its color-scheme meta, if any
+	 */
+	private function getColorScheme(ITheme $theme): ?string {
+		foreach ($theme->getMeta() as $meta) {
+			if (($meta['name'] ?? null) === 'color-scheme' && isset($meta['content'])) {
+				return $meta['content'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -415,6 +461,13 @@ class ThemingController extends Controller {
 			$variables .= "$variable:$value; ";
 		};
 
+		// Color themes also set the native color scheme, so form controls,
+		// scrollbars and light-dark() follow the theme instead of the OS
+		$colorScheme = $this->getColorScheme($theme);
+		if ($colorScheme !== null) {
+			$variables .= "color-scheme:$colorScheme; ";
+		}
+
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
 			$css = ":root { $variables } " . $customCss;
@@ -431,6 +484,12 @@ class ThemingController extends Controller {
 			$scopedCss = preg_replace('/(@[^{]+{(?:[^{}]*|(?R))*})/', '', $customCssWithoutComments);
 
 			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss }";
+
+			// The theme attributes are on the body, but the viewport (page scrollbar
+			// and background) follows the root element
+			if ($colorScheme !== null) {
+				$css .= " :root:has(> body[data-theme-$themeId]) { color-scheme:$colorScheme; }";
+			}
 		}
 
 		try {

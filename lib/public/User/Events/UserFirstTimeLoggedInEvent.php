@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IWebhookCompatibleEvent;
 use OCP\EventDispatcher\JsonSerializer;
@@ -17,12 +19,14 @@ use OCP\IUser;
 /**
  * @since 28.0.0
  */
+#[Listenable(since: '28.0.0')]
+#[Dispatchable(since: '28.0.0')]
 class UserFirstTimeLoggedInEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private IUser $user,
+		private readonly IUser $user,
 	) {
 		parent::__construct();
 	}
