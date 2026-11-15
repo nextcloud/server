@@ -600,11 +600,17 @@ class Util {
 	 * This function shortens the string with by $accuracy (-5) from
 	 * $dataLength characters, until it fits within $dataLength bytes.
 	 *
+	 * @psalm-param positive-int $dataLength Maximum length to trim the data to
+	 * @psalm-param positive-int $accuracy Characters to cut off for each encoding attempt
 	 * @since 23.0.0
 	 */
 	public static function shortenMultibyteString(string $subject, int $dataLength, int $accuracy = 5): string {
+		if ($dataLength <= 0) {
+			return '';
+		}
+
 		$temp = mb_substr($subject, 0, $dataLength);
-		// json encodes encapsulates the string in double quotes, they need to be substracted
+		// json encodes encapsulates the string in double quotes, they need to be subtracted
 		while ((strlen(json_encode($temp)) - 2) > $dataLength) {
 			$temp = mb_substr($temp, 0, -$accuracy);
 		}
