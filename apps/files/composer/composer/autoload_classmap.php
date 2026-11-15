@@ -76,6 +76,7 @@ return array(
     'OCA\\Files\\Event\\LoadSidebar' => $baseDir . '/../lib/Event/LoadSidebar.php',
     'OCA\\Files\\Exception\\TransferOwnershipException' => $baseDir . '/../lib/Exception/TransferOwnershipException.php',
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
+    'OCA\\Files\\Listener\\BeforeAppConfigSetListener' => $baseDir . '/../lib/Listener/BeforeAppConfigSetListener.php',
     'OCA\\Files\\Listener\\LoadSearchPluginsListener' => $baseDir . '/../lib/Listener/LoadSearchPluginsListener.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => $baseDir . '/../lib/Listener/NodeAddedToFavoriteListener.php',

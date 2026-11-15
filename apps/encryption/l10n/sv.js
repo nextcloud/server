@@ -58,7 +58,7 @@ OC.L10N.register(
     "Previous login password" : "Tidigare inloggningslösenord",
     "Current login password" : "Nuvarande inloggningslösenord",
     "Update" : "Uppdatera",
-    "Updating recovery keys. This can take some time…" : "Uppdaterar återställningsnycklar. Det kan ta en stund…",
+    "Updating recovery keys. This can take some time…" : "Uppdaterar återställningsnycklar. Det kan ta en stund …",
     "Controls whether the administrator can use the recovery key to restore access to your encrypted files if you lose your login password." : "Styr om administratören kan använda återställningsnyckeln för att återställa åtkomsten till dina krypterade filer om du förlorar ditt inloggningslösenord.",
     "Allow recovery of my encrypted files" : "Tillåt återställning av mina krypterade filer",
     "Default encryption module" : "Standardkrypteringsmodul",

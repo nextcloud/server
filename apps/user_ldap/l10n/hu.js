@@ -162,7 +162,6 @@ OC.L10N.register(
     "Test Base DN" : "Alap DN ellenőrzése",
     "Listing and searching for users is constrained by these criteria:" : "A felhasználók keresését és listázását ezek a szabályok korlátozzák:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "A leggyakoribb objektumosztályok a felhasználóknál az „organizationalPerson”, a „person”, a „user”, és az „inetOrgPerson”. Ha nem biztos benne, hogy melyik osztályt válassza, akkor konzultáljon a címtár rendszergazdájával.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "A szűrő meghatározza, hogy mely LDAP felhasználók lesznek jogosultak a(z) {instanceName} példány elérésére.",
     "Verify settings and count users" : "Ellenőrizze a beállításokat és számolja meg a felhasználókat",
     "User count: {usersCount}" : "Felhasználószám: {usersCount}",
     "Test Configuration" : "A beállítások tesztelése",
@@ -200,6 +199,7 @@ OC.L10N.register(
     "Mode switch" : "Üzemmódváltás",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "A módváltás engedélyezi az automatikus LDAP lekérdezéseket. Az LDAP-ja méretétől függően ezek sokáig tarthatnak. Biztos, hogy átváltja a módot?",
     "Confirm" : "Megerősítés",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`"
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "A szűrő meghatározza, hogy mely LDAP felhasználók lesznek jogosultak a(z) {instanceName} példány elérésére."
 },
 "nplurals=2; plural=(n != 1);");

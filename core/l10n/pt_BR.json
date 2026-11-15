@@ -79,6 +79,7 @@
     "Log out" : "Sair",
     "Sharing is not allowed." : "O compartilhamento não é permitido.",
     "Sharing is not allowed for you." : "O compartilhamento não é permitido para você.",
+    "Cannot share with a disabled account." : "Não é possível compartilhar com uma conta desativada.",
     "Sharing is only allowed with group members." : "É só permitido compartilhar com membros de grupo.",
     "Sharing is only allowed within your own groups." : "É só permitido compartilhar nos seus próprios grupos.",
     "Group sharing is not allowed." : "Não é permitido compartilhar com grupos.",

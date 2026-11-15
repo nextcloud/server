@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n archivo no coincide con la versión firmada. Es posible que haya sido modificado o añadido sin autorización.","%n archivos no coinciden con la versión firmada. Es posible que hayan sido modificados o añadidos sin autorización.","%n archivos no coinciden con la versión firmada. Es posible que hayan sido modificados o añadidos sin autorización."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The %n signatures of %s are missing or invalid, so they could not be verified._" : ["La firma de %s falta o no es válida, por lo que no ha podido ser verificada.","Las %n firmas de %s faltan o no son válidas, por lo que no han podido ser verificada.","Las %n firmas de %s faltan o no son válidas, por lo que no han podido ser verificada."],
     "The code integrity check result has changed" : "El resultado de la verificación de integridad del código ha cambiado",
     "Review integrity check results" : "Revisar el resultado de la comprobación de integridad",
     "Please select a file." : "Por favor, seleccione un archivo.",
@@ -80,6 +81,7 @@ OC.L10N.register(
     "Log out" : "Cerrar sesión",
     "Sharing is not allowed." : "No se permite compartir.",
     "Sharing is not allowed for you." : "No tienes permitido compartir.",
+    "Cannot share with a disabled account." : " No es posible compartir con una cuenta deshabilitada.",
     "Sharing is only allowed with group members." : "Solo está permitido compartir con los miembros del grupo.",
     "Sharing is only allowed within your own groups." : "Solo está permitido compartir con tus propios grupos.",
     "Group sharing is not allowed." : "No está permitido compartir entre grupos",

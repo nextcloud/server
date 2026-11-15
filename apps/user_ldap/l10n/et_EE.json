@@ -17,12 +17,14 @@
     "Invalid LDAP UUIDs" : "Vigased LDAP UUID-d",
     "None found" : "Mitte midagi ei leidu",
     "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAP-i seadistused",
     "_%n group found_::_%n groups found_" : ["Leidus %n grupp","Leidus %n gruppi"],
     "> 1000 groups found" : "Leidus üle 1000 grupi",
     "> 1000 users found" : "Leidus üle 1000 kasutaja",
     "_%n user found_::_%n users found_" : ["Leidus %n kasutaja","Leidus %n kasutajat"],
     "Could not find the desired feature" : "Ei suuda leida soovitud funktsioonaalsust",
     "Invalid Host" : "Vigane server",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "See rakendus võimaldab peakasutajatel ühendada Nextcloudi LDAP-i põhise kasutajate kataloogiga.",
     "Connection Settings" : "Ühenduse seadistused",
     "Backup (Replica) Host" : "Varuserver",
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Lisa valikuline varuserver. See peab olema koopia peamisest LDAP/AD serverist.",
@@ -117,8 +119,10 @@
     "More than 1,000 directory entries available." : "Saadaval on rohkem kui 1000 kataloogikirjet.",
     "_{ldapTestBase} entry available within the provided Base DN_::_{ldapTestBase} entries available within the provided Base DN_" : ["„Base DN“ ehk juurdomeeni alusel on saadaval {ldapTestBase} kirje","„Base DN“ ehk juurdomeeni alusel on saadaval {ldapTestBase} kirjet"],
     "When unchecked, this configuration will be skipped." : "Kui on märkimata, siis seadistust ei kasutata.",
+    "Configuration active" : "Seadistus on aktiivne",
     "Copy configuration" : "Kopeeri seadistus",
     "Delete configuration" : "Kustuta seadistus",
+    "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Sa ei saa protokolli ära jätta, välja arvatud siis, kui sa eeldad SSL-ühenduse kasutamist. Sel juhul alusta eesliitega ldaps://",
     "Host" : "Host",
     "Port" : "Port",
     "Detect Port" : "Tuvasta port",
@@ -133,7 +137,6 @@
     "Test Base DN" : "Testi Baas DN-i",
     "Listing and searching for users is constrained by these criteria:" : "Kasutajate loendite koostamine ja nende otsing on piiratud järgmiste tingimustega:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Leivinuimad objektiklassid kasutajate jaoks on organizationalPerson, person, user ja inetOrgPerson. Kui sa pole kindel, millist objektiklassi valida, pöördu kataloogi haldaja poole.",
-    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filter määrab millised LDAP-i kasutajad pääsevad ligi {instanceName} serverile.",
     "Verify settings and count users" : "Kinnita seadistused ja loetle kasutajad",
     "User count: {usersCount}" : "Kasutajaid: {usersCount}",
     "Test Configuration" : "Testi seadistust",
@@ -168,6 +171,7 @@
     "Failed to clear mapping" : "Vastenduste eemaldamine ei õnnestunud",
     "An error occurred" : "Tekkis viga",
     "Mode switch" : "Režiimi lüliti",
-    "Confirm" : "Kinnita"
+    "Confirm" : "Kinnita",
+    "The filter specifies which LDAP users shall have access to the {instanceName} instance." : "Filter määrab millised LDAP-i kasutajad pääsevad ligi {instanceName} serverile."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

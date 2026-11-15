@@ -15,7 +15,6 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -42,12 +41,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
-- @vueuse/shared
-	- version: 14.4.0
-	- license: MIT
-- @vueuse/core
-	- version: 14.4.0
-	- license: MIT
 - vue-router
 	- version: 5.2.0
 	- license: MIT

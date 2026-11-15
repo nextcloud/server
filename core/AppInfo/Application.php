@@ -22,6 +22,7 @@ use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\AddMissingIndicesListener;
 use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\AvatarVersionListener;
+use OC\Core\Listener\BeforeAppConfigChangedListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
@@ -43,6 +44,7 @@ use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDir
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OCA\Circles\Events\DestroyingCircleEvent;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -50,8 +52,11 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\Config\BeforeAppConfigDeletedEvent;
+use OCP\Config\BeforeAppConfigSetEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\IAppConfig;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
@@ -94,6 +99,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeLoginTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
+		$context->registerEventListener(BeforeAppConfigSetEvent::class, BeforeAppConfigChangedListener::class);
+		$context->registerEventListener(BeforeAppConfigDeletedEvent::class, BeforeAppConfigChangedListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
@@ -161,6 +168,10 @@ class Application extends App implements IBootstrap {
 		if (!Server::get(IAppConfig::class)->getValueBool('files_sharing', 'shareapi_exclude_reshare_from_edit')) {
 			$registry->markPermissionTypeCompatibleWithPermissionPreset(ReshareSharePermissionType::class, EditSharePermissionPreset::class);
 		}
+
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupShareRecipientType::class);
+		$context->registerEventListener(DestroyingCircleEvent::class, TeamShareRecipientType::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, UserShareRecipientType::class);
 	}
 
 	#[\Override]

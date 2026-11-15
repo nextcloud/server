@@ -393,7 +393,7 @@ OC.L10N.register(
     "Supported versions" : "Stödda versioner",
     "The update completed with warnings. Please check the details for more information." : "Uppdateringen har slutförts med varningar. Kontrollera detaljerna för mer information.",
     "The update completed successfully." : "Uppdateringen har slutförts.",
-    "Preparing update…" : "Förbereder uppdateringen …",
+    "Preparing update…" : "Förbereder uppdateringen …",
     "You will be redirected to {productName} in {count} seconds." : "Du kommer att omdirigeras till {productName} om {count} sekunder.",
     "The update is in progress, leaving this page might interrupt the process in some environments." : "Uppdateringen pågår. I vissa miljöer kan processen avbrytas om du lämnar sidan.",
     "App update required" : "Appen behöver uppdateras",

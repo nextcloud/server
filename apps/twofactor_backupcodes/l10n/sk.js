@@ -10,7 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Záložné kódy pre dvojfaktorové overovanie",
     "A two-factor auth backup codes provider" : "Poskytovateľ záložných kódov pre dvojfaktorové overovanie",
     "An error occurred while generating your backup codes" : "Pri vytváraní záložných kódov nastala chyba.",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "Boli vygenerované záložné kódy. Boli použité {used} z {total} kódov.",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Boli vygenerované záložné kódy. Počet použitých kódov: {used} z {total}.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Toto sú vaše záložné kódy. Uložte si ich a/alebo si ich vytlačte, pretože kódy neskôr nebudete môcť znova prečítať.",
     "List of backup codes" : "Zoznam záložných kódov",
     "Regenerate backup codes" : "Vytvoriť nové záložné kódy",
@@ -19,7 +19,7 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ak vytvoríte nové záložné kódy, staré sa automaticky zneplatnia.",
     "{name} backup codes" : "{name} záložné kódy",
     "Unable to open a new tab for printing" : "Nemožno otvoriť novú kartu na tlač.",
-    "Use one of the backup codes you saved when setting up two-factor authentication." : "Pri nastavovaní dvojfaktorového overovania totožnosti použite jeden zo záložných kódov, ktoré ste uložili.",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Použite jeden zo záložných kódov, ktoré ste uložili pri nastavovaní dvojfaktorového overovania totožnosti.",
     "Submit" : "Odoslať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

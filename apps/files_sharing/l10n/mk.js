@@ -148,6 +148,8 @@ OC.L10N.register(
     "Copy" : "Копирај",
     "Send link via email" : "Испрати линк преку е-пошта",
     "Enter an email address or paste a list" : "Внеси е-пошта адреса или цела листа",
+    "Recipient emails" : "Е-пошта адреса на примач",
+    "Remove email: {email}" : "Отстрани е-пошта {email}",
     "Select a destination" : "Изберете дестинација",
     "Select" : "Избери",
     "What are you requesting?" : "Што барате?",

@@ -91,6 +91,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Event\\LoadSidebar' => __DIR__ . '/..' . '/../lib/Event/LoadSidebar.php',
         'OCA\\Files\\Exception\\TransferOwnershipException' => __DIR__ . '/..' . '/../lib/Exception/TransferOwnershipException.php',
         'OCA\\Files\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
+        'OCA\\Files\\Listener\\BeforeAppConfigSetListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeAppConfigSetListener.php',
         'OCA\\Files\\Listener\\LoadSearchPluginsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSearchPluginsListener.php',
         'OCA\\Files\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeAddedToFavoriteListener.php',

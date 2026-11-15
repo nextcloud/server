@@ -26,6 +26,7 @@ use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\BeforeAppConfigSetListener;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
@@ -45,17 +46,20 @@ use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
+use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
+use OCP\Config\BeforeAppConfigSetEvent;
 use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Interaction\RestrictInteractionEvent;
@@ -93,6 +97,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeAddedToFavorite::class, NodeAddedToFavoriteListener::class);
 		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
 		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserFirstTimeLoggedInListener::class);
+		$context->registerEventListener(BeforeAppConfigSetEvent::class, BeforeAppConfigSetListener::class);
 
 		$context->registerEventListener(ShareCreatedEvent::class, Listener::class);
 		$context->registerEventListener(ShareDeletedEvent::class, Listener::class);
@@ -136,6 +141,9 @@ class Application extends App implements IBootstrap {
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeDownloadSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, ViewSharePermissionPreset::class);
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$context->registerEventListener(NodeDeletedEvent::class, NodeShareSourceType::class);
+		$context->registerEventListener(MoveToTrashEvent::class, NodeShareSourceType::class);
 	}
 
 	#[\Override]

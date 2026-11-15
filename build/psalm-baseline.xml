@@ -567,19 +567,6 @@
       <code><![CDATA[$vCard->UID]]></code>
     </UndefinedMagicPropertyFetch>
   </file>
-  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument>
       <code><![CDATA[$this->principalUri]]></code>
@@ -2635,6 +2622,14 @@
       <code><![CDATA[getSubject]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/AppInfo/Application.php">
+    <InvalidArgument>
+      <code><![CDATA[TeamShareRecipientType::class]]></code>
+    </InvalidArgument>
+    <UndefinedClass>
+      <code><![CDATA[DestroyingCircleEvent]]></code>
+    </UndefinedClass>
+  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
@@ -2968,15 +2963,9 @@
     <ImplementedParamTypeMismatch>
       <code><![CDATA[$event]]></code>
     </ImplementedParamTypeMismatch>
-    <InvalidArgument>
-      <code><![CDATA[self::class]]></code>
-    </InvalidArgument>
     <InvalidTemplateParam>
       <code><![CDATA[IEventListener]]></code>
     </InvalidTemplateParam>
-    <UndefinedClass>
-      <code><![CDATA[DestroyingCircleEvent]]></code>
-    </UndefinedClass>
     <UndefinedDocblockClass>
       <code><![CDATA[$event]]></code>
       <code><![CDATA[TeamShareRecipientType]]></code>

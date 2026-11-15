@@ -79,6 +79,7 @@
     "Log out" : "Одјава",
     "Sharing is not allowed." : "Споделување не е дозволено.",
     "Sharing is not allowed for you." : "Споделувањето не ви е дозволено.",
+    "Cannot share with a disabled account." : "Не може да се споделува со оневозможена сметка.",
     "Sharing is only allowed with group members." : "Споделување е овозможено само со членови на групата.",
     "Sharing is only allowed within your own groups." : "Споделување е овозможено само со ваши групи.",
     "Group sharing is not allowed." : "Не е дозволено споделување со групи.",
