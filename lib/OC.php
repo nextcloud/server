@@ -267,7 +267,6 @@ class OC {
 			// render error page
 			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
 			\OCP\Util::addScript('core', 'maintenance');
-			\OCP\Util::addScript('core', 'common');
 			\OCP\Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
@@ -315,7 +314,6 @@ class OC {
 			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
 
 		Util::addTranslations('core');
-		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
 		Util::addStyle('core', 'main');
 		Util::addScript('core', 'update');
