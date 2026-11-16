@@ -10,6 +10,8 @@ namespace Tests\AppFramework\ORM;
 use OC\AppFramework\ORM\EntityManager;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
@@ -252,6 +254,28 @@ final class Order {
 	#[ManyToOne(targetEntity: Merchant::class)]
 	#[JoinColumn(name: 'merchant_id', referencedColumnName: 'id', nullable: true)]
 	public ?Merchant $merchant = null;
+}
+
+/**
+ * @template-extends Repository<Order>
+ */
+final class OrderRepository extends Repository {
+	public const string entityClass = Order::class;
+
+	/**
+	 * @return list<Order>
+	 */
+	public function findByMerchantFromId(Merchant $merchant, int $minId): array {
+		$qb = $this->getSelectQueryBuilder(['merchant' => $merchant], ['id' => \SortDirection::Descending]);
+		$qb->andWhere($qb->expr()->gte('e.id', $qb->createNamedParameter($minId, IQueryBuilder::PARAM_INT)));
+		return iterator_to_array($this->findEntities($qb), false);
+	}
+
+	public function findOneByMerchantFromId(Merchant $merchant, int $minId): Order {
+		$qb = $this->getSelectQueryBuilder(['merchant' => $merchant]);
+		$qb->andWhere($qb->expr()->gte('e.id', $qb->createNamedParameter($minId, IQueryBuilder::PARAM_INT)));
+		return $this->findEntity($qb);
+	}
 }
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -1040,5 +1064,32 @@ class RepositoryTest extends TestCase {
 		$customer = new Customer();
 		$customer->id = 1;
 		$this->getRepository(Order::class)->findBy(['merchant' => $customer])->current();
+	}
+
+	public function testCustomSelectQuery(): void {
+		[$merchant1, , $orders] = $this->createMerchantsWithOrders();
+		$orderRepo = Server::get(OrderRepository::class);
+
+		$found = $orderRepo->findByMerchantFromId($merchant1, $orders[0]->id);
+		$this->assertEquals([$orders[1]->id, $orders[0]->id], array_map(static fn (Order $order) => $order->id, $found));
+		$this->assertEquals($merchant1->name, $found[0]->merchant?->name);
+
+		$found = $orderRepo->findOneByMerchantFromId($merchant1, $orders[1]->id);
+		$this->assertEquals($orders[1]->id, $found->id);
+		$this->assertEquals($merchant1->id, $found->merchant?->id);
+	}
+
+	public function testCustomSelectQueryNoResultThrows(): void {
+		[$merchant1, , $orders] = $this->createMerchantsWithOrders();
+
+		$this->expectException(DoesNotExistException::class);
+		Server::get(OrderRepository::class)->findOneByMerchantFromId($merchant1, $orders[3]->id);
+	}
+
+	public function testCustomSelectQueryMultipleResultsThrows(): void {
+		[$merchant1, , $orders] = $this->createMerchantsWithOrders();
+
+		$this->expectException(MultipleObjectsReturnedException::class);
+		Server::get(OrderRepository::class)->findOneByMerchantFromId($merchant1, $orders[0]->id);
 	}
 }

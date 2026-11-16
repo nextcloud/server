@@ -146,7 +146,7 @@ class Repository {
 	 * Columns are aliased `e_<column>` (main entity) and `r<index>_<column>` (each relation)
 	 * to stay unique even when tables share column names.
 	 *
-	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
+	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}>}
 	 */
 	private function buildJoinedSelectQuery(EntityInfo $entityInfo): array {
 		$qb = $this->connection->getQueryBuilder();
@@ -156,7 +156,22 @@ class Repository {
 			$qb->selectAlias('e.' . $column, 'e_' . $column);
 		}
 
-		/** @var array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations */
+		$relations = $this->getRelations($entityInfo);
+		foreach ($relations as $alias => $relation) {
+			$this->joinRelation($qb, $alias, $relation['entityInfo'], $relation['leftExpr'], $relation['rightExpr']);
+		}
+
+		return [$qb, $relations];
+	}
+
+	/**
+	 * Resolves the relations joined by buildJoinedSelectQuery(), keyed by their table alias.
+	 * The aliases only depend on the entity's mapping, so they are the same for every query.
+	 *
+	 * @return array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}>
+	 */
+	private function getRelations(EntityInfo $entityInfo): array {
+		/** @var array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}> $relations */
 		$relations = [];
 		$index = 0;
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
@@ -174,16 +189,12 @@ class Repository {
 				// Owning side (OneToOne's invertedBy, or ManyToOne): the join column lives on our own table.
 				$targetEntityInfo = $this->entityManager->getEntityInfo($owningTargetClass);
 				$alias = 'r' . $index++;
-
-				$this->joinRelation(
-					$qb,
-					$alias,
-					$targetEntityInfo,
-					'e.' . $joinColumn->name,
-					$alias . '.' . $joinColumn->referencedColumnName,
-				);
-
-				$relations[$alias] = ['attributes' => $propertyAttributes, 'entityInfo' => $targetEntityInfo];
+				$relations[$alias] = [
+					'attributes' => $propertyAttributes,
+					'entityInfo' => $targetEntityInfo,
+					'leftExpr' => 'e.' . $joinColumn->name,
+					'rightExpr' => $alias . '.' . $joinColumn->referencedColumnName,
+				];
 				continue;
 			}
 
@@ -208,19 +219,16 @@ class Repository {
 				}
 
 				$alias = 'r' . $index++;
-				$this->joinRelation(
-					$qb,
-					$alias,
-					$targetEntityInfo,
-					$alias . '.' . $owningPropertyAttributes->joinColumn->name,
-					'e.' . $owningPropertyAttributes->joinColumn->referencedColumnName,
-				);
-
-				$relations[$alias] = ['attributes' => $propertyAttributes, 'entityInfo' => $targetEntityInfo];
+				$relations[$alias] = [
+					'attributes' => $propertyAttributes,
+					'entityInfo' => $targetEntityInfo,
+					'leftExpr' => $alias . '.' . $owningPropertyAttributes->joinColumn->name,
+					'rightExpr' => 'e.' . $owningPropertyAttributes->joinColumn->referencedColumnName,
+				];
 			}
 		}
 
-		return [$qb, $relations];
+		return $relations;
 	}
 
 	private function joinRelation(IQueryBuilder $qb, string $alias, EntityInfo $targetEntityInfo, string $leftExpr, string $rightExpr): void {
@@ -232,7 +240,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}> $relations
 	 * @param array<string, mixed> $row
 	 * @return T
 	 */
@@ -297,7 +305,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}> $relations
 	 * @return \Generator<T>
 	 */
 	private function yieldJoinedEntities(IQueryBuilder $query, array $relations): \Generator {
@@ -312,7 +320,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}> $relations
 	 * @return T
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
@@ -535,7 +543,7 @@ class Repository {
 	/**
 	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
-	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
+	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo, leftExpr: string, rightExpr: string}>}
 	 */
 	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
 		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
@@ -623,6 +631,57 @@ class Repository {
 		/** @psalm-suppress MixedAssignment */
 		$value = is_array($value) ? array_map($toId, $value) : $toId($value);
 		return [$joinColumn->name, $targetEntityInfo->mappingColumnToTypes[$idColumn], $value];
+	}
+
+	/**
+	 * Creates a select query for this repository's entity, to run queries that the find
+	 * methods cannot express, e.g. range conditions.
+	 *
+	 * The query already selects the entity and its relations, filtered by the criteria and
+	 * sorted like findBy() does. The entity's table is aliased as `e`, so additional
+	 * conditions have to reference its columns as `e.<column>`. Pass the query to
+	 * findEntities() or findEntity() to get the hydrated entities.
+	 *
+	 * ```php
+	 * $qb = $this->getSelectQueryBuilder(['merchant' => $merchant], ['createdAt' => \SortDirection::Ascending]);
+	 * $qb->andWhere($qb->expr()->gte('e.created_at', $qb->createNamedParameter($since, IQueryBuilder::PARAM_DATETIME_IMMUTABLE)));
+	 * return iterator_to_array($this->findEntities($qb), false);
+	 * ```
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
+	 * @param array<string, \SortDirection> $orderBy
+	 * @throws \InvalidArgumentException if a property cannot be used as criterion
+	 * @since 36.0.0
+	 */
+	protected function getSelectQueryBuilder(array $criteria = [], array $orderBy = []): IQueryBuilder {
+		return $this->getJoinedSelectQueryBuilder($criteria, $orderBy)[0];
+	}
+
+	/**
+	 * Runs a query created by getSelectQueryBuilder() and returns the hydrated entities.
+	 *
+	 * @return \Generator<T>
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	protected function findEntities(IQueryBuilder $query): \Generator {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		return $this->yieldJoinedEntities($query, $this->getRelations($entityInfo));
+	}
+
+	/**
+	 * Runs a query created by getSelectQueryBuilder() that has exactly one result and
+	 * returns the hydrated entity.
+	 *
+	 * @return T
+	 * @throws DoesNotExistException if the query has no result
+	 * @throws MultipleObjectsReturnedException if the query has more than one result
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	protected function findEntity(IQueryBuilder $query): object {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		return $this->findJoinedEntity($query, $this->getRelations($entityInfo));
 	}
 
 	/**
