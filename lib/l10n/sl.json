@@ -101,6 +101,7 @@
     "Headline" : "Naslov",
     "Organization" : "Ustanova",
     "Role" : "Vloga",
+    "Pronouns" : "Zaimki",
     "Additional settings" : "Dodatne nastavitve",
     "Enter the database name for %s" : "Vpis imena podatkovne zbirke za %s.",
     "You cannot use dots in the database name %s" : "V imenu podatkovne zbirke %s ni dovoljeno uporabljati pik.",

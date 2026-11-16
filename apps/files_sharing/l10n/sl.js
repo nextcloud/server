@@ -127,6 +127,7 @@ OC.L10N.register(
     "Cancel" : "Prekliči",
     "Continue" : "Nadaljuj",
     "Error while toggling options" : "Prišlo je do napake med preklapljanjem možnosti",
+    "Accept shares from other accounts and groups by default" : "Privzeto sprejmi deljenja z drugih računov in skupin",
     "Choose a default folder for accepted shares" : "Izbor privzete mape za sprejemanje map v souporabi",
     "Invalid path selected" : "Izbrana je neveljavna pot",
     "Unknown error" : "Neznana napaka",
