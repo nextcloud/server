@@ -3,7 +3,7 @@
 name: Update 3rdparty command
 
 on:
-  issue_comment:
+  issue_comment: # zizmor: ignore[dangerous-triggers]
     types: created
 
 permissions:
@@ -14,11 +14,40 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: none
+      pull-requests: read
 
     # On pull requests and if the comment starts with `/update-3rdparty`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
 
     steps:
+      # issue_comment events carry no pull_request context in their payload, so we
+      # must fetch the PR via the API. This also gives us base.ref for free, avoiding
+      # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
+      - name: Get pull request metadata
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        id: get-pr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            core.setOutput('head_repo', pull.data.head.repo?.full_name ?? '');
+            core.setOutput('base_ref',  pull.data.base.ref);
+
+      - name: Disabled on forks
+        if: steps.get-pr.outputs.head_repo != github.repository
+        run: |
+          echo 'Can not execute /update-3rdparty on forks'
+          exit 1
+
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v3.0
+        with:
+          require: write
+
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
@@ -27,18 +56,12 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
-      - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-        run: |
-          echo 'Can not execute /update-3rdparty on forks'
-          exit 1
-
       - name: Init branch
         uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -46,24 +69,18 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const baseRef = context.payload.pull_request.base.ref
-            if (baseRef === 'main' || baseRef === 'master') {
-              core.exportVariable('server_ref', 'master');
-              console.log('Setting server_ref to master');
-            } else {
-              const regex = /^stable(\d+)$/
-              const match = baseRef.match(regex)
-              if (match) {
-                core.exportVariable('server_ref', match[0]);
-                console.log('Setting server_ref to ' + match[0]);
-              } else {
-                console.log('Not based on master/main/stable*, so skipping pull 3rdparty command');
-              }
-            }
+        env:
+          base_ref: ${{ steps.get-pr.outputs.base_ref }}
+        run: |
+          if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
+            echo "server_ref=master" >> "$GITHUB_ENV"
+            echo "Setting server_ref to master"
+          elif [[ "$base_ref" =~ ^stable[0-9]+$ ]]; then
+            echo "server_ref=$base_ref" >> "$GITHUB_ENV"
+            echo "Setting server_ref to $base_ref"
+          else
+            echo "Not based on master/main/stable*, so skipping pull 3rdparty command"
+          fi
 
       - name: Setup git
         run: |
