@@ -3,7 +3,7 @@
 name: Update 3rdparty command
 
 on:
-  issue_comment:
+  issue_comment: # zizmor: ignore[dangerous-triggers]
     types: created
 
 permissions:
@@ -20,14 +20,6 @@ jobs:
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
 
     steps:
-      - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
-        with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
-          repository: ${{ github.event.repository.full_name }}
-          comment-id: ${{ github.event.comment.id }}
-          reactions: '+1'
-
       # issue_comment events carry no pull_request context in their payload, so we
       # must fetch the PR via the API. This also gives us base.ref for free, avoiding
       # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
@@ -51,6 +43,19 @@ jobs:
           echo 'Can not execute /update-3rdparty on forks'
           exit 1
 
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v3.0
+        with:
+          require: write
+
+      - name: Add reaction on start
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reactions: '+1'
+
       - name: Init branch
         uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
@@ -64,8 +69,9 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
+        env:
+          base_ref: ${{ steps.get-pr.outputs.base_ref }}
         run: |
-          base_ref="${{ steps.get-pr.outputs.base_ref }}"
           if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
             echo "server_ref=master" >> "$GITHUB_ENV"
             echo "Setting server_ref to master"
