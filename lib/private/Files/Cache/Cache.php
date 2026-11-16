@@ -1250,7 +1250,16 @@ class Cache implements ICache {
 	 */
 	#[\Override]
 	public function normalize($path) {
-		return trim(\OC_Util::normalizeUnicode($path), '/');
+		if (!\Normalizer::isNormalized($path)) {
+			$normalizedPath = \Normalizer::normalize($path);
+			if ($normalizedPath === false) {
+				$this->logger->warning('normalizing failed for "' . $path . '"');
+			} else {
+				$path = $normalizedPath;
+			}
+		}
+
+		return trim($path, '/');
 	}
 
 	/**
