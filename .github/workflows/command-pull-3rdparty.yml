@@ -3,7 +3,7 @@
 name: Update 3rdparty command
 
 on:
-  issue_comment:
+  issue_comment: # zizmor: ignore[dangerous-triggers]
     types: created
 
 permissions:
