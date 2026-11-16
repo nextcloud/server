@@ -170,8 +170,21 @@ class Notify extends StorageAuthBase {
 		$output->writeln($text, OutputInterface::VERBOSITY_VERBOSE);
 	}
 
+	private function hashPath(string $path): string {
+		if (!\Normalizer::isNormalized($path)) {
+			$normalizedPath = \Normalizer::normalize($path);
+			if ($normalizedPath === false) {
+				$this->logger->warning('normalizing failed for "' . $path . '"', );
+			} else {
+				$path = $normalizedPath;
+			}
+		}
+
+		return md5(trim($path, '/'));
+	}
+
 	private function getStorageIds(int $mountId, string $path): array {
-		$pathHash = md5(trim(\OC_Util::normalizeUnicode($path), '/'));
+		$pathHash = $this->hashPath($path);
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->select('storage_id', 'user_id')
@@ -184,7 +197,7 @@ class Notify extends StorageAuthBase {
 	}
 
 	private function updateParent(array $storageIds, string $parent): int {
-		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
+		$pathHash = $this->hashPath($parent);
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->update('filecache')
