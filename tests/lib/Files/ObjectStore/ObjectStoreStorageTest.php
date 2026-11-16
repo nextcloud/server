@@ -13,7 +13,10 @@ use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OCP\Constants;
+use OCP\Files\GenericFileException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\Files\Storage\Storage;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -297,5 +300,57 @@ class ObjectStoreStorageTest extends Storage {
 
 		$this->assertTrue($this->instance->file_exists($filePath));
 		$this->assertEquals('sample content', $this->instance->file_get_contents($filePath));
+	}
+
+	/**
+	 * Replace the object store by a multipart capable mock after creating the target file
+	 */
+	private function prepareChunkedWrite(): IObjectStore&IObjectStoreMultiPartUpload&MockObject {
+		$this->instance->file_put_contents('target.txt', '');
+		$objectStore = $this->createMockForIntersectionOfInterfaces([IObjectStore::class, IObjectStoreMultiPartUpload::class]);
+		$this->instance->setObjectStore($objectStore);
+		return $objectStore;
+	}
+
+	public function testPutChunkedWritePartWithArrayResult(): void {
+		$objectStore = $this->prepareChunkedWrite();
+		$objectStore->expects($this->once())
+			->method('uploadMultipartPart')
+			->with($this->anything(), 'upload', 3, $this->anything(), 5)
+			->willReturn(['ETag' => '"block"']);
+
+		$this->assertSame(
+			['PartNumber' => '3', 'ETag' => 'block'],
+			$this->instance->putChunkedWritePart('target.txt', 'upload', '3', fopen('php://memory', 'r'), 5),
+		);
+	}
+
+	public function testCompleteChunkedWrite(): void {
+		$objectStore = $this->prepareChunkedWrite();
+		$parts = [
+			['PartNumber' => 2, 'ETag' => 'b', 'Size' => 3],
+			['PartNumber' => 1, 'ETag' => 'a', 'Size' => 5],
+		];
+		$objectStore->method('getMultipartUploads')->willReturn($parts);
+		$objectStore->expects($this->once())
+			->method('completeMultipartUpload')
+			->with($this->anything(), 'upload', [$parts[1], $parts[0]])
+			->willReturn(8);
+		$objectStore->expects($this->never())->method('abortMultipartUpload');
+
+		$this->assertSame(8, $this->instance->completeChunkedWrite('target.txt', 'upload'));
+		$this->assertSame(8, $this->instance->getCache()->get('target.txt')->getSize());
+	}
+
+	public function testCompleteChunkedWriteAbortsOnBackendFailure(): void {
+		$objectStore = $this->prepareChunkedWrite();
+		$objectStore->method('getMultipartUploads')->willReturn([]);
+		$objectStore->method('completeMultipartUpload')->willThrowException(new \RuntimeException('backend failure'));
+		$objectStore->expects($this->once())
+			->method('abortMultipartUpload')
+			->with($this->anything(), 'upload');
+
+		$this->expectException(GenericFileException::class);
+		$this->instance->completeChunkedWrite('target.txt', 'upload');
 	}
 }

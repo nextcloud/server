@@ -89,6 +89,27 @@ class AzureTest extends ObjectStoreTestCase {
 		$this->assertSame('files/Grüße.txt', $listed[0]['metadata']['original-path']);
 	}
 
+	public function testMultipartUpload(): void {
+		$this->cleanupAfter('multipart');
+		$instance = $this->getInstance();
+		$instance->writeObject('multipart', $this->stringToStream('old content'));
+
+		$uploadId = $instance->initiateMultipartUpload('multipart');
+		$otherUploadId = $instance->initiateMultipartUpload('multipart');
+		$instance->uploadMultipartPart('multipart', $uploadId, 2, $this->stringToStream('world'), 5);
+		$instance->uploadMultipartPart('multipart', $otherUploadId, 1, $this->stringToStream('other'), 5);
+		$instance->uploadMultipartPart('multipart', $uploadId, 1, $this->stringToStream('hello '), 6);
+
+		$parts = $instance->getMultipartUploads('multipart', $uploadId);
+		$this->assertSame([1, 2], array_column($parts, 'PartNumber'));
+		$this->assertSame([6, 5], array_column($parts, 'Size'));
+		$this->assertSame('old content', stream_get_contents($instance->readObject('multipart')));
+
+		$this->assertSame(11, $instance->completeMultipartUpload('multipart', $uploadId, $parts));
+		$this->assertSame('hello world', stream_get_contents($instance->readObject('multipart')));
+		$this->assertSame([], $instance->getMultipartUploads('multipart', $otherUploadId));
+	}
+
 	public function testReadNonExistingThrowsNotFound(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 		@$this->getInstance()->readObject('non-existing');

@@ -241,6 +241,54 @@ class AzureUploadTest extends TestCase {
 		], iterator_to_array($this->getInstance()->listObjects('urn:oid:'), false));
 	}
 
+	public function testMultipartUpload(): void {
+		$instance = $this->getInstance();
+		$uploadId = $instance->initiateMultipartUpload('urn:oid:1');
+		$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $uploadId);
+		$this->assertNotSame($uploadId, $instance->initiateMultipartUpload('urn:oid:1'));
+
+		$this->blobClient->expects($this->once())
+			->method('putBlock')
+			->willReturnCallback(function (string $container, string $blob, string $blockId, StreamInterface $body, int $size) use ($uploadId): void {
+				$this->assertSame('urn:oid:1', $blob);
+				$this->assertSame(AzureBlobClient::blockId($uploadId, 2), $blockId);
+				$this->assertSame('chunk', (string)$body);
+				$this->assertSame(5, $size);
+			});
+		$this->assertSame(
+			['ETag' => AzureBlobClient::blockId($uploadId, 2)],
+			$instance->uploadMultipartPart('urn:oid:1', $uploadId, 2, $this->unknownSizeStream('chunk'), 5),
+		);
+	}
+
+	public function testGetMultipartUploads(): void {
+		$uploadId = str_repeat('a', 32);
+		$this->blobClient->method('getUncommittedBlocks')
+			->with('test', 'urn:oid:1')
+			->willReturn([
+				['name' => AzureBlobClient::blockId($uploadId, 2), 'size' => 3],
+				['name' => AzureBlobClient::blockId(str_repeat('b', 32), 1), 'size' => 7],
+				['name' => AzureBlobClient::blockId($uploadId, 1), 'size' => 5],
+			]);
+
+		$this->assertSame([
+			['PartNumber' => 1, 'ETag' => AzureBlobClient::blockId($uploadId, 1), 'Size' => 5, 'LastModified' => null],
+			['PartNumber' => 2, 'ETag' => AzureBlobClient::blockId($uploadId, 2), 'Size' => 3, 'LastModified' => null],
+		], $this->getInstance()->getMultipartUploads('urn:oid:1', $uploadId));
+	}
+
+	public function testCompleteMultipartUpload(): void {
+		$this->blobClient->expects($this->once())
+			->method('putBlockList')
+			->with('test', 'urn:oid:1', ['block1', 'block2']);
+		$this->blobClient->method('getBlobProperties')->willReturn(['content-length' => '8']);
+
+		$this->assertSame(8, $this->getInstance()->completeMultipartUpload('urn:oid:1', 'upload', [
+			['PartNumber' => 1, 'ETag' => 'block1', 'Size' => 5],
+			['PartNumber' => 2, 'ETag' => 'block2', 'Size' => 3],
+		]));
+	}
+
 	public function testStorageId(): void {
 		$this->assertSame('azure::blob::test', $this->getInstance()->getStorageId());
 	}
