@@ -513,9 +513,10 @@ class SFTP extends Common {
 		}
 
 		for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
+			$expected = min(self::COPY_CHUNK_SIZE, $size - $i);
 			/** @psalm-suppress InvalidArgument */
-			$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
-			if ($chunk === false) {
+			$chunk = $connection->get($absSource, false, $i, $expected);
+			if ($chunk === false || strlen($chunk) !== $expected) {
 				return false;
 			}
 			// phpseclib truncates only without an explicit offset; later chunks must keep theirs.
