@@ -394,7 +394,14 @@ class Repository {
 	/**
 	 * Finds entities by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * The owning side of a relation (ManyToOne, or OneToOne with a JoinColumn) can be used as
+	 * criterion as well, by passing the related entity or its primary key:
+	 *
+	 * ```php
+	 * $orders = $orderRepository->findBy(['merchant' => $merchant]);
+	 * ```
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return \Generator<T>
 	 *
@@ -428,7 +435,7 @@ class Repository {
 	 *
 	 * @warning This does not support tables with composite primary keys
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param int|string|null $lastId The primary key of the last entity from the previous
 	 *                                page, or null to fetch the first page.
 	 * @return \Generator<T>
@@ -464,7 +471,7 @@ class Repository {
 	 *
 	 * @warning This does not support tables with composite primary keys
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param int|string|null $lastId The primary key of the last entity from the previous
 	 *                                page, or null to fetch the first page.
 	 * @return \Generator<T>
@@ -489,7 +496,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @return int The number of rows deleted
 	 * @throws Exception
 	 * @since 35.0.0
@@ -499,22 +506,7 @@ class Repository {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete($entityInfo->tableName);
-
-		foreach ($criteria as $property => $value) {
-			$column = $entityInfo->mappingPropertyToColumn[$property];
-			/** @psalm-suppress MixedAssignment can be anything */
-			$value = $this->entityManager->toParameterValue($value);
-			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
-			if ($value === null) {
-				$qb->andWhere($qb->expr()->isNull($column));
-			} elseif (is_array($value)) {
-				// IN expression
-				$qb->andWhere($qb->expr()->in($column, $qb->createNamedParameter($value, $type)));
-			} else {
-				// = expression
-				$qb->andWhere($qb->expr()->eq($column, $qb->createNamedParameter($value, $type)));
-			}
-		}
+		$this->addCriteria($qb, $entityInfo, $criteria, '');
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);
@@ -526,7 +518,7 @@ class Repository {
 	/**
 	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
@@ -541,29 +533,14 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|object|list<int|float|string|\BackedEnum|object>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
 	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
 		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
-
-		foreach ($criteria as $property => $value) {
-			$column = $entityInfo->mappingPropertyToColumn[$property];
-			/** @psalm-suppress MixedAssignment $value is caller-supplied criteria, unwrapped of any \BackedEnum case. */
-			$value = $this->entityManager->toParameterValue($value);
-			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
-			if ($value === null) {
-				$qb->andWhere($qb->expr()->isNull('e.' . $column));
-			} elseif (is_array($value)) {
-				// IN expression
-				$qb->andWhere($qb->expr()->in('e.' . $column, $qb->createNamedParameter($value, $type)));
-			} else {
-				// = expression
-				$qb->andWhere($qb->expr()->eq('e.' . $column, $qb->createNamedParameter($value, $type)));
-			}
-		}
+		$this->addCriteria($qb, $entityInfo, $criteria, 'e.');
 
 		foreach ($orderBy as $field => $direction) {
 			$column = $entityInfo->mappingPropertyToColumn[$field];
@@ -571,6 +548,81 @@ class Repository {
 		}
 
 		return [$qb, $relations];
+	}
+
+	/**
+	 * Adds the criteria, keyed by property name, as conditions to the query.
+	 *
+	 * @param array<string, mixed> $criteria
+	 * @param string $columnPrefix Prepended to every column, e.g. the table alias and a dot
+	 * @throws \InvalidArgumentException if a property cannot be used as criterion
+	 */
+	private function addCriteria(IQueryBuilder $qb, EntityInfo $entityInfo, array $criteria, string $columnPrefix): void {
+		/** @psalm-suppress MixedAssignment $value is caller-supplied criteria */
+		foreach ($criteria as $property => $value) {
+			/** @psalm-suppress MixedAssignment $value is normalized to a scalar, null or a list of scalars */
+			[$column, $columnType, $value] = $this->resolveCriterion($entityInfo, $property, $value);
+			$type = $this->entityManager->getParameterType($columnType, is_array($value));
+			if ($value === null) {
+				$qb->andWhere($qb->expr()->isNull($columnPrefix . $column));
+			} elseif (is_array($value)) {
+				// IN expression
+				$qb->andWhere($qb->expr()->in($columnPrefix . $column, $qb->createNamedParameter($value, $type)));
+			} else {
+				// = expression
+				$qb->andWhere($qb->expr()->eq($columnPrefix . $column, $qb->createNamedParameter($value, $type)));
+			}
+		}
+	}
+
+	/**
+	 * Resolves a criterion to its column, the column type and the parameter value.
+	 *
+	 * Besides mapped columns, the owning side of a relation (ManyToOne, or OneToOne with a
+	 * JoinColumn) is supported. It matches on the join column and accepts the related entity,
+	 * its primary key, null or a list of related entities or primary keys.
+	 *
+	 * @return array{0: string, 1: ColumnType, 2: mixed}
+	 * @throws \InvalidArgumentException if the property cannot be used as criterion
+	 */
+	private function resolveCriterion(EntityInfo $entityInfo, string $property, mixed $value): array {
+		$column = $entityInfo->mappingPropertyToColumn[$property] ?? null;
+		if ($column !== null) {
+			return [$column, $entityInfo->mappingColumnToTypes[$column], $this->entityManager->toParameterValue($value)];
+		}
+
+		$propertyAttributes = $entityInfo->getPropertyAttributes($property);
+		$targetEntityClass = $propertyAttributes?->getOwningRelationTarget();
+		$joinColumn = $propertyAttributes?->joinColumn;
+		if ($targetEntityClass === null || $joinColumn === null) {
+			throw new \InvalidArgumentException($entityInfo->entityClass . '::' . $property . ' is neither a mapped column nor the owning side of a relation, so it cannot be used as criterion.');
+		}
+
+		$targetEntityInfo = $this->entityManager->getEntityInfo($targetEntityClass);
+		$idProperty = $targetEntityInfo->getSingleIdProperty();
+		$idColumn = $targetEntityInfo->mappingPropertyToColumn[$idProperty->getName()];
+
+		$toId = static function (mixed $value) use ($targetEntityClass, $idProperty): mixed {
+			if (!is_object($value)) {
+				return $value;
+			}
+
+			if (!$value instanceof $targetEntityClass) {
+				throw new \InvalidArgumentException('Expected an instance of ' . $targetEntityClass . ' or its primary key, got ' . $value::class . '.');
+			}
+
+			/** @psalm-suppress MixedAssignment the primary key is a scalar */
+			$id = $idProperty->getValue($value);
+			if ($id === null) {
+				throw new \InvalidArgumentException('The given ' . $targetEntityClass . ' has no primary key, insert it before using it as criterion.');
+			}
+
+			return $id;
+		};
+
+		/** @psalm-suppress MixedAssignment */
+		$value = is_array($value) ? array_map($toId, $value) : $toId($value);
+		return [$joinColumn->name, $targetEntityInfo->mappingColumnToTypes[$idColumn], $value];
 	}
 
 	/**

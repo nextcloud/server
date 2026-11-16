@@ -914,4 +914,131 @@ class RepositoryTest extends TestCase {
 
 		Server::get(EntityManager::class)->getEntityInfo(EnumColumnTypeMismatch::class);
 	}
+
+	/**
+	 * @return array{0: Merchant, 1: Merchant, 2: list<Order>}
+	 */
+	private function createMerchantsWithOrders(): array {
+		$merchantRepo = $this->getRepository(Merchant::class);
+		$orderRepo = $this->getRepository(Order::class);
+
+		$merchant1 = new Merchant();
+		$merchant1->name = 'first';
+		$merchantRepo->insert($merchant1);
+		$merchant2 = new Merchant();
+		$merchant2->name = 'second';
+		$merchantRepo->insert($merchant2);
+
+		$orders = [];
+		foreach ([$merchant1, $merchant1, $merchant2, null] as $merchant) {
+			$order = new Order();
+			$order->merchant = $merchant;
+			$orderRepo->insert($order);
+			$orders[] = $order;
+		}
+
+		return [$merchant1, $merchant2, $orders];
+	}
+
+	/**
+	 * @param iterable<Order> $orders
+	 * @return list<int|null>
+	 */
+	private function getIds(iterable $orders): array {
+		$ids = [];
+		foreach ($orders as $order) {
+			$ids[] = $order->id;
+		}
+		sort($ids);
+		return $ids;
+	}
+
+	public function testFindByManyToOneRelation(): void {
+		[$merchant1, $merchant2, $orders] = $this->createMerchantsWithOrders();
+		$orderRepo = $this->getRepository(Order::class);
+		$orderIds = $this->getIds($orders);
+
+		// by related entity
+		$found = iterator_to_array($orderRepo->findBy(['merchant' => $merchant1]), false);
+		$this->assertEquals([$orders[0]->id, $orders[1]->id], $this->getIds($found));
+		foreach ($found as $order) {
+			$this->assertEquals($merchant1->name, $order->merchant?->name);
+		}
+
+		// by primary key of the related entity
+		$this->assertEquals([$orders[2]->id], $this->getIds($orderRepo->findBy(['merchant' => $merchant2->id])));
+
+		// by a list of related entities and primary keys
+		$this->assertEquals(
+			[$orders[0]->id, $orders[1]->id, $orders[2]->id],
+			$this->getIds($orderRepo->findBy(['merchant' => [$merchant1, $merchant2->id]])),
+		);
+
+		// by missing relation
+		$this->assertEquals([$orders[3]->id], $this->getIds($orderRepo->findBy(['merchant' => null, 'id' => $orderIds])));
+
+		// combined with other criteria
+		$this->assertEquals($orders[1]->id, $orderRepo->findOneBy(['merchant' => $merchant1, 'id' => $orders[1]->id])->id);
+		$this->assertEquals([$orders[1]->id], $this->getIds($orderRepo->findByAfterId(['merchant' => $merchant1], $orders[0]->id, 10)));
+		$this->assertEquals([$orders[0]->id], $this->getIds($orderRepo->findByBeforeId(['merchant' => $merchant1], $orders[1]->id, 10)));
+	}
+
+	public function testDeleteByManyToOneRelation(): void {
+		[$merchant1, $merchant2, $orders] = $this->createMerchantsWithOrders();
+		$orderRepo = $this->getRepository(Order::class);
+
+		$this->assertEquals(2, $orderRepo->deleteBy(['merchant' => $merchant1]));
+		$this->assertEquals(
+			[$orders[2]->id, $orders[3]->id],
+			$this->getIds($orderRepo->findBy(['id' => $this->getIds($orders)])),
+		);
+
+		$this->assertEquals(1, $orderRepo->deleteBy(['merchant' => [$merchant2->id]]));
+	}
+
+	public function testFindByOneToOneOwningSide(): void {
+		$cartRepo = $this->getRepository(Cart::class);
+		$customerRepo = $this->getRepository(Customer::class);
+
+		$customer = new Customer();
+		$customer->name = 'owning side criteria';
+		$customerRepo->insert($customer);
+
+		$cart = new Cart();
+		$cart->customer = $customer;
+		$cartRepo->insert($cart);
+
+		$this->assertEquals($cart->id, $cartRepo->findOneBy(['customer' => $customer])->id);
+		$this->assertEquals($cart->id, $cartRepo->findOneBy(['customer' => $customer->id])->id);
+	}
+
+	public function testFindByInverseSideThrows(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Customer::cart is neither a mapped column nor the owning side of a relation');
+
+		$this->getRepository(Customer::class)->findBy(['cart' => 1])->current();
+	}
+
+	public function testFindByUnknownPropertyThrows(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Order::unknown is neither a mapped column nor the owning side of a relation');
+
+		$this->getRepository(Order::class)->deleteBy(['unknown' => 1]);
+	}
+
+	public function testFindByUnsavedRelatedEntityThrows(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('has no primary key');
+
+		$this->getRepository(Order::class)->findBy(['merchant' => new Merchant()])->current();
+	}
+
+	public function testFindByWrongRelatedEntityClassThrows(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Expected an instance of ' . Merchant::class);
+
+		$customer = new Customer();
+		$customer->id = 1;
+		$this->getRepository(Order::class)->findBy(['merchant' => $customer])->current();
+	}
 }
