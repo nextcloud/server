@@ -69,8 +69,9 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
+        env:
+          base_ref: ${{ steps.get-pr.outputs.base_ref }}
         run: |
-          base_ref="${{ steps.get-pr.outputs.base_ref }}"
           if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
             echo "server_ref=master" >> "$GITHUB_ENV"
             echo "Setting server_ref to master"
