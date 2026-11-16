@@ -1,9 +1,4 @@
 {
-  "apps/settings/src/components/Users/NewUserDialog.vue": {
-    "vue/no-mutating-props": {
-      "count": 2
-    }
-  },
   "apps/workflowengine/src/components/Check.vue": {
     "vue/no-mutating-props": {
       "count": 3

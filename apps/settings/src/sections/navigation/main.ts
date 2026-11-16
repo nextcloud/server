@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import SettingsApp from './SettingsApp.vue'
 
-__webpack_nonce__ = getCSPNonce()
-
-const app = new Vue(SettingsApp)
-app.$mount('#settings-app')
+// mounting replaces everything in #content, so take the page heading and the server-rendered sections out first
+const sections = document.getElementById('original-settings-content')!
+sections.prepend(document.getElementById('page-heading-level-1')!)
+sections.remove()
+createApp(SettingsApp, { sections }).mount('#content')

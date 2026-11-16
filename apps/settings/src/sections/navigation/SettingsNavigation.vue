@@ -21,10 +21,10 @@ const hasAdminSections = adminSections.length > 0
 </script>
 
 <template>
-	<NcAppNavigation>
+	<NcAppNavigation :ariaLabel="t('settings', 'Settings')">
 		<NcAppNavigationCaption
-			heading-id="settings-personal_section_heading"
-			is-heading
+			headingId="settings-personal_section_heading"
+			isHeading
 			:name="t('settings', 'Personal')" />
 		<NcAppNavigationList aria-labelledby="settings-personal_section_heading">
 			<SettingsNavigationItem
@@ -36,8 +36,8 @@ const hasAdminSections = adminSections.length > 0
 
 		<template v-if="hasAdminSections">
 			<NcAppNavigationCaption
-				heading-id="settings-admin_section_heading"
-				is-heading
+				headingId="settings-admin_section_heading"
+				isHeading
 				:name="t('settings', 'Administration')" />
 			<NcAppNavigationList aria-labelledby="settings-admin_section_heading">
 				<SettingsNavigationItem
