@@ -109,9 +109,14 @@ jobs:
           BOT_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}  # zizmor: ignore[secrets-outside-env]
         run: |
           git add 3rdparty
-          git commit -s -m "Update submodule 3rdparty to latest $server_ref"
           git remote set-url origin "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git"
-          git push
+          if git diff --quiet HEAD~1 HEAD -- 3rdparty; then
+            git commit -s -m "chore(3rdparty): Update submodule to latest $server_ref"
+            git push
+          else
+            git commit -s --amend --no-edit
+            git push --force-with-lease
+          fi
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
