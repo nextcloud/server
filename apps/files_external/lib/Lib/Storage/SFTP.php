@@ -490,28 +490,42 @@ class SFTP extends Common {
 	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source) || $this->is_dir($target)) {
 			return parent::copy($source, $target);
-		} else {
-			$absSource = $this->absPath($source);
-			$absTarget = $this->absPath($target);
+		}
 
-			$connection = $this->getConnection();
-			$size = $connection->filesize($absSource);
-			if ($size === false) {
-				return false;
-			}
-			for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
-				/** @psalm-suppress InvalidArgument */
-				$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
-				if ($chunk === false) {
-					return false;
-				}
-				/** @psalm-suppress InternalMethod */
-				if (!$connection->put($absTarget, $chunk, \phpseclib3\Net\SFTP::SOURCE_STRING, $i)) {
-					return false;
-				}
-			}
+		$absSource = $this->absPath($source);
+		$absTarget = $this->absPath($target);
+		$connection = $this->getConnection();
+		$size = $connection->filesize($absSource);
+
+		if ($size === false) {
+			return false;
+		}
+
+		// Avoid truncating the source on self-copy; this cannot detect aliases such as symlinks.
+		if (preg_replace('~/+~', '/', $absSource) === preg_replace('~/+~', '/', $absTarget)) {
 			return true;
 		}
+
+		if ($size === 0) {
+			// The chunk loop won't run, but the target must still be created or truncated.
+			/** @psalm-suppress InternalMethod */
+			return $connection->put($absTarget, '');
+		}
+
+		for ($i = 0; $i < $size; $i += self::COPY_CHUNK_SIZE) {
+			/** @psalm-suppress InvalidArgument */
+			$chunk = $connection->get($absSource, false, $i, self::COPY_CHUNK_SIZE);
+			if ($chunk === false) {
+				return false;
+			}
+			// phpseclib truncates only without an explicit offset; later chunks must keep theirs.
+			/** @psalm-suppress InternalMethod */
+			if (!$connection->put($absTarget, $chunk, \phpseclib3\Net\SFTP::SOURCE_STRING, $i === 0 ? -1 : $i)) {
+				return false;
+			}
+		}
+
+		return true; // TODO: only after all expected bytes have been read and written.
 	}
 
 	#[\Override]
