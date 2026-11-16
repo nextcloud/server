@@ -23,6 +23,8 @@ class AzureBlobClient {
 	public const DEFAULT_API_VERSION = '2025-01-05';
 	/** Maximum size of a single Put Blob or Put Block request */
 	public const MAX_BLOCK_SIZE = 4000 * 1024 * 1024;
+	/** Version of the shared access signatures, the string-to-sign depends on it */
+	private const SAS_VERSION = '2020-12-06';
 	private const RETRYABLE_STATUS = [408, 429, 500, 502, 503, 504];
 
 	/** Scheme, host and port of the endpoint */
@@ -178,6 +180,57 @@ class AzureBlobClient {
 		if ($status !== 'success') {
 			throw new AzureException("Copy of $source to $target failed with status $status: $description", 0, 'CopyFailed');
 		}
+	}
+
+	/**
+	 * Whether the service version supports the shared access signatures created by getReadSasUrl().
+	 */
+	public function supportsSas(): bool {
+		return strcmp($this->apiVersion, self::SAS_VERSION) >= 0;
+	}
+
+	/**
+	 * Create a URL with a service shared access signature that allows reading the blob.
+	 *
+	 * @param string $contentDisposition Content-Disposition header of the response
+	 * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas
+	 */
+	public function getReadSasUrl(string $container, string $blob, \DateTimeInterface $expiry, string $contentDisposition): string {
+		$format = 'Y-m-d\TH:i:s\Z';
+		$utc = new \DateTimeZone('UTC');
+		// Allow for clock skew between this server and Azure
+		$start = $this->timeFactory->now()->modify('-5 minutes')->setTimezone($utc);
+		$query = [
+			'sp' => 'r',
+			'st' => $start->format($format),
+			'se' => \DateTimeImmutable::createFromInterface($expiry)->setTimezone($utc)->format($format),
+			'spr' => str_starts_with($this->origin, 'https://') ? 'https' : 'https,http',
+			'sv' => self::SAS_VERSION,
+			'sr' => 'b',
+			'rscd' => $contentDisposition,
+		];
+
+		$stringToSign = implode("\n", [
+			$query['sp'],
+			$query['st'],
+			$query['se'],
+			'/blob/' . $this->signer->getAccountName() . '/' . $container . '/' . $blob,
+			'', // signedIdentifier
+			'', // signedIP
+			$query['spr'],
+			$query['sv'],
+			$query['sr'],
+			'', // signedSnapshotTime
+			'', // signedEncryptionScope
+			'', // rscc
+			$query['rscd'],
+			'', // rsce
+			'', // rscl
+			'', // rsct
+		]);
+		$query['sig'] = $this->signer->sign($stringToSign);
+
+		return $this->origin . $this->getPath($container, $blob) . '?' . http_build_query($query, '', '&', PHP_QUERY_RFC3986);
 	}
 
 	/**

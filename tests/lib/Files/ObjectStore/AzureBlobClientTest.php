@@ -30,6 +30,7 @@ class AzureBlobClientTest extends TestCase {
 		$this->httpClient = $this->createMock(IClient::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->method('getTime')->willReturn(1793966400);
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable('@1793966400'));
 		$this->client = new AzureBlobClient(
 			$this->httpClient,
 			new AzureSharedKeySigner('devstoreaccount1', 'bmV4dGNsb3Vk'),
@@ -215,6 +216,50 @@ class AzureBlobClientTest extends TestCase {
 			['HEAD', 'http://localhost:10000/devstoreaccount1/test/target', null],
 			['HEAD', 'http://localhost:10000/devstoreaccount1/test/target', null],
 		], $requests);
+	}
+
+	public function testReadSasUrl(): void {
+		$url = $this->client->getReadSasUrl('test', 'urn:oid:42', new \DateTimeImmutable('2026-11-06T14:00:00+01:00'), 'attachment; filename="a.txt"');
+
+		$stringToSign = implode("\n", [
+			'r',
+			'2026-11-06T11:55:00Z',
+			'2026-11-06T13:00:00Z',
+			'/blob/devstoreaccount1/test/urn:oid:42',
+			'',
+			'',
+			'https,http',
+			'2020-12-06',
+			'b',
+			'',
+			'',
+			'',
+			'attachment; filename="a.txt"',
+			'',
+			'',
+			'',
+		]);
+		$signature = base64_encode(hash_hmac('sha256', $stringToSign, base64_decode('bmV4dGNsb3Vk'), true));
+
+		$this->assertSame(
+			'http://localhost:10000/devstoreaccount1/test/urn%3Aoid%3A42'
+			. '?sp=r&st=2026-11-06T11%3A55%3A00Z&se=2026-11-06T13%3A00%3A00Z&spr=https%2Chttp&sv=2020-12-06&sr=b'
+			. '&rscd=attachment%3B%20filename%3D%22a.txt%22&sig=' . rawurlencode($signature),
+			$url,
+		);
+	}
+
+	public function testReadSasUrlHttpsOnly(): void {
+		$client = new AzureBlobClient($this->httpClient, new AzureSharedKeySigner('nextcloud', 'bmV4dGNsb3Vk'), $this->timeFactory, 'https://nextcloud.blob.core.windows.net');
+		$url = $client->getReadSasUrl('test', 'blob', new \DateTimeImmutable('@1793970000'), 'attachment');
+		$this->assertStringStartsWith('https://nextcloud.blob.core.windows.net/test/blob?', $url);
+		$this->assertStringContainsString('&spr=https&', $url);
+	}
+
+	public function testSupportsSas(): void {
+		$this->assertTrue($this->client->supportsSas());
+		$client = new AzureBlobClient($this->httpClient, new AzureSharedKeySigner('nextcloud', 'bmV4dGNsb3Vk'), $this->timeFactory, 'https://example.com', '2019-07-07');
+		$this->assertFalse($client->supportsSas());
 	}
 
 	public function testCopyFailure(): void {
