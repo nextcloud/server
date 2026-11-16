@@ -329,6 +329,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	}
 
 	private function saveInternalValue(IUser $user, string $app, string $formId, string $fieldId, mixed $value): void {
+		$value = is_array($value) ? json_encode($value, JSON_THROW_ON_ERROR) : (string)$value;
 		$sectionType = $this->getSectionType($app, $fieldId);
 
 		$field = $this->getSchemaField($app, $formId, $fieldId);
