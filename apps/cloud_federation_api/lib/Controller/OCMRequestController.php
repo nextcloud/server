@@ -87,7 +87,7 @@ class OCMRequestController extends Controller {
 			$this->request->getMethod(),
 			preg_replace('@/+@', '/', $ocmPath),
 			$payload,
-			$signedRequest?->getOrigin()
+			signedRequest: $signedRequest,
 		);
 		$this->eventDispatcher->dispatchTyped($event);
 

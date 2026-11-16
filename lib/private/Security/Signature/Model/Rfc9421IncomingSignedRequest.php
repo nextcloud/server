@@ -206,6 +206,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	/**
 	 * @return array<string, scalar>
 	 */
+	#[\Override]
 	public function getSignatureParams(): array {
 		return $this->signatureParams;
 	}
