@@ -1,4 +1,3 @@
-
 /*!
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -160,24 +159,20 @@ async function handleConflicts(
 		const incomingFiles = files.filter((file) => names.includes(file.name))
 		const conflicts = getConflicts(incomingFiles, contents)
 
-		const mapping = Object.fromEntries(
-			names.map((name) => [name, name]),
-		)
+		const mapping = Object.fromEntries(names.map((name) => [name, name]))
 
 		if (conflicts.length === 0) {
 			return mapping
 		}
 
-		const existingNodes = contents.filter((node) =>
-            conflicts.some((file) => file.name === node.basename),
-        )
-        
-        const result = await openConflictPicker(
-            basename(path),
-            conflicts,
-            existingNodes,
-            { recursive: false },
-        )
+		const existingNodes = contents.filter((node) => conflicts.some((file) => file.name === node.basename))
+
+		const result = await openConflictPicker(
+			basename(path),
+			conflicts,
+			existingNodes,
+			{ recursive: false },
+		)
 
 		if (!result) {
 			return false
@@ -210,7 +205,6 @@ async function handleConflicts(
 		return false
 	}
 }
-
 
 /**
  * Upload clipboard images into the provided destination folder.
@@ -247,8 +241,7 @@ export async function uploadClipboardImages(
 
 			await getUploader().batchUpload('', files, {
 				root,
-				callback: (names, path) =>
-					handleConflicts(names, path, files, context.getContents),
+				callback: (names, path) => handleConflicts(names, path, files, context.getContents),
 			})
 		} catch (error) {
 			logger.error('Error while uploading clipboard images', {
