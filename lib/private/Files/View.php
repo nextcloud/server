@@ -1861,6 +1861,7 @@ class View {
 		$providers = [
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
@@ -1870,7 +1871,7 @@ class View {
 		$shareManager = Server::get(IManager::class);
 		/** @var IShare[] $shares */
 		$shares = array_merge(...array_map(function (int $type) use ($shareManager, $user) {
-			return $shareManager->getSharesBy($user, $type);
+			return $shareManager->getSharesBy($user, $type, null, false, -1);
 		}, $providers));
 
 		foreach ($shares as $share) {
