@@ -4,14 +4,14 @@
 -->
 
 <script setup lang="ts">
-import type { ISettingsSection } from '../components/SettingsNavigationItem.vue'
+import type { ISettingsSection } from './SettingsNavigationItem.vue'
 
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
-import SettingsNavigationItem from '../components/SettingsNavigationItem.vue'
+import SettingsNavigationItem from './SettingsNavigationItem.vue'
 
 const {
 	personal: personalSections,

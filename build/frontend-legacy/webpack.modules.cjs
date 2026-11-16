@@ -6,6 +6,6 @@ const path = require('path')
 
 module.exports = {
 	settings: {
-		main: path.join(__dirname, 'apps/settings/src', 'main-settings.ts'),
+		main: path.join(__dirname, 'apps/settings/src/sections/navigation', 'main.ts'),
 	},
 }
