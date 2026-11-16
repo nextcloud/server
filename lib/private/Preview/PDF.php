@@ -19,7 +19,7 @@ class PDF extends Bitmap {
 
 	#[\Override]
 	protected function getAllowedMimeTypes(): string {
-		return '/application\/pdf/';
+		return '/application\/(pdf|illustrator)/';
 	}
 
 	#[\Override]
