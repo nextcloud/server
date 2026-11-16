@@ -11,11 +11,13 @@ namespace Test\Security\Signature\Model;
 
 use Firebase\JWT\JWK;
 use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421IncomingSignedResponse;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedResponse;
 use OC\Security\Signature\Rfc9421\Algorithm;
 use OC\Security\Signature\Rfc9421\ContentDigest;
 use OCP\AppFramework\Http;
+use OCP\Http\Client\IResponse;
 use OCP\IRequest;
 use OCP\Security\Signature\Enum\DigestAlgorithm;
 use OCP\Security\Signature\Enum\SignatureAlgorithm;
@@ -109,12 +111,45 @@ class Rfc9421RoundTripTest extends TestCase {
 			$jwk,
 			null,
 		));
-		$this->assertFalse(Algorithm::verify(
-			str_replace('nonce-1', 'nonce-2', $base),
-			$rawSignature,
+
+		$clientResponse = $this->createMock(IResponse::class);
+		$clientResponse->method('getBody')->willReturn($response->render());
+		$clientResponse->method('getStatusCode')->willReturn($response->getStatus());
+		$clientResponse->method('getHeader')->willReturnCallback(
+			static fn (string $name): string => (string)($headers[$name] ?? ''),
+		);
+
+		$requestUri = 'https://sender.example.org'
+			. '/ocm/mls-key-packages?userId=alice%40sender.example.org';
+		$verified = new Rfc9421IncomingSignedResponse(
+			$clientResponse,
+			'GET',
+			$requestUri,
+			$request->getHeader('Signature-Input'),
+			$request->getHeader('Signature'),
+		);
+		$this->assertSame(
+			$base,
+			$verified->getSignatureBaseString(),
+		);
+		$verified->verify($jwk);
+		$this->addToAssertionCount(1);
+
+		$tampered = new Rfc9421IncomingSignedResponse(
+			$clientResponse,
+			'GET',
+			$requestUri,
+			str_replace(
+				'nonce-1',
+				'nonce-2',
+				$request->getHeader('Signature-Input'),
+			),
+			$request->getHeader('Signature'),
+		);
+		$this->expectException(InvalidSignatureException::class);
+		$tampered->verify(
 			$jwk,
-			null,
-		));
+		);
 	}
 
 	public function testSignedResponseResignsAfterMutation(): void {
