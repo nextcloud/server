@@ -13,6 +13,10 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use InvalidArgumentException;
 use OCP\Security\Signature\Exceptions\SignatureException;
+use phpseclib3\Crypt\EC;
+use phpseclib3\Crypt\EC\Formats\Signature\ASN1 as Asn1Signature;
+use phpseclib3\Crypt\EC\Formats\Signature\IEEE as IeeeSignature;
+use phpseclib3\Crypt\EC\PublicKey as EcPublicKey;
 use Throwable;
 
 /**
@@ -23,10 +27,8 @@ use Throwable;
  * accepted per RFC 9421 §3.3.7. RSA-PSS is rejected: OPENSSL_PKCS1_PSS_PADDING
  * needs PHP 8.5 and we still support 8.2-8.4.
  *
- * Verify additionally accepts Ed25519 when ext-sodium is loaded; without sodium
- * an Ed25519 signature throws {@see SignatureException}. Sodium is used directly
- * because firebase/php-jwt's `validateEdDSAKey` base64url-decodes the key
- * material, which mangles the raw sodium bytes.
+ * Verify additionally accepts Ed25519 through phpseclib, which selects the
+ * best available engine and falls back to its PHP implementation.
  *
  * Sign delegates to {@see JWT::sign}. Verify takes a {@see Key} parsed by
  * firebase/php-jwt (which has already validated the JWK's kty/crv/alg
@@ -34,6 +36,9 @@ use Throwable;
  * `alg` and the Signature-Input `alg` parameter (RFC 9421 §3.2 step 6).
  */
 final class Algorithm {
+	private const int ED25519_PUBLIC_KEY_BYTES = 32;
+	private const int ED25519_SIGNATURE_BYTES = 64;
+
 	public const array NATIVE = [
 		'rsa-v1_5-sha256',
 		'rsa-v1_5-sha384',
@@ -83,18 +88,36 @@ final class Algorithm {
 		$material = $key->getKeyMaterial();
 
 		if ($resolved === 'ed25519') {
-			if (!function_exists('sodium_crypto_sign_verify_detached')) {
-				throw new SignatureException('verifying Ed25519 signatures requires ext-sodium');
-			}
-			if (strlen($signature) !== SODIUM_CRYPTO_SIGN_BYTES) {
+			if (strlen($signature) !== self::ED25519_SIGNATURE_BYTES) {
 				return false;
 			}
-			// parseKey hands OKP material as plain base64 of the 32 raw bytes.
 			$rawPublic = base64_decode((string)$material, true);
-			if ($rawPublic === false || strlen($rawPublic) !== SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES) {
+			if (
+				$rawPublic === false
+				|| strlen($rawPublic)
+					!== self::ED25519_PUBLIC_KEY_BYTES
+			) {
 				return false;
 			}
-			return sodium_crypto_sign_verify_detached($signature, $signatureBase, $rawPublic);
+			try {
+				$publicKey = EC::loadPublicKeyFormat(
+					'libsodium',
+					$rawPublic,
+				);
+				if (!$publicKey instanceof EcPublicKey) {
+					return false;
+				}
+				return $publicKey->verify(
+					$signatureBase,
+					$signature,
+				);
+			} catch (Throwable $e) {
+				throw new SignatureException(
+					'Ed25519 verification failed: ' . $e->getMessage(),
+					0,
+					$e,
+				);
+			}
 		}
 
 		[$opensslAlgo, $encoding] = self::opensslParametersForAlgorithm($resolved);
@@ -195,30 +218,13 @@ final class Algorithm {
 		if (strlen($raw) !== $coordinateSize * 2) {
 			return null;
 		}
-		$r = ltrim(substr($raw, 0, $coordinateSize), "\x00");
-		$s = ltrim(substr($raw, $coordinateSize), "\x00");
-		// DER INTEGER must be positive; pad if high bit is set.
-		if ($r === '' || (ord($r[0]) & 0x80) !== 0) {
-			$r = "\x00" . $r;
+		$components = IeeeSignature::load($raw);
+		if ($components === false) {
+			return null;
 		}
-		if ($s === '' || (ord($s[0]) & 0x80) !== 0) {
-			$s = "\x00" . $s;
-		}
-		$rEncoded = "\x02" . self::derLength(strlen($r)) . $r;
-		$sEncoded = "\x02" . self::derLength(strlen($s)) . $s;
-		$body = $rEncoded . $sEncoded;
-		return "\x30" . self::derLength(strlen($body)) . $body;
-	}
-
-	private static function derLength(int $length): string {
-		if ($length < 0x80) {
-			return chr($length);
-		}
-		$bytes = '';
-		while ($length > 0) {
-			$bytes = chr($length & 0xff) . $bytes;
-			$length >>= 8;
-		}
-		return chr(0x80 | strlen($bytes)) . $bytes;
+		return Asn1Signature::save(
+			$components['r'],
+			$components['s'],
+		);
 	}
 }
