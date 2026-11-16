@@ -53,6 +53,7 @@ class DeclarativeSettingsController extends OCSController {
 	 *
 	 * 200: Value set successfully
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	public function setValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
 		return $this->saveValue($app, $formId, $fieldId, $value);
@@ -73,6 +74,7 @@ class DeclarativeSettingsController extends OCSController {
 	 *
 	 * 200: Value set successfully
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function setSensitiveValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
