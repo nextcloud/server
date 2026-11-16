@@ -2851,6 +2851,14 @@ $CONFIG = [
 	'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
 
 	/**
+	 * Whether Nextcloud should send the deprecated ``Feature-Policy`` HTTP response header.
+	 * Set this to ``false`` if you manage ``Permissions-Policy`` headers at your reverse proxy or web server level.
+	 *
+	 * Defaults to ``true``
+	 */
+	'add_feature_policy_header' => true,
+
+	/**
 	 * List of trusted IP ranges for admin actions. If non-empty, all admin actions
 	 * must originate from IPs within these ranges.
 	 *

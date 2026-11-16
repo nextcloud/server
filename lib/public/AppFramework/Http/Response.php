@@ -229,9 +229,13 @@ class Response {
 			'X-Request-Id' => $request->getId(),
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Security-Policy' => $this->getContentSecurityPolicy()->buildPolicy(),
-			'Feature-Policy' => $this->getFeaturePolicy()->buildPolicy(),
 			'X-Robots-Tag' => 'noindex, nofollow',
 		];
+
+		$sendFeaturePolicy = \OC::$server->getConfig()->getSystemValueBool('add_feature_policy_header', true);
+		if ($sendFeaturePolicy && $this->featurePolicy !== null && !isset($this->headers['Feature-Policy'])) {
+			$mergeWith['Feature-Policy'] = $this->featurePolicy->buildPolicy();
+		}
 
 		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] = $this->lastModified->format(Constants::DATE_RFC7231);
