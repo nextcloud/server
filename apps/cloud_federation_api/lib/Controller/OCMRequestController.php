@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\OCM\Events\OCMEndpointRequestAuthenticationEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -64,6 +65,15 @@ class OCMRequestController extends Controller {
 				break;
 			}
 		}
+		$normalizedPath = preg_replace('@/+@', '/', $ocmPath) ?? '';
+		$authenticationEvent = new OCMEndpointRequestAuthenticationEvent(
+			$this->request->getMethod(),
+			$normalizedPath,
+			$params,
+			$ocmAddress,
+		);
+		$this->eventDispatcher->dispatchTyped($authenticationEvent);
+		$ocmAddress = $authenticationEvent->getOcmAddress();
 
 		try {
 			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($ocmAddress);
@@ -85,7 +95,7 @@ class OCMRequestController extends Controller {
 
 		$event = new OCMEndpointRequestEvent(
 			$this->request->getMethod(),
-			preg_replace('@/+@', '/', $ocmPath),
+			$normalizedPath,
 			$payload,
 			signedRequest: $signedRequest,
 		);
