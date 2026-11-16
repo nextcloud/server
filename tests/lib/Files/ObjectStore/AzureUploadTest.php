@@ -185,6 +185,62 @@ class AzureUploadTest extends TestCase {
 		$this->assertNull($instance->preSignedUrl('urn:oid:1', new \DateTimeImmutable('+1 hour')));
 	}
 
+	public function testWriteObjectWithMetaData(): void {
+		$this->blobClient->expects($this->once())
+			->method('putBlob')
+			->with('test', 'urn:oid:1', $this->anything(), 3, [
+				'x-ms-blob-content-type' => 'text/plain',
+				'x-ms-meta-original_storage' => 'home::alice',
+				'x-ms-meta-original_path' => 'base64:' . base64_encode('files/Grüße.txt'),
+				'x-ms-meta-filename' => 'base64:' . base64_encode(' padded '),
+			]);
+
+		$this->getInstance()->writeObjectWithMetaData('urn:oid:1', $this->unknownSizeStream('abc'), [
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'original-storage' => 'home::alice',
+			'original-path' => 'files/Grüße.txt',
+			'filename' => ' padded ',
+		]);
+	}
+
+	public function testGetObjectMetaData(): void {
+		$this->blobClient->method('getBlobProperties')
+			->with('test', 'urn:oid:1')
+			->willReturn([
+				'last-modified' => 'Fri, 06 Nov 2026 12:00:00 GMT',
+				'etag' => '"0x8DDC"',
+				'content-length' => '3',
+				'content-type' => 'text/plain',
+				'x-ms-meta-original_path' => 'base64:' . base64_encode('files/Grüße.txt'),
+				'x-ms-meta-original_storage' => 'home::alice',
+				'x-ms-version' => '2025-01-05',
+			]);
+
+		$this->assertEquals([
+			'mtime' => new \DateTime('2026-11-06T12:00:00Z'),
+			'etag' => '0x8DDC',
+			'size' => 3,
+			'mimetype' => 'text/plain',
+			'original-path' => 'files/Grüße.txt',
+			'original-storage' => 'home::alice',
+		], $this->getInstance()->getObjectMetaData('urn:oid:1'));
+	}
+
+	public function testListObjects(): void {
+		$this->blobClient->method('listBlobs')
+			->with('test', 'urn:oid:')
+			->willReturnCallback(function () {
+				yield ['name' => 'urn:oid:1', 'properties' => ['content-length' => '3'], 'metadata' => ['original_path' => 'files/a.txt']];
+				yield ['name' => 'urn:oid:2', 'properties' => [], 'metadata' => []];
+			});
+
+		$this->assertSame([
+			['urn' => 'urn:oid:1', 'metadata' => ['size' => 3, 'original-path' => 'files/a.txt']],
+			['urn' => 'urn:oid:2', 'metadata' => []],
+		], iterator_to_array($this->getInstance()->listObjects('urn:oid:'), false));
+	}
+
 	public function testStorageId(): void {
 		$this->assertSame('azure::blob::test', $this->getInstance()->getStorageId());
 	}

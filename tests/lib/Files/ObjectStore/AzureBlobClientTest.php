@@ -262,6 +262,38 @@ class AzureBlobClientTest extends TestCase {
 		$this->assertFalse($client->supportsSas());
 	}
 
+	public function testListBlobs(): void {
+		$pages = [
+			"\xEF\xBB\xBF<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults><Blobs>"
+				. '<Blob><Name>urn:oid:1</Name><Properties><Last-Modified>Fri, 06 Nov 2026 12:00:00 GMT</Last-Modified><Content-Length>6</Content-Length></Properties>'
+				. '<Metadata><original_path>files/a.txt</original_path></Metadata></Blob>'
+				. '</Blobs><NextMarker>page2</NextMarker></EnumerationResults>',
+			'<?xml version="1.0" encoding="utf-8"?><EnumerationResults><Blobs><Blob><Name>urn:oid:2</Name></Blob></Blobs><NextMarker/></EnumerationResults>',
+		];
+		$urls = [];
+		$this->httpClient->expects($this->exactly(2))
+			->method('request')
+			->willReturnCallback(function (string $method, string $url) use (&$pages, &$urls) {
+				$urls[] = $url;
+				return $this->response(200, [], array_shift($pages));
+			});
+
+		$blobs = iterator_to_array($this->client->listBlobs('test', 'urn:oid:'), false);
+
+		$this->assertSame([
+			'http://localhost:10000/devstoreaccount1/test?restype=container&comp=list&include=metadata&prefix=urn%3Aoid%3A',
+			'http://localhost:10000/devstoreaccount1/test?restype=container&comp=list&include=metadata&prefix=urn%3Aoid%3A&marker=page2',
+		], $urls);
+		$this->assertSame([
+			[
+				'name' => 'urn:oid:1',
+				'properties' => ['last-modified' => 'Fri, 06 Nov 2026 12:00:00 GMT', 'content-length' => '6'],
+				'metadata' => ['original_path' => 'files/a.txt'],
+			],
+			['name' => 'urn:oid:2', 'properties' => [], 'metadata' => []],
+		], $blobs);
+	}
+
 	public function testCopyFailure(): void {
 		$responses = [
 			$this->response(202, ['x-ms-copy-status' => 'pending', 'x-ms-copy-id' => 'copy']),

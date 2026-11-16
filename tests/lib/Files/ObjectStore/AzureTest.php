@@ -66,6 +66,29 @@ class AzureTest extends ObjectStoreTestCase {
 		$this->assertSame(403, $response->getStatusCode());
 	}
 
+	public function testMetaData(): void {
+		$this->cleanupAfter('urn:oid:metadata');
+		$instance = $this->getInstance();
+		$instance->writeObjectWithMetaData('urn:oid:metadata', $this->stringToStream('foobar'), [
+			'mimetype' => 'text/plain',
+			'original-path' => 'files/Grüße.txt',
+		]);
+
+		$metaData = $instance->getObjectMetaData('urn:oid:metadata');
+		$this->assertSame(6, $metaData['size']);
+		$this->assertSame('text/plain', $metaData['mimetype']);
+		$this->assertSame('files/Grüße.txt', $metaData['original-path']);
+		$this->assertInstanceOf(\DateTime::class, $metaData['mtime']);
+
+		$listed = array_values(array_filter(
+			iterator_to_array($instance->listObjects('urn:oid:'), false),
+			fn (array $object): bool => $object['urn'] === 'urn:oid:metadata',
+		));
+		$this->assertCount(1, $listed);
+		$this->assertSame(6, $listed[0]['metadata']['size']);
+		$this->assertSame('files/Grüße.txt', $listed[0]['metadata']['original-path']);
+	}
+
 	public function testReadNonExistingThrowsNotFound(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 		@$this->getInstance()->readObject('non-existing');

@@ -141,6 +141,47 @@ class AzureBlobClient {
 	}
 
 	/**
+	 * List the blobs of the container with their properties and metadata.
+	 *
+	 * @return \Generator<array{name: string, properties: array<string, string>, metadata: array<string, string>}>
+	 * @throws AzureException
+	 */
+	public function listBlobs(string $container, string $prefix = ''): \Generator {
+		$marker = '';
+		do {
+			$query = ['restype' => 'container', 'comp' => 'list', 'include' => 'metadata'];
+			if ($prefix !== '') {
+				$query['prefix'] = $prefix;
+			}
+			if ($marker !== '') {
+				$query['marker'] = $marker;
+			}
+			$response = $this->send('GET', $this->getPath($container), $query, [], null, [200]);
+			$xml = $this->parseXml((string)$response->getBody());
+			if ($xml === null) {
+				throw new AzureException("Invalid response when listing the blobs of $container", 0, 'InvalidXml');
+			}
+
+			foreach ($xml->Blobs?->Blob ?? [] as $blob) {
+				$properties = [];
+				foreach ($blob->Properties?->children() ?? [] as $property) {
+					$properties[strtolower($property->getName())] = (string)$property;
+				}
+				$metadata = [];
+				foreach ($blob->Metadata?->children() ?? [] as $entry) {
+					$metadata[strtolower($entry->getName())] = (string)$entry;
+				}
+				yield [
+					'name' => (string)$blob->Name,
+					'properties' => $properties,
+					'metadata' => $metadata,
+				];
+			}
+			$marker = (string)$xml->NextMarker;
+		} while ($marker !== '');
+	}
+
+	/**
 	 * @throws AzureException
 	 */
 	public function deleteBlob(string $container, string $blob): void {
@@ -333,18 +374,27 @@ class AzureBlobClient {
 		$status = $response->getStatusCode();
 		$errorCode = $response->getHeader('x-ms-error-code');
 		$message = '';
-		if (is_string($content) && $content !== '') {
-			$useInternalErrors = libxml_use_internal_errors(true);
-			$xml = simplexml_load_string(preg_replace('/^\xEF\xBB\xBF/', '', $content) ?? $content);
-			libxml_clear_errors();
-			libxml_use_internal_errors($useInternalErrors);
-			if ($xml !== false) {
-				$errorCode = $errorCode !== '' ? $errorCode : (string)$xml->Code;
-				$message = trim(explode("\n", (string)$xml->Message)[0]);
-			}
+		$xml = is_string($content) ? $this->parseXml($content) : null;
+		if ($xml !== null) {
+			$errorCode = $errorCode !== '' ? $errorCode : (string)$xml->Code;
+			$message = trim(explode("\n", (string)$xml->Message)[0]);
 		}
 
 		return new AzureException(trim("$method $path failed with $status $errorCode: $message", ' :'), $status, $errorCode);
+	}
+
+	/**
+	 * Parse an XML response body, which Azure sends with a byte order mark.
+	 */
+	private function parseXml(string $content): ?\SimpleXMLElement {
+		if ($content === '') {
+			return null;
+		}
+		$useInternalErrors = libxml_use_internal_errors(true);
+		$xml = simplexml_load_string(preg_replace('/^\xEF\xBB\xBF/', '', $content) ?? $content);
+		libxml_clear_errors();
+		libxml_use_internal_errors($useInternalErrors);
+		return $xml === false ? null : $xml;
 	}
 
 	private function sleep(int $attempt): void {
