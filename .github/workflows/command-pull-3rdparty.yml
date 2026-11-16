@@ -64,6 +64,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          submodules: true
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}
           ref: ${{ steps.comment-branch.outputs.head_ref }}
@@ -98,13 +99,18 @@ jobs:
 
       - name: Pull 3rdparty
         if: ${{ env.server_ref != '' }}
-        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin '"'"'${{ env.server_ref }}'"'"'; fi'
+        run: |
+          git -C 3rdparty fetch origin "$server_ref"
+          git -C 3rdparty checkout FETCH_HEAD
 
       - name: Commit and push changes
         if: ${{ env.server_ref != '' }}
+        env:
+          BOT_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}  # zizmor: ignore[secrets-outside-env]
         run: |
           git add 3rdparty
-          git commit -s -m 'Update submodule 3rdparty to latest ${{ env.server_ref }}'
+          git commit -s -m "Update submodule 3rdparty to latest $server_ref"
+          git remote set-url origin "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git"
           git push
 
       - name: Add reaction on failure
