@@ -9,6 +9,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Ni še vpisanih podrobnosti",
     "{user} has not added any info yet" : "Oseba {user} še ni dodala nobenih podrobnosti.",
     "Error opening the user status modal, try hard refreshing the page" : "Prišlo je do napake pri odpiranju modalnega okna stanja uporabnika. Napako je mogoče razrešiti z osvežitvijo strani.",
+    "Edit profile" : "Uredi profil",
     "The headline and about sections will show up here" : "Naslovnica in odsek s podatki bo prikazan na tem mestu.",
     "Profile not found" : "Profila ni mogoče najti",
     "Back to %s" : "Nazaj na %s",
