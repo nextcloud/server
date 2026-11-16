@@ -14,6 +14,7 @@ use OCA\Files_External\Lib\Auth\Password\UserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\MountCacheService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -32,6 +33,7 @@ class UserGlobalStoragesControllerTest extends TestCase {
 	private UserGlobalStoragesService&MockObject $service;
 	private IUserSession&MockObject $userSession;
 	private IEventDispatcher&MockObject $eventDispatcher;
+	private MountCacheService&MockObject $mountCacheService;
 	private UserGlobalStoragesController $controller;
 
 	protected function setUp(): void {
@@ -41,6 +43,7 @@ class UserGlobalStoragesControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->method('getUser')->willReturn($this->createMock(IUser::class));
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->mountCacheService = $this->createMock(MountCacheService::class);
 
 		$this->controller = new UserGlobalStoragesController(
 			'files_external',
@@ -53,6 +56,7 @@ class UserGlobalStoragesControllerTest extends TestCase {
 			$this->createMock(IConfig::class),
 			$this->createMock(BackendService::class),
 			$this->eventDispatcher,
+			$this->mountCacheService,
 		);
 	}
 
@@ -71,9 +75,10 @@ class UserGlobalStoragesControllerTest extends TestCase {
 		$authMechanism->expects($this->once())
 			->method('saveBackendOptions')
 			->with($this->anything(), 42, ['user' => 'u', 'password' => 'p']);
+		$storage = $this->getStorage($authMechanism);
 		$this->service->method('getStorage')
 			->with(42)
-			->willReturn($this->getStorage($authMechanism));
+			->willReturn($storage);
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
@@ -81,6 +86,10 @@ class UserGlobalStoragesControllerTest extends TestCase {
 				=> $event->getOperation() === 'files_external.user_credentials.updated'
 				&& $event->getParameters() === ['storageId' => 42]
 				&& $event->getLogMessage() === 'User credentials for external storage "%s" were updated'));
+
+		$this->mountCacheService->expects($this->once())
+			->method('handleUpdatedCredentials')
+			->with($this->userSession->getUser(), $storage);
 
 		$response = $this->controller->update(42, ['user' => 'u', 'password' => 'p']);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
@@ -93,6 +102,8 @@ class UserGlobalStoragesControllerTest extends TestCase {
 
 		$this->eventDispatcher->expects($this->never())
 			->method('dispatchTyped');
+		$this->mountCacheService->expects($this->never())
+			->method('handleUpdatedCredentials');
 
 		$response = $this->controller->update(42, ['user' => 'u', 'password' => 'p']);
 		$this->assertSame(Http::STATUS_FORBIDDEN, $response->getStatus());
