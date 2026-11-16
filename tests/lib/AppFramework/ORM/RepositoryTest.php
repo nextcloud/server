@@ -19,7 +19,6 @@ use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Schema\ColumnType;
-use OCP\IConfig;
 use OCP\Server;
 use Test\TestCase;
 
@@ -286,10 +285,9 @@ class RepositoryTest extends TestCase {
 
 	public static function tearDownAfterClass(): void {
 		$entityManager = Server::get(EntityManager::class);
-		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
 		foreach (array_reverse(static::$entitiesClasses) as $entityClass) {
 			try {
-				$entityManager->dropTable($entityClass, $prefix);
+				$entityManager->dropTable($entityClass);
 			} catch (\RuntimeException) {
 				self::assertEquals(NoPrimaryKey::class, $entityClass);
 			}
