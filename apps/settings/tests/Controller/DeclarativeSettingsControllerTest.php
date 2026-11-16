@@ -11,6 +11,7 @@ namespace OCA\Settings\Tests\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCA\Settings\Controller\DeclarativeSettingsController;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
@@ -64,6 +65,17 @@ class DeclarativeSettingsControllerTest extends TestCase {
 				&& $event->getLogMessage() === 'Declarative setting of app "%s", form "%s", field "%s" was changed'));
 
 		$this->controller->$method('myapp', 'myform', 'myfield', 'secret');
+	}
+
+	/**
+	 * Regular users save personal forms, the settings app requires subadmin unless opted out
+	 */
+	#[DataProvider('dataSetValue')]
+	public function testSetValueDoesNotRequireSubAdmin(string $method): void {
+		$attributes = (new \ReflectionMethod(DeclarativeSettingsController::class, $method))
+			->getAttributes(NoSubAdminRequired::class);
+
+		$this->assertCount(1, $attributes);
 	}
 
 	public function testFailedSetValueIsNotAudited(): void {
