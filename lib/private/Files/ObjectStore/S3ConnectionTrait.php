@@ -22,7 +22,6 @@ use OCP\Files\ObjectStore\Events\BucketCreatedEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ICertificateManager;
 use OCP\Server;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
@@ -292,18 +291,10 @@ trait S3ConnectionTrait {
 	}
 
 	protected function getCertificateBundlePath(): ?string {
-		if ((int)($this->params['use_nextcloud_bundle'] ?? '0')) {
-			/** @var ICertificateManager $certManager */
-			$certManager = Server::get(ICertificateManager::class);
-			// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
-			if (!isset($this->params['primary_storage'])) {
-				return $certManager->getAbsoluteBundlePath();
-			} else {
-				return $certManager->getDefaultCertificatesBundlePath();
-			}
-		} else {
-			return null;
-		}
+		return CertificateBundle::getPath(
+			(bool)(int)($this->params['use_nextcloud_bundle'] ?? '0'),
+			isset($this->params['primary_storage']),
+		);
 	}
 
 	protected function getSSECKey(): ?string {

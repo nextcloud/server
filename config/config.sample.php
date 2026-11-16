@@ -2238,6 +2238,36 @@ $CONFIG = [
 	],
 
 	/**
+	 * To use Azure Blob Storage
+	 */
+	'objectstore' => [
+		'class' => 'OC\\Files\\ObjectStore\\Azure',
+		'arguments' => [
+			'container' => 'nextcloud',
+			'account_name' => 'your-storage-account',
+			'account_key' => 'your-base64-account-key',
+			// optional: blob service endpoint, e.g. for sovereign clouds, Azure Stack or Azurite.
+			// Default: https://<account_name>.blob.core.windows.net
+			'endpoint' => 'https://your-storage-account.blob.core.windows.net',
+			// optional: create the container if it does not exist. Default: false
+			'autocreate' => false,
+			// optional: objects larger than this are uploaded in blocks of this size, in bytes.
+			// Every block is buffered in a temporary file during the upload. Default: 33554432 (32 MiB)
+			'upload_block_size' => 33554432,
+			// optional: Azure Storage service version, for environments that do not support the default yet
+			'api_version' => '2025-01-05',
+			// optional: maximum number of retries for failed requests. Default: 3
+			'retries' => 3,
+			// optional: connect timeout and total request timeout in seconds, 0 means no limit.
+			// Default: 5 and 0
+			'connect_timeout' => 5,
+			'timeout' => 0,
+			// optional: use the CA bundle managed by Nextcloud instead of the system bundle. Default: false
+			'use_nextcloud_bundle' => false,
+		],
+	],
+
+	/**
 	 * If this is set to true and a multibucket object store is configured, then
 	 * newly created previews are put into 256 dedicated buckets.
 	 *

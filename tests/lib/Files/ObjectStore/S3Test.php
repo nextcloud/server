@@ -7,7 +7,6 @@
 
 namespace Test\Files\ObjectStore;
 
-use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
 use OCP\IConfig;
 use OCP\Server;
@@ -18,33 +17,6 @@ class MultiPartUploadS3 extends S3 {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
 		]);
-	}
-}
-
-class NonSeekableStream extends Wrapper {
-	public static function wrap($source) {
-		$context = stream_context_create([
-			'nonseek' => [
-				'source' => $source,
-			],
-		]);
-		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
-	}
-
-	#[\Override]
-	public function dir_opendir($path, $options) {
-		return false;
-	}
-
-	#[\Override]
-	public function stream_open($path, $mode, $options, &$opened_path) {
-		$this->loadContext('nonseek');
-		return true;
-	}
-
-	#[\Override]
-	public function stream_seek($offset, $whence = SEEK_SET) {
-		return false;
 	}
 }
 
