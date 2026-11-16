@@ -1026,8 +1026,9 @@ class SessionTest extends TestCase {
 			->with($oldSessionId)
 			->willThrowException(new InvalidTokenException());
 
-		$this->config->expects($this->never())
-			->method('deleteUserValue');
+		$this->config->expects($this->once())
+			->method('deleteUserValue')
+			->with('foo', 'login_token', $token);
 		$this->tokenProvider->expects($this->never())
 			->method('renewSessionToken');
 		$userSession->expects($this->never())
