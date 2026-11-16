@@ -17,6 +17,7 @@ use OCP\Http\Client\IResponse;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\Exceptions\OCMRequestException;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\IIncomingSignedRequest;
@@ -129,9 +130,11 @@ interface IOCMDiscoveryService {
 	 * @param IClient|null $client NULL to use default {@see IClient}
 	 * @param array|null $options options related to IClient
 	 * @param bool $signed FALSE to not auth the request
+	 * @param string|null $signatureNonce nonce for a request-bound signed exchange
 	 *
 	 * @throws OCMProviderException
 	 * @throws OCMCapabilityException if remote does not support $capability
+	 * @throws OCMRequestException
 	 * @since 33.0.0
 	 */
 	public function requestRemoteOcmEndpoint(
@@ -143,5 +146,6 @@ interface IOCMDiscoveryService {
 		?IClient $client = null,
 		?array $options = null,
 		bool $signed = true,
+		?string $signatureNonce = null,
 	): IResponse;
 }

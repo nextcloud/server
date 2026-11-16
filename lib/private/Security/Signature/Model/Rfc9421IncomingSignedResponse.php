@@ -18,7 +18,7 @@ use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\InvalidSignatureException;
 use OCP\Security\Signature\Exceptions\SignatureException;
 
-final class Rfc9421IncomingSignedResponse {
+final class Rfc9421IncomingSignedResponse implements IResponse {
 	private const COMPONENTS = [
 		'@status',
 		'content-type',
@@ -32,9 +32,10 @@ final class Rfc9421IncomingSignedResponse {
 	private array $signatureParams;
 	private string $signatureBaseString;
 	private string $rawSignature;
+	private string $body;
 
 	public function __construct(
-		IResponse $response,
+		private IResponse $response,
 		string $requestMethod,
 		string $requestUri,
 		string $requestSignatureInput,
@@ -52,16 +53,17 @@ final class Rfc9421IncomingSignedResponse {
 			);
 		}
 
-		$body = $response->getBody();
+		$body = $this->response->getBody();
 		if (!is_string($body)) {
 			throw new IncomingRequestException(
 				'signed response body is unavailable',
 			);
 		}
+		$this->body = $body;
 
 		$signature = Rfc9421IncomingSignedRequest::parseOcmSignature(
-			$response->getHeader('Signature-Input'),
-			$response->getHeader('Signature'),
+			$this->response->getHeader('Signature-Input'),
+			$this->response->getHeader('Signature'),
 		);
 		$components = $signature['components'];
 		$missing = array_diff(self::COMPONENTS, $components);
@@ -79,8 +81,8 @@ final class Rfc9421IncomingSignedResponse {
 			$options,
 		);
 
-		$contentType = $response->getHeader('Content-Type');
-		$contentDigest = $response->getHeader('Content-Digest');
+		$contentType = $this->response->getHeader('Content-Type');
+		$contentDigest = $this->response->getHeader('Content-Digest');
 		if ($contentType === '' || $contentDigest === '') {
 			throw new IncomingRequestException(
 				'signed response headers are missing',
@@ -97,7 +99,7 @@ final class Rfc9421IncomingSignedResponse {
 		);
 
 		$this->signatureBaseString = SignatureBase::buildResponse(
-			status: $response->getStatusCode(),
+			status: $this->response->getStatusCode(),
 			responseHeaders: [
 				'content-type' => $contentType,
 				'content-digest' => $contentDigest,
@@ -115,6 +117,26 @@ final class Rfc9421IncomingSignedResponse {
 					$this->signatureParams,
 				),
 		);
+	}
+
+	#[\Override]
+	public function getBody() {
+		return $this->body;
+	}
+
+	#[\Override]
+	public function getStatusCode(): int {
+		return $this->response->getStatusCode();
+	}
+
+	#[\Override]
+	public function getHeader(string $key): string {
+		return $this->response->getHeader($key);
+	}
+
+	#[\Override]
+	public function getHeaders(): array {
+		return $this->response->getHeaders();
 	}
 
 	public function getKeyId(): string {
