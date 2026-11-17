@@ -70,6 +70,16 @@ describe('AdminSettingsSharingForm', () => {
 		expect(mocks.setCoreConfigValue).toHaveBeenCalledWith('shareapi_allow_links', 'no')
 	})
 
+	it('stores whether email addresses of other accounts are shown', async () => {
+		mocks.settings.showAccountEmail = true
+		const { getByRole } = render(AdminSettingsSharingForm)
+
+		await fireEvent.click(getByRole('switch', { name: 'Show email addresses of other accounts in the contacts menu and in account name autocompletion' }))
+
+		expect(mocks.setCoreConfigValue).toHaveBeenCalledOnce()
+		expect(mocks.setCoreConfigValue).toHaveBeenCalledWith('shareapi_show_account_email', 'no')
+	})
+
 	it('stores the group sharing limitation', async () => {
 		const { getByRole } = render(AdminSettingsSharingForm)
 

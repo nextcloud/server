@@ -7,6 +7,7 @@
 
 namespace OC\Collaboration\Collaborators;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -14,6 +15,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -36,6 +38,8 @@ class MailPlugin implements ISearchPlugin {
 
 	protected bool $shareeEnumerationFullMatchEmail;
 
+	protected bool $showAccountEMail;
+
 	public function __construct(
 		private IManager $contactsManager,
 		private ICloudIdManager $cloudIdManager,
@@ -45,6 +49,7 @@ class MailPlugin implements ISearchPlugin {
 		private IUserSession $userSession,
 		private IEmailValidator $emailValidator,
 		private IUserManager $userManager,
+		private IAppConfig $appConfig,
 		private mixed $shareWithGroupOnlyExcludeGroupsList,
 		private int $shareType,
 	) {
@@ -54,6 +59,7 @@ class MailPlugin implements ISearchPlugin {
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		$this->showAccountEMail = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL);
 
 		if ($this->shareWithGroupOnly) {
 			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
@@ -145,16 +151,7 @@ class MailPlugin implements ISearchPlugin {
 						}
 
 						if ($this->shareType === IShare::TYPE_USER && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($type, $cloud->getUser())) {
-							$singleResult = [[
-								'label' => $displayName,
-								'uuid' => $contact['UID'] ?? $emailAddress,
-								'name' => $contact['FN'] ?? $displayName,
-								'value' => [
-									'shareType' => IShare::TYPE_USER,
-									'shareWith' => $cloud->getUser(),
-								],
-								'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-							]];
+							$singleResult = [$this->formatAccount($contact, $emailAddress, $displayName, $cloud->getUser())];
 							$searchResult->addResultSet($type, [], $singleResult);
 							$searchResult->markExactIdMatch($type);
 						}
@@ -185,16 +182,7 @@ class MailPlugin implements ISearchPlugin {
 							if ($count++ >= $limit) {
 								$hasMore = true;
 							} else {
-								$results['wide'][] = [
-									'label' => $displayName,
-									'uuid' => $contact['UID'] ?? $emailAddress,
-									'name' => $contact['FN'] ?? $displayName,
-									'value' => [
-										'shareType' => IShare::TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-								];
+								$results['wide'][] = $this->formatAccount($contact, $emailAddress, $displayName, $cloud->getUser());
 							}
 						}
 					}
@@ -257,6 +245,26 @@ class MailPlugin implements ISearchPlugin {
 		$searchResult->addResultSet($type, $results['wide'], $results['exact']);
 
 		return $hasMore;
+	}
+
+	/**
+	 * Format an account found in the system address book as search result,
+	 * without its email address if those are hidden from other accounts.
+	 */
+	private function formatAccount(array $contact, string $emailAddress, string $displayName, string $userId): array {
+		if (!$this->showAccountEMail) {
+			$displayName = $contact['FN'] ?? $userId;
+		}
+		return [
+			'label' => $displayName,
+			'uuid' => $contact['UID'] ?? $emailAddress,
+			'name' => $contact['FN'] ?? $displayName,
+			'value' => [
+				'shareType' => IShare::TYPE_USER,
+				'shareWith' => $userId,
+			],
+			'shareWithDisplayNameUnique' => $this->showAccountEMail && !empty($emailAddress) ? $emailAddress : $userId,
+		];
 	}
 
 	public function isCurrentUser(ICloudId $cloud): bool {

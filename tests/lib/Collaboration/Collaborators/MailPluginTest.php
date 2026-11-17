@@ -9,12 +9,14 @@ namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Federation\CloudIdManager;
 use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -40,6 +42,8 @@ class MailPluginTest extends TestCase {
 	protected KnownUserService&MockObject $knownUserService;
 	protected IUserSession&MockObject $userSession;
 	protected IUserManager&MockObject $userManager;
+	protected IAppConfig&MockObject $appConfig;
+	protected bool $showAccountEMail = true;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -50,6 +54,10 @@ class MailPluginTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL)
+			->willReturnCallback(fn (): bool => $this->showAccountEMail);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userManager
 			->method('get')
@@ -85,6 +93,7 @@ class MailPluginTest extends TestCase {
 			$this->userSession,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->userManager,
+			$this->appConfig,
 			[],
 			$shareType,
 		);
@@ -594,6 +603,69 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('users')));
 		$this->assertEquals($expectedResult, $result);
 		$this->assertSame($expectedMoreResults, $moreResults);
+	}
+
+	#[DataProvider('dataSearchUserWithoutEMailAddress')]
+	public function testSearchUserWithoutEMailAddress(string $searchTerm, array $contacts, bool $shareeEnumeration, array $expectedResult): void {
+		$this->showAccountEMail = false;
+		$this->config->method('getAppValue')
+			->willReturnCallback(
+				function ($appName, $key, $default) use ($shareeEnumeration) {
+					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return $shareeEnumeration ? 'yes' : 'no';
+					}
+					return $default;
+				}
+			);
+
+		$this->instantiatePlugin(IShare::TYPE_USER);
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')
+			->willReturn('current');
+		$this->userSession->method('getUser')
+			->willReturn($currentUser);
+
+		$this->contactsManager->method('search')
+			->with($searchTerm)
+			->willReturn($contacts);
+
+		$this->plugin->search($searchTerm, 2, 0, $this->searchResult);
+
+		$this->assertEquals($expectedResult, $this->searchResult->asArray());
+	}
+
+	public static function dataSearchUserWithoutEMailAddress(): array {
+		return [
+			'full match on the email address' => [
+				'test@example.com',
+				[
+					[
+						'UID' => 'uid1',
+						'FN' => 'User',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test@localhost'],
+						'isLocalSystemBook' => true,
+					]
+				],
+				false,
+				['users' => [], 'exact' => ['users' => [['uuid' => 'uid1', 'name' => 'User', 'label' => 'User', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'shareWithDisplayNameUnique' => 'test']]]],
+			],
+			'partial match with enumeration' => [
+				'User',
+				[
+					[
+						'UID' => 'uid1',
+						'FN' => 'User1',
+						'EMAIL' => ['test@example.com'],
+						'CLOUD' => ['test1@localhost'],
+						'isLocalSystemBook' => true,
+					],
+				],
+				true,
+				['users' => [['uuid' => 'uid1', 'name' => 'User1', 'label' => 'User1', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'shareWithDisplayNameUnique' => 'test1']], 'exact' => ['users' => []]],
+			],
+		];
 	}
 
 	public static function dataSearchUser(): array {

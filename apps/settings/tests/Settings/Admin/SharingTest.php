@@ -65,6 +65,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_enforce_links_password', false],
 				['core', 'shareapi_default_expire_date', false],
 				['core', 'shareapi_enforce_expire_date', false],
+				['core', 'shareapi_show_account_email', true],
 			]);
 
 		$this->config
@@ -128,6 +129,7 @@ class SharingTest extends TestCase {
 				'restrictUserEnumerationFullMatchDisplayname' => true,
 				'restrictUserEnumerationFullMatchEmail' => true,
 				'restrictUserEnumerationFullMatchIgnoreSecondDN' => false,
+				'showAccountEmail' => true,
 				'enforceLinksPassword' => false,
 				'onlyShareWithGroupMembers' => false,
 				'enabled' => true,
@@ -172,6 +174,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_enforce_links_password', false],
 				['core', 'shareapi_default_expire_date', false],
 				['core', 'shareapi_enforce_expire_date', false],
+				['core', 'shareapi_show_account_email', true],
 			]);
 
 		$this->config
@@ -237,6 +240,7 @@ class SharingTest extends TestCase {
 				'restrictUserEnumerationFullMatchDisplayname' => true,
 				'restrictUserEnumerationFullMatchEmail' => true,
 				'restrictUserEnumerationFullMatchIgnoreSecondDN' => false,
+				'showAccountEmail' => true,
 				'enforceLinksPassword' => false,
 				'onlyShareWithGroupMembers' => false,
 				'enabled' => true,
