@@ -332,7 +332,7 @@ OC.L10N.register(
     "Add slot" : "Zeitfenster hinzufügen",
     "Weekdays" : "Wochentage",
     "Pick a start time for {dayName}" : "Eine Startzeit für {dayName} wählen",
-    "Pick a end time for {dayName}" : "Eine Endezeit für {dayName} wählen",
+    "Pick a end time for {dayName}" : "Eine Endzeit für {dayName} wählen",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setzen Sie den Benutzerstatus außerhalb Ihrer Verfügbarkeit automatisch auf \"Nicht stören\", um alle Benachrichtigungen stumm zu schalten.",
     "Cancel" : "Abbrechen",
     "Import" : "Importieren",
