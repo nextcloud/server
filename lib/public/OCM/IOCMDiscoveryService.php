@@ -89,12 +89,17 @@ interface IOCMDiscoveryService {
 	/**
 	 * Create an RFC 9421 signed OCM response bound to an incoming request.
 	 *
-	 * The returned response renders the exact bytes supplied in `$body` and
-	 * must be returned without further modification.
+	 * The returned response renders the exact bytes supplied in `$body`.
+	 * The signature is computed when the response is sent, so the status
+	 * and headers of the returned response may still be adjusted.
+	 *
+	 * @template S of Http::STATUS_*
 	 *
 	 * @param IIncomingSignedRequest $request verified incoming OCM request
 	 * @param string $body exact response body to sign and return
-	 * @return Response<Http::STATUS_OK, array<string, mixed>>
+	 * @param S $status response status code, covered by the signature
+	 * @param string $contentType value of the signed Content-Type header
+	 * @return Response<S, array<string, mixed>>
 	 *
 	 * @throws IncomingRequestException if the request is not an RFC 9421 signed request
 	 * @throws SignatureException if the response cannot be signed
@@ -103,6 +108,8 @@ interface IOCMDiscoveryService {
 	public function createSignedResponse(
 		IIncomingSignedRequest $request,
 		string $body,
+		int $status = Http::STATUS_OK,
+		string $contentType = 'application/json; charset=utf-8',
 	): Response;
 
 	/**

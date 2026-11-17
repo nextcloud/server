@@ -61,11 +61,10 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 			->setSignatory($signatoryManager->getLocalSignatory())
 			->setDigestAlgorithm($options['digestAlgorithm'] ?? DigestAlgorithm::SHA256);
 
-		$this->signingAlgorithm = (string)($options['rfc9421.signingAlgorithm'] ?? 'ecdsa-p256-sha256');
+		$this->signingAlgorithm = SignatureBase::resolveSigningAlgorithm($options);
 		$contentDigestAlgorithm = (string)($options['rfc9421.contentDigestAlgorithm'] ?? ContentDigest::ALGO_SHA256);
 		/** @var list<string> $components */
 		$components = $options['rfc9421.coveredComponents'] ?? Rfc9421IncomingSignedRequest::REQUIRED_COMPONENTS;
-		$includeAlg = (bool)($options['rfc9421.includeAlgParameter'] ?? false);
 		$dateHeaderFormat = (string)($options['dateHeader'] ?? SignatureManager::DATE_HEADER);
 
 		$this->addHeader('Content-Digest', ContentDigest::compute($body, $contentDigestAlgorithm))
@@ -76,17 +75,14 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 		}
 
 		$this->setHeaderList($components);
-		$this->signatureParams = [
-			'created' => time(),
-			'keyid' => $this->getSignatory()->getKeyId(),
-		];
-		if ($includeAlg) {
-			// Off by default per RFC 9421 §3.3.7 (verifier resolves alg from JWK).
-			$this->signatureParams['alg'] = $this->signingAlgorithm;
-		}
-		// integrity-protected marker (RFC 9421 §2.3) identifying this
-		// signature as the OCM one; the dictionary label is not significant
-		$this->signatureParams['tag'] = 'ocm';
+		// `tag="ocm"` is the integrity-protected marker (RFC 9421 §2.3)
+		// identifying this signature as the OCM one; the dictionary label is
+		// not significant. `alg` is off by default per RFC 9421 §3.3.7.
+		$this->signatureParams = SignatureBase::buildSignatureParams(
+			$options,
+			$this->getSignatory()->getKeyId(),
+			$this->signingAlgorithm,
+		);
 
 		$this->signatureBaseString = SignatureBase::build(
 			$this->method,
@@ -166,11 +162,16 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 		$this->setSignature(base64_encode($rawSignature));
 
 		$paramsLine = SignatureBase::serializeSignatureParams($this->headerList, $this->signatureParams);
-		$this->addHeader('Signature-Input', 'ocm=' . $paramsLine);
-		$this->addHeader('Signature', 'ocm=:' . base64_encode($rawSignature) . ':');
+		[$signatureInput, $signature] = SignatureBase::formatSignatureHeaders(
+			SignatureBase::OCM_SIGNATURE_LABEL,
+			$paramsLine,
+			$rawSignature,
+		);
+		$this->addHeader('Signature-Input', $signatureInput);
+		$this->addHeader('Signature', $signature);
 
 		$this->setSigningElements([
-			'label' => 'ocm',
+			'label' => SignatureBase::OCM_SIGNATURE_LABEL,
 			'components' => implode(' ', $this->headerList),
 			'params' => $paramsLine,
 			'signature' => $this->getSignature(),

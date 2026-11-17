@@ -322,17 +322,25 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	}
 
 	/**
-	 * @return Response<Http::STATUS_OK, array<string, mixed>>
+	 * @inheritDoc
+	 *
+	 * @template S of Http::STATUS_*
+	 * @param S $status
+	 * @return Response<S, array<string, mixed>>
 	 */
 	#[\Override]
 	public function createSignedResponse(
 		IIncomingSignedRequest $request,
 		string $body,
+		int $status = Http::STATUS_OK,
+		string $contentType = 'application/json; charset=utf-8',
 	): Response {
 		return new Rfc9421OutgoingSignedResponse(
 			$body,
 			$request,
 			new Rfc9421SignatoryManager($this->signatoryManager),
+			$status,
+			$contentType,
 		);
 	}
 

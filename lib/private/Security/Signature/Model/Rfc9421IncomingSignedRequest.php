@@ -142,7 +142,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		$paramsLine = SignatureBase::serializeSignatureParams($this->components, $this->signatureParams);
 		$this->signatureBaseString = SignatureBase::build(
 			$request->getMethod(),
-			$this->reconstructTargetUri(),
+			SignatureBase::reconstructTargetUri($request),
 			$this->collectHeaders(),
 			$this->components,
 			$paramsLine,
@@ -302,13 +302,6 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		if ((int)$header !== strlen($body)) {
 			throw new IncomingRequestException('content-length does not match body size');
 		}
-	}
-
-	private function reconstructTargetUri(): string {
-		$scheme = $this->request->getServerProtocol();
-		$host = $this->request->getServerHost();
-		$path = $this->request->getRequestUri();
-		return $scheme . '://' . $host . $path;
 	}
 
 	/**

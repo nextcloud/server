@@ -157,9 +157,12 @@ class DiscoveryServiceTest extends TestCase {
 		Server::get(IAppConfig::class)->deleteKey('core', 'ocm_jwks_slot_active');
 
 		$request = $this->createMock(IRequest::class);
+		$requestHeaders = [
+			'signature-input' => 'ocm=("@method");created=1;keyid="remote";nonce="nonce-1";tag="ocm"',
+			'signature' => 'ocm=:' . base64_encode(random_bytes(64)) . ':',
+		];
 		$request->method('getHeader')
-			->with('Signature-Input')
-			->willReturn('ocm=("@method");created=1;keyid="remote";nonce="nonce-1";tag="ocm"');
+			->willReturnCallback(static fn (string $name) => $requestHeaders[strtolower($name)] ?? '');
 		$request->method('getMethod')->willReturn('GET');
 		$request->method('getServerProtocol')->willReturn('https');
 		$request->method('getServerHost')->willReturn('cloud.example.org');
@@ -182,6 +185,8 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertSame('application/json; charset=utf-8', $headers['Content-Type']);
 		$this->assertArrayHasKey('Signature-Input', $headers);
 		$this->assertArrayHasKey('Signature', $headers);
+		$this->assertStringContainsString('"signature-input";key="ocm";req', $headers['Signature-Input']);
+		$this->assertStringContainsString('"signature";key="ocm";req', $headers['Signature-Input']);
 	}
 
 	public function testLocalAddedCapability(): void {
