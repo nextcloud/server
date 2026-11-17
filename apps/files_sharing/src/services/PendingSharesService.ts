@@ -9,6 +9,7 @@ import axios from '@nextcloud/axios'
 import { getRootPath } from '@nextcloud/files/dav'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
+import { getContents } from './SharingService.ts'
 import { client, fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
 
 /**
@@ -21,6 +22,20 @@ function getShareParams(node: INode) {
 		shareBase: node.attributes.remote ? 'remote_shares' : 'shares',
 		id: node.attributes['share-id'],
 	}
+}
+
+/**
+ * Get the shares that still wait for the user to accept or decline them.
+ * Declined group shares stay in the pending list, but also show up as deleted shares.
+ */
+export async function getPendingShares(): Promise<INode[]> {
+	const [pending, deleted] = await Promise.all([
+		getContents(false, false, true, false),
+		getContents(false, false, false, true),
+	])
+	// Deleted share ids have a provider prefix, e.g. "ocinternal:123"
+	const declinedIds = new Set(deleted.contents.map((node) => String(node.attributes['share-id']).split(':').pop()))
+	return pending.contents.filter((node) => node.attributes.remote || !declinedIds.has(String(node.attributes['share-id'])))
 }
 
 /**

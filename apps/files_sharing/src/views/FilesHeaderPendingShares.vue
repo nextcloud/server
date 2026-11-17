@@ -82,8 +82,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import logger from '../services/logger.ts'
-import { acceptShare, canRejectShare, rejectShare } from '../services/PendingSharesService.ts'
-import { getContents } from '../services/SharingService.ts'
+import { acceptShare, canRejectShare, getPendingShares, rejectShare } from '../services/PendingSharesService.ts'
 
 const shares = ref<INode[]>([])
 const busy = ref<string[]>([])
@@ -93,8 +92,7 @@ const busy = ref<string[]>([])
  */
 async function update() {
 	try {
-		const { contents } = await getContents(false, false, true, false)
-		shares.value = contents
+		shares.value = await getPendingShares()
 	} catch (error) {
 		logger.error('Could not fetch pending shares', { error })
 	}

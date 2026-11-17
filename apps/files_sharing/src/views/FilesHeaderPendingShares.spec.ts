@@ -7,12 +7,12 @@ import { File, Folder } from '@nextcloud/files'
 import { mount } from '@vue/test-utils'
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import FilesHeaderPendingShares from './FilesHeaderPendingShares.vue'
-import { getContents } from '../services/SharingService.ts'
+import { getPendingShares } from '../services/PendingSharesService.ts'
 
-vi.mock('../services/SharingService.ts', () => ({ getContents: vi.fn() }))
 vi.mock('../services/PendingSharesService.ts', () => ({
 	acceptShare: vi.fn(),
 	canRejectShare: vi.fn(() => true),
+	getPendingShares: vi.fn(),
 	rejectShare: vi.fn(),
 }))
 
@@ -26,7 +26,7 @@ beforeAll(() => {
  * @param contents The pending share nodes
  */
 async function mountWithShares(contents: (File | Folder)[]) {
-	vi.mocked(getContents).mockResolvedValue({ folder: {} as Folder, contents })
+	vi.mocked(getPendingShares).mockResolvedValue(contents)
 	const wrapper = mount(FilesHeaderPendingShares)
 	await (wrapper.vm as unknown as { update: () => Promise<void> }).update()
 	await wrapper.vm.$nextTick()

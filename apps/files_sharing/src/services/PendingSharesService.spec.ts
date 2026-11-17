@@ -8,10 +8,12 @@ import { File } from '@nextcloud/files'
 import { getRootPath } from '@nextcloud/files/dav'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import { acceptShare, canRejectShare, rejectShare } from './PendingSharesService.ts'
+import { acceptShare, canRejectShare, getPendingShares, rejectShare } from './PendingSharesService.ts'
+import { getContents } from './SharingService.ts'
 import { client, fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
 
 vi.mock('@nextcloud/axios')
+vi.mock('./SharingService.ts', () => ({ getContents: vi.fn() }))
 vi.mock('~/apps/files/src/services/WebdavClient.ts', () => ({
 	client: { getDirectoryContents: vi.fn() },
 	fetchNode: vi.fn(),
@@ -46,6 +48,22 @@ function createShare(attributes: Record<string, unknown>) {
 }
 
 describe('Pending shares service', () => {
+	test('Declined group shares are not listed as pending', async () => {
+		const pending = createShare({ 'share-id': '1', share_type: ShareType.Group })
+		const declined = createShare({ 'share-id': '2', share_type: ShareType.Group })
+		const remote = createShare({ 'share-id': '2', remote: 'https://remote.example' })
+		vi.mocked(getContents).mockImplementation(async (sharedWithYou, sharedWithOthers, pendingShares) => ({
+			folder: {} as never,
+			contents: pendingShares
+				? [pending, declined, remote]
+				: [createShare({ 'share-id': 'ocinternal:2' })],
+		}))
+
+		expect(await getPendingShares()).toEqual([pending, remote])
+		expect(getContents).toHaveBeenCalledWith(false, false, true, false)
+		expect(getContents).toHaveBeenCalledWith(false, false, false, true)
+	})
+
 	test('Remote group shares can not be rejected', () => {
 		expect(canRejectShare(createShare({}))).toBe(true)
 		expect(canRejectShare(createShare({ remote_id: '1', share_type: ShareType.RemoteGroup }))).toBe(false)
