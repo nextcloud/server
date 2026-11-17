@@ -75,8 +75,9 @@ class StorageTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('availabilityLookupOrderProvider')]
 	public function testAvailabilityUpdatesCachedLookups(bool $numericFirst): void {
 		$connection = Server::get(IDBConnection::class);
+		$storageId = $this->getUniqueID('availability-');
 		$storage = new Storage(
-			$this->getUniqueID('availability-'),
+			$storageId,
 			true,
 			$connection,
 		);
@@ -150,7 +151,7 @@ class StorageTest extends TestCase {
 					),
 				))
 				->executeStatement();
-			$global->invalidateStorage($initial['id'], $numericId);
+			$global->invalidateStorage($storageId, $numericId);
 		}
 	}
 }
