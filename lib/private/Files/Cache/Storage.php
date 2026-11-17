@@ -125,6 +125,11 @@ class Storage {
 	}
 
 	/**
+	 * Return the cached availability state and its recorded check timestamp.
+	 *
+	 * If no storage row is found, return an uncached, optimistic available
+	 * state with the current time. This does not probe the storage.
+	 *
 	 * @return array{available: bool, last_checked: int}
 	 */
 	public function getAvailability(): array {
@@ -142,20 +147,26 @@ class Storage {
 	}
 
 	/**
-	 * @param int $delay amount of seconds to delay reconsidering that storage further
+	 * Persist availability and invalidate cached storage metadata.
+	 *
+	 * The recorded timestamp is the current time plus $delay; the
+	 * availability wrapper applies its own recheck TTL after that timestamp.
+	 *
+	 * @param int $delay Seconds to postpone reconsidering availability
 	 */
 	public function setAvailability(bool $isAvailable, int $delay = 0): void {
-		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
 			Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
 		}
 
+		$available = $isAvailable ? 1 : 0;
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->update('storages')
 			->set('available', $query->createNamedParameter($available))
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->executeStatement();
+		self::getGlobalCache()->invalidateStorage($this->storageId, $this->numericId);
 	}
 
 	/**
