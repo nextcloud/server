@@ -27,7 +27,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Keine Kommentare bisher. Beginne die Diskussion!",
     "No more messages" : "Keine weiteren Nachrichten",
     "Retry" : "Wiederholen",
-    "_1 new comment_::_{unread} new comments_" : ["1 neuer Kommentar","[unread] neue Kommentare"],
+    "_1 new comment_::_{unread} new comments_" : ["1 neuer Kommentar","{unread} neue Kommentare"],
     "Comment" : "Kommentar",
     "An error occurred while trying to edit the comment" : "Es ist ein Fehler beim Bearbeiten des Kommentars aufgetreten",
     "Comment deleted" : "Kommentar gelöscht",
