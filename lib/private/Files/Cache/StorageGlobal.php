@@ -122,7 +122,18 @@ class StorageGlobal {
 		return $this->numericIdCache[$numericId] ?? null;
 	}
 
+	/**
+	 * Invalidate both cached indexes for a storage.
+	 *
+	 * Call after changing persisted storage metadata so either lookup
+	 * reloads the updated row.
+	 */
+	public function invalidateStorage(string $storageId, int $numericId): void {
+		unset($this->cache[$storageId], $this->numericIdCache[$numericId]);
+	}
+
 	public function clearCache(): void {
 		$this->cache = [];
+		$this->numericIdCache[];
 	}
 }
