@@ -152,6 +152,17 @@
       "count": 6
     }
   },
+  "build/icons.mjs": {
+    "@stylistic/exp-list-style": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 1
+    },
+    "no-undef": {
+      "count": 3
+    }
+  },
   "core/src/views/Login.vue": {
     "vue/multi-word-component-names": {
       "count": 1
