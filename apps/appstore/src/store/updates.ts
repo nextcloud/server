@@ -88,7 +88,17 @@ export const useUpdatesStore = defineStore('updates', () => {
 
 	return {
 		updateCount,
+		syncUpdateCount,
 		updateApp,
 		updateApps,
+	}
+
+	/**
+	 * Count the enabled apps with an update again, from a freshly loaded list
+	 *
+	 * @param apps - All apps, as loaded from the backend
+	 */
+	function syncUpdateCount(apps: IAppstoreApp[]) {
+		internalUpdateCount.value = apps.filter((app) => app.active && app.update).length
 	}
 })
