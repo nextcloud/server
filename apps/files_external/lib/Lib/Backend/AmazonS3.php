@@ -28,6 +28,8 @@ class AmazonS3 extends Backend {
 			->addParameters([
 				// TRANSLATORS Technical term for an Amazon S3 storage container
 				new DefinitionParameter('bucket', $l->t('Bucket')),
+				(new DefinitionParameter('prefix', $l->t('Object key prefix')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))
