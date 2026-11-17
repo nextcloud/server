@@ -118,6 +118,7 @@ const modules = {
 		'admin-ai': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/ai', 'main.ts'),
 		'admin-security': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/security', 'main.ts'),
 		'account-management': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/account-management', 'main.ts'),
+		'declarative-settings-forms': resolve(import.meta.dirname, '../..', 'apps/settings/src/sections/declarative-forms', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
