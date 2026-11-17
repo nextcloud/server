@@ -315,6 +315,23 @@ class ApiController extends OCSController {
 	}
 
 	/**
+	 * Check the app store for new apps and releases
+	 *
+	 * The next listing asks the app store again instead of waiting for the
+	 * cached list to expire.
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>
+	 *
+	 * 200: The cached app store data is outdated now
+	 */
+	#[ApiRoute(verb: 'POST', url: '/api/v1/apps/refresh')]
+	public function refreshApps(): DataResponse {
+		$this->appFetcher->invalidate();
+		$this->categoryFetcher->invalidate();
+		return new DataResponse([]);
+	}
+
+	/**
 	 * Convert URL to proxied URL so CSP is no problem
 	 *
 	 * The app store already serves its screenshot URLs in this form; only an
