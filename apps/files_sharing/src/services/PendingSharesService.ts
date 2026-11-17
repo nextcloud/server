@@ -6,9 +6,10 @@
 import type { INode, Node } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
+import { getRootPath } from '@nextcloud/files/dav'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
-import { fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
+import { client, fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
 
 /**
  * Get the OCS url parameters for a share node
@@ -44,7 +45,17 @@ export async function acceptShare(node: INode): Promise<Node> {
 	// The mount point can change on accept, e.g. on name conflicts
 	const { data } = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/{id}', params))
 	const path = node.attributes.remote ? data.ocs.data.mountpoint : data.ocs.data[0].path
-	return fetchNode(path)
+	try {
+		return await fetchNode(path)
+	} catch (error) {
+		if ((error as { status?: number }).status !== 404) {
+			throw error
+		}
+		// A new federated mount can be missing until the user filesystem is set up again,
+		// which listing the root folder does
+		await client.getDirectoryContents(getRootPath())
+		return fetchNode(path)
+	}
 }
 
 /**
