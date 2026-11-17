@@ -134,6 +134,6 @@ class StorageGlobal {
 
 	public function clearCache(): void {
 		$this->cache = [];
-		$this->numericIdCache[];
+		$this->numericIdCache = [];
 	}
 }
