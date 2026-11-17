@@ -4,13 +4,12 @@
  */
 
 import type { IFolder, IView } from '@nextcloud/files'
-import type { ComponentPublicInstance, VueConstructor } from 'vue'
+import type { App } from 'vue'
+import type FilesHeaderPendingShares from '../views/FilesHeaderPendingShares.vue'
 
 import { registerFileListHeader } from '@nextcloud/files'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import { sharesViewId } from '../files_views/shares.ts'
-
-type IFilesHeaderPendingShares = ComponentPublicInstance & { update: () => Promise<void> }
 
 /**
  * Whether to show pending shares: on top of "All files" and "Shares"
@@ -26,8 +25,9 @@ export function isPendingSharesEnabled(folder: IFolder, view: IView): boolean {
  * Register the pending shares as a files list header
  */
 export default function registerPendingShares() {
-	let FilesHeaderPendingShares: VueConstructor
-	let instance: IFilesHeaderPendingShares
+	let app: App
+	let headerComponent: typeof FilesHeaderPendingShares
+	let instance: InstanceType<typeof FilesHeaderPendingShares>
 
 	registerFileListHeader({
 		id: 'pending-shares',
@@ -39,12 +39,13 @@ export default function registerPendingShares() {
 			}
 		},
 		render: async (el: HTMLElement, folder: IFolder, view: IView) => {
-			if (FilesHeaderPendingShares === undefined) {
-				const { default: component } = await import('../views/FilesHeaderPendingShares.vue')
-				FilesHeaderPendingShares = Vue.extend(component)
+			if (app) {
+				app.unmount()
+			} else {
+				headerComponent = (await import('../views/FilesHeaderPendingShares.vue')).default
 			}
-			instance?.$destroy()
-			instance = new FilesHeaderPendingShares().$mount(el) as unknown as IFilesHeaderPendingShares
+			app = createApp(headerComponent)
+			instance = app.mount(el) as InstanceType<typeof FilesHeaderPendingShares>
 			if (isPendingSharesEnabled(folder, view)) {
 				instance.update()
 			}
