@@ -30,14 +30,8 @@ export function isAllowedFileType(file: File, allowedFileTypes: string[]): boole
 		return true
 	}
 
-	/**
-	 * Main idea: Browsers take MIME types from the OS (application/x-zip-compressed e.g.),
-	 * which can differ from the server detection, so MIME rules are checked by the server only.
-	 * We will only check extensions here, and if the list contains MIME types, we will let the server handle it.
-	 * Chunking will diclined unsupported file types
-	 * 
-	 * But if extensions are provided, we will check them here, as the server will not check them.
-	 */
+	// Browsers take MIME types from the OS (e.g. application/x-zip-compressed on Windows), which can
+	// differ from the server detection, so only lists of extensions are checked here
 	if (allowedFileTypes.some((type) => !type.startsWith('.'))) {
 		return true
 	}

@@ -11,7 +11,6 @@ namespace OCA\DAV\Files\Sharing;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\UploadFolder;
-use OCA\DAV\Upload\UploadHome;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Share\IShare;
 use Sabre\DAV\Exception\Forbidden;
@@ -48,23 +47,37 @@ class AllowedFileTypesPlugin extends ServerPlugin {
 	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
-		$server->on('beforeMethod:MKCOL', [$this, 'beforeMkcol']);
+		// Runs before FilesDropPlugin (priority 999) creates the parent folders of an upload
+		$server->on('beforeMethod:MKCOL', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:PUT', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:MOVE', [$this, 'beforeMethod']);
 		$server->on('beforeBind', [$this, 'beforeBind']);
 	}
 
 	/**
-	 * Check the target file of a chunked upload before any chunk is sent
+	 * Check the target file of an upload before any data or folder is written
 	 *
 	 * @throws UnsupportedMediaType if the file type is not allowed
 	 */
-	public function beforeMkcol(RequestInterface $request): bool {
+	public function beforeMethod(RequestInterface $request): bool {
 		$allowedTypes = $this->getAllowedTypes();
-		$destination = $request->getHeader('Destination');
-		if ($allowedTypes === [] || $destination === null || !$this->hasParentOfType($request->getPath(), UploadHome::class)) {
+		if ($allowedTypes === []) {
 			return true;
 		}
 
-		$this->checkFileType($this->server->calculateUri($destination), $allowedTypes);
+		$path = $request->getPath();
+		if (str_starts_with($path, 'uploads/')) {
+			// Chunked uploads name the target file in the Destination header
+			$destination = $request->getHeader('Destination');
+			if ($destination === null) {
+				return true;
+			}
+			$path = $this->server->calculateUri($destination);
+		} elseif ($request->getMethod() !== 'PUT' || $this->server->tree->nodeExists($path)) {
+			return true;
+		}
+
+		$this->checkFileType($path, $allowedTypes);
 		return true;
 	}
 

@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\Files\Sharing;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Files\Sharing\AllowedFileTypesPlugin;
+use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Upload\FutureFile;
 use OCA\DAV\Upload\UploadFolder;
 use OCA\DAV\Upload\UploadHome;
@@ -161,22 +162,28 @@ class AllowedFileTypesPluginTest extends TestCase {
 		$this->plugin->beforeBind('files/token/folder.pdf');
 	}
 
-	public static function dataBeforeMkcol(): array {
+	public static function dataBeforeMethod(): array {
 		return [
-			'allowed type' => ['uploads/token/123', 'files/token/doc.pdf', UploadHome::class, true],
-			'disallowed type' => ['uploads/token/123', 'files/token/run.exe', UploadHome::class, false],
-			'no destination' => ['uploads/token/123', null, UploadHome::class, true],
-			'not a chunked upload' => ['files/token/folder', 'files/token/run.exe', ICollection::class, true],
+			'chunked upload, allowed type' => ['MKCOL', 'uploads/token/123', 'files/token/doc.pdf', false, true],
+			'chunked upload, disallowed type' => ['MKCOL', 'uploads/token/123', 'files/token/run.exe', false, false],
+			'chunked upload without destination' => ['MKCOL', 'uploads/token/123', null, false, true],
+			'chunk with disallowed destination' => ['PUT', 'uploads/token/123/1', 'files/token/run.exe', false, false],
+			'chunk without destination' => ['PUT', 'uploads/token/123/1', null, false, true],
+			'chunk assembly with disallowed destination' => ['MOVE', 'uploads/token/123/.file', 'files/token/run.exe', false, false],
+			'folder creation' => ['MKCOL', 'files/token/folder.exe', null, false, true],
+			'new file, allowed type' => ['PUT', 'files/token/doc.pdf', null, false, true],
+			'new file, disallowed type' => ['PUT', 'files/token/run.exe', null, false, false],
+			'overwrite of an existing file' => ['PUT', 'files/token/run.exe', null, true, true],
+			'rename is checked on bind' => ['MOVE', 'files/token/doc.pdf', 'files/token/run.exe', false, true],
 		];
 	}
 
-	/**
-	 * @param class-string $parentClass
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataBeforeMkcol')]
-	public function testBeforeMkcol(string $path, ?string $destination, string $parentClass, bool $allowed): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataBeforeMethod')]
+	public function testBeforeMethod(string $method, string $path, ?string $destination, bool $exists, bool $allowed): void {
 		$baseUri = 'https://example.com/public.php/dav/';
 		$this->setAllowedTypes(['.pdf']);
+		$this->request->method('getMethod')
+			->willReturn($method);
 		$this->request->method('getPath')
 			->willReturn($path);
 		$this->request->method('getHeader')
@@ -184,24 +191,45 @@ class AllowedFileTypesPluginTest extends TestCase {
 			->willReturn($destination === null ? null : $baseUri . $destination);
 		$this->server->method('calculateUri')
 			->willReturnCallback(static fn (string $uri): string => substr($uri, strlen($baseUri)));
-		$this->tree->method('getNodeForPath')
-			->willReturn($this->createMock($parentClass));
+		$this->tree->method('nodeExists')
+			->willReturn($exists);
 
 		if (!$allowed) {
 			$this->expectException(UnsupportedMediaType::class);
 		}
 
-		$this->assertTrue($this->plugin->beforeMkcol($this->request));
+		$this->assertTrue($this->plugin->beforeMethod($this->request));
 	}
 
-	public function testBeforeMkcolWithoutRestriction(): void {
+	public function testBeforeMethodWithoutRestriction(): void {
 		$this->setAllowedTypes(null);
-		$this->request->method('getHeader')
-			->willReturn('https://example.com/public.php/dav/files/token/run.exe');
+		$this->request->method('getMethod')
+			->willReturn('PUT');
+		$this->request->method('getPath')
+			->willReturn('files/token/run.exe');
 		$this->tree->expects($this->never())
-			->method('getNodeForPath');
+			->method('nodeExists');
 
-		$this->assertTrue($this->plugin->beforeMkcol($this->request));
+		$this->assertTrue($this->plugin->beforeMethod($this->request));
+	}
+
+	public function testUploadIsCheckedBeforeFilesDropPluginCreatesFolders(): void {
+		$priorities = [];
+		$server = $this->createMock(Server::class);
+		$server->method('on')
+			->willReturnCallback(static function (string $eventName, callable $callback, int $priority = 100) use (&$priorities): void {
+				$priorities[$eventName][] = [$callback[0]::class, $priority];
+			});
+
+		(new FilesDropPlugin())->initialize($server);
+		(new AllowedFileTypesPlugin($this->createMock(IMimeTypeDetector::class)))->initialize($server);
+
+		[[, $filesDropPriority]] = $priorities['beforeMethod:*'];
+		foreach (['MKCOL', 'PUT', 'MOVE'] as $method) {
+			[[$class, $priority]] = $priorities['beforeMethod:' . $method];
+			$this->assertSame(AllowedFileTypesPlugin::class, $class);
+			$this->assertLessThan($filesDropPriority, $priority);
+		}
 	}
 
 	public function testChunkedUploadIsCheckedOnAssembly(): void {
