@@ -186,6 +186,7 @@ trait CommonSettingsTrait {
 		}
 
 		Util::addScript(Application::APP_ID, 'main', prepend: true);
+		Util::addStyle(Application::APP_ID, 'main');
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);
 	}
 }

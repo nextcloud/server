@@ -16,7 +16,9 @@ export interface ISettingsSection {
 }
 
 const props = defineProps<{
+	/** The settings section to link to */
 	section: ISettingsSection
+	/** Whether the section is a personal or an admin one */
 	type: 'admin' | 'personal'
 }>()
 

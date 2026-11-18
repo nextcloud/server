@@ -59,8 +59,6 @@ export default defineConfig([
 			'**/js/',
 			'**/l10n/', // all translations (config only ignored in root)
 			'**/vendor/', // different vendors
-			// these sections are Vue 3, they are linted by the Vue 3 frontend
-			'**/apps/settings/src/sections/',
 		],
 	},
 ])

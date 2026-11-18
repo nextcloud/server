@@ -50,7 +50,6 @@ export default defineConfig({
 	test: {
 		include: [
 			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-			'../../apps/settings/src/sections/**/*.spec.ts',
 		],
 		env: {
 			LANG: 'en_US',
@@ -65,7 +64,6 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
-				'../../apps/settings/src/sections/**',
 				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],

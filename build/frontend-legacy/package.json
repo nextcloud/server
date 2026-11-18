@@ -63,7 +63,6 @@
     "qrcode": "^1.5.4",
     "vue": "^2.7.16",
     "vue-material-design-icons": "^5.4.0",
-    "vuex": "^3.6.2",
     "webdav": "^5.11.0"
   },
   "devDependencies": {
