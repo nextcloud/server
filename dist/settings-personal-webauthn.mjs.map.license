@@ -7,6 +7,6 @@ This file is generated from multiple sources. Included packages:
 - @simplewebauthn/browser
 	- version: 14.0.0
 	- license: MIT
-- nextcloud
+- nextcloud-ui
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
