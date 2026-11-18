@@ -16,7 +16,6 @@ use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\CredentialRecord;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
-use Webauthn\PublicKeyCredentialUserEntity;
 
 class CredentialRepository {
 	private WebauthnSerializerFactory $serializerFactory;
@@ -36,16 +35,6 @@ class CredentialRepository {
 		} catch (IMapperException) {
 			return  null;
 		}
-	}
-
-	/**
-	 * @return CredentialRecord[]
-	 */
-	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array {
-		$uid = $publicKeyCredentialUserEntity->id;
-		$entities = $this->credentialMapper->findAllForUid($uid);
-
-		return array_map($this->mapToCredentialRecord(...), $entities);
 	}
 
 	public function saveCredentialSource(CredentialRecord $credentialRecord, ?string $name = null, bool $userVerification = false): PublicKeyCredentialEntity {

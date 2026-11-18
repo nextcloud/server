@@ -9,7 +9,11 @@ declare(strict_types=1);
 
 namespace OC\Authentication\WebAuthn;
 
-use Cose\Algorithms;
+use Cose\Algorithm\Manager as AlgorithmManager;
+use Cose\Algorithm\Signature\ECDSA\ES256;
+use Cose\Algorithm\Signature\EdDSA\EdDSA;
+use Cose\Algorithm\Signature\RSA\PS256;
+use Cose\Algorithm\Signature\RSA\RS256;
 use GuzzleHttp\Psr7\ServerRequest;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialEntity;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialMapper;
@@ -41,18 +45,9 @@ use Webauthn\PublicKeyCredentialUserEntity;
 class Manager {
 	private const int TIMEOUT = 60000;
 
-	private const array SUPPORTED_ALGORITHMS = [
-		// ECDSA using the P-256 curve and SHA-256; widely supported by hardware keys and platform authenticators.
-		Algorithms::COSE_ALGORITHM_ES256,
-		// EdDSA with the Ed25519 curve; modern and efficient signature algorithm, but less widely supported.
-		Algorithms::COSE_ALGORITHM_EDDSA,
-		// RSASSA-PSS with SHA-256; modern and more secure RSA alternative. (PSS padding is more secure than PKCS#1 v1.5)
-		Algorithms::COSE_ALGORITHM_PS256,
-		// RSA Signature with PKCS#1 v1.5 padding and SHA-256; legacy standard included for broader compatibility.
-		Algorithms::COSE_ALGORITHM_RS256,
-	];
-
 	private WebauthnSerializerFactory $serializerFactory;
+
+	private AlgorithmManager $algorithmManager;
 
 	public function __construct(
 		private CredentialRepository $repository,
@@ -63,6 +58,19 @@ class Manager {
 		$attestationStatementSupportManager = AttestationStatementSupportManager::create();
 		$attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
 		$this->serializerFactory = new WebauthnSerializerFactory($attestationStatementSupportManager);
+
+		// Ordered by preference, the order is kept in the registration options
+		$this->algorithmManager = AlgorithmManager::create();
+		// ECDSA using the P-256 curve and SHA-256; widely supported by hardware keys and platform authenticators.
+		$this->algorithmManager->add(ES256::create());
+		// EdDSA with the Ed25519 curve; modern and efficient signature algorithm, but less widely supported.
+		if (EdDSA::isSupported()) {
+			$this->algorithmManager->add(new EdDSA());
+		}
+		// RSASSA-PSS with SHA-256; modern and more secure RSA alternative. (PSS padding is more secure than PKCS#1 v1.5)
+		$this->algorithmManager->add(PS256::create());
+		// RSA Signature with PKCS#1 v1.5 padding and SHA-256; legacy standard included for broader compatibility.
+		$this->algorithmManager->add(RS256::create());
 	}
 
 	/**
@@ -94,7 +102,7 @@ class Manager {
 	 * @throws RuntimeException - If the registration options or data are invalid
 	 */
 	public function finishRegister(string $registrationOptions, string $name, string $data): PublicKeyCredentialEntity {
-		$csmFactory = new CeremonyStepManagerFactory();
+		$csmFactory = $this->getCeremonyStepManagerFactory();
 		$creationCSM = $csmFactory->creationCeremony();
 		$authenticatorAttestationResponseValidator = AuthenticatorAttestationResponseValidator::create($creationCSM);
 		$authenticatorAttestationResponseValidator->setLogger($this->logger);
@@ -174,7 +182,7 @@ class Manager {
 	 * @param string $uid - The user ID for which the authentication is being finished
 	 */
 	public function finishAuthentication(string $requestOptions, string $data, string $uid): AuthenticatorData {
-		$csmFactory = new CeremonyStepManagerFactory();
+		$csmFactory = $this->getCeremonyStepManagerFactory();
 		$assertionCSM = $csmFactory->requestCeremony();
 		$authenticatorAttestationResponseValidator = AuthenticatorAssertionResponseValidator::create($assertionCSM);
 		$authenticatorAttestationResponseValidator->setLogger($this->logger);
@@ -244,7 +252,7 @@ class Manager {
 		return true;
 	}
 
-	protected function getRegistrationOptions(IUser $user, string $serverHost, ?string $challenge = null): PublicKeyCredentialCreationOptions {
+	protected function getRegistrationOptions(IUser $user, string $serverHost, string $challenge): PublicKeyCredentialCreationOptions {
 		$rpEntity = new PublicKeyCredentialRpEntity('Nextcloud', $this->stripPort($serverHost));
 		$userEntity = new PublicKeyCredentialUserEntity(
 			$user->getUID(),
@@ -254,7 +262,7 @@ class Manager {
 
 		$publicKeyCredentialParametersList = array_map(
 			fn (int $algorithm) => new PublicKeyCredentialParameters(PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY, $algorithm),
-			self::SUPPORTED_ALGORITHMS,
+			iterator_to_array($this->algorithmManager->list(), false),
 		);
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
@@ -272,6 +280,14 @@ class Manager {
 			PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
 			timeout: self::TIMEOUT,
 		);
+	}
+
+	private function getCeremonyStepManagerFactory(): CeremonyStepManagerFactory {
+		$csmFactory = new CeremonyStepManagerFactory();
+		$csmFactory->setAlgorithmManager($this->algorithmManager);
+		// Browsers allow WebAuthn on plain HTTP for localhost only
+		$csmFactory->setSecuredRelyingPartyId(['localhost']);
+		return $csmFactory;
 	}
 
 	private function stripPort(string $serverHost): string {

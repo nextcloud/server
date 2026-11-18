@@ -21,9 +21,6 @@ use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use Webauthn\PublicKeyCredentialCreationOptions;
-use Webauthn\PublicKeyCredentialRpEntity;
-use Webauthn\PublicKeyCredentialUserEntity;
 
 class WebAuthnControllerTest extends TestCase {
 	private Manager&MockObject $manager;
@@ -50,19 +47,14 @@ class WebAuthnControllerTest extends TestCase {
 	}
 
 	public function testFinishRegistrationIsAudited(): void {
-		$options = PublicKeyCredentialCreationOptions::create(
-			PublicKeyCredentialRpEntity::create('Nextcloud'),
-			PublicKeyCredentialUserEntity::create('jane', 'jane', 'Jane'),
-			random_bytes(32),
-			attestation: PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
-		);
 		$this->session->method('exists')->willReturn(true);
-		$this->session->method('get')->willReturn(json_decode(json_encode($options), true));
+		$this->session->method('get')->willReturn('{"challenge":"abc"}');
 
 		$credential = new PublicKeyCredentialEntity();
 		$credential->setId(17);
 		$this->manager->expects($this->once())
 			->method('finishRegister')
+			->with('{"challenge":"abc"}', 'My key', '{}')
 			->willReturn($credential);
 
 		$this->eventDispatcher->expects($this->once())
