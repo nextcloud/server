@@ -324,6 +324,30 @@ class JobListTest extends TestCase {
 		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
 	}
 
+	public function testCountReservedJobs(): void {
+		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		$this->instance->add(new TestJob($this->timeFactory, $this, function (): void {
+		}), 1);
+		$this->instance->add(new TestJob($this->timeFactory, $this, function (): void {
+		}), 2);
+
+		$this->assertSame(0, $this->instance->countReservedJobs(TestJob::class));
+
+		$first = $this->instance->getNext();
+		$this->assertNotNull($first);
+		$this->assertSame(1, $this->instance->countReservedJobs(TestJob::class));
+		$this->assertSame(0, $this->instance->countReservedJobs(TestJob::class, (int)$first->getId()));
+		$this->assertSame(0, $this->instance->countReservedJobs(TestParallelAwareJob::class));
+
+		$this->assertNotNull($this->instance->getNext());
+		$this->assertSame(2, $this->instance->countReservedJobs(TestJob::class));
+	}
+
 	public function testHasReservedJobsAndParallelAwareJob(): void {
 		$this->clearJobsList();
 
