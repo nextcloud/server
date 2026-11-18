@@ -22,6 +22,7 @@ use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\TokenScopes;
 use OC\Authentication\TwoFactorAuth\Registry;
@@ -476,6 +477,7 @@ class Server extends ServerContainer {
 				$c->get(ILockdownManager::class),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
+				static fn (): RememberLoginTokenMapper => $c->get(RememberLoginTokenMapper::class),
 			);
 
 			return $userSession;
