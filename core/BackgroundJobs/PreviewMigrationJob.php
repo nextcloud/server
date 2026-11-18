@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\BackgroundJob\JobList;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\PreviewMigrationService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
@@ -30,7 +31,7 @@ class PreviewMigrationJob extends TimedJob {
 		IConfig $config,
 		private readonly IRootFolder $rootFolder,
 		private readonly PreviewMigrationService $migrationService,
-		private readonly IJobList $jobList,
+		private readonly JobList $jobList,
 		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($time);
@@ -49,6 +50,22 @@ class PreviewMigrationJob extends TimedJob {
 		$partition = (int)($argument['partition'] ?? 0);
 		if ($partition < 0 || $partition >= self::PARTITIONS) {
 			$this->jobList->removeById($this->getId());
+			return;
+		}
+
+		$maxParallelJobs = $this->appConfig->getValueInt('core', ConfigLexicon::PREVIEW_MIGRATION_MAX_PARALLEL_JOBS);
+		if ($maxParallelJobs === 0) {
+			$this->logger->debug('Preview migration of partition {partition} postponed: background migration is disabled.', [
+				'partition' => $partition,
+			]);
+			return;
+		}
+
+		if ($maxParallelJobs > 0 && $this->jobList->countReservedJobs(self::class, (int)$this->getId()) >= $maxParallelJobs) {
+			$this->logger->debug('Preview migration of partition {partition} postponed: {max} jobs are already running.', [
+				'partition' => $partition,
+				'max' => $maxParallelJobs,
+			]);
 			return;
 		}
 
