@@ -235,6 +235,40 @@ class CryptoTest extends \Test\TestCase {
 		$this->assertSame('empty-key fixture', $reader->decrypt($ciphertext . '|' . $iv . '|' . $hmac . '|2'));
 	}
 
+	public function testKeyReusePreservesBoundaryValuesAcrossKeyChanges(): void {
+		$plaintexts = ['', "\0", str_repeat('x', 16), str_repeat('y', 17), 'Français 日本語', str_repeat("\0\xff", 512)];
+		$passwords = ['', 'A', 'B', 'A', str_repeat('same-prefix', 100) . 'a', str_repeat('same-prefix', 100) . 'b', str_repeat("\0\xfe", 32)];
+		$writer = $this->createCryptoWithDerivationCount(count($passwords));
+		$reader = $this->createCryptoWithDerivationCount(count($passwords));
+
+		foreach ($passwords as $password) {
+			foreach ($plaintexts as $plaintext) {
+				$first = $writer->encrypt($plaintext, $password);
+				$second = $reader->encrypt($plaintext, $password);
+				$this->assertSame($plaintext, $reader->decrypt($first, $password));
+				$this->assertSame($plaintext, $writer->decrypt($second, $password));
+				$this->assertSame($plaintext, $reader->decrypt($first, $password));
+				$this->assertSame('3', explode('|', $second)[3]);
+				$this->assertNotSame(explode('|', $first)[1], explode('|', $second)[1]);
+			}
+		}
+	}
+
+	public function testMalformedInputDoesNotPoisonKeyReuse(): void {
+		$ciphertext = $this->crypto->encrypt('synthetic plaintext', 'key');
+		$reader = $this->createCryptoWithDerivationCount(1);
+		foreach (['', '1|2', 'gg|00|00|3', '0|00|00|3', '00|00|00|3|extra'] as $malformed) {
+			$rejected = false;
+			try {
+				$reader->decrypt($malformed, 'key');
+			} catch (\Exception) {
+				$rejected = true;
+			}
+			$this->assertTrue($rejected, 'Malformed input accepted');
+			$this->assertSame('synthetic plaintext', $reader->decrypt($ciphertext, 'key'));
+		}
+	}
+
 	private function createCryptoWithDerivationCount(int $count, ?IConfig $config = null): Crypto {
 		if ($config === null) {
 			$config = $this->createMock(IConfig::class);
