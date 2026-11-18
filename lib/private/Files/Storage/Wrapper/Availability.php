@@ -294,16 +294,12 @@ class Availability extends Wrapper {
 	 * @throws StorageNotAvailableException
 	 */
 	protected function setUnavailable(?StorageNotAvailableException $e): void {
-		$delay = self::RECHECK_TTL_SEC;
+		$additionalDelay = 0;
 		if ($e instanceof StorageAuthException) {
-			$delay = max(
-				// 30min
-				$this->config->getSystemValueInt('external_storage.auth_availability_delay', 1800),
-				self::RECHECK_TTL_SEC
-			);
+			$additionalDelay = max($this->config->getSystemValueInt('external_storage.auth_availability_delay', 1800) - self::RECHECK_TTL_SEC, 0);
 		}
 		$this->available = false;
-		$this->getStorageCache()->setAvailability(false, $delay);
+		$this->getStorageCache()->setAvailability(false, $additionalDelay);
 		if ($e !== null) {
 			throw $e;
 		}
