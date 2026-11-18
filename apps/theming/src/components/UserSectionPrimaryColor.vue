@@ -10,7 +10,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-import { computed, ref, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
@@ -32,9 +32,19 @@ const triggerElement = useTemplateRef('trigger')
 
 const loading = ref(false)
 const primaryColor = ref(initialPrimaryColor)
-watch(primaryColor, debounce((newColor) => {
+
+let isResetting = false
+
+const debouncedUpdate = debounce((newColor: string) => {
 	onUpdate(newColor)
-}, 1000))
+}, 1000)
+
+watch(primaryColor, (newColor) => {
+	if (isResetting) {
+		return
+	}
+	debouncedUpdate(newColor)
+})
 
 const isDefaultPrimaryColor = computed(() => isSameColor(primaryColor.value, defaultPrimaryColor))
 
@@ -57,8 +67,13 @@ function reload() {
  * Reset primary color to default
  */
 function onReset() {
+	isResetting = true
+	debouncedUpdate.clear?.()
 	primaryColor.value = defaultPrimaryColor
 	onUpdate(null)
+	nextTick(() => {
+		isResetting = false
+	})
 }
 
 /**
@@ -67,6 +82,7 @@ function onReset() {
  * @param value - The new value
  */
 async function onUpdate(value: string | null) {
+	debouncedUpdate.clear?.()
 	loading.value = true
 	const url = generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
 		appId: 'theming',
@@ -104,7 +120,8 @@ function numberToHex(numeric: string): string {
 		<div :class="$style.userPrimaryColor">
 			<NcColorPicker
 				v-model="primaryColor"
-				data-user-theming-primary-color>
+				data-user-theming-primary-color
+				@submit="onUpdate">
 				<button
 					ref="trigger"
 					:class="$style.userPrimaryColor__trigger"

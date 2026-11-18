@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
+use OCA\Theming\ConfigLexicon;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
@@ -97,6 +98,8 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '#0082C9', 'Saved'],
 			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['disableUserTheming', 'yes', 'Saved', ConfigLexicon::USER_THEMING_DISABLED],
+			['disable-user-theming', 'false', 'Saved', ConfigLexicon::USER_THEMING_DISABLED],
 		];
 	}
 
@@ -152,6 +155,8 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '#0082Z9', 'The given color is invalid'],
 			['background_color', 'Nextcloud', 'The given color is invalid'],
 
+			['disableUserTheming', 'invalid', '%1$s should be true or false'],
+			['disable-user-theming', 'invalid', '%1$s should be true or false'],
 			['doesnotexist', 'value', 'Invalid setting key'],
 
 			...$urlTests,

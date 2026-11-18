@@ -121,4 +121,34 @@ class UserThemeControllerTest extends TestCase {
 		$expected = new DataResponse();
 		$this->assertEquals($expected, $this->userThemeController->disableTheme($themeId));
 	}
+
+	public function testDeleteBackground(): void {
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'userCacheBuster', '0')
+			->willReturn('3');
+
+		$this->backgroundService->expects($this->once())
+			->method('deleteBackgroundImage');
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user', Application::APP_ID, 'userCacheBuster', '4');
+
+		$this->themingDefaults->expects($this->once())
+			->method('getColorBackground')
+			->willReturn('#ffffff');
+
+		$this->themingDefaults->expects($this->once())
+			->method('getColorPrimary')
+			->willReturn('#0082c9');
+
+		$response = $this->userThemeController->deleteBackground();
+		$this->assertEquals(new \OCP\AppFramework\Http\JSONResponse([
+			'backgroundImage' => null,
+			'backgroundColor' => '#ffffff',
+			'primaryColor' => '#0082c9',
+			'version' => 4,
+		]), $response);
+	}
 }
