@@ -9,6 +9,7 @@ import { test as sharingTest } from '../../support/fixtures/files-sharing-page.t
 import { pasteImages, PNG_CONTENT } from '../../support/utils/clipboard.ts'
 import { DAV_FILES_ENDPOINT, mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { BUNDLED_PERMISSIONS, createShare, updateShare, waitForShare } from '../../support/utils/sharing.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 test.describe('files: Clipboard image upload', () => {
 	test('can paste an image into the current folder', async ({ page, filesListPage }) => {
@@ -268,8 +269,9 @@ test.describe('files: Clipboard image upload', () => {
 			['quota-blocked.png'],
 		)
 
-		expect(handled).toBe(false)
+		expect(handled).toBe(true)
 
+		await expect(getToast(page, 'You have used your space quota and cannot upload files anymore.')).toBeVisible()
 		await expect(filesListPage.getRowForFile('quota-blocked.png')).toHaveCount(0)
 		await expect(filesListPage.getRowForFile('existing.png')).toBeVisible()
 
@@ -354,8 +356,9 @@ sharingTest.describe('files: Clipboard image upload in internal shares', () => {
 			['read-only.png'],
 		)
 
-		expect(readOnlyPaste).toBe(false)
+		expect(readOnlyPaste).toBe(true)
 
+		await expect(getToast(page, 'You do not have permission to upload or create files here.')).toBeVisible()
 		await expect(filesListPage.getRowForFile('read-only.png')).toHaveCount(0)
 		await expect(filesListPage.getRowForFile('shared-image.png')).toBeVisible()
 

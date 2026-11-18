@@ -141,6 +141,21 @@ function hasOpenDialog(): boolean {
 }
 
 /**
+ * Check whether clipboard upload should ignore this paste event.
+ *
+ * Preserves native paste behaviour for already-handled events, editable
+ * fields and visible modal dialogs.
+ *
+ * @param event - The clipboard paste event
+ */
+export function shouldIgnoreClipboardPaste(event: ClipboardEvent): boolean {
+	return event.defaultPrevented
+		|| isEditableTarget(event.target)
+		|| isEditableTarget(document.activeElement)
+		|| hasOpenDialog()
+}
+
+/**
  * Resolve filename conflicts using the existing conflict picker.
  *
  * @param names - Incoming filenames
@@ -216,12 +231,7 @@ export async function uploadClipboardImages(
 	event: ClipboardEvent,
 	context: ClipboardUploadContext,
 ): Promise<void> {
-	if (
-		event.defaultPrevented
-		|| isEditableTarget(event.target)
-		|| isEditableTarget(document.activeElement)
-		|| hasOpenDialog()
-	) {
+	if (shouldIgnoreClipboardPaste(event)) {
 		return
 	}
 

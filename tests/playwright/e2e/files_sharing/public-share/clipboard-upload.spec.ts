@@ -7,6 +7,7 @@ import { expect, test } from '../../../support/fixtures/public-share-page.ts'
 import { pasteImages, PNG_CONTENT } from '../../../support/utils/clipboard.ts'
 import { DAV_FILES_ENDPOINT, getFileContent, mkdir, uploadContent } from '../../../support/utils/dav.ts'
 import { BUNDLED_PERMISSIONS, createLinkShare } from '../../../support/utils/sharing.ts'
+import { getToast } from '../../../support/utils/toast.ts'
 
 test.describe('files_sharing: Public share - clipboard image upload', () => {
 	test('can paste an image into a writable public share', async ({
@@ -88,8 +89,9 @@ test.describe('files_sharing: Public share - clipboard image upload', () => {
 			['read-only.png'],
 		)
 
-		expect(handled).toBe(false)
+		expect(handled).toBe(true)
 
+		await expect(getToast(page, 'You do not have permission to upload or create files here.')).toBeVisible()
 		await expect(filesListPage.getRowForFile('read-only.png')).toHaveCount(0)
 		await expect(filesListPage.getRowForFile('existing.txt')).toBeVisible()
 
@@ -99,7 +101,7 @@ test.describe('files_sharing: Public share - clipboard image upload', () => {
 		expect(putFired).toBe(false)
 	})
 
-	test('ignores clipboard images in a file-drop share while preserving standard uploads', async ({
+	test('rejects clipboard images in a file-drop share while preserving standard uploads', async ({
 		page,
 		user,
 		ownerRequest,
@@ -140,8 +142,9 @@ test.describe('files_sharing: Public share - clipboard image upload', () => {
 			['file-drop-image.png'],
 		)
 
-		expect(handled).toBe(false)
+		expect(handled).toBe(true)
 
+		await expect(getToast(page, 'Some files could not be uploaded')).toBeVisible()
 		await expect(publicShare.fileDropDescription('file-drop')).toBeVisible()
 
 		// Standard File Drop uploads must remain functional after an ignored paste.

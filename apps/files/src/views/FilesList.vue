@@ -193,7 +193,7 @@ import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { uploadClipboardImages } from '../services/ClipboardUploadService.ts'
+import { getClipboardImages, shouldIgnoreClipboardPaste, uploadClipboardImages } from '../services/ClipboardUploadService.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -437,6 +437,15 @@ export default defineComponent({
 
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return t('files', 'You have used your space quota and cannot upload files anymore.')
+			} else if (!this.canUpload) {
+				return t('files', 'You do not have permission to upload or create files here.')
+			}
+			return null
 		},
 
 		showCustomEmptyView() {
@@ -712,11 +721,14 @@ export default defineComponent({
 		async onClipboardPaste(event: ClipboardEvent) {
 			if (!this.currentFolder
 				|| !this.currentView
-				|| !this.canUpload
-				|| this.isQuotaExceeded
 				|| this.loading
 				|| this.navigating
-				|| this.error) {
+				|| this.error
+				|| shouldIgnoreClipboardPaste(event)) {
+				return
+			}
+
+			if (getClipboardImages(event).length === 0) {
 				return
 			}
 
@@ -728,9 +740,16 @@ export default defineComponent({
 				return
 			}
 
-			// Public upload-only shares (File Drop) are out of scope.
+			if (this.cantUploadLabel) {
+				event.preventDefault()
+				showError(this.cantUploadLabel)
+				return
+			}
+
 			if (this.isPublic
 				&& (this.currentFolder.permissions & Permission.READ) === 0) {
+				event.preventDefault()
+				showError(t('files', 'Some files could not be uploaded'))
 				return
 			}
 

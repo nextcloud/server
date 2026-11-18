@@ -8,7 +8,7 @@ import type { IFolder, INode } from '@nextcloud/files'
 import { openConflictPicker, showError } from '@nextcloud/dialogs'
 import { getUploader } from '@nextcloud/files/upload'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getClipboardImages, prepareClipboardImages, uploadClipboardImages } from './ClipboardUploadService.ts'
+import { getClipboardImages, prepareClipboardImages, shouldIgnoreClipboardPaste, uploadClipboardImages } from './ClipboardUploadService.ts'
 
 vi.mock('@nextcloud/dialogs', () => ({
 	openConflictPicker: vi.fn(),
@@ -233,6 +233,7 @@ describe('uploadClipboardImages', () => {
 		const preventedEvent = createImageEvent()
 		preventedEvent.preventDefault()
 
+		expect(shouldIgnoreClipboardPaste(preventedEvent)).toBe(true)
 		await uploadClipboardImages(preventedEvent, context)
 
 		// An editable element has focus
@@ -242,6 +243,7 @@ describe('uploadClipboardImages', () => {
 
 		const editableEvent = createImageEvent()
 
+		expect(shouldIgnoreClipboardPaste(editableEvent)).toBe(true)
 		await uploadClipboardImages(editableEvent, context)
 
 		expect(editableEvent.defaultPrevented).toBe(false)
@@ -262,6 +264,7 @@ describe('uploadClipboardImages', () => {
 
 		const modalEvent = createImageEvent()
 
+		expect(shouldIgnoreClipboardPaste(modalEvent)).toBe(true)
 		await uploadClipboardImages(modalEvent, context)
 
 		expect(modalEvent.defaultPrevented).toBe(false)
@@ -276,6 +279,7 @@ describe('uploadClipboardImages', () => {
 
 		const hiddenModalEvent = createImageEvent()
 
+		expect(shouldIgnoreClipboardPaste(hiddenModalEvent)).toBe(false)
 		await uploadClipboardImages(hiddenModalEvent, context)
 
 		expect(hiddenModalEvent.defaultPrevented).toBe(true)
