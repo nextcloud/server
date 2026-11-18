@@ -121,7 +121,7 @@ class IMipService {
 		$newValue = $vEvent->$property->getValue();
 		$newString = $newValue === null ? null : htmlspecialchars($newValue);
 
-		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newString;
+		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newValue;
 		if ($propertyChanged) {
 			$oldValue = $oldVEvent->$property->getValue();
 			$oldString = htmlspecialchars($oldValue);
@@ -150,7 +150,7 @@ class IMipService {
 			return $this->getStrikethroughString($oldString, $newString);
 		}
 
-		return $this->getStrikethroughString($newString);
+		return $newString;
 	}
 
 	/**
