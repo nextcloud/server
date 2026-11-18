@@ -6,7 +6,7 @@
 import type { INavigationEntry } from '../../../types/navigation.d.ts'
 
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from 'vitest'
 
 // Hoisted so mocks exist before the SFC's imports run.
 const initialState = vi.hoisted(() => ({
@@ -644,6 +644,10 @@ describe('core: AppMenu navigation actions', () => {
 	})
 
 	it('focuses the first submenu entry on open and navigates it with arrow keys', async () => {
+		// jsdom has no layout, so focus-trap finds nothing tabbable and focuses the
+		// popover itself. Give elements a box so it picks the first entry like a browser.
+		const rects = vi.spyOn(Element.prototype, 'getClientRects').mockReturnValue([new DOMRect(0, 0, 1, 1)] as unknown as DOMRectList)
+		onTestFinished(() => rects.mockRestore())
 		initialState.loadState.mockImplementation(stateWith(fakeApps(), fakeActions(6)))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
