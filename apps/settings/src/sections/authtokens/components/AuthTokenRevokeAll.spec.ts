@@ -51,7 +51,7 @@ function mountSection(tokens: IToken[]) {
 	return mount(AuthTokenSection, {
 		global: {
 			stubs: {
-				AuthTokenList: true,
+				AuthToken: true,
 				AuthTokenSetup: true,
 				NcSettingsSection: { template: '<div><slot /></div>' },
 				NcButton: NcButtonStub,

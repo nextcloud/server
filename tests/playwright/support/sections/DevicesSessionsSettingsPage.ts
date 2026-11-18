@@ -12,7 +12,7 @@ export class DevicesSessionsSettingsPage {
 	constructor(private readonly page: Page) {}
 
 	heading(): Locator {
-		return this.page.getByRole('heading', { name: 'Devices & sessions', level: 2 })
+		return this.page.getByRole('heading', { name: 'Apps and devices', level: 2 })
 	}
 
 	async open(): Promise<void> {
@@ -26,7 +26,7 @@ export class DevicesSessionsSettingsPage {
 	}
 
 	tokenRows(): Locator {
-		return this.tokenList().locator('tbody').getByRole('row')
+		return this.tokenList().locator(':scope > :is([data-id], :has([data-id]))')
 	}
 
 	/**
@@ -75,7 +75,7 @@ export class DevicesSessionsSettingsPage {
 	 * @param access - Label of the access preset to pick
 	 */
 	async createAppPassword(name: string, access: string): Promise<void> {
-		await this.page.getByRole('button', { name: 'Create new app password' }).click()
+		await this.page.getByRole('button', { name: 'New app password' }).click()
 		const dialog = this.accessDialog('Create new app password')
 		await dialog.getByRole('textbox', { name: 'App name' }).fill(name)
 		await dialog.getByRole('radio', { name: access }).check({ force: true })

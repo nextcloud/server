@@ -6,9 +6,11 @@
 <script setup lang="ts">
 import type { ITokenResponse } from '../store/authtoken.ts'
 
+import { mdiPlus } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { ref } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 
@@ -17,21 +19,18 @@ const newToken = ref<ITokenResponse | null>(null)
 </script>
 
 <template>
-	<div id="generate-app-token-section">
-		<NcButton variant="primary" @click="createOpen = true">
-			{{ t('settings', 'Create new app password') }}
-		</NcButton>
+	<NcFormBoxButton
+		id="generate-app-token-section"
+		:label="t('settings', 'New app password')"
+		@click="createOpen = true">
+		<template #icon>
+			<NcIconSvgWrapper :path="mdiPlus" :size="20" />
+		</template>
+	</NcFormBoxButton>
 
-		<AuthTokenAccessDialog
-			v-if="createOpen"
-			v-model:open="createOpen"
-			@created="newToken = $event" />
-		<AuthTokenSetupDialog :token="newToken" @close="newToken = null" />
-	</div>
+	<AuthTokenAccessDialog
+		v-if="createOpen"
+		v-model:open="createOpen"
+		@created="newToken = $event" />
+	<AuthTokenSetupDialog :token="newToken" @close="newToken = null" />
 </template>
-
-<style lang="scss" scoped>
-	#generate-app-token-section {
-		padding-top: 16px;
-	}
-</style>
