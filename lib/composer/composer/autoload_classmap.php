@@ -2063,6 +2063,8 @@ return array(
     'OC\\Hooks\\PublicEmitter' => $baseDir . '/lib/private/Hooks/PublicEmitter.php',
     'OC\\Http\\Client\\Client' => $baseDir . '/lib/private/Http/Client/Client.php',
     'OC\\Http\\Client\\ClientService' => $baseDir . '/lib/private/Http/Client/ClientService.php',
+    'OC\\Http\\Client\\CurlStreamBody' => $baseDir . '/lib/private/Http/Client/CurlStreamBody.php',
+    'OC\\Http\\Client\\CurlStreamHandler' => $baseDir . '/lib/private/Http/Client/CurlStreamHandler.php',
     'OC\\Http\\Client\\DnsPinMiddleware' => $baseDir . '/lib/private/Http/Client/DnsPinMiddleware.php',
     'OC\\Http\\Client\\GuzzlePromiseAdapter' => $baseDir . '/lib/private/Http/Client/GuzzlePromiseAdapter.php',
     'OC\\Http\\Client\\NegativeDnsCache' => $baseDir . '/lib/private/Http/Client/NegativeDnsCache.php',
