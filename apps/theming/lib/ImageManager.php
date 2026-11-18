@@ -82,6 +82,18 @@ class ImageManager {
 		return $this->appConfig->getAppValueString($key . 'Mime', '');
 	}
 
+	public function isSvgImage(string $key): bool {
+		$mime = $this->getImageMime($key);
+		return $mime === 'image/svg+xml' || $mime === 'image/svg';
+	}
+
+	/**
+	 * Whether an uploaded image can be rendered to PNG
+	 */
+	public function canRenderImage(string $key): bool {
+		return $this->canConvert('PNG') && (!$this->isSvgImage($key) || $this->canConvert('SVG'));
+	}
+
 	/**
 	 * @param string $key
 	 * @param bool $useSvg

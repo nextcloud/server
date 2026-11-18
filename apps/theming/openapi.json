@@ -495,7 +495,7 @@
                                     "format": "binary"
                                 }
                             },
-                            "image/x-icon": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -586,6 +586,47 @@
                         "description": "",
                         "content": {
                             "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/apps/theming/manifest-icon": {
+            "get": {
+                "operationId": "icon-get-manifest-icon",
+                "summary": "Return the uploaded favicon as a transparent PNG image for the web app manifest",
+                "tags": [
+                    "icon"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Icon returned",
+                        "content": {
+                            "image/png": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No favicon uploaded or it can not be rendered",
+                        "content": {
+                            "text/html": {
                                 "schema": {
                                     "type": "string"
                                 }

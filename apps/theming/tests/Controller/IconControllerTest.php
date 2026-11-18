@@ -75,6 +75,7 @@ class IconControllerTest extends TestCase {
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
 		$icon->expects($this->any())->method('getName')->willReturn('my name');
 		$icon->expects($this->any())->method('getMTime')->willReturn(42);
+		$icon->method('getSize')->willReturn(strlen($data));
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}
@@ -164,19 +165,79 @@ class IconControllerTest extends TestCase {
 	}
 
 	public function testGetFaviconUploaded(): void {
-		// a custom favicon was uploaded, so it must be served as-is and the
+		// a custom raster favicon was uploaded, so it is converted to ICO and the
 		// app-specific generation path must not overwrite it
-		$file = $this->iconFileMock('favicon.ico', 'filecontent');
+		$file = $this->iconFileMock('favicon', 'png content');
+		$icoFile = $this->iconFileMock('favIcon-favicon', 'ico content');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
-			->with('favicon', false)
+			->with('favicon')
 			->willReturn($file);
-		$this->imageManager->expects($this->never())
-			->method('getCachedImage');
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn('image/png');
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->with('favIcon-favicon')
+			->willThrowException(new NotFoundException());
+		$this->iconBuilder->expects($this->once())
+			->method('getUploadedFavicon')
+			->willReturn('ico content');
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->with('favIcon-favicon', 'ico content')
+			->willReturn($icoFile);
 		$this->iconBuilder->expects($this->never())
 			->method('getFavicon');
 
-		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		$expected = new FileDisplayResponse($icoFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getFavicon());
+	}
+
+	public function testGetFaviconUploadedNotConverted(): void {
+		// an uploaded SVG or ICO file, or any image without Imagick, is served as-is with its MIME type
+		$file = $this->iconFileMock('favicon', 'svg content');
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon')
+			->willReturn($file);
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn('image/svg+xml');
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->willThrowException(new NotFoundException());
+		$this->iconBuilder->expects($this->once())
+			->method('getUploadedFavicon')
+			->willReturn(false);
+		// the failed conversion is cached as an empty file
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->with('favIcon-favicon', '')
+			->willReturn($this->iconFileMock('favIcon-favicon', ''));
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getFavicon());
+	}
+
+	public function testGetFaviconUploadedConversionFailedCached(): void {
+		$file = $this->iconFileMock('favicon', 'svg content');
+		$this->imageManager->method('getImage')
+			->with('favicon')
+			->willReturn($file);
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn('image/svg+xml');
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->with('favIcon-favicon')
+			->willReturn($this->iconFileMock('favIcon-favicon', ''));
+		$this->iconBuilder->expects($this->never())
+			->method('getUploadedFavicon');
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
@@ -184,7 +245,7 @@ class IconControllerTest extends TestCase {
 	public function testGetFaviconDefault(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
-			->with('favicon', false)
+			->with('favicon')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
 			->method('canConvert')
@@ -237,21 +298,160 @@ class IconControllerTest extends TestCase {
 	}
 
 	public function testGetTouchIconUploaded(): void {
-		// a custom favicon was uploaded, so it must be served as-is and the
-		// app-specific generation path must not overwrite it
-		$file = $this->iconFileMock('favicon.png', 'filecontent');
+		// a custom favicon was uploaded, so it is rendered like the app icons
+		// and the app-specific generation path must not overwrite it
+		$file = $this->iconFileMock('favicon', 'svg content');
+		$pngFile = $this->iconFileMock('touchIcon-favicon#0082c9', 'png content');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon')
 			->willReturn($file);
-		$this->imageManager->expects($this->never())
-			->method('getCachedImage');
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn('image/svg+xml');
+		$this->themingDefaults->method('getColorPrimary')
+			->willReturn('#0082c9');
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->with('touchIcon-favicon#0082c9')
+			->willThrowException(new NotFoundException());
+		$this->iconBuilder->expects($this->once())
+			->method('getUploadedTouchIcon')
+			->willReturn('png content');
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->with('touchIcon-favicon#0082c9', 'png content')
+			->willReturn($pngFile);
 		$this->iconBuilder->expects($this->never())
 			->method('getTouchIcon');
 
-		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image type']);
+		$expected = new FileDisplayResponse($pngFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+	}
+
+	public function testGetTouchIconUploadedWithoutImagick(): void {
+		// without Imagick the uploaded favicon is served as-is with its MIME type
+		$file = $this->iconFileMock('favicon', 'svg content');
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->with('favicon')
+			->willReturn($file);
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn('image/svg+xml');
+		$this->imageManager->method('canConvert')
+			->willReturn(false);
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->willThrowException(new NotFoundException());
+		$this->iconBuilder->expects($this->once())
+			->method('getUploadedTouchIcon')
+			->willReturn(false);
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->willReturn($this->iconFileMock('touchIcon-favicon', ''));
+		$this->iconBuilder->expects($this->never())
+			->method('getTouchIcon');
+
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+	}
+
+	public function testGetTouchIconUploadedRenderingFailed(): void {
+		// an uploaded favicon that can not be rendered is replaced by the generated touch icon,
+		// so the touch icon is always a PNG image when Imagick is available
+		$this->imageManager->method('getImage')
+			->with('favicon')
+			->willReturn($this->iconFileMock('favicon', 'svg content'));
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn(true);
+		$this->themingDefaults->method('getColorPrimary')
+			->willReturn('#0082c9');
+		$this->imageManager->method('getCachedImage')
+			->willReturnCallback(fn (string $name) => $name === 'touchIcon-favicon#0082c9'
+				? $this->iconFileMock($name, '')
+				: throw new NotFoundException());
+		$this->iconBuilder->expects($this->never())
+			->method('getUploadedTouchIcon');
+		$this->iconBuilder->expects($this->once())
+			->method('getTouchIcon')
+			->with('core')
+			->willReturn('png content');
+		$generated = $this->iconFileMock('touchIcon-core#0082c9', 'png content');
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->with('touchIcon-core#0082c9', 'png content')
+			->willReturn($generated);
+
+		$expected = new FileDisplayResponse($generated, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+	}
+
+	public function testGetManifestIcon(): void {
+		$this->imageManager->method('hasImage')
+			->with('favicon')
+			->willReturn(true);
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn(true);
+		$this->imageManager->expects($this->once())
+			->method('getCachedImage')
+			->with('manifestIcon-favicon')
+			->willThrowException(new NotFoundException());
+		$this->iconBuilder->expects($this->once())
+			->method('getUploadedManifestIcon')
+			->willReturn('png content');
+		$pngFile = $this->iconFileMock('manifestIcon-favicon', 'png content');
+		$this->imageManager->expects($this->once())
+			->method('setCachedImage')
+			->with('manifestIcon-favicon', 'png content')
+			->willReturn($pngFile);
+
+		$expected = new FileDisplayResponse($pngFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		$expected->cacheFor(86400);
+		$this->assertEquals($expected, $this->iconController->getManifestIcon());
+	}
+
+	public function testGetManifestIconRenderingFailedCached(): void {
+		// an empty cached file marks a favicon that can not be rendered
+		$this->imageManager->method('hasImage')
+			->with('favicon')
+			->willReturn(true);
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn(true);
+		$this->imageManager->method('getCachedImage')
+			->with('manifestIcon-favicon')
+			->willReturn($this->iconFileMock('manifestIcon-favicon', ''));
+		$this->iconBuilder->expects($this->never())
+			->method('getUploadedManifestIcon');
+
+		$this->assertEquals(new NotFoundResponse(), $this->iconController->getManifestIcon());
+	}
+
+	public static function dataGetManifestIconNotFound(): array {
+		return [
+			'no favicon uploaded' => [false, true],
+			'without Imagick' => [true, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifestIconNotFound')]
+	public function testGetManifestIconNotFound(bool $uploaded, bool $canConvertPng): void {
+		$this->imageManager->method('hasImage')
+			->with('favicon')
+			->willReturn($uploaded);
+		$this->imageManager->method('canConvert')
+			->with('PNG')
+			->willReturn($canConvertPng);
+		$this->iconBuilder->expects($this->never())
+			->method('getUploadedManifestIcon');
+
+		$this->assertEquals(new NotFoundResponse(), $this->iconController->getManifestIcon());
 	}
 
 	public function testGetTouchIconFail(): void {
