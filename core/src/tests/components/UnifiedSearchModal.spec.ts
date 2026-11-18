@@ -435,12 +435,15 @@ describe('UnifiedSearchModal filter row reveal', () => {
 
 describe('UnifiedSearchModal header visibility', () => {
 	const header = (wrapper) => wrapper.find('.unified-search-modal__header')
+	let attached: ReturnType<typeof factory> | undefined
+	afterEach(() => attached?.unmount())
 
 	/**
 	 * Mount and let the provider init settle, so its logging cannot land after teardown.
 	 */
 	async function mounted(open = true) {
-		const wrapper = factory(open)
+		// Visibility is only computed for attached elements
+		const wrapper = attached = factory(open, { attachTo: document.body })
 		await flushPromises()
 		return wrapper
 	}
@@ -1430,9 +1433,13 @@ describe('UnifiedSearchModal loading skeleton', () => {
 })
 
 describe('UnifiedSearchModal panel resize', () => {
+	let attached: ReturnType<typeof factory> | undefined
+	afterEach(() => attached?.unmount())
+
 	/** Open modal whose panel reports `height` and records its animations. */
 	function factoryWithPanel(height: number) {
-		const wrapper = factory()
+		// Computed styles, and with them the --animation-slow duration, need an attached panel
+		const wrapper = attached = factory(true, { attachTo: document.body })
 		const panel = wrapper.vm.$refs.panel as HTMLElement
 		const animate = vi.fn(() => ({ cancel: vi.fn(), onfinish: null }) as unknown as Animation)
 		panel.animate = animate
