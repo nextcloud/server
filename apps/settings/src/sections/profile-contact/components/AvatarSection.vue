@@ -15,7 +15,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import Cropper from 'cropperjs'
-import { onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
@@ -25,13 +25,21 @@ import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
 import { NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 import logger from '../../../logger.ts'
 
-import 'cropperjs/dist/cropper.css'
-
 const { avatar } = loadState<{ avatar: IAccountProperty }>('settings', 'personalInfoParameters')
 const { avatarChangeSupported } = loadState<{ avatarChangeSupported: boolean }>('settings', 'accountParameters')
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
 const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
+const MAX_AVATAR_SIZE = 512
+
+const CROPPER_TEMPLATE = '<cropper-canvas background>'
+	+ '<cropper-image></cropper-image>'
+	+ '<cropper-shade></cropper-shade>'
+	+ '<cropper-selection aspect-ratio="1" movable resizable zoomable>'
+	+ '<cropper-handle action="move" plain></cropper-handle>'
+	+ ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'].map((direction) => `<cropper-handle action="${direction}-resize"></cropper-handle>`).join('')
+	+ '</cropper-selection>'
+	+ '</cropper-canvas>'
 
 const picker = getFilePickerBuilder(t('settings', 'Choose your profile picture'))
 	.setMultiSelect(false)
@@ -45,6 +53,7 @@ const readable = NAME_READABLE_ENUM[avatar.name]
 
 const scope = ref(avatar.scope)
 const showCropper = ref(false)
+const cropperReady = ref(false)
 const loading = ref(false)
 const version = ref(window.oc_userconfig.avatar.version)
 const isGenerated = ref(window.oc_userconfig.avatar.generated)
@@ -54,16 +63,6 @@ const cropperImage = useTemplateRef('cropperImage')
 let cropper: Cropper | undefined
 
 onMounted(() => {
-	cropper = new Cropper(cropperImage.value!, {
-		aspectRatio: 1 / 1,
-		viewMode: 1,
-		guides: false,
-		center: false,
-		highlight: false,
-		autoCropArea: 1,
-		minContainerWidth: 300,
-		minContainerHeight: 300,
-	})
 	subscribe('settings:display-name:updated', handleDisplayNameUpdate)
 })
 
@@ -71,6 +70,68 @@ onBeforeUnmount(() => {
 	cropper?.destroy()
 	unsubscribe('settings:display-name:updated', handleDisplayNameUpdate)
 })
+
+/**
+ * Show the cropper for a picture
+ *
+ * @param src URL of the picture
+ */
+async function startCropping(src: string) {
+	// The cropper measures its container, so it must be visible before the picture loads
+	showCropper.value = true
+	cropperReady.value = false
+	await nextTick()
+
+	cropper?.destroy()
+	cropperImage.value!.src = src
+	const currentCropper = new Cropper(cropperImage.value!, { template: CROPPER_TEMPLATE })
+	cropper = currentCropper
+	try {
+		await currentCropper.getCropperImage()!.$ready()
+	} catch (error) {
+		logger.error('Could not load the profile picture', { error })
+		showError(t('settings', 'Error cropping profile picture'))
+		cancel()
+		return
+	}
+
+	// Select the largest centered square of the picture
+	const { left, top, right, bottom } = getImageBounds(currentCropper)
+	const size = Math.min(right - left, bottom - top)
+	const selection = currentCropper.getCropperSelection()!
+	selection.$change(left + Math.floor((right - left - size) / 2), top + Math.floor((bottom - top - size) / 2), size, size)
+	selection.addEventListener('change', keepSelectionInImage)
+	cropperReady.value = true
+}
+
+/**
+ * Get the full pixels of the cropper canvas that show the picture
+ *
+ * @param currentCropper The cropper showing the picture
+ */
+function getImageBounds(currentCropper: Cropper) {
+	const canvasRect = currentCropper.getCropperCanvas()!.getBoundingClientRect()
+	const imageRect = currentCropper.getCropperImage()!.getBoundingClientRect()
+	return {
+		left: Math.ceil(imageRect.left - canvasRect.left),
+		top: Math.ceil(imageRect.top - canvasRect.top),
+		right: Math.floor(imageRect.right - canvasRect.left),
+		bottom: Math.floor(imageRect.bottom - canvasRect.top),
+	}
+}
+
+/**
+ * Prevent selection changes that leave the picture
+ *
+ * @param event Change event of the cropper selection
+ */
+function keepSelectionInImage(event: Event) {
+	const { x, y, width, height } = (event as CustomEvent<{ x: number, y: number, width: number, height: number }>).detail
+	const { left, top, right, bottom } = getImageBounds(cropper!)
+	if (x < left || y < top || x + width > right || y + height > bottom) {
+		event.preventDefault()
+	}
+}
 
 /**
  * Open the native file picker
@@ -94,10 +155,7 @@ function onChange(event: Event) {
 	}
 
 	const reader = new FileReader()
-	reader.onload = () => {
-		cropper!.replace(reader.result as string)
-		showCropper.value = true
-	}
+	reader.onload = () => startCropping(reader.result as string)
 	reader.readAsDataURL(file)
 }
 
@@ -121,8 +179,7 @@ async function openFilePicker() {
 		if (data.status === 'success') {
 			handleAvatarUpdate(false)
 		} else if (data.data === 'notsquare') {
-			cropper!.replace(data.image)
-			showCropper.value = true
+			await startCropping(data.image)
 		} else {
 			showError(data.data.message)
 			cancel()
@@ -136,14 +193,26 @@ async function openFilePicker() {
 /**
  * Upload the cropped picture
  */
-function saveAvatar() {
+async function saveAvatar() {
+	const selection = cropper!.getCropperSelection()!
+	// The selection is measured in displayed pixels, the picture is scaled down to fit the canvas
+	const [imageScale] = cropper!.getCropperImage()!.$getTransform()
+	const width = Math.min(Math.round(selection.width / imageScale), MAX_AVATAR_SIZE)
+
 	showCropper.value = false
 	loading.value = true
 
-	const canvasData = cropper!.getCroppedCanvas()
-	const scaleFactor = canvasData.width > 512 ? 512 / canvasData.width : 1
+	let canvas: HTMLCanvasElement
+	try {
+		canvas = await selection.$toCanvas({ width })
+	} catch (error) {
+		logger.error('Could not crop the profile picture', { error })
+		showError(t('settings', 'Error cropping profile picture'))
+		cancel()
+		return
+	}
 
-	cropper!.scale(scaleFactor, scaleFactor).getCroppedCanvas().toBlob(async (blob) => {
+	canvas.toBlob(async (blob) => {
 		if (blob === null) {
 			showError(t('settings', 'Error cropping profile picture'))
 			cancel()
@@ -215,6 +284,7 @@ function handleDisplayNameUpdate() {
 				</NcButton>
 				<NcButton
 					variant="primary"
+					:disabled="!cropperReady"
 					@click="saveAvatar">
 					{{ t('settings', 'Set as profile picture') }}
 				</NcButton>
@@ -333,14 +403,18 @@ function handleDisplayNameUpdate() {
 .cropperCanvas {
 	width: 300px;
 	height: 300px;
-	overflow: hidden;
 
 	img {
-		display: block;
-		max-width: 100%;
+		display: none;
 	}
 
-	:global(.cropper-view-box) {
+	:global(cropper-canvas) {
+		width: 100%;
+		height: 100%;
+	}
+
+	// Preview the round avatar without clipping the saved picture
+	:global(cropper-shade) {
 		border-radius: 50%;
 	}
 }
