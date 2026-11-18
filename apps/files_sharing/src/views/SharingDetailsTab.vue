@@ -208,13 +208,9 @@
 						<NcCheckboxRadioSwitch v-model="limitAllowedFileTypesIsChecked">
 							{{ t('files_sharing', 'Limit allowed file types') }}
 						</NcCheckboxRadioSwitch>
-						<NcInputField
+						<AllowedFileTypesSelect
 							v-if="limitAllowedFileTypesIsChecked"
-							v-model="allowedFileTypes"
-							autocomplete="off"
-							:label="t('files_sharing', 'Allowed file types')"
-							placeholder=".pdf, image/*"
-							:helperText="t('files_sharing', 'Comma separated file extensions like .pdf or MIME types like image/*')" />
+							v-model="allowedFileTypes" />
 					</template>
 
 					<SidebarTabExternalAction
@@ -339,6 +335,7 @@ import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Refresh from 'vue-material-design-icons/Refresh.vue'
 import ShareIcon from 'vue-material-design-icons/ShareCircle.vue'
 import UploadIcon from 'vue-material-design-icons/TrayArrowUp.vue'
+import AllowedFileTypesSelect from '../components/AllowedFileTypesSelect.vue'
 import SidebarTabExternalAction from '../components/SidebarTabExternal/SidebarTabExternalAction.vue'
 import SidebarTabExternalActionLegacy from '../components/SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
 import {
@@ -362,6 +359,7 @@ const TOKEN_MAX_LENGTH = 32
 export default {
 	name: 'SharingDetailsTab',
 	components: {
+		AllowedFileTypesSelect,
 		NcAvatar,
 		NcButton,
 		NcCheckboxRadioSwitch,
@@ -410,7 +408,7 @@ export default {
 			TOKEN_MAX_LENGTH,
 			writeNoteToRecipientIsChecked: false,
 			limitAllowedFileTypesIsChecked: false,
-			allowedFileTypes: '',
+			allowedFileTypes: [],
 			sharingPermission: getBundledPermissions().ALL.toString(),
 			revertSharingPermission: getBundledPermissions().ALL.toString(),
 			setCustomPermissions: false,
@@ -1140,7 +1138,7 @@ export default {
 			const allowedFileTypes = this.getShareAttribute('upload', 'allowed_types', [])
 			if (Array.isArray(allowedFileTypes) && allowedFileTypes.length > 0) {
 				this.limitAllowedFileTypesIsChecked = true
-				this.allowedFileTypes = allowedFileTypes.join(', ')
+				this.allowedFileTypes = [...allowedFileTypes]
 				this.advancedSectionAccordionExpanded = true
 			}
 		},
@@ -1232,13 +1230,8 @@ export default {
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
 			}
-			const allowedFileTypes = this.allowedFileTypes.split(',')
-				.map((type) => type.trim())
-				.filter(Boolean)
-				// Accept extensions entered without the leading dot, e.g. "pdf"
-				.map((type) => (type.startsWith('.') || type.includes('/')) ? type : `.${type}`)
-			if (this.showAllowedFileTypes && this.limitAllowedFileTypesIsChecked && allowedFileTypes.length > 0) {
-				this.setShareAttribute('upload', 'allowed_types', allowedFileTypes)
+			if (this.showAllowedFileTypes && this.limitAllowedFileTypesIsChecked && this.allowedFileTypes.length > 0) {
+				this.setShareAttribute('upload', 'allowed_types', this.allowedFileTypes)
 			} else {
 				this.removeShareAttribute('upload', 'allowed_types')
 			}

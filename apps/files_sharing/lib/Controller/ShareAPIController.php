@@ -40,6 +40,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IShareOwnerlessMount;
@@ -84,8 +85,8 @@ class ShareAPIController extends OCSController {
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
 	private const int TOKEN_MAX_LENGTH = 32;
 
-	/** File extension (`.pdf`), MIME type (`application/pdf`) or MIME type group (`image/*`). */
-	private const string ALLOWED_FILE_TYPE_PATTERN = '/^(\.[^\s\/,*]+|[a-z0-9][a-z0-9!#$&^_.+-]*\/(\*|[a-z0-9][a-z0-9!#$&^_.+-]*))$/i';
+	/** File extension like `.pdf` or `.tar.gz`. */
+	private const string FILE_EXTENSION_PATTERN = '/^\.[^\s\/,*]+$/';
 
 	private ?Node $lockedNode = null;
 	/** @var array<bool> $trustedServerCache */
@@ -116,6 +117,7 @@ class ShareAPIController extends OCSController {
 		private ITagManager $tagManager,
 		private IEmailValidator $emailValidator,
 		private ?TrustedServers $trustedServers,
+		private IMimeTypeDetector $mimeTypeDetector,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -2081,7 +2083,7 @@ class ShareAPIController extends OCSController {
 
 			$allowedFileTypes = $newShareAttributes->getAttribute('upload', 'allowed_types');
 			if ($allowedFileTypes !== null && !$this->validateAllowedFileTypes($allowedFileTypes)) {
-				throw new OCSBadRequestException($this->l->t('Allowed file types must be a list of file extensions like ".pdf" or MIME types like "image/*"'));
+				throw new OCSBadRequestException($this->l->t('Allowed file types must be a list of file extensions like ".pdf" or MIME types known to the server like "image/*"'));
 			}
 		}
 		$share->setAttributes($newShareAttributes);
@@ -2093,12 +2095,34 @@ class ShareAPIController extends OCSController {
 		if (!is_array($allowedFileTypes) || !array_is_list($allowedFileTypes)) {
 			return false;
 		}
+
+		// MIME types are detected from the file name, so only types the server can name are useful
+		$mimeTypes = array_filter(
+			array_keys($this->mimeTypeDetector->getAllNamings()),
+			static fn (string $mimeType): bool => str_contains($mimeType, '/'),
+		);
 		foreach ($allowedFileTypes as $allowedFileType) {
-			if (!is_string($allowedFileType) || !preg_match(self::ALLOWED_FILE_TYPE_PATTERN, $allowedFileType)) {
+			if (!is_string($allowedFileType) || !$this->isValidAllowedFileType(strtolower($allowedFileType), $mimeTypes)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @param list<string> $mimeTypes
+	 */
+	private function isValidAllowedFileType(string $allowedFileType, array $mimeTypes): bool {
+		if (str_starts_with($allowedFileType, '.')) {
+			return preg_match(self::FILE_EXTENSION_PATTERN, $allowedFileType) === 1;
+		}
+
+		if (str_ends_with($allowedFileType, '/*')) {
+			$group = substr($allowedFileType, 0, -1);
+			return $group !== '/' && array_any($mimeTypes, static fn (string $mimeType): bool => str_starts_with($mimeType, $group));
+		}
+
+		return in_array($allowedFileType, $mimeTypes, true);
 	}
 
 	private function checkInheritedAttributes(IShare $share): void {

@@ -14,7 +14,7 @@ function buildContext(overrides: Partial<Ctx> = {}) {
 		creating: false,
 		writeNoteToRecipientIsChecked: true,
 		limitAllowedFileTypesIsChecked: false,
-		allowedFileTypes: '',
+		allowedFileTypes: [] as string[],
 		advancedSectionAccordionExpanded: false,
 		sharingPermission: '31',
 		setCustomPermissions: false,
@@ -179,11 +179,11 @@ describe('SharingDetailsTab — allowed file types', () => {
 		vi.clearAllMocks()
 	})
 
-	it('saves the comma separated list as share attribute', async () => {
+	it('saves the selected file types as share attribute', async () => {
 		const ctx = buildContext({
 			showAllowedFileTypes: true,
 			limitAllowedFileTypesIsChecked: true,
-			allowedFileTypes: ' .pdf,image/* , ,video/*',
+			allowedFileTypes: ['.pdf', 'image/*', 'video/*'],
 		})
 
 		await callSaveShare(ctx)
@@ -193,24 +193,10 @@ describe('SharingDetailsTab — allowed file types', () => {
 		}))
 	})
 
-	it('adds the leading dot to extensions entered without it', async () => {
-		const ctx = buildContext({
-			showAllowedFileTypes: true,
-			limitAllowedFileTypesIsChecked: true,
-			allowedFileTypes: 'pdf, image/*',
-		})
-
-		await callSaveShare(ctx)
-
-		expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({
-			attributes: [{ scope: 'upload', key: 'allowed_types', value: ['.pdf', 'image/*'] }],
-		}))
-	})
-
 	it.each([
-		['the limit is disabled', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: false, allowedFileTypes: '.pdf' }],
-		['the field is empty', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: true, allowedFileTypes: ' , ' }],
-		['the share does not allow uploads', { showAllowedFileTypes: false, limitAllowedFileTypesIsChecked: true, allowedFileTypes: '.pdf' }],
+		['the limit is disabled', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: false, allowedFileTypes: ['.pdf'] }],
+		['no file type is selected', { showAllowedFileTypes: true, limitAllowedFileTypesIsChecked: true, allowedFileTypes: [] }],
+		['the share does not allow uploads', { showAllowedFileTypes: false, limitAllowedFileTypesIsChecked: true, allowedFileTypes: ['.pdf'] }],
 	])('removes the share attribute when %s', async (_, overrides) => {
 		const ctx = buildContext({
 			...overrides,
@@ -240,7 +226,7 @@ describe('SharingDetailsTab — allowed file types', () => {
 		await SharingDetailsTab.methods.initializeAttributes.call(ctx)
 
 		expect(ctx.limitAllowedFileTypesIsChecked).toBe(true)
-		expect(ctx.allowedFileTypes).toBe('.pdf, image/*')
+		expect(ctx.allowedFileTypes).toEqual(['.pdf', 'image/*'])
 		expect(ctx.advancedSectionAccordionExpanded).toBe(true)
 	})
 })

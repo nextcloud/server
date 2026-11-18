@@ -41,6 +41,7 @@
 				v-show="currentStep === STEP.SECOND"
 				v-model:expiration-date="expirationDate"
 				v-model:password="password"
+				v-model:allowedFileTypes="allowedFileTypes"
 				:disabled="loading" />
 
 			<FileRequestFinish
@@ -213,6 +214,7 @@ export default defineComponent({
 
 			expirationDate: null as Date | null,
 			password: null as string | null,
+			allowedFileTypes: null as string[] | null,
 
 			share: null as Share | null,
 			emails: [] as string[],
@@ -225,6 +227,19 @@ export default defineComponent({
 				return t('files_sharing', 'Close')
 			}
 			return n('files_sharing', 'Send email and close', 'Send {count} emails and close', this.emails.length, { count: this.emails.length })
+		},
+
+		/**
+		 * Attributes of the file request, sent on every update as they replace the existing ones
+		 */
+		fileRequestAttributes() {
+			const attributes: { scope: string, key: string, value: unknown }[] = [
+				{ value: true, key: 'enabled', scope: 'fileRequest' },
+			]
+			if (this.allowedFileTypes?.length) {
+				attributes.push({ value: this.allowedFileTypes, key: 'allowed_types', scope: 'upload' })
+			}
+			return attributes
 		},
 	},
 
@@ -318,11 +333,7 @@ export default defineComponent({
 
 					// Empty string
 					shareWith: '',
-					attributes: JSON.stringify([{
-						value: true,
-						key: 'enabled',
-						scope: 'fileRequest',
-					}]),
+					attributes: JSON.stringify(this.fileRequestAttributes),
 				})
 
 				// If not an ocs request
@@ -366,11 +377,7 @@ export default defineComponent({
 						value: this.emails,
 						key: 'emails',
 						scope: 'shareWith',
-					}, {
-						value: true,
-						key: 'enabled',
-						scope: 'fileRequest',
-					}]),
+					}, ...this.fileRequestAttributes]),
 				})
 
 				// If not an ocs request
