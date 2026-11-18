@@ -70,7 +70,7 @@
     "dompurify": "^3.4.17",
     "escape-html": "^1.0.3",
     "focus-trap": "^8.2.4",
-    "libphonenumber-js": "^1.13.15",
+    "libphonenumber-js": "^1.13.16",
     "marked": "^18.2.0",
     "moment": "^2.31.0",
     "p-queue": "^10.0.0",
