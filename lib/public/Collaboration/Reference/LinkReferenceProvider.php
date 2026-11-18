@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace OCP\Collaboration\Reference;
 
 use Fusonic\OpenGraph\Consumer;
-use GuzzleHttp\Psr7\LimitStream;
-use GuzzleHttp\Psr7\Utils;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OC\SystemConfig;
@@ -28,7 +26,7 @@ use Psr\Log\LoggerInterface;
 class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvider {
 
 	/**
-	 * for image size and webpage header
+	 * for image size and webpage size
 	 * @since 29.0.0
 	 */
 	public const MAX_CONTENT_LENGTH = 5 * 1024 * 1024;
@@ -44,6 +42,11 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		'image/svg+xml',
 		'image/webp'
 	];
+
+	/**
+	 * @since 36.0.0
+	 */
+	private const GET_OPTIONS = ['timeout' => 3, 'nextcloud' => ['max_body_size' => self::MAX_CONTENT_LENGTH]];
 
 	/**
 	 * @since 29.0.0
@@ -123,12 +126,6 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 			return;
 		}
 
-		$linkContentLength = $headResponse->getHeader('Content-Length');
-		if (is_numeric($linkContentLength) && (int)$linkContentLength > self::MAX_CONTENT_LENGTH) {
-			$this->logger->debug('[Head] Skip resolving links pointing to content length > 5 MiB');
-			return;
-		}
-
 		$linkContentType = $headResponse->getHeader('Content-Type');
 		$expectedContentTypeRegex = '/^text\/html;?/i';
 
@@ -139,24 +136,9 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		}
 
 		try {
-			$response = $client->get($reference->getId(), [ 'timeout' => 3, 'stream' => true ]);
-			$body = $response->getBody();
-			$responseContent = false;
-			if (is_resource($body)) {
-				$responseContent = stream_get_contents($body, self::MAX_CONTENT_LENGTH + 1);
-				fclose($body);
-			}
+			$responseContent = $client->get($reference->getId(), self::GET_OPTIONS)->getBody();
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
-			return;
-		}
-
-		if ($responseContent === false) {
-			$this->logger->error('[Get] Impossible to check content length');
-			return;
-		}
-		if (strlen($responseContent) > self::MAX_CONTENT_LENGTH) {
-			$this->logger->debug('[Get] Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}
 
@@ -190,14 +172,11 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 					$folder = $appData->newFolder('opengraph');
 				}
 
-				$response = $client->get($object->images[0]->url, ['timeout' => 3]);
+				$response = $client->get($object->images[0]->url, self::GET_OPTIONS);
 				$contentType = $response->getHeader('Content-Type');
-				$contentLength = $response->getHeader('Content-Length');
 
-				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_CONTENT_LENGTH) {
-					$stream = Utils::streamFor($response->getBody());
-					$bodyStream = new LimitStream($stream, self::MAX_CONTENT_LENGTH, 0);
-					$content = $bodyStream->getContents();
+				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true)) {
+					$content = $response->getBody();
 
 					if ($contentType === 'image/svg+xml' && $this->containsXslt($content)) {
 						return;

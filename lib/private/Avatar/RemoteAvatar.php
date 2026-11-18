@@ -95,37 +95,12 @@ class RemoteAvatar extends Avatar {
 		$response = $client->get($url, [
 			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 			'timeout' => 5,
-			'stream' => true,
+			'nextcloud' => ['max_body_size' => self::MAX_AVATAR_SIZE],
 		]);
 
 		$contentType = $response->getHeader('Content-Type');
 		if (str_starts_with($contentType, 'image/') === false) {
 			throw new \Exception('Unknown filetype');
-		}
-
-		// The header only has the encoded size of compressed responses, so the body is limited while reading it too
-		$contentLength = $response->getHeader('Content-Length');
-		if (!ctype_digit($contentLength)) {
-			throw new \Exception('Invalid remote avatar size');
-		}
-		if ((int)$contentLength > self::MAX_AVATAR_SIZE) {
-			throw new \Exception('Remote avatar too large');
-		}
-
-		$avatar = $response->getBody();
-		if ($avatar === null) {
-			throw new \Exception('Failed to fetch remote avatar');
-		}
-
-		if (is_resource($avatar)) {
-			$avatar = stream_get_contents($avatar, self::MAX_AVATAR_SIZE + 1);
-			if ($avatar === false) {
-				throw new \Exception('Failed to fetch remote avatar');
-			}
-		}
-
-		if (strlen($avatar) > self::MAX_AVATAR_SIZE) {
-			throw new \Exception('Remote avatar too large');
 		}
 
 		$ext = match ($contentType) {
@@ -135,7 +110,7 @@ class RemoteAvatar extends Avatar {
 			'image/webp' => 'webp',
 			default => 'png',
 		};
-		return $this->folder->newFile($filename . '.' . $ext, $avatar);
+		return $this->folder->newFile($filename . '.' . $ext, $response->getBody());
 	}
 
 	/**
