@@ -68,10 +68,11 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 	 *
 	 * @param \Sabre\CardDAV\Xml\Request\AddressBookQueryReport $report
 	 */
+	#[\Override]
 	protected function addressbookQueryReport($report) {
 		$depth = $this->server->getHTTPDepth(0);
 
-		if ($depth == 0) {
+		if ($depth === 0) {
 			$candidateNodes = [
 				$this->server->tree->getNodeForPath($this->server->getRequestUri()),
 			];
@@ -88,12 +89,7 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 				continue;
 			}
 
-			$blob = $node->get();
-			if (is_resource($blob)) {
-				$blob = stream_get_contents($blob);
-			}
-
-			if (!$this->validateFilters($blob, $report->filters, $report->test)) {
+			if (!$this->validateFilters($node->get(), $report->filters, $report->test)) {
 				continue;
 			}
 
@@ -117,7 +113,7 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 			$vcardType = $this->negotiateVCard(
 				$contentType
 			);
-			if ($depth == 0) {
+			if ($depth === 0) {
 				$href = $this->server->getRequestUri();
 			} else {
 				$href = $this->server->getRequestUri() . '/' . $validNode->getName();
