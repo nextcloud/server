@@ -17,8 +17,6 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 
-import '@nextcloud/dialogs/style.css'
-
 const avatarDescription = t('core', 'User menu')
 
 const displayName = ref(getGuestUser().displayName)
