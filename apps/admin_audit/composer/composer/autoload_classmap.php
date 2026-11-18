@@ -10,7 +10,6 @@ return array(
     'OCA\\AdminAudit\\Actions\\Action' => $baseDir . '/../lib/Actions/Action.php',
     'OCA\\AdminAudit\\Actions\\Files' => $baseDir . '/../lib/Actions/Files.php',
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
-    'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\AdminAudit\\AuditLogger' => $baseDir . '/../lib/AuditLogger.php',
