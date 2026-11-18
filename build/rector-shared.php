@@ -8,47 +8,11 @@ declare(strict_types=1);
  */
 
 use Nextcloud\Rector\Set\NextcloudSets;
-use PhpParser\Node;
-use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
-use Rector\ValueObject\Application\File;
 
 $nextcloudDir = dirname(__DIR__);
-
-class NextcloudNamespaceSkipVoter implements ClassNameImportSkipVoterInterface {
-	private array $namespacePrefixes = [
-		'OC',
-		'OCA',
-		'OCP',
-	];
-	private array $skippedClassNames = [
-		'Backend',
-		'Connection',
-		'Exception',
-		'IManager',
-		'IProvider',
-		'Manager',
-		'Plugin',
-		'Provider',
-	];
-	public function shouldSkip(File $file, FullyQualifiedObjectType $fullyQualifiedObjectType, Node $node) : bool {
-		if (in_array($fullyQualifiedObjectType->getShortName(), $this->skippedClassNames)) {
-			// Skip common class names to avoid confusion
-			return true;
-		}
-		foreach ($this->namespacePrefixes as $prefix) {
-			if (str_starts_with($fullyQualifiedObjectType->getClassName(), $prefix . '\\')) {
-				// Import Nextcloud namespaces
-				return false;
-			}
-		}
-		// Skip everything else
-		return true;
-	}
-}
 
 $config = RectorConfig::configure()
 	->withSkip([
@@ -62,7 +26,7 @@ $config = RectorConfig::configure()
 	])
 	// uncomment to reach your current PHP version
 	// ->withPhpSets()
-	->withImportNames(importShortClasses:false)
+	->withImportNames(importNames:false, importShortClasses:false)
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
 		'rename_property' => true,
@@ -71,8 +35,6 @@ $config = RectorConfig::configure()
 		NextcloudSets::NEXTCLOUD_32,
 		PHPUnitSetList::COMPOSER_BASED,
 	]);
-
-$config->registerService(NextcloudNamespaceSkipVoter::class);
 
 /* Ignore all files ignored by git */
 $ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg($nextcloudDir));
