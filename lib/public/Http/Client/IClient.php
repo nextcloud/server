@@ -16,6 +16,13 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Interface IClient
  *
+ * Besides the Guzzle request options, requests accept
+ * 'nextcloud' => ['max_body_size' => <bytes>] (since 36.0.0): the request
+ * fails with a ResponseTooLargeException once the response body gets larger
+ * than that. Compressed bodies count after decompression, unless
+ * "decode_content" is false. The body can then be downloaded completely
+ * before the request returns, even with "stream".
+ *
  * @since 8.1.0
  */
 interface IClient extends ClientInterface {

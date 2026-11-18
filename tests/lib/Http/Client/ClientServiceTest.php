@@ -14,6 +14,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use OC\Http\Client\BodySizeLimitMiddleware;
 use OC\Http\Client\Client;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\CurlStreamHandler;
@@ -62,6 +63,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$handler = new CurlStreamHandler(new CurlHandler());
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
+		$stack->push(new BodySizeLimitMiddleware());
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger): void {
@@ -113,6 +115,7 @@ class ClientServiceTest extends \Test\TestCase {
 
 		$handler = new CurlStreamHandler(new CurlHandler());
 		$stack = HandlerStack::create($handler);
+		$stack->push(new BodySizeLimitMiddleware());
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger): void {
