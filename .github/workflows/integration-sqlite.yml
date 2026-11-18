@@ -73,7 +73,7 @@ jobs:
         php-versions: ['8.3', '8.5']
         guests-versions: ['main']
         spreed-versions: ['main']
-        activity-versions: ['master']
+        activity-versions: ['main']
 
     services:
       redis:
