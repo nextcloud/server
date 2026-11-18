@@ -10,10 +10,9 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Events;
 
 use OCP\EventDispatcher\Event;
-use OCP\Files\Node;
 
 /**
- * Event send before a node is deleted definitively.
+ * Event sent after a node was permanently deleted from the trash bin.
  *
  * @since 35.0.0
  */

@@ -13,9 +13,8 @@ use OCP\EventDispatcher\Event;
 use OCP\Files\Node;
 
 /**
- * Event send before a node is deleted definitively.
+ * Event sent before a node is permanently deleted from the trash bin.
  *
- * If you are doing anything with the database, prefer using BeforeAllNodeDeletedEvent instead.
  * @since 35.0.0
  */
 class BeforeNodeDeletedEvent extends Event {
