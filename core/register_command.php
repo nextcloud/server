@@ -116,6 +116,7 @@ use OC\Core\Command\User\ClearGeneratedAvatarCacheCommand;
 use OC\Core\Command\User\Info;
 use OC\Core\Command\User\Keys\Verify;
 use OC\Core\Command\User\LastSeen;
+use OC\Core\Command\User\ListUserBackends;
 use OC\Core\Command\User\Profile;
 use OC\Core\Command\User\Report;
 use OC\Core\Command\User\ResetPassword;
@@ -251,6 +252,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(Command\User\AuthTokens\Delete::class));
 	$application->addCommand(Server::get(Verify::class));
 	$application->addCommand(Server::get(Welcome::class));
+	$application->addCommand(new CommandAdapter(ListUserBackends::class, null, \OC::$server));
 
 	$application->addCommand(Server::get(Command\Group\Add::class));
 	$application->addCommand(Server::get(Command\Group\Delete::class));
