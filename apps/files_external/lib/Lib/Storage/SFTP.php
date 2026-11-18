@@ -111,6 +111,10 @@ class SFTP extends Common {
 		}
 	}
 
+	protected function createSftpClient(): \phpseclib3\Net\SFTP {
+		return new \phpseclib3\Net\SFTP($this->host, $this->port);
+	}
+
 	/**
 	 * Return an authenticated SFTP client, connecting if necessary.
 	 *
@@ -129,7 +133,7 @@ class SFTP extends Common {
 		}
 
 		$this->client = null;
-		$client = new \phpseclib3\Net\SFTP($this->host, $this->port);
+		$client = $this->createSftpClient();
 		$hostKeys = $this->readHostKeys();
 		$phase = 'host key verification';
 		try {
