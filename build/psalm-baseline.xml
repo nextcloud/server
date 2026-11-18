@@ -2139,11 +2139,6 @@
       <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/Controller/WebAuthnController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[PublicKeyCredentialCreationOptions::createFromArray($this->session->get(self::WEBAUTHN_REGISTRATION))]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/settings/lib/Hooks.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2925,11 +2920,6 @@
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Controller/WebAuthnController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN))]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">
