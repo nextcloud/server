@@ -8,8 +8,6 @@
       <code><![CDATA[Share::class]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore')]]></code>
-      <code><![CDATA[Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword')]]></code>
@@ -1775,11 +1773,7 @@
       <code><![CDATA[new View('/' . $owner)]]></code>
       <code><![CDATA[new View('/' . $uid . '/files')]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
@@ -1805,23 +1799,14 @@
       <code><![CDATA[filesize]]></code>
       <code><![CDATA[filesize]]></code>
       <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
       <code><![CDATA[free_space]]></code>
-      <code><![CDATA[getAbsolutePath]]></code>
-      <code><![CDATA[getDirectoryContent]]></code>
       <code><![CDATA[getDirectoryContent]]></code>
       <code><![CDATA[getFileInfo]]></code>
       <code><![CDATA[getFileInfo]]></code>
       <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getRelativePath]]></code>
       <code><![CDATA[getRoot]]></code>
       <code><![CDATA[isCreatable]]></code>
       <code><![CDATA[isCreatable]]></code>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
@@ -1840,11 +1825,7 @@
       <code><![CDATA[new View('/' . $owner)]]></code>
       <code><![CDATA[new View('/' . $uid . '/files')]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
@@ -1867,9 +1848,6 @@
       <code><![CDATA[touch]]></code>
       <code><![CDATA[touch]]></code>
       <code><![CDATA[touch]]></code>
-      <code><![CDATA[unlink]]></code>
-      <code><![CDATA[unlink]]></code>
-      <code><![CDATA[unlink]]></code>
     </InternalMethod>
     <InvalidArgument>
       <code><![CDATA[$timestamp]]></code>
