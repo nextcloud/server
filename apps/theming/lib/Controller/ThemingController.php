@@ -456,8 +456,13 @@ class ThemingController extends Controller {
 		$customCss = $theme->getCustomCss();
 
 		// Generate variables
+		$themeVariables = $theme->getCSSVariables();
+		if (!$plain && $theme->getType() !== ITheme::TYPE_FONT) {
+			// Scoped color themes must not reset the font set by the font theme
+			$themeVariables = array_diff_key($themeVariables, ['--font-face' => true]);
+		}
 		$variables = '';
-		foreach ($theme->getCSSVariables() as $variable => $value) {
+		foreach ($themeVariables as $variable => $value) {
 			$variables .= "$variable:$value; ";
 		};
 
