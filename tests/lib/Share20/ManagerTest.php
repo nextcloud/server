@@ -3541,12 +3541,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 		$this->config->method('getSystemValueBool')
-			->willReturnCallback(function (string $key, bool $default = false): bool {
-				if ($key === 'sharing.enable_share_mail') {
-					return true;
-				}
-				return $default;
-			});
+			->willReturnMap([
+				['sharing.enable_share_mail', true, true],
+				['sharing.enable_mail_link_password_expiration', false, false],
+			]);
 
 		$storedPassword = null;
 		$this->defaultProvider
@@ -3611,23 +3609,16 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('token');
 
 		$this->config->method('getSystemValueBool')
-			->willReturnCallback(function (string $key, bool $default = false): bool {
-				if ($key === 'sharing.enable_mail_link_password_expiration') {
-					return true;
-				}
-				if ($key === 'sharing.enable_share_mail') {
-					return false;
-				}
-				return $default;
-			});
+			->willReturnMap([
+				['sharing.enable_mail_link_password_expiration', false, true],
+				['sharing.enable_share_mail', true, false],
+			]);
 
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function (string $key, $default = null) {
-				if ($key === 'sharing.mail_link_password_expiration_interval') {
-					return 3600;
-				}
-				return $default;
-			});
+			->willReturnMap([
+				['sharing.mail_link_password_expiration_interval', 3600, 3600],
+				['share_folder', '/', '/'],
+			]);
 
 		$createdPasswordExpirationTime = null;
 		$this->defaultProvider
