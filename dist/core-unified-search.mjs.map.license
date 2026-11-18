@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
-	- version: 9.13.1
+	- version: 9.14.1
 	- license: AGPL-3.0-or-later
 - nextcloud
 	- version: 1.0.0

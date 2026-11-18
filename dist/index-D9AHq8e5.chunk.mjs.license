@@ -1,0 +1,11 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: omahlama
+SPDX-FileCopyrightText: p-queue developers
+
+This file is generated from multiple sources. Included packages:
+- blurhash
+	- version: 2.0.5
+	- license: MIT
+- p-queue
+	- version: 10.0.0
+	- license: MIT
