@@ -59,15 +59,24 @@ class XmlImporter {
 		xml_set_default_handler($parser, $this->tagContents(...));
 		// iterate through the source data chuck by chunk to trigger the handlers
 		@fseek($this->source, 0);
-		while ($chunk = fread($this->source, 4096)) {
-			if (!xml_parse($parser, $chunk, feof($this->source))) {
+		$parsed = false;
+		do {
+			$chunk = fread($this->source, 4096);
+			// Finish at the first empty read, as network streams can report their end one read late
+			$final = $chunk === false || $chunk === '';
+			// An empty source has no document to finish
+			if ($final && !$parsed) {
+				break;
+			}
+			$parsed = true;
+			if (!xml_parse($parser, $final ? '' : $chunk, $final)) {
 				throw new Exception(
 					xml_error_string(xml_get_error_code($parser))
 					. ' At line: '
 					. xml_get_current_line_number($parser)
 				);
 			}
-		}
+		} while (!$final);
 		//Free up the parser
 		xml_parser_free($parser);
 	}
@@ -168,7 +177,10 @@ class XmlImporter {
 	 * @param int $end ending byte position
 	 */
 	public function extract(int $start, int $end): string {
-		fseek($this->source, $start);
-		return fread($this->source, $end - $start);
+		$data = stream_get_contents($this->source, $end - $start, $start);
+		if ($data === false) {
+			throw new Exception('Unable to read the source data');
+		}
+		return $data;
 	}
 }

@@ -11,6 +11,7 @@ namespace OC\Files\Storage;
 use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OC\OCM\OCMSignatoryManager;
@@ -701,7 +702,8 @@ class DAV extends Common {
 					return false;
 				}
 
-				return $content;
+				// Fill short reads of the network stream
+				return RetryWrapper::wrap($content);
 			case 'w':
 			case 'wb':
 			case 'a':
