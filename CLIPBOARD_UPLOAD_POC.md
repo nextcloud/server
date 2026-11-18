@@ -54,8 +54,8 @@ File Drop is intentionally excluded because visitors cannot read the destination
 
 The implementation is divided into two main parts:
 
-- **FilesList.vue:** Registers and removes the paste event listener, validates the current view and destination, and checks upload permissions and quota.
-- **ClipboardUploadService.ts:** Extracts clipboard images, prepares filenames, handles conflicts and passes the files to Nextcloud's existing uploader.
+- **FilesList.vue:** Registers and removes the paste event listener, validates the current view and destination, checks upload permissions and quota, and displays error notifications for blocked clipboard uploads.
+- **ClipboardUploadService.ts:** - Validates clipboard paste events, extracts clipboard images, prepares filenames, handles conflicts and passes the files to Nextcloud's existing uploader.
 
 I chose this separation to keep the view responsible for application context and the service responsible for clipboard-specific logic.
 
@@ -79,6 +79,7 @@ Manual testing included native clipboard interactions, nested folders, filename 
 
 - File Drop support would require a different approach to conflict handling.
 - The local development environment displays incomplete metadata in the existing conflict dialog. This behaviour was reproduced on the original baseline without the clipboard implementation and was therefore left unchanged.
+- Browsers assign generic filenames such as image.png to screenshots both on macOS and windows. Since the Clipboard API cannot reliably distinguish a screenshot from an existing image file with the same name, automatically renaming it could alter legitimate filenames. The current implementation intentionally preserves valid filenames and reuses Nextcloud's existing conflict-resolution mechanism to maintain consistency and user control. Alternative naming strategies remain open for discussion.
 
 ## 8. AI-assisted development
 
