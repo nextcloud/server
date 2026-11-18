@@ -44,6 +44,11 @@ final readonly class ShareProperty {
 			throw new RuntimeException('The property type is not registered: ' . $this->class);
 		}
 
+		$value = $this->value;
+		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
+			$value = $propertyType->modifyValueOnFormat($value);
+		}
+
 		return $propertyType->format($share, [
 			'class' => $this->class,
 			'display_name' => $propertyType->getDisplayName($l10nFactory),
@@ -51,7 +56,7 @@ final readonly class ShareProperty {
 			'priority' => $propertyType->getPriority(),
 			'advanced' => $propertyType->isAdvanced(),
 			'required' => $propertyType->isRequired($share),
-			'value' => $this->value,
+			'value' => $value,
 		]);
 	}
 

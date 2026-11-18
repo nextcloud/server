@@ -14,6 +14,8 @@ use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
+use OC\Sharing\SharingManager;
+use OC\User\LazyUser;
 use OCA\Circles\CirclesManager;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCA\Circles\Service\CircleService;
@@ -98,7 +100,7 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$this->team2 = $this->createTeam($teamManager, 'team2');
 		$this->team3 = $this->createTeam($teamManager, 'team3');
 
-		$this->recipientType = new TeamShareRecipientType(Server::get(IEventDispatcher::class), $this->dbConnection, $this->manager);
+		$this->recipientType = new TeamShareRecipientType(Server::get(IEventDispatcher::class), $this->dbConnection, $this->manager, Server::get(IUserManager::class));
 	}
 
 	#[\Override]
@@ -125,14 +127,20 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$this->assertFalse($this->recipientType->validateRecipient('invalid'));
 	}
 
-	public function testGetRecipientValues(): void {
+	public function testGetRecipients(): void {
 		$this->assertContains($this->team1->getId(), $this->recipientType->getRecipients($this->user1, null));
+	}
+
+	/** @psalm-suppress UnevaluatedCode Test is skipped */
+	public function testGetUsers(): void {
+		$this->markTestSkipped('This test is broken if run together with other test suites because circles 🤷‍♀️');
+		$this->assertEquals([$this->user1], array_map(fn (LazyUser $user): IUser => $this->invokePrivate($user, 'getUser'), $this->recipientType->getUsers($this->team1->getId())));
 	}
 
 	/** @psalm-suppress UnevaluatedCode Test is skipped */
 	public function testGetRecipientDisplayName(): void {
 		$this->markTestSkipped('This test is broken if run together with other test suites because circles 🤷‍♀️');
-		$this->assertEquals('Team 1', $this->recipientType->getRecipientDisplayName($this->team1->getId()));
+		$this->assertEquals('Team 1', $this->recipientType->getRecipientDisplayName($this->team1->getId(), null));
 	}
 
 	public function testSearchRecipients(): void {
@@ -177,8 +185,8 @@ final class TeamShareRecipientTypeTest extends TestCase {
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $share->id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated->getTimestamp());
-		$this->assertLessThanOrEqual($after, $share->lastUpdated->getTimestamp());
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $share);

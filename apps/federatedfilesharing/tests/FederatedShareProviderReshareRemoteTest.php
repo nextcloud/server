@@ -15,6 +15,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
@@ -29,6 +30,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -77,6 +79,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 			$this->gsConfig,
 			$this->cloudFederationProviderManager,
 			$this->logger,
+			Server::get(ITimeFactory::class),
 		);
 	}
 

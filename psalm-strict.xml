@@ -69,6 +69,9 @@
 		<directory name="lib/public/SystemReport"/>
 		<directory name="lib/private/SystemReport"/>
 		<directory name="tests/lib/SystemReport"/>
+		<file name="lib/public/Share/Events/ShareUpdatedEvent.php"/>
+		<file name="lib/public/Share/Events/ShareRestoredEvent.php"/>
+		<file name="apps/files/lib/Migration/Version35000Date20260910082613.php"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
@@ -82,6 +85,7 @@
 			<file name="lib/public/AppFramework/Controller.php"/>
 			<file name="lib/public/AppFramework/OCSController.php"/>
 			<directory name="build"/>
+			<file name="tests/lib/Traits/GroupTrait.php"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -90,6 +94,7 @@
 		<directory name="apps/files_sharing/lib"/>
 		<directory name="apps/files_trashbin/lib"/>
 		<directory name="apps/settings/lib"/>
+		<directory name="apps/federatedfilesharing/lib"/>
 		<!-- As long as the files are not in the projectFiles list, we need to include them here to make psalm aware of our interfaces -->
 		<directory name="lib/private"/>
 		<directory name="lib/public"/>

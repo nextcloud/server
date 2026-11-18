@@ -50,8 +50,6 @@ use OCP\L10N\IFactory;
 use RuntimeException;
 use ValueError;
 
-// TODO: Add "recipient suggestions" endpoint
-
 /**
  * @psalm-import-type SharingShare from ResponseDefinitions
  * @psalm-import-type SharingRecipient from ResponseDefinitions
@@ -83,11 +81,11 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Search for recipients that can be added to a share.
 	 *
-	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
+	 * @param ?non-empty-list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
 	 * @param string $query The query to search for, if the query is empty, recommended recipients will be returned
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
-	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
+	 * @param ?non-empty-string $id If provided, recipients that are already part of the share will not be returned.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{Link?: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Recipients returned
@@ -185,7 +183,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update the state of a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param SharingState $state New state of the share
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
@@ -226,7 +224,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update the user status for a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param SharingUserStatus $userStatus New user status for the share
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
@@ -264,7 +262,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Add a new source to a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareSourceType> $class Type class of the source
 	 * @param non-empty-string $value Value of the source
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
@@ -302,7 +300,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Remove an existing source from a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareSourceType> $class Type class of the source
 	 * @param non-empty-string $value Value of the source
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
@@ -337,7 +335,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Add a new recipient to a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareRecipientType> $class Type class of the recipient
 	 * @param non-empty-string $value Value of the recipient
 	 * @param ?non-empty-string $instance Instance of the recipient
@@ -376,7 +374,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Remove an existing recipient from a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareRecipientType> $class Type class of the recipient
 	 * @param non-empty-string $value Value of the recipient
 	 * @param ?non-empty-string $instance Instance of the recipient
@@ -412,7 +410,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update the secret of a recipient.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareRecipientType> $class Type class of the recipient
 	 * @param non-empty-string $value Value of the recipient
 	 * @param ?non-empty-string $instance Instance of the recipient
@@ -452,7 +450,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update a property of a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<ISharePropertyType> $class Type class of the property
 	 * @param ?string $value Value of the property
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
@@ -490,7 +488,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update a permission of a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<ISharePermissionType> $class Type class of the permission
 	 * @param bool $enabled Enabled state of the permission
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
@@ -528,7 +526,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Update a permission for a recipient of a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<IShareRecipientType> $recipientClass Type class of the recipient
 	 * @param non-empty-string $recipientValue Value of the recipient
 	 * @param ?non-empty-string $recipientInstance Instance of the recipient
@@ -566,7 +564,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Select a permission preset for a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param class-string<ISharePermissionPreset> $permissionPresetClass New permission preset of the share
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
@@ -601,7 +599,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Delete a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @return DataResponse<Http::STATUS_NO_CONTENT, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 204: Share deleted
@@ -634,7 +632,7 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Get a share.
 	 *
-	 * @param string $id ID of the share
+	 * @param non-empty-string $id ID of the share
 	 * @param ?string $secret Secret of the share
 	 * @param array<class-string<IShareRecipientType|ISharePropertyTypeFilter>, mixed> $arguments Arguments for accessing the share
 	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_NOT_FOUND, string, array{}>
@@ -675,7 +673,7 @@ final class ApiV1Controller extends OCSController {
 	 * @param ?non-empty-string $filterSourceTypeValue Source type value to filter by.
 	 * @param ?SharingState $filterState State to filter by.
 	 * @param ?SharingUserStatus $filterUserStatus User status to filter by.
-	 * @param ?string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
+	 * @param ?non-empty-string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
 	 * @param int<1, 100> $limit The number of shares to return.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingShare>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
 	 *
