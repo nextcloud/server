@@ -104,9 +104,9 @@ import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { logger } from '../utils/logger.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
