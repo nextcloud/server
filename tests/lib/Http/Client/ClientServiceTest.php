@@ -16,6 +16,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OC\Http\Client\Client;
 use OC\Http\Client\ClientService;
+use OC\Http\Client\CurlStreamHandler;
 use OC\Http\Client\DnsPinMiddleware;
 use OCP\Diagnostics\IEventLogger;
 use OCP\ICertificateManager;
@@ -58,7 +59,7 @@ class ClientServiceTest extends \Test\TestCase {
 			$serverVersion,
 		);
 
-		$handler = new CurlHandler();
+		$handler = new CurlStreamHandler(new CurlHandler());
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
@@ -110,7 +111,7 @@ class ClientServiceTest extends \Test\TestCase {
 			$serverVersion,
 		);
 
-		$handler = new CurlHandler();
+		$handler = new CurlStreamHandler(new CurlHandler());
 		$stack = HandlerStack::create($handler);
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());

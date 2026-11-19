@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Psr7\Request;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
@@ -489,5 +491,45 @@ class RefreshWebcalServiceTest extends TestCase {
 				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
 			],
 		];
+	}
+
+	public function testRunLogsNetworkErrorsWhileReadingTheFeed(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+		$this->caldavBackend->method('getSubscriptionsForUser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::REFRESH_RATE => 'PT1H',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://calendar.test/feed.ics',
+					'lastmodified' => 0,
+				],
+			]);
+		$this->connection->method('queryWebcalFeed')
+			->willReturn(['data' => $this->createStreamFromString(''), 'format' => 'ical']);
+		$this->caldavBackend->method('getLimitedCalendarObjects')
+			->willReturn(['old-event' => ['id' => 99, 'uid' => 'old-event', 'etag' => 'x', 'uri' => 'old-event.ics']]);
+		// The feed is downloaded while it is imported, so a failed transfer surfaces during the import
+		$this->importService->method('importText')
+			->willReturnCallback(static function (): \Generator {
+				throw new ConnectException('Connection reset', new Request('GET', 'https://calendar.test/feed.ics'));
+				yield;
+			});
+		$this->caldavBackend->expects(self::never())
+			->method('purgeCachedEventsForSubscription');
+		$this->logger->expects(self::once())
+			->method('warning')
+			->with('Subscription {subscriptionId} could not be refreshed due to a network error');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 }

@@ -155,6 +155,8 @@ class Imaginary extends ProviderV2 {
 				$imaginaryUrl . '/pipeline', [
 					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
+					// Download the whole preview here, where transfer errors are handled
+					'sink' => fopen('php://temp', 'r+'),
 					'headers' => [
 						'Content-Type' => $file->getMimeType(),
 					],

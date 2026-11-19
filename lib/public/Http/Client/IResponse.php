@@ -16,9 +16,15 @@ namespace OCP\Http\Client;
  */
 interface IResponse {
 	/**
+	 * Returns the response body
+	 *
+	 * With the "stream" option, fread() on the body can return fewer bytes than
+	 * requested, and transfer errors are thrown while reading.
+	 *
 	 * @return null|resource|string
 	 * @since 8.1.0
 	 * @sicne 8.2.0 with stream enabled, the function returns null or a resource
+	 * @since 36.0.0 with stream enabled, the body is downloaded while it is read
 	 */
 	public function getBody();
 

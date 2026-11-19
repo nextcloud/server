@@ -140,20 +140,23 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 
 		try {
 			$response = $client->get($reference->getId(), [ 'timeout' => 3, 'stream' => true ]);
+			$body = $response->getBody();
+			$responseContent = false;
+			if (is_resource($body)) {
+				$responseContent = stream_get_contents($body, self::MAX_CONTENT_LENGTH + 1);
+				fclose($body);
+			}
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
 			return;
 		}
 
-		$body = $response->getBody();
-		if (is_resource($body)) {
-			$responseContent = fread($body, self::MAX_CONTENT_LENGTH);
-			if (!feof($body)) {
-				$this->logger->debug('[Get] Skip resolving links pointing to content length > 5 MiB');
-				return;
-			}
-		} else {
+		if ($responseContent === false) {
 			$this->logger->error('[Get] Impossible to check content length');
+			return;
+		}
+		if (strlen($responseContent) > self::MAX_CONTENT_LENGTH) {
+			$this->logger->debug('[Get] Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}
 

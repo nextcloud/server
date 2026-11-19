@@ -151,7 +151,10 @@ class TextImporter {
 	 * @param int $end ending byte position
 	 */
 	public function extract(int $start, int $end): string {
-		fseek($this->source, $start);
-		return fread($this->source, $end - $start);
+		$data = stream_get_contents($this->source, $end - $start, $start);
+		if ($data === false) {
+			throw new Exception('Unable to read the source data');
+		}
+		return $data;
 	}
 }
