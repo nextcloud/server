@@ -75,7 +75,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 				$this->log->info("Removing $dir ...");
 				$result = Files::rmdirr($dir);
 				if (!$result) {
-					$this->log->error('Could not remove updater backup folder $dir');
+					$this->log->error("Could not remove updater backup folder $dir");
 				}
 			}
 			$this->log->info('Background job to clean-up updater backups has finished');
