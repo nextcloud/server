@@ -62,6 +62,17 @@ interface IFunctionBuilder {
 	public function substring($input, $start, $length = null): IQueryFunction;
 
 	/**
+	 * Takes a substring from the input string using a regex pattern
+	 *
+	 * @param string|ILiteral|IParameter|IQueryFunction $input The input string
+	 * @param string|ILiteral|IParameter|IQueryFunction $pattern The pattern to match and return
+	 *
+	 * @return IQueryFunction
+	 * @since 36.0.0
+	 */
+	public function regexSubstring($input, $pattern): IQueryFunction;
+
+	/**
 	 * Takes the sum of all rows in a column
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $field the column to sum
