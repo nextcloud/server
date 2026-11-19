@@ -157,6 +157,10 @@ class OC_User {
 
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
+				// Regenerate the session id before binding the session token to it, so a
+				// pre-authentication session id cannot survive into the authenticated
+				// session (session fixation)
+				$userSession->getSession()->regenerateId();
 				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
 				$userSession->completeLogin(
 					$user,
