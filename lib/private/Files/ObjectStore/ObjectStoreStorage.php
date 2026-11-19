@@ -289,8 +289,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
-		if (strrpos($path, '.') !== false) {
-			$ext = substr($path, strrpos($path, '.'));
+		$baseName = basename($path);
+		if (strrpos($baseName, '.') !== false) {
+			$ext = substr($baseName, strrpos($baseName, '.'));
 		} else {
 			$ext = '';
 		}
