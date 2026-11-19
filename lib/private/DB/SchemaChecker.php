@@ -40,9 +40,10 @@ class SchemaChecker {
 	}
 
 	/**
+	 * @param bool $includeDisabledApps whether to replay the migrations of disabled apps, which loads their migration classes from disk
 	 * @return list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>
 	 */
-	public function getFindings(?string $onlyTable = null): array {
+	public function getFindings(?string $onlyTable = null, bool $includeDisabledApps = true): array {
 		$expectedSchema = new Schema();
 		$enabledApps = array_flip($this->appManager->getEnabledApps());
 
@@ -58,12 +59,14 @@ class SchemaChecker {
 			}
 		}
 
-		// Disabled apps keep their tables, so replay their migrations too.
-		$disabledApps = array_diff(array_keys($this->appConfig->getAppInstalledVersions()), array_keys($enabledApps));
 		// Table name => owning disabled app, so its findings can be marked non-blocking below.
 		$disabledAppTableOwners = [];
-		foreach ($disabledApps as $app) {
-			$this->applyDisabledMigrations($app, $expectedSchema, $disabledAppTableOwners);
+		if ($includeDisabledApps) {
+			// Disabled apps keep their tables, so replay their migrations too.
+			$disabledApps = array_diff(array_keys($this->appConfig->getAppInstalledVersions()), array_keys($enabledApps));
+			foreach ($disabledApps as $app) {
+				$this->applyDisabledMigrations($app, $expectedSchema, $disabledAppTableOwners);
+			}
 		}
 
 		$this->addMigrationsTable($expectedSchema);
