@@ -11,12 +11,10 @@ import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import debounce from 'debounce'
 import { computed, ref, useTemplateRef, watch } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import IconColorPalette from 'vue-material-design-icons/PaletteOutline.vue'
-import IconUndo from 'vue-material-design-icons/UndoVariant.vue'
+import UserPrimaryColorItem from './UserPrimaryColorItem.vue'
 import { isSameColor } from '../utils/color.ts'
 import { logger } from '../utils/logger.ts'
 
@@ -28,6 +26,19 @@ defineExpose({ reload })
 
 const { primaryColor: initialPrimaryColor, defaultPrimaryColor } = loadState('theming', 'data', { primaryColor: '#0082c9', defaultPrimaryColor: '#0082c9' })
 
+/** Preset colors shown next to the instance primary color. */
+const PRESET_COLORS = [
+	{ color: '#6A32F4', name: t('theming', 'Purple') },
+	{ color: '#7B4E7E', name: t('theming', 'Plum') },
+	{ color: '#8D465A', name: t('theming', 'Berry') },
+	{ color: '#9C4236', name: t('theming', 'Red') },
+	{ color: '#9F652F', name: t('theming', 'Brown') },
+	{ color: '#316B26', name: t('theming', 'Green') },
+	{ color: '#124C3B', name: t('theming', 'Dark green') },
+	{ color: '#1D243D', name: t('theming', 'Navy') },
+	{ color: '#4F6071', name: t('theming', 'Slate') },
+]
+
 const triggerElement = useTemplateRef('trigger')
 
 const loading = ref(false)
@@ -37,6 +48,21 @@ watch(primaryColor, debounce((newColor) => {
 }, 1000))
 
 const isDefaultPrimaryColor = computed(() => isSameColor(primaryColor.value, defaultPrimaryColor))
+const isCustomColor = computed(() => !isDefaultPrimaryColor.value && !PRESET_COLORS.some((entry) => isSameColor(entry.color, primaryColor.value)))
+const pickerBackground = ref<string | undefined>(isCustomColor.value ? primaryColor.value : undefined)
+
+/**
+ * Apply a color chosen in the picker and paint the palette button with it
+ *
+ * @param color - Hex color
+ */
+function onPickerUpdate(color?: string) {
+	if (!color) {
+		return
+	}
+	pickerBackground.value = color
+	primaryColor.value = color
+}
 
 /**
  * Global styles are reloaded so we might need to update the current value
@@ -57,6 +83,9 @@ function reload() {
  * Reset primary color to default
  */
 function onReset() {
+	if (isDefaultPrimaryColor.value) {
+		return
+	}
 	primaryColor.value = defaultPrimaryColor
 	onUpdate(null)
 }
@@ -101,66 +130,45 @@ function numberToHex(numeric: string): string {
 	<NcSettingsSection
 		:name="t('theming', 'Primary color')"
 		:description="t('theming', 'Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.')">
-		<div :class="$style.userPrimaryColor">
+		<div class="primary-color-list">
+			<UserPrimaryColorItem
+				isDefault
+				:active="isDefaultPrimaryColor"
+				:color="defaultPrimaryColor"
+				:name="t('theming', 'Primary color')"
+				:loading="loading && isDefaultPrimaryColor"
+				@select="onReset" />
+			<UserPrimaryColorItem
+				v-for="preset in PRESET_COLORS"
+				:key="preset.color"
+				:color="preset.color"
+				:name="preset.name"
+				:active="isSameColor(primaryColor, preset.color)"
+				:loading="loading && isSameColor(primaryColor, preset.color)"
+				@select="primaryColor = preset.color" />
 			<NcColorPicker
-				v-model="primaryColor"
-				data-user-theming-primary-color>
-				<button
+				:modelValue="primaryColor"
+				data-user-theming-primary-color
+				@update:modelValue="onPickerUpdate">
+				<UserPrimaryColorItem
 					ref="trigger"
-					:class="$style.userPrimaryColor__trigger"
-					:style="{ 'background-color': primaryColor }"
-					data-user-theming-primary-color-trigger>
-					{{ t('theming', 'Primary color') }}
-					<NcLoadingIcon v-if="loading" />
-					<IconColorPalette v-else :size="20" />
-				</button>
+					:color="pickerBackground"
+					:name="t('theming', 'Custom color')"
+					:active="isCustomColor"
+					:loading="loading && isCustomColor">
+					<IconColorPalette :size="28" />
+				</UserPrimaryColorItem>
 			</NcColorPicker>
-			<NcButton variant="tertiary" :disabled="isDefaultPrimaryColor" @click="onReset">
-				<template #icon>
-					<IconUndo :size="20" />
-				</template>
-				{{ t('theming', 'Reset primary color') }}
-			</NcButton>
 		</div>
 	</NcSettingsSection>
 </template>
 
-<style module lang="scss">
-.userPrimaryColor {
+<style scoped lang="scss">
+.primary-color-list {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	gap: 12px;
-}
-
-.userPrimaryColor .userPrimaryColor__trigger {
-	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	gap: 8px;
-	margin: 0 !important;
-
-	background-color: var(--color-primary);
-	color: var(--color-primary-text);
-	height: 96px;
-	width: 168px;
-
-	overflow-wrap: break-word;
-	hyphens: auto;
-
-	border: 2px solid var(--color-main-background);
-	border-radius: var(--border-radius-large);
-
-	&:active {
-		background-color: var(--color-primary-hover) !important;
-	}
-
-	&:hover,
-	&:focus,
-	&:focus-visible {
-		border-color: var(--color-main-background) !important;
-		outline: 2px solid var(--color-main-text) !important;
-	}
 }
 </style>
