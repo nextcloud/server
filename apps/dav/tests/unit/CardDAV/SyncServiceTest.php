@@ -338,9 +338,15 @@ END:VCARD';
 				$requestedMethods[] = $method;
 				return $method === 'PROPFIND' ? $this->createSupportedReportSetResponse(false) : $reportResponse;
 			});
+		$this->config->method('getSystemValueInt')
+			->with('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT)
+			->willReturn(90);
 		$this->client->expects($this->once())
 			->method('get')
-			->with('https://server2.internal' . $href)
+			->with(
+				'https://server2.internal' . $href,
+				$this->callback(fn (array $options): bool => $options['timeout'] === 90),
+			)
 			->willReturn(new Response(new PsrResponse(
 				200,
 				['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],

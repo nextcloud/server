@@ -231,6 +231,10 @@ abstract class ASyncService {
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
+			'timeout' => $this->config->getSystemValueInt(
+				'carddav_sync_request_timeout',
+				IClient::DEFAULT_REQUEST_TIMEOUT,
+			),
 			'verify' => !$this->config->getSystemValue(
 				'sharing.federation.allowSelfSignedCertificates',
 				false,
