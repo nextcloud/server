@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use Exception;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use LogicException;
 use OCP\Http\Client\IPromise;
@@ -55,7 +54,7 @@ class GuzzlePromiseAdapter implements IPromise {
 		}
 
 		if ($onRejected !== null) {
-			$wrappedOnRejected = static function (RequestException $e) use ($onRejected): void {
+			$wrappedOnRejected = static function (Exception $e) use ($onRejected): void {
 				$onRejected($e);
 			};
 		} else {

@@ -8,13 +8,12 @@ declare(strict_types=1);
 
 namespace Test\Collaboration\Reference;
 
-use GuzzleHttp\Psr7\FnStream;
-use GuzzleHttp\Psr7\StreamWrapper;
-use GuzzleHttp\Psr7\Utils;
 use OC\Security\RateLimiting\Limiter;
 use OC\SystemConfig;
 use OCP\Collaboration\Reference\LinkReferenceProvider;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -27,9 +26,14 @@ use Test\TestCase;
 
 class LinkReferenceProviderTest extends TestCase {
 	private const URL = 'https://website.test/page';
+	private const IMAGE_URL = 'https://website.test/image.png';
+	private const GET_OPTIONS = ['timeout' => 3, 'nextcloud' => ['max_body_size' => LinkReferenceProvider::MAX_CONTENT_LENGTH]];
 
 	private IClient&MockObject $client;
+	private ISimpleFolder&MockObject $folder;
 	private LinkReferenceProvider $provider;
+	/** Options of the GET requests */
+	private array $getOptions = [];
 
 	#[\Override]
 	protected function setUp(): void {
@@ -45,12 +49,21 @@ class LinkReferenceProviderTest extends TestCase {
 		$systemConfig->method('getValue')
 			->with('reference_opengraph', true)
 			->willReturn(true);
+		$this->folder = $this->createMock(ISimpleFolder::class);
+		$appData = $this->createMock(IAppData::class);
+		$appData->method('getFolder')
+			->with('opengraph')
+			->willReturn($this->folder);
+		$appDataFactory = $this->createMock(IAppDataFactory::class);
+		$appDataFactory->method('get')
+			->with('core')
+			->willReturn($appData);
 
 		$this->provider = new LinkReferenceProvider(
 			$clientService,
 			$this->createMock(LoggerInterface::class),
 			$systemConfig,
-			$this->createMock(IAppDataFactory::class),
+			$appDataFactory,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(Limiter::class),
 			$this->createMock(IUserSession::class),
@@ -59,47 +72,80 @@ class LinkReferenceProviderTest extends TestCase {
 	}
 
 	/**
-	 * Answers the GET request with a stream resource like the body of a streamed HTTP response,
-	 * where a single fread() returns at most one chunk
+	 * Checks the GET requests after each test, as the provider catches failed assertions during a request
 	 */
+	#[\Override]
+	protected function assertPostConditions(): void {
+		parent::assertPostConditions();
+
+		$this->assertNotEmpty($this->getOptions);
+		foreach ($this->getOptions as $options) {
+			$this->assertSame(self::GET_OPTIONS, $options);
+		}
+	}
+
 	/**
-	 * @return resource the body of the response
+	 * @param array<string, IResponse|\Exception> $responses response or error by URL
 	 */
-	private function respondWithStream(string $html) {
-		$body = StreamWrapper::getResource(Utils::streamFor($html));
+	private function respond(array $responses): void {
 		$this->client->method('get')
-			->with(self::URL, ['timeout' => 3, 'stream' => true])
-			->willReturn($this->createConfiguredStub(IResponse::class, ['getBody' => $body]));
-		return $body;
+			->willReturnCallback(function (string $url, array $options) use ($responses): IResponse {
+				$this->getOptions[] = $options;
+				if ($responses[$url] instanceof \Exception) {
+					throw $responses[$url];
+				}
+				return $responses[$url];
+			});
 	}
 
-	public function testResolveReferenceReadsTheWholeStreamedPage(): void {
-		$body = $this->respondWithStream('<!DOCTYPE html><html><head><meta property="og:title" content="Streamed page" /></head><body>' . str_repeat('a', 20000) . '</body></html>');
+	private function response(string $contentType, string $body): IResponse {
+		return $this->createConfiguredStub(IResponse::class, ['getHeader' => $contentType, 'getBody' => $body]);
+	}
+
+	private function page(string $head): IResponse {
+		return $this->response('text/html', '<!DOCTYPE html><html><head>' . $head . '</head><body></body></html>');
+	}
+
+	public function testResolveReferenceReadsThePage(): void {
+		$this->respond([self::URL => $this->page('<meta property="og:title" content="Page title" />')]);
 
 		$reference = $this->provider->resolveReference(self::URL);
 
-		$this->assertSame('Streamed page', $reference->getTitle());
-		$this->assertFalse(is_resource($body));
+		$this->assertSame('Page title', $reference->getTitle());
 	}
 
-	public function testResolveReferenceSkipsPagesLargerThanTheLimit(): void {
-		$this->respondWithStream('<!DOCTYPE html><html><head><meta property="og:title" content="Large page" /></head><body>' . str_repeat('a', LinkReferenceProvider::MAX_CONTENT_LENGTH) . '</body></html>');
+	public function testResolveReferenceIgnoresPagesThatCannotBeFetched(): void {
+		$this->respond([self::URL => new \RuntimeException('Request failed')]);
 
 		$reference = $this->provider->resolveReference(self::URL);
 
 		$this->assertSame(self::URL, $reference->getTitle());
 	}
 
-	public function testResolveReferenceIgnoresErrorsWhileReadingThePage(): void {
-		$this->client->method('get')
-			->willReturn($this->createConfiguredStub(IResponse::class, [
-				'getBody' => StreamWrapper::getResource(FnStream::decorate(Utils::streamFor('<html>'), [
-					'read' => static fn (): string => throw new \RuntimeException('Connection reset'),
-				])),
-			]));
+	public function testResolveReferenceStoresTheImage(): void {
+		$this->respond([
+			self::URL => $this->page('<meta property="og:image" content="' . self::IMAGE_URL . '" />'),
+			self::IMAGE_URL => $this->response('image/png', 'png-bytes'),
+		]);
+		$this->folder->expects($this->once())
+			->method('newFile')
+			->with(md5(self::URL), 'png-bytes');
 
 		$reference = $this->provider->resolveReference(self::URL);
 
-		$this->assertSame(self::URL, $reference->getTitle());
+		$this->assertSame('image/png', $reference->getImageContentType());
+	}
+
+	public function testResolveReferenceSkipsImagesThatCannotBeFetched(): void {
+		$this->respond([
+			self::URL => $this->page('<meta property="og:image" content="' . self::IMAGE_URL . '" />'),
+			self::IMAGE_URL => new \RuntimeException('Request failed'),
+		]);
+		$this->folder->expects($this->never())
+			->method('newFile');
+
+		$reference = $this->provider->resolveReference(self::URL);
+
+		$this->assertNull($reference->getImageContentType());
 	}
 }

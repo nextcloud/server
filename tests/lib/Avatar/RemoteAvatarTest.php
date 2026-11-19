@@ -60,15 +60,10 @@ class RemoteAvatarTest extends TestCase {
 	/**
 	 * Stubs the client returned by IClientService::newClient() to respond to
 	 * a single GET request, optionally asserting the requested URL/options.
-	 *
-	 * @param string|resource|false $body
 	 */
-	private function mockRemoteClient(string $contentType, mixed $body, ?string $expectedUrl = null, ?array $expectedOptions = null, string $contentLength = ''): void {
+	private function mockRemoteClient(string $contentType, string $body, ?string $expectedUrl = null, ?array $expectedOptions = null): void {
 		$response = $this->createMock(IResponse::class);
-		$response->method('getHeader')->willReturnMap([
-			['Content-Type', $contentType],
-			['Content-Length', $contentLength],
-		]);
+		$response->method('getHeader')->with('Content-Type')->willReturn($contentType);
 		$response->method('getBody')->willReturn($body);
 
 		$client = $this->createMock(IClient::class);
@@ -100,8 +95,7 @@ class RemoteAvatarTest extends TestCase {
 			'image/png',
 			$fileContents,
 			'https://remote.example.com/index.php/avatar/user/64',
-			['verify' => true, 'timeout' => 5, 'stream' => true],
-			(string)strlen($fileContents),
+			['verify' => true, 'timeout' => 5, 'nextcloud' => ['max_body_size' => 2 * 1024 * 1024]],
 		);
 
 		$expectedFile = $this->createMock(ISimpleFile::class);
@@ -143,54 +137,16 @@ class RemoteAvatarTest extends TestCase {
 		$this->avatar->getFile(64);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetFileRejectsInvalidContentLength')]
-	public function testGetFileRejectsInvalidContentLength(string $contentLength, string $message): void {
-		$this->mockRemoteClient('image/png', 'png-bytes', contentLength: $contentLength);
+	public function testGetFilePassesOnFailedRequests(): void {
+		$error = new \RuntimeException('Request failed');
+		$client = $this->createMock(IClient::class);
+		$client->method('get')->willThrowException($error);
+		$this->clientService->method('newClient')->willReturn($client);
 		$this->folder->expects($this->never())->method('newFile');
 
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage($message);
+		$this->expectExceptionObject($error);
 
 		$this->avatar->getFile(64);
-	}
-
-	public static function dataTestGetFileRejectsInvalidContentLength(): array {
-		return [
-			'too large' => [(string)(3 * 1024 * 1024), 'Remote avatar too large'],
-			'not a number' => ['abc', 'Invalid remote avatar size'],
-			'exponent' => ['1e3', 'Invalid remote avatar size'],
-			'negative' => ['-1', 'Invalid remote avatar size'],
-			'missing' => ['', 'Invalid remote avatar size'],
-		];
-	}
-
-	public function testGetFileRejectsTooLargeBody(): void {
-		// a compressed response only announces its encoded size, but inflates to more than the limit
-		$body = fopen('php://memory', 'r+');
-		fwrite($body, str_repeat('a', 2 * 1024 * 1024 + 1));
-		rewind($body);
-		$this->mockRemoteClient('image/png', $body, contentLength: '1024');
-		$this->folder->expects($this->never())->method('newFile');
-
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Remote avatar too large');
-
-		$this->avatar->getFile(64);
-	}
-
-	public function testGetFileReadsStreamedBody(): void {
-		$body = fopen('php://memory', 'r+');
-		fwrite($body, 'png-bytes');
-		rewind($body);
-		$this->mockRemoteClient('image/png', $body, contentLength: '9');
-
-		$file = $this->createMock(ISimpleFile::class);
-		$this->folder->expects($this->once())
-			->method('newFile')
-			->with('avatar.64.png', 'png-bytes')
-			->willReturn($file);
-
-		$this->assertSame($file, $this->avatar->getFile(64));
 	}
 
 	public function testIsCustomAvatar(): void {
