@@ -161,4 +161,9 @@ class SchemaCheckerTest extends \Test\TestCase {
 
 		$this->assertSame($expected, $result);
 	}
+
+	public function testGetTablesCreatedByIsNullWithoutTheAppsCode(): void {
+		$this->appManager->method('getAppPath')->with('removed_app')->willThrowException(new \OCP\App\AppPathNotFoundException());
+		$this->assertNull($this->schemaChecker->getTablesCreatedBy('removed_app'));
+	}
 }
