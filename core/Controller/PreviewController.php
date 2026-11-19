@@ -203,6 +203,8 @@ class PreviewController extends Controller {
 			$url = $this->mimeIconProvider->getMimeIconUrl('application/octet-stream');
 		}
 
-		return new RedirectResponse($url);
+		$response = new RedirectResponse($url);
+		$response->cacheFor(3600 * 24, true);
+		return $response;
 	}
 }
