@@ -27,7 +27,7 @@ use Icewind\SMB\Wrapped\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
-use OC\Files\Storage\Common;
+use OCP\Files\NotFoundException;
 use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
@@ -725,9 +725,7 @@ class SMB extends Common implements INotifyStorage {
 	public function test(): bool {
 		try {
 			return parent::test();
-		} catch (StorageAuthException $e) {
-			return false;
-		} catch (ForbiddenException $e) {
+		} catch (NotFoundException|StorageAuthException|ForbiddenException $e) {
 			return false;
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
