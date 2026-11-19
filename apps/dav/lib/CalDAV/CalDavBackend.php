@@ -189,7 +189,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'SUMMARY',
 		'ATTENDEE',
 		'CONTACT',
-		'ORGANIZER'
+		'ORGANIZER',
+		'CONFERENCE',
 	];
 
 	/** @var array parameters to index */
