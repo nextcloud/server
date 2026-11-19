@@ -244,6 +244,45 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
+	/**
+	 * The string to text conversion fails on Oracle even with zero rows:
+	 * ORA-22858 does not depend on the column's contents, so emptying the
+	 * table is not a workaround.
+	 */
+	public function testChangeStringToTextEmptyTableFailsOnOracle(): void {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
+			$this->markTestSkipped('Documents an Oracle-specific limitation');
+		}
+
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::STRING, [
+			'notnull' => true,
+			'length' => 4000,
+		]);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::TEXT, [
+			'notnull' => true,
+		]);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		try {
+			$migrator->migrate($endSchema);
+			$this->fail('Expected the conversion of an empty table to fail with ORA-22858');
+		} catch (\Doctrine\DBAL\Exception\DriverException $e) {
+			$this->assertStringContainsString('ORA-22858', $e->getMessage());
+		}
+		if ($this->connection->isTransactionActive()) {
+			$this->connection->rollBack();
+		}
+	}
+
 	public function testAddingForeignKey(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
