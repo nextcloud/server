@@ -59,7 +59,11 @@ class AddMissingPrimaryKeys extends Command {
 				if ($schema->hasTable($missingKey['tableName'])) {
 					$table = $schema->getTable($missingKey['tableName']);
 					if ($table->getPrimaryKey() === null) {
-						$output->writeln('<info>Adding primary key to the ' . $missingKey['tableName'] . ' table, this can take some time...</info>');
+						if ($dryRun) {
+							$output->writeln('<info>Missing primary key on the ' . $missingKey['tableName'] . ' table</info>');
+						} else {
+							$output->writeln('<info>Adding primary key to the ' . $missingKey['tableName'] . ' table, this can take some time...</info>');
+						}
 						$table->setPrimaryKey($missingKey['columns'], $missingKey['primaryKeyName']);
 
 						if ($missingKey['formerIndex'] && $table->hasIndex($missingKey['formerIndex'])) {
@@ -72,7 +76,9 @@ class AddMissingPrimaryKeys extends Command {
 						}
 
 						$updated = true;
-						$output->writeln('<info>' . $missingKey['tableName'] . ' table updated successfully.</info>');
+						if (!$dryRun) {
+							$output->writeln('<info>' . $missingKey['tableName'] . ' table updated successfully.</info>');
+						}
 					}
 				}
 			}

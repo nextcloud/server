@@ -60,7 +60,11 @@ class AddMissingIndices extends Command {
 				if ($schema->hasTable($missingIndex['tableName'])) {
 					$table = $schema->getTable($missingIndex['tableName']);
 					if (!$table->hasIndex($missingIndex['indexName'])) {
-						$output->writeln('<info>Adding additional ' . $missingIndex['indexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+						if ($dryRun) {
+							$output->writeln('<info>Missing ' . $missingIndex['indexName'] . ' index on the ' . $table->getName() . ' table</info>');
+						} else {
+							$output->writeln('<info>Adding additional ' . $missingIndex['indexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+						}
 
 						if ($missingIndex['dropUnnamedIndex']) {
 							foreach ($table->getIndexes() as $index) {
@@ -79,8 +83,8 @@ class AddMissingIndices extends Command {
 
 						if (!$dryRun) {
 							$this->connection->migrateToSchema($schema->getWrappedSchema());
+							$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 						}
-						$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 					}
 				}
 			}
@@ -93,7 +97,11 @@ class AddMissingIndices extends Command {
 						continue;
 					}
 
-					$output->writeln('<info>Adding additional ' . $toReplaceIndex['newIndexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+					if ($dryRun) {
+						$output->writeln('<info>Missing ' . $toReplaceIndex['newIndexName'] . ' index on the ' . $table->getName() . ' table</info>');
+					} else {
+						$output->writeln('<info>Adding additional ' . $toReplaceIndex['newIndexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+					}
 
 					if ($toReplaceIndex['uniqueIndex']) {
 						$table->addUniqueIndex($toReplaceIndex['columns'], $toReplaceIndex['newIndexName'], $toReplaceIndex['options']);
@@ -107,15 +115,19 @@ class AddMissingIndices extends Command {
 
 					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
 						if ($table->hasIndex($oldIndexName)) {
-							$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+							if ($dryRun) {
+								$output->writeln('<info>Index ' . $oldIndexName . ' on the ' . $table->getName() . ' table would be removed</info>');
+							} else {
+								$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+							}
 							$table->dropIndex($oldIndexName);
 						}
 					}
 
 					if (!$dryRun) {
 						$this->connection->migrateToSchema($schema->getWrappedSchema());
+						$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 					}
-					$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 				}
 			}
 
