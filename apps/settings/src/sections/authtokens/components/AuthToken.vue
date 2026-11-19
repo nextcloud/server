@@ -304,7 +304,7 @@ async function wipe() {
 				:aria-label="t('settings', 'Device settings')">
 				<NcActionLink v-if="token.current && logoutUrl" :href="logoutUrl">
 					<template #icon>
-						<NcIconSvgWrapper :path="mdiLogout" />
+						<NcIconSvgWrapper :path="mdiLogout" directional />
 					</template>
 					{{ t('settings', 'Log out') }}
 				</NcActionLink>

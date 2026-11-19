@@ -20,7 +20,7 @@ export class DevicesSessionsSettingsPage {
 		await expect(this.heading()).toBeVisible()
 	}
 
-	/** Product-owned id: the security page renders several unrelated tables. */
+	/** Product-owned id: token rows have no list or table role to scope by. */
 	tokenList(): Locator {
 		return this.page.locator('#app-tokens-table')
 	}
