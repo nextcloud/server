@@ -22,8 +22,6 @@ export const useStore = defineStore('twofactor_backupcodes', () => {
 	 * Generate new backup codes and update the store state
 	 */
 	async function generate(): Promise<void> {
-		enabled.value = false
-
 		const { codes: newCodes, state } = await generateCodes()
 		enabled.value = state.enabled
 		total.value = state.total

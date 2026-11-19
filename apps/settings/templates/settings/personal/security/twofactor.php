@@ -8,12 +8,11 @@ declare(strict_types=1);
 ?>
 
 <div id="two-factor-auth" class="section">
-	<h2><?php p($l->t('Two-Factor Authentication'));?></h2>
+	<h2><?php p($l->t('Two-factor authentication'));?></h2>
 	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('user-2fa')); ?>"></a>
-	<p class="settings-hint"><?php p($l->t('Use a second factor besides your password to increase security for your account.'));?></p>
-	<p class="settings-hint"><?php p($l->t('If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication.'));?></p>
+	<p class="settings-hint"><?php p($l->t('Using a second factor besides a password increases security. Make sure that any third-party applications that connect to Nextcloud use app passwords before enabling two-factor authentication.'));?></p>
 	<ul>
 	<?php foreach ($_['twoFactorProviderData']['providers'] as $data) { ?>
 		<li>
