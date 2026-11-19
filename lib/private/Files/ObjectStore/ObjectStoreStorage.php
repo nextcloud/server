@@ -303,8 +303,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
-		if (strrpos($path, '.') !== false) {
-			$ext = substr($path, strrpos($path, '.'));
+		$baseName = basename($path);
+		if (strrpos($baseName, '.') !== false) {
+			$ext = substr($baseName, strrpos($baseName, '.'));
 		} else {
 			$ext = '';
 		}
@@ -365,6 +366,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				}
 
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
+				if ($tmpFile === false) {
+					return false;
+				}
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
@@ -379,6 +383,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			case 'c':
 			case 'c+':
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
+				if ($tmpFile === false) {
+					return false;
+				}
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
