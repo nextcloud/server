@@ -27,4 +27,9 @@ docker run -dit --name dc -v /tmp/shared:/shared --hostname krb.domain.test --ca
 
 waitContainer dc
 
-docker inspect dc --format '{{.NetworkSettings.IPAddress}}'
+DC_IP=$(docker inspect dc --format '{{.NetworkSettings.Networks.bridge.IPAddress}}')
+if [ -z "$DC_IP" ]; then
+  echo "DC container has no bridge IP address" >&2
+  exit 1
+fi
+echo "$DC_IP"
