@@ -11,6 +11,7 @@ namespace OC;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\ISession;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class DateTimeZone implements IDateTimeZone {
@@ -18,6 +19,7 @@ class DateTimeZone implements IDateTimeZone {
 		protected readonly IConfig $config,
 		protected readonly ISession $session,
 		protected readonly LoggerInterface $logger,
+		protected readonly ?IUserSession $userSession = null,
 	) {
 	}
 
@@ -26,7 +28,7 @@ class DateTimeZone implements IDateTimeZone {
 	 */
 	#[\Override]
 	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone {
-		$uid = $userId ?? $this->session->get('user_id');
+		$uid = $userId ?? $this->userSession?->getUser()?->getUID() ?? $this->session->get('user_id');
 		$timezoneName = $this->config->getUserValue($uid, 'core', 'timezone', '');
 		if ($timezoneName === '') {
 			if ($uid === $userId && $this->session->exists('timezone')) {
