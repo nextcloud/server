@@ -153,6 +153,11 @@ class Node implements INode {
 		return $storage;
 	}
 
+	#[\Override]
+	public function getStorageId(): int {
+		return $this->getMountPoint()->getNumericStorageId();
+	}
+
 	/**
 	 * @return string
 	 */
