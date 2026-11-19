@@ -850,7 +850,21 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			$this->transactionActiveSince = microtime(true);
 		}
-		return parent::beginTransaction();
+		try {
+			return parent::beginTransaction();
+		} catch (Exception $e) {
+			if ($this->transactionBacktrace) {
+				$this->logger->warning(
+					'Beginning transaction while one is still in progress',
+					[
+						'exception' => new \Exception('Beginning transaction while one is still in progress'),
+						'transaction' => $this->transactionBacktrace
+					]
+				);
+			}
+			throw $e;
+		}
+
 	}
 
 	#[\Override]
