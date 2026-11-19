@@ -34,7 +34,7 @@ const useAppTokenLogin = ref(false)
 <template>
 	<LoginFlowContainer :heading="t('core', 'Connect to your account')">
 		<NcNoteCard type="info">
-			{{ t('core', 'Please log in before granting "{client}" access to your {instanceName} account.', { client, instanceName }) }}
+			{{ t('core', 'Please log in before granting "{client}" access to your {instanceName} account.', { client, instanceName }, undefined, { escape: false }) }}
 		</NcNoteCard>
 
 		<NcNoteCard type="warning" :heading="t('core', 'Security warning')">
