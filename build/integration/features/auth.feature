@@ -145,6 +145,16 @@ Feature: auth
 		When requesting "/ocs/v2.php/hovercard/v1/user0" with "GET" using scoped basic token auth
 		Then the HTTP status code should be "200"
 
+	Scenario: a dashboard token reaches the dashboard API
+		Given a new client token limited to "dashboard" is added
+		When requesting "/ocs/v2.php/apps/dashboard/api/v1/widgets" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "200"
+
+	Scenario: a dashboard token reads no files
+		Given a new client token limited to "dashboard" is added
+		When requesting "/ocs/v2.php/apps/files_sharing/api/v1/shares" with "GET" using scoped basic token auth
+		Then the HTTP status code should be "403"
+
 	Scenario: a files token gets no page render
 		Given a new client token limited to "files:files:read files:files:write" is added
 		When requesting "/index.php/apps/files" with "GET" using scoped basic token auth
