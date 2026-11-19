@@ -66,41 +66,34 @@ class OCSAuthAPIControllerTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRequestSharedSecret')]
-	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, bool $ok): void {
+	public function testRequestSharedSecret(string $token, bool $isTrustedServer, bool $ok): void {
 		$url = 'url';
 
 		$this->trustedServers
 			->expects($this->once())
 			->method('isTrustedServer')->with($url)->willReturn($isTrustedServer);
-		$this->dbHandler->expects($this->any())
-			->method('getToken')->with($url)->willReturn($localToken);
+		// the answer must not depend on the local token
+		$this->dbHandler->expects($this->never())->method('getToken');
 
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
 				->with(GetSharedSecret::class, ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
-			$this->jobList->expects($this->never())->method('remove');
-			if (!$isTrustedServer) {
-				$this->throttler->expects($this->once())
-					->method('registerAttempt')
-					->with('federationSharedSecret');
-			}
+			$this->throttler->expects($this->once())
+				->method('registerAttempt')
+				->with('federationSharedSecret');
+			$this->expectException(OCSForbiddenException::class);
 		}
 
-		try {
-			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($isTrustedServer);
-		} catch (OCSForbiddenException $e) {
-			$this->assertFalse($isTrustedServer);
-		}
+		$this->ocsAuthApi->requestSharedSecret($url, $token);
 	}
 
 	public static function dataTestRequestSharedSecret(): array {
 		return [
-			['token2', 'token1', true, true],
-			['token1', 'token2', false, false],
-			['token1', 'token2', true, false],
+			'trusted server' => ['token', true, true],
+			'untrusted server' => ['token', false, false],
+			'token too long' => [str_repeat('a', 65), true, false],
 		];
 	}
 
