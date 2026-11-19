@@ -90,6 +90,12 @@ interface IUserStatus {
 	public const MESSAGE_CALENDAR_BUSY_TENTATIVE = 'busy-tentative';
 
 	/**
+	 * @var string
+	 * @since 35.0.0
+	 */
+	public const MESSAGE_CALENDAR_BUSY_SINGLE = 'calendar-busy';
+
+	/**
 	 * Get the user this status is connected to
 	 *
 	 * @return string
