@@ -109,6 +109,21 @@ class CustomPropertiesBackend implements BackendInterface {
 	];
 
 	/**
+	 * Calendar properties a sharee can set on a calendar shared with them, overriding the owner's values
+	 *
+	 * @var string[]
+	 */
+	public const array SHARED_CALENDAR_PROPERTIES = [
+		'{DAV:}displayname',
+		'{urn:ietf:params:xml:ns:caldav}calendar-description',
+		'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
+		'{http://apple.com/ns/ical/}calendar-order',
+		'{http://apple.com/ns/ical/}calendar-color',
+		'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
+		'{http://nextcloud.com/ns}disable-alarm-notifications',
+	];
+
+	/**
 	 * Map of well-known property names to default values
 	 * @var array<string, string>
 	 */
@@ -188,17 +203,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		// two '/' => this a calendar (no calendar-home nor calendar object)
 		if (str_starts_with($path, 'calendars/') && substr_count($path, '/') === 2) {
 			$allRequestedProps = $propFind->getRequestedProperties();
-			$customPropertiesForShares = [
-				'{DAV:}displayname',
-				'{urn:ietf:params:xml:ns:caldav}calendar-description',
-				'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
-				'{http://apple.com/ns/ical/}calendar-order',
-				'{http://apple.com/ns/ical/}calendar-color',
-				'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
-				'{http://nextcloud.com/ns}disable-alarm-notifications',
-			];
-
-			foreach ($customPropertiesForShares as $customPropertyForShares) {
+			foreach (self::SHARED_CALENDAR_PROPERTIES as $customPropertyForShares) {
 				if (in_array($customPropertyForShares, $allRequestedProps, true)) {
 					$requestedProps[] = $customPropertyForShares;
 				}
@@ -590,7 +595,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Long paths are hashed to ensure they fit in the database
 	 */
-	private function formatPath(string $path): string {
+	public static function formatPath(string $path): string {
 		if (strlen($path) > 250) {
 			return sha1($path);
 		}
@@ -669,7 +674,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * @return mixed|Complex|string
 	 */
-	private function decodeValueFromDatabase(string $value, int $valueType): mixed {
+	public static function decodeValueFromDatabase(string $value, int $valueType): mixed {
 		switch ($valueType) {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);

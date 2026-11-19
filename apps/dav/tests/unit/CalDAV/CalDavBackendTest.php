@@ -17,16 +17,20 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
+use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Exception\UidConflict;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\NullLogger;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Xml\Property\Complex;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
 use function time;
@@ -1660,6 +1664,178 @@ EOD;
 		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $sharerSearchResults[0]['calendardata']);
 		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPrivate, $sharerSearchResults[1]['calendardata']);
 		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerConfidential, $sharerSearchResults[2]['calendardata']);
+	}
+
+	private function insertProperty(string $userId, string $path, string $name, mixed $value): void {
+		$type = CustomPropertiesBackend::PROPERTY_TYPE_STRING;
+		if (is_object($value)) {
+			$type = CustomPropertiesBackend::PROPERTY_TYPE_OBJECT;
+			$value = str_replace(chr(0), '\x00', serialize($value));
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert('properties')
+			->values([
+				'userid' => $query->createNamedParameter($userId),
+				'propertypath' => $query->createNamedParameter($path),
+				'propertyname' => $query->createNamedParameter($name),
+				'propertyvalue' => $query->createNamedParameter($value),
+				'valuetype' => $query->createNamedParameter($type, IQueryBuilder::PARAM_INT),
+			])
+			->executeStatement();
+	}
+
+	private function deleteProperties(string ...$userIds): void {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('properties')
+			->where($query->expr()->in('userid', $query->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->executeStatement();
+	}
+
+	public function testGetCalendarsAddsAdditionalProperties(): void {
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
+
+		$sharee = self::UNIT_TEST_USER;
+		$sharer = self::UNIT_TEST_USER1;
+		$transparencyKey = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
+		$enabledKey = '{http://owncloud.org/ns}calendar-enabled';
+		$readOnlyKey = '{http://owncloud.org/ns}read-only';
+
+		$this->backend->createCalendar($sharee, 'calendar-uri-sharee', [
+			$transparencyKey => new ScheduleCalendarTransp('opaque'),
+		]);
+		$this->backend->createCalendar($sharer, 'calendar-uri-sharer', [
+			$transparencyKey => new ScheduleCalendarTransp('opaque'),
+		]);
+		$sharerCalendar = new Calendar($this->backend, $this->backend->getCalendarsForUser($sharer)[0], $this->createMock(IL10N::class), $this->createMock(IConfig::class), new NullLogger());
+		$this->backend->updateShares($sharerCalendar, [
+			[
+				'href' => 'principal:' . $sharee,
+				'readOnly' => true,
+			],
+		], []);
+
+		$sharedPath = 'calendars/caldav-unit-test/calendar-uri-sharer_shared_by_caldav-unit-test1';
+		$ownPath = 'calendars/caldav-unit-test/calendar-uri-sharee';
+		try {
+			// a sharee can override the transparency, read-only is never applied
+			$this->insertProperty('caldav-unit-test', $sharedPath, $transparencyKey, new ScheduleCalendarTransp('opaque'));
+			$this->insertProperty('caldav-unit-test', $sharedPath, $enabledKey, '0');
+			$this->insertProperty('caldav-unit-test', $sharedPath, $readOnlyKey, '0');
+			// on own calendars, stored properties never override the calendar's values
+			$this->insertProperty('caldav-unit-test', $ownPath, $transparencyKey, new ScheduleCalendarTransp('transparent'));
+			$this->insertProperty('caldav-unit-test', $ownPath, $enabledKey, '0');
+			// properties stored by other users or on other paths are not applied
+			$this->insertProperty('caldav-unit-test1', $sharedPath, '{http://apple.com/ns/ical/}calendar-color', '#ff0000');
+			$this->insertProperty('caldav-unit-test', $ownPath . '/event.ics', '{http://apple.com/ns/ical/}calendar-color', '#00ff00');
+
+			$calendars = [];
+			foreach ($this->backend->getCalendarsForUser($sharee) as $calendar) {
+				$calendars[$calendar['uri']] = $calendar;
+			}
+			$this->assertCount(2, $calendars);
+
+			$shared = $calendars['calendar-uri-sharer_shared_by_caldav-unit-test1'];
+			$this->assertSame('opaque', $shared[$transparencyKey]->getValue());
+			$this->assertSame('0', $shared[$enabledKey]);
+			$this->assertTrue($shared[$readOnlyKey]);
+			$this->assertNotSame('#ff0000', $shared['{http://apple.com/ns/ical/}calendar-color'] ?? null);
+
+			$own = $calendars['calendar-uri-sharee'];
+			$this->assertSame('opaque', $own[$transparencyKey]->getValue());
+			$this->assertSame('0', $own[$enabledKey]);
+			$this->assertNotSame('#00ff00', $own['{http://apple.com/ns/ical/}calendar-color'] ?? null);
+
+			$calendarByUri = $this->backend->getCalendarByUri($sharee, 'calendar-uri-sharee');
+			$this->assertSame('opaque', $calendarByUri[$transparencyKey]->getValue());
+			$this->assertSame('0', $calendarByUri[$enabledKey]);
+			$ownCalendars = $this->backend->getUsersOwnCalendars($sharee);
+			$this->assertCount(1, $ownCalendars);
+			$this->assertSame('opaque', $ownCalendars[0][$transparencyKey]->getValue());
+			$this->assertSame('0', $ownCalendars[0][$enabledKey]);
+
+			// the sharer's view of the calendar is not affected
+			$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
+			$this->assertSame('opaque', $sharerCalendars[0][$transparencyKey]->getValue());
+			$this->assertArrayNotHasKey($enabledKey, $sharerCalendars[0]);
+		} finally {
+			$this->deleteProperties('caldav-unit-test', 'caldav-unit-test1');
+		}
+	}
+
+	public function testGetCalendarsIgnoresUnlistedAndInvalidAdditionalProperties(): void {
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
+
+		$sharee = self::UNIT_TEST_USER;
+		$sharer = self::UNIT_TEST_USER1;
+		$ownerPrincipalKey = '{http://owncloud.org/ns}owner-principal';
+		$publicKey = '{http://owncloud.org/ns}public';
+		$displayNameKey = '{DAV:}displayname';
+		$colorKey = '{http://apple.com/ns/ical/}calendar-color';
+
+		$this->backend->createCalendar($sharee, 'calendar-uri-sharee', [
+			$displayNameKey => 'Own',
+			$colorKey => '#000000',
+		]);
+		$this->backend->createCalendar($sharer, 'calendar-uri-sharer', [
+			$displayNameKey => 'Shared',
+			$colorKey => '#000000',
+		]);
+		$sharerCalendar = new Calendar($this->backend, $this->backend->getCalendarsForUser($sharer)[0], $this->createMock(IL10N::class), $this->createMock(IConfig::class), new NullLogger());
+		$this->backend->updateShares($sharerCalendar, [
+			[
+				'href' => 'principal:' . $sharee,
+				'readOnly' => true,
+			],
+		], []);
+
+		$sharedPath = 'calendars/caldav-unit-test/calendar-uri-sharer_shared_by_caldav-unit-test1';
+		$ownPath = 'calendars/caldav-unit-test/calendar-uri-sharee';
+		try {
+			$this->insertProperty('caldav-unit-test', $ownPath, $ownerPrincipalKey, $sharer);
+			$this->insertProperty('caldav-unit-test', $ownPath, $publicKey, '1');
+			$this->insertProperty('caldav-unit-test', $ownPath, $displayNameKey, 'Stored');
+			$this->insertProperty('caldav-unit-test', $ownPath, $colorKey, '#ff0000');
+			$this->insertProperty('caldav-unit-test', $sharedPath, $publicKey, '1');
+			$this->insertProperty('caldav-unit-test', $sharedPath, $displayNameKey, new Complex('<x/>'));
+			$this->insertProperty('caldav-unit-test', $sharedPath, $colorKey, '#00ff00');
+
+			$ownCalendars = [
+				$this->backend->getCalendarByUri($sharee, 'calendar-uri-sharee'),
+				$this->backend->getUsersOwnCalendars($sharee)[0],
+			];
+			foreach ($this->backend->getCalendarsForUser($sharee) as $calendar) {
+				if ($calendar['uri'] === 'calendar-uri-sharee') {
+					$ownCalendars[] = $calendar;
+				} else {
+					$shared = $calendar;
+				}
+			}
+
+			$this->assertCount(3, $ownCalendars);
+			foreach ($ownCalendars as $own) {
+				$this->assertNotSame($sharer, $own[$ownerPrincipalKey] ?? null);
+				$this->assertArrayNotHasKey($publicKey, $own);
+				$this->assertSame('Own', $own[$displayNameKey]);
+				$this->assertSame('#000000', $own[$colorKey]);
+			}
+
+			$this->assertArrayNotHasKey($publicKey, $shared);
+			$this->assertIsString($shared[$displayNameKey]);
+			$this->assertSame('#00ff00', $shared[$colorKey]);
+		} finally {
+			$this->deleteProperties('caldav-unit-test', 'caldav-unit-test1');
+		}
 	}
 
 	/**
