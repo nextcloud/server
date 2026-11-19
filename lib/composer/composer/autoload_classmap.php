@@ -840,6 +840,7 @@ return array(
     'OCP\\Notification\\UnknownNotificationException' => $baseDir . '/lib/public/Notification/UnknownNotificationException.php',
     'OCP\\OCM\\Enum\\ParamType' => $baseDir . '/lib/public/OCM/Enum/ParamType.php',
     'OCP\\OCM\\Events\\LocalOCMDiscoveryEvent' => $baseDir . '/lib/public/OCM/Events/LocalOCMDiscoveryEvent.php',
+    'OCP\\OCM\\Events\\OCMEndpointRequestAuthenticationEvent' => $baseDir . '/lib/public/OCM/Events/OCMEndpointRequestAuthenticationEvent.php',
     'OCP\\OCM\\Events\\OCMEndpointRequestEvent' => $baseDir . '/lib/public/OCM/Events/OCMEndpointRequestEvent.php',
     'OCP\\OCM\\Events\\OCMNotificationReceivedEvent' => $baseDir . '/lib/public/OCM/Events/OCMNotificationReceivedEvent.php',
     'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
