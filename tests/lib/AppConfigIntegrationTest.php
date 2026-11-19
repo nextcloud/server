@@ -421,6 +421,49 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->assertEqualsCanonicalizing(['testapp' => 'yes', '123456' => 'yes', 'anotherapp' => 'no'], $config->searchValues('enabled'));
 	}
 
+	public static function providerSearchValuesTypedAs(): array {
+		return [
+			[
+				'enabled', IAppConfig::VALUE_STRING,
+				['testapp' => 'yes', '123456' => 'yes', 'anotherapp' => 'no']
+			],
+			[
+				'enabled', IAppConfig::VALUE_MIXED,
+				['testapp' => 'yes', '123456' => 'yes', 'anotherapp' => 'no']
+			],
+			[
+				'enabled', IAppConfig::VALUE_BOOL,
+				['testapp' => true, '123456' => true, 'anotherapp' => false]
+			],
+			[
+				'enabled', IAppConfig::VALUE_INT,
+				['testapp' => 0, '123456' => 0, 'anotherapp' => 0]
+			],
+			[
+				'enabled', IAppConfig::VALUE_ARRAY,
+				['testapp' => [], '123456' => [], 'anotherapp' => []]
+			],
+			[
+				'array', IAppConfig::VALUE_ARRAY,
+				['typed' => ['test' => 1]]
+			],
+			[
+				'int', IAppConfig::VALUE_INT,
+				['typed' => 42]
+			],
+			[
+				'float', IAppConfig::VALUE_FLOAT,
+				['typed' => 3.14]
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesTypedAs')]
+	public function testSearchValuesTypedAs(string $key, int $typedAs, array $result): void {
+		$config = $this->generateAppConfig();
+		$this->assertEqualsCanonicalizing($result, $config->searchValues($key, false, $typedAs));
+	}
+
 	public function testGetValueString(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame('value', $config->getValueString('typed', 'string', ''));
