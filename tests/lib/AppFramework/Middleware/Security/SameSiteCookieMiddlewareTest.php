@@ -34,6 +34,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testBeforeControllerNoIndex(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/ocs/v2.php');
