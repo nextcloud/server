@@ -179,4 +179,31 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		$this->rrmdir($new_apps_path);
 	}
+
+	public function testFindTranslationWithThemeOverride(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(fn (string $key, string $default = ''): string => $key === 'theme' ? 'testtheme' : $default);
+		$this->appManager->method('getAppPath')
+			->willThrowException(new AppPathNotFoundException());
+
+		$themeDir = \OC::$SERVERROOT . '/themes/testtheme';
+		$themeL10n = $themeDir . '/core/l10n';
+		mkdir($themeL10n, 0777, true);
+		touch(\OC::$SERVERROOT . '/core/l10n/zz.js');
+		touch($themeL10n . '/zz.js');
+
+		try {
+			$locator = $this->jsResourceLocator();
+			$locator->find(['core/l10n/zz']);
+			$files = array_column($locator->getResources(), 2);
+			$this->assertEquals(['core/l10n/zz.js', 'core/l10n/zz.js'], $files);
+			$this->assertEquals(
+				[\OC::$SERVERROOT, \OC::$SERVERROOT . '/themes/testtheme'],
+				array_column($locator->getResources(), 0)
+			);
+		} finally {
+			unlink(\OC::$SERVERROOT . '/core/l10n/zz.js');
+			$this->rrmdir($themeDir);
+		}
+	}
 }
