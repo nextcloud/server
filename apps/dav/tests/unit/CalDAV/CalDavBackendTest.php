@@ -24,6 +24,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use Psr\Log\NullLogger;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
@@ -881,6 +882,37 @@ EOD;
 		$this->backend->deleteSubscription($id);
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(0, $subscriptions);
+	}
+
+	public function testSubscriptionTransparency(): void {
+		$transp = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
+
+		$defaultId = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription-default', [
+			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
+		]);
+		$this->assertEquals('transparent', $this->backend->getSubscriptionById($defaultId)[$transp]->getValue());
+
+		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription-opaque', [
+			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
+			$transp => new ScheduleCalendarTransp('opaque'),
+		]);
+		$this->assertEquals('opaque', $this->backend->getSubscriptionById($id)[$transp]->getValue());
+		$this->assertEquals('opaque', $this->backend->getSubscriptionByUri(self::UNIT_TEST_USER, 'Subscription-opaque')[$transp]->getValue());
+
+		$patch = new PropPatch([
+			$transp => new ScheduleCalendarTransp('transparent'),
+		]);
+		$this->backend->updateSubscription($id, $patch);
+		$patch->commit();
+
+		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(2, $subscriptions);
+		foreach ($subscriptions as $subscription) {
+			$this->assertEquals('transparent', $subscription[$transp]->getValue());
+		}
+
+		$this->backend->deleteSubscription($defaultId);
+		$this->backend->deleteSubscription($id);
 	}
 
 	public static function providesSchedulingData(): array {

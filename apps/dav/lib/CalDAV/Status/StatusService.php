@@ -11,10 +11,10 @@ namespace OCA\DAV\CalDAV\Status;
 
 use DateTimeImmutable;
 use OC\Calendar\CalendarQuery;
-use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\UserStatus\Service\StatusService as UserStatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendarIsTransparent;
 use OCP\Calendar\IManager;
 use OCP\DB\Exception;
 use OCP\ICache;
@@ -24,7 +24,6 @@ use OCP\IUserManager;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IUserStatus;
 use Psr\Log\LoggerInterface;
-use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 
 class StatusService {
 	private ICache $cache;
@@ -157,15 +156,8 @@ class StatusService {
 
 		$query = $this->calendarManager->newQuery('principals/users/' . $user->getUID());
 		foreach ($calendars as $calendarObject) {
-			// We can only work with a calendar if it exposes its scheduling information
-			if (!$calendarObject instanceof CalendarImpl) {
-				continue;
-			}
-
-			$sct = $calendarObject->getSchedulingTransparency();
-			if ($sct !== null && strtolower($sct->getValue()) === ScheduleCalendarTransp::TRANSPARENT) {
-				// If a calendar is marked as 'transparent', it means we must
-				// ignore it for free-busy purposes.
+			// Transparent calendars must be ignored for free-busy purposes
+			if ($calendarObject instanceof ICalendarIsTransparent && $calendarObject->isTransparent()) {
 				continue;
 			}
 			$query->addSearchCalendar($calendarObject->getUri());
