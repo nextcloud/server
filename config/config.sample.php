@@ -2613,9 +2613,10 @@ $CONFIG = [
 	'theme' => '',
 
 	/**
-	 * Enforce a specific user theme, disabling user theming settings. Must be a
-	 * valid ITheme ID, e.g., ``dark``, ``dark-highcontrast``, ``default``, ``light``,
-	 * ``light-highcontrast``, ``opendyslexic``.
+	 * Enforce a specific user theme. Users can no longer choose a color theme, but
+	 * can still enable the other font and supplementary themes, such as the dyslexia
+	 * font or reduced motion. Must be a valid ITheme ID, e.g., ``dark``, ``dark-highcontrast``,
+	 * ``default``, ``light``, ``light-highcontrast``, ``opendyslexic``.
 	 */
 	'enforce_theme' => '',
 

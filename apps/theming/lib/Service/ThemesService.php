@@ -67,14 +67,17 @@ class ThemesService {
 			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
 			$darkTheme = $this->themesProviders[$this->darkTheme->getId()];
 			$theme = $this->themesProviders[$enforcedTheme];
+			$nonColorThemes = array_filter($this->themesProviders, static fn (ITheme $provider): bool => $provider->getType() !== ITheme::TYPE_THEME);
 			return [
 				// Leave the default theme as a fallback
 				$defaultTheme->getId() => $defaultTheme,
 				// Make sure we also have the dark theme to allow apps
 				// to scope sections of their UI to the dark theme
 				$darkTheme->getId() => $darkTheme,
-				// Finally, the enforced theme
+				// Then the enforced theme
 				$theme->getId() => $theme,
+				// Finally, the font and supplementary themes, which do not change the colors
+				...$nonColorThemes,
 			];
 		}
 
@@ -85,10 +88,10 @@ class ThemesService {
 	 * Enable a theme for the logged-in user
 	 *
 	 * @param ITheme $theme the theme to enable
-	 * @return string[] the enabled themes
+	 * @return string[] the themes selected by the user, without the enforced theme
 	 */
 	public function enableTheme(ITheme $theme): array {
-		$enabledThemeIds = $this->getEnabledThemes();
+		$enabledThemeIds = $this->getUserSelectedThemes();
 
 		// If already enabled, ignore
 		if (in_array($theme->getId(), $enabledThemeIds, true)) {
@@ -97,8 +100,7 @@ class ThemesService {
 
 		// for other types then supplementary themes we need to filter out themes with the same type
 		if ($theme->getType() !== ITheme::TYPE_SUPPLEMENTARY) {
-			$allThemes = $this->getThemes();
-			$enabledThemeIds = array_filter($enabledThemeIds, fn (string $themeId) => $allThemes[$themeId]->gettype() !== $theme->gettype());
+			$enabledThemeIds = array_filter($enabledThemeIds, fn (string $themeId) => ($this->themesProviders[$themeId] ?? null)?->getType() !== $theme->getType());
 		}
 
 		$enabledThemeIds[] = $theme->getId();
@@ -110,10 +112,10 @@ class ThemesService {
 	 * Disable a theme for the logged-in user
 	 *
 	 * @param ITheme $theme the theme to disable
-	 * @return string[] the enabled themes
+	 * @return string[] the themes selected by the user, without the enforced theme
 	 */
 	public function disableTheme(ITheme $theme): array {
-		$themesIds = $this->getEnabledThemes();
+		$themesIds = $this->getUserSelectedThemes();
 
 		// If enabled, removing it
 		if (in_array($theme->getId(), $themesIds, true)) {
@@ -146,27 +148,33 @@ class ThemesService {
 	 *
 	 * @return list<string>
 	 */
-	public function getEnabledThemes() {
+	public function getEnabledThemes(): array {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		$enabledThemes = $this->getUserSelectedThemes();
+		if ($enforcedTheme !== '') {
+			return array_values(array_unique([$enforcedTheme, ...$enabledThemes]));
+		}
+
+		return $enabledThemes;
+	}
+
+	/**
+	 * Get the list of themes IDs selected by the logged-in user, without the enforced theme
+	 *
+	 * @return list<string>
+	 */
+	private function getUserSelectedThemes(): array {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			if ($enforcedTheme !== '') {
-				return [$enforcedTheme];
-			}
 			return [];
 		}
 
-		/** @var list<string> */
-		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
-		if ($enforcedTheme !== '') {
-			return array_merge([$enforcedTheme], $enabledThemes);
-		}
-
-		try {
-			return $enabledThemes;
-		} catch (\Exception $e) {
+		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'), true);
+		if (!is_array($enabledThemes) || !array_is_list($enabledThemes)) {
 			return [];
 		}
+
+		return array_values(array_filter($enabledThemes, is_string(...)));
 	}
 
 	/**
