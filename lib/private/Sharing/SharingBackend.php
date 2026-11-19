@@ -31,6 +31,8 @@ use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\Core\Sharing\Recipient\EmailShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -631,8 +633,26 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 	}
 
-	private function hideDisabledUserShares(): bool {
-		return $this->appConfig->getValueString('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes';
+	/**
+	 * Whether recipients of the given kind are hidden when the account that owns the
+	 * share or added the recipient is disabled.
+	 * Public, mail and federated recipients are external, any other recipient is internal.
+	 */
+	private function hideDisabledUserShares(bool $external): bool {
+		return $this->appConfig->getValueBool(
+			'files_sharing',
+			$external ? 'hide_disabled_user_external_shares' : 'hide_disabled_user_shares',
+			true,
+		);
+	}
+
+	/**
+	 * @param class-string<IShareRecipientType> $class
+	 */
+	private function isExternalRecipient(string $class, ?string $instance): bool {
+		return $instance !== null
+			|| $class === TokenShareRecipientType::class
+			|| $class === EmailShareRecipientType::class;
 	}
 
 	// TODO: Split up the method
@@ -728,6 +748,13 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 		}
 
+		// Whether internal and external recipients are hidden when their share owner or initiator is disabled
+		$hideInternal = $this->hideDisabledUserShares(false);
+		$hideExternal = $this->hideDisabledUserShares(true);
+		// Shares of a disabled owner that are only partly hidden, their recipients are filtered one by one
+		/** @var array<array-key, true> $disabledOwnerShareIds */
+		$disabledOwnerShareIds = [];
+
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
 		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: array<array-key, ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
@@ -781,15 +808,22 @@ final readonly class SharingBackend implements ISharingBackend {
 				$ownerUserId = $row['owner_user_id'];
 				$ownerInstance = $this->instanceMapper->getInstanceUrl($row['owner_instance_id']);
 
-				/** @psalm-suppress PossiblyNullReference The share is automatically deleted, when the owner is deleted. */
-				if ($ownerInstance === null && !$accessContext->overrideChecks && $this->hideDisabledUserShares() && !$this->userManager->get(
-					$ownerUserId
-				)->isEnabled()) {
-					continue;
-				}
-
 				/** @var non-empty-string $shareId */
 				$shareId = (string)$row['id'];
+
+				/** @psalm-suppress PossiblyNullReference The share is automatically deleted, when the owner is deleted. */
+				if ($ownerInstance === null && !$accessContext->overrideChecks && ($hideInternal || $hideExternal) && !$this->userManager->get(
+					$ownerUserId
+				)->isEnabled()) {
+					// Every recipient would be hidden, so skip the whole share
+					if ($hideInternal && $hideExternal) {
+						continue;
+					}
+
+					// Only the recipients of the hidden kind are skipped, see below.
+					$disabledOwnerShareIds[$shareId] = true;
+				}
+
 				$lastUpdated = (string)$row['last_updated'];
 				$state = (int)$row['state_id'];
 				$shares[$shareId] ??= [
@@ -957,16 +991,25 @@ final readonly class SharingBackend implements ISharingBackend {
 				$shareId = (string)$row['share_id'];
 				$initiatorUserId = $row['initiator_user_id'];
 				$initiatorInstance = $this->instanceMapper->getInstanceUrl($row['initiator_instance_id']);
+				$instance = $this->instanceMapper->getInstanceUrl($row['recipient_instance_id']);
 
-				/** @psalm-suppress PossiblyNullReference The initiator is automatically promoted to the owner, when the initiator is deleted. */
-				if ($initiatorInstance === null && !$accessContext->overrideChecks && !$shares[$shareId]['owner']->isCurrentUser(
-					$accessContext
-				) && $this->hideDisabledUserShares() && !$this->userManager->get($initiatorUserId)->isEnabled()) {
-					continue;
+				// Recipients of a kind that is hidden are skipped when the share owner or the account that added them is disabled
+				$hideIfDisabledUser = $this->isExternalRecipient($typeClass, $instance) ? $hideExternal : $hideInternal;
+				if ($hideIfDisabledUser && !$accessContext->overrideChecks) {
+					if (isset($disabledOwnerShareIds[$shareId])) {
+						continue;
+					}
+
+					// The owner still sees the recipients added by a disabled initiator, to manage them
+					/** @psalm-suppress PossiblyNullReference The initiator is automatically promoted to the owner, when the initiator is deleted. */
+					if ($initiatorInstance === null && !$shares[$shareId]['owner']->isCurrentUser(
+						$accessContext
+					) && !$this->userManager->get($initiatorUserId)->isEnabled()) {
+						continue;
+					}
 				}
 
 				$value = $row['recipient_value'];
-				$instance = $this->instanceMapper->getInstanceUrl($row['recipient_instance_id']);
 				// The secret is only removed in the next step, because we still need it to check if the current access context still has access to the share, after the recipients of disabled initiators have been skipped.
 				$secret = $row['recipient_secret'];
 
@@ -1212,7 +1255,8 @@ final readonly class SharingBackend implements ISharingBackend {
 		if (!$accessContext->overrideChecks) {
 			$shares = array_filter(
 				$shares,
-				fn (Share $share): bool => $share->owner->isCurrentUser($accessContext) || $hasRecipientAccess[$share->id] || $hasSourceAccess[$share->id]
+				// Source access is only checked for a logged-in user, not for an access by secret
+				fn (Share $share): bool => $share->owner->isCurrentUser($accessContext) || $hasRecipientAccess[$share->id] || ($hasSourceAccess[$share->id] ?? false)
 			);
 		}
 

@@ -53,12 +53,12 @@ class PublicCalendarRoot extends Collection {
 
 	/**
 	 * Checks if the public calendar should be visible or not, based on
-	 * the configuration of the `hide_disabled_user_shares` setting within
+	 * the configuration of the `hide_disabled_user_external_shares` setting within
 	 * `files_sharing` and the status of the owning user (disabled or not).
 	 */
 	private function validateVisibility(string $principalUri): bool {
 		$hideCalendarsOfDisabledUsers = $this->appConfig->getValueBool(
-			'files_sharing', 'hide_disabled_user_shares', true
+			'files_sharing', 'hide_disabled_user_external_shares', true
 		);
 
 		if (!$hideCalendarsOfDisabledUsers) {
