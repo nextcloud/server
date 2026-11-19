@@ -20,6 +20,7 @@ class BackendServiceTest extends \Test\TestCase {
 	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
 
