@@ -193,6 +193,24 @@ class GetSharedSecretTest extends TestCase {
 		];
 	}
 
+	public function testRunLowerToken(): void {
+		$target = 'targetURL';
+		$argument = ['url' => $target, 'token' => 'token1'];
+
+		$this->timeFactory->method('getTime')
+			->willReturn(42);
+
+		// both servers initiated the exchange and the local token is greater, so the remote server asks us
+		$this->trustedServers->method('getToken')
+			->with($target)
+			->willReturn('token2');
+		$this->httpClient->expects($this->never())->method('get');
+		$this->trustedServers->expects($this->never())->method('addSharedSecret');
+
+		self::invokePrivate($this->getSharedSecret, 'run', [$argument]);
+		$this->assertFalse(self::invokePrivate($this->getSharedSecret, 'retainJob'));
+	}
+
 	public function testRunExpired(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
