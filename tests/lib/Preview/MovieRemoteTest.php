@@ -20,6 +20,7 @@ use OC\Preview\MovieRemote;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
+use OCP\IImage;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
 
@@ -78,7 +79,7 @@ class MovieRemoteTest extends Provider {
 		return file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.jpg');
 	}
 
-	private function getThumbnail(?File $file = null): ?\OCP\IImage {
+	private function getThumbnail(?File $file = null): ?IImage {
 		$file ??= new FileNode(Server::get(IRootFolder::class), $this->rootView, $this->imgPath);
 		return $this->provider->getThumbnail($file, 256, 256);
 	}
