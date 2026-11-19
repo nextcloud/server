@@ -745,7 +745,7 @@ EOF;
 		$initials = '?';
 		if ($name !== '') {
 			$initials = implode('', array_map(
-				static fn (string $namePart): string => mb_strtoupper(mb_substr(trim($namePart), 0, 1, 'UTF-8'), 'UTF-8'),
+				static fn (string $namePart): string => mb_substr(trim($namePart), 0, 1, 'UTF-8'),
 				explode(' ', $name, 2),
 			));
 		}
