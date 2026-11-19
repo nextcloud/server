@@ -13,12 +13,10 @@ namespace OCA\Files_External\Lib\Backend;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\DefinitionParameter;
-use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\MissingDependency;
 use OCP\IL10N;
 
 class FTP extends Backend {
-	use LegacyDependencyCheckPolyfill;
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('ftp')
@@ -38,5 +36,10 @@ class FTP extends Backend {
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
+	}
+
+	#[\Override]
+	public function checkDependencies(): array {
+		return function_exists('ftp_login') ? [] : [new MissingDependency('ftp')];
 	}
 }

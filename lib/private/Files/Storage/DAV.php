@@ -1030,13 +1030,6 @@ class DAV extends Common {
 		return false;
 	}
 
-	/**
-	 * check if curl is installed
-	 */
-	public static function checkDependencies(): bool {
-		return true;
-	}
-
 	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);

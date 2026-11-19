@@ -13,12 +13,9 @@ namespace OCA\Files_External\Lib\Backend;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
-use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCP\IL10N;
 
 class AmazonS3 extends Backend {
-	use LegacyDependencyCheckPolyfill;
-
 	public function __construct(IL10N $l, AccessKey $legacyAuth) {
 		$this
 			->setIdentifier('amazons3')
