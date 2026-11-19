@@ -194,7 +194,8 @@ export class FilesListPage {
 		return this.getRowCheckboxes().and(this.page.getByRole('checkbox', { checked: true }))
 	}
 
-	private getActionsButtonForFile(filename: string): Locator {
+	/** The button that opens the actions menu of a file's row. */
+	getActionsButtonForFile(filename: string): Locator {
 		return this.getRowForFile(filename)
 			.getByRole('button', { name: 'Actions' })
 	}

@@ -85,9 +85,34 @@ function expectNoMovingPopper(samples: Sample[], log: string) {
 	}
 }
 
-async function rightClick(row: Locator) {
+async function rightClick(row: Locator, x?: number) {
 	const box = (await row.boundingBox())!
-	await row.page().mouse.click(box.x + box.width / 3, box.y + box.height / 2, { button: 'right' })
+	await row.page().mouse.click(box.x + (x ?? box.width / 3), box.y + box.height / 2, { button: 'right' })
+}
+
+/**
+ * The popper of the shown actions menu
+ */
+function getShownMenu(page: Page): Locator {
+	return page.locator('main.app-content .v-popper__popper--shown')
+}
+
+/**
+ * Open the actions menu of a row by right click and return its position once it is fully shown
+ */
+async function openByRightClick(row: Locator, x?: number) {
+	await rightClick(row, x)
+	const menu = getShownMenu(row.page())
+	await expect(menu).toHaveCSS('opacity', '1')
+	return (await menu.boundingBox())!
+}
+
+/**
+ * Close the open actions menu and wait until floating-vue removed it from the page
+ */
+async function closeMenu(page: Page) {
+	await page.keyboard.press('Escape')
+	await expect(page.locator('main.app-content .v-popper__popper')).toHaveCount(0)
 }
 
 test.describe('Files: right click actions menu', () => {
@@ -125,7 +150,7 @@ test.describe('Files: right click actions menu', () => {
 
 		const row = filesListPage.getRowForFile('file-06.txt')
 		await row.hover()
-		const trigger = row.getByRole('button', { name: 'Actions' })
+		const trigger = filesListPage.getActionsButtonForFile('file-06.txt')
 		const triggerBox = (await trigger.boundingBox())!
 		const samples = await recordPoppers(page, () => trigger.click({ force: true }))
 		const log = summarize(samples)
@@ -151,5 +176,76 @@ test.describe('Files: right click actions menu', () => {
 		const cursorY = box.y + box.height / 2
 		// the menu either starts at the cursor or ends at the cursor
 		expect(Math.min(Math.abs(final.y - cursorY), Math.abs(final.y + final.h - cursorY)), log).toBeLessThan(50)
+	})
+})
+
+test.describe('Files: closing the right click actions menu', () => {
+	test.beforeEach(async ({ user, page, filesListPage }) => {
+		await uploadContent(page.request, user, Buffer.from('hello'), 'text/plain', '/file-a.txt')
+		await uploadContent(page.request, user, Buffer.from('hello'), 'text/plain', '/file-b.txt')
+		await filesListPage.open()
+		await expect(filesListPage.getRowForFile('file-b.txt')).toBeVisible()
+	})
+
+	test('keeps the menu at its position while closing', async ({ page, filesListPage }) => {
+		await openByRightClick(filesListPage.getRowForFile('file-a.txt'))
+
+		const samples = await recordPoppers(page, () => page.keyboard.press('Escape'))
+		const log = summarize(samples)
+		await test.info().attach('close', { body: log, contentType: 'text/plain' })
+
+		const positions = new Set(samples.flatMap((s) => s.poppers.map((p) => `${p.x},${p.y}`)))
+		expect(positions.size, log).toBe(1)
+	})
+
+	test('opens the menu at the new cursor position on the next right click', async ({ page, filesListPage }) => {
+		const row = filesListPage.getRowForFile('file-a.txt')
+		const first = await openByRightClick(row, 150)
+		await closeMenu(page)
+
+		const second = await openByRightClick(row, 700)
+		expect(second.x - first.x).toBeGreaterThan(200)
+	})
+
+	test('opens the menu at the new cursor position after another row was right clicked', async ({ page, filesListPage }) => {
+		const row = filesListPage.getRowForFile('file-a.txt')
+		const first = await openByRightClick(row, 150)
+		await openByRightClick(filesListPage.getRowForFile('file-b.txt'), 400)
+		await closeMenu(page)
+
+		const second = await openByRightClick(row, 700)
+		expect(second.x - first.x).toBeGreaterThan(200)
+	})
+
+	test('opens the menu under its trigger after a right click menu was closed', async ({ page, filesListPage }) => {
+		const rightClickBox = await openByRightClick(filesListPage.getRowForFile('file-a.txt'))
+		await closeMenu(page)
+
+		await filesListPage.openActionsMenuForFile('file-a.txt')
+		await expect(getShownMenu(page)).toHaveCSS('opacity', '1')
+		const box = (await getShownMenu(page).boundingBox())!
+		const triggerBox = (await filesListPage.getActionsButtonForFile('file-a.txt').boundingBox())!
+		// placed by floating-vue at the trigger, not at the previous right click position
+		expect(Math.abs(box.x - rightClickBox.x)).toBeGreaterThan(200)
+		expect(Math.abs(box.x - triggerBox.x)).toBeLessThan(200)
+	})
+
+	test.describe('with reduced motion', () => {
+		test.use({ reducedMotion: 'reduce' })
+
+		test('opens the menu again by right click', async ({ page, filesListPage }) => {
+			// The reduced motion theme disables the transitions, so the menu never emits `closed`
+			await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).getPropertyValue('--animation-quick'))).toBe('0')
+
+			const row = filesListPage.getRowForFile('file-a.txt')
+			const toggle = filesListPage.getActionsButtonForFile('file-a.txt')
+			await rightClick(row)
+			await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+			await page.keyboard.press('Escape')
+			await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+			await rightClick(row)
+			await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+		})
 	})
 })
