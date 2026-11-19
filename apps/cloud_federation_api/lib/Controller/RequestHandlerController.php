@@ -36,6 +36,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\OCM\Events\OCMNotificationReceivedEvent;
+use OCP\OCM\Events\OCMShareRequestEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\IIncomingSignedRequest;
@@ -83,14 +84,15 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
 	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Legacy format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']], new single-protocol format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]], or multi-protocol envelope per OCM spec: ['name' => 'multi', 'webdav' => ['sharedSecret' => '...', ...], 'webapp' => [...]]
-	 * @param string $shareType 'group' or 'user' share
+	 * @param string $shareType Recipient type, e.g. 'group' or 'user'
 	 * @param string $resourceType 'file', 'calendar',...
+	 * @param array{scheme?: string, ...<string, mixed>}|null $encryption Encryption metadata for a receiving app
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 *
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
-	 * 501: Share type or the resource type is not supported
+	 * 501: Share type, resource type or encryption is not supported
 	 *
 	 * @psalm-suppress InvalidReturnType
 	 * @psalm-suppress InvalidReturnStatement
@@ -100,26 +102,16 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	#[FederationRateLimit(limit: 5, period: 1200)]
-	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-			try {
-				// if request is signed and well signed, no exceptions are thrown
-				// if request is not signed and host is known for not supporting signed request, no exception are thrown
-				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($owner);
-				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
-			} catch (IncomingRequestException $e) {
-				$this->logger->warning('incoming request exception', ['exception' => $e]);
-				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
-			}
-		}
-
+	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType, $encryption = null) {
 		// check if all required parameters are set
 		if (
-			$shareWith === null
+			!is_string($shareWith)
 			|| $name === null
 			|| $providerId === null
-			|| $resourceType === null
-			|| $shareType === null
+			|| !is_string($owner)
+			|| ($sharedBy !== null && !is_string($sharedBy))
+			|| !is_string($resourceType)
+			|| !is_string($shareType)
 			|| !is_array($protocol)
 			|| !isset($protocol['name'])
 		) {
@@ -132,6 +124,10 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
+		if ($encryption !== null && (!is_array($encryption) || (array_key_exists('scheme', $encryption) && !is_string($encryption['scheme'])))) {
+			return new JSONResponse(['message' => 'Invalid encryption metadata', 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		}
+
 		if (!$this->protocolCarriesSharedSecret($protocol)) {
 			return new JSONResponse(
 				[
@@ -142,17 +138,23 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$supportedShareTypes = $this->config->getSupportedShareTypes($resourceType);
-		// $shareType is an untyped parameter taken directly from the OCS request body
-		/** @psalm-suppress UnrecognizedExpression */
-		if (!in_array($shareType, $supportedShareTypes)) {
-			return new JSONResponse(
-				['message' => 'Share type "' . $shareType . '" not implemented'],
-				Http::STATUS_NOT_IMPLEMENTED
-			);
+		$payload = compact('shareWith', 'name', 'description', 'providerId', 'owner', 'ownerDisplayName', 'sharedBy', 'sharedByDisplayName', 'protocol', 'shareType', 'resourceType', 'encryption');
+		$signedRequest = null;
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($owner);
+				$this->confirmSignedOrigin($signedRequest, $payload);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
-		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		} catch (\InvalidArgumentException) {
+			return new JSONResponse(['message' => 'Invalid recipient cloud ID', 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		}
 		$shareWithCloudId = $shareWith; // preserve full cloud ID for factory capability discovery
 		$shareWith = $cloudId->getUser();
 
@@ -218,17 +220,36 @@ class RequestHandlerController extends Controller {
 			}
 		}
 
+		$payload['ownerDisplayName'] = $ownerDisplayName;
+		$payload['sharedBy'] = $sharedBy;
+		$payload['sharedByDisplayName'] = $sharedByDisplayName;
+		if ($encryption === null) {
+			unset($payload['encryption']);
+		}
+
 		try {
-			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			// Pass the original cloud ID so the factory can discover capabilities without warning.
-			// Then reset shareWith to the local username that shareReceived() needs for user lookup.
-			$share = $this->factory->getCloudFederationShare($shareWithCloudId, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
-			$share->setShareWith($shareWith);
-			$share->setProtocol($protocol);
-			if ($provider instanceof IValidationAwareCloudFederationProvider) {
-				$provider->validateShare($share);
+			$event = new OCMShareRequestEvent($payload, $signedRequest);
+			$this->dispatcher->dispatchTyped($event);
+			$shareResponse = $event->getResponse();
+			if ($shareResponse === null) {
+				if ($encryption !== null) {
+					return new JSONResponse(['message' => 'Share encryption is not supported'], Http::STATUS_NOT_IMPLEMENTED);
+				}
+				if (!in_array($shareType, $this->config->getSupportedShareTypes($resourceType), true)) {
+					return new JSONResponse(['message' => 'Share type "' . $shareType . '" not implemented'], Http::STATUS_NOT_IMPLEMENTED);
+				}
+				$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+				// Use the original cloud ID for discovery, then the local username for the provider.
+				$share = $this->factory->getCloudFederationShare($shareWithCloudId, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+				$share->setShareWith($shareWith);
+				$share->setProtocol($protocol);
+				if ($provider instanceof IValidationAwareCloudFederationProvider) {
+					$provider->validateShare($share);
+				}
+				$provider->shareReceived($share);
+			} elseif ($shareResponse->getStatus() !== Http::STATUS_CREATED) {
+				return $shareResponse;
 			}
-			$provider->shareReceived($share);
 		} catch (BadRequestException $e) {
 			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (ProviderDoesNotExistsException $e) {
@@ -267,6 +288,10 @@ class RequestHandlerController extends Controller {
 			false,
 			'cloud_federation_api.share.received',
 		));
+
+		if ($shareResponse !== null) {
+			return $shareResponse;
+		}
 
 		$responseData = ['recipientDisplayName' => ''];
 		if ($shareType === 'user') {
@@ -440,28 +465,22 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 * confirm that the value related to $key entry from the payload is in format userid@hostname
-	 * and compare hostname with the origin of the signed request.
+	 * Confirm the share owner's origin and, for signed requests, bind the share fields to the signed body.
 	 *
-	 * If request is not signed, we still verify that the hostname from the extracted value does,
-	 * actually, not support signed request
-	 *
-	 * Delegates to {@see IOCMDiscoveryService::confirmRequestOrigin()}.
-	 *
-	 * @param IIncomingSignedRequest|null $signedRequest
-	 * @param string $key entry from data available in data
-	 * @param string $value value itself used in case request is not signed
-	 *
+	 * @param array{owner: string, ...<string, mixed>} $payload
 	 * @throws IncomingRequestException
 	 */
-	private function confirmSignedOrigin(?IIncomingSignedRequest $signedRequest, string $key, string $value): void {
+	private function confirmSignedOrigin(?IIncomingSignedRequest $signedRequest, array $payload): void {
 		if ($signedRequest !== null) {
-			$body = json_decode($signedRequest->getBody(), true) ?? [];
-			$entry = trim(($body[$key] ?? ''), '@');
-		} else {
-			$entry = trim($value, '@');
+			$body = json_decode($signedRequest->getBody(), true);
+			// Controller arguments can also come from outside the signed body.
+			foreach ($payload as $field => $value) {
+				if (($body[$field] ?? null) !== $value) {
+					throw new IncomingRequestException('Share parameters do not match the signed request body');
+				}
+			}
 		}
-		$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $entry);
+		$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), trim($payload['owner'], '@'));
 	}
 
 	/**

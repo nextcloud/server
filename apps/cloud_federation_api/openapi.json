@@ -176,11 +176,22 @@
                                     },
                                     "shareType": {
                                         "type": "string",
-                                        "description": "'group' or 'user' share"
+                                        "description": "Recipient type, e.g. 'group' or 'user'"
                                     },
                                     "resourceType": {
                                         "type": "string",
                                         "description": "'file', 'calendar',..."
+                                    },
+                                    "encryption": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Encryption metadata for a receiving app",
+                                        "properties": {
+                                            "scheme": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -209,7 +220,7 @@
                         }
                     },
                     "501": {
-                        "description": "Share type or the resource type is not supported",
+                        "description": "Share type, resource type or encryption is not supported",
                         "content": {
                             "application/json": {
                                 "schema": {
