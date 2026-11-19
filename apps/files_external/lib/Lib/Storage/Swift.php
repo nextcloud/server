@@ -597,11 +597,4 @@ class Swift extends Common {
 		sort($content);
 		return $cachedNames !== $content;
 	}
-
-	/**
-	 * check if curl is installed
-	 */
-	public static function checkDependencies(): bool {
-		return true;
-	}
 }

@@ -13,7 +13,6 @@ namespace OCA\Files_External\Lib\Backend;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\DefinitionParameter;
-use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
@@ -23,9 +22,7 @@ use OCP\IUser;
  * Deprecated SMB_OC class - use SMB with the password::sessioncredentials auth mechanism
  */
 class SMB_OC extends Backend {
-	use LegacyDependencyCheckPolyfill;
-
-	public function __construct(IL10N $l, SessionCredentials $legacyAuth, SMB $smbBackend) {
+	public function __construct(IL10N $l, SessionCredentials $legacyAuth, private readonly SMB $smbBackend) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SMB_OC')
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
@@ -45,6 +42,11 @@ class SMB_OC extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 			->deprecateTo($smbBackend)
 		;
+	}
+
+	#[\Override]
+	public function checkDependencies(): array {
+		return $this->smbBackend->checkDependencies();
 	}
 
 	/**
