@@ -173,10 +173,6 @@
     "Private" : "Privado",
     "Local" : "Local",
     "Federated" : "Federado",
-    "Your apps" : "Tus aplicaciones",
-    "Disabled apps" : "Aplicaciones deshabilitadas",
-    "Updates" : "Actualizaciones",
-    "App bundles" : "Paquetes de aplicación",
     "Hide" : "Ocultar",
     "Files" : "Archivo",
     "Contacts" : "Contactos",
@@ -219,6 +215,10 @@
     "Rate" : "Calificar",
     "Changelog" : "Bitácora de cambios",
     "Encryption" : "Encripción",
+    "Your apps" : "Tus aplicaciones",
+    "Disabled apps" : "Aplicaciones deshabilitadas",
+    "Updates" : "Actualizaciones",
+    "App bundles" : "Paquetes de aplicación",
     "Disable" : "Deshabilitar",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación está habilitada pero necesita ser actualizada. Serás redireccionado a la página de actualización en 5 segundos. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

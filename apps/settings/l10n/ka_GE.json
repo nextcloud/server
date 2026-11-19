@@ -177,10 +177,6 @@
     "Private" : "პირადი",
     "Local" : "ლოკალური",
     "Federated" : "ფედერალური",
-    "Your apps" : "თქვენი აპლიკაციები",
-    "Disabled apps" : "არამოქმედი აპლიკაციები",
-    "Updates" : "განახლებები",
-    "App bundles" : "აპლიკაციის შეკვრები",
     "Hide" : "დამალვა",
     "Error" : "შეცდომა",
     "Documentation" : "დოკუმენტაცია",
@@ -221,6 +217,10 @@
     "Rate" : "შეაფასეთ",
     "Changelog" : "ცვლილებების ლოგი",
     "Encryption" : "შიფრაცია",
+    "Your apps" : "თქვენი აპლიკაციები",
+    "Disabled apps" : "არამოქმედი აპლიკაციები",
+    "Updates" : "განახლებები",
+    "App bundles" : "აპლიკაციის შეკვრები",
     "Disable" : "გამორთვა",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "აპლიკაცია ამოქმედდა, თუმცა საჭიროებს განახლებას. 5 წამში გადამისამართდებით განახლების გვერდზე."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
