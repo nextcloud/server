@@ -11,6 +11,7 @@ namespace OCA\Theming\Tests\Controller;
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -782,5 +783,33 @@ class ThemingControllerTest extends TestCase {
 		]);
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
+	}
+
+	private function getThemeStylesheet(bool $plain, int $type = ITheme::TYPE_THEME): string {
+		$theme = $this->createMock(ITheme::class);
+		$theme->method('getType')->willReturn($type);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif']);
+		$theme->method('getCustomCss')->willReturn('');
+		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
+
+		return $this->themingController->getThemeStylesheet('dark', $plain)->render();
+	}
+
+	public function testGetThemeStylesheetKeepsFontFaceOnRoot(): void {
+		$css = $this->getThemeStylesheet(true);
+
+		$this->assertStringContainsString('--font-face:sans-serif;', $css);
+	}
+
+	public function testGetThemeStylesheetOmitsFontFaceForScopedColorTheme(): void {
+		$css = $this->getThemeStylesheet(false);
+
+		$this->assertStringNotContainsString('--font-face', $css);
+	}
+
+	public function testGetThemeStylesheetKeepsFontFaceForScopedFontTheme(): void {
+		$css = $this->getThemeStylesheet(false, ITheme::TYPE_FONT);
+
+		$this->assertStringContainsString('--font-face:sans-serif;', $css);
 	}
 }
