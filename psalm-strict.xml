@@ -69,6 +69,7 @@
 		<directory name="lib/public/SystemReport"/>
 		<directory name="lib/private/SystemReport"/>
 		<directory name="tests/lib/SystemReport"/>
+		<file name="apps/dav/lib/Connector/Sabre/QuotaPlugin.php"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
