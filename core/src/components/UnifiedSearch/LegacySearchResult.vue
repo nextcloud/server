@@ -101,6 +101,8 @@ export default {
 		},
 	},
 
+	emits: ['click', 'focus'],
+
 	data() {
 		return {
 			hasValidThumbnail: this.thumbnailUrl && this.thumbnailUrl.trim() !== '',

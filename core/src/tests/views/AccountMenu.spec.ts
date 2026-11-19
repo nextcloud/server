@@ -107,6 +107,7 @@ describe('core: AccountMenu', () => {
 
 		expect(wrapper.findComponent(NcAvatar).props('preloadedUserStatus'))
 			.toEqual({ status: 'dnd', icon: '🎉', message: 'Party time' })
+		expect(wrapper.findComponent(NcAvatar).props('hideStatus')).toBe(false)
 	})
 
 	it('describes the status for assistive technologies', () => {
@@ -129,6 +130,7 @@ describe('core: AccountMenu', () => {
 		const wrapper = mount(AccountMenu, MOUNT_OPTIONS)
 
 		expect(wrapper.findComponent(NcAvatar).props('preloadedUserStatus')).toEqual(NO_STATUS)
+		expect(wrapper.findComponent(NcAvatar).props('hideStatus')).toBe(true)
 		expect(wrapper.findComponent(NcHeaderMenu).props('description')).toBe('Avatar of Alice')
 	})
 
