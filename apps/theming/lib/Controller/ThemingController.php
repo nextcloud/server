@@ -8,6 +8,7 @@
 namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
+use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
@@ -63,6 +64,7 @@ class ThemingController extends Controller {
 		private ThemesService $themesService,
 		private INavigationManager $navigationManager,
 		private IEventDispatcher $eventDispatcher,
+		private IconBuilder $iconBuilder,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -507,6 +509,76 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * Type and size of the icon returned by IconController::getTouchIcon()
+	 *
+	 * @return array{type: string, sizes: string}
+	 */
+	private function getTouchIconFormat(): array {
+		if ($this->imageManager->canConvert('PNG')) {
+			// the uploaded favicon or the generated touch icon
+			$size = $this->imageManager->hasImage('favicon') ? $this->iconBuilder->getUploadedTouchIconSize() : null;
+			$size ??= 512;
+			return ['type' => 'image/png', 'sizes' => $size . 'x' . $size];
+		}
+		if (!$this->imageManager->hasImage('favicon')) {
+			$size = getimagesize(\OC::$SERVERROOT . '/core/img/favicon-touch.png');
+			return ['type' => 'image/png', 'sizes' => $size === false ? 'any' : $size[0] . 'x' . $size[1]];
+		}
+		// without Imagick the uploaded favicon is returned as it is
+		$type = $this->imageManager->getImageMime('favicon');
+		if ($this->imageManager->isSvgImage('favicon')) {
+			return ['type' => $type, 'sizes' => 'any'];
+		}
+		try {
+			$size = getimagesizefromstring($this->imageManager->getImage('favicon')->getContent());
+		} catch (NotFoundException|NotPermittedException $e) {
+			$size = false;
+		}
+		return ['type' => $type, 'sizes' => $size === false ? 'any' : $size[0] . 'x' . $size[1]];
+	}
+
+	/**
+	 * Icons of the web app manifest
+	 *
+	 * An uploaded SVG favicon is listed first, followed by a PNG image for
+	 * browsers that do not support SVG icons. The uploaded favicon is used
+	 * without a background, the touch icon with its background is only used
+	 * if the favicon can not be rendered or is too small.
+	 *
+	 * @return list<array{src: non-empty-string, type: string, sizes: string}>
+	 */
+	private function getManifestIcons(string $app, string $cacheBusterValue): array {
+		$touchIcon = fn (): array => [
+			'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue,
+			...$this->getTouchIconFormat(),
+		];
+		if (!$this->imageManager->hasImage('favicon')) {
+			return [$touchIcon()];
+		}
+		$icons = [];
+		$isSvg = $this->imageManager->isSvgImage('favicon');
+		if ($isSvg) {
+			$icons[] = [
+				'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue,
+				'type' => 'image/svg+xml',
+				'sizes' => 'any',
+			];
+		}
+		if ($this->imageManager->canConvert('PNG')) {
+			$size = $this->iconBuilder->getUploadedManifestIconSize();
+			$icons[] = $size === null ? $touchIcon() : [
+				'src' => $this->urlGenerator->linkToRoute('theming.Icon.getManifestIcon') . '?v=' . $cacheBusterValue,
+				'type' => 'image/png',
+				'sizes' => $size . 'x' . $size,
+			];
+		} elseif (!$isSvg) {
+			// without Imagick the touch icon is the uploaded favicon as it is
+			$icons[] = $touchIcon();
+		}
+		return $icons;
+	}
+
+	/**
 	 * Get the manifest for an app
 	 *
 	 * @param string $app ID of the app
@@ -555,21 +627,7 @@ class ThemingController extends Controller {
 			'theme_color' => $this->themingDefaults->getColorPrimary(),
 			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'description' => $description,
-			'icons'
-				=> [
-					[
-						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
-							['app' => $app]) . '?v=' . $cacheBusterValue,
-						'type' => 'image/png',
-						'sizes' => '512x512'
-					],
-					[
-						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',
-							['app' => $app]) . '?v=' . $cacheBusterValue,
-						'type' => 'image/svg+xml',
-						'sizes' => '16x16'
-					]
-				],
+			'icons' => $this->getManifestIcons($app, $cacheBusterValue),
 			'display_override' => [$this->config->getSystemValueBool('theming.standalone_window.enabled', true) ? 'minimal-ui' : ''],
 			'display' => $this->config->getSystemValueBool('theming.standalone_window.enabled', true) ? 'standalone' : 'browser'
 		];

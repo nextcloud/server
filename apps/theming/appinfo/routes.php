@@ -62,6 +62,11 @@ return [
 			'defaults' => ['app' => 'core'],
 		],
 		[
+			'name' => 'Icon#getManifestIcon',
+			'url' => '/manifest-icon',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'Icon#getThemedIcon',
 			'url' => '/img/{app}/{image}',
 			'verb' => 'GET',
