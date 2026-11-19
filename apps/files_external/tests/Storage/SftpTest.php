@@ -13,8 +13,6 @@ use OCA\Files_External\Lib\Storage\SFTP;
 
 /**
  * Class SftpTest
- *
- *
  * @package OCA\Files_External\Tests\Storage
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -129,5 +127,65 @@ class SftpTest extends \Test\Files\Storage\Storage {
 				'sftp::someuser@FE80::0202:B3FF:FE1E:8329:8822//remotedir/subdir/',
 			],
 		];
+	}
+
+	public static function interleavedReadProvider(): array {
+		return [
+			'after opening' => [false],
+			'after reading' => [true],
+		];
+	}
+
+	/**
+	 * A read stream must not leave SFTP responses pending on the shared client:
+	 * another operation could consume a READ response as its own.
+	 *
+	 * Exercise both opening and reading, since either can initiate read-ahead.
+	 * Clear the stat cache before opening so statting another file requires a
+	 * network request. Use the client directly so packet errors are not swallowed
+	 * by the storage layer.
+	 *
+	 * On a sequential-processing server, the unfixed implementation makes STAT
+	 * consume the pending DATA response. Servers that reorder responses may mask
+	 * the bug.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('interleavedReadProvider')]
+	public function testReadStreamAllowsOtherSftpOperations(bool $readFirst): void {
+		$content = str_repeat('0123456789abcdef', 40000);
+		$this->assertSame(
+			strlen($content),
+			$this->instance->file_put_contents('source.bin', $content),
+		);
+		$this->assertSame(
+			5,
+			$this->instance->file_put_contents('other.txt', 'other'),
+		);
+
+		$connection = $this->instance->getConnection();
+		$connection->clearStatCache();
+
+		$stream = $this->instance->fopen('source.bin', 'r');
+		$this->assertIsResource($stream);
+
+		try {
+			$prefix = '';
+			if ($readFirst) {
+				$prefix = fread($stream, 8192);
+				$this->assertSame(substr($content, 0, 8192), $prefix);
+			}
+
+			$stat = $connection->stat(
+				$this->instance->getRoot() . 'other.txt',
+			);
+			$this->assertIsArray($stat);
+			$this->assertSame(5, $stat['size']);
+
+			$this->assertSame(
+				$content,
+				$prefix . stream_get_contents($stream),
+			);
+		} finally {
+			fclose($stream);
+		}
 	}
 }
