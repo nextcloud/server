@@ -30,6 +30,7 @@ use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Xml\Property\Complex;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
 use function time;
@@ -1722,7 +1723,7 @@ EOD;
 		$sharedPath = 'calendars/caldav-unit-test/calendar-uri-sharer_shared_by_caldav-unit-test1';
 		$ownPath = 'calendars/caldav-unit-test/calendar-uri-sharee';
 		try {
-			// a sharee can override the transparency, other properties only fill in missing values
+			// a sharee can override the transparency, read-only is never applied
 			$this->insertProperty('caldav-unit-test', $sharedPath, $transparencyKey, new ScheduleCalendarTransp('opaque'));
 			$this->insertProperty('caldav-unit-test', $sharedPath, $enabledKey, '0');
 			$this->insertProperty('caldav-unit-test', $sharedPath, $readOnlyKey, '0');
@@ -1762,6 +1763,76 @@ EOD;
 			$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
 			$this->assertSame('opaque', $sharerCalendars[0][$transparencyKey]->getValue());
 			$this->assertArrayNotHasKey($enabledKey, $sharerCalendars[0]);
+		} finally {
+			$this->deleteProperties('caldav-unit-test', 'caldav-unit-test1');
+		}
+	}
+
+	public function testGetCalendarsIgnoresUnlistedAndInvalidAdditionalProperties(): void {
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
+
+		$sharee = self::UNIT_TEST_USER;
+		$sharer = self::UNIT_TEST_USER1;
+		$ownerPrincipalKey = '{http://owncloud.org/ns}owner-principal';
+		$publicKey = '{http://owncloud.org/ns}public';
+		$displayNameKey = '{DAV:}displayname';
+		$colorKey = '{http://apple.com/ns/ical/}calendar-color';
+
+		$this->backend->createCalendar($sharee, 'calendar-uri-sharee', [
+			$displayNameKey => 'Own',
+			$colorKey => '#000000',
+		]);
+		$this->backend->createCalendar($sharer, 'calendar-uri-sharer', [
+			$displayNameKey => 'Shared',
+			$colorKey => '#000000',
+		]);
+		$sharerCalendar = new Calendar($this->backend, $this->backend->getCalendarsForUser($sharer)[0], $this->createMock(IL10N::class), $this->createMock(IConfig::class), new NullLogger());
+		$this->backend->updateShares($sharerCalendar, [
+			[
+				'href' => 'principal:' . $sharee,
+				'readOnly' => true,
+			],
+		], []);
+
+		$sharedPath = 'calendars/caldav-unit-test/calendar-uri-sharer_shared_by_caldav-unit-test1';
+		$ownPath = 'calendars/caldav-unit-test/calendar-uri-sharee';
+		try {
+			$this->insertProperty('caldav-unit-test', $ownPath, $ownerPrincipalKey, $sharer);
+			$this->insertProperty('caldav-unit-test', $ownPath, $publicKey, '1');
+			$this->insertProperty('caldav-unit-test', $ownPath, $displayNameKey, 'Stored');
+			$this->insertProperty('caldav-unit-test', $ownPath, $colorKey, '#ff0000');
+			$this->insertProperty('caldav-unit-test', $sharedPath, $publicKey, '1');
+			$this->insertProperty('caldav-unit-test', $sharedPath, $displayNameKey, new Complex('<x/>'));
+			$this->insertProperty('caldav-unit-test', $sharedPath, $colorKey, '#00ff00');
+
+			$ownCalendars = [
+				$this->backend->getCalendarByUri($sharee, 'calendar-uri-sharee'),
+				$this->backend->getUsersOwnCalendars($sharee)[0],
+			];
+			foreach ($this->backend->getCalendarsForUser($sharee) as $calendar) {
+				if ($calendar['uri'] === 'calendar-uri-sharee') {
+					$ownCalendars[] = $calendar;
+				} else {
+					$shared = $calendar;
+				}
+			}
+
+			$this->assertCount(3, $ownCalendars);
+			foreach ($ownCalendars as $own) {
+				$this->assertNotSame($sharer, $own[$ownerPrincipalKey] ?? null);
+				$this->assertArrayNotHasKey($publicKey, $own);
+				$this->assertSame('Own', $own[$displayNameKey]);
+				$this->assertSame('#000000', $own[$colorKey]);
+			}
+
+			$this->assertArrayNotHasKey($publicKey, $shared);
+			$this->assertIsString($shared[$displayNameKey]);
+			$this->assertSame('#00ff00', $shared[$colorKey]);
 		} finally {
 			$this->deleteProperties('caldav-unit-test', 'caldav-unit-test1');
 		}

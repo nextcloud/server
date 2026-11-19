@@ -4019,15 +4019,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * Adds the properties the user whose calendar home a calendar is in has stored on it
 	 *
-	 * Stored properties only fill in values the calendar does not provide itself. On calendars
-	 * shared with the user, the properties a sharee can customize override the owner's values.
+	 * Only allow-listed properties with a valid value are applied: the enabled state on all
+	 * calendars, and on calendars shared with the user the properties a sharee can customize,
+	 * which override the owner's values.
 	 *
 	 * @param array[] $calendars
 	 * @return array[]
 	 */
 	private function addAdditionalPropertiesToCalendars(array $calendars): array {
 		$ownerPrincipalKey = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal';
-
+		$enabledKey = '{http://owncloud.org/ns}calendar-enabled';
+		
 		$paths = [];
 		$calendarPaths = [];
 		foreach ($calendars as $key => $calendar) {
@@ -4045,18 +4047,33 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$properties = $this->customPropertiesService->getProperties($paths);
 		foreach ($calendarPaths as $key => [$userId, $path]) {
-			$storedProperties = $properties[$userId][$path] ?? [];
-			if ($storedProperties === []) {
-				continue;
-			}
-			$calendar = array_merge($storedProperties, $calendars[$key]);
+			$calendar = $calendars[$key];
+			$allowedProperties = [$enabledKey];
 			if (isset($calendar[$ownerPrincipalKey]) && $calendar[$ownerPrincipalKey] !== $calendar['principaluri']) {
-				$calendar = array_merge($calendar, array_intersect_key($storedProperties, array_flip(CustomPropertiesBackend::SHARED_CALENDAR_PROPERTIES)));
+				$allowedProperties = array_merge($allowedProperties, CustomPropertiesBackend::SHARED_CALENDAR_PROPERTIES);
+			}
+			foreach ($allowedProperties as $name) {
+				if (isset($properties[$userId][$path][$name]) && $this->isValidAdditionalProperty($name, $properties[$userId][$path][$name])) {
+					$calendar[$name] = $properties[$userId][$path][$name];
+				}
 			}
 			$calendars[$key] = $calendar;
 		}
 
 		return $calendars;
+	}
+
+	/**
+	 * Checks that a stored calendar property has the type its consumers expect
+	 */
+	private function isValidAdditionalProperty(string $name, mixed $value): bool {
+		return match ($name) {
+			'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp' => $value instanceof ScheduleCalendarTransp,
+			'{http://apple.com/ns/ical/}calendar-order' => is_numeric($value),
+			'{http://owncloud.org/ns}calendar-enabled',
+			'{http://nextcloud.com/ns}disable-alarm-notifications' => is_scalar($value),
+			default => is_string($value),
+		};
 	}
 
 	/**
