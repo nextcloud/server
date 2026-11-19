@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\TipBroker;
 use Sabre\VObject;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
@@ -609,6 +610,162 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE->getValue(), $messages[0]->recipient);
 		// verify SCHEDULE-FORCE-SEND is removed from the message (sanitized)
 		$this->assertFalse(isset($messages[0]->message->VEVENT->ATTENDEE['SCHEDULE-FORCE-SEND']));
+	}
+
+	/**
+	 * Tests an instance created to store one attendee's participation status, as done when processing a REPLY
+	 */
+	public function testParseEventForOrganizerCreatedInstanceWithPartstatIsNotSignificant(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240715T080000');
+		$mutatedInstance->ATTENDEE[1]['PARTSTAT'] = 'DECLINED';
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(2, $messages);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->recipient);
+		$this->assertFalse($messages[0]->significantChange);
+		$this->assertEquals('mailto:attendee2@example.org', $messages[1]->recipient);
+		$this->assertFalse($messages[1]->significantChange);
+	}
+
+	/**
+	 * Tests an instance created for the first occurrence, where RECURRENCE-ID equals the master DTSTART
+	 */
+	public function testParseEventForOrganizerCreatedFirstInstanceWithPartstatIsNotSignificant(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240701T080000');
+		$mutatedInstance->ATTENDEE[1]['PARTSTAT'] = 'DECLINED';
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(2, $messages);
+		$this->assertFalse($messages[0]->significantChange);
+		$this->assertFalse($messages[1]->significantChange);
+	}
+
+	/**
+	 * Tests an instance created to add an attendee to a single occurrence
+	 */
+	public function testParseEventForOrganizerCreatedInstanceAddAttendeeIsSignificantOnlyForAddedAttendee(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240715T080000');
+		$mutatedInstance->add('ATTENDEE', 'mailto:attendee3@example.org', ['CN' => 'Attendee Three', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(3, $messages);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->recipient);
+		$this->assertFalse($messages[0]->significantChange);
+		$this->assertEquals('mailto:attendee2@example.org', $messages[1]->recipient);
+		$this->assertFalse($messages[1]->significantChange);
+		$this->assertEquals('mailto:attendee3@example.org', $messages[2]->recipient);
+		$this->assertTrue($messages[2]->significantChange);
+	}
+
+	/**
+	 * Tests an instance created to remove an attendee from a single occurrence
+	 */
+	public function testParseEventForOrganizerCreatedInstanceRemoveAttendeeIsSignificantOnlyForRemovedAttendee(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240715T080000');
+		$mutatedInstance->remove($mutatedInstance->ATTENDEE[1]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(2, $messages);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->recipient);
+		$this->assertFalse($messages[0]->significantChange);
+		$this->assertEquals('mailto:attendee2@example.org', $messages[1]->recipient);
+		$this->assertTrue($messages[1]->significantChange);
+	}
+
+	/**
+	 * Tests an instance created for another occurrence than the one an attendee takes part in
+	 */
+	public function testParseEventForOrganizerCreatedInstanceIsNotSignificantForAttendeeOfOtherInstance(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalInstance = $this->createInstance($originalCalendar, '20240722T080000');
+		$originalInstance->add('ATTENDEE', 'mailto:attendee3@example.org', ['CN' => 'Attendee Three', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240715T080000');
+		$mutatedInstance->ATTENDEE[1]['PARTSTAT'] = 'DECLINED';
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(3, $messages);
+		$this->assertEquals('mailto:attendee3@example.org', $messages[2]->recipient);
+		$this->assertFalse($messages[2]->significantChange);
+	}
+
+	/**
+	 * Tests an instance created to move a single occurrence
+	 */
+	public function testParseEventForOrganizerCreatedInstanceMovedIsSignificant(): void {
+		$originalCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedInstance = $this->createInstance($mutatedCalendar, '20240715T080000');
+		$mutatedInstance->DTSTART->setValue('20240715T100000');
+		$mutatedInstance->DTEND->setValue('20240715T110000');
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(2, $messages);
+		$this->assertTrue($messages[0]->significantChange);
+		$this->assertTrue($messages[1]->significantChange);
+	}
+
+	/**
+	 * Tests adding an attendee to all occurrences of a recurring event
+	 */
+	public function testParseEventForOrganizerAddAttendeeToSeriesIsSignificantOnlyForAddedAttendee(): void {
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = $this->createRecurringCalendarWithTwoAttendees();
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(2, $messages);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->recipient);
+		$this->assertFalse($messages[0]->significantChange);
+		$this->assertEquals('mailto:attendee2@example.org', $messages[1]->recipient);
+		$this->assertTrue($messages[1]->significantChange);
+	}
+
+	private function createRecurringCalendarWithTwoAttendees(): VCalendar {
+		$calendar = clone $this->vCalendar2a;
+		$calendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@example.org', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		return $calendar;
+	}
+
+	/**
+	 * Adds an unmodified instance of the master event for the given occurrence
+	 */
+	private function createInstance(VCalendar $calendar, string $recurrenceId): VEvent {
+		$instance = clone $calendar->VEVENT;
+		$instance->remove('RRULE');
+		$instance->add('RECURRENCE-ID', $recurrenceId, ['TZID' => 'America/Toronto']);
+		$instance->SEQUENCE->setValue(0);
+		$instance->DTSTART->setValue($recurrenceId);
+		$instance->DTEND->setValue(date('Ymd\THis', strtotime($recurrenceId) + 3600));
+		$calendar->add($instance);
+		return $instance;
 	}
 
 	public function testProcessMessageReplyDisallowsInvitationForwarding(): void {
