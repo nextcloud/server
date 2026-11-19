@@ -357,7 +357,7 @@ OC.L10N.register(
     "View in folder" : "In Ordner anzeigen",
     "Upload from device" : "Von Gerät hochladen",
     "Create new" : "Neu erstellen",
-    "Other" : "Sonstiges",
+    "Other" : "Sonstige",
     "Type" : "Typ",
     "Created new folder \"{name}\"" : "Neuer Ordner \"{name}\" wurde erstellt",
     "Unable to initialize the templates directory" : "Der Vorlagenordner kann nicht initialisiert werden",
