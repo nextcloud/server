@@ -6,15 +6,18 @@
 <script setup lang="ts">
 import type { IToken } from '../store/authtoken.ts'
 
-import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiShieldEditOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
+import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiLogout, mdiMicrosoftEdge, mdiMonitor, mdiPencilOutline, mdiShieldEditOutline, mdiTablet, mdiTrashCanOutline, mdiWeb } from '@mdi/js'
 import { showConfirmation } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
@@ -29,6 +32,7 @@ const props = defineProps<{
 }>()
 
 const productName = window.OC.theme.productName as string
+const logoutUrl = loadState<Record<string, { href: string }>>('core', 'settingsNavEntries', {}).logout?.href
 
 const nameMap = {
 	edge: 'Microsoft Edge',
@@ -61,6 +65,8 @@ const deleteDialogOpen = ref(false)
 const accessDialogOpen = ref(false)
 
 const canChangeScope = computed(() => props.token.type === TokenType.PERMANENT_TOKEN)
+// The current session can only log out, and only when the backend has a logout URL
+const hasActions = computed(() => !props.token.current || !!logoutUrl)
 const access = computed(() => accessLabel(props.token.scope))
 
 watch(accessDialogOpen, (open) => {
@@ -247,46 +253,61 @@ async function wipe() {
 </script>
 
 <template>
-	<tr class="auth-token" :class="[{ 'auth-token--wiping': wiping }]" :data-id="token.id">
-		<td class="auth-token__name">
-			<NcIconSvgWrapper :path="tokenIcon" />
-			<div class="auth-token__name-wrapper">
-				<form
-					v-if="token.canRename && renaming"
-					class="auth-token__name-form"
-					@submit.prevent.stop="rename">
-					<NcTextField
-						ref="input"
-						v-model="newName"
-						:label="t('settings', 'Device name')"
-						:showTrailingButton="true"
-						:trailingButtonLabel="t('settings', 'Cancel renaming')"
-						@trailingButtonClick="cancelRename"
-						@keyup.esc="cancelRename" />
-					<NcButton :aria-label="t('settings', 'Save new name')" variant="tertiary" type="submit">
-						<template #icon>
-							<NcIconSvgWrapper :path="mdiCheck" />
-						</template>
-					</NcButton>
-				</form>
-				<span v-else>{{ tokenLabel }}</span>
-				<span v-if="canChangeScope" class="auth-token__access">{{ access }}</span>
-				<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
-			</div>
-		</td>
-		<td>
-			<NcDateTime
-				class="auth-token__last-activity"
-				:ignoreSeconds="true"
-				:timestamp="tokenLastActivity" />
-		</td>
-		<td class="auth-token__actions">
+	<form
+		v-if="token.canRename && renaming"
+		:data-id="token.id"
+		:class="$style.authToken__nameForm"
+		@submit.prevent.stop="rename">
+		<NcTextField
+			ref="input"
+			v-model="newName"
+			:label="t('settings', 'Device name')"
+			:showTrailingButton="true"
+			:trailingButtonLabel="t('settings', 'Cancel renaming')"
+			@trailingButtonClick="cancelRename"
+			@keyup.esc="cancelRename" />
+		<NcButton :aria-label="t('settings', 'Save new name')" variant="tertiary" type="submit">
+			<template #icon>
+				<NcIconSvgWrapper :path="mdiCheck" />
+			</template>
+		</NcButton>
+	</form>
+	<NcFormBoxButton
+		v-else
+		:data-id="token.id"
+		:disabled="!hasActions"
+		:aria-haspopup="token.current ? undefined : 'menu'"
+		:aria-expanded="actionOpen ? 'true' : 'false'"
+		@click="actionOpen = true">
+		<span :class="$style.authToken__label">
+			<span :class="$style.authToken__icon">
+				<NcIconSvgWrapper inline :path="tokenIcon" :size="20" />
+			</span>
+			<span>{{ tokenLabel }}</span>
+		</span>
+		<template #description>
+			<NcDateTime :class="$style.authToken__date" :ignoreSeconds="true" :timestamp="tokenLastActivity" />
+			<template v-if="canChangeScope">
+				· {{ access }}
+			</template>
+			<template v-if="wiping">
+				· {{ t('settings', 'Marked for remote wipe') }}
+			</template>
+		</template>
+		<template #icon>
 			<NcActions
-				v-if="!token.current"
 				ref="actions"
 				v-model:open="actionOpen"
+				:class="$style.authToken__actions"
+				forceMenu
 				:title="t('settings', 'Device settings')"
 				:aria-label="t('settings', 'Device settings')">
+				<NcActionLink v-if="token.current && logoutUrl" :href="logoutUrl">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiLogout" directional />
+					</template>
+					{{ t('settings', 'Log out') }}
+				</NcActionLink>
 				<NcActionButton
 					v-if="canChangeScope"
 					closeAfterClick
@@ -343,61 +364,45 @@ async function wipe() {
 					</NcActionButton>
 				</template>
 			</NcActions>
-		</td>
-		<AuthTokenAccessDialog
-			v-if="accessDialogOpen"
-			v-model:open="accessDialogOpen"
-			:token="token" />
-		<AuthTokenDeleteDialog
-			v-if="deleteDialogOpen"
-			v-model:open="deleteDialogOpen"
-			:token="token"
-			@confirm="confirmDelete" />
-	</tr>
+		</template>
+	</NcFormBoxButton>
+	<AuthTokenAccessDialog
+		v-if="accessDialogOpen"
+		v-model:open="accessDialogOpen"
+		:token="token" />
+	<AuthTokenDeleteDialog
+		v-if="deleteDialogOpen"
+		v-model:open="deleteDialogOpen"
+		:token="token"
+		@confirm="confirmDelete" />
 </template>
 
-<style lang="scss" scoped>
-.auth-token {
-	border-top: 2px solid var(--color-border);
-	max-width: 200px;
-	white-space: normal;
-	vertical-align: middle;
+<style module>
+.authToken__label {
+	display: flex;
+	align-items: flex-start;
+	gap: calc(2 * var(--default-grid-baseline));
+}
+
+/* One line tall, so the icon centres on the title line when the label wraps */
+.authToken__icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	height: 1lh;
+	/* Pull the glyph flush with the description; MDI icons have 2/24 inner padding */
+	margin-inline-start: calc(-1 * var(--default-grid-baseline) / 2);
+}
+
+/* Lift the menu, and the date for its exact-time tooltip, above the row's full-size click target */
+.authToken__actions,
+.authToken__date {
 	position: relative;
+}
 
-	&--wiping {
-		background-color: var(--color-background-dark);
-	}
-
-	&__name {
-		padding-block: 10px;
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		min-width: 355px; // ensure no jumping when renaming
-	}
-
-	&__name-wrapper {
-		display: flex;
-		flex-direction: column;
-	}
-
-	&__name-form {
-		align-items: end;
-		display: flex;
-		gap: 4px;
-	}
-
-	&__actions {
-		padding: 0 10px;
-	}
-
-	&__last-activity {
-		padding-inline-start: 10px;
-	}
-
-	&__access,
-	.wiping-warning {
-		color: var(--color-text-maxcontrast);
-	}
+.authToken__nameForm {
+	display: flex;
+	align-items: end;
+	gap: var(--default-grid-baseline);
 }
 </style>

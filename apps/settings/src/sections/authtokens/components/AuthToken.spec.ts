@@ -18,12 +18,18 @@ vi.mock('@nextcloud/dialogs', () => ({
 	showConfirmation: showConfirmationMock,
 }))
 
+const navEntries = vi.hoisted(() => ({ value: { logout: { href: '/logout?requesttoken=abc' } } as Record<string, { href: string }> }))
+vi.mock('@nextcloud/initial-state', () => ({
+	loadState: (_app: string, key: string, fallback?: unknown) => (key === 'settingsNavEntries' ? navEntries.value : fallback),
+}))
+
 vi.mock('@vueuse/integrations/useQRCode', async () => {
 	const { computed, toValue } = await import('vue')
 	return { useQRCode: (text: string) => computed(() => `qr:${toValue(text)}`) }
 })
 
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
 import AuthTokenAccessDialog from './AuthTokenAccessDialog.vue'
@@ -370,7 +376,7 @@ describe('AuthToken access', () => {
 	it('shows what an app password can reach', () => {
 		const wrapper = mountAuthToken(makeToken({ scope: { filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write', 'files_sharing:shares:write'] } }))
 
-		expect(wrapper.find('.auth-token__access').text()).toBe('Files')
+		expect(wrapper.text()).toContain('· Files')
 	})
 
 	it('keeps the filesystem toggle for tokens without scopes only', () => {
@@ -387,5 +393,53 @@ describe('AuthToken access', () => {
 		await nextTick()
 
 		expect(wrapper.findComponent(AuthTokenAccessDialog).props('token')).toEqual(token)
+	})
+})
+
+describe('AuthToken row menu', () => {
+	it('opens the menu when the row is clicked', async () => {
+		const wrapper = mountAuthToken(makeToken())
+		expect(wrapper.findComponent(NcActions).props('open')).toBe(false)
+
+		expect(wrapper.find('button').attributes('aria-expanded')).toBe('false')
+
+		await wrapper.find('button').trigger('click')
+
+		expect(wrapper.findComponent(NcActions).props('open')).toBe(true)
+		expect(wrapper.find('button').attributes('aria-expanded')).toBe('true')
+	})
+
+	const menuStubs = {
+		NcActions: { template: '<div><slot /></div>' },
+		NcActionLink: { props: ['href'], template: '<a :href="href"><slot /></a>' },
+	}
+
+	it('only offers logging out for the current session', () => {
+		const wrapper = mountAuthToken(makeToken({ current: true, type: TokenType.TEMPORARY_TOKEN, canDelete: false, canRename: false }), { stubs: menuStubs })
+
+		expect(wrapper.find('a').attributes('href')).toBe('/logout?requesttoken=abc')
+		expect(wrapper.find('a').text()).toBe('Log out')
+		expect(wrapper.findAllComponents({ name: 'NcActionButton' })).toHaveLength(0)
+		expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
+		// Log out alone is a navigation popup, not a menu
+		expect(wrapper.find('button').attributes('aria-haspopup')).toBeUndefined()
+	})
+
+	it('disables only the current session row without a logout URL', () => {
+		const saved = navEntries.value
+		navEntries.value = {}
+		try {
+			const wrapper = mountAuthToken(makeToken({ current: true, type: TokenType.TEMPORARY_TOKEN, canDelete: false, canRename: false }))
+			expect(wrapper.find('button').attributes('disabled')).toBeDefined()
+			expect(mountAuthToken(makeToken()).find('button').attributes('disabled')).toBeUndefined()
+		} finally {
+			navEntries.value = saved
+		}
+	})
+
+	it('does not offer logging out for other sessions', () => {
+		const wrapper = mountAuthToken(makeToken(), { stubs: menuStubs })
+
+		expect(wrapper.find('a').exists()).toBe(false)
 	})
 })

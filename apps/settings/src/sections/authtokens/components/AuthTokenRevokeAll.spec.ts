@@ -51,7 +51,7 @@ function mountSection(tokens: IToken[]) {
 	return mount(AuthTokenSection, {
 		global: {
 			stubs: {
-				AuthTokenList: true,
+				AuthToken: true,
 				AuthTokenSetup: true,
 				NcSettingsSection: { template: '<div><slot /></div>' },
 				NcButton: NcButtonStub,
@@ -115,7 +115,7 @@ describe('AuthTokenSection revoke-all button', () => {
 		expect(store.deleteAllOtherTokens).not.toHaveBeenCalled()
 	})
 
-	// One-time tokens are hidden from the table but still revoked, so they count.
+	// One-time tokens are hidden from the list but still revoked, so they count.
 	it('counts every other token except the wipe-pending ones', async () => {
 		const wrapper = mountSection([
 			makeToken({ id: 1, current: true }),
