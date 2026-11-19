@@ -34,7 +34,6 @@ class SFTPReadStream implements File {
 	private $eof = false;
 
 	private $buffer = '';
-	private bool $pendingRead = false;
 	private int $size = 0;
 
 	public static function register($protocol = 'sftpread') {
@@ -100,8 +99,6 @@ class SFTPReadStream implements File {
 				return false;
 		}
 
-		$this->request_chunk(256 * 1024);
-
 		return true;
 	}
 
@@ -127,7 +124,6 @@ class SFTPReadStream implements File {
 		$this->buffer = '';
 		// a previous read may have reached the end of the file, reading from the new position has to work again
 		$this->eof = false;
-		$this->request_chunk(256 * 1024);
 	}
 
 	#[\Override]
@@ -138,11 +134,10 @@ class SFTPReadStream implements File {
 	#[\Override]
 	public function stream_read($count) {
 		if (!$this->eof && strlen($this->buffer) < $count) {
+			// Complete the read before returning control to other users of the shared connection.
+			$this->request_chunk(256 * 1024);
 			$chunk = $this->read_chunk();
 			$this->buffer .= $chunk;
-			if (!$this->eof) {
-				$this->request_chunk(256 * 1024);
-			}
 		}
 
 		$data = substr($this->buffer, 0, $count);
@@ -152,23 +147,12 @@ class SFTPReadStream implements File {
 		return $data;
 	}
 
-	private function request_chunk(int $size) {
-		if ($this->pendingRead) {
-			$this->invokeSftp($this->sftp, 'get_sftp_packet');
-		}
-
+	private function request_chunk(int $size): void {
 		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
-		$this->pendingRead = true;
-		try {
-			$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_READ, $packet]);
-			return true;
-		} catch (\Throwable) {
-			return false;
-		}
+		$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_READ, $packet]);
 	}
 
 	private function read_chunk() {
-		$this->pendingRead = false;
 		$response = $this->invokeSftp($this->sftp, 'get_sftp_packet');
 
 		switch ($this->getSftpProperty($this->sftp, 'packet_type')) {
@@ -225,10 +209,6 @@ class SFTPReadStream implements File {
 
 	#[\Override]
 	public function stream_close() {
-		// we still have a read request incoming that needs to be handled before we can close
-		if ($this->pendingRead) {
-			$this->invokeSftp($this->sftp, 'get_sftp_packet');
-		}
 		if (!$this->invokeSftp($this->sftp, 'close_handle', [$this->handle])) {
 			return false;
 		}
