@@ -353,7 +353,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 */
 	private function searchPrincipalsByCapacity(string $key, string $value, array $usersGroups = []): array {
 		$query = $this->getMetadataQuery($key);
-		$query->andWhere($query->expr()->gte('value', $query->createNamedParameter($value)));
+		$query->andWhere($query->expr()->gte($query->expr()->castColumn('value', IQueryBuilder::PARAM_INT), $query->createNamedParameter((int)$value, IQueryBuilder::PARAM_INT)));
 		return $this->getRows($query, $usersGroups);
 	}
 
