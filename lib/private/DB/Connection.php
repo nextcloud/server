@@ -189,7 +189,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			return array_merge([$shard->table], $shard->companionTables);
 		}, $this->shards);
 
-		$this->setNestTransactionsWithSavepoints(true);
+		// $this->setNestTransactionsWithSavepoints(true);
 	}
 
 	/**
