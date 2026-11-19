@@ -11,11 +11,16 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\AbstractException;
+use Doctrine\DBAL\Driver\API\MySQL\ExceptionConverter as MySQLExceptionConverter;
 use Doctrine\DBAL\Driver\Connection as DriverConnection;
+use Doctrine\DBAL\Exception\DeadlockException;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\Adapter;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\DB\Exceptions\DbalException;
 use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
@@ -128,6 +133,60 @@ class ConnectionTest extends TestCase {
 		$statement->executeQuery()->free();
 
 		self::assertGreaterThanOrEqual($before, max($property->getValue($inner)));
+	}
+
+	public static function dataCommitFailure(): array {
+		return [
+			'serialization failure without vendor code' => ['40001', 0, DeadlockException::class],
+			'mysql deadlock vendor code' => ['40001', 1213, DeadlockException::class],
+			'other driver error' => ['HY000', 0, DriverException::class],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCommitFailure')]
+	public function testCommitConvertsDriverException(string $sqlState, int $code, string $expected): void {
+		$connectionParams = [
+			'user' => 'test',
+			'password' => 'topsecret',
+			'host' => 'test',
+		];
+		$driver = $this->createMock(Driver::class);
+		$driver->method('getExceptionConverter')
+			->willReturn(new MySQLExceptionConverter());
+		$connection = $this->getMockBuilder(Connection::class)
+			->onlyMethods(['connectTo'])
+			->setConstructorArgs([
+				[
+					'adapter' => $this->createMock(Adapter::class),
+					'platform' => new MySQLPlatform(),
+					'tablePrefix' => 'nctest',
+					'primary' => $connectionParams,
+					'replica' => [
+						$connectionParams,
+					],
+				],
+				$driver,
+				new Configuration(),
+			])
+			->getMock();
+		$driverConnection = $this->createMock(DriverConnection::class);
+		$driverConnection->method('commit')
+			->willThrowException(new class('commit failed', $sqlState, $code) extends AbstractException {
+			});
+		$driverConnection->expects(self::once())
+			->method('rollBack');
+		$connection->method('connectTo')
+			->willReturn($driverConnection);
+
+		$adapter = new ConnectionAdapter($connection);
+		$adapter->beginTransaction();
+		try {
+			$adapter->commit();
+			self::fail('Commit should have failed');
+		} catch (DbalException $e) {
+			self::assertInstanceOf($expected, $e->getPrevious());
+			self::assertSame($expected === DeadlockException::class, $e->isRetryable());
+		}
 	}
 
 	private function getInnerConnection(): Connection {

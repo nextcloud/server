@@ -8,9 +8,16 @@
 
 namespace Test\Files\Cache;
 
+use Doctrine\DBAL\Driver\AbstractException;
+use Doctrine\DBAL\Exception\DeadlockException;
+use OC\DB\ConnectionAdapter;
+use OC\DB\Exceptions\DbalException;
+use OC\Files\Cache\Propagator;
 use OC\Files\Storage\Temporary;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -74,6 +81,42 @@ class PropagatorTest extends TestCase {
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), 10);
 		$newInfos = $this->getFileInfos($paths);
 
+		foreach ($oldInfos as $i => $oldInfo) {
+			$this->assertEquals($oldInfo->getSize() + 10, $newInfos[$i]->getSize());
+		}
+	}
+
+	public function testPropagationRetriesFailedCommit(): void {
+		$connection = Server::get(IDBConnection::class);
+		if (!$connection instanceof ConnectionAdapter || $connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
+			self::markTestSkipped('Propagation only uses transactions on non-sqlite databases');
+		}
+		if ($connection->getShardDefinition('filecache')) {
+			self::markTestSkipped('Sharded filecache queries do not run in the transaction of the main connection');
+		}
+
+		// A commit rejected by the database server, e.g. a Galera certification failure, ends the transaction
+		$failingConnection = new class($connection->getInner()) extends ConnectionAdapter {
+			public int $commits = 0;
+
+			#[\Override]
+			public function commit(): void {
+				if ($this->commits++ === 0) {
+					$this->getInner()->rollBack();
+					throw DbalException::wrap(new DeadlockException(new class('Deadlock found', '40001', 1213) extends AbstractException {
+					}, null));
+				}
+				parent::commit();
+			}
+		};
+
+		$paths = ['', 'foo', 'foo/bar'];
+		$oldInfos = $this->getFileInfos($paths);
+		$propagator = new Propagator($this->storage, $failingConnection);
+		$propagator->propagateChange('foo/bar/file.txt', time(), 10);
+		$newInfos = $this->getFileInfos($paths);
+
+		$this->assertSame(2, $failingConnection->commits);
 		foreach ($oldInfos as $i => $oldInfo) {
 			$this->assertEquals($oldInfo->getSize() + 10, $newInfos[$i]->getSize());
 		}
