@@ -13,6 +13,7 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Capabilities;
 use OCA\Theming\ConfigLexicon;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\EventDispatcher\Event;
@@ -28,6 +29,7 @@ class BeforePreferenceListener implements IEventListener {
 
 	public function __construct(
 		private IAppManager $appManager,
+		private IConfig $config,
 	) {
 	}
 
@@ -71,10 +73,20 @@ class BeforePreferenceListener implements IEventListener {
 				default:
 					$event->setValid(false);
 			}
+
+			if ($event->isValid() && $event->getConfigKey() === 'primary_color') {
+				$currentVersion = (int)$this->config->getUserValue($event->getUserId(), Application::APP_ID, 'userCacheBuster', '0');
+				$this->config->setUserValue($event->getUserId(), Application::APP_ID, 'userCacheBuster', (string)($currentVersion + 1));
+			}
+
 			return;
 		}
 
 		$event->setValid(true);
+		if ($event->getConfigKey() === 'primary_color') {
+			$currentVersion = (int)$this->config->getUserValue($event->getUserId(), Application::APP_ID, 'userCacheBuster', '0');
+			$this->config->setUserValue($event->getUserId(), Application::APP_ID, 'userCacheBuster', (string)($currentVersion + 1));
+		}
 	}
 
 	private function handleCoreValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
