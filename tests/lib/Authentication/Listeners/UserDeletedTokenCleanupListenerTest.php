@@ -11,6 +11,7 @@ namespace Test\Authentication\Listeners;
 
 use Exception;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OCP\EventDispatcher\Event;
@@ -33,6 +34,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 	public function testHandleUnrelated(): void {
 		$event = new Event();
 		$this->getAutoMock(Manager::class)->expects($this->never())->method('getTokenByUser');
+		$this->getAutoMock(RememberLoginTokenMapper::class)->expects($this->never())->method('deleteByUid');
 		$this->getAutoMock(LoggerInterface::class)->expects($this->never())->method('error');
 
 		$this->listener->handle($event);
@@ -45,6 +47,28 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$exception = new Exception('nope');
 		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getTokenByUser')
+			->with('user123')
+			->willThrowException($exception);
+		$this->getAutoMock(RememberLoginTokenMapper::class)->expects($this->once())
+			->method('deleteByUid')
+			->with('user123');
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
+			->method('error');
+
+		$this->listener->handle($event);
+	}
+
+	public function testHandleWithRememberLoginTokenErrors(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user123');
+		$event = new UserDeletedEvent($user);
+		$exception = new Exception('nope');
+		$this->getAutoMock(Manager::class)->expects($this->once())
+			->method('getTokenByUser')
+			->with('user123')
+			->willReturn([]);
+		$this->getAutoMock(RememberLoginTokenMapper::class)->expects($this->once())
+			->method('deleteByUid')
 			->with('user123')
 			->willThrowException($exception);
 		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
@@ -83,6 +107,9 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
+		$this->getAutoMock(RememberLoginTokenMapper::class)->expects($this->once())
+			->method('deleteByUid')
+			->with('user123');
 		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
