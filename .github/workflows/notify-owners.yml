@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Notify maintainers based on issue labels
+
+on:
+  issues:
+      types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest-low
+    steps:
+        - uses: jenschelkopf/issue-label-notification-action@f7d2363e5efa18b8aeea671ca8093e183ae8f218 # v1.3
+          with:
+             recipients: |
+                  feature: admin audit=@luka-nextcloud @samin-z
+                  feature: caldav=@hamza221 @SebastianKrupinski
+                  feature: carddav=@hamza221 @SebastianKrupinski
+                  feature: comments=@edward-ly @marcelklehr
+                  feature: contacts=@kesselb @SebastianKrupinski
+                  feature: dashboard=@julien-nc @juliusknorr
+                  feature: dav=@hamza221 @SebastianKrupinski
+                  feature: encryption (server-side)=@come-nc @icewind1991
+                  feature: federation=@nfebe
+                  feature: files=@skjnldsv @artonge
+                  feature: files_reminders=@skjnldsv @nfebe
+                  feature: ldap=@come-nc @blizzz
+                  feature: profile=@pringelmann @Altahrim
+                  feature: settings=@hweihwang
+                  feature: status=@Antreesy @nickvergessen
+                  feature: tags=@Antreesy @marcelklehr
+                  feature: theming=@skjnldsv @juliusknorr
+                  feature: webhooks=@janepie @julien-nc
+                  feature: workflows=@blizzz @juliusknorr
