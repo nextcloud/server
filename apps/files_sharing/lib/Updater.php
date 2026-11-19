@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Cache\FileAccess;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
+use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
@@ -62,6 +63,10 @@ class Updater {
 		}
 
 		$shareManager = Server::get(\OCP\Share\IManager::class);
+
+		if ($shareManager instanceof Manager) {
+			$shareManager->restrictDownloadOfReshares($src);
+		}
 
 		// We intentionally include invalid shares, as they have been automatically invalidated due to the node no longer
 		// being accessible for the user. Only in this case where we adjust the share after it was moved we want to ignore
