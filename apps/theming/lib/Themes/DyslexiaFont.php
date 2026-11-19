@@ -47,14 +47,9 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 
 	#[\Override]
 	public function getCSSVariables(): array {
-		$variables = parent::getCSSVariables();
-		$originalFontFace = $variables['--font-face'];
-
-		$variables = [
-			'--font-face' => 'OpenDyslexic, ' . $originalFontFace
+		return [
+			'--font-face' => 'OpenDyslexic, ' . self::FONT_FACE,
 		];
-
-		return $variables;
 	}
 
 	#[\Override]
