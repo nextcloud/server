@@ -11,6 +11,7 @@ import { getLanguage, t } from '@nextcloud/l10n'
 import { NcButton, NcDialog, NcIconSvgWrapper, NcLoadingIcon, NcNoteCard } from '@nextcloud/vue'
 import { computed, ref } from 'vue'
 import MarkdownPreview from './MarkdownPreview.vue'
+import { pinia } from '../store/pinia.ts'
 import { useUpdatesStore } from '../store/updates.ts'
 import logger from '../utils/logger.ts'
 
@@ -22,7 +23,7 @@ const emit = defineEmits<{
 	close: []
 }>()
 
-const store = useUpdatesStore()
+const store = useUpdatesStore(pinia)
 const showDetails = ref('')
 const isUpdating = ref(false)
 

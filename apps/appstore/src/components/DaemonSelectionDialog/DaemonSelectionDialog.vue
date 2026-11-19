@@ -15,6 +15,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import DaemonSelectionDialogList from './DaemonSelectionDialogList.vue'
 import { useExAppsStore } from '../../store/exApps.ts'
+import { pinia } from '../../store/pinia.ts'
 
 defineProps<{
 	/**
@@ -27,7 +28,7 @@ defineEmits<{
 	close: [daemon?: IDeployDaemon]
 }>()
 
-const store = useExAppsStore()
+const store = useExAppsStore(pinia)
 const appApiAdminPage = generateUrl('/settings/admin/app_api')
 </script>
 

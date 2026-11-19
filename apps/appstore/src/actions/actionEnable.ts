@@ -9,6 +9,7 @@ import type { AppAction } from './index.ts'
 import { mdiCheck } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { useAppsStore } from '../store/apps.ts'
+import { pinia } from '../store/pinia.ts'
 import { canEnable, canInstall } from '../utils/appStatus.ts'
 
 export const actionEnable: AppAction = {
@@ -21,7 +22,7 @@ export const actionEnable: AppAction = {
 	},
 	label: () => t('appstore', 'Enable'),
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
-		const store = useAppsStore()
+		const store = useAppsStore(pinia)
 		await store.enableApp(app.id)
 	},
 }

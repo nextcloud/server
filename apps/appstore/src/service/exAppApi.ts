@@ -60,6 +60,16 @@ export async function disableExApp(appId: string) {
 }
 
 /**
+ * Update an external app.
+ *
+ * @param appId - The app to update
+ */
+export async function updateExApp(appId: string) {
+	await confirmPassword()
+	await axios.get(generateUrl(`/apps/app_api/apps/update/${appId}`))
+}
+
+/**
  * Remove an external app.
  *
  * @param appId - The app to uninstall

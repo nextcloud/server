@@ -20,7 +20,10 @@ export const actionLimitToGroup: AppAction = {
 	order: 16,
 	inline: false,
 	label: () => t('appstore', 'Limit to groups'),
-	enabled: canLimitToGroups,
+	enabled(app: IAppstoreApp | IAppstoreExApp) {
+		// AppAPI has no group limits for ExApps
+		return !app.app_api && canLimitToGroups(app)
+	},
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
 		await spawnDialog(LimitToGroupDialog, { app })
 	},
