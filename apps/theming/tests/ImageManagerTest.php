@@ -357,6 +357,7 @@ class ImageManagerTest extends TestCase {
 			['background', __DIR__ . '/../../../tests/data/testimage-large.jpg', true, true],
 			['background', __DIR__ . '/../../../tests/data/testimage-wide.png', true, true],
 			['logo', __DIR__ . '/../../../tests/data/testimagelarge.svg', true, false],
+			['favicon', __DIR__ . '/../../../tests/data/testimagelarge.svg', true, false],
 		];
 	}
 
