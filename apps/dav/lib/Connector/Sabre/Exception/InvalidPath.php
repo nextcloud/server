@@ -55,7 +55,8 @@ class InvalidPath extends Exception {
 		$errorNode->appendChild($error);
 
 		// adding the message node
-		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:reason', $this->getMessage());
+		$error = $errorNode->ownerDocument->createElementNS('o:', 'o:reason');
+		$error->appendChild($errorNode->ownerDocument->createTextNode($this->getMessage()));
 		$errorNode->appendChild($error);
 	}
 }
