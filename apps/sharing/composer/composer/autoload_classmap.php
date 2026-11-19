@@ -26,6 +26,8 @@ return array(
     'OCA\\Sharing\\Command\\UpdateShareState' => $baseDir . '/../lib/Command/UpdateShareState.php',
     'OCA\\Sharing\\Command\\UpdateShareUserStatus' => $baseDir . '/../lib/Command/UpdateShareUserStatus.php',
     'OCA\\Sharing\\Controller\\ApiV1Controller' => $baseDir . '/../lib/Controller/ApiV1Controller.php',
+    'OCA\\Sharing\\Federation\\FederationSharingService' => $baseDir . '/../lib/Federation/FederationSharingService.php',
+    'OCA\\Sharing\\Listener\\FederationSharingListener' => $baseDir . '/../lib/Listener/FederationSharingListener.php',
     'OCA\\Sharing\\Middleware\\ShareApiEnabledMiddleware' => $baseDir . '/../lib/Middleware/ShareApiEnabledMiddleware.php',
     'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => $baseDir . '/../lib/Migration/Version1000Date20250929161325.php',
     'OCA\\Sharing\\Migration\\Version1000Date20260731171922' => $baseDir . '/../lib/Migration/Version1000Date20260731171922.php',
