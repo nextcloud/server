@@ -342,7 +342,7 @@ class UserTest extends TestCase {
 	}
 
 	/**
-	 * don't allow display names containing whitespaces only
+	 * A whitespace-only value clears a stored display name. With nothing stored it is a no-op.
 	 */
 	public function testSetDisplayNameEmpty(): void {
 		$backend = $this->createMock(Database::class);
@@ -350,10 +350,59 @@ class UserTest extends TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
+		$backend->expects($this->never())
+			->method('setDisplayName');
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->setDisplayName(' '));
+		$this->assertSame('', $user->getDisplayLabel());
 		$this->assertEquals('foo', $user->getDisplayName());
+	}
+
+	public function testSetDisplayNameClearsStoredName(): void {
+		$backend = $this->createMock(Database::class);
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME || $actions === \OC\User\Backend::GET_DISPLAYNAME);
+		$backend->method('getDisplayLabel')->willReturn('Foo');
+		$backend->method('getDisplayName')->willReturn('Foo');
+		$backend->expects($this->once())
+			->method('setDisplayName')
+			->with('foo', '')
+			->willReturn(true);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (Event $event): bool {
+				return $event instanceof UserChangedEvent
+					&& $event->getFeature() === 'displayName'
+					&& $event->getValue() === 'foo'
+					&& $event->getOldValue() === 'Foo';
+			}));
+
+		$user = new User('foo', $backend, $this->dispatcher);
+		$this->assertTrue($user->setDisplayName(''));
+		$this->assertSame('', $user->getDisplayLabel());
+		$this->assertSame('foo', $user->getDisplayName());
+	}
+
+	public function testSetDisplayNameStoresUserId(): void {
+		$backend = $this->createMock(Database::class);
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
+		$backend->method('getDisplayLabel')->willReturn('');
+		$backend->expects($this->once())
+			->method('setDisplayName')
+			->with('foo', 'foo')
+			->willReturn(true);
+
+		$user = new User('foo', $backend, $this->dispatcher);
+		$this->assertTrue($user->setDisplayName('foo'));
+		$this->assertSame('foo', $user->getDisplayLabel());
+		$this->assertSame('foo', $user->getDisplayName());
 	}
 
 	public function testSetDisplayNameNotSupported(): void {

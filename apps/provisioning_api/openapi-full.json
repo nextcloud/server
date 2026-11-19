@@ -133,6 +133,7 @@
                     "biography",
                     "display-name",
                     "displayname",
+                    "displayLabel",
                     "email",
                     "fediverse",
                     "groups",
@@ -207,6 +208,9 @@
                         "type": "string"
                     },
                     "displayname": {
+                        "type": "string"
+                    },
+                    "displayLabel": {
                         "type": "string"
                     },
                     "displaynameScope": {
