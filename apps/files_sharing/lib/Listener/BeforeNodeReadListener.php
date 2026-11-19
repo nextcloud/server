@@ -134,8 +134,9 @@ class BeforeNodeReadListener implements IEventListener {
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 		$userNode = $userFolder->getFirstNodeById($fileId);
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+		$ownerNode = $ownerFolder->getFirstNodeById($fileId);
 		$userPath = $userFolder->getRelativePath($userNode?->getPath() ?? '') ?? '';
-		$ownerPath = $ownerFolder->getRelativePath($node->getPath()) ?? '';
+		$ownerPath = $ownerFolder->getRelativePath($ownerNode?->getPath() ?? '') ?? '';
 
 		$parameters = [$userPath];
 
