@@ -48,6 +48,7 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\Middleware\ConnectionActivityNotifier;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -86,6 +87,8 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
+	/** Seconds the connection may sit idle before the next use re-verifies connectivity */
+	private const CONNECTION_CHECK_INTERVAL = 30;
 	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;
@@ -122,6 +125,14 @@ class Connection extends PrimaryReadReplicaConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+		// the DBAL 3.8 params are a sealed array shape that predates this key, so it is
+		// reached through isset() like the ones above instead of a null coalesce
+		if (isset($params['activity_notifier']) && $params['activity_notifier'] instanceof ConnectionActivityNotifier) {
+			// first-class callable syntax requires PHP 8.1, this branch still supports 8.0
+			$params['activity_notifier']->setListener(function (): void {
+				$this->refreshLastConnectionCheck();
+			});
+		}
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->clock = Server::get(ClockInterface::class);
@@ -160,7 +171,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 
 			return $status;
 		} catch (Exception $e) {
@@ -786,7 +797,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	private function reconnectIfNeeded(): void {
 		if (
 			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
+			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + self::CONNECTION_CHECK_INTERVAL ||
 			$this->isTransactionActive()
 		) {
 			return;
@@ -794,11 +805,22 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		try {
 			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 		} catch (ConnectionLost|\Exception $e) {
 			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
 			$this->close();
 		}
+	}
+
+	/**
+	 * A successful round trip proves the connection is alive: pushing the idle
+	 * timer forward keeps the connectivity probe of reconnectIfNeeded() from
+	 * firing between adjacent operations, where its query would reset the
+	 * driver level last insert id on MySQL. Invoked for every driver level
+	 * execution via the ConnectionActivityMiddleware.
+	 */
+	private function refreshLastConnectionCheck(): void {
+		$this->lastConnectionCheck[$this->getConnectionName()] = time();
 	}
 
 	private function getConnectionName(): string {
