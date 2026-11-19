@@ -1421,12 +1421,6 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/files_external/lib/Command/Notify.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::normalizeUnicode($parent)]]></code>
-      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_external/lib/Command/Scan.php">
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
