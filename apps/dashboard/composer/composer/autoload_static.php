@@ -24,6 +24,7 @@ class ComposerStaticInitDashboard
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Dashboard\\Controller\\DashboardApiController' => __DIR__ . '/..' . '/../lib/Controller/DashboardApiController.php',
         'OCA\\Dashboard\\Controller\\DashboardController' => __DIR__ . '/..' . '/../lib/Controller/DashboardController.php',
+        'OCA\\Dashboard\\Controller\\TeamDashboardApiController' => __DIR__ . '/..' . '/../lib/Controller/TeamDashboardApiController.php',
         'OCA\\Dashboard\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Dashboard\\Service\\DashboardService' => __DIR__ . '/..' . '/../lib/Service/DashboardService.php',
     );
