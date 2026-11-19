@@ -10,8 +10,10 @@
 				class="property__field"
 				type="date"
 				:label="birthdate.readable"
+				:min="minDate"
+				:max="maxDate"
 				:model-value="timezoneAdjustedValue"
-				@input="onInput" />
+				@update:modelValue="onInput" />
 			<VisibilityScopeControl
 				class="property__scope"
 				:readable="birthdate.readable"
@@ -73,8 +75,23 @@ export default {
 			return `account-property-${birthdate.name}`
 		},
 
+		minDate() {
+			// new Date(1, 0, 1) would map the year to 1901
+			const date = new Date(0)
+			date.setFullYear(1, 0, 1)
+			return date
+		},
+
+		maxDate() {
+			return new Date(9999, 11, 31)
+		},
+
 		value() {
-			return birthdateValueToDate(this.birthdate.value)
+			if (!this.birthdate.value) {
+				return null
+			}
+			const date = birthdateValueToDate(this.birthdate.value)
+			return Number.isNaN(date.getTime()) ? null : date
 		},
 
 		/**
@@ -85,9 +102,13 @@ export default {
 		timezoneAdjustedValue() {
 			// example: this.birthdate.value === '1987-12-01T00:00:00.000Z' or '1987-12-01'
 
+			const date = this.value
+			if (date === null) {
+				return null
+			}
+
 			// example: Mon Nov 30 1987 16:00:00 GMT-0800 (Pacific Standard Time)
 			// `NcDateTimePickerNative` would show this as 11/30/1987
-			const date = this.value
 			const timezoneOffsetMilliseconds = date.getTimezoneOffset() * 60 * 1000
 			const adjustedDate = new Date(date.getTime() + timezoneOffsetMilliseconds)
 
@@ -102,16 +123,23 @@ export default {
 			this.birthdate.scope = scope
 		},
 
-		onInput(e) {
-			const day = e.getDate().toString().padStart(2, '0')
-			const month = (e.getMonth() + 1).toString().padStart(2, '0')
-			const year = e.getFullYear()
-			this.birthdate.value = `${year}-${month}-${day}`
-			this.debouncePropertyChange(this.value)
+		/**
+		 * @param {Date|null} value - the picked date or null while the input is only partially filled
+		 */
+		onInput(value) {
+			// the browser clamps overflowing year segments (e.g. 9999999) to 275760-09-13
+			if (!(value instanceof Date) || value.getFullYear() < 1 || value.getFullYear() > 9999) {
+				return
+			}
+			this.debouncePropertyChange(value)
 		},
 
 		debouncePropertyChange: debounce(async function(value) {
-			await this.updateProperty(value)
+			const day = value.getDate().toString().padStart(2, '0')
+			const month = (value.getMonth() + 1).toString().padStart(2, '0')
+			const year = value.getFullYear().toString().padStart(4, '0')
+			this.birthdate.value = `${year}-${month}-${day}`
+			await this.updateProperty(this.value)
 		}, 500),
 
 		async updateProperty(value) {
