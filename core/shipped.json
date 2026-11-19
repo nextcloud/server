@@ -30,6 +30,7 @@
     "notifications",
     "oauth2",
     "office",
+    "otp_provider_email",
     "password_policy",
     "photos",
     "privacy",
