@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\StreamInterface;
 
@@ -25,6 +26,19 @@ trait Download {
 		$folder = trim($folder, '/');
 		$this->asAn($user);
 		$this->sendingToDirectUrl('GET', "/remote.php/dav/files/$user/$folder?accept=zip&files=[" . $entries . ']');
+		$this->theHTTPStatusCodeShouldBe('200');
+	}
+
+	/**
+	 * @When user :user downloads zip file for entries :entries in folder :folder using POST
+	 */
+	public function userDownloadsZipFileForEntriesInFolderUsingPost(string $user, string $entries, string $folder): void {
+		$folder = trim($folder, '/');
+		$this->asAn($user);
+		$this->sendingToWithDirectUrl('POST', "/remote.php/dav/files/$user/$folder", new TableNode([
+			['accept', 'zip'],
+			['files', '[' . $entries . ']'],
+		]));
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 
