@@ -34,7 +34,7 @@ class SyncServiceTest extends TestCase {
 	protected CardDavBackend&MockObject $backend;
 	protected IUserManager&MockObject $userManager;
 	protected IDBConnection&MockObject $dbConnection;
-	protected LoggerInterface $logger;
+	protected LoggerInterface&MockObject $logger;
 	protected Converter&MockObject $converter;
 	protected IClient&MockObject $client;
 	protected IConfig&MockObject $config;
@@ -62,7 +62,7 @@ class SyncServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->trackTransactionDepth($this->dbConnection);
-		$this->logger = new NullLogger();
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -203,6 +203,8 @@ class SyncServiceTest extends TestCase {
 
 		$this->backend->method('getCard')
 			->willReturn(false);
+		$this->logger->expects($this->never())
+			->method('warning');
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
@@ -285,6 +287,12 @@ END:VCARD';
 			->method('updateCard');
 		$this->backend->expects($this->never())
 			->method('deleteCard');
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with(
+				$this->stringContains('did not return some changed cards'),
+				$this->callback(fn (array $context): bool => $context['cards'] === [$missingHref]),
+			);
 
 		$token = $this->service->syncRemoteAddressBook(
 			'https://server2.internal',

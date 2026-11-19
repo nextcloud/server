@@ -90,7 +90,9 @@ class SyncService extends ASyncService {
 		}
 
 		if ($changedResources !== []) {
+			$missingResources = array_flip($changedResources);
 			foreach ($this->fetchCards($url, $absoluteUri, $userName, $sharedSecret, $changedResources) as $resource => $vCard) {
+				unset($missingResources[$resource]);
 				$cardUri = basename($resource);
 				$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 				if ($existingCard === false) {
@@ -98,6 +100,13 @@ class SyncService extends ASyncService {
 				} else {
 					$this->backend->updateCard($addressBookId, $cardUri, $vCard);
 				}
+			}
+			if ($missingResources !== []) {
+				$this->logger->warning('Remote address book did not return some changed cards, they are skipped until they change again', [
+					'app' => 'dav',
+					'url' => $url,
+					'cards' => array_keys($missingResources),
+				]);
 			}
 		}
 
