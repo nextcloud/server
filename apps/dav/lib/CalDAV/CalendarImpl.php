@@ -338,6 +338,9 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		$iTip->message = $vObject;
 
 		$server->server->emit('schedule', [$iTip]);
+		if (!str_starts_with((string)$iTip->scheduleStatus, '1.2')) {
+			throw new CalendarException('iMip message could not be processed: ' . $iTip->scheduleStatus);
+		}
 	}
 
 	public function getInvitationResponseServer(): InvitationResponseServer {
