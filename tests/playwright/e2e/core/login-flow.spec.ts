@@ -37,16 +37,16 @@ test.describe('core: Login flow', () => {
 
 		const loginFlow = new LoginFlowPage(page)
 		await loginFlow.openV2(login)
-		await expect(loginFlow.heading('Connect to your account')).toBeVisible()
+		await expect(loginFlow.heading('Sign in to connect an app')).toBeVisible()
 
-		await loginFlow.logInButton().click()
+		await loginFlow.continueButton().click()
 		await new LoginPage(page).login(user.userId, user.password)
 
-		await expect(loginFlow.heading('Account access')).toBeVisible()
+		await expect(loginFlow.heading('Allow account access?')).toBeVisible()
 		await loginFlow.grantAccessButton().click()
 
 		await expect(loginFlow.heading('Account connected')).toBeVisible()
-		await expect(loginFlow.note('Your client should now be connected!')).toBeVisible()
+		await expect(loginFlow.connectedMessage()).toBeVisible()
 
 		const credentials = await request.post(poll.endpoint, { form: { token: poll.token } })
 		expect(credentials.ok()).toBe(true)
