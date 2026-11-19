@@ -38,26 +38,44 @@ class ListCommand extends Base {
 	protected function configure(): void {
 		$this
 			->setName('files_external:list')
-			->setDescription('List configured admin or personal mounts')
+			->setDescription('List configured external storage mounts')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL,
-				'user id to list the personal mounts for, if no user is provided admin mounts will be listed'
+				'user ID whose personal mounts should be listed; omit to list global mounts'
 			)->addOption(
 				'show-password',
 				'',
 				InputOption::VALUE_NONE,
-				'show passwords and secrets'
+				'show passwords, keys, tokens, and other sensitive values'
 			)->addOption(
 				'full',
 				null,
 				InputOption::VALUE_NONE,
-				'don\'t truncate long values in table output'
+				'do not truncate long values in plain table output'
 			)->addOption(
 				'all',
 				'a',
 				InputOption::VALUE_NONE,
-				'show both system wide mounts and all personal mounts'
+				'list global mounts and personal mounts for all users'
+			)->setHelp(<<<'HELP'
+Lists configured external storage mounts.
+
+By default, global mounts are listed. Pass a user ID to list that user's
+personal mounts. Use --all to list global mounts and personal mounts for all
+users.
+
+Plain output hides sensitive values and truncates long values by default.
+Use --show-password only when necessary, and protect the output because it
+may contain credentials, keys, or tokens. Use --output=json or
+--output=json_pretty for machine-readable output.
+
+Examples:
+  occ files_external:list
+  occ files_external:list alice
+  occ files_external:list --all --output=json
+  occ files_external:list --show-password --full
+HELP
 			);
 		parent::configure();
 	}

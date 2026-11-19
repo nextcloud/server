@@ -21,16 +21,34 @@ class Export extends ListCommand {
 	protected function configure(): void {
 		$this
 			->setName('files_external:export')
-			->setDescription('Export mount configurations')
+			->setDescription('Export external storage mounts as JSON')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL,
-				'user id to export the personal mounts for, if no user is provided admin mounts will be exported'
+				'user ID whose personal mounts should be exported; omit to export global mounts'
 			)->addOption(
 				'all',
 				'a',
 				InputOption::VALUE_NONE,
-				'show both system wide mounts and all personal mounts'
+				'export global mounts and personal mounts for all users'
+			)->setHelp(<<<'HELP'
+Exports external storage mount configurations as pretty-printed JSON to
+standard output. The output is intended for backup or migration and can be
+passed to files_external:import.
+
+Exported configuration includes full values and sensitive credentials such as
+passwords, keys, and tokens. Protect the output appropriately.
+
+Without a user ID, global mounts are exported. With a user ID, that user's
+personal mounts are exported. Use --all to export global mounts and personal
+mounts for all users.
+
+Examples:
+  occ files_external:export > mounts.json
+  occ files_external:export alice > alice-mounts.json
+  occ files_external:export --all > all-mounts.json
+  occ files_external:export | occ files_external:import -
+HELP
 			);
 	}
 
