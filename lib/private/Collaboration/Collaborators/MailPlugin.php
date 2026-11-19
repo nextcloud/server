@@ -125,7 +125,7 @@ class MailPlugin implements ISearchPlugin {
 
 				if (isset($contact['isLocalSystemBook'])) {
 					$contactUser = $this->userManager->get($contact['UID']);
-					if ($contactUser === null) {
+					if ($contactUser === null || !$contactUser->isEnabled()) {
 						continue;
 					}
 
