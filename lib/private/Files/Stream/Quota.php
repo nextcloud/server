@@ -11,19 +11,24 @@ namespace OC\Files\Stream;
 use Icewind\Streams\Wrapper;
 
 /**
- * stream wrapper limits the amount of data that can be written to a stream
+ * Stream wrapper that limits how far a stream may grow when written to.
  *
- * usage: resource \OC\Files\Stream\Quota::wrap($stream, $limit)
+ * Each wrapped stream maintains its own remaining-byte allowance. The
+ * allowance is initialized when the wrapper is opened and is adjusted to
+ * account for reads, writes, and repositioning. It is not a live view of the
+ * underlying storage quota, nor is it shared with other wrappers for the same
+ * source stream.
+ *
+ * @example
+ * $stream = \OC\Files\Stream\Quota::wrap($source, $limit);
  */
 class Quota extends Wrapper {
-	/**
-	 * @var int $limit
-	 */
+	/** @var int|float $limit Remaining number of bytes that may be written. */
 	private $limit;
 
 	/**
 	 * @param resource $stream
-	 * @param int $limit
+	 * @param int|float $limit
 	 * @return resource|false
 	 */
 	public static function wrap($stream, $limit) {
@@ -52,37 +57,47 @@ class Quota extends Wrapper {
 
 	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
+		$oldPosition = $this->stream_tell();
+
 		if ($whence === SEEK_END) {
-			// go to the end to find out last position's offset
-			$oldOffset = $this->stream_tell();
-			if (fseek($this->source, 0, $whence) !== 0) {
+			if (fseek($this->source, 0, SEEK_END) !== 0) {
+				// Best effort
+				fseek($this->source, $oldPosition, SEEK_SET);
 				return false;
 			}
-			$whence = SEEK_SET;
+
 			$offset = $this->stream_tell() + $offset;
-			$this->limit += $oldOffset - $offset;
-		} elseif ($whence === SEEK_SET) {
-			$this->limit += $this->stream_tell() - $offset;
-		} else {
-			$this->limit -= $offset;
+			$whence = SEEK_SET;
 		}
-		// this wrapper needs to return "true" for success.
-		// the fseek call itself returns 0 on succeess
-		return fseek($this->source, $offset, $whence) === 0;
+
+		if (fseek($this->source, $offset, $whence) !== 0) {
+			// Best effort
+			fseek($this->source, $oldPosition, SEEK_SET);
+			return false;
+		}
+
+		$newPosition = $this->stream_tell();
+		$this->limit += $oldPosition - $newPosition;
+
+		return true;
 	}
 
 	#[\Override]
 	public function stream_read($count) {
-		$this->limit -= $count;
-		return fread($this->source, $count);
+		$data = fread($this->source, $count);
+		$this->limit -= strlen($data);
+		return $data;
 	}
 
 	#[\Override]
 	public function stream_write($data) {
 		$size = strlen($data);
+		if ($this->limit <= 0) {
+			return 0;
+		}
+
 		if ($size > $this->limit) {
-			$data = substr($data, 0, $this->limit);
-			$size = $this->limit;
+			$data = substr($data, 0, (int)$this->limit);
 		}
 		$written = fwrite($this->source, $data);
 		// Decrement quota by the actual number of bytes written ($written),
