@@ -292,4 +292,24 @@ class CachedSubscriptionTest extends \Test\TestCase {
 
 		$this->assertEquals([99], $calendar->calendarQuery(['foo']));
 	}
+
+	public function testGetChanges(): void {
+		$backend = $this->createMock(CalDavBackend::class);
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+
+		$changes = ['syncToken' => 3, 'added' => ['a.ics'], 'modified' => [], 'deleted' => []];
+		$backend->expects($this->once())
+			->method('getChangesForCalendar')
+			->with(666, '2', 1, null, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION)
+			->willReturn($changes);
+
+		$calendar = new CachedSubscription($backend, $calendarInfo);
+
+		$this->assertEquals($changes, $calendar->getChanges('2', 1));
+	}
 }
