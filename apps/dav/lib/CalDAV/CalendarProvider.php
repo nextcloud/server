@@ -30,6 +30,8 @@ class CalendarProvider implements ICalendarProvider {
 
 	#[\Override]
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
+		$enabledKey = '{http://owncloud.org/ns}calendar-enabled';
+		
 		/** @var array{uri: string, principaluri: string}[] $calendarInfos */
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];
 		/** @var array{uri: string, principaluri: string}[] $federatedCalendarInfos */
@@ -66,8 +68,8 @@ class CalendarProvider implements ICalendarProvider {
 		foreach ($federatedCalendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
-			if (isset($additionalFederatedProps[$path])) {
-				$calendarInfo = array_merge($calendarInfo, $additionalFederatedProps[$path]);
+			if (isset($additionalFederatedProps[$path][$enabledKey])) {
+				$calendarInfo[$enabledKey] = $additionalFederatedProps[$path][$enabledKey];
 			}
 
 			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);
