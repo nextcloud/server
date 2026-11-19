@@ -519,7 +519,7 @@ class FolderTest extends NodeTestCase {
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
 
-		$fileInfo = new CacheEntry(['path' => 'foo/qwerty', 'mimetype' => 'text/plain'], null);
+		$fileInfo = new CacheEntry(['path' => 'foo/qwerty', 'mimetype' => 'text/plain']);
 
 		$storage->method('getCache')
 			->willReturn($cache);
@@ -536,7 +536,7 @@ class FolderTest extends NodeTestCase {
 				'/bar/',
 				'test',
 				1,
-				''
+				$fileInfo
 			)]);
 
 		$cache->method('get')
@@ -570,7 +570,7 @@ class FolderTest extends NodeTestCase {
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
 
-		$fileInfo = new CacheEntry(['path' => '', 'mimetype' => 'text/plain'], null);
+		$fileInfo = new CacheEntry(['path' => '', 'mimetype' => 'text/plain']);
 
 		$storage->method('getCache')
 			->willReturn($cache);
@@ -587,7 +587,7 @@ class FolderTest extends NodeTestCase {
 				'/bar/',
 				'test',
 				1,
-				''
+				$fileInfo
 			)]);
 
 		$cache->method('get')
@@ -617,7 +617,7 @@ class FolderTest extends NodeTestCase {
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
 
-		$fileInfo = new CacheEntry(['path' => 'foobar', 'mimetype' => 'text/plain'], null);
+		$fileInfo = new CacheEntry(['path' => 'foobar', 'mimetype' => 'text/plain']);
 
 		$storage->method('getCache')
 			->willReturn($cache);
@@ -634,7 +634,7 @@ class FolderTest extends NodeTestCase {
 				'/bar/',
 				'test',
 				1,
-				''
+				$fileInfo
 			)]);
 
 		$cache->method('get')
@@ -664,7 +664,7 @@ class FolderTest extends NodeTestCase {
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
 
-		$fileInfo = new CacheEntry(['path' => 'foo/qwerty', 'mimetype' => 'text/plain'], null);
+		$fileInfo = new CacheEntry(['path' => 'foo/qwerty', 'mimetype' => 'text/plain']);
 
 		$storage->method('getCache')
 			->willReturn($cache);
@@ -681,7 +681,7 @@ class FolderTest extends NodeTestCase {
 					'/bar/',
 					'test',
 					1,
-					''
+					$fileInfo
 				),
 				new CachedMountInfo(
 					$this->user,
@@ -690,7 +690,7 @@ class FolderTest extends NodeTestCase {
 					'/bar/foo/asd/',
 					'test',
 					1,
-					''
+					$fileInfo
 				),
 			]);
 
