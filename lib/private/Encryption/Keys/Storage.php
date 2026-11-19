@@ -354,16 +354,15 @@ class Storage implements IStorage {
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
 
-		if ($this->view->file_exists($sourcePath)) {
-			$this->keySetPreparation(dirname($targetPath));
-			$this->clearCachedKeysBelow($sourcePath);
-			$this->clearCachedKeysBelow($targetPath);
-			$this->view->rename($sourcePath, $targetPath);
-
-			return true;
+		if (!$this->view->file_exists($sourcePath)) {
+			return false;
 		}
 
-		return false;
+		$this->keySetPreparation(dirname($targetPath));
+		$this->clearCachedKeysBelow($sourcePath);
+		$this->clearCachedKeysBelow($targetPath);
+
+		return $this->view->rename($sourcePath, $targetPath);
 	}
 
 	/**
@@ -378,14 +377,14 @@ class Storage implements IStorage {
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
 
-		if ($this->view->file_exists($sourcePath)) {
-			$this->keySetPreparation(dirname($targetPath));
-			$this->clearCachedKeysBelow($targetPath);
-			$this->view->copy($sourcePath, $targetPath);
-			return true;
+		if (!$this->view->file_exists($sourcePath)) {
+			return false;
 		}
 
-		return false;
+		$this->keySetPreparation(dirname($targetPath));
+		$this->clearCachedKeysBelow($targetPath);
+
+		return $this->view->copy($sourcePath, $targetPath);
 	}
 
 	/**
