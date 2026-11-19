@@ -28,15 +28,6 @@
 			:label="t('theming', 'Fonts')"
 			:themes="fontThemes"
 			@updated="updateBodyAttributes" />
-
-		<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
-		<NcCheckboxRadioSwitch
-			type="checkbox"
-			:modelValue="enableBlurFilter === 'yes'"
-			:indeterminate="enableBlurFilter === ''"
-			@update:modelValue="changeEnableBlurFilter">
-			{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}
-		</NcCheckboxRadioSwitch>
 	</NcSettingsSection>
 
 	<NcNoteCard v-if="isUserThemingDisabled" type="info">
@@ -48,7 +39,7 @@
 		<UserSectionBackground @refreshStyles="refreshGlobalStyles" />
 	</template>
 
-	<UserSectionHotkeys />
+	<UserSectionCompatibility />
 	<UserSectionToastTimeout />
 	<UserSectionAppMenu />
 </template>
@@ -56,25 +47,20 @@
 <script setup lang="ts">
 import type { ITheme } from '../components/ThemeListItem.vue'
 
-import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl } from '@nextcloud/router'
 import { computed, nextTick, onBeforeMount, ref, useTemplateRef } from 'vue'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import ThemeList from '../components/ThemeList.vue'
 import UserSectionAppMenu from '../components/UserSectionAppMenu.vue'
 import UserSectionBackground from '../components/UserSectionBackground.vue'
-import UserSectionHotkeys from '../components/UserSectionHotkeys.vue'
+import UserSectionCompatibility from '../components/UserSectionCompatibility.vue'
 import UserSectionPrimaryColor from '../components/UserSectionPrimaryColor.vue'
 import UserSectionToastTimeout from '../components/UserSectionToastTimeout.vue'
 import { refreshStyles } from '../utils/refreshStyles.js'
 
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
-
-const enableBlurFilter = ref(loadState('theming', 'enableBlurFilter', ''))
 
 const availableThemes = ref(loadState<ITheme[]>('theming', 'themes', []))
 for (const theme of availableThemes.value) {
@@ -122,25 +108,6 @@ const descriptionDetail = t(
 async function refreshGlobalStyles() {
 	await refreshStyles()
 	nextTick(() => primaryColorSection.value?.reload())
-}
-
-/**
- * Handle blur filter change
- */
-async function changeEnableBlurFilter() {
-	enableBlurFilter.value = enableBlurFilter.value === 'no' ? 'yes' : 'no'
-	await axios({
-		url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
-			appId: 'theming',
-			configKey: 'force_enable_blur_filter',
-		}),
-		data: {
-			configValue: enableBlurFilter.value,
-		},
-		method: 'POST',
-	})
-	// Refresh the styles
-	refreshStyles()
 }
 
 /**
