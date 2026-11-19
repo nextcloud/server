@@ -270,7 +270,7 @@ class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, 
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'], true)) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'], true)) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
@@ -303,6 +303,13 @@ class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, 
 	 */
 	protected function getTypeFromProperty(Property $property) {
 		$parameters = $property->parameters();
+		// RFC 9554 SOCIALPROFILE names the network in SERVICE-TYPE; TYPE may still carry PREF.
+		if ($property->name === 'SOCIALPROFILE' && isset($parameters['SERVICE-TYPE'])) {
+			/** @var \Sabre\VObject\Parameter $serviceType */
+			$serviceType = $parameters['SERVICE-TYPE'];
+			return $serviceType->getValue();
+		}
+
 		// Type is the social network, when it's empty we don't need this.
 		if (isset($parameters['TYPE'])) {
 			/** @var \Sabre\VObject\Parameter $type */

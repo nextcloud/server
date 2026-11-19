@@ -472,6 +472,59 @@ class AddressBookImplTest extends TestCase {
 		], $array);
 	}
 
+	public function testVCard2ArrayWithRfc9554SocialProfile(): void {
+		$vCard = new VCard();
+
+		$vCard->add($vCard->createProperty('FN', 'Full Name'));
+
+		// RFC 9554 registered SOCIALPROFILE without the X- prefix and names
+		// the network in SERVICE-TYPE instead of TYPE.
+		$property = $vCard->createProperty('SOCIALPROFILE', 'https://example.com/@alice');
+		$property->add('SERVICE-TYPE', 'Mastodon');
+		$vCard->add($property);
+		$property = $vCard->createProperty('SOCIALPROFILE', 'https://github.com/alice');
+		$property->add('SERVICE-TYPE', 'GitHub');
+		$vCard->add($property);
+
+		// A primary profile keeps PREF in TYPE; the network still comes from SERVICE-TYPE.
+		$property = $vCard->createProperty('SOCIALPROFILE', 'https://example.com/@bob');
+		$property->add('TYPE', 'pref');
+		$property->add('SERVICE-TYPE', 'Mastodon');
+		$vCard->add($property);
+
+		// The legacy form has to keep resolving through TYPE.
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example');
+		$property->add('TYPE', 'twitter');
+		$vCard->add($property);
+
+		// Other properties keep reporting TYPE only.
+		$property = $vCard->createProperty('IMPP', 'xmpp:alice@example.com');
+		$property->add('SERVICE-TYPE', 'Jabber');
+		$vCard->add($property);
+
+		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard, true]);
+		unset($array['PRODID']);
+		unset($array['UID']);
+
+		$this->assertEquals([
+			'URI' => 'uri',
+			'VERSION' => '4.0',
+			'FN' => 'Full Name',
+			'SOCIALPROFILE' => [
+				['type' => 'Mastodon', 'value' => 'https://example.com/@alice'],
+				['type' => 'GitHub', 'value' => 'https://github.com/alice'],
+				['type' => 'Mastodon', 'value' => 'https://example.com/@bob'],
+			],
+			'X-SOCIALPROFILE' => [
+				['type' => 'twitter', 'value' => 'tw-example'],
+			],
+			'IMPP' => [
+				['type' => null, 'value' => 'xmpp:alice@example.com'],
+			],
+			'isLocalSystemBook' => true,
+		], $array);
+	}
+
 	public function testIsSystemAddressBook(): void {
 		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'principals/system/system',
