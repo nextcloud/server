@@ -18,8 +18,8 @@ use OCP\AppFramework\Attribute\Consumable;
  * Gives access to the registered permissions and resource types
  * and checks which permissions are restricted by other apps.
  *
- * Which access exists is up to the app owning the resource, it either passes the access
- * or is asked for it through {@see IResourceType::getAccess}.
+ * Which access exists is up to the app owning the resource, it either passes the access,
+ * as access entries or aggregated permissions, or is asked for it through {@see IResourceType::getAccess}.
  * That app also has to enforce the result.
  *
  * @experimental 36.0.0
@@ -64,6 +64,12 @@ interface IPermissionManager {
 
 	/**
 	 * Same as {@see self::check} for multiple resources at once, the resources can be of different types.
+	 *
+	 * The access can also be passed as aggregated permissions, see {@see ResourceAccess::aggregated}.
+	 * The result is then what is left of those permissions. If a restriction applies only to the access
+	 * through one recipient, the resource type is asked for the access entries and the restriction is
+	 * applied to them. If the resource type fails or has no access entries for the actor, such a restriction
+	 * applies to the whole resource.
 	 *
 	 * @param list<ResourceAccess> $accesses
 	 * @return array<non-empty-string, EffectivePermissions> keyed by {@see ResourceReference::key}
