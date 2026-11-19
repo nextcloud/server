@@ -20,6 +20,31 @@ import { hashCode } from '../utils/hashUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 
+/**
+ * Remove the actions menu position set on an element
+ *
+ * @param element The app content or the popper element of a menu
+ */
+function clearMousePosition(element: HTMLElement) {
+	element.style.removeProperty('--mouse-pos-x')
+	element.style.removeProperty('--mouse-pos-y')
+}
+
+/**
+ * Remove the position frozen on a closing actions menu once the menu is shown again
+ *
+ * @param popper The popper element of the menu
+ */
+function releaseFrozenPositionOnShow(popper: HTMLElement) {
+	const observer = new MutationObserver(() => {
+		if (popper.getAttribute('aria-hidden') === 'false') {
+			clearMousePosition(popper)
+			observer.disconnect()
+		}
+	})
+	observer.observe(popper, { attributeFilter: ['aria-hidden'] })
+}
+
 export default defineComponent({
 	props: {
 		source: {
@@ -170,7 +195,7 @@ export default defineComponent({
 				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				// If the menu is opened on another file entry, we ignore closed events
+				// If the menu is opened on another file entry, we ignore close requests
 				if (opened === false && this.actionsMenuStore.opened !== this.uniqueId.toString()) {
 					return
 				}
@@ -340,25 +365,23 @@ export default defineComponent({
 				return
 			}
 
-			for (const popper of root.querySelectorAll<HTMLElement>('.v-popper__popper')) {
-				// A menu is still visible during its hide transition
-				const style = getComputedStyle(popper)
-				const visible = style.visibility !== 'hidden' && style.opacity !== '0'
-				for (const property of ['--mouse-pos-x', '--mouse-pos-y']) {
-					if (visible) {
-						// Keep a position frozen by a previous call, the root one may be reset already
-						if (!popper.style.getPropertyValue(property)) {
-							popper.style.setProperty(property, root.style.getPropertyValue(property))
-						}
-					} else {
-						popper.style.removeProperty(property)
+			const x = root.style.getPropertyValue('--mouse-pos-x')
+			const y = root.style.getPropertyValue('--mouse-pos-y')
+			if (x) {
+				for (const popper of root.querySelectorAll<HTMLElement>('.v-popper__popper')) {
+					// A menu is still visible during its hide transition, it keeps a position frozen by a previous call
+					const style = getComputedStyle(popper)
+					if (style.visibility === 'hidden' || style.opacity === '0' || popper.style.getPropertyValue('--mouse-pos-x')) {
+						continue
 					}
+					popper.style.setProperty('--mouse-pos-x', x)
+					popper.style.setProperty('--mouse-pos-y', y)
+					releaseFrozenPositionOnShow(popper)
 				}
 			}
 
 			if (!event) {
-				root.style.removeProperty('--mouse-pos-x')
-				root.style.removeProperty('--mouse-pos-y')
+				clearMousePosition(root)
 				return
 			}
 

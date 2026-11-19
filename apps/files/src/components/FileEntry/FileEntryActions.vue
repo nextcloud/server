@@ -19,17 +19,13 @@
 
 		<!-- Menu actions -->
 		<NcActions
-			ref="actionsMenu"
+			v-model:open="openedMenu"
 			:boundariesElement="getBoundariesElement"
 			:container="getBoundariesElement"
 			:forceName="true"
 			variant="tertiary"
 			:forceMenu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
-			:inline="enabledInlineActions.length"
-			:open="openedMenu"
-			@open="openedMenu = true"
-			@close="onMenuClose"
-			@closed="onMenuClosed">
+			:inline="enabledInlineActions.length">
 			<!-- Non-destructive actions list -->
 			<!-- Please keep this block in sync with the destructive actions block below -->
 			<NcActionButton
@@ -404,16 +400,6 @@ export default defineComponent({
 			if (event.key === 'a' && !this.openedMenu) {
 				this.openedMenu = true
 			}
-		},
-
-		onMenuClose() {
-			// We reset the submenu state when the menu is closing
-			this.openedSubmenu = null
-		},
-
-		onMenuClosed() {
-			// We reset the actions menu state when the menu is finally closed
-			this.openedMenu = false
 		},
 	},
 })
