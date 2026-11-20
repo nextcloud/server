@@ -58,6 +58,7 @@ describe('useSharingSettings', () => {
 		['allowLinks', false, 'shareapi_allow_links', 'no'],
 		['enabled', true, 'shareapi_enabled', 'yes'],
 		['restrictUserEnumerationFullMatchIgnoreSecondDN', true, 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'yes'],
+		['showAccountEmail', false, 'shareapi_show_account_email', 'no'],
 		['excludeGroupsList', ['admin', 'group 1'], 'shareapi_exclude_groups_list', '["admin","group 1"]'],
 		['expireAfterNDays', '14', 'shareapi_expire_after_n_days', '14'],
 		['internalExpireAfterNDays', '3', 'shareapi_internal_expire_after_n_days', '3'],

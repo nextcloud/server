@@ -7,6 +7,7 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
 use OC\Share20\ShareDisableChecker;
@@ -15,6 +16,7 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -40,6 +42,7 @@ class ContactsStore implements IContactsStore {
 		private KnownUserService $knownUserService,
 		private IL10NFactory $l10nFactory,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -204,7 +207,7 @@ class ContactsStore implements IContactsStore {
 
 					$filterOutUser = true;
 
-					$mailAddresses = $entry->getEMailAddresses();
+					$mailAddresses = $entry->getProperty('EMAIL') ?? [];
 					foreach ($mailAddresses as $mailAddress) {
 						if ($mailAddress === $filter) {
 							$filterOutUser = false;
@@ -335,7 +338,9 @@ class ContactsStore implements IContactsStore {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
 
-		if (!empty($contact['EMAIL'])) {
+		$hideEMailAddresses = ($contact['isLocalSystemBook'] ?? false) === true
+			&& !$this->appConfig->getValueBool('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL);
+		if (!empty($contact['EMAIL']) && !$hideEMailAddresses) {
 			foreach ($contact['EMAIL'] as $email) {
 				$entry->addEMailAddress($email);
 			}

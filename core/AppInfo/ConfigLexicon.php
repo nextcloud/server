@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
 	public const SHARE_LINK_EXPIRE_DATE_DEFAULT = 'shareapi_default_expire_date';
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
+	public const SHARE_SHOW_ACCOUNT_EMAIL = 'shareapi_show_account_email';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 	public const DAV_REPAIR_REMOVED_BROKEN_PROPERTIES = 'dav_repair_removed_broken_properties';
@@ -97,6 +98,12 @@ class ConfigLexicon implements ILexicon {
 					default => false,
 				},
 				definition: 'Enforce expiration date for shares via link or mail'
+			),
+			new Entry(
+				key: self::SHARE_SHOW_ACCOUNT_EMAIL,
+				type: ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Show the email address of accounts to other accounts in the contacts menu and in sharee search results',
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM'),

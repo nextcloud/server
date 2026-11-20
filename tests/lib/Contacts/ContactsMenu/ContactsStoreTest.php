@@ -10,12 +10,14 @@ declare(strict_types=1);
 namespace Test\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
 use OC\Share20\ShareDisableChecker;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -44,6 +46,7 @@ class ContactsStoreTest extends TestCase {
 	private $knownUserService;
 	/** @var IL10NFactory */
 	private $l10nFactory;
+	private bool $showAccountEMail = true;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -58,6 +61,10 @@ class ContactsStoreTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->l10nFactory = $this->createMock(IL10NFactory::class);
+		$appConfig = $this->createMock(IAppConfig::class);
+		$appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_SHOW_ACCOUNT_EMAIL)
+			->willReturnCallback(fn (): bool => $this->showAccountEMail);
 		$this->contactsStore = new ContactsStore(
 			$this->contactsManager,
 			$this->statusService,
@@ -69,6 +76,7 @@ class ContactsStoreTest extends TestCase {
 			$this->knownUserService,
 			$this->l10nFactory,
 			new ShareDisableChecker($this->config, $this->userManager, $this->groupManager),
+			$appConfig,
 		);
 	}
 
@@ -977,6 +985,91 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals([
 			'darren@roner.au'
 		], $entry->getEMailAddresses());
+	}
+
+	public function testGetContactsWithoutEMailAddressOfAccounts(): void {
+		$this->showAccountEMail = false;
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_exclude_groups_list', '', ''],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
+			]);
+
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user123');
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->willReturn([
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'UID' => 'anne',
+					'FN' => 'Anne D',
+					'EMAIL' => [
+						'anne@example.com',
+					],
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($user, '');
+
+		$this->assertCount(2, $entries);
+		$this->assertSame([], $entries[0]->getEMailAddresses());
+		$this->assertSame(['anne@example.com'], $entries[1]->getEMailAddresses());
+	}
+
+	public function testGetContactsWithFullMatchOnHiddenEMailAddress(): void {
+		$this->showAccountEMail = false;
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+			]);
+
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('user123');
+		$this->contactsManager->method('search')
+			->willReturn([
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'UID' => 'john',
+					'FN' => 'John Doe',
+					'EMAIL' => [
+						'john@example.com',
+					],
+					'isLocalSystemBook' => true,
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($user, 'john@example.com');
+
+		$this->assertCount(1, $entries);
+		$this->assertSame('John Doe', $entries[0]->getFullName());
+		$this->assertSame([], $entries[0]->getEMailAddresses());
 	}
 
 	public function testFindOneEMail(): void {
