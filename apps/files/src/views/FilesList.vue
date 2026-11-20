@@ -746,13 +746,6 @@ export default defineComponent({
 				return
 			}
 
-			if (this.isPublic
-				&& (this.currentFolder.permissions & Permission.READ) === 0) {
-				event.preventDefault()
-				showError(t('files', 'Some files could not be uploaded'))
-				return
-			}
-
 			// Capture the destination and view before uploading.
 			const folder = this.currentFolder
 			const source = folder.source
