@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace Test\Http\Client;
 
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Uri;
 use OC\Http\Client\Client;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
@@ -676,5 +678,53 @@ class ClientTest extends \Test\TestCase {
 				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public static function dataAllowRedirectsKeepsRedirectCheck(): array {
+		return [
+			[['max' => 1], ['max' => 1]],
+			[true, []],
+		];
+	}
+
+	#[DataProvider('dataAllowRedirectsKeepsRedirectCheck')]
+	public function testAllowRedirectsKeepsRedirectCheck(array|bool $allowRedirects, array $expected): void {
+		$options = self::invokePrivate($this->client, 'buildRequestOptions', [['allow_redirects' => $allowRedirects]]);
+		$onRedirect = $options['allow_redirects']['on_redirect'];
+		unset($options['allow_redirects']['on_redirect']);
+		$this->assertSame($expected, $options['allow_redirects']);
+
+		$this->expectException(LocalServerException::class);
+		$onRedirect(new Request('GET', 'https://example.com'), new Response(302), new Uri('http://127.0.0.1/'));
+	}
+
+	public function testAllowRedirectsCallsCallerOnRedirect(): void {
+		$this->getAutoMock(IRemoteHostValidator::class)->method('isValid')->willReturn(true);
+		$called = false;
+		$options = self::invokePrivate($this->client, 'buildRequestOptions', [['allow_redirects' => [
+			'on_redirect' => function () use (&$called): void {
+				$called = true;
+			},
+		]]]);
+
+		$options['allow_redirects']['on_redirect'](new Request('GET', 'https://example.com'), new Response(302), new Uri('https://example.org/'));
+		$this->assertTrue($called);
+	}
+
+	public static function dataAllowRedirectsUnchanged(): array {
+		return [
+			[false],
+			[null],
+			[[]],
+			[0],
+			[''],
+			['yes'],
+		];
+	}
+
+	#[DataProvider('dataAllowRedirectsUnchanged')]
+	public function testAllowRedirectsUnchanged(mixed $allowRedirects): void {
+		$options = self::invokePrivate($this->client, 'buildRequestOptions', [['allow_redirects' => $allowRedirects]]);
+		$this->assertSame($allowRedirects, $options['allow_redirects']);
 	}
 }
