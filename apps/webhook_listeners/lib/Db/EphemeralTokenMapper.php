@@ -108,7 +108,12 @@ class EphemeralTokenMapper extends QBMapper {
 		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {
 			try {
-				$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
+				try {
+					$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
+				} catch (DoesNotExistException $e) {
+					// token is already gone, e.g. revoked by its user or removed together with the account
+					$this->logger->info('Webhook token to be deleted was not found: ' . $e->getMessage(), ['exception' => $e]);
+				}
 				$this->delete($token); // delete db row in webhook_tokens
 			} catch (\Exception $e) {
 				$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
