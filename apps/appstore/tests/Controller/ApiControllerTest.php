@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Appstore\Tests\Controller;
 
 use OC\App\AppManager;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
 use OCA\Appstore\Controller\ApiController;
@@ -44,6 +45,13 @@ final class ApiControllerTest extends TestCase {
 
 		$jsonResponse = json_encode($response->getData());
 		$this->assertJsonStringEqualsJsonFile(__DIR__ . '/../fixtures/categories-api-response.json', $jsonResponse);
+	}
+
+	public function testRefreshApps(): void {
+		$this->mocks[AppFetcher::class]->expects($this->once())->method('invalidate');
+		$this->mocks[CategoryFetcher::class]->expects($this->once())->method('invalidate');
+
+		$this->assertSame(200, $this->apiController->refreshApps()->getStatus());
 	}
 
 	public static function dataCreateProxyPreviewUrl(): array {

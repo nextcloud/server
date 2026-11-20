@@ -53,7 +53,7 @@ async function onUpdateAll() {
 </script>
 
 <template>
-	<AppToolbar />
+	<AppToolbar refreshable />
 
 	<NcButton
 		v-if="currentCategory === 'updates' && updatesStore.updateCount > 0"

@@ -142,6 +142,8 @@ abstract class Fetcher {
 
 		$ETag = '';
 		$content = '';
+		// What to show when the app store can't be reached for a refresh
+		$cachedData = [];
 
 		try {
 			// File does already exists
@@ -162,6 +164,7 @@ abstract class Fetcher {
 						return $jsonBlob['data'];
 					}
 
+					$cachedData = $jsonBlob['data'];
 					if (isset($jsonBlob['ETag'])) {
 						$ETag = $jsonBlob['ETag'];
 						$content = json_encode($jsonBlob['data']);
@@ -187,20 +190,38 @@ abstract class Fetcher {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
 			if (empty($responseJson) || empty($responseJson['data'])) {
-				return [];
+				return $cachedData;
 			}
 
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
-			return [];
+			return $cachedData;
 		} catch (\Exception $e) {
 			$this->logger->warning($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'appstoreFetcher',
 			]);
-			return [];
+			return $cachedData;
+		}
+	}
+
+	/**
+	 * Make the next get() ask the app store again, whatever the cache age.
+	 * The cached data and its ETag stay, so an unchanged list costs a 304.
+	 */
+	public function invalidate(): void {
+		try {
+			$file = $this->appData->getFolder('/')->getFile($this->fileName);
+			$jsonBlob = json_decode($file->getContent(), true);
+			if (!is_array($jsonBlob)) {
+				return;
+			}
+			$jsonBlob['timestamp'] = 0;
+			$file->putContent(json_encode($jsonBlob));
+		} catch (NotFoundException|GenericFileException) {
+			// Nothing cached, the next get() fetches anyway
 		}
 	}
 

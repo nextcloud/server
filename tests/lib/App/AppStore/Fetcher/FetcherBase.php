@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Test\App\AppStore\Fetcher;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Psr7\Request;
 use OC\App\AppStore\Fetcher\Fetcher;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
@@ -53,6 +55,69 @@ abstract class FetcherBase extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->registry = $this->createMock(IRegistry::class);
+	}
+
+	public function testInvalidateKeepsDataAndETag(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')->with('/')->willReturn($folder);
+		$folder->method('getFile')->with($this->fileName)->willReturn($file);
+		$file->method('getContent')
+			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\\"myETag\\""}');
+		$file->expects($this->once())
+			->method('putContent')
+			->with('{"timestamp":0,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\\"myETag\\""}');
+
+		$this->fetcher->invalidate();
+	}
+
+	public function testInvalidateWithoutCache(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData->method('getFolder')->with('/')->willReturn($folder);
+		$folder->method('getFile')->with($this->fileName)->willThrowException(new NotFoundException());
+
+		$this->fetcher->invalidate();
+		$this->addToAssertionCount(1);
+	}
+
+	public static function dataGetFallsBackToTheCache(): array {
+		return [
+			'app store unreachable' => ['0', true],
+			'retrying after a failure' => ['now', false],
+		];
+	}
+
+	/**
+	 * An invalidated cache, as the check for updates leaves it, keeps being
+	 * served while the app store can't be asked
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetFallsBackToTheCache')]
+	public function testGetFallsBackToTheCache(string $lastFailure, bool $requested): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(fn (string $key, string $default) => $key === 'version' ? '11.0.0.2' : $default);
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$this->config->method('getAppValue')
+			->willReturnCallback(fn (string $app, string $key, string $default) => $key === 'appstore-fetcher-lastFailure'
+				? ($lastFailure === 'now' ? (string)time() : $lastFailure)
+				: $default);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')->with('/')->willReturn($folder);
+		$folder->method('getFile')->with($this->fileName)->willReturn($file);
+		$file->method('getContent')
+			->willReturn('{"timestamp":0,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\\"myETag\\""}');
+		$file->expects($this->never())->method('putContent');
+		$this->timeFactory->method('getTime')->willReturn(1800000000);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService->method('newClient')->willReturn($client);
+		$client->expects($requested ? $this->once() : $this->never())
+			->method('get')
+			->willThrowException(new ConnectException('down', new Request('GET', $this->endpoint)));
+
+		$this->assertSame([['id' => 'MyApp']], $this->fetcher->get());
 	}
 
 	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion(): void {

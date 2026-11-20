@@ -4,7 +4,8 @@
 -->
 
 <script setup lang="ts">
-import { mdiFilterVariant, mdiSizeL, mdiSizeM, mdiSizeS, mdiViewGrid } from '@mdi/js'
+import { mdiFilterVariant, mdiRefresh, mdiSizeL, mdiSizeM, mdiSizeS, mdiViewGrid } from '@mdi/js'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -14,11 +15,20 @@ import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { useAppsStore } from '../store/apps.ts'
 import { useUserSettingsStore } from '../store/userSettings.ts'
+
+defineProps<{
+	/** Show the button that checks the app store for updates */
+	refreshable?: boolean
+}>()
 
 const route = useRoute()
 const router = useRouter()
 const userSettingsStore = useUserSettingsStore()
+const appsStore = useAppsStore()
+const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 
 watch(() => userSettingsStore.isGridView, (enabled: boolean) => {
 	router.replace({
@@ -65,6 +75,19 @@ watch(() => userSettingsStore.showIncompatible, (showIncompatible) => {
 
 <template>
 	<div :class="$style.appToolbar">
+		<NcButton
+			v-if="refreshable && appstoreEnabled"
+			:aria-label="t('appstore', 'Check for updates')"
+			:title="t('appstore', 'Check for updates')"
+			:disabled="appsStore.isRefreshing"
+			variant="tertiary"
+			@click="appsStore.refreshApps()">
+			<template #icon>
+				<NcLoadingIcon v-if="appsStore.isRefreshing" :size="20" />
+				<NcIconSvgWrapper v-else :path="mdiRefresh" />
+			</template>
+		</NcButton>
+
 		<NcActions :class="$style.appToolbar__filterButton" :aria-label="t('appstore', 'Filter view')" forceMenu>
 			<template #icon>
 				<NcIconSvgWrapper :path="mdiFilterVariant" />

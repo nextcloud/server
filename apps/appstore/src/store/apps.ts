@@ -15,6 +15,7 @@ import { rebuildNavigation } from '../service/rebuild-navigation.ts'
 import { canDisable, canInstall, canLimitToGroups, canUninstall, needForceEnable } from '../utils/appStatus.ts'
 import logger from '../utils/logger.ts'
 import { useExAppsStore } from './exApps.ts'
+import { useUpdatesStore } from './updates.ts'
 
 export const useAppsStore = defineStore('apps', () => {
 	const exApps = useExAppsStore()
@@ -37,6 +38,7 @@ export const useAppsStore = defineStore('apps', () => {
 	 */
 	const isLoadingApps = ref(false)
 	const isLoadingCategories = ref(false)
+	const isRefreshing = ref(false)
 
 	/**
 	 * All apps available
@@ -240,6 +242,7 @@ export const useAppsStore = defineStore('apps', () => {
 		categories,
 		isLoadingApps,
 		isLoadingCategories,
+		isRefreshing,
 
 		disableApp,
 		enableApp,
@@ -250,6 +253,7 @@ export const useAppsStore = defineStore('apps', () => {
 		getAppsByCategory,
 		getCategoryById,
 		limitAppToGroups,
+		refreshApps,
 	}
 
 	/**
@@ -261,6 +265,23 @@ export const useAppsStore = defineStore('apps', () => {
 			loadCategories(),
 			exApps.isEnabled ? exApps.initialize() : Promise.resolve(),
 		])
+	}
+
+	/**
+	 * Ask the app store for new apps and releases, then reload the lists
+	 */
+	async function refreshApps() {
+		try {
+			isRefreshing.value = true
+			await api.refreshApps()
+			await Promise.allSettled([loadApps(), loadCategories()])
+			useUpdatesStore().syncUpdateCount(appstoreApps.value)
+		} catch (error) {
+			logger.error('Failed to refresh the app store data', { error })
+			showError(t('appstore', 'Could not check the app store for updates. Please try again later.'))
+		} finally {
+			isRefreshing.value = false
+		}
 	}
 
 	/**
