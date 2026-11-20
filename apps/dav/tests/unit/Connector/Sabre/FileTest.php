@@ -39,6 +39,7 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Test\HookHelper;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -683,6 +684,43 @@ class FileTest extends TestCase {
 		$file = new File($view, $info);
 
 		$file->setName("/i\nvalid");
+	}
+
+	public static function setNameExceptionProvider(): array {
+		return [
+			[new LockedException('/valid'), FileLocked::class, 423],
+			[new ForbiddenException('', false), Forbidden::class, 403],
+			[new StorageNotAvailableException(), ServiceUnavailable::class, 503],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setNameExceptionProvider')]
+	public function testSetNameConvertsException(\Exception $thrown, string $expectedClass, int $expectedStatus): void {
+		/** @var View&MockObject */
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['rename', 'getRelativePath', 'verifyPath'])
+			->getMock();
+		$view->method('getRelativePath')
+			->willReturnArgument(0);
+		$view->expects($this->once())
+			->method('rename')
+			->with('/valid', '/renamed')
+			->willThrowException($thrown);
+
+		$info = new \OC\Files\FileInfo('/valid', $this->getMockStorage(), null, [
+			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FILE,
+		], null);
+		$file = new File($view, $info);
+
+		try {
+			$file->setName('renamed');
+			$this->fail('Expected ' . $expectedClass);
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->assertInstanceOf($expectedClass, $e);
+			$this->assertSame($expectedStatus, $e->getHTTPCode());
+			$this->assertSame($thrown, $e->getPrevious());
+		}
 	}
 
 	public function testUploadAbort(): void {
