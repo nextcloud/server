@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.3', '8.6']
         backend: ['generic', 'proftpd', 'vsftpd', 'pure-ftpd', 's3-minio', 's3-localstack', 'openssh', 'smb', 'webdav']
 
     name: php${{ matrix.php-versions }}-${{ matrix.backend }}
