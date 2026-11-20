@@ -12,23 +12,18 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\Service\ASyncService;
-use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class SyncService extends ASyncService {
-	use TTransactional;
-
 	public function __construct(
 		IClientService $clientService,
 		IConfig $config,
 		private readonly CalDavBackend $backend,
 		private readonly FederatedCalendarMapper $federatedCalendarMapper,
-		private readonly IDBConnection $dbConnection,
 		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($clientService, $config);
@@ -70,14 +65,12 @@ class SyncService extends ASyncService {
 			if (isset($status[200])) {
 				$absoluteUrl = $this->prepareUri($url, $resource);
 				$vCard = $this->download($absoluteUrl, $username, $sharedSecret);
-				$this->atomic(function () use ($calendar, $objectUri, $vCard): void {
-					$existingObject = $this->backend->getCalendarObject($calendar->getId(), $objectUri, CalDavBackend::CALENDAR_TYPE_FEDERATED);
-					if (!$existingObject) {
-						$this->backend->createCalendarObject($calendar->getId(), $objectUri, $vCard, CalDavBackend::CALENDAR_TYPE_FEDERATED);
-					} else {
-						$this->backend->updateCalendarObject($calendar->getId(), $objectUri, $vCard, CalDavBackend::CALENDAR_TYPE_FEDERATED);
-					}
-				}, $this->dbConnection);
+				$existingObject = $this->backend->getCalendarObject($calendar->getId(), $objectUri, CalDavBackend::CALENDAR_TYPE_FEDERATED);
+				if (!$existingObject) {
+					$this->backend->createCalendarObject($calendar->getId(), $objectUri, $vCard, CalDavBackend::CALENDAR_TYPE_FEDERATED);
+				} else {
+					$this->backend->updateCalendarObject($calendar->getId(), $objectUri, $vCard, CalDavBackend::CALENDAR_TYPE_FEDERATED);
+				}
 				$downloadedEvents++;
 			} else {
 				$this->backend->deleteCalendarObject($calendar->getId(), $objectUri, CalDavBackend::CALENDAR_TYPE_FEDERATED, true);

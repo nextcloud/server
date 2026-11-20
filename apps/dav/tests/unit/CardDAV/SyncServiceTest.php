@@ -15,6 +15,7 @@ use OC\Http\Client\Response;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\DB\Exception;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -38,6 +39,7 @@ class SyncServiceTest extends TestCase {
 	protected IClient&MockObject $client;
 	protected IConfig&MockObject $config;
 	protected SyncService $service;
+	protected int $transactionDepth = 0;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -57,6 +59,7 @@ class SyncServiceTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->trackTransactionDepth($this->dbConnection);
 		$this->logger = new NullLogger();
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
@@ -75,6 +78,22 @@ class SyncServiceTest extends TestCase {
 			$this->logger,
 			$this->converter,
 		);
+	}
+
+	private function trackTransactionDepth(IDBConnection&MockObject $dbConnection): void {
+		$dbConnection->method('beginTransaction')->willReturnCallback(function (): void {
+			$this->transactionDepth++;
+		});
+		$dbConnection->method('commit')->willReturnCallback(function (): void {
+			$this->transactionDepth--;
+		});
+		$dbConnection->method('rollBack')->willReturnCallback(function (): void {
+			$this->transactionDepth--;
+		});
+	}
+
+	private function assertNotInTransaction(): void {
+		$this->assertSame(0, $this->transactionDepth, 'Expected no open transaction');
 	}
 
 	public function testEmptySync(): void {
@@ -116,7 +135,8 @@ class SyncServiceTest extends TestCase {
 
 	public function testSyncWithNewElement(): void {
 		$this->backend->expects($this->exactly(1))
-			->method('createCard');
+			->method('createCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$this->backend->expects($this->exactly(0))
 			->method('updateCard');
 		$this->backend->expects($this->exactly(0))
@@ -188,7 +208,8 @@ END:VCARD';
 		$this->backend->expects($this->exactly(0))
 			->method('createCard');
 		$this->backend->expects($this->exactly(1))
-			->method('updateCard');
+			->method('updateCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$this->backend->expects($this->exactly(0))
 			->method('deleteCard');
 
@@ -386,26 +407,110 @@ END:VCARD';
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
 
-	public function testEnsureSystemAddressBookExists(): void {
-		/** @var CardDavBackend&MockObject $backend */
+	private function createServiceWithBackend(CardDavBackend&MockObject $backend): SyncService {
+		$dbConnection = $this->createMock(IDBConnection::class);
+		$this->trackTransactionDepth($dbConnection);
+
+		return new SyncService(
+			$this->createMock(IClientService::class),
+			$this->createMock(IConfig::class),
+			$backend,
+			$this->createMock(IUserManager::class),
+			$dbConnection,
+			new NullLogger(),
+			$this->createMock(Converter::class),
+		);
+	}
+
+	public function testEnsureSystemAddressBookExistsReturnsExisting(): void {
+		$existing = ['id' => 42, 'uri' => 'contacts'];
 		$backend = $this->createMock(CardDavBackend::class);
-		$backend->expects($this->exactly(1))->method('createAddressBook');
+		$backend->expects($this->once())
+			->method('getAddressBooksByUri')
+			->with('principals/users/adam', 'contacts')
+			->willReturn($existing);
+		$backend->expects($this->never())->method('createAddressBook');
+
+		$result = $this->createServiceWithBackend($backend)
+			->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+
+		$this->assertSame($existing, $result);
+	}
+
+	public function testEnsureSystemAddressBookExistsCreatesOutsideTransaction(): void {
+		$created = ['id' => 42, 'uri' => 'contacts'];
+		$properties = ['{DAV:}displayname' => 'Contacts'];
+		$backend = $this->createMock(CardDavBackend::class);
 		$backend->expects($this->exactly(2))
 			->method('getAddressBooksByUri')
-			->willReturnOnConsecutiveCalls(
-				null,
-				[],
-			);
+			->with('principals/users/adam', 'contacts')
+			->willReturnOnConsecutiveCalls(null, $created);
+		$backend->expects($this->once())
+			->method('createAddressBook')
+			->with('principals/users/adam', 'contacts', $properties)
+			->willReturnCallback(function (): int {
+				$this->assertNotInTransaction();
+				return 42;
+			});
 
-		$userManager = $this->createMock(IUserManager::class);
-		$dbConnection = $this->createMock(IDBConnection::class);
-		$logger = $this->createMock(LoggerInterface::class);
-		$converter = $this->createMock(Converter::class);
-		$clientService = $this->createMock(IClientService::class);
-		$config = $this->createMock(IConfig::class);
+		$result = $this->createServiceWithBackend($backend)
+			->ensureSystemAddressBookExists('principals/users/adam', 'contacts', $properties);
 
-		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
-		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+		$this->assertSame($created, $result);
+	}
+
+	public function testEnsureSystemAddressBookExistsLoadsConcurrentlyCreated(): void {
+		$concurrent = ['id' => 43, 'uri' => 'contacts'];
+		$uniqueViolation = $this->createMock(Exception::class);
+		$uniqueViolation->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->expects($this->exactly(2))
+			->method('getAddressBooksByUri')
+			->willReturnOnConsecutiveCalls(null, $concurrent);
+		$backend->expects($this->once())
+			->method('createAddressBook')
+			->willThrowException($uniqueViolation);
+
+		$result = $this->createServiceWithBackend($backend)
+			->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+
+		$this->assertSame($concurrent, $result);
+		$this->assertNotInTransaction();
+	}
+
+	public function testEnsureSystemAddressBookExistsThrowsWhenConcurrentlyCreatedIsMissing(): void {
+		$uniqueViolation = $this->createMock(Exception::class);
+		$uniqueViolation->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->expects($this->exactly(2))
+			->method('getAddressBooksByUri')
+			->willReturn(null);
+		$backend->expects($this->once())
+			->method('createAddressBook')
+			->willThrowException($uniqueViolation);
+
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage('Could not create system address book');
+
+		$this->createServiceWithBackend($backend)
+			->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+	}
+
+	public function testEnsureSystemAddressBookExistsRethrowsOtherDatabaseErrors(): void {
+		$otherError = $this->createMock(Exception::class);
+		$otherError->method('getReason')->willReturn(Exception::REASON_FOREIGN_KEY_VIOLATION);
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->expects($this->once())
+			->method('getAddressBooksByUri')
+			->willReturn(null);
+		$backend->expects($this->once())
+			->method('createAddressBook')
+			->willThrowException($otherError);
+
+		$this->expectExceptionObject($otherError);
+
+		$this->createServiceWithBackend($backend)
+			->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
 	public static function dataActivatedUsers(): array {
@@ -421,8 +526,10 @@ END:VCARD';
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
-		$backend->expects($this->exactly($createCalls))->method('createCard');
-		$backend->expects($this->exactly($updateCalls))->method('updateCard');
+		$backend->expects($this->exactly($createCalls))->method('createCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
+		$backend->expects($this->exactly($updateCalls))->method('updateCard')
+			->willReturnCallback(fn () => $this->assertNotInTransaction());
 		$backend->expects($this->exactly($deleteCalls))->method('deleteCard');
 
 		$backend->method('getCard')->willReturnOnConsecutiveCalls(false, [
@@ -435,6 +542,7 @@ END:VCARD';
 
 		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
+		$this->trackTransactionDepth($dbConnection);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
@@ -444,7 +552,10 @@ END:VCARD';
 		$converter = $this->createMock(Converter::class);
 		$converter->expects($this->any())
 			->method('createCardFromUser')
-			->willReturn($this->createMock(VCard::class));
+			->willReturnCallback(function () {
+				$this->assertNotInTransaction();
+				return $this->createMock(VCard::class);
+			});
 
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
