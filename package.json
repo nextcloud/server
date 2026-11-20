@@ -19,7 +19,7 @@
     "dev": "NODE_ENV=development vite build --mode development",
     "lint": "eslint --suppressions-location build/eslint-baseline.json --no-error-on-unmatched-pattern",
     "lint:fix": "npm run lint -- --fix",
-    "playwright": "playwright test --project=default --project=admin-settings",
+    "playwright": "playwright test --project=default --project=admin-settings --project=sharing",
     "playwright:install": "playwright install chromium",
     "playwright:setup": "playwright test --project=setup",
     "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
