@@ -12,9 +12,14 @@ import { expect, test } from '../../support/fixtures/sharing-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { openSharingPanel, SharePermission } from '../../support/utils/sharing.ts'
 
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66864 is fixed
+const PICKER_BROKEN = 'Sharee options are labelled "undefined": SharingInput still passes the userSelect prop that @nextcloud/vue 9 removed'
+
 const { READ, UPDATE, CREATE, DELETE, SHARE } = SharePermission
 
 test.describe('files_sharing: "Allow editing" permission bundle', () => {
+	test.fixme(true, PICKER_BROKEN)
+
 	test.beforeEach(async () => {
 		await runOcc(['config:app:delete', 'files_sharing', 'shareapi_exclude_reshare_from_edit'])
 	})

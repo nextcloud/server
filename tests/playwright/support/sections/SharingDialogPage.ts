@@ -63,7 +63,7 @@ export class SharingDialogPage {
 	// --- Recipients ---
 
 	get recipientSearch(): Locator {
-		return this.dialog.getByRole('combobox', { name: 'Add people' })
+		return this.dialog.getByRole('combobox', { name: 'Add recipient' })
 	}
 
 	get recipientList(): Locator {

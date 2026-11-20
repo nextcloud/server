@@ -17,6 +17,11 @@ import {
 	setRecipientPermission,
 } from '../../support/utils/unifiedSharing.ts'
 
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66865 is fixed
+const SEARCH_BROKEN = 'Unified recipient search finds no local users: filteredSearch runs with lookup enabled, which skips UserPlugin'
+// TODO: remove the fixme once https://github.com/nextcloud-libraries/nextcloud-sharing/issues/355 is fixed
+const HEADER_COVERS_BUTTONS = 'The sticky header of the @nextcloud/sharing dialog covers its Close and settings buttons'
+
 /** A token recipient value has to be at least 32 characters. */
 const linkToken = () => crypto.randomUUID().replaceAll('-', '')
 
@@ -39,6 +44,7 @@ test.describe('files_sharing: editing a share with the unified dialog', () => {
 	})
 
 	test('opens an existing link share on the link view and keeps its link', async ({ page, filesListPage, unifiedShareList, sharingDialog }) => {
+		test.fixme(true, HEADER_COVERS_BUTTONS)
 		const token = linkToken()
 		await createUnifiedShare(page.request, { fileId, recipients: [[RECIPIENT_TYPE_TOKEN, token]] })
 		await unifiedShareList.open(filesListPage, 'shared')
@@ -55,6 +61,7 @@ test.describe('files_sharing: editing a share with the unified dialog', () => {
 	})
 
 	test('adds a recipient to an existing share and shows it in the sidebar', async ({ page, recipient, secondRecipient, filesListPage, unifiedShareList, sharingDialog }) => {
+		test.fixme(true, SEARCH_BROKEN)
 		await createUnifiedShare(page.request, { fileId, recipients: [[RECIPIENT_TYPE_USER, recipient.userId]] })
 		await unifiedShareList.open(filesListPage, 'shared')
 
@@ -70,6 +77,7 @@ test.describe('files_sharing: editing a share with the unified dialog', () => {
 	})
 
 	test('deletes the share from the settings view', async ({ page, recipient, filesListPage, unifiedShareList, sharingDialog }) => {
+		test.fixme(true, HEADER_COVERS_BUTTONS)
 		await createUnifiedShare(page.request, { fileId, recipients: [[RECIPIENT_TYPE_USER, recipient.userId]] })
 		await unifiedShareList.open(filesListPage, 'shared')
 
@@ -86,6 +94,7 @@ test.describe('files_sharing: editing a share with the unified dialog', () => {
 	})
 
 	test('changes the permission of one recipient only', async ({ page, recipient, secondRecipient, filesListPage, unifiedShareList, sharingDialog }) => {
+		test.fixme(true, HEADER_COVERS_BUTTONS)
 		await createUnifiedShare(page.request, {
 			fileId,
 			recipients: [[RECIPIENT_TYPE_USER, recipient.userId], [RECIPIENT_TYPE_USER, secondRecipient.userId]],

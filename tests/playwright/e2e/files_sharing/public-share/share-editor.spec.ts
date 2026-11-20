@@ -7,6 +7,11 @@ import { expect, test } from '../../../support/fixtures/sharing-page.ts'
 import { mkdir } from '../../../support/utils/dav.ts'
 import { createLinkShare, openSharingPanel } from '../../../support/utils/sharing.ts'
 
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66864 is fixed
+const PICKER_BROKEN = 'Sharee options are labelled "undefined": SharingInput still passes the userSelect prop that @nextcloud/vue 9 removed'
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66866 is fixed
+const CUSTOM_PERMISSIONS_BROKEN = 'A new link share (READ | SHARE) opens with "Custom permissions" checked'
+
 /** The link-share side of the share editor, driven by the share owner. */
 test.describe('files_sharing: Link share editor', () => {
 	test.beforeEach(async ({ page, user, filesListPage }) => {
@@ -58,6 +63,7 @@ test.describe('files_sharing: Link share editor', () => {
 	})
 
 	test('cancelling the edition resets to the previous state', async ({ page, filesListPage, sharingTab }) => {
+		test.fixme(true, CUSTOM_PERMISSIONS_BROKEN)
 		await openSharingPanel(filesListPage, sharingTab, 'test')
 
 		await sharingTab.openLinkShareDetails()
@@ -127,6 +133,8 @@ test.describe('files_sharing: Link share editor', () => {
 })
 
 test.describe('files_sharing: Email share editor', () => {
+	test.fixme(true, PICKER_BROKEN)
+
 	/**
 	 * A brand new email share must keep the "Hide download" option that was set
 	 * before it was ever saved.

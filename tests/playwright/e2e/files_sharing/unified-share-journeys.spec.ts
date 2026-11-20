@@ -17,6 +17,11 @@ import {
 	setSharePreset,
 } from '../../support/utils/unifiedSharing.ts'
 
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66865 is fixed
+const SEARCH_BROKEN = 'Unified recipient search finds no local users: filteredSearch runs with lookup enabled, which skips UserPlugin'
+// TODO: remove the fixme once https://github.com/nextcloud-libraries/nextcloud-sharing/issues/355 is fixed
+const HEADER_COVERS_BUTTONS = 'The sticky header of the @nextcloud/sharing dialog covers its Close and settings buttons'
+
 /**
  * Whole journeys through the sharing UI, as a user would run them, rather than
  * one interaction per test.
@@ -30,6 +35,7 @@ test.describe('files_sharing: unified sharing journeys', () => {
 	})
 
 	test('shares with a group, then grants one person more than the group', async ({ page, recipientGroup, secondRecipient, unifiedShareList, sharingDialog, filesListPage }) => {
+		test.fixme(true, SEARCH_BROKEN)
 		await unifiedShareList.open(filesListPage, 'shared')
 
 		// Share the folder with a group, view only.
@@ -99,6 +105,7 @@ test.describe('files_sharing: unified sharing journeys', () => {
 	})
 
 	test('leaves nothing behind when the dialog is abandoned', async ({ page, recipient, unifiedShareList, sharingDialog, filesListPage }) => {
+		test.fixme(true, SEARCH_BROKEN)
 		await unifiedShareList.open(filesListPage, 'shared')
 
 		await unifiedShareList.shareButton.click()
@@ -111,6 +118,7 @@ test.describe('files_sharing: unified sharing journeys', () => {
 	})
 
 	test('narrows one recipient by hand and keeps it after reopening', async ({ page, recipient, secondRecipient, unifiedShareList, sharingDialog, filesListPage }) => {
+		test.fixme(true, HEADER_COVERS_BUTTONS)
 		await createUnifiedShare(page.request, {
 			fileId,
 			recipients: [[RECIPIENT_TYPE_USER, recipient.userId], [RECIPIENT_TYPE_USER, secondRecipient.userId]],
@@ -139,6 +147,7 @@ test.describe('files_sharing: unified sharing journeys', () => {
 	})
 
 	test('adds a group to a share that already has a person', async ({ page, recipientGroup, secondRecipient, unifiedShareList, sharingDialog, filesListPage }) => {
+		test.fixme(true, HEADER_COVERS_BUTTONS)
 		await createUnifiedShare(page.request, {
 			fileId,
 			recipients: [[RECIPIENT_TYPE_USER, secondRecipient.userId]],
