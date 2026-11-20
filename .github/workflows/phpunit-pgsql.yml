@@ -26,6 +26,7 @@ jobs:
             php-versions: '8.3'
           - postgres-versions: '18'
             php-versions: '8.5'
+            query-plans: true
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -82,11 +83,33 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit database tests
+        env:
+          TEST_LOG_QUERIES: ${{ matrix.query-plans && format('{0}/queries.log', github.workspace) || '' }}
         run: composer run test:db -- --log-junit junit.xml
 
       - name: Run repair steps
         run: |
           ./occ maintenance:repair --include-expensive
+
+      - name: Check query plans
+        id: query-plans
+        if: matrix.query-plans
+        run: php tests/query-plan-analyzer.php queries.log tests/data/query-plan-baseline.json
+
+      - name: Write updated query plan baseline
+        if: failure() && steps.query-plans.outcome == 'failure'
+        run: |
+          cp tests/data/query-plan-baseline.json query-plan-baseline.json
+          php tests/query-plan-analyzer.php queries.log query-plan-baseline.json --update-baseline
+
+      - name: Upload recorded queries
+        if: failure() && steps.query-plans.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: query-plans
+          path: |
+            queries.log
+            query-plan-baseline.json
 
       - name: Print logs
         if: always()

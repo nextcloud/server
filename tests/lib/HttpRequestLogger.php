@@ -86,7 +86,7 @@ final class HttpRequestLogger implements IClientService {
 	}
 
 	/** PHPUnit exposes no global for the running test, so walk the stack for it. */
-	private static function currentTest(): string {
+	public static function currentTest(): string {
 		$test = '(unknown)';
 
 		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
