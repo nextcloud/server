@@ -48,6 +48,16 @@ test.describe('files_sharing: Public share - downloading a shared file', () => {
 		expect(download.suggestedFilename()).toBe('file.txt')
 		expect(await readDownloadText(download)).toBe('<content>foo</content>')
 	})
+
+	test('respects openfile=false parameter for shared file without opening viewer', async ({ page, user, ownerRequest, publicShare, filesListPage }) => {
+		const fileId = await uploadContent(ownerRequest, user, '<content>foo</content>', 'text/plain', '/file.txt')
+		const share = await createLinkShare(ownerRequest, '/file.txt')
+		await publicShare.open(`${share.url}?openfile=false`)
+
+		const row = filesListPage.getRowForFileId(Number(fileId))
+		await expect(row).toBeVisible()
+		await expect(page.getByRole('dialog', { name: 'file.txt' })).toHaveCount(0)
+	})
 })
 
 test.describe('files_sharing: Public share - downloading from a shared folder', () => {
