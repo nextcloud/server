@@ -434,7 +434,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			// throw this to be on the safe side: the share will still be visible
 			// in the UI in case the failure is intermittent, and the user will
 			// be able to decide whether to remove it if it's really gone
-			throw new StorageNotAvailableException();
+			throw new StorageNotAvailableException('', StorageNotAvailableException::STATUS_ERROR, $e);
 		}
 
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
@@ -448,15 +448,15 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
 			$this->logger->warning('Failed to fetch share info', ['exception' => $e]);
 			if ($e->getCode() === Http::STATUS_UNAUTHORIZED || $e->getCode() === Http::STATUS_FORBIDDEN) {
-				throw new ForbiddenException();
+				throw new ForbiddenException('', 0, $e);
 			}
 			if ($e->getCode() === Http::STATUS_NOT_FOUND) {
-				throw new NotFoundException();
+				throw new NotFoundException('', 0, $e);
 			}
 			// throw this to be on the safe side: the share will still be visible
 			// in the UI in case the failure is intermittent, and the user will
 			// be able to decide whether to remove it if it's really gone
-			throw new StorageNotAvailableException();
+			throw new StorageNotAvailableException('', StorageNotAvailableException::STATUS_ERROR, $e);
 		}
 
 		return json_decode($response->getBody(), true);
