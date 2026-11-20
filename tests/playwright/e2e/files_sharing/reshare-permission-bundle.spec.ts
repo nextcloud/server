@@ -7,6 +7,9 @@ import { expect, test } from '../../support/fixtures/files-sharing-page.ts'
 import { mkdir } from '../../support/utils/dav.ts'
 import { ALL_PERMISSIONS, createShare, openSharingPanel, SharePermission } from '../../support/utils/sharing.ts'
 
+// TODO: remove the fixme once https://github.com/nextcloud/server/issues/66864 is fixed
+const PICKER_BROKEN = 'Sharee options are labelled "undefined": SharingInput still passes the userSelect prop that @nextcloud/vue 9 removed'
+
 const { READ, UPDATE, CREATE, SHARE } = SharePermission
 
 /** What the owner hands the resharer: everything but DELETE. */
@@ -20,6 +23,8 @@ const WITHOUT_DELETE = READ | UPDATE | CREATE | SHARE
  * resharer actually holds.
  */
 test.describe('files_sharing: the permissions offered on a reshare', () => {
+	test.fixme(true, PICKER_BROKEN)
+
 	const RESHARED = 'reshared-folder'
 	const OWNED = 'owned-folder'
 
