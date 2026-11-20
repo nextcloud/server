@@ -15,5 +15,6 @@ return array(
     'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => $baseDir . '/../lib/Migration/Version1016Date202502262004.php',
     'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => $baseDir . '/../lib/Migration/Version1017Date20260306120000.php',
     'OCA\\CloudFederationAPI\\Migration\\Version2000Date20260919141251' => $baseDir . '/../lib/Migration/Version2000Date20260919141251.php',
+    'OCA\\CloudFederationAPI\\Migration\\Version3000Date20261117104444' => $baseDir . '/../lib/Migration/Version3000Date20261117104444.php',
     'OCA\\CloudFederationAPI\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
