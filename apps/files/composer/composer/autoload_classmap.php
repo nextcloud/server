@@ -62,6 +62,7 @@ return array(
     'OCA\\Files\\Controller\\FilenamesController' => $baseDir . '/../lib/Controller/FilenamesController.php',
     'OCA\\Files\\Controller\\OpenLocalEditorController' => $baseDir . '/../lib/Controller/OpenLocalEditorController.php',
     'OCA\\Files\\Controller\\OpenedController' => $baseDir . '/../lib/Controller/OpenedController.php',
+    'OCA\\Files\\Controller\\OrganizationTemplateController' => $baseDir . '/../lib/Controller/OrganizationTemplateController.php',
     'OCA\\Files\\Controller\\TemplateController' => $baseDir . '/../lib/Controller/TemplateController.php',
     'OCA\\Files\\Controller\\TransferOwnershipController' => $baseDir . '/../lib/Controller/TransferOwnershipController.php',
     'OCA\\Files\\Controller\\ViewController' => $baseDir . '/../lib/Controller/ViewController.php',
@@ -111,5 +112,6 @@ return array(
     'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
+    'OCA\\Files\\Template\\OrganizationTemplateProvider' => $baseDir . '/../lib/Template/OrganizationTemplateProvider.php',
     'OCA\\Files\\TokenScopes' => $baseDir . '/../lib/TokenScopes.php',
 );

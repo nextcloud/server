@@ -50,6 +50,7 @@ class TemplateManagerTest extends TestCase {
 		$database = $this->createMock(IDBConnection::class);
 		$database->method('supports4ByteText')->willReturn(true);
 		$config = $this->createMock(IConfig::class);
+		$config->method('getUserValue')->willReturn('');
 		$logger = new NullLogger();
 
 		$filenameValidator = new FilenameValidator(
@@ -112,4 +113,52 @@ class TemplateManagerTest extends TestCase {
 
 		$this->templateManager->createFromTemplate($filePath);
 	}
+
+	public function testListsContextualTemplatesWithoutPersonalDirectory(): void {
+		$root = $this->createMock(Folder::class);
+		$root->method('getPath')->willReturn('/user1/files');
+		$root->method('getRelativePath')->willReturn('/.Templates/Letter.txt');
+		$root->method('isReadable')->willReturn(true);
+		$mount = $this->createMock(\OCP\Files\Mount\IMountPoint::class);
+		$mount->method('getMountPoint')->willReturn('/user1/files');
+		$root->method('getMountPoint')->willReturn($mount);
+		$templates = $this->createMock(Folder::class);
+		$templates->method('isReadable')->willReturn(true);
+		$file = $this->createMock(\OCP\Files\File::class);
+		$file->method('getId')->willReturn(12);
+		$file->method('isReadable')->willReturn(true);
+		$file->method('getPath')->willReturn('/user1/files/.Templates/Letter.txt');
+		$unreadable = $this->createMock(\OCP\Files\File::class);
+		$templates->method('searchByMime')->willReturn([$file, $unreadable]);
+		$root->method('get')->willReturnMap([['/', $root], ['.Templates', $templates]]);
+		$this->rootFolder->method('getUserFolder')->willReturn($root);
+		$type = new \OCP\Files\Template\TemplateFileCreator('files', 'Text', '.txt');
+		$type->addMimetype('text/plain')->addMimetype('text');
+		$this->templateManager->registerTemplateFileCreator(fn () => $type);
+		$list = $this->templateManager->listTemplates('/');
+		self::assertCount(1, $list[0]['templates']);
+		self::assertSame('/.Templates/Letter.txt', $list[0]['templates'][0]->jsonSerialize()['templateId']);
+		self::assertSame([], $this->templateManager->listTemplates()[0]['templates']);
+	}
+
+
+	public function testDoesNotCopyUnreadableTemplate(): void {
+		$root = $this->createMock(Folder::class);
+		$destination = $this->createMock(Folder::class);
+		$template = $this->createMock(\OCP\Files\File::class);
+		$root->method('nodeExists')->with('/')->willReturn(true);
+		$root->method('get')->willReturnCallback(function ($path) use ($destination, $template) {
+			return match ($path) {
+				'/' => $destination,
+				'/Private.txt' => $template,
+				default => throw new NotFoundException(),
+			};
+		});
+		$this->rootFolder->method('getUserFolder')->willReturn($root);
+		$destination->expects(self::never())->method('newFile');
+		$template->expects(self::never())->method('fopen');
+		$this->expectException(GenericFileException::class);
+		$this->templateManager->createFromTemplate('/Copy.txt', '/Private.txt');
+	}
+
 }

@@ -133,6 +133,21 @@ return [
 			'verb' => 'POST'
 		],
 		[
+			'name' => 'OrganizationTemplate#getPath',
+			'url' => '/api/v1/templates/organization',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'OrganizationTemplate#setPath',
+			'url' => '/api/v1/templates/organization',
+			'verb' => 'PUT',
+		],
+		[
+			'name' => 'OrganizationTemplate#preview',
+			'url' => '/api/v1/templates/organization/{id}/preview',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'Template#list',
 			'url' => '/api/v1/templates',
 			'verb' => 'GET'
