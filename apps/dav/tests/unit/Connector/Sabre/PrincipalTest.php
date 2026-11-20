@@ -917,6 +917,100 @@ class PrincipalTest extends TestCase {
 			['{http://sabredav.org/ns}email-address' => 'user']));
 	}
 
+	private function createSearchUser(string $uid, string $searchValue): IUser&MockObject {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$user->method('getDisplayName')->willReturn($searchValue);
+		$user->method('getSystemEMailAddress')->willReturn($searchValue);
+		return $user;
+	}
+
+	public static function searchPrincipalWithEnumerationRestrictionsDataProvider(): array {
+		$cases = [];
+		foreach (['{DAV:}displayname', '{http://sabredav.org/ns}email-address'] as $property) {
+			// phone book restriction only: phone book matches and full matches
+			$cases[] = [$property, false, true, true, ['principals/users/bob', 'principals/users/dave']];
+			$cases[] = [$property, false, true, false, ['principals/users/bob']];
+			// phone book and group restriction: phone book matches and common groups
+			$cases[] = [$property, true, true, false, ['principals/users/bob', 'principals/users/carol']];
+			// group restriction only: common groups
+			$cases[] = [$property, true, false, false, ['principals/users/carol']];
+			// no restriction: everybody
+			$cases[] = [$property, false, false, false, ['principals/users/bob', 'principals/users/carol', 'principals/users/dave']];
+		}
+		return $cases;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalWithEnumerationRestrictionsDataProvider')]
+	public function testSearchPrincipalWithEnumerationRestrictions(string $property, bool $limitGroup, bool $limitPhone, bool $fullMatch, array $expected): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowEnumeration')->willReturn(true);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn($limitGroup);
+		$this->shareManager->method('limitEnumerationToPhone')->willReturn($limitPhone);
+		$this->shareManager->method('allowEnumerationFullMatch')->willReturn($fullMatch);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(false);
+
+		$alice = $this->createSearchUser('alice', 'alice');
+		$bob = $this->createSearchUser('bob', 'bob');
+		$carol = $this->createSearchUser('carol', 'carol');
+		$dave = $this->createSearchUser('dave', 'dave');
+		$this->userSession->method('getUser')->willReturn($alice);
+
+		$this->userManager->method('searchDisplayName')->with('dave')->willReturn([$bob, $carol, $dave]);
+		$this->userManager->method('getByEmail')->with('dave')->willReturn([$bob, $carol, $dave]);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnCallback(static fn (string $knownTo, string $contact): bool => $knownTo === 'alice' && $contact === 'bob');
+
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$alice, ['group1']],
+			[$bob, ['group2']],
+			[$carol, ['group1']],
+			[$dave, ['group2']],
+		]);
+
+		$this->assertEquals($expected, $this->connector->searchPrincipals('principals/users', [$property => 'dave']));
+	}
+
+	public static function searchPrincipalWithGroupMembersOnlyExcludedGroupsDataProvider(): array {
+		$cases = [];
+		foreach (['{DAV:}displayname', '{http://sabredav.org/ns}email-address'] as $property) {
+			foreach ([false, true] as $limitGroup) {
+				$cases[] = [$property, $limitGroup, [], ['principals/users/bob', 'principals/users/carol']];
+				$cases[] = [$property, $limitGroup, ['everyone'], ['principals/users/carol']];
+				$cases[] = [$property, $limitGroup, ['everyone', 'group1'], []];
+			}
+		}
+		return $cases;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalWithGroupMembersOnlyExcludedGroupsDataProvider')]
+	public function testSearchPrincipalWithGroupMembersOnlyExcludedGroups(string $property, bool $limitGroup, array $excludedGroups, array $expected): void {
+		$this->shareManager->method('shareAPIEnabled')->willReturn(true);
+		$this->shareManager->method('allowEnumeration')->willReturn(true);
+		$this->shareManager->method('limitEnumerationToGroups')->willReturn($limitGroup);
+		$this->shareManager->method('limitEnumerationToPhone')->willReturn(false);
+		$this->shareManager->method('allowEnumerationFullMatch')->willReturn(false);
+		$this->shareManager->method('shareWithGroupMembersOnly')->willReturn(true);
+		$this->shareManager->method('shareWithGroupMembersOnlyExcludeGroupsList')->willReturn($excludedGroups);
+
+		$alice = $this->createSearchUser('alice', 'alice');
+		$bob = $this->createSearchUser('bob', 'bob');
+		$carol = $this->createSearchUser('carol', 'carol');
+		$this->userSession->method('getUser')->willReturn($alice);
+
+		$this->userManager->method('searchDisplayName')->with('o')->willReturn([$bob, $carol]);
+		$this->userManager->method('getByEmail')->with('o')->willReturn([$bob, $carol]);
+
+		$this->groupManager->method('getUserGroupIds')->willReturnMap([
+			[$alice, ['everyone', 'group1']],
+			[$bob, ['everyone']],
+			[$carol, ['everyone', 'group1']],
+		]);
+
+		$this->assertEquals($expected, $this->connector->searchPrincipals('principals/users', [$property => 'o']));
+	}
+
 	public function testFindByUriSharingApiDisabled(): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
