@@ -514,6 +514,7 @@ OC.L10N.register(
     "Error while creating device token" : "Klaida, kuriant įrenginio žymenį",
     "Create new app password" : "Sukurti naują programėlės slaptažodį",
     "App name" : "Programėlės pavadinimas",
+    "Choose at least one option" : "Pasirinkti bent vieną variantą",
     "Access" : "Prieiga",
     "Calendar and contacts" : "Kalendorius ir adresatai",
     "Custom" : "Tinkinta",
