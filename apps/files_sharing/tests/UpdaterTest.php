@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Trashbin\AppInfo\Application;
@@ -184,6 +185,42 @@ class UpdaterTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 
 		$config->setSystemValue('share_folder', $oldShareFolder);
+	}
+
+	public function testRecipientWithoutSharingKeepsOwnerSharePermission(): void {
+		[$ownerStorage, $ownerPath] = $this->view->resolvePath($this->filename);
+		$ownerPermissions = $ownerStorage->getCache()->get($ownerPath)->getPermissions();
+		$this->assertSame(Constants::PERMISSION_SHARE, $ownerPermissions & Constants::PERMISSION_SHARE);
+
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
+		);
+
+		// same mask the sharing_mask wrapper applies to every storage when the user may not share
+		Filesystem::addStorageWrapper('test_no_sharing', fn ($mountPoint, $storage) => new PermissionsMask([
+			'storage' => $storage,
+			'mask' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE,
+		]));
+		try {
+			foreach (['first save', 'second save'] as $content) {
+				// a fresh setup per save, like separate requests
+				$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+				$stream = fopen('php://memory', 'r+');
+				fwrite($stream, $content);
+				rewind($stream);
+				$this->assertTrue($this->view2->file_put_contents($this->filename, $stream));
+				$this->assertSame($ownerPermissions, $ownerStorage->getCache()->get($ownerPath)->getPermissions());
+			}
+		} finally {
+			Filesystem::getLoader()->removeStorageWrapper('test_no_sharing');
+		}
+
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->shareManager->deleteShare($share);
 	}
 
 	/**
