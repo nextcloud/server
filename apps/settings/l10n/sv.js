@@ -524,7 +524,7 @@ OC.L10N.register(
     "Edit access for {name}" : "Redigeringsbehörighet för {name}",
     "Create new app password" : "Skapa nytt applösenord",
     "App name" : "Appnamn",
-    "Choose at least one area" : "Välj minst ett område",
+    "Choose at least one option" : "Välj minst ett alternativ",
     "Access" : "Åtkomst",
     "Everything you can do, including your settings and any admin rights you have." : "Allt du kan göra, inklusive dina inställningar och eventuella administratörsrättigheter du har.",
     "All access" : "All åtkomst",
