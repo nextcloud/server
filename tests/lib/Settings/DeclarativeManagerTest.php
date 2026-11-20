@@ -24,6 +24,7 @@ use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -527,6 +528,28 @@ class DeclarativeManagerTest extends TestCase {
 		// Check some_real_setting field default value
 		$someRealSettingField = array_values(array_filter(array_filter($forms, fn ($form) => $form['id'] === $schema['id'])[0]['fields'], fn ($field) => $field['id'] === 'some_real_setting'))[0];
 		$this->assertEquals('120m', $someRealSettingField['value']);
+	}
+
+	public static function dataSetInternalValue(): array {
+		return [
+			'switch' => [1, '1'],
+			'float' => [1.5, '1.5'],
+			'bool' => [true, '1'],
+			'list' => [['foo', 'bar'], '["foo","bar"]'],
+		];
+	}
+
+	#[DataProvider('dataSetInternalValue')]
+	public function testSetInternalValueIsStoredAsString(mixed $value, string $stored): void {
+		$app = 'testing';
+		$schema = self::validSchemaAllFields;
+		$this->declarativeManager->registerSchema($app, $schema);
+
+		$this->appConfig->expects($this->once())
+			->method('setValueString')
+			->with($app, 'test_field_4', $stored);
+
+		$this->declarativeManager->setValue($this->adminUser, $app, $schema['id'], 'test_field_4', $value);
 	}
 
 	public function testSetExternalValue(): void {
