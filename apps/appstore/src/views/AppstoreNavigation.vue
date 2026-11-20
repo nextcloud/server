@@ -23,7 +23,7 @@ import { useAppsStore } from '../store/apps.ts'
 import { useUpdatesStore } from '../store/updates.ts'
 import { useUserSettingsStore } from '../store/userSettings.ts'
 
-const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
+const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 
 const store = useAppsStore()
 const updateStore = useUpdatesStore()
