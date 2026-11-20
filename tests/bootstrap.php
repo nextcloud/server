@@ -41,6 +41,12 @@ if ($logHttp !== '') {
 	\Test\HttpRequestLogger::install($logHttp);
 }
 
+// Set TEST_LOG_QUERIES to a path to analyze query plans with tests/query-plan-analyzer.php.
+$logQueries = getenv('TEST_LOG_QUERIES') ?: '';
+if ($logQueries !== '') {
+	\Test\QueryPlanRecorder::install($logQueries);
+}
+
 OC_Hook::clear();
 
 set_include_path(

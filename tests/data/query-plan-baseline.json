@@ -1,0 +1,3 @@
+[
+    "filecache | OC\\OpenMetrics\\Exporters\\Cached::metrics | SELECT \"mimetype\", COUNT(*) AS \"count\" FROM \"oc_filecache\" WHERE \"path\" LIKE :dcValue1 GROUP BY \"mimetype\""
+]

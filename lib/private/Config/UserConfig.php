@@ -512,6 +512,15 @@ class UserConfig implements IUserConfig {
 			$this->logger->notice('UserConfig+Lexicon: using searchUsersByTypedValue on config key ' . $app . '/' . $key . ' which is not set as indexed');
 		}
 
+		// Primary email addresses are stored lowercase, see setTypedValue()
+		if ($caseInsensitive && is_string($value) && $app === 'settings' && $key === 'email') {
+			$value = strtolower($value);
+			$caseInsensitive = false;
+		}
+		if ($caseInsensitive && $lexiconEntry?->isFlagged(self::FLAG_INDEXED) === true) {
+			$this->logger->warning('UserConfig+Lexicon: case-insensitive search on indexed config key ' . $app . '/' . $key . ' cannot use the database index, store the value lowercase and search case-sensitive instead');
+		}
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
 		$qb->select('userid');
