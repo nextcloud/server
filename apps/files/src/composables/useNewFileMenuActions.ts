@@ -45,6 +45,7 @@ export function useNewFileMenuActions(
 		return [
 			{ caption: t('files', 'Upload from device'), category: NewMenuEntryCategory.UploadFromDevice },
 			{ caption: t('files', 'Create new'), category: NewMenuEntryCategory.CreateNew },
+			// TRANSLATORS Heading of the group of other actions in the "New" menu, after "Upload from device" and "Create new", e.g. "Add folder description"
 			{ caption: t('files', 'Other'), category: NewMenuEntryCategory.Other },
 		].map(({ caption, category }) => ({
 			caption,
