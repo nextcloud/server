@@ -1421,17 +1421,83 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/files_external/lib/Command/Applicable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Applicable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Backends.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Backends]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Config.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Config]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Create.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Create]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Dependencies.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Dependencies]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Export.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Export]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Import.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Import]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/files_external/lib/Command/Notify.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::normalizeUnicode($parent)]]></code>
       <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
     </DeprecatedClass>
+    <DeprecatedInterface>
+      <code><![CDATA[Notify]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Option.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Option]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/files_external/lib/Command/Scan.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Scan]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/files_external/lib/Command/StorageAuthBase.php">
+    <DeprecatedInterface>
+      <code><![CDATA[StorageAuthBase]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_external/lib/Command/Verify.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Verify]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/files_external/lib/Controller/StoragesController.php">
     <RedundantCast>
@@ -1489,6 +1555,11 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/files_reminders/lib/Command/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/files_reminders/lib/Model/RichReminder.php">
     <ConstructorSignatureMismatch>
       <code><![CDATA[public function __construct(]]></code>
@@ -1504,6 +1575,26 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/files_sharing/lib/Command/DeleteOrphanShares.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DeleteOrphanShares]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_sharing/lib/Command/FixOwncloudGroupSubshareStatus.php">
+    <DeprecatedInterface>
+      <code><![CDATA[FixOwncloudGroupSubshareStatus]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_sharing/lib/Command/FixShareOwners.php">
+    <DeprecatedInterface>
+      <code><![CDATA[FixShareOwners]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_sharing/lib/Command/ListShares.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListShares]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">
     <DeprecatedClass>
@@ -1688,13 +1779,29 @@
       <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
   </file>
+  <file src="apps/files_trashbin/lib/Command/CleanUp.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CleanUp]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/files_trashbin/lib/Command/Expire.php">
     <DeprecatedInterface>
       <code><![CDATA[Expire]]></code>
     </DeprecatedInterface>
   </file>
+  <file src="apps/files_trashbin/lib/Command/ExpireTrash.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ExpireTrash]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/files_trashbin/lib/Command/RestoreAllFiles.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RestoreAllFiles]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/files_trashbin/lib/Command/Size.php">
     <DeprecatedInterface>
+      <code><![CDATA[Size]]></code>
       <code><![CDATA[private]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
@@ -2036,6 +2143,16 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/oauth2/lib/Command/AddClient.php">
+    <DeprecatedInterface>
+      <code><![CDATA[AddClient]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/oauth2/lib/Command/DeleteClient.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DeleteClient]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/provisioning_api/lib/Controller/AUserDataOCSController.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
@@ -2093,6 +2210,21 @@
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
+  </file>
+  <file src="apps/settings/lib/Command/AdminDelegation/Add.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Add]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/settings/lib/Command/AdminDelegation/Remove.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Remove]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/settings/lib/Command/AdminDelegation/Show.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Show]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/settings/lib/Controller/MailSettingsController.php">
     <DeprecatedMethod>
@@ -2233,6 +2365,86 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/sharing/lib/Command/AddShareRecipient.php">
+    <DeprecatedInterface>
+      <code><![CDATA[AddShareRecipient]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/AddShareSource.php">
+    <DeprecatedInterface>
+      <code><![CDATA[AddShareSource]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/CreateShare.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CreateShare]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/DeleteShare.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DeleteShare]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/GetShare.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetShare]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/GetShares.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetShares]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/RemoveShareRecipient.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RemoveShareRecipient]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/RemoveShareSource.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RemoveShareSource]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/SelectSharePermissionPreset.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SelectSharePermissionPreset]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/SharingBase.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SharingBase]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateSharePermission.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateSharePermission]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateShareProperty.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateShareProperty]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateShareRecipientPermission.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateShareRecipientPermission]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateShareRecipientSecret.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateShareRecipientSecret]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateShareState.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateShareState]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="apps/sharing/lib/Command/UpdateShareUserStatus.php">
+    <DeprecatedInterface>
+      <code><![CDATA[UpdateShareUserStatus]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/testing/lib/AlternativeHomeUserBackend.php">
     <DeprecatedInterface>
@@ -2439,6 +2651,11 @@
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
+  <file src="apps/user_ldap/lib/Command/ShowConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ShowConfig]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/user_ldap/lib/Configuration.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2580,6 +2797,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/webhook_listeners/lib/Command/ListWebhooks.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListWebhooks]]></code>
+    </DeprecatedInterface>
     <FalsableReturnStatement>
       <code><![CDATA[is_array($value) ? json_encode($value) : $value]]></code>
     </FalsableReturnStatement>
@@ -2588,6 +2808,11 @@
     <RedundantCondition>
       <code><![CDATA[$event instanceof Event]]></code>
     </RedundantCondition>
+  </file>
+  <file src="apps/workflowengine/lib/Command/Runtime.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Runtime]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="apps/workflowengine/lib/Entity/File.php">
     <DeprecatedConstant>
@@ -2635,10 +2860,68 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/App/Disable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Disable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/App/Enable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Enable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/App/GetPath.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetPath]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/App/ListApps.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListApps]]></code>
+    </DeprecatedInterface>
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
+  </file>
+  <file src="core/Command/App/Remove.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Remove]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/JobBase.php">
+    <DeprecatedInterface>
+      <code><![CDATA[JobBase]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/JobWorker.php">
+    <DeprecatedInterface>
+      <code><![CDATA[JobWorker]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/JobsHistory.php">
+    <DeprecatedInterface>
+      <code><![CDATA[JobsHistory]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Background/RunningJobs.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RunningJobs]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Base.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Base]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Command/Broadcast/Test.php">
     <DeprecatedMethod>
@@ -2649,8 +2932,34 @@
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::checkServer($this->config)]]></code>
     </DeprecatedClass>
+    <DeprecatedInterface>
+      <code><![CDATA[Check]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/App/Base.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Base]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/App/DeleteConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DeleteConfig]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/App/GetConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetConfig]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/App/SetConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SetConfig]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Command/Config/Import.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Import]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
@@ -2665,11 +2974,47 @@
     </InvalidScalarArgument>
   </file>
   <file src="core/Command/Config/ListConfigs.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListConfigs]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getFilteredValues]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/Config/Preset.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Preset]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/System/Base.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Base]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/System/DeleteConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DeleteConfig]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/System/GetConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetConfig]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Config/System/SetConfig.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SetConfig]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Db/CheckSchema.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CheckSchema]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Db/ConvertType.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ConvertType]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
     </DeprecatedMethod>
@@ -2678,16 +3023,42 @@
       <code><![CDATA[1]]></code>
     </InvalidScalarArgument>
   </file>
+  <file src="core/Command/Db/ExpectedSchema.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ExpectedSchema]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Db/ExportSchema.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ExportSchema]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getDatabasePlatform]]></code>
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/Db/Migrations/ExecuteCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ExecuteCommand]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Db/Migrations/GenerateCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GenerateCommand]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[Util::getVersion()]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="core/Command/Db/Migrations/MigrateCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[MigrateCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Db/Migrations/StatusCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[StatusCommand]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Command/Encryption/ChangeKeyStorageRoot.php">
     <DeprecatedClass>
@@ -2698,6 +3069,11 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/Encryption/ListModules.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListModules]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Encryption/MigrateKeyStorage.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
@@ -2707,7 +3083,70 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/Encryption/Status.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Status]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/Add.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Add]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/AddUser.php">
+    <DeprecatedInterface>
+      <code><![CDATA[AddUser]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/Info.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Info]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Group/RemoveUser.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RemoveUser]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Info/Storage.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Storage]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Info/Storages.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Storages]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Integrity/CheckApp.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CheckApp]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Integrity/CheckCore.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CheckCore]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/L10n/CreateJs.php">
+    <DeprecatedInterface>
+      <code><![CDATA[CreateJs]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Log/File.php">
+    <DeprecatedInterface>
+      <code><![CDATA[File]]></code>
+    </DeprecatedInterface>
     <InvalidReturnStatement>
       <code><![CDATA[[0]]]></code>
     </InvalidReturnStatement>
@@ -2716,6 +3155,9 @@
     </InvalidReturnType>
   </file>
   <file src="core/Command/Log/Manage.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Manage]]></code>
+    </DeprecatedInterface>
     <InvalidArgument>
       <code><![CDATA[$levelNum]]></code>
     </InvalidArgument>
@@ -2725,16 +3167,197 @@
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
   </file>
+  <file src="core/Command/Memcache/DistributedClear.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DistributedClear]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Memcache/DistributedDelete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DistributedDelete]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Memcache/DistributedGet.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DistributedGet]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Memcache/DistributedSet.php">
+    <DeprecatedInterface>
+      <code><![CDATA[DistributedSet]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Memcache/RedisCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RedisCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/OCM/ActivateKey.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ActivateKey]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/OCM/ListKeys.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListKeys]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/OCM/RetireKey.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RetireKey]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/OCM/StageKey.php">
+    <DeprecatedInterface>
+      <code><![CDATA[StageKey]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Preview/Cleanup.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Cleanup]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Router/ListRoutes.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListRoutes]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Router/MatchRoute.php">
+    <DeprecatedInterface>
+      <code><![CDATA[MatchRoute]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/Security/BruteforceAttempts.php">
+    <DeprecatedInterface>
+      <code><![CDATA[BruteforceAttempts]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getAttempts]]></code>
       <code><![CDATA[getDelay]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Security/BruteforceResetAttempts.php">
+    <DeprecatedInterface>
+      <code><![CDATA[BruteforceResetAttempts]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[resetDelayForIP]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="core/Command/Security/ExportCertificates.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ExportCertificates]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Security/ImportCertificate.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ImportCertificate]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Security/ListCertificates.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCertificates]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Security/RemoveCertificate.php">
+    <DeprecatedInterface>
+      <code><![CDATA[RemoveCertificate]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SetupChecks.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SetupChecks]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SnowflakeDecodeId.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SnowflakeDecodeId]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Status.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Status]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SystemTag/Add.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Add]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SystemTag/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SystemTag/Edit.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Edit]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/SystemTag/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/Cleanup.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Cleanup]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/EnabledCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[EnabledCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/GetCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[GetCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/Statistics.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Statistics]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TaskProcessing/WorkerCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[WorkerCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/Testing/PrepareCi.php">
+    <DeprecatedInterface>
+      <code><![CDATA[PrepareCi]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TwoFactorAuth/Base.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Base]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TwoFactorAuth/Cleanup.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Cleanup]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TwoFactorAuth/Disable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Disable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TwoFactorAuth/Enable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Enable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/TwoFactorAuth/State.php">
+    <DeprecatedInterface>
+      <code><![CDATA[State]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Command/Upgrade.php">
     <DeprecatedMethod>
@@ -2762,6 +3385,11 @@
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
   </file>
+  <file src="core/Command/User/AuthTokens/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/User/AuthTokens/ListCommand.php">
     <DeprecatedClass>
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
@@ -2770,19 +3398,66 @@
     </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[IToken]]></code>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/ClearGeneratedAvatarCacheCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ClearGeneratedAvatarCacheCommand]]></code>
     </DeprecatedInterface>
   </file>
   <file src="core/Command/User/Delete.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Delete]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[search]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/Disable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Disable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/Enable.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Enable]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/Info.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Info]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/LastSeen.php">
+    <DeprecatedInterface>
+      <code><![CDATA[LastSeen]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/ListCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ListCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/Profile.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Profile]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Command/User/Report.php">
     <DeprecatedMethod>
       <code><![CDATA[getUsersForUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/User/ResetPassword.php">
+    <DeprecatedInterface>
+      <code><![CDATA[ResetPassword]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="core/Command/User/Setting.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Setting]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[deleteUserValue]]></code>
       <code><![CDATA[getAllUserValues]]></code>
@@ -2791,6 +3466,16 @@
       <code><![CDATA[setEMailAddress]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/SyncAccountDataCommand.php">
+    <DeprecatedInterface>
+      <code><![CDATA[SyncAccountDataCommand]]></code>
+    </DeprecatedInterface>
+  </file>
+  <file src="core/Command/User/Welcome.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Welcome]]></code>
+    </DeprecatedInterface>
   </file>
   <file src="core/Controller/AppPasswordController.php">
     <DeprecatedClass>
