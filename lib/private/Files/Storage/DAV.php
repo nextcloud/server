@@ -1204,7 +1204,9 @@ class DAV extends Common {
 
 			foreach ($responses as $file => $response) {
 				$file = rawurldecode($file);
-				$file = substr($file, strlen($this->root));
+				if (str_starts_with($file,$this->root)) {
+					$file = substr($file, strlen($this->root));
+				}
 				$file = $this->cleanPath($file);
 				$this->statCache->set($file, $response);
 				yield $this->getMetaFromPropfind($file, $response);
