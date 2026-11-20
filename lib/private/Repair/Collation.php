@@ -18,6 +18,11 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
+	private $protectedTables = [
+		'user_accounts',
+		'user_backends',
+	];
+
 	public function __construct(
 		protected IConfig $config,
 		protected LoggerInterface $logger,
@@ -43,7 +48,9 @@ class Collation implements IRepairStep {
 
 		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
+		$dbPrefix = $this->config->getSystemValueString('dbtableprefix');
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
+		$tables = array_diff($tables, array_map(fn ($table) => $dbPrefix . $table, $this->protectedTables));
 		foreach ($tables as $table) {
 			$output->info("Change row format for $table ...");
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` ROW_FORMAT = DYNAMIC;');
