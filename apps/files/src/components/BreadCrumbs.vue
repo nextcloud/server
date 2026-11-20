@@ -314,7 +314,7 @@ export default defineComponent({
 
 			// Else we're moving/copying files
 			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
+			await onDropInternalFiles(nodes, folder, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection

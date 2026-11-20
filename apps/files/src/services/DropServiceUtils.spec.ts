@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { openConflictPicker } from '@nextcloud/dialogs'
+import { Folder, File as NcFile, Permission } from '@nextcloud/files'
 import { join } from 'node:path'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { dataTransferToFileTree } from './DropService.ts'
-import { Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
+import { Directory, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 vi.mock('@nextcloud/dialogs')
 vi.mock('../utils/newNodeDialog.ts')
@@ -162,6 +164,57 @@ describe('renameInvalidDroppedEntries', () => {
 
 		expect(await renameInvalidDroppedEntries(tree)).toBe(false)
 		expect(tree.contents[0].name).toBe('folder\\')
+	})
+})
+
+describe('resolveConflict', () => {
+	const source = 'https://cloud.example.com/remote.php/dav/files/test/folder'
+	const destination = new Folder({ id: 1, owner: 'test', permissions: Permission.ALL, root: '/files/test', source })
+
+	/**
+	 * Build an existing file node inside the destination folder.
+	 *
+	 * @param name - The file name
+	 */
+	function existing(name: string) {
+		return new NcFile({ id: 2, owner: 'test', permissions: Permission.ALL, root: '/files/test', source: `${source}/${name}`, mime: 'text/plain' })
+	}
+
+	beforeEach(() => vi.mocked(openConflictPicker).mockReset())
+
+	it('only passes the conflicting nodes to the conflict picker', async () => {
+		const conflicting = new File(['new'], 'a.txt')
+		const other = new File([], 'c.txt')
+		const contents = [existing('a.txt'), existing('b.txt')]
+		vi.mocked(openConflictPicker).mockResolvedValue({ selected: [conflicting], renamed: [], skipped: [] })
+
+		const result = await resolveConflict([conflicting, other], destination, contents)
+
+		expect(openConflictPicker).toHaveBeenCalledWith('/folder', [conflicting], [contents[0]])
+		expect(result).toEqual([other, conflicting])
+	})
+
+	it('gives files the user wants to keep both of a unique name', async () => {
+		const conflicting = new File(['new'], 'a.txt', { type: 'text/plain' })
+		vi.mocked(openConflictPicker).mockResolvedValue({ selected: [], renamed: [conflicting], skipped: [] })
+
+		const result = await resolveConflict([conflicting], destination, [existing('a.txt'), existing('a (1).txt')])
+
+		expect(result).toHaveLength(1)
+		expect(result[0].name).toBe('a (2).txt')
+		expect(result[0].type).toBe('text/plain')
+		expect(await result[0].text()).toBe('new')
+	})
+
+	it('keeps the contents of a renamed folder', async () => {
+		const folder = new Directory('photos.2024', [new File([], 'img.png')])
+		vi.mocked(openConflictPicker).mockResolvedValue({ selected: [], renamed: [folder], skipped: [] })
+
+		const result = await resolveConflict([folder], destination, [existing('photos.2024')])
+
+		expect(result[0]).toBeInstanceOf(Directory)
+		expect(result[0].name).toBe('photos.2024 (1)')
+		expect((result[0] as Directory).contents[0].name).toBe('img.png')
 	})
 })
 
