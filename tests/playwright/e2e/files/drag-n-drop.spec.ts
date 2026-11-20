@@ -4,7 +4,7 @@
  */
 
 import { expect, test } from '../../support/fixtures/files-page.ts'
-import { mkdir, uploadContent } from '../../support/utils/dav.ts'
+import { getFileContent, mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { createFileDataTransfer, dropFilesOn } from '../../support/utils/drag-drop.ts'
 import { getToast } from '../../support/utils/toast.ts'
 
@@ -122,5 +122,22 @@ test.describe('files: Drag and Drop onto a folder row', () => {
 		// The conflict dialog blocks the upload until resolved
 		await expect(page.getByRole('dialog')).toBeVisible()
 		expect(putFired).toBe(false)
+	})
+
+	test('keeps both files when the target folder has other files too', async ({ page, user, filesListPage }) => {
+		await uploadContent(page.request, user, 'original', 'text/plain', '/subfolder/collide.txt')
+		await uploadContent(page.request, user, 'other', 'text/plain', '/subfolder/other.txt')
+		await filesListPage.open()
+		await expect(filesListPage.getRowForFile('subfolder')).toBeVisible()
+
+		const dataTransfer = await createFileDataTransfer(page, [{ name: 'collide.txt', content: 'replacement' }])
+		await dropFilesOn(filesListPage.getRowForFile('subfolder'), dataTransfer)
+
+		const uploaded = page.waitForResponse((r) => r.request().method() === 'PUT' && decodeURIComponent(r.url()).endsWith('/subfolder/collide (1).txt'))
+		await page.getByRole('dialog').getByRole('button', { name: 'Keep both' }).click()
+		await uploaded
+
+		expect(await getFileContent(page.request, user, '/subfolder/collide.txt')).toBe('original')
+		expect(await getFileContent(page.request, user, '/subfolder/collide (1).txt')).toBe('replacement')
 	})
 })

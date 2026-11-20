@@ -13,6 +13,7 @@ import { getUniqueName } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
+import { getConflicts } from '../utils/conflicts.ts'
 import { getFilenameValidity } from '../utils/filenameValidity.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
@@ -204,20 +205,17 @@ export async function createDirectoryIfNotExists(path: string, destination?: IFo
  * @param destination - destination folder
  * @param contents - existing contents of the destination folder
  */
-export async function resolveConflict<T extends ((Directory | File) | INode)>(files: Array<T>, destination: IFolder, contents: INode[]): Promise<T[]> {
+export async function resolveConflict(files: (Directory | File)[], destination: IFolder, contents: INode[]): Promise<(Directory | File)[]> {
 	try {
 		// List all conflicting files
-		const conflicts = files.filter((file: File | INode) => {
-			return contents.find((node: INode) => node.basename === (file instanceof File ? file.name : file.basename))
-		}).filter(Boolean) as (File | INode)[]
+		const conflicts = getConflicts(files, contents)
 
 		// List of incoming files that are NOT in conflict
-		const uploads = files.filter((file: File | INode) => {
-			return !conflicts.includes(file)
-		})
+		const uploads = files.filter((file) => !conflicts.includes(file))
 
 		// Let the user choose what to do with the conflicting files
-		const conflictResults = await openConflictPicker(destination.path, conflicts, contents)
+		const existing = contents.filter((node) => conflicts.some((file) => file.name === node.basename))
+		const conflictResults = await openConflictPicker(destination.path, conflicts, existing)
 		logger.debug('Conflict resolution', { uploads, conflictResults })
 
 		// If the user selected nothing, we cancel the upload
@@ -228,8 +226,18 @@ export async function resolveConflict<T extends ((Directory | File) | INode)>(fi
 			return []
 		}
 
+		// The picker only marks the files to keep both of, renaming is up to us
+		const usedNames = [...contents.map((node) => node.basename), ...files.map((file) => file.name)]
+		const renamed = conflictResults.renamed.map((file) => {
+			const name = getUniqueName(file.name, usedNames, { ignoreFileExtension: file instanceof Directory })
+			usedNames.push(name)
+			return file instanceof Directory
+				? new Directory(name, file.contents)
+				: new File([file], name, { type: file.type, lastModified: file.lastModified })
+		})
+
 		// Update the list of files to upload
-		return [...uploads, ...conflictResults.selected, ...conflictResults.renamed] as (typeof files)
+		return [...uploads, ...conflictResults.selected, ...renamed]
 	} catch (error) {
 		// User cancelled
 		logger.warn('User cancelled the upload', { error })
