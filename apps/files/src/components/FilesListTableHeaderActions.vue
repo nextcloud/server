@@ -324,16 +324,16 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '{displayName}: failed on some elements', { displayName }))
+					showError(this.t('files', '{displayName}: Failed on some elements', { displayName }))
 					return
 				}
 
 				// Show success message and clear selection
-				showSuccess(this.t('files', '{displayName}: done', { displayName }))
+				showSuccess(this.t('files', '{displayName}: Done', { displayName }))
 				this.selectionStore.reset()
 			} catch (e) {
 				logger.error('Error while executing action', { action, e })
-				showError(this.t('files', '{displayName}: failed', { displayName }))
+				showError(this.t('files', '{displayName}: Failed', { displayName }))
 			} finally {
 				// Remove loading markers
 				this.loading = null
