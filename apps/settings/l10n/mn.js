@@ -518,6 +518,7 @@ OC.L10N.register(
     "Error while creating device token" : "Төхөөрөмжийн токен үүсгэхэд алдаа гарлаа",
     "Create new app password" : "Шинэ апп нууц үг үүсгэх",
     "App name" : "апп нэр",
+    "Choose at least one option" : "Дор хаяж нэг сонголт сонгоно уу",
     "Access" : "Хандалт",
     "Custom" : "Дурын",
     "Revoke and cancel pending wipe?" : "Цуцалж, хүлээгдэж буй устгалыг болиулах уу?",

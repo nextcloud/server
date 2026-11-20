@@ -526,7 +526,7 @@ OC.L10N.register(
     "Edit access for {name}" : "Editar acesso para {name}",
     "Create new app password" : "Criar nova senha de aplicativo",
     "App name" : "Nome do aplicativo",
-    "Choose at least one area" : "Escolha pelo menos uma área",
+    "Choose at least one option" : "Escolha pelo menos uma opção",
     "Access" : "Acesso",
     "Everything you can do, including your settings and any admin rights you have." : "Tudo o que você pode fazer, incluindo suas configurações e quaisquer direitos de administrador que você tenha.",
     "All access" : "Acesso total",

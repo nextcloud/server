@@ -520,6 +520,7 @@ OC.L10N.register(
     "Error while creating device token" : "Eroare la crearea tokenului de dispozitiv",
     "Create new app password" : "Creează o parolă de aplicație nouă",
     "App name" : "Numele aplicației",
+    "Choose at least one option" : "Alege cel puțin o opțiune",
     "Access" : "Acces",
     "Calendar and contacts" : "Calendar și contacte",
     "Custom" : "Personalizat",

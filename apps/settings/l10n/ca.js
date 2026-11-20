@@ -450,6 +450,7 @@ OC.L10N.register(
     "Error while creating device token" : "S'ha produït un error mentre es creava el testimoni del dispositiu",
     "Create new app password" : "Crea una nova contrasenya d'aplicació",
     "App name" : "Nom de l'aplicació",
+    "Choose at least one option" : "Trieu almenys una opció",
     "Access" : "Accés",
     "Calendar and contacts" : "Calendari i contactes",
     "Custom" : "Personalitzat",

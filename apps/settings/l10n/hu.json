@@ -340,6 +340,7 @@
     "Error while creating device token" : "Hiba az eszköztoken létrehozása során",
     "Create new app password" : "Új alkalmazásjelszó létrehozása",
     "App name" : "Alkalmazásnév",
+    "Choose at least one option" : "Válasszon legalább egy lehetőséget",
     "Access" : "Hozzáférés",
     "Calendar and contacts" : "Naptár és névjegyek",
     "Custom" : "Egyéni",

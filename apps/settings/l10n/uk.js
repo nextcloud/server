@@ -498,6 +498,7 @@ OC.L10N.register(
     "Error while creating device token" : "Помилка під час створення токена пристрою",
     "Create new app password" : "Додати новий пароль застосунку",
     "App name" : "Зазначте назву застосунку",
+    "Choose at least one option" : "Виберіть щонайменше одну відповідь",
     "Access" : "Доступ",
     "Calendar and contacts" : "Календар та контакти",
     "Custom" : "Власне",
