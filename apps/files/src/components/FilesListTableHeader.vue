@@ -118,7 +118,7 @@ import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useFileListLayout } from '../composables/useFileListLayout.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
@@ -172,7 +172,7 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const { directory } = useRouteParameters()
 
-		const { isNarrow } = useFileListWidth()
+		const layout = useFileListLayout()
 
 		return {
 			activeStore,
@@ -180,17 +180,13 @@ export default defineComponent({
 			selectionStore,
 
 			directory,
-			isNarrow,
+			layout,
 		}
 	},
 
 	computed: {
 		columns() {
-			// Hide columns if the list is too small
-			if (this.isNarrow) {
-				return []
-			}
-			return this.activeStore.activeView?.columns || []
+			return this.layout.columns
 		},
 
 		dir() {
