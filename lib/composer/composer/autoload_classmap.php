@@ -839,6 +839,7 @@ return array(
     'OCP\\Notification\\NotificationPreloadReason' => $baseDir . '/lib/public/Notification/NotificationPreloadReason.php',
     'OCP\\Notification\\UnknownNotificationException' => $baseDir . '/lib/public/Notification/UnknownNotificationException.php',
     'OCP\\OCM\\Enum\\ParamType' => $baseDir . '/lib/public/OCM/Enum/ParamType.php',
+    'OCP\\OCM\\Events\\BeforeOCMShareSentEvent' => $baseDir . '/lib/public/OCM/Events/BeforeOCMShareSentEvent.php',
     'OCP\\OCM\\Events\\LocalOCMDiscoveryEvent' => $baseDir . '/lib/public/OCM/Events/LocalOCMDiscoveryEvent.php',
     'OCP\\OCM\\Events\\OCMEndpointRequestEvent' => $baseDir . '/lib/public/OCM/Events/OCMEndpointRequestEvent.php',
     'OCP\\OCM\\Events\\OCMNotificationReceivedEvent' => $baseDir . '/lib/public/OCM/Events/OCMNotificationReceivedEvent.php',

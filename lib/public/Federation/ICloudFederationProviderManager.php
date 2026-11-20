@@ -63,11 +63,15 @@ interface ICloudFederationProviderManager {
 	/**
 	 * send federated share
 	 *
+	 * Only file shares using WebDAV with a user or group recipient and no encryption metadata can fall back to legacy sharing.
+	 *
 	 * @param ICloudFederationShare $share
 	 * @return mixed
 	 *
 	 * @since 14.0.0
 	 * @deprecated 29.0.0 - Use {@see sendCloudShare()} instead and handle errors manually
+	 * @see \OCP\OCM\Events\BeforeOCMShareSentEvent
+	 * @throws OCMProviderException When a share requiring OCM cannot be delivered
 	 */
 	public function sendShare(ICloudFederationShare $share);
 
@@ -76,6 +80,7 @@ interface ICloudFederationProviderManager {
 	 * @return IResponse
 	 * @throws OCMProviderException
 	 * @since 29.0.0
+	 * @see \OCP\OCM\Events\BeforeOCMShareSentEvent
 	 */
 	public function sendCloudShare(ICloudFederationShare $share): IResponse;
 
