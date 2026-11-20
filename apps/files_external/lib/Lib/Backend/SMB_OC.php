@@ -22,7 +22,11 @@ use OCP\IUser;
  * Deprecated SMB_OC class - use SMB with the password::sessioncredentials auth mechanism
  */
 class SMB_OC extends Backend {
-	public function __construct(IL10N $l, SessionCredentials $legacyAuth, private readonly SMB $smbBackend) {
+	public function __construct(
+		IL10N $l,
+		SessionCredentials $legacyAuth,
+		private readonly SMB $smbBackend,
+	) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SMB_OC')
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
