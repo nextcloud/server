@@ -27,6 +27,7 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUser;
 use OCP\Share\IManager;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
@@ -202,6 +203,55 @@ class FileSearchBackendTest extends TestCase {
 			]);
 
 		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, '{DAV:}getlastmodified', 10);
+		$result = $this->search->search($query);
+
+		$this->assertCount(1, $result);
+		$this->assertEquals('/files/test/test/path', $result[0]->href);
+	}
+
+	public function testSearchMtimeOutOfRangeDateTime(): void {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		$this->searchFolder->expects($this->once())
+			->method('search')
+			->with(new SearchQuery(
+				new SearchComparison(
+					ISearchComparison::COMPARE_LESS_THAN,
+					'mtime',
+					Util::numericToNumber('64092211200'),
+				),
+				100,
+				0,
+				[],
+				$this->user
+			))
+			->willReturn([
+				new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path'),
+			]);
+
+		$scope = new Scope('/', 'infinite');
+		$scope->path = '/';
+		$query = new Query(
+			[],
+			[$scope],
+			new Operator(
+				Operator::OPERATION_LESS_THAN,
+				[
+					new SearchPropertyDefinition(
+						'{DAV:}getlastmodified',
+						true,
+						true,
+						true,
+						SearchPropertyDefinition::DATATYPE_DATETIME,
+					),
+					new Literal('4001-01-01T00:00:00+00:00'),
+				],
+			),
+			[],
+			new Limit(),
+		);
 		$result = $this->search->search($query);
 
 		$this->assertCount(1, $result);

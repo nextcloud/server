@@ -131,6 +131,8 @@ class SearchBuilderTest extends TestCase {
 		return [
 			[new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'mtime', 125), [1]],
 			[new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125), [0]],
+			[new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 64092211200.0), [0, 1]],
+			[new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'mtime', -62135596800.0), [0, 1]],
 			[new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'size', 125), []],
 			[new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'size', 50), [0, 1]],
 			[new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foobar'), [0]],
