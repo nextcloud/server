@@ -25,10 +25,11 @@ class Movie extends ProviderV2 {
 	public const HDR_PROBE_ARGS = ['-select_streams', 'v:0', '-show_entries', 'stream=color_transfer', '-of', 'default=noprint_wrappers=1:nokey=1'];
 
 	/**
-	 * Tonemaps HDR to SDR. Forces colorspace to '2020_ncl' because some videos are
-	 * tagged incorrectly as 'reserved' resulting in fail if not forced.
+	 * Tonemaps HDR to SDR. Forces color space (min) to '2020_ncl' and color primaries 
+	 * (pin) to '2020' because some videos tag these improperly or are completely missing, 
+	 * resulting in fail if not forced. 
 	 */
-	public const HDR_FILTER = 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p';
+	public const HDR_FILTER = 'zscale=min=2020_ncl:pin=2020:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p';
 
 	private IConfig $config;
 
@@ -324,6 +325,7 @@ class Movie extends ProviderV2 {
 	 */
 	public static function getStillArgs(string $input, int $second, bool $hdr, string $output): array {
 		return [
+			'-abort_on', 'empty_output',
 			'-y', '-ss', (string)$second,
 			'-i', $input,
 			'-f', 'mjpeg', '-vframes', '1',
