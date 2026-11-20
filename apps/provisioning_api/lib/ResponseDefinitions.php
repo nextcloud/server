@@ -40,6 +40,7 @@ namespace OCA\Provisioning_API;
  *     biographyScope?: Provisioning_APIUserDetailsScope,
  *     display-name: string,
  *     displayname: string,
+ *     displayLabel: string,
  *     displaynameScope?: Provisioning_APIUserDetailsScope,
  *     email: ?string,
  *     emailScope?: Provisioning_APIUserDetailsScope,

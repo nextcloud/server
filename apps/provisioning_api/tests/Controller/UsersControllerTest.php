@@ -1655,6 +1655,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn('Demo User');
 		$targetUser
 			->expects($this->once())
+			->method('getDisplayLabel')
+			->willReturn('Demo User');
+		$targetUser
+			->expects($this->once())
 			->method('getHome')
 			->willReturn('/var/www/newtcloud/data/UID');
 		$targetUser
@@ -1696,6 +1700,7 @@ class UsersControllerTest extends TestCase {
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
 			'display-name' => 'Demo User',
+			'displayLabel' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1789,6 +1794,10 @@ class UsersControllerTest extends TestCase {
 			->method('getDisplayName')
 			->willReturn('Demo User');
 		$targetUser
+			->expects($this->once())
+			->method('getDisplayLabel')
+			->willReturn('Demo User');
+		$targetUser
 			->expects($this->never())
 			->method('getHome');
 		$targetUser
@@ -1844,6 +1853,7 @@ class UsersControllerTest extends TestCase {
 			'email' => 'demo@nextcloud.com',
 			'displayname' => 'Demo User',
 			'display-name' => 'Demo User',
+			'displayLabel' => 'Demo User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -1972,6 +1982,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn('Subadmin User');
 		$targetUser
 			->expects($this->once())
+			->method('getDisplayLabel')
+			->willReturn('Subadmin User');
+		$targetUser
+			->expects($this->once())
 			->method('getSystemEMailAddress')
 			->willReturn('subadmin@nextcloud.com');
 		$targetUser
@@ -2028,6 +2042,7 @@ class UsersControllerTest extends TestCase {
 			'email' => 'subadmin@nextcloud.com',
 			'displayname' => 'Subadmin User',
 			'display-name' => 'Subadmin User',
+			'displayLabel' => 'Subadmin User',
 			'phone' => 'phone',
 			'address' => 'address',
 			'website' => 'website',
@@ -3554,7 +3569,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertArrayHasKey('language', $result->getData()['errors']);
 	}
 
-	public function testEditUserMultiFieldClearDisplayNameResetsToUserId(): void {
+	public function testEditUserMultiFieldClearDisplayName(): void {
 		$currentUser = $this->createMock(IUser::class);
 		$currentUser->method('getUID')->willReturn('admin');
 		$this->userSession->method('getUser')->willReturn($currentUser);
@@ -3572,8 +3587,7 @@ class UsersControllerTest extends TestCase {
 		$subAdmin = $this->createMock(ISubAdmin::class);
 		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
 
-		// Clearing display name (empty string) should reset to userId
-		$targetUser->expects($this->once())->method('setDisplayName')->with('targetuser')->willReturn(true);
+		$targetUser->expects($this->once())->method('setDisplayName')->with('')->willReturn(true);
 
 		$result = $this->api->editUserMultiField('targetuser', displayName: '');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());

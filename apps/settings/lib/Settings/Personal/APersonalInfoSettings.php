@@ -115,6 +115,7 @@ abstract class APersonalInfoSettings implements ISettings {
 			'usage' => Util::humanFileSize($storageInfo['used']),
 			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
+			'displayLabel' => $user->getDisplayLabel(),
 			'statusMessage' => $statusMessage,
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),

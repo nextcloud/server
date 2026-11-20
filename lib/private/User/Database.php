@@ -267,6 +267,19 @@ class Database extends ABackend implements
 	}
 
 	/**
+	 * Display name stored in the users table, or an empty string when none is set.
+	 */
+	public function getDisplayLabel(string $uid): string {
+		$this->loadUser($uid);
+		$cached = $this->cache[$uid] ?? false;
+		if (!is_array($cached)) {
+			return '';
+		}
+
+		return (string)($cached['displayname'] ?? '');
+	}
+
+	/**
 	 * Get a list of all display names and user ids.
 	 *
 	 * @param string $search

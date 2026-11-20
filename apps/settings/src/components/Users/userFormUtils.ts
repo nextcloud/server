@@ -69,7 +69,7 @@ export function resolveLanguage(user, serverLanguages): LanguageOption {
 
 /**
  * Maps a user store object to the flat, API-aligned shape used by the form.
- * Keeps a clean separation between the store model (e.g. `user.displayname`,
+ * Keeps a clean separation between the store model (e.g. `user.displayLabel`,
  * `user.quota.quota`) and the form model (e.g. `displayName`, `quota`).
  *
  * @param user The user store object
@@ -99,7 +99,7 @@ export function userToFormData(user, allGroups, quotaOptions, serverLanguages) {
 
 	return {
 		username: user.id,
-		displayName: user.displayname ?? '',
+		displayName: user.displayLabel ?? '',
 		password: '',
 		email: user.email ?? '',
 		groups,

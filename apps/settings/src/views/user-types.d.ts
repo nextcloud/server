@@ -9,6 +9,7 @@
 export interface IUser {
 	id: string
 	displayname: string
+	displayLabel?: string
 	email: string | null
 	groups: string[]
 	subadmin: string[]

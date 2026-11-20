@@ -1158,9 +1158,7 @@ class UsersController extends AUserDataOCSController {
 
 		// Apply remaining changes — all fully validated, setters won't throw
 		if ($displayName !== null) {
-			// OC\User\User::setDisplayName() rejects empty strings (!empty check),
-			// so "clear display name" means "reset to userId" — the default.
-			$targetUser->setDisplayName($displayName !== '' ? $displayName : $userId);
+			$targetUser->setDisplayName($displayName);
 		}
 
 		if ($email !== null) {

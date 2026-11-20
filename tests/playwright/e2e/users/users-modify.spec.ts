@@ -18,7 +18,7 @@ test.describe('Settings: Change user properties', () => {
 		await settingsPage.openEditDialog(user.userId)
 		const dialog = settingsPage.editUserDialog()
 		const displayNameInput = dialog.getByLabel('Display name')
-		await expect(displayNameInput).toHaveValue(user.userId)
+		await expect(displayNameInput).toHaveValue('')
 		await displayNameInput.fill('John Doe')
 
 		await settingsPage.saveEditDialog()
