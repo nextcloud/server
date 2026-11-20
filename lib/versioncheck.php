@@ -13,10 +13,10 @@ if (PHP_VERSION_ID < 80300) {
 	exit(1);
 }
 
-// Show warning if >= PHP 8.6 is used as Nextcloud is not compatible with >= PHP 8.6 for now
-if (PHP_VERSION_ID >= 80600) {
+// Show warning if >= PHP 8.7 is used as Nextcloud is not compatible with >= PHP 8.7 for now
+if (PHP_VERSION_ID >= 80700) {
 	http_response_code(500);
-	echo 'This version of Nextcloud is not compatible with PHP>=8.6.<br/>';
+	echo 'This version of Nextcloud is not compatible with PHP>=8.7.<br/>';
 	echo 'You are currently running ' . PHP_VERSION . '.';
 	exit(1);
 }
