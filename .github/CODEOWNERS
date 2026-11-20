@@ -137,5 +137,5 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/user_ldap/appinfo/info.xml                          @come-nc @blizzz
 /apps/user_status/appinfo/info.xml                        @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml                     @julien-nc @juliusknorr
-/apps/webhook_listeners/appinfo/info.xml                  @janepie @julien-nc
+/apps/webhook_listeners                                   @janepie @julien-nc
 /apps/workflowengine/appinfo/info.xml                     @blizzz @juliusknorr
