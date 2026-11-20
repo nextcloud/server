@@ -305,8 +305,7 @@ class SecurityMiddleware extends Middleware {
 			$classes = explode(';', $this->reflector->getAnnotationParameter('AuthorizedAdminSetting', 'settings'));
 		}
 
-		$attribute = $this->reflector->getAttribute(AuthorizedAdminSetting::class);
-		if ($attribute !== null) {
+		foreach ($this->reflector->getAttributes(AuthorizedAdminSetting::class) as $attribute) {
 			/** @var AuthorizedAdminSetting $setting */
 			$setting = $attribute->newInstance();
 			$classes[] = $setting->getSettings();
