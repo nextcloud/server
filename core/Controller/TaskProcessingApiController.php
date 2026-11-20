@@ -571,10 +571,15 @@ class TaskProcessingApiController extends OCSController {
 		}
 
 		$contentType = $node->getMimeType();
-		if (function_exists('mime_content_type')) {
-			$mimeType = mime_content_type($node->fopen('rb'));
-			if ($mimeType !== false) {
-				$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
+		// Sniff the type from the first bytes: the stream returned by fopen() is a
+		// user-space wrapper (e.g. CallbackWrapper for file locking), which
+		// mime_content_type() cannot cast and complains about in the logs
+		$handle = $node->fopen('rb');
+		if ($handle !== false) {
+			$head = fread($handle, 8192);
+			fclose($handle);
+			if ($head !== false && $head !== '') {
+				$mimeType = $this->mimeTypeDetector->getSecureMimeType($this->mimeTypeDetector->detectString($head));
 				if ($mimeType !== 'application/octet-stream') {
 					$contentType = $mimeType;
 				}
