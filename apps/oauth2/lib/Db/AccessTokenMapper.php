@@ -66,12 +66,14 @@ class AccessTokenMapper extends Repository {
 	}
 
 	/**
-	 * Rotate an access token only if it still matches the caller's previously-read state.
+	 * Rotate an access token only if it still matches the caller's previously-read state
+	 * and its token count matches the requested grant type.
 	 *
-	 * @param bool $expectAuthorizationCodeState Require the token to still be unused
+	 * @param 'authorization_code'|'refresh_token' $grantType Require the row to still be unused for 'authorization_code'
+	 *                                                        or to have already delivered one token for 'refresh_token'
 	 * @return int Number of updated rows
 	 */
-	public function rotateToken(int $id, string $oldCode, string $newCode, string $encryptedToken, bool $expectAuthorizationCodeState): int {
+	public function rotateToken(int $id, string $oldCode, string $newCode, string $encryptedToken, string $grantType): int {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->update($this->getTableName())
@@ -81,8 +83,12 @@ class AccessTokenMapper extends Repository {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $oldCode))));
 
-		if ($expectAuthorizationCodeState) {
+		if ($grantType === 'authorization_code') {
 			$qb->andWhere($qb->expr()->eq('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		} else {
+			// an unused (possibly expired) authorization code
+			// must not be redeemed through the refresh token grant
+			$qb->andWhere($qb->expr()->gt('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
 		return $qb->executeStatement();
