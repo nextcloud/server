@@ -1983,7 +1983,7 @@ class View {
 			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('Dot files are not allowed'));
+			throw new InvalidPathException($l->t('Filenames that begin with a dot are not allowed'));
 		} catch (EmptyFileNameException $ex) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
