@@ -526,7 +526,6 @@ OC.L10N.register(
     "Edit access for {name}" : "編輯 {name} 的存取權",
     "Create new app password" : "建立新的應用程式密碼",
     "App name" : "應用程式名稱",
-    "Choose at least one area" : "選擇至少一個區域",
     "Access" : "存取",
     "Everything you can do, including your settings and any admin rights you have." : "您所能進行的所有操作，包括您的設定以及您擁有的任何管理員權限。",
     "All access" : "所有存取權",

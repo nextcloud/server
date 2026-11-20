@@ -511,6 +511,7 @@ OC.L10N.register(
     "Error while creating device token" : "Σφάλμα κατά τη δημιουργία διακριτικού συσκευής",
     "Create new app password" : "Δημιουργία νέου συνθηματικού εφαρμογής",
     "App name" : "Όνομα εφαρμογής",
+    "Choose at least one option" : "Επιλέξτε τουλάχιστον μία επιλογή",
     "Access" : "Πρόσβαση",
     "Calendar and contacts" : "Ημερολόγιο και Επαφές",
     "Custom" : "Προσαρμοσμένο",

@@ -526,7 +526,7 @@ OC.L10N.register(
     "Edit access for {name}" : "{name} için erime iznini düzenle",
     "Create new app password" : "Yeni uygulama parolası oluştur",
     "App name" : "Uygulama adı",
-    "Choose at least one area" : "En az bir bölge seçin",
+    "Choose at least one option" : "En az 1 seçenek seçin",
     "Access" : "Erişim",
     "Everything you can do, including your settings and any admin rights you have." : "Ayarlarınız ve sahip olduğunuz yönetici izinleri ile yapabileceğiniz her şey.",
     "All access" : "Tam erişim",

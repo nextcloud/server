@@ -524,7 +524,7 @@
     "Edit access for {name}" : "Muuda kasutaja „{name}“ ligipääsu",
     "Create new app password" : "Loo uus rakenduse salasõna",
     "App name" : "Rakenduse nimi",
-    "Choose at least one area" : "Vali vähemalt üks ala",
+    "Choose at least one option" : "Vali vähemalt ühe valiku",
     "Access" : "Ligipääs",
     "Everything you can do, including your settings and any admin rights you have." : "Kõik, mida sa saad teha, sealhulgas sinu seadistused ja kõik haldusõigused, mis sul on.",
     "All access" : "Kogu ligipääs",
