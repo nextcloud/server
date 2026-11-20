@@ -185,6 +185,7 @@ OC.L10N.register(
     "Failed to clear your absence settings" : "Počiščenje nastavitev odsotnosti je spodletelo",
     "First day" : "Prvi dan",
     "Last day (inclusive)" : "Zadnji dan (vključujoče)",
+    "Out of office replacement (optional)" : "Nadomestna oseba med odsotnostjo (neobvezno)",
     "Name of the replacement" : "Ime zamenjave",
     "Short absence status" : "Stanje kratke odsotnosti",
     "Long absence Message" : "Sporočilo dolge odsostnosti",

@@ -53,6 +53,23 @@ class PublicKeyTokenMapper extends QBMapper {
 		$delete->executeStatement();
 	}
 
+	/**
+	 * Delete tokens whose explicit expiration date lies before the given time.
+	 * Remote wipe tokens are kept, they have their own retention.
+	 *
+	 * @return int number of deleted tokens
+	 */
+	public function invalidateExpired(int $expiredBefore): int {
+		$qb = $this->db->getQueryBuilder();
+		return $qb->delete($this->tableName)
+			->where($qb->expr()->isNotNull('expires'))
+			->andWhere($qb->expr()->gt('expires', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->lt('expires', $qb->createNamedParameter($expiredBefore, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->neq('type', $qb->createNamedParameter(IToken::WIPE_TOKEN, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+	}
+
 	public function invalidateLastUsedBefore(string $uid, int $before): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)

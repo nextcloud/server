@@ -165,6 +165,7 @@ OC.L10N.register(
     "Test Base DN" : "Testa bas-DN",
     "Listing and searching for users is constrained by these criteria:" : "Listning och sökning efter användare begränsas av följande kriterier:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "De vanligaste objektklasserna för användare är organizationalPerson, person, user och inetOrgPerson. Kontakta katalogadministratören om du är osäker på vilken objektklass du ska välja.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Filtret anger vilka LDAP-användare som visas i instansen {instanceName}. Använd fliken Inloggningsattribut för att styra vem som kan logga in.",
     "Verify settings and count users" : "Verifiera inställningar och räkna användare",
     "User count: {usersCount}" : "Antal användare: {usersCount}",
     "Test Configuration" : "Testa konfigurationen",

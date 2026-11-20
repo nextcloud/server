@@ -11,7 +11,7 @@ import { computed, useTemplateRef, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, PRESET_GRANTS, SERVICES, setGrant } from '../utils/accessLevel.ts'
+import { AREA_OPTIONS, AREAS, areaState, GRANT_LABELS, GRANTABLE_APPS, PRESET_GRANTS, SERVICES, setGrant, toScopes } from '../utils/accessLevel.ts'
 
 /** What the app password can reach */
 const selection = defineModel<Selection>({ required: true })
@@ -23,19 +23,21 @@ const props = defineProps<{
 
 const areas = useTemplateRef('areas')
 
+const filesDescription = t('settings', 'Most apps need this for attachments and other file features.')
+
 const preset = computed({
 	get: () => selection.value.preset,
 	set(value: string) {
 		const name = value as Preset
-		const grants = PRESET_GRANTS[name as keyof typeof PRESET_GRANTS] ?? selection.value.grants
-		selection.value = { preset: name, grants }
+		const grants = PRESET_GRANTS[name as keyof typeof PRESET_GRANTS]
+		selection.value = grants ? { preset: name, grants, apps: [] } : { ...selection.value, preset: name }
 	},
 })
 
 // Custom needs something to save, a ticked box or the kept scopes
 watch([() => selection.value, areas], () => {
-	const empty = selection.value.grants.length === 0 && props.kept.length === 0
-	areas.value?.querySelector('input')?.setCustomValidity(empty ? t('settings', 'Choose at least one area') : '')
+	const empty = toScopes(selection.value, props.kept)?.length === 0
+	areas.value?.querySelector('input')?.setCustomValidity(empty ? t('settings', 'Choose at least one option') : '')
 }, { flush: 'post', immediate: true })
 
 /**
@@ -43,7 +45,16 @@ watch([() => selection.value, areas], () => {
  * @param on Whether to tick it
  */
 function toggle(grant: Grant, on: boolean) {
-	selection.value = { preset: 'custom', grants: setGrant(selection.value.grants, grant, on) }
+	selection.value = { ...selection.value, preset: 'custom', grants: setGrant(selection.value.grants, grant, on) }
+}
+
+/**
+ * @param app App id to change
+ * @param on Whether to tick it
+ */
+function toggleApp(app: string, on: boolean) {
+	const apps = selection.value.apps.filter((id) => id !== app)
+	selection.value = { ...selection.value, preset: 'custom', apps: on ? [...apps, app] : apps }
 }
 </script>
 
@@ -75,6 +86,7 @@ function toggle(grant: Grant, on: boolean) {
 					<NcCheckboxRadioSwitch
 						:modelValue="areaState(selection.grants, area) === 'all'"
 						:indeterminate="areaState(selection.grants, area) === 'partial'"
+						:description="area === 'files' ? filesDescription : undefined"
 						@update:modelValue="toggle(area, $event)">
 						{{ GRANT_LABELS[area] }}
 					</NcCheckboxRadioSwitch>
@@ -94,6 +106,17 @@ function toggle(grant: Grant, on: boolean) {
 					:modelValue="selection.grants.includes(service)"
 					@update:modelValue="toggle(service, $event)">
 					{{ GRANT_LABELS[service] }}
+				</NcCheckboxRadioSwitch>
+				<hr v-if="GRANTABLE_APPS.length > 0" :class="$style.accessPicker__divider">
+				<NcCheckboxRadioSwitch
+					v-for="app in GRANTABLE_APPS"
+					:key="app.id"
+					:modelValue="selection.apps.includes(app.id)"
+					@update:modelValue="toggleApp(app.id, $event)">
+					<span :class="$style.accessPicker__app">
+						<img :class="$style.accessPicker__appIcon" :src="app.icon" alt="">
+						{{ app.name }}
+					</span>
 				</NcCheckboxRadioSwitch>
 			</div>
 		</template>
@@ -117,5 +140,26 @@ function toggle(grant: Grant, on: boolean) {
 
 .accessPicker__options {
 	padding-inline-start: calc(8 * var(--default-grid-baseline));
+}
+
+.accessPicker__divider {
+	/* Same inset as the checkboxes, which NcCheckboxRadioSwitch centers in a clickable area */
+	margin-block: calc(2 * var(--default-grid-baseline));
+	margin-inline: calc((var(--default-clickable-area) - 20px) / 2);
+	border: none;
+	border-top: 1px solid var(--color-border);
+}
+
+.accessPicker__app {
+	display: flex;
+	align-items: center;
+	gap: calc(2 * var(--default-grid-baseline));
+}
+
+.accessPicker__appIcon {
+	width: calc(4 * var(--default-grid-baseline));
+	height: calc(4 * var(--default-grid-baseline));
+	/* App icons are white, for the header */
+	filter: var(--background-invert-if-bright);
 }
 </style>

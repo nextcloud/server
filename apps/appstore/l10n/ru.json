@@ -35,7 +35,7 @@
     "Display Name" : "Отображаемое имя",
     "GPUs support" : "Поддержка графических процессоров",
     "Compute device" : "Вычислительное устройство",
-    "Advanced deploy options" : "Расширенные возможности развертывания",
+    "Advanced deploy options" : "Дополнительные параметры развёртывания",
     "Edit ExApp deploy options before installation" : "Отредактируйте параметры развертывания ExApp перед установкой",
     "Configured ExApp deploy options. Can be set only during installation" : "Настроенные параметры развертывания ExApp. Можно задать только во время установки",
     "Environment variables" : "Переменные среды",

@@ -30,6 +30,8 @@ use function strlen;
 
 class JobList implements IJobList {
 	public const MAX_ARGUMENT_JSON_LENGTH = 32000;
+	/** Jobs reserved within this window count as running for hasReservedJob() and countReservedJobs() */
+	private const RUNNING_RESERVATION_WINDOW = 6 * 3600;
 
 	/** @var array<string, string> */
 	protected array $alreadyVisitedParallelBlocked = [];
@@ -403,7 +405,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 6 * 3600, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - self::RUNNING_RESERVATION_WINDOW, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1);
 
 		if ($className !== null) {
@@ -419,6 +421,30 @@ class JobList implements IJobList {
 			$this->logger->debug('Querying reserved jobs failed', ['exception' => $e]);
 			return false;
 		}
+	}
+
+	/**
+	 * Counts the jobs of the passed class that were reserved to run
+	 * in the last 6h
+	 *
+	 * @param class-string<IJob> $className
+	 * @param ?int $excludeId job to leave out, e.g. the one currently running
+	 */
+	public function countReservedJobs(string $className, ?int $excludeId = null): int {
+		$query = $this->connection->getQueryBuilder();
+		$query->select($query->func()->count('*'))
+			->from('jobs')
+			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - self::RUNNING_RESERVATION_WINDOW, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('class', $query->createNamedParameter($className)));
+
+		if ($excludeId !== null) {
+			$query->andWhere($query->expr()->neq('id', $query->createNamedParameter($excludeId, IQueryBuilder::PARAM_INT)));
+		}
+
+		$result = $query->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
 	}
 
 	#[Override]

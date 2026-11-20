@@ -834,9 +834,10 @@ class ThemingControllerTest extends TestCase {
 	/**
 	 * @param list<array{name: string, content: string}> $meta
 	 */
-	private function getThemeStylesheet(array $meta, bool $plain): string {
+	private function getThemeStylesheet(array $meta, bool $plain, int $type = ITheme::TYPE_THEME): string {
 		$theme = $this->createMock(ITheme::class);
-		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000']);
+		$theme->method('getType')->willReturn($type);
+		$theme->method('getCSSVariables')->willReturn(['--color-main-background' => '#000', '--font-face' => 'sans-serif']);
 		$theme->method('getCustomCss')->willReturn('');
 		$theme->method('getMeta')->willReturn($meta);
 		$this->themesService->method('getThemes')->willReturn(['dark' => $theme]);
@@ -861,5 +862,23 @@ class ThemingControllerTest extends TestCase {
 		$css = $this->getThemeStylesheet([], false);
 
 		$this->assertStringNotContainsString('color-scheme', $css);
+	}
+
+	public function testGetThemeStylesheetKeepsFontFaceOnRoot(): void {
+		$css = $this->getThemeStylesheet([], true);
+
+		$this->assertStringContainsString('--font-face:sans-serif;', $css);
+	}
+
+	public function testGetThemeStylesheetOmitsFontFaceForScopedColorTheme(): void {
+		$css = $this->getThemeStylesheet([], false);
+
+		$this->assertStringNotContainsString('--font-face', $css);
+	}
+
+	public function testGetThemeStylesheetKeepsFontFaceForScopedFontTheme(): void {
+		$css = $this->getThemeStylesheet([], false, ITheme::TYPE_FONT);
+
+		$this->assertStringContainsString('--font-face:sans-serif;', $css);
 	}
 }

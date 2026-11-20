@@ -1,0 +1,46 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Chen Fengyuan (https://chenfengyuan.com/)
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: catamphetamine <purecatamphetamine@gmail.com>
+
+This file is generated from multiple sources. Included packages:
+- @cropper/element
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-canvas
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-crosshair
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-grid
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-handle
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-image
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-selection
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-shade
+	- version: 2.3.1
+	- license: MIT
+- @cropper/element-viewer
+	- version: 2.3.1
+	- license: MIT
+- @cropper/utils
+	- version: 2.3.1
+	- license: MIT
+- cropperjs
+	- version: 2.3.1
+	- license: MIT
+- libphonenumber-js
+	- version: 1.13.16
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

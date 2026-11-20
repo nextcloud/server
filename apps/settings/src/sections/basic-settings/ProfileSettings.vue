@@ -26,20 +26,17 @@ const settings = reactive({
  * @param isEnabled The new value
  * @param errorMessage Shown when saving fails
  */
-async function updateSetting(key: keyof typeof settings, save: (isEnabled: boolean) => Promise<{ ocs?: { meta?: { status?: string } } }>, isEnabled: boolean, errorMessage: string) {
+async function updateSetting(key: keyof typeof settings, save: (isEnabled: boolean) => Promise<unknown>, isEnabled: boolean, errorMessage: string) {
 	if (!validateBoolean(isEnabled)) {
 		return
 	}
 	try {
-		const responseData = await save(isEnabled)
-		if (responseData.ocs?.meta?.status === 'ok') {
-			return
-		}
+		await save(isEnabled)
 	} catch (error) {
 		logger.error(errorMessage, { error })
+		settings[key] = !isEnabled
+		showError(errorMessage)
 	}
-	settings[key] = !isEnabled
-	showError(errorMessage)
 }
 </script>
 

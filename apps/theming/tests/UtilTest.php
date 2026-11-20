@@ -181,8 +181,12 @@ class UtilTest extends TestCase {
 	public static function dataGetAppImage(): array {
 		return [
 			['core', 'logo/logo.svg', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
-			['files', 'folder', \OC::$SERVERROOT . '/apps/files/img/folder.svg'],
 			['files', 'folder.svg', \OC::$SERVERROOT . '/apps/files/img/folder.svg'],
+			['files', 'folder', false],
+			['core', 'lo..go/logo.svg', false],
+			['core', 'logo/../logo/logo.svg', false],
+			['files', '\\folder.svg', false],
+			['files', "folder.svg\0", false],
 			['noapplikethis', 'foobar.svg', false],
 		];
 	}

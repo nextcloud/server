@@ -44,6 +44,7 @@ use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDir
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OCA\Circles\Events\DestroyingCircleEvent;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -55,6 +56,7 @@ use OCP\Config\BeforeAppConfigDeletedEvent;
 use OCP\Config\BeforeAppConfigSetEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\IAppConfig;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
@@ -166,6 +168,10 @@ class Application extends App implements IBootstrap {
 		if (!Server::get(IAppConfig::class)->getValueBool('files_sharing', 'shareapi_exclude_reshare_from_edit')) {
 			$registry->markPermissionTypeCompatibleWithPermissionPreset(ReshareSharePermissionType::class, EditSharePermissionPreset::class);
 		}
+
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupShareRecipientType::class);
+		$context->registerEventListener(DestroyingCircleEvent::class, TeamShareRecipientType::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, UserShareRecipientType::class);
 	}
 
 	#[\Override]

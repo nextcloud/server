@@ -163,6 +163,7 @@
     "Test Base DN" : "Test base-DN",
     "Listing and searching for users is constrained by these criteria:" : "Visning og søgning efter brugere begrænses af disse kriterier:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "De mest almindelige objektklasser for brugere er organizationalPerson, person, user og inetOrgPerson. Hvis du ikke er sikker på, hvilken objektklasse du skal vælge, så spørg din katalogadministrator.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Filteret angiver, hvilke LDAP-brugere der vises i {instanceName}-instansen. Brug fanen Loginattributter for at styre, hvem der kan logge ind.",
     "Verify settings and count users" : "Verificer indstillinger og tæl brugere",
     "User count: {usersCount}" : "Antal brugere: {usersCount}",
     "Test Configuration" : "Test konfiguration",

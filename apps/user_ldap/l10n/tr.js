@@ -165,6 +165,7 @@ OC.L10N.register(
     "Test Base DN" : "Base DN sına",
     "Listing and searching for users is constrained by these criteria:" : "Kullanıcı listeleme ve arama şu ölçütü göre kısıtlanmış:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Kullanıcılar için ortak olarak en çok organizationalPerson, person, user ve inetOrgPerson nesne sınıfları kullanılır. Hangi nesne sınıfını seçeceğinizden emin değilseniz lütfen dizin yöneticinize danışın.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "Süzgeç, {instanceName} kopyasında hangi LDAP kullanıcılarının listeleneceğini belirtir. Kimlerin oturum açabileceğini denetlemek için Oturum açma öznitelikleri sekmesini kullanın.",
     "Verify settings and count users" : "Ayarları doğrula ve kullanıcıları say",
     "User count: {usersCount}" : "Kullanıcı sayısı: {usersCount}",
     "Test Configuration" : "Yapılandırmayı sına",

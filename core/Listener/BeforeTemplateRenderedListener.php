@@ -43,15 +43,12 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these
-			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
 			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 		}
 
 		if ($event instanceof BeforeTemplateRenderedEvent) {
-			// include common nextcloud webpack bundle
-			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
 			Util::addStyle('core', 'main');
 			Util::addTranslations('core');

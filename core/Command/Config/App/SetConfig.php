@@ -148,7 +148,8 @@ class SetConfig extends Base {
 			 * If not we get the type from current stored value or VALUE_MIXED as default.
 			 */
 			try {
-				$currType = $this->appConfig->getValueType($appName, $configName);
+				// Remove potential sensitive flag from type
+				$currType = $this->appConfig->getValueType($appName, $configName) & ~IAppConfig::FLAG_SENSITIVE;
 				if ($type === null || $typeString === null || $type === $currType || !$this->ask($input, $output, $typeString)) {
 					$type = $currType;
 				} else {
@@ -237,7 +238,7 @@ class SetConfig extends Base {
 			}
 
 		} else {
-			$output->writeln('<info>Config value were not updated</info>');
+			$output->writeln('<info>Config value was not updated</info>');
 		}
 
 		return 0;
