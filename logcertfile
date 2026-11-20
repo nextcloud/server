@@ -1,0 +1,101 @@
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:O=mkcert development certificate, OU=janepie@IceRock
+   i:O=mkcert development CA, OU=janepie@IceRock, CN=mkcert janepie@IceRock
+   a:PKEY: RSA, 2048 (bit); sigalg: sha256WithRSAEncryption
+   v:NotBefore: Jan 28 11:13:46 2026 GMT; NotAfter: Apr 28 10:13:46 2028 GMT
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIEDDCCAnSgAwIBAgIRAMKDz+cpv+Rpp4hkgkWVSU0wDQYJKoZIhvcNAQELBQAw
+WzEeMBwGA1UEChMVbWtjZXJ0IGRldmVsb3BtZW50IENBMRgwFgYDVQQLDA9qYW5l
+cGllQEljZVJvY2sxHzAdBgNVBAMMFm1rY2VydCBqYW5lcGllQEljZVJvY2swHhcN
+MjYwMTI4MTExMzQ2WhcNMjgwNDI4MTAxMzQ2WjBDMScwJQYDVQQKEx5ta2NlcnQg
+ZGV2ZWxvcG1lbnQgY2VydGlmaWNhdGUxGDAWBgNVBAsMD2phbmVwaWVASWNlUm9j
+azCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ7/P5vxI2EGUJQioOUh
+soNp4Y5TDp2NN/TplLbhmisZ2em5RWEtRXMUDBHaTnrWm2GaXYxx8pIU5OcX95i4
+Adtw+wpUd+Xr/Ha8TzJORbnS73afJ4ZzGDU8+CEHTTwblZIZP0Wf3vlcwkaeDrOw
+huUV1EHJ2qvI9YfI1RnrDe3bsbcmibByM0eYOWE4zxQZUbojxmS9gdC6YT1knFA5
+3DaQ+x1YplyXlbiWoO/PlKUWf6ZUzXpswHymfB/2Uo3cj1h7Ml0K1Amp0ni2M4Jj
+Y+cQm9EYwoTKf1/F48dp2OQX36io7df9EuZMJ+xIhjEkUqvLNgNTLPRUUjmhBoP5
+CsMCAwEAAaNjMGEwDgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMB
+MB8GA1UdIwQYMBaAFEelfH0GxH7hHQJXJwxkAFCLFDjYMBkGA1UdEQQSMBCCDndp
+bmRtaWxsLmxvY2FsMA0GCSqGSIb3DQEBCwUAA4IBgQCJ5E+SXGemmT5pF1o2XX64
+7S4lUDa1jKmq+YGzI0gJ5rMLDAyOaAfAa3kPVFzZgSiIhz/0g8emb3TWxIu9ciHo
+IMS7IOAG8+qjV2SIsH8UkTMLVBwtoOYiYsybBMBHvGU28dTk0sIY3lChmOrj+raf
+suF1WTy6XcbAfjepUmqd5A46xfYGA24O/BsGgs0PPYJuGmnDT2F4w08vM8A14Ypc
+Z4874M/m3QEsixmV3fa61F8Gb+kl6pyps4IJZLco2vvAgmjrLPRdHZBfY6GUtzCo
+OpNIJHOfLXVBDBrto253p2KloAKhxxKio4xdU+eTpS0atgYkZuPPKSoD1Fgkf2FG
+8tJquqV/LjCerrHhpuJMEtTcV273UYQaouo30+eudYAY6BNyb6cLd34dnBlMNAbM
+qaTVWtRfAa9XLJ220omWex8IdgLnyf+9+ILWFGo3neZuQL5a69t2wNqhWQTZLwxt
+1VvPfDiq/OO1KpWaP/8K1tYuUdTDUb9o2CiTBxi1wzc=
+-----END CERTIFICATE-----
+subject=O=mkcert development certificate, OU=janepie@IceRock
+issuer=O=mkcert development CA, OU=janepie@IceRock, CN=mkcert janepie@IceRock
+---
+No client certificate CA names sent
+Peer signing digest: SHA256
+Peer signature type: rsa_pss_rsae_sha256
+Peer Temp Key: X25519, 253 bits
+---
+SSL handshake has read 1600 bytes and written 1636 bytes
+Verification error: unable to verify the first certificate
+---
+New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+Protocol: TLSv1.3
+Server public key is 2048 bit
+This TLS version forbids renegotiation.
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+Early data was not sent
+Verify return code: 21 (unable to verify the first certificate)
+---
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: 3B36BFB0D8229ED706F09073B76320C45C8768F0545712118A42C2302EA4B033
+    Session-ID-ctx: 
+    Resumption PSK: 8773847AE34187806B6221669DFCBECEBA0C3BEF2844E68479B524BE00A339BD4DE46559E7F49DAAC54C9AF8CDAFACB7
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 61 b7 b7 81 92 7e 00 8c-8f c5 01 bb ed ac 0e 4a   a....~.........J
+    0010 - 6a 51 06 ab b1 30 a3 aa-85 f0 39 fa 3b d4 c3 af   jQ...0....9.;...
+
+    Start Time: 1769610152
+    Timeout   : 7200 (sec)
+    Verify return code: 21 (unable to verify the first certificate)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: 293C6FD01C6024CF8F283E0AABAA0CB3CA21F56B738B623B1BED8372E9955C53
+    Session-ID-ctx: 
+    Resumption PSK: 0B517CCC92AA42CA47F28AE788FA3A82D751A2876143D86B10DDDF4BB868DD8F7D9FAE77BAF9ACB73566649E1BE5E465
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 71 b7 b2 5f 43 da 48 2b-1a 9b 2a 42 cf 13 68 03   q.._C.H+..*B..h.
+    0010 - be e7 dd c6 65 eb 74 99-70 6c 3d 8f 99 b0 51 35   ....e.t.pl=...Q5
+
+    Start Time: 1769610152
+    Timeout   : 7200 (sec)
+    Verify return code: 21 (unable to verify the first certificate)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+closed
