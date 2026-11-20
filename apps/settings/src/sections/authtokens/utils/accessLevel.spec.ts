@@ -20,12 +20,14 @@ const calendarContacts = ['dav:calendar:read', 'dav:calendar:write', 'dav:contac
 
 describe('accessLevel', () => {
 	it.each<[string, Selection]>([
-		['files', { preset: 'files', grants: ['files', 'filesShare'], apps: [] }],
-		['files with trash and versions', { preset: 'custom', grants: ['files', 'filesShare', 'filesTrash', 'filesVersions'], apps: [] }],
+		['files', { preset: 'files', grants: ['files', 'filesEdit', 'filesShare'], apps: [] }],
+		['read-only files', { preset: 'readOnly', grants: ['files'], apps: [] }],
+		['read and share files', { preset: 'custom', grants: ['files', 'filesShare'], apps: [] }],
+		['files with trash and versions', { preset: 'custom', grants: ['files', 'filesEdit', 'filesShare', 'filesTrash', 'filesVersions'], apps: [] }],
 		['calendar and contacts', { preset: 'calendarContacts', grants: ['calendar', 'calendarWrite', 'contacts', 'contactsWrite'], apps: [] }],
-		['files without sharing', { preset: 'custom', grants: ['files'], apps: [] }],
+		['files without sharing', { preset: 'custom', grants: ['files', 'filesEdit'], apps: [] }],
 		['read-only calendar', { preset: 'custom', grants: ['calendar'], apps: [] }],
-		['files with search', { preset: 'custom', grants: ['files', 'filesShare', 'search'], apps: [] }],
+		['files with search', { preset: 'custom', grants: ['files', 'filesEdit', 'filesShare', 'search'], apps: [] }],
 		['people lookup alone', { preset: 'custom', grants: ['people'], apps: [] }],
 	])('round-trips %s', (_, selection) => {
 		const scopes = toScopes(selection, [])!
@@ -56,7 +58,7 @@ describe('accessLevel', () => {
 		const { selection, kept } = fromScopes([...files, 'app:deck', 'dav:calendar:write'])
 
 		// Write without read is possible through the API, the picker never creates it
-		expect(selection).toEqual({ preset: 'custom', grants: ['files', 'filesShare'], apps: [] })
+		expect(selection).toEqual({ preset: 'custom', grants: ['files', 'filesEdit', 'filesShare'], apps: [] })
 		expect(kept).toEqual(['app:deck', 'dav:calendar:write'])
 		expect(toScopes({ preset: 'custom', grants: ['contacts'], apps: [] }, kept))
 			.toEqual(['dav:contacts:read', 'app:deck', 'dav:calendar:write'])
@@ -75,6 +77,11 @@ describe('accessLevel', () => {
 		expect(setGrant(['calendar', 'calendarWrite', 'files'], 'calendar', false)).toEqual(['files'])
 	})
 
+	it('ticks editing with the restore options, and unticks them with it', () => {
+		expect(setGrant(['files'], 'filesTrash', true)).toEqual(['files', 'filesEdit', 'filesTrash'])
+		expect(setGrant(['files', 'filesEdit', 'filesShare', 'filesTrash', 'filesVersions'], 'filesEdit', false)).toEqual(['files', 'filesShare'])
+	})
+
 	it('ticks a service on its own', () => {
 		expect(setGrant(['files'], 'search', true)).toEqual(['files', 'search'])
 		expect(setGrant(['files', 'search'], 'search', false)).toEqual(['files'])
@@ -91,6 +98,8 @@ describe('accessLevel', () => {
 		[{ filesystem: true, scopes: files }, 'Files'],
 		[{ filesystem: true, scopes: ['files:files:read', 'files:files:write', 'files:dav:read', 'files:dav:write'] }, 'Files'],
 		[{ filesystem: true, scopes: ['files:files:read', 'files:files:write'] }, 'Other access'],
+		[{ filesystem: true, scopes: ['files:files:read', 'files:dav:read'] }, 'Files (read only)'],
+		[{ filesystem: true, scopes: ['files:files:read', 'files:dav:read', 'files_sharing:shares:write'] }, 'Files (read only)'],
 		[{ filesystem: false, scopes: calendarContacts }, 'Calendar and Contacts'],
 		[{ filesystem: false, scopes: ['dav:calendar:read'] }, 'Calendar (read only)'],
 		[{ filesystem: false, scopes: ['app:deck'] }, 'Other access'],

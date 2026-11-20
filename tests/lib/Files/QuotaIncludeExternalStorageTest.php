@@ -19,8 +19,10 @@ use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
+use OC\Lockdown\LockdownManager;
 use OC\Share20\ShareDisableChecker;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
@@ -35,7 +37,6 @@ use OCP\ITempManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Lockdown\ILockdownManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -141,6 +142,9 @@ class QuotaIncludeExternalStorageTest extends TestCase {
 		$mountProviderCollection = $this->createMock(MountProviderCollection::class);
 		$mountProviderCollection->method('getRootMounts')->willReturn([]);
 
+		$lockdownManager = $this->createMock(LockdownManager::class);
+		$lockdownManager->method('filePermissions')->willReturn(Constants::PERMISSION_ALL);
+
 		return new SetupManager(
 			$this->createMock(IEventLogger::class),
 			$mountProviderCollection,
@@ -148,7 +152,7 @@ class QuotaIncludeExternalStorageTest extends TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserMountCache::class),
-			$this->createMock(ILockdownManager::class),
+			$lockdownManager,
 			$this->createMock(IUserSession::class),
 			$cacheFactory,
 			$this->createMock(LoggerInterface::class),
