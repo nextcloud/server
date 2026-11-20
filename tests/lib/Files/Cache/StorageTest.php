@@ -64,4 +64,94 @@ class StorageTest extends TestCase {
 			->where($qb->expr()->eq($column, $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		return (int)$qb->executeQuery()->fetchOne();
 	}
+
+	public static function availabilityLookupOrderProvider(): array {
+		return [
+			'string ID first' => [false],
+			'numeric ID first' => [true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('availabilityLookupOrderProvider')]
+	public function testAvailabilityUpdatesCachedLookups(bool $numericFirst): void {
+		$connection = Server::get(IDBConnection::class);
+		$storageId = $this->getUniqueID('availability-');
+		$storage = new Storage(
+			$storageId,
+			true,
+			$connection,
+		);
+		$global = Storage::getGlobalCache();
+		$numericId = $storage->getNumericId();
+
+		try {
+			$initial = $global->getStorageInfoByNumericId($numericId);
+			$this->assertNotNull($initial);
+			$storageId = $initial['id'];
+
+			$this->assertSame(
+				$initial,
+				$global->getStorageInfo($storageId),
+			);
+
+			foreach ([[false, 1800], [true, 0]] as [$available, $delay]) {
+				$before = time();
+				$storage->setAvailability($available, $delay);
+				$after = time();
+
+				$query = $connection->getQueryBuilder();
+				$query->select('available', 'last_checked')
+					->from('storages')
+					->where($query->expr()->eq(
+						'numeric_id',
+						$query->createNamedParameter(
+							$numericId,
+							IQueryBuilder::PARAM_INT,
+						),
+					));
+				$result = $query->executeQuery();
+				$persisted = $result->fetchAssociative();
+				$result->closeCursor();
+
+				$this->assertIsArray($persisted);
+				$this->assertSame(
+					$available,
+					(bool)$persisted['available'],
+				);
+				$lastChecked = (int)$persisted['last_checked'];
+				$this->assertGreaterThanOrEqual($before + $delay, $lastChecked);
+				$this->assertLessThanOrEqual($after + $delay, $lastChecked);
+
+				if ($numericFirst) {
+					$numeric = $global->getStorageInfoByNumericId($numericId);
+					$string = $global->getStorageInfo($storageId);
+				} else {
+					$string = $global->getStorageInfo($storageId);
+					$numeric = $global->getStorageInfoByNumericId($numericId);
+				}
+
+				foreach ([$string, $numeric] as $row) {
+					$this->assertNotNull($row);
+					$this->assertSame($available, $row['available']);
+					$this->assertSame($lastChecked, $row['last_checked']);
+				}
+				$this->assertSame(
+					['available' => $available, 'last_checked' => $lastChecked],
+					$storage->getAvailability(),
+				);
+			}
+		} finally {
+			$query = $connection->getQueryBuilder();
+			$query->delete('storages')
+				->where($query->expr()->eq(
+					'numeric_id',
+					$query->createNamedParameter(
+						$numericId,
+						IQueryBuilder::PARAM_INT,
+					),
+				))
+				->executeStatement();
+			$global->invalidateStorage($storageId, $numericId);
+		}
+	}
 }

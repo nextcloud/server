@@ -31,6 +31,11 @@ class Availability extends Wrapper {
 		parent::__construct($parameters);
 	}
 
+	/**
+	 * Recheck only unavailable storage whose retry interval has elapsed.
+	 *
+	 * @param array{available: bool, last_checked: int} $availability
+	 */
 	public static function shouldRecheck($availability): bool {
 		if (!$availability['available']) {
 			// trigger a recheck if TTL reached
@@ -41,11 +46,16 @@ class Availability extends Wrapper {
 		return false;
 	}
 
+
 	/**
-	 * Only called if availability === false
+	 * Recheck an unavailable storage and persist the result.
+	 *
+	 * Exceptions from the probe are treated as unavailable.
+	 *
+	 * Intended to only be called if availability === false
 	 */
 	private function updateAvailability(): bool {
-		// reset availability to false so that multiple requests don't recheck concurrently
+		// Refresh the unavailable timestamp to discourage concurrent rechecks.
 		$this->setAvailability(false);
 		try {
 			$result = $this->test();
@@ -56,14 +66,22 @@ class Availability extends Wrapper {
 		return $result;
 	}
 
+	/**
+	 * Resolve availability once per wrapper instance, rechecking an expired
+	 * unavailable state when necessary.
+	 */
 	private function isAvailable(): bool {
-		if (is_null($this->available)) {
-			$availability = $this->getAvailability();
-			if (self::shouldRecheck($availability)) {
-				return $this->updateAvailability();
-			}
+		if ($this->available !== null) {
+			return $this->available;
+		}
+
+		$availability = $this->getAvailability();
+		if (self::shouldRecheck($availability)) {
+			$this->available = $this->updateAvailability();
+		} else {
 			$this->available = $availability['available'];
 		}
+
 		return $this->available;
 	}
 
