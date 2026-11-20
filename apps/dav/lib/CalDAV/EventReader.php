@@ -50,7 +50,7 @@ class EventReader {
 	];
 
 	/**
-	 * Initilizes the Event Reader
+	 * Initializes the Event Reader
 	 *
 	 * There is several ways to set up the iterator.
 	 *
@@ -415,7 +415,7 @@ class EventReader {
 			// retrieve rrule conclusion date
 			$rrule = $this->rruleIterator->concludes();
 			// evaluate if rrule conclusion is null
-			// if this is null that means the recurrence is infinate
+			// if this is null that means the recurrence is infinite
 			if ($rrule === null) {
 				return null;
 			}
@@ -465,7 +465,7 @@ class EventReader {
 	public function recurringDaysOfWeekNamed(): array {
 		// evaluate if RRULE exists and extract day(s) of the week
 		$days = $this->rruleIterator !== null ? $this->rruleIterator->daysOfWeek() : [];
-		// convert numberic month to month name
+		// convert numeric month to month name
 		foreach ($days as $key => $value) {
 			$days[$key] = $this->dayNamesMap[$value];
 		}
@@ -531,7 +531,7 @@ class EventReader {
 	public function recurringWeeksOfMonthNamed(): array {
 		// evaluate if RRULE exists and extract relative position(s)
 		$positions = $this->rruleIterator?->isRelative() ? $this->rruleIterator->relativePosition() : [];
-		// convert numberic relative position to relative label
+		// convert numeric relative position to relative label
 		foreach ($positions as $key => $value) {
 			$positions[$key] = $this->relativePositionNamesMap[$value];
 		}
@@ -582,7 +582,7 @@ class EventReader {
 	public function recurringMonthsOfYearNamed(): array {
 		// evaluate if RRULE exists and extract month(s) of the year
 		$months = $this->rruleIterator !== null ? $this->rruleIterator->monthsOfYear() : [];
-		// convert numberic month to month name
+		// convert numeric month to month name
 		foreach ($months as $key => $value) {
 			$months[$key] = $this->monthNamesMap[$value];
 		}
@@ -618,7 +618,7 @@ class EventReader {
 	public function recurringRelativePositionNamed(): array {
 		// evaluate if RRULE exists and extract relative position(s)
 		$positions = $this->rruleIterator?->isRelative() ? $this->rruleIterator->relativePosition() : [];
-		// convert numberic relative position to relative label
+		// convert numeric relative position to relative label
 		foreach ($positions as $key => $value) {
 			$positions[$key] = $this->relativePositionNamesMap[$value];
 		}

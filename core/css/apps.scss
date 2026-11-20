@@ -384,7 +384,7 @@ kbd {
 				}
 			}
 
-			/* popover fix the flex positionning of the li parent */
+			/* popover fix the flex positioning of the li parent */
 			> .app-navigation-entry-menu {
 				top: var(--default-clickable-area);
 			}
@@ -571,7 +571,7 @@ kbd {
 			height: 38px;
 			&:hover,
 			&:focus {
-				/* overlapp borders */
+				/* overlap borders */
 				z-index: 1;
 			}
 		}
@@ -779,7 +779,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 /* APP-SIDEBAR ------------------------------------------------------------ */
 /*
 	Sidebar: a sidebar to be used within #content
-	#app-content will be shrinked properly
+	#app-content will be shrunk properly
 */
 #app-sidebar {
 	width: 27vw;
