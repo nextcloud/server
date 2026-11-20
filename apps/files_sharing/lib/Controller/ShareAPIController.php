@@ -1737,6 +1737,7 @@ class ShareAPIController extends OCSController {
 			// Make sure it expires at midnight in owner timezone
 			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
+			// TRANSLATORS Error of the share API for an invalid expireDate parameter. YYYY-MM-DD is the technical format the API expects (year-month-day), not how dates are displayed. Keep this order.
 			throw new \Exception($this->l->t('Invalid date. Format must be YYYY-MM-DD'));
 		}
 
