@@ -64,6 +64,7 @@ class Response {
 
 	/** @var bool */
 	private $throttled = false;
+	private bool $flushEarly = false;
 	/** @var array */
 	private $throttleMetadata = [];
 
@@ -396,5 +397,38 @@ class Response {
 	 */
 	public function isThrottled() {
 		return $this->throttled;
+	}
+
+	/**
+	 * Request that the response is sent to the client as soon as it is complete,
+	 * instead of when the PHP process is done. Enable this only when the
+	 * controller leaves work behind that the client does not have to wait for.
+	 *
+	 * Things to be aware of before enabling this:
+	 *
+	 * - The session is closed before the response goes out, so anything running
+	 *   afterwards can no longer write to it.
+	 * - The status code and the body are final at that point. Errors happening
+	 *   afterwards can only be logged, never reported to the client.
+	 * - Nothing may be written to the output afterwards, the Content-Length has
+	 *   already been announced.
+	 * - The worker of the web server stays occupied until the process really
+	 *   ends, so this improves latency but not throughput.
+	 * - Administrators can turn this off globally with the `flush_response_early`
+	 *   system config option
+	 *
+	 * @since 35.0.0
+	 */
+	public function setFlushEarly(bool $flushEarly): void {
+		$this->flushEarly = $flushEarly;
+	}
+
+	/**
+	 * Whether the response should be sent to the client as soon as it is complete
+	 *
+	 * @since 35.0.0
+	 */
+	public function getFlushEarly(): bool {
+		return $this->flushEarly;
 	}
 }
