@@ -60,7 +60,7 @@ final class QueryPlanRecorder implements SQLLogger {
 		$origin = self::origin();
 		// A test calling the query's class directly tests that class, a separate
 		// origin per test would only churn the baseline
-		if (isset($this->queries[$sql . "\0" . $origin]) || is_subclass_of(strstr($origin, '::', true) ?: $origin, \PHPUnit\Framework\TestCase::class)) {
+		if (isset($this->queries[$sql . "\0" . $origin]) || is_a(strstr($origin, '::', true) ?: $origin, \PHPUnit\Framework\TestCase::class, true)) {
 			return;
 		}
 
