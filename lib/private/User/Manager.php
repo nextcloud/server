@@ -749,7 +749,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		// Check the ID for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
-			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an Login:'
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a Login:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 
