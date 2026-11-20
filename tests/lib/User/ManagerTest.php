@@ -718,6 +718,19 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('uid2', $users[1]->getUID());
 	}
 
+	public function testGetByEmailFromDatabase(): void {
+		$manager = Server::get(IUserManager::class);
+		$user = $manager->createUser('get-by-email-user', 'get-by-email-password');
+		try {
+			$user->setSystemEMailAddress('Mixed.Case@Example.com');
+
+			$users = $manager->getByEmail('MIXED.case@example.COM');
+			$this->assertSame(['get-by-email-user'], array_map(static fn (IUser $user): string => $user->getUID(), $users));
+		} finally {
+			$user->delete();
+		}
+	}
+
 	public function testGetExistingUser() {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('userExists')

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Test\Config;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Config\UserConfig;
@@ -774,6 +775,37 @@ class UserConfigTest extends TestCase {
 	): void {
 		$userConfig = $this->generateUserConfig();
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueString($app, $key, $value, $ci)));
+	}
+
+	private function generateUserConfigWithLogger(LoggerInterface $logger): UserConfig {
+		return new UserConfig(
+			$this->connection,
+			$this->config,
+			$this->configManager,
+			$this->presetManager,
+			$logger,
+			$this->crypto,
+			$this->dispatcher
+		);
+	}
+
+	public function testSearchUsersByEmailCaseInsensitiveUsesStoredLowercase(): void {
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('warning');
+		$userConfig = $this->generateUserConfigWithLogger($logger);
+		$userConfig->setValueString('user1', 'settings', 'email', 'Mixed.Case@Example.com');
+
+		$this->assertSame(['user1'], iterator_to_array($userConfig->searchUsersByValueString('settings', 'email', 'MIXED.case@example.COM', true)));
+	}
+
+	public function testSearchUsersCaseInsensitiveOnIndexedKeyWarns(): void {
+		Server::get(Coordinator::class)->getRegistrationContext()?->registerConfigLexicon(TestLexicon_UserIndexed::APPID, TestLexicon_UserIndexed::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())->method('warning')
+			->with($this->stringContains(TestLexicon_UserIndexed::APPID . '/key1'));
+		$userConfig = $this->generateUserConfigWithLogger($logger);
+
+		iterator_to_array($userConfig->searchUsersByValueString(TestLexicon_UserIndexed::APPID, 'key1', 'value', true));
 	}
 
 	public static function providerSearchValuesByValueInt(): array {
