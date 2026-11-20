@@ -58,6 +58,18 @@ jobs:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
 
+      - name: Seed users with emails
+        run: |
+          ./occ config:system:set auth.bruteforce.protection.enabled --value false --type boolean
+          sqlite3 data/nextcloud.db <<'SQL'
+          WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 100000)
+          INSERT INTO oc_users (uid, displayname, password, uid_lower) SELECT 'seed' || i, 'Seed ' || i, '', 'seed' || i FROM n;
+          WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 100000)
+          INSERT INTO oc_preferences (userid, appid, configkey, configvalue, lazy, type, flags, indexed)
+          SELECT 'seed' || i, 'settings', 'email', 'seed' || i || '@example.com', 0, 2, 2, 'seed' || i || '@example.com' FROM n;
+          ANALYZE;
+          SQL
+
       - name: Run before measurements
         uses: nextcloud/profiler@6a74c915048285b35b8e1cd96c0835a635945044
         with:
@@ -67,6 +79,10 @@ jobs:
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
             curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
             curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            for run in 1 2 3; do
+              curl -s -X PROPFIND -u nobody@example.com:wrong http://localhost:8080/remote.php/dav/
+              curl -s -u test:test -X REPORT -H 'Depth: 0' -H 'Content-Type: application/xml' http://localhost:8080/remote.php/dav/principals/users/ --data '<d:principal-property-search xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"><d:property-search><d:prop><s:email-address/></d:prop><d:match>seed99999@example.com</d:match></d:property-search><d:prop><d:displayname/></d:prop></d:principal-property-search>'
+            done
           output: before.json
           profiler-branch: master
 
@@ -89,9 +105,25 @@ jobs:
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
             curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
             curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            for run in 1 2 3; do
+              curl -s -X PROPFIND -u nobody@example.com:wrong http://localhost:8080/remote.php/dav/
+              curl -s -u test:test -X REPORT -H 'Depth: 0' -H 'Content-Type: application/xml' http://localhost:8080/remote.php/dav/principals/users/ --data '<d:principal-property-search xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"><d:property-search><d:prop><s:email-address/></d:prop><d:match>seed99999@example.com</d:match></d:property-search><d:prop><d:displayname/></d:prop></d:principal-property-search>'
+            done
           output: after.json
           profiler-branch: master
           compare-with: before.json
+
+      - name: Compare DB time
+        id: dbtime
+        # Advisory until runner noise is measured
+        continue-on-error: true
+        run: |
+          jq -rn --slurpfile b before.json --slurpfile a after.json '
+            def t: group_by(.method + " " + .url) | map({key: (.[0].method + " " + .[0].url), value: (map([.collectors.db.queries[].executionMS] | add * 1000) | min)}) | from_entries;
+            ($b[0] | t) as $B | ($a[0] | t) as $A
+            | $A | to_entries[] | select($B[.key] != null and .value > 2 * $B[.key] and .value - $B[.key] > 5)
+            | "\(.key): DB time \($B[.key] * 100 | round / 100) ms -> \(.value * 100 | round / 100) ms"' | tee db-regressions.txt
+          test ! -s db-regressions.txt
 
       - name: Upload profiles
         if: always()
@@ -103,7 +135,7 @@ jobs:
             after.json
 
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        if: failure() && steps.compare.outcome == 'failure'
+        if: always() && (steps.compare.outcome == 'failure' || steps.dbtime.outcome == 'failure')
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -112,6 +144,11 @@ jobs:
 
             \`\`\`
             ${{ steps.compare.outputs.compare }}
+            \`\`\`
+
+            DB time:
+            \`\`\`
+            ${{ steps.dbtime.outcome == 'failure' && 'see db-regressions.txt in the job log' || 'unchanged' }}
             \`\`\`
 
             </details>`;
