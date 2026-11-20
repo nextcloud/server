@@ -43,6 +43,7 @@ class DownloadResponseTest extends \Test\TestCase {
 			['A "Quoted" Filename With A Backslash \\.txt', 'attachment; filename="A \"Quoted\" Filename With A Backslash -.txt"'],
 			['A "Very" Weird Filename \ / & <> " >\'""""\.text', 'attachment; filename="A \"Very\" Weird Filename - - & <> \" >\'\"\"\"\"-.text"'],
 			['\\\\\\\\\\\\', 'attachment; filename=------'],
+			["Line\nBreak\t.csv", 'attachment; filename=LineBreak.csv; filename*=utf-8\'\'Line%0ABreak%09.csv'],
 		];
 	}
 
