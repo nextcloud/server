@@ -69,8 +69,7 @@ class FederationContext implements Context {
 	}
 
 	/**
-	 * 	 *
-	 * 	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
 	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
 	#[Given('/^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/')]
@@ -86,8 +85,7 @@ class FederationContext implements Context {
 	}
 
 	/**
-	 * 	 *
-	 * 	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
 	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
 	#[Given('/^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with group "([^"]*)" from server "(LOCAL|REMOTE)"$/')]
