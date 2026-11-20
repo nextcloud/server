@@ -9,6 +9,7 @@ namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
@@ -410,8 +411,13 @@ class ThemingController extends Controller {
 		$customCss = $theme->getCustomCss();
 
 		// Generate variables
+		$themeVariables = $theme->getCSSVariables();
+		if (!$plain && $theme->getType() !== ITheme::TYPE_FONT) {
+			// Scoped color themes must not reset the font set by the font theme
+			$themeVariables = array_diff_key($themeVariables, ['--font-face' => true]);
+		}
 		$variables = '';
-		foreach ($theme->getCSSVariables() as $variable => $value) {
+		foreach ($themeVariables as $variable => $value) {
 			$variables .= "$variable:$value; ";
 		};
 
