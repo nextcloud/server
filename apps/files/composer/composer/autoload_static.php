@@ -105,6 +105,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files\\PublicCapabilities' => __DIR__ . '/..' . '/../lib/PublicCapabilities.php',
+        'OCA\\Files\\Resource\\NodeResourceType' => __DIR__ . '/..' . '/../lib/Resource/NodeResourceType.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files\\Search\\FileAccountScopedSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FileAccountScopedSearchProvider.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
