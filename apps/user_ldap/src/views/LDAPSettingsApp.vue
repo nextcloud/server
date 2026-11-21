@@ -60,7 +60,16 @@
 				<ExpertTab v-else-if="selectedTab === 'expert'" :configId="selectedConfigId" />
 				<AdvancedTab v-else-if="selectedTab === 'advanced'" :configId="selectedConfigId" />
 
-				<WizardControls class="ldap-wizard__controls" :configId="selectedConfigId" />
+				<div class="ldap-wizard__actions">
+					<WizardControls :configId="selectedConfigId" />
+					<NcButton
+						v-if="selectedTab === 'server'"
+						type="button"
+						:disabled="!selectedConfigHasServerInfo"
+						@click="selectedTab = 'users'">
+						{{ t('user_ldap', 'Continue') }}
+					</NcButton>
+				</div>
 			</div>
 
 			<div class="ldap-wizard__clear-mapping">
@@ -177,7 +186,10 @@ async function requestClearMapping(subject: 'user' | 'group') {
 		padding: 0 16px 16px 16px;
 	}
 
-	&__controls {
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 16px;
 		margin-top: 16px;
 	}
 
