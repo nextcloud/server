@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Споделувањето не е пронајдено",
     "Back to %s" : "Врати се на %s",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
+    "Cannot share with a disabled account." : "Не може да се споделува со оневозможена сметка.",
     "Group sharing is disabled by the administrator" : "Споделување во групата е оневозможено од страна на администраторот",
     "Public link sharing is disabled by the administrator" : "Споделување со јавен линк е оневозможено од страна на администраторот",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделувањето на %1$s е неуспешно бидејќи позадината не дозволува споделувања од видот %2$s",

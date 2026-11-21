@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Delingen blev ikke fundet",
     "Back to %s" : "Tilbage til %s",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
+    "Cannot share with a disabled account." : "Du kan ikke dele med en deaktiveret konto.",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktiveret af administratoren",
     "Public link sharing is disabled by the administrator" : "Deling med offentligt link er deaktiveret af administratoren",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling af %1$s mislykkedes fordi backenden ikke tillader delinger fra typen %2$s",

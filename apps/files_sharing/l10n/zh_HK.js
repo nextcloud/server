@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "找不到分享",
     "Back to %s" : "返回 %s",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
+    "Cannot share with a disabled account." : "無法與已停用的帳戶分享。",
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Public link sharing is disabled by the administrator" : "公開連結分享已被管理員停用",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "分享 %1$s 失敗，因為後端不允許來自 %2$s 類型的分享",

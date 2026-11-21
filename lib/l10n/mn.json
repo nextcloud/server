@@ -515,7 +515,6 @@
     "Only %1$s are valid values: %2$s" : "Зөвхөн %1$s нь хүчинтэй утга: %2$s",
     "Need at least %1$s characters: %2$s" : "Дор хаяж %1$s тэмдэгт шаардлагатай: %2$s",
     "Provide %1$s characters at most: %2$s" : "Хамгийн ихдээ %1$s тэмдэгт оруулна уу: %2$s",
-    "Dot files are not allowed" : "Dot файлууд зөвшөөрөл байхгүй байна",
     "Help & privacy" : "Тусламж & нууцлал",
     "Appearance and accessibility" : "Гадаад төрх ба хүртээмж",
     "Apps" : "Аппликэйшинууд",

@@ -406,6 +406,7 @@ OC.L10N.register(
     "Share not found" : "Recurso compartido no encontrado",
     "Back to %s" : "Volver a %s",
     "Add to your Nextcloud" : "Añadir a tu Nextcloud",
+    "Cannot share with a disabled account." : " No es posible compartir con una cuenta deshabilitada.",
     "Group sharing is disabled by the administrator" : "Compartir en grupo está deshabilitado por el administrador",
     "Public link sharing is disabled by the administrator" : "Compartir enlaces de forma pública está deshabilitado por el administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s ha fallado porque el backend no permite compartidos del tipo %2$s",
