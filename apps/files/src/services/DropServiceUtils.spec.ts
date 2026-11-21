@@ -3,16 +3,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type * as NextcloudFilesDav from '@nextcloud/files/dav'
+
+import { Folder } from '@nextcloud/files'
+import { getClient } from '@nextcloud/files/dav'
 import { join } from 'node:path'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { dataTransferToFileTree } from './DropService.ts'
-import { Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
+import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, traverseTree } from './DropServiceUtils.ts'
 
 vi.mock('@nextcloud/dialogs')
 vi.mock('../utils/newNodeDialog.ts')
+vi.mock('@nextcloud/files/dav', async (importOriginal) => ({
+	...await importOriginal<typeof NextcloudFilesDav>(),
+	getClient: vi.fn(),
+}))
 vi.mock('@nextcloud/capabilities', () => ({
 	getCapabilities: () => ({
 		files: {
@@ -249,5 +257,17 @@ describe('DropService dataTransferToFileTree', () => {
 
 		expect(fileTree.contents).toHaveLength(0)
 		expect(showWarning).toHaveBeenCalledTimes(1)
+	})
+})
+
+describe('createDirectoryIfNotExists', () => {
+	it('Should encode the hash character of the destination', async () => {
+		const davClient = { exists: vi.fn().mockResolvedValue(true) }
+		vi.mocked(getClient).mockReturnValue(davClient as unknown as ReturnType<typeof getClient>)
+
+		const destination = new Folder({ owner: 'admin', root: '/files/admin', source: 'https://cloud.example.com/remote.php/dav/files/admin/#test' })
+		await createDirectoryIfNotExists('ACC', destination)
+
+		expect(getClient).toHaveBeenCalledWith('https://cloud.example.com/remote.php/dav/files/admin/%23test')
 	})
 })
