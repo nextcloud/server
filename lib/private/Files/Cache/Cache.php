@@ -52,10 +52,6 @@ use Psr\Log\LoggerInterface;
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache implements ICache {
-	use MoveFromCacheTrait {
-		MoveFromCacheTrait::moveFromCache as moveFromCacheFallback;
-	}
-
 	/**
 	 * @var array partial data for the cache
 	 */
@@ -887,6 +883,27 @@ class Cache implements ICache {
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
 		}
+	}
+
+	/**
+	 * Fallback for moving an entry whose cache does not provide a specialized move.
+	 *
+	 * The entry is copied to the target path and then removed from the source cache,
+	 * so the original cache entry identity is not preserved and the destination may
+	 * end up with a new file id.
+	 *
+	 * @throws \RuntimeException if the source path cannot be found in cache
+	 */
+	private function moveFromCacheFallback(ICache $sourceCache, string $sourcePath, string $targetPath): void {
+		$sourceEntry = $sourceCache->get($sourcePath);
+
+		if (!$sourceEntry) {
+			throw new \RuntimeException('Source path not found in cache: ' . $sourcePath);
+		}
+
+		$this->copyFromCache($sourceCache, $sourceEntry, $targetPath);
+		// non-atomic; failed removals can leave duplicates
+		$sourceCache->remove($sourcePath);
 	}
 
 	private function getChildIds(int $storageId, string $path): array {
