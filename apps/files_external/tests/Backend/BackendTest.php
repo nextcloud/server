@@ -9,10 +9,60 @@ declare(strict_types=1);
 
 namespace OCA\Files_External\Tests\Backend;
 
+use OCA\Files_External\Lib\Auth\Password\Password;
+use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
+use OCA\Files_External\Lib\Backend\AmazonS3;
 use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\DAV;
+use OCA\Files_External\Lib\Backend\FTP;
+use OCA\Files_External\Lib\Backend\SMB;
+use OCA\Files_External\Lib\Backend\SMB_OC;
+use OCA\Files_External\Lib\Backend\Swift;
+use OCA\Files_External\Lib\MissingDependency;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\IL10N;
 
 class BackendTest extends \Test\TestCase {
+	public static function noDependenciesProvider(): array {
+		return [
+			'DAV' => [DAV::class],
+			'Swift' => [Swift::class],
+			'S3' => [AmazonS3::class],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'noDependenciesProvider')]
+	public function testBackendHasNoMissingDependencies(string $class): void {
+		$backend = $this->getMockBuilder($class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+		$this->assertSame([], $backend->checkDependencies());
+	}
+
+	public function testFtpDependencies(): void {
+		$backend = new FTP($this->createMock(IL10N::class), $this->createMock(Password::class));
+		$missing = $backend->checkDependencies();
+
+		if (function_exists('ftp_login')) {
+			$this->assertSame([], $missing);
+		} else {
+			$this->assertCount(1, $missing);
+			$this->assertSame('ftp', $missing[0]->getDependency());
+			$this->assertFalse($missing[0]->isOptional());
+		}
+	}
+
+	public function testSmbOcDelegatesDependencies(): void {
+		$optional = new MissingDependency('php-smbclient');
+		$optional->setOptional(true);
+		$dependencies = [$optional, new MissingDependency('smbclient')];
+		$smb = $this->createMock(SMB::class);
+		$smb->expects($this->once())
+			->method('checkDependencies')
+			->willReturn($dependencies);
+
+		$backend = new SMB_OC($this->createMock(IL10N::class), $this->createMock(SessionCredentials::class), $smb);
+		$this->assertSame($dependencies, $backend->checkDependencies());
+	}
+
 	public function testJsonSerialization(): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->onlyMethods(['jsonSerializeDefinition'])

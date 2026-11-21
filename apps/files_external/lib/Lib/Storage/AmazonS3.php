@@ -630,13 +630,6 @@ class AmazonS3 extends Common {
 		}
 	}
 
-	/**
-	 * check if curl is installed
-	 */
-	public static function checkDependencies(): bool {
-		return true;
-	}
-
 	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$path = $this->normalizePath($directory);
