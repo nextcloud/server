@@ -12,6 +12,7 @@ namespace NCU\Sharing\Recipient;
 use NCU\Sharing\ShareAccessContext;
 use OCP\AppFramework\Attribute\Implementable;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
@@ -27,12 +28,18 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 
 	private ?ISearch $search = null;
 
+	private ?IGlobalScaleConfig $globalScaleConfig = null;
+
 	private function getUserSession(): IUserSession {
 		return $this->userSession ??= Server::get(IUserSession::class);
 	}
 
 	private function getSearch(): ISearch {
 		return $this->search ??= Server::get(ISearch::class);
+	}
+
+	private function getGlobalScaleConfig(): IGlobalScaleConfig {
+		return $this->globalScaleConfig ??= Server::get(IGlobalScaleConfig::class);
 	}
 
 	/**
@@ -73,7 +80,7 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 		}
 
 		// TODO: Maybe merge search requests from different recipient types backed by the collaborators API.
-		[$searchResults] = $this->getSearch()->filteredSearch($query, $this->getCollaboratorTypes(), true, 'unified-sharing', null, $limit, $offset);
+		[$searchResults] = $this->getSearch()->filteredSearch($query, $this->getCollaboratorTypes(), $this->getGlobalScaleConfig()->isGlobalScaleEnabled(), 'unified-sharing', null, $limit, $offset);
 
 		$results = [];
 		if (($exactResults = $searchResults['exact']) !== null) {
