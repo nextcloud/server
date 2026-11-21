@@ -81,7 +81,7 @@
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^4.0.2",
     "@vitest/coverage-v8": "^4.1.11",
-    "@vue/test-utils": "^2.5.1",
+    "@vue/test-utils": "^2.6.0",
     "@vue/tsconfig": "^0.9.1",
     "@zip.js/zip.js": "^2.24.0",
     "axe-core": "^4.14.0",
