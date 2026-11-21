@@ -35,6 +35,7 @@ const updateInfo = loadState<{
 const isShowingDetails = ref(false)
 const isUpdateRunning = ref(false)
 const isUpdateDone = ref(false)
+const isOutcomeUnknown = ref(false)
 
 const messages = ref<{ message: string, type: string }[]>([])
 const wasSuccessfull = computed(() => messages.value.every((msg) => msg.type === 'success' || msg.type === 'notice'))
@@ -42,8 +43,13 @@ const hasErrors = computed(() => messages.value.some((msg) => msg.type === 'erro
 const resultIcon = computed(() => wasSuccessfull.value ? mdiCheckCircleOutline : (hasErrors.value ? mdiCloseCircleOutline : mdiAlertCircleOutline))
 
 const statusMessage = computed(() => {
+	if (isOutcomeUnknown.value) {
+		return t('core', 'The connection was lost and the update status is unknown. The update may still be running. Check the server logs and process status before reloading or retrying.')
+	}
 	if (isUpdateDone.value) {
-		if (!wasSuccessfull.value) {
+		if (hasErrors.value) {
+			return t('core', 'The update ended with errors. Please check the details for more information.')
+		} else if (!wasSuccessfull.value) {
 			return t('core', 'The update completed with warnings. Please check the details for more information.')
 		} else {
 			return t('core', 'The update completed successfully.')
@@ -89,7 +95,7 @@ function getSeverityIcon(type: string) {
  * Start the update process
  */
 async function onStartUpdate() {
-	if (isUpdateRunning.value || isUpdateDone.value) {
+	if (isUpdateRunning.value || isUpdateDone.value || isOutcomeUnknown.value) {
 		return
 	}
 
@@ -101,19 +107,38 @@ async function onStartUpdate() {
 	eventSource.listen('notice', (message) => {
 		messages.value.push({ message, type: 'notice' })
 	})
-	eventSource.listen('error', (message) => {
-		messages.value.push({ message, type: 'error' })
-		isUpdateRunning.value = false
-		isUpdateDone.value = true
+	eventSource.listen('warning', (message) => {
+		messages.value.push({ message, type: 'warning' })
+	})
+	eventSource.source.addEventListener('error', (event) => {
+		if (event instanceof MessageEvent) {
+			messages.value.push({ message: JSON.parse(event.data), type: 'error' })
+			return
+		}
 		eventSource.close()
+		isUpdateRunning.value = false
+		isOutcomeUnknown.value = true
+		isShowingDetails.value = true
 	})
 	eventSource.listen('failure', (message) => {
 		messages.value.push({ message, type: 'failure' })
+	})
+	eventSource.listen('__internal__', (message) => {
+		if (message === 'close' && !isUpdateDone.value && !isOutcomeUnknown.value) {
+			isUpdateRunning.value = false
+			if (hasErrors.value) {
+				isUpdateDone.value = true
+			} else {
+				isOutcomeUnknown.value = true
+			}
+			isShowingDetails.value = true
+		}
 	})
 	eventSource.listen('done', () => {
 		isUpdateRunning.value = false
 		isUpdateDone.value = true
 		eventSource.close()
+		isShowingDetails.value = !wasSuccessfull.value
 		updateCountdown()
 	})
 }
@@ -139,7 +164,7 @@ function updateCountdown() {
  * @param event - The beforeunload event object.
  */
 function onUnload(event: BeforeUnloadEvent) {
-	if (isUpdateRunning.value) {
+	if (isUpdateRunning.value || isOutcomeUnknown.value) {
 		event.preventDefault()
 		event.returnValue = t('core', 'The update is in progress, leaving this page might interrupt the process in some environments.')
 	}
@@ -174,7 +199,7 @@ function reloadPage() {
 			</ul>
 		</NcNoteCard>
 
-		<NcNoteCard v-if="updateInfo.incompatibleAppsList.length" type="info">
+		<NcNoteCard v-if="updateInfo.appsToUpgrade.length" type="info">
 			{{ t('core', 'These apps will be updated:') }}
 			<ul :aria-label="t('core', 'Apps to update')" :class="$style.updater__appsList">
 				<li v-for="app of updateInfo.appsToUpgrade" :key="'app-update-' + app.id">
@@ -191,7 +216,7 @@ function reloadPage() {
 		</p>
 
 		<NcButton
-			v-if="!isUpdateRunning && !isUpdateDone"
+			v-if="!isUpdateRunning && !isUpdateDone && !isOutcomeUnknown"
 			:class="$style.updater__updateButton"
 			variant="primary"
 			@click="onStartUpdate">
@@ -200,23 +225,23 @@ function reloadPage() {
 		<NcButton
 			v-else
 			:class="$style.updater__updateButton"
-			:disabled="isUpdateRunning"
+			:disabled="isUpdateRunning || isOutcomeUnknown"
 			variant="primary"
 			@click="reloadPage">
 			{{ t('core', 'Continue to {productName}', { productName: updateInfo.productName }) }}
 		</NcButton>
 
-		<div v-if="isUpdateRunning || isUpdateDone">
+		<div v-if="isUpdateRunning || isUpdateDone || isOutcomeUnknown">
 			<h2>{{ t('core', 'Update to {version}', { version: updateInfo.version }) }}</h2>
 
 			<NcLoadingIcon v-if="isUpdateRunning" />
 			<NcIconSvgWrapper
 				v-else
-				:path="resultIcon"
+				:path="isOutcomeUnknown ? mdiAlertCircleOutline : resultIcon"
 				:class="{
-					[$style.updater__messageIcon_success]: wasSuccessfull,
-					[$style.updater__messageIcon_error]: hasErrors && !wasSuccessfull,
-					[$style.updater__messageIcon_warning]: !hasErrors && !wasSuccessfull,
+					[$style.updater__messageIcon_success]: !isOutcomeUnknown && wasSuccessfull,
+					[$style.updater__messageIcon_error]: !isOutcomeUnknown && hasErrors && !wasSuccessfull,
+					[$style.updater__messageIcon_warning]: isOutcomeUnknown || (!hasErrors && !wasSuccessfull),
 				}" />
 			<div aria-live="polite">
 				<em>{{ statusMessage }}</em><br>
