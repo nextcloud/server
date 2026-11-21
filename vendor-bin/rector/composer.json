@@ -1,7 +1,7 @@
 {
 	"require-dev": {
 		"ext-intl" : "*",
-		"rector/rector": "^2.7",
+		"rector/rector": "^2.8",
 		"nextcloud/rector": "^0.5.0"
 	},
 	"config": {
