@@ -275,7 +275,9 @@ class ApiController extends Controller {
 			$entry = [
 				'id' => $node->getId(),
 				'basename' => $basename,
-				'children' => $this->getChildren($node->getDirectoryListing($mimeTypeFilter), $depth, $currentDepth + 1),
+				'children' => $currentDepth + 1 < $depth
+					? $this->getChildren($node->getDirectoryListing($mimeTypeFilter), $depth, $currentDepth + 1)
+					: [],
 			];
 			$displayName = $node->getName();
 			if ($basename !== $displayName) {
