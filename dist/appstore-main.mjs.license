@@ -1,6 +1,7 @@
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: MIT
 SPDX-FileCopyrightText: Christopher Jeffrey
+SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 
 This file is generated from multiple sources. Included packages:
@@ -8,8 +9,11 @@ This file is generated from multiple sources. Included packages:
 	- version: 9.14.1
 	- license: AGPL-3.0-or-later
 - marked
-	- version: 18.2.0
+	- version: 18.2.1
 	- license: MIT
 - nextcloud-ui
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
+- vue-router
+	- version: 5.5.1
+	- license: MIT
