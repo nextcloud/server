@@ -34,7 +34,12 @@ const updateInfo = loadState<{
 			</NcButton>
 		</p>
 
-		<NcNoteCard type="warning">
+		<p>
+			{{ t('core', 'Run the following command from your installation directory:') }}
+			<pre>./occ upgrade</pre>
+		</p>
+
+		<NcNoteCard v-if="updateInfo.tooBig" type="warning">
 			{{ t('core', 'I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure.') }}
 			<NcButton
 				href="?IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup=IAmSuperSureToDoThis"
