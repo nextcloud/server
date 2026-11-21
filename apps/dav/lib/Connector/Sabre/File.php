@@ -272,6 +272,9 @@ class File extends Node implements IFile {
 			if ($expected !== null
 				&& $expected !== $count
 			) {
+				if (!$exists && $partStorage->file_exists($internalPartPath)) {
+					$partStorage->unlink($internalPartPath);
+				}
 				throw new BadRequest(
 					$this->l10n->t(
 						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
