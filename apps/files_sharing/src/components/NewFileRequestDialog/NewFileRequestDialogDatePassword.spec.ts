@@ -6,8 +6,10 @@
 import { flushPromises, shallowMount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import AllowedFileTypesSelect from '../AllowedFileTypesSelect.vue'
 import NewFileRequestDialogDatePassword from './NewFileRequestDialogDatePassword.vue'
 
 vi.mock('../../services/ConfigService.ts', () => ({
@@ -59,5 +61,31 @@ describe('NewFileRequestDialogDatePassword', () => {
 
 		expect(wrapper.emitted('update:password')).toEqual([['generated-password']])
 		expect(wrapper.findComponent(NcPasswordField).props('visible')).toBe(true)
+	})
+
+	it.each([
+		[true, []],
+		[false, null],
+	])('toggles the file type limit to %s', (checked, allowedFileTypes) => {
+		const wrapper = mountStep({ expirationDate: null, password: null })
+
+		wrapper.find('[data-cy-file-request-dialog-fieldset="allowed-file-types"]')
+			.findComponent(NcCheckboxRadioSwitch)
+			.vm.$emit('update:modelValue', checked)
+
+		expect(wrapper.emitted('update:allowedFileTypes')).toEqual([[allowedFileTypes]])
+	})
+
+	it('only shows the file types when the limit is enabled', () => {
+		expect(mountStep({ allowedFileTypes: null }).findComponent(AllowedFileTypesSelect).exists()).toBe(false)
+		expect(mountStep({ allowedFileTypes: [] }).findComponent(AllowedFileTypesSelect).exists()).toBe(true)
+	})
+
+	it('forwards the selected file types', () => {
+		const wrapper = mountStep({ allowedFileTypes: [] })
+
+		wrapper.findComponent(AllowedFileTypesSelect).vm.$emit('update:modelValue', ['.pdf', 'image/*'])
+
+		expect(wrapper.emitted('update:allowedFileTypes')).toEqual([[['.pdf', 'image/*']]])
 	})
 })
