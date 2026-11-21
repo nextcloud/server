@@ -84,7 +84,7 @@ jobs:
 
         - name: Run Nextcloud
           run: |
-            php -S 0.0.0.0:8080 &
+            php -d post_max_size=0 -S 0.0.0.0:8080 &
 
         - name: Run Litmus test
           run: |
