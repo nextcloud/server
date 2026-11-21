@@ -35,6 +35,26 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		);
 	}
 
+	public function testGetUsesTwoHourOldDiscoverCache(): void {
+		$this->config->method('getSystemValueBool')->willReturnArgument(1);
+		$this->config->method('getSystemValueString')->willReturnArgument(1);
+		$this->fetcher->setVersion('11.0.0.2');
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->expects($this->once())->method('getFolder')->with('/')->willReturn($folder);
+		$folder->expects($this->once())->method('getFile')->with('discover.json')->willReturn($file);
+		$file->expects($this->once())
+			->method('getContent')
+			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2"}');
+
+		$this->timeFactory->method('getTime')->willReturn(1200 + 2 * 3600);
+		$this->clientService->expects($this->never())->method('newClient');
+		$file->expects($this->never())->method('putContent');
+
+		$this->assertSame([['id' => 'MyApp']], $this->fetcher->get());
+	}
+
 	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueBool')
