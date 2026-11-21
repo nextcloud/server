@@ -14,6 +14,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Share20\ShareAttributes;
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Sharing\SharedStorage;
@@ -33,6 +34,36 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class NodeTest extends \Test\TestCase {
+	public static function refreshNodeTypesProvider(): array {
+		return [
+			'file' => [File::class, FileInfo::TYPE_FILE],
+			'folder' => [Directory::class, FileInfo::TYPE_FOLDER],
+		];
+	}
+
+	/** @param class-string<File|Directory> $nodeClass */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'refreshNodeTypesProvider')]
+	public function testTouchKeepsAbsoluteNodePath(string $nodeClass, string $type): void {
+		$viewRoot = '/test-user/files';
+		$relativePath = '/documents/entry';
+		$absolutePath = $viewRoot . $relativePath;
+		$info = $this->createConfiguredMock(FileInfo::class, [
+			'getPath' => $absolutePath,
+			'getType' => $type,
+		]);
+		$view = $this->getMockBuilder(View::class)
+			->setConstructorArgs([$viewRoot])
+			->onlyMethods(['touch', 'getFileInfo'])
+			->getMock();
+		$view->expects($this->once())->method('touch')->with($relativePath, 123456789);
+		$view->expects($this->once())->method('getFileInfo')->with($relativePath)->willReturn($info);
+
+		$node = new $nodeClass($view, $info);
+		$node->touch('123456789');
+
+		$this->assertSame($absolutePath, $node->getNode()->getPath());
+	}
+
 	public static function davPermissionsProvider(): array {
 		return [
 			[Constants::PERMISSION_ALL, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVW'],

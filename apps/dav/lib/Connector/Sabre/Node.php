@@ -94,9 +94,9 @@ abstract class Node implements INode {
 		$root = Server::get(IRootFolder::class);
 		$rootView = Server::get(View::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
-			$this->node = new Folder($root, $rootView, $this->path, $this->info);
+			$this->node = new Folder($root, $rootView, $this->fileView->getAbsolutePath($this->path), $this->info);
 		} else {
-			$this->node = new File($root, $rootView, $this->path, $this->info);
+			$this->node = new File($root, $rootView, $this->fileView->getAbsolutePath($this->path), $this->info);
 		}
 	}
 
