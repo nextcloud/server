@@ -299,17 +299,7 @@ class DependencyAnalyzer {
 	 */
 	public function analyzeServerVersion(string $serverVersion, array $appInfo, bool $ignoreMax): array {
 		$missing = [];
-		$minVersion = null;
-		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
-			$minVersion = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
-			$minVersion = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['requiremin'])) {
-			$minVersion = $appInfo['requiremin'];
-		} elseif (isset($appInfo['require'])) {
-			$minVersion = $appInfo['require'];
-		}
-		$maxVersion = $this->getMaxVersion($appInfo);
+		[$minVersion, $maxVersion] = $this->getServerVersionRequirements($appInfo);
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($serverVersion, $minVersion)) {
@@ -322,6 +312,24 @@ class DependencyAnalyzer {
 			}
 		}
 		return $missing;
+	}
+
+	/**
+	 * @return array{?string, ?string}
+	 */
+	public function getServerVersionRequirements(array $appInfo): array {
+		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
+			$minVersion = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
+		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
+			$minVersion = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
+		} elseif (isset($appInfo['requiremin'])) {
+			$minVersion = $appInfo['requiremin'];
+		} elseif (isset($appInfo['require'])) {
+			$minVersion = $appInfo['require'];
+		} else {
+			$minVersion = null;
+		}
+		return [$minVersion, $this->getMaxVersion($appInfo)];
 	}
 
 	private function getMaxVersion(array $appInfo): ?string {
