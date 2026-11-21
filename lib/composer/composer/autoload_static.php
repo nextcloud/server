@@ -2402,6 +2402,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Security\\Signature\\Model\\OutgoingSignedRequest' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Model/OutgoingSignedRequest.php',
         'OC\\Security\\Signature\\Model\\Rfc9421IncomingSignedRequest' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Model/Rfc9421IncomingSignedRequest.php',
         'OC\\Security\\Signature\\Model\\Rfc9421OutgoingSignedRequest' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Model/Rfc9421OutgoingSignedRequest.php',
+        'OC\\Security\\Signature\\Model\\Rfc9421OutgoingSignedResponse' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Model/Rfc9421OutgoingSignedResponse.php',
         'OC\\Security\\Signature\\Model\\SignedRequest' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Model/SignedRequest.php',
         'OC\\Security\\Signature\\Rfc9421\\Algorithm' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Rfc9421/Algorithm.php',
         'OC\\Security\\Signature\\Rfc9421\\ContentDigest' => __DIR__ . '/../../..' . '/lib/private/Security/Signature/Rfc9421/ContentDigest.php',
