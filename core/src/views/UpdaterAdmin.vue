@@ -138,7 +138,9 @@ async function onStartUpdate() {
 		isUpdateRunning.value = false
 		isUpdateDone.value = true
 		eventSource.close()
-		isShowingDetails.value = !wasSuccessfull.value
+		if (!wasSuccessfull.value) {
+			isShowingDetails.value = true
+		}
 		updateCountdown()
 	})
 }
