@@ -73,14 +73,17 @@ describe('UpdaterAdmin', () => {
 
 		expect(view.getByText('These apps will be updated:')).toBeInTheDocument()
 		expect(view.getByText('Calendar (calendar) from 1.0 to 2.0')).toBeInTheDocument()
-		expect(view.queryByText('These incompatible apps will be disabled:')).not.toBeInTheDocument()
+		expect(view.queryByText('The current versions of these apps are incompatible with the new server version and may be disabled during the upgrade:')).not.toBeInTheDocument()
+		expect(view.queryByText('Compatible updates will be checked later in the upgrade. Apps that cannot be made compatible may remain disabled.')).not.toBeInTheDocument()
 	})
 
 	it('does not show an empty update list when an incompatible app exists', () => {
 		setUpdateInfo({ incompatibleAppsList: [{ id: 'example', name: 'Example' }] })
 		const view = render(UpdaterAdmin)
 
+		expect(view.getByText('The current versions of these apps are incompatible with the new server version and may be disabled during the upgrade:')).toBeInTheDocument()
 		expect(view.getByText('Example (example)')).toBeInTheDocument()
+		expect(view.getByText('Compatible updates will be checked later in the upgrade. Apps that cannot be made compatible may remain disabled.')).toBeInTheDocument()
 		expect(view.queryByText('These apps will be updated:')).not.toBeInTheDocument()
 	})
 
