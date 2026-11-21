@@ -33,7 +33,7 @@ enum PasswordStrength {
  * words or most predictable patterns.
  *
  * This is only used during installation to minimize frontend asset size;
- * a more comprehensive check would require additional assets (e.g. 
+ * a more comprehensive check would require additional assets (e.g.
  * dictionaries).
  *
  * @param password - Password to evaluate; defaults to an empty string
@@ -188,7 +188,6 @@ onMounted(() => {
 			data-cy-setup-form-note="autoconfig"
 			type="success">
 			{{ t('core', 'Values set in the autoconfig file override changes made here. To change them, edit the file on the server and reload this page.') }}
-
 		</NcNoteCard>
 
 		<!-- Htaccess warning -->
