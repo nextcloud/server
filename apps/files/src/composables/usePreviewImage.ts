@@ -71,7 +71,7 @@ export function usePreviewImage(
 			url.searchParams.set('mimeFallback', fallback.toString())
 
 			// Etag to force refresh preview on change
-			const etag = source.attributes.etag || source.mtime?.getTime() || ''
+			const etag = String(source.attributes.etag || source.mtime?.getTime() || '')
 			url.searchParams.set('v', etag.slice(0, 6))
 
 			// Handle cropping
