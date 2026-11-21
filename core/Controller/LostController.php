@@ -38,6 +38,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IMailer;
 use OCP\PreConditionNotMetException;
 use OCP\Security\VerificationToken\InvalidTokenException;
@@ -279,6 +280,7 @@ class LostController extends Controller {
 			$message->setTo([$email => $user->getDisplayName()]);
 			$message->setFrom([$this->defaultMailAddress => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
+			$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 			$this->mailer->send($message);
 		} catch (Exception $e) {
 			// Log the exception and continue
