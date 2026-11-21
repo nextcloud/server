@@ -456,7 +456,6 @@
     "Generate headline" : "Створити заголовок",
     "Summarizes text by reducing its length without losing key information." : "Викокремлює головне у тексті шляхом зменшення довжини тексту без втрати ключової інформації.",
     "Extracts topics from a text and outputs them separated by commas." : "Виділяє теми, які висвітлює текст, зводить їх у перелік, що розділено комами.",
-    "Dot files are not allowed" : "Файли які починаються з крапки не допустимі",
     "Help & privacy" : "Допомога та приватність",
     "Appearance and accessibility" : "Тема та вигляд",
     "Apps" : "Застосунки",

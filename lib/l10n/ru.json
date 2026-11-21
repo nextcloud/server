@@ -515,7 +515,6 @@
     "Only %1$s are valid values: %2$s" : "Допустимы только значения %1$s: %2$s",
     "Need at least %1$s characters: %2$s" : "Нужно не менее %1$s символов: %2$s",
     "Provide %1$s characters at most: %2$s" : "Укажите не более %1$s символов: %2$s",
-    "Dot files are not allowed" : "Имя файла не может начинаться с точки",
     "Help & privacy" : "Помощь и конфиденциальность",
     "Appearance and accessibility" : "Внешний вид и доступность",
     "Apps" : "Приложения",

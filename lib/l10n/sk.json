@@ -515,7 +515,6 @@
     "Only %1$s are valid values: %2$s" : "Platné sú iba hodnoty %1$s: %2$s",
     "Need at least %1$s characters: %2$s" : "Je potrebných aspoň %1$s znakov: %2$s",
     "Provide %1$s characters at most: %2$s" : "Zadajte najviac %1$s znakov: %2$s",
-    "Dot files are not allowed" : "Súbory s názvom začínajúcim bodkou nie sú povolené",
     "Help & privacy" : "Pomoc a súkromie",
     "Appearance and accessibility" : "Vzhľad a prístupnosť",
     "Apps" : "Aplikácie",

@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Ní bhfuarthas an sciar",
     "Back to %s" : "Ar ais go dtí %s",
     "Add to your Nextcloud" : "Cuir le do Nextcloud",
+    "Cannot share with a disabled account." : "Ní féidir a roinnt le cuntas díchumasaithe.",
     "Group sharing is disabled by the administrator" : "Tá comhroinnt grúpa díchumasaithe ag an riarthóir",
     "Public link sharing is disabled by the administrator" : "Tá comhroinnt naisc phoiblí díchumasaithe ag an riarthóir",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Theip ar chomhroinnt %1$s toisc nach gceadaíonn an cúlcheann scaireanna ón gcineál %2$s",

@@ -515,7 +515,6 @@
     "Only %1$s are valid values: %2$s" : "Endast %1$s är giltiga värden: %2$s",
     "Need at least %1$s characters: %2$s" : "Minst %1$s tecken krävs: %2$s",
     "Provide %1$s characters at most: %2$s" : "Högst %1$s tecken får anges: %2$s",
-    "Dot files are not allowed" : "Filer vars namn börjar med en punkt är inte tillåtna",
     "Help & privacy" : "Hjälp & integritet",
     "Appearance and accessibility" : "Utseende och tillgänglighet",
     "Apps" : "Appar",
