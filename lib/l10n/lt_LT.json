@@ -504,7 +504,6 @@
     "Only %1$s are valid values: %2$s" : "Tik %1$s yra galiojančios reikšmės: %2$s",
     "Need at least %1$s characters: %2$s" : "Reikia bent %1$s simbolių: %2$s",
     "Provide %1$s characters at most: %2$s" : "Pateikite ne daugiau kaip %1$s simbolių: %2$s",
-    "Dot files are not allowed" : "„.dot“ plėtiniais failai neleidžiami",
     "Help & privacy" : "Pagalba ir privatumas",
     "Appearance and accessibility" : "Išvaizda ir prieinamumas",
     "Apps" : "Programėlės",

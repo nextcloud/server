@@ -315,7 +315,6 @@
     "Only %1$s are valid values: %2$s" : "Aðeins %1$s eru leyfileg gildi: %2$s",
     "Need at least %1$s characters: %2$s" : "Þarf að minnsta kosti %1$s stafi: %2$s",
     "Provide %1$s characters at most: %2$s" : "Gefðu upp í mesta lagi %1$s stafi: %2$s",
-    "Dot files are not allowed" : "Skrár með punkti eru ekki leyfðar",
     "Help & privacy" : "Aðstoð og gagnaleynd",
     "Appearance and accessibility" : "Útlit og aðgengi",
     "Apps" : "Forrit",

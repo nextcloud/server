@@ -416,6 +416,7 @@
     "Share not found" : "Delningen hittades inte",
     "Back to %s" : "Tillbaka till %s",
     "Add to your Nextcloud" : "Lägg till i Nextcloud",
+    "Cannot share with a disabled account." : "Kan inte dela med ett inaktiverat konto.",
     "Group sharing is disabled by the administrator" : "Gruppdelning har inaktiverats av administratören",
     "Public link sharing is disabled by the administrator" : "Delning via offentlig länk har inaktiverats av administratören",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Det gick inte att dela %1$s eftersom bakomliggande system inte tillåter delningar av typen %2$s",
