@@ -28,6 +28,12 @@ use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\Core\Resource\Permission\CreatePermission;
+use OC\Core\Resource\Permission\DeletePermission;
+use OC\Core\Resource\Permission\DownloadPermission;
+use OC\Core\Resource\Permission\ReadPermission;
+use OC\Core\Resource\Permission\SharePermission;
+use OC\Core\Resource\Permission\UpdatePermission;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
@@ -88,6 +94,13 @@ class Application extends App implements IBootstrap {
 		$context->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
 		});
+
+		$context->registerResourcePermission(ReadPermission::class);
+		$context->registerResourcePermission(DownloadPermission::class);
+		$context->registerResourcePermission(UpdatePermission::class);
+		$context->registerResourcePermission(CreatePermission::class);
+		$context->registerResourcePermission(DeletePermission::class);
+		$context->registerResourcePermission(SharePermission::class);
 
 		// register notifier
 		$context->registerNotifierService(CoreNotifier::class);
