@@ -96,4 +96,42 @@ class ImportServiceTest extends \Test\TestCase {
 			$this->assertSame(ImportDisposition::Created, $event->disposition);
 		}
 	}
+
+	public function testImportVcfWithoutUID(): void {
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Erika Mustermann\r\nN:Mustermann;Erika;;;\r\nEND:VCARD\r\n"
+			. "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Max Mustermann\r\nN:Mustermann;Max;;;\r\nEND:VCARD\r\n");
+		rewind($stream);
+		$options = new ContactsImportOptions();
+		$options->setFormat('vcf');
+		$options->setCounts(true);
+
+		$this->addressBook->expects($this->once())
+			->method('getKey')
+			->willReturn('1');
+
+		$cards = [];
+		$this->backend->expects($this->exactly(2))
+			->method('createCard')
+			->willReturnCallback(function (int $addressBookId, string $uri, string $data) use (&$cards): string {
+				$this->assertSame(1, $addressBookId);
+				$cards[] = Reader::read($data);
+				return 'etag';
+			});
+
+		$result = iterator_to_array($this->service->import($stream, $this->addressBook, $options), false);
+
+		$this->assertCount(3, $result);
+		$this->assertInstanceOf(ImportCountEvent::class, $result[0]);
+		$this->assertSame(2, $result[0]->vcard);
+		$this->assertSame(['Erika Mustermann', 'Max Mustermann'], array_map(fn ($card) => (string)$card->FN, $cards));
+		foreach ($cards as $index => $card) {
+			$this->assertNotEmpty((string)$card->UID);
+			$event = $result[$index + 1];
+			$this->assertInstanceOf(ImportObjectEvent::class, $event);
+			$this->assertSame((string)$card->UID, $event->identifier);
+			$this->assertSame(ImportDisposition::Created, $event->disposition);
+		}
+		$this->assertNotSame((string)$cards[0]->UID, (string)$cards[1]->UID);
+	}
 }
