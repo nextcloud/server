@@ -68,7 +68,7 @@ OC.L10N.register(
     "_%n day_::_%n days_" : ["%n dag","%n dage"],
     "_%n hour_::_%n hours_" : ["%n time","%n timer"],
     "_%n minute_::_%n minutes_" : ["%n minut","%n minutter"],
-    "%s (in %s)" : "%s (i %s)",
+    "%s (in %s)" : "%s (om %s)",
     "%s (%s ago)" : "%s (%s siden)",
     "Calendar: %s" : "Kalender: %s",
     "Date: %s" : "Dato: %s",

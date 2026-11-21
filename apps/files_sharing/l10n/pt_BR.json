@@ -416,6 +416,7 @@
     "Share not found" : "Compartilhamento não encontrado",
     "Back to %s" : "Voltar para %s",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
+    "Cannot share with a disabled account." : "Não é possível compartilhar com uma conta desativada.",
     "Group sharing is disabled by the administrator" : "O compartilhamento para grupos foi desabilitado pelo administrador",
     "Public link sharing is disabled by the administrator" : "O compartilhamento por link público foi desativado pelo administrador",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "O compartilhamento %1$s falhou porque a infraestrutura não permite compartilhamentos do tipo %2$s",

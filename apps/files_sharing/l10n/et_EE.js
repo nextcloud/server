@@ -418,6 +418,7 @@ OC.L10N.register(
     "Share not found" : "Jagamist ei leidu",
     "Back to %s" : "Tagasi siia: %s",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
+    "Cannot share with a disabled account." : "Sa ei saa jagada kasutuselt eemaldatud kontole.",
     "Group sharing is disabled by the administrator" : "Grupiga jagamine on administraatori poolt keelatud",
     "Public link sharing is disabled by the administrator" : "Avaliku lingiga jagamine on administraatori poolt keelatud",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "„%1$s“ jagamine ei õnnestunud, sest server ei luba „%2$s“ tüüpi jagamisi",

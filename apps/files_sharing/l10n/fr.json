@@ -416,6 +416,7 @@
     "Share not found" : "Partage non trouvé",
     "Back to %s" : "Retourner à %s",
     "Add to your Nextcloud" : "Ajouter à votre Nextcloud",
+    "Cannot share with a disabled account." : "Impossible de partager avec un compte désactivé.",
     "Group sharing is disabled by the administrator" : "Le partage de groupe a été désactivé par l’administrateur",
     "Public link sharing is disabled by the administrator" : "Le partage par lien public a été désactivé par l’administrateur",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Le partage de %1$s a échoué, car le serveur n’autorise pas les partages de type %2$s",

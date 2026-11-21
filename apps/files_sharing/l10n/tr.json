@@ -416,6 +416,7 @@
     "Share not found" : "Paylaşım bulunamadı",
     "Back to %s" : "%s sayfasına dön",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
+    "Cannot share with a disabled account." : "Kullanımdan kaldırılmış bir kullanıcı hesabı ile paylaşım yapılamaz",
     "Group sharing is disabled by the administrator" : "Grup paylaşımı özelliği BT yöneticisi tarafından kapatılmış",
     "Public link sharing is disabled by the administrator" : "Herkese açık bağlantı paylaşımı özelliği BT yöneticisi tarafından kapatılmış",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Yönetim bölümünden %2$s türündeki paylaşımlar yapılamadığından %1$s paylaşılamadı",

@@ -447,7 +447,6 @@
     "Generate headline" : "Címsor előállítása",
     "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcsinformációk elvesznének.",
     "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti.",
-    "Dot files are not allowed" : "A ponttal kezdődő fájlok nem engedélyezettek",
     "Help & privacy" : "Súgó és adatvédelem",
     "Appearance and accessibility" : "Megjelenés és akadálymentesítés",
     "Apps" : "Alkalmazások",

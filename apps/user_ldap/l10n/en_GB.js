@@ -165,6 +165,7 @@ OC.L10N.register(
     "Test Base DN" : "Test Base DN",
     "Listing and searching for users is constrained by these criteria:" : "Listing and searching for users is constrained by these criteria:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "The most common object classes for users are organisationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.",
+    "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab." : "The filter specifies which LDAP users are listed in the {instanceName} instance. To control who can log in, use the Login Attributes tab.",
     "Verify settings and count users" : "Verify settings and count users",
     "User count: {usersCount}" : "User count: {usersCount}",
     "Test Configuration" : "Test Configuration",
