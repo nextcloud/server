@@ -52,7 +52,7 @@ class FeedBackHandler {
 		} elseif ($event instanceof RepairInfoEvent) {
 			$this->eventSource->send('success', $this->l10n->t('Repair info:') . ' ' . $event->getMessage());
 		} elseif ($event instanceof RepairWarningEvent) {
-			$this->eventSource->send('notice', $this->l10n->t('Repair warning:') . ' ' . $event->getMessage());
+			$this->eventSource->send('warning', $this->l10n->t('Repair warning:') . ' ' . $event->getMessage());
 		} elseif ($event instanceof RepairErrorEvent) {
 			$this->eventSource->send('error', $this->l10n->t('Repair error:') . ' ' . $event->getMessage());
 		}
