@@ -91,11 +91,13 @@ describe('UpdaterAdmin', () => {
 
 		expect(view.getByRole('button', { name: 'Continue to Nextcloud' })).toBeDisabled()
 		source.send('success', 'Preparing update')
+		await fireEvent.click(view.getByRole('button', { name: 'Show details' }))
 		source.send('done', '')
 		await nextTick()
 
 		expect(source.closed).toBe(true)
 		expect(view.getByText('The update completed successfully.')).toBeInTheDocument()
+		expect(view.getByRole('list', { name: 'Update details' })).toBeVisible()
 		expect(view.getByText('You will be redirected to Nextcloud in 5 seconds.')).toBeInTheDocument()
 		vi.advanceTimersByTime(1000)
 		await nextTick()
