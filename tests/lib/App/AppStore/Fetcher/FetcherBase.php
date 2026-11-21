@@ -194,7 +194,7 @@ abstract class FetcherBase extends TestCase {
 			->method('getFile')
 			->with($this->fileName)
 			->willReturn($file);
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":90002,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->once())
 			->method('putContent')
@@ -210,8 +210,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				1502
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
@@ -457,7 +457,7 @@ abstract class FetcherBase extends TestCase {
 			->willReturn($file);
 		$origData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 
-		$newData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":4802,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$newData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":90002,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->once())
 			->method('putContent')
@@ -473,8 +473,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				4802
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
@@ -540,7 +540,7 @@ abstract class FetcherBase extends TestCase {
 			->method('getFile')
 			->with($this->fileName)
 			->willReturn($file);
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":4802,"ncversion":"11.0.0.2","ETag":"\"newETag\""}';
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":90002,"ncversion":"11.0.0.2","ETag":"\"newETag\""}';
 		$file
 			->expects($this->once())
 			->method('putContent')
@@ -556,8 +556,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				4802,
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
