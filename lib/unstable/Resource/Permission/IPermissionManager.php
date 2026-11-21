@@ -18,7 +18,8 @@ use OCP\AppFramework\Attribute\Consumable;
  * Gives access to the registered permissions and resource types
  * and checks which permissions are restricted by other apps.
  *
- * The check does not decide which access exists, this is up to the app owning the resource.
+ * Which access exists is up to the app owning the resource, it either passes the access
+ * or is asked for it through {@see IResourceType::getAccess}.
  * That app also has to enforce the result.
  *
  * @experimental 36.0.0
@@ -50,16 +51,16 @@ interface IPermissionManager {
 	/**
 	 * Get the permissions of the actor on the resource that are not restricted.
 	 *
-	 * With access entries the result is what is left of the permissions granted by them.
-	 * Without access entries the result is what is left of all permissions that apply to
-	 * the resource type, the caller has to intersect it with the access it grants itself.
-	 * If a restriction provider fails or cannot be loaded, no permission is allowed.
+	 * The result is what is left of the permissions granted by the access entries.
+	 * If no entries are passed, the resource type is asked for the access of the actor.
+	 * With an empty list of entries the actor has no access and no permission is allowed.
+	 * If a restriction provider or the resource type fails, no permission is allowed.
 	 *
-	 * @param list<AccessEntry> $entries
+	 * @param ?list<AccessEntry> $entries
 	 * @throws \InvalidArgumentException if the resource type is not registered
 	 * @experimental 36.0.0
 	 */
-	public function check(Actor $actor, ResourceReference $resource, array $entries = []): EffectivePermissions;
+	public function check(Actor $actor, ResourceReference $resource, ?array $entries = null): EffectivePermissions;
 
 	/**
 	 * Same as {@see self::check} for multiple resources at once, the resources can be of different types.
@@ -72,10 +73,11 @@ interface IPermissionManager {
 	public function checkAll(Actor $actor, array $accesses): array;
 
 	/**
-	 * Forget the results of previous checks.
+	 * Forget the results of previous checks and the access returned by the resource types.
 	 *
-	 * Results are remembered while the process runs. An {@see IRestrictionProvider} has to call this
-	 * whenever its restrictions change, so that later checks in the same process see the change.
+	 * Both are remembered while the process runs. An {@see IRestrictionProvider} has to call this
+	 * whenever its restrictions change and the app owning a resource whenever the access to it changes,
+	 * so that later checks in the same process see the change.
 	 *
 	 * @experimental 36.0.0
 	 */
