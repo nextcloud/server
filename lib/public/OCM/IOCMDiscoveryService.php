@@ -69,6 +69,20 @@ interface IOCMDiscoveryService {
 	public function getIncomingSignedRequest(?string $ocmAddress = null): ?IIncomingSignedRequest;
 
 	/**
+	 * Returns incoming request signed by $senderDomain.
+	 *
+	 * throw an exception:
+	 * - if the request is not signed
+	 * - if the request is signed, but not by $senderDomain
+	 *
+	 * @param string $senderDomain domain of the sending server
+	 *
+	 * @throws IncomingRequestException
+	 * @since 36.0.0
+	 */
+	public function getIncomingSignedRequestFromDomain(string $senderDomain): IIncomingSignedRequest;
+
+	/**
 	 * Confirm that the host portion of $ocmAddress matches $signedOrigin
 	 * under the current local signing policy.
 	 *
