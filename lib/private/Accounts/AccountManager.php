@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -31,6 +32,7 @@ use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
@@ -337,6 +339,7 @@ class AccountManager implements IAccountManager {
 			$message->setTo([$email => $user->getDisplayName()]);
 			$message->setFrom([Util::getDefaultEmailAddress('verification-noreply') => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
+			$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 			$this->mailer->send($message);
 		} catch (Exception $e) {
 			// Log the exception and continue
@@ -791,6 +794,9 @@ class AccountManager implements IAccountManager {
 					$data = $response->getBody();
 					if (is_resource($data)) {
 						$data = stream_get_contents($data);
+					}
+					if ($data === false) {
+						throw new InvalidArgumentException();
 					}
 					$decoded = json_decode($data, true);
 					// ensure the username is the same the user passed
