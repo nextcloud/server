@@ -358,6 +358,11 @@ class InternalTest extends TestCase {
 			public function create_sid(): string {
 				return $this->failNewIds ? '' : parent::create_sid();
 			}
+
+			// SessionHandler implements this since PHP 8.6
+			public function validateId(string $id): bool {
+				return is_file(session_save_path() . '/sess_' . $id);
+			}
 		};
 		session_set_save_handler($handler, false);
 		$session = $this->startRequest();
@@ -380,6 +385,9 @@ class InternalTest extends TestCase {
 
 		$this->assertSame($oldId, $session->getId());
 		$this->assertSame(['foo' => 'bar', 'after' => 'failed regeneration'], $this->readStoredSession($oldId));
+
+		$session->reopen();
+		$this->assertSame('1', ini_get('session.use_strict_mode'));
 	}
 
 	public function testFailedSwitchToFreshSessionKeepsLaterWrites(): void {
