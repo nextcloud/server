@@ -1,0 +1,132 @@
+/*!
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import axios from '@nextcloud/axios'
+import { File } from '@nextcloud/files'
+import { getRootPath } from '@nextcloud/files/dav'
+import { ShareType } from '@nextcloud/sharing'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { acceptShare, canRejectShare, getPendingShares, rejectShare } from './PendingSharesService.ts'
+import { getContents } from './SharingService.ts'
+import { client, fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
+
+vi.mock('@nextcloud/axios')
+vi.mock('./SharingService.ts', () => ({ getContents: vi.fn() }))
+vi.mock('~/apps/files/src/services/WebdavClient.ts', () => ({
+	client: { getDirectoryContents: vi.fn() },
+	fetchNode: vi.fn(),
+}))
+
+beforeAll(() => {
+	(window as any)._oc_webroot = ''
+})
+
+beforeEach(() => {
+	vi.restoreAllMocks()
+	vi.mocked(fetchNode).mockReset()
+	vi.mocked(client.getDirectoryContents).mockReset()
+	vi.spyOn(axios, 'post')
+	vi.spyOn(axios, 'delete')
+})
+
+/**
+ * Create a pending share node
+ *
+ * @param attributes The share attributes
+ */
+function createShare(attributes: Record<string, unknown>) {
+	return new File({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+		owner: 'admin',
+		mime: 'text/plain',
+		root: '/files/admin',
+		attributes: { 'share-id': 123, ...attributes },
+	})
+}
+
+describe('Pending shares service', () => {
+	test('Declined group shares are not listed as pending', async () => {
+		const pending = createShare({ 'share-id': '1', share_type: ShareType.Group })
+		const declined = createShare({ 'share-id': '2', share_type: ShareType.Group })
+		const remote = createShare({ 'share-id': '2', remote: 'https://remote.example' })
+		vi.mocked(getContents).mockImplementation(async (sharedWithYou, sharedWithOthers, pendingShares) => ({
+			folder: {} as never,
+			contents: pendingShares
+				? [pending, declined, remote]
+				: [createShare({ 'share-id': 'ocinternal:2' })],
+		}))
+
+		expect(await getPendingShares()).toEqual([pending, remote])
+		expect(getContents).toHaveBeenCalledWith(false, false, true, false)
+		expect(getContents).toHaveBeenCalledWith(false, false, false, true)
+	})
+
+	test('Remote group shares can not be rejected', () => {
+		expect(canRejectShare(createShare({}))).toBe(true)
+		expect(canRejectShare(createShare({ remote_id: '1', share_type: ShareType.RemoteGroup }))).toBe(false)
+		expect(canRejectShare(createShare({ remote_id: '1', share_type: ShareType.Remote }))).toBe(true)
+	})
+
+	test('Accept local share and fetch its mount point', async () => {
+		const node = createShare({})
+		vi.spyOn(axios, 'get').mockResolvedValue({ data: { ocs: { data: [{ path: '/foobar (2).txt' }] } } })
+		vi.mocked(fetchNode).mockResolvedValue(node)
+
+		expect(await acceptShare(node)).toBe(node)
+		expect(axios.post).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.get).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(fetchNode).toHaveBeenCalledWith('/foobar (2).txt')
+	})
+
+	test('Accept remote share and fetch its mount point', async () => {
+		const node = createShare({ remote: 'https://remote.example' })
+		vi.spyOn(axios, 'get').mockResolvedValue({ data: { ocs: { data: { mountpoint: '/foobar.txt' } } } })
+
+		await acceptShare(node)
+		expect(axios.post).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
+		expect(axios.get).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/123')
+		expect(fetchNode).toHaveBeenCalledWith('/foobar.txt')
+	})
+
+	test('Accept remote share whose mount is only found after listing the root folder', async () => {
+		const node = createShare({ remote: 'https://remote.example' })
+		vi.spyOn(axios, 'get').mockResolvedValue({ data: { ocs: { data: { mountpoint: '/report.pdf' } } } })
+		vi.mocked(fetchNode)
+			.mockRejectedValueOnce(Object.assign(new Error('Invalid response: 404 Not Found'), { status: 404 }))
+			.mockResolvedValueOnce(node)
+
+		expect(await acceptShare(node)).toBe(node)
+		expect(client.getDirectoryContents).toHaveBeenCalledWith(getRootPath())
+		expect(fetchNode).toHaveBeenCalledTimes(2)
+		expect(fetchNode).toHaveBeenLastCalledWith('/report.pdf')
+	})
+
+	test('Other errors when fetching the accepted node are not retried', async () => {
+		vi.spyOn(axios, 'get').mockResolvedValue({ data: { ocs: { data: [{ path: '/foobar.txt' }] } } })
+		vi.mocked(fetchNode).mockRejectedValue(Object.assign(new Error('Invalid response: 500'), { status: 500 }))
+
+		await expect(acceptShare(createShare({}))).rejects.toThrow('Invalid response: 500')
+		expect(client.getDirectoryContents).not.toHaveBeenCalled()
+		expect(fetchNode).toHaveBeenCalledTimes(1)
+	})
+
+	test('Failed accept does not fetch the node', async () => {
+		vi.spyOn(axios, 'post').mockRejectedValue(new Error('Mock error'))
+
+		await expect(acceptShare(createShare({}))).rejects.toThrow('Mock error')
+		expect(fetchNode).not.toHaveBeenCalled()
+	})
+
+	test('Reject pending remote share', async () => {
+		await rejectShare(createShare({ remote: 'https://remote.example', accepted: 0 }))
+		expect(axios.delete).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
+	})
+
+	test('Reject local share', async () => {
+		await rejectShare(createShare({}))
+		expect(axios.delete).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+	})
+})
