@@ -18,8 +18,14 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
+use OC\FilesMetadata\Schema\MetadataSchemaRegistry;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
+use OCP\Files\Node;
+use OCP\FilesMetadata\Schema\IMetadataSchemaManager;
+use OCP\FilesMetadata\Schema\IMetadataSchemaProvider;
+use OCP\FilesMetadata\Schema\MetadataField;
+use OCP\FilesMetadata\Schema\MetadataFieldType;
 use OCP\IConfig;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -53,6 +59,24 @@ class DIContainerTest extends \Test\TestCase {
 	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container->get('AppName'));
 		$this->assertEquals('name', $this->container->get('appName'));
+	}
+
+	public function testProvidesMetadataSchemaManagerScopedToApp(): void {
+		$field = new MetadataField('governance', 'label', MetadataFieldType::STRING, 'Label');
+		$provider = $this->createMock(IMetadataSchemaProvider::class);
+		$registry = $this->createMock(MetadataSchemaRegistry::class);
+		$registry->method('getFields')->willReturn(['label' => $field]);
+		$registry->method('getProvider')->with('label')->willReturn($provider);
+		$this->container->registerService(MetadataSchemaRegistry::class, fn () => $registry);
+		$node = $this->createMock(Node::class);
+		$provider->expects($this->once())
+			->method('canEdit')
+			->with($field, $node, null, 'name')
+			->willReturn(true);
+
+		$manager = $this->container->get(IMetadataSchemaManager::class);
+
+		$this->assertTrue($manager->canEdit('label', $node, null));
 	}
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {
