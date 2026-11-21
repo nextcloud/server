@@ -25,7 +25,7 @@ jobs:
           - mysql-versions: '8.4'
             php-versions: '8.3'
           - mysql-versions: '9.7'
-            php-versions: '8.5'
+            php-versions: '8.6'
 
     name: Sharding - MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 

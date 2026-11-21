@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.3", "8.5"]
+        php-versions: ["8.3", "8.6"]
         # The three supported topologies for the key-value store cache
         topology: ["single", "cluster", "sentinel"]
 
