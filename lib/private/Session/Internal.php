@@ -47,6 +47,11 @@ class Internal extends Session {
 	private bool $cookieAllowed = true;
 
 	/**
+	 * The session.use_strict_mode value to restore before the next session start
+	 */
+	private ?string $strictModeToRestore = null;
+
+	/**
 	 * @param string $name
 	 * @throws \Exception
 	 */
@@ -235,12 +240,21 @@ class Internal extends Session {
 
 	/**
 	 * @param bool $sendCookie Whether PHP may send the session cookie, which can replace a newer id the browser holds
+	 * @param bool $strictMode Whether session.use_strict_mode may replace an id that does not exist in the storage
 	 */
-	private function startSession(bool $readAndClose = true, bool $sendCookie = true) {
+	private function startSession(bool $readAndClose = true, bool $sendCookie = true, bool $strictMode = true) {
 		$sessionParams = [
 			'cookie_samesite' => 'Lax',
 			'use_cookies' => $sendCookie,
 		];
+		// session_start() options stay set for the rest of the request
+		if (!$strictMode) {
+			$this->strictModeToRestore ??= (string)ini_get('session.use_strict_mode');
+			$sessionParams['use_strict_mode'] = false;
+		} elseif ($this->strictModeToRestore !== null) {
+			$sessionParams['use_strict_mode'] = $this->strictModeToRestore;
+			$this->strictModeToRestore = null;
+		}
 		if (\OC::hasSessionRelaxedExpiry()) {
 			$sessionParams['read_and_close'] = $readAndClose;
 		}
@@ -278,9 +292,9 @@ class Internal extends Session {
 
 		$regenerated = $this->invoke('session_regenerate_id', [$deleteOldSession && !$markOldId], true) === true;
 		if (!$regenerated && $oldId !== '' && !$this->isActive()) {
-			// Continue on the old id
+			// Continue on the old id, strict mode would reject it when session_regenerate_id() already deleted it
 			$this->invoke('session_id', [$oldId], true);
-			$this->startSession(readAndClose: false, sendCookie: false);
+			$this->startSession(readAndClose: false, sendCookie: false, strictMode: false);
 		}
 		$_SESSION = $data;
 		$this->sessionClosed = !$this->isActive();
