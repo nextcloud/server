@@ -9,7 +9,7 @@ import type { Ref } from 'vue'
 
 import axios from '@nextcloud/axios'
 import { cleanup, fireEvent, render, screen } from '@testing-library/vue'
-import { flushPromises } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { moveArrayElement } from '@vueuse/integrations/useSortable'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -139,5 +139,18 @@ describe('DashboardApp.vue', () => {
 		expect(axios.post).toHaveBeenCalledWith(expect.stringContaining('/apps/dashboard/api/v3/layout'), {
 			layout: ['third', 'first', 'second'],
 		})
+	})
+
+	it('mounts a widget registered after the panels were rendered', async () => {
+		const wrapper = mount(DashboardApp)
+		await flushPromises()
+
+		const callback = vi.fn()
+		wrapper.vm.register('first', callback)
+		await flushPromises()
+
+		expect(callback).toHaveBeenCalledOnce()
+		expect(callback.mock.calls[0][0]).toBeInstanceOf(HTMLDivElement)
+		expect(callback.mock.calls[0][0].dataset.id).toBe('first')
 	})
 })
