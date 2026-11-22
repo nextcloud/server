@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Import;
 
 use Exception;
+use Sabre\VObject\UUIDUtil;
 use XMLParser;
 
 class XmlImporter {
@@ -104,23 +105,15 @@ class XmlImporter {
 			$this->componentIdProperty = false;
 		} elseif ($this->componentType === $tag) {
 			$this->componentEnd = xml_get_current_byte_index($parser);
-			if ($this->componentId !== null) {
-				$this->structure[$this->componentType][$this->componentId][] = [
-					$this->componentType,
-					$this->componentId,
-					$this->componentStart,
-					$this->componentEnd,
-					implode('/', $this->prasePath)
-				];
-			} else {
-				$this->structure[$this->componentType][] = [
-					$this->componentType,
-					$this->componentId,
-					$this->componentStart,
-					$this->componentEnd,
-					implode('/', $this->prasePath)
-				];
-			}
+			// components without an id get a generated non-numeric key, so they neither share a
+			// bucket nor collide with numeric ids
+			$this->structure[$this->componentType][$this->componentId ?? UUIDUtil::getUUID()][] = [
+				$this->componentType,
+				$this->componentId,
+				$this->componentStart,
+				$this->componentEnd,
+				implode('/', $this->prasePath)
+			];
 			$this->componentStart = null;
 			$this->componentEnd = null;
 			$this->componentId = null;
