@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Preview;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\Preview\Imaginary;
 use OCP\Files\File;
 use OCP\Http\Client\IClient;
@@ -54,8 +55,8 @@ class ImaginaryTest extends TestCase {
 
 		$segments = '';
 		if ($orientation !== null) {
-			// EXIF segment with only the orientation
-			$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0);
+			// EXIF segment with only the orientation, padded to be larger than a single stream read
+			$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0) . str_repeat("\0", 16 * 1024);
 			$segments .= "\xFF\xE1" . pack('n', 2 + 6 + strlen($tiff)) . "Exif\0\0" . $tiff;
 		}
 		return substr($jpeg, 0, 2) . $segments . substr($jpeg, 2);
@@ -76,7 +77,7 @@ class ImaginaryTest extends TestCase {
 			$stream = fopen('php://memory', 'r+');
 			fwrite($stream, $jpeg);
 			rewind($stream);
-			return $stream;
+			return CallbackWrapper::wrap($stream);
 		});
 
 		$response = $this->createMock(IResponse::class);
