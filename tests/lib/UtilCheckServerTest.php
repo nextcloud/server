@@ -112,6 +112,21 @@ class UtilCheckServerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test that checkServer() does not check the data dir validity
+	 * when maintenance mode is enabled
+	 */
+	public function testCheckServerSkipDataDirValidityOnMaintenance(): void {
+		unlink($this->datadir . '/.ncdata');
+
+		$result = \OC_Util::checkServer($this->getConfig([
+			'installed' => true,
+			'maintenance' => true,
+			'version' => implode('.', Util::getVersion())
+		]));
+		$this->assertEmpty($result);
+	}
+
+	/**
 	 * Test that checkDataDirectoryValidity returns no error
 	 * when ".ncdata" is present.
 	 */

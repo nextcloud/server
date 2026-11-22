@@ -182,7 +182,7 @@ class OC_Util {
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!self::needUpgrade($config) && $config->getValue('installed', false)) {
+		if (!self::needUpgrade($config) && $config->getValue('installed', false) && !(bool)$config->getValue('maintenance', false)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
