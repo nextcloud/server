@@ -36,38 +36,35 @@ class SetupController {
 		#[\SensitiveParameter]
 		array $post,
 	): void {
-		// Check for autosetup:
-		$post = $this->loadAutoConfig($post);
-		$opts = $this->setupHelper->getSystemInfo();
-
-		// convert 'abcpassword' to 'abcpass'
-		if (isset($post['adminpassword'])) {
-			$post['adminpass'] = $post['adminpassword'];
-		}
-		if (isset($post['dbpassword'])) {
-			$post['dbpass'] = $post['dbpassword'];
-		}
-
 		if (!$this->setupHelper->canInstallFileExists()) {
 			$this->displaySetupForbidden();
 			return;
 		}
 
-		if (isset($post['install']) && $post['install'] === 'true') {
-			// We have to launch the installation process :
-			$e = $this->setupHelper->install($post);
-			$errors = ['errors' => $e];
+		// Check for autosetup
+		$post = $this->loadAutoConfig($post);
 
-			if (count($e) > 0) {
-				$options = array_merge($opts, $post, $errors);
-				$this->display($options);
-			} else {
-				$this->finishSetup();
-			}
-		} else {
-			$options = array_merge($opts, $post);
-			$this->display($options);
+		// Normalize incoming password field names
+		if (isset($post['adminpassword'])) {
+			$post['adminpass'] = $post['adminpassword'];
 		}
+
+		if (isset($post['dbpassword'])) {
+			$post['dbpass'] = $post['dbpassword'];
+		}
+
+		if (($post['install'] ?? null) === 'true') {
+			$errors = $this->setupHelper->install($post);
+
+			if ($errors === []) {
+				$this->finishSetup();
+				return;
+			}
+
+			$post['errors'] = $errors;
+		}
+
+		$this->display(array_merge($this->setupHelper->getSystemInfo(), $post));
 	}
 
 	private function displaySetupForbidden(): void {
@@ -98,6 +95,7 @@ class SetupController {
 			'version' => implode('.', $this->serverVersion->getVersion()),
 			'versionstring' => $this->serverVersion->getVersionString(),
 		];
+
 		$parameters = array_merge($defaults, $post);
 
 		Util::addStyle('server', null);
@@ -123,6 +121,7 @@ class SetupController {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
+
 		Server::get(Checker::class)->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
@@ -130,8 +129,8 @@ class SetupController {
 			return;
 		}
 
-		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
-		exit();
+		header('Location: ' . $this->urlGenerator->getAbsoluteURL('index.php/core/apps/recommended'));
+		exit;
 	}
 
 	/**
@@ -143,17 +142,15 @@ class SetupController {
 	): array {
 		if (file_exists($this->autoConfigFile)) {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
+
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
-			$post['hasAutoconfig'] = count($AUTOCONFIG) > 0;
+
+			$post['hasAutoconfig'] = $AUTOCONFIG !== [];
 			$post = array_merge($post, $AUTOCONFIG);
 		}
 
-		$dbIsSet = isset($post['dbtype']);
-		$directoryIsSet = isset($post['directory']);
-		$adminAccountIsSet = isset($post['adminlogin']);
-
-		if ($dbIsSet && $directoryIsSet && $adminAccountIsSet) {
+		if (isset($post['dbtype'], $post['directory'], $post['adminlogin'])) {
 			$post['install'] = 'true';
 		}
 
