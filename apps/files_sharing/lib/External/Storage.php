@@ -563,6 +563,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$options = [
 			'timeout' => $timeout,
 			'connect_timeout' => $timeout,
+			'nextcloud' => [
+				'allow_local_address' => $this->config->getSystemValueBool('davstorage.allow_local_address', false),
+			],
 		];
 		if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates')) {
 			$options['verify'] = false;
