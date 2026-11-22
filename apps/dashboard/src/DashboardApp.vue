@@ -316,11 +316,10 @@ export default {
 
 	watch: {
 		callbacks: {
+			deep: true,
 			handler() {
 				this.$nextTick(() => this.rerenderPanels())
 			},
-
-			deep: true,
 		},
 
 		layout() {

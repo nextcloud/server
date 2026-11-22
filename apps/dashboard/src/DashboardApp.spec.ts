@@ -152,5 +152,7 @@ describe('DashboardApp.vue', () => {
 		expect(callback).toHaveBeenCalledOnce()
 		expect(callback.mock.calls[0][0]).toBeInstanceOf(HTMLDivElement)
 		expect(callback.mock.calls[0][0].dataset.id).toBe('first')
+
+		wrapper.unmount()
 	})
 })
