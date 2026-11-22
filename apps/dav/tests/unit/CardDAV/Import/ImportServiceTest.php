@@ -96,4 +96,42 @@ class ImportServiceTest extends \Test\TestCase {
 			$this->assertSame(ImportDisposition::Created, $event->disposition);
 		}
 	}
+
+	public function testImportTextWithCardWithoutUID(): void {
+		$vcf = <<<'VCF'
+BEGIN:VCARD
+VERSION:3.0
+FN:Erika Mustermann
+N:Mustermann;Erika;;;
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+UID:existing-uid
+FN:Max Mustermann
+N:Mustermann;Max;;;
+END:VCARD
+VCF;
+		$source = fopen('php://temp', 'r+');
+		fwrite($source, $vcf);
+		rewind($source);
+
+		$options = new ContactsImportOptions();
+		$this->addressBook->method('getKey')->willReturn('1');
+
+		$displayNames = [];
+		$this->backend->expects($this->exactly(2))
+			->method('createCard')
+			->willReturnCallback(function (int $addressBookId, string $uri, string $data) use (&$displayNames): string {
+				$this->assertSame(1, $addressBookId);
+				$displayNames[] = (string)Reader::read($data)->FN;
+				return 'etag';
+			});
+
+		$result = iterator_to_array($this->service->import($source, $this->addressBook, $options), false);
+		fclose($source);
+
+		$this->assertCount(2, $result);
+		$this->assertSame(['Erika Mustermann', 'Max Mustermann'], $displayNames);
+		$this->assertSame('existing-uid', $result[1]->identifier);
+	}
 }
